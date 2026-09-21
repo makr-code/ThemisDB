@@ -1,0 +1,324 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="plugins__api__contract_8h" kind="file" language="C++">
+    <compoundname>plugins_api_contract.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <includedby refid="bench__plugins__release__gates_8cpp" local="yes">benchmarks/plugins/bench_plugins_release_gates.cpp</includedby>
+    <includedby refid="plugin__manager_8h" local="yes">include/plugins/plugin_manager.h</includedby>
+    <includedby refid="test__plugins__contract__hardening__focused_8cpp" local="yes">tests/plugins/test_plugins_contract_hardening_focused.cpp</includedby>
+    <includedby refid="test__validation__contract__hardening_8cpp" local="yes">tests/plugins/test_validation_contract_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/plugins/plugins_api_contract.h</label>
+        <link refid="plugins__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="4">
+        <label>benchmarks/plugins/bench_plugin_hot_plug.cpp</label>
+        <link refid="bench__plugin__hot__plug_8cpp"/>
+      </node>
+      <node id="5">
+        <label>benchmarks/plugins/bench_plugin_system.cpp</label>
+        <link refid="bench__plugin__system_8cpp"/>
+      </node>
+      <node id="2">
+        <label>benchmarks/plugins/bench_plugins_release_gates.cpp</label>
+        <link refid="bench__plugins__release__gates_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/plugins/plugin_manager.h</label>
+        <link refid="plugin__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/plugins/plugins_api_contract.h</label>
+        <link refid="plugins__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/plugins/plugin_health_monitor.cpp</label>
+        <link refid="plugin__health__monitor_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/plugins/plugin_hot_plug_monitor.cpp</label>
+        <link refid="plugin__hot__plug__monitor_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/plugins/plugin_manager.cpp</label>
+        <link refid="plugin__manager_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/plugins/wasm_plugin_loader.cpp</label>
+        <link refid="wasm__plugin__loader_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/plugins/test_plugin_capability_escalation.cpp</label>
+        <link refid="test__plugin__capability__escalation_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/plugins/test_plugin_capability_negotiation.cpp</label>
+        <link refid="test__plugin__capability__negotiation_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/plugins/test_plugin_error_handling_phase3.cpp</label>
+        <link refid="test__plugin__error__handling__phase3_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/plugins/test_plugin_hot_plug.cpp</label>
+        <link refid="test__plugin__hot__plug_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/plugins/test_plugin_hot_reload_enhanced.cpp</label>
+        <link refid="test__plugin__hot__reload__enhanced_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/plugins/test_plugin_manager.cpp</label>
+        <link refid="test__plugin__manager_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/plugins/test_plugin_manager_comprehensive.cpp</label>
+        <link refid="test__plugin__manager__comprehensive_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/plugins/test_plugin_manifest_edition_gates_focused.cpp</label>
+        <link refid="test__plugin__manifest__edition__gates__focused_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/plugins/test_plugin_metrics_integration.cpp</label>
+        <link refid="test__plugin__metrics__integration_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/plugins/test_plugins_contract_hardening_focused.cpp</label>
+        <link refid="test__plugins__contract__hardening__focused_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/plugins/test_validation_contract_hardening.cpp</label>
+        <link refid="test__validation__contract__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor" prot="public">themis::plugins::PluginRegistrationDescriptor</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <briefdescription>
+<para>Frozen plugin lifecycle, security, and monitoring contract for v1.x. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0</para>
+</simplesect>
+</para>
+<sect1 id="plugins__api__contract_8h_1autotoc_md0_1s1"><sect2 id="plugins__api__contract_8h_1autotoc_md0">
+<title>§Purpose</title><para>Defines the normative contract for the plugins module covering plugin lifecycle management (load/unload/hot-plug), manifest and signature validation, capability negotiation, health monitoring, and OCI/RPC integration surfaces.</para>
+</sect2></sect1>
+<sect1 id="plugins__api__contract_8h_1autotoc_md1_1s1"><sect2 id="plugins__api__contract_8h_1autotoc_md1">
+<title>§API Contracts</title><para>Key behavioural invariants:<orderedlist>
+<listitem><para>A plugin MUST NOT be started if its manifest fails schema validation or its signature cannot be verified; result: kManifestInvalid or kSignatureVerifyFailed.</para>
+</listitem><listitem><para>Capability escalation after plugin load is forbidden; capability set is frozen at registration time (kCapabilityDenied on attempted escalation).</para>
+</listitem><listitem><para>Hot-plug transitions are atomic: partial loads that fail mid-way result in a full rollback, leaving the registry unchanged.</para>
+</listitem><listitem><para>Health-monitor failures are never silently swallowed; they produce kHealthCheckFailed and trigger the configured remediation policy.</para>
+</listitem><listitem><para>Registry conflicts (duplicate plugin ID) are rejected with kRegistryConflict; callers must unload the existing plugin first.</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="plugins__api__contract_8h_1autotoc_md2_1s1"><sect2 id="plugins__api__contract_8h_1autotoc_md2">
+<title>§Error Taxonomy</title><para><table rows="10" cols="3"><row>
+<entry thead="yes"><para>Code  </para>
+</entry><entry thead="yes"><para>Constant  </para>
+</entry><entry thead="yes"><para>Meaning  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>0  </para>
+</entry><entry thead="no"><para>kSuccess  </para>
+</entry><entry thead="no"><para>Operation completed without error  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8200  </para>
+</entry><entry thead="no"><para>kPluginNotFound  </para>
+</entry><entry thead="no"><para>Plugin ID not present in registry  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8201  </para>
+</entry><entry thead="no"><para>kManifestInvalid  </para>
+</entry><entry thead="no"><para>Plugin manifest fails schema or semantic checks  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8202  </para>
+</entry><entry thead="no"><para>kSignatureVerifyFailed  </para>
+</entry><entry thead="no"><para>Cryptographic signature check failed  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8203  </para>
+</entry><entry thead="no"><para>kLifecycleTransition  </para>
+</entry><entry thead="no"><para>Invalid lifecycle state transition attempted  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8204  </para>
+</entry><entry thead="no"><para>kCapabilityDenied  </para>
+</entry><entry thead="no"><para>Requested capability not granted to plugin  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8205  </para>
+</entry><entry thead="no"><para>kRegistryConflict  </para>
+</entry><entry thead="no"><para>Duplicate plugin ID detected on registration  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8206  </para>
+</entry><entry thead="no"><para>kHealthCheckFailed  </para>
+</entry><entry thead="no"><para>Plugin health check returned unhealthy status  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8207  </para>
+</entry><entry thead="no"><para>kInternalError  </para>
+</entry><entry thead="no"><para>Unclassified internal error; always deny  </para>
+</entry></row>
+</table>
+</para>
+</sect2></sect1>
+<sect1 id="plugins__api__contract_8h_1autotoc_md3_1s1"><sect2 id="plugins__api__contract_8h_1autotoc_md3">
+<title>§Threading Guarantees</title><para><itemizedlist>
+<listitem><para>PluginRegistry reads are lock-free after startup registration phase.</para>
+</listitem><listitem><para>Hot-plug operations acquire an exclusive registry write-lock; concurrent hot-plug requests are serialized.</para>
+</listitem><listitem><para>Health-monitor callbacks are delivered on a dedicated thread; they MUST NOT re-enter the registry.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="plugins__api__contract_8h_1autotoc_md4_1s1"><sect2 id="plugins__api__contract_8h_1autotoc_md4">
+<title>§Contract Freeze</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump with migration notes and a CHANGELOG entry.</para>
+<para><simplesect kind="see"><para>src/plugins/ROADMAP.md — Phase 1 item </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Error<sp/>taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" kindref="member">PluginsError</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a8c632159fa131f09d04f94e3cbcd8782" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a8c632159fa131f09d04f94e3cbcd8782" kindref="member">kSuccess</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a559c87fdbb96a69c664825c6a237b6c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a559c87fdbb96a69c664825c6a237b6c3" kindref="member">kPluginNotFound</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8200,<sp/></highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763abf66672239b9934d0ad967723ab1f1d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763abf66672239b9934d0ad967723ab1f1d2" kindref="member">kManifestInvalid</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8201,<sp/></highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84d19a0e5cdcf37ecdd50dd11bbfae24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84d19a0e5cdcf37ecdd50dd11bbfae24" kindref="member">kSignatureVerifyFailed</ref><sp/>=<sp/>8202,<sp/></highlight></codeline>
+<codeline lineno="82" refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a99ca79d1b0d765beeb154c8adb34864d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a99ca79d1b0d765beeb154c8adb34864d" kindref="member">kLifecycleTransition</ref><sp/><sp/><sp/>=<sp/>8203,<sp/></highlight></codeline>
+<codeline lineno="83" refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a0f0ea7e69e89a3b0ec9de2af653a549a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a0f0ea7e69e89a3b0ec9de2af653a549a" kindref="member">kCapabilityDenied</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8204,<sp/></highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763ae75d61ab1df56cb487d4e8e77f09d737" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763ae75d61ab1df56cb487d4e8e77f09d737" kindref="member">kRegistryConflict</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8205,<sp/></highlight></codeline>
+<codeline lineno="85" refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84c0f992ce2f465361d388cf8c4ec778" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84c0f992ce2f465361d388cf8c4ec778" kindref="member">kHealthCheckFailed</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>8206,<sp/></highlight></codeline>
+<codeline lineno="86" refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763afcd417a134c251034b0d61b07c826394" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763afcd417a134c251034b0d61b07c826394" kindref="member">kInternalError</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8207,<sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Plugin<sp/>identifier<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="namespacethemis_1_1plugins_1a9426ae8684b27f81f5ecd5e8fc1105b0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1plugins_1a9426ae8684b27f81f5ecd5e8fc1105b0" kindref="member">kMaxPluginIdBytes</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="namespacethemis_1_1plugins_1a310bb651f137144de2943bc71b6e7e7e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1plugins_1a310bb651f137144de2943bc71b6e7e7e" kindref="member">kMaxPluginVersionBytes</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="namespacethemis_1_1plugins_1ab2d85277241c022ea80c8086a4a44987" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1plugins_1ab2d85277241c022ea80c8086a4a44987" kindref="member">kMaxCapabilitiesPerPlugin</ref><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="namespacethemis_1_1plugins_1aff70d93ec8fc688bca02929afb3160e4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1plugins_1aff70d93ec8fc688bca02929afb3160e4" kindref="member">kDefaultHealthCheckInterval</ref>{30};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Lifecycle<sp/>states</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bc" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bc" kindref="member">PluginState</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="116" refid="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bcaa5ae20aa7fda5bd38bf0dce98e65bd2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bcaa5ae20aa7fda5bd38bf0dce98e65bd2d" kindref="member">Unloaded</ref><sp/><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="117" refid="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bca16bfbf9c462762cf1cba4134ec53c504" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bca16bfbf9c462762cf1cba4134ec53c504" kindref="member">Loading</ref><sp/><sp/><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="118" refid="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bca4d3d769b812b6faa6b76e1a8abaece2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bca4d3d769b812b6faa6b76e1a8abaece2d" kindref="member">Active</ref><sp/><sp/><sp/><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="119" refid="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bcaaa95669cd5732a57e8f6467705f06642" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bcaaa95669cd5732a57e8f6467705f06642" kindref="member">Degraded</ref><sp/><sp/>=<sp/>3,<sp/></highlight></codeline>
+<codeline lineno="120" refid="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bca62168dff2fc801c4ff6ee24619bc314c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bca62168dff2fc801c4ff6ee24619bc314c" kindref="member">Unloading</ref><sp/>=<sp/>4,<sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Supporting<sp/>struct<sp/>—<sp/>plugin<sp/>registration<sp/>descriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor" kindref="compound">PluginRegistrationDescriptor</ref><sp/>{</highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1aad4e6fa58549c6add885146642abae62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1aad4e6fa58549c6add885146642abae62" kindref="member">plugin_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1ac4fc1ef5bd63eaad3641ebe066a020e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1ac4fc1ef5bd63eaad3641ebe066a020e7" kindref="member">version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1a48b7dc9f20e4948111cdcaba3672528e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1a48b7dc9f20e4948111cdcaba3672528e" kindref="member">manifest_path</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1a3947eb6303cc7678c1cb02b6b1659632" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1a3947eb6303cc7678c1cb02b6b1659632" kindref="member">signature</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1a4d141f4ca24a6a8780920a910428eeda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1a4d141f4ca24a6a8780920a910428eeda" kindref="member">hot_plug_eligible</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Fail-closed<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="namespacethemis_1_1plugins_1a72f51c6c1cafcb7a59858a28e9ee0e98" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1a72f51c6c1cafcb7a59858a28e9ee0e98" kindref="member">isPluginsFailClosed</ref>(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" kindref="member">PluginsError</ref><sp/>e)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>e<sp/>==<sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84d19a0e5cdcf37ecdd50dd11bbfae24" kindref="member">PluginsError::kSignatureVerifyFailed</ref></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>e<sp/>==<sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763afcd417a134c251034b0d61b07c826394" kindref="member">PluginsError::kInternalError</ref></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>e<sp/>==<sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84c0f992ce2f465361d388cf8c4ec778" kindref="member">PluginsError::kHealthCheckFailed</ref>;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/plugins/plugins_api_contract.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::IntelligentPrefetcher::PrefetchStats</compoundname>
+    <includes refid="intelligent__prefetcher_8h" local="no">intelligent_prefetcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1a8b3107a3ed9b4175baab60a7ea677836" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::IntelligentPrefetcher::PrefetchStats::total_prefetches</definition>
+        <argsstring></argsstring>
+        <name>total_prefetches</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::PrefetchStats::total_prefetches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="120" column="16" bodyfile="include/performance/intelligent_prefetcher.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1ae6e62de2caa81c1fcf452e0ca4ae2652" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::IntelligentPrefetcher::PrefetchStats::useful_prefetches</definition>
+        <argsstring></argsstring>
+        <name>useful_prefetches</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::PrefetchStats::useful_prefetches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="121" column="16" bodyfile="include/performance/intelligent_prefetcher.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1af67fa2f3d99a5b760e2c492c686f03be" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::IntelligentPrefetcher::PrefetchStats::wasted_prefetches</definition>
+        <argsstring></argsstring>
+        <name>wasted_prefetches</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::PrefetchStats::wasted_prefetches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="122" column="16" bodyfile="include/performance/intelligent_prefetcher.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1a7c783dad8c502ad56b057f740be0d3b4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::IntelligentPrefetcher::PrefetchStats::accuracy</definition>
+        <argsstring></argsstring>
+        <name>accuracy</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::PrefetchStats::accuracy</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="123" column="16" bodyfile="include/performance/intelligent_prefetcher.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1afc26efe68751427fe1d40546235aff7b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::IntelligentPrefetcher::PrefetchStats::coverage</definition>
+        <argsstring></argsstring>
+        <name>coverage</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::PrefetchStats::coverage</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="124" column="16" bodyfile="include/performance/intelligent_prefetcher.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1a4253e4ab18980580d033c344493b130c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::IntelligentPrefetcher::PrefetchStats::total_accesses</definition>
+        <argsstring></argsstring>
+        <name>total_accesses</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::PrefetchStats::total_accesses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/intelligent_prefetcher.h" line="125" column="16" bodyfile="include/performance/intelligent_prefetcher.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cumulative prefetch statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><computeroutput><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1a7c783dad8c502ad56b057f740be0d3b4" kindref="member">accuracy</ref></computeroutput> = useful_prefetches / total_prefetches (when total &gt; 0) <computeroutput><ref refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1afc26efe68751427fe1d40546235aff7b" kindref="member">coverage</ref></computeroutput> = useful_prefetches / total_accesses (when total &gt; 0) </para>
+    </detaileddescription>
+    <location file="include/performance/intelligent_prefetcher.h" line="119" column="5" bodyfile="include/performance/intelligent_prefetcher.h" bodystart="119" bodyend="126"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1a7c783dad8c502ad56b057f740be0d3b4" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::PrefetchStats</scope><name>accuracy</name></member>
+      <member refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1afc26efe68751427fe1d40546235aff7b" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::PrefetchStats</scope><name>coverage</name></member>
+      <member refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1a4253e4ab18980580d033c344493b130c" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::PrefetchStats</scope><name>total_accesses</name></member>
+      <member refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1a8b3107a3ed9b4175baab60a7ea677836" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::PrefetchStats</scope><name>total_prefetches</name></member>
+      <member refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1ae6e62de2caa81c1fcf452e0ca4ae2652" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::PrefetchStats</scope><name>useful_prefetches</name></member>
+      <member refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_prefetch_stats_1af67fa2f3d99a5b760e2c492c686f03be" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::PrefetchStats</scope><name>wasted_prefetches</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

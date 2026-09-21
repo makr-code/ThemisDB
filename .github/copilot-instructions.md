@@ -101,6 +101,10 @@ For documentation-related work, treat these as one aligned rule set:
 - `.github/copilot-instructions.md`
 - `ai_context/COPILOT_INSTRUCTIONS.md`
 - `.github/ISSUE_TEMPLATE/docs_audit.md`
+- `.github/MODULE_DEVELOPER_DOCUMENTATION_GUIDELINES.md`
+- `.github/copilot/module-quick-rules.md`
+
+Module-level documentation and source expectations are defined in this repository contract: [.github/MODULE_DEVELOPER_DOCUMENTATION_GUIDELINES.md](MODULE_DEVELOPER_DOCUMENTATION_GUIDELINES.md). The short operational version is in [.github/copilot/module-quick-rules.md](copilot/module-quick-rules.md). Copilot must treat both as the default structure baseline for module README/ARCHITECTURE/ROADMAP and for source-level Doxygen, path ownership, and issue/action packet compliance.
 
 Mandatory rules:
 

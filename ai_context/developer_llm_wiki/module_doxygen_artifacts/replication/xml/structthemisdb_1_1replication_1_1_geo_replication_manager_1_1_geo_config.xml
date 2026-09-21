@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_geo_replication_manager_1_1_geo_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::GeoReplicationManager::GeoConfig</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_geo_replication_manager_1_1_geo_config_1abe8f9aae259068368b6783076ec24a6b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::GeoReplicationManager::GeoConfig::local_region</definition>
+        <argsstring></argsstring>
+        <name>local_region</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::GeoConfig::local_region</qualifiedname>
+        <briefdescription>
+<para>ID of the local (primary) region. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2524" column="34" bodyfile="include/replication/replication_manager.h" bodystart="2524" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_geo_replication_manager_1_1_geo_config_1afd4b30f1b21711656ea5498f2199d27d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::replication::GeoReplicationManager::GeoConfig::regions</definition>
+        <argsstring></argsstring>
+        <name>regions</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::GeoConfig::regions</qualifiedname>
+        <briefdescription>
+<para>All region IDs (including local). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2525" column="21" bodyfile="include/replication/replication_manager.h" bodystart="2525" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_geo_replication_manager_1_1_geo_config_1af4290ecb427e6721354c9fe8637daf47" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::GeoReplicationManager::GeoConfig::replication_factor</definition>
+        <argsstring></argsstring>
+        <name>replication_factor</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::GeoConfig::replication_factor</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Total number of replicas. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2526" column="18" bodyfile="include/replication/replication_manager.h" bodystart="2526" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_geo_replication_manager_1_1_geo_config_1a01acabe230790b541900640595c0d96f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::GeoReplicationManager::GeoConfig::local_replicas</definition>
+        <argsstring></argsstring>
+        <name>local_replicas</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::GeoConfig::local_replicas</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Replicas in the local region. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2527" column="18" bodyfile="include/replication/replication_manager.h" bodystart="2527" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_geo_replication_manager_1_1_geo_config_1a33ffd032f132e13429976708cd066ac4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::GeoReplicationManager::GeoConfig::global_replicas</definition>
+        <argsstring></argsstring>
+        <name>global_replicas</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::GeoConfig::global_replicas</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Replicas in remote regions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2528" column="18" bodyfile="include/replication/replication_manager.h" bodystart="2528" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_geo_replication_manager_1_1_geo_config_1aa23809308f8739530aa94cc855a39435" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1replication_1acfeea6095f4a51e57317a8befe704cad" kindref="member">ConsistencyLevel</ref></type>
+        <definition>ConsistencyLevel themisdb::replication::GeoReplicationManager::GeoConfig::default_consistency</definition>
+        <argsstring></argsstring>
+        <name>default_consistency</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::GeoConfig::default_consistency</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1replication_1acfeea6095f4a51e57317a8befe704cada8e32a82fa7897baa1c7f2bbf920b0ff1" kindref="member">ConsistencyLevel::SESSION</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2529" column="26" bodyfile="include/replication/replication_manager.h" bodystart="2529" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_geo_replication_manager_1_1_geo_config_1a32f198f62b1c11fe4fb402de03198074" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::GeoReplicationManager::GeoConfig::max_staleness_ms</definition>
+        <argsstring></argsstring>
+        <name>max_staleness_ms</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::GeoConfig::max_staleness_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Bound for BOUNDED_STALENESS (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2530" column="18" bodyfile="include/replication/replication_manager.h" bodystart="2530" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_geo_replication_manager_1_1_geo_config_1a3642404d5f6040f8ad970dfe0a4c81fe" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::GeoReplicationManager::GeoConfig::session_token_ttl_ms</definition>
+        <argsstring></argsstring>
+        <name>session_token_ttl_ms</name>
+        <qualifiedname>themisdb::replication::GeoReplicationManager::GeoConfig::session_token_ttl_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+<para>Session token TTL (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2531" column="18" bodyfile="include/replication/replication_manager.h" bodystart="2531" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration for <ref refid="classthemisdb_1_1replication_1_1_geo_replication_manager" kindref="compound">GeoReplicationManager</ref>. </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="2523" column="5" bodyfile="include/replication/replication_manager.h" bodystart="2523" bodyend="2532"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_geo_replication_manager_1_1_geo_config_1aa23809308f8739530aa94cc855a39435" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager::GeoConfig</scope><name>default_consistency</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_geo_replication_manager_1_1_geo_config_1a33ffd032f132e13429976708cd066ac4" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager::GeoConfig</scope><name>global_replicas</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_geo_replication_manager_1_1_geo_config_1abe8f9aae259068368b6783076ec24a6b" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager::GeoConfig</scope><name>local_region</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_geo_replication_manager_1_1_geo_config_1a01acabe230790b541900640595c0d96f" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager::GeoConfig</scope><name>local_replicas</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_geo_replication_manager_1_1_geo_config_1a32f198f62b1c11fe4fb402de03198074" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager::GeoConfig</scope><name>max_staleness_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_geo_replication_manager_1_1_geo_config_1afd4b30f1b21711656ea5498f2199d27d" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager::GeoConfig</scope><name>regions</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_geo_replication_manager_1_1_geo_config_1af4290ecb427e6721354c9fe8637daf47" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager::GeoConfig</scope><name>replication_factor</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_geo_replication_manager_1_1_geo_config_1a3642404d5f6040f8ad970dfe0a4c81fe" prot="public" virt="non-virtual"><scope>themisdb::replication::GeoReplicationManager::GeoConfig</scope><name>session_token_ttl_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

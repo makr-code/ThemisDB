@@ -1,0 +1,382 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_health_error_service" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::HealthErrorService</compoundname>
+    <includes refid="health__error__service_8h" local="no">health_error_service.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_health_error_service_1_1_config" prot="public">themis::server::HealthErrorService::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_health_error_service_1a4ddcb9b3b58ceb07d92deb70e1fff820" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_health_error_service_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::server::HealthErrorService::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::server::HealthErrorService::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="104" column="12" bodyfile="include/server/health_error_service.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_health_error_service_1a7601b3d43d1bc6aafe31ef3c438fb3f2" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; net::io_context &gt;</type>
+        <definition>std::unique_ptr&lt;net::io_context&gt; themis::server::HealthErrorService::ioc_</definition>
+        <argsstring></argsstring>
+        <name>ioc_</name>
+        <qualifiedname>themis::server::HealthErrorService::ioc_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="105" column="21" bodyfile="include/server/health_error_service.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_health_error_service_1a8bed04efb7713ed053ccc92692acc8e2" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; tcp::acceptor &gt;</type>
+        <definition>std::unique_ptr&lt;tcp::acceptor&gt; themis::server::HealthErrorService::acceptor_</definition>
+        <argsstring></argsstring>
+        <name>acceptor_</name>
+        <qualifiedname>themis::server::HealthErrorService::acceptor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="106" column="21" bodyfile="include/server/health_error_service.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_health_error_service_1a38ffe4b7e6bc29be50db490268590926" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; std::thread &gt;</type>
+        <definition>std::unique_ptr&lt;std::thread&gt; themis::server::HealthErrorService::service_thread_</definition>
+        <argsstring></argsstring>
+        <name>service_thread_</name>
+        <qualifiedname>themis::server::HealthErrorService::service_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="107" column="21" bodyfile="include/server/health_error_service.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_health_error_service_1a29378b9607f1549d361f750d659c1f09" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1server_1_1_error_api_handler" kindref="compound">ErrorApiHandler</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ErrorApiHandler&gt; themis::server::HealthErrorService::error_handler_</definition>
+        <argsstring></argsstring>
+        <name>error_handler_</name>
+        <qualifiedname>themis::server::HealthErrorService::error_handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="108" column="21" bodyfile="include/server/health_error_service.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_health_error_service_1a8eb7049d4947102f5fc52e613a995569" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::server::HealthErrorService::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::server::HealthErrorService::running_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="109" column="17" bodyfile="include/server/health_error_service.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_health_error_service_1a8119632b11169b05d4b178b1e7e1ef9d" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::server::HealthErrorService::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::server::HealthErrorService::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="110" column="43" bodyfile="include/server/health_error_service.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_health_error_service_1a2714cd8daf92677a159376b23343f742" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::HealthErrorService::HealthErrorService</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>HealthErrorService</name>
+        <qualifiedname>themis::server::HealthErrorService::HealthErrorService</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_health_error_service_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Health Error Service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="50" column="14" bodyfile="src/server/health_error_service.cpp" bodystart="25" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_health_error_service_1af87f63a93d42050bd131c740ba4dd142" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::HealthErrorService::~HealthErrorService</definition>
+        <argsstring>()</argsstring>
+        <name>~HealthErrorService</name>
+        <qualifiedname>themis::server::HealthErrorService::~HealthErrorService</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="52" column="5" bodyfile="src/server/health_error_service.cpp" bodystart="53" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_health_error_service_1a538746c181694ed0b1fc82f3d8249967" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::HealthErrorService::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::server::HealthErrorService::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), THEMIS_WARN(), store(), std::chrono::steady_clock::now(), run(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="57" column="10" bodyfile="src/server/health_error_service.cpp" bodystart="61" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_health_error_service_1ae7f922a86ce2bc5b5f6bd517581cdd94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::HealthErrorService::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::server::HealthErrorService::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), THEMIS_INFO(), store(), close(), THEMIS_DEBUG(), message(), joinable(), join(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="62" column="10" bodyfile="src/server/health_error_service.cpp" bodystart="87" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_health_error_service_1ad21f07b5e58ca7e928ef1680f72f3e62" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::HealthErrorService::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::server::HealthErrorService::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="64" column="10" bodyfile="include/server/health_error_service.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_health_error_service_1ae300984fc59665096c31ace16a3bc3e1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::server::HealthErrorService::getUptimeSeconds</definition>
+        <argsstring>() const</argsstring>
+        <name>getUptimeSeconds</name>
+        <qualifiedname>themis::server::HealthErrorService::getUptimeSeconds</qualifiedname>
+        <briefdescription>
+<para>Get Uptime Seconds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="70" column="13" bodyfile="src/server/health_error_service.cpp" bodystart="426" bodyend="430"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_health_error_service_1ae76186a65febf0e93065ec83a38ad3d0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::HealthErrorService::run</definition>
+        <argsstring>()</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::server::HealthErrorService::run</qualifiedname>
+        <briefdescription>
+<para>Run. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(), load(), socket(), non_blocking(), THEMIS_ERROR(), message(), accept(), handleConnection(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="76" column="10" bodyfile="src/server/health_error_service.cpp" bodystart="122" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_health_error_service_1a370a42103526e1e66d06a0342828bd76" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::HealthErrorService::handleConnection</definition>
+        <argsstring>(tcp::socket raw_socket)</argsstring>
+        <name>handleConnection</name>
+        <qualifiedname>themis::server::HealthErrorService::handleConnection</qualifiedname>
+        <param>
+          <type>tcp::socket</type>
+          <declname>raw_socket</declname>
+        </param>
+        <briefdescription>
+<para>Handle Connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raw_socket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">raw_socket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: stream(), std::move(), expires_after(), std::chrono::seconds(), max_size(), <ulink url="http::read()">http::read()</ulink>, THEMIS_DEBUG(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="82" column="10" bodyfile="src/server/health_error_service.cpp" bodystart="168" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_health_error_service_1aab76cbf607654bf021ead67fa28301d8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::HealthErrorService::handleRequest</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleRequest</name>
+        <qualifiedname>themis::server::HealthErrorService::handleRequest</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle <ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="89" column="20" bodyfile="src/server/health_error_service.cpp" bodystart="224" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_health_error_service_1a39bda863fd13ae68de1ea25481c52980" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::HealthErrorService::handleHealth</definition>
+        <argsstring>()</argsstring>
+        <name>handleHealth</name>
+        <qualifiedname>themis::server::HealthErrorService::handleHealth</qualifiedname>
+        <briefdescription>
+<para>Handle Health. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: set(), std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str(), <ref refid="classthemis_1_1server_1_1_health_error_service_1ae300984fc59665096c31ace16a3bc3e1" kindref="member">getUptimeSeconds()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="96" column="20" bodyfile="src/server/health_error_service.cpp" bodystart="367" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_health_error_service_1a42b159afaf046088b20ccf1e8f43dc62" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::HealthErrorService::handleHealthComponents</definition>
+        <argsstring>()</argsstring>
+        <name>handleHealthComponents</name>
+        <qualifiedname>themis::server::HealthErrorService::handleHealthComponents</qualifiedname>
+        <briefdescription>
+<para>Handle Health Components. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: set(), <ref refid="classthemis_1_1server_1_1_health_error_service_1ae300984fc59665096c31ace16a3bc3e1" kindref="member">getUptimeSeconds()</ref>, body(), dump(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/health_error_service.h" line="102" column="20" bodyfile="src/server/health_error_service.cpp" bodystart="402" bodyend="424"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/health_error_service.h" line="33" column="1" bodyfile="include/server/health_error_service.h" bodystart="33" bodyend="111"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_health_error_service_1a8bed04efb7713ed053ccc92692acc8e2" prot="private" virt="non-virtual"><scope>themis::server::HealthErrorService</scope><name>acceptor_</name></member>
+      <member refid="classthemis_1_1server_1_1_health_error_service_1a4ddcb9b3b58ceb07d92deb70e1fff820" prot="private" virt="non-virtual"><scope>themis::server::HealthErrorService</scope><name>config_</name></member>
+      <member refid="classthemis_1_1server_1_1_health_error_service_1a29378b9607f1549d361f750d659c1f09" prot="private" virt="non-virtual"><scope>themis::server::HealthErrorService</scope><name>error_handler_</name></member>
+      <member refid="classthemis_1_1server_1_1_health_error_service_1ae300984fc59665096c31ace16a3bc3e1" prot="public" virt="non-virtual"><scope>themis::server::HealthErrorService</scope><name>getUptimeSeconds</name></member>
+      <member refid="classthemis_1_1server_1_1_health_error_service_1a370a42103526e1e66d06a0342828bd76" prot="private" virt="non-virtual"><scope>themis::server::HealthErrorService</scope><name>handleConnection</name></member>
+      <member refid="classthemis_1_1server_1_1_health_error_service_1a39bda863fd13ae68de1ea25481c52980" prot="private" virt="non-virtual"><scope>themis::server::HealthErrorService</scope><name>handleHealth</name></member>
+      <member refid="classthemis_1_1server_1_1_health_error_service_1a42b159afaf046088b20ccf1e8f43dc62" prot="private" virt="non-virtual"><scope>themis::server::HealthErrorService</scope><name>handleHealthComponents</name></member>
+      <member refid="classthemis_1_1server_1_1_health_error_service_1aab76cbf607654bf021ead67fa28301d8" prot="private" virt="non-virtual"><scope>themis::server::HealthErrorService</scope><name>handleRequest</name></member>
+      <member refid="classthemis_1_1server_1_1_health_error_service_1a2714cd8daf92677a159376b23343f742" prot="public" virt="non-virtual"><scope>themis::server::HealthErrorService</scope><name>HealthErrorService</name></member>
+      <member refid="classthemis_1_1server_1_1_health_error_service_1a7601b3d43d1bc6aafe31ef3c438fb3f2" prot="private" virt="non-virtual"><scope>themis::server::HealthErrorService</scope><name>ioc_</name></member>
+      <member refid="classthemis_1_1server_1_1_health_error_service_1ad21f07b5e58ca7e928ef1680f72f3e62" prot="public" virt="non-virtual"><scope>themis::server::HealthErrorService</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1server_1_1_health_error_service_1ae76186a65febf0e93065ec83a38ad3d0" prot="private" virt="non-virtual"><scope>themis::server::HealthErrorService</scope><name>run</name></member>
+      <member refid="classthemis_1_1server_1_1_health_error_service_1a8eb7049d4947102f5fc52e613a995569" prot="private" virt="non-virtual"><scope>themis::server::HealthErrorService</scope><name>running_</name></member>
+      <member refid="classthemis_1_1server_1_1_health_error_service_1a38ffe4b7e6bc29be50db490268590926" prot="private" virt="non-virtual"><scope>themis::server::HealthErrorService</scope><name>service_thread_</name></member>
+      <member refid="classthemis_1_1server_1_1_health_error_service_1a538746c181694ed0b1fc82f3d8249967" prot="public" virt="non-virtual"><scope>themis::server::HealthErrorService</scope><name>start</name></member>
+      <member refid="classthemis_1_1server_1_1_health_error_service_1a8119632b11169b05d4b178b1e7e1ef9d" prot="private" virt="non-virtual"><scope>themis::server::HealthErrorService</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1server_1_1_health_error_service_1ae7f922a86ce2bc5b5f6bd517581cdd94" prot="public" virt="non-virtual"><scope>themis::server::HealthErrorService</scope><name>stop</name></member>
+      <member refid="classthemis_1_1server_1_1_health_error_service_1af87f63a93d42050bd131c740ba4dd142" prot="public" virt="non-virtual"><scope>themis::server::HealthErrorService</scope><name>~HealthErrorService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

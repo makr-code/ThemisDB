@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_extraction_result_1_1_media_data" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ExtractionResult::MediaData</compoundname>
+    <includes refid="content__processor_8h" local="no">content_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1_1_media_data_1a0b9344f150a26ee8c1502dd4837388c8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ExtractionResult::MediaData::duration_seconds</definition>
+        <argsstring></argsstring>
+        <name>duration_seconds</name>
+        <qualifiedname>themis::content::ExtractionResult::MediaData::duration_seconds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Duration in seconds (CON-017). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="48" column="13" bodyfile="include/content/content_processor.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1_1_media_data_1a10d9035c6b3e4b12f41d0faf628368fb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ExtractionResult::MediaData::width</definition>
+        <argsstring></argsstring>
+        <name>width</name>
+        <qualifiedname>themis::content::ExtractionResult::MediaData::width</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Frame width in pixels (CON-017). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="49" column="13" bodyfile="include/content/content_processor.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1_1_media_data_1abe54fbabb683f5c33c12de9e025963bf" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ExtractionResult::MediaData::height</definition>
+        <argsstring></argsstring>
+        <name>height</name>
+        <qualifiedname>themis::content::ExtractionResult::MediaData::height</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Frame height in pixels (CON-017). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="50" column="13" bodyfile="include/content/content_processor.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1_1_media_data_1acdacc3423c0fc8791a701142b95cb8cf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ExtractionResult::MediaData::codec</definition>
+        <argsstring></argsstring>
+        <name>codec</name>
+        <qualifiedname>themis::content::ExtractionResult::MediaData::codec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="51" column="21" bodyfile="include/content/content_processor.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1_1_media_data_1a8c07c35b2f82a7a00cf2dfa01d7f3cc5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ExtractionResult::MediaData::bitrate</definition>
+        <argsstring></argsstring>
+        <name>bitrate</name>
+        <qualifiedname>themis::content::ExtractionResult::MediaData::bitrate</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Bit-rate in kbps (CON-017). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="52" column="13" bodyfile="include/content/content_processor.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_processor.h" line="47" column="5" bodyfile="include/content/content_processor.h" bodystart="47" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1_1_media_data_1a8c07c35b2f82a7a00cf2dfa01d7f3cc5" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult::MediaData</scope><name>bitrate</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1_1_media_data_1acdacc3423c0fc8791a701142b95cb8cf" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult::MediaData</scope><name>codec</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1_1_media_data_1a0b9344f150a26ee8c1502dd4837388c8" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult::MediaData</scope><name>duration_seconds</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1_1_media_data_1abe54fbabb683f5c33c12de9e025963bf" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult::MediaData</scope><name>height</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1_1_media_data_1a10d9035c6b3e4b12f41d0faf628368fb" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult::MediaData</scope><name>width</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

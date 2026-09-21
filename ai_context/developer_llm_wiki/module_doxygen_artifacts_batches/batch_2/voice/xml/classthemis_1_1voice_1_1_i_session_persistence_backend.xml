@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_i_session_persistence_backend" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::voice::ISessionPersistenceBackend</compoundname>
+    <derivedcompoundref refid="classthemis_1_1voice_1_1_in_memory_session_backend" prot="public" virt="non-virtual">themis::voice::InMemorySessionBackend</derivedcompoundref>
+    <includes refid="voice__session__manager_8h" local="no">voice_session_manager.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_i_session_persistence_backend_1ab3b9396f226618665e3112b5d61bae1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::voice::ISessionPersistenceBackend::~ISessionPersistenceBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ISessionPersistenceBackend</name>
+        <qualifiedname>themis::voice::ISessionPersistenceBackend::~ISessionPersistenceBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="133" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_i_session_persistence_backend_1aee5689ccccc70251b018b29429a5c6fd" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::voice::ISessionPersistenceBackend::save</definition>
+        <argsstring>(const VoiceSessionData &amp;session)=0</argsstring>
+        <name>save</name>
+        <qualifiedname>themis::voice::ISessionPersistenceBackend::save</qualifiedname>
+        <reimplementedby refid="classthemis_1_1voice_1_1_in_memory_session_backend_1abe6026f74708904e39f7a8d655cd1762">save</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref> &amp;</type>
+          <declname>session</declname>
+        </param>
+        <briefdescription>
+<para>Save session to durable storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref> to persist </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if save succeeded; false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="139" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_i_session_persistence_backend_1a563047a9527f048127243c4af86934ba" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref> &gt;</type>
+        <definition>virtual std::optional&lt; VoiceSessionData &gt; themis::voice::ISessionPersistenceBackend::load</definition>
+        <argsstring>(const std::string &amp;session_id)=0</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::voice::ISessionPersistenceBackend::load</qualifiedname>
+        <reimplementedby refid="classthemis_1_1voice_1_1_in_memory_session_backend_1a7c4ccb724b87dd5e8072771b153fef9b">load</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Load session from durable storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>std::optional&lt;VoiceSessionData&gt; containing the session if found; std::nullopt if not found or load failed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="146" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_i_session_persistence_backend_1ab123adc3b6f2e3a2aa7e4ea6f9fc972a" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::voice::ISessionPersistenceBackend::remove</definition>
+        <argsstring>(const std::string &amp;session_id)=0</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::voice::ISessionPersistenceBackend::remove</qualifiedname>
+        <reimplementedby refid="classthemis_1_1voice_1_1_in_memory_session_backend_1a711caef3f529e8592180506a4f8ccd04">remove</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove session from durable storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if session existed and was removed; false if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="152" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_i_session_persistence_backend_1a3f0c61c07de6e14eccb226010a44856c" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::voice::ISessionPersistenceBackend::listActiveSessions</definition>
+        <argsstring>()=0</argsstring>
+        <name>listActiveSessions</name>
+        <qualifiedname>themis::voice::ISessionPersistenceBackend::listActiveSessions</qualifiedname>
+        <reimplementedby refid="classthemis_1_1voice_1_1_in_memory_session_backend_1ae4c185a4d9b5ae8d0209fcbdf4fe8696">listActiveSessions</reimplementedby>
+        <briefdescription>
+<para>List all active session IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of session IDs currently in durable storage </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="157" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for session persistence (pluggable backend). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementers provide durable storage for voice sessions. The default <ref refid="classthemis_1_1voice_1_1_in_memory_session_backend" kindref="compound">InMemorySessionBackend</ref> is suitable for testing; production deployments may inject a database-backed or Redis-backed implementation.</para>
+<para><simplesect kind="note"><para>Thread safety is the responsibility of the implementation. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::voice::ISessionPersistenceBackend</label>
+        <link refid="classthemis_1_1voice_1_1_i_session_persistence_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::voice::InMemorySessionBackend</label>
+        <link refid="classthemis_1_1voice_1_1_in_memory_session_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/voice/voice_session_manager.h" line="131" column="1" bodyfile="include/voice/voice_session_manager.h" bodystart="131" bodyend="158"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_i_session_persistence_backend_1a3f0c61c07de6e14eccb226010a44856c" prot="public" virt="pure-virtual"><scope>themis::voice::ISessionPersistenceBackend</scope><name>listActiveSessions</name></member>
+      <member refid="classthemis_1_1voice_1_1_i_session_persistence_backend_1a563047a9527f048127243c4af86934ba" prot="public" virt="pure-virtual"><scope>themis::voice::ISessionPersistenceBackend</scope><name>load</name></member>
+      <member refid="classthemis_1_1voice_1_1_i_session_persistence_backend_1ab123adc3b6f2e3a2aa7e4ea6f9fc972a" prot="public" virt="pure-virtual"><scope>themis::voice::ISessionPersistenceBackend</scope><name>remove</name></member>
+      <member refid="classthemis_1_1voice_1_1_i_session_persistence_backend_1aee5689ccccc70251b018b29429a5c6fd" prot="public" virt="pure-virtual"><scope>themis::voice::ISessionPersistenceBackend</scope><name>save</name></member>
+      <member refid="classthemis_1_1voice_1_1_i_session_persistence_backend_1ab3b9396f226618665e3112b5d61bae1c" prot="public" virt="virtual"><scope>themis::voice::ISessionPersistenceBackend</scope><name>~ISessionPersistenceBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

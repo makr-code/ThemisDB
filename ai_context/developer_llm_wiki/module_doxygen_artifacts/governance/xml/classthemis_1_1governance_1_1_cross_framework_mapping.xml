@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_cross_framework_mapping" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::CrossFrameworkMapping</compoundname>
+    <includes refid="compliance__mapping_8h" local="no">compliance_mapping.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_cross_framework_mapping_1a630073b034e6e3af30e51beb9080d498" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::tuple&lt; <ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref>, std::string, <ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref>, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::tuple&lt;ComplianceFramework, std::string, ComplianceFramework, std::string&gt; &gt; themis::governance::CrossFrameworkMapping::equivalences_</definition>
+        <argsstring></argsstring>
+        <name>equivalences_</name>
+        <qualifiedname>themis::governance::CrossFrameworkMapping::equivalences_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="378" column="5" bodyfile="include/governance/compliance_mapping.h" bodystart="378" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_framework_mapping_1ab4ccc2cdf6b05fc17d774cec0d13cf8a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::governance::CrossFrameworkMapping::getEquivalentRequirements</definition>
+        <argsstring>(const std::string &amp;requirement_id, ComplianceFramework from_fw, ComplianceFramework to_fw) const</argsstring>
+        <name>getEquivalentRequirements</name>
+        <qualifiedname>themis::governance::CrossFrameworkMapping::getEquivalentRequirements</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>requirement_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref></type>
+          <declname>from_fw</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref></type>
+          <declname>to_fw</declname>
+        </param>
+        <briefdescription>
+<para>Get Equivalent Requirements. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">requirement_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the requirement. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_fw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_fw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="350" column="17" bodyfile="src/governance/compliance_mapping.cpp" bodystart="509" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_framework_mapping_1ad308c0aa49cdf7452cb21ede39337496" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::CrossFrameworkMapping::areEquivalent</definition>
+        <argsstring>(const std::string &amp;req1, ComplianceFramework fw1, const std::string &amp;req2, ComplianceFramework fw2) const</argsstring>
+        <name>areEquivalent</name>
+        <qualifiedname>themis::governance::CrossFrameworkMapping::areEquivalent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>req1</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref></type>
+          <declname>fw1</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>req2</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref></type>
+          <declname>fw2</declname>
+        </param>
+        <briefdescription>
+<para>Are Equivalent. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fw1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fw2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="363" column="10" bodyfile="src/governance/compliance_mapping.cpp" bodystart="527" bodyend="535"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_cross_framework_mapping_1a807c93ad0166af5a8ac1342dd192917a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; <ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt; ComplianceFramework, std::vector&lt; std::string &gt; &gt; themis::governance::CrossFrameworkMapping::getAllEquivalentRequirements</definition>
+        <argsstring>(const std::string &amp;requirement_id, ComplianceFramework source_fw) const</argsstring>
+        <name>getAllEquivalentRequirements</name>
+        <qualifiedname>themis::governance::CrossFrameworkMapping::getAllEquivalentRequirements</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>requirement_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1governance_1a915bac8f38536fcb97c0297cf999c3c8" kindref="member">ComplianceFramework</ref></type>
+          <declname>source_fw</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="370" column="5" bodyfile="src/governance/compliance_mapping.cpp" bodystart="538" bodyend="554"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="341" column="1" bodyfile="include/governance/compliance_mapping.h" bodystart="341" bodyend="379"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_cross_framework_mapping_1ad308c0aa49cdf7452cb21ede39337496" prot="public" virt="non-virtual"><scope>themis::governance::CrossFrameworkMapping</scope><name>areEquivalent</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_framework_mapping_1a630073b034e6e3af30e51beb9080d498" prot="private" virt="non-virtual"><scope>themis::governance::CrossFrameworkMapping</scope><name>equivalences_</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_framework_mapping_1a807c93ad0166af5a8ac1342dd192917a" prot="public" virt="non-virtual"><scope>themis::governance::CrossFrameworkMapping</scope><name>getAllEquivalentRequirements</name></member>
+      <member refid="classthemis_1_1governance_1_1_cross_framework_mapping_1ab4ccc2cdf6b05fc17d774cec0d13cf8a" prot="public" virt="non-virtual"><scope>themis::governance::CrossFrameworkMapping</scope><name>getEquivalentRequirements</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

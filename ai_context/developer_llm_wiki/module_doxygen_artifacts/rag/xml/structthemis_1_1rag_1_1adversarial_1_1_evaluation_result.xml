@@ -1,0 +1,349 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::adversarial::EvaluationResult</compoundname>
+    <includes refid="rag__judge_8h" local="no">rag_judge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a9a6e09faf37614680a4d41978ef9398a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::EvaluationResult::faithfulness_score</definition>
+        <argsstring></argsstring>
+        <name>faithfulness_score</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::faithfulness_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="106" column="12" bodyfile="include/rag/rag_judge.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1ab338a57d0eba8dfe84a32c340a1162b6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::EvaluationResult::relevance_score</definition>
+        <argsstring></argsstring>
+        <name>relevance_score</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::relevance_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="107" column="12" bodyfile="include/rag/rag_judge.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a4303d199df899b810fbbf6d45a656b8b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::EvaluationResult::completeness_score</definition>
+        <argsstring></argsstring>
+        <name>completeness_score</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::completeness_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="108" column="12" bodyfile="include/rag/rag_judge.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a9401eb13fb4c435e6dbf7e22cffdb2ed" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::EvaluationResult::coherence_score</definition>
+        <argsstring></argsstring>
+        <name>coherence_score</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::coherence_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="109" column="12" bodyfile="include/rag/rag_judge.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1afb36e5ce7e567df82708dc9bec842c77" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::EvaluationResult::ethical_compliance_score</definition>
+        <argsstring></argsstring>
+        <name>ethical_compliance_score</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::ethical_compliance_score</qualifiedname>
+        <briefdescription>
+<para>NEW: Ethical compliance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="110" column="12" bodyfile="include/rag/rag_judge.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a6f5990dda0dc05ab728a5b99d723843d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::EvaluationResult::overall_score</definition>
+        <argsstring></argsstring>
+        <name>overall_score</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::overall_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="111" column="12" bodyfile="include/rag/rag_judge.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1aa2779ecb51049e13bcce808707d6aad1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::EvaluationResult::explanation</definition>
+        <argsstring></argsstring>
+        <name>explanation</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::explanation</qualifiedname>
+        <briefdescription>
+<para>Chain-of-thought reasoning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="114" column="17" bodyfile="include/rag/rag_judge.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a85cf4fd8558d25c311cd787c6f59769c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::EvaluationResult::verified_claims</definition>
+        <argsstring></argsstring>
+        <name>verified_claims</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::verified_claims</qualifiedname>
+        <briefdescription>
+<para>Claims supported by documents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="115" column="17" bodyfile="include/rag/rag_judge.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1ae15199a05d686a893e012d92fe6b18e8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::EvaluationResult::unverified_claims</definition>
+        <argsstring></argsstring>
+        <name>unverified_claims</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::unverified_claims</qualifiedname>
+        <briefdescription>
+<para>Claims without support. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="116" column="17" bodyfile="include/rag/rag_judge.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a4141a1810a6b4afe71d8e7c4b26c92ac" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::EvaluationResult::improvements</definition>
+        <argsstring></argsstring>
+        <name>improvements</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::improvements</qualifiedname>
+        <briefdescription>
+<para>Suggested improvements. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="117" column="17" bodyfile="include/rag/rag_judge.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a7334aa68ece1484764c0a42621f2adfb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::EvaluationResult::ethical_violations</definition>
+        <argsstring></argsstring>
+        <name>ethical_violations</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::ethical_violations</qualifiedname>
+        <briefdescription>
+<para>NEW: Detected ethical issues. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="120" column="17" bodyfile="include/rag/rag_judge.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1af491628dcc28ac3d01b266883a01ab03" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::EvaluationResult::respects_human_autonomy</definition>
+        <argsstring></argsstring>
+        <name>respects_human_autonomy</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::respects_human_autonomy</qualifiedname>
+        <briefdescription>
+<para>NEW: Respects user autonomy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="121" column="10" bodyfile="include/rag/rag_judge.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a4c2f5e351c04d38bc07626659535299e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::EvaluationResult::shows_moral_diversity</definition>
+        <argsstring></argsstring>
+        <name>shows_moral_diversity</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::shows_moral_diversity</qualifiedname>
+        <briefdescription>
+<para>NEW: Shows diverse perspectives. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="122" column="10" bodyfile="include/rag/rag_judge.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1ad42febd48cf3be0a9ee9d10e241835fc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::EvaluationResult::has_ethical_citations</definition>
+        <argsstring></argsstring>
+        <name>has_ethical_citations</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::has_ethical_citations</qualifiedname>
+        <briefdescription>
+<para>NEW: Cites sources for moral claims. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="123" column="10" bodyfile="include/rag/rag_judge.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a60f6adb9a95e34d92c021cbae043c035" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::EvaluationResult::injection_screened</definition>
+        <argsstring></argsstring>
+        <name>injection_screened</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::injection_screened</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when config.enable_prompt_injection_screening is true and documents were non-empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="127" column="10" bodyfile="include/rag/rag_judge.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1aa6923f1fc242a25a8e139b37effa0e3a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::EvaluationResult::injection_findings_count</definition>
+        <argsstring></argsstring>
+        <name>injection_findings_count</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::injection_findings_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of injection findings across all context documents; 0 when injection_screened is false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="129" column="12" bodyfile="include/rag/rag_judge.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1af6a91297cb9165c0a48aa9e582a06b69" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::EvaluationResult::injection_blocked</definition>
+        <argsstring></argsstring>
+        <name>injection_blocked</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::injection_blocked</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when evaluation was blocked because at least one finding had HIGH or higher severity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="131" column="10" bodyfile="include/rag/rag_judge.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1ae4a271d5bef1e0de488335cc71555714" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::EvaluationResult::passed_quality_threshold</definition>
+        <argsstring></argsstring>
+        <name>passed_quality_threshold</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::passed_quality_threshold</qualifiedname>
+        <briefdescription>
+<para>Meets minimum quality. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="134" column="10" bodyfile="include/rag/rag_judge.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a70bcf26c797d140c6dbd16d0c640367f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::EvaluationResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::confidence</qualifiedname>
+        <briefdescription>
+<para>Judge&apos;s confidence in evaluation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="135" column="12" bodyfile="include/rag/rag_judge.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a86ae632085ec30c80f9e58b48658b857" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::rag::judge::EvaluationResult::evaluation_time</definition>
+        <argsstring></argsstring>
+        <name>evaluation_time</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::evaluation_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="138" column="31" bodyfile="include/rag/rag_judge.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1aca7d536dbc2d3a8f813b561e2500cf71" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::EvaluationResult::judge_model</definition>
+        <argsstring></argsstring>
+        <name>judge_model</name>
+        <qualifiedname>themis::rag::adversarial::EvaluationResult::judge_model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="139" column="17" bodyfile="include/rag/rag_judge.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Complete evaluation result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rag_judge.h" line="104" column="1" bodyfile="include/rag/rag_judge.h" bodystart="104" bodyend="140"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a9401eb13fb4c435e6dbf7e22cffdb2ed" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>coherence_score</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a4303d199df899b810fbbf6d45a656b8b" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>completeness_score</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a70bcf26c797d140c6dbd16d0c640367f" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1afb36e5ce7e567df82708dc9bec842c77" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>ethical_compliance_score</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a7334aa68ece1484764c0a42621f2adfb" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>ethical_violations</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a86ae632085ec30c80f9e58b48658b857" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>evaluation_time</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1aa2779ecb51049e13bcce808707d6aad1" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>explanation</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a9a6e09faf37614680a4d41978ef9398a" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>faithfulness_score</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1ad42febd48cf3be0a9ee9d10e241835fc" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>has_ethical_citations</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a4141a1810a6b4afe71d8e7c4b26c92ac" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>improvements</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1af6a91297cb9165c0a48aa9e582a06b69" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>injection_blocked</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1aa6923f1fc242a25a8e139b37effa0e3a" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>injection_findings_count</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a60f6adb9a95e34d92c021cbae043c035" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>injection_screened</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1aca7d536dbc2d3a8f813b561e2500cf71" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>judge_model</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a6f5990dda0dc05ab728a5b99d723843d" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>overall_score</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1ae4a271d5bef1e0de488335cc71555714" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>passed_quality_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1ab338a57d0eba8dfe84a32c340a1162b6" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>relevance_score</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1af491628dcc28ac3d01b266883a01ab03" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>respects_human_autonomy</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a4c2f5e351c04d38bc07626659535299e" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>shows_moral_diversity</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1ae15199a05d686a893e012d92fe6b18e8" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>unverified_claims</name></member>
+      <member refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result_1a85cf4fd8558d25c311cd787c6f59769c" prot="public" virt="non-virtual"><scope>themis::rag::adversarial::EvaluationResult</scope><name>verified_claims</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

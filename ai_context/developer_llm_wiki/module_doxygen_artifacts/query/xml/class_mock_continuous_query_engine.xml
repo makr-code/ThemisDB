@@ -1,0 +1,419 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_continuous_query_engine" kind="class" language="C++" prot="public">
+    <compoundname>MockContinuousQueryEngine</compoundname>
+    <basecompoundref refid="classthemis_1_1query_1_1_continuous_query_engine" prot="public" virt="non-virtual">themis::query::ContinuousQueryEngine</basecompoundref>
+    <basecompoundref refid="classthemis_1_1query_1_1_continuous_query_engine" prot="public" virt="non-virtual">themis::query::ContinuousQueryEngine</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_continuous_query_engine_1af08460a453d9e2176982ffe93ef02363" prot="private" static="no" mutable="no">
+        <type>Config</type>
+        <definition>Config MockContinuousQueryEngine::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>MockContinuousQueryEngine::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="206" column="12" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_continuous_query_engine_1aeab5893ec1b9e6a779615162681da817" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex MockContinuousQueryEngine::queries_mutex_</definition>
+        <argsstring></argsstring>
+        <name>queries_mutex_</name>
+        <qualifiedname>MockContinuousQueryEngine::queries_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="207" column="24" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_continuous_query_engine_1a9d3133b479407394920bc4aa99296080" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex MockContinuousQueryEngine::tuples_mutex_</definition>
+        <argsstring></argsstring>
+        <name>tuples_mutex_</name>
+        <qualifiedname>MockContinuousQueryEngine::tuples_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="208" column="24" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_continuous_query_engine_1adb4dad2e48e5c3fbd86db4d9494d5880" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1query_1_1_continuous_query_spec" kindref="compound">ContinuousQuerySpec</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ContinuousQuerySpec&gt; MockContinuousQueryEngine::queries_</definition>
+        <argsstring></argsstring>
+        <name>queries_</name>
+        <qualifiedname>MockContinuousQueryEngine::queries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="210" column="24" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_continuous_query_engine_1a5cf81155d7cab413100aa35a913c7637" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; MockContinuousQueryEngine::tuple_counts_</definition>
+        <argsstring></argsstring>
+        <name>tuple_counts_</name>
+        <qualifiedname>MockContinuousQueryEngine::tuple_counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="211" column="24" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_continuous_query_engine_1afba537306265af0b05701636d84ad807" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; MockContinuousQueryEngine::queue_depths_</definition>
+        <argsstring></argsstring>
+        <name>queue_depths_</name>
+        <qualifiedname>MockContinuousQueryEngine::queue_depths_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="212" column="24" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_continuous_query_engine_1a0b0363eb0530a6f10754553f698d3fd6" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; InjectedTuple &gt;</type>
+        <definition>std::vector&lt;InjectedTuple&gt; MockContinuousQueryEngine::injected_tuples_</definition>
+        <argsstring></argsstring>
+        <name>injected_tuples_</name>
+        <qualifiedname>MockContinuousQueryEngine::injected_tuples_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="213" column="17" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_continuous_query_engine_1ae60194ca225e912ccf2b96ee07d8b49d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; MockContinuousQueryEngine::dropped_tuples_</definition>
+        <argsstring></argsstring>
+        <name>dropped_tuples_</name>
+        <qualifiedname>MockContinuousQueryEngine::dropped_tuples_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="214" column="17" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="214" bodyend="214"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_continuous_query_engine_1ad94cc6d9643f12c3767f70e5f2090165" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MockContinuousQueryEngine::MockContinuousQueryEngine</definition>
+        <argsstring>(const Config &amp;cfg=Config{})</argsstring>
+        <name>MockContinuousQueryEngine</name>
+        <qualifiedname>MockContinuousQueryEngine::MockContinuousQueryEngine</qualifiedname>
+        <param>
+          <type>const Config &amp;</type>
+          <declname>cfg</declname>
+          <defval>Config{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="48" column="14" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_continuous_query_engine_1a50c18263e4fc814f26bd63df0e7b28a0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; <ref refid="classthemis_1_1query_1_1_continuous_query_engine_1aa1b9f6d47297f0bc990dee9694d2c2d4" kindref="member">ContinuousQueryHandle</ref> &gt;</type>
+        <definition>Result&lt; ContinuousQueryHandle &gt; MockContinuousQueryEngine::registerQuery</definition>
+        <argsstring>(ContinuousQuerySpec spec) override</argsstring>
+        <name>registerQuery</name>
+        <qualifiedname>MockContinuousQueryEngine::registerQuery</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_continuous_query_engine_1a82c2a7bad2b3e3e578b2728d9266e2a4">registerQuery</reimplements>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_continuous_query_spec" kindref="compound">ContinuousQuerySpec</ref></type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="50" column="12" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="50" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_continuous_query_engine_1a6b97e82f980da3ba9304a24e72335a65" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; MockContinuousQueryEngine::dropQuery</definition>
+        <argsstring>(const std::string &amp;name) override</argsstring>
+        <name>dropQuery</name>
+        <qualifiedname>MockContinuousQueryEngine::dropQuery</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_continuous_query_engine_1a3584d23578b556962d02508e4f9ca9ba">dropQuery</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Drop <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="64" column="12" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="64" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_continuous_query_engine_1aafb51e03a176b542f6b319c24cc2d4c9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; <ref refid="classthemis_1_1query_1_1_continuous_query_engine_1ac681f291c2f8987d7b73c3bcefd2eebd" kindref="member">ResultStreamPtr</ref> &gt;</type>
+        <definition>Result&lt; ResultStreamPtr &gt; MockContinuousQueryEngine::subscribe</definition>
+        <argsstring>(const std::string &amp;name, ResultMode mode) override</argsstring>
+        <name>subscribe</name>
+        <qualifiedname>MockContinuousQueryEngine::subscribe</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_continuous_query_engine_1af26cec1040d45e58ce0ae4953ee566a7">subscribe</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a61d302e9f3648ff09de0dfba2611ea88" kindref="member">ResultMode</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="78" column="12" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="78" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_continuous_query_engine_1ad0c4b5d50e5db19ce912ace54f1118d7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_continuous_query_info" kindref="compound">ContinuousQueryInfo</ref> &gt;</type>
+        <definition>std::vector&lt; ContinuousQueryInfo &gt; MockContinuousQueryEngine::listQueries</definition>
+        <argsstring>() const override</argsstring>
+        <name>listQueries</name>
+        <qualifiedname>MockContinuousQueryEngine::listQueries</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_continuous_query_engine_1afa292c4a075417ae427e292e21376a72">listQueries</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="90" column="17" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="90" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_continuous_query_engine_1a0a10544195210f8f442efa873f2e9e10" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockContinuousQueryEngine::injectTuple</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;tuple, int64_t event_ts) override</argsstring>
+        <name>injectTuple</name>
+        <qualifiedname>MockContinuousQueryEngine::injectTuple</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1_continuous_query_engine_1a8b4d1870f11269eeac2a787ee265e299">injectTuple</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tuple</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>event_ts</declname>
+        </param>
+        <briefdescription>
+<para>Inject Tuple. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tuple</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event_ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="103" column="10" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="103" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_continuous_query_engine_1aaa9dd2de90b5e260c8406b6072670def" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t MockContinuousQueryEngine::getTupleCount</definition>
+        <argsstring>(const std::string &amp;collection) const</argsstring>
+        <name>getTupleCount</name>
+        <qualifiedname>MockContinuousQueryEngine::getTupleCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>Get tuple injection count for a collection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="131" column="12" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="131" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_continuous_query_engine_1a8cedb0b14a51c29a7fec1fbff7a6693c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t MockContinuousQueryEngine::getQueueDepth</definition>
+        <argsstring>(const std::string &amp;collection) const</argsstring>
+        <name>getQueueDepth</name>
+        <qualifiedname>MockContinuousQueryEngine::getQueueDepth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>Get current queue depth for a collection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="137" column="12" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="137" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_continuous_query_engine_1ab15503a246b03cd5c01c788ee1724d2e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t MockContinuousQueryEngine::getDroppedTuples</definition>
+        <argsstring>() const</argsstring>
+        <name>getDroppedTuples</name>
+        <qualifiedname>MockContinuousQueryEngine::getDroppedTuples</qualifiedname>
+        <briefdescription>
+<para>Get count of dropped tuples due to backpressure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="144" column="12" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="144" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_continuous_query_engine_1ad4b389b60d0a1f4829da8998c8ffe454" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockContinuousQueryEngine::processBatch</definition>
+        <argsstring>(const std::string &amp;collection, size_t batch_size)</argsstring>
+        <name>processBatch</name>
+        <qualifiedname>MockContinuousQueryEngine::processBatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <briefdescription>
+<para>Simulate processing a batch from the queue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_continuous_query_hardening.cpp" line="149" column="10" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="149" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockContinuousQueryEngine</label>
+        <link refid="class_mock_continuous_query_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::ContinuousQueryEngine</label>
+        <link refid="classthemis_1_1query_1_1_continuous_query_engine"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockContinuousQueryEngine</label>
+        <link refid="class_mock_continuous_query_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::ContinuousQueryEngine</label>
+        <link refid="classthemis_1_1query_1_1_continuous_query_engine"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_continuous_query_hardening.cpp" line="39" column="1" bodyfile="tests/query/test_continuous_query_hardening.cpp" bodystart="39" bodyend="215"/>
+    <listofallmembers>
+      <member refid="class_mock_continuous_query_engine_1af08460a453d9e2176982ffe93ef02363" prot="private" virt="non-virtual"><scope>MockContinuousQueryEngine</scope><name>config_</name></member>
+      <member refid="classthemis_1_1query_1_1_continuous_query_engine_1aa1b9f6d47297f0bc990dee9694d2c2d4" prot="public" virt="non-virtual"><scope>MockContinuousQueryEngine</scope><name>ContinuousQueryHandle</name></member>
+      <member refid="class_mock_continuous_query_engine_1ae60194ca225e912ccf2b96ee07d8b49d" prot="private" virt="non-virtual"><scope>MockContinuousQueryEngine</scope><name>dropped_tuples_</name></member>
+      <member refid="class_mock_continuous_query_engine_1a6b97e82f980da3ba9304a24e72335a65" prot="public" virt="virtual"><scope>MockContinuousQueryEngine</scope><name>dropQuery</name></member>
+      <member refid="class_mock_continuous_query_engine_1ab15503a246b03cd5c01c788ee1724d2e" prot="public" virt="non-virtual"><scope>MockContinuousQueryEngine</scope><name>getDroppedTuples</name></member>
+      <member refid="class_mock_continuous_query_engine_1a8cedb0b14a51c29a7fec1fbff7a6693c" prot="public" virt="non-virtual"><scope>MockContinuousQueryEngine</scope><name>getQueueDepth</name></member>
+      <member refid="class_mock_continuous_query_engine_1aaa9dd2de90b5e260c8406b6072670def" prot="public" virt="non-virtual"><scope>MockContinuousQueryEngine</scope><name>getTupleCount</name></member>
+      <member refid="class_mock_continuous_query_engine_1a0b0363eb0530a6f10754553f698d3fd6" prot="private" virt="non-virtual"><scope>MockContinuousQueryEngine</scope><name>injected_tuples_</name></member>
+      <member refid="class_mock_continuous_query_engine_1a0a10544195210f8f442efa873f2e9e10" prot="public" virt="virtual"><scope>MockContinuousQueryEngine</scope><name>injectTuple</name></member>
+      <member refid="class_mock_continuous_query_engine_1ad0c4b5d50e5db19ce912ace54f1118d7" prot="public" virt="virtual"><scope>MockContinuousQueryEngine</scope><name>listQueries</name></member>
+      <member refid="class_mock_continuous_query_engine_1ad94cc6d9643f12c3767f70e5f2090165" prot="public" virt="non-virtual"><scope>MockContinuousQueryEngine</scope><name>MockContinuousQueryEngine</name></member>
+      <member refid="class_mock_continuous_query_engine_1ad4b389b60d0a1f4829da8998c8ffe454" prot="public" virt="non-virtual"><scope>MockContinuousQueryEngine</scope><name>processBatch</name></member>
+      <member refid="class_mock_continuous_query_engine_1adb4dad2e48e5c3fbd86db4d9494d5880" prot="private" virt="non-virtual"><scope>MockContinuousQueryEngine</scope><name>queries_</name></member>
+      <member refid="class_mock_continuous_query_engine_1aeab5893ec1b9e6a779615162681da817" prot="private" virt="non-virtual"><scope>MockContinuousQueryEngine</scope><name>queries_mutex_</name></member>
+      <member refid="class_mock_continuous_query_engine_1afba537306265af0b05701636d84ad807" prot="private" virt="non-virtual"><scope>MockContinuousQueryEngine</scope><name>queue_depths_</name></member>
+      <member refid="class_mock_continuous_query_engine_1a50c18263e4fc814f26bd63df0e7b28a0" prot="public" virt="virtual"><scope>MockContinuousQueryEngine</scope><name>registerQuery</name></member>
+      <member refid="classthemis_1_1query_1_1_continuous_query_engine_1ac681f291c2f8987d7b73c3bcefd2eebd" prot="public" virt="non-virtual"><scope>MockContinuousQueryEngine</scope><name>ResultStreamPtr</name></member>
+      <member refid="class_mock_continuous_query_engine_1aafb51e03a176b542f6b319c24cc2d4c9" prot="public" virt="virtual"><scope>MockContinuousQueryEngine</scope><name>subscribe</name></member>
+      <member refid="class_mock_continuous_query_engine_1a5cf81155d7cab413100aa35a913c7637" prot="private" virt="non-virtual"><scope>MockContinuousQueryEngine</scope><name>tuple_counts_</name></member>
+      <member refid="class_mock_continuous_query_engine_1a9d3133b479407394920bc4aa99296080" prot="private" virt="non-virtual"><scope>MockContinuousQueryEngine</scope><name>tuples_mutex_</name></member>
+      <member refid="classthemis_1_1query_1_1_continuous_query_engine_1ade11599119eef5dbf5a2fe6152b51318" prot="public" virt="virtual"><scope>MockContinuousQueryEngine</scope><name>~ContinuousQueryEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

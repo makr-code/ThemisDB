@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="voice__liveness__detector_8h" kind="file" language="C++">
+    <compoundname>voice_liveness_detector.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">map</includes>
+    <includes local="no">set</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="voice__liveness__detector_8cpp" local="yes">src/voice/voice_liveness_detector.cpp</includedby>
+    <includedby refid="test__voice__wave__a8__hardening__focused_8cpp" local="yes">tests/voice/test_voice_wave_a8_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/voice/voice_liveness_detector.h</label>
+        <link refid="voice__liveness__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>set</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/voice/voice_liveness_detector.h</label>
+        <link refid="voice__liveness__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/voice/voice_liveness_detector.cpp</label>
+        <link refid="voice__liveness__detector_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/voice/test_voice_wave_a8_hardening_focused.cpp</label>
+        <link refid="test__voice__wave__a8__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1voice_1_1_challenge" prot="public">themis::voice::Challenge</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_voice_liveness_detector" prot="public">themis::voice::VoiceLivenessDetector</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config" prot="public">themis::voice::VoiceLivenessDetector::Config</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result" prot="public">themis::voice::VoiceLivenessDetector::VerificationResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice">themis::voice</innernamespace>
+    <briefdescription>
+<para>Voice Liveness Detection — Challenge-Response Validation for Wave A Batch A-8. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>v1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟡 BETA </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Wave A Batch A-8 Implementation</para>
+</simplesect>
+Provides challenge-response-based liveness detection to prevent replay and playback attacks. Server issues random challenges; client must echo them within a time window to prove live audio capture.</para>
+<sect1 id="voice__liveness__detector_8h_1autotoc_md22_1s1"><sect2 id="voice__liveness__detector_8h_1autotoc_md22">
+<title>Security Model</title><para><orderedlist>
+<listitem><para>Server generates random challenge text + timestamp</para>
+</listitem><listitem><para>Client captures live audio containing challenge phrase</para>
+</listitem><listitem><para>A deterministic local transcript extractor normalizes the response payload</para>
+</listitem><listitem><para>Verification checks: text match, timestamp freshness, no replay</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="voice__liveness__detector_8h_1autotoc_md23_1s1"><sect2 id="voice__liveness__detector_8h_1autotoc_md23">
+<title>Challenge Lifecycle</title><para><programlisting><codeline><highlight class="normal">[Issued]<sp/>→<sp/>[Active]<sp/>→<sp/>[Verified<sp/>or<sp/>Expired]</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">Active<sp/>window:<sp/>5<sp/>seconds<sp/>(reject<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>&gt;5s<sp/>old)</highlight></codeline>
+<codeline><highlight class="normal">Verified<sp/>challenges:<sp/>tracked<sp/>to<sp/>prevent<sp/>replay</highlight></codeline>
+</programlisting></para>
+<para>@error 7100: Challenge generation failed @error 7101: Challenge verification failed @error 7102: Stale challenge (&gt;5s old) @error 7103: Replay attack detected (duplicate challenge) @error 7104: Invalid challenge response (text mismatch) </para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice" kindref="compound">voice</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1voice_1_1_challenge" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_challenge" kindref="compound">Challenge</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1voice_1_1_challenge_1aa29cb657b243a0f3a13c8dea64809688" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1voice_1_1_challenge_1a277c734b322553375220a972e02c8858" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_challenge_1a277c734b322553375220a972e02c8858" kindref="member">text</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1voice_1_1_challenge_1a23f889367ef14a0f43c79ff1bab3602d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_challenge_1a23f889367ef14a0f43c79ff1bab3602d" kindref="member">issued_at_ms</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1voice_1_1_challenge_1a60a82ae8cb88325b496761679c470b02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_challenge_1a60a82ae8cb88325b496761679c470b02" kindref="member">verified</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1voice_1_1_challenge_1aba7e5d3801e9c4bd2d11a5a767c7ac1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_challenge_1aba7e5d3801e9c4bd2d11a5a767c7ac1d" kindref="member">user_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1voice_1_1_voice_liveness_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1abcd9418383d7d062b84cd3e419641638" kindref="member">VoiceLivenessDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config_1a8110765b582548571f5ab50df8e5d3e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config_1a8110765b582548571f5ab50df8e5d3e9" kindref="member">challenge_timeout_ms</ref><sp/>=<sp/>5000;<sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config_1a8bbad2b0038a5cbdacd8f380a4d3ffde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config_1a8bbad2b0038a5cbdacd8f380a4d3ffde" kindref="member">replay_memory_ms</ref><sp/>=<sp/>60000;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config_1a02e42b3c52c789942ef0e8b363af737b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config_1a02e42b3c52c789942ef0e8b363af737b" kindref="member">enable_replay_detection</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config_1a2259919d67a194e354ebb47add8ebd00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config_1a2259919d67a194e354ebb47add8ebd00" kindref="member">max_response_bytes</ref><sp/>=<sp/>64<sp/>*<sp/>1024;<sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result" kindref="compound">VerificationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result_1a001615a757699f844bfbf46e470c2db4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result_1a001615a757699f844bfbf46e470c2db4" kindref="member">passed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result_1a0fe546637d940655995ace76d09b07a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result_1a0fe546637d940655995ace76d09b07a9" kindref="member">reason</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result_1a820aea97adedb7095d04352107cd7c16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result_1a820aea97adedb7095d04352107cd7c16" kindref="member">confidence</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result_1a4b18a9ebf2b00104a4daefaf88e55e2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result_1a4b18a9ebf2b00104a4daefaf88e55e2b" kindref="member">response_time_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1voice_1_1_voice_liveness_detector_1abcd9418383d7d062b84cd3e419641638" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1abcd9418383d7d062b84cd3e419641638" kindref="member">VoiceLivenessDetector</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1abcd9418383d7d062b84cd3e419641638" kindref="member">VoiceLivenessDetector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a929a0993dc63c95e2b3060d45a84165d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a929a0993dc63c95e2b3060d45a84165d" kindref="member">~VoiceLivenessDetector</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a5a52dc7d12b40a31df39072bfe359b7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a5a52dc7d12b40a31df39072bfe359b7a" kindref="member">VoiceLivenessDetector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1abcd9418383d7d062b84cd3e419641638" kindref="member">VoiceLivenessDetector</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1voice_1_1_voice_liveness_detector_1aacf057dc0553d901a187c3c5faa1da8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1abcd9418383d7d062b84cd3e419641638" kindref="member">VoiceLivenessDetector</ref>&amp;<sp/><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1aacf057dc0553d901a187c3c5faa1da8f" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1abcd9418383d7d062b84cd3e419641638" kindref="member">VoiceLivenessDetector</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a02168009f5360b23d6ae097a7c280558" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a02168009f5360b23d6ae097a7c280558" kindref="member">VoiceLivenessDetector</ref>(<ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1abcd9418383d7d062b84cd3e419641638" kindref="member">VoiceLivenessDetector</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a0863fd4621bfeaf069d2e827b11786d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1abcd9418383d7d062b84cd3e419641638" kindref="member">VoiceLivenessDetector</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1abcd9418383d7d062b84cd3e419641638" kindref="member">VoiceLivenessDetector</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::optional&lt;<ref refid="structthemis_1_1voice_1_1_challenge" kindref="compound">Challenge</ref>&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a1f9d4b1f2502053a52c9ddc3c9099db8" kindref="member">issueChallenge</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>user_id);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_verification_result" kindref="compound">VerificationResult</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a225453883a4972dee8638dd7a803e262" kindref="member">verifyResponse</ref>(</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>user_id,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1voice_1_1_challenge" kindref="compound">Challenge</ref>&amp;<sp/>challenge,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>audio_response</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::optional&lt;<ref refid="structthemis_1_1voice_1_1_challenge" kindref="compound">Challenge</ref>&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a02fa076c19c29f2b0ab32ab49a571917" kindref="member">getChallenge</ref>(uint64_t<sp/>challenge_id)<sp/>const;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a6f6984c5972dd34a59bfd723dbf0ff54" kindref="member">cleanupExpiredChallenges</ref>();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1a5215b4019594a1ddd461d419adbe69d6" kindref="member">isReplayedChallenge</ref>(uint64_t<sp/>challenge_id)<sp/>const;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_liveness_detector_1aa58e4627e0a17714ed3b322479a1ea9f" kindref="member">getActiveChallengeCount</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_liveness_detector_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>next_challenge_id_<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;uint64_t,<sp/><ref refid="structthemis_1_1voice_1_1_challenge" kindref="compound">Challenge</ref>&gt;<sp/>active_challenges_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;uint64_t&gt;<sp/>verified_challenges_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;uint64_t,<sp/>int64_t&gt;<sp/>verified_timestamps_;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>speechToText(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>audio);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>generateRandomChallenge();</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>nowMs()<sp/>const;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>normalizeText(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::voice</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/voice/voice_liveness_detector.h"/>
+  </compounddef>
+</doxygen>

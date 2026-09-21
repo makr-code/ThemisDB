@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_a_r_c_cache_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::ARCCache::Stats</compoundname>
+    <includes refid="arc__cache_8h" local="no">arc_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_a_r_c_cache_1_1_stats_1a16b3a1a59397a5ef72eaaa149af5a383" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::ARCCache&lt; K, V &gt;::Stats::hits</definition>
+        <argsstring></argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::cache::ARCCache::Stats::hits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="34" column="18" bodyfile="include/cache/arc_cache.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_a_r_c_cache_1_1_stats_1a243eef19347671ac8f904cb3c11a12db" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::ARCCache&lt; K, V &gt;::Stats::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::cache::ARCCache::Stats::misses</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="35" column="18" bodyfile="include/cache/arc_cache.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_a_r_c_cache_1_1_stats_1ad73d3a130b7db41f2ab3bf173bdc4e30" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::ARCCache&lt; K, V &gt;::Stats::evictions_t1</definition>
+        <argsstring></argsstring>
+        <name>evictions_t1</name>
+        <qualifiedname>themis::cache::ARCCache::Stats::evictions_t1</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Pages evicted from T1. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="36" column="18" bodyfile="include/cache/arc_cache.h" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_a_r_c_cache_1_1_stats_1a575bc4e32c751e440bfa097355080af7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::ARCCache&lt; K, V &gt;::Stats::evictions_t2</definition>
+        <argsstring></argsstring>
+        <name>evictions_t2</name>
+        <qualifiedname>themis::cache::ARCCache::Stats::evictions_t2</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Pages evicted from T2. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="37" column="18" bodyfile="include/cache/arc_cache.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_a_r_c_cache_1_1_stats_1a99ae4df44fa211c68c9dd9d13b1e9cc6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::ARCCache&lt; K, V &gt;::Stats::b1_hits</definition>
+        <argsstring></argsstring>
+        <name>b1_hits</name>
+        <qualifiedname>themis::cache::ARCCache::Stats::b1_hits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Ghost hits in B1 (recency side). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="38" column="18" bodyfile="include/cache/arc_cache.h" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_a_r_c_cache_1_1_stats_1a7a96c155df501dbd06b246ce830597e6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::ARCCache&lt; K, V &gt;::Stats::b2_hits</definition>
+        <argsstring></argsstring>
+        <name>b2_hits</name>
+        <qualifiedname>themis::cache::ARCCache::Stats::b2_hits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Ghost hits in B2 (frequency side). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="39" column="18" bodyfile="include/cache/arc_cache.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_a_r_c_cache_1_1_stats_1afaae2c797bcef4e60faa4e8543ef0d7d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::ARCCache&lt; K, V &gt;::Stats::pin_skips</definition>
+        <argsstring></argsstring>
+        <name>pin_skips</name>
+        <qualifiedname>themis::cache::ARCCache::Stats::pin_skips</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Evictions skipped because page was pinned. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="40" column="18" bodyfile="include/cache/arc_cache.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_a_r_c_cache_1_1_stats_1aa78461bd7a6ad69ad6f2d125deb30575" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::cache::ARCCache&lt; K, V &gt;::Stats::hit_rate</definition>
+        <argsstring>() const</argsstring>
+        <name>hit_rate</name>
+        <qualifiedname>themis::cache::ARCCache::Stats::hit_rate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/arc_cache.h" line="42" column="16" bodyfile="include/cache/arc_cache.h" bodystart="42" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/arc_cache.h" line="33" column="5" bodyfile="include/cache/arc_cache.h" bodystart="33" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_a_r_c_cache_1_1_stats_1a99ae4df44fa211c68c9dd9d13b1e9cc6" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache::Stats</scope><name>b1_hits</name></member>
+      <member refid="structthemis_1_1cache_1_1_a_r_c_cache_1_1_stats_1a7a96c155df501dbd06b246ce830597e6" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache::Stats</scope><name>b2_hits</name></member>
+      <member refid="structthemis_1_1cache_1_1_a_r_c_cache_1_1_stats_1ad73d3a130b7db41f2ab3bf173bdc4e30" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache::Stats</scope><name>evictions_t1</name></member>
+      <member refid="structthemis_1_1cache_1_1_a_r_c_cache_1_1_stats_1a575bc4e32c751e440bfa097355080af7" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache::Stats</scope><name>evictions_t2</name></member>
+      <member refid="structthemis_1_1cache_1_1_a_r_c_cache_1_1_stats_1aa78461bd7a6ad69ad6f2d125deb30575" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache::Stats</scope><name>hit_rate</name></member>
+      <member refid="structthemis_1_1cache_1_1_a_r_c_cache_1_1_stats_1a16b3a1a59397a5ef72eaaa149af5a383" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache::Stats</scope><name>hits</name></member>
+      <member refid="structthemis_1_1cache_1_1_a_r_c_cache_1_1_stats_1a243eef19347671ac8f904cb3c11a12db" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache::Stats</scope><name>misses</name></member>
+      <member refid="structthemis_1_1cache_1_1_a_r_c_cache_1_1_stats_1afaae2c797bcef4e60faa4e8543ef0d7d" prot="public" virt="non-virtual"><scope>themis::cache::ARCCache::Stats</scope><name>pin_skips</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

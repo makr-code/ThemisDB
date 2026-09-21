@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::MIGManager::MIGInstance</compoundname>
+    <includes refid="mig__manager_8h" local="no">mig_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1adc8414293d3286c61c7aba36f0fca3a9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::MIGManager::MIGInstance::instance_id</definition>
+        <argsstring></argsstring>
+        <name>instance_id</name>
+        <qualifiedname>themis::gpu::MIGManager::MIGInstance::instance_id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier, e.g. &quot;dev0_gi0&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="90" column="21" bodyfile="include/themis/gpu/mig_manager.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1a78e90e3edc25dc0aa8d6ae1524dc7d4b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::MIGManager::MIGInstance::device_index</definition>
+        <argsstring></argsstring>
+        <name>device_index</name>
+        <qualifiedname>themis::gpu::MIGManager::MIGInstance::device_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Physical GPU device index (0-based). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="91" column="21" bodyfile="include/themis/gpu/mig_manager.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1adba2d49647dd91d3a2824897f1eaaa9c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::MIGManager::MIGInstance::gi_id</definition>
+        <argsstring></argsstring>
+        <name>gi_id</name>
+        <qualifiedname>themis::gpu::MIGManager::MIGInstance::gi_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>GPU Instance ID within the device. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="92" column="21" bodyfile="include/themis/gpu/mig_manager.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1a1d43671a1a17296e5fc6834400019c3e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::MIGManager::MIGInstance::profile</definition>
+        <argsstring></argsstring>
+        <name>profile</name>
+        <qualifiedname>themis::gpu::MIGManager::MIGInstance::profile</qualifiedname>
+        <briefdescription>
+<para>MIG profile string, e.g. &quot;1g.5gb&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="93" column="21" bodyfile="include/themis/gpu/mig_manager.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1a0752b7712e90a865983b780589f770c0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::MIGManager::MIGInstance::memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_bytes</name>
+        <qualifiedname>themis::gpu::MIGManager::MIGInstance::memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>VRAM allocated for this instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="94" column="21" bodyfile="include/themis/gpu/mig_manager.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1ae50c919a8c605846c2d3ff5edba97561" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::MIGManager::MIGInstance::is_active</definition>
+        <argsstring></argsstring>
+        <name>is_active</name>
+        <qualifiedname>themis::gpu::MIGManager::MIGInstance::is_active</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>false if the instance was destroyed </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="95" column="21" bodyfile="include/themis/gpu/mig_manager.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1aee4d216b943a2a62518e4277a7ef38ef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::MIGManager::MIGInstance::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::gpu::MIGManager::MIGInstance::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Assigned tenant; empty = unassigned. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/mig_manager.h" line="96" column="21" bodyfile="include/themis/gpu/mig_manager.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Describes a single active MIG GPU instance. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/mig_manager.h" line="89" column="5" bodyfile="include/themis/gpu/mig_manager.h" bodystart="89" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1a78e90e3edc25dc0aa8d6ae1524dc7d4b" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager::MIGInstance</scope><name>device_index</name></member>
+      <member refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1adba2d49647dd91d3a2824897f1eaaa9c" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager::MIGInstance</scope><name>gi_id</name></member>
+      <member refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1adc8414293d3286c61c7aba36f0fca3a9" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager::MIGInstance</scope><name>instance_id</name></member>
+      <member refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1ae50c919a8c605846c2d3ff5edba97561" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager::MIGInstance</scope><name>is_active</name></member>
+      <member refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1a0752b7712e90a865983b780589f770c0" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager::MIGInstance</scope><name>memory_bytes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1a1d43671a1a17296e5fc6834400019c3e" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager::MIGInstance</scope><name>profile</name></member>
+      <member refid="structthemis_1_1gpu_1_1_m_i_g_manager_1_1_m_i_g_instance_1aee4d216b943a2a62518e4277a7ef38ef" prot="public" virt="non-virtual"><scope>themis::gpu::MIGManager::MIGInstance</scope><name>tenant_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

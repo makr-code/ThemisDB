@@ -1,0 +1,496 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__training__diagnostics__consistency_8cpp" kind="file" language="C++">
+    <compoundname>test_training_diagnostics_consistency.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="auto__labeler_8h" local="yes">training/auto_labeler.h</includes>
+    <includes refid="adapter__serving_8h" local="yes">training/adapter_serving.h</includes>
+    <includes refid="provenance__tracker_8h" local="yes">training/provenance_tracker.h</includes>
+    <includes refid="lora__checkpoint__manager_8h" local="yes">training/lora_checkpoint_manager.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="13">
+        <label>training/adapter_serving.h</label>
+        <link refid="adapter__serving_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>training/auto_labeler.h</label>
+        <link refid="auto__labeler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>training/lora_checkpoint_manager.h</label>
+        <link refid="lora__checkpoint__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>training/provenance_tracker.h</label>
+        <link refid="provenance__tracker_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>training/training_error_codes.h</label>
+        <link refid="training__error__codes_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>training/training_exceptions.h</label>
+        <link refid="training__exceptions_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/training/test_training_diagnostics_consistency.cpp</label>
+        <link refid="test__training__diagnostics__consistency_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>cstddef</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="15">
+        <label>ctime</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="17">
+        <label>optional</label>
+      </node>
+      <node id="12">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__training__diagnostics__consistency_8cpp_1a1e639d8823815a1dc3577c161de152e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TrainingDiagnosticsConsistency, TDC_01_labeling_stats_default_zero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TrainingDiagnosticsConsistency</type>
+        </param>
+        <param>
+          <type>TDC_01_labeling_stats_default_zero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_diagnostics_consistency.cpp" line="36" column="1" bodyfile="tests/training/test_training_diagnostics_consistency.cpp" bodystart="36" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__training__diagnostics__consistency_8cpp_1a23d6d48cdca2f2d1602ec4a90e880320" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TrainingDiagnosticsConsistency, TDC_02_deploy_fail_has_error_and_false_success)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TrainingDiagnosticsConsistency</type>
+        </param>
+        <param>
+          <type>TDC_02_deploy_fail_has_error_and_false_success</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_diagnostics_consistency.cpp" line="48" column="1" bodyfile="tests/training/test_training_diagnostics_consistency.cpp" bodystart="48" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__training__diagnostics__consistency_8cpp_1ab6550f9603e3fbeba832dbde2292c2cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TrainingDiagnosticsConsistency, TDC_03_deploy_ok_has_no_error)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TrainingDiagnosticsConsistency</type>
+        </param>
+        <param>
+          <type>TDC_03_deploy_ok_has_no_error</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_diagnostics_consistency.cpp" line="58" column="1" bodyfile="tests/training/test_training_diagnostics_consistency.cpp" bodystart="58" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__training__diagnostics__consistency_8cpp_1a561bd3cce3841a15cbbe5122c486bb2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TrainingDiagnosticsConsistency, TDC_04_deploy_fail_codes_are_distinct)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TrainingDiagnosticsConsistency</type>
+        </param>
+        <param>
+          <type>TDC_04_deploy_fail_codes_are_distinct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_diagnostics_consistency.cpp" line="69" column="1" bodyfile="tests/training/test_training_diagnostics_consistency.cpp" bodystart="69" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__training__diagnostics__consistency_8cpp_1a141e7f1d9938183c12a9258f6b75ac0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TrainingDiagnosticsConsistency, TDC_05_provenance_stats_default_zero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TrainingDiagnosticsConsistency</type>
+        </param>
+        <param>
+          <type>TDC_05_provenance_stats_default_zero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_diagnostics_consistency.cpp" line="92" column="1" bodyfile="tests/training/test_training_diagnostics_consistency.cpp" bodystart="92" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="test__training__diagnostics__consistency_8cpp_1a29fbece0150bb8ed483533f3b7c829a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TrainingDiagnosticsConsistency, TDC_06_provenance_write_empty_input_zero_stats)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TrainingDiagnosticsConsistency</type>
+        </param>
+        <param>
+          <type>TDC_06_provenance_write_empty_input_zero_stats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_diagnostics_consistency.cpp" line="102" column="1" bodyfile="tests/training/test_training_diagnostics_consistency.cpp" bodystart="102" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="test__training__diagnostics__consistency_8cpp_1adec147a025872906fdf2accb4af16ebd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TrainingDiagnosticsConsistency, TDC_07_checkpoint_entry_default_zero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TrainingDiagnosticsConsistency</type>
+        </param>
+        <param>
+          <type>TDC_07_checkpoint_entry_default_zero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_diagnostics_consistency.cpp" line="117" column="1" bodyfile="tests/training/test_training_diagnostics_consistency.cpp" bodystart="117" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="test__training__diagnostics__consistency_8cpp_1aa6e637e6ca35004f214f6c11aaf813e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TrainingDiagnosticsConsistency, TDC_08_deploy_fail_codes_non_empty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TrainingDiagnosticsConsistency</type>
+        </param>
+        <param>
+          <type>TDC_08_deploy_fail_codes_non_empty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_diagnostics_consistency.cpp" line="133" column="1" bodyfile="tests/training/test_training_diagnostics_consistency.cpp" bodystart="133" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="test__training__diagnostics__consistency_8cpp_1afd08e1d3f4405c3871ab177f030e8c9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TrainingDiagnosticsConsistency, TDC_09_deploy_ok_split_roundtrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TrainingDiagnosticsConsistency</type>
+        </param>
+        <param>
+          <type>TDC_09_deploy_ok_split_roundtrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_diagnostics_consistency.cpp" line="146" column="1" bodyfile="tests/training/test_training_diagnostics_consistency.cpp" bodystart="146" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="test__training__diagnostics__consistency_8cpp_1ad229dd2a12ad7958dac8d4e7d64905e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TrainingDiagnosticsConsistency, TDC_10_labeling_stats_elapsed_non_negative)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TrainingDiagnosticsConsistency</type>
+        </param>
+        <param>
+          <type>TDC_10_labeling_stats_elapsed_non_negative</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_diagnostics_consistency.cpp" line="156" column="1" bodyfile="tests/training/test_training_diagnostics_consistency.cpp" bodystart="156" bodyend="159"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Diagnostics-consistency regression for issue #5414 batch 5 (TRN-AUD-02). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Verifies that error codes, stats fields, and failure signals are consistent and non-ambiguous across the labeling, checkpoint, and serving stages.</para>
+<sect1 id="test__training__diagnostics__consistency_8cpp_1autotoc_md6_1s1"><sect2 id="test__training__diagnostics__consistency_8cpp_1autotoc_md6">
+<title>Test IDs</title><para>TDC-01 <ref refid="structthemis_1_1training_1_1_labeling_stats" kindref="compound">LabelingStats</ref> default fields are all zero (clean baseline) TDC-02 <ref refid="structthemis_1_1training_1_1_deploy_result_1a8533a1bd50c9f5fa65a4b4e3e75fb55f" kindref="member">DeployResult::fail</ref>(&quot;reason&quot;) sets success=false, non-empty error TDC-03 <ref refid="structthemis_1_1training_1_1_deploy_result_1a73dee5d23b48fd9fe75ac351b19bf08e" kindref="member">DeployResult::ok</ref>(&quot;v&quot;, 0.5f) sets success=true, empty error TDC-04 <ref refid="structthemis_1_1training_1_1_deploy_result_1a8533a1bd50c9f5fa65a4b4e3e75fb55f" kindref="member">DeployResult::fail</ref> with different reasons produces distinct error strings TDC-05 <ref refid="structthemis_1_1training_1_1_provenance_write_stats" kindref="compound">ProvenanceWriteStats</ref> default fields are all zero (clean baseline) TDC-06 <ref refid="structthemis_1_1training_1_1_provenance_write_stats" kindref="compound">ProvenanceWriteStats</ref> written+rejected invariant holds after a no-DB write TDC-07 <ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref> default numeric fields are zero-initialised TDC-08 <ref refid="structthemis_1_1training_1_1_deploy_result" kindref="compound">DeployResult</ref> fail codes used by deployVersionEx are known constant strings TDC-09 <ref refid="structthemis_1_1training_1_1_deploy_result" kindref="compound">DeployResult</ref> ok split_applied roundtrips correctly TDC-10 <ref refid="structthemis_1_1training_1_1_labeling_stats" kindref="compound">LabelingStats</ref> elapsed_seconds initialises to 0.0 (non-negative sentinel) </para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="auto__labeler_8h" kindref="compound">training/auto_labeler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__serving_8h" kindref="compound">training/adapter_serving.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="provenance__tracker_8h" kindref="compound">training/provenance_tracker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__checkpoint__manager_8h" kindref="compound">training/lora_checkpoint_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1training" kindref="compound">themis::training</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TDC-01:<sp/>LabelingStats<sp/>default<sp/>values<sp/>are<sp/>all<sp/>zero</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><ref refid="test__training__diagnostics__consistency_8cpp_1a1e639d8823815a1dc3577c161de152e7" kindref="member">TEST</ref>(TrainingDiagnosticsConsistency,<sp/>TDC_01_labeling_stats_default_zero)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_labeling_stats" kindref="compound">LabelingStats</ref><sp/>s;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1training_1_1_labeling_stats_1a1e5466505abedd5c90dbe06f8f9a9e9a" kindref="member">documents_processed</ref>,<sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1training_1_1_labeling_stats_1a83724db1fad5e9333d2a510f08dee604" kindref="member">samples_created</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1training_1_1_labeling_stats_1ad498158ffc37ad339faad6a4a42ef193" kindref="member">high_confidence_samples</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1training_1_1_labeling_stats_1aa5a87cbaba6408b74402adbdbd9a0ce1" kindref="member">low_confidence_samples</ref>,<sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s.<ref refid="structthemis_1_1training_1_1_labeling_stats_1ac563b2557159abbade6baabfb3223f6e" kindref="member">elapsed_seconds</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TDC-02:<sp/>DeployResult::fail<sp/>signals<sp/>failure<sp/>unambiguously</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="test__training__diagnostics__consistency_8cpp_1a1e639d8823815a1dc3577c161de152e7" kindref="member">TEST</ref>(TrainingDiagnosticsConsistency,<sp/>TDC_02_deploy_fail_has_error_and_false_success)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="structthemis_1_1training_1_1_deploy_result_1a8533a1bd50c9f5fa65a4b4e3e75fb55f" kindref="member">DeployResult::fail</ref>(</highlight><highlight class="stringliteral">&quot;version_not_found&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.success);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.error.empty());</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.error,<sp/></highlight><highlight class="stringliteral">&quot;version_not_found&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TDC-03:<sp/>DeployResult::ok<sp/>signals<sp/>success<sp/>with<sp/>empty<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="test__training__diagnostics__consistency_8cpp_1a1e639d8823815a1dc3577c161de152e7" kindref="member">TEST</ref>(TrainingDiagnosticsConsistency,<sp/>TDC_03_deploy_ok_has_no_error)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="structthemis_1_1training_1_1_deploy_result_1a73dee5d23b48fd9fe75ac351b19bf08e" kindref="member">DeployResult::ok</ref>(</highlight><highlight class="stringliteral">&quot;adapter_v2&quot;</highlight><highlight class="normal">,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.success);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.error.empty());</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.active_version,<sp/></highlight><highlight class="stringliteral">&quot;adapter_v2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(r.split_applied,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TDC-04:<sp/>Different<sp/>fail<sp/>codes<sp/>produce<sp/>distinct<sp/>error<sp/>strings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="test__training__diagnostics__consistency_8cpp_1a1e639d8823815a1dc3577c161de152e7" kindref="member">TEST</ref>(TrainingDiagnosticsConsistency,<sp/>TDC_04_deploy_fail_codes_are_distinct)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>fail_codes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;version_not_found&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;invalid_split&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;integrity_failure&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;router_unavailable&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;router_update_failed&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>fail_codes.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ri<sp/>=<sp/><ref refid="structthemis_1_1training_1_1_deploy_result_1a8533a1bd50c9f5fa65a4b4e3e75fb55f" kindref="member">DeployResult::fail</ref>(fail_codes[i]);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(ri.success)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;code:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>fail_codes[i];</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(ri.error,<sp/>fail_codes[i]);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>i<sp/>+<sp/>1;<sp/>j<sp/>&lt;<sp/>fail_codes.size();<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rj<sp/>=<sp/><ref refid="structthemis_1_1training_1_1_deploy_result_1a8533a1bd50c9f5fa65a4b4e3e75fb55f" kindref="member">DeployResult::fail</ref>(fail_codes[j]);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(ri.error,<sp/>rj.error)</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;collision:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>fail_codes[i]<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>vs<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>fail_codes[j];</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TDC-05:<sp/>ProvenanceWriteStats<sp/>default<sp/>fields<sp/>are<sp/>all<sp/>zero</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><ref refid="test__training__diagnostics__consistency_8cpp_1a1e639d8823815a1dc3577c161de152e7" kindref="member">TEST</ref>(TrainingDiagnosticsConsistency,<sp/>TDC_05_provenance_stats_default_zero)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_provenance_write_stats" kindref="compound">ProvenanceWriteStats</ref><sp/>s;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1training_1_1_provenance_write_stats_1a5218d71bdfaf2c5d17797b390bf6b56e" kindref="member">records_written</ref>,<sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1training_1_1_provenance_write_stats_1aabdd21856f59e323c22c03a729a9e54f" kindref="member">records_rejected</ref>,<sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(s.<ref refid="structthemis_1_1training_1_1_provenance_write_stats_1a824263324ab75ccd2b46fc81cf74ed4e" kindref="member">elapsed_seconds</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TDC-06:<sp/>ProvenanceWriteStats<sp/>written+rejected<sp/>invariant<sp/>holds<sp/>for<sp/>empty<sp/>write</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><ref refid="test__training__diagnostics__consistency_8cpp_1a1e639d8823815a1dc3577c161de152e7" kindref="member">TEST</ref>(TrainingDiagnosticsConsistency,<sp/>TDC_06_provenance_write_empty_input_zero_stats)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_provenance_tracker_config" kindref="compound">ProvenanceTrackerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1training_1_1_provenance_tracker_config_1a6423189ea3ac48b1ba4aa673bdef4a41" kindref="member">emit_audit_events</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_provenance_tracker" kindref="compound">ProvenanceTracker</ref><sp/>tracker(cfg,<sp/></highlight><highlight class="comment">/*db_connection=*/</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ProvenanceRecord&gt;<sp/>empty;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>tracker.write(empty);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.records_written<sp/>+<sp/>stats.records_rejected,<sp/>0u);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(stats.elapsed_seconds,<sp/>0.0);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TDC-07:<sp/>CheckpointManifestEntry<sp/>default<sp/>numeric<sp/>fields<sp/>are<sp/>zero-initialised</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__training__diagnostics__consistency_8cpp_1a1e639d8823815a1dc3577c161de152e7" kindref="member">TEST</ref>(TrainingDiagnosticsConsistency,<sp/>TDC_07_checkpoint_entry_default_zero)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref><sp/>e;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a60ff5caafbf7ca1e12d46f7e3ff3b01c" kindref="member">epoch</ref>,<sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ad45c47f3fd88823499ba3ae389dfbc0f" kindref="member">step</ref>,<sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(e.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaf1eb32ef037b258470bddfb89fb3ba" kindref="member">loss</ref>,<sp/><sp/><sp/><sp/><sp/>0.0);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(e.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaa841009ae39edc760771d8d63a2e6f" kindref="member">accuracy</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a7fcd6a67b7300c28adb23a3f68c24c01" kindref="member">saved_at</ref>,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::time_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(e.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a15dfbd0132e9779f7abd23433fdb152f" kindref="member">checkpoint_path</ref>.empty());</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(e.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a94fbcd2ad6bf098a5114dd01b3882d58" kindref="member">sha256</ref>.empty());</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(e.<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1adbe9da3cc0c544a791ba63459137cd32" kindref="member">adapter_version</ref>.empty());</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TDC-08:<sp/>fail<sp/>codes<sp/>used<sp/>by<sp/>IncrementalLoRATrainer::deployVersionEx<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>consistent<sp/>with<sp/>DeployResult<sp/>contract<sp/>(non-empty<sp/>string<sp/>on<sp/>failure)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__training__diagnostics__consistency_8cpp_1a1e639d8823815a1dc3577c161de152e7" kindref="member">TEST</ref>(TrainingDiagnosticsConsistency,<sp/>TDC_08_deploy_fail_codes_non_empty)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>code<sp/>:<sp/>{</highlight><highlight class="stringliteral">&quot;version_not_found&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;invalid_split&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;integrity_failure&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;router_unavailable&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;router_update_failed&quot;</highlight><highlight class="normal">})<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="structthemis_1_1training_1_1_deploy_result_1a8533a1bd50c9f5fa65a4b4e3e75fb55f" kindref="member">DeployResult::fail</ref>(code);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.success);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.error.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;fail<sp/>code<sp/>is<sp/>empty<sp/>for:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>code;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TDC-09:<sp/>DeployResult::ok<sp/>split_applied<sp/>roundtrips<sp/>exactly<sp/>(no<sp/>silent<sp/>clamp)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__training__diagnostics__consistency_8cpp_1a1e639d8823815a1dc3577c161de152e7" kindref="member">TEST</ref>(TrainingDiagnosticsConsistency,<sp/>TDC_09_deploy_ok_split_roundtrip)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>split<sp/>:<sp/>{0.0f,<sp/>0.25f,<sp/>0.5f,<sp/>0.75f,<sp/>1.0f})<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/><ref refid="structthemis_1_1training_1_1_deploy_result_1a73dee5d23b48fd9fe75ac351b19bf08e" kindref="member">DeployResult::ok</ref>(</highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/>split);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(r.split_applied,<sp/>split)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;split=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>split;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TDC-10:<sp/>LabelingStats<sp/>elapsed_seconds<sp/>initialises<sp/>to<sp/>non-negative<sp/>sentinel</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__training__diagnostics__consistency_8cpp_1a1e639d8823815a1dc3577c161de152e7" kindref="member">TEST</ref>(TrainingDiagnosticsConsistency,<sp/>TDC_10_labeling_stats_elapsed_non_negative)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_labeling_stats" kindref="compound">LabelingStats</ref><sp/>s;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(s.<ref refid="structthemis_1_1training_1_1_labeling_stats_1ac563b2557159abbade6baabfb3223f6e" kindref="member">elapsed_seconds</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/training/test_training_diagnostics_consistency.cpp"/>
+  </compounddef>
+</doxygen>

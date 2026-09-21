@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_scraper_diagnostic_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::ScraperDiagnosticEvent</compoundname>
+    <includes refid="scraper__diagnostics_8h" local="no">scraper_diagnostics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1af2e5d871f2e1ef73231f8bb8be2aa80e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293" kindref="member">ScraperFaultClass</ref></type>
+        <definition>ScraperFaultClass themis::scraper::ScraperDiagnosticEvent::fault_class</definition>
+        <argsstring></argsstring>
+        <name>fault_class</name>
+        <qualifiedname>themis::scraper::ScraperDiagnosticEvent::fault_class</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1scraper_1af794be7fb8820ae6a899383abb2de293a96509148247c627a753b021d6dbea774" kindref="member">ScraperFaultClass::kInternal</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="99" column="26" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a1b3bd9dd0c0db7a43f5c4615afa2efa5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213" kindref="member">ScraperFaultSeverity</ref></type>
+        <definition>ScraperFaultSeverity themis::scraper::ScraperDiagnosticEvent::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::scraper::ScraperDiagnosticEvent::severity</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1scraper_1a941b438694a63095f5948e5692bd8213ae3587c730cc1aa530fa4ddc9c4204e97" kindref="member">ScraperFaultSeverity::kError</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="100" column="26" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a8b1e07d1009f96b4cd0f43908dc8da12" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0" kindref="member">ScraperError</ref></type>
+        <definition>ScraperError themis::scraper::ScraperDiagnosticEvent::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::scraper::ScraperDiagnosticEvent::error</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1scraper_1a730c205bd6fcd4a74cded962b7b080d0afcd417a134c251034b0d61b07c826394" kindref="member">ScraperError::kInternalError</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="101" column="26" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a52fe07aaf863f71fb42e258604792847" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperDiagnosticEvent::source_url</definition>
+        <argsstring></argsstring>
+        <name>source_url</name>
+        <qualifiedname>themis::scraper::ScraperDiagnosticEvent::source_url</qualifiedname>
+        <briefdescription>
+<para>Source URL associated with this event (empty for catalog-level faults). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="104" column="17" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1ae7e23a5353f46d2e9dc8a48e654b17fd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperDiagnosticEvent::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::scraper::ScraperDiagnosticEvent::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable diagnostic message. Mandatory; must be non-empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="107" column="17" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a1c7f9127c4e45d0c07a158355671ac5b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperDiagnosticEvent::stage_hint</definition>
+        <argsstring></argsstring>
+        <name>stage_hint</name>
+        <qualifiedname>themis::scraper::ScraperDiagnosticEvent::stage_hint</qualifiedname>
+        <briefdescription>
+<para>Optional free-text hint describing the pipeline stage or call site. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="110" column="17" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a7d15ce4e2c6a1cb91f3597d0ae99e04c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::scraper::ScraperDiagnosticEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::scraper::ScraperDiagnosticEvent::timestamp</qualifiedname>
+        <initializer>{
+        std::chrono::system_clock::now()}</initializer>
+        <briefdescription>
+<para>Wall-clock timestamp of the event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_diagnostics.h" line="113" column="43" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="113" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Structured diagnostic event emitted for every scraper fault. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All fields except <computeroutput>stage_hint</computeroutput> are mandatory. Implementations that omit <computeroutput>message</computeroutput> are non-conformant and will be rejected in code review. </para>
+    </detaileddescription>
+    <location file="include/scraper/scraper_diagnostics.h" line="98" column="1" bodyfile="include/scraper/scraper_diagnostics.h" bodystart="98" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a8b1e07d1009f96b4cd0f43908dc8da12" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperDiagnosticEvent</scope><name>error</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1af2e5d871f2e1ef73231f8bb8be2aa80e" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperDiagnosticEvent</scope><name>fault_class</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1ae7e23a5353f46d2e9dc8a48e654b17fd" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperDiagnosticEvent</scope><name>message</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a1b3bd9dd0c0db7a43f5c4615afa2efa5" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperDiagnosticEvent</scope><name>severity</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a52fe07aaf863f71fb42e258604792847" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperDiagnosticEvent</scope><name>source_url</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a1c7f9127c4e45d0c07a158355671ac5b" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperDiagnosticEvent</scope><name>stage_hint</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_diagnostic_event_1a7d15ce4e2c6a1cb91f3597d0ae99e04c" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperDiagnosticEvent</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

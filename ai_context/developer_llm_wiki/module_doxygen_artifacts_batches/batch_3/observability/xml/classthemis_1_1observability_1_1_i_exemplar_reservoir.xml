@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_i_exemplar_reservoir" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::observability::IExemplarReservoir</compoundname>
+    <includes refid="otlp__exemplar_8h" local="no">otlp_exemplar.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_exemplar_reservoir_1ad529f62eb74c185cc34d8013ffe51bc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::observability::IExemplarReservoir::~IExemplarReservoir</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IExemplarReservoir</name>
+        <qualifiedname>themis::observability::IExemplarReservoir::~IExemplarReservoir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/otlp_exemplar.h" line="58" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_exemplar_reservoir_1a4fb61a475a8183521f2a138d79add0c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::observability::IExemplarReservoir::offer</definition>
+        <argsstring>(const MetricExemplar &amp;exemplar)=0</argsstring>
+        <name>offer</name>
+        <qualifiedname>themis::observability::IExemplarReservoir::offer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_metric_exemplar" kindref="compound">MetricExemplar</ref> &amp;</type>
+          <declname>exemplar</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/otlp_exemplar.h" line="59" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_exemplar_reservoir_1af34e7f9543dfc37febbeeb292bc72a26" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_metric_exemplar" kindref="compound">MetricExemplar</ref> &gt;</type>
+        <definition>virtual std::vector&lt; MetricExemplar &gt; themis::observability::IExemplarReservoir::collect</definition>
+        <argsstring>()=0</argsstring>
+        <name>collect</name>
+        <qualifiedname>themis::observability::IExemplarReservoir::collect</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/otlp_exemplar.h" line="60" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_exemplar_reservoir_1a0bf2f6d606a7b2addeaa0e096874668c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::observability::IExemplarReservoir::size</definition>
+        <argsstring>() const =0</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::observability::IExemplarReservoir::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/otlp_exemplar.h" line="61" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_exemplar_reservoir_1aed21471033a8c1b31b6b6208af1087ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::observability::IExemplarReservoir::reset</definition>
+        <argsstring>()=0</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::observability::IExemplarReservoir::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/otlp_exemplar.h" line="62" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>I exemplar reservoir. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/otlp_exemplar.h" line="56" column="1" bodyfile="include/observability/otlp_exemplar.h" bodystart="56" bodyend="63"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_i_exemplar_reservoir_1af34e7f9543dfc37febbeeb292bc72a26" prot="public" virt="pure-virtual"><scope>themis::observability::IExemplarReservoir</scope><name>collect</name></member>
+      <member refid="classthemis_1_1observability_1_1_i_exemplar_reservoir_1a4fb61a475a8183521f2a138d79add0c4" prot="public" virt="pure-virtual"><scope>themis::observability::IExemplarReservoir</scope><name>offer</name></member>
+      <member refid="classthemis_1_1observability_1_1_i_exemplar_reservoir_1aed21471033a8c1b31b6b6208af1087ee" prot="public" virt="pure-virtual"><scope>themis::observability::IExemplarReservoir</scope><name>reset</name></member>
+      <member refid="classthemis_1_1observability_1_1_i_exemplar_reservoir_1a0bf2f6d606a7b2addeaa0e096874668c" prot="public" virt="pure-virtual"><scope>themis::observability::IExemplarReservoir</scope><name>size</name></member>
+      <member refid="classthemis_1_1observability_1_1_i_exemplar_reservoir_1ad529f62eb74c185cc34d8013ffe51bc8" prot="public" virt="virtual"><scope>themis::observability::IExemplarReservoir</scope><name>~IExemplarReservoir</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

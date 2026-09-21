@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_config_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::exporters::ConfigException</compoundname>
+    <basecompoundref refid="classthemis_1_1exporters_1_1_exporter_exception" prot="public" virt="non-virtual">themis::exporters::ExporterException</basecompoundref>
+    <includes refid="exporter__errors_8h" local="no">exporter_errors.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_config_exception_1a47c36c08b975d5e576ff4d1db37ce19b" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::ConfigException::config_key_</definition>
+        <argsstring></argsstring>
+        <name>config_key_</name>
+        <qualifiedname>themis::exporters::ConfigException::config_key_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="167" column="17" bodyfile="include/exporters/exporter_errors.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_config_exception_1af7a5f3dbaa97a54e179335daa299fedd" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::ConfigException::ConfigException</definition>
+        <argsstring>(const std::string &amp;message, const std::string &amp;config_key=&quot;&quot;)</argsstring>
+        <name>ConfigException</name>
+        <qualifiedname>themis::exporters::ConfigException::ConfigException</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_key</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="154" column="14" bodyfile="include/exporters/exporter_errors.h" bodystart="154" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_config_exception_1ade563902f0552ca1087883b2f439450c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::exporters::ConfigException::getConfigKey</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfigKey</name>
+        <qualifiedname>themis::exporters::ConfigException::getConfigKey</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="164" column="23" bodyfile="include/exporters/exporter_errors.h" bodystart="164" bodyend="164"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration error. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::exporters::ConfigException</label>
+        <link refid="classthemis_1_1exporters_1_1_config_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::exporters::ExporterException</label>
+        <link refid="classthemis_1_1exporters_1_1_exporter_exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::exporters::ConfigException</label>
+        <link refid="classthemis_1_1exporters_1_1_config_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::exporters::ExporterException</label>
+        <link refid="classthemis_1_1exporters_1_1_exporter_exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/exporters/exporter_errors.h" line="152" column="1" bodyfile="include/exporters/exporter_errors.h" bodystart="152" bodyend="168"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_config_exception_1a47c36c08b975d5e576ff4d1db37ce19b" prot="private" virt="non-virtual"><scope>themis::exporters::ConfigException</scope><name>config_key_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_config_exception_1af7a5f3dbaa97a54e179335daa299fedd" prot="public" virt="non-virtual"><scope>themis::exporters::ConfigException</scope><name>ConfigException</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a65232c8890228b0b1a9c31d335809c93" prot="protected" virt="non-virtual"><scope>themis::exporters::ConfigException</scope><name>context_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a1a80681187a67958b179e691695209fb" prot="protected" virt="non-virtual"><scope>themis::exporters::ConfigException</scope><name>error_code_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1aaca93f87150fcb5c565671227d2a9ffd" prot="public" virt="non-virtual"><scope>themis::exporters::ConfigException</scope><name>ExporterException</name></member>
+      <member refid="classthemis_1_1exporters_1_1_config_exception_1ade563902f0552ca1087883b2f439450c" prot="public" virt="non-virtual"><scope>themis::exporters::ConfigException</scope><name>getConfigKey</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a2137749c86cb8b65f22035426c15ff94" prot="public" virt="non-virtual"><scope>themis::exporters::ConfigException</scope><name>getContext</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a40e41cf979adc5dbb8ab0efc86dd5bb4" prot="public" virt="non-virtual"><scope>themis::exporters::ConfigException</scope><name>getErrorCode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

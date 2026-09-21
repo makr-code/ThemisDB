@@ -1,0 +1,723 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__jwt__validator__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_jwt_validator_focused.cpp</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="auth__error_8h" local="yes">auth/auth_error.h</includes>
+    <includes refid="auth__principal__contract_8h" local="yes">auth/auth_principal_contract.h</includes>
+    <includes refid="jwt__validator_8h" local="yes">auth/jwt_validator.h</includes>
+    <includes refid="token__blacklist_8h" local="yes">auth/token_blacklist.h</includes>
+    <incdepgraph>
+      <node id="9">
+        <label>auth/auth_error.h</label>
+        <link refid="auth__error_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>auth/auth_principal_contract.h</label>
+        <link refid="auth__principal__contract_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>auth/auth_worker_thread_pool.h</label>
+        <link refid="auth__worker__thread__pool_8h"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>auth/jwt_validator.h</label>
+        <link refid="jwt__validator_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>auth/token_blacklist.h</label>
+        <link refid="token__blacklist_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/auth/test_jwt_validator_focused.cpp</label>
+        <link refid="test__jwt__validator__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>algorithm</label>
+      </node>
+      <node id="17">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="16">
+        <label>condition_variable</label>
+      </node>
+      <node id="21">
+        <label>cstdint</label>
+      </node>
+      <node id="22">
+        <label>functional</label>
+      </node>
+      <node id="18">
+        <label>future</label>
+      </node>
+      <node id="3">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="26">
+        <label>queue</label>
+      </node>
+      <node id="14">
+        <label>shared_mutex</label>
+      </node>
+      <node id="27">
+        <label>stdexcept</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="28">
+        <label>thread</label>
+      </node>
+      <node id="29">
+        <label>tuple</label>
+      </node>
+      <node id="30">
+        <label>type_traits</label>
+      </node>
+      <node id="20">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>unordered_set</label>
+      </node>
+      <node id="23">
+        <label>utility</label>
+      </node>
+      <node id="10">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_mock_token_blacklist" prot="public">themis::auth::tests::MockTokenBlacklist</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_token_size_validation_test" prot="public">themis::auth::tests::JWTTokenSizeValidationTest</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_temporal_contract_test" prot="public">themis::auth::tests::JWTTemporalContractTest</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_token_blacklist_test" prot="public">themis::auth::tests::JWTTokenBlacklistTest</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_failure_classification_test" prot="public">themis::auth::tests::JWTFailureClassificationTest</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_k_i_d_revocation_test" prot="public">themis::auth::tests::JWTKIDRevocationTest</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_scope_extraction_test" prot="public">themis::auth::tests::JWTScopeExtractionTest</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_async_validation_test" prot="public">themis::auth::tests::JWTAsyncValidationTest</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_configuration_test" prot="public">themis::auth::tests::JWTConfigurationTest</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_user_key_derivation_test" prot="public">themis::auth::tests::JWTUserKeyDerivationTest</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_access_control_test" prot="public">themis::auth::tests::JWTAccessControlTest</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_token_expiration_test" prot="public">themis::auth::tests::JWTTokenExpirationTest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth_1_1tests">themis::auth::tests</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="auth__error_8h" kindref="compound">auth/auth_error.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="auth__principal__contract_8h" kindref="compound">auth/auth_principal_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="jwt__validator_8h" kindref="compound">auth/jwt_validator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="token__blacklist_8h" kindref="compound">auth/token_blacklist.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">themis::auth</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">nlohmann::json;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests" kindref="compound">tests</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="classthemis_1_1auth_1_1tests_1_1_mock_token_blacklist" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_mock_token_blacklist" kindref="compound">MockTokenBlacklist</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_token_blacklist_1a21fbfa17ddee94ac06d93ea239954b55" kindref="member">TokenBlacklist</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_mock_token_blacklist_1a5474fe8c8f8858bc10db9f3c9a91defd" kindref="member">isRevoked</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;jti)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>revoked_jtis_.count(jti)<sp/>!=<sp/>0;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_mock_token_blacklist_1a506fad71e16f260245e720ff0d8b4481" kindref="member">setRevoked</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;jti,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>revoked)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(revoked)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>revoked_jtis_.insert(jti);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>revoked_jtis_.erase(jti);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>revoked_jtis_;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>Token<sp/>Size<sp/>Validation<sp/>(auth_principal_contract.h<sp/>§<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_token_size_validation_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_token_size_validation_test" kindref="compound">JWTTokenSizeValidationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_token_size_validation_test_1a878c759b9d4a5979f4ef89da5dc16d57" kindref="member">validator_</ref>{</highlight><highlight class="stringliteral">&quot;https://keycloak.local/realms/test/protocol/openid-connect/certs&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_token_size_validation_test" kindref="compound">JWTTokenSizeValidationTest</ref>,<sp/>RejectOversizedToken)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construct<sp/>a<sp/>token<sp/>that<sp/>exceeds<sp/>16<sp/>KB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>oversized_token<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>oversized_token.reserve(<ref refid="namespacethemis_1_1auth_1aa748999c8c5cf29436eb0ab10b356da1" kindref="member">MAX_JWT_TOKEN_SIZE</ref><sp/>+<sp/>1024);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>header.payload.signature<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>header<sp/><sp/><sp/><sp/>=<sp/>std::string(5000,<sp/></highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>payload<sp/><sp/><sp/>=<sp/>std::string(6000,<sp/></highlight><highlight class="charliteral">&apos;B&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>signature<sp/>=<sp/>std::string(6000,<sp/></highlight><highlight class="charliteral">&apos;C&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>oversized_token<sp/>=<sp/>header<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>payload<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>signature;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GT(oversized_token.size(),<sp/><ref refid="namespacethemis_1_1auth_1aa748999c8c5cf29436eb0ab10b356da1" kindref="member">MAX_JWT_TOKEN_SIZE</ref>);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>reject<sp/>without<sp/>any<sp/>further<sp/>processing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({<sp/>validator_.parseAndValidate(oversized_token);<sp/>},<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(JWTTokenSizeValidationTest,<sp/>RejectEmptyToken)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({<sp/>validator_.parseAndValidate(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);<sp/>},<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_token_size_validation_test" kindref="compound">JWTTokenSizeValidationTest</ref>,<sp/>RejectBearerPrefixOnly)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({<sp/>validator_.parseAndValidate(</highlight><highlight class="stringliteral">&quot;Bearer<sp/>&quot;</highlight><highlight class="normal">);<sp/>},<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_token_size_validation_test" kindref="compound">JWTTokenSizeValidationTest</ref>,<sp/>AcceptTokenAtBoundary)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>token<sp/>exactly<sp/>at<sp/>the<sp/>boundary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>boundary_token<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>boundary_token.reserve(<ref refid="namespacethemis_1_1auth_1aa748999c8c5cf29436eb0ab10b356da1" kindref="member">MAX_JWT_TOKEN_SIZE</ref>);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fill<sp/>to<sp/>exactly<sp/>MAX_JWT_TOKEN_SIZE<sp/>with<sp/>valid<sp/>header.payload.signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>header(4000,<sp/></highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>payload(6000,<sp/></highlight><highlight class="charliteral">&apos;B&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>signature(<ref refid="namespacethemis_1_1auth_1aa748999c8c5cf29436eb0ab10b356da1" kindref="member">MAX_JWT_TOKEN_SIZE</ref><sp/>-<sp/>4000<sp/>-<sp/>6000<sp/>-<sp/>2,<sp/></highlight><highlight class="charliteral">&apos;C&apos;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>Account<sp/>for<sp/>dots</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>boundary_token<sp/>=<sp/>header<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>payload<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>signature;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(boundary_token.size(),<sp/><ref refid="namespacethemis_1_1auth_1aa748999c8c5cf29436eb0ab10b356da1" kindref="member">MAX_JWT_TOKEN_SIZE</ref>);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>reject<sp/>on<sp/>size<sp/>grounds<sp/>(may<sp/>fail<sp/>on<sp/>validation,<sp/>but<sp/>size<sp/>is<sp/>OK)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>expect<sp/>cryptographic<sp/>validation<sp/>to<sp/>fail,<sp/>not<sp/>size<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({<sp/>validator_.parseAndValidate(boundary_token);<sp/>},<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>get<sp/>a<sp/>validation<sp/>error,<sp/>not<sp/>size<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>Temporal<sp/>Contract<sp/>(auth_principal_contract.h<sp/>§<sp/>2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_temporal_contract_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_temporal_contract_test" kindref="compound">JWTTemporalContractTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_temporal_contract_test_1a6e849c3e40f8938aac359ddfbf6bf0a7" kindref="member">getBaseConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;https://keycloak.local/realms/test/protocol/openid-connect/certs&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;https://keycloak.local/realms/test&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test-audience&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(600000),<sp/></highlight><highlight class="comment">//<sp/>10<sp/>min<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(60000)<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>60s<sp/>clock<sp/>skew</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_temporal_contract_test" kindref="compound">JWTTemporalContractTest</ref>,<sp/>ClockSkewToleranceBoundary)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>getBaseConfig();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clock<sp/>skew<sp/>default<sp/>is<sp/>60s;<sp/>configure<sp/>for<sp/>this<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.clock_skew<sp/>=<sp/>std::chrono::milliseconds(60000);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref><sp/>validator(cfg);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>JWKS<sp/>cache<sp/>with<sp/>a<sp/>test<sp/>key<sp/>for<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>json<sp/>jwks_test<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>json::array()}};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>validator.setJWKSForTesting(jwks_test,<sp/>now);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Token<sp/>with<sp/>exp<sp/>exactly<sp/>30<sp/>seconds<sp/>in<sp/>the<sp/>future<sp/>should<sp/>pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(within<sp/>60s<sp/>clock<sp/>skew<sp/>tolerance)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exp_time<sp/>=<sp/>now<sp/>+<sp/>std::chrono::seconds(30);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(exp_time<sp/>-<sp/>now,<sp/>cfg.clock_skew);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(JWTTemporalContractTest,<sp/>MaxSessionLifetime)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1auth_1adcd14ae8ca177f92139f039458cce2e0" kindref="member">kMaxSessionLifetime</ref><sp/>==<sp/>std::chrono::hours(24<sp/>*<sp/>30),<sp/></highlight><highlight class="stringliteral">&quot;Max<sp/>session<sp/>lifetime<sp/>must<sp/>be<sp/>30<sp/>days&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>getBaseConfig();</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(cfg.cache_ttl,<sp/>std::chrono::milliseconds(-1));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>Token<sp/>Blacklist<sp/>Integration<sp/>(JTI<sp/>Revocation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_token_blacklist_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_token_blacklist_test" kindref="compound">JWTTokenBlacklistTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_token_blacklist_test_1a8d5d376d1d589275609dadb44a03f0ab" kindref="member">validator_</ref>{</highlight><highlight class="stringliteral">&quot;https://keycloak.local/realms/test/protocol/openid-connect/certs&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;MockTokenBlacklist&gt;<sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_token_blacklist_test_1ad07a2316d0cea497a0c0f80b5a08e13c" kindref="member">mock_blacklist_</ref>;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_token_blacklist_test_1a8fb422f53edc9b978285c3d62d407eff" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_token_blacklist_test_1ad07a2316d0cea497a0c0f80b5a08e13c" kindref="member">mock_blacklist_</ref><sp/>=<sp/>std::make_unique&lt;MockTokenBlacklist&gt;();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_token_blacklist_test" kindref="compound">JWTTokenBlacklistTest</ref>,<sp/>RejectRevokedJTI)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attach<sp/>the<sp/>mock<sp/>blacklist</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>validator_.setTokenBlacklist(mock_blacklist_.get());</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>a<sp/>revoked<sp/>JTI</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>revoked_jti<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;jti-12345&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>mock_blacklist_-&gt;setRevoked(revoked_jti,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>a<sp/>token<sp/>with<sp/>this<sp/>JTI<sp/>is<sp/>validated,<sp/>it<sp/>should<sp/>be<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(Implementation<sp/>detail:<sp/>the<sp/>validator<sp/>checks<sp/>blacklist<sp/>during<sp/>parseAndValidate)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(JWTTokenBlacklistTest,<sp/>ProceedWithoutBlacklist)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>setTokenBlacklist<sp/>call<sp/>-<sp/>validator<sp/>should<sp/>work<sp/>without<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/>validator_.setTokenBlacklist(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/>});</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(JWTTokenBlacklistTest,<sp/>MissingJTIWithBlacklistAttached)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>validator_.setTokenBlacklist(mock_blacklist_.get());</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mock<sp/>reports<sp/>not<sp/>revoked<sp/>when<sp/>asked<sp/>about<sp/>empty<sp/>jti</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>mock_blacklist_-&gt;setRevoked(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>Failure<sp/>Classification<sp/>(auth_principal_contract.h<sp/>§<sp/>3)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_failure_classification_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_failure_classification_test" kindref="compound">JWTFailureClassificationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_failure_classification_test_1adae9180f8704d609f1dde4084d8ba808" kindref="member">getBaseConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref>{</highlight><highlight class="stringliteral">&quot;https://keycloak.local/realms/test/protocol/openid-connect/certs&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;https://keycloak.local/realms/test&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test-audience&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_failure_classification_test" kindref="compound">JWTFailureClassificationTest</ref>,<sp/>MalformedTokenFormat)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>getBaseConfig();</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref><sp/>validator(cfg);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Token<sp/>with<sp/>only<sp/>2<sp/>parts<sp/>(missing<sp/>signature)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({<sp/>validator.parseAndValidate(</highlight><highlight class="stringliteral">&quot;header.payload&quot;</highlight><highlight class="normal">);<sp/>},<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(JWTFailureClassificationTest,<sp/>InvalidBase64UrlEncoding)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>getBaseConfig();</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref><sp/>validator(cfg);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>invalid<sp/>Base64URL<sp/>characters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({<sp/>validator.parseAndValidate(</highlight><highlight class="stringliteral">&quot;!!!.@@@.###&quot;</highlight><highlight class="normal">);<sp/>},<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_failure_classification_test" kindref="compound">JWTFailureClassificationTest</ref>,<sp/>ExpiredToken)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>getBaseConfig();</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>validator(cfg);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>json<sp/>jwks_test<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>json::array()}};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>validator.setJWKSForTesting(jwks_test,<sp/>now);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Token<sp/>with<sp/>past<sp/>expiration<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exp_time<sp/>=<sp/>now<sp/>-<sp/>std::chrono::seconds(1);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>KID<sp/>Revocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266" refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_k_i_d_revocation_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_k_i_d_revocation_test" kindref="compound">JWTKIDRevocationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_k_i_d_revocation_test_1a9245eb35937054846df64cfe2912d69a" kindref="member">validator_</ref>{</highlight><highlight class="stringliteral">&quot;https://keycloak.local/realms/test/protocol/openid-connect/certs&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_k_i_d_revocation_test" kindref="compound">JWTKIDRevocationTest</ref>,<sp/>RevokeAndCheckKID)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>test_kid<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;kid-2026-key-001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Before<sp/>revocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validator_.isKidRevoked(test_kid));</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Revoke<sp/>the<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>validator_.revokeKid(test_kid);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>revocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(validator_.isKidRevoked(test_kid));</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(JWTKIDRevocationTest,<sp/>MultipleKIDRevocations)<sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>kids<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;kid-001&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;kid-002&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;kid-003&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>&amp;kid<sp/>:<sp/>kids)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>validator_.revokeKid(kid);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>&amp;kid<sp/>:<sp/>kids)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(validator_.isKidRevoked(kid));</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-revoked<sp/>KID<sp/>should<sp/>still<sp/>be<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(validator_.isKidRevoked(</highlight><highlight class="stringliteral">&quot;kid-999&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="305"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_k_i_d_revocation_test" kindref="compound">JWTKIDRevocationTest</ref>,<sp/>EmptyKIDRevocation)<sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>validator_.revokeKid(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>crash,<sp/>but<sp/>behavior<sp/>with<sp/>empty<sp/>string<sp/>is<sp/>implementation-defined</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="316"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>Scope/Claim<sp/>Extraction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322" refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_scope_extraction_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_scope_extraction_test" kindref="compound">JWTScopeExtractionTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_scope_extraction_test_1afe72af20d24c3b6c3e7d2d27f38bde67" kindref="member">validator_</ref>{</highlight><highlight class="stringliteral">&quot;https://keycloak.local/realms/test/protocol/openid-connect/certs&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="325"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_scope_extraction_test" kindref="compound">JWTScopeExtractionTest</ref>,<sp/>ParseSpaceSeparatedScopes)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>JWTClaims,<sp/>scopes<sp/>are<sp/>extracted<sp/>from<sp/>OAuth2<sp/>scope<sp/>claim<sp/>(string)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>or<sp/>scp<sp/>claim<sp/>(array)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>claims<sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref>{};</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.<ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1ac0c5015413026c490923f685df19d8f5" kindref="member">scopes</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;openid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;profile&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.scopes.size(),<sp/>3);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::find(claims.scopes.begin(),<sp/>claims.scopes.end(),<sp/></highlight><highlight class="stringliteral">&quot;profile&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>claims.scopes.end());</highlight></codeline>
+<codeline lineno="339"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(JWTScopeExtractionTest,<sp/>ParseArrayScopes)<sp/>{</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>claims<sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref>{};</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.<ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1ac0c5015413026c490923f685df19d8f5" kindref="member">scopes</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.scopes.size(),<sp/>3);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.scopes[0],<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_scope_extraction_test" kindref="compound">JWTScopeExtractionTest</ref>,<sp/>EmptyScopes)<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>claims<sp/>=<sp/>JWTClaims{};</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>scopes<sp/>is<sp/>empty<sp/>by<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.scopes.size(),<sp/>0);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(claims.scopes.empty());</highlight></codeline>
+<codeline lineno="362"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>Async<sp/>Validation<sp/>Contract<sp/>(auth_principal_contract.h<sp/>§<sp/>7)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368" refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_async_validation_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_async_validation_test" kindref="compound">JWTAsyncValidationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref><sp/><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_async_validation_test_1aa78dca74544c23282297881751267c83" kindref="member">getBaseConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref>{</highlight><highlight class="stringliteral">&quot;https://keycloak.local/realms/test/protocol/openid-connect/certs&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;https://keycloak.local/realms/test&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test-audience&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="374"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_async_validation_test" kindref="compound">JWTAsyncValidationTest</ref>,<sp/>AsyncValidationThreadPoolNotReady)<sp/>{</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>getBaseConfig();</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref><sp/>validator(cfg);</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attempting<sp/>async<sp/>validation<sp/>without<sp/>thread<sp/>pool<sp/>initialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>return<sp/>a<sp/>future<sp/>that<sp/>holds<sp/>an<sp/>exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>future<sp/>=<sp/>validator.validateAsync(</highlight><highlight class="stringliteral">&quot;invalid.token.here&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attempt<sp/>to<sp/>get<sp/>the<sp/>result;<sp/>should<sp/>throw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>future.get();</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="393"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(JWTAsyncValidationTest,<sp/>AsyncValidationEmptyToken)<sp/>{</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>getBaseConfig();</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref><sp/>validator(cfg);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>token<sp/>should<sp/>be<sp/>rejected<sp/>asynchronously</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>future<sp/>=<sp/>validator.validateAsync(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>future.get();</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="410"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>Configuration<sp/>Validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight></codeline>
+<codeline lineno="416" refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_configuration_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_configuration_test" kindref="compound">JWTConfigurationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aeb0f51667768af6f7cd229407f18e902" kindref="member">TEST</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_configuration_test" kindref="compound">JWTConfigurationTest</ref>,<sp/>MissingIssuerWithValidationRequired)<sp/>{</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref><sp/>cfg{</highlight><highlight class="stringliteral">&quot;https://keycloak.local/realms/test/protocol/openid-connect/certs&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1aa8671c6f17d19060a8d54033e6020235" kindref="member">require_issuer_validation</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a938217746fb36f44a33ce55dbc2ea68e" kindref="member">expected_issuer</ref>.reset();<sp/></highlight><highlight class="comment">//<sp/>Ensure<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="426"><highlight class="normal"></highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({<sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref><sp/>validator(cfg);<sp/>},<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="428"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"></highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aeb0f51667768af6f7cd229407f18e902" kindref="member">TEST</ref>(JWTConfigurationTest,<sp/>MissingAudienceWithValidationRequired)<sp/>{</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref><sp/>cfg{</highlight><highlight class="stringliteral">&quot;https://keycloak.local/realms/test/protocol/openid-connect/certs&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a30c832c40701252f7b57d3c0d4a9b6fe" kindref="member">require_audience_validation</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1ac9fa0ecd608decf1b9249ddb232c2904" kindref="member">expected_audience</ref>.reset();<sp/></highlight><highlight class="comment">//<sp/>Ensure<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="438"><highlight class="normal"></highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({<sp/>JWTValidator<sp/>validator(cfg);<sp/>},<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="440"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"></highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aeb0f51667768af6f7cd229407f18e902" kindref="member">TEST</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_configuration_test" kindref="compound">JWTConfigurationTest</ref>,<sp/>JWKSTimeoutBounds)<sp/>{</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidatorConfig<sp/>cfg{</highlight><highlight class="stringliteral">&quot;https://keycloak.local/realms/test/protocol/openid-connect/certs&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"></highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timeout<sp/>should<sp/>be<sp/>reasonable<sp/>(not<sp/>0,<sp/>not<sp/>negative)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a60eb5dbf2e0b093ed3eab7dc3b4fe07f" kindref="member">jwks_timeout_seconds</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a60eb5dbf2e0b093ed3eab7dc3b4fe07f" kindref="member">jwks_timeout_seconds</ref>,<sp/><ref refid="namespacethemis_1_1auth_1a331373c23a91e0c74ff8139c41b1dc56" kindref="member">DEFAULT_JWKS_TIMEOUT_SECONDS</ref>);</highlight></codeline>
+<codeline lineno="452"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aeb0f51667768af6f7cd229407f18e902" kindref="member">TEST</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_configuration_test" kindref="compound">JWTConfigurationTest</ref>,<sp/>MaxRetriesBounded)<sp/>{</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidatorConfig<sp/>cfg{</highlight><highlight class="stringliteral">&quot;https://keycloak.local/realms/test/protocol/openid-connect/certs&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"></highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(cfg.<ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a64f1b046941b2e934597a4beaf06b8a8" kindref="member">jwks_max_retries</ref>,<sp/><ref refid="namespacethemis_1_1auth_1ac99a77fa1b1b0081dc02bbc4960784ab" kindref="member">MAX_JWKS_RETRY_ATTEMPTS</ref>);</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a64f1b046941b2e934597a4beaf06b8a8" kindref="member">jwks_max_retries</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="463"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"></highlight></codeline>
+<codeline lineno="465"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="466"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>User<sp/>Key<sp/>Derivation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="467"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="468"><highlight class="normal"></highlight></codeline>
+<codeline lineno="469" refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_user_key_derivation_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_user_key_derivation_test" kindref="compound">JWTUserKeyDerivationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"></highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_user_key_derivation_test" kindref="compound">JWTUserKeyDerivationTest</ref>,<sp/>DeriveKeyWithEmptyDEK)<sp/>{</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>empty_dek;</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref><sp/>claims;</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.<ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1ac8f1e1788fb47a1fc3211c863b11f484" kindref="member">sub</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user-123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"></highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>key<sp/>=<sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator_1a4a3ee8df29b95aed4b0114b577577538" kindref="member">JWTValidator::deriveUserKey</ref>(empty_dek,<sp/>claims,<sp/></highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">);<sp/>},<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="481"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(JWTUserKeyDerivationTest,<sp/>DeriveKeyValidInputs)<sp/>{</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>dek(32,<sp/>0xAA);<sp/></highlight><highlight class="comment">//<sp/>32-byte<sp/>DEK</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref><sp/>claims;</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.<ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1ac8f1e1788fb47a1fc3211c863b11f484" kindref="member">sub</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user-123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.<ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1a2d146f3aad791c8e966d2df5a189e34a" kindref="member">tenant_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;tenant-456&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"></highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>throw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>key<sp/>=<sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator_1a4a3ee8df29b95aed4b0114b577577538" kindref="member">JWTValidator::deriveUserKey</ref>(dek,<sp/>claims,<sp/></highlight><highlight class="stringliteral">&quot;ssn&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(key.empty());</highlight></codeline>
+<codeline lineno="496"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"></highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(JWTUserKeyDerivationTest,<sp/>DeriveKeyWithLongFieldName)<sp/>{</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>dek(32,<sp/>0xBB);</highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref><sp/>claims;</highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.<ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1ac8f1e1788fb47a1fc3211c863b11f484" kindref="member">sub</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user-123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="506"><highlight class="normal"></highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>long_field(1000,<sp/></highlight><highlight class="charliteral">&apos;X&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>key<sp/>=<sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator_1a4a3ee8df29b95aed4b0114b577577538" kindref="member">JWTValidator::deriveUserKey</ref>(dek,<sp/>claims,<sp/>long_field);</highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(key.empty());</highlight></codeline>
+<codeline lineno="510"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="511"><highlight class="normal"></highlight></codeline>
+<codeline lineno="512"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="513"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>Access<sp/>Control<sp/>Checks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="514"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="515"><highlight class="normal"></highlight></codeline>
+<codeline lineno="516" refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_access_control_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_access_control_test" kindref="compound">JWTAccessControlTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"></highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_access_control_test" kindref="compound">JWTAccessControlTest</ref>,<sp/>AccessWithMatchingGroup)<sp/>{</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref><sp/>claims;</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.<ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1ac8f1e1788fb47a1fc3211c863b11f484" kindref="member">sub</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user-123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.<ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1aebc8b8ba8385fea402de0c031c125ac5" kindref="member">groups</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;finance&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;audit&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;compliance&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"></highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>has<sp/>&quot;finance&quot;<sp/>group</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1auth_1_1_j_w_t_validator_1a78ff7d6ccff48d32de978683be8ec8bb" kindref="member">JWTValidator::hasAccess</ref>(claims,<sp/></highlight><highlight class="stringliteral">&quot;finance&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="529"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"></highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(JWTAccessControlTest,<sp/>AccessWithoutMatchingGroup)<sp/>{</highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref><sp/>claims;</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.<ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1ac8f1e1788fb47a1fc3211c863b11f484" kindref="member">sub</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user-123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.<ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1aebc8b8ba8385fea402de0c031c125ac5" kindref="member">groups</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;finance&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;audit&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="539"><highlight class="normal"></highlight></codeline>
+<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>does<sp/>not<sp/>have<sp/>&quot;hr&quot;<sp/>group</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1auth_1_1_j_w_t_validator_1a78ff7d6ccff48d32de978683be8ec8bb" kindref="member">JWTValidator::hasAccess</ref>(claims,<sp/></highlight><highlight class="stringliteral">&quot;hr&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="542"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="543"><highlight class="normal"></highlight></codeline>
+<codeline lineno="548"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_access_control_test" kindref="compound">JWTAccessControlTest</ref>,<sp/>AccessWithUserContextMatch)<sp/>{</highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTClaims<sp/>claims;</highlight></codeline>
+<codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.<ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1ac8f1e1788fb47a1fc3211c863b11f484" kindref="member">sub</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user-123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="551"><highlight class="normal"></highlight></codeline>
+<codeline lineno="552"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Encryption<sp/>context<sp/>is<sp/>the<sp/>user&apos;s<sp/>subject</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="553"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1auth_1_1_j_w_t_validator_1a78ff7d6ccff48d32de978683be8ec8bb" kindref="member">JWTValidator::hasAccess</ref>(claims,<sp/></highlight><highlight class="stringliteral">&quot;user-123&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="554"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="555"><highlight class="normal"></highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_access_control_test" kindref="compound">JWTAccessControlTest</ref>,<sp/>AccessWithEmptyClaims)<sp/>{</highlight></codeline>
+<codeline lineno="561"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTClaims<sp/>claims;<sp/></highlight><highlight class="comment">//<sp/>Empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="562"><highlight class="normal"></highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1auth_1_1_j_w_t_validator_1a78ff7d6ccff48d32de978683be8ec8bb" kindref="member">JWTValidator::hasAccess</ref>(claims,<sp/></highlight><highlight class="stringliteral">&quot;any-context&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="564"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="565"><highlight class="normal"></highlight></codeline>
+<codeline lineno="566"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="567"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>Test:<sp/>Token<sp/>Expiration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="568"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="569"><highlight class="normal"></highlight></codeline>
+<codeline lineno="570" refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_token_expiration_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_token_expiration_test" kindref="compound">JWTTokenExpirationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="571"><highlight class="normal"></highlight></codeline>
+<codeline lineno="576"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_token_expiration_test" kindref="compound">JWTTokenExpirationTest</ref>,<sp/>ExactExpirationTime)<sp/>{</highlight></codeline>
+<codeline lineno="577"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="578"><highlight class="normal"></highlight></codeline>
+<codeline lineno="579"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref><sp/>expired_claims;</highlight></codeline>
+<codeline lineno="580"><highlight class="normal"><sp/><sp/><sp/><sp/>expired_claims.<ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1a39ac68e74e5acc17d435b8581285f77d" kindref="member">expiration</ref><sp/>=<sp/>now;<sp/></highlight><highlight class="comment">//<sp/>Token<sp/>expires<sp/>right<sp/>now</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="581"><highlight class="normal"></highlight></codeline>
+<codeline lineno="582"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>current<sp/>time<sp/>&gt;<sp/>expiration<sp/>time,<sp/>so<sp/>should<sp/>be<sp/>expired</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="583"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(Note:<sp/>depends<sp/>on<sp/>system<sp/>clock<sp/>precision)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="584"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>expired<sp/>=<sp/>expired_claims.<ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1abd0b0d075fd2f1bc9cbaade88bd88406" kindref="member">isExpired</ref>();</highlight></codeline>
+<codeline lineno="585"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(expired<sp/>||<sp/>!expired);</highlight></codeline>
+<codeline lineno="586"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Either<sp/>way<sp/>is<sp/>acceptable<sp/>at<sp/>the<sp/>boundary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="587"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="588"><highlight class="normal"></highlight></codeline>
+<codeline lineno="593"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(JWTTokenExpirationTest,<sp/>FutureToken)<sp/>{</highlight></codeline>
+<codeline lineno="594"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/><sp/><sp/><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="595"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>future<sp/>=<sp/>now<sp/>+<sp/>std::chrono::hours(24);</highlight></codeline>
+<codeline lineno="596"><highlight class="normal"></highlight></codeline>
+<codeline lineno="597"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref><sp/>claims;</highlight></codeline>
+<codeline lineno="598"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.<ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1a39ac68e74e5acc17d435b8581285f77d" kindref="member">expiration</ref><sp/>=<sp/>future;</highlight></codeline>
+<codeline lineno="599"><highlight class="normal"></highlight></codeline>
+<codeline lineno="600"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(claims.<ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1abd0b0d075fd2f1bc9cbaade88bd88406" kindref="member">isExpired</ref>());</highlight></codeline>
+<codeline lineno="601"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="602"><highlight class="normal"></highlight></codeline>
+<codeline lineno="607"><highlight class="normal"><ref refid="namespacethemis_1_1auth_1_1tests_1aca63e140a840160b15385972ebf79808" kindref="member">TEST_F</ref>(JWTTokenExpirationTest,<sp/>PastToken)<sp/>{</highlight></codeline>
+<codeline lineno="608"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="609"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>past<sp/>=<sp/>now<sp/>-<sp/>std::chrono::hours(1);</highlight></codeline>
+<codeline lineno="610"><highlight class="normal"></highlight></codeline>
+<codeline lineno="611"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref><sp/>claims;</highlight></codeline>
+<codeline lineno="612"><highlight class="normal"><sp/><sp/><sp/><sp/>claims.<ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1a39ac68e74e5acc17d435b8581285f77d" kindref="member">expiration</ref><sp/>=<sp/>past;</highlight></codeline>
+<codeline lineno="613"><highlight class="normal"></highlight></codeline>
+<codeline lineno="614"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(claims.<ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1abd0b0d075fd2f1bc9cbaade88bd88406" kindref="member">isExpired</ref>());</highlight></codeline>
+<codeline lineno="615"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="616"><highlight class="normal"></highlight></codeline>
+<codeline lineno="617"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="618"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>auth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="619"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/auth/test_jwt_validator_focused.cpp"/>
+  </compounddef>
+</doxygen>

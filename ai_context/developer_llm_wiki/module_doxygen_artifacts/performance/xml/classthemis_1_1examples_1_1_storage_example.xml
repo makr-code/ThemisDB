@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1examples_1_1_storage_example" kind="class" language="C++" prot="public">
+    <compoundname>themis::examples::StorageExample</compoundname>
+    <includes refid="feature__flags__examples_8h" local="no">feature_flags_examples.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1examples_1_1_storage_example_1a4f089d174da0438f2176218fb788e5e1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::examples::StorageExample::write</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>write</name>
+        <qualifiedname>themis::examples::StorageExample::write</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/feature_flags_examples.h" line="170" column="10" bodyfile="include/performance/feature_flags_examples.h" bodystart="170" bodyend="178"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1examples_1_1_storage_example_1a9107ac3fa0c6c6f6cc0bd8e432b944f2" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::examples::StorageExample::write_traditional</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>write_traditional</name>
+        <qualifiedname>themis::examples::StorageExample::write_traditional</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/feature_flags_examples.h" line="181" column="10" bodyfile="include/performance/feature_flags_examples.h" bodystart="181" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1examples_1_1_storage_example_1a54ab81dcca4c8a308e045c64eef57ea7" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::examples::StorageExample::write_separated</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>write_separated</name>
+        <qualifiedname>themis::examples::StorageExample::write_separated</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/feature_flags_examples.h" line="186" column="10" bodyfile="include/performance/feature_flags_examples.h" bodystart="186" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Based on: &quot;WiscKey: Separating Keys from Values&quot; (FAST&apos;16). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/feature_flags_examples.h" line="168" column="1" bodyfile="include/performance/feature_flags_examples.h" bodystart="168" bodyend="193"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1examples_1_1_storage_example_1a4f089d174da0438f2176218fb788e5e1" prot="public" virt="non-virtual"><scope>themis::examples::StorageExample</scope><name>write</name></member>
+      <member refid="classthemis_1_1examples_1_1_storage_example_1a54ab81dcca4c8a308e045c64eef57ea7" prot="private" virt="non-virtual"><scope>themis::examples::StorageExample</scope><name>write_separated</name></member>
+      <member refid="classthemis_1_1examples_1_1_storage_example_1a9107ac3fa0c6c6f6cc0bd8e432b944f2" prot="private" virt="non-virtual"><scope>themis::examples::StorageExample</scope><name>write_traditional</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

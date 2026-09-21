@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_zstd_stream_compressor" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::ZstdStreamCompressor</compoundname>
+    <includes refid="zstd__codec_8h" local="no">zstd_codec.h</includes>
+    <innerclass refid="structthemis_1_1utils_1_1_zstd_stream_compressor_1_1_impl" prot="public">themis::utils::ZstdStreamCompressor::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_zstd_stream_compressor_1ad9664de82f4424973694495142d7928e" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1utils_1_1_zstd_stream_compressor_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::utils::ZstdStreamCompressor::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::utils::ZstdStreamCompressor::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="169" column="21" bodyfile="include/utils/zstd_codec.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_zstd_stream_compressor_1a9c2fc3c1e46bbce04bc7f7ee062f255e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ZstdStreamCompressor::ZstdStreamCompressor</definition>
+        <argsstring>(int level=3)</argsstring>
+        <name>ZstdStreamCompressor</name>
+        <qualifiedname>themis::utils::ZstdStreamCompressor::ZstdStreamCompressor</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>level</declname>
+          <defval>3</defval>
+        </param>
+        <briefdescription>
+<para>Construct a stream compressor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Zstd compression level (1–22; default 3). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="126" column="14" bodyfile="src/utils/zstd_codec.cpp" bodystart="431" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_zstd_stream_compressor_1a3f70f20205caf2aa52db0fad17ffa8f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ZstdStreamCompressor::~ZstdStreamCompressor</definition>
+        <argsstring>()</argsstring>
+        <name>~ZstdStreamCompressor</name>
+        <qualifiedname>themis::utils::ZstdStreamCompressor::~ZstdStreamCompressor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="127" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_zstd_stream_compressor_1a38233a7f4795a4d7d0c56a0a5d779f57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ZstdStreamCompressor::ZstdStreamCompressor</definition>
+        <argsstring>(const ZstdStreamCompressor &amp;)=delete</argsstring>
+        <name>ZstdStreamCompressor</name>
+        <qualifiedname>themis::utils::ZstdStreamCompressor::ZstdStreamCompressor</qualifiedname>
+        <param>
+          <type>const ZstdStreamCompressor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="130" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_zstd_stream_compressor_1ac90aee8e8abe77e6fc22684e85f46d07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a9c2fc3c1e46bbce04bc7f7ee062f255e" kindref="member">ZstdStreamCompressor</ref> &amp;</type>
+        <definition>ZstdStreamCompressor &amp; themis::utils::ZstdStreamCompressor::operator=</definition>
+        <argsstring>(const ZstdStreamCompressor &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::utils::ZstdStreamCompressor::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a9c2fc3c1e46bbce04bc7f7ee062f255e" kindref="member">ZstdStreamCompressor</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="131" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_zstd_stream_compressor_1a216a9b14e2465d7dacc30e3165a96069" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ZstdStreamCompressor::ZstdStreamCompressor</definition>
+        <argsstring>(ZstdStreamCompressor &amp;&amp;) noexcept=default</argsstring>
+        <name>ZstdStreamCompressor</name>
+        <qualifiedname>themis::utils::ZstdStreamCompressor::ZstdStreamCompressor</qualifiedname>
+        <param>
+          <type>ZstdStreamCompressor &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="132" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_zstd_stream_compressor_1a8b740782e4ed185970f3593e143734a2" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a9c2fc3c1e46bbce04bc7f7ee062f255e" kindref="member">ZstdStreamCompressor</ref> &amp;</type>
+        <definition>ZstdStreamCompressor &amp; themis::utils::ZstdStreamCompressor::operator=</definition>
+        <argsstring>(ZstdStreamCompressor &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::utils::ZstdStreamCompressor::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a9c2fc3c1e46bbce04bc7f7ee062f255e" kindref="member">ZstdStreamCompressor</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="133" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_zstd_stream_compressor_1a1028c122951f13d87089e84c08c17b2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::utils::ZstdStreamCompressor::compress_chunk</definition>
+        <argsstring>(const uint8_t *data, size_t size)</argsstring>
+        <name>compress_chunk</name>
+        <qualifiedname>themis::utils::ZstdStreamCompressor::compress_chunk</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Feed a chunk of uncompressed data into the stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compress chunk.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to input bytes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to compress. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ok(compressed_output) — may be empty if ZSTD buffered data internally; Err on failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1a7de2875c9f12d270dce73873e3d0d5e1" kindref="member">Ok()</ref>, ZSTD_CStreamOutSize(), reserve(), chunk(), data(), size(), ZSTD_compressStream(), ZSTD_isError(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="143" column="12" bodyfile="src/utils/zstd_codec.cpp" bodystart="443" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_zstd_stream_compressor_1ad9adfccaf313709ba28c2c069e244d74" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::utils::ZstdStreamCompressor::compress_chunk</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>compress_chunk</name>
+        <qualifiedname>themis::utils::ZstdStreamCompressor::compress_chunk</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Convenience overload for std::vector input. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="146" column="12" bodyfile="include/utils/zstd_codec.h" bodystart="146" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_zstd_stream_compressor_1aeef4bcc9bdcbfb37de7ebb6462bb459a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::utils::ZstdStreamCompressor::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::utils::ZstdStreamCompressor::flush</qualifiedname>
+        <briefdescription>
+<para>Flush all buffered output and finalise the ZSTD frame. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush.</para>
+<para>Must be called after the last <ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a1028c122951f13d87089e84c08c17b2e" kindref="member">compress_chunk()</ref> call. The returned bytes complete the ZSTD frame and must be appended to the output stream before the decompressor can verify integrity.</para>
+<para><simplesect kind="return"><para>Ok(final_compressed_bytes); Err on failure.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ZSTD_CStreamOutSize(), chunk(), data(), size(), ZSTD_endStream(), ZSTD_isError(), ZSTD_getErrorName(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="159" column="12" bodyfile="src/utils/zstd_codec.cpp" bodystart="482" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_zstd_stream_compressor_1a6bc97c21c82a8ed5b830cc9251dd75fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::ZstdStreamCompressor::reset</definition>
+        <argsstring>(int level=0)</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::utils::ZstdStreamCompressor::reset</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>level</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Reset the compressor for reuse with a new compression level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New compression level (≥1; 0 keeps the current level).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: reinit(), else(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/zstd_codec.h" line="165" column="10" bodyfile="src/utils/zstd_codec.cpp" bodystart="517" bodyend="525"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Streaming ZSTD compressor. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Compress an arbitrarily large data stream chunk by chunk without loading the entire input into memory at once.</para>
+<para>Typical usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a9c2fc3c1e46bbce04bc7f7ee062f255e" kindref="member">ZstdStreamCompressor</ref><sp/>enc(3);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(has_more_data())<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunk<sp/>=<sp/>enc.compress_chunk(buf,<sp/>len);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(chunk)<sp/>write(*chunk);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tail<sp/>=<sp/>enc.flush();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(tail)<sp/>write(*tail);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/utils/zstd_codec.h" line="120" column="1" bodyfile="include/utils/zstd_codec.h" bodystart="120" bodyend="170"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a1028c122951f13d87089e84c08c17b2e" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamCompressor</scope><name>compress_chunk</name></member>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1ad9adfccaf313709ba28c2c069e244d74" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamCompressor</scope><name>compress_chunk</name></member>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1aeef4bcc9bdcbfb37de7ebb6462bb459a" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamCompressor</scope><name>flush</name></member>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1ad9664de82f4424973694495142d7928e" prot="private" virt="non-virtual"><scope>themis::utils::ZstdStreamCompressor</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1ac90aee8e8abe77e6fc22684e85f46d07" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamCompressor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a8b740782e4ed185970f3593e143734a2" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamCompressor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a6bc97c21c82a8ed5b830cc9251dd75fb" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamCompressor</scope><name>reset</name></member>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a9c2fc3c1e46bbce04bc7f7ee062f255e" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamCompressor</scope><name>ZstdStreamCompressor</name></member>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a38233a7f4795a4d7d0c56a0a5d779f57" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamCompressor</scope><name>ZstdStreamCompressor</name></member>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a216a9b14e2465d7dacc30e3165a96069" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamCompressor</scope><name>ZstdStreamCompressor</name></member>
+      <member refid="classthemis_1_1utils_1_1_zstd_stream_compressor_1a3f70f20205caf2aa52db0fad17ffa8f3" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamCompressor</scope><name>~ZstdStreamCompressor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

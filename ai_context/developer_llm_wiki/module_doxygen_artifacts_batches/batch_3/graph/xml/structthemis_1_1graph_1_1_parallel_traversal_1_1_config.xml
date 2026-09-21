@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_parallel_traversal_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::ParallelTraversal::Config</compoundname>
+    <includes refid="parallel__traversal_8h" local="no">parallel_traversal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1a03b216bb0ac27b8c19f5789085fa8ad4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::graph::ParallelTraversal::Config::max_depth</definition>
+        <argsstring></argsstring>
+        <name>max_depth</name>
+        <qualifiedname>themis::graph::ParallelTraversal::Config::max_depth</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="28" column="13" bodyfile="include/graph/parallel_traversal.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1a8678252b916746f8681939be628e04bf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::ParallelTraversal::Config::max_results</definition>
+        <argsstring></argsstring>
+        <name>max_results</name>
+        <qualifiedname>themis::graph::ParallelTraversal::Config::max_results</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="29" column="16" bodyfile="include/graph/parallel_traversal.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1a42a397e7a3cf6bc61819ada7459f9ba9" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::graph::ParallelTraversal::Config::num_threads</definition>
+        <argsstring></argsstring>
+        <name>num_threads</name>
+        <qualifiedname>themis::graph::ParallelTraversal::Config::num_threads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="30" column="18" bodyfile="include/graph/parallel_traversal.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1a79988bae07aa40c46eabd778d5d189a1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::graph::ParallelTraversal::Config::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::graph::ParallelTraversal::Config::timeout_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="31" column="18" bodyfile="include/graph/parallel_traversal.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1af4e1b35b6616a00717ce78f8887fc6c1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::ParallelTraversal::Config::forbidden_vertices</definition>
+        <argsstring></argsstring>
+        <name>forbidden_vertices</name>
+        <qualifiedname>themis::graph::ParallelTraversal::Config::forbidden_vertices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="32" column="21" bodyfile="include/graph/parallel_traversal.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1a3e2ae5dab86359182ff0e6c42784533b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::graph::ParallelTraversal::Config::fan_out_threshold</definition>
+        <argsstring></argsstring>
+        <name>fan_out_threshold</name>
+        <qualifiedname>themis::graph::ParallelTraversal::Config::fan_out_threshold</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="34" column="18" bodyfile="include/graph/parallel_traversal.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1abfe9c29ab2fe132123334ad47449f412" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::ParallelTraversal::Config::Config</definition>
+        <argsstring>()=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::graph::ParallelTraversal::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="36" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/parallel_traversal.h" line="27" column="5" bodyfile="include/graph/parallel_traversal.h" bodystart="27" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1abfe9c29ab2fe132123334ad47449f412" prot="public" virt="non-virtual"><scope>themis::graph::ParallelTraversal::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1a3e2ae5dab86359182ff0e6c42784533b" prot="public" virt="non-virtual"><scope>themis::graph::ParallelTraversal::Config</scope><name>fan_out_threshold</name></member>
+      <member refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1af4e1b35b6616a00717ce78f8887fc6c1" prot="public" virt="non-virtual"><scope>themis::graph::ParallelTraversal::Config</scope><name>forbidden_vertices</name></member>
+      <member refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1a03b216bb0ac27b8c19f5789085fa8ad4" prot="public" virt="non-virtual"><scope>themis::graph::ParallelTraversal::Config</scope><name>max_depth</name></member>
+      <member refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1a8678252b916746f8681939be628e04bf" prot="public" virt="non-virtual"><scope>themis::graph::ParallelTraversal::Config</scope><name>max_results</name></member>
+      <member refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1a42a397e7a3cf6bc61819ada7459f9ba9" prot="public" virt="non-virtual"><scope>themis::graph::ParallelTraversal::Config</scope><name>num_threads</name></member>
+      <member refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1a79988bae07aa40c46eabd778d5d189a1" prot="public" virt="non-virtual"><scope>themis::graph::ParallelTraversal::Config</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_rollback_hardening_test" kind="class" language="C++" prot="public">
+    <compoundname>RollbackHardeningTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_rollback_hardening_test_1ad3928585b3093c6c56ef3848b3d4c31b" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref></type>
+        <definition>UpdateStateMachine RollbackHardeningTest::state_machine_</definition>
+        <argsstring></argsstring>
+        <name>state_machine_</name>
+        <qualifiedname>RollbackHardeningTest::state_machine_</qualifiedname>
+        <initializer>{&quot;&quot;, &quot;&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="45" column="24" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RollbackHardeningTest</label>
+        <link refid="class_rollback_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RollbackHardeningTest</label>
+        <link refid="class_rollback_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>state_machine_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::updates::UpdateStateMachine</label>
+        <link refid="classthemis_1_1updates_1_1_update_state_machine"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/updates/test_updates_rollback_hardening_focused.cpp" line="43" column="1" bodyfile="tests/updates/test_updates_rollback_hardening_focused.cpp" bodystart="43" bodyend="46"/>
+    <listofallmembers>
+      <member refid="class_rollback_hardening_test_1ad3928585b3093c6c56ef3848b3d4c31b" prot="protected" virt="non-virtual"><scope>RollbackHardeningTest</scope><name>state_machine_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

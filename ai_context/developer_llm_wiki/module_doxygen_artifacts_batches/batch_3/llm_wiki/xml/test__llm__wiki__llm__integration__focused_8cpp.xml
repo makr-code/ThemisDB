@@ -1,0 +1,346 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__wiki__llm__integration__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_wiki_llm_integration_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="edition__gate_8h" local="yes">llm_wiki/edition_gate.h</includes>
+    <includes refid="llm__wiki__plugin__interface_8h" local="yes">llm_wiki/llm_wiki_plugin_interface.h</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>llm_wiki/llm_wiki_plugin_interface.h</label>
+        <link refid="llm__wiki__plugin__interface_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>llm_wiki/llm_wiki_status.h</label>
+        <link refid="llm__wiki__status_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm_wiki/edition_gate.h</label>
+        <link refid="edition__gate_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp</label>
+        <link refid="test__llm__wiki__llm__integration__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>cstddef</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>llm/wiki_index_store.h</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__wiki__llm__integration__focused_8cpp_1a021786f3899014886fbe55fd42bf7b46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmWikiLlmIntegrationFocusedTests, EG1_GetCurrentEdition_DoesNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmWikiLlmIntegrationFocusedTests</type>
+        </param>
+        <param>
+          <type>EG1_GetCurrentEdition_DoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp" line="22" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp" bodystart="22" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__wiki__llm__integration__focused_8cpp_1ab61cf139dd1aac7f85b942139adeaa8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmWikiLlmIntegrationFocusedTests, EG2_IsLLMWikiEnabled_DoesNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmWikiLlmIntegrationFocusedTests</type>
+        </param>
+        <param>
+          <type>EG2_IsLLMWikiEnabled_DoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp" line="30" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp" bodystart="30" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__wiki__llm__integration__focused_8cpp_1a45d8c8cfdd9eff811c9d6b06faf8c7cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmWikiLlmIntegrationFocusedTests, EG3_CommunityBuild_LLMWikiIsDisabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmWikiLlmIntegrationFocusedTests</type>
+        </param>
+        <param>
+          <type>EG3_CommunityBuild_LLMWikiIsDisabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp" line="40" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp" bodystart="40" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__wiki__llm__integration__focused_8cpp_1a0d21d7af92b590b655401db854f42a71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmWikiLlmIntegrationFocusedTests, EG4_CommunityBuild_EnforcePluginGate_PermissionDenied)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmWikiLlmIntegrationFocusedTests</type>
+        </param>
+        <param>
+          <type>EG4_CommunityBuild_EnforcePluginGate_PermissionDenied</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp" line="49" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp" bodystart="49" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__wiki__llm__integration__focused_8cpp_1a7944c4a177471f7d5f2aa618a0fccad5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmWikiLlmIntegrationFocusedTests, EG5_CommunityBuild_EnforceFeatureGate_PermissionDenied)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmWikiLlmIntegrationFocusedTests</type>
+        </param>
+        <param>
+          <type>EG5_CommunityBuild_EnforceFeatureGate_PermissionDenied</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp" line="60" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp" bodystart="60" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__wiki__llm__integration__focused_8cpp_1aba7d5397e0d7d232b170875e5e62c2c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmWikiLlmIntegrationFocusedTests, EG6_DisabledSubFeature_IsNotEnabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmWikiLlmIntegrationFocusedTests</type>
+        </param>
+        <param>
+          <type>EG6_DisabledSubFeature_IsNotEnabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp" line="70" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp" bodystart="70" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__wiki__llm__integration__focused_8cpp_1ac17796e517eb49697af157e614a99f79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmWikiLlmIntegrationFocusedTests, EG7_StatusTypes_CarryCorrectCodes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmWikiLlmIntegrationFocusedTests</type>
+        </param>
+        <param>
+          <type>EG7_StatusTypes_CarryCorrectCodes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp" line="80" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp" bodystart="80" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__wiki__llm__integration__focused_8cpp_1a3ee5050b9c9620ad521be453c92d4945" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LlmWikiLlmIntegrationFocusedTests, EG8_EditionEnum_CoversAllEditions)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LlmWikiLlmIntegrationFocusedTests</type>
+        </param>
+        <param>
+          <type>EG8_EditionEnum_CoversAllEditions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp" line="96" column="1" bodyfile="tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp" bodystart="96" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Group EG — <ref refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64d" kindref="member">Edition</ref> gate and LLM integration tests for llm_wiki. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Verifies the edition-gate logic that controls access to LLM Wiki features: EG1-EG3 <ref refid="namespacethemis_1_1llm__wiki_1a84b93b352b5764a01ad2a1d37b5e5b83" kindref="member">getCurrentEdition()</ref> and <ref refid="namespacethemis_1_1llm__wiki_1a1d17818ab76f202de7ad5a7378fe0673" kindref="member">isLLMWikiEnabled()</ref> under Community build EG4-EG5 <ref refid="namespacethemis_1_1llm__wiki_1aaddee830161f5670ca4230f9f9e83cf9" kindref="member">enforcePluginGate()</ref> returns PermissionDenied on Community edition EG6 <ref refid="namespacethemis_1_1llm__wiki_1a126ba246a3641f59aa5b75679239598e" kindref="member">isLLMWikiFeatureEnabled()</ref> returns false for disabled features EG7 <ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status" kindref="compound">Status</ref> types carry correct codes </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="edition__gate_8h" kindref="compound">llm_wiki/edition_gate.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__wiki__plugin__interface_8h" kindref="compound">llm_wiki/llm_wiki_plugin_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm__wiki" kindref="compound">themis::llm_wiki</ref>;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1llm__wiki" kindref="compound">themis::plugins::llm_wiki</ref>;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Group<sp/>EG<sp/>—<sp/>Edition<sp/>Gate<sp/>───────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EG1:<sp/>getCurrentEdition()<sp/>returns<sp/>a<sp/>valid<sp/>Edition<sp/>without<sp/>crashing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><ref refid="test__llm__wiki__llm__integration__focused_8cpp_1a021786f3899014886fbe55fd42bf7b46" kindref="member">TEST</ref>(LlmWikiLlmIntegrationFocusedTests,<sp/>EG1_GetCurrentEdition_DoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW({</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>edition<sp/>=<sp/><ref refid="namespacethemis_1_1llm__wiki_1a84b93b352b5764a01ad2a1d37b5e5b83" kindref="member">getCurrentEdition</ref>();</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)edition;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EG2:<sp/>isLLMWikiEnabled()<sp/>returns<sp/>bool<sp/>without<sp/>crashing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><ref refid="test__llm__wiki__llm__integration__focused_8cpp_1a021786f3899014886fbe55fd42bf7b46" kindref="member">TEST</ref>(LlmWikiLlmIntegrationFocusedTests,<sp/>EG2_IsLLMWikiEnabled_DoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW({</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled<sp/>=<sp/><ref refid="namespacethemis_1_1llm__wiki_1a1d17818ab76f202de7ad5a7378fe0673" kindref="member">isLLMWikiEnabled</ref>();</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)enabled;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EG3:<sp/>In<sp/>a<sp/>Community<sp/>build<sp/>(default<sp/>CI),<sp/>LLM<sp/>Wiki<sp/>is<sp/>disabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Note:<sp/>This<sp/>test<sp/>is<sp/>conditioned<sp/>on<sp/>the<sp/>build-time<sp/>flag;<sp/>it<sp/>documents<sp/>expected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Community-edition<sp/>behavior.<sp/>Enterprise<sp/>builds<sp/>may<sp/>skip<sp/>this<sp/>assertion.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><ref refid="test__llm__wiki__llm__integration__focused_8cpp_1a021786f3899014886fbe55fd42bf7b46" kindref="member">TEST</ref>(LlmWikiLlmIntegrationFocusedTests,<sp/>EG3_CommunityBuild_LLMWikiIsDisabled)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMISDB_LLM_WIKI_ENTERPRISE_ENABLED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1llm__wiki_1a1d17818ab76f202de7ad5a7378fe0673" kindref="member">isLLMWikiEnabled</ref>());</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Enterprise<sp/>build:<sp/>skipping<sp/>Community-disabled<sp/>check&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EG4:<sp/>enforcePluginGate()<sp/>returns<sp/>PermissionDenied<sp/>on<sp/>Community<sp/>edition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="test__llm__wiki__llm__integration__focused_8cpp_1a021786f3899014886fbe55fd42bf7b46" kindref="member">TEST</ref>(LlmWikiLlmIntegrationFocusedTests,<sp/>EG4_CommunityBuild_EnforcePluginGate_PermissionDenied)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMISDB_LLM_WIKI_ENTERPRISE_ENABLED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/><ref refid="namespacethemis_1_1llm__wiki_1aaddee830161f5670ca4230f9f9e83cf9" kindref="member">enforcePluginGate</ref>(</highlight><highlight class="stringliteral">&quot;test_operation&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(status.ok());</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(status.code,<sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1aec39157a3baceccb4b4c01dc3ed987a4" kindref="member">PluginStatus::Code::PermissionDenied</ref>);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Enterprise<sp/>build:<sp/>skipping<sp/>Community<sp/>gate<sp/>check&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EG5:<sp/>enforceFeatureGate()<sp/>returns<sp/>PermissionDenied<sp/>for<sp/>any<sp/>feature<sp/>on<sp/>Community</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__llm__wiki__llm__integration__focused_8cpp_1a021786f3899014886fbe55fd42bf7b46" kindref="member">TEST</ref>(LlmWikiLlmIntegrationFocusedTests,<sp/>EG5_CommunityBuild_EnforceFeatureGate_PermissionDenied)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMISDB_LLM_WIKI_ENTERPRISE_ENABLED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/><ref refid="namespacethemis_1_1llm__wiki_1a7a236b00e5231cb39111ee7d71bd12e7" kindref="member">enforceFeatureGate</ref>(</highlight><highlight class="stringliteral">&quot;llm_wiki_wikipedia&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(status.ok());</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Enterprise<sp/>build:<sp/>skipping<sp/>Community<sp/>feature<sp/>gate<sp/>check&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EG6:<sp/>isLLMWikiFeatureEnabled()<sp/>returns<sp/>false<sp/>for<sp/>disabled<sp/>sub-features</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="test__llm__wiki__llm__integration__focused_8cpp_1a021786f3899014886fbe55fd42bf7b46" kindref="member">TEST</ref>(LlmWikiLlmIntegrationFocusedTests,<sp/>EG6_DisabledSubFeature_IsNotEnabled)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMISDB_LLM_WIKI_ENTERPRISE_ENABLED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1llm__wiki_1a126ba246a3641f59aa5b75679239598e" kindref="member">isLLMWikiFeatureEnabled</ref>(</highlight><highlight class="stringliteral">&quot;llm_wiki_wikipedia&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1llm__wiki_1a126ba246a3641f59aa5b75679239598e" kindref="member">isLLMWikiFeatureEnabled</ref>(</highlight><highlight class="stringliteral">&quot;nonexistent_feature&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Enterprise<sp/>build:<sp/>skipping<sp/>feature<sp/>gate<sp/>check&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EG7:<sp/>Status<sp/>types<sp/>carry<sp/>correct<sp/>codes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__llm__wiki__llm__integration__focused_8cpp_1a021786f3899014886fbe55fd42bf7b46" kindref="member">TEST</ref>(LlmWikiLlmIntegrationFocusedTests,<sp/>EG7_StatusTypes_CarryCorrectCodes)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a34b5c0c5020ded76a271c1aee6d63b36" kindref="member">PluginStatus::Ok</ref>();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok.ok());</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ok.code,<sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a34b5c0c5020ded76a271c1aee6d63b36" kindref="member">PluginStatus::Code::Ok</ref>);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878ca902b0d55fddef6f8d651fe1035b7d4bd" kindref="member">PluginStatus::Error</ref>(</highlight><highlight class="stringliteral">&quot;test<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.ok());</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(err.code,<sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a34847d45fb3d85cb4cd3344cbadd15a7" kindref="member">PluginStatus::Code::Error</ref>);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.message.empty());</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>denied<sp/>=<sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1a07f071fd6e477a60378d14f8937a878ca4b33a686be73bb172407d73b26356275" kindref="member">PluginStatus::PermissionDenied</ref>(</highlight><highlight class="stringliteral">&quot;access<sp/>denied&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(denied.ok());</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(denied.code,<sp/><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1_status_1aec39157a3baceccb4b4c01dc3ed987a4" kindref="member">PluginStatus::Code::PermissionDenied</ref>);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EG8:<sp/>Edition<sp/>enum<sp/>covers<sp/>all<sp/>documented<sp/>editions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__llm__wiki__llm__integration__focused_8cpp_1a021786f3899014886fbe55fd42bf7b46" kindref="member">TEST</ref>(LlmWikiLlmIntegrationFocusedTests,<sp/>EG8_EditionEnum_CoversAllEditions)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>variant<sp/>must<sp/>be<sp/>constructible<sp/>without<sp/>UB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>community<sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64da7d61983c34edc2a8cabbea71c4732f62" kindref="member">Edition::Community</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>minimal<sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64da30fc6bbba82125243ecf4ddb27fee645" kindref="member">Edition::Minimal</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>enterprise<sp/><sp/>=<sp/><ref refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64daa0f27638260642afb474516cc918407e" kindref="member">Edition::Enterprise</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hyperscaler<sp/>=<sp/><ref refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64dac1b47471a575ac0bf20392ca17ecd880" kindref="member">Edition::Hyperscaler</ref>;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>military<sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1llm__wiki_1a3391657fffce9fd8e76b84ff5208d64da7d2957dfd3b888fc4087f60c3c650953" kindref="member">Edition::Military</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>ordering<sp/>is<sp/>stable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(community,<sp/><sp/>enterprise);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(community,<sp/><sp/>hyperscaler);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(community,<sp/><sp/>military);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(minimal,<sp/><sp/><sp/><sp/>enterprise);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(hyperscaler,<sp/>military);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm_wiki/test_llm_wiki_llm_integration_focused.cpp"/>
+  </compounddef>
+</doxygen>

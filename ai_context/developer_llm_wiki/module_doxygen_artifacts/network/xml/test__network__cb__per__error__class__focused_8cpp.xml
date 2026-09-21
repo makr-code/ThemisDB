@@ -1,0 +1,542 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__network__cb__per__error__class__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_network_cb_per_error_class_focused.cpp</compoundname>
+    <includes refid="adaptive__circuit__breaker_8h" local="yes">network/adaptive_circuit_breaker.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>network/adaptive_circuit_breaker.h</label>
+        <link refid="adaptive__circuit__breaker_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/network/test_network_cb_per_error_class_focused.cpp</label>
+        <link refid="test__network__cb__per__error__class__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__network__cb__per__error__class__focused_8cpp_1a96b51355d9a80b33799e669f35c599b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkCbPerErrorClass, NCB_PEC_01_ClassThresholdTripsFirst)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkCbPerErrorClass</type>
+        </param>
+        <param>
+          <type>NCB_PEC_01_ClassThresholdTripsFirst</type>
+        </param>
+        <briefdescription>
+<para>NCB-PEC-01: Per-class threshold trips circuit before global threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>CB global threshold = 20, class &quot;timeout&quot; threshold = 3. After 3 recordFailure(&quot;timeout&quot;) calls the circuit must be OPEN. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_cb_per_error_class_focused.cpp" line="96" column="1" bodyfile="tests/network/test_network_cb_per_error_class_focused.cpp" bodystart="96" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__cb__per__error__class__focused_8cpp_1a4b9610c568d216dd0cdd793f700fd802" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkCbPerErrorClass, NCB_PEC_02_UnknownClassNoPerClassTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkCbPerErrorClass</type>
+        </param>
+        <param>
+          <type>NCB_PEC_02_UnknownClassNoPerClassTrip</type>
+        </param>
+        <briefdescription>
+<para>NCB-PEC-02: Unknown class increments global counter, no per-class trip. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_cb_per_error_class_focused.cpp" line="122" column="1" bodyfile="tests/network/test_network_cb_per_error_class_focused.cpp" bodystart="122" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__cb__per__error__class__focused_8cpp_1a1888111d99c4a1f6389bbf320d1110e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkCbPerErrorClass, NCB_PEC_03_IndependentClassTracking)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkCbPerErrorClass</type>
+        </param>
+        <param>
+          <type>NCB_PEC_03_IndependentClassTracking</type>
+        </param>
+        <briefdescription>
+<para>NCB-PEC-03: Two independent classes track separately. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_cb_per_error_class_focused.cpp" line="147" column="1" bodyfile="tests/network/test_network_cb_per_error_class_focused.cpp" bodystart="147" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__cb__per__error__class__focused_8cpp_1a77125d391031a3f77ba7500a2b19852a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkCbPerErrorClass, NCB_PEC_04_ResetClearsPerClassCounters)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkCbPerErrorClass</type>
+        </param>
+        <param>
+          <type>NCB_PEC_04_ResetClearsPerClassCounters</type>
+        </param>
+        <briefdescription>
+<para>NCB-PEC-04: reset() clears per-class counters; fresh accumulation required. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_cb_per_error_class_focused.cpp" line="177" column="1" bodyfile="tests/network/test_network_cb_per_error_class_focused.cpp" bodystart="177" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__cb__per__error__class__focused_8cpp_1aa58a4c31d2792d7650b91406822771ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkCbPerErrorClass, NCB_PEC_05_StatsIncludePerClassCounters)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkCbPerErrorClass</type>
+        </param>
+        <param>
+          <type>NCB_PEC_05_StatsIncludePerClassCounters</type>
+        </param>
+        <briefdescription>
+<para>NCB-PEC-05: getStats() includes per-class consecutive failure count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_cb_per_error_class_focused.cpp" line="209" column="1" bodyfile="tests/network/test_network_cb_per_error_class_focused.cpp" bodystart="209" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__cb__per__error__class__focused_8cpp_1ad697d3c9fac8762b23d0b11d92d98467" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkCbPerErrorClass, NCB_PEC_06_PerClassTripAccumulatesGlobalCount)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkCbPerErrorClass</type>
+        </param>
+        <param>
+          <type>NCB_PEC_06_PerClassTripAccumulatesGlobalCount</type>
+        </param>
+        <briefdescription>
+<para>NCB-PEC-06: Per-class trip still increments global failed_calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_cb_per_error_class_focused.cpp" line="234" column="1" bodyfile="tests/network/test_network_cb_per_error_class_focused.cpp" bodystart="234" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__cb__per__error__class__focused_8cpp_1a844c2c2f4217627637cf8f995dc7e879" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkCbPerErrorClass, NCB_PEC_07_AdaptiveReducesPerClassThreshold)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkCbPerErrorClass</type>
+        </param>
+        <param>
+          <type>NCB_PEC_07_AdaptiveReducesPerClassThreshold</type>
+        </param>
+        <briefdescription>
+<para>NCB-PEC-07: Adaptive reduction decreases per-class effective threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>With adaptive_threshold enabled and adaptive_factor=0.5, the per-class effective threshold decreases after consecutive trips. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_cb_per_error_class_focused.cpp" line="259" column="1" bodyfile="tests/network/test_network_cb_per_error_class_focused.cpp" bodystart="259" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__cb__per__error__class__focused_8cpp_1a780e1f7cce2641b611f12bb3e68f5c33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkCbPerErrorClass, NCB_PEC_08_PerClassCountersResetOnRecovery)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkCbPerErrorClass</type>
+        </param>
+        <param>
+          <type>NCB_PEC_08_PerClassCountersResetOnRecovery</type>
+        </param>
+        <briefdescription>
+<para>NCB-PEC-08: Per-class counters reset on HALF_OPEN → CLOSED recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_cb_per_error_class_focused.cpp" line="315" column="1" bodyfile="tests/network/test_network_cb_per_error_class_focused.cpp" bodystart="315" bodyend="351"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1network_1_1_adaptive_circuit_breaker" kindref="compound">AdaptiveCircuitBreaker</ref> per-error-class threshold focused tests (NCB-PEC-01..NCB-PEC-08). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates the per-error-class failure threshold extension added to <ref refid="classthemis_1_1network_1_1_adaptive_circuit_breaker" kindref="compound">AdaptiveCircuitBreaker</ref> in <ref refid="adaptive__circuit__breaker_8h" kindref="compound">include/network/adaptive_circuit_breaker.h</ref>.</para>
+<para>All tests are deterministic and self-contained (no I/O, no threads).</para>
+<sect1 id="test__network__cb__per__error__class__focused_8cpp_1autotoc_md2_1s1"><sect2 id="test__network__cb__per__error__class__focused_8cpp_1autotoc_md2">
+<title>Test Cases</title><para><heading level="3">NCB-PEC-01 — Per-class threshold trips circuit independently</heading>
+</para>
+<para>CB with global threshold=10, class &quot;timeout&quot; threshold=3. After 3 recordFailure(&quot;timeout&quot;) calls the circuit is OPEN, before global threshold is reached.</para>
+<para><heading level="3">NCB-PEC-02 — Unknown error class falls through to global counter only</heading>
+</para>
+<para>recordFailure(&quot;unknown_class&quot;) increments the global counter but does NOT trigger a per-class trip. Circuit stays CLOSED until global threshold.</para>
+<para><heading level="3">NCB-PEC-03 — Different classes track independently</heading>
+</para>
+<para>Class &quot;auth&quot; threshold=2, class &quot;timeout&quot; threshold=5. 2 &quot;auth&quot; failures trip the circuit; &quot;timeout&quot; counter is irrelevant.</para>
+<para><heading level="3">NCB-PEC-04 — reset() clears per-class counters</heading>
+</para>
+<para>After a trip, reset() closes the circuit and resets per-class counters. Subsequent per-class failures must accumulate from zero again.</para>
+<para><heading level="3">NCB-PEC-05 — getStats() includes per-class failure snapshot</heading>
+</para>
+<para>After 2 &quot;connection&quot; failures, Stats::error_class_failures[&quot;connection&quot;] == 2.</para>
+<para><heading level="3">NCB-PEC-06 — Per-class failure does not bypass global counter check</heading>
+</para>
+<para>recordFailure(&quot;fast&quot;, count=threshold) trips circuit; global counter also increments for accurate Stats::failed_calls accounting.</para>
+<para><heading level="3">NCB-PEC-07 — Adaptive threshold reduces per-class effective threshold</heading>
+</para>
+<para>With adaptive=true and consecutive trips, per-class effective threshold decreases on repeated trips (trips faster than the configured threshold).</para>
+<para><heading level="3">NCB-PEC-08 — Per-class counters reset on HALF_OPEN → CLOSED recovery</heading>
+</para>
+<para>After circuit recovery (HALF_OPEN → CLOSED), per-class counters are zero. Fresh per-class failures accumulate from zero. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adaptive__circuit__breaker_8h" kindref="compound">network/adaptive_circuit_breaker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">themis::network</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config" kindref="compound">AdaptiveCircuitBreaker::Config</ref><sp/>makeConfigWithClass(</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error_class,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>class_threshold,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>global_threshold<sp/>=<sp/>20,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adaptive<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config" kindref="compound">AdaptiveCircuitBreaker::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1ac3f6cdb138ca303ae920e02449019e48" kindref="member">failure_threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>global_threshold;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a2a174aa5112aad723559403a62549064" kindref="member">success_threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a4067381a8ba207b3ecc103a406b70d14" kindref="member">open_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds(60);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a2b494ef121cacdf3aa9466fbc67dc854" kindref="member">enable_adaptive_threshold</ref><sp/><sp/>=<sp/>adaptive;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a3d4c2dfac5d90c0ffcefee23dee2f862" kindref="member">adaptive_factor</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_error_class_config" kindref="compound">AdaptiveCircuitBreaker::ErrorClassConfig</ref><sp/>ec;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>ec.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_error_class_config_1a83a064575fdd218a42a448ad44b0bc31" kindref="member">threshold</ref><sp/>=<sp/>class_threshold;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1aee5e87e22c52dd68be4ac16a7fe3e2b0" kindref="member">error_class_configs</ref>[error_class]<sp/>=<sp/>ec;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NCB-PEC-01</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__network__cb__per__error__class__focused_8cpp_1a96b51355d9a80b33799e669f35c599b6" kindref="member">TEST</ref>(NetworkCbPerErrorClass,<sp/>NCB_PEC_01_ClassThresholdTripsFirst)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfigWithClass(</highlight><highlight class="stringliteral">&quot;timeout&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*class_threshold=*/</highlight><highlight class="normal">3,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*global_threshold=*/</highlight><highlight class="normal">20);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_adaptive_circuit_breaker" kindref="compound">AdaptiveCircuitBreaker</ref><sp/>cb(cfg);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cb.getState(),<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bda110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CircuitState::CLOSED</ref>)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Initial<sp/>state<sp/>must<sp/>be<sp/>CLOSED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(cb.shouldAllow());</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.getState(),<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bda110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CircuitState::CLOSED</ref>)</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Circuit<sp/>must<sp/>still<sp/>be<sp/>CLOSED<sp/>after<sp/>2<sp/>class<sp/>failures<sp/>(threshold=3)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.getState(),<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bdaa38bd5138bf35514df41a1795ebbf5c3" kindref="member">CircuitState::OPEN</ref>)</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Circuit<sp/>must<sp/>be<sp/>OPEN<sp/>after<sp/>3<sp/>class<sp/>failures<sp/>(threshold=3),<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;regardless<sp/>of<sp/>global<sp/>threshold<sp/>(20)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NCB-PEC-02</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="test__network__cb__per__error__class__focused_8cpp_1a96b51355d9a80b33799e669f35c599b6" kindref="member">TEST</ref>(NetworkCbPerErrorClass,<sp/>NCB_PEC_02_UnknownClassNoPerClassTrip)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfigWithClass(</highlight><highlight class="stringliteral">&quot;timeout&quot;</highlight><highlight class="normal">,<sp/>3,<sp/></highlight><highlight class="comment">/*global_threshold=*/</highlight><highlight class="normal">5);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_adaptive_circuit_breaker" kindref="compound">AdaptiveCircuitBreaker</ref><sp/>cb(cfg);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4<sp/>failures<sp/>of<sp/>an<sp/>unknown<sp/>class<sp/>→<sp/>below<sp/>global<sp/>threshold<sp/>(5),<sp/>no<sp/>trip.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;unknown_class&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.getState(),<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bda110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CircuitState::CLOSED</ref>)</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Unknown<sp/>class<sp/>should<sp/>NOT<sp/>trigger<sp/>a<sp/>per-class<sp/>trip;<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;global<sp/>counter<sp/>is<sp/>4<sp/>&lt;<sp/>threshold<sp/>5&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5th<sp/>failure<sp/>of<sp/>unknown<sp/>class<sp/>→<sp/>global<sp/>threshold<sp/>reached.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;unknown_class&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.getState(),<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bdaa38bd5138bf35514df41a1795ebbf5c3" kindref="member">CircuitState::OPEN</ref>)</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;5th<sp/>unknown-class<sp/>failure<sp/>must<sp/>trip<sp/>via<sp/>global<sp/>threshold&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NCB-PEC-03</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><ref refid="test__network__cb__per__error__class__focused_8cpp_1a96b51355d9a80b33799e669f35c599b6" kindref="member">TEST</ref>(NetworkCbPerErrorClass,<sp/>NCB_PEC_03_IndependentClassTracking)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config" kindref="compound">AdaptiveCircuitBreaker::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1ac3f6cdb138ca303ae920e02449019e48" kindref="member">failure_threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a2a174aa5112aad723559403a62549064" kindref="member">success_threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a4067381a8ba207b3ecc103a406b70d14" kindref="member">open_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds(60);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a2b494ef121cacdf3aa9466fbc67dc854" kindref="member">enable_adaptive_threshold</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1aee5e87e22c52dd68be4ac16a7fe3e2b0" kindref="member">error_class_configs</ref>[</highlight><highlight class="stringliteral">&quot;auth&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/>=<sp/>{2,<sp/>0.0};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1aee5e87e22c52dd68be4ac16a7fe3e2b0" kindref="member">error_class_configs</ref>[</highlight><highlight class="stringliteral">&quot;timeout&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{5,<sp/>0.0};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_adaptive_circuit_breaker" kindref="compound">AdaptiveCircuitBreaker</ref><sp/>cb(cfg);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>&quot;timeout&quot;<sp/>failure<sp/>—<sp/>should<sp/>not<sp/>trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.getState(),<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bda110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CircuitState::CLOSED</ref>);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>&quot;auth&quot;<sp/>failures<sp/>—<sp/>should<sp/>trip<sp/>(auth<sp/>threshold=2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;auth&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;auth&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.getState(),<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bdaa38bd5138bf35514df41a1795ebbf5c3" kindref="member">CircuitState::OPEN</ref>)</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;2<sp/>auth<sp/>failures<sp/>must<sp/>trip<sp/>circuit<sp/>(auth<sp/>threshold=2)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NCB-PEC-04</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="test__network__cb__per__error__class__focused_8cpp_1a96b51355d9a80b33799e669f35c599b6" kindref="member">TEST</ref>(NetworkCbPerErrorClass,<sp/>NCB_PEC_04_ResetClearsPerClassCounters)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfigWithClass(</highlight><highlight class="stringliteral">&quot;connection&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*class_threshold=*/</highlight><highlight class="normal">2);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_adaptive_circuit_breaker" kindref="compound">AdaptiveCircuitBreaker</ref><sp/>cb(cfg);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trip<sp/>via<sp/>per-class</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;connection&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;connection&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cb.getState(),<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bdaa38bd5138bf35514df41a1795ebbf5c3" kindref="member">CircuitState::OPEN</ref>);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.reset();</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.getState(),<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bda110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CircuitState::CLOSED</ref>)</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;reset()<sp/>must<sp/>close<sp/>the<sp/>circuit&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>reset,<sp/>1<sp/>failure<sp/>should<sp/>NOT<sp/>trip<sp/>(threshold=2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;connection&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.getState(),<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bda110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CircuitState::CLOSED</ref>)</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;After<sp/>reset(),<sp/>per-class<sp/>counter<sp/>must<sp/>restart<sp/>from<sp/>0;<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1<sp/>failure<sp/>&lt;<sp/>threshold<sp/>2<sp/>must<sp/>not<sp/>trip&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2nd<sp/>failure<sp/>must<sp/>trip<sp/>again</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;connection&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.getState(),<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bdaa38bd5138bf35514df41a1795ebbf5c3" kindref="member">CircuitState::OPEN</ref>)</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;2nd<sp/>failure<sp/>after<sp/>reset<sp/>must<sp/>trip<sp/>circuit<sp/>again&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NCB-PEC-05</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="test__network__cb__per__error__class__focused_8cpp_1a96b51355d9a80b33799e669f35c599b6" kindref="member">TEST</ref>(NetworkCbPerErrorClass,<sp/>NCB_PEC_05_StatsIncludePerClassCounters)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfigWithClass(</highlight><highlight class="stringliteral">&quot;connection&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*class_threshold=*/</highlight><highlight class="normal">10);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_adaptive_circuit_breaker" kindref="compound">AdaptiveCircuitBreaker</ref><sp/>cb(cfg);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;connection&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;connection&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>cb.getStats();</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.failed_calls,<sp/>2u)</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Global<sp/>failed_calls<sp/>must<sp/>be<sp/>2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>stats.error_class_failures.find(</highlight><highlight class="stringliteral">&quot;connection&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(it,<sp/>stats.error_class_failures.end())</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Stats<sp/>must<sp/>contain<sp/>&apos;connection&apos;<sp/>class<sp/>entry&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(it-&gt;second,<sp/>2u)</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Per-class<sp/>failure<sp/>count<sp/>must<sp/>be<sp/>2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NCB-PEC-06</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="test__network__cb__per__error__class__focused_8cpp_1a96b51355d9a80b33799e669f35c599b6" kindref="member">TEST</ref>(NetworkCbPerErrorClass,<sp/>NCB_PEC_06_PerClassTripAccumulatesGlobalCount)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeConfigWithClass(</highlight><highlight class="stringliteral">&quot;fast&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*class_threshold=*/</highlight><highlight class="normal">2,</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*global_threshold=*/</highlight><highlight class="normal">20);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_adaptive_circuit_breaker" kindref="compound">AdaptiveCircuitBreaker</ref><sp/>cb(cfg);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;fast&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;fast&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>trips<sp/>via<sp/>class<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cb.getState(),<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bdaa38bd5138bf35514df41a1795ebbf5c3" kindref="member">CircuitState::OPEN</ref>);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>cb.getStats();</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.failed_calls,<sp/>2u)</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Global<sp/>failed_calls<sp/>must<sp/>reflect<sp/>the<sp/>2<sp/>per-class<sp/>failures&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NCB-PEC-07</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="test__network__cb__per__error__class__focused_8cpp_1a96b51355d9a80b33799e669f35c599b6" kindref="member">TEST</ref>(NetworkCbPerErrorClass,<sp/>NCB_PEC_07_AdaptiveReducesPerClassThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config" kindref="compound">AdaptiveCircuitBreaker::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1ac3f6cdb138ca303ae920e02449019e48" kindref="member">failure_threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a2a174aa5112aad723559403a62549064" kindref="member">success_threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a4067381a8ba207b3ecc103a406b70d14" kindref="member">open_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(1);<sp/></highlight><highlight class="comment">//<sp/>very<sp/>short<sp/>for<sp/>fast<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a6ef2cbafe5b60045b4150a53ae81cf1e" kindref="member">half_open_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(1);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a2b494ef121cacdf3aa9466fbc67dc854" kindref="member">enable_adaptive_threshold</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a3d4c2dfac5d90c0ffcefee23dee2f862" kindref="member">adaptive_factor</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_error_class_config" kindref="compound">AdaptiveCircuitBreaker::ErrorClassConfig</ref><sp/>ec;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>ec.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_error_class_config_1a83a064575fdd218a42a448ad44b0bc31" kindref="member">threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>ec.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_error_class_config_1acae06dac358bd71d6be85eb222165cde" kindref="member">adaptive_factor</ref><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1aee5e87e22c52dd68be4ac16a7fe3e2b0" kindref="member">error_class_configs</ref>[</highlight><highlight class="stringliteral">&quot;db&quot;</highlight><highlight class="normal">]<sp/>=<sp/>ec;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_adaptive_circuit_breaker" kindref="compound">AdaptiveCircuitBreaker</ref><sp/>cb(cfg);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>trip<sp/>at<sp/>class<sp/>threshold<sp/>=<sp/>4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cb.getState(),<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bdaa38bd5138bf35514df41a1795ebbf5c3" kindref="member">CircuitState::OPEN</ref>)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;First<sp/>trip<sp/>at<sp/>threshold=4&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reset<sp/>circuit<sp/>(simulate<sp/>recovery<sp/>without<sp/>full<sp/>HALF_OPEN<sp/>cycle)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.reset();</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>trip:<sp/>adaptive<sp/>logic<sp/>should<sp/>have<sp/>reduced<sp/>the<sp/>class<sp/>threshold.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>consecutive_trip_count_<sp/>&gt;=<sp/>2,<sp/>threshold<sp/>reduces<sp/>by<sp/>50%.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>But<sp/>since<sp/>we<sp/>called<sp/>reset(),<sp/>let&apos;s<sp/>trip<sp/>again<sp/>and<sp/>then<sp/>check<sp/>reduced<sp/>threshold.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>adaptive<sp/>factor<sp/>kicks<sp/>in<sp/>on<sp/>repeated<sp/>trips<sp/>(consecutive_trip_count_<sp/>&gt;=<sp/>2).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>need<sp/>to<sp/>trip<sp/>via<sp/>forceOpen<sp/>(to<sp/>increment<sp/>trip<sp/>counter)<sp/>then<sp/>reset<sp/>and<sp/>check.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.forceOpen();</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.reset();</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>consecutive_trip_count_<sp/>has<sp/>been<sp/>incremented<sp/>—<sp/>threshold<sp/>reduced<sp/>to<sp/>≤3.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>by<sp/>trying<sp/>3<sp/>failures:<sp/>if<sp/>threshold<sp/>reduced<sp/>to<sp/>2<sp/>or<sp/>3,<sp/>this<sp/>should<sp/>trip.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>failures_before_trip<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4<sp/>&amp;&amp;<sp/>cb.getState()<sp/>==<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bda110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CircuitState::CLOSED</ref>;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++failures_before_trip;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>adaptive<sp/>reduction<sp/>(2<sp/>trips),<sp/>threshold<sp/>≤<sp/>3.<sp/>So<sp/>≤<sp/>3<sp/>failures<sp/>should<sp/>trip.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(failures_before_trip,<sp/>4)</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Adaptive<sp/>reduction<sp/>should<sp/>not<sp/>require<sp/>more<sp/>failures<sp/>than<sp/>original<sp/>threshold&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>circuit<sp/>should<sp/>have<sp/>tripped<sp/>by<sp/>now.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.getState(),<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bdaa38bd5138bf35514df41a1795ebbf5c3" kindref="member">CircuitState::OPEN</ref>)</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Circuit<sp/>must<sp/>be<sp/>OPEN<sp/>after<sp/>adaptive-reduced<sp/>threshold<sp/>is<sp/>reached&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NCB-PEC-08</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><ref refid="test__network__cb__per__error__class__focused_8cpp_1a96b51355d9a80b33799e669f35c599b6" kindref="member">TEST</ref>(NetworkCbPerErrorClass,<sp/>NCB_PEC_08_PerClassCountersResetOnRecovery)<sp/>{</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config" kindref="compound">AdaptiveCircuitBreaker::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1ac3f6cdb138ca303ae920e02449019e48" kindref="member">failure_threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a2a174aa5112aad723559403a62549064" kindref="member">success_threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a4067381a8ba207b3ecc103a406b70d14" kindref="member">open_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(1);<sp/><sp/></highlight><highlight class="comment">//<sp/>expire<sp/>fast</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a6ef2cbafe5b60045b4150a53ae81cf1e" kindref="member">half_open_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds(60);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1a2b494ef121cacdf3aa9466fbc67dc854" kindref="member">enable_adaptive_threshold</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_error_class_config" kindref="compound">AdaptiveCircuitBreaker::ErrorClassConfig</ref><sp/>ec;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>ec.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_error_class_config_1a83a064575fdd218a42a448ad44b0bc31" kindref="member">threshold</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_config_1aee5e87e22c52dd68be4ac16a7fe3e2b0" kindref="member">error_class_configs</ref>[</highlight><highlight class="stringliteral">&quot;storage&quot;</highlight><highlight class="normal">]<sp/>=<sp/>ec;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_adaptive_circuit_breaker" kindref="compound">AdaptiveCircuitBreaker</ref><sp/>cb(cfg);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trip<sp/>via<sp/>per-class</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;storage&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;storage&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cb.getState(),<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bdaa38bd5138bf35514df41a1795ebbf5c3" kindref="member">CircuitState::OPEN</ref>);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>for<sp/>open_timeout<sp/>to<sp/>elapse<sp/>(1<sp/>ms)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(5));</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Probe:<sp/>shouldAllow()<sp/>transitions<sp/>to<sp/>HALF_OPEN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(cb.shouldAllow())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;After<sp/>open_timeout,<sp/>CB<sp/>must<sp/>enter<sp/>HALF_OPEN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cb.getState(),<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bda5c1c0fca237f238d3c656d55a4db3ca4" kindref="member">CircuitState::HALF_OPEN</ref>);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Recover:<sp/>record<sp/>success_threshold<sp/>successes<sp/>to<sp/>close<sp/>circuit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.recordSuccess();</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.recordSuccess();</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cb.getState(),<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bda110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CircuitState::CLOSED</ref>)</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Circuit<sp/>must<sp/>close<sp/>after<sp/>2<sp/>consecutive<sp/>successes<sp/>in<sp/>HALF_OPEN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>recovery,<sp/>1<sp/>&quot;storage&quot;<sp/>failure<sp/>must<sp/>NOT<sp/>trip<sp/>(threshold=2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>cb.recordFailure(</highlight><highlight class="stringliteral">&quot;storage&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cb.getState(),<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bda110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CircuitState::CLOSED</ref>)</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Per-class<sp/>counter<sp/>must<sp/>be<sp/>0<sp/>after<sp/>recovery;<sp/>1<sp/>failure<sp/>&lt;<sp/>threshold<sp/>2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_network_cb_per_error_class_focused.cpp"/>
+  </compounddef>
+</doxygen>

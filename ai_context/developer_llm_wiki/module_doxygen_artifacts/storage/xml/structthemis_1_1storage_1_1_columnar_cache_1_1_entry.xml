@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_columnar_cache_1_1_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::storage::ColumnarCache::Entry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_columnar_cache_1_1_entry_1abf87fedac01e421b030d499e7d8b4d31" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_column_segment" kindref="compound">ColumnSegment</ref></type>
+        <definition>ColumnSegment themis::storage::ColumnarCache::Entry::segment</definition>
+        <argsstring></argsstring>
+        <name>segment</name>
+        <qualifiedname>themis::storage::ColumnarCache::Entry::segment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="281" column="23" bodyfile="include/storage/columnar_cache.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_columnar_cache_1_1_entry_1a36d6c715e46cb36e09cbb1bbe45e0c23" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::storage::ColumnarCache::Entry::pin_count</definition>
+        <argsstring></argsstring>
+        <name>pin_count</name>
+        <qualifiedname>themis::storage::ColumnarCache::Entry::pin_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="282" column="23" bodyfile="include/storage/columnar_cache.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::storage::ColumnSegment</label>
+        <link refid="structthemis_1_1storage_1_1_column_segment"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>key</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::storage::ColumnarCache::Entry</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>segment</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::storage::SegmentKey</label>
+        <link refid="structthemis_1_1storage_1_1_segment_key"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/columnar_cache.h" line="280" column="5" bodyfile="include/storage/columnar_cache.h" bodystart="280" bodyend="283"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_columnar_cache_1_1_entry_1a36d6c715e46cb36e09cbb1bbe45e0c23" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache::Entry</scope><name>pin_count</name></member>
+      <member refid="structthemis_1_1storage_1_1_columnar_cache_1_1_entry_1abf87fedac01e421b030d499e7d8b4d31" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache::Entry</scope><name>segment</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

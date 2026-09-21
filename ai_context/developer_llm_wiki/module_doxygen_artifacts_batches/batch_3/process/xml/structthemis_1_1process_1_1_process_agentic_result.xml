@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_process_agentic_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ProcessAgenticResult</compoundname>
+    <includes refid="process__agentic__rag_8h" local="no">process_agentic_rag.h</includes>
+    <innerclass refid="structthemis_1_1process_1_1_process_agentic_result_1_1_iteration_summary" prot="public">themis::process::ProcessAgenticResult::IterationSummary</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_agentic_result_1ac59f278b6b23a3d5437ead9f9dc17cb4" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1process_1_1_process_rag_context" kindref="compound">ProcessRagContext</ref></type>
+        <definition>ProcessRagContext themis::process::ProcessAgenticResult::final_context</definition>
+        <argsstring></argsstring>
+        <name>final_context</name>
+        <qualifiedname>themis::process::ProcessAgenticResult::final_context</qualifiedname>
+        <briefdescription>
+<para>Enriched retrieval context from the final iteration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="90" column="23" bodyfile="include/process/process_agentic_rag.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_agentic_result_1adfbd6dcb4107ffd6bccb4ce96a50973d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessAgenticResult::llm_prompt</definition>
+        <argsstring></argsstring>
+        <name>llm_prompt</name>
+        <qualifiedname>themis::process::ProcessAgenticResult::llm_prompt</qualifiedname>
+        <briefdescription>
+<para>Ready-to-send LLM prompt (built from final_context). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="93" column="17" bodyfile="include/process/process_agentic_rag.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_agentic_result_1a90a1956a4376fb0597956b7f12c7584d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::ProcessAgenticResult::quality_satisfied</definition>
+        <argsstring></argsstring>
+        <name>quality_satisfied</name>
+        <qualifiedname>themis::process::ProcessAgenticResult::quality_satisfied</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True when quality_threshold was satisfied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="96" column="10" bodyfile="include/process/process_agentic_rag.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_agentic_result_1aee277d91deb41ef1b5533aff1437bf8c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::process::ProcessAgenticResult::total_iterations</definition>
+        <argsstring></argsstring>
+        <name>total_iterations</name>
+        <qualifiedname>themis::process::ProcessAgenticResult::total_iterations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of retrieval iterations executed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="99" column="12" bodyfile="include/process/process_agentic_rag.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_agentic_result_1a21ddac04c051adb4b083d6faeffb2c02" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::process::ProcessAgenticResult::total_elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>total_elapsed_ms</name>
+        <qualifiedname>themis::process::ProcessAgenticResult::total_elapsed_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total elapsed wall-clock time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="102" column="31" bodyfile="include/process/process_agentic_rag.h" bodystart="102" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_agentic_result_1a817fe47b8ae3a348088caae8f0eee32b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1_process_agentic_result_1_1_iteration_summary" kindref="compound">IterationSummary</ref> &gt;</type>
+        <definition>std::vector&lt;IterationSummary&gt; themis::process::ProcessAgenticResult::iteration_history</definition>
+        <argsstring></argsstring>
+        <name>iteration_history</name>
+        <qualifiedname>themis::process::ProcessAgenticResult::iteration_history</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_agentic_rag.h" line="111" column="17" bodyfile="include/process/process_agentic_rag.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of an iterative process question-answering session. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::process::ProcessAgenticResult</label>
+        <link refid="structthemis_1_1process_1_1_process_agentic_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>final_context</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::process::ProcessRagContext</label>
+        <link refid="structthemis_1_1process_1_1_process_rag_context"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/process/process_agentic_rag.h" line="88" column="1" bodyfile="include/process/process_agentic_rag.h" bodystart="88" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_process_agentic_result_1ac59f278b6b23a3d5437ead9f9dc17cb4" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticResult</scope><name>final_context</name></member>
+      <member refid="structthemis_1_1process_1_1_process_agentic_result_1a817fe47b8ae3a348088caae8f0eee32b" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticResult</scope><name>iteration_history</name></member>
+      <member refid="structthemis_1_1process_1_1_process_agentic_result_1adfbd6dcb4107ffd6bccb4ce96a50973d" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticResult</scope><name>llm_prompt</name></member>
+      <member refid="structthemis_1_1process_1_1_process_agentic_result_1a90a1956a4376fb0597956b7f12c7584d" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticResult</scope><name>quality_satisfied</name></member>
+      <member refid="structthemis_1_1process_1_1_process_agentic_result_1a21ddac04c051adb4b083d6faeffb2c02" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticResult</scope><name>total_elapsed_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_process_agentic_result_1aee277d91deb41ef1b5533aff1437bf8c" prot="public" virt="non-virtual"><scope>themis::process::ProcessAgenticResult</scope><name>total_iterations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

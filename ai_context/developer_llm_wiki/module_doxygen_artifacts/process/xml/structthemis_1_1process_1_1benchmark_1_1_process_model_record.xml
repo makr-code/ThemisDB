@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1benchmark_1_1_process_model_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::ProcessModelRecord</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_model_record_1aad3316b75899f50a101fb80933fc85f8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::ProcessModelRecord::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRecord::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="31" column="17" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_model_record_1aaedc63c3e362542978e1d38c538f989f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::ProcessModelRecord::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRecord::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="32" column="17" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_model_record_1a297ca13a57f19f49ad165e3685487422" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::ProcessModelRecord::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRecord::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="33" column="17" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_model_record_1a289a45d00725e02ca429dc72ca23ce81" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::ProcessModelRecord::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRecord::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="34" column="17" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_model_record_1aad641659022f5678f2fded76ff967339" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::process::benchmark::ProcessModelRecord::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRecord::embedding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="35" column="17" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_model_record_1a95c1bfe1d0e5bfeea647bb0dd7d78183" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::benchmark::ProcessModelRecord::revision</definition>
+        <argsstring></argsstring>
+        <name>revision</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRecord::revision</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="36" column="9" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_model_record_1a904e22c21050f9de9c2080474ace32aa" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::benchmark::ProcessModelRecord::created_ms</definition>
+        <argsstring></argsstring>
+        <name>created_ms</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRecord::created_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="37" column="13" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_model_record_1afbde9f37c2218983f58031b71b6905ac" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::process::benchmark::ProcessModelRecord::relevance_score</definition>
+        <argsstring></argsstring>
+        <name>relevance_score</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRecord::relevance_score</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="38" column="12" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="38" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simulated process model record. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_retriever_gates.cpp" line="30" column="1" bodyfile="benchmarks/process/bench_process_retriever_gates.cpp" bodystart="30" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_model_record_1a904e22c21050f9de9c2080474ace32aa" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRecord</scope><name>created_ms</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_model_record_1a297ca13a57f19f49ad165e3685487422" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRecord</scope><name>description</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_model_record_1aad641659022f5678f2fded76ff967339" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRecord</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_model_record_1aad3316b75899f50a101fb80933fc85f8" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRecord</scope><name>id</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_model_record_1aaedc63c3e362542978e1d38c538f989f" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRecord</scope><name>name</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_model_record_1afbde9f37c2218983f58031b71b6905ac" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRecord</scope><name>relevance_score</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_model_record_1a95c1bfe1d0e5bfeea647bb0dd7d78183" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRecord</scope><name>revision</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_model_record_1a289a45d00725e02ca429dc72ca23ce81" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRecord</scope><name>state</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

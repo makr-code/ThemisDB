@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_materialized_view_1_1_view_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::MaterializedView::ViewStats</compoundname>
+    <includes refid="materialized__view_8h" local="no">materialized_view.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_view_1_1_view_stats_1a8d2d2740e6138552188f4886126ddc31" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::MaterializedView::ViewStats::full_refreshes</definition>
+        <argsstring></argsstring>
+        <name>full_refreshes</name>
+        <qualifiedname>themis::query::MaterializedView::ViewStats::full_refreshes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="72" column="18" bodyfile="include/query/materialized_view.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_view_1_1_view_stats_1a49937f6f80197c6dc0d80eb228a9a4da" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::MaterializedView::ViewStats::incremental_updates</definition>
+        <argsstring></argsstring>
+        <name>incremental_updates</name>
+        <qualifiedname>themis::query::MaterializedView::ViewStats::incremental_updates</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="74" column="18" bodyfile="include/query/materialized_view.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_view_1_1_view_stats_1a9f37d94b70374bac101712abfdf66124" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::MaterializedView::ViewStats::query_hits</definition>
+        <argsstring></argsstring>
+        <name>query_hits</name>
+        <qualifiedname>themis::query::MaterializedView::ViewStats::query_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="76" column="18" bodyfile="include/query/materialized_view.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_view_1_1_view_stats_1ac5fbcfce0bcdffa6e63920fc56a5c6bf" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::MaterializedView::ViewStats::delta_inserts</definition>
+        <argsstring></argsstring>
+        <name>delta_inserts</name>
+        <qualifiedname>themis::query::MaterializedView::ViewStats::delta_inserts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Rows appended via INSERT delta. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="78" column="18" bodyfile="include/query/materialized_view.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_view_1_1_view_stats_1a93f21308854a8af9d6d8259a36a56964" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::MaterializedView::ViewStats::delta_deletes</definition>
+        <argsstring></argsstring>
+        <name>delta_deletes</name>
+        <qualifiedname>themis::query::MaterializedView::ViewStats::delta_deletes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Rows removed via DELETE delta. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="79" column="18" bodyfile="include/query/materialized_view.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_view_1_1_view_stats_1acb3f6abac266521b33c9c0a05d64565d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::MaterializedView::ViewStats::delta_updates</definition>
+        <argsstring></argsstring>
+        <name>delta_updates</name>
+        <qualifiedname>themis::query::MaterializedView::ViewStats::delta_updates</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Rows replaced via UPDATE delta. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="80" column="18" bodyfile="include/query/materialized_view.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_view_1_1_view_stats_1a39ef326d03cf5b2789dced6954209d28" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::MaterializedView::ViewStats::current_row_count</definition>
+        <argsstring></argsstring>
+        <name>current_row_count</name>
+        <qualifiedname>themis::query::MaterializedView::ViewStats::current_row_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="82" column="16" bodyfile="include/query/materialized_view.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_view_1_1_view_stats_1a7abb3e096fb715b3a0583b368e216d58" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::query::MaterializedView::ViewStats::last_refresh</definition>
+        <argsstring></argsstring>
+        <name>last_refresh</name>
+        <qualifiedname>themis::query::MaterializedView::ViewStats::last_refresh</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="84" column="47" bodyfile="include/query/materialized_view.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_materialized_view_1_1_view_stats_1a08881a1a05ccfd9c9efc871d396d2d9c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::MaterializedView::ViewStats::is_stale</definition>
+        <argsstring></argsstring>
+        <name>is_stale</name>
+        <qualifiedname>themis::query::MaterializedView::ViewStats::is_stale</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/materialized_view.h" line="86" column="14" bodyfile="include/query/materialized_view.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/materialized_view.h" line="71" column="5" bodyfile="include/query/materialized_view.h" bodystart="71" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_materialized_view_1_1_view_stats_1a39ef326d03cf5b2789dced6954209d28" prot="public" virt="non-virtual"><scope>themis::query::MaterializedView::ViewStats</scope><name>current_row_count</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_view_1_1_view_stats_1a93f21308854a8af9d6d8259a36a56964" prot="public" virt="non-virtual"><scope>themis::query::MaterializedView::ViewStats</scope><name>delta_deletes</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_view_1_1_view_stats_1ac5fbcfce0bcdffa6e63920fc56a5c6bf" prot="public" virt="non-virtual"><scope>themis::query::MaterializedView::ViewStats</scope><name>delta_inserts</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_view_1_1_view_stats_1acb3f6abac266521b33c9c0a05d64565d" prot="public" virt="non-virtual"><scope>themis::query::MaterializedView::ViewStats</scope><name>delta_updates</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_view_1_1_view_stats_1a8d2d2740e6138552188f4886126ddc31" prot="public" virt="non-virtual"><scope>themis::query::MaterializedView::ViewStats</scope><name>full_refreshes</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_view_1_1_view_stats_1a49937f6f80197c6dc0d80eb228a9a4da" prot="public" virt="non-virtual"><scope>themis::query::MaterializedView::ViewStats</scope><name>incremental_updates</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_view_1_1_view_stats_1a08881a1a05ccfd9c9efc871d396d2d9c" prot="public" virt="non-virtual"><scope>themis::query::MaterializedView::ViewStats</scope><name>is_stale</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_view_1_1_view_stats_1a7abb3e096fb715b3a0583b368e216d58" prot="public" virt="non-virtual"><scope>themis::query::MaterializedView::ViewStats</scope><name>last_refresh</name></member>
+      <member refid="structthemis_1_1query_1_1_materialized_view_1_1_view_stats_1a9f37d94b70374bac101712abfdf66124" prot="public" virt="non-virtual"><scope>themis::query::MaterializedView::ViewStats</scope><name>query_hits</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,701 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_video_processor" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::VideoProcessor</compoundname>
+    <basecompoundref refid="classthemis_1_1content_1_1_i_content_processor_plugin" prot="public" virt="non-virtual">themis::content::IContentProcessorPlugin</basecompoundref>
+    <includes refid="video__processor_8h" local="no">video_processor.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_video_processor_1a684b79387bb5b55a9af05143299048f1" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::VideoProcessor::max_thumbnail_width_</definition>
+        <argsstring></argsstring>
+        <name>max_thumbnail_width_</name>
+        <qualifiedname>themis::content::VideoProcessor::max_thumbnail_width_</qualifiedname>
+        <initializer>= 320</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="57" column="9" bodyfile="include/content/video_processor.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_video_processor_1a29dc6ea08138a4201c9a304873d80a02" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::VideoProcessor::max_thumbnail_height_</definition>
+        <argsstring></argsstring>
+        <name>max_thumbnail_height_</name>
+        <qualifiedname>themis::content::VideoProcessor::max_thumbnail_height_</qualifiedname>
+        <initializer>= 240</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="58" column="9" bodyfile="include/content/video_processor.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_video_processor_1aeb384f2380d4c322bbfac66b97695d88" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::VideoProcessor::max_keyframes_</definition>
+        <argsstring></argsstring>
+        <name>max_keyframes_</name>
+        <qualifiedname>themis::content::VideoProcessor::max_keyframes_</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="59" column="9" bodyfile="include/content/video_processor.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_video_processor_1af3b2fe5d36b990f7c956a904dbac18ba" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::VideoProcessor::extract_subtitles_</definition>
+        <argsstring></argsstring>
+        <name>extract_subtitles_</name>
+        <qualifiedname>themis::content::VideoProcessor::extract_subtitles_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="60" column="10" bodyfile="include/content/video_processor.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_video_processor_1a61896cdc5e4ecbfb1a44b4cd183122b1" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::VideoProcessor::enable_scene_detection_</definition>
+        <argsstring></argsstring>
+        <name>enable_scene_detection_</name>
+        <qualifiedname>themis::content::VideoProcessor::enable_scene_detection_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="61" column="10" bodyfile="include/content/video_processor.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_video_processor_1ab01a75c66c71c3907864c50de9ef94cb" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::content::VideoProcessor::scene_detection_threshold_</definition>
+        <argsstring></argsstring>
+        <name>scene_detection_threshold_</name>
+        <qualifiedname>themis::content::VideoProcessor::scene_detection_threshold_</qualifiedname>
+        <initializer>= 0.4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="62" column="12" bodyfile="include/content/video_processor.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_video_processor_1ae3985bc21e44ccd648df6bb325cfec44" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::content::VideoProcessor::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::content::VideoProcessor::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="65" column="24" bodyfile="include/content/video_processor.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_video_processor_1ab6dc911c2c6481e92b42f043f49581cc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::VideoProcessor::videos_processed_</definition>
+        <argsstring></argsstring>
+        <name>videos_processed_</name>
+        <qualifiedname>themis::content::VideoProcessor::videos_processed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="66" column="17" bodyfile="include/content/video_processor.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_video_processor_1a47e969372d10b1bcbab3751644a99169" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::VideoProcessor::total_duration_ms_</definition>
+        <argsstring></argsstring>
+        <name>total_duration_ms_</name>
+        <qualifiedname>themis::content::VideoProcessor::total_duration_ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="67" column="17" bodyfile="include/content/video_processor.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_video_processor_1ad5b699638792bd0bd223af4fb75e2168" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::VideoProcessor::errors_</definition>
+        <argsstring></argsstring>
+        <name>errors_</name>
+        <qualifiedname>themis::content::VideoProcessor::errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="68" column="17" bodyfile="include/content/video_processor.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_video_processor_1ae5180ee809137007bb2e90ab53732dd4" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::VideoProcessor::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::content::VideoProcessor::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="70" column="10" bodyfile="include/content/video_processor.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_video_processor_1a38472022c08f7f52ba7a904d93825078" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::VideoProcessor::VideoProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>VideoProcessor</name>
+        <qualifiedname>themis::content::VideoProcessor::VideoProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="31" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_video_processor_1a53f632e8493cdd6f4d02b8abc38e8dff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::VideoProcessor::~VideoProcessor</definition>
+        <argsstring>() override</argsstring>
+        <name>~VideoProcessor</name>
+        <qualifiedname>themis::content::VideoProcessor::~VideoProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="32" column="5" bodyfile="src/content/video_processor.cpp" bodystart="70" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_video_processor_1acec208bc290ba1d05a1bad0896a3d311" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_plugin_info" kindref="compound">PluginInfo</ref></type>
+        <definition>PluginInfo themis::content::VideoProcessor::getInfo</definition>
+        <argsstring>() const override</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>themis::content::VideoProcessor::getInfo</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a8e52be85b5ae560c3011da03a6c6c8f4">getInfo</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="35" column="16" bodyfile="src/content/video_processor.cpp" bodystart="76" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_video_processor_1a89f2b719d4f7b3e17fc75e506e1206b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::VideoProcessor::initialize</definition>
+        <argsstring>(const PluginConfig &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::content::VideoProcessor::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1aeca4397e7b73a85723905580d527609c">initialize</reimplements>
+        <param>
+          <type>const <ref refid="classthemis_1_1content_1_1_plugin_config" kindref="compound">PluginConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: isValidThumbnailBufferLayout(), AV_VERSION_INT(), av_register_all(), avformat_network_init(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="36" column="10" bodyfile="src/content/video_processor.cpp" bodystart="105" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_video_processor_1aff3e8bebb8457e4f97712fe8cb4ae055" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::content::VideoProcessor::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::content::VideoProcessor::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac85694c52ef13fe9cce6962d855e7ecc">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: avformat_network_deinit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="37" column="10" bodyfile="src/content/video_processor.cpp" bodystart="139" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_video_processor_1ae1878b75c641038b8b5758e69b4d6caf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::VideoProcessor::canProcess</definition>
+        <argsstring>(const std::string &amp;mime_type) const override</argsstring>
+        <name>canProcess</name>
+        <qualifiedname>themis::content::VideoProcessor::canProcess</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac907820228242cebb5eefedc0bcc9099">canProcess</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="38" column="10" bodyfile="src/content/video_processor.cpp" bodystart="152" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_video_processor_1adf2c293b343b31b9cfc7530615533d66" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_extraction_result" kindref="compound">ContentExtractionResult</ref></type>
+        <definition>ContentExtractionResult themis::content::VideoProcessor::extract</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob, const std::string &amp;mime_type, const ExtractionOptions &amp;options={}) override</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::content::VideoProcessor::extract</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ab75f0b659364d0827bb04d25620d026d">extract</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_extraction_options" kindref="compound">ExtractionOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Extract. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), size(), empty(), <ref refid="classthemis_1_1content_1_1_video_processor_1ae1878b75c641038b8b5758e69b4d6caf" kindref="member">canProcess()</ref>, extractMetadata(), generateThumbnail(), extractKeyframes(), json::array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="40" column="29" bodyfile="src/content/video_processor.cpp" bodystart="168" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_video_processor_1acac8d7d73538f92b2ef2aa61ea49f977" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_chunk" kindref="compound">ContentChunk</ref> &gt;</type>
+        <definition>std::vector&lt; ContentChunk &gt; themis::content::VideoProcessor::chunk</definition>
+        <argsstring>(const ContentExtractionResult &amp;result, int max_tokens, int overlap) override</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::content::VideoProcessor::chunk</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac22b3bce77a0fbafc94e5d1ae959cbde">chunk</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_extraction_result" kindref="compound">ContentExtractionResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>overlap</declname>
+        </param>
+        <briefdescription>
+<para>Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), stream(), std::getline(), <ref refid="namespacethemis_1_1content_1af5b4c2d5e4f47a70645a225a95de29f8" kindref="member">countTokens()</ref>, push_back(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="46" column="17" bodyfile="src/content/video_processor.cpp" bodystart="303" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_video_processor_1a5046b3bc9842cd7a1246c6842a4d3f5d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::VideoProcessor::healthCheck</definition>
+        <argsstring>() const override</argsstring>
+        <name>healthCheck</name>
+        <qualifiedname>themis::content::VideoProcessor::healthCheck</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a1bc044108d313feaa4caca2087743529">healthCheck</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="52" column="10" bodyfile="src/content/video_processor.cpp" bodystart="359" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_video_processor_1a85a4323f7c732fbebf564ac12640b43f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::VideoProcessor::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::content::VideoProcessor::getStatistics</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a44d5c1d1d89d2c55eb8a59bbb4125d46">getStatistics</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="53" column="10" bodyfile="src/content/video_processor.cpp" bodystart="370" bodyend="377"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_video_processor_1a18408eaba1d723c6a3ddc4f8ed67ca43" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_media_extraction_data" kindref="compound">MediaExtractionData</ref></type>
+        <definition>MediaExtractionData themis::content::VideoProcessor::extractMetadata</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>extractMetadata</name>
+        <qualifiedname>themis::content::VideoProcessor::extractMetadata</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Extract Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractMetadataFFmpeg(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="78" column="25" bodyfile="src/content/video_processor.cpp" bodystart="387" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_video_processor_1a52adba9c74bc78123db34ce21257b2f6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::content::VideoProcessor::generateThumbnail</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>generateThumbnail</name>
+        <qualifiedname>themis::content::VideoProcessor::generateThumbnail</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Generate Thumbnail. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateThumbnailFFmpeg(), else(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="84" column="17" bodyfile="src/content/video_processor.cpp" bodystart="439" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_video_processor_1a06cd7ee09b8180034c0c26b97f69413e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::VideoProcessor::extractSubtitles</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>extractSubtitles</name>
+        <qualifiedname>themis::content::VideoProcessor::extractSubtitles</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Extract Subtitles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements extractSubtitles without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="90" column="17" bodyfile="src/content/video_processor.cpp" bodystart="455" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_video_processor_1ae13fbe653d967e70066b475c7273d593" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt; int64_t &gt; themis::content::VideoProcessor::detectScenes</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>detectScenes</name>
+        <qualifiedname>themis::content::VideoProcessor::detectScenes</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Detect Scenes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: detectScenesFFmpeg(), else(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="96" column="17" bodyfile="src/content/video_processor.cpp" bodystart="470" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_video_processor_1ae87d92663e0a1558cd9660569246ef58" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt; int64_t &gt; themis::content::VideoProcessor::extractKeyframes</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>extractKeyframes</name>
+        <qualifiedname>themis::content::VideoProcessor::extractKeyframes</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Extract Keyframes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractKeyframesFFmpeg(), else(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/video_processor.h" line="102" column="17" bodyfile="src/content/video_processor.cpp" bodystart="487" bodyend="510"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::content::IContentProcessorPlugin</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::content::VideoProcessor</label>
+        <link refid="classthemis_1_1content_1_1_video_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::content::IContentProcessorPlugin</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::content::VideoProcessor</label>
+        <link refid="classthemis_1_1content_1_1_video_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/video_processor.h" line="29" column="1" bodyfile="include/content/video_processor.h" bodystart="29" bodyend="130"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_video_processor_1ae1878b75c641038b8b5758e69b4d6caf" prot="public" virt="virtual"><scope>themis::content::VideoProcessor</scope><name>canProcess</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1acac8d7d73538f92b2ef2aa61ea49f977" prot="public" virt="virtual"><scope>themis::content::VideoProcessor</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1ae13fbe653d967e70066b475c7273d593" prot="private" virt="non-virtual"><scope>themis::content::VideoProcessor</scope><name>detectScenes</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1a61896cdc5e4ecbfb1a44b4cd183122b1" prot="private" virt="non-virtual"><scope>themis::content::VideoProcessor</scope><name>enable_scene_detection_</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1ad5b699638792bd0bd223af4fb75e2168" prot="private" virt="non-virtual"><scope>themis::content::VideoProcessor</scope><name>errors_</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1adf2c293b343b31b9cfc7530615533d66" prot="public" virt="virtual"><scope>themis::content::VideoProcessor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1af3b2fe5d36b990f7c956a904dbac18ba" prot="private" virt="non-virtual"><scope>themis::content::VideoProcessor</scope><name>extract_subtitles_</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1ae87d92663e0a1558cd9660569246ef58" prot="private" virt="non-virtual"><scope>themis::content::VideoProcessor</scope><name>extractKeyframes</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1a18408eaba1d723c6a3ddc4f8ed67ca43" prot="private" virt="non-virtual"><scope>themis::content::VideoProcessor</scope><name>extractMetadata</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1a06cd7ee09b8180034c0c26b97f69413e" prot="private" virt="non-virtual"><scope>themis::content::VideoProcessor</scope><name>extractSubtitles</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1af5574d3a58ab4c08aab471346728895b" prot="public" virt="virtual"><scope>themis::content::VideoProcessor</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1a52adba9c74bc78123db34ce21257b2f6" prot="private" virt="non-virtual"><scope>themis::content::VideoProcessor</scope><name>generateThumbnail</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1acec208bc290ba1d05a1bad0896a3d311" prot="public" virt="virtual"><scope>themis::content::VideoProcessor</scope><name>getInfo</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1a85a4323f7c732fbebf564ac12640b43f" prot="public" virt="virtual"><scope>themis::content::VideoProcessor</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1a5046b3bc9842cd7a1246c6842a4d3f5d" prot="public" virt="virtual"><scope>themis::content::VideoProcessor</scope><name>healthCheck</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1a89f2b719d4f7b3e17fc75e506e1206b4" prot="public" virt="virtual"><scope>themis::content::VideoProcessor</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1ae5180ee809137007bb2e90ab53732dd4" prot="private" virt="non-virtual"><scope>themis::content::VideoProcessor</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1aeb384f2380d4c322bbfac66b97695d88" prot="private" virt="non-virtual"><scope>themis::content::VideoProcessor</scope><name>max_keyframes_</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1a29dc6ea08138a4201c9a304873d80a02" prot="private" virt="non-virtual"><scope>themis::content::VideoProcessor</scope><name>max_thumbnail_height_</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1a684b79387bb5b55a9af05143299048f1" prot="private" virt="non-virtual"><scope>themis::content::VideoProcessor</scope><name>max_thumbnail_width_</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1ab01a75c66c71c3907864c50de9ef94cb" prot="private" virt="non-virtual"><scope>themis::content::VideoProcessor</scope><name>scene_detection_threshold_</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1aff3e8bebb8457e4f97712fe8cb4ae055" prot="public" virt="virtual"><scope>themis::content::VideoProcessor</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1ae3985bc21e44ccd648df6bb325cfec44" prot="private" virt="non-virtual"><scope>themis::content::VideoProcessor</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1a47e969372d10b1bcbab3751644a99169" prot="private" virt="non-virtual"><scope>themis::content::VideoProcessor</scope><name>total_duration_ms_</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1a38472022c08f7f52ba7a904d93825078" prot="public" virt="non-virtual"><scope>themis::content::VideoProcessor</scope><name>VideoProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1ab6dc911c2c6481e92b42f043f49581cc" prot="private" virt="non-virtual"><scope>themis::content::VideoProcessor</scope><name>videos_processed_</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a1dcdabe9bde9b32c70262ec3ec23cd2d" prot="public" virt="virtual"><scope>themis::content::VideoProcessor</scope><name>~IContentProcessorPlugin</name></member>
+      <member refid="classthemis_1_1content_1_1_video_processor_1a53f632e8493cdd6f4d02b8abc38e8dff" prot="public" virt="non-virtual"><scope>themis::content::VideoProcessor</scope><name>~VideoProcessor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

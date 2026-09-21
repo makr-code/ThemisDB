@@ -1,0 +1,398 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::InMemoryXOEVImporter</compoundname>
+    <basecompoundref refid="classthemis_1_1importers_1_1_i_x_o_e_v_importer" prot="public" virt="non-virtual">themis::importers::IXOEVImporter</basecompoundref>
+    <includes refid="xoev__importer_8h" local="no">xoev_importer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer_1a31483961a9ceb7239434ae54d108eba2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::importers::InMemoryXOEVImporter::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::importers::InMemoryXOEVImporter::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="412" column="24" bodyfile="include/importers/xoev_importer.h" bodystart="412" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer_1a3057863b431d4af702f0e151fb8743c5" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1importers_1_1_x_o_e_v_record" kindref="compound">XOEVRecord</ref> &gt;</type>
+        <definition>std::map&lt;std::string, XOEVRecord&gt; themis::importers::InMemoryXOEVImporter::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::importers::InMemoryXOEVImporter::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="413" column="14" bodyfile="include/importers/xoev_importer.h" bodystart="413" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer_1a70603ba7fcb7bed21cb8391b196d7a23" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_x_o_e_v_import_result" kindref="compound">XOEVImportResult</ref></type>
+        <definition>XOEVImportResult themis::importers::InMemoryXOEVImporter::importFromXML</definition>
+        <argsstring>(std::string_view xml_content, XOEVStandard standard) override</argsstring>
+        <name>importFromXML</name>
+        <qualifiedname>themis::importers::InMemoryXOEVImporter::importFromXML</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_x_o_e_v_importer_1a760a54d30a341b5b572cb58fe2144898">importFromXML</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>xml_content</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a60c83a4dc799cf3b4f8713e930157020" kindref="member">XOEVStandard</ref></type>
+          <declname>standard</declname>
+        </param>
+        <briefdescription>
+<para>Import From XML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">xml_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">standard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Minimal extraction: find &lt;record&gt; … &lt;/record&gt; elements. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">xml_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="207" column="22" bodyfile="include/importers/xoev_importer.h" bodystart="207" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer_1a5f42ac008392a8cdd536c8650eb71988" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_x_o_e_v_export_result" kindref="compound">XOEVExportResult</ref></type>
+        <definition>XOEVExportResult themis::importers::InMemoryXOEVImporter::exportToXML</definition>
+        <argsstring>(const std::vector&lt; XOEVRecord &gt; &amp;records, XOEVStandard standard, const XOEVVersion &amp;version) override</argsstring>
+        <name>exportToXML</name>
+        <qualifiedname>themis::importers::InMemoryXOEVImporter::exportToXML</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_x_o_e_v_importer_1aaa29bb58371eed301c988007173bc5df">exportToXML</reimplements>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1importers_1_1_x_o_e_v_record" kindref="compound">XOEVRecord</ref> &gt; &amp;</type>
+          <declname>records</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a60c83a4dc799cf3b4f8713e930157020" kindref="member">XOEVStandard</ref></type>
+          <declname>standard</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_x_o_e_v_version" kindref="compound">XOEVVersion</ref> &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Export To XML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">records</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">standard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="270" column="22" bodyfile="include/importers/xoev_importer.h" bodystart="270" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer_1a8d88bd68adb5495a4b1b001458ccbe3a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::InMemoryXOEVImporter::validate</definition>
+        <argsstring>(std::string_view xml_content, XOEVStandard, const XOEVVersion &amp;, std::vector&lt; XOEVImportError &gt; &amp;errors_out) override</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::importers::InMemoryXOEVImporter::validate</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_x_o_e_v_importer_1ab65fe594f4ef0b48a05582ef90792b5a">validate</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>xml_content</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a60c83a4dc799cf3b4f8713e930157020" kindref="member">XOEVStandard</ref></type>
+          <declname>standard</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_x_o_e_v_version" kindref="compound">XOEVVersion</ref> &amp;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_x_o_e_v_import_error" kindref="compound">XOEVImportError</ref> &gt; &amp;</type>
+          <declname>errors_out</declname>
+        </param>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">xml_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">standard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">errors_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Xml. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">xml_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="305" column="10" bodyfile="include/importers/xoev_importer.h" bodystart="305" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer_1aa033a299532cd1a4c778c71c3d90674b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_x_o_e_v_record" kindref="compound">XOEVRecord</ref> &gt;</type>
+        <definition>std::vector&lt; XOEVRecord &gt; themis::importers::InMemoryXOEVImporter::storedRecords</definition>
+        <argsstring>() const override</argsstring>
+        <name>storedRecords</name>
+        <qualifiedname>themis::importers::InMemoryXOEVImporter::storedRecords</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_x_o_e_v_importer_1ab860acbeaea040274d8c9e18aca3a3db">storedRecords</reimplements>
+        <briefdescription>
+<para>Stored Records. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="329" column="17" bodyfile="include/importers/xoev_importer.h" bodystart="329" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer_1a118ed6daa641bb5c14c2fc087879ec1e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::importers::InMemoryXOEVImporter::clearRecords</definition>
+        <argsstring>() override</argsstring>
+        <name>clearRecords</name>
+        <qualifiedname>themis::importers::InMemoryXOEVImporter::clearRecords</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_x_o_e_v_importer_1a02c9206308cdf79be25395e8aeca698f">clearRecords</reimplements>
+        <briefdescription>
+<para>Clear Records. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="345" column="10" bodyfile="include/importers/xoev_importer.h" bodystart="345" bodyend="353"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer_1a34ac8704133d9913aeadc311dfbd26f4" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::importers::InMemoryXOEVImporter::extractFields_</definition>
+        <argsstring>(const std::string &amp;fragment, std::map&lt; std::string, std::string &gt; &amp;out)</argsstring>
+        <name>extractFields_</name>
+        <qualifiedname>themis::importers::InMemoryXOEVImporter::extractFields_</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fragment</declname>
+        </param>
+        <param>
+          <type>std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="358" column="17" bodyfile="include/importers/xoev_importer.h" bodystart="358" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer_1ad8eb61cc9ef8a298e8db6c5149581b45" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::importers::InMemoryXOEVImporter::escapeXML_</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>escapeXML_</name>
+        <qualifiedname>themis::importers::InMemoryXOEVImporter::escapeXML_</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Escape XML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="396" column="24" bodyfile="include/importers/xoev_importer.h" bodystart="396" bodyend="410"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::importers::IXOEVImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_x_o_e_v_importer"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::InMemoryXOEVImporter</label>
+        <link refid="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::importers::IXOEVImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_x_o_e_v_importer"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::InMemoryXOEVImporter</label>
+        <link refid="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/xoev_importer.h" line="203" column="1" bodyfile="include/importers/xoev_importer.h" bodystart="203" bodyend="414"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer_1a118ed6daa641bb5c14c2fc087879ec1e" prot="public" virt="virtual"><scope>themis::importers::InMemoryXOEVImporter</scope><name>clearRecords</name></member>
+      <member refid="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer_1ad8eb61cc9ef8a298e8db6c5149581b45" prot="private" virt="non-virtual"><scope>themis::importers::InMemoryXOEVImporter</scope><name>escapeXML_</name></member>
+      <member refid="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer_1a5f42ac008392a8cdd536c8650eb71988" prot="public" virt="virtual"><scope>themis::importers::InMemoryXOEVImporter</scope><name>exportToXML</name></member>
+      <member refid="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer_1a34ac8704133d9913aeadc311dfbd26f4" prot="private" virt="non-virtual"><scope>themis::importers::InMemoryXOEVImporter</scope><name>extractFields_</name></member>
+      <member refid="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer_1a70603ba7fcb7bed21cb8391b196d7a23" prot="public" virt="virtual"><scope>themis::importers::InMemoryXOEVImporter</scope><name>importFromXML</name></member>
+      <member refid="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer_1a31483961a9ceb7239434ae54d108eba2" prot="private" virt="non-virtual"><scope>themis::importers::InMemoryXOEVImporter</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer_1a3057863b431d4af702f0e151fb8743c5" prot="private" virt="non-virtual"><scope>themis::importers::InMemoryXOEVImporter</scope><name>store_</name></member>
+      <member refid="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer_1aa033a299532cd1a4c778c71c3d90674b" prot="public" virt="virtual"><scope>themis::importers::InMemoryXOEVImporter</scope><name>storedRecords</name></member>
+      <member refid="classthemis_1_1importers_1_1_in_memory_x_o_e_v_importer_1a8d88bd68adb5495a4b1b001458ccbe3a" prot="public" virt="virtual"><scope>themis::importers::InMemoryXOEVImporter</scope><name>validate</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_x_o_e_v_importer_1a599443c63dbc39ec763bf62115af0608" prot="public" virt="virtual"><scope>themis::importers::InMemoryXOEVImporter</scope><name>~IXOEVImporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

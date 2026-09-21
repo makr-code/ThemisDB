@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_content_search_query_1_1_metadata_filter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ContentSearchQuery::MetadataFilter</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1query_1_1_content_search_query_1_1_metadata_filter_1a277399b99fbe14a8dd240a58e7f7ed74" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Op</name>
+        <qualifiedname>themis::query::ContentSearchQuery::MetadataFilter::Op</qualifiedname>
+        <enumvalue id="structthemis_1_1query_1_1_content_search_query_1_1_metadata_filter_1a277399b99fbe14a8dd240a58e7f7ed74a6837aeca94b8f55801166eb031e26a5a" prot="public">
+          <name>EQUALS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_content_search_query_1_1_metadata_filter_1a277399b99fbe14a8dd240a58e7f7ed74ad898a01a21468f1ad0c7d1c216844db2" prot="public">
+          <name>NOT_EQUALS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_content_search_query_1_1_metadata_filter_1a277399b99fbe14a8dd240a58e7f7ed74a7c8b81e077a45b6d2c9c03d3a22c0d5b" prot="public">
+          <name>CONTAINS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1query_1_1_content_search_query_1_1_metadata_filter_1a277399b99fbe14a8dd240a58e7f7ed74ac86ee0d9d7ed3e7b4fdbf486fa6c0ebb" prot="public">
+          <name>IN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="163" column="9" bodyfile="include/query/query_engine.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_content_search_query_1_1_metadata_filter_1ae80c8e313e61fff749cf32fce0428d85" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ContentSearchQuery::MetadataFilter::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::query::ContentSearchQuery::MetadataFilter::field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="162" column="21" bodyfile="include/query/query_engine.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_content_search_query_1_1_metadata_filter_1a66cc8ad054e2837627c429c0e44967d0" prot="public" static="no" mutable="no">
+        <type>enum <ref refid="structthemis_1_1query_1_1_content_search_query_1_1_metadata_filter_1a277399b99fbe14a8dd240a58e7f7ed74" kindref="member">themis::query::ContentSearchQuery::MetadataFilter::Op</ref></type>
+        <definition>enum themis::query::ContentSearchQuery::MetadataFilter::Op themis::query::ContentSearchQuery::MetadataFilter::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::query::ContentSearchQuery::MetadataFilter::op</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1query_1_1_content_search_query_1_1_metadata_filter_1a277399b99fbe14a8dd240a58e7f7ed74a6837aeca94b8f55801166eb031e26a5a" kindref="member">Op::EQUALS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="163" column="26"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_content_search_query_1_1_metadata_filter_1aee885f4caeb8f44752639742804737b5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ContentSearchQuery::MetadataFilter::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::query::ContentSearchQuery::MetadataFilter::value</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="164" column="21" bodyfile="include/query/query_engine.h" bodystart="164" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_content_search_query_1_1_metadata_filter_1adc9ec9abec56640903830696f2b49f28" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::ContentSearchQuery::MetadataFilter::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <qualifiedname>themis::query::ContentSearchQuery::MetadataFilter::values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="165" column="21" bodyfile="include/query/query_engine.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="161" column="5" bodyfile="include/query/query_engine.h" bodystart="161" bodyend="166"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_content_search_query_1_1_metadata_filter_1ae80c8e313e61fff749cf32fce0428d85" prot="public" virt="non-virtual"><scope>themis::query::ContentSearchQuery::MetadataFilter</scope><name>field</name></member>
+      <member refid="structthemis_1_1query_1_1_content_search_query_1_1_metadata_filter_1a277399b99fbe14a8dd240a58e7f7ed74" prot="public" virt="non-virtual"><scope>themis::query::ContentSearchQuery::MetadataFilter</scope><name>Op</name></member>
+      <member refid="structthemis_1_1query_1_1_content_search_query_1_1_metadata_filter_1a66cc8ad054e2837627c429c0e44967d0" prot="public" virt="non-virtual"><scope>themis::query::ContentSearchQuery::MetadataFilter</scope><name>op</name></member>
+      <member refid="structthemis_1_1query_1_1_content_search_query_1_1_metadata_filter_1aee885f4caeb8f44752639742804737b5" prot="public" virt="non-virtual"><scope>themis::query::ContentSearchQuery::MetadataFilter</scope><name>value</name></member>
+      <member refid="structthemis_1_1query_1_1_content_search_query_1_1_metadata_filter_1adc9ec9abec56640903830696f2b49f28" prot="public" virt="non-virtual"><scope>themis::query::ContentSearchQuery::MetadataFilter</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

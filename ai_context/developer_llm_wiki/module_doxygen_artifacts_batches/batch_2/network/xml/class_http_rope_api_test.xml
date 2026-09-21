@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_rope_api_test" kind="class" language="C++" prot="public">
+    <compoundname>HttpRopeApiTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_http_rope_api_test_1a1ff916e325ca7ab4abdfd6d29ae545a9" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path HttpRopeApiTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>HttpRopeApiTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_rope.cpp" line="150" column="27" bodyfile="tests/network/test_http_rope.cpp" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_rope_api_test_1a95df6e770ae1e36f0f70a078a152f244" prot="protected" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t HttpRopeApiTest::port_</definition>
+        <argsstring></argsstring>
+        <name>port_</name>
+        <qualifiedname>HttpRopeApiTest::port_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_rope.cpp" line="151" column="14" bodyfile="tests/network/test_http_rope.cpp" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_rope_api_test_1ab1edfac9d1e575aefde347b14d300fd1" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; HttpRopeApiTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>HttpRopeApiTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_rope.cpp" line="152" column="21" bodyfile="tests/network/test_http_rope.cpp" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_rope_api_test_1aa47ca650bfbfb98c06dd7b9a1e0e0e23" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::SecondaryIndexManager&gt; HttpRopeApiTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>HttpRopeApiTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_rope.cpp" line="153" column="21" bodyfile="tests/network/test_http_rope.cpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_rope_api_test_1a17e5c12d43f2e09108124cd5b2a1be34" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::GraphIndexManager&gt; HttpRopeApiTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>HttpRopeApiTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_rope.cpp" line="154" column="21" bodyfile="tests/network/test_http_rope.cpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_rope_api_test_1a81ab0ef8d2021b8201a9abf84cc34884" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; HttpRopeApiTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>HttpRopeApiTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_rope.cpp" line="155" column="21" bodyfile="tests/network/test_http_rope.cpp" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_rope_api_test_1a00ba692273829740f1594a08f2068056" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TransactionManager&gt; HttpRopeApiTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>HttpRopeApiTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_rope.cpp" line="156" column="21" bodyfile="tests/network/test_http_rope.cpp" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_rope_api_test_1ab6a7d75c330fc7c215d898311affe1bd" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::server::HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::HttpServer&gt; HttpRopeApiTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>HttpRopeApiTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_rope.cpp" line="157" column="21" bodyfile="tests/network/test_http_rope.cpp" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_http_rope_api_test_1adc7ba369f56b1db3199fd1c93b02b21e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpRopeApiTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HttpRopeApiTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_rope.cpp" line="29" column="10" bodyfile="tests/network/test_http_rope.cpp" bodystart="29" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_rope_api_test_1ab28d92d2762665ca57606d632b4b449b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpRopeApiTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HttpRopeApiTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_rope.cpp" line="66" column="10" bodyfile="tests/network/test_http_rope.cpp" bodystart="66" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_rope_api_test_1a61913e1eb50bb8d4de0652df781c5e19" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref></type>
+        <definition>json HttpRopeApiTest::httpPost</definition>
+        <argsstring>(const std::string &amp;target, const json &amp;body)</argsstring>
+        <name>httpPost</name>
+        <qualifiedname>HttpRopeApiTest::httpPost</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_rope.cpp" line="78" column="10" bodyfile="tests/network/test_http_rope.cpp" bodystart="78" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_rope_api_test_1a126611fc568d6f581582f32fdd6b10ef" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref></type>
+        <definition>json HttpRopeApiTest::httpGet</definition>
+        <argsstring>(const std::string &amp;target)</argsstring>
+        <name>httpGet</name>
+        <qualifiedname>HttpRopeApiTest::httpGet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_rope.cpp" line="104" column="10" bodyfile="tests/network/test_http_rope.cpp" bodystart="104" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_rope_api_test_1a12fbbd26ab6160e945d7110a11969abd" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref></type>
+        <definition>json HttpRopeApiTest::httpDelete</definition>
+        <argsstring>(const std::string &amp;target)</argsstring>
+        <name>httpDelete</name>
+        <qualifiedname>HttpRopeApiTest::httpDelete</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_rope.cpp" line="127" column="10" bodyfile="tests/network/test_http_rope.cpp" bodystart="127" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HttpRopeApiTest</label>
+        <link refid="class_http_rope_api_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HttpRopeApiTest</label>
+        <link refid="class_http_rope_api_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_rope.cpp" line="27" column="1" bodyfile="tests/network/test_http_rope.cpp" bodystart="27" bodyend="158"/>
+    <listofallmembers>
+      <member refid="class_http_rope_api_test_1a1ff916e325ca7ab4abdfd6d29ae545a9" prot="protected" virt="non-virtual"><scope>HttpRopeApiTest</scope><name>db_path_</name></member>
+      <member refid="class_http_rope_api_test_1a17e5c12d43f2e09108124cd5b2a1be34" prot="protected" virt="non-virtual"><scope>HttpRopeApiTest</scope><name>graph_index_</name></member>
+      <member refid="class_http_rope_api_test_1a12fbbd26ab6160e945d7110a11969abd" prot="protected" virt="non-virtual"><scope>HttpRopeApiTest</scope><name>httpDelete</name></member>
+      <member refid="class_http_rope_api_test_1a126611fc568d6f581582f32fdd6b10ef" prot="protected" virt="non-virtual"><scope>HttpRopeApiTest</scope><name>httpGet</name></member>
+      <member refid="class_http_rope_api_test_1a61913e1eb50bb8d4de0652df781c5e19" prot="protected" virt="non-virtual"><scope>HttpRopeApiTest</scope><name>httpPost</name></member>
+      <member refid="class_http_rope_api_test_1a95df6e770ae1e36f0f70a078a152f244" prot="protected" virt="non-virtual"><scope>HttpRopeApiTest</scope><name>port_</name></member>
+      <member refid="class_http_rope_api_test_1aa47ca650bfbfb98c06dd7b9a1e0e0e23" prot="protected" virt="non-virtual"><scope>HttpRopeApiTest</scope><name>secondary_index_</name></member>
+      <member refid="class_http_rope_api_test_1ab6a7d75c330fc7c215d898311affe1bd" prot="protected" virt="non-virtual"><scope>HttpRopeApiTest</scope><name>server_</name></member>
+      <member refid="class_http_rope_api_test_1adc7ba369f56b1db3199fd1c93b02b21e" prot="protected" virt="non-virtual"><scope>HttpRopeApiTest</scope><name>SetUp</name></member>
+      <member refid="class_http_rope_api_test_1ab1edfac9d1e575aefde347b14d300fd1" prot="protected" virt="non-virtual"><scope>HttpRopeApiTest</scope><name>storage_</name></member>
+      <member refid="class_http_rope_api_test_1ab28d92d2762665ca57606d632b4b449b" prot="protected" virt="non-virtual"><scope>HttpRopeApiTest</scope><name>TearDown</name></member>
+      <member refid="class_http_rope_api_test_1a00ba692273829740f1594a08f2068056" prot="protected" virt="non-virtual"><scope>HttpRopeApiTest</scope><name>tx_manager_</name></member>
+      <member refid="class_http_rope_api_test_1a81ab0ef8d2021b8201a9abf84cc34884" prot="protected" virt="non-virtual"><scope>HttpRopeApiTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

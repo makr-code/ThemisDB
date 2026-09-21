@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_updates_config_test" kind="class" language="C++" prot="public">
+    <compoundname>UpdatesConfigTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_updates_config_test_1ae3e6007085cefa757fd93bd80c0b55b3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_updates_config" kindref="compound">UpdatesConfig</ref></type>
+        <definition>UpdatesConfig UpdatesConfigTest::makeConfig</definition>
+        <argsstring>()</argsstring>
+        <name>makeConfig</name>
+        <qualifiedname>UpdatesConfigTest::makeConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="485" column="19" bodyfile="tests/updates/test_updates_production.cpp" bodystart="485" bodyend="506"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>UpdatesConfigTest</label>
+        <link refid="class_updates_config_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>UpdatesConfigTest</label>
+        <link refid="class_updates_config_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/updates/test_updates_production.cpp" line="483" column="1" bodyfile="tests/updates/test_updates_production.cpp" bodystart="483" bodyend="507"/>
+    <listofallmembers>
+      <member refid="class_updates_config_test_1ae3e6007085cefa757fd93bd80c0b55b3" prot="protected" virt="non-virtual"><scope>UpdatesConfigTest</scope><name>makeConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

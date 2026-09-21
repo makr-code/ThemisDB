@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structvcc_1_1_retention_manager_1_1_compliance_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>vcc::RetentionManager::ComplianceMetrics</compoundname>
+    <includes refid="retention__manager_8h" local="no">retention_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structvcc_1_1_retention_manager_1_1_compliance_metrics_1ab35ec7b964e4b51c86707f274a39c840" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t vcc::RetentionManager::ComplianceMetrics::total_entities_in_violation</definition>
+        <argsstring></argsstring>
+        <name>total_entities_in_violation</name>
+        <qualifiedname>vcc::RetentionManager::ComplianceMetrics::total_entities_in_violation</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Entities past retention deadline. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="197" column="16" bodyfile="include/utils/retention_manager.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvcc_1_1_retention_manager_1_1_compliance_metrics_1a8ccc18704be91e122ee7837e2ae87045" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t vcc::RetentionManager::ComplianceMetrics::entities_archived</definition>
+        <argsstring></argsstring>
+        <name>entities_archived</name>
+        <qualifiedname>vcc::RetentionManager::ComplianceMetrics::entities_archived</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="198" column="16" bodyfile="include/utils/retention_manager.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvcc_1_1_retention_manager_1_1_compliance_metrics_1ae63ffd4757e87aea66d0c631c44ee7bb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t vcc::RetentionManager::ComplianceMetrics::entities_purged</definition>
+        <argsstring></argsstring>
+        <name>entities_purged</name>
+        <qualifiedname>vcc::RetentionManager::ComplianceMetrics::entities_purged</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="199" column="16" bodyfile="include/utils/retention_manager.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvcc_1_1_retention_manager_1_1_compliance_metrics_1a3eb210330b4da55067e6871159fe16e8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t vcc::RetentionManager::ComplianceMetrics::policies_active</definition>
+        <argsstring></argsstring>
+        <name>policies_active</name>
+        <qualifiedname>vcc::RetentionManager::ComplianceMetrics::policies_active</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="200" column="16" bodyfile="include/utils/retention_manager.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvcc_1_1_retention_manager_1_1_compliance_metrics_1a2beb64c084979f6fc614d03c8e3729c8" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point vcc::RetentionManager::ComplianceMetrics::last_run</definition>
+        <argsstring></argsstring>
+        <name>last_run</name>
+        <qualifiedname>vcc::RetentionManager::ComplianceMetrics::last_run</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="201" column="47" bodyfile="include/utils/retention_manager.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvcc_1_1_retention_manager_1_1_compliance_metrics_1a94a7e49648713093089522ca156ba50a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool vcc::RetentionManager::ComplianceMetrics::last_run_success</definition>
+        <argsstring></argsstring>
+        <name>last_run_success</name>
+        <qualifiedname>vcc::RetentionManager::ComplianceMetrics::last_run_success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="202" column="16" bodyfile="include/utils/retention_manager.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Compliance metrics snapshot. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/retention_manager.h" line="196" column="5" bodyfile="include/utils/retention_manager.h" bodystart="196" bodyend="203"/>
+    <listofallmembers>
+      <member refid="structvcc_1_1_retention_manager_1_1_compliance_metrics_1a8ccc18704be91e122ee7837e2ae87045" prot="public" virt="non-virtual"><scope>vcc::RetentionManager::ComplianceMetrics</scope><name>entities_archived</name></member>
+      <member refid="structvcc_1_1_retention_manager_1_1_compliance_metrics_1ae63ffd4757e87aea66d0c631c44ee7bb" prot="public" virt="non-virtual"><scope>vcc::RetentionManager::ComplianceMetrics</scope><name>entities_purged</name></member>
+      <member refid="structvcc_1_1_retention_manager_1_1_compliance_metrics_1a2beb64c084979f6fc614d03c8e3729c8" prot="public" virt="non-virtual"><scope>vcc::RetentionManager::ComplianceMetrics</scope><name>last_run</name></member>
+      <member refid="structvcc_1_1_retention_manager_1_1_compliance_metrics_1a94a7e49648713093089522ca156ba50a" prot="public" virt="non-virtual"><scope>vcc::RetentionManager::ComplianceMetrics</scope><name>last_run_success</name></member>
+      <member refid="structvcc_1_1_retention_manager_1_1_compliance_metrics_1a3eb210330b4da55067e6871159fe16e8" prot="public" virt="non-virtual"><scope>vcc::RetentionManager::ComplianceMetrics</scope><name>policies_active</name></member>
+      <member refid="structvcc_1_1_retention_manager_1_1_compliance_metrics_1ab35ec7b964e4b51c86707f274a39c840" prot="public" virt="non-virtual"><scope>vcc::RetentionManager::ComplianceMetrics</scope><name>total_entities_in_violation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

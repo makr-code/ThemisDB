@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_replication_observer_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::ReplicationObserverConfig</compoundname>
+    <includes refid="observability_8h" local="no">observability.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_observer_config_1aa20ef053450e5cc89724cce77ed828b1" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::ReplicationObserverConfig::critical_lag_threshold_ms</definition>
+        <argsstring></argsstring>
+        <name>critical_lag_threshold_ms</name>
+        <qualifiedname>themisdb::replication::ReplicationObserverConfig::critical_lag_threshold_ms</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Lag above this → is_critical = true. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="44" column="13" bodyfile="include/replication/observability.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_observer_config_1a41426055ff50abbc89094473d4c5c62b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::ReplicationObserverConfig::bottleneck_lag_threshold_ms</definition>
+        <argsstring></argsstring>
+        <name>bottleneck_lag_threshold_ms</name>
+        <qualifiedname>themisdb::replication::ReplicationObserverConfig::bottleneck_lag_threshold_ms</qualifiedname>
+        <initializer>=  5000</initializer>
+        <briefdescription>
+<para>Lag above this → network bottleneck. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="45" column="13" bodyfile="include/replication/observability.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_observer_config_1abbcccf1623fd1f04d9f219dd69219812" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::ReplicationObserverConfig::high_lag_threshold_ms</definition>
+        <argsstring></argsstring>
+        <name>high_lag_threshold_ms</name>
+        <qualifiedname>themisdb::replication::ReplicationObserverConfig::high_lag_threshold_ms</qualifiedname>
+        <initializer>=  2000</initializer>
+        <briefdescription>
+<para>Lag above this degrades lag_score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="46" column="13" bodyfile="include/replication/observability.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/observability.h" line="43" column="1" bodyfile="include/replication/observability.h" bodystart="43" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_replication_observer_config_1a41426055ff50abbc89094473d4c5c62b" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserverConfig</scope><name>bottleneck_lag_threshold_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_observer_config_1aa20ef053450e5cc89724cce77ed828b1" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserverConfig</scope><name>critical_lag_threshold_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_observer_config_1abbcccf1623fd1f04d9f219dd69219812" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserverConfig</scope><name>high_lag_threshold_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

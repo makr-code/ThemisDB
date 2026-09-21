@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_geo_dispatch_bench_fixture" kind="class" language="C++" prot="public">
+    <compoundname>GeoDispatchBenchFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_geo_dispatch_bench_fixture_1a4475308617ef5f6791baad846ba9870c" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend" kindref="compound">CPUGeoBackend</ref></type>
+        <definition>CPUGeoBackend GeoDispatchBenchFixture::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>GeoDispatchBenchFixture::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/acceleration/bench_acceleration_dispatch.cpp" line="193" column="23" bodyfile="benchmarks/acceleration/bench_acceleration_dispatch.cpp" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_geo_dispatch_bench_fixture_1a81629e3b50b03c023d3bbac6293143f2" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" kindref="compound">GeoKernelDispatch</ref></type>
+        <definition>GeoKernelDispatch GeoDispatchBenchFixture::disp_</definition>
+        <argsstring></argsstring>
+        <name>disp_</name>
+        <qualifiedname>GeoDispatchBenchFixture::disp_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/acceleration/bench_acceleration_dispatch.cpp" line="194" column="23" bodyfile="benchmarks/acceleration/bench_acceleration_dispatch.cpp" bodystart="194" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_geo_dispatch_bench_fixture_1ab461d881ba151c8d66445107f35d2f7b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GeoDispatchBenchFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GeoDispatchBenchFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/acceleration/bench_acceleration_dispatch.cpp" line="184" column="10" bodyfile="benchmarks/acceleration/bench_acceleration_dispatch.cpp" bodystart="184" bodyend="191"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GeoDispatchBenchFixture</label>
+        <link refid="class_geo_dispatch_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GeoDispatchBenchFixture</label>
+        <link refid="class_geo_dispatch_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>backend_</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>disp_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::CPUGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="7">
+        <label>themis::acceleration::GeoKernelDispatch</label>
+        <link refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch"/>
+      </node>
+      <node id="5">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="6" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::acceleration::IGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_geo_backend"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/acceleration/bench_acceleration_dispatch.cpp" line="182" column="1" bodyfile="benchmarks/acceleration/bench_acceleration_dispatch.cpp" bodystart="182" bodyend="195"/>
+    <listofallmembers>
+      <member refid="class_geo_dispatch_bench_fixture_1a4475308617ef5f6791baad846ba9870c" prot="public" virt="non-virtual"><scope>GeoDispatchBenchFixture</scope><name>backend_</name></member>
+      <member refid="class_geo_dispatch_bench_fixture_1a81629e3b50b03c023d3bbac6293143f2" prot="public" virt="non-virtual"><scope>GeoDispatchBenchFixture</scope><name>disp_</name></member>
+      <member refid="class_geo_dispatch_bench_fixture_1ab461d881ba151c8d66445107f35d2f7b" prot="public" virt="non-virtual"><scope>GeoDispatchBenchFixture</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

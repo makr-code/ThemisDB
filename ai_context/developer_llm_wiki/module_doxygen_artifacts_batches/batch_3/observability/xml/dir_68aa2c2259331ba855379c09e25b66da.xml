@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_68aa2c2259331ba855379c09e25b66da" kind="dir">
+    <compoundname>benchmarks/observability</compoundname>
+    <innerfile refid="bench__di__logging_8cpp">bench_di_logging.cpp</innerfile>
+    <innerfile refid="bench__observability__block__b__gates_8cpp">bench_observability_block_b_gates.cpp</innerfile>
+    <innerfile refid="bench__observability__goals_8cpp">bench_observability_goals.cpp</innerfile>
+    <innerfile refid="bench__observability__phase2__exporter__stress_8cpp">bench_observability_phase2_exporter_stress.cpp</innerfile>
+    <innerfile refid="bench__observability__release__gates_8cpp">bench_observability_release_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/observability/"/>
+  </compounddef>
+</doxygen>

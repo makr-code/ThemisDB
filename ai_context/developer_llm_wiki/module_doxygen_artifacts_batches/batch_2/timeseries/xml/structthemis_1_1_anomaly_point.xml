@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_anomaly_point" kind="struct" language="C++" prot="public">
+    <compoundname>themis::AnomalyPoint</compoundname>
+    <includes refid="anomaly__detection_8h" local="no">anomaly_detection.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_anomaly_point_1a6449c2cdeb233942ac39fbf46d9b4d9d" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::AnomalyPoint::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::AnomalyPoint::timestamp_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/anomaly_detection.h" line="28" column="17" bodyfile="include/timeseries/anomaly_detection.h" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_anomaly_point_1ac75e3a9e903dc2b06c2e9a7f6685e824" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AnomalyPoint::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::AnomalyPoint::value</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/anomaly_detection.h" line="29" column="17" bodyfile="include/timeseries/anomaly_detection.h" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_anomaly_point_1af12a9ce2a337b57a0b8ceb539931c8e5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AnomalyPoint::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::AnomalyPoint::score</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Detection score:<itemizedlist>
+<listitem><para>For ZScore: |z-score| (higher = more anomalous)</para>
+</listitem><listitem><para>For IQR: signed distance from the nearest fence (negative = below lower fence, positive = above upper fence) </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/anomaly_detection.h" line="35" column="17" bodyfile="include/timeseries/anomaly_detection.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_anomaly_point_1a5a32ebaa4ac14e4cedc6944144fd00ce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AnomalyPoint::method</definition>
+        <argsstring></argsstring>
+        <name>method</name>
+        <qualifiedname>themis::AnomalyPoint::method</qualifiedname>
+        <briefdescription>
+<para>Detection method that flagged this point (&quot;zscore&quot; or &quot;iqr&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/anomaly_detection.h" line="38" column="17" bodyfile="include/timeseries/anomaly_detection.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single detected anomaly in a time series. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/anomaly_detection.h" line="27" column="1" bodyfile="include/timeseries/anomaly_detection.h" bodystart="27" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_anomaly_point_1a5a32ebaa4ac14e4cedc6944144fd00ce" prot="public" virt="non-virtual"><scope>themis::AnomalyPoint</scope><name>method</name></member>
+      <member refid="structthemis_1_1_anomaly_point_1af12a9ce2a337b57a0b8ceb539931c8e5" prot="public" virt="non-virtual"><scope>themis::AnomalyPoint</scope><name>score</name></member>
+      <member refid="structthemis_1_1_anomaly_point_1a6449c2cdeb233942ac39fbf46d9b4d9d" prot="public" virt="non-virtual"><scope>themis::AnomalyPoint</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1_anomaly_point_1ac75e3a9e903dc2b06c2e9a7f6685e824" prot="public" virt="non-virtual"><scope>themis::AnomalyPoint</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

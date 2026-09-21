@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_scan_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ScanResult</compoundname>
+    <includes refid="content__api__contract_8h" local="no">content_api_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_scan_result_1ad49248c4846c456275165c5bb64a6e37" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1ad8a4c9866f0d22c6c7f96b41ea8bf855" kindref="member">ScanVerdict</ref></type>
+        <definition>ScanVerdict themis::content::ScanResult::verdict</definition>
+        <argsstring></argsstring>
+        <name>verdict</name>
+        <qualifiedname>themis::content::ScanResult::verdict</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1content_1ad8a4c9866f0d22c6c7f96b41ea8bf855a734aa42737f7263b67032297f3965a94" kindref="member">ScanVerdict::kAllow</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_api_contract.h" line="58" column="17" bodyfile="include/content/content_api_contract.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_scan_result_1a3b7548d8f733299b41bdd7ca4c6f4d4a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ScanResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::content::ScanResult::reason</qualifiedname>
+        <briefdescription>
+<para>Non-empty when verdict == kBlock. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_api_contract.h" line="59" column="17" bodyfile="include/content/content_api_contract.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_api_contract.h" line="57" column="1" bodyfile="include/content/content_api_contract.h" bodystart="57" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_scan_result_1a3b7548d8f733299b41bdd7ca4c6f4d4a" prot="public" virt="non-virtual"><scope>themis::content::ScanResult</scope><name>reason</name></member>
+      <member refid="structthemis_1_1content_1_1_scan_result_1ad49248c4846c456275165c5bb64a6e37" prot="public" virt="non-virtual"><scope>themis::content::ScanResult</scope><name>verdict</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

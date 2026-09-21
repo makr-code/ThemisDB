@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_fixed_adapter_candidate_provider" kind="class" language="C++" prot="public">
+    <compoundname>FixedAdapterCandidateProvider</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_i_adapter_candidate_provider" prot="public" virt="non-virtual">themis::llm::IAdapterCandidateProvider</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_fixed_adapter_candidate_provider_1a8a697036b76abb9d156f19211c655143" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string FixedAdapterCandidateProvider::selected_</definition>
+        <argsstring></argsstring>
+        <name>selected_</name>
+        <qualifiedname>FixedAdapterCandidateProvider::selected_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="100" column="17" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_fixed_adapter_candidate_provider_1aa8d742133a29706ad5654e73d57d382d" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>FixedAdapterCandidateProvider::FixedAdapterCandidateProvider</definition>
+        <argsstring>(std::string selected)</argsstring>
+        <name>FixedAdapterCandidateProvider</name>
+        <qualifiedname>FixedAdapterCandidateProvider::FixedAdapterCandidateProvider</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>selected</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="81" column="14" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="81" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_fixed_adapter_candidate_provider_1a80431513e80a156b566838e503e7ddf1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_selection_result" kindref="compound">AdapterSelectionResult</ref></type>
+        <definition>AdapterSelectionResult FixedAdapterCandidateProvider::selectCandidates</definition>
+        <argsstring>(const AdapterSelectionInput &amp;input) const override</argsstring>
+        <name>selectCandidates</name>
+        <qualifiedname>FixedAdapterCandidateProvider::selectCandidates</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_adapter_candidate_provider_1af90ef73c2b34eb08950678c14c5c16e1">selectCandidates</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_selection_input" kindref="compound">AdapterSelectionInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="85" column="5" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="85" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FixedAdapterCandidateProvider</label>
+        <link refid="class_fixed_adapter_candidate_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::IAdapterCandidateProvider</label>
+        <link refid="classthemis_1_1llm_1_1_i_adapter_candidate_provider"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FixedAdapterCandidateProvider</label>
+        <link refid="class_fixed_adapter_candidate_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::IAdapterCandidateProvider</label>
+        <link refid="classthemis_1_1llm_1_1_i_adapter_candidate_provider"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_ai_orchestrator.cpp" line="79" column="1" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="79" bodyend="101"/>
+    <listofallmembers>
+      <member refid="class_fixed_adapter_candidate_provider_1aa8d742133a29706ad5654e73d57d382d" prot="public" virt="non-virtual"><scope>FixedAdapterCandidateProvider</scope><name>FixedAdapterCandidateProvider</name></member>
+      <member refid="class_fixed_adapter_candidate_provider_1a80431513e80a156b566838e503e7ddf1" prot="public" virt="virtual"><scope>FixedAdapterCandidateProvider</scope><name>selectCandidates</name></member>
+      <member refid="class_fixed_adapter_candidate_provider_1a8a697036b76abb9d156f19211c655143" prot="private" virt="non-virtual"><scope>FixedAdapterCandidateProvider</scope><name>selected_</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_adapter_candidate_provider_1a17bb0a75fac5be30b8803a53fdeeb821" prot="public" virt="virtual"><scope>FixedAdapterCandidateProvider</scope><name>~IAdapterCandidateProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

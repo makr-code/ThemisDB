@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::crdt::RGArray</compoundname>
+    <includes refid="crdt__types_8h" local="no">crdt_types.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1_1_entry" prot="private">themisdb::replication::crdt::RGArray::Entry</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1a60278dac49e271589453cced1ec46c74" prot="private" static="no">
+        <type>typename std::vector&lt; Entry &gt;::iterator</type>
+        <definition>using themisdb::replication::crdt::RGArray&lt; T &gt;::It = typename std::vector&lt;Entry&gt;::iterator</definition>
+        <argsstring></argsstring>
+        <name>It</name>
+        <qualifiedname>themisdb::replication::crdt::RGArray::It</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="601" column="5" bodyfile="include/replication/crdt_types.h" bodystart="601" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1a04bf54e6b328d9b7d88c8d8deb5cb594" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::crdt::RGArray&lt; T &gt;::node_id_</definition>
+        <argsstring></argsstring>
+        <name>node_id_</name>
+        <qualifiedname>themisdb::replication::crdt::RGArray::node_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="612" column="26" bodyfile="include/replication/crdt_types.h" bodystart="612" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1ae2bbe8d6a444df3d156683a3d84a6f1c" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::crdt::RGArray&lt; T &gt;::counter_</definition>
+        <argsstring></argsstring>
+        <name>counter_</name>
+        <qualifiedname>themisdb::replication::crdt::RGArray::counter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="613" column="26" bodyfile="include/replication/crdt_types.h" bodystart="613" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1aae6bc9f4546b6dec9b8d5ce5c7113a3c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; Entry &gt;</type>
+        <definition>std::vector&lt;Entry&gt; themisdb::replication::crdt::RGArray&lt; T &gt;::elements_</definition>
+        <argsstring></argsstring>
+        <name>elements_</name>
+        <qualifiedname>themisdb::replication::crdt::RGArray::elements_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="614" column="19" bodyfile="include/replication/crdt_types.h" bodystart="614" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1a558c01c22e385ea79c431ae1a88ba10a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::crdt::RGArray&lt; T &gt;::RGArray</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>RGArray</name>
+        <qualifiedname>themisdb::replication::crdt::RGArray::RGArray</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="513" column="14" bodyfile="include/replication/crdt_types.h" bodystart="513" bodyend="514"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1aa85defc296c905fa840b2254e6188aba" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1crdt_1_1_dot" kindref="compound">Dot</ref></type>
+        <definition>Dot themisdb::replication::crdt::RGArray&lt; T &gt;::insertAfter</definition>
+        <argsstring>(const Dot &amp;after, T value)</argsstring>
+        <name>insertAfter</name>
+        <qualifiedname>themisdb::replication::crdt::RGArray::insertAfter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1crdt_1_1_dot" kindref="compound">Dot</ref> &amp;</type>
+          <declname>after</declname>
+        </param>
+        <param>
+          <type>T</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Insert <computeroutput>value</computeroutput> after the element with <ref refid="structthemisdb_1_1replication_1_1crdt_1_1_dot" kindref="compound">Dot</ref> <computeroutput>after</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Use an empty-string <ref refid="structthemisdb_1_1replication_1_1crdt_1_1_dot" kindref="compound">Dot</ref>{} to insert at the beginning. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="521" column="9" bodyfile="include/replication/crdt_types.h" bodystart="521" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1a6255b91ca2b8ead18d485541af795b85" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1crdt_1_1_dot" kindref="compound">Dot</ref></type>
+        <definition>Dot themisdb::replication::crdt::RGArray&lt; T &gt;::append</definition>
+        <argsstring>(T value)</argsstring>
+        <name>append</name>
+        <qualifiedname>themisdb::replication::crdt::RGArray::append</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Append <computeroutput>value</computeroutput> at the end of the sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="540" column="9" bodyfile="include/replication/crdt_types.h" bodystart="540" bodyend="544"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1aa48e33f9bda69461d5e447b46858d289" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::RGArray&lt; T &gt;::remove</definition>
+        <argsstring>(const Dot &amp;dot)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themisdb::replication::crdt::RGArray::remove</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1crdt_1_1_dot" kindref="compound">Dot</ref> &amp;</type>
+          <declname>dot</declname>
+        </param>
+        <briefdescription>
+<para>Delete the element identified by <computeroutput>dot</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="547" column="10" bodyfile="include/replication/crdt_types.h" bodystart="547" bodyend="552"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1a09784cfce58542d6d41dd4c25dcaeb4c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; T &gt;</type>
+        <definition>std::vector&lt; T &gt; themisdb::replication::crdt::RGArray&lt; T &gt;::read</definition>
+        <argsstring>() const</argsstring>
+        <name>read</name>
+        <qualifiedname>themisdb::replication::crdt::RGArray::read</qualifiedname>
+        <briefdescription>
+<para>Returns all live (non-tombstoned) elements in order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="555" column="17" bodyfile="include/replication/crdt_types.h" bodystart="555" bodyend="564"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1a6f388b5616f30eb94be79f8bc6498963" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::RGArray&lt; T &gt;::merge</definition>
+        <argsstring>(const RGArray&lt; T &gt; &amp;other)</argsstring>
+        <name>merge</name>
+        <qualifiedname>themisdb::replication::crdt::RGArray::merge</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1a558c01c22e385ea79c431ae1a88ba10a" kindref="member">RGArray</ref>&lt; T &gt; &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Merge another <ref refid="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array" kindref="compound">RGArray</ref> state (union of entries, order by dot). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="569" column="10" bodyfile="include/replication/crdt_types.h" bodystart="569" bodyend="582"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1a916630f2773b45764d1133d2816fb6bb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::replication::crdt::RGArray&lt; T &gt;::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themisdb::replication::crdt::RGArray::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="584" column="12" bodyfile="include/replication/crdt_types.h" bodystart="584" bodyend="592"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1adbcf946563168e4e5e86ada4be6c943e" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>It</type>
+        <definition>It themisdb::replication::crdt::RGArray&lt; T &gt;::findDot</definition>
+        <argsstring>(const Dot &amp;dot)</argsstring>
+        <name>findDot</name>
+        <qualifiedname>themisdb::replication::crdt::RGArray::findDot</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1crdt_1_1_dot" kindref="compound">Dot</ref> &amp;</type>
+          <declname>dot</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="603" column="8" bodyfile="include/replication/crdt_types.h" bodystart="603" bodyend="610"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Replicated Growable Array (RGA). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A sequence CRDT that preserves insertion order. Each element is tagged with a unique <ref refid="structthemisdb_1_1replication_1_1crdt_1_1_dot" kindref="compound">Dot</ref>. Insertions specify a predecessor <ref refid="structthemisdb_1_1replication_1_1crdt_1_1_dot" kindref="compound">Dot</ref> (the element after which to insert); deletions tombstone the element&apos;s <ref refid="structthemisdb_1_1replication_1_1crdt_1_1_dot" kindref="compound">Dot</ref>.</para>
+<para>This implementation uses a vector for O(n) insert/delete, which is acceptable for sequences of up to ~10 k elements.</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Element type. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/replication/crdt_types.h" line="511" column="1" bodyfile="include/replication/crdt_types.h" bodystart="511" bodyend="615"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1a6255b91ca2b8ead18d485541af795b85" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::RGArray</scope><name>append</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1ae2bbe8d6a444df3d156683a3d84a6f1c" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::RGArray</scope><name>counter_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1aae6bc9f4546b6dec9b8d5ce5c7113a3c" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::RGArray</scope><name>elements_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1adbcf946563168e4e5e86ada4be6c943e" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::RGArray</scope><name>findDot</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1aa85defc296c905fa840b2254e6188aba" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::RGArray</scope><name>insertAfter</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1a60278dac49e271589453cced1ec46c74" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::RGArray</scope><name>It</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1a6f388b5616f30eb94be79f8bc6498963" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::RGArray</scope><name>merge</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1a04bf54e6b328d9b7d88c8d8deb5cb594" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::RGArray</scope><name>node_id_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1a09784cfce58542d6d41dd4c25dcaeb4c" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::RGArray</scope><name>read</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1aa48e33f9bda69461d5e447b46858d289" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::RGArray</scope><name>remove</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1a558c01c22e385ea79c431ae1a88ba10a" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::RGArray</scope><name>RGArray</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_r_g_array_1a916630f2773b45764d1133d2816fb6bb" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::RGArray</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

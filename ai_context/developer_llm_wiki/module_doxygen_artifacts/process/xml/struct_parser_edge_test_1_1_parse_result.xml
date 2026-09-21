@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_parser_edge_test_1_1_parse_result" kind="struct" language="C++" prot="protected">
+    <compoundname>ParserEdgeTest::ParseResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_parser_edge_test_1_1_parse_result_1a9376042ec99b19e6f754918f8dbc9ae0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ParserEdgeTest::ParseResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>ParserEdgeTest::ParseResult::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_parser_edge_focused.cpp" line="24" column="14" bodyfile="tests/process/test_process_parser_edge_focused.cpp" bodystart="24" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_parser_edge_test_1_1_parse_result_1a4ca0ffa77549bae5f5d137e19a8fba70" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref></type>
+        <definition>ProcError ParserEdgeTest::ParseResult::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>ParserEdgeTest::ParseResult::error_code</qualifiedname>
+        <initializer>{ProcError::kDeserialiserFailed}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_parser_edge_focused.cpp" line="25" column="19" bodyfile="tests/process/test_process_parser_edge_focused.cpp" bodystart="25" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_parser_edge_test_1_1_parse_result_1a08c238c9f6f482d6fcd7645ca41a91b0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ParserEdgeTest::ParseResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>ParserEdgeTest::ParseResult::error_message</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_process_parser_edge_focused.cpp" line="26" column="21" bodyfile="tests/process/test_process_parser_edge_focused.cpp" bodystart="26" bodyend="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/process/test_process_parser_edge_focused.cpp" line="23" column="5" bodyfile="tests/process/test_process_parser_edge_focused.cpp" bodystart="23" bodyend="27"/>
+    <listofallmembers>
+      <member refid="struct_parser_edge_test_1_1_parse_result_1a4ca0ffa77549bae5f5d137e19a8fba70" prot="public" virt="non-virtual"><scope>ParserEdgeTest::ParseResult</scope><name>error_code</name></member>
+      <member refid="struct_parser_edge_test_1_1_parse_result_1a08c238c9f6f482d6fcd7645ca41a91b0" prot="public" virt="non-virtual"><scope>ParserEdgeTest::ParseResult</scope><name>error_message</name></member>
+      <member refid="struct_parser_edge_test_1_1_parse_result_1a9376042ec99b19e6f754918f8dbc9ae0" prot="public" virt="non-virtual"><scope>ParserEdgeTest::ParseResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

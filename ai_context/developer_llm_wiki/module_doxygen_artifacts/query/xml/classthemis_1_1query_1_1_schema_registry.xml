@@ -1,0 +1,713 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_schema_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::SchemaRegistry</compoundname>
+    <includes refid="ddl__executor_8h" local="no">ddl_executor.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_schema_registry_1a619552b0d1a932936d20763469f5d4eb" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::query::SchemaRegistry::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::query::SchemaRegistry::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="107" column="24" bodyfile="include/query/ddl_executor.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_schema_registry_1aa38b771e96a30d8aef2f0e63b7116589" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, nlohmann::json &gt;</type>
+        <definition>std::unordered_map&lt;std::string, nlohmann::json&gt; themis::query::SchemaRegistry::collections_</definition>
+        <argsstring></argsstring>
+        <name>collections_</name>
+        <qualifiedname>themis::query::SchemaRegistry::collections_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="109" column="24" bodyfile="include/query/ddl_executor.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_schema_registry_1ab7734d7dfb2a2fc323b21d0ea9d9b490" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, <ref refid="structthemis_1_1query_1_1_index_def" kindref="compound">IndexDef</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_map&lt;std::string, IndexDef&gt; &gt; themis::query::SchemaRegistry::indexes_</definition>
+        <argsstring></argsstring>
+        <name>indexes_</name>
+        <qualifiedname>themis::query::SchemaRegistry::indexes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="112" column="2" bodyfile="include/query/ddl_executor.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_schema_registry_1a140dc72face68815c89bbd76d158256c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::query::SchemaRegistry::views_</definition>
+        <argsstring></argsstring>
+        <name>views_</name>
+        <qualifiedname>themis::query::SchemaRegistry::views_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="114" column="24" bodyfile="include/query/ddl_executor.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_schema_registry_1a1c4392355c697af58d78093e5870e6e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::SchemaRegistry::SchemaRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>SchemaRegistry</name>
+        <qualifiedname>themis::query::SchemaRegistry::SchemaRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="38" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_schema_registry_1a9db50394f3da69aad6700214254c9e52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::SchemaRegistry::~SchemaRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SchemaRegistry</name>
+        <qualifiedname>themis::query::SchemaRegistry::~SchemaRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="39" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_schema_registry_1a0fd52eb356bf3ef2b27a8eb5af5b6487" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::SchemaRegistry::SchemaRegistry</definition>
+        <argsstring>(const SchemaRegistry &amp;)=delete</argsstring>
+        <name>SchemaRegistry</name>
+        <qualifiedname>themis::query::SchemaRegistry::SchemaRegistry</qualifiedname>
+        <param>
+          <type>const SchemaRegistry &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="42" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_schema_registry_1a8f58068fc8b2c87b23491f354eb4a23f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_schema_registry_1a1c4392355c697af58d78093e5870e6e1" kindref="member">SchemaRegistry</ref> &amp;</type>
+        <definition>SchemaRegistry &amp; themis::query::SchemaRegistry::operator=</definition>
+        <argsstring>(const SchemaRegistry &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::SchemaRegistry::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1_schema_registry_1a1c4392355c697af58d78093e5870e6e1" kindref="member">SchemaRegistry</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="43" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_schema_registry_1a95700c0c1bbe82dcb9cd13078f9b7126" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::SchemaRegistry::SchemaRegistry</definition>
+        <argsstring>(SchemaRegistry &amp;&amp;) noexcept=default</argsstring>
+        <name>SchemaRegistry</name>
+        <qualifiedname>themis::query::SchemaRegistry::SchemaRegistry</qualifiedname>
+        <param>
+          <type>SchemaRegistry &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="44" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_schema_registry_1a9a1060557ca89fa82f7cdafa620d87d7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_schema_registry_1a1c4392355c697af58d78093e5870e6e1" kindref="member">SchemaRegistry</ref> &amp;</type>
+        <definition>SchemaRegistry &amp; themis::query::SchemaRegistry::operator=</definition>
+        <argsstring>(SchemaRegistry &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::SchemaRegistry::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_schema_registry_1a1c4392355c697af58d78093e5870e6e1" kindref="member">SchemaRegistry</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="45" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_schema_registry_1a81aadc3833a97652ed3e902039f5b44d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::SchemaRegistry::hasCollection</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>hasCollection</name>
+        <qualifiedname>themis::query::SchemaRegistry::hasCollection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="49" column="11" bodyfile="src/query/ddl_executor.cpp" bodystart="26" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_schema_registry_1a0184d3620ad2cbd75e4c9c5550c9d1d2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::SchemaRegistry::hasIndex</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;index_name) const</argsstring>
+        <name>hasIndex</name>
+        <qualifiedname>themis::query::SchemaRegistry::hasIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>index_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="51" column="11" bodyfile="src/query/ddl_executor.cpp" bodystart="36" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_schema_registry_1aaba99428efcbe74a23b6ce96dd511c88" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::SchemaRegistry::hasView</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>hasView</name>
+        <qualifiedname>themis::query::SchemaRegistry::hasView</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="54" column="11" bodyfile="src/query/ddl_executor.cpp" bodystart="51" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_schema_registry_1a2c8c4694af22af8e9ad2a6eedca81605" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::SchemaRegistry::collectionOptions</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>collectionOptions</name>
+        <qualifiedname>themis::query::SchemaRegistry::collectionOptions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="56" column="21" bodyfile="src/query/ddl_executor.cpp" bodystart="61" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_schema_registry_1a09daa684919cc238f459bbef5e51c039" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::query::SchemaRegistry::collections</definition>
+        <argsstring>() const</argsstring>
+        <name>collections</name>
+        <qualifiedname>themis::query::SchemaRegistry::collections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="58" column="18" bodyfile="src/query/ddl_executor.cpp" bodystart="75" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_schema_registry_1a31af9eb99695f2cc7942c2055faf966b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::query::SchemaRegistry::views</definition>
+        <argsstring>() const</argsstring>
+        <name>views</name>
+        <qualifiedname>themis::query::SchemaRegistry::views</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="60" column="18" bodyfile="src/query/ddl_executor.cpp" bodystart="91" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_schema_registry_1a756dc577594b7353be0c5f3d3cbb8611" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::SchemaRegistry::addCollection</definition>
+        <argsstring>(const std::string &amp;name, const nlohmann::json &amp;options={})</argsstring>
+        <name>addCollection</name>
+        <qualifiedname>themis::query::SchemaRegistry::addCollection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Add Collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), emplace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="64" column="10" bodyfile="src/query/ddl_executor.cpp" bodystart="113" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_schema_registry_1a7a4bbbb96200af80b864abc673b4cce2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::SchemaRegistry::dropCollection</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>dropCollection</name>
+        <qualifiedname>themis::query::SchemaRegistry::dropCollection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Drop Collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="70" column="10" bodyfile="src/query/ddl_executor.cpp" bodystart="125" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_schema_registry_1a72e740fe8aebbe3b6c45b5f1a8bb61f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::SchemaRegistry::addIndex</definition>
+        <argsstring>(const std::string &amp;collection, const IndexDef &amp;def)</argsstring>
+        <name>addIndex</name>
+        <qualifiedname>themis::query::SchemaRegistry::addIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_index_def" kindref="compound">IndexDef</ref> &amp;</type>
+          <declname>def</declname>
+        </param>
+        <briefdescription>
+<para>Add Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">def</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="77" column="10" bodyfile="src/query/ddl_executor.cpp" bodystart="137" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_schema_registry_1a6bfad26382b4abcb4db368253043fb79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::SchemaRegistry::dropIndex</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;index_name)</argsstring>
+        <name>dropIndex</name>
+        <qualifiedname>themis::query::SchemaRegistry::dropIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>index_name</declname>
+        </param>
+        <briefdescription>
+<para>Drop Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">index_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the index.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">index_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the index.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), find(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="84" column="10" bodyfile="src/query/ddl_executor.cpp" bodystart="148" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_schema_registry_1ab0ce67f7771c6c86209598e0297fbdc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::SchemaRegistry::addView</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;body)</argsstring>
+        <name>addView</name>
+        <qualifiedname>themis::query::SchemaRegistry::addView</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Add View. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="91" column="10" bodyfile="src/query/ddl_executor.cpp" bodystart="163" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_schema_registry_1ac8e7554a5643ff7ef1db9a4ca5185ec9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::SchemaRegistry::dropView</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>dropView</name>
+        <qualifiedname>themis::query::SchemaRegistry::dropView</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Drop View. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="97" column="10" bodyfile="src/query/ddl_executor.cpp" bodystart="173" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_schema_registry_1a5d12930795dd8aad237e4d4a184c116d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::SchemaRegistry::alterCollection</definition>
+        <argsstring>(const std::string &amp;name, const nlohmann::json &amp;options)</argsstring>
+        <name>alterCollection</name>
+        <qualifiedname>themis::query::SchemaRegistry::alterCollection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Alter Collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), find(), end(), is_object(), items(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/ddl_executor.h" line="104" column="10" bodyfile="src/query/ddl_executor.cpp" bodystart="184" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/ddl_executor.h" line="36" column="1" bodyfile="include/query/ddl_executor.h" bodystart="36" bodyend="115"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1a756dc577594b7353be0c5f3d3cbb8611" prot="public" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>addCollection</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1a72e740fe8aebbe3b6c45b5f1a8bb61f1" prot="public" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>addIndex</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1ab0ce67f7771c6c86209598e0297fbdc6" prot="public" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>addView</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1a5d12930795dd8aad237e4d4a184c116d" prot="public" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>alterCollection</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1a2c8c4694af22af8e9ad2a6eedca81605" prot="public" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>collectionOptions</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1a09daa684919cc238f459bbef5e51c039" prot="public" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>collections</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1aa38b771e96a30d8aef2f0e63b7116589" prot="private" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>collections_</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1a7a4bbbb96200af80b864abc673b4cce2" prot="public" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>dropCollection</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1a6bfad26382b4abcb4db368253043fb79" prot="public" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>dropIndex</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1ac8e7554a5643ff7ef1db9a4ca5185ec9" prot="public" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>dropView</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1a81aadc3833a97652ed3e902039f5b44d" prot="public" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>hasCollection</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1a0184d3620ad2cbd75e4c9c5550c9d1d2" prot="public" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>hasIndex</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1aaba99428efcbe74a23b6ce96dd511c88" prot="public" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>hasView</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1ab7734d7dfb2a2fc323b21d0ea9d9b490" prot="private" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>indexes_</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1a619552b0d1a932936d20763469f5d4eb" prot="private" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1a8f58068fc8b2c87b23491f354eb4a23f" prot="public" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1a9a1060557ca89fa82f7cdafa620d87d7" prot="public" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1a1c4392355c697af58d78093e5870e6e1" prot="public" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>SchemaRegistry</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1a0fd52eb356bf3ef2b27a8eb5af5b6487" prot="public" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>SchemaRegistry</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1a95700c0c1bbe82dcb9cd13078f9b7126" prot="public" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>SchemaRegistry</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1a31af9eb99695f2cc7942c2055faf966b" prot="public" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>views</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1a140dc72face68815c89bbd76d158256c" prot="private" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>views_</name></member>
+      <member refid="classthemis_1_1query_1_1_schema_registry_1a9db50394f3da69aad6700214254c9e52" prot="public" virt="non-virtual"><scope>themis::query::SchemaRegistry</scope><name>~SchemaRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

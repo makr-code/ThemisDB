@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_fingerprint_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::FingerprintSummary</compoundname>
+    <basecompoundref refid="structthemis_1_1tensor_1_1_base_tensor_summary" prot="public" virt="non-virtual">themis::tensor::BaseTensorSummary</basecompoundref>
+    <includes refid="tensor__summary__types_8h" local="no">tensor_summary_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_fingerprint_summary_1ae2345f8575dd498f66a63699439f27cb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::FingerprintSummary::fingerprint_hash</definition>
+        <argsstring></argsstring>
+        <name>fingerprint_hash</name>
+        <qualifiedname>themis::tensor::FingerprintSummary::fingerprint_hash</qualifiedname>
+        <briefdescription>
+<para>Fingerprint hash value (64-bit or variable-length). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="338" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="338" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_fingerprint_summary_1a9a56c6136645a72cb7737c4d29cb000f" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::tensor::FingerprintSummary::fingerprint_bits</definition>
+        <argsstring></argsstring>
+        <name>fingerprint_bits</name>
+        <qualifiedname>themis::tensor::FingerprintSummary::fingerprint_bits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Fingerprint bit-length (64, 128, 256, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="341" column="13" bodyfile="include/tensor/tensor_summary_types.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_fingerprint_summary_1af2220bfe5a37446370e60ac0e1e2357e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::FingerprintSummary::hash_function</definition>
+        <argsstring></argsstring>
+        <name>hash_function</name>
+        <qualifiedname>themis::tensor::FingerprintSummary::hash_function</qualifiedname>
+        <briefdescription>
+<para>Hash function used (e.g., &quot;SHA256&quot;, &quot;MINHASH&quot;, &quot;LSH_COSINE&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="344" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_fingerprint_summary_1ad4dbe47c56fdcad1a7f17e7a54e753a4" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::FingerprintSummary::candidates_matched</definition>
+        <argsstring></argsstring>
+        <name>candidates_matched</name>
+        <qualifiedname>themis::tensor::FingerprintSummary::candidates_matched</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of candidates matching this fingerprint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="347" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_fingerprint_summary_1a2b7e330608f5324f1dcf154532817df0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::tensor::FingerprintSummary::hamming_distance</definition>
+        <argsstring></argsstring>
+        <name>hamming_distance</name>
+        <qualifiedname>themis::tensor::FingerprintSummary::hamming_distance</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Hamming distance to query fingerprint (0 = exact match). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="350" column="14" bodyfile="include/tensor/tensor_summary_types.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_fingerprint_summary_1a9f332cea1e1a0d343da4e1498065d85d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::FingerprintSummary::lsh_band_info</definition>
+        <argsstring></argsstring>
+        <name>lsh_band_info</name>
+        <qualifiedname>themis::tensor::FingerprintSummary::lsh_band_info</qualifiedname>
+        <briefdescription>
+<para>LSH band and row information for bucketing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="353" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_fingerprint_summary_1a9f6f2f89773a4498c7f6f36920d1d530" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::tensor::FingerprintSummary::matched_candidates</definition>
+        <argsstring></argsstring>
+        <name>matched_candidates</name>
+        <qualifiedname>themis::tensor::FingerprintSummary::matched_candidates</qualifiedname>
+        <briefdescription>
+<para>Candidate IDs that matched this fingerprint (top-k). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="356" column="17" bodyfile="include/tensor/tensor_summary_types.h" bodystart="356" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_fingerprint_summary_1ace7610479c6defb67a6c0eb9cae12604" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::FingerprintSummary::collision_probability</definition>
+        <argsstring></argsstring>
+        <name>collision_probability</name>
+        <qualifiedname>themis::tensor::FingerprintSummary::collision_probability</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Estimated collision probability for this bucket. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="359" column="11" bodyfile="include/tensor/tensor_summary_types.h" bodystart="359" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_fingerprint_summary_1ada1f52891fab33089e245fea6c117c8a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::FingerprintSummary::had_false_positives</definition>
+        <argsstring></argsstring>
+        <name>had_false_positives</name>
+        <qualifiedname>themis::tensor::FingerprintSummary::had_false_positives</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether this fingerprint had false positives in validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_summary_types.h" line="362" column="10" bodyfile="include/tensor/tensor_summary_types.h" bodystart="362" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tensor summary based on locality-sensitive hashing fingerprints. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Represents results retrieved through fingerprint similarity, used for fast approximate matching without full vector operations. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::tensor::BaseTensorSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_base_tensor_summary"/>
+      </node>
+      <node id="1">
+        <label>themis::tensor::FingerprintSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_fingerprint_summary"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::tensor::BaseTensorSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_base_tensor_summary"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>compression_info</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::tensor::CompressionResult</label>
+        <link refid="structthemis_1_1tensor_1_1_compression_result"/>
+      </node>
+      <node id="1">
+        <label>themis::tensor::FingerprintSummary</label>
+        <link refid="structthemis_1_1tensor_1_1_fingerprint_summary"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/tensor_summary_types.h" line="336" column="1" bodyfile="include/tensor/tensor_summary_types.h" bodystart="336" bodyend="363"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_fingerprint_summary_1ad4dbe47c56fdcad1a7f17e7a54e753a4" prot="public" virt="non-virtual"><scope>themis::tensor::FingerprintSummary</scope><name>candidates_matched</name></member>
+      <member refid="structthemis_1_1tensor_1_1_fingerprint_summary_1ace7610479c6defb67a6c0eb9cae12604" prot="public" virt="non-virtual"><scope>themis::tensor::FingerprintSummary</scope><name>collision_probability</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a262766ce8623272fd51a89243f694687" prot="public" virt="non-virtual"><scope>themis::tensor::FingerprintSummary</scope><name>compression_info</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a161a274c6b0209c4704e776e1f3b7b39" prot="public" virt="non-virtual"><scope>themis::tensor::FingerprintSummary</scope><name>compression_strategy</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1adcda9163e400eed8923e92b457c04057" prot="public" virt="non-virtual"><scope>themis::tensor::FingerprintSummary</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a642e98edb63b4c79f113cd07df747046" prot="public" virt="non-virtual"><scope>themis::tensor::FingerprintSummary</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a11d14d4114d5df375b2c948660e92ec2" prot="public" virt="non-virtual"><scope>themis::tensor::FingerprintSummary</scope><name>domain</name></member>
+      <member refid="structthemis_1_1tensor_1_1_fingerprint_summary_1a9a56c6136645a72cb7737c4d29cb000f" prot="public" virt="non-virtual"><scope>themis::tensor::FingerprintSummary</scope><name>fingerprint_bits</name></member>
+      <member refid="structthemis_1_1tensor_1_1_fingerprint_summary_1ae2345f8575dd498f66a63699439f27cb" prot="public" virt="non-virtual"><scope>themis::tensor::FingerprintSummary</scope><name>fingerprint_hash</name></member>
+      <member refid="structthemis_1_1tensor_1_1_fingerprint_summary_1ada1f52891fab33089e245fea6c117c8a" prot="public" virt="non-virtual"><scope>themis::tensor::FingerprintSummary</scope><name>had_false_positives</name></member>
+      <member refid="structthemis_1_1tensor_1_1_fingerprint_summary_1a2b7e330608f5324f1dcf154532817df0" prot="public" virt="non-virtual"><scope>themis::tensor::FingerprintSummary</scope><name>hamming_distance</name></member>
+      <member refid="structthemis_1_1tensor_1_1_fingerprint_summary_1af2220bfe5a37446370e60ac0e1e2357e" prot="public" virt="non-virtual"><scope>themis::tensor::FingerprintSummary</scope><name>hash_function</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a64892e40aa70517d46e09e6d11842741" prot="public" virt="non-virtual"><scope>themis::tensor::FingerprintSummary</scope><name>id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_fingerprint_summary_1a9f332cea1e1a0d343da4e1498065d85d" prot="public" virt="non-virtual"><scope>themis::tensor::FingerprintSummary</scope><name>lsh_band_info</name></member>
+      <member refid="structthemis_1_1tensor_1_1_fingerprint_summary_1a9f6f2f89773a4498c7f6f36920d1d530" prot="public" virt="non-virtual"><scope>themis::tensor::FingerprintSummary</scope><name>matched_candidates</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a21d90f934dee6c82ea89128e9cd02570" prot="public" virt="non-virtual"><scope>themis::tensor::FingerprintSummary</scope><name>routing_reason</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1af80994cc65277d71b3a6eca31ad4dfc2" prot="public" virt="non-virtual"><scope>themis::tensor::FingerprintSummary</scope><name>similarity_score</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1ac6acd2dff1ca02aaf504b1d97c3163f2" prot="public" virt="non-virtual"><scope>themis::tensor::FingerprintSummary</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_base_tensor_summary_1a8784066e1ff14eed769e135d36b06c2b" prot="public" virt="non-virtual"><scope>themis::tensor::FingerprintSummary</scope><name>validated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

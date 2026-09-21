@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_slab_state_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::SlabStateGuard</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_slab_state_guard_1af7546a0cb74157408a36703d3555fe5c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool" kindref="compound">GPUMemoryPool</ref> &amp;</type>
+        <definition>GPUMemoryPool&amp; themis::gpu::SlabStateGuard::pool_</definition>
+        <argsstring></argsstring>
+        <name>pool_</name>
+        <qualifiedname>themis::gpu::SlabStateGuard::pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/memory_pool.cpp" line="83" column="19" bodyfile="src/gpu/memory_pool.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_slab_state_guard_1a895d151e9a01ce005629a764965bfca4" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::SlabStateGuard::slab_idx_</definition>
+        <argsstring></argsstring>
+        <name>slab_idx_</name>
+        <qualifiedname>themis::gpu::SlabStateGuard::slab_idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/memory_pool.cpp" line="84" column="12" bodyfile="src/gpu/memory_pool.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_slab_state_guard_1a6243ad0ec7063eef9d95330934c1dc88" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::SlabStateGuard::delta_alloc_</definition>
+        <argsstring></argsstring>
+        <name>delta_alloc_</name>
+        <qualifiedname>themis::gpu::SlabStateGuard::delta_alloc_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/memory_pool.cpp" line="85" column="14" bodyfile="src/gpu/memory_pool.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_slab_state_guard_1a214aae2610f4b8a1f504c0521c1abdc8" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::SlabStateGuard::delta_waste_</definition>
+        <argsstring></argsstring>
+        <name>delta_waste_</name>
+        <qualifiedname>themis::gpu::SlabStateGuard::delta_waste_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/memory_pool.cpp" line="86" column="14" bodyfile="src/gpu/memory_pool.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_slab_state_guard_1ad0b82fd7cd4ed9f8147b0352a973373a" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::SlabStateGuard::committed_</definition>
+        <argsstring></argsstring>
+        <name>committed_</name>
+        <qualifiedname>themis::gpu::SlabStateGuard::committed_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/memory_pool.cpp" line="87" column="10" bodyfile="src/gpu/memory_pool.cpp" bodystart="87" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_slab_state_guard_1aa8cdb90e14a76a29bd89c60d24e19e40" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::SlabStateGuard::SlabStateGuard</definition>
+        <argsstring>(GPUMemoryPool &amp;pool, size_t slab_idx, uint64_t delta_allocated, uint64_t delta_wasted)</argsstring>
+        <name>SlabStateGuard</name>
+        <qualifiedname>themis::gpu::SlabStateGuard::SlabStateGuard</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool" kindref="compound">GPUMemoryPool</ref> &amp;</type>
+          <declname>pool</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>slab_idx</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>delta_allocated</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>delta_wasted</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/memory_pool.cpp" line="49" column="5" bodyfile="src/gpu/memory_pool.cpp" bodystart="49" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_slab_state_guard_1a6ff5b869ef51da81e190f3cd395eff0c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::SlabStateGuard::~SlabStateGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~SlabStateGuard</name>
+        <qualifiedname>themis::gpu::SlabStateGuard::~SlabStateGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/memory_pool.cpp" line="53" column="5" bodyfile="src/gpu/memory_pool.cpp" bodystart="53" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_slab_state_guard_1ab28b7dd28bc7a54811e8ffa6b449ebdd" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::SlabStateGuard::commit</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>commit</name>
+        <qualifiedname>themis::gpu::SlabStateGuard::commit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/memory_pool.cpp" line="74" column="10" bodyfile="src/gpu/memory_pool.cpp" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_slab_state_guard_1a5d270d67fa111db72da38d53b9594f52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::SlabStateGuard::SlabStateGuard</definition>
+        <argsstring>(const SlabStateGuard &amp;)=delete</argsstring>
+        <name>SlabStateGuard</name>
+        <qualifiedname>themis::gpu::SlabStateGuard::SlabStateGuard</qualifiedname>
+        <param>
+          <type>const SlabStateGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/memory_pool.cpp" line="77" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_slab_state_guard_1a17213911df2b2b3eaba663e7188ba51f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_slab_state_guard_1aa8cdb90e14a76a29bd89c60d24e19e40" kindref="member">SlabStateGuard</ref> &amp;</type>
+        <definition>SlabStateGuard &amp; themis::gpu::SlabStateGuard::operator=</definition>
+        <argsstring>(const SlabStateGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::SlabStateGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_slab_state_guard_1aa8cdb90e14a76a29bd89c60d24e19e40" kindref="member">SlabStateGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/memory_pool.cpp" line="78" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_slab_state_guard_1afb464d8c37936ebd3857502e3ce77fda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::SlabStateGuard::SlabStateGuard</definition>
+        <argsstring>(SlabStateGuard &amp;&amp;)=delete</argsstring>
+        <name>SlabStateGuard</name>
+        <qualifiedname>themis::gpu::SlabStateGuard::SlabStateGuard</qualifiedname>
+        <param>
+          <type>SlabStateGuard &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/memory_pool.cpp" line="79" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_slab_state_guard_1a1198d895508f99645813119072453763" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_slab_state_guard_1aa8cdb90e14a76a29bd89c60d24e19e40" kindref="member">SlabStateGuard</ref> &amp;</type>
+        <definition>SlabStateGuard &amp; themis::gpu::SlabStateGuard::operator=</definition>
+        <argsstring>(SlabStateGuard &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::SlabStateGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_slab_state_guard_1aa8cdb90e14a76a29bd89c60d24e19e40" kindref="member">SlabStateGuard</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/memory_pool.cpp" line="80" column="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/gpu/memory_pool.cpp" line="47" column="1" bodyfile="src/gpu/memory_pool.cpp" bodystart="47" bodyend="88"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_slab_state_guard_1ab28b7dd28bc7a54811e8ffa6b449ebdd" prot="public" virt="non-virtual"><scope>themis::gpu::SlabStateGuard</scope><name>commit</name></member>
+      <member refid="classthemis_1_1gpu_1_1_slab_state_guard_1ad0b82fd7cd4ed9f8147b0352a973373a" prot="private" virt="non-virtual"><scope>themis::gpu::SlabStateGuard</scope><name>committed_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_slab_state_guard_1a6243ad0ec7063eef9d95330934c1dc88" prot="private" virt="non-virtual"><scope>themis::gpu::SlabStateGuard</scope><name>delta_alloc_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_slab_state_guard_1a214aae2610f4b8a1f504c0521c1abdc8" prot="private" virt="non-virtual"><scope>themis::gpu::SlabStateGuard</scope><name>delta_waste_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_slab_state_guard_1a17213911df2b2b3eaba663e7188ba51f" prot="public" virt="non-virtual"><scope>themis::gpu::SlabStateGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_slab_state_guard_1a1198d895508f99645813119072453763" prot="public" virt="non-virtual"><scope>themis::gpu::SlabStateGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_slab_state_guard_1af7546a0cb74157408a36703d3555fe5c" prot="private" virt="non-virtual"><scope>themis::gpu::SlabStateGuard</scope><name>pool_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_slab_state_guard_1a895d151e9a01ce005629a764965bfca4" prot="private" virt="non-virtual"><scope>themis::gpu::SlabStateGuard</scope><name>slab_idx_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_slab_state_guard_1aa8cdb90e14a76a29bd89c60d24e19e40" prot="public" virt="non-virtual"><scope>themis::gpu::SlabStateGuard</scope><name>SlabStateGuard</name></member>
+      <member refid="classthemis_1_1gpu_1_1_slab_state_guard_1a5d270d67fa111db72da38d53b9594f52" prot="public" virt="non-virtual"><scope>themis::gpu::SlabStateGuard</scope><name>SlabStateGuard</name></member>
+      <member refid="classthemis_1_1gpu_1_1_slab_state_guard_1afb464d8c37936ebd3857502e3ce77fda" prot="public" virt="non-virtual"><scope>themis::gpu::SlabStateGuard</scope><name>SlabStateGuard</name></member>
+      <member refid="classthemis_1_1gpu_1_1_slab_state_guard_1a6ff5b869ef51da81e190f3cd395eff0c" prot="public" virt="non-virtual"><scope>themis::gpu::SlabStateGuard</scope><name>~SlabStateGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

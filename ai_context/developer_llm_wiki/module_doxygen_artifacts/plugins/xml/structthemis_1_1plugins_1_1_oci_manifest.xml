@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_oci_manifest" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::OciManifest</compoundname>
+    <includes refid="oci__registry__client_8h" local="no">oci_registry_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_oci_manifest_1a1a98fb846135569e24814c7abdca0009" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::OciManifest::schema_version</definition>
+        <argsstring></argsstring>
+        <name>schema_version</name>
+        <qualifiedname>themis::plugins::OciManifest::schema_version</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="82" column="9" bodyfile="include/plugins/oci_registry_client.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_oci_manifest_1ad95f980913d6f8552594412e5df06dc6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::OciManifest::media_type</definition>
+        <argsstring></argsstring>
+        <name>media_type</name>
+        <qualifiedname>themis::plugins::OciManifest::media_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="83" column="17" bodyfile="include/plugins/oci_registry_client.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_oci_manifest_1ac74f14b9db611b613a70bf4d909e59d0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1_oci_manifest_layer" kindref="compound">OciManifestLayer</ref></type>
+        <definition>OciManifestLayer themis::plugins::OciManifest::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::plugins::OciManifest::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="84" column="22" bodyfile="include/plugins/oci_registry_client.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_oci_manifest_1a7296569a9058d9355de2f62807f768cc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1plugins_1_1_oci_manifest_layer" kindref="compound">OciManifestLayer</ref> &gt;</type>
+        <definition>std::vector&lt;OciManifestLayer&gt; themis::plugins::OciManifest::layers</definition>
+        <argsstring></argsstring>
+        <name>layers</name>
+        <qualifiedname>themis::plugins::OciManifest::layers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="85" column="17" bodyfile="include/plugins/oci_registry_client.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_oci_manifest_1a886408e10608fc874610b555ca318d76" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::OciManifest::raw_json</definition>
+        <argsstring></argsstring>
+        <name>raw_json</name>
+        <qualifiedname>themis::plugins::OciManifest::raw_json</qualifiedname>
+        <briefdescription>
+<para>Raw JSON string of the manifest (needed for digest verification). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="88" column="17" bodyfile="include/plugins/oci_registry_client.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Parsed OCI Image Manifest (schema version 2). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::plugins::OciManifest</label>
+        <link refid="structthemis_1_1plugins_1_1_oci_manifest"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::OciManifestLayer</label>
+        <link refid="structthemis_1_1plugins_1_1_oci_manifest_layer"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/plugins/oci_registry_client.h" line="81" column="1" bodyfile="include/plugins/oci_registry_client.h" bodystart="81" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_oci_manifest_1ac74f14b9db611b613a70bf4d909e59d0" prot="public" virt="non-virtual"><scope>themis::plugins::OciManifest</scope><name>config</name></member>
+      <member refid="structthemis_1_1plugins_1_1_oci_manifest_1a7296569a9058d9355de2f62807f768cc" prot="public" virt="non-virtual"><scope>themis::plugins::OciManifest</scope><name>layers</name></member>
+      <member refid="structthemis_1_1plugins_1_1_oci_manifest_1ad95f980913d6f8552594412e5df06dc6" prot="public" virt="non-virtual"><scope>themis::plugins::OciManifest</scope><name>media_type</name></member>
+      <member refid="structthemis_1_1plugins_1_1_oci_manifest_1a886408e10608fc874610b555ca318d76" prot="public" virt="non-virtual"><scope>themis::plugins::OciManifest</scope><name>raw_json</name></member>
+      <member refid="structthemis_1_1plugins_1_1_oci_manifest_1a1a98fb846135569e24814c7abdca0009" prot="public" virt="non-virtual"><scope>themis::plugins::OciManifest</scope><name>schema_version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

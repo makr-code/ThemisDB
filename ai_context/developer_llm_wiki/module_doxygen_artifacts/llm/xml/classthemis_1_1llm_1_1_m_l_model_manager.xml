@@ -1,0 +1,1516 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_m_l_model_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::MLModelManager</compoundname>
+    <includes refid="ml__model__manager_8h" local="no">ml_model_manager.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_m_l_model_manager_1_1_config" prot="public">themis::llm::MLModelManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_m_l_model_manager_1_1_model_entry" prot="private">themis::llm::MLModelManager::ModelEntry</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_m_l_model_manager_1a1b3a7aed8d376dd175644a6ead4a9bf6" prot="public" static="no">
+        <type>std::function&lt; <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref>(const <ref refid="structthemis_1_1llm_1_1_m_l_inference_request" kindref="compound">MLInferenceRequest</ref> &amp;, <ref refid="structthemis_1_1llm_1_1_m_l_model_instance" kindref="compound">MLModelInstance</ref> &amp;)&gt;</type>
+        <definition>using themis::llm::MLModelManager::InferenceDispatchFn = 
+std::function&lt;json(const MLInferenceRequest&amp;, MLModelInstance&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>InferenceDispatchFn</name>
+        <qualifiedname>themis::llm::MLModelManager::InferenceDispatchFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="339" column="5" bodyfile="include/llm/ml_model_manager.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_m_l_model_manager_1a0b86b3f3fabf103b66141aae2f147441" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_m_l_model_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::MLModelManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::MLModelManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="401" column="12" bodyfile="include/llm/ml_model_manager.h" bodystart="401" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_m_l_model_manager_1aa588854796ad8ba21f24a344ac22052a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unique_ptr&lt; ModelEntry &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unique_ptr&lt;ModelEntry&gt; &gt; themis::llm::MLModelManager::models_</definition>
+        <argsstring></argsstring>
+        <name>models_</name>
+        <qualifiedname>themis::llm::MLModelManager::models_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="412" column="24" bodyfile="include/llm/ml_model_manager.h" bodystart="412" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_m_l_model_manager_1a233e1906b6445c373f4bd8ddf02fd9c0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::MLModelManager::model_lifecycle_lock_</definition>
+        <argsstring></argsstring>
+        <name>model_lifecycle_lock_</name>
+        <qualifiedname>themis::llm::MLModelManager::model_lifecycle_lock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="422" column="24" bodyfile="include/llm/ml_model_manager.h" bodystart="422" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_m_l_model_manager_1aaaeafd236ec8fc75f25587779271f0cf" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::llm::MLModelManager::model_cache_lock_</definition>
+        <argsstring></argsstring>
+        <name>model_cache_lock_</name>
+        <qualifiedname>themis::llm::MLModelManager::model_cache_lock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="424" column="31" bodyfile="include/llm/ml_model_manager.h" bodystart="424" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_m_l_model_manager_1a6895a76edd942478cf3ac9221584711c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::MLModelManager::metrics_lock_</definition>
+        <argsstring></argsstring>
+        <name>metrics_lock_</name>
+        <qualifiedname>themis::llm::MLModelManager::metrics_lock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="426" column="24" bodyfile="include/llm/ml_model_manager.h" bodystart="426" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_m_l_model_manager_1ab03b93fe1fb46be9fc69087462c978fb" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::MLModelManager::models_mutex_</definition>
+        <argsstring></argsstring>
+        <name>models_mutex_</name>
+        <qualifiedname>themis::llm::MLModelManager::models_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="434" column="24" bodyfile="include/llm/ml_model_manager.h" bodystart="434" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_m_l_model_manager_1a2cfdc082c91827e13550360cfa2d3dcb" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; std::thread &gt;</type>
+        <definition>std::unique_ptr&lt;std::thread&gt; themis::llm::MLModelManager::health_monitor_thread_</definition>
+        <argsstring></argsstring>
+        <name>health_monitor_thread_</name>
+        <qualifiedname>themis::llm::MLModelManager::health_monitor_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="437" column="21" bodyfile="include/llm/ml_model_manager.h" bodystart="437" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_m_l_model_manager_1ab73ba8719514c3f3bb9efc0d2a1e747f" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; std::thread &gt;</type>
+        <definition>std::unique_ptr&lt;std::thread&gt; themis::llm::MLModelManager::auto_scaler_thread_</definition>
+        <argsstring></argsstring>
+        <name>auto_scaler_thread_</name>
+        <qualifiedname>themis::llm::MLModelManager::auto_scaler_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="438" column="21" bodyfile="include/llm/ml_model_manager.h" bodystart="438" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_m_l_model_manager_1a9002bc9ffbc0d25e90cbb0c9c3cea6be" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::MLModelManager::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::llm::MLModelManager::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="440" column="17" bodyfile="include/llm/ml_model_manager.h" bodystart="440" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_m_l_model_manager_1a89a0290cfbc0e96f315607cdbb6dc098" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::MLModelManager::total_requests_</definition>
+        <argsstring></argsstring>
+        <name>total_requests_</name>
+        <qualifiedname>themis::llm::MLModelManager::total_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="443" column="17" bodyfile="include/llm/ml_model_manager.h" bodystart="443" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_m_l_model_manager_1acea7e0a8accbed33ff784008f57e097b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::MLModelManager::successful_requests_</definition>
+        <argsstring></argsstring>
+        <name>successful_requests_</name>
+        <qualifiedname>themis::llm::MLModelManager::successful_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="444" column="17" bodyfile="include/llm/ml_model_manager.h" bodystart="444" bodyend="444"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_m_l_model_manager_1a87300b74b5885b93b76d3dd8c2de7dd5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::llm::MLModelManager::failed_requests_</definition>
+        <argsstring></argsstring>
+        <name>failed_requests_</name>
+        <qualifiedname>themis::llm::MLModelManager::failed_requests_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="445" column="17" bodyfile="include/llm/ml_model_manager.h" bodystart="445" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_m_l_model_manager_1ab45d177bdb51384642ba9bc406235bbf" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::llm::MLModelManager::instance_counter_</definition>
+        <argsstring></argsstring>
+        <name>instance_counter_</name>
+        <qualifiedname>themis::llm::MLModelManager::instance_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="492" column="17" bodyfile="include/llm/ml_model_manager.h" bodystart="492" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_m_l_model_manager_1a7c9e7ac1ccf957307ae3955deac54341" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::llm::MLModelManager::request_counter_</definition>
+        <argsstring></argsstring>
+        <name>request_counter_</name>
+        <qualifiedname>themis::llm::MLModelManager::request_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="499" column="17" bodyfile="include/llm/ml_model_manager.h" bodystart="499" bodyend="499"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_m_l_model_manager_1a47f1db046c5cc6b7c1eb4fb92aa63942" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::llm::MLModelManager::cancelled_requests_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_requests_</name>
+        <qualifiedname>themis::llm::MLModelManager::cancelled_requests_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="502" column="24" bodyfile="include/llm/ml_model_manager.h" bodystart="502" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_m_l_model_manager_1a6ca99077be4bf75d988bb140c7358486" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::MLModelManager::cancel_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cancel_mutex_</name>
+        <qualifiedname>themis::llm::MLModelManager::cancel_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="503" column="16" bodyfile="include/llm/ml_model_manager.h" bodystart="503" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_m_l_model_manager_1a7e87fb2b11adc761644a7ec68a20de12" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_m_l_model_manager_1a1b3a7aed8d376dd175644a6ead4a9bf6" kindref="member">InferenceDispatchFn</ref></type>
+        <definition>InferenceDispatchFn themis::llm::MLModelManager::inference_dispatch_fn_</definition>
+        <argsstring></argsstring>
+        <name>inference_dispatch_fn_</name>
+        <qualifiedname>themis::llm::MLModelManager::inference_dispatch_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="506" column="25" bodyfile="include/llm/ml_model_manager.h" bodystart="506" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_m_l_model_manager_1a92df4c41798cc4a7845e91b1f39d6dfc" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::MLModelManager::dispatch_fn_mutex_</definition>
+        <argsstring></argsstring>
+        <name>dispatch_fn_mutex_</name>
+        <qualifiedname>themis::llm::MLModelManager::dispatch_fn_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="507" column="24" bodyfile="include/llm/ml_model_manager.h" bodystart="507" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1a612753818d2b162b2f3c667593ac5983" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::MLModelManager::MLModelManager</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>MLModelManager</name>
+        <qualifiedname>themis::llm::MLModelManager::MLModelManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_m_l_model_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>MLModel Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="256" column="14" bodyfile="src/llm/ml_model_manager.cpp" bodystart="37" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1a4442cd852ec218d7db3a5def525b423f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::MLModelManager::~MLModelManager</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~MLModelManager</name>
+        <qualifiedname>themis::llm::MLModelManager::~MLModelManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="258" column="5" bodyfile="src/llm/ml_model_manager.cpp" bodystart="43" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1a04674e12fe40a2254db02cbc5cb63449" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; themis::llm::MLModelManager::registerModel</definition>
+        <argsstring>(const MLModelConfig &amp;config)</argsstring>
+        <name>registerModel</name>
+        <qualifiedname>themis::llm::MLModelManager::registerModel</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_m_l_model_config" kindref="compound">MLModelConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Model Lifecycle Management ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lifecycle_lock(), cache_lock(), find(), end(), std::chrono::system_clock::now(), std::move(), THEMIS_INFO(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="266" column="12" bodyfile="src/llm/ml_model_manager.cpp" bodystart="61" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1a29e9148e19880bbb79f5ce9e2fef3c05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; std::string &gt; &gt; themis::llm::MLModelManager::deployModel</definition>
+        <argsstring>(const std::string &amp;model_id, size_t num_instances=1)</argsstring>
+        <name>deployModel</name>
+        <qualifiedname>themis::llm::MLModelManager::deployModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_instances</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Deploy Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_instances</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lifecycle_lock(), cache_lock(), find(), end(), deployInstance(), has_value(), THEMIS_ERROR(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="268" column="12" bodyfile="src/llm/ml_model_manager.cpp" bodystart="99" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1ac043d14ac6281b9789aa1f23ec832917" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; themis::llm::MLModelManager::updateModel</definition>
+        <argsstring>(const std::string &amp;model_id, const MLModelConfig &amp;new_config)</argsstring>
+        <name>updateModel</name>
+        <qualifiedname>themis::llm::MLModelManager::updateModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_m_l_model_config" kindref="compound">MLModelConfig</ref> &amp;</type>
+          <declname>new_config</declname>
+        </param>
+        <briefdescription>
+<para>Update Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), std::move(), clear(), size(), deployInstance(), has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="279" column="12" bodyfile="src/llm/ml_model_manager.cpp" bodystart="172" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1a7a06dfc16bca9f7ff5ea65d82739670a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; themis::llm::MLModelManager::retireModel</definition>
+        <argsstring>(const std::string &amp;model_id, int drain_timeout_ms=30000)</argsstring>
+        <name>retireModel</name>
+        <qualifiedname>themis::llm::MLModelManager::retireModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>drain_timeout_ms</declname>
+          <defval>30000</defval>
+        </param>
+        <briefdescription>
+<para>Retire Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">drain_timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), std::chrono::steady_clock::now(), count(), std::this_thread::sleep_for(), std::chrono::milliseconds(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="284" column="12" bodyfile="src/llm/ml_model_manager.cpp" bodystart="252" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1a4c7d8ff2cd234dfcc0fe989451f9a0cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; themis::llm::MLModelManager::unregisterModel</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>unregisterModel</name>
+        <qualifiedname>themis::llm::MLModelManager::unregisterModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), shutdownInstance(), erase(), THEMIS_INFO(), Ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="294" column="12" bodyfile="src/llm/ml_model_manager.cpp" bodystart="313" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1abc8d173ccd02bd14cd864f97c81f87ea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::MLModelManager::listModels</definition>
+        <argsstring>(const json &amp;filter={}) const</argsstring>
+        <name>listModels</name>
+        <qualifiedname>themis::llm::MLModelManager::listModels</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>filter</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">models_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="300" column="17" bodyfile="src/llm/ml_model_manager.cpp" bodystart="348" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1a1d0ccf790bd62fa64d0b1c89711d40d5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1llm_1_1_m_l_model_config" kindref="compound">MLModelConfig</ref> &gt;</type>
+        <definition>Result&lt; MLModelConfig &gt; themis::llm::MLModelManager::getModelConfig</definition>
+        <argsstring>(const std::string &amp;model_id) const</argsstring>
+        <name>getModelConfig</name>
+        <qualifiedname>themis::llm::MLModelManager::getModelConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Model <ref refid="structthemis_1_1llm_1_1_m_l_model_manager_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">models_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="307" column="12" bodyfile="src/llm/ml_model_manager.cpp" bodystart="383" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1af3fc7e94d1a5cf94564de615826d70fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="namespacethemis_1_1llm_1a331ec55868ca9964ad4cb2f7754d2147" kindref="member">MLModelStatus</ref> &gt;</type>
+        <definition>Result&lt; MLModelStatus &gt; themis::llm::MLModelManager::getModelStatus</definition>
+        <argsstring>(const std::string &amp;model_id) const</argsstring>
+        <name>getModelStatus</name>
+        <qualifiedname>themis::llm::MLModelManager::getModelStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Model Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Wave-B L7: thread-safety audit — added std::atomic/mutex for concurrent access <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">models_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="314" column="12" bodyfile="src/llm/ml_model_manager.cpp" bodystart="402" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1abd43469cccf656e09714506b91864d3c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_m_l_model_instance" kindref="compound">MLModelInstance</ref> &gt;</type>
+        <definition>std::vector&lt; MLModelInstance &gt; themis::llm::MLModelManager::listModelInstances</definition>
+        <argsstring>(const std::string &amp;model_id) const</argsstring>
+        <name>listModelInstances</name>
+        <qualifiedname>themis::llm::MLModelManager::listModelInstances</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>List Model Instances. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">models_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="321" column="17" bodyfile="src/llm/ml_model_manager.cpp" bodystart="421" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1a84c4983ffe2500ac6ce4dd17e2ffdd5d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::MLModelManager::getModelMetrics</definition>
+        <argsstring>(const std::string &amp;model_id) const</argsstring>
+        <name>getModelMetrics</name>
+        <qualifiedname>themis::llm::MLModelManager::getModelMetrics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Model Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">models_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="328" column="10" bodyfile="src/llm/ml_model_manager.cpp" bodystart="441" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1ad5034eee91268664ec472eef362e702c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1llm_1_1_m_l_inference_response" kindref="compound">MLInferenceResponse</ref> &gt;</type>
+        <definition>Result&lt; MLInferenceResponse &gt; themis::llm::MLModelManager::infer</definition>
+        <argsstring>(const MLInferenceRequest &amp;request)</argsstring>
+        <name>infer</name>
+        <qualifiedname>themis::llm::MLModelManager::infer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_m_l_inference_request" kindref="compound">MLInferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Inference Operations ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), selectInstance(), Ok(), fetch_add(), count(), lock(), dispatch_fn(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="336" column="12" bodyfile="src/llm/ml_model_manager.cpp" bodystart="495" bodyend="605"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1a102317f8d2722a1a9ca928d7361879fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::MLModelManager::setInferenceDispatchFn</definition>
+        <argsstring>(InferenceDispatchFn fn)</argsstring>
+        <name>setInferenceDispatchFn</name>
+        <qualifiedname>themis::llm::MLModelManager::setInferenceDispatchFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_m_l_model_manager_1a1b3a7aed8d376dd175644a6ead4a9bf6" kindref="member">InferenceDispatchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Inference Dispatch Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="346" column="10" bodyfile="src/llm/ml_model_manager.cpp" bodystart="612" bodyend="615"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1ac73489cc6a9874c9d10fbeceb7956b3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MLModelManager::inferAsync</definition>
+        <argsstring>(const MLInferenceRequest &amp;request, std::function&lt; void(const MLInferenceResponse &amp;)&gt; callback)</argsstring>
+        <name>inferAsync</name>
+        <qualifiedname>themis::llm::MLModelManager::inferAsync</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_m_l_inference_request" kindref="compound">MLInferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1llm_1_1_m_l_inference_response" kindref="compound">MLInferenceResponse</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="348" column="17" bodyfile="src/llm/ml_model_manager.cpp" bodystart="617" bodyend="640"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1a326574d93fb0e806c0b0b6774cf841bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::MLModelManager::cancelInference</definition>
+        <argsstring>(const std::string &amp;request_id)</argsstring>
+        <name>cancelInference</name>
+        <qualifiedname>themis::llm::MLModelManager::cancelInference</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel Inference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), insert(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="358" column="10" bodyfile="src/llm/ml_model_manager.cpp" bodystart="648" bodyend="653"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1a2c62cdd0d163a6c77edaa47c2b2781a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; themis::llm::MLModelManager::scaleModel</definition>
+        <argsstring>(const std::string &amp;model_id, size_t num_instances)</argsstring>
+        <name>scaleModel</name>
+        <qualifiedname>themis::llm::MLModelManager::scaleModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_instances</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Instance Management ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_instances</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_instances</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), size(), Ok(), deployInstance(), has_value(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="367" column="12" bodyfile="src/llm/ml_model_manager.cpp" bodystart="663" bodyend="707"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1a0c0aeabfaac5508cb817d323a8b4dd0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::MLModelManager::healthCheck</definition>
+        <argsstring>(const std::string &amp;instance_id)</argsstring>
+        <name>healthCheck</name>
+        <qualifiedname>themis::llm::MLModelManager::healthCheck</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>instance_id</declname>
+        </param>
+        <briefdescription>
+<para>Health Check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), std::chrono::system_clock::now(), THEMIS_INFO(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="374" column="10" bodyfile="src/llm/ml_model_manager.cpp" bodystart="715" bodyend="746"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1a1ba494104fcccc99c65e6345f8ef21e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; bool &gt;</type>
+        <definition>Result&lt; bool &gt; themis::llm::MLModelManager::restartInstance</definition>
+        <argsstring>(const std::string &amp;instance_id)</argsstring>
+        <name>restartInstance</name>
+        <qualifiedname>themis::llm::MLModelManager::restartInstance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>instance_id</declname>
+        </param>
+        <briefdescription>
+<para>Restart Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), size(), shutdownInstance(), deployInstance(), has_value(), error(), message(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="381" column="12" bodyfile="src/llm/ml_model_manager.cpp" bodystart="754" bodyend="782"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1af56be32041d37aced7dc4467a42fdd61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::MLModelManager::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::llm::MLModelManager::start</qualifiedname>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ System Management ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: exchange(), healthMonitorLoop(), autoScalerLoop(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="387" column="10" bodyfile="src/llm/ml_model_manager.cpp" bodystart="789" bodyend="807"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1aa3ea5352c5fe1b1a6ca882e7f7934c10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::MLModelManager::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::llm::MLModelManager::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: exchange(), joinable(), themis::utils::joinThreadWithin(), THEMIS_WARN(), lock(), shutdownInstance(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="392" column="10" bodyfile="src/llm/ml_model_manager.cpp" bodystart="813" bodyend="840"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1ad9f827b8d46834d054799ea0e5916c8e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::MLModelManager::getSystemStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getSystemStats</name>
+        <qualifiedname>themis::llm::MLModelManager::getSystemStats</qualifiedname>
+        <briefdescription>
+<para>Get System Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">models_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="398" column="10" bodyfile="src/llm/ml_model_manager.cpp" bodystart="842" bodyend="877"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1a5467f40bb0fd6bb17a2e71209b2d1ce6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::MLModelManager::healthMonitorLoop</definition>
+        <argsstring>()</argsstring>
+        <name>healthMonitorLoop</name>
+        <qualifiedname>themis::llm::MLModelManager::healthMonitorLoop</qualifiedname>
+        <briefdescription>
+<para>Health Monitor Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Internal Methods ═══════════════════════════════════════════════════════════</para>
+<para>Calls: std::this_thread::sleep_for(), std::chrono::milliseconds(), lock(), push_back(), <ref refid="classthemis_1_1llm_1_1_m_l_model_manager_1a0c0aeabfaac5508cb817d323a8b4dd0f" kindref="member">healthCheck()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="451" column="10" bodyfile="src/llm/ml_model_manager.cpp" bodystart="884" bodyend="913"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1ac65a9477d9abe224a4da86ca8e657515" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::MLModelManager::autoScalerLoop</definition>
+        <argsstring>()</argsstring>
+        <name>autoScalerLoop</name>
+        <qualifiedname>themis::llm::MLModelManager::autoScalerLoop</qualifiedname>
+        <briefdescription>
+<para>Auto Scaler Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::this_thread::sleep_for(), std::chrono::milliseconds(), lock(), load(), empty(), size(), THEMIS_INFO(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="455" column="10" bodyfile="src/llm/ml_model_manager.cpp" bodystart="919" bodyend="975"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1a1f2127d10eb115345a53c1321c55ef16" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::llm::MLModelManager::deployInstance</definition>
+        <argsstring>(const std::string &amp;model_id, const MLModelConfig &amp;config)</argsstring>
+        <name>deployInstance</name>
+        <qualifiedname>themis::llm::MLModelManager::deployInstance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_m_l_model_config" kindref="compound">MLModelConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Deploy Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), generateInstanceId(), std::chrono::system_clock::now(), empty(), getOrLoadModel(), THEMIS_INFO(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="463" column="12" bodyfile="src/llm/ml_model_manager.cpp" bodystart="984" bodyend="1030"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1a99fde7d416f83ccb469b765a16c89a7e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::MLModelManager::shutdownInstance</definition>
+        <argsstring>(const std::string &amp;instance_id)</argsstring>
+        <name>shutdownInstance</name>
+        <qualifiedname>themis::llm::MLModelManager::shutdownInstance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>instance_id</declname>
+        </param>
+        <briefdescription>
+<para>Shutdown Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">instance_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the instance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), std::find_if(), begin(), end(), erase(), empty(), unloadModel(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="469" column="10" bodyfile="src/llm/ml_model_manager.cpp" bodystart="1038" bodyend="1064"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1a5efda12917478b45397e8c661f4d1ee2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_m_l_model_instance" kindref="compound">MLModelInstance</ref> *</type>
+        <definition>MLModelInstance * themis::llm::MLModelManager::selectInstance</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>selectInstance</name>
+        <qualifiedname>themis::llm::MLModelManager::selectInstance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Select Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: lock(), find(), end(), empty(), selectLeastBusy_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="476" column="21" bodyfile="src/llm/ml_model_manager.cpp" bodystart="1087" bodyend="1096"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1aa6aecfdd3a21c74cb4c99f125e8a6f64" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_m_l_model_instance" kindref="compound">MLModelInstance</ref> *</type>
+        <definition>MLModelInstance * themis::llm::MLModelManager::selectLeastBusy_</definition>
+        <argsstring>(const ModelEntry &amp;entry) const noexcept</argsstring>
+        <name>selectLeastBusy_</name>
+        <qualifiedname>themis::llm::MLModelManager::selectLeastBusy_</qualifiedname>
+        <param>
+          <type>const ModelEntry &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="477" column="22" bodyfile="src/llm/ml_model_manager.cpp" bodystart="1066" bodyend="1079"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1aca3802fae348bace0c59648b74f72a51" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::MLModelManager::updateInstanceMetrics</definition>
+        <argsstring>(MLModelInstance *instance, float latency_ms, bool success)</argsstring>
+        <name>updateInstanceMetrics</name>
+        <qualifiedname>themis::llm::MLModelManager::updateInstanceMetrics</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_m_l_model_instance" kindref="compound">MLModelInstance</ref> *</type>
+          <declname>instance</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>latency_ms</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+<para>Update Instance Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">instance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">instance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::chrono::system_clock::now(), push_back(), size(), pop_front(), sorted(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="484" column="10" bodyfile="src/llm/ml_model_manager.cpp" bodystart="1105" bodyend="1150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1af3ce8c735323808adadbf8f83b18e3de" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MLModelManager::generateInstanceId</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>generateInstanceId</name>
+        <qualifiedname>themis::llm::MLModelManager::generateInstanceId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Generate Instance Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="491" column="17" bodyfile="src/llm/ml_model_manager.cpp" bodystart="1158" bodyend="1160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_m_l_model_manager_1a0e3c3e9a3b756571a28c9286280b8d23" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MLModelManager::generateRequestId</definition>
+        <argsstring>()</argsstring>
+        <name>generateRequestId</name>
+        <qualifiedname>themis::llm::MLModelManager::generateRequestId</qualifiedname>
+        <briefdescription>
+<para>Generate Request Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ml_model_manager.h" line="498" column="17" bodyfile="src/llm/ml_model_manager.cpp" bodystart="1167" bodyend="1169"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ml_model_manager.h" line="229" column="1" bodyfile="include/llm/ml_model_manager.h" bodystart="229" bodyend="508"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1ab73ba8719514c3f3bb9efc0d2a1e747f" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>auto_scaler_thread_</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1ac65a9477d9abe224a4da86ca8e657515" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>autoScalerLoop</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a6ca99077be4bf75d988bb140c7358486" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>cancel_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a326574d93fb0e806c0b0b6774cf841bd" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>cancelInference</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a47f1db046c5cc6b7c1eb4fb92aa63942" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>cancelled_requests_</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a0b86b3f3fabf103b66141aae2f147441" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a1f2127d10eb115345a53c1321c55ef16" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>deployInstance</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a29e9148e19880bbb79f5ce9e2fef3c05" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>deployModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a92df4c41798cc4a7845e91b1f39d6dfc" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>dispatch_fn_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a87300b74b5885b93b76d3dd8c2de7dd5" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>failed_requests_</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1af3ce8c735323808adadbf8f83b18e3de" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>generateInstanceId</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a0e3c3e9a3b756571a28c9286280b8d23" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>generateRequestId</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a1d0ccf790bd62fa64d0b1c89711d40d5" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>getModelConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a84c4983ffe2500ac6ce4dd17e2ffdd5d" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>getModelMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1af3fc7e94d1a5cf94564de615826d70fc" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>getModelStatus</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1ad9f827b8d46834d054799ea0e5916c8e" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>getSystemStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a2cfdc082c91827e13550360cfa2d3dcb" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>health_monitor_thread_</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a0c0aeabfaac5508cb817d323a8b4dd0f" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>healthCheck</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a5467f40bb0fd6bb17a2e71209b2d1ce6" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>healthMonitorLoop</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1ad5034eee91268664ec472eef362e702c" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>infer</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1ac73489cc6a9874c9d10fbeceb7956b3c" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>inferAsync</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a7e87fb2b11adc761644a7ec68a20de12" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>inference_dispatch_fn_</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a1b3a7aed8d376dd175644a6ead4a9bf6" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>InferenceDispatchFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1ab45d177bdb51384642ba9bc406235bbf" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>instance_counter_</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1abd43469cccf656e09714506b91864d3c" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>listModelInstances</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1abc8d173ccd02bd14cd864f97c81f87ea" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>listModels</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a6895a76edd942478cf3ac9221584711c" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>metrics_lock_</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a612753818d2b162b2f3c667593ac5983" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>MLModelManager</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1aaaeafd236ec8fc75f25587779271f0cf" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>model_cache_lock_</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a233e1906b6445c373f4bd8ddf02fd9c0" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>model_lifecycle_lock_</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1aa588854796ad8ba21f24a344ac22052a" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>models_</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1ab03b93fe1fb46be9fc69087462c978fb" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>models_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a04674e12fe40a2254db02cbc5cb63449" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>registerModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a7c9e7ac1ccf957307ae3955deac54341" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>request_counter_</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a1ba494104fcccc99c65e6345f8ef21e8" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>restartInstance</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a7a06dfc16bca9f7ff5ea65d82739670a" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>retireModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a9002bc9ffbc0d25e90cbb0c9c3cea6be" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>running_</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a2c62cdd0d163a6c77edaa47c2b2781a0" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>scaleModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a5efda12917478b45397e8c661f4d1ee2" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>selectInstance</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1aa6aecfdd3a21c74cb4c99f125e8a6f64" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>selectLeastBusy_</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a102317f8d2722a1a9ca928d7361879fe" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>setInferenceDispatchFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1aa3ea5352c5fe1b1a6ca882e7f7934c10" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a99fde7d416f83ccb469b765a16c89a7e" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>shutdownInstance</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1af56be32041d37aced7dc4467a42fdd61" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>start</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1acea7e0a8accbed33ff784008f57e097b" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>successful_requests_</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a89a0290cfbc0e96f315607cdbb6dc098" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>total_requests_</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a4c7d8ff2cd234dfcc0fe989451f9a0cf" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>unregisterModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1aca3802fae348bace0c59648b74f72a51" prot="private" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>updateInstanceMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1ac043d14ac6281b9789aa1f23ec832917" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>updateModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_m_l_model_manager_1a4442cd852ec218d7db3a5def525b423f" prot="public" virt="non-virtual"><scope>themis::llm::MLModelManager</scope><name>~MLModelManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

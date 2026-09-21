@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_section_header" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::SectionHeader</compoundname>
+    <includes refid="gguf__st__adapter_8h" local="no">gguf_st_adapter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_section_header_1aeee4b74e8ce5f067b3dada130b80f757" prot="public" static="no" mutable="no">
+        <type>char</type>
+        <definition>char themis::llm::SectionHeader::magic[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>magic</name>
+        <qualifiedname>themis::llm::SectionHeader::magic</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="73" column="10" bodyfile="include/llm/gguf_st_adapter.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_section_header_1a193f99466d004ac80cde6b52fd83569b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::SectionHeader::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::llm::SectionHeader::version</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="74" column="14" bodyfile="include/llm/gguf_st_adapter.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_section_header_1a52d5487b91396ea2e7e8634123b8d217" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::SectionHeader::data_size</definition>
+        <argsstring></argsstring>
+        <name>data_size</name>
+        <qualifiedname>themis::llm::SectionHeader::data_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="75" column="14" bodyfile="include/llm/gguf_st_adapter.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_section_header_1a1f28679ee8594eaa2bbf2a22ef39b770" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::SectionHeader::flags</definition>
+        <argsstring></argsstring>
+        <name>flags</name>
+        <qualifiedname>themis::llm::SectionHeader::flags</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="76" column="14" bodyfile="include/llm/gguf_st_adapter.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_section_header_1a3cdb21d5907c0850badc56bbdc118edf" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::SectionHeader::reserved</definition>
+        <argsstring></argsstring>
+        <name>reserved</name>
+        <qualifiedname>themis::llm::SectionHeader::reserved</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="77" column="14" bodyfile="include/llm/gguf_st_adapter.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_section_header_1aa66ea6485554f2367a5a8563302b6fae" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::SectionHeader::~SectionHeader</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SectionHeader</name>
+        <qualifiedname>themis::llm::SectionHeader::~SectionHeader</qualifiedname>
+        <briefdescription>
+<para>Section Header. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="63" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_section_header_1a734b0c0dff9df0beb2eb7abfd269e49c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::SectionHeader::SectionHeader</definition>
+        <argsstring>(SectionHeader &amp;&amp;) noexcept=default</argsstring>
+        <name>SectionHeader</name>
+        <qualifiedname>themis::llm::SectionHeader::SectionHeader</qualifiedname>
+        <param>
+          <type>SectionHeader &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="65" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_section_header_1a7cfa535bdf5301482e49c3f7ae2db7e7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_section_header_1a734b0c0dff9df0beb2eb7abfd269e49c" kindref="member">SectionHeader</ref> &amp;</type>
+        <definition>SectionHeader &amp; themis::llm::SectionHeader::operator=</definition>
+        <argsstring>(SectionHeader &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::SectionHeader::operator=</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_section_header_1a734b0c0dff9df0beb2eb7abfd269e49c" kindref="member">SectionHeader</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="67" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_section_header_1ad089d11424b094903045dcc1a24d98d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::SectionHeader::SectionHeader</definition>
+        <argsstring>(const SectionHeader &amp;)=default</argsstring>
+        <name>SectionHeader</name>
+        <qualifiedname>themis::llm::SectionHeader::SectionHeader</qualifiedname>
+        <param>
+          <type>const SectionHeader &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="69" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_section_header_1a5934291c8d4b56f2edde3f80c3afa75f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_section_header_1a734b0c0dff9df0beb2eb7abfd269e49c" kindref="member">SectionHeader</ref> &amp;</type>
+        <definition>SectionHeader &amp; themis::llm::SectionHeader::operator=</definition>
+        <argsstring>(const SectionHeader &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::SectionHeader::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_section_header_1a734b0c0dff9df0beb2eb7abfd269e49c" kindref="member">SectionHeader</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="70" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_section_header_1ad69adfdffc594936e1fef2281cc7264b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::SectionHeader::SectionHeader</definition>
+        <argsstring>()=default</argsstring>
+        <name>SectionHeader</name>
+        <qualifiedname>themis::llm::SectionHeader::SectionHeader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="71" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/gguf_st_adapter.h" line="58" column="1" bodyfile="include/llm/gguf_st_adapter.h" bodystart="58" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_section_header_1a52d5487b91396ea2e7e8634123b8d217" prot="public" virt="non-virtual"><scope>themis::llm::SectionHeader</scope><name>data_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_section_header_1a1f28679ee8594eaa2bbf2a22ef39b770" prot="public" virt="non-virtual"><scope>themis::llm::SectionHeader</scope><name>flags</name></member>
+      <member refid="structthemis_1_1llm_1_1_section_header_1aeee4b74e8ce5f067b3dada130b80f757" prot="public" virt="non-virtual"><scope>themis::llm::SectionHeader</scope><name>magic</name></member>
+      <member refid="structthemis_1_1llm_1_1_section_header_1a7cfa535bdf5301482e49c3f7ae2db7e7" prot="public" virt="non-virtual"><scope>themis::llm::SectionHeader</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1llm_1_1_section_header_1a5934291c8d4b56f2edde3f80c3afa75f" prot="public" virt="non-virtual"><scope>themis::llm::SectionHeader</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1llm_1_1_section_header_1a3cdb21d5907c0850badc56bbdc118edf" prot="public" virt="non-virtual"><scope>themis::llm::SectionHeader</scope><name>reserved</name></member>
+      <member refid="structthemis_1_1llm_1_1_section_header_1a734b0c0dff9df0beb2eb7abfd269e49c" prot="public" virt="non-virtual"><scope>themis::llm::SectionHeader</scope><name>SectionHeader</name></member>
+      <member refid="structthemis_1_1llm_1_1_section_header_1ad089d11424b094903045dcc1a24d98d2" prot="public" virt="non-virtual"><scope>themis::llm::SectionHeader</scope><name>SectionHeader</name></member>
+      <member refid="structthemis_1_1llm_1_1_section_header_1ad69adfdffc594936e1fef2281cc7264b" prot="public" virt="non-virtual"><scope>themis::llm::SectionHeader</scope><name>SectionHeader</name></member>
+      <member refid="structthemis_1_1llm_1_1_section_header_1a193f99466d004ac80cde6b52fd83569b" prot="public" virt="non-virtual"><scope>themis::llm::SectionHeader</scope><name>version</name></member>
+      <member refid="structthemis_1_1llm_1_1_section_header_1aa66ea6485554f2367a5a8563302b6fae" prot="public" virt="virtual"><scope>themis::llm::SectionHeader</scope><name>~SectionHeader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

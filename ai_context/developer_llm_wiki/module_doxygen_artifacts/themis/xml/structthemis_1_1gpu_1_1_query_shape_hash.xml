@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_query_shape_hash" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::QueryShapeHash</compoundname>
+    <includes refid="graph__cache_8h" local="no">graph_cache.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_query_shape_hash_1ad81a6b4f0f08f6cf46bcb3395a033bba" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::QueryShapeHash::operator()</definition>
+        <argsstring>(const QueryShape &amp;s) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::gpu::QueryShapeHash::operator()</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_query_shape" kindref="compound">QueryShape</ref> &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/graph_cache.h" line="50" column="12" bodyfile="include/themis/gpu/graph_cache.h" bodystart="50" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>FNV-1a–inspired hash for <ref refid="structthemis_1_1gpu_1_1_query_shape" kindref="compound">QueryShape</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/graph_cache.h" line="49" column="1" bodyfile="include/themis/gpu/graph_cache.h" bodystart="49" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_query_shape_hash_1ad81a6b4f0f08f6cf46bcb3395a033bba" prot="public" virt="non-virtual"><scope>themis::gpu::QueryShapeHash</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::llm_wiki::test::Status</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1aae4610065c80703987c5e86ea47008c3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Code</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::Status::Code</qualifiedname>
+        <enumvalue id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1aae4610065c80703987c5e86ea47008c3aa60852f204ed8028c1c58808b746d115" prot="public">
+          <name>Ok</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1aae4610065c80703987c5e86ea47008c3a902b0d55fddef6f8d651fe1035b7d4bd" prot="public">
+          <name>Error</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1aae4610065c80703987c5e86ea47008c3a4b33a686be73bb172407d73b26356275" prot="public">
+          <name>PermissionDenied</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1aae4610065c80703987c5e86ea47008c3a9646ad3a1c3e708b4fa8b4b4270fbab6" prot="public">
+          <name>NotInitialized</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="87" column="5" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="87" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1a69597c4c62a79a190762fa232a08280e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1aae4610065c80703987c5e86ea47008c3" kindref="member">Code</ref></type>
+        <definition>Code themis::plugins::llm_wiki::test::Status::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::Status::code</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1aae4610065c80703987c5e86ea47008c3aa60852f204ed8028c1c58808b746d115" kindref="member">Code::Ok</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="88" column="10" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1a39d7d0325040534d49b859f69384d082" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::llm_wiki::test::Status::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::Status::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="89" column="17" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1af45312ac8506b2f8ae7db1bde61d2838" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::llm_wiki::test::Status::ok</definition>
+        <argsstring>() const</argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::Status::ok</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="90" column="10" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="90" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1a7c472ae0829eaed0b1cee343e6012b06" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::plugins::llm_wiki::test::Status::Ok</definition>
+        <argsstring>()</argsstring>
+        <name>Ok</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::Status::Ok</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="91" column="19" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1a885aee48d52ee81833b97b5fe722fb19" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::plugins::llm_wiki::test::Status::Error</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::Status::Error</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="92" column="19" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1af5c1f2417dfb020a8416fde14a2d90d2" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::plugins::llm_wiki::test::Status::PermissionDenied</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>PermissionDenied</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::Status::PermissionDenied</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="93" column="19" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="93" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1a30fd929be48b75d1d32db808ce9df265" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::plugins::llm_wiki::test::Status::NotInitialized</definition>
+        <argsstring>()</argsstring>
+        <name>NotInitialized</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::Status::NotInitialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="96" column="19" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="96" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="86" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="86" bodyend="99"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1aae4610065c80703987c5e86ea47008c3" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::Status</scope><name>Code</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1a69597c4c62a79a190762fa232a08280e" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::Status</scope><name>code</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1a885aee48d52ee81833b97b5fe722fb19" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::Status</scope><name>Error</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1a39d7d0325040534d49b859f69384d082" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::Status</scope><name>message</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1a30fd929be48b75d1d32db808ce9df265" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::Status</scope><name>NotInitialized</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1a7c472ae0829eaed0b1cee343e6012b06" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::Status</scope><name>Ok</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1af45312ac8506b2f8ae7db1bde61d2838" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::Status</scope><name>ok</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_status_1af5c1f2417dfb020a8416fde14a2d90d2" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::Status</scope><name>PermissionDenied</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_graph_q_l_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::GraphQLResult</compoundname>
+    <includes refid="graphql__dialect_8h" local="no">graphql_dialect.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_graph_q_l_result_1a43c0642199aa1f0957e4fd784bc30b5b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::GraphQLResult::data_json</definition>
+        <argsstring></argsstring>
+        <name>data_json</name>
+        <qualifiedname>themis::query::GraphQLResult::data_json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/graphql_dialect.h" line="38" column="17" bodyfile="include/query/graphql_dialect.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_graph_q_l_result_1a6633cf57d37313ec92db99569598a6c9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::map&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::map&lt;std::string, std::string&gt; &gt; themis::query::GraphQLResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::query::GraphQLResult::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/graphql_dialect.h" line="39" column="17" bodyfile="include/query/graphql_dialect.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_graph_q_l_result_1a23b593a3516d8d76d6059b1edc36786f" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::query::GraphQLResult::extensions</definition>
+        <argsstring></argsstring>
+        <name>extensions</name>
+        <qualifiedname>themis::query::GraphQLResult::extensions</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/graphql_dialect.h" line="40" column="14" bodyfile="include/query/graphql_dialect.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_graph_q_l_result_1a36a2b72891e4dfe74ec258997749c4d0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::GraphQLResult::has_errors</definition>
+        <argsstring>() const</argsstring>
+        <name>has_errors</name>
+        <qualifiedname>themis::query::GraphQLResult::has_errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/graphql_dialect.h" line="42" column="10" bodyfile="include/query/graphql_dialect.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/graphql_dialect.h" line="37" column="1" bodyfile="include/query/graphql_dialect.h" bodystart="37" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_graph_q_l_result_1a43c0642199aa1f0957e4fd784bc30b5b" prot="public" virt="non-virtual"><scope>themis::query::GraphQLResult</scope><name>data_json</name></member>
+      <member refid="structthemis_1_1query_1_1_graph_q_l_result_1a6633cf57d37313ec92db99569598a6c9" prot="public" virt="non-virtual"><scope>themis::query::GraphQLResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1query_1_1_graph_q_l_result_1a23b593a3516d8d76d6059b1edc36786f" prot="public" virt="non-virtual"><scope>themis::query::GraphQLResult</scope><name>extensions</name></member>
+      <member refid="structthemis_1_1query_1_1_graph_q_l_result_1a36a2b72891e4dfe74ec258997749c4d0" prot="public" virt="non-virtual"><scope>themis::query::GraphQLResult</scope><name>has_errors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

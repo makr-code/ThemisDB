@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1benchmark_1_1_variant_analyzer_1_1_variant" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::VariantAnalyzer::Variant</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_variant_analyzer_1_1_variant_1a622080d5ca7e39ac3576876308dcaa61" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::VariantAnalyzer::Variant::trace_string</definition>
+        <argsstring></argsstring>
+        <name>trace_string</name>
+        <qualifiedname>themis::process::benchmark::VariantAnalyzer::Variant::trace_string</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="184" column="21" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_variant_analyzer_1_1_variant_1addf8f9ec2f6b7c2d8b9acdf668248559" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::benchmark::VariantAnalyzer::Variant::frequency</definition>
+        <argsstring></argsstring>
+        <name>frequency</name>
+        <qualifiedname>themis::process::benchmark::VariantAnalyzer::Variant::frequency</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="185" column="13" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="185" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="183" column="5" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="183" bodyend="186"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_variant_analyzer_1_1_variant_1addf8f9ec2f6b7c2d8b9acdf668248559" prot="public" virt="non-virtual"><scope>themis::process::benchmark::VariantAnalyzer::Variant</scope><name>frequency</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_variant_analyzer_1_1_variant_1a622080d5ca7e39ac3576876308dcaa61" prot="public" virt="non-virtual"><scope>themis::process::benchmark::VariantAnalyzer::Variant</scope><name>trace_string</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

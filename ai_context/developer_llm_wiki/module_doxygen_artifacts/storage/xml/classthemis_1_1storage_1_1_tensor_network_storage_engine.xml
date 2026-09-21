@@ -1,0 +1,1147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_tensor_network_storage_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::TensorNetworkStorageEngine</compoundname>
+    <includes refid="tensor__network__storage__engine_8h" local="no">tensor_network_storage_engine.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1ab0969cf98664cb90146d29a6adcacc36" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref> &amp;, const <ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref> &amp;)&gt;</type>
+        <definition>using themis::storage::TensorNetworkStorageEngine::TensorWriteObserverFn = 
+std::function&lt;void(const TensorFieldKey&amp;, const TTTrain&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TensorWriteObserverFn</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::TensorWriteObserverFn</qualifiedname>
+        <briefdescription>
+<para>Observer invoked after a successful <ref refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a4c13c4fe332915d73e4025206fdc3e44" kindref="member">put()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called outside the internal write lock with the storage key and the decompressed <ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref> so downstream consumers (e.g. TensorFingerprintGraph) can update their index without holding the storage lock.</para>
+<para>Must be noexcept-safe; exceptions thrown by the callback are swallowed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="310" column="5" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a3cdcf5dad6927b44da309541c41a0c17" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref> &amp;)&gt;</type>
+        <definition>using themis::storage::TensorNetworkStorageEngine::TensorDeleteObserverFn = 
+std::function&lt;void(const TensorFieldKey&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TensorDeleteObserverFn</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::TensorDeleteObserverFn</qualifiedname>
+        <briefdescription>
+<para>Observer invoked after a successful <ref refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a4ab359b88ee73796324648ce44f5ca75" kindref="member">remove()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called outside the internal write lock with the removed key. Must be noexcept-safe; exceptions thrown by the callback are swallowed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="319" column="5" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1ad02c7df982ab92f8611d66c3ea918e93" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1storage_1_1_i_tensor_storage_backend" kindref="compound">ITensorStorageBackend</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ITensorStorageBackend&gt; themis::storage::TensorNetworkStorageEngine::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="369" column="21" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="369" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a4cf4a5a9205bcac6d07b3e9c5398729c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_tensor_storage_config" kindref="compound">TensorStorageConfig</ref></type>
+        <definition>TensorStorageConfig themis::storage::TensorNetworkStorageEngine::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="370" column="26" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="370" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a02fb28051745263ea3fbba27008aa76a" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1storage_1_1_tensor_train_decomposer" kindref="compound">TensorTrainDecomposer</ref></type>
+        <definition>TensorTrainDecomposer themis::storage::TensorNetworkStorageEngine::decomposer_</definition>
+        <argsstring></argsstring>
+        <name>decomposer_</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::decomposer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="371" column="27" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="371" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a5579ae5067413680cb1699e1027bb642" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1storage_1_1_t_t_quantizer" kindref="compound">TTQuantizer</ref></type>
+        <definition>TTQuantizer themis::storage::TensorNetworkStorageEngine::quantizer_</definition>
+        <argsstring></argsstring>
+        <name>quantizer_</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::quantizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="372" column="26" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="372" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a0b087253c88da68fe7ce578a59bea099" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::storage::TensorNetworkStorageEngine::rw_mutex_</definition>
+        <argsstring></argsstring>
+        <name>rw_mutex_</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::rw_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="374" column="31" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="374" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a4d71b42dff73d2188fdf226b14163074" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1ab0969cf98664cb90146d29a6adcacc36" kindref="member">TensorWriteObserverFn</ref></type>
+        <definition>TensorWriteObserverFn themis::storage::TensorNetworkStorageEngine::write_observer_</definition>
+        <argsstring></argsstring>
+        <name>write_observer_</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::write_observer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="378" column="28" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="378" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a824a75b3870357b59c17ac17f5c65a64" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a3cdcf5dad6927b44da309541c41a0c17" kindref="member">TensorDeleteObserverFn</ref></type>
+        <definition>TensorDeleteObserverFn themis::storage::TensorNetworkStorageEngine::delete_observer_</definition>
+        <argsstring></argsstring>
+        <name>delete_observer_</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::delete_observer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="379" column="28" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="379" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a08c8db48e42c9bd29e4a8c425854bdf2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::TensorNetworkStorageEngine::observer_mutex_</definition>
+        <argsstring></argsstring>
+        <name>observer_mutex_</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::observer_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="380" column="28" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="380" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1ade0e1bec2099c931981e80f0dcc97721" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::TensorNetworkStorageEngine::version_cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>version_cache_mutex_</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::version_cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="391" column="24" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="391" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a982f2253136b3e7a40f791bc6b8aca46" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref>, std::size_t, <ref refid="structthemis_1_1storage_1_1_tensor_field_key_hash" kindref="compound">TensorFieldKeyHash</ref> &gt;</type>
+        <definition>std::unordered_map&lt;TensorFieldKey, std::size_t, TensorFieldKeyHash&gt; themis::storage::TensorNetworkStorageEngine::version_cache_</definition>
+        <argsstring></argsstring>
+        <name>version_cache_</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::version_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="394" column="2" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="394" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1acca6f4142db401372e6e4e9e0af2e645" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TensorNetworkStorageEngine::TensorNetworkStorageEngine</definition>
+        <argsstring>(std::shared_ptr&lt; ITensorStorageBackend &gt; backend, const TensorStorageConfig &amp;cfg={})</argsstring>
+        <name>TensorNetworkStorageEngine</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::TensorNetworkStorageEngine</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1storage_1_1_i_tensor_storage_backend" kindref="compound">ITensorStorageBackend</ref> &gt;</type>
+          <declname>backend</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_storage_config" kindref="compound">TensorStorageConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct with a storage backend and configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to the KV-store backend. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Storage configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if backend is null. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="226" column="14" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="208" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a9feb9bb6946a1b14f8925c0822ce8e7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TensorNetworkStorageEngine::~TensorNetworkStorageEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TensorNetworkStorageEngine</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::~TensorNetworkStorageEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="230" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a4c13c4fe332915d73e4025206fdc3e44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::TensorNetworkStorageEngine::put</definition>
+        <argsstring>(const TensorFieldKey &amp;key, const std::vector&lt; float &gt; &amp;data, const std::vector&lt; std::size_t &gt; &amp;mode_sizes)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::put</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>mode_sizes</declname>
+        </param>
+        <briefdescription>
+<para>Compress and store a tensor field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put.</para>
+<para>Decomposes <computeroutput>data</computeroutput> into TT format, quantises the cores, and persists each core under the structured key schema.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical field address. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flat row-major float32 tensor. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode_sizes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shape of the tensor (∏ mode_sizes == data.size()). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on shape mismatch.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode_sizes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), decompose(), quantize(), wlk(), currentVersion(), persistQuantizedTrain(), setVersion(), del(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="246" column="10" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="403" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1ac9371448a997ddce43ec8af81f480cd4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; float &gt; &gt; themis::storage::TensorNetworkStorageEngine::get</definition>
+        <argsstring>(const TensorFieldKey &amp;key) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::get</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve and reconstruct the latest version of a tensor field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Reconstructed float32 tensor, or std::nullopt if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Rlk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="258" column="5" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="490" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a09676c539a3af124da7e5c7bcb754b83" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; float &gt; &gt; themis::storage::TensorNetworkStorageEngine::getVersion</definition>
+        <argsstring>(const TensorFieldKey &amp;key, std::size_t version) const</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::getVersion</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a specific version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Rlk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="264" column="5" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="512" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a7b11fe2fc9b7ca5f0b33527bb84bd666" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1storage_1_1_quantized_train" kindref="compound">QuantizedTrain</ref> &gt;</type>
+        <definition>std::optional&lt; QuantizedTrain &gt; themis::storage::TensorNetworkStorageEngine::getCompressed</definition>
+        <argsstring>(const TensorFieldKey &amp;key) const</argsstring>
+        <name>getCompressed</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::getCompressed</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve in compressed (<ref refid="structthemis_1_1storage_1_1_quantized_train" kindref="compound">QuantizedTrain</ref>) form — avoids decompression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Rlk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="270" column="5" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="530" bodyend="542"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a4ab359b88ee73796324648ce44f5ca75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::TensorNetworkStorageEngine::remove</definition>
+        <argsstring>(const TensorFieldKey &amp;key)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::remove</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Remove the latest version of a field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: wlk(), currentVersion(), loadQuantizedTrain(), del(), makeMetaKey(), size(), makeCoreKey(), eraseVersion(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="277" column="10" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="554" bodyend="582"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a2d58f9b68e42d42f81f3fcd641ba7ce2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::TensorNetworkStorageEngine::compact</definition>
+        <argsstring>(const TensorFieldKey &amp;key)</argsstring>
+        <name>compact</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::compact</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Delete all versions below <computeroutput>keep_versions</computeroutput> newest ones. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compact.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: wlk(), currentVersion(), listKeys(), makePrefix(), tryParseVersionSuffix(), del(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="282" column="10" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="589" bodyend="602"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1af6033a9f9419106fa2ccf3b5f2141b8a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1storage_1_1_tensor_storage_stats" kindref="compound">TensorStorageStats</ref> &gt;</type>
+        <definition>std::optional&lt; TensorStorageStats &gt; themis::storage::TensorNetworkStorageEngine::stats</definition>
+        <argsstring>(const TensorFieldKey &amp;key) const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::stats</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Statistics for the latest version of a field. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>std::nullopt if field not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Rlk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rw_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="292" column="5" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="609" bodyend="640"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1aa88878f466f7c1ac368c858919047a8a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1storage_1_1_tensor_storage_config" kindref="compound">TensorStorageConfig</ref> &amp;</type>
+        <definition>const TensorStorageConfig &amp; themis::storage::TensorNetworkStorageEngine::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::config</qualifiedname>
+        <briefdescription>
+<para>Configuration used by this engine. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="297" column="31" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="297" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a48ab686394bba56b8d8a349c4f3076c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::TensorNetworkStorageEngine::setWriteObserverFn</definition>
+        <argsstring>(TensorWriteObserverFn fn)</argsstring>
+        <name>setWriteObserverFn</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::setWriteObserverFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1ab0969cf98664cb90146d29a6adcacc36" kindref="member">TensorWriteObserverFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register (or replace) the write observer. Pass nullptr to remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Write Observer Fn.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="323" column="10" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="470" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a85374d7dd0f263d06afe030bb78c74ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::TensorNetworkStorageEngine::setDeleteObserverFn</definition>
+        <argsstring>(TensorDeleteObserverFn fn)</argsstring>
+        <name>setDeleteObserverFn</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::setDeleteObserverFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a3cdcf5dad6927b44da309541c41a0c17" kindref="member">TensorDeleteObserverFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register (or replace) the delete observer. Pass nullptr to remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Delete Observer Fn.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="326" column="10" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="480" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1ac499643996a39ff16088a8a1b9b59530" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::TensorNetworkStorageEngine::putRawMetadata</definition>
+        <argsstring>(const std::string &amp;key, const std::vector&lt; uint8_t &gt; &amp;value)</argsstring>
+        <name>putRawMetadata</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::putRawMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Store an opaque byte blob under a named metadata key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put Raw Metadata.</para>
+<para>The key is namespaced to <computeroutput>__tfgmeta__:&lt;key&gt;</computeroutput> so it cannot collide with regular tensor keys. Used by TensorDeduplicationManager to persist the fingerprint graph snapshot between process restarts.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical metadata key (must be non-empty). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw byte payload. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a4c13c4fe332915d73e4025206fdc3e44" kindref="member">put()</ref>, rawMetaKey(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="341" column="10" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="663" bodyend="666"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1aa31a9b84e703cfe91dd5d6e6b79d222e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::storage::TensorNetworkStorageEngine::getRawMetadata</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>getRawMetadata</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::getRawMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Load an opaque byte blob stored under <computeroutput>key</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The blob, or std::nullopt if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="350" column="5" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="669" bodyend="671"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1ae2f30d9180da52f0804f5aec7762c5a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::TensorNetworkStorageEngine::deleteRawMetadata</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>deleteRawMetadata</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::deleteRawMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Delete an opaque metadata blob stored under <computeroutput>key</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete Raw Metadata.</para>
+<para><simplesect kind="return"><para>True if the key existed and was removed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: del(), rawMetaKey(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="357" column="10" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="679" bodyend="681"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1ae5548dea0318ca2e4c64fee15b7ee947" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::storage::TensorNetworkStorageEngine::listRawMetadataKeys</definition>
+        <argsstring>(const std::string &amp;prefix) const</argsstring>
+        <name>listRawMetadataKeys</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::listRawMetadataKeys</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+<para>List logical metadata keys whose names start with <computeroutput>prefix</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returned keys are relative to <computeroutput>prefix</computeroutput> and do not include the internal <computeroutput>__tfgmeta__:</computeroutput> namespace prefix. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="366" column="5" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="684" bodyend="696"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1af1ee2e74f24ef2bdd642e8f46c8d02be" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::TensorNetworkStorageEngine::makeMetaKey</definition>
+        <argsstring>(const TensorFieldKey &amp;k, std::size_t ver)</argsstring>
+        <name>makeMetaKey</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::makeMetaKey</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref> &amp;</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>ver</declname>
+        </param>
+        <briefdescription>
+<para>Make Meta Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makePrefix(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="384" column="24" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="239" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a2224886b6f06204d7f64fdfbdccfce97" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::TensorNetworkStorageEngine::makeCoreKey</definition>
+        <argsstring>(const TensorFieldKey &amp;k, std::size_t core_idx, std::size_t ver)</argsstring>
+        <name>makeCoreKey</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::makeCoreKey</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref> &amp;</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>core_idx</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>ver</declname>
+        </param>
+        <briefdescription>
+<para>Make Core Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">core_idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ver</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makePrefix(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="385" column="24" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="252" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1aaf82822f90bf8cd8ab3f144a2f04639b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::TensorNetworkStorageEngine::makePrefix</definition>
+        <argsstring>(const TensorFieldKey &amp;k)</argsstring>
+        <name>makePrefix</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::makePrefix</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref> &amp;</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Make Prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements makePrefix without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="387" column="24" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="228" bodyend="230"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a4b04aa99aaf9d5176bd63666fc9fcc9b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::TensorNetworkStorageEngine::currentVersion</definition>
+        <argsstring>(const TensorFieldKey &amp;k) const</argsstring>
+        <name>currentVersion</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::currentVersion</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref> &amp;</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version_cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version_cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="396" column="17" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="262" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a50781de9314d799e1648cf13c1d29e0b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::TensorNetworkStorageEngine::setVersion</definition>
+        <argsstring>(const TensorFieldKey &amp;k, std::size_t version)</argsstring>
+        <name>setVersion</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::setVersion</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref> &amp;</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Set Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="397" column="10" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="309" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1aaa9d7980257b6a47cfe98aaa7498ee2a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::TensorNetworkStorageEngine::eraseVersion</definition>
+        <argsstring>(const TensorFieldKey &amp;k)</argsstring>
+        <name>eraseVersion</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::eraseVersion</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref> &amp;</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Erase Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="398" column="10" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="324" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a77a6df4b21df6401a94e2328619db0ea" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::TensorNetworkStorageEngine::persistQuantizedTrain</definition>
+        <argsstring>(const TensorFieldKey &amp;key, const QuantizedTrain &amp;qtrain, std::size_t version)</argsstring>
+        <name>persistQuantizedTrain</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::persistQuantizedTrain</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_quantized_train" kindref="compound">QuantizedTrain</ref> &amp;</type>
+          <declname>qtrain</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Persist Quantized Train. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">qtrain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="402" column="10" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="340" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a127742d4463415b32b82b614c3bc7903" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1storage_1_1_quantized_train" kindref="compound">QuantizedTrain</ref> &gt;</type>
+        <definition>std::optional&lt; QuantizedTrain &gt; themis::storage::TensorNetworkStorageEngine::loadQuantizedTrain</definition>
+        <argsstring>(const TensorFieldKey &amp;key, std::size_t version) const</argsstring>
+        <name>loadQuantizedTrain</name>
+        <qualifiedname>themis::storage::TensorNetworkStorageEngine::loadQuantizedTrain</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="407" column="5" bodyfile="src/storage/tensor_network_storage_engine.cpp" bodystart="377" bodyend="388"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Storage engine for TT-compressed tensors. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Usage</heading>
+</para>
+<para><programlisting><codeline><highlight class="normal">TensorStorageConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.tt_config.eps<sp/><sp/>=<sp/>0.01;</highlight></codeline>
+<codeline><highlight class="normal">cfg.quant_type<sp/>=<sp/><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dba167c795dd4cb725ea2c7da144e1f8e54" kindref="member">QuantizationType::NF4</ref>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>std::make_shared&lt;InMemoryTensorBackend&gt;();</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1acca6f4142db401372e6e4e9e0af2e645" kindref="member">TensorNetworkStorageEngine</ref><sp/>engine(backend,<sp/>cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Store<sp/>a<sp/>4×4×4×4<sp/>attention<sp/>matrix</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::vector&lt;float&gt;<sp/>weights(256,<sp/>0.5f);</highlight></codeline>
+<codeline><highlight class="normal">engine.put({</highlight><highlight class="stringliteral">&quot;myorg&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;models&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;layer0_attn&quot;</highlight><highlight class="normal">},<sp/>weights,<sp/>{4,4,4,4});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Retrieve<sp/>(reconstructed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine.get({</highlight><highlight class="stringliteral">&quot;myorg&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;models&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;layer0_attn&quot;</highlight><highlight class="normal">});</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/storage/tensor_network_storage_engine.h" line="217" column="1" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="217" bodyend="408"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1ad02c7df982ab92f8611d66c3ea918e93" prot="private" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>backend_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a4cf4a5a9205bcac6d07b3e9c5398729c" prot="private" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a2d58f9b68e42d42f81f3fcd641ba7ce2" prot="public" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>compact</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1aa88878f466f7c1ac368c858919047a8a" prot="public" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>config</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a4b04aa99aaf9d5176bd63666fc9fcc9b" prot="private" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>currentVersion</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a02fb28051745263ea3fbba27008aa76a" prot="private" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>decomposer_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a824a75b3870357b59c17ac17f5c65a64" prot="private" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>delete_observer_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1ae2f30d9180da52f0804f5aec7762c5a0" prot="public" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>deleteRawMetadata</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1aaa9d7980257b6a47cfe98aaa7498ee2a" prot="private" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>eraseVersion</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1ac9371448a997ddce43ec8af81f480cd4" prot="public" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>get</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a7b11fe2fc9b7ca5f0b33527bb84bd666" prot="public" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>getCompressed</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1aa31a9b84e703cfe91dd5d6e6b79d222e" prot="public" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>getRawMetadata</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a09676c539a3af124da7e5c7bcb754b83" prot="public" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1ae5548dea0318ca2e4c64fee15b7ee947" prot="public" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>listRawMetadataKeys</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a127742d4463415b32b82b614c3bc7903" prot="private" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>loadQuantizedTrain</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a2224886b6f06204d7f64fdfbdccfce97" prot="private" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>makeCoreKey</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1af1ee2e74f24ef2bdd642e8f46c8d02be" prot="private" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>makeMetaKey</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1aaf82822f90bf8cd8ab3f144a2f04639b" prot="private" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>makePrefix</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a08c8db48e42c9bd29e4a8c425854bdf2" prot="private" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>observer_mutex_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a77a6df4b21df6401a94e2328619db0ea" prot="private" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>persistQuantizedTrain</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a4c13c4fe332915d73e4025206fdc3e44" prot="public" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>put</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1ac499643996a39ff16088a8a1b9b59530" prot="public" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>putRawMetadata</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a5579ae5067413680cb1699e1027bb642" prot="private" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>quantizer_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a4ab359b88ee73796324648ce44f5ca75" prot="public" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>remove</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a0b087253c88da68fe7ce578a59bea099" prot="private" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>rw_mutex_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a85374d7dd0f263d06afe030bb78c74ac" prot="public" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>setDeleteObserverFn</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a50781de9314d799e1648cf13c1d29e0b" prot="private" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>setVersion</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a48ab686394bba56b8d8a349c4f3076c5" prot="public" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>setWriteObserverFn</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1af6033a9f9419106fa2ccf3b5f2141b8a" prot="public" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>stats</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a3cdcf5dad6927b44da309541c41a0c17" prot="public" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>TensorDeleteObserverFn</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1acca6f4142db401372e6e4e9e0af2e645" prot="public" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>TensorNetworkStorageEngine</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1ab0969cf98664cb90146d29a6adcacc36" prot="public" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>TensorWriteObserverFn</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a982f2253136b3e7a40f791bc6b8aca46" prot="private" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>version_cache_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1ade0e1bec2099c931981e80f0dcc97721" prot="private" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>version_cache_mutex_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a4d71b42dff73d2188fdf226b14163074" prot="private" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>write_observer_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_network_storage_engine_1a9feb9bb6946a1b14f8925c0822ce8e7b" prot="public" virt="non-virtual"><scope>themis::storage::TensorNetworkStorageEngine</scope><name>~TensorNetworkStorageEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

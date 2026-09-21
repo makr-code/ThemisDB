@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::resource::ResourcePoolManager::Config</compoundname>
+    <includes refid="resource__pool__manager_8h" local="no">resource_pool_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config_1ac81f2cc2980ee0b66731ce2094ff80b0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_config" kindref="compound">AdaptiveConnectionPool::Config</ref></type>
+        <definition>AdaptiveConnectionPool::Config themis::resource::ResourcePoolManager::Config::conn_pool</definition>
+        <argsstring></argsstring>
+        <name>conn_pool</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::Config::conn_pool</qualifiedname>
+        <briefdescription>
+<para>Connection pool config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="164" column="41" bodyfile="include/base/resource_pool_manager.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config_1a8b627dcb86feeb4d7ec126379a7b4fa2" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1resource_1_1_buffer_pool_1_1_config" kindref="compound">BufferPool::Config</ref></type>
+        <definition>BufferPool::Config themis::resource::ResourcePoolManager::Config::buffer_pool</definition>
+        <argsstring></argsstring>
+        <name>buffer_pool</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::Config::buffer_pool</qualifiedname>
+        <briefdescription>
+<para>Buffer pool config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="165" column="41" bodyfile="include/base/resource_pool_manager.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config_1ab3b1dc329279e926447471b15321809d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::resource::ResourcePoolManager::Config::saturation_alert_threshold</definition>
+        <argsstring></argsstring>
+        <name>saturation_alert_threshold</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::Config::saturation_alert_threshold</qualifiedname>
+        <initializer>= 0.80</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="166" column="16" bodyfile="include/base/resource_pool_manager.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config_1a10cd93485765529ee8cb86d650e70479" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::resource::ResourcePoolManager::Config::leak_timeout</definition>
+        <argsstring></argsstring>
+        <name>leak_timeout</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::Config::leak_timeout</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="167" column="30" bodyfile="include/base/resource_pool_manager.h" bodystart="167" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::resource::AdaptiveConnectionPool::Config</label>
+        <link refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_config"/>
+      </node>
+      <node id="3">
+        <label>themis::resource::BufferPool::Config</label>
+        <link refid="structthemis_1_1resource_1_1_buffer_pool_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::resource::ResourcePoolManager::Config</label>
+        <link refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>conn_pool</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>buffer_pool</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/base/resource_pool_manager.h" line="163" column="5" bodyfile="include/base/resource_pool_manager.h" bodystart="163" bodyend="168"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config_1a8b627dcb86feeb4d7ec126379a7b4fa2" prot="public" virt="non-virtual"><scope>themis::resource::ResourcePoolManager::Config</scope><name>buffer_pool</name></member>
+      <member refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config_1ac81f2cc2980ee0b66731ce2094ff80b0" prot="public" virt="non-virtual"><scope>themis::resource::ResourcePoolManager::Config</scope><name>conn_pool</name></member>
+      <member refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config_1a10cd93485765529ee8cb86d650e70479" prot="public" virt="non-virtual"><scope>themis::resource::ResourcePoolManager::Config</scope><name>leak_timeout</name></member>
+      <member refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_config_1ab3b1dc329279e926447471b15321809d" prot="public" virt="non-virtual"><scope>themis::resource::ResourcePoolManager::Config</scope><name>saturation_alert_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

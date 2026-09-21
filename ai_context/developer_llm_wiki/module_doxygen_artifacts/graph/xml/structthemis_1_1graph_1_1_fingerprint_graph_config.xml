@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_fingerprint_graph_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::FingerprintGraphConfig</compoundname>
+    <includes refid="tensor__fingerprint__graph_8h" local="no">tensor_fingerprint_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_fingerprint_graph_config_1a04de08f97babb780b99a56ea0165c2b6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::FingerprintGraphConfig::similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>similarity_threshold</name>
+        <qualifiedname>themis::graph::FingerprintGraphConfig::similarity_threshold</qualifiedname>
+        <initializer>= 0.95</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="88" column="12" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_fingerprint_graph_config_1a82775f94fb423e036789d2855f474d9d" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::FingerprintGraphConfig::num_hash_funcs</definition>
+        <argsstring></argsstring>
+        <name>num_hash_funcs</name>
+        <qualifiedname>themis::graph::FingerprintGraphConfig::num_hash_funcs</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="90" column="17" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_fingerprint_graph_config_1a0819e973318c981a91a68dea87dfa93f" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::FingerprintGraphConfig::num_bands</definition>
+        <argsstring></argsstring>
+        <name>num_bands</name>
+        <qualifiedname>themis::graph::FingerprintGraphConfig::num_bands</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="92" column="17" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_fingerprint_graph_config_1aae54f5bddc8ce86fb8b43554064f50d5" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::FingerprintGraphConfig::max_candidates</definition>
+        <argsstring></argsstring>
+        <name>max_candidates</name>
+        <qualifiedname>themis::graph::FingerprintGraphConfig::max_candidates</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="94" column="17" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_fingerprint_graph_config_1a5e33e2577ac5a3eb002ea28287ed80fd" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::FingerprintGraphConfig::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::graph::FingerprintGraphConfig::top_k</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="96" column="17" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_fingerprint_graph_config_1ab6c6d3ba905fcc2dfe0b38fd44657e81" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::FingerprintGraphConfig::cache_trains_in_memory</definition>
+        <argsstring></argsstring>
+        <name>cache_trains_in_memory</name>
+        <qualifiedname>themis::graph::FingerprintGraphConfig::cache_trains_in_memory</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="98" column="10" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/tensor_fingerprint_graph.h" line="87" column="1" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="87" bodyend="99"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_fingerprint_graph_config_1ab6c6d3ba905fcc2dfe0b38fd44657e81" prot="public" virt="non-virtual"><scope>themis::graph::FingerprintGraphConfig</scope><name>cache_trains_in_memory</name></member>
+      <member refid="structthemis_1_1graph_1_1_fingerprint_graph_config_1aae54f5bddc8ce86fb8b43554064f50d5" prot="public" virt="non-virtual"><scope>themis::graph::FingerprintGraphConfig</scope><name>max_candidates</name></member>
+      <member refid="structthemis_1_1graph_1_1_fingerprint_graph_config_1a0819e973318c981a91a68dea87dfa93f" prot="public" virt="non-virtual"><scope>themis::graph::FingerprintGraphConfig</scope><name>num_bands</name></member>
+      <member refid="structthemis_1_1graph_1_1_fingerprint_graph_config_1a82775f94fb423e036789d2855f474d9d" prot="public" virt="non-virtual"><scope>themis::graph::FingerprintGraphConfig</scope><name>num_hash_funcs</name></member>
+      <member refid="structthemis_1_1graph_1_1_fingerprint_graph_config_1a04de08f97babb780b99a56ea0165c2b6" prot="public" virt="non-virtual"><scope>themis::graph::FingerprintGraphConfig</scope><name>similarity_threshold</name></member>
+      <member refid="structthemis_1_1graph_1_1_fingerprint_graph_config_1a5e33e2577ac5a3eb002ea28287ed80fd" prot="public" virt="non-virtual"><scope>themis::graph::FingerprintGraphConfig</scope><name>top_k</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

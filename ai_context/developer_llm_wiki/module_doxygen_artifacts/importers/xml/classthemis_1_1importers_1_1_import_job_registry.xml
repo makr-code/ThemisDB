@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_import_job_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::ImportJobRegistry</compoundname>
+    <includes refid="importer__interface_8h" local="no">importer_interface.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_import_job_registry_1ae86653ee1637f3b09b95046c7d087bb0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::importers::ImportJobRegistry::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::importers::ImportJobRegistry::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="638" column="24" bodyfile="include/importers/importer_interface.h" bodystart="638" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_import_job_registry_1a9fe55618bf57ef03e85562f2f6eb5964" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::shared_ptr&lt; <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::shared_ptr&lt;ImportHandle&gt; &gt; themis::importers::ImportJobRegistry::jobs_</definition>
+        <argsstring></argsstring>
+        <name>jobs_</name>
+        <qualifiedname>themis::importers::ImportJobRegistry::jobs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="639" column="14" bodyfile="include/importers/importer_interface.h" bodystart="639" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_job_registry_1a82ae19c73f6b2f2cf9a775f5a35abc6e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::ImportJobRegistry::add</definition>
+        <argsstring>(std::shared_ptr&lt; ImportHandle &gt; handle)</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::importers::ImportJobRegistry::add</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &gt;</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Add. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="560" column="10" bodyfile="include/importers/importer_interface.h" bodystart="560" bodyend="563"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_job_registry_1aae9b7c0231a24ba77bfa6789913730b4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ImportHandle &gt; themis::importers::ImportJobRegistry::get</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::importers::ImportJobRegistry::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="565" column="21" bodyfile="include/importers/importer_interface.h" bodystart="565" bodyend="574"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_job_registry_1a8a82d88e2aeef2a58c43ca53d1320eb3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::shared_ptr&lt; ImportHandle &gt; &gt; themis::importers::ImportJobRegistry::all</definition>
+        <argsstring>() const</argsstring>
+        <name>all</name>
+        <qualifiedname>themis::importers::ImportJobRegistry::all</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="576" column="17" bodyfile="include/importers/importer_interface.h" bodystart="576" bodyend="589"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_job_registry_1a264c58c2d11e6752eb33f7209b8cc3d3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &gt;</type>
+        <definition>std::optional&lt; json &gt; themis::importers::ImportJobRegistry::getJsonSnapshot</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>getJsonSnapshot</name>
+        <qualifiedname>themis::importers::ImportJobRegistry::getJsonSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="591" column="19" bodyfile="include/importers/importer_interface.h" bodystart="591" bodyend="597"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_job_registry_1a520d3fdd2cc81bb3d35792cae23a04e1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::pair&lt; bool, <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &gt; &gt;</type>
+        <definition>std::optional&lt; std::pair&lt; bool, json &gt; &gt; themis::importers::ImportJobRegistry::getRunningAndJsonSnapshot</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>getRunningAndJsonSnapshot</name>
+        <qualifiedname>themis::importers::ImportJobRegistry::getRunningAndJsonSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="599" column="19" bodyfile="include/importers/importer_interface.h" bodystart="599" bodyend="606"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_job_registry_1a00eac3bd09574f8613f594e372ab622e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::importers::ImportJobRegistry::getSourcePathSnapshot</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>getSourcePathSnapshot</name>
+        <qualifiedname>themis::importers::ImportJobRegistry::getSourcePathSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="608" column="19" bodyfile="include/importers/importer_interface.h" bodystart="608" bodyend="614"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_job_registry_1abdc7fdf601be28ab06a817bdad67a6ec" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt; json &gt; themis::importers::ImportJobRegistry::allJsonSnapshots</definition>
+        <argsstring>() const</argsstring>
+        <name>allJsonSnapshots</name>
+        <qualifiedname>themis::importers::ImportJobRegistry::allJsonSnapshots</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="616" column="17" bodyfile="include/importers/importer_interface.h" bodystart="616" bodyend="625"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_import_job_registry_1a9e102f2ce143623c9db53c5a8e557482" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::ImportJobRegistry::remove</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::importers::ImportJobRegistry::remove</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="632" column="10" bodyfile="include/importers/importer_interface.h" bodystart="632" bodyend="635"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/importer_interface.h" line="553" column="1" bodyfile="include/importers/importer_interface.h" bodystart="553" bodyend="640"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_import_job_registry_1a82ae19c73f6b2f2cf9a775f5a35abc6e" prot="public" virt="non-virtual"><scope>themis::importers::ImportJobRegistry</scope><name>add</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_job_registry_1a8a82d88e2aeef2a58c43ca53d1320eb3" prot="public" virt="non-virtual"><scope>themis::importers::ImportJobRegistry</scope><name>all</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_job_registry_1abdc7fdf601be28ab06a817bdad67a6ec" prot="public" virt="non-virtual"><scope>themis::importers::ImportJobRegistry</scope><name>allJsonSnapshots</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_job_registry_1aae9b7c0231a24ba77bfa6789913730b4" prot="public" virt="non-virtual"><scope>themis::importers::ImportJobRegistry</scope><name>get</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_job_registry_1a264c58c2d11e6752eb33f7209b8cc3d3" prot="public" virt="non-virtual"><scope>themis::importers::ImportJobRegistry</scope><name>getJsonSnapshot</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_job_registry_1a520d3fdd2cc81bb3d35792cae23a04e1" prot="public" virt="non-virtual"><scope>themis::importers::ImportJobRegistry</scope><name>getRunningAndJsonSnapshot</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_job_registry_1a00eac3bd09574f8613f594e372ab622e" prot="public" virt="non-virtual"><scope>themis::importers::ImportJobRegistry</scope><name>getSourcePathSnapshot</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_job_registry_1a9fe55618bf57ef03e85562f2f6eb5964" prot="private" virt="non-virtual"><scope>themis::importers::ImportJobRegistry</scope><name>jobs_</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_job_registry_1ae86653ee1637f3b09b95046c7d087bb0" prot="private" virt="non-virtual"><scope>themis::importers::ImportJobRegistry</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1importers_1_1_import_job_registry_1a9e102f2ce143623c9db53c5a8e557482" prot="public" virt="non-virtual"><scope>themis::importers::ImportJobRegistry</scope><name>remove</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_d7d795325db03a0223c16820a2922e30" kind="dir">
+    <compoundname>tests/index</compoundname>
+    <innerfile refid="test__advanced__vector__index__cuda__knn_8cpp">test_advanced_vector_index_cuda_knn.cpp</innerfile>
+    <innerfile refid="test__ann__cpu__parity_8cpp">test_ann_cpu_parity.cpp</innerfile>
+    <innerfile refid="test__ann__frontdoor_8cpp">test_ann_frontdoor.cpp</innerfile>
+    <innerfile refid="test__ann__frontdoor__single__shard_8cpp">test_ann_frontdoor_single_shard.cpp</innerfile>
+    <innerfile refid="test__ann__frontdoor__validation__focused_8cpp">test_ann_frontdoor_validation_focused.cpp</innerfile>
+    <innerfile refid="test__ann__index_8cpp">test_ann_index.cpp</innerfile>
+    <innerfile refid="test__distributed__vector__index_8cpp">test_distributed_vector_index.cpp</innerfile>
+    <innerfile refid="test__gpu__memory__oversubscription_8cpp">test_gpu_memory_oversubscription.cpp</innerfile>
+    <innerfile refid="test__gpu__vector__index__llm__paths__focused_8cpp">test_gpu_vector_index_llm_paths_focused.cpp</innerfile>
+    <innerfile refid="test__hnsw__recall__integration_8cpp">test_hnsw_recall_integration.cpp</innerfile>
+    <innerfile refid="test__index__analyzer_8cpp">test_index_analyzer.cpp</innerfile>
+    <innerfile refid="test__index__compression_8cpp">test_index_compression.cpp</innerfile>
+    <innerfile refid="test__index__destructor__safety_8cpp">test_index_destructor_safety.cpp</innerfile>
+    <innerfile refid="test__index__gpu__memory__safety_8cpp">test_index_gpu_memory_safety.cpp</innerfile>
+    <innerfile refid="test__index__gpu__oversubscription__raii_8cpp">test_index_gpu_oversubscription_raii.cpp</innerfile>
+    <innerfile refid="test__index__highcardinality__stress_8cpp">test_index_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__index__iterator__validity_8cpp">test_index_iterator_validity.cpp</innerfile>
+    <innerfile refid="test__index__maintenance_8cpp">test_index_maintenance.cpp</innerfile>
+    <innerfile refid="test__index__manager__di_8cpp">test_index_manager_di.cpp</innerfile>
+    <innerfile refid="test__index__phase2__a2__iterator__safety_8cpp">test_index_phase2_a2_iterator_safety.cpp</innerfile>
+    <innerfile refid="test__index__recommender_8cpp">test_index_recommender.cpp</innerfile>
+    <innerfile refid="test__index__stats_8cpp">test_index_stats.cpp</innerfile>
+    <innerfile refid="test__index__workload__replay_8cpp">test_index_workload_replay.cpp</innerfile>
+    <innerfile refid="test__learned__index_8cpp">test_learned_index.cpp</innerfile>
+    <innerfile refid="test__matryoshka__truncation_8cpp">test_matryoshka_truncation.cpp</innerfile>
+    <innerfile refid="test__spatial__correctness__integration_8cpp">test_spatial_correctness_integration.cpp</innerfile>
+    <innerfile refid="test__tiered__index__migration_8cpp">test_tiered_index_migration.cpp</innerfile>
+    <innerfile refid="test__wave3c__index__raii_8cpp">test_wave3c_index_raii.cpp</innerfile>
+    <innerfile refid="test__wave5__index__hardening_8cpp">test_wave5_index_hardening.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/index/"/>
+  </compounddef>
+</doxygen>

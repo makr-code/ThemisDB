@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_batched_ack_tracker_1_1_ack_batch_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::BatchedAckTracker::AckBatchConfig</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_batched_ack_tracker_1_1_ack_batch_config_1a898cae9b59c03f48bba56c9c4ec7b227" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::BatchedAckTracker::AckBatchConfig::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themisdb::replication::BatchedAckTracker::AckBatchConfig::max_batch_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1383" column="18" bodyfile="include/replication/replication_manager.h" bodystart="1383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_batched_ack_tracker_1_1_ack_batch_config_1aad89aa5ad126298f84bb4ebff5970075" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::BatchedAckTracker::AckBatchConfig::flush_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>flush_interval_ms</name>
+        <qualifiedname>themisdb::replication::BatchedAckTracker::AckBatchConfig::flush_interval_ms</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1384" column="18" bodyfile="include/replication/replication_manager.h" bodystart="1384" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="1382" column="5" bodyfile="include/replication/replication_manager.h" bodystart="1382" bodyend="1385"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_batched_ack_tracker_1_1_ack_batch_config_1aad89aa5ad126298f84bb4ebff5970075" prot="public" virt="non-virtual"><scope>themisdb::replication::BatchedAckTracker::AckBatchConfig</scope><name>flush_interval_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_batched_ack_tracker_1_1_ack_batch_config_1a898cae9b59c03f48bba56c9c4ec7b227" prot="public" virt="non-virtual"><scope>themisdb::replication::BatchedAckTracker::AckBatchConfig</scope><name>max_batch_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

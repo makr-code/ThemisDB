@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_relation_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::RelationBuilder</compoundname>
+    <includes refid="entity__assembler_8h" local="no">entity_assembler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_relation_builder_1a450fefe8cbfb630fce0f7dbdf6637a34" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_relation_builder_config" kindref="compound">RelationBuilderConfig</ref></type>
+        <definition>RelationBuilderConfig themis::ingestion::RelationBuilder::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::ingestion::RelationBuilder::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="186" column="27" bodyfile="include/ingestion/entity_assembler.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_relation_builder_1af421f3346e00b37f37f712be17489a51" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::RelationBuilder::RelationBuilder</definition>
+        <argsstring>(RelationBuilderConfig cfg={})</argsstring>
+        <name>RelationBuilder</name>
+        <qualifiedname>themis::ingestion::RelationBuilder::RelationBuilder</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_relation_builder_config" kindref="compound">RelationBuilderConfig</ref></type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="174" column="14" bodyfile="src/ingestion/entity_assembler.cpp" bodystart="252" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_relation_builder_1aa3114d36177c8cb863c53421c9af5b7f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::RelationBuilder::build</definition>
+        <argsstring>(ExtractionContext &amp;ctx) const</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::ingestion::RelationBuilder::build</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Derive and append relations to <computeroutput>ctx.relations</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Idempotent if called multiple times (duplicate edges are not added).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Extraction context to read entities from and append relations to. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="183" column="10" bodyfile="src/ingestion/entity_assembler.cpp" bodystart="432" bodyend="437"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_relation_builder_1adb08d7b95ba1d95741b049c42f851265" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::RelationBuilder::wantsType</definition>
+        <argsstring>(const std::string &amp;t) const</argsstring>
+        <name>wantsType</name>
+        <qualifiedname>themis::ingestion::RelationBuilder::wantsType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="188" column="10" bodyfile="src/ingestion/entity_assembler.cpp" bodystart="255" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_relation_builder_1ad57a6d5da9a0c331d741f556f92d0d5e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::RelationBuilder::buildCitesRelations</definition>
+        <argsstring>(ExtractionContext &amp;ctx) const</argsstring>
+        <name>buildCitesRelations</name>
+        <qualifiedname>themis::ingestion::RelationBuilder::buildCitesRelations</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="190" column="10" bodyfile="src/ingestion/entity_assembler.cpp" bodystart="282" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_relation_builder_1a866484a9b236ffaf80e28d3a8fc56f87" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::RelationBuilder::buildPartOfRelations</definition>
+        <argsstring>(ExtractionContext &amp;ctx) const</argsstring>
+        <name>buildPartOfRelations</name>
+        <qualifiedname>themis::ingestion::RelationBuilder::buildPartOfRelations</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="191" column="10" bodyfile="src/ingestion/entity_assembler.cpp" bodystart="330" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_relation_builder_1a807e984ac083615fad7a6272701467c5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::RelationBuilder::buildCoOccurrence</definition>
+        <argsstring>(ExtractionContext &amp;ctx) const</argsstring>
+        <name>buildCoOccurrence</name>
+        <qualifiedname>themis::ingestion::RelationBuilder::buildCoOccurrence</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="192" column="10" bodyfile="src/ingestion/entity_assembler.cpp" bodystart="362" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_relation_builder_1a939c032a035504a6036420612730432c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::RelationBuilder::buildIssuedByRelations</definition>
+        <argsstring>(ExtractionContext &amp;ctx) const</argsstring>
+        <name>buildIssuedByRelations</name>
+        <qualifiedname>themis::ingestion::RelationBuilder::buildIssuedByRelations</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="193" column="10" bodyfile="src/ingestion/entity_assembler.cpp" bodystart="395" bodyend="430"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_relation_builder_1a53a86fa03427bf1be7d823ef2c3590d0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::RelationBuilder::edgeExists</definition>
+        <argsstring>(const std::vector&lt; EntityRelation &gt; &amp;rels, const std::string &amp;from, const std::string &amp;to, RelationType rt)</argsstring>
+        <name>edgeExists</name>
+        <qualifiedname>themis::ingestion::RelationBuilder::edgeExists</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_entity_relation" kindref="compound">EntityRelation</ref> &gt; &amp;</type>
+          <declname>rels</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1aa204b66459c74e54e3ea809e00fafed9" kindref="member">RelationType</ref></type>
+          <declname>rt</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when an identical edge already exists in ctx.relations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements edgeExists without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="196" column="17" bodyfile="src/ingestion/entity_assembler.cpp" bodystart="271" bodyend="280"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Constructs <computeroutput><ref refid="structthemis_1_1ingestion_1_1_entity_relation" kindref="compound">EntityRelation</ref></computeroutput> edges from a finalised entity list. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="classthemis_1_1ingestion_1_1_relation_builder_1autotoc_md3_1s1"><sect2 id="classthemis_1_1ingestion_1_1_relation_builder_1autotoc_md3">
+<title>Relation extraction strategy</title><para><heading level="3">CITES / AMENDS / SUPERSEDES</heading>
+</para>
+<para>For each <computeroutput>LEGAL_PROVISION</computeroutput> or <computeroutput>LEGAL_NORM_REFERENCE</computeroutput> entity that has a <computeroutput>properties["norm_ref_target"]</computeroutput> key, a <computeroutput>CITES</computeroutput> edge is emitted from the provision to the referenced norm.</para>
+<para><computeroutput>AMENDS</computeroutput> and <computeroutput>SUPERSEDES</computeroutput> are detected from deontic/metadata properties: <computeroutput>properties["relation_hint"] == "amends"</computeroutput> → <computeroutput>AMENDS</computeroutput> edge.</para>
+<para><heading level="3">PART_OF</heading>
+</para>
+<para>A <computeroutput>LEGAL_PROVISION</computeroutput> entity with a <computeroutput>properties["parent_section"]</computeroutput> key gets a <computeroutput>PART_OF</computeroutput> edge to its parent entity (must be present in the entity list).</para>
+<para><heading level="3">CO_OCCURS</heading>
+</para>
+<para>When <computeroutput>build_co_occurrence</computeroutput> is true, all entity pairs that appear in the same <computeroutput><ref refid="structthemis_1_1ingestion_1_1_text_chunk" kindref="compound">TextChunk</ref></computeroutput> (same <computeroutput>section_ref</computeroutput>) are connected with <computeroutput>CO_OCCURS</computeroutput> edges.</para>
+<para><heading level="3">ISSUED_BY</heading>
+</para>
+<para>A <computeroutput>LEGAL_DECISION</computeroutput> entity that has a <computeroutput>properties["authority"]</computeroutput> key gets an <computeroutput>ISSUED_BY</computeroutput> edge to the corresponding <computeroutput>LEGAL_AUTHORITY</computeroutput> entity.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1ingestion_1_1_relation_builder_1autotoc_md4_1s1"><sect2 id="classthemis_1_1ingestion_1_1_relation_builder_1autotoc_md4">
+<title>Usage</title><para><programlisting><codeline><highlight class="normal">RelationBuilderConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.relation_types<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;CITES&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AMENDS&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PART_OF&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_relation_builder_1af421f3346e00b37f37f712be17489a51" kindref="member">RelationBuilder</ref><sp/>builder(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">builder.build(ctx);<sp/><sp/></highlight><highlight class="comment">//<sp/>appends<sp/>to<sp/>ctx.relations</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/ingestion/entity_assembler.h" line="172" column="1" bodyfile="include/ingestion/entity_assembler.h" bodystart="172" bodyend="200"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_relation_builder_1aa3114d36177c8cb863c53421c9af5b7f" prot="public" virt="non-virtual"><scope>themis::ingestion::RelationBuilder</scope><name>build</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_relation_builder_1ad57a6d5da9a0c331d741f556f92d0d5e" prot="private" virt="non-virtual"><scope>themis::ingestion::RelationBuilder</scope><name>buildCitesRelations</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_relation_builder_1a807e984ac083615fad7a6272701467c5" prot="private" virt="non-virtual"><scope>themis::ingestion::RelationBuilder</scope><name>buildCoOccurrence</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_relation_builder_1a939c032a035504a6036420612730432c" prot="private" virt="non-virtual"><scope>themis::ingestion::RelationBuilder</scope><name>buildIssuedByRelations</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_relation_builder_1a866484a9b236ffaf80e28d3a8fc56f87" prot="private" virt="non-virtual"><scope>themis::ingestion::RelationBuilder</scope><name>buildPartOfRelations</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_relation_builder_1a450fefe8cbfb630fce0f7dbdf6637a34" prot="private" virt="non-virtual"><scope>themis::ingestion::RelationBuilder</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_relation_builder_1a53a86fa03427bf1be7d823ef2c3590d0" prot="private" virt="non-virtual"><scope>themis::ingestion::RelationBuilder</scope><name>edgeExists</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_relation_builder_1af421f3346e00b37f37f712be17489a51" prot="public" virt="non-virtual"><scope>themis::ingestion::RelationBuilder</scope><name>RelationBuilder</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_relation_builder_1adb08d7b95ba1d95741b049c42f851265" prot="private" virt="non-virtual"><scope>themis::ingestion::RelationBuilder</scope><name>wantsType</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_gunrock_test" kind="class" language="C++" prot="public">
+    <compoundname>GunrockTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_gunrock_test_1ad495e05df2b4472f02a9aa13a080ae51" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1performance_1_1phase3_1_1_gunrock_processor" kindref="compound">GunrockProcessor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GunrockProcessor&gt; GunrockTest::processor</definition>
+        <argsstring></argsstring>
+        <name>processor</name>
+        <qualifiedname>GunrockTest::processor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_gunrock.cpp" line="16" column="21" bodyfile="tests/performance/phase3/test_gunrock.cpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_gunrock_test_1aa8e4f60d3cecff50468f49b78b802f6e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GunrockTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GunrockTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_gunrock.cpp" line="12" column="10" bodyfile="tests/performance/phase3/test_gunrock.cpp" bodystart="12" bodyend="14"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GunrockTest</label>
+        <link refid="class_gunrock_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GunrockTest</label>
+        <link refid="class_gunrock_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/performance/phase3/test_gunrock.cpp" line="10" column="1" bodyfile="tests/performance/phase3/test_gunrock.cpp" bodystart="10" bodyend="17"/>
+    <listofallmembers>
+      <member refid="class_gunrock_test_1ad495e05df2b4472f02a9aa13a080ae51" prot="protected" virt="non-virtual"><scope>GunrockTest</scope><name>processor</name></member>
+      <member refid="class_gunrock_test_1aa8e4f60d3cecff50468f49b78b802f6e" prot="protected" virt="non-virtual"><scope>GunrockTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

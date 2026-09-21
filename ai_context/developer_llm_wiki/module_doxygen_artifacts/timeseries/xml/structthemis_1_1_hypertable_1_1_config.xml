@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_hypertable_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::Hypertable::Config</compoundname>
+    <includes refid="hypertable_8h" local="no">hypertable.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_config_1aadd165c3d4bbf1d4e7127b8de8bc14d8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::Hypertable::Config::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::Hypertable::Config::table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="52" column="21" bodyfile="include/timeseries/hypertable.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_config_1a3a9a7872f032f1e8798596807947c655" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::Hypertable::Config::time_column</definition>
+        <argsstring></argsstring>
+        <name>time_column</name>
+        <qualifiedname>themis::Hypertable::Config::time_column</qualifiedname>
+        <initializer>= &quot;time&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="53" column="21" bodyfile="include/timeseries/hypertable.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_config_1a91152b8e85870e9d79ec2f21c67dca42" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::Hypertable::Config::chunk_interval_seconds</definition>
+        <argsstring></argsstring>
+        <name>chunk_interval_seconds</name>
+        <qualifiedname>themis::Hypertable::Config::chunk_interval_seconds</qualifiedname>
+        <initializer>= 86400</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="54" column="17" bodyfile="include/timeseries/hypertable.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_config_1a5fc148590ba871180c92f27a0353a729" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::Hypertable::Config::retention_days</definition>
+        <argsstring></argsstring>
+        <name>retention_days</name>
+        <qualifiedname>themis::Hypertable::Config::retention_days</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="55" column="17" bodyfile="include/timeseries/hypertable.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_config_1ae0a370b7514e86ff52ac0216c741e218" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::Hypertable::Config::auto_create_chunks</definition>
+        <argsstring></argsstring>
+        <name>auto_create_chunks</name>
+        <qualifiedname>themis::Hypertable::Config::auto_create_chunks</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="56" column="14" bodyfile="include/timeseries/hypertable.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_config_1a3249075f7e8e2c33244544820adb6269" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::Hypertable::Config::compress_old_chunks</definition>
+        <argsstring></argsstring>
+        <name>compress_old_chunks</name>
+        <qualifiedname>themis::Hypertable::Config::compress_old_chunks</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="57" column="14" bodyfile="include/timeseries/hypertable.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/hypertable.h" line="51" column="5" bodyfile="include/timeseries/hypertable.h" bodystart="51" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_hypertable_1_1_config_1ae0a370b7514e86ff52ac0216c741e218" prot="public" virt="non-virtual"><scope>themis::Hypertable::Config</scope><name>auto_create_chunks</name></member>
+      <member refid="structthemis_1_1_hypertable_1_1_config_1a91152b8e85870e9d79ec2f21c67dca42" prot="public" virt="non-virtual"><scope>themis::Hypertable::Config</scope><name>chunk_interval_seconds</name></member>
+      <member refid="structthemis_1_1_hypertable_1_1_config_1a3249075f7e8e2c33244544820adb6269" prot="public" virt="non-virtual"><scope>themis::Hypertable::Config</scope><name>compress_old_chunks</name></member>
+      <member refid="structthemis_1_1_hypertable_1_1_config_1a5fc148590ba871180c92f27a0353a729" prot="public" virt="non-virtual"><scope>themis::Hypertable::Config</scope><name>retention_days</name></member>
+      <member refid="structthemis_1_1_hypertable_1_1_config_1aadd165c3d4bbf1d4e7127b8de8bc14d8" prot="public" virt="non-virtual"><scope>themis::Hypertable::Config</scope><name>table_name</name></member>
+      <member refid="structthemis_1_1_hypertable_1_1_config_1a3a9a7872f032f1e8798596807947c655" prot="public" virt="non-virtual"><scope>themis::Hypertable::Config</scope><name>time_column</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

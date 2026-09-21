@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_shard_capability_info" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ShardCapabilityInfo</compoundname>
+    <includes refid="cross__shard__speculative__decoder_8h" local="no">cross_shard_speculative_decoder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_capability_info_1a2046f61267178087cc9ba0adc7a7e98e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ShardCapabilityInfo::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themisdb::sharding::ShardCapabilityInfo::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="170" column="17" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_capability_info_1a6a80d24362255b27dc8bdeba4f98677f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ShardCapabilityInfo::shard_address</definition>
+        <argsstring></argsstring>
+        <name>shard_address</name>
+        <qualifiedname>themisdb::sharding::ShardCapabilityInfo::shard_address</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="171" column="17" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_capability_info_1ac9ac354fb7d1f955a71c9de55191e6a5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ShardCapabilityInfo::has_model_loaded</definition>
+        <argsstring></argsstring>
+        <name>has_model_loaded</name>
+        <qualifiedname>themisdb::sharding::ShardCapabilityInfo::has_model_loaded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="174" column="10" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_capability_info_1ab4c80cade22aca71417bfe7fb62c6cef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ShardCapabilityInfo::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themisdb::sharding::ShardCapabilityInfo::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="175" column="17" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_capability_info_1ac0ae421911b97bf74bd27ecfb77bf813" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::ShardCapabilityInfo::max_context_length</definition>
+        <argsstring></argsstring>
+        <name>max_context_length</name>
+        <qualifiedname>themisdb::sharding::ShardCapabilityInfo::max_context_length</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="176" column="14" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_capability_info_1ac1b5125e33681339b5e954df7321121f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ShardCapabilityInfo::avg_inference_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_inference_latency_ms</name>
+        <qualifiedname>themisdb::sharding::ShardCapabilityInfo::avg_inference_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="179" column="12" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_capability_info_1acc1b0323531ffaa15f5007d3921e5284" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ShardCapabilityInfo::current_load</definition>
+        <argsstring></argsstring>
+        <name>current_load</name>
+        <qualifiedname>themisdb::sharding::ShardCapabilityInfo::current_load</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="180" column="12" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_capability_info_1ae3bce5a1f7b464a85fa1c075c038ac05" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ShardCapabilityInfo::active_requests</definition>
+        <argsstring></argsstring>
+        <name>active_requests</name>
+        <qualifiedname>themisdb::sharding::ShardCapabilityInfo::active_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="181" column="14" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_capability_info_1a5f3f424b272cf1778970cdd7a6cd4c42" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ShardCapabilityInfo::supports_draft_model</definition>
+        <argsstring></argsstring>
+        <name>supports_draft_model</name>
+        <qualifiedname>themisdb::sharding::ShardCapabilityInfo::supports_draft_model</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="184" column="10" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_capability_info_1ad7fed3f5a46ab94eac3b221ce455d435" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ShardCapabilityInfo::draft_model_id</definition>
+        <argsstring></argsstring>
+        <name>draft_model_id</name>
+        <qualifiedname>themisdb::sharding::ShardCapabilityInfo::draft_model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="185" column="17" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_capability_info_1a10e37ead74390e440b10c73173943382" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ShardCapabilityInfo::supports_target_model</definition>
+        <argsstring></argsstring>
+        <name>supports_target_model</name>
+        <qualifiedname>themisdb::sharding::ShardCapabilityInfo::supports_target_model</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="186" column="10" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_capability_info_1a5f72fa6bc63d4c3f8982e8ebf7091ce5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ShardCapabilityInfo::target_model_id</definition>
+        <argsstring></argsstring>
+        <name>target_model_id</name>
+        <qualifiedname>themisdb::sharding::ShardCapabilityInfo::target_model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="187" column="17" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_capability_info_1aeb235fd594794ff072b0186ea734f89d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ShardCapabilityInfo::avg_cross_shard_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_cross_shard_latency_ms</name>
+        <qualifiedname>themisdb::sharding::ShardCapabilityInfo::avg_cross_shard_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="190" column="12" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_capability_info_1a759ef70e787a76258ed3a8b14c8c635c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ShardCapabilityInfo::last_heartbeat_time_ms</definition>
+        <argsstring></argsstring>
+        <name>last_heartbeat_time_ms</name>
+        <qualifiedname>themisdb::sharding::ShardCapabilityInfo::last_heartbeat_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="191" column="12" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_capability_info_1a0bae205985b778d11ba5d704c7fae72c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::ShardCapabilityInfo::capability_score</definition>
+        <argsstring></argsstring>
+        <name>capability_score</name>
+        <qualifiedname>themisdb::sharding::ShardCapabilityInfo::capability_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="194" column="12" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_shard_capability_info_1a21a3024219f3c08cba6dd0c5716c957d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::ShardCapabilityInfo::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::sharding::ShardCapabilityInfo::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="196" column="20" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="196" bodyend="213"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Shard capability information for speculative decoding. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/cross_shard_speculative_decoder.h" line="169" column="1" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="169" bodyend="214"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_capability_info_1ae3bce5a1f7b464a85fa1c075c038ac05" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardCapabilityInfo</scope><name>active_requests</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_capability_info_1aeb235fd594794ff072b0186ea734f89d" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardCapabilityInfo</scope><name>avg_cross_shard_latency_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_capability_info_1ac1b5125e33681339b5e954df7321121f" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardCapabilityInfo</scope><name>avg_inference_latency_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_capability_info_1a0bae205985b778d11ba5d704c7fae72c" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardCapabilityInfo</scope><name>capability_score</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_capability_info_1acc1b0323531ffaa15f5007d3921e5284" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardCapabilityInfo</scope><name>current_load</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_capability_info_1ad7fed3f5a46ab94eac3b221ce455d435" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardCapabilityInfo</scope><name>draft_model_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_capability_info_1ac9ac354fb7d1f955a71c9de55191e6a5" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardCapabilityInfo</scope><name>has_model_loaded</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_capability_info_1a759ef70e787a76258ed3a8b14c8c635c" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardCapabilityInfo</scope><name>last_heartbeat_time_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_capability_info_1ac0ae421911b97bf74bd27ecfb77bf813" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardCapabilityInfo</scope><name>max_context_length</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_capability_info_1ab4c80cade22aca71417bfe7fb62c6cef" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardCapabilityInfo</scope><name>model_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_capability_info_1a6a80d24362255b27dc8bdeba4f98677f" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardCapabilityInfo</scope><name>shard_address</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_capability_info_1a2046f61267178087cc9ba0adc7a7e98e" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardCapabilityInfo</scope><name>shard_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_capability_info_1a5f3f424b272cf1778970cdd7a6cd4c42" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardCapabilityInfo</scope><name>supports_draft_model</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_capability_info_1a10e37ead74390e440b10c73173943382" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardCapabilityInfo</scope><name>supports_target_model</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_capability_info_1a5f72fa6bc63d4c3f8982e8ebf7091ce5" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardCapabilityInfo</scope><name>target_model_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_capability_info_1a21a3024219f3c08cba6dd0c5716c957d" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardCapabilityInfo</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

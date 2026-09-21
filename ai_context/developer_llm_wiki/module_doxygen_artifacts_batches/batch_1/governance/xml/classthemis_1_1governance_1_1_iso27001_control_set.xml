@@ -1,0 +1,364 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_iso27001_control_set" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::Iso27001ControlSet</compoundname>
+    <includes refid="iso27001__rules_8h" local="no">iso27001_rules.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_iso27001_control_set_1a48525d7e5f8559b349bb3c168b48cb18" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_i_iso27001_control" kindref="compound">IIso27001Control</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;IIso27001Control&gt; &gt; themis::governance::Iso27001ControlSet::controls_</definition>
+        <argsstring></argsstring>
+        <name>controls_</name>
+        <qualifiedname>themis::governance::Iso27001ControlSet::controls_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="275" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_iso27001_control_set_1afd154fbab69719dc3ca66ec6de391c72" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::Iso27001ControlSet::evidence_mutex_</definition>
+        <argsstring></argsstring>
+        <name>evidence_mutex_</name>
+        <qualifiedname>themis::governance::Iso27001ControlSet::evidence_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="277" column="24" bodyfile="include/governance/iso27001_rules.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_iso27001_control_set_1a4a0a905bef736265d1e098be71114a8c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_iso27001_evidence_item" kindref="compound">Iso27001EvidenceItem</ref> &gt;</type>
+        <definition>std::vector&lt;Iso27001EvidenceItem&gt; themis::governance::Iso27001ControlSet::evidence_items_</definition>
+        <argsstring></argsstring>
+        <name>evidence_items_</name>
+        <qualifiedname>themis::governance::Iso27001ControlSet::evidence_items_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="278" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_iso27001_control_set_1a9f05e27c006894e640dec585e63544f6" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::Iso27001ControlSet::evidence_counter_</definition>
+        <argsstring></argsstring>
+        <name>evidence_counter_</name>
+        <qualifiedname>themis::governance::Iso27001ControlSet::evidence_counter_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Used to generate unique evidence IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="279" column="13" bodyfile="include/governance/iso27001_rules.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_iso27001_control_set_1a9f9737bf9e08df09b59355f652811cfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::Iso27001ControlSet::Iso27001ControlSet</definition>
+        <argsstring>()</argsstring>
+        <name>Iso27001ControlSet</name>
+        <qualifiedname>themis::governance::Iso27001ControlSet::Iso27001ControlSet</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="220" column="5" bodyfile="src/governance/iso27001_rules.cpp" bodystart="438" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_iso27001_control_set_1a34e4e0cdbd4cf7728e9b27371e96f5af" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_iso27001_control_result" kindref="compound">Iso27001ControlResult</ref> &gt;</type>
+        <definition>std::vector&lt; Iso27001ControlResult &gt; themis::governance::Iso27001ControlSet::evaluateRule</definition>
+        <argsstring>(const PolicyRule &amp;rule) const</argsstring>
+        <name>evaluateRule</name>
+        <qualifiedname>themis::governance::Iso27001ControlSet::evaluateRule</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="228" column="17" bodyfile="src/governance/iso27001_rules.cpp" bodystart="449" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_iso27001_control_set_1af42d4f3a283aa57367b80699681b87de" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::Iso27001ControlSet::isRuleCompliant</definition>
+        <argsstring>(const PolicyRule &amp;rule) const</argsstring>
+        <name>isRuleCompliant</name>
+        <qualifiedname>themis::governance::Iso27001ControlSet::isRuleCompliant</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Is Rule Compliant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="235" column="10" bodyfile="src/governance/iso27001_rules.cpp" bodystart="459" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_iso27001_control_set_1a680b1dd408880575283c69f647b4640d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_iso27001_audit_report" kindref="compound">Iso27001AuditReport</ref></type>
+        <definition>Iso27001AuditReport themis::governance::Iso27001ControlSet::generateReport</definition>
+        <argsstring>(const PolicyManager &amp;policy_mgr, const std::string &amp;scope=&quot;All active policy rules&quot;) const</argsstring>
+        <name>generateReport</name>
+        <qualifiedname>themis::governance::Iso27001ControlSet::generateReport</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &amp;</type>
+          <declname>policy_mgr</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scope</declname>
+          <defval>&quot;All active policy rules&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="237" column="25" bodyfile="src/governance/iso27001_rules.cpp" bodystart="468" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_iso27001_control_set_1ab9393929dc0e044acfc85a037f568d67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::Iso27001ControlSet::collectEvidence</definition>
+        <argsstring>(const std::string &amp;resource, const std::string &amp;action, const std::string &amp;principal, bool access_granted, bool encrypted)</argsstring>
+        <name>collectEvidence</name>
+        <qualifiedname>themis::governance::Iso27001ControlSet::collectEvidence</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>access_granted</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>encrypted</declname>
+        </param>
+        <briefdescription>
+<para>Collect Evidence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">access_granted</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">encrypted</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">access_granted</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">encrypted</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), iso27001NowMs(), str(), std::string(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="251" column="10" bodyfile="src/governance/iso27001_rules.cpp" bodystart="521" bodyend="543"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_iso27001_control_set_1a4f787e5aa9a1d8a06f317f4d0b3e01d6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_iso27001_evidence_item" kindref="compound">Iso27001EvidenceItem</ref> &gt;</type>
+        <definition>std::vector&lt; Iso27001EvidenceItem &gt; themis::governance::Iso27001ControlSet::getEvidence</definition>
+        <argsstring>() const</argsstring>
+        <name>getEvidence</name>
+        <qualifiedname>themis::governance::Iso27001ControlSet::getEvidence</qualifiedname>
+        <briefdescription>
+<para>Get Evidence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evidence_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="263" column="17" bodyfile="src/governance/iso27001_rules.cpp" bodystart="545" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_iso27001_control_set_1afed7f92ad8ef1c1e8cb0c7dabe8b263a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::Iso27001ControlSet::clearEvidence</definition>
+        <argsstring>()</argsstring>
+        <name>clearEvidence</name>
+        <qualifiedname>themis::governance::Iso27001ControlSet::clearEvidence</qualifiedname>
+        <briefdescription>
+<para>Clear Evidence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="268" column="10" bodyfile="src/governance/iso27001_rules.cpp" bodystart="559" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_iso27001_control_set_1a7f88d28dc911955a1402f42491857527" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_i_iso27001_control" kindref="compound">IIso27001Control</ref> &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::shared_ptr&lt; IIso27001Control &gt; &gt; &amp; themis::governance::Iso27001ControlSet::controls</definition>
+        <argsstring>() const</argsstring>
+        <name>controls</name>
+        <qualifiedname>themis::governance::Iso27001ControlSet::controls</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="270" column="23" bodyfile="include/governance/iso27001_rules.h" bodystart="270" bodyend="272"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/iso27001_rules.h" line="218" column="1" bodyfile="include/governance/iso27001_rules.h" bodystart="218" bodyend="280"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_iso27001_control_set_1afed7f92ad8ef1c1e8cb0c7dabe8b263a" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001ControlSet</scope><name>clearEvidence</name></member>
+      <member refid="classthemis_1_1governance_1_1_iso27001_control_set_1ab9393929dc0e044acfc85a037f568d67" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001ControlSet</scope><name>collectEvidence</name></member>
+      <member refid="classthemis_1_1governance_1_1_iso27001_control_set_1a7f88d28dc911955a1402f42491857527" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001ControlSet</scope><name>controls</name></member>
+      <member refid="classthemis_1_1governance_1_1_iso27001_control_set_1a48525d7e5f8559b349bb3c168b48cb18" prot="private" virt="non-virtual"><scope>themis::governance::Iso27001ControlSet</scope><name>controls_</name></member>
+      <member refid="classthemis_1_1governance_1_1_iso27001_control_set_1a34e4e0cdbd4cf7728e9b27371e96f5af" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001ControlSet</scope><name>evaluateRule</name></member>
+      <member refid="classthemis_1_1governance_1_1_iso27001_control_set_1a9f05e27c006894e640dec585e63544f6" prot="private" virt="non-virtual"><scope>themis::governance::Iso27001ControlSet</scope><name>evidence_counter_</name></member>
+      <member refid="classthemis_1_1governance_1_1_iso27001_control_set_1a4a0a905bef736265d1e098be71114a8c" prot="private" virt="non-virtual"><scope>themis::governance::Iso27001ControlSet</scope><name>evidence_items_</name></member>
+      <member refid="classthemis_1_1governance_1_1_iso27001_control_set_1afd154fbab69719dc3ca66ec6de391c72" prot="private" virt="non-virtual"><scope>themis::governance::Iso27001ControlSet</scope><name>evidence_mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_iso27001_control_set_1a680b1dd408880575283c69f647b4640d" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001ControlSet</scope><name>generateReport</name></member>
+      <member refid="classthemis_1_1governance_1_1_iso27001_control_set_1a4f787e5aa9a1d8a06f317f4d0b3e01d6" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001ControlSet</scope><name>getEvidence</name></member>
+      <member refid="classthemis_1_1governance_1_1_iso27001_control_set_1a9f9737bf9e08df09b59355f652811cfd" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001ControlSet</scope><name>Iso27001ControlSet</name></member>
+      <member refid="classthemis_1_1governance_1_1_iso27001_control_set_1af42d4f3a283aa57367b80699681b87de" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001ControlSet</scope><name>isRuleCompliant</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

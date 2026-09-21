@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_stub_txn_record" kind="struct" language="C++" prot="public">
+    <compoundname>StubTxnRecord</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_stub_txn_record_1a23fa14b24454dc74ef00e20b053d6a15" prot="public" static="no" mutable="no">
+        <type><ref refid="test__sharding__contract__hardening__focused_8cpp_1abcd56509bf0772b91d88629447db0176" kindref="member">TxnState</ref></type>
+        <definition>TxnState StubTxnRecord::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>StubTxnRecord::state</qualifiedname>
+        <initializer>{<ref refid="test__sharding__contract__hardening__focused_8cpp_1abcd56509bf0772b91d88629447db0176aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">TxnState::IDLE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="103" column="14" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stub_txn_record_1a07955a515b41aa0c7ce719ca1e0389a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string StubTxnRecord::txn_id</definition>
+        <argsstring></argsstring>
+        <name>txn_id</name>
+        <qualifiedname>StubTxnRecord::txn_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="104" column="17" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="104" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_contract_hardening_focused.cpp" line="102" column="1" bodyfile="tests/sharding/test_sharding_contract_hardening_focused.cpp" bodystart="102" bodyend="105"/>
+    <listofallmembers>
+      <member refid="struct_stub_txn_record_1a23fa14b24454dc74ef00e20b053d6a15" prot="public" virt="non-virtual"><scope>StubTxnRecord</scope><name>state</name></member>
+      <member refid="struct_stub_txn_record_1a07955a515b41aa0c7ce719ca1e0389a3" prot="public" virt="non-virtual"><scope>StubTxnRecord</scope><name>txn_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

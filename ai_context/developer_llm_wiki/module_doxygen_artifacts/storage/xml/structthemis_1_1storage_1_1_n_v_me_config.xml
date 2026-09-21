@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_n_v_me_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::NVMeConfig</compoundname>
+    <includes refid="nvme__manager_8h" local="no">nvme_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_config_1acfd43e543fe067949c2d2025be0bbf1b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::NVMeConfig::enable_io_uring</definition>
+        <argsstring></argsstring>
+        <name>enable_io_uring</name>
+        <qualifiedname>themis::storage::NVMeConfig::enable_io_uring</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable io_uring-based async I/O for storage operations. Falls back to synchronous pread/pwrite when unavailable. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="39" column="10" bodyfile="include/storage/nvme_manager.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_config_1a5f2ce460476c307b92d2840df33c68b4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::storage::NVMeConfig::io_uring_queue_depth</definition>
+        <argsstring></argsstring>
+        <name>io_uring_queue_depth</name>
+        <qualifiedname>themis::storage::NVMeConfig::io_uring_queue_depth</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Depth of the io_uring submission / completion queues. Higher values allow more in-flight I/Os (optimal: 64–256 for NVMe). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="43" column="14" bodyfile="include/storage/nvme_manager.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_config_1a7961d76c80dfa43b5b9d23faea30f912" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::NVMeConfig::io_uring_register_files</definition>
+        <argsstring></argsstring>
+        <name>io_uring_register_files</name>
+        <qualifiedname>themis::storage::NVMeConfig::io_uring_register_files</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Pre-register fixed file descriptors to eliminate per-op fd table lookups. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="46" column="10" bodyfile="include/storage/nvme_manager.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_config_1a6592c9b6498129d816125e252bb59acd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::NVMeConfig::io_uring_register_buffers</definition>
+        <argsstring></argsstring>
+        <name>io_uring_register_buffers</name>
+        <qualifiedname>themis::storage::NVMeConfig::io_uring_register_buffers</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Pre-register fixed I/O buffers for zero-copy DMA paths. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="49" column="10" bodyfile="include/storage/nvme_manager.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_config_1ac26f656610a49e56c554d56cc5137d10" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::storage::NVMeConfig::num_io_queues</definition>
+        <argsstring></argsstring>
+        <name>num_io_queues</name>
+        <qualifiedname>themis::storage::NVMeConfig::num_io_queues</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of parallel I/O submission queues (one per hardware queue pair). Set to 0 for auto-detect (uses /sys/block/&lt;dev&gt;/queue/nr_hw_queues). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="54" column="14" bodyfile="include/storage/nvme_manager.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_config_1a0553b095771602e11f5c80ccc74e8c33" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::storage::NVMeConfig::queue_depth</definition>
+        <argsstring></argsstring>
+        <name>queue_depth</name>
+        <qualifiedname>themis::storage::NVMeConfig::queue_depth</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Maximum outstanding I/O requests per queue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="57" column="14" bodyfile="include/storage/nvme_manager.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_config_1aa50da50180f9ff5c2e90d550b377e680" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::NVMeConfig::enable_zns</definition>
+        <argsstring></argsstring>
+        <name>enable_zns</name>
+        <qualifiedname>themis::storage::NVMeConfig::enable_zns</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable ZNS-aware write placement. Requires a ZNS NVMe device and kernel ≥ 5.9 with CONFIG_BLK_DEV_ZONED enabled. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="62" column="10" bodyfile="include/storage/nvme_manager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_config_1ad1b80c64d582a44d8ca23ecf3276c2d3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::NVMeConfig::zone_capacity_bytes</definition>
+        <argsstring></argsstring>
+        <name>zone_capacity_bytes</name>
+        <qualifiedname>themis::storage::NVMeConfig::zone_capacity_bytes</qualifiedname>
+        <initializer>= 536&apos;870&apos;912ULL</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Capacity in bytes of a single zone (must match device zone size). Typically 512 MiB (536_870_912) on commercial ZNS drives. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="66" column="14" bodyfile="include/storage/nvme_manager.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_config_1aa6527b36572ae0b5ed2bdfb7b742664b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::storage::NVMeConfig::max_open_zones</definition>
+        <argsstring></argsstring>
+        <name>max_open_zones</name>
+        <qualifiedname>themis::storage::NVMeConfig::max_open_zones</qualifiedname>
+        <initializer>= 14</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of open zones allowed simultaneously. Constrained by the device&apos;s max_open_zones firmware limit. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="70" column="14" bodyfile="include/storage/nvme_manager.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_config_1a51ae9f04e13ab66a45ebde1f56f5648d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::NVMeConfig::use_direct_reads</definition>
+        <argsstring></argsstring>
+        <name>use_direct_reads</name>
+        <qualifiedname>themis::storage::NVMeConfig::use_direct_reads</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Bypass the OS page cache for reads (O_DIRECT). Eliminates double-buffering overhead when RocksDB block cache is large. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="75" column="10" bodyfile="include/storage/nvme_manager.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_config_1a62981edfc401376f3c39cfd55ccfacda" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::NVMeConfig::use_direct_io_for_flush_and_compaction</definition>
+        <argsstring></argsstring>
+        <name>use_direct_io_for_flush_and_compaction</name>
+        <qualifiedname>themis::storage::NVMeConfig::use_direct_io_for_flush_and_compaction</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Bypass the OS page cache for flush and compaction writes (O_DIRECT). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="78" column="10" bodyfile="include/storage/nvme_manager.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_config_1a38a2814d45c7030a2c17bea5289203a5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::storage::NVMeConfig::direct_io_alignment_bytes</definition>
+        <argsstring></argsstring>
+        <name>direct_io_alignment_bytes</name>
+        <qualifiedname>themis::storage::NVMeConfig::direct_io_alignment_bytes</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>I/O alignment requirement in bytes (must be a power of 2). Typical value: 4096 (4 KiB) for NVMe direct I/O. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="82" column="14" bodyfile="include/storage/nvme_manager.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_n_v_me_config_1a1fafb94e62b21500eec46ea18e03515a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::NVMeConfig::device_path</definition>
+        <argsstring></argsstring>
+        <name>device_path</name>
+        <qualifiedname>themis::storage::NVMeConfig::device_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Block-device path used for capability detection (e.g. &quot;/dev/nvme0n1&quot;). Leave empty to skip runtime detection. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/nvme_manager.h" line="87" column="17" bodyfile="include/storage/nvme_manager.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for NVMe-specific storage optimizations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All fields default to safe, portable values. Enable individual optimizations only after verifying that the underlying device and kernel support them. </para>
+    </detaileddescription>
+    <location file="include/storage/nvme_manager.h" line="35" column="1" bodyfile="include/storage/nvme_manager.h" bodystart="35" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_config_1a1fafb94e62b21500eec46ea18e03515a" prot="public" virt="non-virtual"><scope>themis::storage::NVMeConfig</scope><name>device_path</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_config_1a38a2814d45c7030a2c17bea5289203a5" prot="public" virt="non-virtual"><scope>themis::storage::NVMeConfig</scope><name>direct_io_alignment_bytes</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_config_1acfd43e543fe067949c2d2025be0bbf1b" prot="public" virt="non-virtual"><scope>themis::storage::NVMeConfig</scope><name>enable_io_uring</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_config_1aa50da50180f9ff5c2e90d550b377e680" prot="public" virt="non-virtual"><scope>themis::storage::NVMeConfig</scope><name>enable_zns</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_config_1a5f2ce460476c307b92d2840df33c68b4" prot="public" virt="non-virtual"><scope>themis::storage::NVMeConfig</scope><name>io_uring_queue_depth</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_config_1a6592c9b6498129d816125e252bb59acd" prot="public" virt="non-virtual"><scope>themis::storage::NVMeConfig</scope><name>io_uring_register_buffers</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_config_1a7961d76c80dfa43b5b9d23faea30f912" prot="public" virt="non-virtual"><scope>themis::storage::NVMeConfig</scope><name>io_uring_register_files</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_config_1aa6527b36572ae0b5ed2bdfb7b742664b" prot="public" virt="non-virtual"><scope>themis::storage::NVMeConfig</scope><name>max_open_zones</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_config_1ac26f656610a49e56c554d56cc5137d10" prot="public" virt="non-virtual"><scope>themis::storage::NVMeConfig</scope><name>num_io_queues</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_config_1a0553b095771602e11f5c80ccc74e8c33" prot="public" virt="non-virtual"><scope>themis::storage::NVMeConfig</scope><name>queue_depth</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_config_1a62981edfc401376f3c39cfd55ccfacda" prot="public" virt="non-virtual"><scope>themis::storage::NVMeConfig</scope><name>use_direct_io_for_flush_and_compaction</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_config_1a51ae9f04e13ab66a45ebde1f56f5648d" prot="public" virt="non-virtual"><scope>themis::storage::NVMeConfig</scope><name>use_direct_reads</name></member>
+      <member refid="structthemis_1_1storage_1_1_n_v_me_config_1ad1b80c64d582a44d8ca23ecf3276c2d3" prot="public" virt="non-virtual"><scope>themis::storage::NVMeConfig</scope><name>zone_capacity_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

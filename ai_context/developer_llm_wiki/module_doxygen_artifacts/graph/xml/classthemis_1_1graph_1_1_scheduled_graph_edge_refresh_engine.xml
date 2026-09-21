@@ -1,0 +1,1153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::ScheduledGraphEdgeRefreshEngine</compoundname>
+    <includes refid="scheduled__edge__refresh_8h" local="no">scheduled_edge_refresh.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a88a3b6bd2c73cd2bc7827f1ead9908d0" prot="private" static="no" mutable="no">
+        <type>GraphIndexManager &amp;</type>
+        <definition>GraphIndexManager&amp; themis::graph::ScheduledGraphEdgeRefreshEngine::graph_mgr_</definition>
+        <argsstring></argsstring>
+        <name>graph_mgr_</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::graph_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="306" column="23" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1af44524e7293a6b0f9cf4cb30bd8c5921" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_refresh_policy" kindref="compound">RefreshPolicy</ref></type>
+        <definition>RefreshPolicy themis::graph::ScheduledGraphEdgeRefreshEngine::policy_</definition>
+        <argsstring></argsstring>
+        <name>policy_</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="307" column="19" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ada01cad8cfbc5b33bb3ae4b05cb68639" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1graph_1a6079938a2f38c988cd5df3a11acd9180" kindref="member">NodeEmbeddingProvider</ref></type>
+        <definition>NodeEmbeddingProvider themis::graph::ScheduledGraphEdgeRefreshEngine::embedding_fn_</definition>
+        <argsstring></argsstring>
+        <name>embedding_fn_</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::embedding_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="308" column="27" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a35eb8d518bd03755402b280678ee7cb2" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; Changefeed &gt;</type>
+        <definition>std::shared_ptr&lt;Changefeed&gt; themis::graph::ScheduledGraphEdgeRefreshEngine::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::changefeed_</qualifiedname>
+        <briefdescription>
+<para>Optional – may be nullptr. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="309" column="21" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ab1897846cb0f69b154e214784b9e8707" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; index::IAnnIndex &gt;</type>
+        <definition>std::shared_ptr&lt;index::IAnnIndex&gt; themis::graph::ScheduledGraphEdgeRefreshEngine::ann_index_</definition>
+        <argsstring></argsstring>
+        <name>ann_index_</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::ann_index_</qualifiedname>
+        <briefdescription>
+<para>Optional ANN index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="310" column="21" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a254ddb393a6013cbeaeb65a1b9f45609" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(themisdb::analytics::Event)&gt;</type>
+        <definition>std::function&lt;void(themisdb::analytics::Event)&gt; themis::graph::ScheduledGraphEdgeRefreshEngine::cep_event_callback_</definition>
+        <argsstring></argsstring>
+        <name>cep_event_callback_</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::cep_event_callback_</qualifiedname>
+        <briefdescription>
+<para>Optional CEP callback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="311" column="19" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1af92870b6bd09c9470d3521d1d1146c7d" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; std::string, int64_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int64_t&gt; themis::graph::ScheduledGraphEdgeRefreshEngine::ann_vertex_to_idx_</definition>
+        <argsstring></argsstring>
+        <name>ann_vertex_to_idx_</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::ann_vertex_to_idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="316" column="32" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a89049e8367e5974a1c775e06db5de937" prot="private" static="no" mutable="yes">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::ScheduledGraphEdgeRefreshEngine::ann_idx_to_vertex_</definition>
+        <argsstring></argsstring>
+        <name>ann_idx_to_vertex_</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::ann_idx_to_vertex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="317" column="42" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a639dd95fe9327ee992b18b05a7200b76" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::graph::ScheduledGraphEdgeRefreshEngine::policy_mutex_</definition>
+        <argsstring></argsstring>
+        <name>policy_mutex_</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::policy_mutex_</qualifiedname>
+        <briefdescription>
+<para>Tier 2: Protects policy_ updates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="330" column="24" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad529594947a6374f80c9730f6b3282b4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::graph::ScheduledGraphEdgeRefreshEngine::cycle_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cycle_mutex_</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::cycle_mutex_</qualifiedname>
+        <briefdescription>
+<para>Tier 1: Serialises concurrent triggerRefresh calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="331" column="24" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a7052dd3661ca5e66b7b34d6c61cf32b0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::graph::ScheduledGraphEdgeRefreshEngine::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::stats_mutex_</qualifiedname>
+        <briefdescription>
+<para>Tier 3: Protects last_stats_ / audit_trail_ / changefeed_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="332" column="24" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad47a15b62ea372704026cf9d58cef5d7" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::graph::ScheduledGraphEdgeRefreshEngine::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::cv_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="333" column="29" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="333" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad00303195200f553a61bd426bc6cb07b" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::graph::ScheduledGraphEdgeRefreshEngine::cv_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cv_mutex_</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::cv_mutex_</qualifiedname>
+        <briefdescription>
+<para>Tier 3: Protects condition variable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="334" column="16" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a4eee495a722d89122abae23b98489182" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::graph::ScheduledGraphEdgeRefreshEngine::scheduler_thread_</definition>
+        <argsstring></argsstring>
+        <name>scheduler_thread_</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::scheduler_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="336" column="17" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a4c1a78d55279a27e3946444c4c4c1af7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::graph::ScheduledGraphEdgeRefreshEngine::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="337" column="17" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="337" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1af23a564f4bb246f851d16a390fe7f6e4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::graph::ScheduledGraphEdgeRefreshEngine::stop_requested_</definition>
+        <argsstring></argsstring>
+        <name>stop_requested_</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::stop_requested_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="338" column="17" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="338" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a8e9cc926d08e3b1990c92ffe536903b5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_refresh_stats" kindref="compound">RefreshStats</ref></type>
+        <definition>RefreshStats themis::graph::ScheduledGraphEdgeRefreshEngine::last_stats_</definition>
+        <argsstring></argsstring>
+        <name>last_stats_</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::last_stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="340" column="18" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a8ee761d308380a429d9d8944f081251b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_refresh_audit_entry" kindref="compound">RefreshAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt;RefreshAuditEntry&gt; themis::graph::ScheduledGraphEdgeRefreshEngine::audit_trail_</definition>
+        <argsstring></argsstring>
+        <name>audit_trail_</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::audit_trail_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="341" column="17" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a481d814e936de4566d720ac7046d924b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::graph::ScheduledGraphEdgeRefreshEngine::cycle_counter_</definition>
+        <argsstring></argsstring>
+        <name>cycle_counter_</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::cycle_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="343" column="17" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="343" bodyend="343"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a0bc8bfab466639d9c15ca590e4ee5eab" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::ScheduledGraphEdgeRefreshEngine::kMaxAuditEntries</definition>
+        <argsstring></argsstring>
+        <name>kMaxAuditEntries</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::kMaxAuditEntries</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="345" column="29" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad2011541d68950f85e05299edcc8c123" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::ScheduledGraphEdgeRefreshEngine::ScheduledGraphEdgeRefreshEngine</definition>
+        <argsstring>(GraphIndexManager &amp;graph_mgr, const RefreshPolicy &amp;policy, NodeEmbeddingProvider embedding_fn=nullptr)</argsstring>
+        <name>ScheduledGraphEdgeRefreshEngine</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::ScheduledGraphEdgeRefreshEngine</qualifiedname>
+        <param>
+          <type>GraphIndexManager &amp;</type>
+          <declname>graph_mgr</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_refresh_policy" kindref="compound">RefreshPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1graph_1a6079938a2f38c988cd5df3a11acd9180" kindref="member">NodeEmbeddingProvider</ref></type>
+          <declname>embedding_fn</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="160" column="14" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="114" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a26f19e2d8638fb9e5c75549bb8c59fda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::ScheduledGraphEdgeRefreshEngine::~ScheduledGraphEdgeRefreshEngine</definition>
+        <argsstring>()</argsstring>
+        <name>~ScheduledGraphEdgeRefreshEngine</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::~ScheduledGraphEdgeRefreshEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="165" column="5" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="121" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a3b78e8d9a5ce57ca448779f5433adba8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::ScheduledGraphEdgeRefreshEngine::ScheduledGraphEdgeRefreshEngine</definition>
+        <argsstring>(const ScheduledGraphEdgeRefreshEngine &amp;)=delete</argsstring>
+        <name>ScheduledGraphEdgeRefreshEngine</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::ScheduledGraphEdgeRefreshEngine</qualifiedname>
+        <param>
+          <type>const ScheduledGraphEdgeRefreshEngine &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="168" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a4612ecc3cb115616cf7ca3863b975bff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad2011541d68950f85e05299edcc8c123" kindref="member">ScheduledGraphEdgeRefreshEngine</ref> &amp;</type>
+        <definition>ScheduledGraphEdgeRefreshEngine &amp; themis::graph::ScheduledGraphEdgeRefreshEngine::operator=</definition>
+        <argsstring>(const ScheduledGraphEdgeRefreshEngine &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad2011541d68950f85e05299edcc8c123" kindref="member">ScheduledGraphEdgeRefreshEngine</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="169" column="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a8a0a9c9c6ee928f1393707a3047e0399" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::ScheduledGraphEdgeRefreshEngine::ScheduledGraphEdgeRefreshEngine</definition>
+        <argsstring>(ScheduledGraphEdgeRefreshEngine &amp;&amp;)=delete</argsstring>
+        <name>ScheduledGraphEdgeRefreshEngine</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::ScheduledGraphEdgeRefreshEngine</qualifiedname>
+        <param>
+          <type>ScheduledGraphEdgeRefreshEngine &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="170" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a8c03252d0a0145230688ec66f11171ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad2011541d68950f85e05299edcc8c123" kindref="member">ScheduledGraphEdgeRefreshEngine</ref> &amp;</type>
+        <definition>ScheduledGraphEdgeRefreshEngine &amp; themis::graph::ScheduledGraphEdgeRefreshEngine::operator=</definition>
+        <argsstring>(ScheduledGraphEdgeRefreshEngine &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad2011541d68950f85e05299edcc8c123" kindref="member">ScheduledGraphEdgeRefreshEngine</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="171" column="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a214d5877079f3b294de9c6225ec733f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::ScheduledGraphEdgeRefreshEngine::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::start</qualifiedname>
+        <briefdescription>
+<para>── Lifecycle ───────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para>Calls: load(), lock(), count(), spdlog::info(), store(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="177" column="10" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="133" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1afca73f017f0ba9ab2a96bfcd27081e91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::ScheduledGraphEdgeRefreshEngine::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), joinable(), store(), notify_all(), join(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="182" column="10" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="158" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a127c1130995a0aa3c2061708e56f6e2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_refresh_stats" kindref="compound">RefreshStats</ref></type>
+        <definition>RefreshStats themis::graph::ScheduledGraphEdgeRefreshEngine::triggerRefresh</definition>
+        <argsstring>()</argsstring>
+        <name>triggerRefresh</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::triggerRefresh</qualifiedname>
+        <briefdescription>
+<para>── Manual trigger ──────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Trigger Refresh.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), runRefreshCycle(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="189" column="18" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="183" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a34214a2a46f5bf2883f9012bafc8ef59" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_refresh_stats" kindref="compound">RefreshStats</ref></type>
+        <definition>RefreshStats themis::graph::ScheduledGraphEdgeRefreshEngine::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::getStats</qualifiedname>
+        <briefdescription>
+<para>── Observation ─────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="196" column="18" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="192" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a04bab3b66c509d3b72b7e099c6b86521" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_refresh_audit_entry" kindref="compound">RefreshAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt; RefreshAuditEntry &gt; themis::graph::ScheduledGraphEdgeRefreshEngine::getAuditTrail</definition>
+        <argsstring>() const</argsstring>
+        <name>getAuditTrail</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::getAuditTrail</qualifiedname>
+        <briefdescription>
+<para>Get Audit Trail. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="202" column="17" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="202" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ac962d7ae52295a91c44d9f342efb222d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1graph_1_1_refresh_policy" kindref="compound">RefreshPolicy</ref> &amp;</type>
+        <definition>const RefreshPolicy &amp; themis::graph::ScheduledGraphEdgeRefreshEngine::getPolicy</definition>
+        <argsstring>() const</argsstring>
+        <name>getPolicy</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::getPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="204" column="25" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="204" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a8b4d0beb4a29b134a902e12218579fbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::ScheduledGraphEdgeRefreshEngine::setPolicy</definition>
+        <argsstring>(const RefreshPolicy &amp;policy)</argsstring>
+        <name>setPolicy</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::setPolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_refresh_policy" kindref="compound">RefreshPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Set Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: validatePolicy(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="210" column="10" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="217" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a185a2483067311346bff6c79853b06ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::ScheduledGraphEdgeRefreshEngine::setChangefeed</definition>
+        <argsstring>(std::shared_ptr&lt; Changefeed &gt; changefeed)</argsstring>
+        <name>setChangefeed</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::setChangefeed</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Changefeed &gt;</type>
+          <declname>changefeed</declname>
+        </param>
+        <briefdescription>
+<para>Set Changefeed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">changefeed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">changefeed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="216" column="10" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="228" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a6dfc906a3c16c2ac5bffedd20e76fadf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::ScheduledGraphEdgeRefreshEngine::setANNIndex</definition>
+        <argsstring>(std::shared_ptr&lt; index::IAnnIndex &gt; ann_index)</argsstring>
+        <name>setANNIndex</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::setANNIndex</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; index::IAnnIndex &gt;</type>
+          <declname>ann_index</declname>
+        </param>
+        <briefdescription>
+<para>Set ANNIndex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ann_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ann_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="222" column="10" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="238" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ae97b843201854bc2d906b227ac146c1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::ScheduledGraphEdgeRefreshEngine::setCEPEventCallback</definition>
+        <argsstring>(std::function&lt; void(themisdb::analytics::Event)&gt; callback)</argsstring>
+        <name>setCEPEventCallback</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::setCEPEventCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(themisdb::analytics::Event)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="224" column="10" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="243" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a1ccd926d8f445428a76ba97dbf9e9e0c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::graph::ScheduledGraphEdgeRefreshEngine::computeSimilarity</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;a, const std::vector&lt; float &gt; &amp;b) const</argsstring>
+        <name>computeSimilarity</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::computeSimilarity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>── Scoring helpers (exposed for testability) ───────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="234" column="11" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="257" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ae1d4813d32d075410e08985f427c3c54" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::graph::ScheduledGraphEdgeRefreshEngine::computeTemporalDecay</definition>
+        <argsstring>(const BaseEntity &amp;edge_entity) const</argsstring>
+        <name>computeTemporalDecay</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::computeTemporalDecay</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>edge_entity</declname>
+        </param>
+        <briefdescription>
+<para>Compute Temporal Decay. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edge_entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="242" column="11" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="304" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a81f4b4ca92ce051ad03bffe0492416b9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_edge_score" kindref="compound">EdgeScore</ref></type>
+        <definition>EdgeScore themis::graph::ScheduledGraphEdgeRefreshEngine::scoreEdge</definition>
+        <argsstring>(const BaseEntity &amp;edge_entity) const</argsstring>
+        <name>scoreEdge</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::scoreEdge</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>edge_entity</declname>
+        </param>
+        <briefdescription>
+<para>Score <ref refid="structthemis_1_1graph_1_1_edge" kindref="compound">Edge</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edge_entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="249" column="15" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="344" bodyend="399"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ac4f4b1de560a09b443818d898e0c114f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::ScheduledGraphEdgeRefreshEngine::validatePolicy</definition>
+        <argsstring>(const RefreshPolicy &amp;policy)</argsstring>
+        <name>validatePolicy</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::validatePolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_refresh_policy" kindref="compound">RefreshPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>── Internal helpers ────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="257" column="17" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="447" bodyend="479"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a88b254efb7643ffb8e4075ec6995a59e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::ScheduledGraphEdgeRefreshEngine::schedulerLoop</definition>
+        <argsstring>()</argsstring>
+        <name>schedulerLoop</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::schedulerLoop</qualifiedname>
+        <briefdescription>
+<para>Scheduler Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: spdlog::debug(), load(), lock(), lk(), wait_for(), runRefreshCycle(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="262" column="10" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="485" bodyend="513"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad3694147ffa71fd0a9571393232fb673" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_refresh_stats" kindref="compound">RefreshStats</ref></type>
+        <definition>RefreshStats themis::graph::ScheduledGraphEdgeRefreshEngine::runRefreshCycle</definition>
+        <argsstring>()</argsstring>
+        <name>runRefreshCycle</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::runRefreshCycle</qualifiedname>
+        <briefdescription>
+<para>Run Refresh Cycle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), spdlog::info(), collectEdges(), size(), empty(), policy_lock(), stats_lock(), scoreAllEdges(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="268" column="18" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="520" bodyend="663"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a39df780047edeb71d854f85454154c17" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; BaseEntity &gt;</type>
+        <definition>std::vector&lt; BaseEntity &gt; themis::graph::ScheduledGraphEdgeRefreshEngine::collectEdges</definition>
+        <argsstring>() const</argsstring>
+        <name>collectEdges</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::collectEdges</qualifiedname>
+        <briefdescription>
+<para>Collect Edges. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="274" column="17" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="665" bodyend="739"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a499cc642ddb300b75977c2bac3e7246c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_edge_score" kindref="compound">EdgeScore</ref> &gt;</type>
+        <definition>std::vector&lt; EdgeScore &gt; themis::graph::ScheduledGraphEdgeRefreshEngine::scoreAllEdges</definition>
+        <argsstring>(const std::vector&lt; BaseEntity &gt; &amp;edges) const</argsstring>
+        <name>scoreAllEdges</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::scoreAllEdges</qualifiedname>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>edges</declname>
+        </param>
+        <briefdescription>
+<para>Score All Edges. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="281" column="17" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="741" bodyend="751"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a0f3f249c556f61a0550de7c1c4ffa3a8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::tuple&lt; std::string, std::string, float &gt; &gt;</type>
+        <definition>std::vector&lt; std::tuple&lt; std::string, std::string, float &gt; &gt; themis::graph::ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges</definition>
+        <argsstring>(const std::vector&lt; BaseEntity &gt; &amp;existing_edges) const</argsstring>
+        <name>discoverCandidateEdges</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::discoverCandidateEdges</qualifiedname>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>existing_edges</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="285" column="5" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="754" bodyend="926"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a447bf13e5bbab07186854c52d57a7ee9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::ScheduledGraphEdgeRefreshEngine::applyBatch</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;edge_ids_to_remove, const std::vector&lt; std::tuple&lt; std::string, std::string, float &gt; &gt; &amp;edges_to_add, uint64_t cycle_number)</argsstring>
+        <name>applyBatch</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::applyBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>edge_ids_to_remove</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::tuple&lt; std::string, std::string, float &gt; &gt; &amp;</type>
+          <declname>edges_to_add</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>cycle_number</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para><ref refid="structthemis_1_1graph_1_1_edge" kindref="compound">Edge</ref>. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the new. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="288" column="10" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="928" bodyend="1060"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ab7c7bfb1083b4ef33320b34808ee59c7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::ScheduledGraphEdgeRefreshEngine::appendAudit</definition>
+        <argsstring>(RefreshAuditEntry entry)</argsstring>
+        <name>appendAudit</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::appendAudit</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1graph_1_1_refresh_audit_entry" kindref="compound">RefreshAuditEntry</ref></type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Append Audit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(), erase(), begin(), time_since_epoch(), count(), recordEvent(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="296" column="10" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="1067" bodyend="1095"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a7f67de19e88f2b9b6253262186ae98ab" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::ScheduledGraphEdgeRefreshEngine::rebuildANNIndex</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;vertices) const</argsstring>
+        <name>rebuildANNIndex</name>
+        <qualifiedname>themis::graph::ScheduledGraphEdgeRefreshEngine::rebuildANNIndex</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>vertices</declname>
+        </param>
+        <briefdescription>
+<para>Rebuild ANNIndex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="302" column="10" bodyfile="src/graph/scheduled_edge_refresh.cpp" bodystart="405" bodyend="445"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/scheduled_edge_refresh.h" line="156" column="1" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="156" bodyend="346"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a89049e8367e5974a1c775e06db5de937" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>ann_idx_to_vertex_</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ab1897846cb0f69b154e214784b9e8707" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>ann_index_</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1af92870b6bd09c9470d3521d1d1146c7d" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>ann_vertex_to_idx_</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ab7c7bfb1083b4ef33320b34808ee59c7" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>appendAudit</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a447bf13e5bbab07186854c52d57a7ee9" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>applyBatch</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a8ee761d308380a429d9d8944f081251b" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>audit_trail_</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a254ddb393a6013cbeaeb65a1b9f45609" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>cep_event_callback_</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a35eb8d518bd03755402b280678ee7cb2" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>changefeed_</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a39df780047edeb71d854f85454154c17" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>collectEdges</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a1ccd926d8f445428a76ba97dbf9e9e0c" prot="public" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>computeSimilarity</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ae1d4813d32d075410e08985f427c3c54" prot="public" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>computeTemporalDecay</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad47a15b62ea372704026cf9d58cef5d7" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad00303195200f553a61bd426bc6cb07b" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>cv_mutex_</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a481d814e936de4566d720ac7046d924b" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>cycle_counter_</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad529594947a6374f80c9730f6b3282b4" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>cycle_mutex_</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a0f3f249c556f61a0550de7c1c4ffa3a8" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>discoverCandidateEdges</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ada01cad8cfbc5b33bb3ae4b05cb68639" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>embedding_fn_</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a04bab3b66c509d3b72b7e099c6b86521" prot="public" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>getAuditTrail</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ac962d7ae52295a91c44d9f342efb222d" prot="public" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>getPolicy</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a34214a2a46f5bf2883f9012bafc8ef59" prot="public" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a88a3b6bd2c73cd2bc7827f1ead9908d0" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>graph_mgr_</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a0bc8bfab466639d9c15ca590e4ee5eab" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>kMaxAuditEntries</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a8e9cc926d08e3b1990c92ffe536903b5" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>last_stats_</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a4612ecc3cb115616cf7ca3863b975bff" prot="public" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a8c03252d0a0145230688ec66f11171ed" prot="public" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1af44524e7293a6b0f9cf4cb30bd8c5921" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>policy_</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a639dd95fe9327ee992b18b05a7200b76" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>policy_mutex_</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a7f67de19e88f2b9b6253262186ae98ab" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>rebuildANNIndex</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a4c1a78d55279a27e3946444c4c4c1af7" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>running_</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad3694147ffa71fd0a9571393232fb673" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>runRefreshCycle</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ad2011541d68950f85e05299edcc8c123" prot="public" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>ScheduledGraphEdgeRefreshEngine</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a3b78e8d9a5ce57ca448779f5433adba8" prot="public" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>ScheduledGraphEdgeRefreshEngine</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a8a0a9c9c6ee928f1393707a3047e0399" prot="public" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>ScheduledGraphEdgeRefreshEngine</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a4eee495a722d89122abae23b98489182" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>scheduler_thread_</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a88b254efb7643ffb8e4075ec6995a59e" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>schedulerLoop</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a499cc642ddb300b75977c2bac3e7246c" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>scoreAllEdges</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a81f4b4ca92ce051ad03bffe0492416b9" prot="public" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>scoreEdge</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a6dfc906a3c16c2ac5bffedd20e76fadf" prot="public" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>setANNIndex</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ae97b843201854bc2d906b227ac146c1b" prot="public" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>setCEPEventCallback</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a185a2483067311346bff6c79853b06ec" prot="public" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>setChangefeed</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a8b4d0beb4a29b134a902e12218579fbf" prot="public" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>setPolicy</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a214d5877079f3b294de9c6225ec733f4" prot="public" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>start</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a7052dd3661ca5e66b7b34d6c61cf32b0" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1afca73f017f0ba9ab2a96bfcd27081e91" prot="public" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>stop</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1af23a564f4bb246f851d16a390fe7f6e4" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>stop_requested_</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a127c1130995a0aa3c2061708e56f6e2b" prot="public" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>triggerRefresh</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1ac4f4b1de560a09b443818d898e0c114f" prot="private" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>validatePolicy</name></member>
+      <member refid="classthemis_1_1graph_1_1_scheduled_graph_edge_refresh_engine_1a26f19e2d8638fb9e5c75549bb8c59fda" prot="public" virt="non-virtual"><scope>themis::graph::ScheduledGraphEdgeRefreshEngine</scope><name>~ScheduledGraphEdgeRefreshEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

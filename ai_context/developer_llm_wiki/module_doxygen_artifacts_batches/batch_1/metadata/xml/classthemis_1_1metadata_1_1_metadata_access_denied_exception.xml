@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1metadata_1_1_metadata_access_denied_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::metadata::MetadataAccessDeniedException</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="imetadata__security__provider_8h" local="no">imetadata_security_provider.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_metadata_access_denied_exception_1a5d8e2ff00db7a6842899614e7bc20f86" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::MetadataAccessDeniedException::principal_</definition>
+        <argsstring></argsstring>
+        <name>principal_</name>
+        <qualifiedname>themis::metadata::MetadataAccessDeniedException::principal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_security_provider.h" line="90" column="23" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_metadata_access_denied_exception_1ae750c42e3b9966fb3568778de5c34ac4" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8" kindref="member">MetadataOperation</ref></type>
+        <definition>MetadataOperation themis::metadata::MetadataAccessDeniedException::operation_</definition>
+        <argsstring></argsstring>
+        <name>operation_</name>
+        <qualifiedname>themis::metadata::MetadataAccessDeniedException::operation_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_security_provider.h" line="91" column="23" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_metadata_access_denied_exception_1a3097fcee5bbf1914618b4269dfc1d3ec" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::MetadataAccessDeniedException::resource_</definition>
+        <argsstring></argsstring>
+        <name>resource_</name>
+        <qualifiedname>themis::metadata::MetadataAccessDeniedException::resource_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_security_provider.h" line="92" column="23" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_metadata_access_denied_exception_1ab71dad98b9724120c20e2569ed7e24b6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::metadata::MetadataAccessDeniedException::MetadataAccessDeniedException</definition>
+        <argsstring>(std::string_view principal, MetadataOperation op, std::string_view resource)</argsstring>
+        <name>MetadataAccessDeniedException</name>
+        <qualifiedname>themis::metadata::MetadataAccessDeniedException::MetadataAccessDeniedException</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>principal</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8" kindref="member">MetadataOperation</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_security_provider.h" line="74" column="5" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="74" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_metadata_access_denied_exception_1a6d6d6a84c194fcaf6985cb9da3a7f2b7" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::metadata::MetadataAccessDeniedException::principal</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>principal</name>
+        <qualifiedname>themis::metadata::MetadataAccessDeniedException::principal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_security_provider.h" line="85" column="23" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_metadata_access_denied_exception_1a00b52b95b5538df6acc7562cbd05e749" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1metadata_1a9eefab387602cdb9d88b817331642fb8" kindref="member">MetadataOperation</ref></type>
+        <definition>MetadataOperation themis::metadata::MetadataAccessDeniedException::operation</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operation</name>
+        <qualifiedname>themis::metadata::MetadataAccessDeniedException::operation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_security_provider.h" line="86" column="24" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_metadata_access_denied_exception_1a6e9a928519ecba3f48859b08afb37522" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::metadata::MetadataAccessDeniedException::resource</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>resource</name>
+        <qualifiedname>themis::metadata::MetadataAccessDeniedException::resource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_security_provider.h" line="87" column="23" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Exception thrown by <ref refid="classthemis_1_1metadata_1_1_i_metadata_security_provider_1a887256b7866e60113db5e41a1a92d2e8" kindref="member">IMetadataSecurityProvider::assertPermission()</ref> when the requested operation is not permitted. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::metadata::MetadataAccessDeniedException</label>
+        <link refid="classthemis_1_1metadata_1_1_metadata_access_denied_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::metadata::MetadataAccessDeniedException</label>
+        <link refid="classthemis_1_1metadata_1_1_metadata_access_denied_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/metadata/imetadata_security_provider.h" line="72" column="1" bodyfile="include/metadata/imetadata_security_provider.h" bodystart="72" bodyend="93"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1metadata_1_1_metadata_access_denied_exception_1ab71dad98b9724120c20e2569ed7e24b6" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataAccessDeniedException</scope><name>MetadataAccessDeniedException</name></member>
+      <member refid="classthemis_1_1metadata_1_1_metadata_access_denied_exception_1a00b52b95b5538df6acc7562cbd05e749" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataAccessDeniedException</scope><name>operation</name></member>
+      <member refid="classthemis_1_1metadata_1_1_metadata_access_denied_exception_1ae750c42e3b9966fb3568778de5c34ac4" prot="private" virt="non-virtual"><scope>themis::metadata::MetadataAccessDeniedException</scope><name>operation_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_metadata_access_denied_exception_1a6d6d6a84c194fcaf6985cb9da3a7f2b7" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataAccessDeniedException</scope><name>principal</name></member>
+      <member refid="classthemis_1_1metadata_1_1_metadata_access_denied_exception_1a5d8e2ff00db7a6842899614e7bc20f86" prot="private" virt="non-virtual"><scope>themis::metadata::MetadataAccessDeniedException</scope><name>principal_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_metadata_access_denied_exception_1a6e9a928519ecba3f48859b08afb37522" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataAccessDeniedException</scope><name>resource</name></member>
+      <member refid="classthemis_1_1metadata_1_1_metadata_access_denied_exception_1a3097fcee5bbf1914618b4269dfc1d3ec" prot="private" virt="non-virtual"><scope>themis::metadata::MetadataAccessDeniedException</scope><name>resource_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,423 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::JITAggregationCompiler::Impl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a4c55865fbdb9581bbc355da05c03689e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themisdb::analytics::JITAggregationCompiler::Impl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Impl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/jit_aggregation.cpp" line="642" column="12" bodyfile="src/analytics/jit_aggregation.cpp" bodystart="642" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a87723df62fa47cb98b324c58da81f6fd" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themisdb::analytics::JITAggregationCompiler::Impl::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Impl::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/jit_aggregation.cpp" line="643" column="11" bodyfile="src/analytics/jit_aggregation.cpp" bodystart="643" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a13eeae089b15950dcecc2c4681b53500" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::analytics::JITAggregationCompiler::Impl::cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cache_mutex_</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Impl::cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/jit_aggregation.cpp" line="646" column="24" bodyfile="src/analytics/jit_aggregation.cpp" bodystart="646" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a1079c3a0e77665d7ba44fbd09ae71288" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; themisdb::analytics::JITAggregationCompiler::Impl::call_counts_</definition>
+        <argsstring></argsstring>
+        <name>call_counts_</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Impl::call_counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/jit_aggregation.cpp" line="649" column="24" bodyfile="src/analytics/jit_aggregation.cpp" bodystart="649" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a2e3d2a2d82f02274f8b6113231fccc0c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::function&lt; <ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref>(const <ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref> &amp;)&gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::function&lt;ColumnBatch(const ColumnBatch &amp;)&gt; &gt; themisdb::analytics::JITAggregationCompiler::Impl::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Impl::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/jit_aggregation.cpp" line="652" column="24" bodyfile="src/analytics/jit_aggregation.cpp" bodystart="652" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a62de85e62d48843f67b72a673657a5b5" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::JITAggregationCompiler::Impl::Impl</definition>
+        <argsstring>(const Config &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/jit_aggregation.cpp" line="445" column="14" bodyfile="src/analytics/jit_aggregation.cpp" bodystart="445" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1af445c5e28d83af0eb96442f0bd7223b9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref></type>
+        <definition>ColumnBatch themisdb::analytics::JITAggregationCompiler::Impl::aggregate</definition>
+        <argsstring>(const ColumnBatch &amp;input, const std::vector&lt; AggregateSpec &gt; &amp;specs)</argsstring>
+        <name>aggregate</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Impl::aggregate</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_aggregate_spec" kindref="compound">AggregateSpec</ref> &gt; &amp;</type>
+          <declname>specs</declname>
+        </param>
+        <briefdescription>
+<para>Aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">specs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: materialize(), empty(), lk(), genericAggregate(), <ref refid="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1a69badd3a2b9656ce1cb7a231b52ec118" kindref="member">JITAggregationCompiler::makeSpecKey()</ref>, find(), end(), second(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/jit_aggregation.cpp" line="458" column="17" bodyfile="src/analytics/jit_aggregation.cpp" bodystart="458" bodyend="493"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a6152609e0036ef74dc61439770cc029f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::JITAggregationCompiler::Impl::isCompiled</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>isCompiled</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Impl::isCompiled</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/analytics/jit_aggregation.cpp" line="499" column="10" bodyfile="src/analytics/jit_aggregation.cpp" bodystart="499" bodyend="507"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a01ac43506abe80610d4201af31d15cb3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::JITAggregationCompiler::Impl::callCount</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>callCount</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Impl::callCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/analytics/jit_aggregation.cpp" line="509" column="12" bodyfile="src/analytics/jit_aggregation.cpp" bodystart="509" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1aa86da8212180a7c3104ac6cdbc83f045" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::JITAggregationCompiler::Impl::invalidate</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Impl::invalidate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), erase(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/jit_aggregation.cpp" line="525" column="10" bodyfile="src/analytics/jit_aggregation.cpp" bodystart="525" bodyend="530"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a8028a2c74afa1ef74ca60cd6e897e44a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::JITAggregationCompiler::Impl::invalidateAll</definition>
+        <argsstring>()</argsstring>
+        <name>invalidateAll</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Impl::invalidateAll</qualifiedname>
+        <briefdescription>
+<para>Invalidate All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/jit_aggregation.cpp" line="536" column="10" bodyfile="src/analytics/jit_aggregation.cpp" bodystart="536" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1aaf7f60a82283717432ad5c008321c7c6" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themisdb::analytics::JITAggregationCompiler::Impl::stats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>stats</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Impl::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/analytics/jit_aggregation.cpp" line="543" column="11" bodyfile="src/analytics/jit_aggregation.cpp" bodystart="543" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1acf8b2036962c9914af70806d5562eb17" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::JITAggregationCompiler::Impl::resetStats</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Impl::resetStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/analytics/jit_aggregation.cpp" line="553" column="10" bodyfile="src/analytics/jit_aggregation.cpp" bodystart="553" bodyend="564"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a6bd1d950a7b5abd0f6f6c58bd6384207" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themisdb::analytics::JITAggregationCompiler::Impl::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/jit_aggregation.cpp" line="566" column="18" bodyfile="src/analytics/jit_aggregation.cpp" bodystart="566" bodyend="568"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a171fe671c8eb691504023729183d0743" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref></type>
+        <definition>static ColumnBatch themisdb::analytics::JITAggregationCompiler::Impl::genericAggregate</definition>
+        <argsstring>(const ColumnBatch &amp;input, const std::vector&lt; AggregateSpec &gt; &amp;specs)</argsstring>
+        <name>genericAggregate</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Impl::genericAggregate</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_aggregate_spec" kindref="compound">AggregateSpec</ref> &gt; &amp;</type>
+          <declname>specs</declname>
+        </param>
+        <briefdescription>
+<para>Generic Aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">specs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: op(), execute(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/jit_aggregation.cpp" line="582" column="24" bodyfile="src/analytics/jit_aggregation.cpp" bodystart="582" bodyend="585"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a9d8618aa77b546af900de92e0c1f695c" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::JITAggregationCompiler::Impl::compileSpecialisation</definition>
+        <argsstring>(const std::string &amp;key, const std::vector&lt; AggregateSpec &gt; &amp;specs)</argsstring>
+        <name>compileSpecialisation</name>
+        <qualifiedname>themisdb::analytics::JITAggregationCompiler::Impl::compileSpecialisation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_aggregate_spec" kindref="compound">AggregateSpec</ref> &gt; &amp;</type>
+          <declname>specs</declname>
+        </param>
+        <briefdescription>
+<para>----------------------------------------------------------------------<mdash/> Compilation: build a specialised closure for this spec-set ----------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">specs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), begin(), erase(), empty(), front(), specialisedAggregateAll(), specialisedAggregateGroupBy(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/jit_aggregation.cpp" line="594" column="10" bodyfile="src/analytics/jit_aggregation.cpp" bodystart="594" bodyend="636"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/analytics/jit_aggregation.cpp" line="443" column="1" bodyfile="src/analytics/jit_aggregation.cpp" bodystart="443" bodyend="653"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1af445c5e28d83af0eb96442f0bd7223b9" prot="public" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Impl</scope><name>aggregate</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a2e3d2a2d82f02274f8b6113231fccc0c" prot="private" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Impl</scope><name>cache_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a13eeae089b15950dcecc2c4681b53500" prot="private" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Impl</scope><name>cache_mutex_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a1079c3a0e77665d7ba44fbd09ae71288" prot="private" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Impl</scope><name>call_counts_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a01ac43506abe80610d4201af31d15cb3" prot="public" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Impl</scope><name>callCount</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a9d8618aa77b546af900de92e0c1f695c" prot="private" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Impl</scope><name>compileSpecialisation</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a6bd1d950a7b5abd0f6f6c58bd6384207" prot="public" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Impl</scope><name>config</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a4c55865fbdb9581bbc355da05c03689e" prot="private" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Impl</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a171fe671c8eb691504023729183d0743" prot="private" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Impl</scope><name>genericAggregate</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a62de85e62d48843f67b72a673657a5b5" prot="public" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Impl</scope><name>Impl</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1aa86da8212180a7c3104ac6cdbc83f045" prot="public" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Impl</scope><name>invalidate</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a8028a2c74afa1ef74ca60cd6e897e44a" prot="public" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Impl</scope><name>invalidateAll</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a6152609e0036ef74dc61439770cc029f" prot="public" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Impl</scope><name>isCompiled</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1acf8b2036962c9914af70806d5562eb17" prot="public" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Impl</scope><name>resetStats</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1aaf7f60a82283717432ad5c008321c7c6" prot="public" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Impl</scope><name>stats</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_j_i_t_aggregation_compiler_1_1_impl_1a87723df62fa47cb98b324c58da81f6fd" prot="private" virt="non-virtual"><scope>themisdb::analytics::JITAggregationCompiler::Impl</scope><name>stats_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

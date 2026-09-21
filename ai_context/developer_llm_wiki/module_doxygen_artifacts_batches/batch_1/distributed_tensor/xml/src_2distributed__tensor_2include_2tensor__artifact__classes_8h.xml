@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="src_2distributed__tensor_2include_2tensor__artifact__classes_8h" kind="file" language="C++">
+    <compoundname>tensor_artifact_classes.h</compoundname>
+    <includes refid="src_2distributed__tensor_2include_2artifact__manifest_8h" local="yes">artifact_manifest.h</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includedby refid="src_2artifact__manifest_8cc" local="yes">src/distributed_tensor/src/artifact_manifest.cc</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>artifact_manifest.h</label>
+        <link refid="src_2distributed__tensor_2include_2artifact__manifest_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/distributed_tensor/include/tensor_artifact_classes.h</label>
+        <link refid="src_2distributed__tensor_2include_2tensor__artifact__classes_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>src/distributed_tensor/include/tensor_artifact_classes.h</label>
+        <link refid="src_2distributed__tensor_2include_2tensor__artifact__classes_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/distributed_tensor/src/artifact_manifest.cc</label>
+        <link refid="src_2artifact__manifest_8cc"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_artifact_classifier" prot="public">themis::distributed_tensor::ArtifactClassifier</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1distributed__tensor">themis::distributed_tensor</innernamespace>
+    <briefdescription>
+<para>ArtifactClassifier — validation and string-conversion helpers for ArtifactClass and TruthSemantic. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides static methods used by ArtifactManifest serialization and validation logic. The key invariant enforced here is:</para>
+<para><itemizedlist>
+<listitem><para>SOURCE_OF_TRUTH artifacts MUST carry GROUND_TRUTH semantics.</para>
+</listitem><listitem><para>DERIVED and EPHEMERAL artifacts MUST carry ADVISORY_ONLY semantics.</para>
+</listitem></itemizedlist>
+</para>
+<para>This prevents accidental promotion of tensor artifacts to ground-truth status, which would violate the advisory-only policy documented in artifact_manifest.h.</para>
+<para><simplesect kind="see"><para>artifact_manifest.h — full lifecycle and advisory-only policy </para>
+</simplesect>
+<simplesect kind="see"><para>ArtifactManifest::validate() — uses ArtifactClassifier::isValidCombination </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="src_2distributed__tensor_2include_2artifact__manifest_8h" kindref="compound">artifact_manifest.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__tensor" kindref="compound">distributed_tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ArtifactClassifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1distributed__tensor_1_1_artifact_classifier" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_artifact_classifier" kindref="compound">ArtifactClassifier</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_artifact_classifier_1a474d094f8ab6629af4dfc435e09745a0" kindref="member">isValidCombination</ref>(<ref refid="namespacethemis_1_1distributed__tensor_1a833e6bd5500fdb46e25349f61c2417b3" kindref="member">ArtifactClass</ref><sp/>klass,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a0ebe13f5a65079e8ac40a47c322db0d9" kindref="member">TruthSemantic</ref><sp/><sp/>semantic)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_artifact_classifier_1a773ad111933dc7eb0dc14e6a54fb31e0" kindref="member">classToString</ref>(<ref refid="namespacethemis_1_1distributed__tensor_1a833e6bd5500fdb46e25349f61c2417b3" kindref="member">ArtifactClass</ref><sp/>klass);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;ArtifactClass&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_artifact_classifier_1a30dcb93124464aeebc2cddcc006de03a" kindref="member">stringToClass</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>class_str);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_artifact_classifier_1aede6ec36babc4e5d61889af3c53febac" kindref="member">semanticToString</ref>(<ref refid="namespacethemis_1_1distributed__tensor_1a0ebe13f5a65079e8ac40a47c322db0d9" kindref="member">TruthSemantic</ref><sp/>semantic);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;TruthSemantic&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_artifact_classifier_1aa319e74a9c56b9d0cc0bad5508e1316a" kindref="member">stringToSemantic</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>semantic_str);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>distributed_tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/distributed_tensor/include/tensor_artifact_classes.h"/>
+  </compounddef>
+</doxygen>

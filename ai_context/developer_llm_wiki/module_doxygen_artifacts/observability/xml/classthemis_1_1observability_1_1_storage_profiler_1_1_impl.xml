@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_storage_profiler_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::StorageProfiler::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_storage_profiler_1_1_impl_1a612654db86f46a77f3957b1e349bfa96" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_storage_profiler_config" kindref="compound">StorageProfilerConfig</ref></type>
+        <definition>StorageProfilerConfig themis::observability::StorageProfiler::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::observability::StorageProfiler::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/storage_profiler.cpp" line="116" column="27" bodyfile="src/observability/storage_profiler.cpp" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_storage_profiler_1_1_impl_1a8de65e5d8fa09969aea815d6860d5f64" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_storage_op_stats" kindref="compound">StorageOpStats</ref> &gt;</type>
+        <definition>std::vector&lt;StorageOpStats&gt; themis::observability::StorageProfiler::Impl::operations</definition>
+        <argsstring></argsstring>
+        <name>operations</name>
+        <qualifiedname>themis::observability::StorageProfiler::Impl::operations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/storage_profiler.cpp" line="117" column="17" bodyfile="src/observability/storage_profiler.cpp" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_storage_profiler_1_1_impl_1a2f6541e36db2f59b743224a2003ab5ef" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_rocks_d_b_stats" kindref="compound">RocksDBStats</ref> &gt;</type>
+        <definition>std::vector&lt;RocksDBStats&gt; themis::observability::StorageProfiler::Impl::rocksdb_stats_history</definition>
+        <argsstring></argsstring>
+        <name>rocksdb_stats_history</name>
+        <qualifiedname>themis::observability::StorageProfiler::Impl::rocksdb_stats_history</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/storage_profiler.cpp" line="118" column="17" bodyfile="src/observability/storage_profiler.cpp" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_storage_profiler_1_1_impl_1a8ac6f1c8a3ebcd81891271e85f4b6c84" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::observability::StorageProfiler::Impl::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::observability::StorageProfiler::Impl::mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/storage_profiler.cpp" line="119" column="24" bodyfile="src/observability/storage_profiler.cpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1_1_impl_1ad64a45e483b501fc03689cb02f35dc9b" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::StorageProfiler::Impl::Impl</definition>
+        <argsstring>(const StorageProfilerConfig &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::observability::StorageProfiler::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_storage_profiler_config" kindref="compound">StorageProfilerConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/storage_profiler.cpp" line="121" column="14" bodyfile="src/observability/storage_profiler.cpp" bodystart="121" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_storage_profiler_1_1_impl_1aa2dea117462c847eab99cacd5950532c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::StorageProfiler::Impl::cleanup_old</definition>
+        <argsstring>()</argsstring>
+        <name>cleanup_old</name>
+        <qualifiedname>themis::observability::StorageProfiler::Impl::cleanup_old</qualifiedname>
+        <briefdescription>
+<para>Cleanup old. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: size(), erase(), begin(), std::chrono::system_clock::now(), std::remove_if(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/storage_profiler.cpp" line="127" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="127" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::observability::StorageProfiler::Impl</label>
+        <link refid="classthemis_1_1observability_1_1_storage_profiler_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::observability::StorageProfilerConfig</label>
+        <link refid="structthemis_1_1observability_1_1_storage_profiler_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/observability/storage_profiler.cpp" line="114" column="1" bodyfile="src/observability/storage_profiler.cpp" bodystart="114" bodyend="145"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1_1_impl_1aa2dea117462c847eab99cacd5950532c" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler::Impl</scope><name>cleanup_old</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1_1_impl_1a612654db86f46a77f3957b1e349bfa96" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler::Impl</scope><name>config</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1_1_impl_1ad64a45e483b501fc03689cb02f35dc9b" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1_1_impl_1a8ac6f1c8a3ebcd81891271e85f4b6c84" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler::Impl</scope><name>mutex</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1_1_impl_1a8de65e5d8fa09969aea815d6860d5f64" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler::Impl</scope><name>operations</name></member>
+      <member refid="classthemis_1_1observability_1_1_storage_profiler_1_1_impl_1a2f6541e36db2f59b743224a2003ab5ef" prot="public" virt="non-virtual"><scope>themis::observability::StorageProfiler::Impl</scope><name>rocksdb_stats_history</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

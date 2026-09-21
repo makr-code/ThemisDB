@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write" kind="struct" language="C++" prot="private">
+    <compoundname>themis::sharding::ReplicationCoordinator::PendingWrite</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1abf46467d6cba5e273193114c939e16e4" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::ReplicationCoordinator::PendingWrite::lsn</definition>
+        <argsstring></argsstring>
+        <name>lsn</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::PendingWrite::lsn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="123" column="13" bodyfile="include/sharding/replication_coordinator.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1a1d6ac6bc9b6770b716355786b2ee3526" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_write_concern_config" kindref="compound">WriteConcernConfig</ref></type>
+        <definition>WriteConcernConfig themis::sharding::ReplicationCoordinator::PendingWrite::concern</definition>
+        <argsstring></argsstring>
+        <name>concern</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::PendingWrite::concern</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="124" column="28" bodyfile="include/sharding/replication_coordinator.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1ae662df901a5b8b693a400337f9e5789e" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::sharding::ReplicationCoordinator::PendingWrite::ack_count</definition>
+        <argsstring></argsstring>
+        <name>ack_count</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::PendingWrite::ack_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="125" column="21" bodyfile="include/sharding/replication_coordinator.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1a72bffd1d16defb487f484e5fb39400fc" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::sharding::ReplicationCoordinator::PendingWrite::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::PendingWrite::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="126" column="47" bodyfile="include/sharding/replication_coordinator.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1a122bfbdf4212c0979ad49f627acc0051" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::sharding::ReplicationCoordinator::PendingWrite::completed</definition>
+        <argsstring></argsstring>
+        <name>completed</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::PendingWrite::completed</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="127" column="21" bodyfile="include/sharding/replication_coordinator.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1a0267286c36d1b4dff1c655bd89b87a05" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; void &gt;</type>
+        <definition>std::shared_ptr&lt;void&gt; themis::sharding::ReplicationCoordinator::PendingWrite::db_connection</definition>
+        <argsstring></argsstring>
+        <name>db_connection</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::PendingWrite::db_connection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="128" column="25" bodyfile="include/sharding/replication_coordinator.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1abd2719acbf3dd92bb0fdb49f28e328a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ReplicationCoordinator::PendingWrite::PendingWrite</definition>
+        <argsstring>()=default</argsstring>
+        <name>PendingWrite</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::PendingWrite::PendingWrite</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="130" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1ae119d0972567284dcf575233901d4a0c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ReplicationCoordinator::PendingWrite::PendingWrite</definition>
+        <argsstring>(const LSN &amp;l, const WriteConcernConfig &amp;c, size_t ack=1)</argsstring>
+        <name>PendingWrite</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::PendingWrite::PendingWrite</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> &amp;</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_write_concern_config" kindref="compound">WriteConcernConfig</ref> &amp;</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>ack</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="133" column="9" bodyfile="include/sharding/replication_coordinator.h" bodystart="133" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1a6610565dfc52fdee671b0f4185bcf867" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ReplicationCoordinator::PendingWrite::PendingWrite</definition>
+        <argsstring>(const PendingWrite &amp;other)</argsstring>
+        <name>PendingWrite</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::PendingWrite::PendingWrite</qualifiedname>
+        <param>
+          <type>const PendingWrite &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="138" column="9" bodyfile="include/sharding/replication_coordinator.h" bodystart="138" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1a5ab912a7962a3d2c0d584b59f46a8f0d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>PendingWrite &amp;</type>
+        <definition>PendingWrite &amp; themis::sharding::ReplicationCoordinator::PendingWrite::operator=</definition>
+        <argsstring>(const PendingWrite &amp;other)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::PendingWrite::operator=</qualifiedname>
+        <param>
+          <type>const PendingWrite &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="143" column="22" bodyfile="include/sharding/replication_coordinator.h" bodystart="143" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1a607bd800d42715e03b74ca017e552c64" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ReplicationCoordinator::PendingWrite::PendingWrite</definition>
+        <argsstring>(PendingWrite &amp;&amp;other) noexcept</argsstring>
+        <name>PendingWrite</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::PendingWrite::PendingWrite</qualifiedname>
+        <param>
+          <type>PendingWrite &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="155" column="9" bodyfile="include/sharding/replication_coordinator.h" bodystart="155" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1a78f53208f176814a7bf3f5d359e769c8" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>PendingWrite &amp;</type>
+        <definition>PendingWrite &amp; themis::sharding::ReplicationCoordinator::PendingWrite::operator=</definition>
+        <argsstring>(PendingWrite &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::PendingWrite::operator=</qualifiedname>
+        <param>
+          <type>PendingWrite &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="160" column="22" bodyfile="include/sharding/replication_coordinator.h" bodystart="160" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::LSN</label>
+        <link refid="structthemis_1_1sharding_1_1_l_s_n"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::ReplicationCoordinator::PendingWrite</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>lsn</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>concern</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::sharding::WriteConcernConfig</label>
+        <link refid="structthemis_1_1sharding_1_1_write_concern_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/replication_coordinator.h" line="122" column="5" bodyfile="include/sharding/replication_coordinator.h" bodystart="122" bodyend="171"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1ae662df901a5b8b693a400337f9e5789e" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator::PendingWrite</scope><name>ack_count</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1a122bfbdf4212c0979ad49f627acc0051" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator::PendingWrite</scope><name>completed</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1a1d6ac6bc9b6770b716355786b2ee3526" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator::PendingWrite</scope><name>concern</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1a0267286c36d1b4dff1c655bd89b87a05" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator::PendingWrite</scope><name>db_connection</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1abf46467d6cba5e273193114c939e16e4" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator::PendingWrite</scope><name>lsn</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1a5ab912a7962a3d2c0d584b59f46a8f0d" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator::PendingWrite</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1a78f53208f176814a7bf3f5d359e769c8" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator::PendingWrite</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1abd2719acbf3dd92bb0fdb49f28e328a1" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator::PendingWrite</scope><name>PendingWrite</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1ae119d0972567284dcf575233901d4a0c" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator::PendingWrite</scope><name>PendingWrite</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1a6610565dfc52fdee671b0f4185bcf867" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator::PendingWrite</scope><name>PendingWrite</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1a607bd800d42715e03b74ca017e552c64" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator::PendingWrite</scope><name>PendingWrite</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_pending_write_1a72bffd1d16defb487f484e5fb39400fc" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator::PendingWrite</scope><name>start_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

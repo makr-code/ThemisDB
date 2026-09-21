@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AdapterCompatibilityValidator::CompatibilityCheck</compoundname>
+    <includes refid="adapter__compatibility_8h" local="no">adapter_compatibility.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CheckType</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::CompatibilityCheck::CheckType</qualifiedname>
+        <enumvalue id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726cab6d0f8d357d5cd694c66d1cbce68a714" prot="public">
+          <name>MODEL_NAME_MATCH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726ca3e2e56d3447cba6bb69d5f3f07763a7b" prot="public">
+          <name>ARCHITECTURE_MATCH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726cab696021087b689143ae7629606025989" prot="public">
+          <name>DIMENSION_COMPATIBILITY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726ca8bf54a8b4ae6cb21066c80cca1717b20" prot="public">
+          <name>TOKENIZER_COMPATIBILITY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726cae757360f233676b297eea67d9e0f3a26" prot="public">
+          <name>VERSION_COMPATIBILITY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726ca800c0d77ba661122e9c4a512fe574a76" prot="public">
+          <name>QUANTIZATION_COMPATIBILITY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="39" column="9" bodyfile="include/llm/adapter_compatibility.h" bodystart="39" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a01e7679e1e4a1bf493c332a23784fc8b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726c" kindref="member">CheckType</ref></type>
+        <definition>CheckType themis::llm::AdapterCompatibilityValidator::CompatibilityCheck::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::CompatibilityCheck::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="48" column="19" bodyfile="include/llm/adapter_compatibility.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a56bd70a44863b09651728348a0442819" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterCompatibilityValidator::CompatibilityCheck::passed</definition>
+        <argsstring></argsstring>
+        <name>passed</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::CompatibilityCheck::passed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="49" column="14" bodyfile="include/llm/adapter_compatibility.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1ae8d36a21686393b60c2c7c5b9368cc13" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterCompatibilityValidator::CompatibilityCheck::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::CompatibilityCheck::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="50" column="21" bodyfile="include/llm/adapter_compatibility.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1ae840c31d70186ab6d591844fee1c9b50" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterCompatibilityValidator::CompatibilityCheck::is_critical</definition>
+        <argsstring></argsstring>
+        <name>is_critical</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::CompatibilityCheck::is_critical</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="51" column="14" bodyfile="include/llm/adapter_compatibility.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1aa16c4219c738aa7445fd2fc1906d6787" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterCompatibilityValidator::CompatibilityCheck::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::CompatibilityCheck::toString</qualifiedname>
+        <briefdescription>
+<para>To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="57" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_compatibility.h" line="38" column="5" bodyfile="include/llm/adapter_compatibility.h" bodystart="38" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726c" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator::CompatibilityCheck</scope><name>CheckType</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1ae840c31d70186ab6d591844fee1c9b50" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator::CompatibilityCheck</scope><name>is_critical</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1ae8d36a21686393b60c2c7c5b9368cc13" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator::CompatibilityCheck</scope><name>message</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a56bd70a44863b09651728348a0442819" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator::CompatibilityCheck</scope><name>passed</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1aa16c4219c738aa7445fd2fc1906d6787" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator::CompatibilityCheck</scope><name>toString</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a01e7679e1e4a1bf493c332a23784fc8b" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator::CompatibilityCheck</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

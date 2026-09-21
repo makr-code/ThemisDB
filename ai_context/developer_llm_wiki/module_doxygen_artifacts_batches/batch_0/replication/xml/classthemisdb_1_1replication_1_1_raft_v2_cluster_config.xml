@@ -1,0 +1,517 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_raft_v2_cluster_config" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::RaftV2ClusterConfig</compoundname>
+    <includes refid="raft__v2_8h" local="no">raft_v2.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1aeefa0219283f120e1470d28a1004bf7d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::RaftV2ClusterConfig::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::replication::RaftV2ClusterConfig::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="118" column="24" bodyfile="include/replication/raft_v2.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1a63fc8106f329a6e2c4e7376f5c753870" prot="private" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themisdb::replication::RaftV2ClusterConfig::old_members_</definition>
+        <argsstring></argsstring>
+        <name>old_members_</name>
+        <qualifiedname>themisdb::replication::RaftV2ClusterConfig::old_members_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="119" column="14" bodyfile="include/replication/raft_v2.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1acc953c6bc5be60b2ea1efa9a8356748b" prot="private" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themisdb::replication::RaftV2ClusterConfig::new_members_</definition>
+        <argsstring></argsstring>
+        <name>new_members_</name>
+        <qualifiedname>themisdb::replication::RaftV2ClusterConfig::new_members_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="120" column="14" bodyfile="include/replication/raft_v2.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1a63c755d0449e235c79e7df15a2e2a491" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::RaftV2ClusterConfig::in_joint_consensus_</definition>
+        <argsstring></argsstring>
+        <name>in_joint_consensus_</name>
+        <qualifiedname>themisdb::replication::RaftV2ClusterConfig::in_joint_consensus_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="121" column="10" bodyfile="include/replication/raft_v2.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1a364b60b369e4ca1254a5d9947610b2c6" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::RaftV2ClusterConfig::RaftV2ClusterConfig</definition>
+        <argsstring>(const std::set&lt; std::string &gt; &amp;members={})</argsstring>
+        <name>RaftV2ClusterConfig</name>
+        <qualifiedname>themisdb::replication::RaftV2ClusterConfig::RaftV2ClusterConfig</qualifiedname>
+        <param>
+          <type>const std::set&lt; std::string &gt; &amp;</type>
+          <declname>members</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Create a stable (non-transitional) configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>members</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial set of voting member node IDs. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="51" column="14" bodyfile="src/replication/raft_v2.cpp" bodystart="57" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1ab2b9cc36ba7f38609b8ebc57839a54a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::RaftV2ClusterConfig::beginAddMember</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>beginAddMember</name>
+        <qualifiedname>themisdb::replication::RaftV2ClusterConfig::beginAddMember</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Begin a joint-consensus transition to add <computeroutput>node_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Begin Add Member.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if a membership change is already in flight.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="59" column="10" bodyfile="src/replication/raft_v2.cpp" bodystart="66" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1aeba1c44ad92b8216ff8cb22bee74bac1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::RaftV2ClusterConfig::beginRemoveMember</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>beginRemoveMember</name>
+        <qualifiedname>themisdb::replication::RaftV2ClusterConfig::beginRemoveMember</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Begin a joint-consensus transition to remove <computeroutput>node_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Begin Remove Member.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if a membership change is already in flight or if the resulting cluster would have fewer than 1 member.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="66" column="10" bodyfile="src/replication/raft_v2.cpp" bodystart="83" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1af057d30df83965cc931551881b114be7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::RaftV2ClusterConfig::commitTransition</definition>
+        <argsstring>()</argsstring>
+        <name>commitTransition</name>
+        <qualifiedname>themisdb::replication::RaftV2ClusterConfig::commitTransition</qualifiedname>
+        <briefdescription>
+<para>Commit the pending transition, activating C_new. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Commit Transition.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if not in joint consensus.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="72" column="10" bodyfile="src/replication/raft_v2.cpp" bodystart="103" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1ae2caaa42e40eb3fad543f73ead7f529e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::RaftV2ClusterConfig::rollbackTransition</definition>
+        <argsstring>()</argsstring>
+        <name>rollbackTransition</name>
+        <qualifiedname>themisdb::replication::RaftV2ClusterConfig::rollbackTransition</qualifiedname>
+        <briefdescription>
+<para>Roll back the pending transition, restoring C_old. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rollback Transition.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if not in joint consensus.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="78" column="10" bodyfile="src/replication/raft_v2.cpp" bodystart="118" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1aab3d654ddc76f266c28fb6759411f39d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::RaftV2ClusterConfig::isInJointConsensus</definition>
+        <argsstring>() const</argsstring>
+        <name>isInJointConsensus</name>
+        <qualifiedname>themisdb::replication::RaftV2ClusterConfig::isInJointConsensus</qualifiedname>
+        <briefdescription>
+<para>True while a joint-consensus transition is in flight. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="83" column="10" bodyfile="src/replication/raft_v2.cpp" bodystart="129" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1ae8be161e5b1957716fb9a0ce26d4f407" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::RaftV2ClusterConfig::isMember</definition>
+        <argsstring>(const std::string &amp;node_id) const</argsstring>
+        <name>isMember</name>
+        <qualifiedname>themisdb::replication::RaftV2ClusterConfig::isMember</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Returns true if <computeroutput>node_id</computeroutput> is a voting member in either C_old or C_new (or both). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="89" column="10" bodyfile="src/replication/raft_v2.cpp" bodystart="139" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1a826cb124ce08661aca32a2766d6f1e7f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt; std::string &gt; themisdb::replication::RaftV2ClusterConfig::getAllMembers</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllMembers</name>
+        <qualifiedname>themisdb::replication::RaftV2ClusterConfig::getAllMembers</qualifiedname>
+        <briefdescription>
+<para>Returns the union of old and new members during joint consensus, or the single active set otherwise. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+All. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">old_members_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="95" column="14" bodyfile="src/replication/raft_v2.cpp" bodystart="153" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1a0a4099efe40e9cd354b4ad5ad6197a0b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt; std::string &gt; themisdb::replication::RaftV2ClusterConfig::getNewMembers</definition>
+        <argsstring>() const</argsstring>
+        <name>getNewMembers</name>
+        <qualifiedname>themisdb::replication::RaftV2ClusterConfig::getNewMembers</qualifiedname>
+        <briefdescription>
+<para>Current (new/target) member set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="98" column="14" bodyfile="src/replication/raft_v2.cpp" bodystart="173" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1aeffdc47a08f90eb9f52cd9fbc720c23e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt; std::string &gt; themisdb::replication::RaftV2ClusterConfig::getOldMembers</definition>
+        <argsstring>() const</argsstring>
+        <name>getOldMembers</name>
+        <qualifiedname>themisdb::replication::RaftV2ClusterConfig::getOldMembers</qualifiedname>
+        <briefdescription>
+<para>Previous member set (empty when not in transition). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="101" column="14" bodyfile="src/replication/raft_v2.cpp" bodystart="183" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1a0002152341647765fd26aa55871243b9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::RaftV2ClusterConfig::hasQuorum</definition>
+        <argsstring>(const std::set&lt; std::string &gt; &amp;votes) const</argsstring>
+        <name>hasQuorum</name>
+        <qualifiedname>themisdb::replication::RaftV2ClusterConfig::hasQuorum</qualifiedname>
+        <param>
+          <type>const std::set&lt; std::string &gt; &amp;</type>
+          <declname>votes</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when <computeroutput>votes</computeroutput> satisfy quorum requirements. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>During joint consensus both C_old and C_new must separately have majority votes. Outside joint consensus only C_new is checked. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="109" column="10" bodyfile="src/replication/raft_v2.cpp" bodystart="193" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1a8ecd7ccf0b10b15a8348b3d30fc3429a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::replication::RaftV2ClusterConfig::quorumSize</definition>
+        <argsstring>() const</argsstring>
+        <name>quorumSize</name>
+        <qualifiedname>themisdb::replication::RaftV2ClusterConfig::quorumSize</qualifiedname>
+        <briefdescription>
+<para>Minimum number of votes required for a simple-majority quorum in the current (non-transitional) configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="115" column="12" bodyfile="src/replication/raft_v2.cpp" bodystart="221" bodyend="229"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1af1402c143002788fc179ae6aa0723f79" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themisdb::replication::RaftV2ClusterConfig::majority</definition>
+        <argsstring>(size_t n)</argsstring>
+        <name>majority</name>
+        <qualifiedname>themisdb::replication::RaftV2ClusterConfig::majority</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/raft_v2.h" line="123" column="19" bodyfile="include/replication/raft_v2.h" bodystart="123" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Represents the current cluster configuration in Raft v2. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>During a joint-consensus transition the object holds <emphasis>both</emphasis> the old and the new member sets. A majority is only granted when a majority in <emphasis>each</emphasis> set independently has voted. </para>
+    </detaileddescription>
+    <location file="include/replication/raft_v2.h" line="45" column="1" bodyfile="include/replication/raft_v2.h" bodystart="45" bodyend="124"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1ab2b9cc36ba7f38609b8ebc57839a54a9" prot="public" virt="non-virtual"><scope>themisdb::replication::RaftV2ClusterConfig</scope><name>beginAddMember</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1aeba1c44ad92b8216ff8cb22bee74bac1" prot="public" virt="non-virtual"><scope>themisdb::replication::RaftV2ClusterConfig</scope><name>beginRemoveMember</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1af057d30df83965cc931551881b114be7" prot="public" virt="non-virtual"><scope>themisdb::replication::RaftV2ClusterConfig</scope><name>commitTransition</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1a826cb124ce08661aca32a2766d6f1e7f" prot="public" virt="non-virtual"><scope>themisdb::replication::RaftV2ClusterConfig</scope><name>getAllMembers</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1a0a4099efe40e9cd354b4ad5ad6197a0b" prot="public" virt="non-virtual"><scope>themisdb::replication::RaftV2ClusterConfig</scope><name>getNewMembers</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1aeffdc47a08f90eb9f52cd9fbc720c23e" prot="public" virt="non-virtual"><scope>themisdb::replication::RaftV2ClusterConfig</scope><name>getOldMembers</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1a0002152341647765fd26aa55871243b9" prot="public" virt="non-virtual"><scope>themisdb::replication::RaftV2ClusterConfig</scope><name>hasQuorum</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1a63c755d0449e235c79e7df15a2e2a491" prot="private" virt="non-virtual"><scope>themisdb::replication::RaftV2ClusterConfig</scope><name>in_joint_consensus_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1aab3d654ddc76f266c28fb6759411f39d" prot="public" virt="non-virtual"><scope>themisdb::replication::RaftV2ClusterConfig</scope><name>isInJointConsensus</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1ae8be161e5b1957716fb9a0ce26d4f407" prot="public" virt="non-virtual"><scope>themisdb::replication::RaftV2ClusterConfig</scope><name>isMember</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1af1402c143002788fc179ae6aa0723f79" prot="private" virt="non-virtual"><scope>themisdb::replication::RaftV2ClusterConfig</scope><name>majority</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1aeefa0219283f120e1470d28a1004bf7d" prot="private" virt="non-virtual"><scope>themisdb::replication::RaftV2ClusterConfig</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1acc953c6bc5be60b2ea1efa9a8356748b" prot="private" virt="non-virtual"><scope>themisdb::replication::RaftV2ClusterConfig</scope><name>new_members_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1a63fc8106f329a6e2c4e7376f5c753870" prot="private" virt="non-virtual"><scope>themisdb::replication::RaftV2ClusterConfig</scope><name>old_members_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1a8ecd7ccf0b10b15a8348b3d30fc3429a" prot="public" virt="non-virtual"><scope>themisdb::replication::RaftV2ClusterConfig</scope><name>quorumSize</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1a364b60b369e4ca1254a5d9947610b2c6" prot="public" virt="non-virtual"><scope>themisdb::replication::RaftV2ClusterConfig</scope><name>RaftV2ClusterConfig</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config_1ae2caaa42e40eb3fad543f73ead7f529e" prot="public" virt="non-virtual"><scope>themisdb::replication::RaftV2ClusterConfig</scope><name>rollbackTransition</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

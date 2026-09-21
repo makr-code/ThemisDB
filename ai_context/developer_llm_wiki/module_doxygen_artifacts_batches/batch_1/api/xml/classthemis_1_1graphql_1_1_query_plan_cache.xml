@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graphql_1_1_query_plan_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::graphql::QueryPlanCache</compoundname>
+    <includes refid="graphql__cache_8h" local="no">graphql_cache.h</includes>
+    <innerclass refid="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan" prot="public">themis::graphql::QueryPlanCache::QueryPlan</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_query_plan_cache_1a1eafbd49ee1699efbe7d2a2c8b85e3af" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graphql_1_1_cache" kindref="compound">Cache</ref>&lt; <ref refid="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan" kindref="compound">QueryPlan</ref> &gt;</type>
+        <definition>Cache&lt;QueryPlan&gt; themis::graphql::QueryPlanCache::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::graphql::QueryPlanCache::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="308" column="11" bodyfile="include/api/graphql_cache.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_query_plan_cache_1a52ff5aad3d86bcdd9d37cf61b82feecf" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>QueryPlanCache &amp;</type>
+        <definition>static QueryPlanCache &amp; themis::graphql::QueryPlanCache::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::graphql::QueryPlanCache::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="268" column="27" bodyfile="include/api/graphql_cache.h" bodystart="268" bodyend="271"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_query_plan_cache_1a6a21b81cd588dea1b874131f520cbe7b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan" kindref="compound">QueryPlan</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; QueryPlan &gt; themis::graphql::QueryPlanCache::get</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::graphql::QueryPlanCache::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements get without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="279" column="21" bodyfile="include/api/graphql_cache.h" bodystart="279" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_query_plan_cache_1a398bf92d96943ee73ac1de45177ea398" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::QueryPlanCache::put</definition>
+        <argsstring>(const std::string &amp;query, const QueryPlan &amp;plan)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::graphql::QueryPlanCache::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan" kindref="compound">QueryPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements put without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="289" column="10" bodyfile="include/api/graphql_cache.h" bodystart="289" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_query_plan_cache_1af4de8b334434c89680a6fed5d152aa80" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graphql_1_1_cache" kindref="compound">Cache</ref>&lt; <ref refid="structthemis_1_1graphql_1_1_query_plan_cache_1_1_query_plan" kindref="compound">QueryPlan</ref> &gt;::CacheStats</type>
+        <definition>Cache&lt; QueryPlan &gt;::CacheStats themis::graphql::QueryPlanCache::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::graphql::QueryPlanCache::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="293" column="24" bodyfile="include/api/graphql_cache.h" bodystart="293" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_query_plan_cache_1a8e095c3ff23877264ec50449236546b4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::QueryPlanCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::graphql::QueryPlanCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="301" column="10" bodyfile="include/api/graphql_cache.h" bodystart="301" bodyend="303"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_query_plan_cache_1aa6868e8389bce7c87d9ae20d9abb9a77" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graphql::QueryPlanCache::QueryPlanCache</definition>
+        <argsstring>()</argsstring>
+        <name>QueryPlanCache</name>
+        <qualifiedname>themis::graphql::QueryPlanCache::QueryPlanCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_cache.h" line="306" column="5" bodyfile="include/api/graphql_cache.h" bodystart="306" bodyend="306"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql_cache.h" line="251" column="1" bodyfile="include/api/graphql_cache.h" bodystart="251" bodyend="309"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graphql_1_1_query_plan_cache_1a1eafbd49ee1699efbe7d2a2c8b85e3af" prot="private" virt="non-virtual"><scope>themis::graphql::QueryPlanCache</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_plan_cache_1a8e095c3ff23877264ec50449236546b4" prot="public" virt="non-virtual"><scope>themis::graphql::QueryPlanCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_plan_cache_1a6a21b81cd588dea1b874131f520cbe7b" prot="public" virt="non-virtual"><scope>themis::graphql::QueryPlanCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_plan_cache_1af4de8b334434c89680a6fed5d152aa80" prot="public" virt="non-virtual"><scope>themis::graphql::QueryPlanCache</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_plan_cache_1a52ff5aad3d86bcdd9d37cf61b82feecf" prot="public" virt="non-virtual"><scope>themis::graphql::QueryPlanCache</scope><name>instance</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_plan_cache_1a398bf92d96943ee73ac1de45177ea398" prot="public" virt="non-virtual"><scope>themis::graphql::QueryPlanCache</scope><name>put</name></member>
+      <member refid="classthemis_1_1graphql_1_1_query_plan_cache_1aa6868e8389bce7c87d9ae20d9abb9a77" prot="private" virt="non-virtual"><scope>themis::graphql::QueryPlanCache</scope><name>QueryPlanCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

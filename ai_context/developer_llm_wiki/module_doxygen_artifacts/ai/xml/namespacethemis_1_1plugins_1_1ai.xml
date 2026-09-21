@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1ai" kind="namespace" language="C++">
+    <compoundname>themis::plugins::ai</compoundname>
+    <innerclass refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt" prot="public">themis::plugins::ai::PluginGenerationPrompt</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1ai_1_1_generated_plugin" prot="public">themis::plugins::ai::GeneratedPlugin</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator" prot="public">themis::plugins::ai::AIPluginGenerator</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1_1ai_1af59d3cf8d31a60082febd8cf2d0fbe6c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>LLMModel</name>
+        <qualifiedname>themis::plugins::ai::LLMModel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ai_1af59d3cf8d31a60082febd8cf2d0fbe6ca72828469d3f2899d8afa9dcc03b9fde1" prot="public">
+          <name>CODE_LLAMA</name>
+          <briefdescription>
+<para>Meta&apos;s Code Llama (local). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ai_1af59d3cf8d31a60082febd8cf2d0fbe6cab7d5bc716512b5d686912bd550c133d0" prot="public">
+          <name>CODEX</name>
+          <briefdescription>
+<para>OpenAI Codex (API). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ai_1af59d3cf8d31a60082febd8cf2d0fbe6cabe5e79d7f592bbbb69569c9a294204be" prot="public">
+          <name>STARCODER</name>
+          <briefdescription>
+<para>HuggingFace StarCoder (local). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ai_1af59d3cf8d31a60082febd8cf2d0fbe6ca8589fc84db2dc71b1409a9b88581e6fe" prot="public">
+          <name>GITHUB_COPILOT</name>
+          <briefdescription>
+<para>GitHub Copilot (API). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ai_1af59d3cf8d31a60082febd8cf2d0fbe6ca72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+<para>Custom LLM endpoint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="31" column="1" bodyfile="include/ai/ai_plugin_generator.h" bodystart="31" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1_1ai_1a78db63ca18bb89fdf559333a350e0c4a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SecurityLevel</name>
+        <qualifiedname>themis::plugins::ai::SecurityLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ai_1a78db63ca18bb89fdf559333a350e0c4aa41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <briefdescription>
+<para>Basic syntax checking only. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ai_1a78db63ca18bb89fdf559333a350e0c4aac87f3be66ffc3c0d4249f1c2cc5f3cce" prot="public">
+          <name>MEDIUM</name>
+          <briefdescription>
+<para>Static analysis + basic sandboxing. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ai_1a78db63ca18bb89fdf559333a350e0c4aab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <briefdescription>
+<para>Full security analysis + strict sandboxing. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1ai_1a78db63ca18bb89fdf559333a350e0c4aaa04e21e4201c441d2aa8e7759462bb19" prot="public">
+          <name>PARANOID</name>
+          <briefdescription>
+<para>Maximum security (may reject valid code). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="39" column="1" bodyfile="include/ai/ai_plugin_generator.h" bodystart="39" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1plugins_1_1ai_1abd40e188cc223709e1ef37fc1d31161d" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::plugins::ai::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::plugins::ai::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="29" column="1" bodyfile="include/ai/ai_plugin_generator.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ai/ai_plugin_generator.h" line="27" column="1"/>
+  </compounddef>
+</doxygen>

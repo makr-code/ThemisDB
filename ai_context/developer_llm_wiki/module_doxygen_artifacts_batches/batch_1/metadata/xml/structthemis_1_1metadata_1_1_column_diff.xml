@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1metadata_1_1_column_diff" kind="struct" language="C++" prot="public">
+    <compoundname>themis::metadata::ColumnDiff</compoundname>
+    <includes refid="schema__diff_8h" local="no">schema_diff.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_diff_1a260231196ef0dbbaf47fea6ca86ec905" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1metadata_1a91eab0959c6776ca72d9a8f23261fb71" kindref="member">ColumnDiffType</ref></type>
+        <definition>ColumnDiffType themis::metadata::ColumnDiff::diff_type</definition>
+        <argsstring></argsstring>
+        <name>diff_type</name>
+        <qualifiedname>themis::metadata::ColumnDiff::diff_type</qualifiedname>
+        <briefdescription>
+<para>Nature of the change. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_diff.h" line="46" column="30" bodyfile="include/metadata/schema_diff.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_diff_1a9edbb3a488fdbbe102dcf00d555e9e81" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::ColumnDiff::column_name</definition>
+        <argsstring></argsstring>
+        <name>column_name</name>
+        <qualifiedname>themis::metadata::ColumnDiff::column_name</qualifiedname>
+        <briefdescription>
+<para>Affected column name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_diff.h" line="47" column="30" bodyfile="include/metadata/schema_diff.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_diff_1ad83604131c5ce08e7d8bc5b1058d6d01" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::metadata::ColumnDiff::old_value</definition>
+        <argsstring></argsstring>
+        <name>old_value</name>
+        <qualifiedname>themis::metadata::ColumnDiff::old_value</qualifiedname>
+        <briefdescription>
+<para>Previous value (empty for ADDED). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_diff.h" line="48" column="19" bodyfile="include/metadata/schema_diff.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_column_diff_1a8fa3d156d3237c6a39c239b446541379" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::metadata::ColumnDiff::new_value</definition>
+        <argsstring></argsstring>
+        <name>new_value</name>
+        <qualifiedname>themis::metadata::ColumnDiff::new_value</qualifiedname>
+        <briefdescription>
+<para>New value (empty for REMOVED). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_diff.h" line="49" column="19" bodyfile="include/metadata/schema_diff.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1metadata_1_1_column_diff_1aaeee60a7f513bef8d768bd8db95fc132" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1metadata_1a8efd44656ac5d0cf26226df8e9a7fbc2" kindref="member">json</ref></type>
+        <definition>json themis::metadata::ColumnDiff::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::metadata::ColumnDiff::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise this diff to a JSON object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Schema: <programlisting><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;diff_type&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ADDED&quot;</highlight><highlight class="normal"><sp/>|<sp/></highlight><highlight class="stringliteral">&quot;REMOVED&quot;</highlight><highlight class="normal"><sp/>|<sp/></highlight><highlight class="stringliteral">&quot;TYPE_CHANGED&quot;</highlight><highlight class="normal"><sp/>|<sp/>...,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;column_name&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;&lt;name&gt;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;old_value&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&lt;string&gt;&quot;</highlight><highlight class="normal"><sp/>|<sp/>null,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;new_value&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&lt;string&gt;&quot;</highlight><highlight class="normal"><sp/>|<sp/>null</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_diff.h" line="64" column="10" bodyfile="include/metadata/schema_diff.h" bodystart="64" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Describes a single column-level change between two schema versions. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/schema_diff.h" line="45" column="1" bodyfile="include/metadata/schema_diff.h" bodystart="45" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1metadata_1_1_column_diff_1a9edbb3a488fdbbe102dcf00d555e9e81" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnDiff</scope><name>column_name</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_diff_1a260231196ef0dbbaf47fea6ca86ec905" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnDiff</scope><name>diff_type</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_diff_1a8fa3d156d3237c6a39c239b446541379" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnDiff</scope><name>new_value</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_diff_1ad83604131c5ce08e7d8bc5b1058d6d01" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnDiff</scope><name>old_value</name></member>
+      <member refid="structthemis_1_1metadata_1_1_column_diff_1aaeee60a7f513bef8d768bd8db95fc132" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnDiff</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

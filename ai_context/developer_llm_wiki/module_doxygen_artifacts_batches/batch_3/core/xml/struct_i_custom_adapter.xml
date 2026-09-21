@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_i_custom_adapter" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>ICustomAdapter</compoundname>
+    <derivedcompoundref refid="struct_custom_adapter_impl" prot="public" virt="non-virtual">CustomAdapterImpl</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_i_custom_adapter_1a3510427609ad4e7cd00a95dceb956efa" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual ICustomAdapter::~ICustomAdapter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ICustomAdapter</name>
+        <qualifiedname>ICustomAdapter::~ICustomAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_concerns_context_focused.cpp" line="31" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_i_custom_adapter_1aafe2f977dff1587efd54669e7069ef25" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int ICustomAdapter::id</definition>
+        <argsstring>() const =0</argsstring>
+        <name>id</name>
+        <qualifiedname>ICustomAdapter::id</qualifiedname>
+        <reimplementedby refid="struct_custom_adapter_impl_1a493b6c6f2f3c36e17d2e37c694d6417e">id</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_concerns_context_focused.cpp" line="32" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>CustomAdapterImpl</label>
+        <link refid="struct_custom_adapter_impl"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>ICustomAdapter</label>
+        <link refid="struct_i_custom_adapter"/>
+      </node>
+    </inheritancegraph>
+    <location file="tests/core/test_concerns_context_focused.cpp" line="30" column="1" bodyfile="tests/core/test_concerns_context_focused.cpp" bodystart="30" bodyend="33"/>
+    <listofallmembers>
+      <member refid="struct_i_custom_adapter_1aafe2f977dff1587efd54669e7069ef25" prot="public" virt="pure-virtual"><scope>ICustomAdapter</scope><name>id</name></member>
+      <member refid="struct_i_custom_adapter_1a3510427609ad4e7cd00a95dceb956efa" prot="public" virt="virtual"><scope>ICustomAdapter</scope><name>~ICustomAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

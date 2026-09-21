@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::test</compoundname>
+    <innerclass refid="classthemis_1_1test_1_1_voice_adversarial_test" prot="public">themis::test::VoiceAdversarialTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1test_1a0dce83a7e7681b5bb3bf95b090825337" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(VoiceAdversarialTest, OversizedFrameFailsClosed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_voice_adversarial_test" kindref="compound">VoiceAdversarialTest</ref></type>
+        </param>
+        <param>
+          <type>OversizedFrameFailsClosed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial.cpp" line="106" column="1" bodyfile="tests/voice/test_voice_adversarial.cpp" bodystart="106" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1abe8fe495caeca1d4417ebe8183de063d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(VoiceAdversarialTest, MalformedFrameFailsClosed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_voice_adversarial_test" kindref="compound">VoiceAdversarialTest</ref></type>
+        </param>
+        <param>
+          <type>MalformedFrameFailsClosed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial.cpp" line="114" column="1" bodyfile="tests/voice/test_voice_adversarial.cpp" bodystart="114" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a8290d11c885ef0eedd16608ca4931c40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(VoiceAdversarialTest, ReplayNonceIsRejectedDeterministically)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_voice_adversarial_test" kindref="compound">VoiceAdversarialTest</ref></type>
+        </param>
+        <param>
+          <type>ReplayNonceIsRejectedDeterministically</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial.cpp" line="122" column="1" bodyfile="tests/voice/test_voice_adversarial.cpp" bodystart="122" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a4414a0d828837c099ea0b4fa0edd069a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(VoiceAdversarialTest, TimeoutInjectionClosesSession)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_voice_adversarial_test" kindref="compound">VoiceAdversarialTest</ref></type>
+        </param>
+        <param>
+          <type>TimeoutInjectionClosesSession</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial.cpp" line="132" column="1" bodyfile="tests/voice/test_voice_adversarial.cpp" bodystart="132" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a9fc62606218d1ca6b9702f3950ec36cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(VoiceAdversarialTest, ConcurrentTeardownIsIdempotent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_voice_adversarial_test" kindref="compound">VoiceAdversarialTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentTeardownIsIdempotent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_adversarial.cpp" line="150" column="1" bodyfile="tests/voice/test_voice_adversarial.cpp" bodystart="150" bodyend="174"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_adversarial.cpp" line="15" column="1"/>
+  </compounddef>
+</doxygen>

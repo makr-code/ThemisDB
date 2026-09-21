@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUMemoryPool::Config</compoundname>
+    <includes refid="gpu__memory__pool__safety_8h" local="no">gpu_memory_pool_safety.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_config_1abf1ade0282762e13c62638be2e18a200" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryPool::Config::total_pool_size</definition>
+        <argsstring></argsstring>
+        <name>total_pool_size</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::Config::total_pool_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Pre-allocate pool (0 = no pre-alloc). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="40" column="16" bodyfile="include/gpu/gpu_memory_pool_safety.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_config_1a41b1e812b1e72091a9f09d4fa1314d36" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::gpu::GPUMemoryPool::Config::fragmentation_threshold</definition>
+        <argsstring></argsstring>
+        <name>fragmentation_threshold</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::Config::fragmentation_threshold</qualifiedname>
+        <initializer>= 0.10</initializer>
+        <briefdescription>
+<para>Trigger defrag at 10%. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="41" column="16" bodyfile="include/gpu/gpu_memory_pool_safety.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_config_1a25839510b08b4a5df76c8246e14e6604" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUMemoryPool::Config::enable_statistics</definition>
+        <argsstring></argsstring>
+        <name>enable_statistics</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::Config::enable_statistics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Track allocation statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_memory_pool_safety.h" line="42" column="14" bodyfile="include/gpu/gpu_memory_pool_safety.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/gpu_memory_pool_safety.h" line="39" column="5" bodyfile="include/gpu/gpu_memory_pool_safety.h" bodystart="39" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_config_1a25839510b08b4a5df76c8246e14e6604" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::Config</scope><name>enable_statistics</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_config_1a41b1e812b1e72091a9f09d4fa1314d36" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::Config</scope><name>fragmentation_threshold</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_config_1abf1ade0282762e13c62638be2e18a200" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::Config</scope><name>total_pool_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

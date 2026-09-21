@@ -1,0 +1,430 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::prompt_engineering::SemanticRewriteRule</compoundname>
+    <basecompoundref refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule" prot="public" virt="non-virtual">themis::prompt_engineering::IRewriteRule</basecompoundref>
+    <includes refid="rewrite__rule_8h" local="no">rewrite_rule.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a841a6ed7d555058d242a8e3b3c16f0a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::prompt_engineering::SemanticRewriteRule::~SemanticRewriteRule</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SemanticRewriteRule</name>
+        <qualifiedname>themis::prompt_engineering::SemanticRewriteRule::~SemanticRewriteRule</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule.h" line="221" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1ae7723b75ec438302c689f15b57b42ac1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SemanticRewriteRule::rule_id</definition>
+        <argsstring>() const override</argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::prompt_engineering::SemanticRewriteRule::rule_id</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1abdac55b5c172f35998bc6e3ba826d516">rule_id</reimplements>
+        <briefdescription>
+<para>Unique identifier for this rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Rule ID (must be stable across reloads) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule.h" line="223" column="17" bodyfile="src/prompt_engineering/rewrite_rule_base.cpp" bodystart="361" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a21b89a7e294b92b5ea019aec295549d3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1a0d3f256096c8661f5956299a9275d0e7" kindref="member">RewriteRuleType</ref></type>
+        <definition>RewriteRuleType themis::prompt_engineering::SemanticRewriteRule::rule_type</definition>
+        <argsstring>() const override</argsstring>
+        <name>rule_type</name>
+        <qualifiedname>themis::prompt_engineering::SemanticRewriteRule::rule_type</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1a7ee491c8ebf4dede3f8ae8bce8c6f7ea">rule_type</reimplements>
+        <briefdescription>
+<para>Rule type (lexical/semantic/terminal/allow-list). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The rule type </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule.h" line="224" column="21" bodyfile="src/prompt_engineering/rewrite_rule_base.cpp" bodystart="365" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a10c360930052d857388172bf130a8e81" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29" kindref="member">RewritePhase</ref></type>
+        <definition>RewritePhase themis::prompt_engineering::SemanticRewriteRule::execution_phase</definition>
+        <argsstring>() const override</argsstring>
+        <name>execution_phase</name>
+        <qualifiedname>themis::prompt_engineering::SemanticRewriteRule::execution_phase</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1a8cff66e51ce54d6bfa02ea4904b74d37">execution_phase</reimplements>
+        <briefdescription>
+<para>Execution phase for this rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The phase this rule executes in </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule.h" line="225" column="18" bodyfile="src/prompt_engineering/rewrite_rule_base.cpp" bodystart="369" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a9f18b8fb3bc832900639839766e58420" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::prompt_engineering::SemanticRewriteRule::priority</definition>
+        <argsstring>() const override</argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::prompt_engineering::SemanticRewriteRule::priority</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1a7d852b2b8ea9d71318f6f6b8d5aa844b">priority</reimplements>
+        <briefdescription>
+<para>Priority within phase (lower numbers execute first). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Priority value (0-255)</para>
+</simplesect>
+If two rules have the same priority, they execute in registration order. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule.h" line="226" column="13" bodyfile="src/prompt_engineering/rewrite_rule_base.cpp" bodystart="373" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a4b97cb54683c8ae0c5a8047eaf8622dc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::SemanticRewriteRule::matches</definition>
+        <argsstring>(const RewriteDocument &amp;doc, const RewriteContext &amp;ctx) const override</argsstring>
+        <name>matches</name>
+        <qualifiedname>themis::prompt_engineering::SemanticRewriteRule::matches</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1ae363f0d2002df92cef20d5a7505b4012">matches</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document" kindref="compound">RewriteDocument</ref> &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context" kindref="compound">RewriteContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Check if this rule matches the given document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The document to check </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Execution context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if rule matches, false otherwise</para>
+</simplesect>
+This should be a fast, side-effect-free check. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule.h" line="227" column="10" bodyfile="src/prompt_engineering/rewrite_rule_base.cpp" bodystart="377" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a701ce5f49a9a792142f01c33eaaf0ab6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_result" kindref="compound">RewriteResult</ref></type>
+        <definition>RewriteResult themis::prompt_engineering::SemanticRewriteRule::apply</definition>
+        <argsstring>(RewriteDocument &amp;doc, const RewriteContext &amp;ctx, RewriteTrace &amp;trace) override</argsstring>
+        <name>apply</name>
+        <qualifiedname>themis::prompt_engineering::SemanticRewriteRule::apply</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1aeb643586f46598ba4c5d534a625b929f">apply</reimplements>
+        <param>
+          <type><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document" kindref="compound">RewriteDocument</ref> &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context" kindref="compound">RewriteContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace" kindref="compound">RewriteTrace</ref> &amp;</type>
+          <declname>trace</declname>
+        </param>
+        <briefdescription>
+<para>Apply. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">trace</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a5c5f2d17acbc4a7dfef437095a9c7673" kindref="member">apply_impl()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule.h" line="228" column="19" bodyfile="src/prompt_engineering/rewrite_rule_base.cpp" bodystart="389" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a0926ecab4e8595813eb55579a678051d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::SemanticRewriteRule::is_idempotent</definition>
+        <argsstring>() const override</argsstring>
+        <name>is_idempotent</name>
+        <qualifiedname>themis::prompt_engineering::SemanticRewriteRule::is_idempotent</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1a0558ace035f5a5479af1b0185d7e8428">is_idempotent</reimplements>
+        <briefdescription>
+<para>Check if transformation is idempotent (applying twice = applying once). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if idempotent, false otherwise</para>
+</simplesect>
+Non-idempotent rules are allowed but may be re-executed in edge cases. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule.h" line="233" column="10" bodyfile="src/prompt_engineering/rewrite_rule_base.cpp" bodystart="397" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1aefb62d874969554c0d05b0a62d0920e8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SemanticRewriteRule::description</definition>
+        <argsstring>() const override</argsstring>
+        <name>description</name>
+        <qualifiedname>themis::prompt_engineering::SemanticRewriteRule::description</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1af92c4fce0e99b7c7683206dceb98407e">description</reimplements>
+        <briefdescription>
+<para>Get human-readable description of this rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Description for logging/debugging </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule.h" line="234" column="17" bodyfile="src/prompt_engineering/rewrite_rule_base.cpp" bodystart="401" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a897b66312e252fbfecf6eb6ff374cee1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::prompt_engineering::SemanticRewriteRule::get_rule_id</definition>
+        <argsstring>() const =0</argsstring>
+        <name>get_rule_id</name>
+        <qualifiedname>themis::prompt_engineering::SemanticRewriteRule::get_rule_id</qualifiedname>
+        <briefdescription>
+<para>Subclasses override this to provide custom rule ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule.h" line="239" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a5e7bc5b296d6ebd76e2e8adebbbbd9a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>uint8_t</type>
+        <definition>virtual uint8_t themis::prompt_engineering::SemanticRewriteRule::get_priority</definition>
+        <argsstring>() const =0</argsstring>
+        <name>get_priority</name>
+        <qualifiedname>themis::prompt_engineering::SemanticRewriteRule::get_priority</qualifiedname>
+        <briefdescription>
+<para>Subclasses override this to provide custom priority. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule.h" line="244" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1ab872e8e7ee064d5109089c8d720beac3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29" kindref="member">RewritePhase</ref></type>
+        <definition>virtual RewritePhase themis::prompt_engineering::SemanticRewriteRule::get_phase</definition>
+        <argsstring>() const =0</argsstring>
+        <name>get_phase</name>
+        <qualifiedname>themis::prompt_engineering::SemanticRewriteRule::get_phase</qualifiedname>
+        <briefdescription>
+<para>Subclasses override this to provide custom phase. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule.h" line="249" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a682953be1b195d59a9096a38eb1b3c45" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::prompt_engineering::SemanticRewriteRule::match_impl</definition>
+        <argsstring>(const RewriteDocument &amp;doc, const RewriteContext &amp;ctx) const =0</argsstring>
+        <name>match_impl</name>
+        <qualifiedname>themis::prompt_engineering::SemanticRewriteRule::match_impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document" kindref="compound">RewriteDocument</ref> &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context" kindref="compound">RewriteContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Subclasses override this for custom matching logic. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule.h" line="254" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a5c5f2d17acbc4a7dfef437095a9c7673" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_result" kindref="compound">RewriteResult</ref></type>
+        <definition>virtual RewriteResult themis::prompt_engineering::SemanticRewriteRule::apply_impl</definition>
+        <argsstring>(RewriteDocument &amp;doc, const RewriteContext &amp;ctx, RewriteTrace &amp;trace)=0</argsstring>
+        <name>apply_impl</name>
+        <qualifiedname>themis::prompt_engineering::SemanticRewriteRule::apply_impl</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_document" kindref="compound">RewriteDocument</ref> &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_context" kindref="compound">RewriteContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace" kindref="compound">RewriteTrace</ref> &amp;</type>
+          <declname>trace</declname>
+        </param>
+        <briefdescription>
+<para>Subclasses override this for custom transformation logic. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule.h" line="259" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a1aa01e7080e7944388cebc186fe5ed33" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::prompt_engineering::SemanticRewriteRule::get_is_idempotent</definition>
+        <argsstring>() const</argsstring>
+        <name>get_is_idempotent</name>
+        <qualifiedname>themis::prompt_engineering::SemanticRewriteRule::get_is_idempotent</qualifiedname>
+        <briefdescription>
+<para>Subclasses override this for idempotence declaration. Default: false (not idempotent). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule.h" line="269" column="18" bodyfile="include/prompt_engineering/rewrite_rule.h" bodystart="269" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1ad8faab8af4095acd6a3fa67626b2495b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::prompt_engineering::SemanticRewriteRule::get_description</definition>
+        <argsstring>() const =0</argsstring>
+        <name>get_description</name>
+        <qualifiedname>themis::prompt_engineering::SemanticRewriteRule::get_description</qualifiedname>
+        <briefdescription>
+<para>Subclasses override this for description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule.h" line="274" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1ad9f1d6aa6670ea79c07af9a006815880" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::SemanticRewriteRule::SemanticRewriteRule</definition>
+        <argsstring>()=default</argsstring>
+        <name>SemanticRewriteRule</name>
+        <qualifiedname>themis::prompt_engineering::SemanticRewriteRule::SemanticRewriteRule</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_rule.h" line="277" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>C++-only base class for semantic/advanced rewrite rules. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Useful for rules that require language understanding, context awareness, or multiple attribute modifications. Not loadable from YAML. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::prompt_engineering::IRewriteRule</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule"/>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::SemanticRewriteRule</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::prompt_engineering::IRewriteRule</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule"/>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::SemanticRewriteRule</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/rewrite_rule.h" line="219" column="1" bodyfile="include/prompt_engineering/rewrite_rule.h" bodystart="219" bodyend="278"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a701ce5f49a9a792142f01c33eaaf0ab6" prot="public" virt="virtual"><scope>themis::prompt_engineering::SemanticRewriteRule</scope><name>apply</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a5c5f2d17acbc4a7dfef437095a9c7673" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::SemanticRewriteRule</scope><name>apply_impl</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1aefb62d874969554c0d05b0a62d0920e8" prot="public" virt="virtual"><scope>themis::prompt_engineering::SemanticRewriteRule</scope><name>description</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a10c360930052d857388172bf130a8e81" prot="public" virt="virtual"><scope>themis::prompt_engineering::SemanticRewriteRule</scope><name>execution_phase</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1ad8faab8af4095acd6a3fa67626b2495b" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::SemanticRewriteRule</scope><name>get_description</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a1aa01e7080e7944388cebc186fe5ed33" prot="public" virt="virtual"><scope>themis::prompt_engineering::SemanticRewriteRule</scope><name>get_is_idempotent</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1ab872e8e7ee064d5109089c8d720beac3" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::SemanticRewriteRule</scope><name>get_phase</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a5e7bc5b296d6ebd76e2e8adebbbbd9a9" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::SemanticRewriteRule</scope><name>get_priority</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a897b66312e252fbfecf6eb6ff374cee1" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::SemanticRewriteRule</scope><name>get_rule_id</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a0926ecab4e8595813eb55579a678051d" prot="public" virt="virtual"><scope>themis::prompt_engineering::SemanticRewriteRule</scope><name>is_idempotent</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a682953be1b195d59a9096a38eb1b3c45" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::SemanticRewriteRule</scope><name>match_impl</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a4b97cb54683c8ae0c5a8047eaf8622dc" prot="public" virt="virtual"><scope>themis::prompt_engineering::SemanticRewriteRule</scope><name>matches</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a9f18b8fb3bc832900639839766e58420" prot="public" virt="virtual"><scope>themis::prompt_engineering::SemanticRewriteRule</scope><name>priority</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1ae7723b75ec438302c689f15b57b42ac1" prot="public" virt="virtual"><scope>themis::prompt_engineering::SemanticRewriteRule</scope><name>rule_id</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a21b89a7e294b92b5ea019aec295549d3" prot="public" virt="virtual"><scope>themis::prompt_engineering::SemanticRewriteRule</scope><name>rule_type</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1ad9f1d6aa6670ea79c07af9a006815880" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::SemanticRewriteRule</scope><name>SemanticRewriteRule</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_rewrite_rule_1abe61bdebb8f31cb941d29b1e0f2e79f4" prot="public" virt="virtual"><scope>themis::prompt_engineering::SemanticRewriteRule</scope><name>~IRewriteRule</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_semantic_rewrite_rule_1a841a6ed7d555058d242a8e3b3c16f0a4" prot="public" virt="virtual"><scope>themis::prompt_engineering::SemanticRewriteRule</scope><name>~SemanticRewriteRule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::RateLimitingMiddleware::Config</compoundname>
+    <includes refid="rate__limiting__middleware_8h" local="no">rate_limiting_middleware.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1add5db50a987786b14ed35643b5738849" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::RateLimitingMiddleware::Config::default_capacity</definition>
+        <argsstring></argsstring>
+        <name>default_capacity</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::Config::default_capacity</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="36" column="16" bodyfile="include/server/rate_limiting_middleware.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1a84f2b858e7cce61be1e7364af1685778" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::RateLimitingMiddleware::Config::default_refill_rate</definition>
+        <argsstring></argsstring>
+        <name>default_refill_rate</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::Config::default_refill_rate</qualifiedname>
+        <initializer>= 100.0 / 60.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="38" column="16" bodyfile="include/server/rate_limiting_middleware.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1ab42e62cee4b6673ab85daaee0f667c7c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_endpoint_limit" kindref="compound">EndpointLimit</ref> &gt;</type>
+        <definition>std::vector&lt;EndpointLimit&gt; themis::server::RateLimitingMiddleware::Config::endpoint_overrides</definition>
+        <argsstring></argsstring>
+        <name>endpoint_overrides</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::Config::endpoint_overrides</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="40" column="21" bodyfile="include/server/rate_limiting_middleware.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1af924f08bdc906d91efa039ee31f1b8ca" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::server::RateLimitingMiddleware::Config::whitelist_ips</definition>
+        <argsstring></argsstring>
+        <name>whitelist_ips</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::Config::whitelist_ips</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="42" column="21" bodyfile="include/server/rate_limiting_middleware.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1aab122da8946527636ae36879d789f390" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::RateLimitingMiddleware::Config::max_clients</definition>
+        <argsstring></argsstring>
+        <name>max_clients</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::Config::max_clients</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="44" column="16" bodyfile="include/server/rate_limiting_middleware.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1a739f5ad9e51551c143bb0b648d02553c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::RateLimitingMiddleware::Config::send_rate_limit_headers</definition>
+        <argsstring></argsstring>
+        <name>send_rate_limit_headers</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::Config::send_rate_limit_headers</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="46" column="14" bodyfile="include/server/rate_limiting_middleware.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1aa619494290495f75afd406bcee5f7aec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::RateLimitingMiddleware::Config::Config</definition>
+        <argsstring>()=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="48" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rate_limiting_middleware.h" line="35" column="5" bodyfile="include/server/rate_limiting_middleware.h" bodystart="35" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1aa619494290495f75afd406bcee5f7aec" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1add5db50a987786b14ed35643b5738849" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware::Config</scope><name>default_capacity</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1a84f2b858e7cce61be1e7364af1685778" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware::Config</scope><name>default_refill_rate</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1ab42e62cee4b6673ab85daaee0f667c7c" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware::Config</scope><name>endpoint_overrides</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1aab122da8946527636ae36879d789f390" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware::Config</scope><name>max_clients</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1a739f5ad9e51551c143bb0b648d02553c" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware::Config</scope><name>send_rate_limit_headers</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_config_1af924f08bdc906d91efa039ee31f1b8ca" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware::Config</scope><name>whitelist_ips</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

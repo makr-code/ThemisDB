@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1_workload_classifier" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::WorkloadClassifier</compoundname>
+    <includes refid="hnsw__parameter__tuner_8h" local="no">hnsw_parameter_tuner.h</includes>
+    <innerclass refid="structthemis_1_1index_1_1_workload_classifier_1_1_stats" prot="public">themis::index::WorkloadClassifier::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_workload_classifier_1a1720a2212bc983288560b1033ff2c376" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::index::WorkloadClassifier::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::index::WorkloadClassifier::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="261" column="24" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_workload_classifier_1a5d183a79d86f59ad47066963f673a4d4" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::WorkloadClassifier::total_inserts_</definition>
+        <argsstring></argsstring>
+        <name>total_inserts_</name>
+        <qualifiedname>themis::index::WorkloadClassifier::total_inserts_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total vectors inserted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="263" column="14" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_workload_classifier_1a1dc9c4301e39a787ab1ada917721def2" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::WorkloadClassifier::insert_events_</definition>
+        <argsstring></argsstring>
+        <name>insert_events_</name>
+        <qualifiedname>themis::index::WorkloadClassifier::insert_events_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of insert calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="264" column="14" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_workload_classifier_1a9d8d2bdbbcb2c46537c2033c0d46c457" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::WorkloadClassifier::total_k_</definition>
+        <argsstring></argsstring>
+        <name>total_k_</name>
+        <qualifiedname>themis::index::WorkloadClassifier::total_k_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Sum of k across all query events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="265" column="14" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_workload_classifier_1a32456fd85d55b4a2897afd10de24c904" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::index::WorkloadClassifier::query_events_</definition>
+        <argsstring></argsstring>
+        <name>query_events_</name>
+        <qualifiedname>themis::index::WorkloadClassifier::query_events_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of query events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="266" column="14" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_workload_classifier_1aa09698a55df7ba4860b56272514596bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::WorkloadClassifier::recordInsert</definition>
+        <argsstring>(size_t batch_size=1)</argsstring>
+        <name>recordInsert</name>
+        <qualifiedname>themis::index::WorkloadClassifier::recordInsert</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Record an insert (or batch-insert) event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of vectors inserted in this call (defaults to 1) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="231" column="10" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="481" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_workload_classifier_1a708ea504be3876ffd4e379103f21c1e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::WorkloadClassifier::recordQuery</definition>
+        <argsstring>(size_t k)</argsstring>
+        <name>recordQuery</name>
+        <qualifiedname>themis::index::WorkloadClassifier::recordQuery</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Record a query event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of nearest neighbors requested </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="237" column="10" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="492" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_workload_classifier_1af1a27bdb0ddc20a4c3ce2ca383c608a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner_1ad834e244dc2fcbecf962875694fdaefd" kindref="member">HnswParameterTuner::WorkloadType</ref></type>
+        <definition>HnswParameterTuner::WorkloadType themis::index::WorkloadClassifier::detectWorkload</definition>
+        <argsstring>() const</argsstring>
+        <name>detectWorkload</name>
+        <qualifiedname>themis::index::WorkloadClassifier::detectWorkload</qualifiedname>
+        <briefdescription>
+<para>Detect the dominant workload type from recorded events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Detected WorkloadType </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="243" column="38" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="503" bodyend="554"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_workload_classifier_1a51c032692867f7bf83de35289024cda7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::WorkloadClassifier::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::index::WorkloadClassifier::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all recorded statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="248" column="10" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="560" bodyend="566"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_workload_classifier_1a9fa009a9adb117d4bb7b8278e6f5c5c6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_workload_classifier_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>WorkloadClassifier::Stats themis::index::WorkloadClassifier::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::index::WorkloadClassifier::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/hnsw_parameter_tuner.h" line="258" column="11" bodyfile="src/index/hnsw_parameter_tuner.cpp" bodystart="568" bodyend="585"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Automatic workload classifier for HNSW construction-parameter auto-tuning. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Observes real-time insert and query events and derives the dominant workload type. The classification is then fed into <ref refid="classthemis_1_1index_1_1_hnsw_parameter_tuner" kindref="compound">HnswParameterTuner</ref> so that the best M and ef_construction values can be selected without manual input.</para>
+<para>Classification rules (evaluated over the observation window):<itemizedlist>
+<listitem><para>BATCH_INSERT : insert_rate &gt;&gt; query_rate (ratio &gt;= 10:1) AND avg_batch_size &gt;= 100</para>
+</listitem><listitem><para>OLTP : insert_rate &gt; query_rate OR avg_k &lt;= 5</para>
+</listitem><listitem><para>ANALYTICS : avg_k &gt;= 20 OR query_rate is low but k is large</para>
+</listitem><listitem><para>RAG : avg_k in [6, 19] AND query_rate is moderate</para>
+</listitem><listitem><para>MIXED : no dominant pattern </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/index/hnsw_parameter_tuner.h" line="225" column="1" bodyfile="include/index/hnsw_parameter_tuner.h" bodystart="225" bodyend="267"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1_workload_classifier_1af1a27bdb0ddc20a4c3ce2ca383c608a2" prot="public" virt="non-virtual"><scope>themis::index::WorkloadClassifier</scope><name>detectWorkload</name></member>
+      <member refid="classthemis_1_1index_1_1_workload_classifier_1a9fa009a9adb117d4bb7b8278e6f5c5c6" prot="public" virt="non-virtual"><scope>themis::index::WorkloadClassifier</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1index_1_1_workload_classifier_1a1dc9c4301e39a787ab1ada917721def2" prot="private" virt="non-virtual"><scope>themis::index::WorkloadClassifier</scope><name>insert_events_</name></member>
+      <member refid="classthemis_1_1index_1_1_workload_classifier_1a1720a2212bc983288560b1033ff2c376" prot="private" virt="non-virtual"><scope>themis::index::WorkloadClassifier</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1index_1_1_workload_classifier_1a32456fd85d55b4a2897afd10de24c904" prot="private" virt="non-virtual"><scope>themis::index::WorkloadClassifier</scope><name>query_events_</name></member>
+      <member refid="classthemis_1_1index_1_1_workload_classifier_1aa09698a55df7ba4860b56272514596bf" prot="public" virt="non-virtual"><scope>themis::index::WorkloadClassifier</scope><name>recordInsert</name></member>
+      <member refid="classthemis_1_1index_1_1_workload_classifier_1a708ea504be3876ffd4e379103f21c1e8" prot="public" virt="non-virtual"><scope>themis::index::WorkloadClassifier</scope><name>recordQuery</name></member>
+      <member refid="classthemis_1_1index_1_1_workload_classifier_1a51c032692867f7bf83de35289024cda7" prot="public" virt="non-virtual"><scope>themis::index::WorkloadClassifier</scope><name>reset</name></member>
+      <member refid="classthemis_1_1index_1_1_workload_classifier_1a5d183a79d86f59ad47066963f673a4d4" prot="private" virt="non-virtual"><scope>themis::index::WorkloadClassifier</scope><name>total_inserts_</name></member>
+      <member refid="classthemis_1_1index_1_1_workload_classifier_1a9d8d2bdbbcb2c46537c2033c0d46c457" prot="private" virt="non-virtual"><scope>themis::index::WorkloadClassifier</scope><name>total_k_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

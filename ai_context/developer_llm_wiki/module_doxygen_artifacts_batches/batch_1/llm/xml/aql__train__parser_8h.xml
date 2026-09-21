@@ -1,0 +1,429 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="aql__train__parser_8h" kind="file" language="C++">
+    <compoundname>aql_train_parser.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="yes">query/aql_parser.h</includes>
+    <includes refid="adapter__registry_8h" local="yes">llm/adapter_registry.h</includes>
+    <includes refid="gguf__st__adapter_8h" local="yes">llm/gguf_st_adapter.h</includes>
+    <includedby refid="aql__train__parser_8cpp" local="yes">src/llm/aql_train_parser.cpp</includedby>
+    <incdepgraph>
+      <node id="9">
+        <label>llm/adapter_registry.h</label>
+        <link refid="adapter__registry_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/aql_train_parser.h</label>
+        <link refid="aql__train__parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>llm/gguf_st_adapter.h</label>
+        <link refid="gguf__st__adapter_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>llm/lora_framework/lora_provenance.h</label>
+        <link refid="lora__provenance_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>query/aql_parser.h</label>
+      </node>
+      <node id="13">
+        <label>shared_mutex</label>
+      </node>
+      <node id="15">
+        <label>storage/blob_storage_manager.h</label>
+      </node>
+      <node id="10">
+        <label>storage/security_signature_manager.h</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/aql_train_parser.h</label>
+        <link refid="aql__train__parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/aql_train_parser.cpp</label>
+        <link refid="aql__train__parser_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_train_statement_config" prot="public">themis::llm::TrainStatementConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_graph_context_config" prot="public">themis::llm::GraphContextConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_vector_similarity_config" prot="public">themis::llm::VectorSimilarityConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_relational_join_config" prot="public">themis::llm::RelationalJoinConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_multi_model_enrichment" prot="public">themis::llm::MultiModelEnrichment</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config" prot="public">themis::llm::AQLDistributedTrainingConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_train_adapter_stmt" prot="public">themis::llm::TrainAdapterStmt</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_deploy_adapter_stmt" prot="public">themis::llm::DeployAdapterStmt</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_verify_adapter_stmt" prot="public">themis::llm::VerifyAdapterStmt</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_list_adapters_stmt" prot="public">themis::llm::ListAdaptersStmt</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_a_q_l_train_parser" prot="public">themis::llm::AQLTrainParser</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_training_query_builder" prot="public">themis::llm::TrainingQueryBuilder</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/aql_parser.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__registry_8h" kindref="compound">llm/adapter_registry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gguf__st__adapter_8h" kindref="compound">llm/gguf_st_adapter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TRAIN<sp/>Statement<sp/>AST<sp/>Nodes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1llm_1_1_train_statement_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_train_statement_config" kindref="compound">TrainStatementConfig</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_training_config" kindref="compound">TrainingConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1_train_statement_config_1a0b1cd3d127073d7cec40761020204dbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_train_statement_config_1a0b1cd3d127073d7cec40761020204dbc" kindref="member">~TrainStatementConfig</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Base<sp/>model<sp/>configuration<sp/>(not<sp/>in<sp/>base<sp/>TrainingConfig)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1_train_statement_config_1aa7e4242fd417303b20476a81956e86a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_train_statement_config_1aa7e4242fd417303b20476a81956e86a7" kindref="member">base_model_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;mistral-7b&quot;,<sp/>&quot;llama-3-8b&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Output<sp/>format<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1_train_statement_config_1a2a762e9da8e93de4bb0e5adbd9e9e096" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41" kindref="member">GGUFSTConfig::SizeMode</ref><sp/><ref refid="structthemis_1_1llm_1_1_train_statement_config_1a2a762e9da8e93de4bb0e5adbd9e9e096" kindref="member">size_mode</ref><sp/>=<sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41abbd53c25a2b976c1757ce1f9dbe8bd1f" kindref="member">GGUFSTConfig::SizeMode::COMPACT</ref>;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1_train_statement_config_1a413f52b9c592718a0fa21331a79e2713" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212" kindref="member">GGUFSTConfig::QuantizationType</ref><sp/><ref refid="structthemis_1_1llm_1_1_train_statement_config_1a413f52b9c592718a0fa21331a79e2713" kindref="member">quantization_type</ref><sp/>=<sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212ae9903780fa1d9b91f0542bd40fea13f2" kindref="member">GGUFSTConfig::QuantizationType::Q4_K_M</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1_train_statement_config_1a53c84c86ade2f348660d07681f9d1a3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_train_statement_config_1a53c84c86ade2f348660d07681f9d1a3d" kindref="member">compress_manifest</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1_train_statement_config_1a7ab1f57f4aa9c20b5d8ed1f82f3b88ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_train_statement_config_1a7ab1f57f4aa9c20b5d8ed1f82f3b88ad" kindref="member">embed_safetensors</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Security<sp/>and<sp/>versioning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1_train_statement_config_1a970594f9194badb4aede0103d690c6da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_train_statement_config_1a970594f9194badb4aede0103d690c6da" kindref="member">sign_adapter</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1_train_statement_config_1a09bb8bee18845c5f2f1dfcd4f8141d61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_train_statement_config_1a09bb8bee18845c5f2f1dfcd4f8141d61" kindref="member">adapter_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1_train_statement_config_1a5a5941b8cc4a63a14701a4e9c33198be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_train_statement_config_1a5a5941b8cc4a63a14701a4e9c33198be" kindref="member">custom_metadata</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quality<sp/>and<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1_train_statement_config_1a6c53aa511bc611b784d945e166419975" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_train_statement_config_1a6c53aa511bc611b784d945e166419975" kindref="member">validation_split</ref><sp/>=<sp/>0.1;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1llm_1_1_train_statement_config_1a3842417792ec1fa83d2f510a0d8c049b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_train_statement_config_1a3842417792ec1fa83d2f510a0d8c049b" kindref="member">shuffle</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1llm_1_1_train_statement_config_1ae686df6511e6f09f2b04632684b09c83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_train_statement_config_1ae686df6511e6f09f2b04632684b09c83" kindref="member">random_seed</ref><sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_train_statement_config_1a3ba401f67ec8593c38467395694866c9" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_train_statement_config" kindref="compound">TrainStatementConfig</ref><sp/><ref refid="structthemis_1_1llm_1_1_train_statement_config_1abf42dda5e82aa198d200cda3b483daaf" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1llm_1_1_graph_context_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_graph_context_config" kindref="compound">GraphContextConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1llm_1_1_graph_context_config_1a34d1db75117cdee1932f4cc4b8e9baf0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_graph_context_config_1a34d1db75117cdee1932f4cc4b8e9baf0" kindref="member">relationships</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>[&quot;CITES&quot;,<sp/>&quot;REFERENCES&quot;]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1llm_1_1_graph_context_config_1a3d5e8440398191484e1e6f5f1e4a8c6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_graph_context_config_1a3d5e8440398191484e1e6f5f1e4a8c6f" kindref="member">max_depth</ref><sp/>=<sp/>2;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>traversal<sp/>depth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm_1_1_graph_context_config_1a7493105fbc9e551e10e5261781aee669" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_graph_context_config_1a7493105fbc9e551e10e5261781aee669" kindref="member">direction</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;BOTH&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;OUTBOUND&quot;,<sp/>&quot;INBOUND&quot;,<sp/>&quot;BOTH&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm_1_1_graph_context_config_1af8b3c9db2e371fc15cf576085c6ac7e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_graph_context_config_1af8b3c9db2e371fc15cf576085c6ac7e1" kindref="member">max_nodes</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>nodes<sp/>to<sp/>include</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_graph_context_config_1aebead8f1d36408377fdd71c1cf4a292d" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_graph_context_config" kindref="compound">GraphContextConfig</ref><sp/><ref refid="structthemis_1_1llm_1_1_graph_context_config_1a990851aee3af6f0d9e9c87c5eaafeb6e" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1llm_1_1_vector_similarity_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_vector_similarity_config" kindref="compound">VectorSimilarityConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1llm_1_1_vector_similarity_config_1a31c9209a704ef824106d57406774d15b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_vector_similarity_config_1a31c9209a704ef824106d57406774d15b" kindref="member">field</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Field<sp/>containing<sp/>embedding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1llm_1_1_vector_similarity_config_1a1114e37afb1020219b0d4510557e4c39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vector_similarity_config_1a1114e37afb1020219b0d4510557e4c39" kindref="member">threshold</ref><sp/>=<sp/>0.8;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Similarity<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1llm_1_1_vector_similarity_config_1ac5c6f2cefa7ed09ba4e017402a470ab7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vector_similarity_config_1ac5c6f2cefa7ed09ba4e017402a470ab7" kindref="member">top_k</ref><sp/>=<sp/>10;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Top<sp/>K<sp/>similar<sp/>documents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1llm_1_1_vector_similarity_config_1af1f443fd650568dd320b7050603e197a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_vector_similarity_config_1af1f443fd650568dd320b7050603e197a" kindref="member">metric</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cosine&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;cosine&quot;,<sp/>&quot;euclidean&quot;,<sp/>&quot;dot&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_vector_similarity_config_1a5f47b5f1d2204c4e79242fc64b08d457" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vector_similarity_config" kindref="compound">VectorSimilarityConfig</ref><sp/><ref refid="structthemis_1_1llm_1_1_vector_similarity_config_1a5df6563976a856843aff4f985a45da04" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1llm_1_1_relational_join_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_relational_join_config" kindref="compound">RelationalJoinConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1llm_1_1_relational_join_config_1ab3a6fa35d430cbe25885470f21eff98b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_relational_join_config_1ab3a6fa35d430cbe25885470f21eff98b" kindref="member">collection</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Collection<sp/>to<sp/>join<sp/>with</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1llm_1_1_relational_join_config_1a1c0984711534d429fdb02aba2fea1dd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_relational_join_config_1a1c0984711534d429fdb02aba2fea1dd5" kindref="member">local_field</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Field<sp/>in<sp/>current<sp/>collection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1llm_1_1_relational_join_config_1a1de285fd79c0d48a9a458f4cf449649b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_relational_join_config_1a1de285fd79c0d48a9a458f4cf449649b" kindref="member">foreign_field</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Field<sp/>in<sp/>foreign<sp/>collection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1llm_1_1_relational_join_config_1a743f2212a0f90c02c083c675155dc73d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_relational_join_config_1a743f2212a0f90c02c083c675155dc73d" kindref="member">join_type</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;LEFT&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;LEFT&quot;,<sp/>&quot;INNER&quot;,<sp/>&quot;RIGHT&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_relational_join_config_1a2d76de70716621d676ca9b5cace132a9" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_relational_join_config" kindref="compound">RelationalJoinConfig</ref><sp/><ref refid="structthemis_1_1llm_1_1_relational_join_config_1a3ee84958cb1a2025e458766b485ec10d" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1llm_1_1_multi_model_enrichment" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment" kindref="compound">MultiModelEnrichment</ref><sp/>{</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1llm_1_1_multi_model_enrichment_1a3c461577fe3f1d92463ddd637454c1f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;GraphContextConfig&gt;<sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_1a3c461577fe3f1d92463ddd637454c1f6" kindref="member">graph_context</ref>;</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1llm_1_1_multi_model_enrichment_1a84f0d2a8325ea2ea8d0329e00e91f00c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;VectorSimilarityConfig&gt;<sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_1a84f0d2a8325ea2ea8d0329e00e91f00c" kindref="member">vector_similarity</ref>;</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1llm_1_1_multi_model_enrichment_1ab74d48a0c59a5591cad6d8f184bb4c47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RelationalJoinConfig&gt;<sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_1ab74d48a0c59a5591cad6d8f184bb4c47" kindref="member">relational_joins</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1llm_1_1_multi_model_enrichment_1ab4d1b6cf92cf4b61b93c0d7a7d9ff9df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_1ab4d1b6cf92cf4b61b93c0d7a7d9ff9df" kindref="member">hasEnrichment</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_1a3c461577fe3f1d92463ddd637454c1f6" kindref="member">graph_context</ref>.has_value()<sp/>||<sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_1a84f0d2a8325ea2ea8d0329e00e91f00c" kindref="member">vector_similarity</ref>.has_value()<sp/>||<sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!<ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_1ab74d48a0c59a5591cad6d8f184bb4c47" kindref="member">relational_joins</ref>.empty();</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_1a8734e38448acd12dba231bd144be0767" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment" kindref="compound">MultiModelEnrichment</ref><sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment_1a624c50a34bd78e15c2ee157f0e54286b" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config" kindref="compound">AQLDistributedTrainingConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config_1ab7e078f75438015acba2d455778c7680" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config_1ab7e078f75438015acba2d455778c7680" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config_1addc8eea02c719e03e8b24bbec4d5b4ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config_1addc8eea02c719e03e8b24bbec4d5b4ae" kindref="member">sync_strategy</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ALL_REDUCE&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;ALL_REDUCE&quot;,<sp/>&quot;PARAMETER_SERVER&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config_1a02cda1fdde517fd4e0f6e49e0def96fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config_1a02cda1fdde517fd4e0f6e49e0def96fa" kindref="member">coordinator_shard</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shard<sp/>to<sp/>coordinate<sp/>training</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config_1a2c4788cb56f2630e3e9c7d66cc4d1121" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config_1a2c4788cb56f2630e3e9c7d66cc4d1121" kindref="member">participant_shards</ref>;<sp/></highlight><highlight class="comment">//<sp/>Shards<sp/>to<sp/>participate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config_1a666cb6c8bad080fc50cf991db48841da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config_1a666cb6c8bad080fc50cf991db48841da" kindref="member">sync_frequency</ref><sp/>=<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sync<sp/>every<sp/>N<sp/>batches</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config_1aa93f5cb04e59a8cbe7cf09babc3ac2d0" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config" kindref="compound">AQLDistributedTrainingConfig</ref><sp/><ref refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config_1aefea63bddc968f87bbdf116ca1ef80ee" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1llm_1_1_train_adapter_stmt" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_train_adapter_stmt" kindref="compound">TrainAdapterStmt</ref><sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adapter<sp/>identification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a60142a713e0d242594e968df9cffff88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a60142a713e0d242594e968df9cffff88" kindref="member">adapter_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>adapter<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>source<sp/>(AQL<sp/>query)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a724a5d11a7a5dd383b08275cc8c04bb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a724a5d11a7a5dd383b08275cc8c04bb6" kindref="member">source_collection</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>FROM<sp/>collection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a209f3779ff2a619beb6e31441b6f8bf3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;query::Query&gt;<sp/><ref refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a209f3779ff2a619beb6e31441b6f8bf3" kindref="member">data_query</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Full<sp/>AQL<sp/>query<sp/>for<sp/>data<sp/>selection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enrichment<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a300be7430f9ffb19fe002e20ac5bb71c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment" kindref="compound">MultiModelEnrichment</ref><sp/><ref refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a300be7430f9ffb19fe002e20ac5bb71c" kindref="member">enrichment</ref>;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Training<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a3e008eee183ccab6edc94d5d31c24caf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_train_statement_config" kindref="compound">TrainStatementConfig</ref><sp/><ref refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a3e008eee183ccab6edc94d5d31c24caf" kindref="member">config</ref>;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Distributed<sp/>training<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1llm_1_1_train_adapter_stmt_1aefaab4273330ea199a985d2117ab7136" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config" kindref="compound">AQLDistributedTrainingConfig</ref><sp/><ref refid="structthemis_1_1llm_1_1_train_adapter_stmt_1aefaab4273330ea199a985d2117ab7136" kindref="member">distributed</ref>;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a0ccd7c51dfc85c29d8e9fc3056effdb0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a0ccd7c51dfc85c29d8e9fc3056effdb0" kindref="member">output_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Where<sp/>to<sp/>save<sp/>adapter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a610df200a7b3d726d0160f6e6470d617" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_train_adapter_stmt" kindref="compound">TrainAdapterStmt</ref><sp/><ref refid="structthemis_1_1llm_1_1_train_adapter_stmt_1a0d0b1d18fc364ff50a8dd85b77319402" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1llm_1_1_deploy_adapter_stmt" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_deploy_adapter_stmt" kindref="compound">DeployAdapterStmt</ref><sp/>{</highlight></codeline>
+<codeline lineno="199" refid="structthemis_1_1llm_1_1_deploy_adapter_stmt_1a2c2e7a81f246a935052b46402f2ce397" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_deploy_adapter_stmt_1a2c2e7a81f246a935052b46402f2ce397" kindref="member">adapter_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adapter<sp/>to<sp/>deploy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200" refid="structthemis_1_1llm_1_1_deploy_adapter_stmt_1aa394190370d4c2a532ee1d2378c2d60d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_deploy_adapter_stmt_1aa394190370d4c2a532ee1d2378c2d60d" kindref="member">target_shards</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shards<sp/>to<sp/>deploy<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1llm_1_1_deploy_adapter_stmt_1a4ec84967ebd50530b5d5c1d815216b38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_deploy_adapter_stmt_1a4ec84967ebd50530b5d5c1d815216b38" kindref="member">strategy</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CO_LOCATED&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;CO_LOCATED&quot;,<sp/>&quot;REPLICATED&quot;,<sp/>&quot;LOAD_BALANCED&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="structthemis_1_1llm_1_1_deploy_adapter_stmt_1a3ef9c1497846fd53482fe8b21f0645a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_deploy_adapter_stmt_1a3ef9c1497846fd53482fe8b21f0645a9" kindref="member">validate_compatibility</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203" refid="structthemis_1_1llm_1_1_deploy_adapter_stmt_1a4c064dac6c6b97e1efe4b6fa6ac1950a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_deploy_adapter_stmt_1a4c064dac6c6b97e1efe4b6fa6ac1950a" kindref="member">verify_signature</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_deploy_adapter_stmt_1aab7f1a6ff7a94927b961f6fb508f533d" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_deploy_adapter_stmt" kindref="compound">DeployAdapterStmt</ref><sp/><ref refid="structthemis_1_1llm_1_1_deploy_adapter_stmt_1afb44cd88b153e86fb2ddceed6d6eb538" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="structthemis_1_1llm_1_1_verify_adapter_stmt" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_verify_adapter_stmt" kindref="compound">VerifyAdapterStmt</ref><sp/>{</highlight></codeline>
+<codeline lineno="219" refid="structthemis_1_1llm_1_1_verify_adapter_stmt_1a3bc88f6e422c9bd1590e6075fc05b642" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_verify_adapter_stmt_1a3bc88f6e422c9bd1590e6075fc05b642" kindref="member">adapter_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adapter<sp/>to<sp/>verify</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220" refid="structthemis_1_1llm_1_1_verify_adapter_stmt_1a4f8270d3818bfd6988f66ce1e251ccdd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_verify_adapter_stmt_1a4f8270d3818bfd6988f66ce1e251ccdd" kindref="member">check_signature</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221" refid="structthemis_1_1llm_1_1_verify_adapter_stmt_1a9e1f136a70f03415b20a499031c7b272" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_verify_adapter_stmt_1a9e1f136a70f03415b20a499031c7b272" kindref="member">check_manifest</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222" refid="structthemis_1_1llm_1_1_verify_adapter_stmt_1adb1e51850f9da1dcadb13869fbf80a07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_verify_adapter_stmt_1adb1e51850f9da1dcadb13869fbf80a07" kindref="member">check_safetensors_match</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_verify_adapter_stmt_1aa5e18804ca2de87f3399e420f9cd79ed" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_verify_adapter_stmt" kindref="compound">VerifyAdapterStmt</ref><sp/><ref refid="structthemis_1_1llm_1_1_verify_adapter_stmt_1a1b2f68e7db8f7bbcd256fbbb15a01530" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237" refid="structthemis_1_1llm_1_1_list_adapters_stmt" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_list_adapters_stmt" kindref="compound">ListAdaptersStmt</ref><sp/>{</highlight></codeline>
+<codeline lineno="238" refid="structthemis_1_1llm_1_1_list_adapters_stmt_1af01f197e2a61a59042ac827d870761e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_list_adapters_stmt_1af01f197e2a61a59042ac827d870761e9" kindref="member">base_model</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Filter<sp/>by<sp/>base<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239" refid="structthemis_1_1llm_1_1_list_adapters_stmt_1aa013891face33dc21831d18bae5f8cfd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_list_adapters_stmt_1aa013891face33dc21831d18bae5f8cfd" kindref="member">domain</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Filter<sp/>by<sp/>domain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240" refid="structthemis_1_1llm_1_1_list_adapters_stmt_1a9f45437260e114c2c653c3de4603e2e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;AdapterMetadata::Status&gt;<sp/><ref refid="structthemis_1_1llm_1_1_list_adapters_stmt_1a9f45437260e114c2c653c3de4603e2e1" kindref="member">status</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Filter<sp/>by<sp/>status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241" refid="structthemis_1_1llm_1_1_list_adapters_stmt_1af5c619380550b41c750c23a1e02e95c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_list_adapters_stmt_1af5c619380550b41c750c23a1e02e95c1" kindref="member">order_by</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;created_at&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sort<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242" refid="structthemis_1_1llm_1_1_list_adapters_stmt_1a83b67edda0b9e8eb63c056572b19f47b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_list_adapters_stmt_1a83b67edda0b9e8eb63c056572b19f47b" kindref="member">descending</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243" refid="structthemis_1_1llm_1_1_list_adapters_stmt_1a3d4acb931dd0fba3ec4894b958e9597b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_list_adapters_stmt_1a3d4acb931dd0fba3ec4894b958e9597b" kindref="member">limit</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_list_adapters_stmt_1a425c961ce68db83cbaec9feb9c4bbb06" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_list_adapters_stmt" kindref="compound">ListAdaptersStmt</ref><sp/><ref refid="structthemis_1_1llm_1_1_list_adapters_stmt_1a7bdfb41b9272f633a445996790f0bfa3" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AQL<sp/>TRAIN<sp/>Parser<sp/>Extension</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262" refid="classthemis_1_1llm_1_1_a_q_l_train_parser" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1a0e185ab0c4397cbd59372202527c9a96" kindref="member">AQLTrainParser</ref><sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="264" refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1a0e185ab0c4397cbd59372202527c9a96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1a0e185ab0c4397cbd59372202527c9a96" kindref="member">AQLTrainParser</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TrainAdapterStmt&gt;<sp/><ref refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1a89f9ab6b5afb660cf2dfb8d915353269" kindref="member">parseTrainAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;DeployAdapterStmt&gt;<sp/><ref refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1a60d26db340cdfc8d03274c5ccf02507b" kindref="member">parseDeployAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;VerifyAdapterStmt&gt;<sp/><ref refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1a1e7f90551a7b9ca0f8a4fe1cd8334f83" kindref="member">parseVerifyAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ListAdaptersStmt&gt;<sp/><ref refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1a2d9b2bfb4a0ff0c36e6ab322e286f9bd" kindref="member">parseListAdapters</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="294" refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1aff1bfcf85a489559dd26844b280895f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1aff1bfcf85a489559dd26844b280895f5" kindref="member">StatementType</ref><sp/>{</highlight></codeline>
+<codeline lineno="295" refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1aff1bfcf85a489559dd26844b280895f5a56ca14571d29e775245afc6b43e8c554" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1aff1bfcf85a489559dd26844b280895f5a56ca14571d29e775245afc6b43e8c554" kindref="member">TRAIN_ADAPTER</ref>,</highlight></codeline>
+<codeline lineno="296" refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1aff1bfcf85a489559dd26844b280895f5a6b93c7b6c99a4396018b69a031d3b24f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1aff1bfcf85a489559dd26844b280895f5a6b93c7b6c99a4396018b69a031d3b24f" kindref="member">DEPLOY_ADAPTER</ref>,</highlight></codeline>
+<codeline lineno="297" refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1aff1bfcf85a489559dd26844b280895f5a89f79708a587835217b4b0a2f058427b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1aff1bfcf85a489559dd26844b280895f5a89f79708a587835217b4b0a2f058427b" kindref="member">VERIFY_ADAPTER</ref>,</highlight></codeline>
+<codeline lineno="298" refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1aff1bfcf85a489559dd26844b280895f5a527ead770e48748748b7a178c6c46121" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1aff1bfcf85a489559dd26844b280895f5a527ead770e48748748b7a178c6c46121" kindref="member">LIST_ADAPTERS</ref>,</highlight></codeline>
+<codeline lineno="299" refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1aff1bfcf85a489559dd26844b280895f5a696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1aff1bfcf85a489559dd26844b280895f5a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1aff1bfcf85a489559dd26844b280895f5" kindref="member">StatementType</ref><sp/><ref refid="classthemis_1_1llm_1_1_a_q_l_train_parser_1ad78abf3da967b0f9301a1305ca273fba" kindref="member">detectStatementType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_train_statement_config" kindref="compound">TrainStatementConfig</ref><sp/>parseTrainingConfig(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>with_clause);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_multi_model_enrichment" kindref="compound">MultiModelEnrichment</ref><sp/>parseEnrichment(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>using_clauses);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_graph_context_config" kindref="compound">GraphContextConfig</ref><sp/>parseGraphContext(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>args);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_vector_similarity_config" kindref="compound">VectorSimilarityConfig</ref><sp/>parseVectorSimilarity(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>args);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_relational_join_config" kindref="compound">RelationalJoinConfig</ref><sp/>parseRelationalJoin(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>args);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config" kindref="compound">AQLDistributedTrainingConfig</ref><sp/>parseDistributed(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tokenization<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>tokenize(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>input);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>extractClause(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>input,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>keyword);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/>parseKeyValuePairs(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>input);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>validateAdapterName(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>validateBaseModel(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>validateConfig(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_train_statement_config" kindref="compound">TrainStatementConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="379"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Training<sp/>Query<sp/>Builder<sp/>(Fluent<sp/>API)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="385" refid="classthemis_1_1llm_1_1_training_query_builder" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref><sp/>{</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="387" refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adapter<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ab92695fbd928c453f2901b4e9074cb39" kindref="member">adapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1abb7ccae1006b945f00e2f08fc737fe4e" kindref="member">from</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection);</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ad8303ea40a0c00da4a875a72459e0b33" kindref="member">where</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>condition);</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enrichment<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1a8c624d41ba70d4aa42a0b68fd3cecb63" kindref="member">withGraphContext</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_graph_context_config" kindref="compound">GraphContextConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1a30e4957344eb9c5b23df1c97bd8954f2" kindref="member">withVectorSimilarity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vector_similarity_config" kindref="compound">VectorSimilarityConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1a23071677888515158f47bb46be062657" kindref="member">withRelationalJoin</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_relational_join_config" kindref="compound">RelationalJoinConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Training<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1a70de8174cf9d234044ca93ed15825fde" kindref="member">baseModel</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model);</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1a4596c4cdd9a9f11c4d262d7e1eb7abb4" kindref="member">loraRank</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rank);</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1a06197afdb3e87d55c7af57179796d921" kindref="member">epochs</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n);</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1a4be263e85acfa591c4eb459c475eba67" kindref="member">batchSize</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1a8bcc9f98c36699d138f3c26896b4c40c" kindref="member">learningRate</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lr);</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1adeb964e0525cfa7dc53061cb751d2bab" kindref="member">quantization</ref>(<ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212" kindref="member">GGUFSTConfig::QuantizationType</ref><sp/>quant);</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1af85f7581a81b515db7658ffb580b036e" kindref="member">sizeMode</ref>(<ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41" kindref="member">GGUFSTConfig::SizeMode</ref><sp/>mode);</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1a5e69c96c9fa2284d87b30521529c2601" kindref="member">signAdapter</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>sign);</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Distributed<sp/>training</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1a302a7c75247ed56c2a6ea3664f207af3" kindref="member">distributed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_a_q_l_distributed_training_config" kindref="compound">AQLDistributedTrainingConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ade9f50816826f294ac835e84fd2da11b" kindref="member">TrainingQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ad97e42be4bb598c2279523be2d618636" kindref="member">outputPath</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TrainAdapterStmt&gt;<sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1ab066adbe3718e1c047d2ac5804bf7c17" kindref="member">build</ref>();</highlight></codeline>
+<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>AQL<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_training_query_builder_1a8ddedc79e4e5c7b155f3562f1ef191d4" kindref="member">toAQL</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="508"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_train_adapter_stmt" kindref="compound">TrainAdapterStmt</ref><sp/>stmt_;</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>where_clause_;</highlight></codeline>
+<codeline lineno="511"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"></highlight></codeline>
+<codeline lineno="513"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="514"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/aql_train_parser.h"/>
+  </compounddef>
+</doxygen>

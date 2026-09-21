@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_json_schema_converter" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::JsonSchemaConverter</compoundname>
+    <includes refid="json__schema__converter_8h" local="no">json_schema_converter.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_json_schema_converter_1a5175d6f744805ce72c0a7313c0f4c300" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::JsonSchemaConverter::kMaxGrammarBytes</definition>
+        <argsstring></argsstring>
+        <name>kMaxGrammarBytes</name>
+        <qualifiedname>themis::llm::JsonSchemaConverter::kMaxGrammarBytes</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/json_schema_converter.h" line="37" column="29" bodyfile="include/llm/json_schema_converter.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_json_schema_converter_1a175b335de3eee15ea342f8d89df0ce6f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::JsonSchemaConverter::schemaToEbnf</definition>
+        <argsstring>(const json &amp;schema)</argsstring>
+        <name>schemaToEbnf</name>
+        <qualifiedname>themis::llm::JsonSchemaConverter::schemaToEbnf</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Schema To Ebnf. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_null(), is_object(), spdlog::debug(), schemaNodeToRuleBody(), str(), size(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/json_schema_converter.h" line="44" column="24" bodyfile="src/llm/json_schema_converter.cpp" bodystart="267" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_json_schema_converter_1a9e26584abbf3f4bda29b432af4214f28" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::JsonSchemaConverter::toolsToEbnf</definition>
+        <argsstring>(const std::vector&lt; ToolDefinition &gt; &amp;tools)</argsstring>
+        <name>toolsToEbnf</name>
+        <qualifiedname>themis::llm::JsonSchemaConverter::toolsToEbnf</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_tool_definition" kindref="compound">ToolDefinition</ref> &gt; &amp;</type>
+          <declname>tools</declname>
+        </param>
+        <briefdescription>
+<para>Tools To Ebnf. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tools</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tools</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), spdlog::warn(), sanitizeRuleName(), is_null(), is_object(), schemaNodeToRuleBody(), count(), emplace_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/json_schema_converter.h" line="51" column="24" bodyfile="src/llm/json_schema_converter.cpp" bodystart="298" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_json_schema_converter_1a60121933a26806799bfbdc8133c0fc79" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_tool_call" kindref="compound">ToolCall</ref> &gt;</type>
+        <definition>std::optional&lt; ToolCall &gt; themis::llm::JsonSchemaConverter::parseToolCall</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>parseToolCall</name>
+        <qualifiedname>themis::llm::JsonSchemaConverter::parseToolCall</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Parse Tool Call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), find(), size(), substr(), json::parse(), is_object(), contains(), is_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/json_schema_converter.h" line="58" column="26" bodyfile="src/llm/json_schema_converter.cpp" bodystart="372" bodyend="420"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_json_schema_converter_1a993ac03f1697a25352c66aad4126ad60" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::JsonSchemaConverter::schemaNodeToRuleBody</definition>
+        <argsstring>(const json &amp;schema, const std::string &amp;rule_prefix, std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;new_rules)</argsstring>
+        <name>schemaNodeToRuleBody</name>
+        <qualifiedname>themis::llm::JsonSchemaConverter::schemaNodeToRuleBody</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_prefix</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>new_rules</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/json_schema_converter.h" line="64" column="24" bodyfile="src/llm/json_schema_converter.cpp" bodystart="89" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_json_schema_converter_1a3691d4b4e5067cc38f1bf3c049266b19" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::JsonSchemaConverter::escapeGbnfString</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>escapeGbnfString</name>
+        <qualifiedname>themis::llm::JsonSchemaConverter::escapeGbnfString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Escape a plain-text property name for embedding inside a GBNF literal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Escape Gbnf String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/json_schema_converter.h" line="74" column="24" bodyfile="src/llm/json_schema_converter.cpp" bodystart="50" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_json_schema_converter_1ad64881a67950283f7157b54670afcdf0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::JsonSchemaConverter::sanitizeRuleName</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>sanitizeRuleName</name>
+        <qualifiedname>themis::llm::JsonSchemaConverter::sanitizeRuleName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Sanitize an arbitrary string for use as a GBNF rule name identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sanitize Rule Name.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), std::isalnum(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/json_schema_converter.h" line="81" column="24" bodyfile="src/llm/json_schema_converter.cpp" bodystart="72" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/json_schema_converter.h" line="35" column="1" bodyfile="include/llm/json_schema_converter.h" bodystart="35" bodyend="82"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_json_schema_converter_1a3691d4b4e5067cc38f1bf3c049266b19" prot="private" virt="non-virtual"><scope>themis::llm::JsonSchemaConverter</scope><name>escapeGbnfString</name></member>
+      <member refid="classthemis_1_1llm_1_1_json_schema_converter_1a5175d6f744805ce72c0a7313c0f4c300" prot="public" virt="non-virtual"><scope>themis::llm::JsonSchemaConverter</scope><name>kMaxGrammarBytes</name></member>
+      <member refid="classthemis_1_1llm_1_1_json_schema_converter_1a60121933a26806799bfbdc8133c0fc79" prot="public" virt="non-virtual"><scope>themis::llm::JsonSchemaConverter</scope><name>parseToolCall</name></member>
+      <member refid="classthemis_1_1llm_1_1_json_schema_converter_1ad64881a67950283f7157b54670afcdf0" prot="private" virt="non-virtual"><scope>themis::llm::JsonSchemaConverter</scope><name>sanitizeRuleName</name></member>
+      <member refid="classthemis_1_1llm_1_1_json_schema_converter_1a993ac03f1697a25352c66aad4126ad60" prot="private" virt="non-virtual"><scope>themis::llm::JsonSchemaConverter</scope><name>schemaNodeToRuleBody</name></member>
+      <member refid="classthemis_1_1llm_1_1_json_schema_converter_1a175b335de3eee15ea342f8d89df0ce6f" prot="public" virt="non-virtual"><scope>themis::llm::JsonSchemaConverter</scope><name>schemaToEbnf</name></member>
+      <member refid="classthemis_1_1llm_1_1_json_schema_converter_1a9e26584abbf3f4bda29b432af4214f28" prot="public" virt="non-virtual"><scope>themis::llm::JsonSchemaConverter</scope><name>toolsToEbnf</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

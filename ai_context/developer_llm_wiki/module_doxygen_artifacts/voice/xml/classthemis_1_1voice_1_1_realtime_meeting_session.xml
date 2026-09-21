@@ -1,0 +1,502 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_realtime_meeting_session" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::RealtimeMeetingSession</compoundname>
+    <includes refid="voice__meeting__support_8h" local="no">voice_meeting_support.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_realtime_meeting_session_1a4abecc94333e456c15730fe8b7eadefb" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::voice::RealtimeMeetingSession::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::voice::RealtimeMeetingSession::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="259" column="24" bodyfile="include/voice/voice_meeting_support.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_realtime_meeting_session_1a3613c625c206de2a45cd5843d29214f7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_meeting_support_config" kindref="compound">MeetingSupportConfig</ref></type>
+        <definition>MeetingSupportConfig themis::voice::RealtimeMeetingSession::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::voice::RealtimeMeetingSession::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="260" column="26" bodyfile="include/voice/voice_meeting_support.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_realtime_meeting_session_1adfe620f80a73046cd1fb5387208bf9cf" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_meeting_protocol" kindref="compound">MeetingProtocol</ref></type>
+        <definition>MeetingProtocol themis::voice::RealtimeMeetingSession::protocol_</definition>
+        <argsstring></argsstring>
+        <name>protocol_</name>
+        <qualifiedname>themis::voice::RealtimeMeetingSession::protocol_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="261" column="21" bodyfile="include/voice/voice_meeting_support.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_realtime_meeting_session_1a4a4f9bdf37e16a0f3c81d2892952c6c9" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::RealtimeMeetingSession::finalized_</definition>
+        <argsstring></argsstring>
+        <name>finalized_</name>
+        <qualifiedname>themis::voice::RealtimeMeetingSession::finalized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="262" column="10" bodyfile="include/voice/voice_meeting_support.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_realtime_meeting_session_1a8d7025bbd5074358a8cb67ab39d6d2c4" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_voice_meeting_support" kindref="compound">VoiceMeetingSupport</ref></type>
+        <definition>VoiceMeetingSupport themis::voice::RealtimeMeetingSession::support_</definition>
+        <argsstring></argsstring>
+        <name>support_</name>
+        <qualifiedname>themis::voice::RealtimeMeetingSession::support_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="265" column="25" bodyfile="include/voice/voice_meeting_support.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_realtime_meeting_session_1a60933f17b97775d88f4a5516e7f30c7d" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a0dd039d4acc711338b91837d73e6f05e" kindref="member">ActionItemCallback</ref></type>
+        <definition>ActionItemCallback themis::voice::RealtimeMeetingSession::on_action_item_</definition>
+        <argsstring></argsstring>
+        <name>on_action_item_</name>
+        <qualifiedname>themis::voice::RealtimeMeetingSession::on_action_item_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="266" column="24" bodyfile="include/voice/voice_meeting_support.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_realtime_meeting_session_1a1f5f8ca87b4c45f3f44a8caf72139ef8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::RealtimeMeetingSession::RealtimeMeetingSession</definition>
+        <argsstring>(const std::string &amp;meeting_id=&quot;&quot;, const std::vector&lt; std::string &gt; &amp;participants={}, const MeetingSupportConfig &amp;config={}, ActionItemCallback on_action_item=nullptr)</argsstring>
+        <name>RealtimeMeetingSession</name>
+        <qualifiedname>themis::voice::RealtimeMeetingSession::RealtimeMeetingSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>meeting_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>participants</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_meeting_support_config" kindref="compound">MeetingSupportConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1voice_1a0dd039d4acc711338b91837d73e6f05e" kindref="member">ActionItemCallback</ref></type>
+          <declname>on_action_item</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>meeting_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique identifier for this meeting session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>participants</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Known participant names for assignee extraction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared <ref refid="structthemis_1_1voice_1_1_meeting_support_config" kindref="compound">MeetingSupportConfig</ref> (triggers, limits, etc.). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>on_action_item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional callback invoked for each new <ref refid="structthemis_1_1voice_1_1_action_item" kindref="compound">ActionItem</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="201" column="14" bodyfile="src/voice/voice_meeting_support.cpp" bodystart="372" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_realtime_meeting_session_1a8d2239f0cc1021edff7e01b53739f6ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::RealtimeMeetingSession::~RealtimeMeetingSession</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RealtimeMeetingSession</name>
+        <qualifiedname>themis::voice::RealtimeMeetingSession::~RealtimeMeetingSession</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="207" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_realtime_meeting_session_1a3e130db2d8ec4e0fcd41f15a2f52dcbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::RealtimeMeetingSession::RealtimeMeetingSession</definition>
+        <argsstring>(const RealtimeMeetingSession &amp;)=delete</argsstring>
+        <name>RealtimeMeetingSession</name>
+        <qualifiedname>themis::voice::RealtimeMeetingSession::RealtimeMeetingSession</qualifiedname>
+        <param>
+          <type>const RealtimeMeetingSession &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="210" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_realtime_meeting_session_1a845832668e02b3ac831d1fef13f2bbf2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a1f5f8ca87b4c45f3f44a8caf72139ef8" kindref="member">RealtimeMeetingSession</ref> &amp;</type>
+        <definition>RealtimeMeetingSession &amp; themis::voice::RealtimeMeetingSession::operator=</definition>
+        <argsstring>(const RealtimeMeetingSession &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::voice::RealtimeMeetingSession::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a1f5f8ca87b4c45f3f44a8caf72139ef8" kindref="member">RealtimeMeetingSession</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="211" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_realtime_meeting_session_1af92ad89465389e5574c9ae4c8079fe89" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::RealtimeMeetingSession::RealtimeMeetingSession</definition>
+        <argsstring>(RealtimeMeetingSession &amp;&amp;) noexcept=default</argsstring>
+        <name>RealtimeMeetingSession</name>
+        <qualifiedname>themis::voice::RealtimeMeetingSession::RealtimeMeetingSession</qualifiedname>
+        <param>
+          <type>RealtimeMeetingSession &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="212" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_realtime_meeting_session_1a585a8ffd5a13e0cf010b0b6fc46d7893" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a1f5f8ca87b4c45f3f44a8caf72139ef8" kindref="member">RealtimeMeetingSession</ref> &amp;</type>
+        <definition>RealtimeMeetingSession &amp; themis::voice::RealtimeMeetingSession::operator=</definition>
+        <argsstring>(RealtimeMeetingSession &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::voice::RealtimeMeetingSession::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a1f5f8ca87b4c45f3f44a8caf72139ef8" kindref="member">RealtimeMeetingSession</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="213" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_realtime_meeting_session_1a473b1a4fde0186d1bdcafffd439d91de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::RealtimeMeetingSession::addSegment</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;speaker=&quot;&quot;, int64_t start_ms=0, int64_t end_ms=0)</argsstring>
+        <name>addSegment</name>
+        <qualifiedname>themis::voice::RealtimeMeetingSession::addSegment</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>speaker</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>start_ms</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>end_ms</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Push a new transcript segment into the session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Segment.</para>
+<para>The segment text is classified and, if it matches action-item or decision triggers, the result is immediately extracted and appended to the protocol. The optional <ref refid="namespacethemis_1_1voice_1a0dd039d4acc711338b91837d73e6f05e" kindref="member">ActionItemCallback</ref> is fired for each newly extracted item.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transcript text for this segment. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>speaker</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Speaker label (may be empty if diarization is unavailable). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>start_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Segment start time in milliseconds (0 if unknown). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Segment end time in milliseconds (0 if unknown).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">speaker</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">start_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="227" column="10" bodyfile="src/voice/voice_meeting_support.cpp" bodystart="392" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_realtime_meeting_session_1ad6db5611b7c9018a90ce4e0a1e4c9cd8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_meeting_protocol" kindref="compound">MeetingProtocol</ref></type>
+        <definition>MeetingProtocol themis::voice::RealtimeMeetingSession::getCurrentProtocol</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentProtocol</name>
+        <qualifiedname>themis::voice::RealtimeMeetingSession::getCurrentProtocol</qualifiedname>
+        <briefdescription>
+<para>Return the current (in-progress) meeting protocol snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread-safe: may be called concurrently with <ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a473b1a4fde0186d1bdcafffd439d91de" kindref="member">addSegment()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="239" column="21" bodyfile="src/voice/voice_meeting_support.cpp" bodystart="469" bodyend="477"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_realtime_meeting_session_1a5ea18b771e0977ba855a85d2f8728726" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_meeting_protocol" kindref="compound">MeetingProtocol</ref></type>
+        <definition>MeetingProtocol themis::voice::RealtimeMeetingSession::finalize</definition>
+        <argsstring>()</argsstring>
+        <name>finalize</name>
+        <qualifiedname>themis::voice::RealtimeMeetingSession::finalize</qualifiedname>
+        <briefdescription>
+<para>Mark the session as complete and return the final <ref refid="structthemis_1_1voice_1_1_meeting_protocol" kindref="compound">MeetingProtocol</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Finalize.</para>
+<para>Runs extractKeyPoints() on the accumulated full_transcript and freezes the session. Subsequent calls to <ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a473b1a4fde0186d1bdcafffd439d91de" kindref="member">addSegment()</ref> after <ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a5ea18b771e0977ba855a85d2f8728726" kindref="member">finalize()</ref> are silently ignored.</para>
+<para><simplesect kind="return"><para>The completed <ref refid="structthemis_1_1voice_1_1_meeting_protocol" kindref="compound">MeetingProtocol</ref>.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), extractKeyPoints(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="250" column="21" bodyfile="src/voice/voice_meeting_support.cpp" bodystart="484" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_realtime_meeting_session_1a8d74ea56de112ff2724bbdf81eed6be1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::RealtimeMeetingSession::isFinalized</definition>
+        <argsstring>() const</argsstring>
+        <name>isFinalized</name>
+        <qualifiedname>themis::voice::RealtimeMeetingSession::isFinalized</qualifiedname>
+        <briefdescription>
+<para>Returns true once <ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a5ea18b771e0977ba855a85d2f8728726" kindref="member">finalize()</ref> has been called. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="253" column="10" bodyfile="src/voice/voice_meeting_support.cpp" bodystart="494" bodyend="502"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_realtime_meeting_session_1a5ecda66175efb91640d156a0919f1f0f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::voice::RealtimeMeetingSession::segmentCount</definition>
+        <argsstring>() const</argsstring>
+        <name>segmentCount</name>
+        <qualifiedname>themis::voice::RealtimeMeetingSession::segmentCount</qualifiedname>
+        <briefdescription>
+<para>Total number of segments received so far. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="256" column="12" bodyfile="src/voice/voice_meeting_support.cpp" bodystart="504" bodyend="512"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Real-time meeting transcription session with incremental action-item extraction. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Accepts transcript segments one-by-one as they arrive from a streaming STT source and extracts action items on-the-fly. The accumulated <ref refid="structthemis_1_1voice_1_1_meeting_protocol" kindref="compound">MeetingProtocol</ref> is available at any point via <ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1ad6db5611b7c9018a90ce4e0a1e4c9cd8" kindref="member">getCurrentProtocol()</ref>, and <ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a5ea18b771e0977ba855a85d2f8728726" kindref="member">finalize()</ref> returns the completed protocol once the meeting has ended.</para>
+<para>Thread-safety: <ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a473b1a4fde0186d1bdcafffd439d91de" kindref="member">addSegment()</ref> and <ref refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a5ea18b771e0977ba855a85d2f8728726" kindref="member">finalize()</ref> are protected by an internal mutex and may be called from separate threads (e.g. an STT callback thread). </para>
+    </detaileddescription>
+    <location file="include/voice/voice_meeting_support.h" line="193" column="1" bodyfile="include/voice/voice_meeting_support.h" bodystart="193" bodyend="267"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a473b1a4fde0186d1bdcafffd439d91de" prot="public" virt="non-virtual"><scope>themis::voice::RealtimeMeetingSession</scope><name>addSegment</name></member>
+      <member refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a3613c625c206de2a45cd5843d29214f7" prot="private" virt="non-virtual"><scope>themis::voice::RealtimeMeetingSession</scope><name>config_</name></member>
+      <member refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a5ea18b771e0977ba855a85d2f8728726" prot="public" virt="non-virtual"><scope>themis::voice::RealtimeMeetingSession</scope><name>finalize</name></member>
+      <member refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a4a4f9bdf37e16a0f3c81d2892952c6c9" prot="private" virt="non-virtual"><scope>themis::voice::RealtimeMeetingSession</scope><name>finalized_</name></member>
+      <member refid="classthemis_1_1voice_1_1_realtime_meeting_session_1ad6db5611b7c9018a90ce4e0a1e4c9cd8" prot="public" virt="non-virtual"><scope>themis::voice::RealtimeMeetingSession</scope><name>getCurrentProtocol</name></member>
+      <member refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a8d74ea56de112ff2724bbdf81eed6be1" prot="public" virt="non-virtual"><scope>themis::voice::RealtimeMeetingSession</scope><name>isFinalized</name></member>
+      <member refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a4abecc94333e456c15730fe8b7eadefb" prot="private" virt="non-virtual"><scope>themis::voice::RealtimeMeetingSession</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a60933f17b97775d88f4a5516e7f30c7d" prot="private" virt="non-virtual"><scope>themis::voice::RealtimeMeetingSession</scope><name>on_action_item_</name></member>
+      <member refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a845832668e02b3ac831d1fef13f2bbf2" prot="public" virt="non-virtual"><scope>themis::voice::RealtimeMeetingSession</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a585a8ffd5a13e0cf010b0b6fc46d7893" prot="public" virt="non-virtual"><scope>themis::voice::RealtimeMeetingSession</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1voice_1_1_realtime_meeting_session_1adfe620f80a73046cd1fb5387208bf9cf" prot="private" virt="non-virtual"><scope>themis::voice::RealtimeMeetingSession</scope><name>protocol_</name></member>
+      <member refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a1f5f8ca87b4c45f3f44a8caf72139ef8" prot="public" virt="non-virtual"><scope>themis::voice::RealtimeMeetingSession</scope><name>RealtimeMeetingSession</name></member>
+      <member refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a3e130db2d8ec4e0fcd41f15a2f52dcbc" prot="public" virt="non-virtual"><scope>themis::voice::RealtimeMeetingSession</scope><name>RealtimeMeetingSession</name></member>
+      <member refid="classthemis_1_1voice_1_1_realtime_meeting_session_1af92ad89465389e5574c9ae4c8079fe89" prot="public" virt="non-virtual"><scope>themis::voice::RealtimeMeetingSession</scope><name>RealtimeMeetingSession</name></member>
+      <member refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a5ecda66175efb91640d156a0919f1f0f" prot="public" virt="non-virtual"><scope>themis::voice::RealtimeMeetingSession</scope><name>segmentCount</name></member>
+      <member refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a8d7025bbd5074358a8cb67ab39d6d2c4" prot="private" virt="non-virtual"><scope>themis::voice::RealtimeMeetingSession</scope><name>support_</name></member>
+      <member refid="classthemis_1_1voice_1_1_realtime_meeting_session_1a8d2239f0cc1021edff7e01b53739f6ba" prot="public" virt="non-virtual"><scope>themis::voice::RealtimeMeetingSession</scope><name>~RealtimeMeetingSession</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

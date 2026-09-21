@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rag_1_1kg" kind="namespace" language="C++">
+    <compoundname>themis::rag::kg</compoundname>
+    <innerclass refid="structthemis_1_1rag_1_1kg_1_1_entity" prot="public">themis::rag::kg::Entity</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1kg_1_1_entity_linker" prot="public">themis::rag::kg::EntityLinker</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1kg_1_1_entity_linker_config" prot="public">themis::rag::kg::EntityLinkerConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1kg_1_1_entity_linking_match" prot="public">themis::rag::kg::EntityLinkingMatch</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document" prot="public">themis::rag::kg::KGAugmentedDocument</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1kg_1_1_k_g_edge" prot="public">themis::rag::kg::KGEdge</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1kg_1_1_k_g_node" prot="public">themis::rag::kg::KGNode</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1kg_1_1_k_g_retrieval_result" prot="public">themis::rag::kg::KGRetrievalResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config" prot="public">themis::rag::kg::KGRetrieverConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" prot="public">themis::rag::kg::KnowledgeGraph</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_adapter" prot="public">themis::rag::kg::KnowledgeGraphAdapter</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever" prot="public">themis::rag::kg::KnowledgeGraphRetriever</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory" prot="public">themis::rag::kg::KnowledgeGraphRetrieverFactory</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EntityType</name>
+        <qualifiedname>themis::rag::kg::EntityType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da9a8538fe173720857a031b8314073752" prot="public">
+          <name>PERSON</name>
+          <briefdescription>
+<para>A human individual. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142daf3522949598e347ab47b71014bfc87c9" prot="public">
+          <name>ORGANIZATION</name>
+          <briefdescription>
+<para>Company, institute, government body. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da71233d73cc90bba8f4d5bbea0792e551" prot="public">
+          <name>LOCATION</name>
+          <briefdescription>
+<para>Geographical location, place. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da7b01b9814e77b3f808c6ddb9ffa1b666" prot="public">
+          <name>CONCEPT</name>
+          <briefdescription>
+<para>Abstract idea, algorithm, topic. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da2544e5b1e7659a7ba6f06444cc03d066" prot="public">
+          <name>PRODUCT</name>
+          <briefdescription>
+<para>Software, hardware, brand. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da030d962d0faa148f02848881a3b4fdb6" prot="public">
+          <name>EVENT</name>
+          <briefdescription>
+<para>Named event (conference, release, …). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da03570470bad94692ce93e32700d2e1cb" prot="public">
+          <name>OTHER</name>
+          <briefdescription>
+<para>Catch-all for unclassified entities. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Coarse category of a named entity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="35" column="1" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="35" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RelationType</name>
+        <qualifiedname>themis::rag::kg::RelationType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7a0f8e760479875090ac675edbc8f05295" prot="public">
+          <name>IS_A</name>
+          <briefdescription>
+<para>Subtype / instance-of relationship. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7a02fca659d4589a863a75a3853ab3a2e2" prot="public">
+          <name>HAS_PART</name>
+          <briefdescription>
+<para>Meronymy (X has-part Y). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7af37175f0a7b09454894406e66c907588" prot="public">
+          <name>RELATED_TO</name>
+          <briefdescription>
+<para>Generic semantic relatedness. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7a4709fb27483f43335cd636001a23c6da" prot="public">
+          <name>CAUSES</name>
+          <briefdescription>
+<para>Causal link (X causes Y). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7aee1eea697a0b2ab5356b0eaeaafe7555" prot="public">
+          <name>MENTIONS</name>
+          <briefdescription>
+<para>Document-level mention link. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7a39e654400468f5e4de25adbfd79bd303" prot="public">
+          <name>SYNONYM_OF</name>
+          <briefdescription>
+<para>Lexical synonymy. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1kg_1a1c99ffaa7f64149541f4cbd0cd4b6bc7a488085395e3c08ef08c00151ce6187b1" prot="public">
+          <name>DEFINED_BY</name>
+          <briefdescription>
+<para>X is defined / described by Y. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Directed relation type between two knowledge-graph nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="48" column="1" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="48" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1rag_1_1kg_1a2970f0c8e21060f995c39248c88e5c92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; IKnowledgeGraph &gt;</type>
+        <definition>std::shared_ptr&lt; IKnowledgeGraph &gt; themis::rag::kg::makeIKnowledgeGraph</definition>
+        <argsstring>(const KnowledgeGraph &amp;kg)</argsstring>
+        <name>makeIKnowledgeGraph</name>
+        <qualifiedname>themis::rag::kg::makeIKnowledgeGraph</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref> &amp;</type>
+          <declname>kg</declname>
+        </param>
+        <briefdescription>
+<para>Make IKnowledge Graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements makeIKnowledgeGraph without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/kg/knowledge_graph_adapter.cpp" line="51" column="17" bodyfile="src/rag/kg/knowledge_graph_adapter.cpp" bodystart="51" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/knowledge_graph_retriever.h" line="17" column="1"/>
+  </compounddef>
+</doxygen>

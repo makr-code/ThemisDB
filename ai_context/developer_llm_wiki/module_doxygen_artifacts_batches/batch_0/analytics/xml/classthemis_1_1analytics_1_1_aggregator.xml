@@ -1,0 +1,376 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1_aggregator" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::Aggregator</compoundname>
+    <includes refid="aggregation_8h" local="no">aggregation.h</includes>
+    <innerclass refid="structthemis_1_1analytics_1_1_aggregator_1_1_acc_state" prot="private">themis::analytics::Aggregator::AccState</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_aggregator_1_1_group_state" prot="private">themis::analytics::Aggregator::GroupState</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_aggregator_1a18596d93b14a3fee87400ee88663e171" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::analytics::Aggregator::group_by_columns_</definition>
+        <argsstring></argsstring>
+        <name>group_by_columns_</name>
+        <qualifiedname>themis::analytics::Aggregator::group_by_columns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="142" column="18" bodyfile="include/analytics/aggregation.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_aggregator_1ad5f3a9396c84bfbc5c820ba9189c61ca" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_aggregate_spec" kindref="compound">AggregateSpec</ref> &gt;</type>
+        <definition>std::vector&lt;AggregateSpec&gt; themis::analytics::Aggregator::agg_specs_</definition>
+        <argsstring></argsstring>
+        <name>agg_specs_</name>
+        <qualifiedname>themis::analytics::Aggregator::agg_specs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="143" column="17" bodyfile="include/analytics/aggregation.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_aggregator_1a57a4a3ed5c914448e1eedf5375a8cf67" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1analytics_1a1f6f884fdbe3e5a8f8dcfb9d34b45b0c" kindref="member">GroupKey</ref>, GroupState &gt;</type>
+        <definition>std::unordered_map&lt;GroupKey, GroupState&gt; themis::analytics::Aggregator::groups_</definition>
+        <argsstring></argsstring>
+        <name>groups_</name>
+        <qualifiedname>themis::analytics::Aggregator::groups_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="144" column="24" bodyfile="include/analytics/aggregation.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_aggregator_1a1d0a8b92c0d64ac1f8b99154aa467c3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::Aggregator::Aggregator</definition>
+        <argsstring>(std::vector&lt; std::string &gt; group_by_columns, std::vector&lt; AggregateSpec &gt; agg_specs)</argsstring>
+        <name>Aggregator</name>
+        <qualifiedname>themis::analytics::Aggregator::Aggregator</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>group_by_columns</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_aggregate_spec" kindref="compound">AggregateSpec</ref> &gt;</type>
+          <declname>agg_specs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="104" column="5" bodyfile="src/analytics/aggregation.cpp" bodystart="90" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_aggregator_1ab50cbeef0dd4f561a7b94396448533c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::Aggregator::~Aggregator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Aggregator</name>
+        <qualifiedname>themis::analytics::Aggregator::~Aggregator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="107" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_aggregator_1aa2dcc1163af11a2c8b2a8a411212f65a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::Aggregator::Aggregator</definition>
+        <argsstring>(const Aggregator &amp;)=delete</argsstring>
+        <name>Aggregator</name>
+        <qualifiedname>themis::analytics::Aggregator::Aggregator</qualifiedname>
+        <param>
+          <type>const Aggregator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="109" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_aggregator_1a8f307587666db17dbbb9d44eb370911a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1analytics_1_1_aggregator_1a1d0a8b92c0d64ac1f8b99154aa467c3b" kindref="member">Aggregator</ref> &amp;</type>
+        <definition>Aggregator &amp; themis::analytics::Aggregator::operator=</definition>
+        <argsstring>(const Aggregator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::analytics::Aggregator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1analytics_1_1_aggregator_1a1d0a8b92c0d64ac1f8b99154aa467c3b" kindref="member">Aggregator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="110" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_aggregator_1ac71e8e3cd134adb05b1a8f1e67cffd8c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::Aggregator::Aggregator</definition>
+        <argsstring>(Aggregator &amp;&amp;) noexcept=default</argsstring>
+        <name>Aggregator</name>
+        <qualifiedname>themis::analytics::Aggregator::Aggregator</qualifiedname>
+        <param>
+          <type>Aggregator &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="111" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_aggregator_1a14dbee81af3f4d746ccf65e2124b0bdc" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1analytics_1_1_aggregator_1a1d0a8b92c0d64ac1f8b99154aa467c3b" kindref="member">Aggregator</ref> &amp;</type>
+        <definition>Aggregator &amp; themis::analytics::Aggregator::operator=</definition>
+        <argsstring>(Aggregator &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::analytics::Aggregator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1_aggregator_1a1d0a8b92c0d64ac1f8b99154aa467c3b" kindref="member">Aggregator</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="112" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_aggregator_1a1544bdaf09124116d0a78fd598145176" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::Aggregator::feed</definition>
+        <argsstring>(const AggregationRow &amp;row)</argsstring>
+        <name>feed</name>
+        <qualifiedname>themis::analytics::Aggregator::feed</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1analytics_1a8e2030c50dde352cea9922af1d5fad76" kindref="member">AggregationRow</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+<para>Feed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> <ref refid="classthemis_1_1analytics_1_1_aggregator_1a1544bdaf09124116d0a78fd598145176" kindref="member">Aggregator::feed</ref> ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="118" column="10" bodyfile="src/analytics/aggregation.cpp" bodystart="254" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_aggregator_1a8be39e4faf80be932ea5c4c42ae1745e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_aggregation_result" kindref="compound">AggregationResult</ref></type>
+        <definition>AggregationResult themis::analytics::Aggregator::finalise</definition>
+        <argsstring>()</argsstring>
+        <name>finalise</name>
+        <qualifiedname>themis::analytics::Aggregator::finalise</qualifiedname>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> <ref refid="classthemis_1_1analytics_1_1_aggregator_1a8be39e4faf80be932ea5c4c42ae1745e" kindref="member">Aggregator::finalise</ref> ------------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="120" column="24" bodyfile="src/analytics/aggregation.cpp" bodystart="302" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_aggregator_1af92e294778dc8a678334f6c2405ebb50" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::analytics::Aggregator::group_count</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>group_count</name>
+        <qualifiedname>themis::analytics::Aggregator::group_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="122" column="18" bodyfile="src/analytics/aggregation.cpp" bodystart="292" bodyend="295"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_aggregator_1a3038834a12b422b43924703a00e16615" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1analytics_1a1f6f884fdbe3e5a8f8dcfb9d34b45b0c" kindref="member">GroupKey</ref></type>
+        <definition>GroupKey themis::analytics::Aggregator::make_key</definition>
+        <argsstring>(const AggregationRow &amp;row) const</argsstring>
+        <name>make_key</name>
+        <qualifiedname>themis::analytics::Aggregator::make_key</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1analytics_1a8e2030c50dde352cea9922af1d5fad76" kindref="member">AggregationRow</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+<para>Make key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="151" column="14" bodyfile="src/analytics/aggregation.cpp" bodystart="107" bodyend="139"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_aggregator_1a26fd0add88ef7c1ab0d4dd02582b3f43" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::Aggregator::accumulate</definition>
+        <argsstring>(AccState &amp;acc, AggregateFunction fn, const AggValue &amp;val)</argsstring>
+        <name>accumulate</name>
+        <qualifiedname>themis::analytics::Aggregator::accumulate</qualifiedname>
+        <param>
+          <type>AccState &amp;</type>
+          <declname>acc</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93" kindref="member">AggregateFunction</ref></type>
+          <declname>fn</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1analytics_1a61baafb8f0f6350d9096e02ef1bc7244" kindref="member">AggValue</ref> &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Accumulate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> Aggregator::accumulate ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">acc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="159" column="17" bodyfile="src/analytics/aggregation.cpp" bodystart="148" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_aggregator_1a2eb1b87fd78bad7ada85d678b290442f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1analytics_1a61baafb8f0f6350d9096e02ef1bc7244" kindref="member">AggValue</ref></type>
+        <definition>AggValue themis::analytics::Aggregator::extract</definition>
+        <argsstring>(const AccState &amp;acc, AggregateFunction fn)</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::analytics::Aggregator::extract</qualifiedname>
+        <param>
+          <type>const AccState &amp;</type>
+          <declname>acc</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93" kindref="member">AggregateFunction</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Extract. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> Aggregator::extract ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">acc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="168" column="21" bodyfile="src/analytics/aggregation.cpp" bodystart="223" bodyend="247"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/aggregation.h" line="102" column="1" bodyfile="include/analytics/aggregation.h" bodystart="102" bodyend="169"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1_aggregator_1a26fd0add88ef7c1ab0d4dd02582b3f43" prot="private" virt="non-virtual"><scope>themis::analytics::Aggregator</scope><name>accumulate</name></member>
+      <member refid="classthemis_1_1analytics_1_1_aggregator_1ad5f3a9396c84bfbc5c820ba9189c61ca" prot="private" virt="non-virtual"><scope>themis::analytics::Aggregator</scope><name>agg_specs_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_aggregator_1a1d0a8b92c0d64ac1f8b99154aa467c3b" prot="public" virt="non-virtual"><scope>themis::analytics::Aggregator</scope><name>Aggregator</name></member>
+      <member refid="classthemis_1_1analytics_1_1_aggregator_1aa2dcc1163af11a2c8b2a8a411212f65a" prot="public" virt="non-virtual"><scope>themis::analytics::Aggregator</scope><name>Aggregator</name></member>
+      <member refid="classthemis_1_1analytics_1_1_aggregator_1ac71e8e3cd134adb05b1a8f1e67cffd8c" prot="public" virt="non-virtual"><scope>themis::analytics::Aggregator</scope><name>Aggregator</name></member>
+      <member refid="classthemis_1_1analytics_1_1_aggregator_1a2eb1b87fd78bad7ada85d678b290442f" prot="private" virt="non-virtual"><scope>themis::analytics::Aggregator</scope><name>extract</name></member>
+      <member refid="classthemis_1_1analytics_1_1_aggregator_1a1544bdaf09124116d0a78fd598145176" prot="public" virt="non-virtual"><scope>themis::analytics::Aggregator</scope><name>feed</name></member>
+      <member refid="classthemis_1_1analytics_1_1_aggregator_1a8be39e4faf80be932ea5c4c42ae1745e" prot="public" virt="non-virtual"><scope>themis::analytics::Aggregator</scope><name>finalise</name></member>
+      <member refid="classthemis_1_1analytics_1_1_aggregator_1a18596d93b14a3fee87400ee88663e171" prot="private" virt="non-virtual"><scope>themis::analytics::Aggregator</scope><name>group_by_columns_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_aggregator_1af92e294778dc8a678334f6c2405ebb50" prot="public" virt="non-virtual"><scope>themis::analytics::Aggregator</scope><name>group_count</name></member>
+      <member refid="classthemis_1_1analytics_1_1_aggregator_1a57a4a3ed5c914448e1eedf5375a8cf67" prot="private" virt="non-virtual"><scope>themis::analytics::Aggregator</scope><name>groups_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_aggregator_1a3038834a12b422b43924703a00e16615" prot="private" virt="non-virtual"><scope>themis::analytics::Aggregator</scope><name>make_key</name></member>
+      <member refid="classthemis_1_1analytics_1_1_aggregator_1a8f307587666db17dbbb9d44eb370911a" prot="public" virt="non-virtual"><scope>themis::analytics::Aggregator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1analytics_1_1_aggregator_1a14dbee81af3f4d746ccf65e2124b0bdc" prot="public" virt="non-virtual"><scope>themis::analytics::Aggregator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1analytics_1_1_aggregator_1ab50cbeef0dd4f561a7b94396448533c9" prot="public" virt="non-virtual"><scope>themis::analytics::Aggregator</scope><name>~Aggregator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

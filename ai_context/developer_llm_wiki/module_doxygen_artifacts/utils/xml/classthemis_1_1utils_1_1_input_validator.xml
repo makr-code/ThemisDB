@@ -1,0 +1,565 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_input_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::InputValidator</compoundname>
+    <includes refid="input__validator_8h" local="no">input_validator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_input_validator_1a0f4e9503ff89d72676a9a488cd46db8e" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::InputValidator::schema_dir_</definition>
+        <argsstring></argsstring>
+        <name>schema_dir_</name>
+        <qualifiedname>themis::utils::InputValidator::schema_dir_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="146" column="17" bodyfile="include/utils/input_validator.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1aa5611eeae4be9f76c09e0757b60c2a4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::InputValidator::InputValidator</definition>
+        <argsstring>()</argsstring>
+        <name>InputValidator</name>
+        <qualifiedname>themis::utils::InputValidator::InputValidator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="27" column="5" bodyfile="src/utils/input_validator.cpp" bodystart="29" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1a0bcdeb474b4584250130116e35872a02" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::InputValidator::InputValidator</definition>
+        <argsstring>(std::string schema_dir)</argsstring>
+        <name>InputValidator</name>
+        <qualifiedname>themis::utils::InputValidator::InputValidator</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>schema_dir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="29" column="14" bodyfile="src/utils/input_validator.cpp" bodystart="32" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1ae3f44d4907d448caebabd34b2628610c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::utils::InputValidator::validateJsonSchema</definition>
+        <argsstring>(const nlohmann::json &amp;payload, const std::string &amp;schema_name) const</argsstring>
+        <name>validateJsonSchema</name>
+        <qualifiedname>themis::utils::InputValidator::validateJsonSchema</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s_warned_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="39" column="19" bodyfile="src/utils/input_validator.cpp" bodystart="316" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1ab907939846add27480a434b258d28899" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::utils::InputValidator::validateJsonStub</definition>
+        <argsstring>(const nlohmann::json &amp;payload, const std::string &amp;schema_name) const</argsstring>
+        <name>validateJsonStub</name>
+        <qualifiedname>themis::utils::InputValidator::validateJsonStub</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="45" column="19" bodyfile="src/utils/input_validator.cpp" bodystart="355" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1a487e229d64bdf677bfc723f172c65a06" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::utils::InputValidator::validateAqlRequest</definition>
+        <argsstring>(const nlohmann::json &amp;payload) const</argsstring>
+        <name>validateAqlRequest</name>
+        <qualifiedname>themis::utils::InputValidator::validateAqlRequest</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="60" column="19" bodyfile="src/utils/input_validator.cpp" bodystart="362" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1ad79f9b63111e7c14de307fd27b6ed819" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::InputValidator::validatePathSegment</definition>
+        <argsstring>(const std::string &amp;segment) const</argsstring>
+        <name>validatePathSegment</name>
+        <qualifiedname>themis::utils::InputValidator::validatePathSegment</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>segment</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="63" column="10" bodyfile="src/utils/input_validator.cpp" bodystart="91" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1a392372234189f1b5f355becd31530983" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::InputValidator::sanitizeForLogs</definition>
+        <argsstring>(const std::string &amp;input, size_t max_len=512) const</argsstring>
+        <name>sanitizeForLogs</name>
+        <qualifiedname>themis::utils::InputValidator::sanitizeForLogs</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_len</declname>
+          <defval>512</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="66" column="17" bodyfile="src/utils/input_validator.cpp" bodystart="77" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1a0488e62e0b77bbaba763d535566a60b6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::utils::InputValidator::schemaDir</definition>
+        <argsstring>() const</argsstring>
+        <name>schemaDir</name>
+        <qualifiedname>themis::utils::InputValidator::schemaDir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="69" column="23" bodyfile="include/utils/input_validator.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1a368e34a96547031cf0b9d63e891f9556" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::InputValidator::validateAQLQuery</definition>
+        <argsstring>(const std::string &amp;query) const</argsstring>
+        <name>validateAQLQuery</name>
+        <qualifiedname>themis::utils::InputValidator::validateAQLQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="78" column="10" bodyfile="src/utils/input_validator.cpp" bodystart="432" bodyend="491"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1a992e13969e2939f0c321ed56d4508f5d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::InputValidator::validateFilePath</definition>
+        <argsstring>(const std::string &amp;path) const</argsstring>
+        <name>validateFilePath</name>
+        <qualifiedname>themis::utils::InputValidator::validateFilePath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="83" column="10" bodyfile="src/utils/input_validator.cpp" bodystart="493" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1a1041b3181b3c672a5dbaa58320969e61" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::InputValidator::sanitizeForHTML</definition>
+        <argsstring>(const std::string &amp;input) const</argsstring>
+        <name>sanitizeForHTML</name>
+        <qualifiedname>themis::utils::InputValidator::sanitizeForHTML</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="89" column="17" bodyfile="src/utils/input_validator.cpp" bodystart="539" bodyend="570"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1a1cca6fcb27e8d811a839789bb1b10103" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::InputValidator::validateFilename</definition>
+        <argsstring>(const std::string &amp;filename) const</argsstring>
+        <name>validateFilename</name>
+        <qualifiedname>themis::utils::InputValidator::validateFilename</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="94" column="10" bodyfile="src/utils/input_validator.cpp" bodystart="572" bodyend="592"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1a04113da39f24019ebcfe7c0828402d70" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::InputValidator::validateJSON</definition>
+        <argsstring>(const std::string &amp;input) const</argsstring>
+        <name>validateJSON</name>
+        <qualifiedname>themis::utils::InputValidator::validateJSON</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="99" column="10" bodyfile="src/utils/input_validator.cpp" bodystart="594" bodyend="618"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1a78f2412e2ce9e9cd4e7026aff3948abf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::InputValidator::validateXML</definition>
+        <argsstring>(const std::string &amp;input) const</argsstring>
+        <name>validateXML</name>
+        <qualifiedname>themis::utils::InputValidator::validateXML</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="104" column="10" bodyfile="src/utils/input_validator.cpp" bodystart="620" bodyend="641"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1a7b1f6436abfd0e4e82635b6fdea1b242" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::InputValidator::validateLDAPFilter</definition>
+        <argsstring>(const std::string &amp;input) const</argsstring>
+        <name>validateLDAPFilter</name>
+        <qualifiedname>themis::utils::InputValidator::validateLDAPFilter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="109" column="10" bodyfile="src/utils/input_validator.cpp" bodystart="643" bodyend="651"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1a41fa09e5e8e870d2d1892d620117b7de" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::InputValidator::validateEmail</definition>
+        <argsstring>(const std::string &amp;email) const</argsstring>
+        <name>validateEmail</name>
+        <qualifiedname>themis::utils::InputValidator::validateEmail</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>email</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="114" column="10" bodyfile="src/utils/input_validator.cpp" bodystart="653" bodyend="690"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1a56f430a4020c822669631783dd2210f8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::InputValidator::validateURL</definition>
+        <argsstring>(const std::string &amp;url, const std::vector&lt; std::string &gt; &amp;allowed_schemes) const</argsstring>
+        <name>validateURL</name>
+        <qualifiedname>themis::utils::InputValidator::validateURL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>allowed_schemes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="120" column="10" bodyfile="src/utils/input_validator.cpp" bodystart="692" bodyend="766"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1a245176b6889fe35269eccff851a3934f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::InputValidator::validateStringLength</definition>
+        <argsstring>(const std::string &amp;input, size_t max_len) const</argsstring>
+        <name>validateStringLength</name>
+        <qualifiedname>themis::utils::InputValidator::validateStringLength</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_len</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="125" column="10" bodyfile="src/utils/input_validator.cpp" bodystart="768" bodyend="770"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1a1998b8d1fca806d220797b432a13410a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::InputValidator::validateIntegerRange</definition>
+        <argsstring>(int64_t value, int64_t min_val, int64_t max_val) const</argsstring>
+        <name>validateIntegerRange</name>
+        <qualifiedname>themis::utils::InputValidator::validateIntegerRange</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>min_val</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>max_val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="129" column="10" bodyfile="src/utils/input_validator.cpp" bodystart="772" bodyend="776"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1a360fc300dd2b3d7cd0b2d8e90f5b223f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::InputValidator::sanitizeLogMessage</definition>
+        <argsstring>(const std::string &amp;input) const</argsstring>
+        <name>sanitizeLogMessage</name>
+        <qualifiedname>themis::utils::InputValidator::sanitizeLogMessage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="133" column="17" bodyfile="src/utils/input_validator.cpp" bodystart="778" bodyend="794"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1a8f0b1d7d617fb45a8752ab26d8e9cf69" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::InputValidator::normalizeUnicode</definition>
+        <argsstring>(const std::string &amp;input) const</argsstring>
+        <name>normalizeUnicode</name>
+        <qualifiedname>themis::utils::InputValidator::normalizeUnicode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="138" column="17" bodyfile="src/utils/input_validator.cpp" bodystart="796" bodyend="831"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1a99b1d8a3d02e7d16762c635dbbcac61a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::InputValidator::validateHeaderValue</definition>
+        <argsstring>(const std::string &amp;value) const</argsstring>
+        <name>validateHeaderValue</name>
+        <qualifiedname>themis::utils::InputValidator::validateHeaderValue</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="143" column="10" bodyfile="src/utils/input_validator.cpp" bodystart="833" bodyend="860"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1ae0c451eebc47d4177df72ce6e1f30ad5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::utils::InputValidator::validateJson</definition>
+        <argsstring>(const nlohmann::json &amp;payload, const nlohmann::json &amp;schema)</argsstring>
+        <name>validateJson</name>
+        <qualifiedname>themis::utils::InputValidator::validateJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>schema</declname>
+        </param>
+        <briefdescription>
+<para>Validate Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), std::string(), contains(), is_string(), is_array(), begin(), end(), key(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="53" column="26" bodyfile="src/utils/input_validator.cpp" bodystart="245" bodyend="314"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_input_validator_1ab76cb80521d98c5b2cbc8f7be836289c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; nlohmann::json &gt;</type>
+        <definition>std::optional&lt; nlohmann::json &gt; themis::utils::InputValidator::loadSchema</definition>
+        <argsstring>(const std::string &amp;schema_name) const</argsstring>
+        <name>loadSchema</name>
+        <qualifiedname>themis::utils::InputValidator::loadSchema</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>In. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/input_validator.h" line="149" column="19" bodyfile="src/utils/input_validator.cpp" bodystart="35" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Validator for input. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/input_validator.h" line="24" column="1" bodyfile="include/utils/input_validator.h" bodystart="24" bodyend="150"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1aa5611eeae4be9f76c09e0757b60c2a4e" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>InputValidator</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1a0bcdeb474b4584250130116e35872a02" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>InputValidator</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1ab76cb80521d98c5b2cbc8f7be836289c" prot="private" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>loadSchema</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1a8f0b1d7d617fb45a8752ab26d8e9cf69" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>normalizeUnicode</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1a1041b3181b3c672a5dbaa58320969e61" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>sanitizeForHTML</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1a392372234189f1b5f355becd31530983" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>sanitizeForLogs</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1a360fc300dd2b3d7cd0b2d8e90f5b223f" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>sanitizeLogMessage</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1a0f4e9503ff89d72676a9a488cd46db8e" prot="private" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>schema_dir_</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1a0488e62e0b77bbaba763d535566a60b6" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>schemaDir</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1a368e34a96547031cf0b9d63e891f9556" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>validateAQLQuery</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1a487e229d64bdf677bfc723f172c65a06" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>validateAqlRequest</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1a41fa09e5e8e870d2d1892d620117b7de" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>validateEmail</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1a1cca6fcb27e8d811a839789bb1b10103" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>validateFilename</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1a992e13969e2939f0c321ed56d4508f5d" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>validateFilePath</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1a99b1d8a3d02e7d16762c635dbbcac61a" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>validateHeaderValue</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1a1998b8d1fca806d220797b432a13410a" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>validateIntegerRange</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1a04113da39f24019ebcfe7c0828402d70" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>validateJSON</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1ae0c451eebc47d4177df72ce6e1f30ad5" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>validateJson</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1ae3f44d4907d448caebabd34b2628610c" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>validateJsonSchema</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1ab907939846add27480a434b258d28899" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>validateJsonStub</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1a7b1f6436abfd0e4e82635b6fdea1b242" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>validateLDAPFilter</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1ad79f9b63111e7c14de307fd27b6ed819" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>validatePathSegment</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1a245176b6889fe35269eccff851a3934f" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>validateStringLength</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1a56f430a4020c822669631783dd2210f8" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>validateURL</name></member>
+      <member refid="classthemis_1_1utils_1_1_input_validator_1a78f2412e2ce9e9cd4e7026aff3948abf" prot="public" virt="non-virtual"><scope>themis::utils::InputValidator</scope><name>validateXML</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

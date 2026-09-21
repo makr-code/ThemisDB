@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_84a5ef24f710931b1b0f9079fc611caf" kind="dir">
+    <compoundname>src/image_analysis</compoundname>
+    <innerfile refid="tesseract__ocr__plugin_8cpp">tesseract_ocr_plugin.cpp</innerfile>
+    <innerfile refid="yolov8__onnx__plugin_8cpp">yolov8_onnx_plugin.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/image_analysis/"/>
+  </compounddef>
+</doxygen>

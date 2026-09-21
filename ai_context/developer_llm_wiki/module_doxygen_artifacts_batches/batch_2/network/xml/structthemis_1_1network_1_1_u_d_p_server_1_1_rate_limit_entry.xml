@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_u_d_p_server_1_1_rate_limit_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::network::UDPServer::RateLimitEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_rate_limit_entry_1abf41e4fe75db6b25d0e9dc7ed8f5531e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::UDPServer::RateLimitEntry::window_start_ms</definition>
+        <argsstring></argsstring>
+        <name>window_start_ms</name>
+        <qualifiedname>themis::network::UDPServer::RateLimitEntry::window_start_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="277" column="18" bodyfile="include/network/udp_server.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_server_1_1_rate_limit_entry_1a3ee03d7e1f9222ceecbd8ee83315c511" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::UDPServer::RateLimitEntry::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::network::UDPServer::RateLimitEntry::count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_server.h" line="278" column="18" bodyfile="include/network/udp_server.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/udp_server.h" line="276" column="5" bodyfile="include/network/udp_server.h" bodystart="276" bodyend="279"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_rate_limit_entry_1a3ee03d7e1f9222ceecbd8ee83315c511" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::RateLimitEntry</scope><name>count</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_server_1_1_rate_limit_entry_1abf41e4fe75db6b25d0e9dc7ed8f5531e" prot="public" virt="non-virtual"><scope>themis::network::UDPServer::RateLimitEntry</scope><name>window_start_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

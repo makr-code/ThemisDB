@@ -1,0 +1,842 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__ingestion__ner__llm_8cpp" kind="file" language="C++">
+    <compoundname>test_ingestion_ner_llm.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="ingestion__step_8h" local="yes">ingestion/ingestion_step.h</includes>
+    <includes refid="extraction__context_8h" local="yes">ingestion/extraction_context.h</includes>
+    <includes refid="file__manifest_8h" local="yes">ingestion/file_manifest.h</includes>
+    <includes refid="base__entity_8h" local="yes">ingestion/base_entity.h</includes>
+    <includes refid="inference__backend_8h" local="yes">ingestion/inference_backend.h</includes>
+    <includes refid="builtin__step__factories_8h" local="yes">ingestion/builtin_step_factories.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="11">
+        <label>ingestion/base_entity.h</label>
+        <link refid="base__entity_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>ingestion/builtin_step_factories.h</label>
+        <link refid="builtin__step__factories_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>ingestion/extraction_context.h</label>
+        <link refid="extraction__context_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>ingestion/file_format.h</label>
+        <link refid="file__format_8h"/>
+      </node>
+      <node id="5">
+        <label>ingestion/file_manifest.h</label>
+        <link refid="file__manifest_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>ingestion/format_extractor.h</label>
+        <link refid="format__extractor_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>ingestion/inference_backend.h</label>
+        <link refid="inference__backend_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>ingestion/ingestion_sinks.h</label>
+        <link refid="ingestion__sinks_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ingestion/ingestion_step.h</label>
+        <link refid="ingestion__step_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/ingestion/test_ingestion_ner_llm.cpp</label>
+        <link refid="test__ingestion__ner__llm_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="26">
+        <label>cstddef</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="22">
+        <label>document/document_store.h</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="23">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="19">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="16">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="27">
+        <label>span</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="24">
+        <label>unordered_set</label>
+      </node>
+      <node id="18">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="17">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_fake_backend" prot="public">FakeBackend</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__ingestion__ner__llm_8cpp_1a242c4d07250d706a772fdc376cfc9496" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref></type>
+        <definition>static ExtractionContext makeCtx</definition>
+        <argsstring>(const std::string &amp;text=&quot;&quot;, const std::string &amp;file_id=&quot;sha256:test&quot;)</argsstring>
+        <name>makeCtx</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_id</declname>
+          <defval>&quot;sha256:test&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_ner_llm.cpp" line="48" column="26" bodyfile="tests/ingestion/test_ingestion_ner_llm.cpp" bodystart="48" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__ner__llm_8cpp_1abc2caab9159a7efc75322e21fde76125" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_step_config" kindref="compound">StepConfig</ref></type>
+        <definition>static StepConfig makeCfg</definition>
+        <argsstring>(const nlohmann::json &amp;cfg={})</argsstring>
+        <name>makeCfg</name>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_ner_llm.cpp" line="57" column="19" bodyfile="tests/ingestion/test_ingestion_ner_llm.cpp" bodystart="57" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__ner__llm_8cpp_1a98494ea9d1605fcc36dda6d28976b2cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionNerDe, NE01_EmptyContext_NoError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionNerDe</type>
+        </param>
+        <param>
+          <type>NE01_EmptyContext_NoError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_ner_llm.cpp" line="80" column="1" bodyfile="tests/ingestion/test_ingestion_ner_llm.cpp" bodystart="80" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__ner__llm_8cpp_1a5df45d23a9206166e7c512e74370bd46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionNerDe, NE02_ParagraphRef_ExtractsLawEntity)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionNerDe</type>
+        </param>
+        <param>
+          <type>NE02_ParagraphRef_ExtractsLawEntity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_ner_llm.cpp" line="88" column="1" bodyfile="tests/ingestion/test_ingestion_ner_llm.cpp" bodystart="88" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__ner__llm_8cpp_1a96027c4a0dd927ddaad7f0408d2df518" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionNerDe, NE03_IsoDate_ExtractsDateEntity)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionNerDe</type>
+        </param>
+        <param>
+          <type>NE03_IsoDate_ExtractsDateEntity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_ner_llm.cpp" line="106" column="1" bodyfile="tests/ingestion/test_ingestion_ner_llm.cpp" bodystart="106" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__ner__llm_8cpp_1a52f47fbb4b5e37ca7b61513fc47fc13d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionNerDe, NE04_NullBackend_NoLlm_OnlyRegex)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionNerDe</type>
+        </param>
+        <param>
+          <type>NE04_NullBackend_NoLlm_OnlyRegex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_ner_llm.cpp" line="123" column="1" bodyfile="tests/ingestion/test_ingestion_ner_llm.cpp" bodystart="123" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__ner__llm_8cpp_1a1052234d16c3d11b5a8d60e574bfc560" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionNerDe, NE05_NullBackend_UseLlm_Warning_RegexStillRuns)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionNerDe</type>
+        </param>
+        <param>
+          <type>NE05_NullBackend_UseLlm_Warning_RegexStillRuns</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_ner_llm.cpp" line="136" column="1" bodyfile="tests/ingestion/test_ingestion_ner_llm.cpp" bodystart="136" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__ner__llm_8cpp_1a5c7aa0bc8f273f260268a5ba9a9fa4e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionNerDe, NE06_ExtractsFromChunks)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionNerDe</type>
+        </param>
+        <param>
+          <type>NE06_ExtractsFromChunks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_ner_llm.cpp" line="146" column="1" bodyfile="tests/ingestion/test_ingestion_ner_llm.cpp" bodystart="146" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__ner__llm_8cpp_1ac76fe0685e1a818146840ba9d2b5174b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionNerDe, NE07_EntityTypeFilter_OrgOnly_NoDateEntities)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionNerDe</type>
+        </param>
+        <param>
+          <type>NE07_EntityTypeFilter_OrgOnly_NoDateEntities</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_ner_llm.cpp" line="172" column="1" bodyfile="tests/ingestion/test_ingestion_ner_llm.cpp" bodystart="172" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__ner__llm_8cpp_1a1b72aaf770796790e89df66d55c1a85e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionNerDe, NE08_LanguagePropagatedToContext)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionNerDe</type>
+        </param>
+        <param>
+          <type>NE08_LanguagePropagatedToContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_ner_llm.cpp" line="185" column="1" bodyfile="tests/ingestion/test_ingestion_ner_llm.cpp" bodystart="185" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__ner__llm_8cpp_1ae75daa7ae664908e35d76884a37b8519" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionLlmExtract, LE01_NoBackend_Warning_NoError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionLlmExtract</type>
+        </param>
+        <param>
+          <type>LE01_NoBackend_Warning_NoError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_ner_llm.cpp" line="200" column="1" bodyfile="tests/ingestion/test_ingestion_ner_llm.cpp" bodystart="200" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__ner__llm_8cpp_1a4c7c9c611c06b6fe9b265443d132979b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionLlmExtract, LE02_NoPromptTemplate_Warning_Skip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionLlmExtract</type>
+        </param>
+        <param>
+          <type>LE02_NoPromptTemplate_Warning_Skip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_ner_llm.cpp" line="213" column="1" bodyfile="tests/ingestion/test_ingestion_ner_llm.cpp" bodystart="213" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__ner__llm_8cpp_1acfb73220449fb1d87321c1a22ec70b64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionLlmExtract, LE03_CanHandle_FalseForEmptyContext)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionLlmExtract</type>
+        </param>
+        <param>
+          <type>LE03_CanHandle_FalseForEmptyContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_ner_llm.cpp" line="226" column="1" bodyfile="tests/ingestion/test_ingestion_ner_llm.cpp" bodystart="226" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__ner__llm_8cpp_1a5db6d271a83e2106c712b752e9c00838" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionLlmExtract, LE04_AvailableBackend_PlaceholderReplaced_ResponseInExtra)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionLlmExtract</type>
+        </param>
+        <param>
+          <type>LE04_AvailableBackend_PlaceholderReplaced_ResponseInExtra</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_ner_llm.cpp" line="233" column="1" bodyfile="tests/ingestion/test_ingestion_ner_llm.cpp" bodystart="233" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__ner__llm_8cpp_1aa2d691a2e2ae164fce607284cf19b1d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionLlmExtract, LE05_OutputEntities_JsonResponse_EntitiesAppended)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionLlmExtract</type>
+        </param>
+        <param>
+          <type>LE05_OutputEntities_JsonResponse_EntitiesAppended</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_ner_llm.cpp" line="247" column="1" bodyfile="tests/ingestion/test_ingestion_ner_llm.cpp" bodystart="247" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__ner__llm_8cpp_1ad338480125dd8fc61e3833a5bbc6121a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionLlmExtract, LE06_OutputEntities_NonJsonResponse_NoCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionLlmExtract</type>
+        </param>
+        <param>
+          <type>LE06_OutputEntities_NonJsonResponse_NoCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_ner_llm.cpp" line="279" column="1" bodyfile="tests/ingestion/test_ingestion_ner_llm.cpp" bodystart="279" bodyend="296"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>—<sp/>Ingestion<sp/>Phase<sp/>3<sp/>Tests:<sp/>NER<sp/>+<sp/>LLM-Extract<sp/>Steps</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>Tests<sp/>for:</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/><sp/><sp/>builtin.ner_de<sp/><sp/><sp/><sp/>(regex<sp/>NER<sp/>+<sp/>LLM<sp/>path)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>NE-01..NE-08</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/><sp/><sp/>builtin.llm_extract<sp/>(generic<sp/>LLM<sp/>step)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LE-01..LE-06</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/>Acceptance<sp/>criteria:</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/>NE-01<sp/><sp/>NerDe:<sp/>empty<sp/>context<sp/>→<sp/>no<sp/>entities<sp/>added,<sp/>no<sp/>error</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*<sp/>NE-02<sp/><sp/>NerDe:<sp/>§-reference<sp/>in<sp/>raw_text<sp/>→<sp/>LEGAL_NORM_REFERENCE<sp/>entity<sp/>extracted</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/>NE-03<sp/><sp/>NerDe:<sp/>ISO<sp/>date<sp/>in<sp/>raw_text<sp/>→<sp/>DATE<sp/>entity<sp/>extracted</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>NE-04<sp/><sp/>NerDe:<sp/>NullBackend,<sp/>use_llm=false<sp/>→<sp/>only<sp/>regex<sp/>entities</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>NE-05<sp/><sp/>NerDe:<sp/>NullBackend,<sp/>use_llm=true<sp/>→<sp/>warning<sp/>added<sp/>(no<sp/>LLM<sp/>hit),<sp/>regex<sp/>still<sp/>runs</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>NE-06<sp/><sp/>NerDe:<sp/>text<sp/>in<sp/>chunks<sp/>(not<sp/>raw_text)<sp/>→<sp/>extracts<sp/>from<sp/>each<sp/>chunk</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/>NE-07<sp/><sp/>NerDe:<sp/>entity_types<sp/>filter<sp/>ORG<sp/>only<sp/>→<sp/>no<sp/>DATE<sp/>entities<sp/>extracted</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/>NE-08<sp/><sp/>NerDe:<sp/>language<sp/>propagated<sp/>to<sp/>ctx.text_language<sp/>when<sp/>context<sp/>language<sp/>is<sp/>empty</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*<sp/>LE-01<sp/><sp/>LlmExtract:<sp/>no<sp/>backend<sp/>→<sp/>warning,<sp/>no<sp/>crash</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/>*<sp/>LE-02<sp/><sp/>LlmExtract:<sp/>no<sp/>prompt_template<sp/>→<sp/>warning,<sp/>skip</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"><sp/>*<sp/>LE-03<sp/><sp/>LlmExtract:<sp/>canHandle()<sp/>returns<sp/>false<sp/>for<sp/>empty<sp/>context</highlight></codeline>
+<codeline lineno="22"><highlight class="comment"><sp/>*<sp/>LE-04<sp/><sp/>LlmExtract:<sp/>available<sp/>backend,<sp/>template<sp/>with<sp/>{text}<sp/>placeholder<sp/>→<sp/>response<sp/>in<sp/>ctx.extra</highlight></codeline>
+<codeline lineno="23"><highlight class="comment"><sp/>*<sp/>LE-05<sp/><sp/>LlmExtract:<sp/>output_entities=true,<sp/>JSON<sp/>response<sp/>→<sp/>entities<sp/>appended<sp/>to<sp/>ctx</highlight></codeline>
+<codeline lineno="24"><highlight class="comment"><sp/>*<sp/>LE-06<sp/><sp/>LlmExtract:<sp/>output_entities=true,<sp/>non-JSON<sp/>response<sp/>→<sp/>no<sp/>crash,<sp/>no<sp/>entities</highlight></codeline>
+<codeline lineno="25"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ingestion__step_8h" kindref="compound">ingestion/ingestion_step.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="extraction__context_8h" kindref="compound">ingestion/extraction_context.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="file__manifest_8h" kindref="compound">ingestion/file_manifest.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="base__entity_8h" kindref="compound">ingestion/base_entity.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="inference__backend_8h" kindref="compound">ingestion/inference_backend.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="builtin__step__factories_8h" kindref="compound">ingestion/builtin_step_factories.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">themis::ingestion</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1_1builtin" kindref="compound">themis::ingestion::builtin</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref><sp/>makeCtx(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>file_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sha256:test&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1ae32bf028bb5090986929a9dc643d9102" kindref="member">manifest</ref>.<ref refid="structthemis_1_1ingestion_1_1_file_manifest_1a016f0084474c1d8b71c0a1d314587542" kindref="member">file_id</ref><sp/><sp/><sp/>=<sp/>file_id;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1ae32bf028bb5090986929a9dc643d9102" kindref="member">manifest</ref>.<ref refid="structthemis_1_1ingestion_1_1_file_manifest_1a8cb1225e4bcde8e185e93b11bfbce7ac" kindref="member">detected_mime</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/pdf&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1a0ec698226f75bc619b0d2fc8fdf31b3e" kindref="member">raw_text</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>text;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ctx;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_step_config" kindref="compound">StepConfig</ref><sp/>makeCfg(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>cfg<sp/>=<sp/>{})<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_step_config" kindref="compound">StepConfig</ref><sp/>sc;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1ingestion_1_1_step_config_1a4c189c325c2f66d96bd26b4856e4fff8" kindref="member">config</ref><sp/>=<sp/>cfg;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sc;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fake<sp/>backend<sp/>that<sp/>echoes<sp/>a<sp/>preset<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="class_fake_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_fake_backend_1abf80a95e74d93cc8e1c4a676a90de1cd" kindref="member">FakeBackend</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" kindref="compound">ITextGenerationBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_fake_backend_1abf80a95e74d93cc8e1c4a676a90de1cd" kindref="member">FakeBackend</ref>(std::string<sp/>resp)<sp/>:<sp/>resp_(std::move(resp))<sp/>{}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_fake_backend_1ad664c06ee070fc913597a0171d7412d3" kindref="member">generate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>resp_;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_fake_backend_1a7a6461f21b74458c49c714537b078125" kindref="member">isAvailable</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!resp_.empty();<sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_fake_backend_1a4d263e982cc2bcac9329a6515b8d985d" kindref="member">description</ref>()</highlight><highlight class="keyword"><sp/><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;FakeBackend&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>resp_;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NE<sp/>—<sp/>builtin.ner_de</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(IngestionNerDe,<sp/>NE01_EmptyContext_NoError)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a6317eb51dac69f5dd22ddad0f1954f92" kindref="member">createNerDeStep</ref>();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>makeCtx(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>step-&gt;execute(ctx,<sp/>makeCfg());</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.entities.empty());</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(IngestionNerDe,<sp/>NE02_ParagraphRef_ExtractsLawEntity)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a6317eb51dac69f5dd22ddad0f1954f92" kindref="member">createNerDeStep</ref>();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>makeCtx(</highlight><highlight class="stringliteral">&quot;Gemäß<sp/>§<sp/>4<sp/>Abs.<sp/>1<sp/>BImSchG<sp/>ist<sp/>der<sp/>Betreiber<sp/>verpflichtet.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>step-&gt;execute(ctx,<sp/>makeCfg());</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>least<sp/>one<sp/>entity<sp/>with<sp/>LAW<sp/>type<sp/>extracted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_law<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>ctx.entities)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e.entity_type<sp/>==<sp/><ref refid="namespacethemis_1_1ingestion_1ae04298a858e7b070d9a53732876210ffaf1ee8d0f4d8ef4bb30f984b8ffda909b" kindref="member">EntityType::LEGAL_NORM_REFERENCE</ref><sp/>||</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(e.properties.count(</highlight><highlight class="stringliteral">&quot;ner_type&quot;</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>e.properties.at(</highlight><highlight class="stringliteral">&quot;ner_type&quot;</highlight><highlight class="normal">)<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;LAW&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_law<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_law)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>a<sp/>LAW<sp/>entity<sp/>for<sp/>&apos;§<sp/>4<sp/>Abs.<sp/>1<sp/>BImSchG&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(IngestionNerDe,<sp/>NE03_IsoDate_ExtractsDateEntity)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a6317eb51dac69f5dd22ddad0f1954f92" kindref="member">createNerDeStep</ref>();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>makeCtx(</highlight><highlight class="stringliteral">&quot;Gültig<sp/>ab<sp/>01.04.2024<sp/>bis<sp/>31.12.2025.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>step-&gt;execute(ctx,<sp/>makeCfg());</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_date<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>ctx.entities)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e.entity_type<sp/>==<sp/><ref refid="namespacethemis_1_1ingestion_1ae04298a858e7b070d9a53732876210ffa633a6c7a6b9958f8174250094daf1e6a" kindref="member">EntityType::DATE</ref></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>(e.properties.count(</highlight><highlight class="stringliteral">&quot;ner_type&quot;</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>e.properties.at(</highlight><highlight class="stringliteral">&quot;ner_type&quot;</highlight><highlight class="normal">)<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;DATE&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_date<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_date)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>a<sp/>DATE<sp/>entity&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(IngestionNerDe,<sp/>NE04_NullBackend_NoLlm_OnlyRegex)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a6317eb51dac69f5dd22ddad0f1954f92" kindref="member">createNerDeStep</ref>();<sp/></highlight><highlight class="comment">//<sp/>default<sp/>=<sp/>NullTextGenerationBackend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>makeCtx(</highlight><highlight class="stringliteral">&quot;§<sp/>7<sp/>Abs.<sp/>2<sp/>gilt<sp/>entsprechend.<sp/>Datum:<sp/>2026-01-15.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json<sp/>cfg_json<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;use_llm&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>step-&gt;execute(ctx,<sp/>makeCfg(cfg_json));</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.entities.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Regex<sp/>NER<sp/>should<sp/>still<sp/>produce<sp/>entities&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>entities<sp/>should<sp/>come<sp/>from<sp/>regex</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>ctx.entities)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(e.properties.at(</highlight><highlight class="stringliteral">&quot;ner_source&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;regex&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(IngestionNerDe,<sp/>NE05_NullBackend_UseLlm_Warning_RegexStillRuns)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a6317eb51dac69f5dd22ddad0f1954f92" kindref="member">createNerDeStep</ref>();<sp/></highlight><highlight class="comment">//<sp/>NullBackend<sp/>→<sp/>isAvailable()<sp/>==<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>makeCtx(</highlight><highlight class="stringliteral">&quot;§<sp/>4<sp/>gilt.<sp/>Datum:<sp/>2024-03-01.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json<sp/>cfg_json<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;use_llm&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>step-&gt;execute(ctx,<sp/>makeCfg(cfg_json));</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Regex<sp/>entities<sp/>still<sp/>expected<sp/>(§<sp/>and<sp/>date)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.entities.empty());</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(IngestionNerDe,<sp/>NE06_ExtractsFromChunks)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a6317eb51dac69f5dd22ddad0f1954f92" kindref="member">createNerDeStep</ref>();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>makeCtx();<sp/></highlight><highlight class="comment">//<sp/>raw_text<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.raw_text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_text_chunk" kindref="compound">TextChunk</ref><sp/>c1;<sp/>c1.<ref refid="structthemis_1_1ingestion_1_1_text_chunk_1a38fa6b89d9d9b1609c076aeaa35dc3a9" kindref="member">seq</ref><sp/>=<sp/>0;<sp/>c1.<ref refid="structthemis_1_1ingestion_1_1_text_chunk_1afb8f6b5a88d870623a61ff6cc32fd9ad" kindref="member">text</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;§<sp/>5<sp/>BImSchG<sp/>gilt.&quot;</highlight><highlight class="normal">;<sp/>c1.<ref refid="structthemis_1_1ingestion_1_1_text_chunk_1a963a2a53488fafc5588c91974cf899e6" kindref="member">section_ref</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;§<sp/>5&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_text_chunk" kindref="compound">TextChunk</ref><sp/>c2;<sp/>c2.<ref refid="structthemis_1_1ingestion_1_1_text_chunk_1a38fa6b89d9d9b1609c076aeaa35dc3a9" kindref="member">seq</ref><sp/>=<sp/>1;<sp/>c2.<ref refid="structthemis_1_1ingestion_1_1_text_chunk_1afb8f6b5a88d870623a61ff6cc32fd9ad" kindref="member">text</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Datum:<sp/>15.06.2025.&quot;</highlight><highlight class="normal">;<sp/>c2.<ref refid="structthemis_1_1ingestion_1_1_text_chunk_1a963a2a53488fafc5588c91974cf899e6" kindref="member">section_ref</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;§<sp/>6&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.chunks<sp/>=<sp/>{c1,<sp/>c2};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>step-&gt;execute(ctx,<sp/>makeCfg());</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expect<sp/>entities<sp/>from<sp/>both<sp/>chunks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_law<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>found_date<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>ctx.entities)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e.properties.count(</highlight><highlight class="stringliteral">&quot;ner_type&quot;</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>e.properties.at(</highlight><highlight class="stringliteral">&quot;ner_type&quot;</highlight><highlight class="normal">)<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;LAW&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_law<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e.properties.count(</highlight><highlight class="stringliteral">&quot;ner_type&quot;</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>e.properties.at(</highlight><highlight class="stringliteral">&quot;ner_type&quot;</highlight><highlight class="normal">)<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;DATE&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_date<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_law);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_date);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(IngestionNerDe,<sp/>NE07_EntityTypeFilter_OrgOnly_NoDateEntities)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a6317eb51dac69f5dd22ddad0f1954f92" kindref="member">createNerDeStep</ref>();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>makeCtx(</highlight><highlight class="stringliteral">&quot;Datum:<sp/>01.01.2024.<sp/>§<sp/>4<sp/>gilt.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json<sp/>cfg_json<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;entity_types&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::array({</highlight><highlight class="stringliteral">&quot;ORG&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PER&quot;</highlight><highlight class="normal">})}};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>step-&gt;execute(ctx,<sp/>makeCfg(cfg_json));</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>ctx.entities)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(e.entity_type,<sp/><ref refid="namespacethemis_1_1ingestion_1ae04298a858e7b070d9a53732876210ffa633a6c7a6b9958f8174250094daf1e6a" kindref="member">EntityType::DATE</ref>)</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;DATE<sp/>entities<sp/>should<sp/>be<sp/>filtered<sp/>out&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(IngestionNerDe,<sp/>NE08_LanguagePropagatedToContext)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a6317eb51dac69f5dd22ddad0f1954f92" kindref="member">createNerDeStep</ref>();</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>makeCtx(</highlight><highlight class="stringliteral">&quot;§<sp/>1<sp/>gilt.&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>empty<sp/>text_language</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.text_language.empty());</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json<sp/>cfg_json<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;language&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;de&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>step-&gt;execute(ctx,<sp/>makeCfg(cfg_json));</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.text_language,<sp/></highlight><highlight class="stringliteral">&quot;de&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LE<sp/>—<sp/>builtin.llm_extract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(IngestionLlmExtract,<sp/>LE01_NoBackend_Warning_NoError)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a5c806eef7a4c1bb91d17ad5a570622c6" kindref="member">createLlmExtractStep</ref>();<sp/></highlight><highlight class="comment">//<sp/>NullBackend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>makeCtx(</highlight><highlight class="stringliteral">&quot;Some<sp/>text.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json<sp/>cfg_json<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;prompt_template&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Extract<sp/>from:<sp/>{text}&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>step-&gt;execute(ctx,<sp/>makeCfg(cfg_json));</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Warning<sp/>should<sp/>be<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_warning<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>w<sp/>:<sp/>ctx.warnings)</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(w.find(</highlight><highlight class="stringliteral">&quot;backend<sp/>unavailable&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos)<sp/>{<sp/>found_warning<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_warning);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(IngestionLlmExtract,<sp/>LE02_NoPromptTemplate_Warning_Skip)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>std::make_shared&lt;FakeBackend&gt;(</highlight><highlight class="stringliteral">&quot;response&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a5c806eef7a4c1bb91d17ad5a570622c6" kindref="member">createLlmExtractStep</ref>(backend);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>makeCtx(</highlight><highlight class="stringliteral">&quot;Some<sp/>text.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>prompt_template<sp/>key<sp/>in<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>step-&gt;execute(ctx,<sp/>makeCfg({}));</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_warning<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>w<sp/>:<sp/>ctx.warnings)</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(w.find(</highlight><highlight class="stringliteral">&quot;missing<sp/>prompt_template&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos)<sp/>{<sp/>found_warning<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_warning);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(IngestionLlmExtract,<sp/>LE03_CanHandle_FalseForEmptyContext)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>std::make_shared&lt;FakeBackend&gt;(</highlight><highlight class="stringliteral">&quot;resp&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a5c806eef7a4c1bb91d17ad5a570622c6" kindref="member">createLlmExtractStep</ref>(backend);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>makeCtx(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>no<sp/>text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(step-&gt;canHandle(ctx));</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(IngestionLlmExtract,<sp/>LE04_AvailableBackend_PlaceholderReplaced_ResponseInExtra)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>std::make_shared&lt;FakeBackend&gt;(</highlight><highlight class="stringliteral">&quot;Summary<sp/>of<sp/>the<sp/>document.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a5c806eef7a4c1bb91d17ad5a570622c6" kindref="member">createLlmExtractStep</ref>(backend);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>makeCtx(</highlight><highlight class="stringliteral">&quot;§<sp/>4<sp/>BImSchG<sp/>regelt<sp/>den<sp/>Umweltschutz.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_step_config" kindref="compound">StepConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_step_config_1acd268fe63f53864651f08b6942602de4" kindref="member">name</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;llm_summarise&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_step_config_1a4c189c325c2f66d96bd26b4856e4fff8" kindref="member">config</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;prompt_template&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Summarise:<sp/>{text}&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>step-&gt;execute(ctx,<sp/>cfg);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(ctx.extra.find(</highlight><highlight class="stringliteral">&quot;llm_extract.llm_summarise&quot;</highlight><highlight class="normal">),<sp/>ctx.extra.end());</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.extra.at(</highlight><highlight class="stringliteral">&quot;llm_extract.llm_summarise&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;Summary<sp/>of<sp/>the<sp/>document.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(IngestionLlmExtract,<sp/>LE05_OutputEntities_JsonResponse_EntitiesAppended)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>json_response<sp/>=</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;([{&quot;text&quot;:&quot;Umweltbundesamt&quot;,&quot;type&quot;:&quot;ORG&quot;,&quot;confidence&quot;:0.9},)&quot;</highlight></codeline>
+<codeline lineno="250"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;text&quot;:&quot;§<sp/>4<sp/>BImSchG&quot;,&quot;type&quot;:&quot;LAW&quot;,&quot;confidence&quot;:0.85}])&quot;;</highlight></codeline>
+<codeline lineno="251"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>std::make_shared&lt;FakeBackend&gt;(json_response);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a5c806eef7a4c1bb91d17ad5a570622c6" kindref="member">createLlmExtractStep</ref>(backend);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>makeCtx(</highlight><highlight class="stringliteral">&quot;Die<sp/>Umweltbundesamt<sp/>prüft<sp/>§<sp/>4<sp/>BImSchG.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_step_config" kindref="compound">StepConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_step_config_1acd268fe63f53864651f08b6942602de4" kindref="member">name</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;llm_ner&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_step_config_1a4c189c325c2f66d96bd26b4856e4fff8" kindref="member">config</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;prompt_template&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Extract<sp/>entities<sp/>from:<sp/>{text}&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;output_entities&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;min_confidence&quot;</highlight><highlight class="normal">,<sp/><sp/>0.7}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>step-&gt;execute(ctx,<sp/>cfg);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.entities.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_org<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>found_law<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>ctx.entities)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e.entity_type<sp/>==<sp/><ref refid="namespacethemis_1_1ingestion_1ae04298a858e7b070d9a53732876210ffaf3522949598e347ab47b71014bfc87c9" kindref="member">EntityType::ORGANIZATION</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_org<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e.entity_type<sp/>==<sp/><ref refid="namespacethemis_1_1ingestion_1ae04298a858e7b070d9a53732876210ffaf1ee8d0f4d8ef4bb30f984b8ffda909b" kindref="member">EntityType::LEGAL_NORM_REFERENCE</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_law<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_org);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_law);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(IngestionLlmExtract,<sp/>LE06_OutputEntities_NonJsonResponse_NoCrash)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>std::make_shared&lt;FakeBackend&gt;(</highlight><highlight class="stringliteral">&quot;This<sp/>is<sp/>a<sp/>plain<sp/>text<sp/>summary,<sp/>not<sp/>JSON.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a5c806eef7a4c1bb91d17ad5a570622c6" kindref="member">createLlmExtractStep</ref>(backend);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/>makeCtx(</highlight><highlight class="stringliteral">&quot;Some<sp/>legal<sp/>text.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_step_config" kindref="compound">StepConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_step_config_1acd268fe63f53864651f08b6942602de4" kindref="member">name</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;llm_step&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_step_config_1a4c189c325c2f66d96bd26b4856e4fff8" kindref="member">config</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;prompt_template&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{text}&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;output_entities&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>not<sp/>throw<sp/>or<sp/>return<sp/>an<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>step-&gt;execute(ctx,<sp/>cfg);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>entities<sp/>appended<sp/>(non-JSON)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.entities.empty());</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Raw<sp/>response<sp/>still<sp/>stored</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(ctx.extra.find(</highlight><highlight class="stringliteral">&quot;llm_extract.llm_step&quot;</highlight><highlight class="normal">),<sp/>ctx.extra.end());</highlight></codeline>
+<codeline lineno="296"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/ingestion/test_ingestion_ner_llm.cpp"/>
+  </compounddef>
+</doxygen>

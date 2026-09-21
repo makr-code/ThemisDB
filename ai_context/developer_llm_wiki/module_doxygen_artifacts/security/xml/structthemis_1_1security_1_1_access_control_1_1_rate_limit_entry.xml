@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_access_control_1_1_rate_limit_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::security::AccessControl::RateLimitEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_rate_limit_entry_1a272c9115d6a65be47fb95f25228ae6a3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::AccessControl::RateLimitEntry::request_count</definition>
+        <argsstring></argsstring>
+        <name>request_count</name>
+        <qualifiedname>themis::security::AccessControl::RateLimitEntry::request_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="509" column="13" bodyfile="include/security/access_control.h" bodystart="509" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_rate_limit_entry_1a290d6d9ae40acee23d0779784f6c4435" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::security::AccessControl::RateLimitEntry::window_start</definition>
+        <argsstring></argsstring>
+        <name>window_start</name>
+        <qualifiedname>themis::security::AccessControl::RateLimitEntry::window_start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="510" column="47" bodyfile="include/security/access_control.h" bodystart="510" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_rate_limit_entry_1aab2589179f968ca0f0b6bf6cb947e5de" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::AccessControl::RateLimitEntry::failed_login_count</definition>
+        <argsstring></argsstring>
+        <name>failed_login_count</name>
+        <qualifiedname>themis::security::AccessControl::RateLimitEntry::failed_login_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="511" column="13" bodyfile="include/security/access_control.h" bodystart="511" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_access_control_1_1_rate_limit_entry_1ab7c02faff60296f6c35f37c177f43ca0" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::security::AccessControl::RateLimitEntry::lockout_until</definition>
+        <argsstring></argsstring>
+        <name>lockout_until</name>
+        <qualifiedname>themis::security::AccessControl::RateLimitEntry::lockout_until</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="512" column="47" bodyfile="include/security/access_control.h" bodystart="512" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/access_control.h" line="508" column="5" bodyfile="include/security/access_control.h" bodystart="508" bodyend="513"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_rate_limit_entry_1aab2589179f968ca0f0b6bf6cb947e5de" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::RateLimitEntry</scope><name>failed_login_count</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_rate_limit_entry_1ab7c02faff60296f6c35f37c177f43ca0" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::RateLimitEntry</scope><name>lockout_until</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_rate_limit_entry_1a272c9115d6a65be47fb95f25228ae6a3" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::RateLimitEntry</scope><name>request_count</name></member>
+      <member refid="structthemis_1_1security_1_1_access_control_1_1_rate_limit_entry_1a290d6d9ae40acee23d0779784f6c4435" prot="public" virt="non-virtual"><scope>themis::security::AccessControl::RateLimitEntry</scope><name>window_start</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

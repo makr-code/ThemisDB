@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool" kind="class" language="C++" prot="protected">
+    <compoundname>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1aa40a0e69846decd5d3637614e7ea9a7b" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::available_</definition>
+        <argsstring></argsstring>
+        <name>available_</name>
+        <qualifiedname>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::available_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="81" column="13" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1ad877de08e1d7bc19deca1314f1880674" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::total_</definition>
+        <argsstring></argsstring>
+        <name>total_</name>
+        <qualifiedname>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="82" column="13" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1a3a7e552ab0eef9df66792fbcff4d126f" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::used_</definition>
+        <argsstring></argsstring>
+        <name>used_</name>
+        <qualifiedname>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::used_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="83" column="13" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1af77029c48c73c3359811282d9cc78e0e" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::peak_used_</definition>
+        <argsstring></argsstring>
+        <name>peak_used_</name>
+        <qualifiedname>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::peak_used_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="84" column="13" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1aafda78bfa9c5d8e2ed6a8e9251849875" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::acquired_count_</definition>
+        <argsstring></argsstring>
+        <name>acquired_count_</name>
+        <qualifiedname>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::acquired_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="85" column="13" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1ac20957cf325f7ce5191e2c59054cb2a1" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::next_id_</definition>
+        <argsstring></argsstring>
+        <name>next_id_</name>
+        <qualifiedname>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::next_id_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="86" column="13" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="86" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1a9a71e14ee98a06acba422ff7dfc42ea1" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::ConnectionPool</definition>
+        <argsstring>(int size=10)</argsstring>
+        <name>ConnectionPool</name>
+        <qualifiedname>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::ConnectionPool</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="53" column="18" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="53" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1a6c41a7299999482a7324f6fbe52d8101" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::acquire</definition>
+        <argsstring>()</argsstring>
+        <name>acquire</name>
+        <qualifiedname>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::acquire</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="56" column="13" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="56" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1acab8f54427ac8580cb4aee2a6590cbf2" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::release</definition>
+        <argsstring>(int connection_id) noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::release</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>connection_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="67" column="14" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="67" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1ac5e025309a93f9a433e34075d88d4cd0" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::getAvailable</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getAvailable</name>
+        <qualifiedname>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::getAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="74" column="13" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1a714cf5fbdaca0db0e964b0fa7fc51591" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::getUsed</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getUsed</name>
+        <qualifiedname>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::getUsed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="75" column="13" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1a31b9a250496e4a5fbdcf61cf561b6307" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::getPeakUsed</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getPeakUsed</name>
+        <qualifiedname>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::getPeakUsed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="76" column="13" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1ad50b9622d858bcf7537dac290ca76dc2" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::getTotalAcquired</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getTotalAcquired</name>
+        <qualifiedname>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::getTotalAcquired</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="77" column="13" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1a7e1e96402ab4a7f47adac7e1daa296c2" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::isHealthy</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool::isHealthy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="78" column="14" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="51" column="5" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="51" bodyend="87"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1a6c41a7299999482a7324f6fbe52d8101" prot="public" virt="non-virtual"><scope>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool</scope><name>acquire</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1aafda78bfa9c5d8e2ed6a8e9251849875" prot="private" virt="non-virtual"><scope>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool</scope><name>acquired_count_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1aa40a0e69846decd5d3637614e7ea9a7b" prot="private" virt="non-virtual"><scope>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool</scope><name>available_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1a9a71e14ee98a06acba422ff7dfc42ea1" prot="public" virt="non-virtual"><scope>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool</scope><name>ConnectionPool</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1ac5e025309a93f9a433e34075d88d4cd0" prot="public" virt="non-virtual"><scope>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool</scope><name>getAvailable</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1a31b9a250496e4a5fbdcf61cf561b6307" prot="public" virt="non-virtual"><scope>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool</scope><name>getPeakUsed</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1ad50b9622d858bcf7537dac290ca76dc2" prot="public" virt="non-virtual"><scope>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool</scope><name>getTotalAcquired</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1a714cf5fbdaca0db0e964b0fa7fc51591" prot="public" virt="non-virtual"><scope>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool</scope><name>getUsed</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1a7e1e96402ab4a7f47adac7e1daa296c2" prot="public" virt="non-virtual"><scope>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool</scope><name>isHealthy</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1ac20957cf325f7ce5191e2c59054cb2a1" prot="private" virt="non-virtual"><scope>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool</scope><name>next_id_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1af77029c48c73c3359811282d9cc78e0e" prot="private" virt="non-virtual"><scope>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool</scope><name>peak_used_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1acab8f54427ac8580cb4aee2a6590cbf2" prot="public" virt="non-virtual"><scope>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool</scope><name>release</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1ad877de08e1d7bc19deca1314f1880674" prot="private" virt="non-virtual"><scope>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool</scope><name>total_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1test_1_1_analytics_phase2_a2_test_1_1_connection_pool_1a3a7e552ab0eef9df66792fbcff4d126f" prot="private" virt="non-virtual"><scope>themisdb::analytics::test::AnalyticsPhase2A2Test::ConnectionPool</scope><name>used_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

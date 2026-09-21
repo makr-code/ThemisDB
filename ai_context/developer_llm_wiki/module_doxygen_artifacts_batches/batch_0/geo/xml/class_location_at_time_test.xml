@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_location_at_time_test" kind="class" language="C++" prot="public">
+    <compoundname>LocationAtTimeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_location_at_time_test_1a4798f576da091d7b9d70c09077ccacda" prot="protected" static="no" mutable="no">
+        <type>SystemVersionedTable</type>
+        <definition>SystemVersionedTable LocationAtTimeTest::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>LocationAtTimeTest::table</qualifiedname>
+        <initializer>{&quot;vehicles&quot;, &quot;node_a&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_temporal_spatial_query.cpp" line="136" column="26" bodyfile="tests/geo/test_temporal_spatial_query.cpp" bodystart="136" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_location_at_time_test_1a08f26ba70602de11bb9a5934279c6978" prot="protected" static="no" mutable="no">
+        <type>Timestamp</type>
+        <definition>Timestamp LocationAtTimeTest::t_berlin</definition>
+        <argsstring></argsstring>
+        <name>t_berlin</name>
+        <qualifiedname>LocationAtTimeTest::t_berlin</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_temporal_spatial_query.cpp" line="137" column="15" bodyfile="tests/geo/test_temporal_spatial_query.cpp" bodystart="137" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_location_at_time_test_1a2a49d4d217293020064660029e345cd1" prot="protected" static="no" mutable="no">
+        <type>Timestamp</type>
+        <definition>Timestamp LocationAtTimeTest::t_paris</definition>
+        <argsstring></argsstring>
+        <name>t_paris</name>
+        <qualifiedname>LocationAtTimeTest::t_paris</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_temporal_spatial_query.cpp" line="138" column="15" bodyfile="tests/geo/test_temporal_spatial_query.cpp" bodystart="138" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_location_at_time_test_1a018d78bcc3e36a90486b032d54e12ed8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LocationAtTimeTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LocationAtTimeTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_temporal_spatial_query.cpp" line="121" column="10" bodyfile="tests/geo/test_temporal_spatial_query.cpp" bodystart="121" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LocationAtTimeTest</label>
+        <link refid="class_location_at_time_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LocationAtTimeTest</label>
+        <link refid="class_location_at_time_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/geo/test_temporal_spatial_query.cpp" line="119" column="1" bodyfile="tests/geo/test_temporal_spatial_query.cpp" bodystart="119" bodyend="139"/>
+    <listofallmembers>
+      <member refid="class_location_at_time_test_1a018d78bcc3e36a90486b032d54e12ed8" prot="protected" virt="non-virtual"><scope>LocationAtTimeTest</scope><name>SetUp</name></member>
+      <member refid="class_location_at_time_test_1a08f26ba70602de11bb9a5934279c6978" prot="protected" virt="non-virtual"><scope>LocationAtTimeTest</scope><name>t_berlin</name></member>
+      <member refid="class_location_at_time_test_1a2a49d4d217293020064660029e345cd1" prot="protected" virt="non-virtual"><scope>LocationAtTimeTest</scope><name>t_paris</name></member>
+      <member refid="class_location_at_time_test_1a4798f576da091d7b9d70c09077ccacda" prot="protected" virt="non-virtual"><scope>LocationAtTimeTest</scope><name>table</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

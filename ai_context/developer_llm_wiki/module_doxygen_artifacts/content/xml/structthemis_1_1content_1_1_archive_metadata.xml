@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_archive_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ArchiveMetadata</compoundname>
+    <includes refid="archive__processor_8h" local="no">archive_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_metadata_1a4d6050a7eb12b96d79f80eb0a755a7bb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a058d7577898653642b076c9030195e2c" kindref="member">ArchiveFormat</ref></type>
+        <definition>ArchiveFormat themis::content::ArchiveMetadata::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::content::ArchiveMetadata::format</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="57" column="19" bodyfile="include/content/archive_processor.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_metadata_1a4dc44efcc0faf088fb3c67dc84de20bc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ArchiveMetadata::is_encrypted</definition>
+        <argsstring></argsstring>
+        <name>is_encrypted</name>
+        <qualifiedname>themis::content::ArchiveMetadata::is_encrypted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>CON-019. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="58" column="10" bodyfile="include/content/archive_processor.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_metadata_1af185dc0506e0dd87b9d649db4e27f6fc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ArchiveMetadata::total_uncompressed_size</definition>
+        <argsstring></argsstring>
+        <name>total_uncompressed_size</name>
+        <qualifiedname>themis::content::ArchiveMetadata::total_uncompressed_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CON-019. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="59" column="14" bodyfile="include/content/archive_processor.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_metadata_1aee7909ff1efd44eb783ba420bfe3cf34" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ArchiveMetadata::total_compressed_size</definition>
+        <argsstring></argsstring>
+        <name>total_compressed_size</name>
+        <qualifiedname>themis::content::ArchiveMetadata::total_compressed_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CON-019. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="60" column="14" bodyfile="include/content/archive_processor.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_metadata_1ae05eff4749a1c87b4bc046d1cb8cbdb3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::ArchiveMetadata::member_count</definition>
+        <argsstring></argsstring>
+        <name>member_count</name>
+        <qualifiedname>themis::content::ArchiveMetadata::member_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CON-019. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="61" column="12" bodyfile="include/content/archive_processor.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_metadata_1adcea9f55fa7022b01eefc78b82a4c769" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::ArchiveMetadata::directory_count</definition>
+        <argsstring></argsstring>
+        <name>directory_count</name>
+        <qualifiedname>themis::content::ArchiveMetadata::directory_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CON-019. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="62" column="12" bodyfile="include/content/archive_processor.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_metadata_1a209a2a1bd6ab52d3d51076730466f328" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::ArchiveMetadata::file_count</definition>
+        <argsstring></argsstring>
+        <name>file_count</name>
+        <qualifiedname>themis::content::ArchiveMetadata::file_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CON-019. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="63" column="12" bodyfile="include/content/archive_processor.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_metadata_1ac90bf12e8a49184368b8d671d4306ffa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_archive_member" kindref="compound">ArchiveMember</ref> &gt;</type>
+        <definition>std::vector&lt;ArchiveMember&gt; themis::content::ArchiveMetadata::members</definition>
+        <argsstring></argsstring>
+        <name>members</name>
+        <qualifiedname>themis::content::ArchiveMetadata::members</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="64" column="17" bodyfile="include/content/archive_processor.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_archive_metadata_1a95c628c6692969b46643308125d784b9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ArchiveMetadata::comment</definition>
+        <argsstring></argsstring>
+        <name>comment</name>
+        <qualifiedname>themis::content::ArchiveMetadata::comment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/archive_processor.h" line="65" column="17" bodyfile="include/content/archive_processor.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/archive_processor.h" line="56" column="1" bodyfile="include/content/archive_processor.h" bodystart="56" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_archive_metadata_1a95c628c6692969b46643308125d784b9" prot="public" virt="non-virtual"><scope>themis::content::ArchiveMetadata</scope><name>comment</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_metadata_1adcea9f55fa7022b01eefc78b82a4c769" prot="public" virt="non-virtual"><scope>themis::content::ArchiveMetadata</scope><name>directory_count</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_metadata_1a209a2a1bd6ab52d3d51076730466f328" prot="public" virt="non-virtual"><scope>themis::content::ArchiveMetadata</scope><name>file_count</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_metadata_1a4d6050a7eb12b96d79f80eb0a755a7bb" prot="public" virt="non-virtual"><scope>themis::content::ArchiveMetadata</scope><name>format</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_metadata_1a4dc44efcc0faf088fb3c67dc84de20bc" prot="public" virt="non-virtual"><scope>themis::content::ArchiveMetadata</scope><name>is_encrypted</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_metadata_1ae05eff4749a1c87b4bc046d1cb8cbdb3" prot="public" virt="non-virtual"><scope>themis::content::ArchiveMetadata</scope><name>member_count</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_metadata_1ac90bf12e8a49184368b8d671d4306ffa" prot="public" virt="non-virtual"><scope>themis::content::ArchiveMetadata</scope><name>members</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_metadata_1aee7909ff1efd44eb783ba420bfe3cf34" prot="public" virt="non-virtual"><scope>themis::content::ArchiveMetadata</scope><name>total_compressed_size</name></member>
+      <member refid="structthemis_1_1content_1_1_archive_metadata_1af185dc0506e0dd87b9d649db4e27f6fc" prot="public" virt="non-virtual"><scope>themis::content::ArchiveMetadata</scope><name>total_uncompressed_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

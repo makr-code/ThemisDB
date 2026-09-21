@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cdc::ICDCFilterPipeline</compoundname>
+    <derivedcompoundref refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline" prot="public" virt="non-virtual">themis::cdc::InMemoryFilterPipeline</derivedcompoundref>
+    <includes refid="icdc__filter__pipeline_8h" local="no">icdc_filter_pipeline.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1ac5c75edaf5c8b313517c41d7cfbaaeb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cdc::ICDCFilterPipeline::~ICDCFilterPipeline</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ICDCFilterPipeline</name>
+        <qualifiedname>themis::cdc::ICDCFilterPipeline::~ICDCFilterPipeline</qualifiedname>
+        <briefdescription>
+<para>ICDCFilter Pipeline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="157" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a05e00d17bd10850eb441ef8d90b2f336" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::cdc::ICDCFilterPipeline::addFilter</definition>
+        <argsstring>(std::unique_ptr&lt; IEventFilter &gt; filter)=0</argsstring>
+        <name>addFilter</name>
+        <qualifiedname>themis::cdc::ICDCFilterPipeline::addFilter</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1ac779ad44c1a4dfc22630f52a0601e05a">addFilter</reimplementedby>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_i_event_filter" kindref="compound">IEventFilter</ref> &gt;</type>
+          <declname>filter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="159" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a61beaa48d8e41080fbc0ffdf299ebab3" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::cdc::ICDCFilterPipeline::removeFilter</definition>
+        <argsstring>(const std::string &amp;name)=0</argsstring>
+        <name>removeFilter</name>
+        <qualifiedname>themis::cdc::ICDCFilterPipeline::removeFilter</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1af7d3b284e73b932d33d4cf49603fb053">removeFilter</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="161" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1aa61dc3b805d575b461c79aeb99aaea1f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::cdc::ICDCFilterPipeline::hasFilter</definition>
+        <argsstring>(const std::string &amp;name) const =0</argsstring>
+        <name>hasFilter</name>
+        <qualifiedname>themis::cdc::ICDCFilterPipeline::hasFilter</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1af7ebc4533e89e0a3e612fa6190dd5a1c">hasFilter</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="163" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a678a3601b07e29c5ec73d239ee0e658a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::size_t</type>
+        <definition>virtual std::size_t themis::cdc::ICDCFilterPipeline::size</definition>
+        <argsstring>() const =0</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::cdc::ICDCFilterPipeline::size</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a13923901cc3ec26c67a189a56a7df9ad">size</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="165" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a1f85c95fe52782138dd46904a2c66221" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::cdc::ICDCFilterPipeline::empty</definition>
+        <argsstring>() const =0</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::cdc::ICDCFilterPipeline::empty</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a12174d7062c5fcac2a99bb8b029696d6">empty</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="167" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1abc135598dae7cece54232af916b07deb" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1cdc_1abdbe05b7728a134e52ccf6eba10d2a39" kindref="member">FilterResult</ref></type>
+        <definition>virtual FilterResult themis::cdc::ICDCFilterPipeline::apply</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;event) const =0</argsstring>
+        <name>apply</name>
+        <qualifiedname>themis::cdc::ICDCFilterPipeline::apply</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a970a5919b1471ae03720faf29a4247e9">apply</reimplementedby>
+        <param>
+          <type>const <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="169" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1ac6e6a8351a1d9ae98b2a69593484cb10" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &gt;</type>
+        <definition>virtual std::vector&lt; Changefeed::ChangeEvent &gt; themis::cdc::ICDCFilterPipeline::applyBatch</definition>
+        <argsstring>(const std::vector&lt; Changefeed::ChangeEvent &gt; &amp;events) const =0</argsstring>
+        <name>applyBatch</name>
+        <qualifiedname>themis::cdc::ICDCFilterPipeline::applyBatch</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1af50fbeda78c336ae9fca7d1823132c81">applyBatch</reimplementedby>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &gt; &amp;</type>
+          <declname>events</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="171" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a3c5e74e6a04e163980844a4db2c6a642" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::cdc::ICDCFilterPipeline::filterNames</definition>
+        <argsstring>() const =0</argsstring>
+        <name>filterNames</name>
+        <qualifiedname>themis::cdc::ICDCFilterPipeline::filterNames</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a2e5fb9221e5e831a2215ccfcf5779a1d">filterNames</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="174" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1aa3049ad9134fe662b0220c6a9644f417" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::size_t</type>
+        <definition>virtual std::size_t themis::cdc::ICDCFilterPipeline::totalPassed</definition>
+        <argsstring>() const =0</argsstring>
+        <name>totalPassed</name>
+        <qualifiedname>themis::cdc::ICDCFilterPipeline::totalPassed</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1ae2426625c697e2f141616ae8e3fbaa63">totalPassed</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="176" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a08e6389ac930daba8a030dcb56162f21" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::size_t</type>
+        <definition>virtual std::size_t themis::cdc::ICDCFilterPipeline::totalDropped</definition>
+        <argsstring>() const =0</argsstring>
+        <name>totalDropped</name>
+        <qualifiedname>themis::cdc::ICDCFilterPipeline::totalDropped</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1ade3ebf64382913b6f260fddb7bdc14c9">totalDropped</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="178" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a1243a4194c413dd648ec4310f76b2ce1" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cdc::ICDCFilterPipeline::resetCounters</definition>
+        <argsstring>()=0</argsstring>
+        <name>resetCounters</name>
+        <qualifiedname>themis::cdc::ICDCFilterPipeline::resetCounters</qualifiedname>
+        <reimplementedby refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a4b9146b4b9fec32b43899a40aa965bbf">resetCounters</reimplementedby>
+        <briefdescription>
+<para>Reset Counters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="183" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::cdc::ICDCFilterPipeline</label>
+        <link refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline"/>
+      </node>
+      <node id="2">
+        <label>themis::cdc::InMemoryFilterPipeline</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/cdc/icdc_filter_pipeline.h" line="151" column="1" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="151" bodyend="184"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a05e00d17bd10850eb441ef8d90b2f336" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCFilterPipeline</scope><name>addFilter</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1abc135598dae7cece54232af916b07deb" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCFilterPipeline</scope><name>apply</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1ac6e6a8351a1d9ae98b2a69593484cb10" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCFilterPipeline</scope><name>applyBatch</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a1f85c95fe52782138dd46904a2c66221" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCFilterPipeline</scope><name>empty</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a3c5e74e6a04e163980844a4db2c6a642" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCFilterPipeline</scope><name>filterNames</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1aa61dc3b805d575b461c79aeb99aaea1f" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCFilterPipeline</scope><name>hasFilter</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a61beaa48d8e41080fbc0ffdf299ebab3" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCFilterPipeline</scope><name>removeFilter</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a1243a4194c413dd648ec4310f76b2ce1" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCFilterPipeline</scope><name>resetCounters</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a678a3601b07e29c5ec73d239ee0e658a" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCFilterPipeline</scope><name>size</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a08e6389ac930daba8a030dcb56162f21" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCFilterPipeline</scope><name>totalDropped</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1aa3049ad9134fe662b0220c6a9644f417" prot="public" virt="pure-virtual"><scope>themis::cdc::ICDCFilterPipeline</scope><name>totalPassed</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1ac5c75edaf5c8b313517c41d7cfbaaeb1" prot="public" virt="virtual"><scope>themis::cdc::ICDCFilterPipeline</scope><name>~ICDCFilterPipeline</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

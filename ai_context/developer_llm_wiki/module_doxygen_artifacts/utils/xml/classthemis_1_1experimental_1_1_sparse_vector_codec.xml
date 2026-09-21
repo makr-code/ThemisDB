@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1experimental_1_1_sparse_vector_codec" kind="class" language="C++" prot="public">
+    <compoundname>themis::experimental::SparseVectorCodec</compoundname>
+    <includes refid="lossless__vector__compression_8h" local="no">lossless_vector_compression.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1experimental_1_1_sparse_vector_codec_1a5757a650d6571fe1fd7966f844ecb7f3" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1experimental_1_1_sparse_vector_c_s_r" kindref="compound">SparseVectorCSR</ref></type>
+        <definition>static SparseVectorCSR themis::experimental::SparseVectorCodec::compress</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;vec, float epsilon=1e-9f)</argsstring>
+        <name>compress</name>
+        <qualifiedname>themis::experimental::SparseVectorCodec::compress</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>epsilon</declname>
+          <defval>1e-9f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_compression.h" line="123" column="28" bodyfile="include/utils/lossless_vector_compression.h" bodystart="123" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1experimental_1_1_sparse_vector_codec_1add08829c453f14d51b32b3651325d9e0" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>static std::vector&lt; float &gt; themis::experimental::SparseVectorCodec::decompress</definition>
+        <argsstring>(const SparseVectorCSR &amp;sparse)</argsstring>
+        <name>decompress</name>
+        <qualifiedname>themis::experimental::SparseVectorCodec::decompress</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1experimental_1_1_sparse_vector_c_s_r" kindref="compound">SparseVectorCSR</ref> &amp;</type>
+          <declname>sparse</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_compression.h" line="138" column="24" bodyfile="include/utils/lossless_vector_compression.h" bodystart="138" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1experimental_1_1_sparse_vector_codec_1a641c238629343af1938e56157dfdb58e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::experimental::SparseVectorCodec::compute_sparsity</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;vec, float epsilon=1e-9f)</argsstring>
+        <name>compute_sparsity</name>
+        <qualifiedname>themis::experimental::SparseVectorCodec::compute_sparsity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>epsilon</declname>
+          <defval>1e-9f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_compression.h" line="149" column="18" bodyfile="include/utils/lossless_vector_compression.h" bodystart="149" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1experimental_1_1_sparse_vector_codec_1aeb79e6a704fcc0d2291a852d40928092" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::experimental::SparseVectorCodec::dot_product_sparse_dense</definition>
+        <argsstring>(const SparseVectorCSR &amp;sparse, const std::vector&lt; float &gt; &amp;dense)</argsstring>
+        <name>dot_product_sparse_dense</name>
+        <qualifiedname>themis::experimental::SparseVectorCodec::dot_product_sparse_dense</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1experimental_1_1_sparse_vector_c_s_r" kindref="compound">SparseVectorCSR</ref> &amp;</type>
+          <declname>sparse</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>dense</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/lossless_vector_compression.h" line="161" column="18" bodyfile="include/utils/lossless_vector_compression.h" bodystart="161" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Sparse vector codec component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/lossless_vector_compression.h" line="120" column="1" bodyfile="include/utils/lossless_vector_compression.h" bodystart="120" bodyend="171"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1experimental_1_1_sparse_vector_codec_1a5757a650d6571fe1fd7966f844ecb7f3" prot="public" virt="non-virtual"><scope>themis::experimental::SparseVectorCodec</scope><name>compress</name></member>
+      <member refid="classthemis_1_1experimental_1_1_sparse_vector_codec_1a641c238629343af1938e56157dfdb58e" prot="public" virt="non-virtual"><scope>themis::experimental::SparseVectorCodec</scope><name>compute_sparsity</name></member>
+      <member refid="classthemis_1_1experimental_1_1_sparse_vector_codec_1add08829c453f14d51b32b3651325d9e0" prot="public" virt="non-virtual"><scope>themis::experimental::SparseVectorCodec</scope><name>decompress</name></member>
+      <member refid="classthemis_1_1experimental_1_1_sparse_vector_codec_1aeb79e6a704fcc0d2291a852d40928092" prot="public" virt="non-virtual"><scope>themis::experimental::SparseVectorCodec</scope><name>dot_product_sparse_dense</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

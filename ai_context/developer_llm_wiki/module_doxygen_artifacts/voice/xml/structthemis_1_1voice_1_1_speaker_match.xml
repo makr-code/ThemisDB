@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_speaker_match" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::SpeakerMatch</compoundname>
+    <includes refid="voice__auth_8h" local="no">voice_auth.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_speaker_match_1a5e5a41f2fb4512fd76245d93cdc5bdca" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a6497033b83655fba0a86930f89a2f40e" kindref="member">VoiceProfileID</ref></type>
+        <definition>VoiceProfileID themis::voice::SpeakerMatch::profile_id</definition>
+        <argsstring></argsstring>
+        <name>profile_id</name>
+        <qualifiedname>themis::voice::SpeakerMatch::profile_id</qualifiedname>
+        <briefdescription>
+<para>Matched profile. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="97" column="20" bodyfile="include/voice/voice_auth.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_speaker_match_1a27fb9c31decee5b5c7f61f2e5cafd23d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::SpeakerMatch::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::voice::SpeakerMatch::user_id</qualifiedname>
+        <briefdescription>
+<para>Associated user identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="98" column="20" bodyfile="include/voice/voice_auth.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_speaker_match_1a6f290b22828e10e9fdec428659c74905" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::SpeakerMatch::match_score</definition>
+        <argsstring></argsstring>
+        <name>match_score</name>
+        <qualifiedname>themis::voice::SpeakerMatch::match_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Similarity score [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="99" column="20" bodyfile="include/voice/voice_auth.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_speaker_match_1a05264bec77c6c9e22e0b5df826970f5b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::SpeakerMatch::rank</definition>
+        <argsstring></argsstring>
+        <name>rank</name>
+        <qualifiedname>themis::voice::SpeakerMatch::rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>1-based rank (1 = best) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_auth.h" line="100" column="20" bodyfile="include/voice/voice_auth.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single ranked match from an identification search. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_auth.h" line="96" column="1" bodyfile="include/voice/voice_auth.h" bodystart="96" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_speaker_match_1a6f290b22828e10e9fdec428659c74905" prot="public" virt="non-virtual"><scope>themis::voice::SpeakerMatch</scope><name>match_score</name></member>
+      <member refid="structthemis_1_1voice_1_1_speaker_match_1a5e5a41f2fb4512fd76245d93cdc5bdca" prot="public" virt="non-virtual"><scope>themis::voice::SpeakerMatch</scope><name>profile_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_speaker_match_1a05264bec77c6c9e22e0b5df826970f5b" prot="public" virt="non-virtual"><scope>themis::voice::SpeakerMatch</scope><name>rank</name></member>
+      <member refid="structthemis_1_1voice_1_1_speaker_match_1a27fb9c31decee5b5c7f61f2e5cafd23d" prot="public" virt="non-virtual"><scope>themis::voice::SpeakerMatch</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_sandbox_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::SandboxStats</compoundname>
+    <includes refid="module__sandbox_8h" local="no">module_sandbox.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_sandbox_stats_1a17fffe49cacdff8134fb686fb309cd79" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::SandboxStats::peak_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>peak_memory_bytes</name>
+        <qualifiedname>themis::modules::SandboxStats::peak_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="190" column="14" bodyfile="include/themis/base/module_sandbox.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_sandbox_stats_1a77b0ececd6bde639585aebbe96f7ff82" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::SandboxStats::cpu_time_ms</definition>
+        <argsstring></argsstring>
+        <name>cpu_time_ms</name>
+        <qualifiedname>themis::modules::SandboxStats::cpu_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="191" column="14" bodyfile="include/themis/base/module_sandbox.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_sandbox_stats_1a41249fc716bdec31eb1e5291532026ab" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::SandboxStats::syscall_count</definition>
+        <argsstring></argsstring>
+        <name>syscall_count</name>
+        <qualifiedname>themis::modules::SandboxStats::syscall_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="192" column="14" bodyfile="include/themis/base/module_sandbox.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_sandbox_stats_1a988b25f3ee048b9365d9462eafe42244" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::SandboxStats::killed</definition>
+        <argsstring></argsstring>
+        <name>killed</name>
+        <qualifiedname>themis::modules::SandboxStats::killed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if the sandbox was forcibly killed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="193" column="14" bodyfile="include/themis/base/module_sandbox.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_sandbox_stats_1a2c0d5087e4baf8a193856a3601acba7f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::SandboxStats::kill_reason</definition>
+        <argsstring></argsstring>
+        <name>kill_reason</name>
+        <qualifiedname>themis::modules::SandboxStats::kill_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_sandbox.h" line="194" column="17" bodyfile="include/themis/base/module_sandbox.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Resource consumption measured inside a sandbox. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/module_sandbox.h" line="189" column="1" bodyfile="include/themis/base/module_sandbox.h" bodystart="189" bodyend="195"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_sandbox_stats_1a77b0ececd6bde639585aebbe96f7ff82" prot="public" virt="non-virtual"><scope>themis::modules::SandboxStats</scope><name>cpu_time_ms</name></member>
+      <member refid="structthemis_1_1modules_1_1_sandbox_stats_1a2c0d5087e4baf8a193856a3601acba7f" prot="public" virt="non-virtual"><scope>themis::modules::SandboxStats</scope><name>kill_reason</name></member>
+      <member refid="structthemis_1_1modules_1_1_sandbox_stats_1a988b25f3ee048b9365d9462eafe42244" prot="public" virt="non-virtual"><scope>themis::modules::SandboxStats</scope><name>killed</name></member>
+      <member refid="structthemis_1_1modules_1_1_sandbox_stats_1a17fffe49cacdff8134fb686fb309cd79" prot="public" virt="non-virtual"><scope>themis::modules::SandboxStats</scope><name>peak_memory_bytes</name></member>
+      <member refid="structthemis_1_1modules_1_1_sandbox_stats_1a41249fc716bdec31eb1e5291532026ab" prot="public" virt="non-virtual"><scope>themis::modules::SandboxStats</scope><name>syscall_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

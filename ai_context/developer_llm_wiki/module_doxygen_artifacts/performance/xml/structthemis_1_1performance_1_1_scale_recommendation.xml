@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_scale_recommendation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::ScaleRecommendation</compoundname>
+    <includes refid="workload__predictor_8h" local="no">workload_predictor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_scale_recommendation_1aeb538f9ebece9902fb55865082920e12" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1performance_1acf5eb3efb09b0fa0aca8918631586b2d" kindref="member">ScaleDirection</ref></type>
+        <definition>ScaleDirection themis::performance::ScaleRecommendation::direction</definition>
+        <argsstring></argsstring>
+        <name>direction</name>
+        <qualifiedname>themis::performance::ScaleRecommendation::direction</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1performance_1acf5eb3efb09b0fa0aca8918631586b2dab50339a10e1de285ac99d4c3990b8693" kindref="member">ScaleDirection::NONE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="83" column="20" bodyfile="include/performance/workload_predictor.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_scale_recommendation_1afe18c1eda0b13aeb23a6079baf3b0d15" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::performance::ScaleRecommendation::recommended_thread_pool_size</definition>
+        <argsstring></argsstring>
+        <name>recommended_thread_pool_size</name>
+        <qualifiedname>themis::performance::ScaleRecommendation::recommended_thread_pool_size</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Suggested thread pool size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="84" column="14" bodyfile="include/performance/workload_predictor.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_scale_recommendation_1a2fc15d18526816fe1843092ed78cf485" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ScaleRecommendation::recommended_cache_size_mb</definition>
+        <argsstring></argsstring>
+        <name>recommended_cache_size_mb</name>
+        <qualifiedname>themis::performance::ScaleRecommendation::recommended_cache_size_mb</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Suggested cache size in MiB. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="85" column="14" bodyfile="include/performance/workload_predictor.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_scale_recommendation_1ae4c87b26493afc190ca33370d5470f17" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::ScaleRecommendation::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::performance::ScaleRecommendation::confidence</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Confidence of the recommendation [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="86" column="14" bodyfile="include/performance/workload_predictor.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_scale_recommendation_1a57480936e0d8d169c774c0c2e5c8be0a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::ScaleRecommendation::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::performance::ScaleRecommendation::reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable explanation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="87" column="17" bodyfile="include/performance/workload_predictor.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Actionable recommendation produced by <ref refid="classthemis_1_1performance_1_1_workload_predictor_1a208e38b9c87ab71e5c4b6ffcd0f3672e" kindref="member">WorkloadPredictor::recommend_scaling()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/workload_predictor.h" line="82" column="1" bodyfile="include/performance/workload_predictor.h" bodystart="82" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_scale_recommendation_1ae4c87b26493afc190ca33370d5470f17" prot="public" virt="non-virtual"><scope>themis::performance::ScaleRecommendation</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1performance_1_1_scale_recommendation_1aeb538f9ebece9902fb55865082920e12" prot="public" virt="non-virtual"><scope>themis::performance::ScaleRecommendation</scope><name>direction</name></member>
+      <member refid="structthemis_1_1performance_1_1_scale_recommendation_1a57480936e0d8d169c774c0c2e5c8be0a" prot="public" virt="non-virtual"><scope>themis::performance::ScaleRecommendation</scope><name>reason</name></member>
+      <member refid="structthemis_1_1performance_1_1_scale_recommendation_1a2fc15d18526816fe1843092ed78cf485" prot="public" virt="non-virtual"><scope>themis::performance::ScaleRecommendation</scope><name>recommended_cache_size_mb</name></member>
+      <member refid="structthemis_1_1performance_1_1_scale_recommendation_1afe18c1eda0b13aeb23a6079baf3b0d15" prot="public" virt="non-virtual"><scope>themis::performance::ScaleRecommendation</scope><name>recommended_thread_pool_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_cypher_path_segment" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CypherPathSegment</compoundname>
+    <includes refid="cypher__parser_8h" local="no">cypher_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_path_segment_1affcd38d4e24dcbad52f4961dd70cca66" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_cypher_rel_pattern" kindref="compound">CypherRelPattern</ref></type>
+        <definition>CypherRelPattern themis::query::CypherPathSegment::rel</definition>
+        <argsstring></argsstring>
+        <name>rel</name>
+        <qualifiedname>themis::query::CypherPathSegment::rel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="81" column="22" bodyfile="include/query/cypher_parser.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_path_segment_1a49ee4c63c0a09132dcb9c504be5ddb8c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_cypher_node_pattern" kindref="compound">CypherNodePattern</ref></type>
+        <definition>CypherNodePattern themis::query::CypherPathSegment::node</definition>
+        <argsstring></argsstring>
+        <name>node</name>
+        <qualifiedname>themis::query::CypherPathSegment::node</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="82" column="23" bodyfile="include/query/cypher_parser.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::query::CypherNodePattern</label>
+        <link refid="structthemis_1_1query_1_1_cypher_node_pattern"/>
+      </node>
+      <node id="1">
+        <label>themis::query::CypherPathSegment</label>
+        <link refid="structthemis_1_1query_1_1_cypher_path_segment"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>rel</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>node</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::CypherRelPattern</label>
+        <link refid="structthemis_1_1query_1_1_cypher_rel_pattern"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/cypher_parser.h" line="80" column="1" bodyfile="include/query/cypher_parser.h" bodystart="80" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_cypher_path_segment_1a49ee4c63c0a09132dcb9c504be5ddb8c" prot="public" virt="non-virtual"><scope>themis::query::CypherPathSegment</scope><name>node</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_path_segment_1affcd38d4e24dcbad52f4961dd70cca66" prot="public" virt="non-virtual"><scope>themis::query::CypherPathSegment</scope><name>rel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_parameter_server_aggregator" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ParameterServerAggregator</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_gradient_aggregator" prot="public" virt="non-virtual">themis::llm::GradientAggregator</basecompoundref>
+    <includes refid="distributed__training__coordinator_8h" local="no">distributed_training_coordinator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_parameter_server_aggregator_1aa6042575f5a298c2d71e135bb3b39c1d" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, float &gt;</type>
+        <definition>std::map&lt;std::string, float&gt; themis::llm::ParameterServerAggregator::shard_weights_</definition>
+        <argsstring></argsstring>
+        <name>shard_weights_</name>
+        <qualifiedname>themis::llm::ParameterServerAggregator::shard_weights_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="371" column="14" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="371" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_parameter_server_aggregator_1a36de3eeaeff70978a5205f48ca553824" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ParameterServerAggregator::ParameterServerAggregator</definition>
+        <argsstring>(const std::map&lt; std::string, float &gt; &amp;shard_weights)</argsstring>
+        <name>ParameterServerAggregator</name>
+        <qualifiedname>themis::llm::ParameterServerAggregator::ParameterServerAggregator</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, float &gt; &amp;</type>
+          <declname>shard_weights</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="360" column="5" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="360" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_parameter_server_aggregator_1a0bf6d3c576772c956bac7255f5ddabfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ParameterServerAggregator::~ParameterServerAggregator</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~ParameterServerAggregator</name>
+        <qualifiedname>themis::llm::ParameterServerAggregator::~ParameterServerAggregator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="362" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_parameter_server_aggregator_1a24442ab428a0738784105c6a1125aa02" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt;</type>
+        <definition>std::vector&lt; GradientTensor &gt; themis::llm::ParameterServerAggregator::aggregate</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; GradientTensor &gt; &gt; &amp;shard_gradients) override</argsstring>
+        <name>aggregate</name>
+        <qualifiedname>themis::llm::ParameterServerAggregator::aggregate</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_gradient_aggregator_1ab7d3682b91e98ca489fc374608f325da">aggregate</reimplements>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt; &gt; &amp;</type>
+          <declname>shard_gradients</declname>
+        </param>
+        <briefdescription>
+<para>Aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_gradients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), reserve(), size(), std::chrono::system_clock::now(), time_since_epoch(), count(), resize(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="364" column="17" bodyfile="src/llm/distributed_training_coordinator.cpp" bodystart="688" bodyend="752"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_parameter_server_aggregator_1af869660a4bb7f477ee4cefcf5e754198" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ParameterServerAggregator::getStrategy</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStrategy</name>
+        <qualifiedname>themis::llm::ParameterServerAggregator::getStrategy</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_gradient_aggregator_1a0f29ccef9b5dbf21052bd4f4f2a14e0a">getStrategy</reimplements>
+        <briefdescription>
+<para>Get aggregation strategy name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="368" column="17" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="368" bodyend="368"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::GradientAggregator</label>
+        <link refid="classthemis_1_1llm_1_1_gradient_aggregator"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::ParameterServerAggregator</label>
+        <link refid="classthemis_1_1llm_1_1_parameter_server_aggregator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::GradientAggregator</label>
+        <link refid="classthemis_1_1llm_1_1_gradient_aggregator"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::ParameterServerAggregator</label>
+        <link refid="classthemis_1_1llm_1_1_parameter_server_aggregator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/distributed_training_coordinator.h" line="358" column="1" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="358" bodyend="372"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_parameter_server_aggregator_1a24442ab428a0738784105c6a1125aa02" prot="public" virt="virtual"><scope>themis::llm::ParameterServerAggregator</scope><name>aggregate</name></member>
+      <member refid="classthemis_1_1llm_1_1_parameter_server_aggregator_1af869660a4bb7f477ee4cefcf5e754198" prot="public" virt="virtual"><scope>themis::llm::ParameterServerAggregator</scope><name>getStrategy</name></member>
+      <member refid="classthemis_1_1llm_1_1_parameter_server_aggregator_1a36de3eeaeff70978a5205f48ca553824" prot="public" virt="non-virtual"><scope>themis::llm::ParameterServerAggregator</scope><name>ParameterServerAggregator</name></member>
+      <member refid="classthemis_1_1llm_1_1_parameter_server_aggregator_1aa6042575f5a298c2d71e135bb3b39c1d" prot="private" virt="non-virtual"><scope>themis::llm::ParameterServerAggregator</scope><name>shard_weights_</name></member>
+      <member refid="classthemis_1_1llm_1_1_gradient_aggregator_1a538ac51ce6254a4903833963fe058021" prot="public" virt="virtual"><scope>themis::llm::ParameterServerAggregator</scope><name>~GradientAggregator</name></member>
+      <member refid="classthemis_1_1llm_1_1_parameter_server_aggregator_1a0bf6d3c576772c956bac7255f5ddabfd" prot="public" virt="non-virtual"><scope>themis::llm::ParameterServerAggregator</scope><name>~ParameterServerAggregator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

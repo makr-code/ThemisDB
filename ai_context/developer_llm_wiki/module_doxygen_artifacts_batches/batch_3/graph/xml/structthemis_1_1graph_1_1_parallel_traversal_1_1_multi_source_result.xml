@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::ParallelTraversal::MultiSourceResult</compoundname>
+    <includes refid="parallel__traversal_8h" local="no">parallel_traversal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1a238d33f41b6feff6ec8b2cdf6e326e91" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::ParallelTraversal::MultiSourceResult::visited_vertices</definition>
+        <argsstring></argsstring>
+        <name>visited_vertices</name>
+        <qualifiedname>themis::graph::ParallelTraversal::MultiSourceResult::visited_vertices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="40" column="21" bodyfile="include/graph/parallel_traversal.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1a420f5f1377a8a51e036fb47f26f3c31a" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::graph::ParallelTraversal::MultiSourceResult::vertex_to_source</definition>
+        <argsstring></argsstring>
+        <name>vertex_to_source</name>
+        <qualifiedname>themis::graph::ParallelTraversal::MultiSourceResult::vertex_to_source</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="42" column="28" bodyfile="include/graph/parallel_traversal.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1ac66d16bafe69668aaed948746d096f5f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::ParallelTraversal::MultiSourceResult::total_nodes_explored</definition>
+        <argsstring></argsstring>
+        <name>total_nodes_explored</name>
+        <qualifiedname>themis::graph::ParallelTraversal::MultiSourceResult::total_nodes_explored</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="44" column="16" bodyfile="include/graph/parallel_traversal.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1ab0e4ab8f03d7644ce0b84d733df4f908" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::ParallelTraversal::MultiSourceResult::total_edges_traversed</definition>
+        <argsstring></argsstring>
+        <name>total_edges_traversed</name>
+        <qualifiedname>themis::graph::ParallelTraversal::MultiSourceResult::total_edges_traversed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="46" column="16" bodyfile="include/graph/parallel_traversal.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1a76676296d8542f9d7ff44e9d2c772965" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::ParallelTraversal::MultiSourceResult::execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>execution_time_ms</name>
+        <qualifiedname>themis::graph::ParallelTraversal::MultiSourceResult::execution_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="48" column="16" bodyfile="include/graph/parallel_traversal.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1ae39c19d3012dc5b1ca554e8356746982" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::ParallelTraversal::MultiSourceResult::timed_out</definition>
+        <argsstring></argsstring>
+        <name>timed_out</name>
+        <qualifiedname>themis::graph::ParallelTraversal::MultiSourceResult::timed_out</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/parallel_traversal.h" line="50" column="14" bodyfile="include/graph/parallel_traversal.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/parallel_traversal.h" line="39" column="5" bodyfile="include/graph/parallel_traversal.h" bodystart="39" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1a76676296d8542f9d7ff44e9d2c772965" prot="public" virt="non-virtual"><scope>themis::graph::ParallelTraversal::MultiSourceResult</scope><name>execution_time_ms</name></member>
+      <member refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1ae39c19d3012dc5b1ca554e8356746982" prot="public" virt="non-virtual"><scope>themis::graph::ParallelTraversal::MultiSourceResult</scope><name>timed_out</name></member>
+      <member refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1ab0e4ab8f03d7644ce0b84d733df4f908" prot="public" virt="non-virtual"><scope>themis::graph::ParallelTraversal::MultiSourceResult</scope><name>total_edges_traversed</name></member>
+      <member refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1ac66d16bafe69668aaed948746d096f5f" prot="public" virt="non-virtual"><scope>themis::graph::ParallelTraversal::MultiSourceResult</scope><name>total_nodes_explored</name></member>
+      <member refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1a420f5f1377a8a51e036fb47f26f3c31a" prot="public" virt="non-virtual"><scope>themis::graph::ParallelTraversal::MultiSourceResult</scope><name>vertex_to_source</name></member>
+      <member refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1a238d33f41b6feff6ec8b2cdf6e326e91" prot="public" virt="non-virtual"><scope>themis::graph::ParallelTraversal::MultiSourceResult</scope><name>visited_vertices</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

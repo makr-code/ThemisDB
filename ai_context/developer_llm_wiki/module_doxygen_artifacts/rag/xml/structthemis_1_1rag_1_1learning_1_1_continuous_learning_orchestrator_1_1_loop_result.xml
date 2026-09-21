@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::ContinuousLearningOrchestrator::LoopResult</compoundname>
+    <includes refid="continuous__learning__orchestrator_8h" local="no">continuous_learning_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result_1a6c8b0aea3ce7e27d170b637068a92032" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9706b6fbe072bcd09aa54f60d430f2e1" kindref="member">LoopPhase</ref></type>
+        <definition>LoopPhase themis::rag::learning::ContinuousLearningOrchestrator::LoopResult::phase</definition>
+        <argsstring></argsstring>
+        <name>phase</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::LoopResult::phase</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1a9706b6fbe072bcd09aa54f60d430f2e1aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">LoopPhase::IDLE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="260" column="21" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result_1a1634afb06ffeaae0f9ec01c63f8e4f13" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::learning::ContinuousLearningOrchestrator::LoopResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::LoopResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="261" column="21" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result_1ad18214bbc86318f408a076296a8b8635" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::learning::ContinuousLearningOrchestrator::LoopResult::guardrail_passed</definition>
+        <argsstring></argsstring>
+        <name>guardrail_passed</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::LoopResult::guardrail_passed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>False → adapter commit blocked. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="262" column="21" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result_1a40d12916d5e30c3053ec7a3254c5d4c5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::ContinuousLearningOrchestrator::LoopResult::adapter_version</definition>
+        <argsstring></argsstring>
+        <name>adapter_version</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::LoopResult::adapter_version</qualifiedname>
+        <briefdescription>
+<para>Newly registered adapter version (if any). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="263" column="21" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result_1a9d4604e78601a719face47734f05e5b2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ContinuousLearningOrchestrator::LoopResult::metric_delta</definition>
+        <argsstring></argsstring>
+        <name>metric_delta</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::LoopResult::metric_delta</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Δ(primary_metric) for this round. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="264" column="21" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result_1a28f0b0940bed29969c67d986bed9ad11" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ContinuousLearningOrchestrator::LoopResult::signal_value</definition>
+        <argsstring></argsstring>
+        <name>signal_value</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::LoopResult::signal_value</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Last observed loop signal value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="265" column="21" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result_1a4f0c72a300185a5192c3e3964ae1818b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::ContinuousLearningOrchestrator::LoopResult::signal_source</definition>
+        <argsstring></argsstring>
+        <name>signal_source</name>
+        <qualifiedname>themis::rag::learning::ContinuousLearningOrchestrator::LoopResult::signal_source</qualifiedname>
+        <briefdescription>
+<para>live|fallback_missing|fallback_error|fallback_invalid. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_orchestrator.h" line="266" column="21" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result produced by a loop execution. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/continuous_learning_orchestrator.h" line="259" column="5" bodyfile="include/rag/continuous_learning_orchestrator.h" bodystart="259" bodyend="267"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result_1a40d12916d5e30c3053ec7a3254c5d4c5" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::LoopResult</scope><name>adapter_version</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result_1ad18214bbc86318f408a076296a8b8635" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::LoopResult</scope><name>guardrail_passed</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result_1a9d4604e78601a719face47734f05e5b2" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::LoopResult</scope><name>metric_delta</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result_1a6c8b0aea3ce7e27d170b637068a92032" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::LoopResult</scope><name>phase</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result_1a4f0c72a300185a5192c3e3964ae1818b" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::LoopResult</scope><name>signal_source</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result_1a28f0b0940bed29969c67d986bed9ad11" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::LoopResult</scope><name>signal_value</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_continuous_learning_orchestrator_1_1_loop_result_1a1634afb06ffeaae0f9ec01c63f8e4f13" prot="public" virt="non-virtual"><scope>themis::rag::learning::ContinuousLearningOrchestrator::LoopResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

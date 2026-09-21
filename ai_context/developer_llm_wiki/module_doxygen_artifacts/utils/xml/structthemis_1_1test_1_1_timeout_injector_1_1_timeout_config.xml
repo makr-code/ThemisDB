@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1_timeout_injector_1_1_timeout_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::TimeoutInjector::TimeoutConfig</compoundname>
+    <basecompoundref refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config" prot="public" virt="non-virtual">themis::test::FaultInjector::InjectionConfig</basecompoundref>
+    <includes refid="fault__injector_8h" local="no">fault_injector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_timeout_injector_1_1_timeout_config_1af9f8a0f3ee3f4c8de63429f1e0890a40" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::test::TimeoutInjector::TimeoutConfig::timeout_delay</definition>
+        <argsstring></argsstring>
+        <name>timeout_delay</name>
+        <qualifiedname>themis::test::TimeoutInjector::TimeoutConfig::timeout_delay</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="376" column="35" bodyfile="tests/utils/fault_injector.h" bodystart="376" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_timeout_injector_1_1_timeout_config_1a8ae19aa5a1afcb25e7aec1e88333f26c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::test::TimeoutInjector::TimeoutConfig::trigger_immediately</definition>
+        <argsstring></argsstring>
+        <name>trigger_immediately</name>
+        <qualifiedname>themis::test::TimeoutInjector::TimeoutConfig::trigger_immediately</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="377" column="14" bodyfile="tests/utils/fault_injector.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::test::FaultInjector::InjectionConfig</label>
+        <link refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config"/>
+      </node>
+      <node id="1">
+        <label>themis::test::TimeoutInjector::TimeoutConfig</label>
+        <link refid="structthemis_1_1test_1_1_timeout_injector_1_1_timeout_config"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::test::FaultInjector::InjectionConfig</label>
+        <link refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config"/>
+      </node>
+      <node id="1">
+        <label>themis::test::TimeoutInjector::TimeoutConfig</label>
+        <link refid="structthemis_1_1test_1_1_timeout_injector_1_1_timeout_config"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/utils/fault_injector.h" line="375" column="5" bodyfile="tests/utils/fault_injector.h" bodystart="375" bodyend="378"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1a6c02ff42238b1deab7d7c1a0183d5b15" prot="public" virt="non-virtual"><scope>themis::test::TimeoutInjector::TimeoutConfig</scope><name>auto_recover</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1a58f9575692c545492473abaa8650a2da" prot="public" virt="non-virtual"><scope>themis::test::TimeoutInjector::TimeoutConfig</scope><name>description</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1ac3a0e223056675dc4ed0feea780bdd24" prot="public" virt="non-virtual"><scope>themis::test::TimeoutInjector::TimeoutConfig</scope><name>duration</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1a30c2850dcd882ee4ab10bd0a292c5f42" prot="public" virt="non-virtual"><scope>themis::test::TimeoutInjector::TimeoutConfig</scope><name>probability</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1a06b6f7bce1eebd47f3eb2647fad8c1c4" prot="public" virt="non-virtual"><scope>themis::test::TimeoutInjector::TimeoutConfig</scope><name>rng_seed</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1ae5203201f0679ba59703f063e36598e9" prot="public" virt="non-virtual"><scope>themis::test::TimeoutInjector::TimeoutConfig</scope><name>target_component</name></member>
+      <member refid="structthemis_1_1test_1_1_timeout_injector_1_1_timeout_config_1af9f8a0f3ee3f4c8de63429f1e0890a40" prot="public" virt="non-virtual"><scope>themis::test::TimeoutInjector::TimeoutConfig</scope><name>timeout_delay</name></member>
+      <member refid="structthemis_1_1test_1_1_timeout_injector_1_1_timeout_config_1a8ae19aa5a1afcb25e7aec1e88333f26c" prot="public" virt="non-virtual"><scope>themis::test::TimeoutInjector::TimeoutConfig</scope><name>trigger_immediately</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1a38d8130f04a57247923de7ce01e540de" prot="public" virt="non-virtual"><scope>themis::test::TimeoutInjector::TimeoutConfig</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

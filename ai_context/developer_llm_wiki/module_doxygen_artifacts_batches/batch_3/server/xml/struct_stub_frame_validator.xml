@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_stub_frame_validator" kind="struct" language="C++" prot="public">
+    <compoundname>StubFrameValidator</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="struct_stub_frame_validator_1af78d62cfe4ff54ca7f4c4d84794063ad" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FrameType</name>
+        <qualifiedname>StubFrameValidator::FrameType</qualifiedname>
+        <enumvalue id="struct_stub_frame_validator_1af78d62cfe4ff54ca7f4c4d84794063adabb63a9d80d70b639ebc0628b948b8948" prot="public">
+          <name>Wellformed</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="struct_stub_frame_validator_1af78d62cfe4ff54ca7f4c4d84794063ada0dc7301026e66d38061d7eaba481c9a5" prot="public">
+          <name>Malformed</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="struct_stub_frame_validator_1af78d62cfe4ff54ca7f4c4d84794063ada2d50084f04994afa70d78b604a22dd31" prot="public">
+          <name>VersionMismatch</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="393" column="5" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="393" bodyend="393"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_stub_frame_validator_1a9c58aeff1427796af32f24f841120058" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161" kindref="member">ServerErrorClass</ref></type>
+        <definition>ServerErrorClass StubFrameValidator::validate</definition>
+        <argsstring>(FrameType type, int client_version=1, int server_version=1)</argsstring>
+        <name>validate</name>
+        <qualifiedname>StubFrameValidator::validate</qualifiedname>
+        <param>
+          <type><ref refid="struct_stub_frame_validator_1af78d62cfe4ff54ca7f4c4d84794063ad" kindref="member">FrameType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>client_version</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>server_version</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="395" column="22" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="395" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_stub_frame_validator_1a44e9c88b041092e24fa62f76896a34d6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161" kindref="member">ServerErrorClass</ref></type>
+        <definition>ServerErrorClass StubFrameValidator::checkQuorum</definition>
+        <argsstring>(int healthy_nodes, int total_nodes)</argsstring>
+        <name>checkQuorum</name>
+        <qualifiedname>StubFrameValidator::checkQuorum</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>healthy_nodes</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>total_nodes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="410" column="22" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="410" bodyend="416"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub protocol frame validator. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_contract_hardening_focused.cpp" line="392" column="1" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="392" bodyend="417"/>
+    <listofallmembers>
+      <member refid="struct_stub_frame_validator_1a44e9c88b041092e24fa62f76896a34d6" prot="public" virt="non-virtual"><scope>StubFrameValidator</scope><name>checkQuorum</name></member>
+      <member refid="struct_stub_frame_validator_1af78d62cfe4ff54ca7f4c4d84794063ad" prot="public" virt="non-virtual"><scope>StubFrameValidator</scope><name>FrameType</name></member>
+      <member refid="struct_stub_frame_validator_1a9c58aeff1427796af32f24f841120058" prot="public" virt="non-virtual"><scope>StubFrameValidator</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

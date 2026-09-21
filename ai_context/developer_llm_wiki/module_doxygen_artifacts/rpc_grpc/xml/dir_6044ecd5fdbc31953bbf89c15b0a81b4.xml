@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_6044ecd5fdbc31953bbf89c15b0a81b4" kind="dir">
+    <compoundname>include/rpc_grpc</compoundname>
+    <innerfile refid="circuit__breaker_8h">circuit_breaker.h</innerfile>
+    <innerfile refid="rpc__grpc__api__contract_8h">rpc_grpc_api_contract.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rpc_grpc/"/>
+  </compounddef>
+</doxygen>

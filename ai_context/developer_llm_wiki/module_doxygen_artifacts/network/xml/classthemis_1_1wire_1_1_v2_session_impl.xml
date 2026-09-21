@@ -1,0 +1,970 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1wire_1_1_v2_session_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::wire::V2SessionImpl</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">V2Session</basecompoundref>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1wire_1_1_v2_session_impl_1a274c92af0f5fce75d4268b332218bd11" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::wire::V2SessionImpl::MAX_HEADER_FIELD_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_HEADER_FIELD_SIZE</name>
+        <qualifiedname>themis::wire::V2SessionImpl::MAX_HEADER_FIELD_SIZE</qualifiedname>
+        <initializer>= 8 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="709" column="29" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="709" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1wire_1_1_v2_session_impl_1af464ee89c5922aa70d46e81b100807aa" prot="private" static="no" mutable="no">
+        <type>tcp::socket</type>
+        <definition>tcp::socket themis::wire::V2SessionImpl::socket_</definition>
+        <argsstring></argsstring>
+        <name>socket_</name>
+        <qualifiedname>themis::wire::V2SessionImpl::socket_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="753" column="17" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="753" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1wire_1_1_v2_session_impl_1a209256fd6aa3027591f3c92a8ebf562f" prot="private" static="no" mutable="no">
+        <type>V2ConnectionConfig</type>
+        <definition>V2ConnectionConfig themis::wire::V2SessionImpl::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::wire::V2SessionImpl::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="754" column="24" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="754" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1wire_1_1_v2_session_impl_1a297128be3b39841105c7432ad6144fd7" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::wire::V2SessionImpl::connection_id_</definition>
+        <argsstring></argsstring>
+        <name>connection_id_</name>
+        <qualifiedname>themis::wire::V2SessionImpl::connection_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="755" column="17" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="755" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1wire_1_1_v2_session_impl_1aaa24bcf82cf899d09c22922e1ff1de88" prot="private" static="no" mutable="no">
+        <type>V2DataHandler</type>
+        <definition>V2DataHandler themis::wire::V2SessionImpl::data_handler_</definition>
+        <argsstring></argsstring>
+        <name>data_handler_</name>
+        <qualifiedname>themis::wire::V2SessionImpl::data_handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="757" column="19" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="757" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1wire_1_1_v2_session_impl_1a0a04d41b476dd00e5eb854fb306b9d5f" prot="private" static="no" mutable="no">
+        <type>V2HeadersHandler</type>
+        <definition>V2HeadersHandler themis::wire::V2SessionImpl::headers_handler_</definition>
+        <argsstring></argsstring>
+        <name>headers_handler_</name>
+        <qualifiedname>themis::wire::V2SessionImpl::headers_handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="758" column="22" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="758" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1wire_1_1_v2_session_impl_1ac9bbd24250357598d01513cd7b4e1917" prot="private" static="no" mutable="no">
+        <type>V2RstStreamHandler</type>
+        <definition>V2RstStreamHandler themis::wire::V2SessionImpl::rst_handler_</definition>
+        <argsstring></argsstring>
+        <name>rst_handler_</name>
+        <qualifiedname>themis::wire::V2SessionImpl::rst_handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="759" column="24" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="759" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1wire_1_1_v2_session_impl_1a5d32332d48a4a56faede758e6697e911" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;void(const std::string &amp;)&gt; themis::wire::V2SessionImpl::on_disconnect_</definition>
+        <argsstring></argsstring>
+        <name>on_disconnect_</name>
+        <qualifiedname>themis::wire::V2SessionImpl::on_disconnect_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="760" column="19" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="760" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1wire_1_1_v2_session_impl_1afc7d0a7ec05e8ef72d9b7e51a95062f9" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::wire::V2SessionImpl::streams_mutex_</definition>
+        <argsstring></argsstring>
+        <name>streams_mutex_</name>
+        <qualifiedname>themis::wire::V2SessionImpl::streams_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="762" column="24" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="762" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1wire_1_1_v2_session_impl_1a37f806c1da1ec651ccb8d68801c05a75" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint32_t, V2Stream &gt;</type>
+        <definition>std::unordered_map&lt;uint32_t, V2Stream&gt; themis::wire::V2SessionImpl::streams_</definition>
+        <argsstring></argsstring>
+        <name>streams_</name>
+        <qualifiedname>themis::wire::V2SessionImpl::streams_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="763" column="24" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="763" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1wire_1_1_v2_session_impl_1a758a20871f1a9230d3ab832531d339b6" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::wire::V2SessionImpl::write_mutex_</definition>
+        <argsstring></argsstring>
+        <name>write_mutex_</name>
+        <qualifiedname>themis::wire::V2SessionImpl::write_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="765" column="16" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="765" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1wire_1_1_v2_session_impl_1a1367eb0be99cb008d295a4b8c3fbf6d0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themis::wire::V2SessionImpl::next_server_stream_id_</definition>
+        <argsstring></argsstring>
+        <name>next_server_stream_id_</name>
+        <qualifiedname>themis::wire::V2SessionImpl::next_server_stream_id_</qualifiedname>
+        <initializer>{2}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="767" column="17" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="767" bodyend="767"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1wire_1_1_v2_session_impl_1a41467b6d6f882cad803c027aae7add52" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int32_t &gt;</type>
+        <definition>std::atomic&lt;int32_t&gt; themis::wire::V2SessionImpl::connection_send_window_</definition>
+        <argsstring></argsstring>
+        <name>connection_send_window_</name>
+        <qualifiedname>themis::wire::V2SessionImpl::connection_send_window_</qualifiedname>
+        <initializer>{static_cast&lt;int32_t&gt;(V2_DEFAULT_WINDOW)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="768" column="17" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="768" bodyend="768"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1wire_1_1_v2_session_impl_1aa0f01ff123bbdfc41a65318e860105e4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::wire::V2SessionImpl::frames_received_</definition>
+        <argsstring></argsstring>
+        <name>frames_received_</name>
+        <qualifiedname>themis::wire::V2SessionImpl::frames_received_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="770" column="17" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="770" bodyend="770"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1wire_1_1_v2_session_impl_1acc8dc24001896c082eb7237c5a5d5183" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::wire::V2SessionImpl::frames_sent_</definition>
+        <argsstring></argsstring>
+        <name>frames_sent_</name>
+        <qualifiedname>themis::wire::V2SessionImpl::frames_sent_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="771" column="17" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="771" bodyend="771"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1wire_1_1_v2_session_impl_1ad2f8e70fc8f8302d5db095429ce3b347" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::wire::V2SessionImpl::bytes_received_</definition>
+        <argsstring></argsstring>
+        <name>bytes_received_</name>
+        <qualifiedname>themis::wire::V2SessionImpl::bytes_received_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="772" column="17" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="772" bodyend="772"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1wire_1_1_v2_session_impl_1a7d3e11315560a4f3be0c6919f5f7ef86" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::wire::V2SessionImpl::bytes_sent_</definition>
+        <argsstring></argsstring>
+        <name>bytes_sent_</name>
+        <qualifiedname>themis::wire::V2SessionImpl::bytes_sent_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="773" column="17" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="773" bodyend="773"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1ab0ce100ebf35ab9b04e841fc33aa193b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::wire::V2SessionImpl::V2SessionImpl</definition>
+        <argsstring>(tcp::socket socket, const V2ConnectionConfig &amp;cfg, V2DataHandler data_handler, V2HeadersHandler headers_handler, V2RstStreamHandler rst_handler)</argsstring>
+        <name>V2SessionImpl</name>
+        <qualifiedname>themis::wire::V2SessionImpl::V2SessionImpl</qualifiedname>
+        <param>
+          <type>tcp::socket</type>
+          <declname>socket</declname>
+        </param>
+        <param>
+          <type>const V2ConnectionConfig &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>V2DataHandler</type>
+          <declname>data_handler</declname>
+        </param>
+        <param>
+          <type>V2HeadersHandler</type>
+          <declname>headers_handler</declname>
+        </param>
+        <param>
+          <type>V2RstStreamHandler</type>
+          <declname>rst_handler</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="198" column="5" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="198" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1a09d0639a872c9428b847ea8d346213bd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::wire::V2SessionImpl::connection_id</definition>
+        <argsstring>() const override</argsstring>
+        <name>connection_id</name>
+        <qualifiedname>themis::wire::V2SessionImpl::connection_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="209" column="23" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="209" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1a04c557e4edd8fc38ed92c889e9ea99c3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::V2SessionImpl::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::wire::V2SessionImpl::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: asyncReadHeader(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="217" column="10" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="217" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1a6651155e8359d562189575659cb5e3b2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::V2SessionImpl::set_disconnect_handler</definition>
+        <argsstring>(std::function&lt; void(const std::string &amp;)&gt; cb)</argsstring>
+        <name>set_disconnect_handler</name>
+        <qualifiedname>themis::wire::V2SessionImpl::set_disconnect_handler</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="221" column="10" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="221" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1ad435364507f186d1fb6c67b8cf63da44" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::V2SessionImpl::send_data</definition>
+        <argsstring>(uint32_t stream_id, const std::vector&lt; uint8_t &gt; &amp;data, bool end_stream) override</argsstring>
+        <name>send_data</name>
+        <qualifiedname>themis::wire::V2SessionImpl::send_data</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>stream_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>end_stream</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">write_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="225" column="10" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="225" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1a01e6788a2a988401fdeb66833fbdfa42" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::wire::V2SessionImpl::push_promise</definition>
+        <argsstring>(uint32_t associated_stream_id, const std::unordered_map&lt; std::string, std::string &gt; &amp;headers) override</argsstring>
+        <name>push_promise</name>
+        <qualifiedname>themis::wire::V2SessionImpl::push_promise</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>associated_stream_id</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="277" column="14" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="277" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1a7d75b9d29547398f36a300655fb2f766" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::V2SessionImpl::reset_stream</definition>
+        <argsstring>(uint32_t stream_id, uint32_t error_code) override</argsstring>
+        <name>reset_stream</name>
+        <qualifiedname>themis::wire::V2SessionImpl::reset_stream</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>stream_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>error_code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Sl. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">streams_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="305" column="10" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="305" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1a7691d530b80b82001f1e8f1e2a63e018" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::V2SessionImpl::go_away</definition>
+        <argsstring>(uint32_t last_stream_id, uint32_t error_code) override</argsstring>
+        <name>go_away</name>
+        <qualifiedname>themis::wire::V2SessionImpl::go_away</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>last_stream_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>error_code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">write_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="333" column="10" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="333" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1a3fcf36ca365f3902859e8ccfd99f078b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::wire::V2SessionImpl::open_stream_count</definition>
+        <argsstring>() const override</argsstring>
+        <name>open_stream_count</name>
+        <qualifiedname>themis::wire::V2SessionImpl::open_stream_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">streams_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="361" column="12" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="361" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1accbe44e5ef09bfdd2e82ecd8547c0bc1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t themis::wire::V2SessionImpl::send_window</definition>
+        <argsstring>(uint32_t stream_id) const override</argsstring>
+        <name>send_window</name>
+        <qualifiedname>themis::wire::V2SessionImpl::send_window</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>stream_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">streams_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="375" column="13" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="375" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1a5d765c5699c4ec2b2b497123c72b7bb7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::V2SessionImpl::update_connection_window</definition>
+        <argsstring>(uint32_t increment) override</argsstring>
+        <name>update_connection_window</name>
+        <qualifiedname>themis::wire::V2SessionImpl::update_connection_window</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>increment</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="386" column="10" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="386" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1acecea40859cee9b80d4c29a6ebc0d7fd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::V2SessionImpl::set_stream_priority</definition>
+        <argsstring>(uint32_t stream_id, uint32_t dependency, uint8_t weight, bool exclusive) override</argsstring>
+        <name>set_stream_priority</name>
+        <qualifiedname>themis::wire::V2SessionImpl::set_stream_priority</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>stream_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>dependency</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>weight</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>exclusive</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Also update local stream metadata so callers can inspect priority. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">streams_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="390" column="10" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="390" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1abe367f3a465d383a82e6e1801f52f502" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::wire::V2SessionImpl::frames_received</definition>
+        <argsstring>() const override</argsstring>
+        <name>frames_received</name>
+        <qualifiedname>themis::wire::V2SessionImpl::frames_received</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="436" column="14" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="436" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1aebe631737f6f43de3ad2e073f4a40b67" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::wire::V2SessionImpl::frames_sent</definition>
+        <argsstring>() const override</argsstring>
+        <name>frames_sent</name>
+        <qualifiedname>themis::wire::V2SessionImpl::frames_sent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="439" column="14" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="439" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1a16699ad0e708d4c17e9a03a305db7e8e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::wire::V2SessionImpl::bytes_received</definition>
+        <argsstring>() const override</argsstring>
+        <name>bytes_received</name>
+        <qualifiedname>themis::wire::V2SessionImpl::bytes_received</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="442" column="14" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="442" bodyend="444"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1ad79d164aa4495575082babb856b8c869" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::wire::V2SessionImpl::bytes_sent</definition>
+        <argsstring>() const override</argsstring>
+        <name>bytes_sent</name>
+        <qualifiedname>themis::wire::V2SessionImpl::bytes_sent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="445" column="14" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="445" bodyend="447"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1a1fb011a207c586cf84c7ebb0806a35b2" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::V2SessionImpl::asyncReadHeader</definition>
+        <argsstring>()</argsstring>
+        <name>asyncReadHeader</name>
+        <qualifiedname>themis::wire::V2SessionImpl::asyncReadHeader</qualifiedname>
+        <briefdescription>
+<para>── Async read pipeline ──────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: shared_from_this(), net::async_read(), net::buffer(), on_disconnect_(), parseHeader(), data(), is_valid(), <ref refid="classthemis_1_1wire_1_1_v2_session_impl_1a7691d530b80b82001f1e8f1e2a63e018" kindref="member">go_away()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="455" column="10" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="455" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1a852d74000136e820d156cc2c80489120" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::V2SessionImpl::asyncReadPayload</definition>
+        <argsstring>(const V2FrameHeader &amp;hdr)</argsstring>
+        <name>asyncReadPayload</name>
+        <qualifiedname>themis::wire::V2SessionImpl::asyncReadPayload</qualifiedname>
+        <param>
+          <type>const V2FrameHeader &amp;</type>
+          <declname>hdr</declname>
+        </param>
+        <briefdescription>
+<para>Async Read Payload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hdr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1wire_1_1_v2_session_impl_1a7691d530b80b82001f1e8f1e2a63e018" kindref="member">go_away()</ref>, shared_from_this(), net::async_read(), net::buffer(), on_disconnect_(), fetch_add(), handleFrame(), asyncReadHeader(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="479" column="10" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="479" bodyend="499"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1acaa38c1c065089b67465601fdb3c69c7" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::V2SessionImpl::handleFrame</definition>
+        <argsstring>(const V2FrameHeader &amp;hdr, const std::vector&lt; uint8_t &gt; &amp;payload)</argsstring>
+        <name>handleFrame</name>
+        <qualifiedname>themis::wire::V2SessionImpl::handleFrame</qualifiedname>
+        <param>
+          <type>const V2FrameHeader &amp;</type>
+          <declname>hdr</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Handle Frame. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hdr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: get_type(), ensureStreamOpen(), has_flag(), decompressZstd(), empty(), <ref refid="classthemis_1_1wire_1_1_v2_session_impl_1a7d75b9d29547398f36a300655fb2f766" kindref="member">reset_stream()</ref>, decompressLZ4(), data_handler_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="507" column="10" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="507" bodyend="638"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1aa9dc5dffef041944676e80c4d41177fc" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::V2SessionImpl::ensureStreamOpen</definition>
+        <argsstring>(uint32_t stream_id)</argsstring>
+        <name>ensureStreamOpen</name>
+        <qualifiedname>themis::wire::V2SessionImpl::ensureStreamOpen</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>stream_id</declname>
+        </param>
+        <briefdescription>
+<para>── Helpers ─────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stream_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the stream.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="646" column="10" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="646" bodyend="655"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1acbaeeff033429c326b03aa264d0800e1" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::V2SessionImpl::closeStream</definition>
+        <argsstring>(uint32_t stream_id, bool remote_closed)</argsstring>
+        <name>closeStream</name>
+        <qualifiedname>themis::wire::V2SessionImpl::closeStream</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>stream_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>remote_closed</declname>
+        </param>
+        <briefdescription>
+<para>Close Stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stream_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remote_closed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="663" column="10" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="663" bodyend="681"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1aed4bf0958c7c880c052a9a659a88ee30" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::V2SessionImpl::sendWindowUpdate</definition>
+        <argsstring>(uint32_t stream_id, uint32_t increment)</argsstring>
+        <name>sendWindowUpdate</name>
+        <qualifiedname>themis::wire::V2SessionImpl::sendWindowUpdate</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>stream_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>increment</declname>
+        </param>
+        <briefdescription>
+<para>Send Window Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stream_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the stream. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">increment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: htonl32(), serializeHeader(), insert(), end(), begin(), sendFrame(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="689" column="10" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="689" bodyend="705"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1a73bef8faf2ff19120a95ae17cc80c58f" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::wire::V2SessionImpl::sendFrame</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; frame)</argsstring>
+        <name>sendFrame</name>
+        <qualifiedname>themis::wire::V2SessionImpl::sendFrame</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt;</type>
+          <declname>frame</declname>
+        </param>
+        <briefdescription>
+<para>Keeps <computeroutput>frame</computeroutput> alive on the heap for the duration of the async write. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">frame</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(), lock(), net::async_write(), net::buffer(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="746" column="10" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="746" bodyend="750"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1wire_1_1_v2_session_impl_1a6eb68e84f6dbffe0f732dce8fb5ab312" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>static std::unordered_map&lt; std::string, std::string &gt; themis::wire::V2SessionImpl::decodeHeaders</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;payload)</argsstring>
+        <name>decodeHeaders</name>
+        <qualifiedname>themis::wire::V2SessionImpl::decodeHeaders</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="711" column="31" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="711" bodyend="737"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>V2Session</label>
+      </node>
+      <node id="1">
+        <label>themis::wire::V2SessionImpl</label>
+        <link refid="classthemis_1_1wire_1_1_v2_session_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>V2Session</label>
+      </node>
+      <node id="1">
+        <label>themis::wire::V2SessionImpl</label>
+        <link refid="classthemis_1_1wire_1_1_v2_session_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/network/wire_protocol_v2.cpp" line="196" column="1" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="196" bodyend="774"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a1fb011a207c586cf84c7ebb0806a35b2" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>asyncReadHeader</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a852d74000136e820d156cc2c80489120" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>asyncReadPayload</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a16699ad0e708d4c17e9a03a305db7e8e" prot="public" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>bytes_received</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1ad2f8e70fc8f8302d5db095429ce3b347" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>bytes_received_</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1ad79d164aa4495575082babb856b8c869" prot="public" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>bytes_sent</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a7d3e11315560a4f3be0c6919f5f7ef86" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>bytes_sent_</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a209256fd6aa3027591f3c92a8ebf562f" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1acbaeeff033429c326b03aa264d0800e1" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>closeStream</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a09d0639a872c9428b847ea8d346213bd" prot="public" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>connection_id</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a297128be3b39841105c7432ad6144fd7" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>connection_id_</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a41467b6d6f882cad803c027aae7add52" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>connection_send_window_</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1aaa24bcf82cf899d09c22922e1ff1de88" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>data_handler_</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a6eb68e84f6dbffe0f732dce8fb5ab312" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>decodeHeaders</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1aa9dc5dffef041944676e80c4d41177fc" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>ensureStreamOpen</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1abe367f3a465d383a82e6e1801f52f502" prot="public" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>frames_received</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1aa0f01ff123bbdfc41a65318e860105e4" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>frames_received_</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1aebe631737f6f43de3ad2e073f4a40b67" prot="public" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>frames_sent</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1acc8dc24001896c082eb7237c5a5d5183" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>frames_sent_</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a7691d530b80b82001f1e8f1e2a63e018" prot="public" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>go_away</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1acaa38c1c065089b67465601fdb3c69c7" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>handleFrame</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a0a04d41b476dd00e5eb854fb306b9d5f" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>headers_handler_</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a274c92af0f5fce75d4268b332218bd11" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>MAX_HEADER_FIELD_SIZE</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a1367eb0be99cb008d295a4b8c3fbf6d0" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>next_server_stream_id_</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a5d32332d48a4a56faede758e6697e911" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>on_disconnect_</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a3fcf36ca365f3902859e8ccfd99f078b" prot="public" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>open_stream_count</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a01e6788a2a988401fdeb66833fbdfa42" prot="public" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>push_promise</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a7d75b9d29547398f36a300655fb2f766" prot="public" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>reset_stream</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1ac9bbd24250357598d01513cd7b4e1917" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>rst_handler_</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1ad435364507f186d1fb6c67b8cf63da44" prot="public" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>send_data</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1accbe44e5ef09bfdd2e82ecd8547c0bc1" prot="public" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>send_window</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a73bef8faf2ff19120a95ae17cc80c58f" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>sendFrame</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1aed4bf0958c7c880c052a9a659a88ee30" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>sendWindowUpdate</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a6651155e8359d562189575659cb5e3b2" prot="public" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>set_disconnect_handler</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1acecea40859cee9b80d4c29a6ebc0d7fd" prot="public" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>set_stream_priority</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1af464ee89c5922aa70d46e81b100807aa" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>socket_</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a04c557e4edd8fc38ed92c889e9ea99c3" prot="public" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>start</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a37f806c1da1ec651ccb8d68801c05a75" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>streams_</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1afc7d0a7ec05e8ef72d9b7e51a95062f9" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>streams_mutex_</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a5d765c5699c4ec2b2b497123c72b7bb7" prot="public" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>update_connection_window</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1ab0ce100ebf35ab9b04e841fc33aa193b" prot="public" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>V2SessionImpl</name></member>
+      <member refid="classthemis_1_1wire_1_1_v2_session_impl_1a758a20871f1a9230d3ab832531d339b6" prot="private" virt="non-virtual"><scope>themis::wire::V2SessionImpl</scope><name>write_mutex_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_checkpoint_fault_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::CheckpointFaultContext</compoundname>
+    <includes refid="training__failsafe_8h" local="no">training_failsafe.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_fault_context_1a41568fc4135c2be82502c6bd2ecbe6a6" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref></type>
+        <definition>TrainingErrorCode themis::training::CheckpointFaultContext::fault_code</definition>
+        <argsstring></argsstring>
+        <name>fault_code</name>
+        <qualifiedname>themis::training::CheckpointFaultContext::fault_code</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841bad0749aaba8b833466dfcbb0428e4f89c" kindref="member">TrainingErrorCode::SUCCESS</ref></initializer>
+        <briefdescription>
+<para>Error code that triggered the fault. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="70" column="23" bodyfile="include/training/training_failsafe.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_fault_context_1a5562990f5295a298533c8f6d0441c94b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::CheckpointFaultContext::checkpoint_path</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_path</name>
+        <qualifiedname>themis::training::CheckpointFaultContext::checkpoint_path</qualifiedname>
+        <briefdescription>
+<para>Path of the checkpoint that encountered the fault. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="72" column="17" bodyfile="include/training/training_failsafe.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_fault_context_1af8b1be4fd1f031cb9c29109aeabf5ad4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::CheckpointFaultContext::has_fallback</definition>
+        <argsstring></argsstring>
+        <name>has_fallback</name>
+        <qualifiedname>themis::training::CheckpointFaultContext::has_fallback</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether a verified fallback checkpoint is available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="74" column="10" bodyfile="include/training/training_failsafe.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_fault_context_1ab4b0c227feb3dd775c4793ed61ae67aa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::CheckpointFaultContext::fallback_path</definition>
+        <argsstring></argsstring>
+        <name>fallback_path</name>
+        <qualifiedname>themis::training::CheckpointFaultContext::fallback_path</qualifiedname>
+        <briefdescription>
+<para>Path of the fallback checkpoint (ignored when has_fallback is false). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="76" column="17" bodyfile="include/training/training_failsafe.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_fault_context_1af01f1f4d63c75b924df669704ec19206" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::CheckpointFaultContext::during_save</definition>
+        <argsstring></argsstring>
+        <name>during_save</name>
+        <qualifiedname>themis::training::CheckpointFaultContext::during_save</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the fault occurred during a save (vs. load/verify) operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="78" column="10" bodyfile="include/training/training_failsafe.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_fault_context_1a4f3a75e76da3cea3495c8eebe1ee3016" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::CheckpointFaultContext::context_kv</definition>
+        <argsstring></argsstring>
+        <name>context_kv</name>
+        <qualifiedname>themis::training::CheckpointFaultContext::context_kv</qualifiedname>
+        <briefdescription>
+<para>Additional diagnostic context (key=value pairs, space-separated). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="80" column="17" bodyfile="include/training/training_failsafe.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Input context for a checkpoint fault handling decision. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_failsafe.h" line="68" column="1" bodyfile="include/training/training_failsafe.h" bodystart="68" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_checkpoint_fault_context_1a5562990f5295a298533c8f6d0441c94b" prot="public" virt="non-virtual"><scope>themis::training::CheckpointFaultContext</scope><name>checkpoint_path</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_fault_context_1a4f3a75e76da3cea3495c8eebe1ee3016" prot="public" virt="non-virtual"><scope>themis::training::CheckpointFaultContext</scope><name>context_kv</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_fault_context_1af01f1f4d63c75b924df669704ec19206" prot="public" virt="non-virtual"><scope>themis::training::CheckpointFaultContext</scope><name>during_save</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_fault_context_1ab4b0c227feb3dd775c4793ed61ae67aa" prot="public" virt="non-virtual"><scope>themis::training::CheckpointFaultContext</scope><name>fallback_path</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_fault_context_1a41568fc4135c2be82502c6bd2ecbe6a6" prot="public" virt="non-virtual"><scope>themis::training::CheckpointFaultContext</scope><name>fault_code</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_fault_context_1af8b1be4fd1f031cb9c29109aeabf5ad4" prot="public" virt="non-virtual"><scope>themis::training::CheckpointFaultContext</scope><name>has_fallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

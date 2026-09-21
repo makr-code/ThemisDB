@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scraper_1_1_subprocess_j_s_renderer" kind="class" language="C++" prot="public">
+    <compoundname>themis::scraper::SubprocessJSRenderer</compoundname>
+    <basecompoundref refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer" prot="public" virt="non-virtual">themis::scraper::IScraperJSRenderer</basecompoundref>
+    <includes refid="scraper__js__renderer_8h" local="no">scraper_js_renderer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a7fd1156f7e349c5ab6cfdcbe34337871" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::SubprocessJSRenderer::renderer_cmd_</definition>
+        <argsstring></argsstring>
+        <name>renderer_cmd_</name>
+        <qualifiedname>themis::scraper::SubprocessJSRenderer::renderer_cmd_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="124" column="17" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a992301ac3d0cde74196d8be7d497f6b3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::SubprocessJSRenderer::SubprocessJSRenderer</definition>
+        <argsstring>(std::string renderer_cmd)</argsstring>
+        <name>SubprocessJSRenderer</name>
+        <qualifiedname>themis::scraper::SubprocessJSRenderer::SubprocessJSRenderer</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>renderer_cmd</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="111" column="14" bodyfile="src/scraper/scraper_js_renderer.cpp" bodystart="39" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a9484c0e271286bd4028550b00f893660" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::SubprocessJSRenderer::~SubprocessJSRenderer</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~SubprocessJSRenderer</name>
+        <qualifiedname>themis::scraper::SubprocessJSRenderer::~SubprocessJSRenderer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="112" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1aa3465504b1c49f7fb43c42999d29c9c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::SubprocessJSRenderer::SubprocessJSRenderer</definition>
+        <argsstring>(const SubprocessJSRenderer &amp;)=delete</argsstring>
+        <name>SubprocessJSRenderer</name>
+        <qualifiedname>themis::scraper::SubprocessJSRenderer::SubprocessJSRenderer</qualifiedname>
+        <param>
+          <type>const SubprocessJSRenderer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="114" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a0bd9b36227466fd31a86a7f77aebcbe3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a992301ac3d0cde74196d8be7d497f6b3" kindref="member">SubprocessJSRenderer</ref> &amp;</type>
+        <definition>SubprocessJSRenderer &amp; themis::scraper::SubprocessJSRenderer::operator=</definition>
+        <argsstring>(const SubprocessJSRenderer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::scraper::SubprocessJSRenderer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a992301ac3d0cde74196d8be7d497f6b3" kindref="member">SubprocessJSRenderer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="115" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1aff9c42dc1bf5cc33e34101af720a8905" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1scraper_1_1_js_render_result" kindref="compound">JsRenderResult</ref></type>
+        <definition>JsRenderResult themis::scraper::SubprocessJSRenderer::render</definition>
+        <argsstring>(const JsRenderRequest &amp;req) override</argsstring>
+        <name>render</name>
+        <qualifiedname>themis::scraper::SubprocessJSRenderer::render</qualifiedname>
+        <reimplements refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer_1a2a07e25df7d60cfc155637404a794d8d">render</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_js_render_request" kindref="compound">JsRenderRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Render. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a3bbd554f4125984730758f3f5f682124" kindref="member">isAvailable()</ref>, std::chrono::steady_clock::now(), defined(), ss(), push_back(), std::to_string(), empty(), reserve(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="117" column="20" bodyfile="src/scraper/scraper_js_renderer.cpp" bodystart="109" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a3bbd554f4125984730758f3f5f682124" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::scraper::SubprocessJSRenderer::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::scraper::SubprocessJSRenderer::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer_1abe584bf134f16c721ca06b1894f6d547">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns true when renderer_cmd is non-empty and the first token of the command resolves to an executable on PATH. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="121" column="10" bodyfile="src/scraper/scraper_js_renderer.cpp" bodystart="42" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1aba08d398f7aea6576218294ea73a4185" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::SubprocessJSRenderer::buildCommand</definition>
+        <argsstring>(const JsRenderRequest &amp;req) const</argsstring>
+        <name>buildCommand</name>
+        <qualifiedname>themis::scraper::SubprocessJSRenderer::buildCommand</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_js_render_request" kindref="compound">JsRenderRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Build the shell command string from the request. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_js_renderer.h" line="127" column="17" bodyfile="src/scraper/scraper_js_renderer.cpp" bodystart="91" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Invokes an external headless browser renderer via subprocess. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The command line called is: &lt;renderer_cmd&gt; &lt;url&gt; [<ndash/>timeout &lt;ms&gt;] [<ndash/>wait-for &lt;selector&gt;] [extra_args…]</para>
+<para>The renderer must:<itemizedlist>
+<listitem><para>Write the fully-rendered HTML to stdout.</para>
+</listitem><listitem><para>Exit 0 on success, non-zero on failure.</para>
+</listitem><listitem><para>Write an error message to stderr on failure.</para>
+</listitem></itemizedlist>
+</para>
+<para>Compatible renderers: a Puppeteer/Playwright Node.js script, a chromium-headless wrapper, etc.</para>
+<para>Example renderer_cmd: &quot;node /opt/themis/scripts/renderer.js&quot; </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::scraper::IScraperJSRenderer</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer"/>
+      </node>
+      <node id="1">
+        <label>themis::scraper::SubprocessJSRenderer</label>
+        <link refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::scraper::IScraperJSRenderer</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer"/>
+      </node>
+      <node id="1">
+        <label>themis::scraper::SubprocessJSRenderer</label>
+        <link refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/scraper/scraper_js_renderer.h" line="109" column="1" bodyfile="include/scraper/scraper_js_renderer.h" bodystart="109" bodyend="128"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1aba08d398f7aea6576218294ea73a4185" prot="private" virt="non-virtual"><scope>themis::scraper::SubprocessJSRenderer</scope><name>buildCommand</name></member>
+      <member refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a3bbd554f4125984730758f3f5f682124" prot="public" virt="virtual"><scope>themis::scraper::SubprocessJSRenderer</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a0bd9b36227466fd31a86a7f77aebcbe3" prot="public" virt="non-virtual"><scope>themis::scraper::SubprocessJSRenderer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1aff9c42dc1bf5cc33e34101af720a8905" prot="public" virt="virtual"><scope>themis::scraper::SubprocessJSRenderer</scope><name>render</name></member>
+      <member refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a7fd1156f7e349c5ab6cfdcbe34337871" prot="private" virt="non-virtual"><scope>themis::scraper::SubprocessJSRenderer</scope><name>renderer_cmd_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a992301ac3d0cde74196d8be7d497f6b3" prot="public" virt="non-virtual"><scope>themis::scraper::SubprocessJSRenderer</scope><name>SubprocessJSRenderer</name></member>
+      <member refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1aa3465504b1c49f7fb43c42999d29c9c0" prot="public" virt="non-virtual"><scope>themis::scraper::SubprocessJSRenderer</scope><name>SubprocessJSRenderer</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer_1aa2e2207fbe85d69ca0b836f75dfb3e39" prot="public" virt="virtual"><scope>themis::scraper::SubprocessJSRenderer</scope><name>~IScraperJSRenderer</name></member>
+      <member refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a9484c0e271286bd4028550b00f893660" prot="public" virt="non-virtual"><scope>themis::scraper::SubprocessJSRenderer</scope><name>~SubprocessJSRenderer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

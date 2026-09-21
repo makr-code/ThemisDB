@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_scoped_db_connection" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ScopedDbConnection</compoundname>
+    <includes refid="scoped__db__connection_8h" local="no">scoped_db_connection.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_scoped_db_connection_1a797c294480f7346c724dd4b32c5f8804" prot="public" static="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>using themis::llm::ScopedDbConnection::ReleaseFunc = std::function&lt;void()&gt;</definition>
+        <argsstring></argsstring>
+        <name>ReleaseFunc</name>
+        <qualifiedname>themis::llm::ScopedDbConnection::ReleaseFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/scoped_db_connection.h" line="12" column="5" bodyfile="include/llm/scoped_db_connection.h" bodystart="12" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_scoped_db_connection_1a1b55a5a709fef599c1e479639f5be835" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_scoped_db_connection_1a797c294480f7346c724dd4b32c5f8804" kindref="member">ReleaseFunc</ref></type>
+        <definition>ReleaseFunc themis::llm::ScopedDbConnection::release_fn_</definition>
+        <argsstring></argsstring>
+        <name>release_fn_</name>
+        <qualifiedname>themis::llm::ScopedDbConnection::release_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/scoped_db_connection.h" line="40" column="17" bodyfile="include/llm/scoped_db_connection.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_scoped_db_connection_1a953cfca6ea011026f2f57355a4e9df94" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ScopedDbConnection::released_</definition>
+        <argsstring></argsstring>
+        <name>released_</name>
+        <qualifiedname>themis::llm::ScopedDbConnection::released_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/scoped_db_connection.h" line="41" column="10" bodyfile="include/llm/scoped_db_connection.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_db_connection_1a334b2e7627340dbf412d684bf06d02fd" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedDbConnection::ScopedDbConnection</definition>
+        <argsstring>(ReleaseFunc release_fn) noexcept</argsstring>
+        <name>ScopedDbConnection</name>
+        <qualifiedname>themis::llm::ScopedDbConnection::ScopedDbConnection</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_scoped_db_connection_1a797c294480f7346c724dd4b32c5f8804" kindref="member">ReleaseFunc</ref></type>
+          <declname>release_fn</declname>
+        </param>
+        <briefdescription>
+<para>Acquire a connection; <computeroutput>release_fn</computeroutput> is called on destruction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/scoped_db_connection.h" line="15" column="14" bodyfile="include/llm/scoped_db_connection.h" bodystart="15" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_db_connection_1a5b2d59f11b5e87667a260951ada5a1fb" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedDbConnection::~ScopedDbConnection</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ScopedDbConnection</name>
+        <qualifiedname>themis::llm::ScopedDbConnection::~ScopedDbConnection</qualifiedname>
+        <briefdescription>
+<para>Release the connection on destruction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/scoped_db_connection.h" line="19" column="5" bodyfile="include/llm/scoped_db_connection.h" bodystart="19" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_db_connection_1af655b4854cb937b0197e44f0ba980071" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedDbConnection::ScopedDbConnection</definition>
+        <argsstring>(const ScopedDbConnection &amp;)=delete</argsstring>
+        <name>ScopedDbConnection</name>
+        <qualifiedname>themis::llm::ScopedDbConnection::ScopedDbConnection</qualifiedname>
+        <param>
+          <type>const ScopedDbConnection &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/scoped_db_connection.h" line="21" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_db_connection_1aac5a9be6e00ea1430fb1ad24d0feb1ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_scoped_db_connection_1a334b2e7627340dbf412d684bf06d02fd" kindref="member">ScopedDbConnection</ref> &amp;</type>
+        <definition>ScopedDbConnection &amp; themis::llm::ScopedDbConnection::operator=</definition>
+        <argsstring>(const ScopedDbConnection &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::ScopedDbConnection::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_scoped_db_connection_1a334b2e7627340dbf412d684bf06d02fd" kindref="member">ScopedDbConnection</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/scoped_db_connection.h" line="22" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_db_connection_1a29c2913ea0a76cec058ce1c5ce03ba26" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedDbConnection::ScopedDbConnection</definition>
+        <argsstring>(ScopedDbConnection &amp;&amp;other) noexcept</argsstring>
+        <name>ScopedDbConnection</name>
+        <qualifiedname>themis::llm::ScopedDbConnection::ScopedDbConnection</qualifiedname>
+        <param>
+          <type>ScopedDbConnection &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/scoped_db_connection.h" line="23" column="5" bodyfile="include/llm/scoped_db_connection.h" bodystart="23" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_db_connection_1a3faaf39d0ad15a667cf504e9730b2100" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ScopedDbConnection::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::llm::ScopedDbConnection::release</qualifiedname>
+        <briefdescription>
+<para>Explicitly release the connection before destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/scoped_db_connection.h" line="29" column="10" bodyfile="include/llm/scoped_db_connection.h" bodystart="29" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_db_connection_1adae9294f6530d86e215084e38fd07a3a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ScopedDbConnection::isReleased</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isReleased</name>
+        <qualifiedname>themis::llm::ScopedDbConnection::isReleased</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True if the connection has been released. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/scoped_db_connection.h" line="37" column="11" bodyfile="include/llm/scoped_db_connection.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII wrapper for database connections acquired from a pool. Releases the connection on destruction, even if an exception is thrown. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>DbType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of the database connection object. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>PoolType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of the connection pool or manager. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/llm/scoped_db_connection.h" line="10" column="1" bodyfile="include/llm/scoped_db_connection.h" bodystart="10" bodyend="42"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_scoped_db_connection_1adae9294f6530d86e215084e38fd07a3a" prot="public" virt="non-virtual"><scope>themis::llm::ScopedDbConnection</scope><name>isReleased</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_db_connection_1aac5a9be6e00ea1430fb1ad24d0feb1ef" prot="public" virt="non-virtual"><scope>themis::llm::ScopedDbConnection</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_db_connection_1a3faaf39d0ad15a667cf504e9730b2100" prot="public" virt="non-virtual"><scope>themis::llm::ScopedDbConnection</scope><name>release</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_db_connection_1a1b55a5a709fef599c1e479639f5be835" prot="private" virt="non-virtual"><scope>themis::llm::ScopedDbConnection</scope><name>release_fn_</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_db_connection_1a953cfca6ea011026f2f57355a4e9df94" prot="private" virt="non-virtual"><scope>themis::llm::ScopedDbConnection</scope><name>released_</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_db_connection_1a797c294480f7346c724dd4b32c5f8804" prot="public" virt="non-virtual"><scope>themis::llm::ScopedDbConnection</scope><name>ReleaseFunc</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_db_connection_1a334b2e7627340dbf412d684bf06d02fd" prot="public" virt="non-virtual"><scope>themis::llm::ScopedDbConnection</scope><name>ScopedDbConnection</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_db_connection_1af655b4854cb937b0197e44f0ba980071" prot="public" virt="non-virtual"><scope>themis::llm::ScopedDbConnection</scope><name>ScopedDbConnection</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_db_connection_1a29c2913ea0a76cec058ce1c5ce03ba26" prot="public" virt="non-virtual"><scope>themis::llm::ScopedDbConnection</scope><name>ScopedDbConnection</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_db_connection_1a5b2d59f11b5e87667a260951ada5a1fb" prot="public" virt="non-virtual"><scope>themis::llm::ScopedDbConnection</scope><name>~ScopedDbConnection</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

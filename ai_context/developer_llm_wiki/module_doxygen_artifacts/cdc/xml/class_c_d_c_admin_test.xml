@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_c_d_c_admin_test" kind="class" language="C++" prot="public">
+    <compoundname>CDCAdminTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_c_d_c_admin_test_1aaa69f18034468fde9dee1f40d89be1ab" prot="protected" static="yes" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt; uint64_t &gt; CDCAdminTest::path_counter</definition>
+        <argsstring></argsstring>
+        <name>path_counter</name>
+        <qualifiedname>CDCAdminTest::path_counter</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_admin.cpp" line="16" column="24" bodyfile="tests/cdc/test_cdc_admin.cpp" bodystart="91" bodyend="91"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_c_d_c_admin_test_1a6e4cd8e436e3323916d2ba243a9c809b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; rocksdb::TransactionDB &gt;</type>
+        <definition>std::unique_ptr&lt;rocksdb::TransactionDB&gt; CDCAdminTest::db</definition>
+        <argsstring></argsstring>
+        <name>db</name>
+        <qualifiedname>CDCAdminTest::db</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_admin.cpp" line="17" column="21" bodyfile="tests/cdc/test_cdc_admin.cpp" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_d_c_admin_test_1a6a4b928fb975035b463a51a409fb3d8e" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; CDCAdminTest::changefeed</definition>
+        <argsstring></argsstring>
+        <name>changefeed</name>
+        <qualifiedname>CDCAdminTest::changefeed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_admin.cpp" line="18" column="21" bodyfile="tests/cdc/test_cdc_admin.cpp" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_d_c_admin_test_1af112711aaa396e78d6c978d013d6bdbc" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_c_d_c_admin" kindref="compound">CDCAdmin</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;CDCAdmin&gt; CDCAdminTest::admin</definition>
+        <argsstring></argsstring>
+        <name>admin</name>
+        <qualifiedname>CDCAdminTest::admin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_admin.cpp" line="19" column="21" bodyfile="tests/cdc/test_cdc_admin.cpp" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_c_d_c_admin_test_1a2e90d29f5e012c63850743a866e20194" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string CDCAdminTest::test_db_path</definition>
+        <argsstring></argsstring>
+        <name>test_db_path</name>
+        <qualifiedname>CDCAdminTest::test_db_path</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_admin.cpp" line="20" column="17" bodyfile="tests/cdc/test_cdc_admin.cpp" bodystart="20" bodyend="20"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_c_d_c_admin_test_1a5f2a7ce165be1630dd717a323ca0d2b3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CDCAdminTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CDCAdminTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_admin.cpp" line="22" column="10" bodyfile="tests/cdc/test_cdc_admin.cpp" bodystart="22" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_d_c_admin_test_1aff8c1edffee812bea856c593fa989579" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CDCAdminTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CDCAdminTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_admin.cpp" line="53" column="10" bodyfile="tests/cdc/test_cdc_admin.cpp" bodystart="53" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_d_c_admin_test_1aa9df6da74322e4b8c1e9c64158fb14c0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CDCAdminTest::addTestEvents</definition>
+        <argsstring>(int count)</argsstring>
+        <name>addTestEvents</name>
+        <qualifiedname>CDCAdminTest::addTestEvents</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_admin.cpp" line="60" column="10" bodyfile="tests/cdc/test_cdc_admin.cpp" bodystart="60" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_d_c_admin_test_1a78b8e0d402b88b693a00133387aa85d2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CDCAdminTest::addEventsForKey</definition>
+        <argsstring>(const std::string &amp;key, int count, Changefeed::ChangeEventType last_type=Changefeed::ChangeEventType::EVENT_PUT)</argsstring>
+        <name>addEventsForKey</name>
+        <qualifiedname>CDCAdminTest::addEventsForKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" kindref="member">Changefeed::ChangeEventType</ref></type>
+          <declname>last_type</declname>
+          <defval><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a6cb4b5ef33ab335211f73af9fbd56d3b" kindref="member">Changefeed::ChangeEventType::EVENT_PUT</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_admin.cpp" line="71" column="10" bodyfile="tests/cdc/test_cdc_admin.cpp" bodystart="71" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CDCAdminTest</label>
+        <link refid="class_c_d_c_admin_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CDCAdminTest</label>
+        <link refid="class_c_d_c_admin_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cdc/test_cdc_admin.cpp" line="14" column="1" bodyfile="tests/cdc/test_cdc_admin.cpp" bodystart="14" bodyend="89"/>
+    <listofallmembers>
+      <member refid="class_c_d_c_admin_test_1a78b8e0d402b88b693a00133387aa85d2" prot="protected" virt="non-virtual"><scope>CDCAdminTest</scope><name>addEventsForKey</name></member>
+      <member refid="class_c_d_c_admin_test_1aa9df6da74322e4b8c1e9c64158fb14c0" prot="protected" virt="non-virtual"><scope>CDCAdminTest</scope><name>addTestEvents</name></member>
+      <member refid="class_c_d_c_admin_test_1af112711aaa396e78d6c978d013d6bdbc" prot="protected" virt="non-virtual"><scope>CDCAdminTest</scope><name>admin</name></member>
+      <member refid="class_c_d_c_admin_test_1a6a4b928fb975035b463a51a409fb3d8e" prot="protected" virt="non-virtual"><scope>CDCAdminTest</scope><name>changefeed</name></member>
+      <member refid="class_c_d_c_admin_test_1a6e4cd8e436e3323916d2ba243a9c809b" prot="protected" virt="non-virtual"><scope>CDCAdminTest</scope><name>db</name></member>
+      <member refid="class_c_d_c_admin_test_1aaa69f18034468fde9dee1f40d89be1ab" prot="protected" virt="non-virtual"><scope>CDCAdminTest</scope><name>path_counter</name></member>
+      <member refid="class_c_d_c_admin_test_1a5f2a7ce165be1630dd717a323ca0d2b3" prot="protected" virt="non-virtual"><scope>CDCAdminTest</scope><name>SetUp</name></member>
+      <member refid="class_c_d_c_admin_test_1aff8c1edffee812bea856c593fa989579" prot="protected" virt="non-virtual"><scope>CDCAdminTest</scope><name>TearDown</name></member>
+      <member refid="class_c_d_c_admin_test_1a2e90d29f5e012c63850743a866e20194" prot="protected" virt="non-virtual"><scope>CDCAdminTest</scope><name>test_db_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

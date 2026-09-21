@@ -1,0 +1,1173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__ingestion__inference__backend_8cpp" kind="file" language="C++">
+    <compoundname>test_ingestion_inference_backend.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="inference__backend_8h" local="yes">ingestion/inference_backend.h</includes>
+    <includes refid="llm__adapter_8h" local="yes">ingestion/llm_adapter.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">atomic</includes>
+    <includes refid="semantic__validator_8h" local="yes">ingestion/semantic_validator.h</includes>
+    <includes refid="ingestion__manager_8h" local="yes">ingestion/ingestion_manager.h</includes>
+    <incdepgraph>
+      <node id="22">
+        <label>ingestion/base_entity.h</label>
+        <link refid="base__entity_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>ingestion/deontic_extractor.h</label>
+        <link refid="deontic__extractor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>ingestion/extraction_context.h</label>
+        <link refid="extraction__context_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>ingestion/file_format.h</label>
+        <link refid="file__format_8h"/>
+      </node>
+      <node id="19">
+        <label>ingestion/file_manifest.h</label>
+        <link refid="file__manifest_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ingestion/inference_backend.h</label>
+        <link refid="inference__backend_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>ingestion/ingestion_manager.h</label>
+        <link refid="ingestion__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>ingestion/ingestion_quality_judge.h</label>
+        <link refid="ingestion__quality__judge_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>ingestion/ingestion_step.h</label>
+        <link refid="ingestion__step_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>ingestion/llm_adapter.h</label>
+        <link refid="llm__adapter_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>ingestion/semantic_validator.h</label>
+        <link refid="semantic__validator_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>ingestion/workflow_engine.h</label>
+        <link refid="workflow__engine_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/ingestion/test_ingestion_inference_backend.cpp</label>
+        <link refid="test__ingestion__inference__backend_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="16">
+        <label>chrono</label>
+      </node>
+      <node id="21">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="27">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="24">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="15">
+        <label>utility</label>
+      </node>
+      <node id="26">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="25">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_stub_available_backend" prot="public">StubAvailableBackend</innerclass>
+    <innerclass refid="class_throwing_backend" prot="public">ThrowingBackend</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1a59e85aab192979a66ac371b6d2173749" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferenceBackend, IB01_Null_IsAvailable_ReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferenceBackend</type>
+        </param>
+        <param>
+          <type>IB01_Null_IsAvailable_ReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="86" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="86" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1a6bfc2275c14b8809397665a3e1efabf3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferenceBackend, IB02_Null_Generate_ReturnsEmptyString)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferenceBackend</type>
+        </param>
+        <param>
+          <type>IB02_Null_Generate_ReturnsEmptyString</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="91" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="91" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1aca25b49c5169c7ad0738c773170a8f5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferenceBackend, IB03_Null_Description_NonEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferenceBackend</type>
+        </param>
+        <param>
+          <type>IB03_Null_Description_NonEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="96" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="96" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1aad9838e30f45e44384ab8c4f416d1c10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferenceBackend, IB03b_NullText_CallbackBridge_OverridesGenerateAndAvailability)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferenceBackend</type>
+        </param>
+        <param>
+          <type>IB03b_NullText_CallbackBridge_OverridesGenerateAndAvailability</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="101" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="101" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1a66dfe6237bff5b982633e349dad60f70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferenceBackend, IB04_Polymorphism_ViaSharedPtr)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferenceBackend</type>
+        </param>
+        <param>
+          <type>IB04_Polymorphism_ViaSharedPtr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="116" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="116" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1ab1dba8597d577a750ea6f4c485134c2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferenceBackend, IB04b_NullEmbedding_CallbackBridge_OverridesEmbedAndAvailability)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferenceBackend</type>
+        </param>
+        <param>
+          <type>IB04b_NullEmbedding_CallbackBridge_OverridesEmbedAndAvailability</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="123" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="123" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1a470c267e6b795209c22bd379dda9ca96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferenceBackend, IB05_DefaultAdapter_UsesNullBackend)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferenceBackend</type>
+        </param>
+        <param>
+          <type>IB05_DefaultAdapter_UsesNullBackend</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="145" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="145" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1afc0c5b776ca0f0d2e93a9f82fecc0e7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferenceBackend, IB06_DefaultAdapter_IsLlmAvailable_False)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferenceBackend</type>
+        </param>
+        <param>
+          <type>IB06_DefaultAdapter_IsLlmAvailable_False</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="151" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="151" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1ae48cd0d2f8707981cd5209cb055315e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferenceBackend, IB07_DefaultAdapter_BuildExtractorFn_Empty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferenceBackend</type>
+        </param>
+        <param>
+          <type>IB07_DefaultAdapter_BuildExtractorFn_Empty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="156" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="156" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1a73f1564d804a843cf042e96e0897b84a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferenceBackend, IB08_InjectedAvailableBackend_IsLlmAvailableTrue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferenceBackend</type>
+        </param>
+        <param>
+          <type>IB08_InjectedAvailableBackend_IsLlmAvailableTrue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="167" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="167" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1ace7c8970e88e6a33c0daaba739d7c02b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferenceBackend, IB09_InjectedAvailableBackend_NonEmptyExtractorFn)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferenceBackend</type>
+        </param>
+        <param>
+          <type>IB09_InjectedAvailableBackend_NonEmptyExtractorFn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="173" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="173" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1aebb6140e5bfa8d15ad6b51854bd17a89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferenceBackend, IB10_ExtractorFn_CallsBackendGenerate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferenceBackend</type>
+        </param>
+        <param>
+          <type>IB10_ExtractorFn_CallsBackendGenerate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="180" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="180" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1a09e285ae8a28e12ff8d408d74b6a4dc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferenceBackend, IB11_NullptrBackendInjection_FallsBackToNull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferenceBackend</type>
+        </param>
+        <param>
+          <type>IB11_NullptrBackendInjection_FallsBackToNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="193" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="193" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1a5cb5a19223ca93b6bf01a66a56975c57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferenceBackend, IB12_ThrowingBackend_ExceptionCaughtInExtractorFn)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferenceBackend</type>
+        </param>
+        <param>
+          <type>IB12_ThrowingBackend_ExceptionCaughtInExtractorFn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="201" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="201" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1ac8b340342f7a22bf6d1f896987b8d87c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SemanticValidatorSoC, SE01_DefaultExtractorUsesRegex)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SemanticValidatorSoC</type>
+        </param>
+        <param>
+          <type>SE01_DefaultExtractorUsesRegex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="225" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="225" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1a58da455fb73596b8e3ebec31bc623d1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SemanticValidatorSoC, SE02_SetExtractor_DefaultDeonticExtractor)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SemanticValidatorSoC</type>
+        </param>
+        <param>
+          <type>SE02_SetExtractor_DefaultDeonticExtractor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="233" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="233" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1a2558372c204bd333698fb37314088832" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SemanticValidatorSoC, SE03_SetExtractor_LlmBackedExtractorFromStubAdapter)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SemanticValidatorSoC</type>
+        </param>
+        <param>
+          <type>SE03_SetExtractor_LlmBackedExtractorFromStubAdapter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="243" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="243" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1ad0e99da5af8cef2e4b3a5f0c2430950e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SemanticValidatorSoC, SE04_SetExtractor_LlmBackedExtractor_CallsBackend)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SemanticValidatorSoC</type>
+        </param>
+        <param>
+          <type>SE04_SetExtractor_LlmBackedExtractor_CallsBackend</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="252" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="252" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1a5a52f89809fd3d9f92071e531f85971f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SemanticValidatorSoC, SE05_SetExtractor_TwiceReplacesExtractor)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SemanticValidatorSoC</type>
+        </param>
+        <param>
+          <type>SE05_SetExtractor_TwiceReplacesExtractor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="267" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="267" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1a457ed484942667448e443e6393d5b00a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SemanticValidatorSoC, SE06_ExtractDocument_Works_After_SetExtractor)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SemanticValidatorSoC</type>
+        </param>
+        <param>
+          <type>SE06_ExtractDocument_Works_After_SetExtractor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="285" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="285" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1adf9b7d70573bb9e3128a00614e104aa4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SemanticValidatorSoC, SE07_SemanticValidator_NoLlmIncludes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SemanticValidatorSoC</type>
+        </param>
+        <param>
+          <type>SE07_SemanticValidator_NoLlmIncludes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="298" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="298" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1a2d25554b1aa94ad1f98c3c173544c5a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SemanticValidatorSoC, SE08_UnavailableBackend_FallsBackToRegex)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SemanticValidatorSoC</type>
+        </param>
+        <param>
+          <type>SE08_UnavailableBackend_FallsBackToRegex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="305" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="305" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1a6c5780b6d7f6c39683a96917699fb9ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionManagerSoC, IM01_DefaultGetBackend_ReturnsNullBackend)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionManagerSoC</type>
+        </param>
+        <param>
+          <type>IM01_DefaultGetBackend_ReturnsNullBackend</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="323" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="323" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1ac1c8e4543915965b2d35173acc4e00d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionManagerSoC, IM02_SetNullptr_ResetsToNullBackend)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionManagerSoC</type>
+        </param>
+        <param>
+          <type>IM02_SetNullptr_ResetsToNullBackend</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="330" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="330" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1a91cf25931632ead5796cf09651748210" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionManagerSoC, IM03_SetBackend_StoresProvidedBackend)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionManagerSoC</type>
+        </param>
+        <param>
+          <type>IM03_SetBackend_StoresProvidedBackend</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="338" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="338" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1ab56ccdf4b89d1ce30026448007bdc17e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionManagerSoC, IM04_RunLegalExtraction_UnavailableBackend_NocrashRegexFallback)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionManagerSoC</type>
+        </param>
+        <param>
+          <type>IM04_RunLegalExtraction_UnavailableBackend_NocrashRegexFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="347" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="347" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__inference__backend_8cpp_1a0dcb78654c6aa9287a7d44481bbe0e08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionManagerSoC, IM05_RunLegalExtraction_AvailableBackend_CallsGenerate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionManagerSoC</type>
+        </param>
+        <param>
+          <type>IM05_RunLegalExtraction_AvailableBackend_CallsGenerate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_inference_backend.cpp" line="361" column="1" bodyfile="tests/ingestion/test_ingestion_inference_backend.cpp" bodystart="361" bodyend="377"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>—<sp/>Ingestion<sp/>/<sp/>AI<sp/>Separation<sp/>Tests</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>Tests<sp/>for:</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/><sp/><sp/>ITextGenerationBackend<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(interface<sp/>contract)<sp/><sp/><sp/>IB-01..IB-04</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/><sp/><sp/>NullTextGenerationBackend<sp/><sp/><sp/><sp/><sp/><sp/>(always-unavailable)<sp/><sp/><sp/>IB-05..IB-07</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/><sp/><sp/>LegalLlmAdapter<sp/>with<sp/>injected<sp/>backend<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>IB-08..IB-12</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/><sp/><sp/>SemanticValidator<sp/>extractor<sp/>injection<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SE-01..SE-08</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IngestionManager<sp/>AI<sp/>backend<sp/>injection<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>IM-01..IM-05</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*<sp/>These<sp/>tests<sp/>verify<sp/>that<sp/>the<sp/>ingestion<sp/>module&apos;s<sp/>LLM<sp/>integration<sp/>layer<sp/>is</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/>fully<sp/>decoupled<sp/>from<sp/>any<sp/>concrete<sp/>LLM<sp/>implementation<sp/>(SoC<sp/>/<sp/>DIP).</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>All<sp/>backend<sp/>interaction<sp/>goes<sp/>through<sp/>the<sp/>ITextGenerationBackend<sp/>interface.</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>Acceptance<sp/>criteria:</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/>ITextGenerationBackend<sp/>interface<sp/>(IB-01..IB-04)</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IB-01<sp/><sp/>NullTextGenerationBackend::isAvailable()<sp/>returns<sp/>false</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IB-02<sp/><sp/>NullTextGenerationBackend::generate()<sp/>returns<sp/>empty<sp/>string</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IB-03<sp/><sp/>NullTextGenerationBackend::description()<sp/>is<sp/>non-empty</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IB-04<sp/><sp/>ITextGenerationBackend<sp/>can<sp/>be<sp/>used<sp/>via<sp/>shared_ptr<sp/>polymorphism</highlight></codeline>
+<codeline lineno="22"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="23"><highlight class="comment"><sp/>*<sp/>NullTextGenerationBackend<sp/>(IB-05..IB-07)</highlight></codeline>
+<codeline lineno="24"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IB-05<sp/><sp/>Default-constructed<sp/>LegalLlmAdapter<sp/>uses<sp/>NullTextGenerationBackend</highlight></codeline>
+<codeline lineno="25"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IB-06<sp/><sp/>LegalLlmAdapter::isLlmAvailable()<sp/>returns<sp/>false<sp/>with<sp/>null<sp/>backend</highlight></codeline>
+<codeline lineno="26"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IB-07<sp/><sp/>LegalLlmAdapter::buildExtractorFn()<sp/>returns<sp/>empty<sp/>fn<sp/>with<sp/>null<sp/>backend</highlight></codeline>
+<codeline lineno="27"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="28"><highlight class="comment"><sp/>*<sp/>LegalLlmAdapter<sp/>with<sp/>injected<sp/>backend<sp/>(IB-08..IB-12)</highlight></codeline>
+<codeline lineno="29"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IB-08<sp/><sp/>Injected<sp/>available<sp/>backend<sp/>makes<sp/>isLlmAvailable()<sp/>return<sp/>true</highlight></codeline>
+<codeline lineno="30"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IB-09<sp/><sp/>Injected<sp/>available<sp/>backend<sp/>produces<sp/>a<sp/>non-empty<sp/>ExtractorFn</highlight></codeline>
+<codeline lineno="31"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IB-10<sp/><sp/>ExtractorFn<sp/>from<sp/>available<sp/>backend<sp/>calls<sp/>backend::generate()</highlight></codeline>
+<codeline lineno="32"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IB-11<sp/><sp/>nullptr<sp/>backend<sp/>injection<sp/>falls<sp/>back<sp/>to<sp/>NullTextGenerationBackend</highlight></codeline>
+<codeline lineno="33"><highlight class="comment"><sp/>*<sp/><sp/><sp/>IB-12<sp/><sp/>backend<sp/>exceptions<sp/>in<sp/>generate()<sp/>are<sp/>caught;<sp/>result<sp/>has<sp/>warning</highlight></codeline>
+<codeline lineno="34"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="inference__backend_8h" kindref="compound">ingestion/inference_backend.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__adapter_8h" kindref="compound">ingestion/llm_adapter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">themis::ingestion</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Stub<sp/>backends<sp/>used<sp/>by<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="class_stub_available_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_stub_available_backend_1ad66de7218571f897e07e355ce77a5ac0" kindref="member">StubAvailableBackend</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" kindref="compound">ITextGenerationBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;int&gt;<sp/><ref refid="class_stub_available_backend_1a075efbc4b92d852e578aad1fdd1d9b64" kindref="member">call_count</ref>{0};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_stub_available_backend_1a6fe6fa3a2c99a55724a3afcb0805c301" kindref="member">fixed_response</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_stub_available_backend_1ad66de7218571f897e07e355ce77a5ac0" kindref="member">StubAvailableBackend</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{&quot;deontic_category&quot;:&quot;obligation&quot;,&quot;confidence&quot;:0.9,&quot;entities&quot;:[],&quot;obligations&quot;:[]})&quot;)<sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="class_stub_available_backend_1a6fe6fa3a2c99a55724a3afcb0805c301" kindref="member">fixed_response</ref>(response)<sp/>{}</highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_stub_available_backend_1aed2b8c05170f25b8d9dd9d18cd213a2e" kindref="member">generate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*prompt*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*max_tokens*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*temperature*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*lora_adapter*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++<ref refid="class_stub_available_backend_1a075efbc4b92d852e578aad1fdd1d9b64" kindref="member">call_count</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_stub_available_backend_1a6fe6fa3a2c99a55724a3afcb0805c301" kindref="member">fixed_response</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_stub_available_backend_1a45f81e4d8850eec8dea18d50e3d12399" kindref="member">isAvailable</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_stub_available_backend_1afd70a01538c0817d24cce15fc3ab9f0b" kindref="member">description</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;StubAvailableBackend&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="class_throwing_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_throwing_backend" kindref="compound">ThrowingBackend</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_text_generation_backend" kindref="compound">ITextGenerationBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_throwing_backend_1a354d1d457b221c63e629cabf82e2ecd4" kindref="member">generate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;backend<sp/>exploded&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_throwing_backend_1a243597237a703dd489677c0fc5b9a169" kindref="member">isAvailable</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_throwing_backend_1a751a1e44b7dc5b007b45151cbd59480e" kindref="member">description</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ThrowingBackend&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IB-01..IB-04<sp/><sp/>ITextGenerationBackend<sp/>interface<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(InferenceBackend,<sp/>IB01_Null_IsAvailable_ReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend" kindref="compound">NullTextGenerationBackend</ref><sp/>nb;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(nb.<ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1afd75067549ed57907ec24c17451e7ae8" kindref="member">isAvailable</ref>());</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(InferenceBackend,<sp/>IB02_Null_Generate_ReturnsEmptyString)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend" kindref="compound">NullTextGenerationBackend</ref><sp/>nb;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(nb.<ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1acdee13e466782194980363e3c4ada458" kindref="member">generate</ref>(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">,<sp/>512,<sp/>0.1,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(InferenceBackend,<sp/>IB03_Null_Description_NonEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend" kindref="compound">NullTextGenerationBackend</ref><sp/>nb;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(nb.<ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1ae9d0d97a6c398c20d58c2f94eeb7308d" kindref="member">description</ref>().empty());</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(InferenceBackend,<sp/>IB03b_NullText_CallbackBridge_OverridesGenerateAndAvailability)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1aa8e122d701133ad8fae8da6a6f29985f" kindref="member">NullTextGenerationBackend::setGenerateFn</ref>(</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(</highlight><highlight class="stringliteral">&quot;bridge:&quot;</highlight><highlight class="normal">)<sp/>+<sp/>prompt;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1acd9f81e33c2556a675907808519499e7" kindref="member">NullTextGenerationBackend::setAvailabilityFn</ref>([]()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend" kindref="compound">NullTextGenerationBackend</ref><sp/>nb;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(nb.isAvailable());</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(nb.generate(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">,<sp/>32,<sp/>0.2,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;bridge:hello&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1aa8e122d701133ad8fae8da6a6f29985f" kindref="member">NullTextGenerationBackend::setGenerateFn</ref>({});</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1acd9f81e33c2556a675907808519499e7" kindref="member">NullTextGenerationBackend::setAvailabilityFn</ref>({});</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(InferenceBackend,<sp/>IB04_Polymorphism_ViaSharedPtr)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ITextGenerationBackend&gt;<sp/>ptr<sp/>=</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_shared&lt;NullTextGenerationBackend&gt;();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ptr-&gt;isAvailable());</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ptr-&gt;generate(</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>0.1,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">).empty());</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(InferenceBackend,<sp/>IB04b_NullEmbedding_CallbackBridge_OverridesEmbedAndAvailability)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a44a1226e3e435d0b08684dc81ce2c35e" kindref="member">NullEmbeddingBackend::setEmbedFn</ref>(</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dims)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(dims),</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>text.empty()<sp/>?<sp/>0.0f<sp/>:<sp/>1.0f);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1abc539715365eee907be2d82af50cee75" kindref="member">NullEmbeddingBackend::setAvailabilityFn</ref>([]()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend" kindref="compound">NullEmbeddingBackend</ref><sp/>eb(4);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vec<sp/>=<sp/>eb.embed(</highlight><highlight class="stringliteral">&quot;abc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(vec.size(),<sp/>4u);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(vec[0],<sp/>1.0f);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(eb.isAvailable());</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1a44a1226e3e435d0b08684dc81ce2c35e" kindref="member">NullEmbeddingBackend::setEmbedFn</ref>({});</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_embedding_backend_1abc539715365eee907be2d82af50cee75" kindref="member">NullEmbeddingBackend::setAvailabilityFn</ref>({});</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IB-05..IB-07<sp/><sp/>Default-constructed<sp/>LegalLlmAdapter<sp/>uses<sp/>NullTextGenerationBackend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(InferenceBackend,<sp/>IB05_DefaultAdapter_UsesNullBackend)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" kindref="compound">LegalLlmAdapter</ref><sp/>adapter;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>adapter<sp/>→<sp/>NullTextGenerationBackend<sp/>→<sp/>unavailable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(adapter.<ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1a809410150778a29ac255e3c5de6886c7" kindref="member">isLlmAvailable</ref>());</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(InferenceBackend,<sp/>IB06_DefaultAdapter_IsLlmAvailable_False)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" kindref="compound">LegalLlmAdapter</ref><sp/>adapter;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(adapter.<ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1a809410150778a29ac255e3c5de6886c7" kindref="member">isLlmAvailable</ref>());</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(InferenceBackend,<sp/>IB07_DefaultAdapter_BuildExtractorFn_Empty)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" kindref="compound">LegalLlmAdapter</ref><sp/>adapter;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fn<sp/>=<sp/>adapter.<ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac5fc3b43dd68e26994ab93213de37b88" kindref="member">buildExtractorFn</ref>();</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>function<sp/>—<sp/>DeonticExtractor<sp/>will<sp/>use<sp/>built-in<sp/>regex</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(fn));</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IB-08..IB-12<sp/><sp/>LegalLlmAdapter<sp/>with<sp/>injected<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(InferenceBackend,<sp/>IB08_InjectedAvailableBackend_IsLlmAvailableTrue)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>std::make_shared&lt;StubAvailableBackend&gt;();</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" kindref="compound">LegalLlmAdapter</ref><sp/>adapter(backend);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(adapter.<ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1a809410150778a29ac255e3c5de6886c7" kindref="member">isLlmAvailable</ref>());</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(InferenceBackend,<sp/>IB09_InjectedAvailableBackend_NonEmptyExtractorFn)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>std::make_shared&lt;StubAvailableBackend&gt;();</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" kindref="compound">LegalLlmAdapter</ref><sp/>adapter(backend);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fn<sp/>=<sp/>adapter.<ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac5fc3b43dd68e26994ab93213de37b88" kindref="member">buildExtractorFn</ref>();</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(fn));</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(InferenceBackend,<sp/>IB10_ExtractorFn_CallsBackendGenerate)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>std::make_shared&lt;StubAvailableBackend&gt;();</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" kindref="compound">LegalLlmAdapter</ref><sp/>adapter(backend);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fn<sp/>=<sp/>adapter.<ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac5fc3b43dd68e26994ab93213de37b88" kindref="member">buildExtractorFn</ref>();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(fn));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Execute<sp/>the<sp/>extractor<sp/>function<sp/>—<sp/>it<sp/>should<sp/>call<sp/>backend-&gt;generate()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>fn(</highlight><highlight class="stringliteral">&quot;§<sp/>4<sp/>Abs.<sp/>1<sp/>BImSchG<sp/>verpflichtet<sp/>den<sp/>Betreiber<sp/>...&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(backend-&gt;call_count.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>JSON<sp/>response<sp/>contains<sp/>&quot;obligation&quot;<sp/>→<sp/>deontic_categories<sp/>should<sp/>be<sp/>populated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.deontic_categories.empty());</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(InferenceBackend,<sp/>IB11_NullptrBackendInjection_FallsBackToNull)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Passing<sp/>nullptr<sp/>should<sp/>not<sp/>crash<sp/>—<sp/>adapter<sp/>uses<sp/>NullTextGenerationBackend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" kindref="compound">LegalLlmAdapter</ref><sp/>adapter(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(adapter.<ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1a809410150778a29ac255e3c5de6886c7" kindref="member">isLlmAvailable</ref>());</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fn<sp/>=<sp/>adapter.<ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac5fc3b43dd68e26994ab93213de37b88" kindref="member">buildExtractorFn</ref>();</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(fn));</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(InferenceBackend,<sp/>IB12_ThrowingBackend_ExceptionCaughtInExtractorFn)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>std::make_shared&lt;ThrowingBackend&gt;();</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" kindref="compound">LegalLlmAdapter</ref><sp/>adapter(backend);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fn<sp/>=<sp/>adapter.<ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac5fc3b43dd68e26994ab93213de37b88" kindref="member">buildExtractorFn</ref>();</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(fn));</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>NOT<sp/>throw<sp/>—<sp/>exception<sp/>must<sp/>be<sp/>caught<sp/>inside<sp/>the<sp/>lambda</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction" kindref="compound">DeonticExtraction</ref><sp/>result;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(result<sp/>=<sp/>fn(</highlight><highlight class="stringliteral">&quot;some<sp/>text&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Warning<sp/>should<sp/>mention<sp/>the<sp/>exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.<ref refid="structthemis_1_1ingestion_1_1_deontic_extraction_1abe54ff8e85c6beb493354ecd0b7d04a4" kindref="member">warnings</ref>.empty());</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Includes<sp/>for<sp/>Phase<sp/>2<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="semantic__validator_8h" kindref="compound">ingestion/semantic_validator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ingestion__manager_8h" kindref="compound">ingestion/ingestion_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SE-01..SE-08<sp/><sp/>SemanticValidator<sp/>extractor<sp/>injection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(SemanticValidatorSoC,<sp/>SE01_DefaultExtractorUsesRegex)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_semantic_validator" kindref="compound">SemanticValidator</ref><sp/>v;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>extractor<sp/>=<sp/>regex<sp/>only;<sp/>does<sp/>not<sp/>crash<sp/>and<sp/>produces<sp/>a<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>v.<ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1ae4fbeebfbd78f1654fe4697504038266" kindref="member">extractDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc-1&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;§<sp/>4<sp/>Abs.<sp/>1<sp/>BImSchG<sp/>verpflichtet<sp/>den<sp/>Betreiber<sp/>zur<sp/>Einholung<sp/>einer<sp/>Genehmigung.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.document_id.empty());</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(SemanticValidatorSoC,<sp/>SE02_SetExtractor_DefaultDeonticExtractor)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_semantic_validator" kindref="compound">SemanticValidator</ref><sp/>v;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor" kindref="compound">DeonticExtractor</ref><sp/>default_extractor;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setting<sp/>a<sp/>plain<sp/>default<sp/>extractor<sp/>must<sp/>not<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(v.<ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1aaa93a7832279d805370d4ddccd6e9bec" kindref="member">setExtractor</ref>(std::move(default_extractor)));</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>v.<ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1ae4fbeebfbd78f1654fe4697504038266" kindref="member">extractDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc-2&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;§<sp/>5<sp/>Der<sp/>Betreiber<sp/>muss<sp/>Lärmmessungen<sp/>durchführen.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.document_id.empty());</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(SemanticValidatorSoC,<sp/>SE03_SetExtractor_LlmBackedExtractorFromStubAdapter)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>std::make_shared&lt;StubAvailableBackend&gt;();</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" kindref="compound">LegalLlmAdapter</ref><sp/>adapter(backend);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor" kindref="compound">DeonticExtractor</ref><sp/>llm_extractor<sp/>=<sp/>adapter.<ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac22f924bf2fa0daa44ab7539c4ead3e5" kindref="member">buildExtractor</ref>(0.75);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_semantic_validator" kindref="compound">SemanticValidator</ref><sp/>v;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(v.<ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1aaa93a7832279d805370d4ddccd6e9bec" kindref="member">setExtractor</ref>(std::move(llm_extractor)));</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(SemanticValidatorSoC,<sp/>SE04_SetExtractor_LlmBackedExtractor_CallsBackend)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>std::make_shared&lt;StubAvailableBackend&gt;();</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" kindref="compound">LegalLlmAdapter</ref><sp/>adapter(backend);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor" kindref="compound">DeonticExtractor</ref><sp/>llm_extractor<sp/>=<sp/>adapter.<ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac22f924bf2fa0daa44ab7539c4ead3e5" kindref="member">buildExtractor</ref>(0.75);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_semantic_validator" kindref="compound">SemanticValidator</ref><sp/>v;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>v.<ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1aaa93a7832279d805370d4ddccd6e9bec" kindref="member">setExtractor</ref>(std::move(llm_extractor));</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>v.<ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1ae4fbeebfbd78f1654fe4697504038266" kindref="member">extractDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc-3&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;§<sp/>4<sp/>Abs.<sp/>1<sp/>BImSchG<sp/>verpflichtet<sp/>den<sp/>Betreiber<sp/>zur<sp/>Einholung<sp/>einer<sp/>Genehmigung.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>stub<sp/>backend<sp/>should<sp/>have<sp/>been<sp/>called<sp/>at<sp/>least<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(backend-&gt;call_count.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.document_id.empty());</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(SemanticValidatorSoC,<sp/>SE05_SetExtractor_TwiceReplacesExtractor)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend1<sp/>=<sp/>std::make_shared&lt;StubAvailableBackend&gt;();</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend2<sp/>=<sp/>std::make_shared&lt;StubAvailableBackend&gt;();</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" kindref="compound">LegalLlmAdapter</ref><sp/>adapter1(backend1);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" kindref="compound">LegalLlmAdapter</ref><sp/>adapter2(backend2);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_semantic_validator" kindref="compound">SemanticValidator</ref><sp/>v;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>v.<ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1aaa93a7832279d805370d4ddccd6e9bec" kindref="member">setExtractor</ref>(adapter1.buildExtractor(0.75));</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>v.<ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1aaa93a7832279d805370d4ddccd6e9bec" kindref="member">setExtractor</ref>(adapter2.buildExtractor(0.75));</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>v.<ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1ae4fbeebfbd78f1654fe4697504038266" kindref="member">extractDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc-4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;§<sp/>3<sp/>Der<sp/>Unternehmer<sp/>darf<sp/>nicht<sp/>...&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>backend2<sp/>should<sp/>have<sp/>been<sp/>called<sp/>(second<sp/>extractor<sp/>wins)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(backend1-&gt;call_count.load(),<sp/>0);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(backend2-&gt;call_count.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(SemanticValidatorSoC,<sp/>SE06_ExtractDocument_Works_After_SetExtractor)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>std::make_shared&lt;StubAvailableBackend&gt;();</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" kindref="compound">LegalLlmAdapter</ref><sp/>adapter(backend);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_semantic_validator" kindref="compound">SemanticValidator</ref><sp/>v;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>v.<ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1aaa93a7832279d805370d4ddccd6e9bec" kindref="member">setExtractor</ref>(adapter.<ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac22f924bf2fa0daa44ab7539c4ead3e5" kindref="member">buildExtractor</ref>(0.75));</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>v.<ref refid="classthemis_1_1ingestion_1_1_semantic_validator_1ae4fbeebfbd78f1654fe4697504038266" kindref="member">extractDocument</ref>(</highlight><highlight class="stringliteral">&quot;doc-5&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;§<sp/>1<sp/>Geltungsbereich\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;§<sp/>2<sp/>Abs.<sp/>1<sp/>Der<sp/>Betreiber<sp/>ist<sp/>verpflichtet<sp/>eine<sp/>Genehmigung<sp/>einzuholen.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.provisions.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(SemanticValidatorSoC,<sp/>SE07_SemanticValidator_NoLlmIncludes)<sp/>{</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Structural<sp/>test:<sp/>SemanticValidator<sp/>compiles<sp/>without<sp/>any<sp/>llm/<sp/>headers.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>this<sp/>test<sp/>compiles<sp/>successfully,<sp/>the<sp/>SoC<sp/>boundary<sp/>is<sp/>enforced.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_semantic_validator" kindref="compound">SemanticValidator</ref><sp/>v;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="303"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(SemanticValidatorSoC,<sp/>SE08_UnavailableBackend_FallsBackToRegex)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>An<sp/>unavailable<sp/>backend<sp/>→<sp/>LegalLlmAdapter::buildExtractorFn()<sp/>returns<sp/>{}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>→<sp/>buildExtractor()<sp/>installs<sp/>no<sp/>LLM<sp/>fn<sp/>→<sp/>regex<sp/>fallback<sp/>active</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend" kindref="compound">NullTextGenerationBackend</ref><sp/>null_backend;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(null_backend.<ref refid="classthemis_1_1ingestion_1_1_null_text_generation_backend_1afd75067549ed57907ec24c17451e7ae8" kindref="member">isAvailable</ref>());</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter" kindref="compound">LegalLlmAdapter</ref><sp/>adapter(std::make_shared&lt;NullTextGenerationBackend&gt;());</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_deontic_extractor" kindref="compound">DeonticExtractor</ref><sp/>extractor<sp/>=<sp/>adapter.<ref refid="classthemis_1_1ingestion_1_1_legal_llm_adapter_1ac22f924bf2fa0daa44ab7539c4ead3e5" kindref="member">buildExtractor</ref>(0.75);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Extractor<sp/>must<sp/>work<sp/>with<sp/>regex<sp/>fallback<sp/>—<sp/>no<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_deontic_extraction" kindref="compound">DeonticExtraction</ref><sp/>result<sp/>=<sp/>extractor.<ref refid="classthemis_1_1ingestion_1_1_deontic_extractor_1a51576b6bf34cae9e76dd1da35fe0a31a" kindref="member">extract</ref>(</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;§<sp/>3<sp/>Der<sp/>Betreiber<sp/>muss<sp/>die<sp/>Anlage<sp/>stillegen.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.<ref refid="structthemis_1_1ingestion_1_1_deontic_extraction_1a04723af677c7f63773e563c292da411a" kindref="member">overall_confidence</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IM-01..IM-05<sp/><sp/>IngestionManager<sp/>AI<sp/>backend<sp/>injection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(IngestionManagerSoC,<sp/>IM01_DefaultGetBackend_ReturnsNullBackend)<sp/>{</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>mgr.getTextGenerationBackend();</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(backend,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(backend-&gt;isAvailable());</highlight></codeline>
+<codeline lineno="328"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(IngestionManagerSoC,<sp/>IM02_SetNullptr_ResetsToNullBackend)<sp/>{</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.setTextGenerationBackend(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>mgr.getTextGenerationBackend();</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(backend,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(backend-&gt;isAvailable());</highlight></codeline>
+<codeline lineno="336"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(IngestionManagerSoC,<sp/>IM03_SetBackend_StoresProvidedBackend)<sp/>{</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stub<sp/>=<sp/>std::make_shared&lt;StubAvailableBackend&gt;();</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.setTextGenerationBackend(stub);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retrieved<sp/>=<sp/>mgr.getTextGenerationBackend();</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved,<sp/>stub);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(retrieved-&gt;isAvailable());</highlight></codeline>
+<codeline lineno="345"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(IngestionManagerSoC,<sp/>IM04_RunLegalExtraction_UnavailableBackend_NocrashRegexFallback)<sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>null<sp/>backend<sp/>→<sp/>regex<sp/>extraction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_ingestion_config" kindref="compound">LegalIngestionConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_legal_ingestion_config_1a8706c4a220a3fd77a952a0a454b27f87" kindref="member">confidence_threshold</ref><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.runLegalExtraction(</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;doc-im-04&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;§<sp/>4<sp/>Abs.<sp/>1<sp/>BImSchG<sp/>verpflichtet<sp/>den<sp/>Betreiber<sp/>zur<sp/>Einholung<sp/>einer<sp/>Genehmigung.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.document_id,<sp/></highlight><highlight class="stringliteral">&quot;doc-im-04&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="359"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(IngestionManagerSoC,<sp/>IM05_RunLegalExtraction_AvailableBackend_CallsGenerate)<sp/>{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stub<sp/>=<sp/>std::make_shared&lt;StubAvailableBackend&gt;();</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.setTextGenerationBackend(stub);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_legal_ingestion_config" kindref="compound">LegalIngestionConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_legal_ingestion_config_1a8706c4a220a3fd77a952a0a454b27f87" kindref="member">confidence_threshold</ref><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.runLegalExtraction(</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;doc-im-05&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;§<sp/>4<sp/>Abs.<sp/>1<sp/>BImSchG<sp/>verpflichtet<sp/>den<sp/>Betreiber<sp/>zur<sp/>Einholung<sp/>einer<sp/>Genehmigung.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.document_id,<sp/></highlight><highlight class="stringliteral">&quot;doc-im-05&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>stub<sp/>backend<sp/>must<sp/>have<sp/>been<sp/>called<sp/>at<sp/>least<sp/>once<sp/>by<sp/>the<sp/>pipeline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(stub-&gt;call_count.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="377"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/ingestion/test_ingestion_inference_backend.cpp"/>
+  </compounddef>
+</doxygen>

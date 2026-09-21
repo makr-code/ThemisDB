@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="speculative__decoder_8h" kind="file" language="C++">
+    <compoundname>speculative_decoder.h</compoundname>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="llm__bench_8cpp" local="yes">benchmarks/llm/llm_bench.cpp</includedby>
+    <includedby refid="inference__engine__enhanced_8h" local="yes">include/llm/inference_engine_enhanced.h</includedby>
+    <includedby refid="inference__engine__enhanced_8cpp" local="yes">src/llm/inference_engine_enhanced.cpp</includedby>
+    <includedby refid="speculative__decoder_8cpp" local="yes">src/llm/speculative_decoder.cpp</includedby>
+    <includedby refid="test__llm__raid__integration_8cpp" local="yes">tests/llm/test_llm_raid_integration.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/speculative_decoder.h</label>
+        <link refid="speculative__decoder_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>algorithm</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>random</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/llm/llm_bench.cpp</label>
+        <link refid="llm__bench_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/llm/inference_engine_enhanced.h</label>
+        <link refid="inference__engine__enhanced_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/llm/ml_model_manager.h</label>
+        <link refid="ml__model__manager_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/llm/moral_analyzer.h</label>
+        <link refid="moral__analyzer_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/llm/production_validator.h</label>
+        <link refid="production__validator_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/speculative_decoder.h</label>
+        <link refid="speculative__decoder_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>src/llm/inference_engine_enhanced.cpp</label>
+        <link refid="inference__engine__enhanced_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/llm/inference_guard.cpp</label>
+        <link refid="inference__guard_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/llm/ml_model_manager.cpp</label>
+        <link refid="ml__model__manager_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/llm/moral_analyzer.cpp</label>
+        <link refid="moral__analyzer_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/llm/production_validator.cpp</label>
+        <link refid="production__validator_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/llm/speculative_decoder.cpp</label>
+        <link refid="speculative__decoder_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/llm/test_llm_destructor_noexcept_b1.cpp</label>
+        <link refid="test__llm__destructor__noexcept__b1_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/llm/test_llm_federated_failure_envelopes.cpp</label>
+        <link refid="test__llm__federated__failure__envelopes_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/llm/test_llm_multi_model_integration.cpp</label>
+        <link refid="test__llm__multi__model__integration_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/llm/test_llm_raid_integration.cpp</label>
+        <link refid="test__llm__raid__integration_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/llm/test_llm_timeout_cancellation.cpp</label>
+        <link refid="test__llm__timeout__cancellation_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/llm/test_lora_hot_loading.cpp</label>
+        <link refid="test__lora__hot__loading_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/llm/test_wave5_llm_stubs.cpp</label>
+        <link refid="test__wave5__llm__stubs_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/llm/test_wave9_speculative_decode_bridges.cpp</label>
+        <link refid="test__wave9__speculative__decode__bridges_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/llm/test_wave_next_llm_threadsafety.cpp</label>
+        <link refid="test__wave__next__llm__threadsafety_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1_speculative_decoder" prot="public">themis::llm::SpeculativeDecoder</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_config" prot="public">themis::llm::SpeculativeDecoder::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result" prot="public">themis::llm::SpeculativeDecoder::VerifyResult</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics" prot="public">themis::llm::SpeculativeDecoder::Statistics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="classthemis_1_1llm_1_1_speculative_decoder" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_speculative_decoder_1a1dd9e96c0bcaef6ff753d0e6e276d99b" kindref="member">SpeculativeDecoder</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1llm_1_1_speculative_decoder_1a76522f067da8decbdf9207ffaff39f7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_speculative_decoder_1a76522f067da8decbdf9207ffaff39f7f" kindref="member">~SpeculativeDecoder</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Configuration<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_config_1a5b4f8e7e4c7ecf373712ed8a0713d75d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_config_1a5b4f8e7e4c7ecf373712ed8a0713d75d" kindref="member">k</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_config_1a9d5a9f0dd83d9103f599d5546b082535" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_config_1a9d5a9f0dd83d9103f599d5546b082535" kindref="member">min_acceptance_threshold</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_config_1aa42710834ab27f4bf7a0451157d885ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_config_1aa42710834ab27f4bf7a0451157d885ea" kindref="member">rng_seed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_config_1af99ccf22ab4b5b3910e90e40ac0b56eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_config_1af99ccf22ab4b5b3910e90e40ac0b56eb" kindref="member">remote_draft_shard_id</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Result<sp/>of<sp/>one<sp/>verify()<sp/>call<sp/>──────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result" kindref="compound">VerifyResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result_1a9e390114d154314f82a5dada1bc1d9c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result_1a9e390114d154314f82a5dada1bc1d9c9" kindref="member">accepted_tokens</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result_1ab2f3eb436cf6cb23046ff2529e09921e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result_1ab2f3eb436cf6cb23046ff2529e09921e" kindref="member">bonus_token</ref><sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result_1a3c88f2911f80c6114991c8953deb0b44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result_1a3c88f2911f80c6114991c8953deb0b44" kindref="member">num_accepted</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result_1ae8414cf8b56a9bfbb78d4da4a4e8673e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result_1ae8414cf8b56a9bfbb78d4da4a4e8673e" kindref="member">all_accepted</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result_1aab2e542cb8aa686763e24f4bfce3f792" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result_1aab2e542cb8aa686763e24f4bfce3f792" kindref="member">acceptance_rate</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Cumulative<sp/>statistics<sp/>─────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics_1a9a2271068b9da09ed523d81c3a3c0114" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics_1a9a2271068b9da09ed523d81c3a3c0114" kindref="member">total_draft_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics_1a5def294382c560d20d071e74ce67064e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics_1a5def294382c560d20d071e74ce67064e" kindref="member">total_accepted_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics_1a2f61c38cf4c5737b76c4b24092d2bfe1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics_1a2f61c38cf4c5737b76c4b24092d2bfe1" kindref="member">total_rejected_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics_1a2e7911a2b7f5d8cef972fc33b503c26d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics_1a2e7911a2b7f5d8cef972fc33b503c26d" kindref="member">avg_acceptance_rate</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics_1a4c889153c86584477a89491cde90bbb8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_statistics_1a4c889153c86584477a89491cde90bbb8" kindref="member">total_steps</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Lifecycle<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_speculative_decoder_1a1dd9e96c0bcaef6ff753d0e6e276d99b" kindref="member">SpeculativeDecoder</ref>();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_speculative_decoder_1a1dd9e96c0bcaef6ff753d0e6e276d99b" kindref="member">SpeculativeDecoder</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1llm_1_1_speculative_decoder_1a234c85fbd08245ee00facd525c0ceff5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_speculative_decoder_1a234c85fbd08245ee00facd525c0ceff5" kindref="member">getConfig</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>VerifyResult<sp/><ref refid="classthemis_1_1llm_1_1_speculative_decoder_1a3e7f18e582a0f120c1eefd7c691c04aa" kindref="member">verify</ref>(</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>draft_tokens,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>draft_logits,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>target_logits</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>Statistics<sp/><ref refid="classthemis_1_1llm_1_1_speculative_decoder_1a66900ffe1a2093a7e4fe0d2e0dff07cf" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_speculative_decoder_1acf1ac9863d71140dc130fb074c8f3d22" kindref="member">resetStatistics</ref>();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1llm_1_1_speculative_decoder_1a4bd87dd82c4ba35e03b091c39feca4f3" kindref="member">softmax</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>logits);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1llm_1_1_speculative_decoder_1a567bdd4ef8afaada98d09b6dba5f3500" kindref="member">adjustedDistribution</ref>(</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>target_probs,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>draft_probs</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_speculative_decoder_1a827c37b0556a32f02ea89b1529167d11" kindref="member">sampleToken</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>probs,<sp/>std::mt19937&amp;<sp/>rng);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng_<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Single<sp/>mutex<sp/>protecting<sp/>all<sp/>mutable<sp/>state<sp/>(rng_<sp/>and<sp/>stats_).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Taken<sp/>for<sp/>the<sp/>entirety<sp/>of<sp/>verify()<sp/>so<sp/>that<sp/>concurrent<sp/>callers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>sharing<sp/>one<sp/>instance<sp/>do<sp/>not<sp/>race<sp/>on<sp/>the<sp/>RNG<sp/>or<sp/>the<sp/>counters.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>verify_mutex_;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>Statistics<sp/>stats_;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/speculative_decoder.h"/>
+  </compounddef>
+</doxygen>

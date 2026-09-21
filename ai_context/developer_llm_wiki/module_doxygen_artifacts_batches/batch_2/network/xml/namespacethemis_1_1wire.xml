@@ -1,0 +1,364 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1wire" kind="namespace" language="C++">
+    <compoundname>themis::wire</compoundname>
+    <innerclass refid="classthemis_1_1wire_1_1_v2_session_impl" prot="public">themis::wire::V2SessionImpl</innerclass>
+    <innernamespace refid="namespacethemis_1_1wire_1_1_v2_server">themis::wire::V2Server</innernamespace>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1wire_1a4dade274b72f99d9c06283872e82e7c2" prot="public" static="no">
+        <type>net::ip::tcp</type>
+        <definition>using themis::wire::tcp = net::ip::tcp</definition>
+        <argsstring></argsstring>
+        <name>tcp</name>
+        <qualifiedname>themis::wire::tcp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="41" column="1" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1wire_1ad1acef7ab451e2e69f4b1509ac1d53c2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t themis::wire::htonl32</definition>
+        <argsstring>(uint32_t v)</argsstring>
+        <name>htonl32</name>
+        <qualifiedname>themis::wire::htonl32</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Htonl32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: htonl(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="76" column="17" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="76" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1wire_1aa9dd3c5d8073f5e269080f174725190d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t themis::wire::ntohl32</definition>
+        <argsstring>(uint32_t v)</argsstring>
+        <name>ntohl32</name>
+        <qualifiedname>themis::wire::ntohl32</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Ntohl32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ntohl(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="85" column="17" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="85" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1wire_1a29ef01341ec4b07872ec1336131fc46b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>static uint16_t themis::wire::htons16</definition>
+        <argsstring>(uint16_t v)</argsstring>
+        <name>htons16</name>
+        <qualifiedname>themis::wire::htons16</qualifiedname>
+        <param>
+          <type>uint16_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Htons16. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: htons(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="94" column="17" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="94" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1wire_1a55f3ebce80c9d234c9e053363a804266" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>static uint16_t themis::wire::ntohs16</definition>
+        <argsstring>(uint16_t v)</argsstring>
+        <name>ntohs16</name>
+        <qualifiedname>themis::wire::ntohs16</qualifiedname>
+        <param>
+          <type>uint16_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Ntohs16. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ntohs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="103" column="17" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="103" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1wire_1afbffcd85ae7396fa6905b855bcf6bcc0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; themis::wire::compressLZ4</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, uint32_t min_size)</argsstring>
+        <name>compressLZ4</name>
+        <qualifiedname>themis::wire::compressLZ4</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>min_size</declname>
+        </param>
+        <briefdescription>
+<para>Bring compression utilities into this translation unit as thin wrappers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">min_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements compressLZ4 without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="114" column="20" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="114" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1wire_1a9dfe98a7ff657393de38f1b160476320" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; themis::wire::compressZstd</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, uint32_t min_size, int level)</argsstring>
+        <name>compressZstd</name>
+        <qualifiedname>themis::wire::compressZstd</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>min_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Compress Zstd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">min_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements compressZstd without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="126" column="20" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="126" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1wire_1ad354a55289fce2c551247ebb0e2556a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; themis::wire::decompressLZ4</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>decompressLZ4</name>
+        <qualifiedname>themis::wire::decompressLZ4</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Decompress LZ4. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements decompressLZ4 without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="136" column="20" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="136" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1wire_1a7b55694e1c271022a7655b82404aebf3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; themis::wire::decompressZstd</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>decompressZstd</name>
+        <qualifiedname>themis::wire::decompressZstd</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Decompress Zstd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements decompressZstd without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="146" column="20" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="146" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1wire_1aff4b2f02e681b72689f4d352eeb8bc6b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::array&lt; uint8_t, V2_HEADER_SIZE &gt;</type>
+        <definition>static std::array&lt; uint8_t, V2_HEADER_SIZE &gt; themis::wire::serializeHeader</definition>
+        <argsstring>(const V2FrameHeader &amp;h)</argsstring>
+        <name>serializeHeader</name>
+        <qualifiedname>themis::wire::serializeHeader</qualifiedname>
+        <param>
+          <type>const V2FrameHeader &amp;</type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="151" column="19" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="151" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1wire_1ab730ed751fa03a3d5f73ea912bbd73b2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>V2FrameHeader</type>
+        <definition>static V2FrameHeader themis::wire::parseHeader</definition>
+        <argsstring>(const uint8_t *buf)</argsstring>
+        <name>parseHeader</name>
+        <qualifiedname>themis::wire::parseHeader</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+<para>Deserialise a V2FrameHeader from a 16-byte buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::memcpy(), ntohl32(), ntohs16(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/network/wire_protocol_v2.cpp" line="173" column="22" bodyfile="src/network/wire_protocol_v2.cpp" bodystart="173" bodyend="190"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/network/wire_protocol_v2.cpp" line="38" column="1"/>
+  </compounddef>
+</doxygen>

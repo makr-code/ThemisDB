@@ -1,0 +1,1602 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::RAGJudge</compoundname>
+    <includes refid="rag__judge_8h" local="no">rag_judge.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1_1_bias_analysis_summary" prot="public">themis::rag::judge::RAGJudge::BiasAnalysisSummary</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1_1_impl" prot="public">themis::rag::judge::RAGJudge::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a06db97748731003dfb7d7a1c47b96ebd" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::judge::RAGJudge::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="406" column="21" bodyfile="include/rag/rag_judge.h" bodystart="406" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a06e54864ec49e92b13850f605a12bf4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::RAGJudge::RAGJudge</definition>
+        <argsstring>()</argsstring>
+        <name>RAGJudge</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::RAGJudge</qualifiedname>
+        <briefdescription>
+<para>Default constructor for judge. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="271" column="5" bodyfile="src/rag/rag_judge.cpp" bodystart="102" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1adfab3db681f7e3fce9c889c550c44794" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::RAGJudge::RAGJudge</definition>
+        <argsstring>(const RAGJudgeConfig &amp;config)</argsstring>
+        <name>RAGJudge</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::RAGJudge</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct judge with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="277" column="14" bodyfile="src/rag/rag_judge.cpp" bodystart="106" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a521056126d8a738a5213d2e58e1c4537" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::RAGJudge::~RAGJudge</definition>
+        <argsstring>()</argsstring>
+        <name>~RAGJudge</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::~RAGJudge</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="282" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a46642d4bc19f5c3ea4df4220ee59b334" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref></type>
+        <definition>EvaluationResult themis::rag::judge::RAGJudge::evaluate</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; RetrievedDocument &gt; &amp;documents, const std::string &amp;generated_answer)</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::evaluate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>generated_answer</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate a single RAG output. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User query </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieved documents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>generated_answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer to evaluate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Evaluation result with scores and analysis</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">generated_answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements evaluate without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="291" column="22" bodyfile="src/rag/rag_judge.cpp" bodystart="225" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1aa158ba79b34c7b2d63b33ccdb7e4a53f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref></type>
+        <definition>EvaluationResult themis::rag::judge::RAGJudge::evaluate</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; RetrievedDocument &gt; &amp;documents, const std::string &amp;generated_answer, const RAGJudgeConfig &amp;config)</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::evaluate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>generated_answer</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate a single RAG output with custom configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User query </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieved documents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>generated_answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer to evaluate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional override configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Evaluation result with scores and analysis</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">generated_answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: evaluateWithConfig(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="305" column="22" bodyfile="src/rag/rag_judge.cpp" bodystart="246" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1af2ca419d4cdd50e9ce11912f8ae97664" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref></type>
+        <definition>EvaluationResult themis::rag::judge::RAGJudge::evaluate</definition>
+        <argsstring>(const EvaluationInput &amp;input)</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::evaluate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate a structured input. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Complete evaluation input </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Evaluation result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: evaluateWithConfig(), getConfigSnapshot(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="317" column="22" bodyfile="src/rag/rag_judge.cpp" bodystart="265" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a54478ad7707578afb2539408c233f760" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_comparison_result" kindref="compound">ComparisonResult</ref></type>
+        <definition>ComparisonResult themis::rag::judge::RAGJudge::compare</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; RetrievedDocument &gt; &amp;documents, const std::string &amp;answer_a, const std::string &amp;answer_b)</argsstring>
+        <name>compare</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::compare</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer_a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer_b</declname>
+        </param>
+        <briefdescription>
+<para>Compare two answers pairwise. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compare.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User query </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieved documents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>answer_a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First answer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>answer_b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second answer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Comparison result indicating winner</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">answer_a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">answer_b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a46642d4bc19f5c3ea4df4220ee59b334" kindref="member">evaluate()</ref>, std::abs(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="327" column="22" bodyfile="src/rag/rag_judge.cpp" bodystart="797" bodyend="841"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1ade426f2023511194a5eeec82854e9e97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &gt;</type>
+        <definition>std::vector&lt; EvaluationResult &gt; themis::rag::judge::RAGJudge::batchEvaluate</definition>
+        <argsstring>(const std::vector&lt; RAGTestCase &gt; &amp;test_cases)</argsstring>
+        <name>batchEvaluate</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::batchEvaluate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_test_case" kindref="compound">RAGTestCase</ref> &gt; &amp;</type>
+          <declname>test_cases</declname>
+        </param>
+        <briefdescription>
+<para>Batch evaluate multiple test cases. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Batch Evaluate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>test_cases</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of test cases </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of evaluation results</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">test_cases</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_INFO(), size(), reserve(), <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a46642d4bc19f5c3ea4df4220ee59b334" kindref="member">evaluate()</ref>, push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="339" column="17" bodyfile="src/rag/rag_judge.cpp" bodystart="849" bodyend="869"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1ab261908f3d1f85b9edf64771cb47821d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudge::evaluateDimension</definition>
+        <argsstring>(EvaluationDimension dimension, const EvaluationInput &amp;input)</argsstring>
+        <name>evaluateDimension</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::evaluateDimension</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1judge_1a14cdde8b476441304b4fd2f232941e6a" kindref="member">EvaluationDimension</ref></type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate specific dimension only. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate Dimension.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension to evaluate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation input </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Score for that dimension (0-1)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: evaluateFaithfulness(), evaluateRelevance(), evaluateCompleteness(), evaluateCoherence(), evaluateEthicalCompliance(), <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a46642d4bc19f5c3ea4df4220ee59b334" kindref="member">evaluate()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="349" column="12" bodyfile="src/rag/rag_judge.cpp" bodystart="878" bodyend="897"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1ab48abfa6d5801a10d8a5ad999793d15c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::RAGJudge::setConfig</definition>
+        <argsstring>(const RAGJudgeConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New configuration</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: config_lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="358" column="10" bodyfile="src/rag/rag_judge.cpp" bodystart="904" bodyend="907"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a777f519a5593cefbbd00bd8729b740ae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref></type>
+        <definition>RAGJudgeConfig themis::rag::judge::RAGJudge::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current configuration </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="364" column="20" bodyfile="src/rag/rag_judge.cpp" bodystart="909" bodyend="911"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1adee6f538792cd07b60c87f655afebfc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::RAGJudge::setEvaluationCallback</definition>
+        <argsstring>(std::function&lt; void(const EvaluationResult &amp;)&gt; callback)</argsstring>
+        <name>setEvaluationCallback</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::setEvaluationCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set callback for evaluation completion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function to call after each evaluation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="370" column="10" bodyfile="src/rag/rag_judge.cpp" bodystart="913" bodyend="918"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a5ae9b8105bac5dba90df5c08849a443d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::RAGJudge::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::clearCache</qualifiedname>
+        <briefdescription>
+<para>Clear evaluation cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Cache.</para>
+<para>Calls: cache_lock(), clear(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="377" column="10" bodyfile="src/rag/rag_judge.cpp" bodystart="924" bodyend="928"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a5e1406c0b2fc0adb0323882d14aefcd9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1_1_bias_analysis_summary" kindref="compound">BiasAnalysisSummary</ref></type>
+        <definition>RAGJudge::BiasAnalysisSummary themis::rag::judge::RAGJudge::getBiasAnalysis</definition>
+        <argsstring>() const</argsstring>
+        <name>getBiasAnalysis</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::getBiasAnalysis</qualifiedname>
+        <briefdescription>
+<para>Run bias analysis over all accumulated evaluations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Only meaningful when config.enable_bias_tracking is true. Returns a zeroed-out summary when fewer than the minimum required samples have been accumulated.</para>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1_1_bias_analysis_summary" kindref="compound">BiasAnalysisSummary</ref> for the current evaluation history. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="402" column="25" bodyfile="src/rag/rag_judge.cpp" bodystart="930" bodyend="957"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a58d1c8ef7f85ced1d265ce290670dc0e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref></type>
+        <definition>RAGJudgeConfig themis::rag::judge::RAGJudge::getConfigSnapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfigSnapshot</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::getConfigSnapshot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="407" column="20" bodyfile="src/rag/rag_judge.cpp" bodystart="269" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1af59516b92689fa7cbf16e49dfdad730d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref></type>
+        <definition>EvaluationResult themis::rag::judge::RAGJudge::evaluateWithConfig</definition>
+        <argsstring>(const EvaluationInput &amp;input, const RAGJudgeConfig &amp;config)</argsstring>
+        <name>evaluateWithConfig</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::evaluateWithConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">RAGJudgeConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate With Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), size(), push_back(), THEMIS_WARN(), THEMIS_DEBUG(), computeCacheKey(), cache_lock(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="408" column="22" bodyfile="src/rag/rag_judge.cpp" bodystart="281" bodyend="786"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1ab7d6d745ea68de6581553ece3cf8889f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudge::evaluateFaithfulness</definition>
+        <argsstring>(const EvaluationInput &amp;input)</argsstring>
+        <name>evaluateFaithfulness</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::evaluateFaithfulness</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Private evaluation methods (Phase 2: Using specialized evaluators). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), empty(), THEMIS_WARN(), emplace_back(), <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a46642d4bc19f5c3ea4df4220ee59b334" kindref="member">evaluate()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="411" column="12" bodyfile="src/rag/rag_judge.cpp" bodystart="966" bodyend="998"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a97a10ca709a5f80175ed7eec8419f68b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudge::evaluateRelevance</definition>
+        <argsstring>(const EvaluationInput &amp;input)</argsstring>
+        <name>evaluateRelevance</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::evaluateRelevance</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Relevance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), empty(), THEMIS_WARN(), <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a46642d4bc19f5c3ea4df4220ee59b334" kindref="member">evaluate()</ref>, has_value(), std::clamp(), std::min(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="412" column="12" bodyfile="src/rag/rag_judge.cpp" bodystart="1006" bodyend="1050"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1ad825ad323f2fa5217f4c51a253517dcb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudge::evaluateCompleteness</definition>
+        <argsstring>(const EvaluationInput &amp;input)</argsstring>
+        <name>evaluateCompleteness</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::evaluateCompleteness</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Completeness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), THEMIS_WARN(), <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a46642d4bc19f5c3ea4df4220ee59b334" kindref="member">evaluate()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="413" column="12" bodyfile="src/rag/rag_judge.cpp" bodystart="1058" bodyend="1076"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a006ba52ea314505d5078de9cf014b7c8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudge::evaluateCoherence</definition>
+        <argsstring>(const EvaluationInput &amp;input)</argsstring>
+        <name>evaluateCoherence</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::evaluateCoherence</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Coherence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), THEMIS_WARN(), <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a46642d4bc19f5c3ea4df4220ee59b334" kindref="member">evaluate()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="414" column="12" bodyfile="src/rag/rag_judge.cpp" bodystart="1084" bodyend="1099"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a22076fb923a5fbf5385de3139b0d34d1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudge::evaluateEthicalCompliance</definition>
+        <argsstring>(const EvaluationInput &amp;input)</argsstring>
+        <name>evaluateEthicalCompliance</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::evaluateEthicalCompliance</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Ethical Compliance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), getConfigSnapshot(), evaluateAutonomyRespect(), evaluateMoralDiversity(), evaluateCitationQuality(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="415" column="12" bodyfile="src/rag/rag_judge.cpp" bodystart="1107" bodyend="1126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1ac35c7a6588a9b69287232e1f87783a48" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudge::evaluateAutonomyRespect</definition>
+        <argsstring>(const EvaluationInput &amp;input)</argsstring>
+        <name>evaluateAutonomyRespect</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::evaluateAutonomyRespect</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Autonomy Respect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: detectPatronizingLanguage(), THEMIS_DEBUG(), checkChoicePreservation(), countMoralPerspectives(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="418" column="12" bodyfile="src/rag/rag_judge.cpp" bodystart="1134" bodyend="1157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1aedbabb4ac61b762dd58bf78eaca80d1f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudge::evaluateMoralDiversity</definition>
+        <argsstring>(const EvaluationInput &amp;input)</argsstring>
+        <name>evaluateMoralDiversity</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::evaluateMoralDiversity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Moral Diversity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: countMoralPerspectives(), THEMIS_DEBUG(), std::min(), detectBias(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="419" column="12" bodyfile="src/rag/rag_judge.cpp" bodystart="1165" bodyend="1184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1ac7a10063a1467bfa8c745e63a74c5fe9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudge::evaluateCitationQuality</definition>
+        <argsstring>(const EvaluationInput &amp;input)</argsstring>
+        <name>evaluateCitationQuality</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::evaluateCitationQuality</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate <ref refid="structthemis_1_1rag_1_1judge_1_1_citation" kindref="compound">Citation</ref> Quality. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: hasEthicalCitations(), extractClaims(), find(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="420" column="12" bodyfile="src/rag/rag_judge.cpp" bodystart="1192" bodyend="1224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a05b0a7b35d1241f12adcd1f79fb88034" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudge::detectPatronizingLanguage</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>detectPatronizingLanguage</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::detectPatronizingLanguage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Detect Patronizing Language. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="423" column="10" bodyfile="src/rag/rag_judge.cpp" bodystart="1232" bodyend="1255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a7cdb2337bc4ee9746662aa20211f2063" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudge::checkChoicePreservation</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>checkChoicePreservation</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::checkChoicePreservation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Check Choice Preservation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="424" column="10" bodyfile="src/rag/rag_judge.cpp" bodystart="1263" bodyend="1286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a8c4c881c340278960b46bc2f55728a32" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::rag::judge::RAGJudge::countMoralPerspectives</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>countMoralPerspectives</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::countMoralPerspectives</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Count Moral Perspectives. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="425" column="9" bodyfile="src/rag/rag_judge.cpp" bodystart="1294" bodyend="1323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a57ff2c51c57d4c2b2b18dedfd2dd151a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudge::detectBias</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>detectBias</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::detectBias</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Detect Bias. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getConfigSnapshot(), std::transform(), begin(), end(), find(), length(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="426" column="10" bodyfile="src/rag/rag_judge.cpp" bodystart="1331" bodyend="1362"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a2b2ce6ff484042407b2937f4ea0e98e0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudge::hasEthicalCitations</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>hasEthicalCitations</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::hasEthicalCitations</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Has Ethical Citations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="427" column="10" bodyfile="src/rag/rag_judge.cpp" bodystart="1370" bodyend="1395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a740aa93f234391c3306d04c583bee28a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::judge::RAGJudge::extractClaims</definition>
+        <argsstring>(const std::string &amp;answer)</argsstring>
+        <name>extractClaims</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::extractClaims</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <briefdescription>
+<para>Extract Claims. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), extractClaimsViaLLM(), THEMIS_WARN(), what(), extractClaimsViaHeuristic(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="429" column="17" bodyfile="src/rag/rag_judge.cpp" bodystart="1412" bodyend="1424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a45bdca5999d5db59ade960edd54c3ffa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::judge::RAGJudge::extractClaimsViaLLM</definition>
+        <argsstring>(const std::string &amp;answer)</argsstring>
+        <name>extractClaimsViaLLM</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::extractClaimsViaLLM</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <briefdescription>
+<para>Extract Claims Via LLM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), sanitize(), <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a46642d4bc19f5c3ea4df4220ee59b334" kindref="member">evaluate()</ref>, nlohmann::json::parse(), contains(), is_array(), is_string(), length(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="430" column="17" bodyfile="src/rag/rag_judge.cpp" bodystart="1432" bodyend="1474"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a0ae5c96dfde4e2253c0c83b9c66076e3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::judge::RAGJudge::extractClaimsViaHeuristic</definition>
+        <argsstring>(const std::string &amp;answer)</argsstring>
+        <name>extractClaimsViaHeuristic</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::extractClaimsViaHeuristic</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <briefdescription>
+<para>Extract Claims Via Heuristic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), find_first_not_of(), find_last_not_of(), substr(), find(), length(), back(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="431" column="17" bodyfile="src/rag/rag_judge.cpp" bodystart="1482" bodyend="1524"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a490c70ecdc9a84278a789f6413b2eea9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudge::verifyClaimAgainstDocuments</definition>
+        <argsstring>(const std::string &amp;claim, const std::vector&lt; RetrievedDocument &gt; &amp;documents)</argsstring>
+        <name>verifyClaimAgainstDocuments</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::verifyClaimAgainstDocuments</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>claim</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <briefdescription>
+<para>Verify <ref refid="structthemis_1_1rag_1_1judge_1_1_claim" kindref="compound">Claim</ref> Against Documents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">claim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), isModelLoaded(), verifyClaimViaNLI(), THEMIS_WARN(), what(), verifyClaimViaLLM(), verifyClaimViaSemantic(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="433" column="10" bodyfile="src/rag/rag_judge.cpp" bodystart="1578" bodyend="1600"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1ae489984101b81da9a108a7e36ce0a362" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudge::verifyClaimViaNLI</definition>
+        <argsstring>(const std::string &amp;claim, const std::vector&lt; RetrievedDocument &gt; &amp;documents)</argsstring>
+        <name>verifyClaimViaNLI</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::verifyClaimViaNLI</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>claim</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <briefdescription>
+<para>Verify <ref refid="structthemis_1_1rag_1_1judge_1_1_claim" kindref="compound">Claim</ref> Via NLI. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">claim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), checkEntailment(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="437" column="10" bodyfile="src/rag/rag_judge.cpp" bodystart="1609" bodyend="1622"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a553622bdf7f6d46475e4b650f50728d4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudge::verifyClaimViaLLM</definition>
+        <argsstring>(const std::string &amp;claim, const std::vector&lt; RetrievedDocument &gt; &amp;documents)</argsstring>
+        <name>verifyClaimViaLLM</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::verifyClaimViaLLM</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>claim</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <briefdescription>
+<para>Verify <ref refid="structthemis_1_1rag_1_1judge_1_1_claim" kindref="compound">Claim</ref> Via LLM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">claim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), size(), sanitize(), str(), <ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a46642d4bc19f5c3ea4df4220ee59b334" kindref="member">evaluate()</ref>, nlohmann::json::parse(), value(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="441" column="10" bodyfile="src/rag/rag_judge.cpp" bodystart="1631" bodyend="1677"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a0f6e0955708e1057a0331babb8b12d2c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudge::verifyClaimViaSemantic</definition>
+        <argsstring>(const std::string &amp;claim, const std::vector&lt; RetrievedDocument &gt; &amp;documents)</argsstring>
+        <name>verifyClaimViaSemantic</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::verifyClaimViaSemantic</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>claim</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <briefdescription>
+<para>Verify <ref refid="structthemis_1_1rag_1_1judge_1_1_claim" kindref="compound">Claim</ref> Via Semantic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">claim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), tokenizeForMatching(), find(), calculateTermOverlap(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="445" column="10" bodyfile="src/rag/rag_judge.cpp" bodystart="1686" bodyend="1702"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a349d78c4f742db911b6135b75adf6cee" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::judge::RAGJudge::tokenizeForMatching</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>tokenizeForMatching</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::tokenizeForMatching</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Tokenize For Matching. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: stream(), std::transform(), begin(), end(), erase(), std::remove_if(), length(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="450" column="17" bodyfile="src/rag/rag_judge.cpp" bodystart="1532" bodyend="1544"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1af19cc3de54661aff845e8c441662a7ef" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudge::calculateTermOverlap</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;terms1, const std::vector&lt; std::string &gt; &amp;terms2)</argsstring>
+        <name>calculateTermOverlap</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::calculateTermOverlap</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>terms1</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>terms2</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Term Overlap. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">terms1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">terms2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), set2(), begin(), end(), count(), std::max(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="451" column="12" bodyfile="src/rag/rag_judge.cpp" bodystart="1553" bodyend="1569"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a25e252206a7a2e858537db9c517a48a8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::RAGJudge::generateEvaluationPrompt</definition>
+        <argsstring>(const EvaluationInput &amp;input, EvaluationDimension dimension)</argsstring>
+        <name>generateEvaluationPrompt</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::generateEvaluationPrompt</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1judge_1a14cdde8b476441304b4fd2f232941e6a" kindref="member">EvaluationDimension</ref></type>
+          <declname>dimension</declname>
+        </param>
+        <briefdescription>
+<para>Generate Evaluation Prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generatePrompt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="456" column="17" bodyfile="src/rag/rag_judge.cpp" bodystart="1711" bodyend="1716"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1ac3fe963f1020b4d8535a75de445a707f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudge::parseScoreFromResponse</definition>
+        <argsstring>(const std::string &amp;response)</argsstring>
+        <name>parseScoreFromResponse</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::parseScoreFromResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Parse Score From Response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1rag_1_1judge_1_1_response_parser_1a3c9dd2b12b0d0cb6275e096d125b7920" kindref="member">ResponseParser::parse()</ref>, <ref refid="classthemis_1_1rag_1_1judge_1_1_response_parser_1a540a463f901c94abf4fe132551a51259" kindref="member">ResponseParser::normalizeScore()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="461" column="12" bodyfile="src/rag/rag_judge.cpp" bodystart="1724" bodyend="1730"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1ac1ff1e327b50af919bb00fff2afcc6fd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::RAGJudge::extractExplanation</definition>
+        <argsstring>(const std::string &amp;response)</argsstring>
+        <name>extractExplanation</name>
+        <qualifiedname>themis::rag::judge::RAGJudge::extractExplanation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Extract Explanation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements extractExplanation without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="462" column="17" bodyfile="src/rag/rag_judge.cpp" bodystart="1738" bodyend="1740"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Main RAG Judge class. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Evaluates RAG system outputs using LLM-based assessment across multiple quality dimensions. Supports single evaluation, pairwise comparison, and batch processing. </para>
+    </detaileddescription>
+    <location file="include/rag/rag_judge.h" line="266" column="1" bodyfile="include/rag/rag_judge.h" bodystart="266" bodyend="463"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1ade426f2023511194a5eeec82854e9e97" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>batchEvaluate</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1af19cc3de54661aff845e8c441662a7ef" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>calculateTermOverlap</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a7cdb2337bc4ee9746662aa20211f2063" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>checkChoicePreservation</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a5ae9b8105bac5dba90df5c08849a443d" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a54478ad7707578afb2539408c233f760" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>compare</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a8c4c881c340278960b46bc2f55728a32" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>countMoralPerspectives</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a57ff2c51c57d4c2b2b18dedfd2dd151a" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>detectBias</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a05b0a7b35d1241f12adcd1f79fb88034" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>detectPatronizingLanguage</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a46642d4bc19f5c3ea4df4220ee59b334" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1aa158ba79b34c7b2d63b33ccdb7e4a53f" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1af2ca419d4cdd50e9ce11912f8ae97664" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1ac35c7a6588a9b69287232e1f87783a48" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>evaluateAutonomyRespect</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1ac7a10063a1467bfa8c745e63a74c5fe9" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>evaluateCitationQuality</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a006ba52ea314505d5078de9cf014b7c8" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>evaluateCoherence</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1ad825ad323f2fa5217f4c51a253517dcb" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>evaluateCompleteness</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1ab261908f3d1f85b9edf64771cb47821d" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>evaluateDimension</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a22076fb923a5fbf5385de3139b0d34d1" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>evaluateEthicalCompliance</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1ab7d6d745ea68de6581553ece3cf8889f" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>evaluateFaithfulness</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1aedbabb4ac61b762dd58bf78eaca80d1f" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>evaluateMoralDiversity</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a97a10ca709a5f80175ed7eec8419f68b" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>evaluateRelevance</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1af59516b92689fa7cbf16e49dfdad730d" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>evaluateWithConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a740aa93f234391c3306d04c583bee28a" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>extractClaims</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a0ae5c96dfde4e2253c0c83b9c66076e3" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>extractClaimsViaHeuristic</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a45bdca5999d5db59ade960edd54c3ffa" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>extractClaimsViaLLM</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1ac1ff1e327b50af919bb00fff2afcc6fd" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>extractExplanation</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a25e252206a7a2e858537db9c517a48a8" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>generateEvaluationPrompt</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a5e1406c0b2fc0adb0323882d14aefcd9" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>getBiasAnalysis</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a777f519a5593cefbbd00bd8729b740ae" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a58d1c8ef7f85ced1d265ce290670dc0e" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>getConfigSnapshot</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a2b2ce6ff484042407b2937f4ea0e98e0" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>hasEthicalCitations</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a06db97748731003dfb7d7a1c47b96ebd" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1ac3fe963f1020b4d8535a75de445a707f" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>parseScoreFromResponse</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a06e54864ec49e92b13850f605a12bf4c" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>RAGJudge</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1adfab3db681f7e3fce9c889c550c44794" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>RAGJudge</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1ab48abfa6d5801a10d8a5ad999793d15c" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1adee6f538792cd07b60c87f655afebfc2" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>setEvaluationCallback</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a349d78c4f742db911b6135b75adf6cee" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>tokenizeForMatching</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a490c70ecdc9a84278a789f6413b2eea9" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>verifyClaimAgainstDocuments</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a553622bdf7f6d46475e4b650f50728d4" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>verifyClaimViaLLM</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1ae489984101b81da9a108a7e36ce0a362" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>verifyClaimViaNLI</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a0f6e0955708e1057a0331babb8b12d2c" prot="private" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>verifyClaimViaSemantic</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_1a521056126d8a738a5213d2e58e1c4537" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudge</scope><name>~RAGJudge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_workload_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::WorkloadEvent</compoundname>
+    <includes refid="workload__replay_8h" local="no">workload_replay.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_workload_event_1ad7c0e9fcf47f3819b59d394c99c955ab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::WorkloadEvent::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::WorkloadEvent::table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="42" column="18" bodyfile="include/index/workload_replay.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_workload_event_1a23d2a52c644d8f3bcb9140434aebc998" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::WorkloadEvent::column_name</definition>
+        <argsstring></argsstring>
+        <name>column_name</name>
+        <qualifiedname>themis::WorkloadEvent::column_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="43" column="18" bodyfile="include/index/workload_replay.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_workload_event_1a59e1dd3e4c017930bcfc72bba9f3e2bb" prot="public" static="no" mutable="no">
+        <type>IndexRecommender::AccessType</type>
+        <definition>IndexRecommender::AccessType themis::WorkloadEvent::access_type</definition>
+        <argsstring></argsstring>
+        <name>access_type</name>
+        <qualifiedname>themis::WorkloadEvent::access_type</qualifiedname>
+        <initializer>= IndexRecommender::AccessType::FILTER</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="44" column="34" bodyfile="include/index/workload_replay.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_workload_event_1ac49666ac302da8ff304528dd1425e918" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::WorkloadEvent::selectivity</definition>
+        <argsstring></argsstring>
+        <name>selectivity</name>
+        <qualifiedname>themis::WorkloadEvent::selectivity</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>0 = very selective, 1 = not selective </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="45" column="18" bodyfile="include/index/workload_replay.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_workload_event_1a6cb72732cd3aaec0ef4fb5e0a465c7a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::WorkloadEvent::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::WorkloadEvent::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="47" column="10" bodyfile="src/index/workload_replay.cpp" bodystart="25" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_workload_event_1a1b8072dbf1e54046bde54b31c5277bdc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_workload_event" kindref="compound">WorkloadEvent</ref></type>
+        <definition>WorkloadEvent themis::WorkloadEvent::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::WorkloadEvent::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: at(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="48" column="26" bodyfile="src/index/workload_replay.cpp" bodystart="40" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single recorded query event in a captured workload. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Stores one column access observation (table, column, access type, selectivity) so it can be serialised and replayed later. </para>
+    </detaileddescription>
+    <location file="include/index/workload_replay.h" line="41" column="1" bodyfile="include/index/workload_replay.h" bodystart="41" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_workload_event_1a59e1dd3e4c017930bcfc72bba9f3e2bb" prot="public" virt="non-virtual"><scope>themis::WorkloadEvent</scope><name>access_type</name></member>
+      <member refid="structthemis_1_1_workload_event_1a23d2a52c644d8f3bcb9140434aebc998" prot="public" virt="non-virtual"><scope>themis::WorkloadEvent</scope><name>column_name</name></member>
+      <member refid="structthemis_1_1_workload_event_1a1b8072dbf1e54046bde54b31c5277bdc" prot="public" virt="non-virtual"><scope>themis::WorkloadEvent</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1_workload_event_1ac49666ac302da8ff304528dd1425e918" prot="public" virt="non-virtual"><scope>themis::WorkloadEvent</scope><name>selectivity</name></member>
+      <member refid="structthemis_1_1_workload_event_1ad7c0e9fcf47f3819b59d394c99c955ab" prot="public" virt="non-virtual"><scope>themis::WorkloadEvent</scope><name>table_name</name></member>
+      <member refid="structthemis_1_1_workload_event_1a6cb72732cd3aaec0ef4fb5e0a465c7a4" prot="public" virt="non-virtual"><scope>themis::WorkloadEvent</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

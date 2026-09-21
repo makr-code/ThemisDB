@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_security_evidence_collector_test" kind="class" language="C++" prot="public">
+    <compoundname>SecurityEvidenceCollectorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_security_evidence_collector_test_1a9982840fd036e3250536521d77fbeb9b" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_mock_key_provider" kindref="compound">MockKeyProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MockKeyProvider&gt; SecurityEvidenceCollectorTest::provider_</definition>
+        <argsstring></argsstring>
+        <name>provider_</name>
+        <qualifiedname>SecurityEvidenceCollectorTest::provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_evidence_collector.cpp" line="113" column="30" bodyfile="tests/security/test_security_evidence_collector.cpp" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_security_evidence_collector_test_1a1eb03c9d75f68e2b2c5ccdebfc085c1e" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;RBAC&gt; SecurityEvidenceCollectorTest::rbac_</definition>
+        <argsstring></argsstring>
+        <name>rbac_</name>
+        <qualifiedname>SecurityEvidenceCollectorTest::rbac_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_evidence_collector.cpp" line="114" column="42" bodyfile="tests/security/test_security_evidence_collector.cpp" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_security_evidence_collector_test_1a126f4f07596984ca82e807f67710154d" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1security_1_1_security_evidence_collector" kindref="compound">SecurityEvidenceCollector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SecurityEvidenceCollector&gt; SecurityEvidenceCollectorTest::collector_</definition>
+        <argsstring></argsstring>
+        <name>collector_</name>
+        <qualifiedname>SecurityEvidenceCollectorTest::collector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_evidence_collector.cpp" line="115" column="21" bodyfile="tests/security/test_security_evidence_collector.cpp" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_security_evidence_collector_test_1a04453609c6f496cfcf3da82bb8ddb1ec" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path SecurityEvidenceCollectorTest::tmp_dir_</definition>
+        <argsstring></argsstring>
+        <name>tmp_dir_</name>
+        <qualifiedname>SecurityEvidenceCollectorTest::tmp_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_evidence_collector.cpp" line="116" column="48" bodyfile="tests/security/test_security_evidence_collector.cpp" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_security_evidence_collector_test_1a07ab64563ff3c74d7eab1972b7aa12cc" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SecurityEvidenceCollectorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SecurityEvidenceCollectorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_evidence_collector.cpp" line="98" column="10" bodyfile="tests/security/test_security_evidence_collector.cpp" bodystart="98" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="class_security_evidence_collector_test_1a855f64f3201fb90d8c32a6469356f338" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SecurityEvidenceCollectorTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>SecurityEvidenceCollectorTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_evidence_collector.cpp" line="109" column="10" bodyfile="tests/security/test_security_evidence_collector.cpp" bodystart="109" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SecurityEvidenceCollectorTest</label>
+        <link refid="class_security_evidence_collector_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SecurityEvidenceCollectorTest</label>
+        <link refid="class_security_evidence_collector_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_security_evidence_collector.cpp" line="96" column="1" bodyfile="tests/security/test_security_evidence_collector.cpp" bodystart="96" bodyend="117"/>
+    <listofallmembers>
+      <member refid="class_security_evidence_collector_test_1a126f4f07596984ca82e807f67710154d" prot="protected" virt="non-virtual"><scope>SecurityEvidenceCollectorTest</scope><name>collector_</name></member>
+      <member refid="class_security_evidence_collector_test_1a9982840fd036e3250536521d77fbeb9b" prot="protected" virt="non-virtual"><scope>SecurityEvidenceCollectorTest</scope><name>provider_</name></member>
+      <member refid="class_security_evidence_collector_test_1a1eb03c9d75f68e2b2c5ccdebfc085c1e" prot="protected" virt="non-virtual"><scope>SecurityEvidenceCollectorTest</scope><name>rbac_</name></member>
+      <member refid="class_security_evidence_collector_test_1a07ab64563ff3c74d7eab1972b7aa12cc" prot="protected" virt="non-virtual"><scope>SecurityEvidenceCollectorTest</scope><name>SetUp</name></member>
+      <member refid="class_security_evidence_collector_test_1a855f64f3201fb90d8c32a6469356f338" prot="protected" virt="non-virtual"><scope>SecurityEvidenceCollectorTest</scope><name>TearDown</name></member>
+      <member refid="class_security_evidence_collector_test_1a04453609c6f496cfcf3da82bb8ddb1ec" prot="protected" virt="non-virtual"><scope>SecurityEvidenceCollectorTest</scope><name>tmp_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

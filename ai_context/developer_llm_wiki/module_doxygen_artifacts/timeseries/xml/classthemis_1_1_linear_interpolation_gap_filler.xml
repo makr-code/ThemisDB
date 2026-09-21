@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_linear_interpolation_gap_filler" kind="class" language="C++" prot="public">
+    <compoundname>themis::LinearInterpolationGapFiller</compoundname>
+    <basecompoundref refid="classthemis_1_1_i_gap_filler" prot="public" virt="non-virtual">themis::IGapFiller</basecompoundref>
+    <includes refid="gap__fill_8h" local="no">gap_fill.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_linear_interpolation_gap_filler_1a70835b3c73627c7ee643b9ad76c776ee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &gt;</type>
+        <definition>std::vector&lt; TSStore::DataPoint &gt; themis::LinearInterpolationGapFiller::fill</definition>
+        <argsstring>(const std::vector&lt; TSStore::DataPoint &gt; &amp;points, const std::vector&lt; int64_t &gt; &amp;timestamps_to_fill, const GapFillConfig &amp;cfg) const override</argsstring>
+        <name>fill</name>
+        <qualifiedname>themis::LinearInterpolationGapFiller::fill</qualifiedname>
+        <reimplements refid="classthemis_1_1_i_gap_filler_1aa750e453f5b681307b247efe364e17de">fill</reimplements>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &gt; &amp;</type>
+          <declname>points</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int64_t &gt; &amp;</type>
+          <declname>timestamps_to_fill</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_gap_fill_config" kindref="compound">GapFillConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Fill gaps for the requested timestamps. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Known data points (must be sorted ascending by timestamp_ms). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timestamps_to_fill</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timestamps for which a value is required (must be sorted ascending). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Gap-fill configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>One DataPoint per requested timestamp, in ascending timestamp order. Timestamps present in <computeroutput>points</computeroutput> are returned verbatim; missing timestamps receive a synthesised value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/gap_fill.h" line="133" column="17" bodyfile="src/timeseries/gap_fill.cpp" bodystart="148" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Gap-filler using piecewise linear interpolation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>For a requested timestamp t located between two known observations at t0 and t1: value(t) = v0 + (v1 − v0) × (t − t0) / (t1 − t0)</para>
+<para>Edge cases:<itemizedlist>
+<listitem><para>If t &lt; first known timestamp → forward-fill from the first point.</para>
+</listitem><listitem><para>If t &gt; last known timestamp → backward-fill from the last point.</para>
+</listitem><listitem><para>When t0 == t1, v0 is returned directly. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::IGapFiller</label>
+        <link refid="classthemis_1_1_i_gap_filler"/>
+      </node>
+      <node id="1">
+        <label>themis::LinearInterpolationGapFiller</label>
+        <link refid="classthemis_1_1_linear_interpolation_gap_filler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::IGapFiller</label>
+        <link refid="classthemis_1_1_i_gap_filler"/>
+      </node>
+      <node id="1">
+        <label>themis::LinearInterpolationGapFiller</label>
+        <link refid="classthemis_1_1_linear_interpolation_gap_filler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/timeseries/gap_fill.h" line="131" column="1" bodyfile="include/timeseries/gap_fill.h" bodystart="131" bodyend="137"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_linear_interpolation_gap_filler_1a70835b3c73627c7ee643b9ad76c776ee" prot="public" virt="virtual"><scope>themis::LinearInterpolationGapFiller</scope><name>fill</name></member>
+      <member refid="classthemis_1_1_i_gap_filler_1a2e113137e3b70f5f551153474466d46f" prot="public" virt="virtual"><scope>themis::LinearInterpolationGapFiller</scope><name>~IGapFiller</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,381 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_cache_partition" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>MockCachePartition</compoundname>
+    <basecompoundref refid="structthemis_1_1cache_1_1_i_cache_partition" prot="public" virt="non-virtual">themis::cache::ICachePartition</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_mock_cache_partition_1a4e155c0626e5d069c85357a968bc1f8e" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; MockCachePartition::assignments</definition>
+        <argsstring></argsstring>
+        <name>assignments</name>
+        <qualifiedname>MockCachePartition::assignments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="123" column="24" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_cache_partition_1afbfb0871b8fbaabb2bf39a228da536f2" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; MockCachePartition::capacities</definition>
+        <argsstring></argsstring>
+        <name>capacities</name>
+        <qualifiedname>MockCachePartition::capacities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="125" column="24" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_cache_partition_1a75e3fc5771b2f3e7e89ef57f579c76a2" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, bool &gt;</type>
+        <definition>std::unordered_map&lt;std::string, bool&gt; MockCachePartition::evicted</definition>
+        <argsstring></argsstring>
+        <name>evicted</name>
+        <qualifiedname>MockCachePartition::evicted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="127" column="24" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_cache_partition_1a01dab478b00abe5a8a9c7b581224f494" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex MockCachePartition::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <qualifiedname>MockCachePartition::mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="128" column="24" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_mock_cache_partition_1ab65eb66e8bcaf60efd0eb738d404ccfc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* MockCachePartition::kDefault</definition>
+        <argsstring></argsstring>
+        <name>kDefault</name>
+        <qualifiedname>MockCachePartition::kDefault</qualifiedname>
+        <initializer>= &quot;default&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="130" column="33" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_cache_partition_1a1b760127849fea57978b9cc5c752b69b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string MockCachePartition::getPartitionId</definition>
+        <argsstring>(const std::string &amp;tenant_id) const override</argsstring>
+        <name>getPartitionId</name>
+        <qualifiedname>MockCachePartition::getPartitionId</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_partition_1aac4ed781fa853ab9d766067d1bf1c7ef">getPartitionId</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="132" column="17" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="132" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cache_partition_1aace49af1a5f65cfb03c4075d1465704d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockCachePartition::assignTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::string &amp;partition_id) override</argsstring>
+        <name>assignTenant</name>
+        <qualifiedname>MockCachePartition::assignTenant</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_partition_1ae962d43a5688bf17c6ead7baf7633e74">assignTenant</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+<para>Assign Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="138" column="10" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="138" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cache_partition_1a3db24ab1532ea3ca504de2ac0ab57955" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockCachePartition::unassignTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id) override</argsstring>
+        <name>unassignTenant</name>
+        <qualifiedname>MockCachePartition::unassignTenant</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_partition_1a33e2abe1086bf98da9481f164e432d1e">unassignTenant</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Unassign Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="146" column="10" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="146" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cache_partition_1a0538981fdcd28a3a41e1fb7662b464d8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; MockCachePartition::listTenants</definition>
+        <argsstring>(const std::string &amp;partition_id) const override</argsstring>
+        <name>listTenants</name>
+        <qualifiedname>MockCachePartition::listTenants</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_partition_1a7684c5d9a1a208653b93c55797ac7dcc">listTenants</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="151" column="17" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="151" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cache_partition_1adf0351eeabfe584feec90e9cb679b3b3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; MockCachePartition::listPartitions</definition>
+        <argsstring>() const override</argsstring>
+        <name>listPartitions</name>
+        <qualifiedname>MockCachePartition::listPartitions</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_partition_1abcc17b7cd8ebef23541468448a92c494">listPartitions</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="164" column="17" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="164" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cache_partition_1ad16d43f963a81c20f632425af9bbddce" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockCachePartition::resize</definition>
+        <argsstring>(const std::string &amp;partition_id, size_t new_capacity) override</argsstring>
+        <name>resize</name>
+        <qualifiedname>MockCachePartition::resize</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_partition_1a65c8a6ac3d1f50eb54620a469c6f63df">resize</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>new_capacity</declname>
+        </param>
+        <briefdescription>
+<para>Resize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="175" column="10" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="175" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cache_partition_1ac425930fc15bf8dfcfcc8865204146e2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockCachePartition::evictPartition</definition>
+        <argsstring>(const std::string &amp;partition_id) override</argsstring>
+        <name>evictPartition</name>
+        <qualifiedname>MockCachePartition::evictPartition</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_partition_1a61c57bba489367d34f607f7489ce46c1">evictPartition</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+<para>Evict Partition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="180" column="10" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="180" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cache_partition_1a353e4f2af5cec0214ff6ce224780a85a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1cache_1_1_partition_stats" kindref="compound">PartitionStats</ref> &gt;</type>
+        <definition>std::optional&lt; PartitionStats &gt; MockCachePartition::getStats</definition>
+        <argsstring>(const std::string &amp;partition_id) const override</argsstring>
+        <name>getStats</name>
+        <qualifiedname>MockCachePartition::getStats</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_partition_1ad93881553b0d7cad82c8ce8d8a0d8010">getStats</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="185" column="19" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="185" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cache_partition_1a552d3e96a798603d218c81daccb43ec6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1cache_1_1_partition_stats" kindref="compound">PartitionStats</ref> &gt;</type>
+        <definition>std::vector&lt; PartitionStats &gt; MockCachePartition::getAllStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getAllStats</name>
+        <qualifiedname>MockCachePartition::getAllStats</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_partition_1a288b0c9a5721dfbe2c5e1fe767ed2d87">getAllStats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="198" column="17" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="198" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_cache_partition_1a522c310484b7bc97e10f1eb42fa81296" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t MockCachePartition::getCapacity</definition>
+        <argsstring>(const std::string &amp;partition_id) const override</argsstring>
+        <name>getCapacity</name>
+        <qualifiedname>MockCachePartition::getCapacity</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_partition_1a226b95a55d700189369f5f0bec53f6d1">getCapacity</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="215" column="12" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="215" bodyend="219"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockCachePartition</label>
+        <link refid="class_mock_cache_partition"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::ICachePartition</label>
+        <link refid="structthemis_1_1cache_1_1_i_cache_partition"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockCachePartition</label>
+        <link refid="class_mock_cache_partition"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::ICachePartition</label>
+        <link refid="structthemis_1_1cache_1_1_i_cache_partition"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_cache_phase6_interfaces.cpp" line="120" column="1" bodyfile="tests/cache/test_cache_phase6_interfaces.cpp" bodystart="120" bodyend="220"/>
+    <listofallmembers>
+      <member refid="class_mock_cache_partition_1a4e155c0626e5d069c85357a968bc1f8e" prot="public" virt="non-virtual"><scope>MockCachePartition</scope><name>assignments</name></member>
+      <member refid="class_mock_cache_partition_1aace49af1a5f65cfb03c4075d1465704d" prot="public" virt="virtual"><scope>MockCachePartition</scope><name>assignTenant</name></member>
+      <member refid="class_mock_cache_partition_1afbfb0871b8fbaabb2bf39a228da536f2" prot="public" virt="non-virtual"><scope>MockCachePartition</scope><name>capacities</name></member>
+      <member refid="class_mock_cache_partition_1a75e3fc5771b2f3e7e89ef57f579c76a2" prot="public" virt="non-virtual"><scope>MockCachePartition</scope><name>evicted</name></member>
+      <member refid="class_mock_cache_partition_1ac425930fc15bf8dfcfcc8865204146e2" prot="public" virt="virtual"><scope>MockCachePartition</scope><name>evictPartition</name></member>
+      <member refid="class_mock_cache_partition_1a552d3e96a798603d218c81daccb43ec6" prot="public" virt="virtual"><scope>MockCachePartition</scope><name>getAllStats</name></member>
+      <member refid="class_mock_cache_partition_1a522c310484b7bc97e10f1eb42fa81296" prot="public" virt="virtual"><scope>MockCachePartition</scope><name>getCapacity</name></member>
+      <member refid="class_mock_cache_partition_1a1b760127849fea57978b9cc5c752b69b" prot="public" virt="virtual"><scope>MockCachePartition</scope><name>getPartitionId</name></member>
+      <member refid="class_mock_cache_partition_1a353e4f2af5cec0214ff6ce224780a85a" prot="public" virt="virtual"><scope>MockCachePartition</scope><name>getStats</name></member>
+      <member refid="class_mock_cache_partition_1ab65eb66e8bcaf60efd0eb738d404ccfc" prot="public" virt="non-virtual"><scope>MockCachePartition</scope><name>kDefault</name></member>
+      <member refid="class_mock_cache_partition_1adf0351eeabfe584feec90e9cb679b3b3" prot="public" virt="virtual"><scope>MockCachePartition</scope><name>listPartitions</name></member>
+      <member refid="class_mock_cache_partition_1a0538981fdcd28a3a41e1fb7662b464d8" prot="public" virt="virtual"><scope>MockCachePartition</scope><name>listTenants</name></member>
+      <member refid="class_mock_cache_partition_1a01dab478b00abe5a8a9c7b581224f494" prot="public" virt="non-virtual"><scope>MockCachePartition</scope><name>mu</name></member>
+      <member refid="class_mock_cache_partition_1ad16d43f963a81c20f632425af9bbddce" prot="public" virt="virtual"><scope>MockCachePartition</scope><name>resize</name></member>
+      <member refid="class_mock_cache_partition_1a3db24ab1532ea3ca504de2ac0ab57955" prot="public" virt="virtual"><scope>MockCachePartition</scope><name>unassignTenant</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_partition_1a1e7fb764af0ac5d8ff7dc2c9bed3c3d6" prot="public" virt="virtual"><scope>MockCachePartition</scope><name>~ICachePartition</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

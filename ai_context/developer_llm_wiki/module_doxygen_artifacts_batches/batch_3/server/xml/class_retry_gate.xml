@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_retry_gate" kind="class" language="C++" prot="public">
+    <compoundname>RetryGate</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_retry_gate_1acb53020e392275147f0d4b164d26255d" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_retry_config" kindref="compound">RetryConfig</ref></type>
+        <definition>RetryConfig RetryGate::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>RetryGate::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="212" column="24" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_retry_gate_1a265466ee3e69d3809079f0f8c9362285" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; RetryGate::retry_count_</definition>
+        <argsstring></argsstring>
+        <name>retry_count_</name>
+        <qualifiedname>RetryGate::retry_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="213" column="19" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="213" bodyend="213"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_retry_gate_1aa1ff3b81506fef9d78227c4c3be7b23e" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>RetryGate::RetryGate</definition>
+        <argsstring>(RetryConfig cfg)</argsstring>
+        <name>RetryGate</name>
+        <qualifiedname>RetryGate::RetryGate</qualifiedname>
+        <param>
+          <type><ref refid="struct_retry_config" kindref="compound">RetryConfig</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="class_retry_gate" kindref="compound">RetryGate</ref> with the supplied configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retry policy parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="111" column="14" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="class_retry_gate_1a7f45e1fa862448cbd58454f0fadf8ba4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_wire_result" kindref="compound">WireResult</ref></type>
+        <definition>WireResult RetryGate::execute</definition>
+        <argsstring>(std::function&lt; WireResult(int)&gt; fn, std::function&lt; void(int)&gt; on_retry=nullptr)</argsstring>
+        <name>execute</name>
+        <qualifiedname>RetryGate::execute</qualifiedname>
+        <param>
+          <type>std::function&lt; <ref refid="struct_wire_result" kindref="compound">WireResult</ref>(int)&gt;</type>
+          <declname>fn</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(int)&gt;</type>
+          <declname>on_retry</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Execute <computeroutput>fn</computeroutput> with retry semantics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The callable receives the current 1-based attempt index and returns a <computeroutput><ref refid="struct_wire_result" kindref="compound">WireResult</ref></computeroutput>. On a retryable failure the gate sleeps for the computed back-off and tries again, up to <computeroutput>max_retries</computeroutput> additional attempts. Exceptions thrown by the callable are converted into a <computeroutput>kFatal</computeroutput> result on the current attempt and are not retried.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable <computeroutput>(int attempt) -&gt; <ref refid="struct_wire_result" kindref="compound">WireResult</ref></computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>on_retry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional callback invoked <emphasis>before</emphasis> each retry sleep; receives the attempt index that just failed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The <computeroutput><ref refid="struct_wire_result" kindref="compound">WireResult</ref></computeroutput> from the final attempt. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="127" column="16" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="127" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="class_retry_gate_1a67df44515ea5e54a3f20019ccd5d4b0d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int RetryGate::retryCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>retryCount</name>
+        <qualifiedname>RetryGate::retryCount</qualifiedname>
+        <briefdescription>
+<para>Return how many retry attempts were made during the last <ref refid="class_retry_gate_1a7f45e1fa862448cbd58454f0fadf8ba4" kindref="member">execute()</ref> call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Retry count (0 if the first attempt succeeded). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="197" column="10" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="197" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="class_retry_gate_1ad25aea948c95f7387e08595781bddd9d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RetryGate::resetCounter</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>resetCounter</name>
+        <qualifiedname>RetryGate::resetCounter</qualifiedname>
+        <briefdescription>
+<para>Reset the internal retry counter to zero. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Allows the same <ref refid="class_retry_gate" kindref="compound">RetryGate</ref> instance to be reused across sequential requests while maintaining accurate per-request counts. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="207" column="10" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="207" bodyend="209"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>In-process exponential-backoff retry gate. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Executes a callable up to <computeroutput>1 + max_retries</computeroutput> times, sleeping between attempts using a 1×/2×/4× backoff schedule. If <computeroutput>jitter_enabled</computeroutput> is set, a uniform random fraction of <computeroutput>base_delay</computeroutput> is added to each sleep.</para>
+<para><simplesect kind="note"><para>No real I/O; designed for unit-testable in-process use. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="tests/server/test_server_phase5_hardening.cpp" line="105" column="1" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="105" bodyend="214"/>
+    <listofallmembers>
+      <member refid="class_retry_gate_1acb53020e392275147f0d4b164d26255d" prot="private" virt="non-virtual"><scope>RetryGate</scope><name>cfg_</name></member>
+      <member refid="class_retry_gate_1a7f45e1fa862448cbd58454f0fadf8ba4" prot="public" virt="non-virtual"><scope>RetryGate</scope><name>execute</name></member>
+      <member refid="class_retry_gate_1ad25aea948c95f7387e08595781bddd9d" prot="public" virt="non-virtual"><scope>RetryGate</scope><name>resetCounter</name></member>
+      <member refid="class_retry_gate_1a265466ee3e69d3809079f0f8c9362285" prot="private" virt="non-virtual"><scope>RetryGate</scope><name>retry_count_</name></member>
+      <member refid="class_retry_gate_1a67df44515ea5e54a3f20019ccd5d4b0d" prot="public" virt="non-virtual"><scope>RetryGate</scope><name>retryCount</name></member>
+      <member refid="class_retry_gate_1aa1ff3b81506fef9d78227c4c3be7b23e" prot="public" virt="non-virtual"><scope>RetryGate</scope><name>RetryGate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

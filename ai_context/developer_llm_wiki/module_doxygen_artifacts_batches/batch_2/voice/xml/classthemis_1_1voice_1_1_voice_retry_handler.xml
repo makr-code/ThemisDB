@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_voice_retry_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceRetryHandler</compoundname>
+    <includes refid="voice__error__handler_8h" local="no">voice_error_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_retry_handler_1a89c8b4086f70340ece37b066affa82b5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_retry_config" kindref="compound">RetryConfig</ref></type>
+        <definition>RetryConfig themis::voice::VoiceRetryHandler::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::voice::VoiceRetryHandler::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="173" column="17" bodyfile="include/voice/voice_error_handler.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_retry_handler_1afff004a8f2031ba68cc7a06bfedad0c1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::voice::VoiceRetryHandler::total_retries_</definition>
+        <argsstring></argsstring>
+        <name>total_retries_</name>
+        <qualifiedname>themis::voice::VoiceRetryHandler::total_retries_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="174" column="17" bodyfile="include/voice/voice_error_handler.h" bodystart="174" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_retry_handler_1ab402c3526288fff74a0d8ec64b54ed4d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::voice::VoiceRetryHandler::total_failures_</definition>
+        <argsstring></argsstring>
+        <name>total_failures_</name>
+        <qualifiedname>themis::voice::VoiceRetryHandler::total_failures_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="175" column="17" bodyfile="include/voice/voice_error_handler.h" bodystart="175" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_retry_handler_1ae8c82cb120d68384dded9473b5bd1bd8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceRetryHandler::VoiceRetryHandler</definition>
+        <argsstring>(const RetryConfig &amp;config={})</argsstring>
+        <name>VoiceRetryHandler</name>
+        <qualifiedname>themis::voice::VoiceRetryHandler::VoiceRetryHandler</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_retry_config" kindref="compound">RetryConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="142" column="14" bodyfile="src/voice/voice_error_handler.cpp" bodystart="196" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_retry_handler_1aaf4f1877c3d9784814e00d1e31c191b3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+          <param>
+            <type>typename Func</type>
+          </param>
+        </templateparamlist>
+        <type>T</type>
+        <definition>T themis::voice::VoiceRetryHandler::executeWithRetry</definition>
+        <argsstring>(Func &amp;&amp;func, const std::string &amp;=&quot;&quot;)</argsstring>
+        <name>executeWithRetry</name>
+        <qualifiedname>themis::voice::VoiceRetryHandler::executeWithRetry</qualifiedname>
+        <param>
+          <type>Func &amp;&amp;</type>
+          <declname>func</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="145" column="7" bodyfile="include/voice/voice_error_handler.h" bodystart="145" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_retry_handler_1ab64ccebba2b228cb93688ab12812122b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::VoiceRetryHandler::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::voice::VoiceRetryHandler::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="170" column="10" bodyfile="src/voice/voice_error_handler.cpp" bodystart="205" bodyend="210"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_retry_handler_1ab8ebe89c8f3b0dcc2f143be73bf7ab4f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceRetryHandler::sleepMs</definition>
+        <argsstring>(int64_t ms) const</argsstring>
+        <name>sleepMs</name>
+        <qualifiedname>themis::voice::VoiceRetryHandler::sleepMs</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="177" column="10" bodyfile="src/voice/voice_error_handler.cpp" bodystart="199" bodyend="203"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Retry helper with exponential backoff. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_error_handler.h" line="140" column="1" bodyfile="include/voice/voice_error_handler.h" bodystart="140" bodyend="178"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_voice_retry_handler_1a89c8b4086f70340ece37b066affa82b5" prot="private" virt="non-virtual"><scope>themis::voice::VoiceRetryHandler</scope><name>config_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_retry_handler_1aaf4f1877c3d9784814e00d1e31c191b3" prot="public" virt="non-virtual"><scope>themis::voice::VoiceRetryHandler</scope><name>executeWithRetry</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_retry_handler_1ab64ccebba2b228cb93688ab12812122b" prot="public" virt="non-virtual"><scope>themis::voice::VoiceRetryHandler</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_retry_handler_1ab8ebe89c8f3b0dcc2f143be73bf7ab4f" prot="private" virt="non-virtual"><scope>themis::voice::VoiceRetryHandler</scope><name>sleepMs</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_retry_handler_1ab402c3526288fff74a0d8ec64b54ed4d" prot="private" virt="non-virtual"><scope>themis::voice::VoiceRetryHandler</scope><name>total_failures_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_retry_handler_1afff004a8f2031ba68cc7a06bfedad0c1" prot="private" virt="non-virtual"><scope>themis::voice::VoiceRetryHandler</scope><name>total_retries_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_retry_handler_1ae8c82cb120d68384dded9473b5bd1bd8" prot="public" virt="non-virtual"><scope>themis::voice::VoiceRetryHandler</scope><name>VoiceRetryHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::test::CudaErrorHardeningTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test_1a28ad8c38106e76a713142bf7f47fd64f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1gpu_1_1test_1_1_mock_diagnostic_listener" kindref="compound">MockDiagnosticListener</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MockDiagnosticListener&gt; themis::gpu::test::CudaErrorHardeningTest::listener_</definition>
+        <argsstring></argsstring>
+        <name>listener_</name>
+        <qualifiedname>themis::gpu::test::CudaErrorHardeningTest::listener_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_error_hardening.cpp" line="52" column="21" bodyfile="tests/gpu/test_cuda_error_hardening.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test_1afe1668fdb3a4001aa467916be282d47c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::test::CudaErrorHardeningTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::gpu::test::CudaErrorHardeningTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_error_hardening.cpp" line="42" column="10" bodyfile="tests/gpu/test_cuda_error_hardening.cpp" bodystart="42" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test_1af8429f6cfd103bd00331172e38ec2f8e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::test::CudaErrorHardeningTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::gpu::test::CudaErrorHardeningTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_error_hardening.cpp" line="47" column="10" bodyfile="tests/gpu/test_cuda_error_hardening.cpp" bodystart="47" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::gpu::test::CudaErrorHardeningTest</label>
+        <link refid="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::gpu::test::CudaErrorHardeningTest</label>
+        <link refid="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_cuda_error_hardening.cpp" line="40" column="1" bodyfile="tests/gpu/test_cuda_error_hardening.cpp" bodystart="40" bodyend="53"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test_1a28ad8c38106e76a713142bf7f47fd64f" prot="protected" virt="non-virtual"><scope>themis::gpu::test::CudaErrorHardeningTest</scope><name>listener_</name></member>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test_1afe1668fdb3a4001aa467916be282d47c" prot="protected" virt="non-virtual"><scope>themis::gpu::test::CudaErrorHardeningTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_cuda_error_hardening_test_1af8429f6cfd103bd00331172e38ec2f8e" prot="protected" virt="non-virtual"><scope>themis::gpu::test::CudaErrorHardeningTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

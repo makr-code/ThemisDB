@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_t_s_a_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::TSARequest</compoundname>
+    <includes refid="tsa__api_8h" local="no">tsa_api.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_t_s_a_request_1a6fc8b201142b3b28663721121107dc80" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::security::TSARequest::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::security::TSARequest::data</qualifiedname>
+        <briefdescription>
+<para>Data to be timestamped, or a pre-computed message imprint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="93" column="17" bodyfile="include/security/tsa_api.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_t_s_a_request_1a689122e244b0196211d6b47b6edb1f1d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::TSARequest::data_is_hash</definition>
+        <argsstring></argsstring>
+        <name>data_is_hash</name>
+        <qualifiedname>themis::security::TSARequest::data_is_hash</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, <computeroutput><ref refid="structthemis_1_1security_1_1_t_s_a_request_1a6fc8b201142b3b28663721121107dc80" kindref="member">data</ref></computeroutput> is already a hash digest (SHA-256/384/512). When false (default), the client hashes <computeroutput><ref refid="structthemis_1_1security_1_1_t_s_a_request_1a6fc8b201142b3b28663721121107dc80" kindref="member">data</ref></computeroutput> internally. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="97" column="10" bodyfile="include/security/tsa_api.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_t_s_a_request_1ae9dedd3c2cb11b2d980f43e4de1f1576" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::TSARequest::hash_algorithm</definition>
+        <argsstring></argsstring>
+        <name>hash_algorithm</name>
+        <qualifiedname>themis::security::TSARequest::hash_algorithm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Override the hash algorithm for this request only. Leave empty to use the algorithm from <ref refid="structthemis_1_1security_1_1_t_s_a_config" kindref="compound">TSAConfig</ref>. Supported: &quot;SHA256&quot; (default), &quot;SHA384&quot;, &quot;SHA512&quot;. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="102" column="17" bodyfile="include/security/tsa_api.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_t_s_a_request_1a3f954b05a2d0a6271c44e7868da5deba" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::TSARequest::request_cert</definition>
+        <argsstring></argsstring>
+        <name>request_cert</name>
+        <qualifiedname>themis::security::TSARequest::request_cert</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Request the TSA to include its signing certificate in the response. Defaults to true (recommended for long-term validation per eIDAS Art. 32). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="106" column="10" bodyfile="include/security/tsa_api.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_t_s_a_request_1a25fefcb3361cff29c37ffaa256821d6e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::TSARequest::policy_oid</definition>
+        <argsstring></argsstring>
+        <name>policy_oid</name>
+        <qualifiedname>themis::security::TSARequest::policy_oid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional RFC 3161 §2.4 policy OID. Leave empty to use the server&apos;s default policy. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="110" column="17" bodyfile="include/security/tsa_api.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="structthemis_1_1security_1_1_t_s_a_request" kindref="compound">TSARequest</ref> — RFC 3161 Time-Stamp Request parameters.</para>
+<para>The caller provides either raw data (data_is_hash = false) or a pre-computed digest (data_is_hash = true). All other fields are optional and default to the values in the <ref refid="structthemis_1_1security_1_1_t_s_a_config" kindref="compound">TSAConfig</ref> passed to <ref refid="namespacethemis_1_1security_1a56f1dbf1678ae2ea986942063fc8c9c2" kindref="member">createTSAClient()</ref>. </para>
+    </detaileddescription>
+    <location file="include/security/tsa_api.h" line="91" column="1" bodyfile="include/security/tsa_api.h" bodystart="91" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_t_s_a_request_1a6fc8b201142b3b28663721121107dc80" prot="public" virt="non-virtual"><scope>themis::security::TSARequest</scope><name>data</name></member>
+      <member refid="structthemis_1_1security_1_1_t_s_a_request_1a689122e244b0196211d6b47b6edb1f1d" prot="public" virt="non-virtual"><scope>themis::security::TSARequest</scope><name>data_is_hash</name></member>
+      <member refid="structthemis_1_1security_1_1_t_s_a_request_1ae9dedd3c2cb11b2d980f43e4de1f1576" prot="public" virt="non-virtual"><scope>themis::security::TSARequest</scope><name>hash_algorithm</name></member>
+      <member refid="structthemis_1_1security_1_1_t_s_a_request_1a25fefcb3361cff29c37ffaa256821d6e" prot="public" virt="non-virtual"><scope>themis::security::TSARequest</scope><name>policy_oid</name></member>
+      <member refid="structthemis_1_1security_1_1_t_s_a_request_1a3f954b05a2d0a6271c44e7868da5deba" prot="public" virt="non-virtual"><scope>themis::security::TSARequest</scope><name>request_cert</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

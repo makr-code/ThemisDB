@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1_delta_encoder" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::DeltaEncoder</compoundname>
+    <includes refid="index__compression_8h" local="no">index_compression.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_delta_encoder_1a1ed84c903ff0b0dd3ca918032467b47a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_delta_block" kindref="compound">DeltaBlock</ref></type>
+        <definition>DeltaBlock themis::index::DeltaEncoder::encode</definition>
+        <argsstring>(const std::vector&lt; int64_t &gt; &amp;sorted_values)</argsstring>
+        <name>encode</name>
+        <qualifiedname>themis::index::DeltaEncoder::encode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int64_t &gt; &amp;</type>
+          <declname>sorted_values</declname>
+        </param>
+        <briefdescription>
+<para>Encode a sorted list of integers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Encode.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sorted_values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="182" column="23" bodyfile="src/index/index_compression.cpp" bodystart="317" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_delta_encoder_1a8dfc49d5a85d6336fc8ce03d0a1ee217" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt; int64_t &gt; themis::index::DeltaEncoder::decode</definition>
+        <argsstring>(const DeltaBlock &amp;block)</argsstring>
+        <name>decode</name>
+        <qualifiedname>themis::index::DeltaEncoder::decode</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_delta_block" kindref="compound">DeltaBlock</ref> &amp;</type>
+          <declname>block</declname>
+        </param>
+        <briefdescription>
+<para>Decode a <ref refid="structthemis_1_1index_1_1_delta_block" kindref="compound">DeltaBlock</ref> back to the original sorted sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decode.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">block</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), THEMIS_DEBUG(), reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="185" column="24" bodyfile="src/index/index_compression.cpp" bodystart="337" bodyend="357"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Delta encoder component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/index_compression.h" line="179" column="1" bodyfile="include/index/index_compression.h" bodystart="179" bodyend="186"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1_delta_encoder_1a8dfc49d5a85d6336fc8ce03d0a1ee217" prot="public" virt="non-virtual"><scope>themis::index::DeltaEncoder</scope><name>decode</name></member>
+      <member refid="classthemis_1_1index_1_1_delta_encoder_1a1ed84c903ff0b0dd3ca918032467b47a" prot="public" virt="non-virtual"><scope>themis::index::DeltaEncoder</scope><name>encode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

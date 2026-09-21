@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1_1_polled_wait_for_edge" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::CrossShardTransactionConfig::PolledWaitForEdge</compoundname>
+    <includes refid="cross__shard__transaction_8h" local="no">cross_shard_transaction.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1_1_polled_wait_for_edge_1a4cd5da66607959314c59359c429cc42c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardTransactionConfig::PolledWaitForEdge::waiting_transaction_id</definition>
+        <argsstring></argsstring>
+        <name>waiting_transaction_id</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::PolledWaitForEdge::waiting_transaction_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="165" column="21" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1_1_polled_wait_for_edge_1a1ae28f220c635fd2b367451c9b43c86d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardTransactionConfig::PolledWaitForEdge::blocking_transaction_id</definition>
+        <argsstring></argsstring>
+        <name>blocking_transaction_id</name>
+        <qualifiedname>themisdb::sharding::CrossShardTransactionConfig::PolledWaitForEdge::blocking_transaction_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_transaction.h" line="166" column="21" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/cross_shard_transaction.h" line="164" column="5" bodyfile="include/sharding/cross_shard_transaction.h" bodystart="164" bodyend="167"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1_1_polled_wait_for_edge_1a1ae28f220c635fd2b367451c9b43c86d" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig::PolledWaitForEdge</scope><name>blocking_transaction_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_shard_transaction_config_1_1_polled_wait_for_edge_1a4cd5da66607959314c59359c429cc42c" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardTransactionConfig::PolledWaitForEdge</scope><name>waiting_transaction_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

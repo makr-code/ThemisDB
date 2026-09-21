@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_wikipedia_vector_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::WikipediaVectorRecord</compoundname>
+    <includes refid="wikipedia__types_8hpp" local="no">wikipedia_types.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_vector_record_1aaf1e508dba0224546f3806a48dc86c56" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::WikipediaVectorRecord::page_id</definition>
+        <argsstring></argsstring>
+        <name>page_id</name>
+        <qualifiedname>themis::importers::WikipediaVectorRecord::page_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="185" column="14" bodyfile="include/importers/wikipedia_types.hpp" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_vector_record_1ac016d342604b258e52b8cf2a322925da" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaVectorRecord::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::importers::WikipediaVectorRecord::content</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="186" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_vector_record_1a2438f3d4ddc7f011a19f7d5fa3ef2678" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaVectorRecord::embedding_model</definition>
+        <argsstring></argsstring>
+        <name>embedding_model</name>
+        <qualifiedname>themis::importers::WikipediaVectorRecord::embedding_model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="187" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_vector_record_1a5ebd4cd1e4368c440eb84f28d9d2514b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::WikipediaVectorRecord::pending_embedding</definition>
+        <argsstring></argsstring>
+        <name>pending_embedding</name>
+        <qualifiedname>themis::importers::WikipediaVectorRecord::pending_embedding</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="188" column="10" bodyfile="include/importers/wikipedia_types.hpp" bodystart="188" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_wikipedia_vector_record_1a3540121f4049e1991533f779982aec7a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::WikipediaVectorRecord::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::WikipediaVectorRecord::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="190" column="11" bodyfile="include/importers/wikipedia_types.hpp" bodystart="190" bodyend="197"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Vector projection row that keeps embedding hooks vendor-neutral. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/wikipedia_types.hpp" line="184" column="1" bodyfile="include/importers/wikipedia_types.hpp" bodystart="184" bodyend="198"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_vector_record_1ac016d342604b258e52b8cf2a322925da" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaVectorRecord</scope><name>content</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_vector_record_1a2438f3d4ddc7f011a19f7d5fa3ef2678" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaVectorRecord</scope><name>embedding_model</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_vector_record_1aaf1e508dba0224546f3806a48dc86c56" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaVectorRecord</scope><name>page_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_vector_record_1a5ebd4cd1e4368c440eb84f28d9d2514b" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaVectorRecord</scope><name>pending_embedding</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_vector_record_1a3540121f4049e1991533f779982aec7a" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaVectorRecord</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

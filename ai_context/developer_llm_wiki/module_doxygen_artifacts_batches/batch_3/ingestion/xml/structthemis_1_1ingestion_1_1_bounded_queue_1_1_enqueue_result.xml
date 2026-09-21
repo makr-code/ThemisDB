@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_bounded_queue_1_1_enqueue_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::BoundedQueue::EnqueueResult</compoundname>
+    <includes refid="bounded__queue_8h" local="no">bounded_queue.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_bounded_queue_1_1_enqueue_result_1a429f16ed6c9aa29b0f36ecf79699f341" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::BoundedQueue&lt; T &gt;::EnqueueResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::EnqueueResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if enqueue succeeded </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="204" column="14" bodyfile="include/ingestion/bounded_queue.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_bounded_queue_1_1_enqueue_result_1aa44a16b388fcbd912dc554548dfb198d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::BoundedQueue&lt; T &gt;::EnqueueResult::is_saturation</definition>
+        <argsstring></argsstring>
+        <name>is_saturation</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::EnqueueResult::is_saturation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if failed due to saturation </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="205" column="14" bodyfile="include/ingestion/bounded_queue.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_bounded_queue_1_1_enqueue_result_1a64a2e98653e960ca90f328e0fe629ba6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::BoundedQueue&lt; T &gt;::EnqueueResult::is_memory_limit</definition>
+        <argsstring></argsstring>
+        <name>is_memory_limit</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::EnqueueResult::is_memory_limit</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if failed due to memory limit </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="206" column="14" bodyfile="include/ingestion/bounded_queue.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_bounded_queue_1_1_enqueue_result_1a6b365a50019491ff37be6d39e697fcd6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::BoundedQueue&lt; T &gt;::EnqueueResult::is_timeout</definition>
+        <argsstring></argsstring>
+        <name>is_timeout</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::EnqueueResult::is_timeout</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if blocking enqueue timed out </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="207" column="14" bodyfile="include/ingestion/bounded_queue.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_bounded_queue_1_1_enqueue_result_1a9849d6df8f55c927d1c766961606313d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::BoundedQueue&lt; T &gt;::EnqueueResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::EnqueueResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Human-readable error description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="208" column="21" bodyfile="include/ingestion/bounded_queue.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of an enqueue operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/bounded_queue.h" line="203" column="5" bodyfile="include/ingestion/bounded_queue.h" bodystart="203" bodyend="209"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_bounded_queue_1_1_enqueue_result_1a9849d6df8f55c927d1c766961606313d" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue::EnqueueResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_bounded_queue_1_1_enqueue_result_1a64a2e98653e960ca90f328e0fe629ba6" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue::EnqueueResult</scope><name>is_memory_limit</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_bounded_queue_1_1_enqueue_result_1aa44a16b388fcbd912dc554548dfb198d" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue::EnqueueResult</scope><name>is_saturation</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_bounded_queue_1_1_enqueue_result_1a6b365a50019491ff37be6d39e697fcd6" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue::EnqueueResult</scope><name>is_timeout</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_bounded_queue_1_1_enqueue_result_1a429f16ed6c9aa29b0f36ecf79699f341" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue::EnqueueResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,399 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scraper_1_1_in_memory_search_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::scraper::InMemorySearchEngine</compoundname>
+    <basecompoundref refid="classthemis_1_1scraper_1_1_i_scraper_search_engine" prot="public" virt="non-virtual">themis::scraper::IScraperSearchEngine</basecompoundref>
+    <includes refid="scraper__search__engine_8h" local="no">scraper_search_engine.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_in_memory_search_engine_1a69454bf256eafad130619ce3ed3b552a" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_search_form" kindref="compound">SearchForm</ref> &gt;</type>
+        <definition>std::vector&lt;SearchForm&gt; themis::scraper::InMemorySearchEngine::injected_forms_</definition>
+        <argsstring></argsstring>
+        <name>injected_forms_</name>
+        <qualifiedname>themis::scraper::InMemorySearchEngine::injected_forms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="249" column="23" bodyfile="include/scraper/scraper_search_engine.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_in_memory_search_engine_1aed0c95b73e82a1e6d02efbba397e0c38" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_search_result_page" kindref="compound">SearchResultPage</ref> &gt;</type>
+        <definition>std::vector&lt;SearchResultPage&gt; themis::scraper::InMemorySearchEngine::injected_pages_</definition>
+        <argsstring></argsstring>
+        <name>injected_pages_</name>
+        <qualifiedname>themis::scraper::InMemorySearchEngine::injected_pages_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="250" column="17" bodyfile="include/scraper/scraper_search_engine.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_in_memory_search_engine_1a03e9e0110118ece1b51134fb62ac3359" prot="private" static="no" mutable="yes">
+        <type>int</type>
+        <definition>int themis::scraper::InMemorySearchEngine::call_count_</definition>
+        <argsstring></argsstring>
+        <name>call_count_</name>
+        <qualifiedname>themis::scraper::InMemorySearchEngine::call_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="251" column="35" bodyfile="include/scraper/scraper_search_engine.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_in_memory_search_engine_1a0c37944c65e526b2776ac123ab6a9a0d" prot="private" static="no" mutable="yes">
+        <type>int</type>
+        <definition>int themis::scraper::InMemorySearchEngine::page_index_</definition>
+        <argsstring></argsstring>
+        <name>page_index_</name>
+        <qualifiedname>themis::scraper::InMemorySearchEngine::page_index_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="252" column="35" bodyfile="include/scraper/scraper_search_engine.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_search_engine_1a9e9016a88b26159a72d2ec0263f8aa71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::InMemorySearchEngine::InMemorySearchEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>InMemorySearchEngine</name>
+        <qualifiedname>themis::scraper::InMemorySearchEngine::InMemorySearchEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="200" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_search_engine_1a02c285055abd9dc1106950e66a733973" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::InMemorySearchEngine::injectForms</definition>
+        <argsstring>(std::vector&lt; SearchForm &gt; forms)</argsstring>
+        <name>injectForms</name>
+        <qualifiedname>themis::scraper::InMemorySearchEngine::injectForms</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_search_form" kindref="compound">SearchForm</ref> &gt;</type>
+          <declname>forms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="202" column="10" bodyfile="include/scraper/scraper_search_engine.h" bodystart="202" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_search_engine_1a247e1738baaddb242c8870be20dcb11b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::InMemorySearchEngine::injectResultPage</definition>
+        <argsstring>(SearchResultPage page)</argsstring>
+        <name>injectResultPage</name>
+        <qualifiedname>themis::scraper::InMemorySearchEngine::injectResultPage</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1scraper_1_1_search_result_page" kindref="compound">SearchResultPage</ref></type>
+          <declname>page</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="205" column="10" bodyfile="include/scraper/scraper_search_engine.h" bodystart="205" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_search_engine_1a9bc42b98a11ae2860ff066b99b536f17" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::InMemorySearchEngine::clearInjections</definition>
+        <argsstring>()</argsstring>
+        <name>clearInjections</name>
+        <qualifiedname>themis::scraper::InMemorySearchEngine::clearInjections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="208" column="10" bodyfile="include/scraper/scraper_search_engine.h" bodystart="208" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_search_engine_1ade61c7b38f319a28ee4c99c49ad5004e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::scraper::InMemorySearchEngine::callCount</definition>
+        <argsstring>() const</argsstring>
+        <name>callCount</name>
+        <qualifiedname>themis::scraper::InMemorySearchEngine::callCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="213" column="9" bodyfile="include/scraper/scraper_search_engine.h" bodystart="213" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_search_engine_1af53ce01c08ab51a581e80e36d787c1fa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_search_form" kindref="compound">SearchForm</ref> &gt;</type>
+        <definition>std::vector&lt; SearchForm &gt; themis::scraper::InMemorySearchEngine::discoverForms</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;) const override</argsstring>
+        <name>discoverForms</name>
+        <qualifiedname>themis::scraper::InMemorySearchEngine::discoverForms</qualifiedname>
+        <reimplements refid="classthemis_1_1scraper_1_1_i_scraper_search_engine_1a4e2496d4b12ab15b2b46fede472b72cf">discoverForms</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>html</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_url</declname>
+        </param>
+        <briefdescription>
+<para>Discover all HTML search forms in a page. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>html</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw HTML of the page. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>base_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Absolute URL of the page (used to resolve relative action URLs). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of discovered <ref refid="structthemis_1_1scraper_1_1_search_form" kindref="compound">SearchForm</ref> objects (may be empty). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="215" column="17" bodyfile="include/scraper/scraper_search_engine.h" bodystart="215" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_search_engine_1a41d3e273dab5b98d2092c44599f9303e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1scraper_1_1_search_result_page" kindref="compound">SearchResultPage</ref></type>
+        <definition>SearchResultPage themis::scraper::InMemorySearchEngine::parseResults</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;, const std::string &amp;=&quot;&quot;) const override</argsstring>
+        <name>parseResults</name>
+        <qualifiedname>themis::scraper::InMemorySearchEngine::parseResults</qualifiedname>
+        <reimplements refid="classthemis_1_1scraper_1_1_i_scraper_search_engine_1aa159d011fa686763a1ed22df53d64164">parseResults</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>html</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>selector</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Parse a search-result page into a structured <ref refid="structthemis_1_1scraper_1_1_search_result_page" kindref="compound">SearchResultPage</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Heuristic detection order:<orderedlist>
+<listitem><para>JSON-LD / microdata structured data</para>
+</listitem><listitem><para>Common CSS patterns: ol.results li, ul.results li, div.result, article.result, .search-result, [data-result]</para>
+</listitem><listitem><para>Generic list fallback: largest <itemizedlist>
+<listitem>
+</listitem>
+</itemizedlist>
+<orderedlist>
+<listitem>
+</listitem>
+</orderedlist>
+item count</para>
+</listitem></orderedlist>
+</para>
+<para>For openjur.de the relevant container is <computeroutput>.result-list &gt; li</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>html</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw HTML of the result page. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>base_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Absolute URL (for resolving relative links). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>selector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional CSS-like selector hint (class or id prefix such as &quot;.result-list&quot; or &quot;#results&quot;); empty = auto. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Parsed <ref refid="structthemis_1_1scraper_1_1_search_result_page" kindref="compound">SearchResultPage</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="222" column="22" bodyfile="include/scraper/scraper_search_engine.h" bodystart="222" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_search_engine_1aea7a04504e2528d48dce550930639949" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::InMemorySearchEngine::buildSearchUrl</definition>
+        <argsstring>(const SearchForm &amp;form, const std::string &amp;query, int page=1) const override</argsstring>
+        <name>buildSearchUrl</name>
+        <qualifiedname>themis::scraper::InMemorySearchEngine::buildSearchUrl</qualifiedname>
+        <reimplements refid="classthemis_1_1scraper_1_1_i_scraper_search_engine_1ac120a779bd8a71995dc27561c279a338">buildSearchUrl</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_search_form" kindref="compound">SearchForm</ref> &amp;</type>
+          <declname>form</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>page</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Build the URL (or POST body) to submit a search form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>form</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1scraper_1_1_search_form" kindref="compound">SearchForm</ref> to submit. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The search query string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>page</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>1-based page number. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Fully-qualified URL with query string encoded for GET forms, or base action URL for POST forms (caller must supply body). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="233" column="17" bodyfile="include/scraper/scraper_search_engine.h" bodystart="233" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_search_engine_1ae24f569833f5d8c8b2b17d1df5a857d1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::InMemorySearchEngine::buildSearchBody</definition>
+        <argsstring>(const SearchForm &amp;form, const std::string &amp;query, int page=1) const override</argsstring>
+        <name>buildSearchBody</name>
+        <qualifiedname>themis::scraper::InMemorySearchEngine::buildSearchBody</qualifiedname>
+        <reimplements refid="classthemis_1_1scraper_1_1_i_scraper_search_engine_1a94860563160d03a36eb8b3fc524005b0">buildSearchBody</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_search_form" kindref="compound">SearchForm</ref> &amp;</type>
+          <declname>form</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>page</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Build a POST body for a search form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>URL-encoded form body. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="241" column="17" bodyfile="include/scraper/scraper_search_engine.h" bodystart="241" bodyend="246"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test double that returns pre-programmed results. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::scraper::IScraperSearchEngine</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_search_engine"/>
+      </node>
+      <node id="1">
+        <label>themis::scraper::InMemorySearchEngine</label>
+        <link refid="classthemis_1_1scraper_1_1_in_memory_search_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::scraper::IScraperSearchEngine</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_search_engine"/>
+      </node>
+      <node id="1">
+        <label>themis::scraper::InMemorySearchEngine</label>
+        <link refid="classthemis_1_1scraper_1_1_in_memory_search_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/scraper/scraper_search_engine.h" line="198" column="1" bodyfile="include/scraper/scraper_search_engine.h" bodystart="198" bodyend="253"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_search_engine_1ae24f569833f5d8c8b2b17d1df5a857d1" prot="public" virt="virtual"><scope>themis::scraper::InMemorySearchEngine</scope><name>buildSearchBody</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_search_engine_1aea7a04504e2528d48dce550930639949" prot="public" virt="virtual"><scope>themis::scraper::InMemorySearchEngine</scope><name>buildSearchUrl</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_search_engine_1a03e9e0110118ece1b51134fb62ac3359" prot="private" virt="non-virtual"><scope>themis::scraper::InMemorySearchEngine</scope><name>call_count_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_search_engine_1ade61c7b38f319a28ee4c99c49ad5004e" prot="public" virt="non-virtual"><scope>themis::scraper::InMemorySearchEngine</scope><name>callCount</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_search_engine_1a9bc42b98a11ae2860ff066b99b536f17" prot="public" virt="non-virtual"><scope>themis::scraper::InMemorySearchEngine</scope><name>clearInjections</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_search_engine_1af53ce01c08ab51a581e80e36d787c1fa" prot="public" virt="virtual"><scope>themis::scraper::InMemorySearchEngine</scope><name>discoverForms</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_search_engine_1a69454bf256eafad130619ce3ed3b552a" prot="private" virt="non-virtual"><scope>themis::scraper::InMemorySearchEngine</scope><name>injected_forms_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_search_engine_1aed0c95b73e82a1e6d02efbba397e0c38" prot="private" virt="non-virtual"><scope>themis::scraper::InMemorySearchEngine</scope><name>injected_pages_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_search_engine_1a02c285055abd9dc1106950e66a733973" prot="public" virt="non-virtual"><scope>themis::scraper::InMemorySearchEngine</scope><name>injectForms</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_search_engine_1a247e1738baaddb242c8870be20dcb11b" prot="public" virt="non-virtual"><scope>themis::scraper::InMemorySearchEngine</scope><name>injectResultPage</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_search_engine_1a9e9016a88b26159a72d2ec0263f8aa71" prot="public" virt="non-virtual"><scope>themis::scraper::InMemorySearchEngine</scope><name>InMemorySearchEngine</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_search_engine_1a0c37944c65e526b2776ac123ab6a9a0d" prot="private" virt="non-virtual"><scope>themis::scraper::InMemorySearchEngine</scope><name>page_index_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_search_engine_1a41d3e273dab5b98d2092c44599f9303e" prot="public" virt="virtual"><scope>themis::scraper::InMemorySearchEngine</scope><name>parseResults</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_search_engine_1aa88c8de35c419def60a1d4940427eb53" prot="public" virt="virtual"><scope>themis::scraper::InMemorySearchEngine</scope><name>~IScraperSearchEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

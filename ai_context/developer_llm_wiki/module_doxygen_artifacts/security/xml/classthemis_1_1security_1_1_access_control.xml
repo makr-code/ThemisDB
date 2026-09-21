@@ -1,0 +1,2106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_access_control" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::AccessControl</compoundname>
+    <includes refid="access__control_8h" local="no">access_control.h</includes>
+    <innerclass refid="structthemis_1_1security_1_1_access_control_1_1_config" prot="public">themis::security::AccessControl::Config</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_access_control_1_1_credentials" prot="public">themis::security::AccessControl::Credentials</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_access_control_1_1_authentication_result" prot="public">themis::security::AccessControl::AuthenticationResult</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_access_control_1_1_session" prot="public">themis::security::AccessControl::Session</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_access_control_1_1_authorization_context" prot="public">themis::security::AccessControl::AuthorizationContext</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_access_control_1_1_rate_limit_entry" prot="private">themis::security::AccessControl::RateLimitEntry</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_access_control_1_1_statistics" prot="private">themis::security::AccessControl::Statistics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_access_control_1a1664677ae7f37f8fd5ed9d9df8633721" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1security_1_1_access_control_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::security::AccessControl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::security::AccessControl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="480" column="12" bodyfile="include/security/access_control.h" bodystart="480" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_access_control_1a3a1d60155712106460715b98a95c3c1c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::security::AccessControl::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::security::AccessControl::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="481" column="24" bodyfile="include/security/access_control.h" bodystart="481" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_access_control_1aa27cf23eeabec4a1d0d0ea7ddbdc2406" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;RBAC&gt; themis::security::AccessControl::rbac_</definition>
+        <argsstring></argsstring>
+        <name>rbac_</name>
+        <qualifiedname>themis::security::AccessControl::rbac_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="484" column="21" bodyfile="include/security/access_control.h" bodystart="484" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_access_control_1a5c1e25c56cadadeecc7cebbfbffeda2f" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1security_1_1_user_role_store" kindref="compound">UserRoleStore</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;UserRoleStore&gt; themis::security::AccessControl::user_role_store_</definition>
+        <argsstring></argsstring>
+        <name>user_role_store_</name>
+        <qualifiedname>themis::security::AccessControl::user_role_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="485" column="21" bodyfile="include/security/access_control.h" bodystart="485" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_access_control_1a5e7e1e2b2d8584dc70a10135431b55b8" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; AuthMiddleware &gt;</type>
+        <definition>std::unique_ptr&lt;AuthMiddleware&gt; themis::security::AccessControl::auth_middleware_</definition>
+        <argsstring></argsstring>
+        <name>auth_middleware_</name>
+        <qualifiedname>themis::security::AccessControl::auth_middleware_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="486" column="21" bodyfile="include/security/access_control.h" bodystart="486" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_access_control_1a71b28af84d89a15aa44c50126ba6fbbc" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; auth::MFAAuthenticator &gt;</type>
+        <definition>std::unique_ptr&lt;auth::MFAAuthenticator&gt; themis::security::AccessControl::mfa_authenticator_</definition>
+        <argsstring></argsstring>
+        <name>mfa_authenticator_</name>
+        <qualifiedname>themis::security::AccessControl::mfa_authenticator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="487" column="21" bodyfile="include/security/access_control.h" bodystart="487" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_access_control_1ad37e64e499d927cda818cd46cdf5a570" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, auth::MFAAuthenticator::EnrollmentData &gt;</type>
+        <definition>std::unordered_map&lt;std::string, auth::MFAAuthenticator::EnrollmentData&gt; themis::security::AccessControl::mfa_enrollments_</definition>
+        <argsstring></argsstring>
+        <name>mfa_enrollments_</name>
+        <qualifiedname>themis::security::AccessControl::mfa_enrollments_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="491" column="24" bodyfile="include/security/access_control.h" bodystart="491" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_access_control_1a42790281b45af338a4ef1a7132d181bd" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; utils::AuditLogger &gt;</type>
+        <definition>std::unique_ptr&lt;utils::AuditLogger&gt; themis::security::AccessControl::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::security::AccessControl::audit_logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="492" column="21" bodyfile="include/security/access_control.h" bodystart="492" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_access_control_1a3fcbc479d4e0e27d4da8fbd7759fb94d" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1security_1_1_user_registration_plugin_manager" kindref="compound">UserRegistrationPluginManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;UserRegistrationPluginManager&gt; themis::security::AccessControl::user_registration_plugin_manager_</definition>
+        <argsstring></argsstring>
+        <name>user_registration_plugin_manager_</name>
+        <qualifiedname>themis::security::AccessControl::user_registration_plugin_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="493" column="21" bodyfile="include/security/access_control.h" bodystart="493" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_access_control_1abbe02c419690925fdaafa45762df3549" prot="private" static="no" mutable="no">
+        <type>PolicyEngine</type>
+        <definition>PolicyEngine themis::security::AccessControl::policy_engine_</definition>
+        <argsstring></argsstring>
+        <name>policy_engine_</name>
+        <qualifiedname>themis::security::AccessControl::policy_engine_</qualifiedname>
+        <briefdescription>
+<para>ABAC policy engine (evaluated alongside <ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="494" column="18" bodyfile="include/security/access_control.h" bodystart="494" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_access_control_1a81ef607781d9405d52421b61d589a989" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1security_1_1_access_control_1_1_session" kindref="compound">Session</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Session&gt; themis::security::AccessControl::sessions_</definition>
+        <argsstring></argsstring>
+        <name>sessions_</name>
+        <qualifiedname>themis::security::AccessControl::sessions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="504" column="24" bodyfile="include/security/access_control.h" bodystart="504" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_access_control_1aca3e6741dbe146e4703a63514c58bbd3" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::security::AccessControl::user_sessions_</definition>
+        <argsstring></argsstring>
+        <name>user_sessions_</name>
+        <qualifiedname>themis::security::AccessControl::user_sessions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="505" column="24" bodyfile="include/security/access_control.h" bodystart="505" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_access_control_1a007e109cc262895588c92bfddb42c7a5" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, RateLimitEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, RateLimitEntry&gt; themis::security::AccessControl::rate_limits_</definition>
+        <argsstring></argsstring>
+        <name>rate_limits_</name>
+        <qualifiedname>themis::security::AccessControl::rate_limits_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="514" column="24" bodyfile="include/security/access_control.h" bodystart="514" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_access_control_1afd6858a8a51d9ece4418dfb012aed238" prot="private" static="no" mutable="no">
+        <type>struct themis::security::AccessControl::Statistics</type>
+        <definition>struct themis::security::AccessControl::Statistics themis::security::AccessControl::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::security::AccessControl::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="527" column="12"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a9bb8cc2e551c8f9e0ed872d16142618c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::AccessControl::AccessControl</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>AccessControl</name>
+        <qualifiedname>themis::security::AccessControl::AccessControl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_access_control_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct the access control subsystem. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Access control configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Access control subsystem instance. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">env_roles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="199" column="14" bodyfile="src/security/access_control.cpp" bodystart="37" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1ac1cbb75dd5733740ae3f96ea6319694c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::AccessControl::~AccessControl</definition>
+        <argsstring>()</argsstring>
+        <name>~AccessControl</name>
+        <qualifiedname>themis::security::AccessControl::~AccessControl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="201" column="5" bodyfile="src/security/access_control.cpp" bodystart="111" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1aa16d8e9a1ceef65021a57b30584c3b87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_access_control_1_1_authentication_result" kindref="compound">AuthenticationResult</ref></type>
+        <definition>AccessControl::AuthenticationResult themis::security::AccessControl::authenticate</definition>
+        <argsstring>(const Credentials &amp;credentials)</argsstring>
+        <name>authenticate</name>
+        <qualifiedname>themis::security::AccessControl::authenticate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_access_control_1_1_credentials" kindref="compound">Credentials</ref> &amp;</type>
+          <declname>credentials</declname>
+        </param>
+        <briefdescription>
+<para>Authenticate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">credentials</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> credentials to authenticate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Authentication result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">credentials</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> credentials to authenticate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Authentication result.</para>
+</simplesect>
+Calls: span(), setAttribute(), has_value(), lock(), <ref refid="classthemis_1_1security_1_1_access_control_1a0b7af2dcaa04d8351949002a656ee2f9" kindref="member">isLockedOut()</ref>, <ref refid="classthemis_1_1security_1_1_access_control_1ab3088d2a8eaf4f5fd5e4a19b5c4767f4" kindref="member">logSecurityEvent()</ref>, setStatus(), <ref refid="structthemis_1_1security_1_1_access_control_1_1_authentication_result_1ad55694af27e6e8c79b49ee39b08bd957" kindref="member">AuthenticationResult::Failed()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="212" column="26" bodyfile="src/security/access_control.cpp" bodystart="132" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a73cb2652ebda64c10c16ec1c30b599b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::security::AccessControl::registerUser</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;password, const std::string &amp;plugin_name=&quot;&quot;, const std::unordered_map&lt; std::string, std::string &gt; &amp;attributes={})</argsstring>
+        <name>registerUser</name>
+        <qualifiedname>themis::security::AccessControl::registerUser</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>password</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>attributes</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="214" column="12" bodyfile="src/security/access_control.cpp" bodystart="271" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a73e943ad1df2726b5ea1ff15f2eab406" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::security::AccessControl::changePassword</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;old_password, const std::string &amp;new_password)</argsstring>
+        <name>changePassword</name>
+        <qualifiedname>themis::security::AccessControl::changePassword</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>old_password</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_password</declname>
+        </param>
+        <briefdescription>
+<para>Change a user&apos;s password. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">old_password</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current password. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_password</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replacement password. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result indicating whether the password changed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">old_password</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current password. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result indicating whether the password changed.</para>
+</simplesect>
+Calls: lock(), getDefaultPlugin(), themis::ErrVoid(), authenticateUser(), has_value(), getName(), THEMIS_WARN(), invalidateUserSessionsLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="228" column="12" bodyfile="src/security/access_control.cpp" bodystart="331" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1ad594fa03278af8d5bfc696edbf24ef03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; nlohmann::json &gt;</type>
+        <definition>Result&lt; nlohmann::json &gt; themis::security::AccessControl::enrollMFA</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>enrollMFA</name>
+        <qualifiedname>themis::security::AccessControl::enrollMFA</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Enroll multi-factor authentication for a user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Enrollment result as JSON.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Enrollment result as JSON.</para>
+</simplesect>
+Calls: lock(), find(), end(), <ref refid="classthemis_1_1security_1_1_access_control_1ab3088d2a8eaf4f5fd5e4a19b5c4767f4" kindref="member">logSecurityEvent()</ref>, generateEnrollment(), generateProvisioningURI(), std::move(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="246" column="12" bodyfile="src/security/access_control.cpp" bodystart="401" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a53f3602d2698882301a39dc7d0c90990" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::verifyMFA</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;token)</argsstring>
+        <name>verifyMFA</name>
+        <qualifiedname>themis::security::AccessControl::verifyMFA</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Verify a multi-factor authentication token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>MFA token to verify. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the token is valid.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>MFA token to verify. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the token is valid.</para>
+</simplesect>
+Calls: empty(), find(), end(), THEMIS_WARN(), validateTOTP(), validateRecoveryCode(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="254" column="10" bodyfile="src/security/access_control.cpp" bodystart="455" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1ae80e6739ae873517e4a85417e67f824a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::security::AccessControl::disableMFA</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>disableMFA</name>
+        <qualifiedname>themis::security::AccessControl::disableMFA</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Disable multi-factor authentication for a user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result indicating whether MFA was disabled.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result indicating whether MFA was disabled.</para>
+</simplesect>
+Calls: lock(), erase(), THEMIS_WARN(), <ref refid="classthemis_1_1security_1_1_access_control_1ab3088d2a8eaf4f5fd5e4a19b5c4767f4" kindref="member">logSecurityEvent()</ref>, THEMIS_INFO(), themis::OkVoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="261" column="12" bodyfile="src/security/access_control.cpp" bodystart="490" bodyend="507"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a25f79b0280949ca7b344be5208e22aed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::authorize</definition>
+        <argsstring>(const AuthorizationContext &amp;context)</argsstring>
+        <name>authorize</name>
+        <qualifiedname>themis::security::AccessControl::authorize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_access_control_1_1_authorization_context" kindref="compound">AuthorizationContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Authorize an access control context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Authorization context to evaluate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the context is authorized.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Authorization context to evaluate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the context is authorized.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1security_1_1_access_control_1a7850fa873f94c530091414513476495a" kindref="member">isRateLimited()</ref>, <ref refid="classthemis_1_1security_1_1_access_control_1ab3088d2a8eaf4f5fd5e4a19b5c4767f4" kindref="member">logSecurityEvent()</ref>, <ref refid="classthemis_1_1security_1_1_access_control_1a2fad27e1a4e09af7ee993cc0323e17b3" kindref="member">checkPermission()</ref>, empty(), std::make_optional(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="272" column="10" bodyfile="src/security/access_control.cpp" bodystart="519" bodyend="594"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a2fad27e1a4e09af7ee993cc0323e17b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::checkPermission</definition>
+        <argsstring>(const std::string &amp;session_token, const std::string &amp;resource, const std::string &amp;action)</argsstring>
+        <name>checkPermission</name>
+        <qualifiedname>themis::security::AccessControl::checkPermission</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_token</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a role grants permission for an action. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Protected resource identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Requested action. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the permission is granted.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Protected resource identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Requested action. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the permission is granted.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1security_1_1_access_control_1a9ec2ea3590f1ce02841a6c6a94d9b6da" kindref="member">validateSession()</ref>, has_value(), value(), std::chrono::system_clock::now(), <ref refid="classthemis_1_1security_1_1_access_control_1a25f79b0280949ca7b344be5208e22aed" kindref="member">authorize()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="281" column="10" bodyfile="src/security/access_control.cpp" bodystart="604" bodyend="624"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a11b3d3e45901e0517fb703bbaaa1782d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1security_1_1_permission" kindref="compound">Permission</ref> &gt;</type>
+        <definition>std::vector&lt; Permission &gt; themis::security::AccessControl::getUserPermissions</definition>
+        <argsstring>(const std::string &amp;user_id) const</argsstring>
+        <name>getUserPermissions</name>
+        <qualifiedname>themis::security::AccessControl::getUserPermissions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Get the permissions assigned to a user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Permissions assigned to the user. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="292" column="17" bodyfile="src/security/access_control.cpp" bodystart="626" bodyend="636"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a62f528f38abc5d5a6aea7e88a15fcb0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::security::AccessControl::assignRole</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;role)</argsstring>
+        <name>assignRole</name>
+        <qualifiedname>themis::security::AccessControl::assignRole</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>role</declname>
+        </param>
+        <briefdescription>
+<para>Assign a role to a user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref> to assign. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result indicating whether the role was assigned.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref> to assign. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result indicating whether the role was assigned.</para>
+</simplesect>
+Calls: lock(), getRole(), has_value(), themis::ErrVoid(), <ref refid="classthemis_1_1security_1_1_access_control_1ab3088d2a8eaf4f5fd5e4a19b5c4767f4" kindref="member">logSecurityEvent()</ref>, THEMIS_INFO(), themis::OkVoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="304" column="12" bodyfile="src/security/access_control.cpp" bodystart="649" bodyend="672"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a1d86507cbe82ffd6a559ec5fef372c6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::security::AccessControl::revokeRole</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;role)</argsstring>
+        <name>revokeRole</name>
+        <qualifiedname>themis::security::AccessControl::revokeRole</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>role</declname>
+        </param>
+        <briefdescription>
+<para>Revoke a role from a user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref> to revoke. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result indicating whether the role was revoked.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref> to revoke. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result indicating whether the role was revoked.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1security_1_1_access_control_1ab3088d2a8eaf4f5fd5e4a19b5c4767f4" kindref="member">logSecurityEvent()</ref>, THEMIS_INFO(), themis::OkVoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="312" column="12" bodyfile="src/security/access_control.cpp" bodystart="681" bodyend="695"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a99c6134c83957f7e3c02b812055ca278" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::security::AccessControl::getUserRoles</definition>
+        <argsstring>(const std::string &amp;user_id) const</argsstring>
+        <name>getUserRoles</name>
+        <qualifiedname>themis::security::AccessControl::getUserRoles</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Get the roles assigned to a user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Roles assigned to the user. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="319" column="17" bodyfile="src/security/access_control.cpp" bodystart="701" bodyend="709"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a349f5f0dd67d1069465b76a022a3b0c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessControl::createSession</definition>
+        <argsstring>(const std::string &amp;user_id, const std::vector&lt; std::string &gt; &amp;roles, bool mfa_verified=false)</argsstring>
+        <name>createSession</name>
+        <qualifiedname>themis::security::AccessControl::createSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>roles</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>mfa_verified</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Create a session for an authenticated user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">roles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Roles to attach to the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mfa_verified</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True if MFA was verified for the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1_access_control_1_1_session" kindref="compound">Session</ref> token.</para>
+</simplesect>
+Calls: lock(), createSessionLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="325" column="17" bodyfile="src/security/access_control.cpp" bodystart="790" bodyend="797"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a9ec2ea3590f1ce02841a6c6a94d9b6da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1security_1_1_access_control_1_1_session" kindref="compound">Session</ref> &gt;</type>
+        <definition>std::optional&lt; AccessControl::Session &gt; themis::security::AccessControl::validateSession</definition>
+        <argsstring>(const std::string &amp;session_token)</argsstring>
+        <name>validateSession</name>
+        <qualifiedname>themis::security::AccessControl::validateSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_token</declname>
+        </param>
+        <briefdescription>
+<para>Validate a session token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_access_control_1_1_session" kindref="compound">Session</ref> token to validate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Validated session on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_access_control_1_1_session" kindref="compound">Session</ref> token to validate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Validated session on success.</para>
+</simplesect>
+Calls: lock(), find(), end(), isSessionExpired(), erase(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="336" column="19" bodyfile="src/security/access_control.cpp" bodystart="805" bodyend="825"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a3548e72f66d0f32d7e29f26f57e6ce48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::AccessControl::invalidateSession</definition>
+        <argsstring>(const std::string &amp;session_token)</argsstring>
+        <name>invalidateSession</name>
+        <qualifiedname>themis::security::AccessControl::invalidateSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_token</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate a session token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_access_control_1_1_session" kindref="compound">Session</ref> token to invalidate.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_access_control_1_1_session" kindref="compound">Session</ref> token to invalidate.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), invalidateSessionLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="342" column="10" bodyfile="src/security/access_control.cpp" bodystart="860" bodyend="863"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1aacf2b3437864e698ad314fa54210fd55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::AccessControl::invalidateUserSessions</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>invalidateUserSessions</name>
+        <qualifiedname>themis::security::AccessControl::invalidateUserSessions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate all sessions for a user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), invalidateUserSessionsLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="348" column="10" bodyfile="src/security/access_control.cpp" bodystart="894" bodyend="897"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a7850fa873f94c530091414513476495a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::isRateLimited</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;resource)</argsstring>
+        <name>isRateLimited</name>
+        <qualifiedname>themis::security::AccessControl::isRateLimited</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a user is rate limited. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Resource being accessed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the user is rate limited.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Resource being accessed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the user is rate limited.</para>
+</simplesect>
+Calls: checkRateLimit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="360" column="10" bodyfile="src/security/access_control.cpp" bodystart="910" bodyend="913"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a393e749f7d9aa1590f2e16a55c8c503a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::detectSQLInjection</definition>
+        <argsstring>(const std::string &amp;query) const</argsstring>
+        <name>detectSQLInjection</name>
+        <qualifiedname>themis::security::AccessControl::detectSQLInjection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Detect SQL injection patterns in a query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query string to inspect. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when an injection pattern is detected. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="367" column="10" bodyfile="src/security/access_control.cpp" bodystart="915" bodyend="940"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a8af40eb1c59268f0b0cebd6894e3ae1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::detectSuspiciousQuery</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;user_id)</argsstring>
+        <name>detectSuspiciousQuery</name>
+        <qualifiedname>themis::security::AccessControl::detectSuspiciousQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Detect suspicious query patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query string to inspect. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the query is suspicious.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query string to inspect. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the query is suspicious.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1security_1_1_access_control_1a393e749f7d9aa1590f2e16a55c8c503a" kindref="member">detectSQLInjection()</ref>, <ref refid="classthemis_1_1security_1_1_access_control_1ab3088d2a8eaf4f5fd5e4a19b5c4767f4" kindref="member">logSecurityEvent()</ref>, length(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="375" column="10" bodyfile="src/security/access_control.cpp" bodystart="949" bodyend="983"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1ae84f5dcd871d5375549351d7bee0ea08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::AccessControl::recordFailedLogin</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;ip_address)</argsstring>
+        <name>recordFailedLogin</name>
+        <qualifiedname>themis::security::AccessControl::recordFailedLogin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ip_address</declname>
+        </param>
+        <briefdescription>
+<para>Record a failed login attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source IP address.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ip_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source IP address.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), <ref refid="classthemis_1_1security_1_1_access_control_1ab3088d2a8eaf4f5fd5e4a19b5c4767f4" kindref="member">logSecurityEvent()</ref>, THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="382" column="10" bodyfile="src/security/access_control.cpp" bodystart="991" bodyend="1011"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a0b7af2dcaa04d8351949002a656ee2f9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::isLockedOut</definition>
+        <argsstring>(const std::string &amp;user_id) const</argsstring>
+        <name>isLockedOut</name>
+        <qualifiedname>themis::security::AccessControl::isLockedOut</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a user is locked out. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the user is locked out. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="389" column="10" bodyfile="src/security/access_control.cpp" bodystart="1013" bodyend="1021"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1ab3088d2a8eaf4f5fd5e4a19b5c4767f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::AccessControl::logSecurityEvent</definition>
+        <argsstring>(utils::SecurityEventType event_type, const std::string &amp;user_id, const std::string &amp;resource, const nlohmann::json &amp;details={})</argsstring>
+        <name>logSecurityEvent</name>
+        <qualifiedname>themis::security::AccessControl::logSecurityEvent</qualifiedname>
+        <param>
+          <type>utils::SecurityEventType</type>
+          <declname>event_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>details</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Log a security event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Security event type. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event payload/details.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements logSecurityEvent without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="395" column="10" bodyfile="src/security/access_control.cpp" bodystart="1035" bodyend="1049"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1ab73cf4dd4950d5215d4b9cd17c785753" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::security::AccessControl::getAuditLogs</definition>
+        <argsstring>(const std::string &amp;user_id, std::optional&lt; std::chrono::system_clock::time_point &gt; since=std::nullopt, std::optional&lt; std::chrono::system_clock::time_point &gt; until=std::nullopt) const</argsstring>
+        <name>getAuditLogs</name>
+        <qualifiedname>themis::security::AccessControl::getAuditLogs</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+          <declname>since</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::chrono::system_clock::time_point &gt;</type>
+          <declname>until</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="402" column="20" bodyfile="src/security/access_control.cpp" bodystart="1051" bodyend="1083"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a176cad5532d2b4c20ead2864f1dbafb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::AccessControl::updateConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themis::security::AccessControl::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_access_control_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update the access control configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), <ref refid="classthemis_1_1security_1_1_access_control_1ab3088d2a8eaf4f5fd5e4a19b5c4767f4" kindref="member">logSecurityEvent()</ref>, THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="416" column="10" bodyfile="src/security/access_control.cpp" bodystart="1094" bodyend="1106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1ac9a1cb4a061cedabb349005cbe067e3f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1security_1_1_access_control_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::security::AccessControl::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::security::AccessControl::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="418" column="18" bodyfile="include/security/access_control.h" bodystart="418" bodyend="418"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a776a0c3623e99647e6d0c9bbf77db9a5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::security::AccessControl::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::security::AccessControl::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="424" column="20" bodyfile="src/security/access_control.cpp" bodystart="1108" bodyend="1121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1ae0760b712d4e712f256b40731e20c239" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref> &amp;</type>
+        <definition>RBAC &amp; themis::security::AccessControl::getRBAC</definition>
+        <argsstring>()</argsstring>
+        <name>getRBAC</name>
+        <qualifiedname>themis::security::AccessControl::getRBAC</qualifiedname>
+        <briefdescription>
+<para>Return the <ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref> subsystem. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref> subsystem reference.</para>
+</simplesect>
+Implements getRBAC without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="431" column="10" bodyfile="include/security/access_control.h" bodystart="431" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1ac9535668ee168604fad44bdc3c644211" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref> &amp;</type>
+        <definition>const RBAC &amp; themis::security::AccessControl::getRBAC</definition>
+        <argsstring>() const</argsstring>
+        <name>getRBAC</name>
+        <qualifiedname>themis::security::AccessControl::getRBAC</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="432" column="16" bodyfile="include/security/access_control.h" bodystart="432" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a08b04b0defb36bfca9b66358740780bb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_user_role_store" kindref="compound">UserRoleStore</ref> &amp;</type>
+        <definition>UserRoleStore &amp; themis::security::AccessControl::getUserRoleStore</definition>
+        <argsstring>()</argsstring>
+        <name>getUserRoleStore</name>
+        <qualifiedname>themis::security::AccessControl::getUserRoleStore</qualifiedname>
+        <briefdescription>
+<para>Return the user role store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref> store reference.</para>
+</simplesect>
+Implements getUserRoleStore without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="439" column="19" bodyfile="include/security/access_control.h" bodystart="439" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a0840ac9eb42b25ee87d209a602c1971f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1security_1_1_user_role_store" kindref="compound">UserRoleStore</ref> &amp;</type>
+        <definition>const UserRoleStore &amp; themis::security::AccessControl::getUserRoleStore</definition>
+        <argsstring>() const</argsstring>
+        <name>getUserRoleStore</name>
+        <qualifiedname>themis::security::AccessControl::getUserRoleStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="440" column="25" bodyfile="include/security/access_control.h" bodystart="440" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1afb2b1c4bf688e4e205c1b7ff1403ff1a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_user_registration_plugin_manager" kindref="compound">UserRegistrationPluginManager</ref> &amp;</type>
+        <definition>UserRegistrationPluginManager &amp; themis::security::AccessControl::getUserRegistrationPluginManager</definition>
+        <argsstring>()</argsstring>
+        <name>getUserRegistrationPluginManager</name>
+        <qualifiedname>themis::security::AccessControl::getUserRegistrationPluginManager</qualifiedname>
+        <briefdescription>
+<para>Return the user registration plugin manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Plugin manager reference.</para>
+</simplesect>
+Implements getUserRegistrationPluginManager without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="447" column="35" bodyfile="include/security/access_control.h" bodystart="447" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a3607da7ddde280efc6dcdfdbc1834563" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1security_1_1_user_registration_plugin_manager" kindref="compound">UserRegistrationPluginManager</ref> &amp;</type>
+        <definition>const UserRegistrationPluginManager &amp; themis::security::AccessControl::getUserRegistrationPluginManager</definition>
+        <argsstring>() const</argsstring>
+        <name>getUserRegistrationPluginManager</name>
+        <qualifiedname>themis::security::AccessControl::getUserRegistrationPluginManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="450" column="41" bodyfile="include/security/access_control.h" bodystart="450" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a969c8a47a28628b4f58f0b8da792b673" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>PolicyEngine &amp;</type>
+        <definition>PolicyEngine &amp; themis::security::AccessControl::getABACEngine</definition>
+        <argsstring>()</argsstring>
+        <name>getABACEngine</name>
+        <qualifiedname>themis::security::AccessControl::getABACEngine</qualifiedname>
+        <briefdescription>
+<para>Return the ABAC policy engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>ABAC policy engine reference.</para>
+</simplesect>
+Implements getABACEngine without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="463" column="18" bodyfile="include/security/access_control.h" bodystart="463" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1ab9f9e40347da45f507fbf673458ff915" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const PolicyEngine &amp;</type>
+        <definition>const PolicyEngine &amp; themis::security::AccessControl::getABACEngine</definition>
+        <argsstring>() const</argsstring>
+        <name>getABACEngine</name>
+        <qualifiedname>themis::security::AccessControl::getABACEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="464" column="24" bodyfile="include/security/access_control.h" bodystart="464" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1ab3647463e01b17dafaf15c3690f192a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::AccessControl::addABACPolicy</definition>
+        <argsstring>(const PolicyEngine::Policy &amp;policy)</argsstring>
+        <name>addABACPolicy</name>
+        <qualifiedname>themis::security::AccessControl::addABACPolicy</qualifiedname>
+        <param>
+          <type>const PolicyEngine::Policy &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Add an ABAC policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ABAC policy to add.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ABAC policy to add.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: addPolicy(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="470" column="10" bodyfile="src/security/access_control.cpp" bodystart="720" bodyend="723"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1acc5a49ef74918f1eecef48e82216c898" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::removeABACPolicy</definition>
+        <argsstring>(const std::string &amp;policy_id)</argsstring>
+        <name>removeABACPolicy</name>
+        <qualifiedname>themis::security::AccessControl::removeABACPolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove an ABAC policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the ABAC policy to remove. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the policy was removed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the ABAC policy to remove. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the policy was removed.</para>
+</simplesect>
+Calls: removePolicy(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="477" column="10" bodyfile="src/security/access_control.cpp" bodystart="731" bodyend="737"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a9fd6c2f92d685549f4e5a9740803e522" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::isSessionExpired</definition>
+        <argsstring>(const Session &amp;session) const</argsstring>
+        <name>isSessionExpired</name>
+        <qualifiedname>themis::security::AccessControl::isSessionExpired</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_access_control_1_1_session" kindref="compound">Session</ref> &amp;</type>
+          <declname>session</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a session is expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_access_control_1_1_session" kindref="compound">Session</ref> to check. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the session is expired. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="534" column="10" bodyfile="src/security/access_control.cpp" bodystart="1127" bodyend="1143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a713693390bf8f94796868ccea39eb00f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::AccessControl::cleanupExpiredSessions</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupExpiredSessions</name>
+        <qualifiedname>themis::security::AccessControl::cleanupExpiredSessions</qualifiedname>
+        <briefdescription>
+<para>Remove expired sessions from the cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), reserve(), size(), isSessionExpired(), push_back(), invalidateSessionLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="538" column="10" bodyfile="src/security/access_control.cpp" bodystart="1149" bodyend="1165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1acfb7626626153a9d6200825fd6b751cc" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessControl::generateSessionToken</definition>
+        <argsstring>() const</argsstring>
+        <name>generateSessionToken</name>
+        <qualifiedname>themis::security::AccessControl::generateSessionToken</qualifiedname>
+        <briefdescription>
+<para>Generate a new session token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Generated session token. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="543" column="17" bodyfile="src/security/access_control.cpp" bodystart="1167" bodyend="1178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1acaee478e44ced04a0f76cc52676643b4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::AccessControl::updateRateLimit</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>updateRateLimit</name>
+        <qualifiedname>themis::security::AccessControl::updateRateLimit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Update rate limit state for a user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), std::chrono::minutes(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="548" column="10" bodyfile="src/security/access_control.cpp" bodystart="1185" bodyend="1196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1aacc45f2e0be295dffd9fc855828dabeb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::AccessControl::checkRateLimit</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>checkRateLimit</name>
+        <qualifiedname>themis::security::AccessControl::checkRateLimit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a user exceeds the current rate limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the user remains within the configured limit.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the user remains within the configured limit.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), std::chrono::minutes(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="554" column="10" bodyfile="src/security/access_control.cpp" bodystart="1204" bodyend="1215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a29aecb80c4f04a4efc32496e31ccaabc" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::security::AccessControl::getUserRolesLocked</definition>
+        <argsstring>(const std::string &amp;user_id) const</argsstring>
+        <name>getUserRolesLocked</name>
+        <qualifiedname>themis::security::AccessControl::getUserRolesLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Get roles for a user while holding the lock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Roles assigned to the user. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="561" column="17" bodyfile="src/security/access_control.cpp" bodystart="697" bodyend="699"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1ae93b7552831713be5291010a3927759e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::AccessControl::createSessionLocked</definition>
+        <argsstring>(const std::string &amp;user_id, const std::vector&lt; std::string &gt; &amp;roles, bool mfa_verified)</argsstring>
+        <name>createSessionLocked</name>
+        <qualifiedname>themis::security::AccessControl::createSessionLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>roles</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>mfa_verified</declname>
+        </param>
+        <briefdescription>
+<para>Create a session while holding the lock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">roles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Roles to attach to the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mfa_verified</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True if MFA was verified for the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1_access_control_1_1_session" kindref="compound">Session</ref> token.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">roles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Roles to attach to the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mfa_verified</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True if MFA was verified for the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1security_1_1_access_control_1_1_session" kindref="compound">Session</ref> token.</para>
+</simplesect>
+Calls: generateSessionToken(), std::chrono::system_clock::now(), push_back(), size(), invalidateSessionLocked(), front(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="569" column="17" bodyfile="src/security/access_control.cpp" bodystart="751" bodyend="780"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a81462ef926400cd9b35282c0c25bf665" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::AccessControl::invalidateSessionLocked</definition>
+        <argsstring>(const std::string &amp;session_token)</argsstring>
+        <name>invalidateSessionLocked</name>
+        <qualifiedname>themis::security::AccessControl::invalidateSessionLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_token</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate a session while holding the lock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_access_control_1_1_session" kindref="compound">Session</ref> token to invalidate.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_access_control_1_1_session" kindref="compound">Session</ref> token to invalidate.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), erase(), std::remove(), begin(), <ref refid="classthemis_1_1security_1_1_access_control_1ab3088d2a8eaf4f5fd5e4a19b5c4767f4" kindref="member">logSecurityEvent()</ref>, THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="576" column="10" bodyfile="src/security/access_control.cpp" bodystart="832" bodyend="853"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_access_control_1a8afd3df4ead767c9f28746977090bf4b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::AccessControl::invalidateUserSessionsLocked</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>invalidateUserSessionsLocked</name>
+        <qualifiedname>themis::security::AccessControl::invalidateUserSessionsLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate all user sessions while holding the lock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), erase(), <ref refid="classthemis_1_1security_1_1_access_control_1ab3088d2a8eaf4f5fd5e4a19b5c4767f4" kindref="member">logSecurityEvent()</ref>, THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control.h" line="581" column="10" bodyfile="src/security/access_control.cpp" bodystart="870" bodyend="887"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/access_control.h" line="46" column="1" bodyfile="include/security/access_control.h" bodystart="46" bodyend="582"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_access_control_1a9bb8cc2e551c8f9e0ed872d16142618c" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>AccessControl</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1ab3647463e01b17dafaf15c3690f192a7" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>addABACPolicy</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a62f528f38abc5d5a6aea7e88a15fcb0c" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>assignRole</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a42790281b45af338a4ef1a7132d181bd" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a5e7e1e2b2d8584dc70a10135431b55b8" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>auth_middleware_</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1aa16d8e9a1ceef65021a57b30584c3b87" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>authenticate</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a25f79b0280949ca7b344be5208e22aed" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>authorize</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a73e943ad1df2726b5ea1ff15f2eab406" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>changePassword</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a2fad27e1a4e09af7ee993cc0323e17b3" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>checkPermission</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1aacc45f2e0be295dffd9fc855828dabeb" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>checkRateLimit</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a713693390bf8f94796868ccea39eb00f" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>cleanupExpiredSessions</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a1664677ae7f37f8fd5ed9d9df8633721" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a349f5f0dd67d1069465b76a022a3b0c7" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>createSession</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1ae93b7552831713be5291010a3927759e" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>createSessionLocked</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a393e749f7d9aa1590f2e16a55c8c503a" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>detectSQLInjection</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a8af40eb1c59268f0b0cebd6894e3ae1c" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>detectSuspiciousQuery</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1ae80e6739ae873517e4a85417e67f824a" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>disableMFA</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1ad594fa03278af8d5bfc696edbf24ef03" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>enrollMFA</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1acfb7626626153a9d6200825fd6b751cc" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>generateSessionToken</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a969c8a47a28628b4f58f0b8da792b673" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>getABACEngine</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1ab9f9e40347da45f507fbf673458ff915" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>getABACEngine</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1ab73cf4dd4950d5215d4b9cd17c785753" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>getAuditLogs</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1ac9a1cb4a061cedabb349005cbe067e3f" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1ae0760b712d4e712f256b40731e20c239" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>getRBAC</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1ac9535668ee168604fad44bdc3c644211" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>getRBAC</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a776a0c3623e99647e6d0c9bbf77db9a5" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a11b3d3e45901e0517fb703bbaaa1782d" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>getUserPermissions</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1afb2b1c4bf688e4e205c1b7ff1403ff1a" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>getUserRegistrationPluginManager</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a3607da7ddde280efc6dcdfdbc1834563" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>getUserRegistrationPluginManager</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a99c6134c83957f7e3c02b812055ca278" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>getUserRoles</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a29aecb80c4f04a4efc32496e31ccaabc" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>getUserRolesLocked</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a08b04b0defb36bfca9b66358740780bb" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>getUserRoleStore</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a0840ac9eb42b25ee87d209a602c1971f" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>getUserRoleStore</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a3548e72f66d0f32d7e29f26f57e6ce48" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>invalidateSession</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a81462ef926400cd9b35282c0c25bf665" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>invalidateSessionLocked</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1aacf2b3437864e698ad314fa54210fd55" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>invalidateUserSessions</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a8afd3df4ead767c9f28746977090bf4b" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>invalidateUserSessionsLocked</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a0b7af2dcaa04d8351949002a656ee2f9" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>isLockedOut</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a7850fa873f94c530091414513476495a" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>isRateLimited</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a9fd6c2f92d685549f4e5a9740803e522" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>isSessionExpired</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1ab3088d2a8eaf4f5fd5e4a19b5c4767f4" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>logSecurityEvent</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a71b28af84d89a15aa44c50126ba6fbbc" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>mfa_authenticator_</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1ad37e64e499d927cda818cd46cdf5a570" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>mfa_enrollments_</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a3a1d60155712106460715b98a95c3c1c" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1abbe02c419690925fdaafa45762df3549" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>policy_engine_</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a007e109cc262895588c92bfddb42c7a5" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>rate_limits_</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1aa27cf23eeabec4a1d0d0ea7ddbdc2406" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>rbac_</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1ae84f5dcd871d5375549351d7bee0ea08" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>recordFailedLogin</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a73cb2652ebda64c10c16ec1c30b599b3" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>registerUser</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1acc5a49ef74918f1eecef48e82216c898" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>removeABACPolicy</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a1d86507cbe82ffd6a559ec5fef372c6d" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>revokeRole</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a81ef607781d9405d52421b61d589a989" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>sessions_</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1afd6858a8a51d9ece4418dfb012aed238" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a176cad5532d2b4c20ead2864f1dbafb3" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>updateConfig</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1acaee478e44ced04a0f76cc52676643b4" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>updateRateLimit</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a3fcbc479d4e0e27d4da8fbd7759fb94d" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>user_registration_plugin_manager_</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a5c1e25c56cadadeecc7cebbfbffeda2f" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>user_role_store_</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1aca3e6741dbe146e4703a63514c58bbd3" prot="private" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>user_sessions_</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a9ec2ea3590f1ce02841a6c6a94d9b6da" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>validateSession</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1a53f3602d2698882301a39dc7d0c90990" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>verifyMFA</name></member>
+      <member refid="classthemis_1_1security_1_1_access_control_1ac1cbb75dd5733740ae3f96ea6319694c" prot="public" virt="non-virtual"><scope>themis::security::AccessControl</scope><name>~AccessControl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

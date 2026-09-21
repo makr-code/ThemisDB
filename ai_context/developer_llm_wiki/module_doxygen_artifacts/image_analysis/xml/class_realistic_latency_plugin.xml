@@ -1,0 +1,297 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_realistic_latency_plugin" kind="class" language="C++" prot="public">
+    <compoundname>RealisticLatencyPlugin</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IImageAnalysisBackend</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_realistic_latency_plugin_1ae14b57076a827e1b4bdacb1cac0ebcab" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool RealisticLatencyPlugin::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>RealisticLatencyPlugin::initialized_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/bench_image_analysis_latency.cpp" line="247" column="10" bodyfile="benchmarks/image_analysis/bench_image_analysis_latency.cpp" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_realistic_latency_plugin_1aaa62c7e6499c464aaaa411c953c84b0b" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool RealisticLatencyPlugin::warmup_done_</definition>
+        <argsstring></argsstring>
+        <name>warmup_done_</name>
+        <qualifiedname>RealisticLatencyPlugin::warmup_done_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/bench_image_analysis_latency.cpp" line="248" column="10" bodyfile="benchmarks/image_analysis/bench_image_analysis_latency.cpp" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_realistic_latency_plugin_1a4e020705d0e816eb7955e9d73c94dae2" prot="private" static="no" mutable="no">
+        <type>BackendType</type>
+        <definition>BackendType RealisticLatencyPlugin::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>RealisticLatencyPlugin::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/bench_image_analysis_latency.cpp" line="249" column="17" bodyfile="benchmarks/image_analysis/bench_image_analysis_latency.cpp" bodystart="249" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_realistic_latency_plugin_1acd803d0268336ff5bd34668861cb877e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>RealisticLatencyPlugin::RealisticLatencyPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>RealisticLatencyPlugin</name>
+        <qualifiedname>RealisticLatencyPlugin::RealisticLatencyPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/bench_image_analysis_latency.cpp" line="84" column="5" bodyfile="benchmarks/image_analysis/bench_image_analysis_latency.cpp" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="class_realistic_latency_plugin_1ab391820e6f3dbf87dbc35a72e8d7e0e8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>PluginInfo</type>
+        <definition>PluginInfo RealisticLatencyPlugin::getInfo</definition>
+        <argsstring>() const override</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>RealisticLatencyPlugin::getInfo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/bench_image_analysis_latency.cpp" line="86" column="16" bodyfile="benchmarks/image_analysis/bench_image_analysis_latency.cpp" bodystart="86" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="class_realistic_latency_plugin_1a5a49e6b6c934a0632f1225b907fd692b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool RealisticLatencyPlugin::initialize</definition>
+        <argsstring>(const PluginConfig &amp;config, BackendType backend) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>RealisticLatencyPlugin::initialize</qualifiedname>
+        <param>
+          <type>const PluginConfig &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>BackendType</type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/bench_image_analysis_latency.cpp" line="108" column="10" bodyfile="benchmarks/image_analysis/bench_image_analysis_latency.cpp" bodystart="108" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="class_realistic_latency_plugin_1aa64a5c641ffeeca0d483df683d5e5915" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RealisticLatencyPlugin::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>RealisticLatencyPlugin::shutdown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/bench_image_analysis_latency.cpp" line="115" column="10" bodyfile="benchmarks/image_analysis/bench_image_analysis_latency.cpp" bodystart="115" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="class_realistic_latency_plugin_1a0f0eb0657f7db86a4d98987021407784" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool RealisticLatencyPlugin::isReady</definition>
+        <argsstring>() const override</argsstring>
+        <name>isReady</name>
+        <qualifiedname>RealisticLatencyPlugin::isReady</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/bench_image_analysis_latency.cpp" line="120" column="10" bodyfile="benchmarks/image_analysis/bench_image_analysis_latency.cpp" bodystart="120" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="class_realistic_latency_plugin_1a150312f3cf343a7987d1f05f7c3eb580" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>BackendType</type>
+        <definition>BackendType RealisticLatencyPlugin::getBackend</definition>
+        <argsstring>() const override</argsstring>
+        <name>getBackend</name>
+        <qualifiedname>RealisticLatencyPlugin::getBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/bench_image_analysis_latency.cpp" line="124" column="17" bodyfile="benchmarks/image_analysis/bench_image_analysis_latency.cpp" bodystart="124" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="class_realistic_latency_plugin_1a806ea563b1f71f2d5a458bf68e1d6eeb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>EmbeddingResult</type>
+        <definition>EmbeddingResult RealisticLatencyPlugin::generateEmbedding</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;image_data, const ImageMetadata *metadata) override</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>RealisticLatencyPlugin::generateEmbedding</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>image_data</declname>
+        </param>
+        <param>
+          <type>const ImageMetadata *</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/bench_image_analysis_latency.cpp" line="128" column="21" bodyfile="benchmarks/image_analysis/bench_image_analysis_latency.cpp" bodystart="128" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="class_realistic_latency_plugin_1ad4020c71c756ef778f3996c5afe4e60a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>CaptionResult</type>
+        <definition>CaptionResult RealisticLatencyPlugin::generateCaption</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;image_data, const ImageMetadata *metadata, int max_length) override</argsstring>
+        <name>generateCaption</name>
+        <qualifiedname>RealisticLatencyPlugin::generateCaption</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>image_data</declname>
+        </param>
+        <param>
+          <type>const ImageMetadata *</type>
+          <declname>metadata</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_length</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/bench_image_analysis_latency.cpp" line="184" column="19" bodyfile="benchmarks/image_analysis/bench_image_analysis_latency.cpp" bodystart="184" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="class_realistic_latency_plugin_1abe1ff358de5b1ddc5153a9cd4bfb0129" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; EmbeddingResult &gt;</type>
+        <definition>std::vector&lt; EmbeddingResult &gt; RealisticLatencyPlugin::generateEmbeddingBatch</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;images) override</argsstring>
+        <name>generateEmbeddingBatch</name>
+        <qualifiedname>RealisticLatencyPlugin::generateEmbeddingBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; uint8_t &gt; &gt; &amp;</type>
+          <declname>images</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/bench_image_analysis_latency.cpp" line="214" column="17" bodyfile="benchmarks/image_analysis/bench_image_analysis_latency.cpp" bodystart="214" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="class_realistic_latency_plugin_1a6f16fbf668a2065edbf5355e3be7e82f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool RealisticLatencyPlugin::healthCheck</definition>
+        <argsstring>() const override</argsstring>
+        <name>healthCheck</name>
+        <qualifiedname>RealisticLatencyPlugin::healthCheck</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/bench_image_analysis_latency.cpp" line="228" column="10" bodyfile="benchmarks/image_analysis/bench_image_analysis_latency.cpp" bodystart="228" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="class_realistic_latency_plugin_1aa3c5f372e85d3c2440a4bcf8b22c7376" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json RealisticLatencyPlugin::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>RealisticLatencyPlugin::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/bench_image_analysis_latency.cpp" line="232" column="20" bodyfile="benchmarks/image_analysis/bench_image_analysis_latency.cpp" bodystart="232" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="class_realistic_latency_plugin_1ac61097c1aeeb2bf511240d841364bccf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RealisticLatencyPlugin::warmup</definition>
+        <argsstring>() override</argsstring>
+        <name>warmup</name>
+        <qualifiedname>RealisticLatencyPlugin::warmup</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/image_analysis/bench_image_analysis_latency.cpp" line="240" column="10" bodyfile="benchmarks/image_analysis/bench_image_analysis_latency.cpp" bodystart="240" bodyend="244"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IImageAnalysisBackend</label>
+      </node>
+      <node id="1">
+        <label>RealisticLatencyPlugin</label>
+        <link refid="class_realistic_latency_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IImageAnalysisBackend</label>
+      </node>
+      <node id="1">
+        <label>RealisticLatencyPlugin</label>
+        <link refid="class_realistic_latency_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/image_analysis/bench_image_analysis_latency.cpp" line="82" column="1" bodyfile="benchmarks/image_analysis/bench_image_analysis_latency.cpp" bodystart="82" bodyend="250"/>
+    <listofallmembers>
+      <member refid="class_realistic_latency_plugin_1a4e020705d0e816eb7955e9d73c94dae2" prot="private" virt="non-virtual"><scope>RealisticLatencyPlugin</scope><name>backend_</name></member>
+      <member refid="class_realistic_latency_plugin_1ad4020c71c756ef778f3996c5afe4e60a" prot="public" virt="non-virtual"><scope>RealisticLatencyPlugin</scope><name>generateCaption</name></member>
+      <member refid="class_realistic_latency_plugin_1a806ea563b1f71f2d5a458bf68e1d6eeb" prot="public" virt="non-virtual"><scope>RealisticLatencyPlugin</scope><name>generateEmbedding</name></member>
+      <member refid="class_realistic_latency_plugin_1abe1ff358de5b1ddc5153a9cd4bfb0129" prot="public" virt="non-virtual"><scope>RealisticLatencyPlugin</scope><name>generateEmbeddingBatch</name></member>
+      <member refid="class_realistic_latency_plugin_1a150312f3cf343a7987d1f05f7c3eb580" prot="public" virt="non-virtual"><scope>RealisticLatencyPlugin</scope><name>getBackend</name></member>
+      <member refid="class_realistic_latency_plugin_1ab391820e6f3dbf87dbc35a72e8d7e0e8" prot="public" virt="non-virtual"><scope>RealisticLatencyPlugin</scope><name>getInfo</name></member>
+      <member refid="class_realistic_latency_plugin_1aa3c5f372e85d3c2440a4bcf8b22c7376" prot="public" virt="non-virtual"><scope>RealisticLatencyPlugin</scope><name>getStatistics</name></member>
+      <member refid="class_realistic_latency_plugin_1a6f16fbf668a2065edbf5355e3be7e82f" prot="public" virt="non-virtual"><scope>RealisticLatencyPlugin</scope><name>healthCheck</name></member>
+      <member refid="class_realistic_latency_plugin_1a5a49e6b6c934a0632f1225b907fd692b" prot="public" virt="non-virtual"><scope>RealisticLatencyPlugin</scope><name>initialize</name></member>
+      <member refid="class_realistic_latency_plugin_1ae14b57076a827e1b4bdacb1cac0ebcab" prot="private" virt="non-virtual"><scope>RealisticLatencyPlugin</scope><name>initialized_</name></member>
+      <member refid="class_realistic_latency_plugin_1a0f0eb0657f7db86a4d98987021407784" prot="public" virt="non-virtual"><scope>RealisticLatencyPlugin</scope><name>isReady</name></member>
+      <member refid="class_realistic_latency_plugin_1acd803d0268336ff5bd34668861cb877e" prot="public" virt="non-virtual"><scope>RealisticLatencyPlugin</scope><name>RealisticLatencyPlugin</name></member>
+      <member refid="class_realistic_latency_plugin_1aa64a5c641ffeeca0d483df683d5e5915" prot="public" virt="non-virtual"><scope>RealisticLatencyPlugin</scope><name>shutdown</name></member>
+      <member refid="class_realistic_latency_plugin_1ac61097c1aeeb2bf511240d841364bccf" prot="public" virt="non-virtual"><scope>RealisticLatencyPlugin</scope><name>warmup</name></member>
+      <member refid="class_realistic_latency_plugin_1aaa62c7e6499c464aaaa411c953c84b0b" prot="private" virt="non-virtual"><scope>RealisticLatencyPlugin</scope><name>warmup_done_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

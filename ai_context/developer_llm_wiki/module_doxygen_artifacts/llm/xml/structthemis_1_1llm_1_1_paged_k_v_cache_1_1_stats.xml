@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::PagedKVCache::Stats</compoundname>
+    <includes refid="paged__kv__cache_8h" local="no">paged_kv_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_stats_1a440d798807806399cc9e7c5f911a0e45" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCache::Stats::blocks_used</definition>
+        <argsstring></argsstring>
+        <name>blocks_used</name>
+        <qualifiedname>themis::llm::PagedKVCache::Stats::blocks_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="91" column="16" bodyfile="include/llm/paged_kv_cache.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_stats_1ab5c88aa61558e0b7e0191a32eb2e8e0d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCache::Stats::blocks_free</definition>
+        <argsstring></argsstring>
+        <name>blocks_free</name>
+        <qualifiedname>themis::llm::PagedKVCache::Stats::blocks_free</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="92" column="16" bodyfile="include/llm/paged_kv_cache.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_stats_1ad44ae8d1814326523f728ab32478f3dc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCache::Stats::num_sequences</definition>
+        <argsstring></argsstring>
+        <name>num_sequences</name>
+        <qualifiedname>themis::llm::PagedKVCache::Stats::num_sequences</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="93" column="16" bodyfile="include/llm/paged_kv_cache.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_stats_1a9cf40e3ad79e210808068f5ef91859aa" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::PagedKVCache::Stats::fragmentation_rate</definition>
+        <argsstring></argsstring>
+        <name>fragmentation_rate</name>
+        <qualifiedname>themis::llm::PagedKVCache::Stats::fragmentation_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="94" column="16" bodyfile="include/llm/paged_kv_cache.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_stats_1a845c17f72122e7105804430158b9d95d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::PagedKVCache::Stats::prefix_sharing_ratio</definition>
+        <argsstring></argsstring>
+        <name>prefix_sharing_ratio</name>
+        <qualifiedname>themis::llm::PagedKVCache::Stats::prefix_sharing_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="95" column="16" bodyfile="include/llm/paged_kv_cache.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/paged_kv_cache.h" line="90" column="5" bodyfile="include/llm/paged_kv_cache.h" bodystart="90" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_stats_1ab5c88aa61558e0b7e0191a32eb2e8e0d" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache::Stats</scope><name>blocks_free</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_stats_1a440d798807806399cc9e7c5f911a0e45" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache::Stats</scope><name>blocks_used</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_stats_1a9cf40e3ad79e210808068f5ef91859aa" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache::Stats</scope><name>fragmentation_rate</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_stats_1ad44ae8d1814326523f728ab32478f3dc" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache::Stats</scope><name>num_sequences</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_stats_1a845c17f72122e7105804430158b9d95d" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache::Stats</scope><name>prefix_sharing_ratio</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

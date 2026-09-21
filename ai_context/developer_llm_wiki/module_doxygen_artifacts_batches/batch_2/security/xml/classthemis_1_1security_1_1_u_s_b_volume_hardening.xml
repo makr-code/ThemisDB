@@ -1,0 +1,330 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_u_s_b_volume_hardening" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::USBVolumeHardening</compoundname>
+    <includes refid="usb__volume__hardening_8h" local="no">usb_volume_hardening.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_u_s_b_volume_hardening_1a8cf0f63318ddd5f32d2a74cdbd1a3401" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::USBVolumeHardening::computeVolumeHash</definition>
+        <argsstring>(const std::string &amp;mount_path, const std::string &amp;license_file)</argsstring>
+        <name>computeVolumeHash</name>
+        <qualifiedname>themis::security::USBVolumeHardening::computeVolumeHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mount_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>license_file</declname>
+        </param>
+        <briefdescription>
+<para>Compute the SHA-256 hash of the license file on the USB volume. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── <ref refid="classthemis_1_1security_1_1_u_s_b_volume_hardening_1a8cf0f63318ddd5f32d2a74cdbd1a3401" kindref="member">USBVolumeHardening::computeVolumeHash</ref> ─────────────────────────────────────</para>
+<para>Reads the raw bytes of <computeroutput>&lt;mount_path&gt;/&lt;license_file&gt;</computeroutput> and returns the lowercase hex-encoded SHA-256 digest. Any I/O or OpenSSL error returns an empty string.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mount_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path where the USB volume is mounted. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>license_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filename of the license file relative to mount_path. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>64-character lowercase hex string, or &quot;&quot; on error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mount_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the mount. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">license_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: joinPath(), file(), is_open(), THEMIS_WARN(), ctx(), EVP_MD_CTX_new(), THEMIS_ERROR(), EVP_DigestInit_ex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_volume_hardening.h" line="62" column="24" bodyfile="src/security/usb_volume_hardening.cpp" bodystart="95" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_u_s_b_volume_hardening_1a4c9ece45a6d086d5ca3a024fe3ca77b1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::USBVolumeHardening::verifyVolumeHash</definition>
+        <argsstring>(const std::string &amp;mount_path, const std::string &amp;license_file, const std::string &amp;expected_hash)</argsstring>
+        <name>verifyVolumeHash</name>
+        <qualifiedname>themis::security::USBVolumeHardening::verifyVolumeHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mount_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>license_file</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_hash</declname>
+        </param>
+        <briefdescription>
+<para>Verify that the license file hash matches a pre-provisioned value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── <ref refid="classthemis_1_1security_1_1_u_s_b_volume_hardening_1a4c9ece45a6d086d5ca3a024fe3ca77b1" kindref="member">USBVolumeHardening::verifyVolumeHash</ref> ──────────────────────────────────────</para>
+<para>Computes the current hash via <computeroutput><ref refid="classthemis_1_1security_1_1_u_s_b_volume_hardening_1a8cf0f63318ddd5f32d2a74cdbd1a3401" kindref="member">computeVolumeHash()</ref></computeroutput> and performs a constant-time comparison against <computeroutput>expected_hash</computeroutput> to prevent timing side-channels. Returns false if <computeroutput>expected_hash</computeroutput> is empty (caller should treat an unconfigured hash as &quot;no check performed&quot;, not as &quot;pass&quot;).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mount_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path where the USB volume is mounted. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>license_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>License filename relative to mount_path. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>expected_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>64-character lowercase hex SHA-256 to match. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true iff the current hash matches expected_hash exactly.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mount_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the mount. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">license_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), THEMIS_WARN(), <ref refid="classthemis_1_1security_1_1_u_s_b_volume_hardening_1a8cf0f63318ddd5f32d2a74cdbd1a3401" kindref="member">computeVolumeHash()</ref>, size(), CRYPTO_memcmp(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_volume_hardening.h" line="78" column="17" bodyfile="src/security/usb_volume_hardening.cpp" bodystart="154" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_u_s_b_volume_hardening_1a10ca0f44efdbc8fcaf2adfa09f66458c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::USBVolumeHardening::isMountedReadOnly</definition>
+        <argsstring>(const std::string &amp;mount_path)</argsstring>
+        <name>isMountedReadOnly</name>
+        <qualifiedname>themis::security::USBVolumeHardening::isMountedReadOnly</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mount_path</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a filesystem is mounted read-only. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── <ref refid="classthemis_1_1security_1_1_u_s_b_volume_hardening_1a10ca0f44efdbc8fcaf2adfa09f66458c" kindref="member">USBVolumeHardening::isMountedReadOnly</ref> ─────────────────────────────────────</para>
+<para>On Linux, parses <computeroutput>/proc/mounts</computeroutput> to find the entry whose mount point equals <computeroutput>mount_path</computeroutput> and checks for the <computeroutput>ro</computeroutput> option. On Windows, calls <computeroutput>GetVolumeInformation()</computeroutput> and checks <computeroutput>FILE_READ_ONLY_VOLUME</computeroutput>. On unsupported platforms, always returns false.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mount_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Exact mount-point path to look up. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true iff the filesystem is currently mounted read-only.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mount_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the mount. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: defined(), mounts(), is_open(), THEMIS_WARN(), std::getline(), iss(), opts(), GetVolumePathNameA(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_volume_hardening.h" line="96" column="17" bodyfile="src/security/usb_volume_hardening.cpp" bodystart="189" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_u_s_b_volume_hardening_1a8bb4d0001d95d240177c698f4624b2aa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::USBVolumeHardening::getUSBDeviceSerial</definition>
+        <argsstring>(const std::string &amp;mount_path)</argsstring>
+        <name>getUSBDeviceSerial</name>
+        <qualifiedname>themis::security::USBVolumeHardening::getUSBDeviceSerial</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mount_path</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the USB device serial number for a mounted volume. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── <ref refid="classthemis_1_1security_1_1_u_s_b_volume_hardening_1a8bb4d0001d95d240177c698f4624b2aa" kindref="member">USBVolumeHardening::getUSBDeviceSerial</ref> ───────────────────────────────────</para>
+<para>On Linux, resolves the block device for <computeroutput>mount_path</computeroutput> via <computeroutput>/proc/mounts</computeroutput>, strips the partition suffix, and reads the serial from <computeroutput>/sys/class/block/&lt;dev&gt;/device/../../serial</computeroutput>. On Windows, returns the hex-encoded volume serial number from <computeroutput>GetVolumeInformation()</computeroutput>. On unsupported platforms or on error, returns an empty string.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mount_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path where the USB volume is mounted. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Serial string (trimmed), or &quot;&quot; if not available.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mount_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the mount. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), mounts(), is_open(), THEMIS_WARN(), std::getline(), iss(), empty(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_volume_hardening.h" line="113" column="24" bodyfile="src/security/usb_volume_hardening.cpp" bodystart="255" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_u_s_b_volume_hardening_1a6661cbf59e835b7378851d813a48957e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::USBVolumeHardening::verifyUSBSerial</definition>
+        <argsstring>(const std::string &amp;mount_path, const std::string &amp;expected_serial)</argsstring>
+        <name>verifyUSBSerial</name>
+        <qualifiedname>themis::security::USBVolumeHardening::verifyUSBSerial</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mount_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_serial</declname>
+        </param>
+        <briefdescription>
+<para>Verify the USB device serial matches a pre-provisioned value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── <ref refid="classthemis_1_1security_1_1_u_s_b_volume_hardening_1a6661cbf59e835b7378851d813a48957e" kindref="member">USBVolumeHardening::verifyUSBSerial</ref> ───────────────────────────────────────</para>
+<para>Retrieves the current serial via <computeroutput><ref refid="classthemis_1_1security_1_1_u_s_b_volume_hardening_1a8bb4d0001d95d240177c698f4624b2aa" kindref="member">getUSBDeviceSerial()</ref></computeroutput> and compares it against <computeroutput>expected_serial</computeroutput> using a constant-time comparison. Returns false if <computeroutput>expected_serial</computeroutput> is empty.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mount_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path where the USB volume is mounted. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>expected_serial</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Serial string recorded at provisioning time. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true iff the device serial matches expected_serial.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mount_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the mount. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_serial</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), THEMIS_WARN(), <ref refid="classthemis_1_1security_1_1_u_s_b_volume_hardening_1a8bb4d0001d95d240177c698f4624b2aa" kindref="member">getUSBDeviceSerial()</ref>, size(), CRYPTO_memcmp(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_volume_hardening.h" line="126" column="17" bodyfile="src/security/usb_volume_hardening.cpp" bodystart="378" bodyend="402"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>USB Volume Hardening — defence-in-depth against FAT manipulation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>An attacker who has physical access to the USB stick can trivially edit the FAT filesystem (e.g. with a hex editor or <computeroutput>dd</computeroutput>) to replace or modify the license file. <ref refid="classthemis_1_1security_1_1_u_s_b_volume_hardening" kindref="compound">USBVolumeHardening</ref> adds three independent layers of protection on top of the existing RSA license signature:</para>
+<para><orderedlist>
+<listitem><para><bold>Volume integrity hash</bold> — the server pins the expected SHA-256 hash of the license file content at provisioning time. Any FAT-level modification of the file (even a single byte) will produce a different hash and be rejected before the license is parsed.</para>
+</listitem><listitem><para><bold>Read-only mount enforcement</bold> — the server can require that the USB filesystem is mounted read-only (<computeroutput>mount -o ro</computeroutput>). A read-only mount prevents any process (including a compromised one running on the host) from writing to the stick while it is in use.</para>
+</listitem><listitem><para><bold>USB device serial binding</bold> — the server can pin the USB device serial number reported by the hardware. This prevents a simple <computeroutput>dd</computeroutput> clone of the stick from being accepted: the cloned device will have a different serial number (vendor serial stored in SCSI VPD page 0x80 / USB string descriptor 0x03).</para>
+</listitem></orderedlist>
+</para>
+<para>All methods are static and stateless; they can be called without constructing an object. Error conditions are indicated by returning an empty string or <computeroutput>false</computeroutput> — never by throwing. </para>
+    </detaileddescription>
+    <location file="include/security/usb_volume_hardening.h" line="47" column="1" bodyfile="include/security/usb_volume_hardening.h" bodystart="47" bodyend="128"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_u_s_b_volume_hardening_1a8cf0f63318ddd5f32d2a74cdbd1a3401" prot="public" virt="non-virtual"><scope>themis::security::USBVolumeHardening</scope><name>computeVolumeHash</name></member>
+      <member refid="classthemis_1_1security_1_1_u_s_b_volume_hardening_1a8bb4d0001d95d240177c698f4624b2aa" prot="public" virt="non-virtual"><scope>themis::security::USBVolumeHardening</scope><name>getUSBDeviceSerial</name></member>
+      <member refid="classthemis_1_1security_1_1_u_s_b_volume_hardening_1a10ca0f44efdbc8fcaf2adfa09f66458c" prot="public" virt="non-virtual"><scope>themis::security::USBVolumeHardening</scope><name>isMountedReadOnly</name></member>
+      <member refid="classthemis_1_1security_1_1_u_s_b_volume_hardening_1a6661cbf59e835b7378851d813a48957e" prot="public" virt="non-virtual"><scope>themis::security::USBVolumeHardening</scope><name>verifyUSBSerial</name></member>
+      <member refid="classthemis_1_1security_1_1_u_s_b_volume_hardening_1a4c9ece45a6d086d5ca3a024fe3ca77b1" prot="public" virt="non-virtual"><scope>themis::security::USBVolumeHardening</scope><name>verifyVolumeHash</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

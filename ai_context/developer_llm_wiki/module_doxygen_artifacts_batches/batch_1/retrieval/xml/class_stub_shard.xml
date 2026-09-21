@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_shard" kind="class" language="C++" prot="public">
+    <compoundname>StubShard</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_shard_1aa584b60de91aac5d0704fb81e0d42c3c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex StubShard::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubShard::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_highcardinality_stress.cpp" line="90" column="24" bodyfile="tests/retrieval/test_retrieval_highcardinality_stress.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_shard_1a67645578e046345cba603573291c47bb" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; StubShard::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>StubShard::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_highcardinality_stress.cpp" line="91" column="24" bodyfile="tests/retrieval/test_retrieval_highcardinality_stress.cpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_shard_1acd5d499a9f00377df59e779046626b49" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubShard::insert</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>insert</name>
+        <qualifiedname>StubShard::insert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_highcardinality_stress.cpp" line="74" column="10" bodyfile="tests/retrieval/test_retrieval_highcardinality_stress.cpp" bodystart="74" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_shard_1a0c5c8d663f0ad88edbb1cd2cfcb8883b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubShard::contains</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>StubShard::contains</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_highcardinality_stress.cpp" line="79" column="10" bodyfile="tests/retrieval/test_retrieval_highcardinality_stress.cpp" bodystart="79" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_shard_1a63841a108b6ac4846b9a02d41e2df894" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t StubShard::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>StubShard::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_highcardinality_stress.cpp" line="84" column="17" bodyfile="tests/retrieval/test_retrieval_highcardinality_stress.cpp" bodystart="84" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub shard — holds a set of keys. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/retrieval/test_retrieval_highcardinality_stress.cpp" line="72" column="1" bodyfile="tests/retrieval/test_retrieval_highcardinality_stress.cpp" bodystart="72" bodyend="92"/>
+    <listofallmembers>
+      <member refid="class_stub_shard_1a0c5c8d663f0ad88edbb1cd2cfcb8883b" prot="public" virt="non-virtual"><scope>StubShard</scope><name>contains</name></member>
+      <member refid="class_stub_shard_1a67645578e046345cba603573291c47bb" prot="private" virt="non-virtual"><scope>StubShard</scope><name>data_</name></member>
+      <member refid="class_stub_shard_1acd5d499a9f00377df59e779046626b49" prot="public" virt="non-virtual"><scope>StubShard</scope><name>insert</name></member>
+      <member refid="class_stub_shard_1aa584b60de91aac5d0704fb81e0d42c3c" prot="private" virt="non-virtual"><scope>StubShard</scope><name>mu_</name></member>
+      <member refid="class_stub_shard_1a63841a108b6ac4846b9a02d41e2df894" prot="public" virt="non-virtual"><scope>StubShard</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

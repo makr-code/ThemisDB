@@ -1,0 +1,796 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__updates__determinism__edge__cases__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_updates_determinism_edge_cases_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="update__state__machine_8h" local="yes">updates/update_state_machine.h</includes>
+    <includes refid="updates__edge__case__handler_8h" local="yes">updates/updates_edge_case_handler.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>updates/update_state_machine.h</label>
+        <link refid="update__state__machine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>updates/updates_diagnostics.h</label>
+        <link refid="updates__diagnostics_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>updates/updates_edge_case_handler.h</label>
+        <link refid="updates__edge__case__handler_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/updates/test_updates_determinism_edge_cases_focused.cpp</label>
+        <link refid="test__updates__determinism__edge__cases__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="16">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>string_view</label>
+      </node>
+      <node id="17">
+        <label>thread</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_edge_case_handler_test" prot="public">EdgeCaseHandlerTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__updates__determinism__edge__cases__focused_8cpp_1a206b15cace5a6b93ad304469e5e745d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(EdgeCaseHandlerTest, UDE_01_IDLE_NoEdgeCase)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>UDE_01_IDLE_NoEdgeCase</type>
+        </param>
+        <briefdescription>
+<para>UDE-01: IDLE state with no hint → no edge case detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="49" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="49" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__determinism__edge__cases__focused_8cpp_1a5bf6d3e422a8bbebe958f7735303e633" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(EdgeCaseHandlerTest, UDE_02_FailedStateLockDetected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>UDE_02_FailedStateLockDetected</type>
+        </param>
+        <briefdescription>
+<para>UDE-02: FAILED state lock detected (7402). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="57" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="57" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__determinism__edge__cases__focused_8cpp_1a9733e82e68a10023e068775b4eeaf861" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(EdgeCaseHandlerTest, UDE_03_CascadeRollbackDetected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>UDE_03_CascadeRollbackDetected</type>
+        </param>
+        <briefdescription>
+<para>UDE-03: Cascade rollback detection (7423). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="70" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="70" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__determinism__edge__cases__focused_8cpp_1af24feacae968fbaaa79fcf32e250bb3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(EdgeCaseHandlerTest, UDE_04_ConcurrentUpdateCollision)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>UDE_04_ConcurrentUpdateCollision</type>
+        </param>
+        <briefdescription>
+<para>UDE-04: Concurrent update collision (7401). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="80" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="80" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__determinism__edge__cases__focused_8cpp_1a149326a6b3b4c8b84d7d3f32c867867b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(EdgeCaseHandlerTest, UDE_05_TransitionTimeout)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>UDE_05_TransitionTimeout</type>
+        </param>
+        <briefdescription>
+<para>UDE-05: Transition timeout scenario (7403). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="90" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="90" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__determinism__edge__cases__focused_8cpp_1a9f287352c141144fe5f522b927378d9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(EdgeCaseHandlerTest, UDE_06_PatchConflictDetected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>UDE_06_PatchConflictDetected</type>
+        </param>
+        <briefdescription>
+<para>UDE-06: Patch conflict detection (7440). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="100" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="100" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__determinism__edge__cases__focused_8cpp_1a981c672ab277b2a0e047b0a924e76cf2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(EdgeCaseHandlerTest, UDE_07_ManifestVersionConflict)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>UDE_07_ManifestVersionConflict</type>
+        </param>
+        <briefdescription>
+<para>UDE-07: Manifest version conflict → NETWORK_PARTITION (7460). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="112" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="112" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__determinism__edge__cases__focused_8cpp_1a4b8b4931b28e8a2706e7b6595f19f380" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(EdgeCaseHandlerTest, UDE_08_RollbackIsolationActive)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>UDE_08_RollbackIsolationActive</type>
+        </param>
+        <briefdescription>
+<para>UDE-08: Rollback isolation active (7426). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="122" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="122" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__determinism__edge__cases__focused_8cpp_1aa4882d1584b42821aae9d59d3bd15e33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(EdgeCaseHandlerTest, UDE_09_QuotaExhaustion)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>UDE_09_QuotaExhaustion</type>
+        </param>
+        <briefdescription>
+<para>UDE-09: Quota exhaustion → COORDINATION_ORDERING_VIOLATION (7464). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="129" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="129" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__determinism__edge__cases__focused_8cpp_1ab56a45079d1203bb68c805dae449210b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(EdgeCaseHandlerTest, UDE_10_PartialSuccessRequiresRetry)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>UDE_10_PartialSuccessRequiresRetry</type>
+        </param>
+        <briefdescription>
+<para>UDE-10: Partial success requiring retry (7424). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="137" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="137" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__determinism__edge__cases__focused_8cpp_1a11f2e9df0ed6ec63aabc9866edf4a4e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EdgeCaseClassifyTest, UDE_11_ClassifyEdgeCaseNonEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EdgeCaseClassifyTest</type>
+        </param>
+        <param>
+          <type>UDE_11_ClassifyEdgeCaseNonEmpty</type>
+        </param>
+        <briefdescription>
+<para>UDE-11: classifyEdgeCase returns non-empty for all defined codes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="152" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="152" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__determinism__edge__cases__focused_8cpp_1a8047fbf9620ae5057dfc2681d90d7644" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EdgeCaseFatalTest, UDE_12_IsFatalForStateLocked)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EdgeCaseFatalTest</type>
+        </param>
+        <param>
+          <type>UDE_12_IsFatalForStateLocked</type>
+        </param>
+        <briefdescription>
+<para>UDE-12: isFatal returns true for STATE_FAILED_LOCKED. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="175" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="175" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__determinism__edge__cases__focused_8cpp_1a56c0e3eae44d3cc2cf42d2a989f7506e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EdgeCaseFatalTest, UDE_13_IsFatalFalseForPartialSuccess)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EdgeCaseFatalTest</type>
+        </param>
+        <param>
+          <type>UDE_13_IsFatalFalseForPartialSuccess</type>
+        </param>
+        <briefdescription>
+<para>UDE-13: isFatal returns false for ROLLBACK_PARTIAL_SUCCESS. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="180" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="180" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__determinism__edge__cases__focused_8cpp_1ad95fa5326e055472177729189fbbdb53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EdgeCaseIsolationTest, UDE_14_RequiresIsolationForCascade)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EdgeCaseIsolationTest</type>
+        </param>
+        <param>
+          <type>UDE_14_RequiresIsolationForCascade</type>
+        </param>
+        <briefdescription>
+<para>UDE-14: requiresIsolation returns true for ROLLBACK_CASCADE_DETECTED. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="185" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="185" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__determinism__edge__cases__focused_8cpp_1a19efdce9101bcd19bc599c423e608dd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EdgeCaseIsolationTest, UDE_15_RequiresIsolationFalseForManifestConflict)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EdgeCaseIsolationTest</type>
+        </param>
+        <param>
+          <type>UDE_15_RequiresIsolationFalseForManifestConflict</type>
+        </param>
+        <briefdescription>
+<para>UDE-15: requiresIsolation returns false for NETWORK_PARTITION (manifest conflict). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="191" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="191" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__determinism__edge__cases__focused_8cpp_1aa246e7b7249e88a4c09e3b8aedc788fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(EdgeCaseHandlerTest, UDE_16_StatsIncrementOnDetection)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>UDE_16_StatsIncrementOnDetection</type>
+        </param>
+        <briefdescription>
+<para>UDE-16: stats.total_detected increments on detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="201" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="201" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__determinism__edge__cases__focused_8cpp_1ab945881b62aa3bf0c0c2e1a7584deeba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(EdgeCaseHandlerTest, UDE_17_StatsFatalIncrements)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>UDE_17_StatsFatalIncrements</type>
+        </param>
+        <briefdescription>
+<para>UDE-17: stats.total_fatal increments when fatal edge case detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="211" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="211" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__determinism__edge__cases__focused_8cpp_1a1138bc94c70103abf5eba082dcd4941c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(EdgeCaseHandlerTest, UDE_18_StatsRollbackTriggered)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>UDE_18_StatsRollbackTriggered</type>
+        </param>
+        <briefdescription>
+<para>UDE-18: stats.total_rollback_triggered increments when requires_rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="222" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="222" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__determinism__edge__cases__focused_8cpp_1af0e8041b62f53dbf41a2e3c1d9578ae9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EdgeCaseThreadSafetyTest, UDE_19_ConcurrentDetectionNoRace)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EdgeCaseThreadSafetyTest</type>
+        </param>
+        <param>
+          <type>UDE_19_ConcurrentDetectionNoRace</type>
+        </param>
+        <briefdescription>
+<para>UDE-19: 2 threads each call detectAndHandle 500 times; stats must be consistent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="237" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="237" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="test__updates__determinism__edge__cases__focused_8cpp_1a79cd361042bf39edc82d6556bb918d18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(EdgeCaseHandlerTest, UDE_20_DeterministicOutput)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>UDE_20_DeterministicOutput</type>
+        </param>
+        <briefdescription>
+<para>UDE-20: Identical state machine snapshot and hint produce identical result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp" line="271" column="1" bodyfile="tests/updates/test_updates_determinism_edge_cases_focused.cpp" bodystart="271" bodyend="283"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 4: Focused deterministic edge-case tests for <ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler" kindref="compound">UpdatesEdgeCaseHandler</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="since"><para>2.4.0 (Q4 2026)</para>
+</simplesect>
+Coverage targets:<itemizedlist>
+<listitem><para>All 9 primary edge-case detection categories (UDE-01..UDE-10)</para>
+</listitem><listitem><para>classifyEdgeCase(), isFatal(), requiresIsolation() helpers (UDE-11..UDE-15)</para>
+</listitem><listitem><para>Statistics tracking under single-threaded and concurrent use (UDE-16..UDE-19)</para>
+</listitem><listitem><para>Determinism: identical input → identical result (UDE-20)</para>
+</listitem></itemizedlist>
+</para>
+<para>Test IDs: UDE-01..UDE-20 CTest labels: updates;edge_cases;phase4 </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="update__state__machine_8h" kindref="compound">updates/update_state_machine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="updates__edge__case__handler_8h" kindref="compound">updates/updates_edge_case_handler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates" kindref="compound">themis::updates</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="class_edge_case_handler_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref><sp/><ref refid="class_edge_case_handler_test_1a4888013965933b6918e095b7c0cee9e0" kindref="member">sm_</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler" kindref="compound">UpdatesEdgeCaseHandler</ref><sp/><ref refid="class_edge_case_handler_test_1a3b571714cadf1bd6f1871ab11543f5f9" kindref="member">handler_</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_edge_case_handler_test_1a7d60adfa1449508195999d8c4d2ae465" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UDE-01..UDE-10:<sp/>detectAndHandle<sp/>scenarios</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="test__updates__determinism__edge__cases__focused_8cpp_1a206b15cace5a6b93ad304469e5e745d6" kindref="member">TEST_F</ref>(<ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref>,<sp/>UDE_01_IDLE_NoEdgeCase)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(sm_.currentState(),<sp/><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbecaa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">UpdateState::IDLE</ref>);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler_.detectAndHandle(sm_,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.handled)</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;IDLE<sp/>state<sp/>with<sp/>empty<sp/>context<sp/>should<sp/>not<sp/>trigger<sp/>an<sp/>edge<sp/>case&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="test__updates__determinism__edge__cases__focused_8cpp_1a206b15cace5a6b93ad304469e5e745d6" kindref="member">TEST_F</ref>(<ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref>,<sp/>UDE_02_FailedStateLockDetected)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drive<sp/>the<sp/>machine<sp/>to<sp/>FAILED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbecab9e14d9b2886bcff408b85aefa780419" kindref="member">UpdateState::FAILED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler_.detectAndHandle(sm_,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.handled);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error_code,<sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a22b2012289d77eae452faa2e5f73ca0f" kindref="member">DiagnosticErrorCode::STATE_FAILED_LOCKED</ref>);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.requires_rollback)</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;STATE_FAILED_LOCKED<sp/>does<sp/>not<sp/>recommend<sp/>rollback;<sp/>operator<sp/>reset<sp/>needed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="test__updates__determinism__edge__cases__focused_8cpp_1a206b15cace5a6b93ad304469e5e745d6" kindref="member">TEST_F</ref>(<ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref>,<sp/>UDE_03_CascadeRollbackDetected)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca704940fadc36a1ea05e200e3ccaeb298" kindref="member">UpdateState::ROLLING_BACK</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rollback&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler_.detectAndHandle(sm_,<sp/></highlight><highlight class="stringliteral">&quot;cascade&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.handled);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error_code,<sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a39803f651a2a6f0db3bde726b6cac6a5" kindref="member">DiagnosticErrorCode::ROLLBACK_CASCADE_DETECTED</ref>);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__updates__determinism__edge__cases__focused_8cpp_1a206b15cace5a6b93ad304469e5e745d6" kindref="member">TEST_F</ref>(<ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref>,<sp/>UDE_04_ConcurrentUpdateCollision)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler_.detectAndHandle(sm_,<sp/></highlight><highlight class="stringliteral">&quot;concurrent&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.handled);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error_code,<sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465ab7a7c50d6df6c55ec368fafdc16a811b" kindref="member">DiagnosticErrorCode::STATE_ALREADY_IN_PROGRESS</ref>);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.requires_rollback);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="test__updates__determinism__edge__cases__focused_8cpp_1a206b15cace5a6b93ad304469e5e745d6" kindref="member">TEST_F</ref>(<ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref>,<sp/>UDE_05_TransitionTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;verify&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler_.detectAndHandle(sm_,<sp/></highlight><highlight class="stringliteral">&quot;timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.handled);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error_code,<sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a33bd1b253ab38075f0ae5bcdb324d8f3" kindref="member">DiagnosticErrorCode::STATE_TRANSITION_TIMEOUT</ref>);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.requires_rollback);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__updates__determinism__edge__cases__focused_8cpp_1a206b15cace5a6b93ad304469e5e745d6" kindref="member">TEST_F</ref>(<ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref>,<sp/>UDE_06_PatchConflictDetected)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;verify&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca6af03e66d770a160658b53d1ac9ce3f5" kindref="member">UpdateState::APPLYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;apply&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler_.detectAndHandle(sm_,<sp/></highlight><highlight class="stringliteral">&quot;patch-conflict&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.handled);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error_code,<sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465ac42b06114f062d1a8652221fe1c63d04" kindref="member">DiagnosticErrorCode::PATCH_APPLY_FAILED</ref>);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.requires_rollback);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__updates__determinism__edge__cases__focused_8cpp_1a206b15cace5a6b93ad304469e5e745d6" kindref="member">TEST_F</ref>(<ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref>,<sp/>UDE_07_ManifestVersionConflict)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler_.detectAndHandle(sm_,<sp/></highlight><highlight class="stringliteral">&quot;manifest-conflict&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.handled);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error_code,<sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465af0fc848d79f32c305a5d9c0155192ba3" kindref="member">DiagnosticErrorCode::NETWORK_PARTITION</ref>);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.requires_rollback);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="test__updates__determinism__edge__cases__focused_8cpp_1a206b15cace5a6b93ad304469e5e745d6" kindref="member">TEST_F</ref>(<ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref>,<sp/>UDE_08_RollbackIsolationActive)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler_.detectAndHandle(sm_,<sp/></highlight><highlight class="stringliteral">&quot;isolation&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.handled);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error_code,<sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a10c14172694bf1e969f7d4602267982a" kindref="member">DiagnosticErrorCode::ROLLBACK_ISOLATION_ACTIVE</ref>);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="test__updates__determinism__edge__cases__focused_8cpp_1a206b15cace5a6b93ad304469e5e745d6" kindref="member">TEST_F</ref>(<ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref>,<sp/>UDE_09_QuotaExhaustion)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler_.detectAndHandle(sm_,<sp/></highlight><highlight class="stringliteral">&quot;quota&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.handled);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error_code,<sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a444e2e3b1e84fdfd24066bf26316787a" kindref="member">DiagnosticErrorCode::COORDINATION_ORDERING_VIOLATION</ref>);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.requires_rollback);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="test__updates__determinism__edge__cases__focused_8cpp_1a206b15cace5a6b93ad304469e5e745d6" kindref="member">TEST_F</ref>(<ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref>,<sp/>UDE_10_PartialSuccessRequiresRetry)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca704940fadc36a1ea05e200e3ccaeb298" kindref="member">UpdateState::ROLLING_BACK</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rolling&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler_.detectAndHandle(sm_,<sp/></highlight><highlight class="stringliteral">&quot;partial-success&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.handled);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error_code,<sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465ad971c346c419c04bea79ba1c6a376cc2" kindref="member">DiagnosticErrorCode::ROLLBACK_PARTIAL_SUCCESS</ref>);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.requires_rollback);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UDE-11..UDE-15:<sp/>Helper<sp/>function<sp/>coverage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__updates__determinism__edge__cases__focused_8cpp_1a11f2e9df0ed6ec63aabc9866edf4a4e1" kindref="member">TEST</ref>(EdgeCaseClassifyTest,<sp/>UDE_11_ClassifyEdgeCaseNonEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465" kindref="member">DiagnosticErrorCode</ref><sp/>codes[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a31f101efbfd415022a25b20a84f724bf" kindref="member">DiagnosticErrorCode::STATE_INVALID_TRANSITION</ref>,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465ab7a7c50d6df6c55ec368fafdc16a811b" kindref="member">DiagnosticErrorCode::STATE_ALREADY_IN_PROGRESS</ref>,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a22b2012289d77eae452faa2e5f73ca0f" kindref="member">DiagnosticErrorCode::STATE_FAILED_LOCKED</ref>,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a33bd1b253ab38075f0ae5bcdb324d8f3" kindref="member">DiagnosticErrorCode::STATE_TRANSITION_TIMEOUT</ref>,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a39803f651a2a6f0db3bde726b6cac6a5" kindref="member">DiagnosticErrorCode::ROLLBACK_CASCADE_DETECTED</ref>,</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465ad971c346c419c04bea79ba1c6a376cc2" kindref="member">DiagnosticErrorCode::ROLLBACK_PARTIAL_SUCCESS</ref>,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a10c14172694bf1e969f7d4602267982a" kindref="member">DiagnosticErrorCode::ROLLBACK_ISOLATION_ACTIVE</ref>,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465ac42b06114f062d1a8652221fe1c63d04" kindref="member">DiagnosticErrorCode::PATCH_APPLY_FAILED</ref>,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465af0fc848d79f32c305a5d9c0155192ba3" kindref="member">DiagnosticErrorCode::NETWORK_PARTITION</ref>,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a444e2e3b1e84fdfd24066bf26316787a" kindref="member">DiagnosticErrorCode::COORDINATION_ORDERING_VIOLATION</ref>,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>:<sp/>codes)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sv<sp/>=<sp/><ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler_1a783fb79ba5b1c91f9582fb4711f0007f" kindref="member">UpdatesEdgeCaseHandler::classifyEdgeCase</ref>(code);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(sv.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;classifyEdgeCase<sp/>returned<sp/>empty<sp/>for<sp/>code<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(sv,<sp/></highlight><highlight class="stringliteral">&quot;Unknown&quot;</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;classifyEdgeCase<sp/>returned<sp/>Unknown<sp/>for<sp/>defined<sp/>code<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="test__updates__determinism__edge__cases__focused_8cpp_1a11f2e9df0ed6ec63aabc9866edf4a4e1" kindref="member">TEST</ref>(EdgeCaseFatalTest,<sp/>UDE_12_IsFatalForStateLocked)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler_1aba78076fa04dc54fe47a16b3d04ce187" kindref="member">UpdatesEdgeCaseHandler::isFatal</ref>(<ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a22b2012289d77eae452faa2e5f73ca0f" kindref="member">DiagnosticErrorCode::STATE_FAILED_LOCKED</ref>));</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="test__updates__determinism__edge__cases__focused_8cpp_1a11f2e9df0ed6ec63aabc9866edf4a4e1" kindref="member">TEST</ref>(EdgeCaseFatalTest,<sp/>UDE_13_IsFatalFalseForPartialSuccess)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler_1aba78076fa04dc54fe47a16b3d04ce187" kindref="member">UpdatesEdgeCaseHandler::isFatal</ref>(<ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465ad971c346c419c04bea79ba1c6a376cc2" kindref="member">DiagnosticErrorCode::ROLLBACK_PARTIAL_SUCCESS</ref>));</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__updates__determinism__edge__cases__focused_8cpp_1a11f2e9df0ed6ec63aabc9866edf4a4e1" kindref="member">TEST</ref>(EdgeCaseIsolationTest,<sp/>UDE_14_RequiresIsolationForCascade)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler_1a4062d5d53233b5f34fdd50a70b1a4de2" kindref="member">UpdatesEdgeCaseHandler::requiresIsolation</ref>(</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a39803f651a2a6f0db3bde726b6cac6a5" kindref="member">DiagnosticErrorCode::ROLLBACK_CASCADE_DETECTED</ref>));</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><ref refid="test__updates__determinism__edge__cases__focused_8cpp_1a11f2e9df0ed6ec63aabc9866edf4a4e1" kindref="member">TEST</ref>(EdgeCaseIsolationTest,<sp/>UDE_15_RequiresIsolationFalseForManifestConflict)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler_1a4062d5d53233b5f34fdd50a70b1a4de2" kindref="member">UpdatesEdgeCaseHandler::requiresIsolation</ref>(</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465af0fc848d79f32c305a5d9c0155192ba3" kindref="member">DiagnosticErrorCode::NETWORK_PARTITION</ref>));</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UDE-16..UDE-18:<sp/>Statistics<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><ref refid="test__updates__determinism__edge__cases__focused_8cpp_1a206b15cace5a6b93ad304469e5e745d6" kindref="member">TEST_F</ref>(<ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref>,<sp/>UDE_16_StatsIncrementOnDetection)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>before<sp/>=<sp/>handler_.getStats().total_detected;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbecab9e14d9b2886bcff408b85aefa780419" kindref="member">UpdateState::FAILED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>handler_.detectAndHandle(sm_,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(handler_.getStats().total_detected,<sp/>before<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="test__updates__determinism__edge__cases__focused_8cpp_1a206b15cace5a6b93ad304469e5e745d6" kindref="member">TEST_F</ref>(<ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref>,<sp/>UDE_17_StatsFatalIncrements)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbecab9e14d9b2886bcff408b85aefa780419" kindref="member">UpdateState::FAILED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>before<sp/>=<sp/>handler_.getStats().total_fatal;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>handler_.detectAndHandle(sm_,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(handler_.getStats().total_fatal,<sp/>before<sp/>+<sp/>1)</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;STATE_FAILED_LOCKED<sp/>is<sp/>fatal;<sp/>total_fatal<sp/>should<sp/>have<sp/>incremented&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><ref refid="test__updates__determinism__edge__cases__focused_8cpp_1a206b15cace5a6b93ad304469e5e745d6" kindref="member">TEST_F</ref>(<ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref>,<sp/>UDE_18_StatsRollbackTriggered)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>before<sp/>=<sp/>handler_.getStats().total_rollback_triggered;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>handler_.detectAndHandle(sm_,<sp/></highlight><highlight class="stringliteral">&quot;concurrent&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.handled);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.requires_rollback);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(handler_.getStats().total_rollback_triggered,<sp/>before<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UDE-19:<sp/>Thread-safe<sp/>concurrent<sp/>detection<sp/>—<sp/>no<sp/>data<sp/>race</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><ref refid="test__updates__determinism__edge__cases__focused_8cpp_1a11f2e9df0ed6ec63aabc9866edf4a4e1" kindref="member">TEST</ref>(EdgeCaseThreadSafetyTest,<sp/>UDE_19_ConcurrentDetectionNoRace)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler" kindref="compound">UpdatesEdgeCaseHandler</ref><sp/>shared_handler;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kItersPerThread<sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(kThreads);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;shared_handler]()<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref><sp/>sm(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drive<sp/>to<sp/>FAILED<sp/>then<sp/>detect<sp/>—<sp/>guaranteed<sp/>to<sp/>trigger.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbecab9e14d9b2886bcff408b85aefa780419" kindref="member">UpdateState::FAILED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kItersPerThread;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>shared_handler.<ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler_1aeaf0e3ccd6f40d9cc00640b10c3cb403" kindref="member">detectAndHandle</ref>(sm,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.handled);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>expected<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kThreads<sp/>*<sp/>kItersPerThread);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(shared_handler.<ref refid="classthemis_1_1updates_1_1_updates_edge_case_handler_1a1fa1eb9c1884a71d4535cb75b6ba4954" kindref="member">getStats</ref>().<ref refid="structthemis_1_1updates_1_1_edge_case_stats_1a502bff06c0f3c2a8e5a0fba9f8348f57" kindref="member">total_detected</ref>,<sp/>expected);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UDE-20:<sp/>Determinism<sp/>—<sp/>same<sp/>input<sp/>→<sp/>same<sp/>EdgeCaseResult</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><ref refid="test__updates__determinism__edge__cases__focused_8cpp_1a206b15cace5a6b93ad304469e5e745d6" kindref="member">TEST_F</ref>(<ref refid="class_edge_case_handler_test" kindref="compound">EdgeCaseHandlerTest</ref>,<sp/>UDE_20_DeterministicOutput)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(sm_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>handler_.detectAndHandle(sm_,<sp/></highlight><highlight class="stringliteral">&quot;timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>handler_.detectAndHandle(sm_,<sp/></highlight><highlight class="stringliteral">&quot;timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r1.handled);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r2.handled);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r1.error_code,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>r2.error_code);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r1.requires_rollback,<sp/>r2.requires_rollback);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>descriptions<sp/>match<sp/>(both<sp/>reference<sp/>same<sp/>state<sp/>name)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r1.description,<sp/>r2.description);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/updates/test_updates_determinism_edge_cases_focused.cpp"/>
+  </compounddef>
+</doxygen>

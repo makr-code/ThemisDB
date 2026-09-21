@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_cache_replication_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::CacheReplicationStats</compoundname>
+    <includes refid="cache__replication_8h" local="no">cache_replication.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_stats_1ab8e4ad8dfd0d36d8ae23aecd304782fa" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cache::CacheReplicationStats::events_dispatched</definition>
+        <argsstring></argsstring>
+        <name>events_dispatched</name>
+        <qualifiedname>themis::cache::CacheReplicationStats::events_dispatched</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="131" column="17" bodyfile="include/cache/cache_replication.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_stats_1a1091c322858733a0391795b35f8a0654" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cache::CacheReplicationStats::events_failed</definition>
+        <argsstring></argsstring>
+        <name>events_failed</name>
+        <qualifiedname>themis::cache::CacheReplicationStats::events_failed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="132" column="17" bodyfile="include/cache/cache_replication.h" bodystart="132" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_stats_1adccf9ef67a1de46cbd00db431c21ad21" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cache::CacheReplicationStats::replicas_unhealthy</definition>
+        <argsstring></argsstring>
+        <name>replicas_unhealthy</name>
+        <qualifiedname>themis::cache::CacheReplicationStats::replicas_unhealthy</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="133" column="17" bodyfile="include/cache/cache_replication.h" bodystart="133" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_stats_1a35a64d24b513cbab9046bae0e5e63668" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cache::CacheReplicationStats::snapshots_sent</definition>
+        <argsstring></argsstring>
+        <name>snapshots_sent</name>
+        <qualifiedname>themis::cache::CacheReplicationStats::snapshots_sent</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="134" column="17" bodyfile="include/cache/cache_replication.h" bodystart="134" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_cache_replication_stats_1aa0c1f5961a37314a341a40742aba67f5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cache::CacheReplicationStats::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::cache::CacheReplicationStats::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="136" column="20" bodyfile="include/cache/cache_replication.h" bodystart="136" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_replication.h" line="130" column="1" bodyfile="include/cache/cache_replication.h" bodystart="130" bodyend="144"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_stats_1ab8e4ad8dfd0d36d8ae23aecd304782fa" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationStats</scope><name>events_dispatched</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_stats_1a1091c322858733a0391795b35f8a0654" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationStats</scope><name>events_failed</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_stats_1adccf9ef67a1de46cbd00db431c21ad21" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationStats</scope><name>replicas_unhealthy</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_stats_1a35a64d24b513cbab9046bae0e5e63668" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationStats</scope><name>snapshots_sent</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_stats_1aa0c1f5961a37314a341a40742aba67f5" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationStats</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

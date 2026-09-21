@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::test::TensorEdgeCaseHandlerFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture_1a88b82840a0f9b7aca92f596fa2de4e10" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler" kindref="compound">themis::tensor::TensorEdgeCaseHandler</ref></type>
+        <definition>themis::tensor::TensorEdgeCaseHandler themis::tensor::test::TensorEdgeCaseHandlerFixture::handler_</definition>
+        <argsstring></argsstring>
+        <name>handler_</name>
+        <qualifiedname>themis::tensor::test::TensorEdgeCaseHandlerFixture::handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="55" column="41" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture_1ab40d2854c3fbe3fa12d171a74b74e81d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TensorEdgeCaseHandlerFixture::TensorEdgeCaseHandlerFixture</definition>
+        <argsstring>()</argsstring>
+        <name>TensorEdgeCaseHandlerFixture</name>
+        <qualifiedname>themis::tensor::test::TensorEdgeCaseHandlerFixture::TensorEdgeCaseHandlerFixture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="26" column="3" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="26" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture_1aa660701b9dddf3fa0740fa9838cd3ea5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::test::TensorEdgeCaseHandlerFixture::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::tensor::test::TensorEdgeCaseHandlerFixture::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="28" column="8" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="28" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture_1adb28d97fe90cb8ce6a2883ca8dbffd2d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::test::TensorEdgeCaseHandlerFixture::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::tensor::test::TensorEdgeCaseHandlerFixture::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="32" column="8" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="32" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>Test</label>
+      </node>
+      <node id="1">
+        <label>themis::tensor::test::TensorEdgeCaseHandlerFixture</label>
+        <link refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>Test</label>
+      </node>
+      <node id="3">
+        <label>themis::tensor::TensorEdgeCaseHandler</label>
+        <link refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler"/>
+      </node>
+      <node id="1">
+        <label>themis::tensor::test::TensorEdgeCaseHandlerFixture</label>
+        <link refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>handler_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="24" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="24" bodyend="56"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture_1a88b82840a0f9b7aca92f596fa2de4e10" prot="protected" virt="non-virtual"><scope>themis::tensor::test::TensorEdgeCaseHandlerFixture</scope><name>handler_</name></member>
+      <member refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture_1aa660701b9dddf3fa0740fa9838cd3ea5" prot="protected" virt="non-virtual"><scope>themis::tensor::test::TensorEdgeCaseHandlerFixture</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture_1adb28d97fe90cb8ce6a2883ca8dbffd2d" prot="protected" virt="non-virtual"><scope>themis::tensor::test::TensorEdgeCaseHandlerFixture</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture_1ab40d2854c3fbe3fa12d171a74b74e81d" prot="protected" virt="non-virtual"><scope>themis::tensor::test::TensorEdgeCaseHandlerFixture</scope><name>TensorEdgeCaseHandlerFixture</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

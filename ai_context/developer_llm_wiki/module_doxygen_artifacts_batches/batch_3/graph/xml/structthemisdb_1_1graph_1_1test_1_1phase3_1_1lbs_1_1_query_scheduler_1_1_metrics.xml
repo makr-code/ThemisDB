@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_query_scheduler_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::graph::test::phase3::lbs::QueryScheduler::Metrics</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_query_scheduler_1_1_metrics_1a033c1e1451d8e009ad994158202163ba" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::graph::test::phase3::lbs::QueryScheduler::Metrics::dispatched</definition>
+        <argsstring></argsstring>
+        <name>dispatched</name>
+        <qualifiedname>themisdb::graph::test::phase3::lbs::QueryScheduler::Metrics::dispatched</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2075" column="18" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2075" bodyend="2075"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_query_scheduler_1_1_metrics_1aca277eefd156140407eed890b00f6fd1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::graph::test::phase3::lbs::QueryScheduler::Metrics::sla_met</definition>
+        <argsstring></argsstring>
+        <name>sla_met</name>
+        <qualifiedname>themisdb::graph::test::phase3::lbs::QueryScheduler::Metrics::sla_met</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2076" column="18" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2076" bodyend="2076"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_query_scheduler_1_1_metrics_1a47bba830a06bab7dc2fe39308bef8b4f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::graph::test::phase3::lbs::QueryScheduler::Metrics::sla_violated</definition>
+        <argsstring></argsstring>
+        <name>sla_violated</name>
+        <qualifiedname>themisdb::graph::test::phase3::lbs::QueryScheduler::Metrics::sla_violated</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2077" column="18" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2077" bodyend="2077"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2074" column="5" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2074" bodyend="2078"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_query_scheduler_1_1_metrics_1a033c1e1451d8e009ad994158202163ba" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::lbs::QueryScheduler::Metrics</scope><name>dispatched</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_query_scheduler_1_1_metrics_1aca277eefd156140407eed890b00f6fd1" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::lbs::QueryScheduler::Metrics</scope><name>sla_met</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_query_scheduler_1_1_metrics_1a47bba830a06bab7dc2fe39308bef8b4f" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::lbs::QueryScheduler::Metrics</scope><name>sla_violated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

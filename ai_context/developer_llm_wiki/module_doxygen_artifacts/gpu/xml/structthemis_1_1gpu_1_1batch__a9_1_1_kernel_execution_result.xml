@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::batch_a9::KernelExecutionResult</compoundname>
+    <includes refid="gpu__batch__a9__safety_8hpp" local="no">gpu_batch_a9_safety.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_result_1a92b2a4fec3581ff8e62ad9e7cfb65fec" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::batch_a9::KernelExecutionResult::gpu_success</definition>
+        <argsstring></argsstring>
+        <name>gpu_success</name>
+        <qualifiedname>themis::gpu::batch_a9::KernelExecutionResult::gpu_success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_batch_a9_safety.hpp" line="56" column="10" bodyfile="include/gpu/gpu_batch_a9_safety.hpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_result_1abc7cd40c6c35ee67e9d7f355fc12cfda" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::batch_a9::KernelExecutionResult::cpu_fallback</definition>
+        <argsstring></argsstring>
+        <name>cpu_fallback</name>
+        <qualifiedname>themis::gpu::batch_a9::KernelExecutionResult::cpu_fallback</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_batch_a9_safety.hpp" line="58" column="10" bodyfile="include/gpu/gpu_batch_a9_safety.hpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_result_1a616dd73fa12a40da55f6e951962905c3" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::gpu::batch_a9::KernelExecutionResult::execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>execution_time_ms</name>
+        <qualifiedname>themis::gpu::batch_a9::KernelExecutionResult::execution_time_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_batch_a9_safety.hpp" line="60" column="31" bodyfile="include/gpu/gpu_batch_a9_safety.hpp" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_result_1abb18beda461a896cf270f3efc8698fdb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::batch_a9::KernelExecutionResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::gpu::batch_a9::KernelExecutionResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_batch_a9_safety.hpp" line="62" column="17" bodyfile="include/gpu/gpu_batch_a9_safety.hpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_result_1ac1b8b451d4ab53f65b5bb6c010d5f330" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::batch_a9::KernelExecutionResult::success</definition>
+        <argsstring>() const</argsstring>
+        <name>success</name>
+        <qualifiedname>themis::gpu::batch_a9::KernelExecutionResult::success</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_batch_a9_safety.hpp" line="64" column="10" bodyfile="include/gpu/gpu_batch_a9_safety.hpp" bodystart="64" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/gpu_batch_a9_safety.hpp" line="55" column="1" bodyfile="include/gpu/gpu_batch_a9_safety.hpp" bodystart="55" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_result_1abc7cd40c6c35ee67e9d7f355fc12cfda" prot="public" virt="non-virtual"><scope>themis::gpu::batch_a9::KernelExecutionResult</scope><name>cpu_fallback</name></member>
+      <member refid="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_result_1abb18beda461a896cf270f3efc8698fdb" prot="public" virt="non-virtual"><scope>themis::gpu::batch_a9::KernelExecutionResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_result_1a616dd73fa12a40da55f6e951962905c3" prot="public" virt="non-virtual"><scope>themis::gpu::batch_a9::KernelExecutionResult</scope><name>execution_time_ms</name></member>
+      <member refid="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_result_1a92b2a4fec3581ff8e62ad9e7cfb65fec" prot="public" virt="non-virtual"><scope>themis::gpu::batch_a9::KernelExecutionResult</scope><name>gpu_success</name></member>
+      <member refid="structthemis_1_1gpu_1_1batch__a9_1_1_kernel_execution_result_1ac1b8b451d4ab53f65b5bb6c010d5f330" prot="public" virt="non-virtual"><scope>themis::gpu::batch_a9::KernelExecutionResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

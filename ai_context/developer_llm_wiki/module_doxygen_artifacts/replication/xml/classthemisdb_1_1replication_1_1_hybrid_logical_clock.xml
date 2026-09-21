@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_hybrid_logical_clock" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::HybridLogicalClock</compoundname>
+    <includes refid="multi__master__replication_8h" local="no">multi_master_replication.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp" prot="public">themisdb::replication::HybridLogicalClock::Timestamp</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_hybrid_logical_clock_1a4e5c262697ca5408cfb29d3d264c25d6" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::HybridLogicalClock::node_id_</definition>
+        <argsstring></argsstring>
+        <name>node_id_</name>
+        <qualifiedname>themisdb::replication::HybridLogicalClock::node_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="170" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_hybrid_logical_clock_1a4787bd009627c48ee0c12722f5679894" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::HybridLogicalClock::last_physical_</definition>
+        <argsstring></argsstring>
+        <name>last_physical_</name>
+        <qualifiedname>themisdb::replication::HybridLogicalClock::last_physical_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="171" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_hybrid_logical_clock_1a729a2781f1b22bfba7e172125678fa2c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themisdb::replication::HybridLogicalClock::logical_counter_</definition>
+        <argsstring></argsstring>
+        <name>logical_counter_</name>
+        <qualifiedname>themisdb::replication::HybridLogicalClock::logical_counter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="172" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_hybrid_logical_clock_1a71d4d7cd2a7fdcb93d1dc5d0691a63f4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::HybridLogicalClock::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::replication::HybridLogicalClock::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="173" column="24" bodyfile="include/replication/multi_master_replication.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_hybrid_logical_clock_1a349a59a909a0720a5e109b3abf061cea" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::HybridLogicalClock::HybridLogicalClock</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>HybridLogicalClock</name>
+        <qualifiedname>themisdb::replication::HybridLogicalClock::HybridLogicalClock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="158" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="2677" bodyend="2681"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_hybrid_logical_clock_1a1793cf198480cb841c4c36d56511305c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp" kindref="compound">Timestamp</ref></type>
+        <definition>HybridLogicalClock::Timestamp themisdb::replication::HybridLogicalClock::now</definition>
+        <argsstring>()</argsstring>
+        <name>now</name>
+        <qualifiedname>themisdb::replication::HybridLogicalClock::now</qualifiedname>
+        <briefdescription>
+<para>Now. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), time_since_epoch(), count(), load(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="161" column="15" bodyfile="src/replication/replication_manager.cpp" bodystart="2688" bodyend="2707"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_hybrid_logical_clock_1adcd993b30af9967ec10a501dcafc2280" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp" kindref="compound">Timestamp</ref></type>
+        <definition>HybridLogicalClock::Timestamp themisdb::replication::HybridLogicalClock::receive</definition>
+        <argsstring>(const Timestamp &amp;received)</argsstring>
+        <name>receive</name>
+        <qualifiedname>themisdb::replication::HybridLogicalClock::receive</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp" kindref="compound">Timestamp</ref> &amp;</type>
+          <declname>received</declname>
+        </param>
+        <briefdescription>
+<para>Receive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">received</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::chrono::system_clock::now(), time_since_epoch(), count(), load(), std::max(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="164" column="15" bodyfile="src/replication/replication_manager.cpp" bodystart="2715" bodyend="2743"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_hybrid_logical_clock_1a0ae5e2d134f21f6bfa7c79007767289b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_hybrid_logical_clock_1_1_timestamp" kindref="compound">Timestamp</ref></type>
+        <definition>HybridLogicalClock::Timestamp themisdb::replication::HybridLogicalClock::current</definition>
+        <argsstring>() const</argsstring>
+        <name>current</name>
+        <qualifiedname>themisdb::replication::HybridLogicalClock::current</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="167" column="15" bodyfile="src/replication/replication_manager.cpp" bodystart="2745" bodyend="2747"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Hybrid Logical Clock (HLC) Combines physical time with logical counters Paper: &quot;Logical Physical Clocks and Consistent Snapshots in Globally Distributed Databases&quot; </para>
+    </detaileddescription>
+    <location file="include/replication/multi_master_replication.h" line="130" column="1" bodyfile="include/replication/multi_master_replication.h" bodystart="130" bodyend="174"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_hybrid_logical_clock_1a0ae5e2d134f21f6bfa7c79007767289b" prot="public" virt="non-virtual"><scope>themisdb::replication::HybridLogicalClock</scope><name>current</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_hybrid_logical_clock_1a349a59a909a0720a5e109b3abf061cea" prot="public" virt="non-virtual"><scope>themisdb::replication::HybridLogicalClock</scope><name>HybridLogicalClock</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_hybrid_logical_clock_1a4787bd009627c48ee0c12722f5679894" prot="private" virt="non-virtual"><scope>themisdb::replication::HybridLogicalClock</scope><name>last_physical_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_hybrid_logical_clock_1a729a2781f1b22bfba7e172125678fa2c" prot="private" virt="non-virtual"><scope>themisdb::replication::HybridLogicalClock</scope><name>logical_counter_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_hybrid_logical_clock_1a71d4d7cd2a7fdcb93d1dc5d0691a63f4" prot="private" virt="non-virtual"><scope>themisdb::replication::HybridLogicalClock</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_hybrid_logical_clock_1a4e5c262697ca5408cfb29d3d264c25d6" prot="private" virt="non-virtual"><scope>themisdb::replication::HybridLogicalClock</scope><name>node_id_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_hybrid_logical_clock_1a1793cf198480cb841c4c36d56511305c" prot="public" virt="non-virtual"><scope>themisdb::replication::HybridLogicalClock</scope><name>now</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_hybrid_logical_clock_1adcd993b30af9967ec10a501dcafc2280" prot="public" virt="non-virtual"><scope>themisdb::replication::HybridLogicalClock</scope><name>receive</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,392 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="pool__allocator_8h" kind="file" language="C++">
+    <compoundname>pool_allocator.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includes refid="expected_8h" local="yes">utils/expected.h</includes>
+    <includedby refid="pool__allocator_8cpp" local="yes">src/utils/memory/pool_allocator.cpp</includedby>
+    <incdepgraph>
+      <node id="14">
+        <label>utils/error_registry.h</label>
+        <link refid="error__registry_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>utils/expected.h</label>
+        <link refid="expected_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/utils/memory/pool_allocator.h</label>
+        <link refid="pool__allocator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="19">
+        <label>fmt/format.h</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="17">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="16">
+        <label>shared_mutex</label>
+      </node>
+      <node id="18">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="10">
+        <label>stdexcept</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="20">
+        <label>system_error</label>
+      </node>
+      <node id="11">
+        <label>type_traits</label>
+      </node>
+      <node id="15">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
+        <label>utility</label>
+      </node>
+      <node id="13">
+        <label>variant</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/utils/memory/pool_allocator.h</label>
+        <link refid="pool__allocator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/utils/memory/pool_allocator.cpp</label>
+        <link refid="pool__allocator_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1memory_1_1_allocation_stats" prot="public">themis::memory::AllocationStats</innerclass>
+    <innerclass refid="classthemis_1_1memory_1_1_i_allocator" prot="public">themis::memory::IAllocator</innerclass>
+    <innerclass refid="classthemis_1_1memory_1_1_buddy_allocator" prot="public">themis::memory::BuddyAllocator</innerclass>
+    <innerclass refid="classthemis_1_1memory_1_1_slab_allocator" prot="public">themis::memory::SlabAllocator</innerclass>
+    <innerclass refid="classthemis_1_1memory_1_1_stack_allocator" prot="public">themis::memory::StackAllocator</innerclass>
+    <innerclass refid="classthemis_1_1memory_1_1_pool_allocator" prot="public">themis::memory::PoolAllocator</innerclass>
+    <innerclass refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config" prot="public">themis::memory::PoolAllocator::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1memory">themis::memory</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 82/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>Memory<sp/>Pool<sp/>Allocator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>High-performance<sp/>memory<sp/>management<sp/>with<sp/>pooling<sp/>strategies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Implements<sp/>multiple<sp/>allocation<sp/>strategies:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Buddy<sp/>Allocator:<sp/>Variable<sp/>size<sp/>allocation<sp/>with<sp/>low<sp/>fragmentation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Slab<sp/>Allocator:<sp/>Fixed-size<sp/>objects<sp/>with<sp/>O(1)<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Stack<sp/>Allocator:<sp/>LIFO<sp/>allocation<sp/>for<sp/>temporary<sp/>objects</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Features:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Thread-local<sp/>caches<sp/>for<sp/>lock-free<sp/>single-threaded<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Atomic<sp/>operations<sp/>for<sp/>multi-threaded<sp/>pools</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>CPU<sp/>cache<sp/>line<sp/>alignment<sp/>support</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Pool<sp/>statistics<sp/>and<sp/>monitoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Dynamic<sp/>pool<sp/>expansion/contraction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="expected_8h" kindref="compound">utils/expected.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1memory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1memory" kindref="compound">memory</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1memory_1_1_buddy_allocator" kindref="compound">BuddyAllocator</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1memory_1_1_slab_allocator" kindref="compound">SlabAllocator</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1memory_1_1_stack_allocator" kindref="compound">StackAllocator</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1memory_1acc6367d154e1f3354063c770c5fe5c4a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1memory_1acc6367d154e1f3354063c770c5fe5c4a" kindref="member">CACHE_LINE_SIZE</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1memory_1_1_allocation_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a8bc3a635f08ef7595436830ad6596cf9" kindref="member">AllocationStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1memory_1_1_allocation_stats_1a3e49d48e575c10abd88951b91ceeeb71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a3e49d48e575c10abd88951b91ceeeb71" kindref="member">total_allocations</ref>{0};</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1memory_1_1_allocation_stats_1a4992ca8f26c971a2a16f391e0b8398bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a4992ca8f26c971a2a16f391e0b8398bd" kindref="member">total_deallocations</ref>{0};</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1memory_1_1_allocation_stats_1a1f43d98a66ef4cc56cc66f65f5dd1bc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a1f43d98a66ef4cc56cc66f65f5dd1bc5" kindref="member">allocation_failures</ref>{0};</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1memory_1_1_allocation_stats_1a42b0ed5b40f97aee309f76aa90a9dbf8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a42b0ed5b40f97aee309f76aa90a9dbf8" kindref="member">bytes_allocated</ref>{0};</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1memory_1_1_allocation_stats_1aeb8107b028f08a461483213abd7cf838" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1aeb8107b028f08a461483213abd7cf838" kindref="member">bytes_freed</ref>{0};</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1memory_1_1_allocation_stats_1a4099353017cc3e2e8d836f671348a407" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a4099353017cc3e2e8d836f671348a407" kindref="member">peak_memory_usage</ref>{0};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1memory_1_1_allocation_stats_1a8bc3a635f08ef7595436830ad6596cf9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a8bc3a635f08ef7595436830ad6596cf9" kindref="member">AllocationStats</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1memory_1_1_allocation_stats_1acdd2be6f46d7f7eb1c842197e4c29f4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1acdd2be6f46d7f7eb1c842197e4c29f4c" kindref="member">AllocationStats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a8bc3a635f08ef7595436830ad6596cf9" kindref="member">AllocationStats</ref>&amp;<sp/>other)<sp/>noexcept</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a3e49d48e575c10abd88951b91ceeeb71" kindref="member">total_allocations</ref>(other.total_allocations.load()),</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a4992ca8f26c971a2a16f391e0b8398bd" kindref="member">total_deallocations</ref>(other.total_deallocations.load()),</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a1f43d98a66ef4cc56cc66f65f5dd1bc5" kindref="member">allocation_failures</ref>(other.allocation_failures.load()),</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a42b0ed5b40f97aee309f76aa90a9dbf8" kindref="member">bytes_allocated</ref>(other.bytes_allocated.load()),</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1aeb8107b028f08a461483213abd7cf838" kindref="member">bytes_freed</ref>(other.bytes_freed.load()),</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a4099353017cc3e2e8d836f671348a407" kindref="member">peak_memory_usage</ref>(other.peak_memory_usage.load())<sp/>{}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1memory_1_1_allocation_stats_1ac1c30dccfa760d4cd760458e8363da01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a8bc3a635f08ef7595436830ad6596cf9" kindref="member">AllocationStats</ref>&amp;<sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1ac1c30dccfa760d4cd760458e8363da01" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a8bc3a635f08ef7595436830ad6596cf9" kindref="member">AllocationStats</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a3e49d48e575c10abd88951b91ceeeb71" kindref="member">total_allocations</ref>.store(other.total_allocations.load());</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a4992ca8f26c971a2a16f391e0b8398bd" kindref="member">total_deallocations</ref>.store(other.total_deallocations.load());</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a1f43d98a66ef4cc56cc66f65f5dd1bc5" kindref="member">allocation_failures</ref>.store(other.allocation_failures.load());</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a42b0ed5b40f97aee309f76aa90a9dbf8" kindref="member">bytes_allocated</ref>.store(other.bytes_allocated.load());</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1aeb8107b028f08a461483213abd7cf838" kindref="member">bytes_freed</ref>.store(other.bytes_freed.load());</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a4099353017cc3e2e8d836f671348a407" kindref="member">peak_memory_usage</ref>.store(other.peak_memory_usage.load());</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1memory_1_1_allocation_stats_1a8e78b96ad9f1002b5df0cfa7aab49209" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a8e78b96ad9f1002b5df0cfa7aab49209" kindref="member">reset</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a3e49d48e575c10abd88951b91ceeeb71" kindref="member">total_allocations</ref>.store(0);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a4992ca8f26c971a2a16f391e0b8398bd" kindref="member">total_deallocations</ref>.store(0);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a1f43d98a66ef4cc56cc66f65f5dd1bc5" kindref="member">allocation_failures</ref>.store(0);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a42b0ed5b40f97aee309f76aa90a9dbf8" kindref="member">bytes_allocated</ref>.store(0);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1aeb8107b028f08a461483213abd7cf838" kindref="member">bytes_freed</ref>.store(0);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a4099353017cc3e2e8d836f671348a407" kindref="member">peak_memory_usage</ref>.store(0);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1memory_1_1_allocation_stats_1ab05f6fe8eaf2704cab20a2c28541c2b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1ab05f6fe8eaf2704cab20a2c28541c2b7" kindref="member">getCurrentUsage</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a42b0ed5b40f97aee309f76aa90a9dbf8" kindref="member">bytes_allocated</ref>.load()<sp/>-<sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1aeb8107b028f08a461483213abd7cf838" kindref="member">bytes_freed</ref>.load();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1memory_1_1_allocation_stats_1ab635aa34dc14f910ef11eddb42fa8a45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1ab635aa34dc14f910ef11eddb42fa8a45" kindref="member">getSuccessRate</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>total<sp/>=<sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a3e49d48e575c10abd88951b91ceeeb71" kindref="member">total_allocations</ref>.load();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(total<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1.0;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>failures<sp/>=<sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats_1a1f43d98a66ef4cc56cc66f65f5dd1bc5" kindref="member">allocation_failures</ref>.load();</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1.0<sp/>-<sp/>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(failures)<sp/>/<sp/>total);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6d" kindref="member">AllocationHint</ref><sp/>{</highlight></codeline>
+<codeline lineno="107" refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6dab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6dab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref><sp/>=<sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>specific<sp/>hint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6daae9ad155df0c1ce85485866ade15ff05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6daae9ad155df0c1ce85485866ade15ff05" kindref="member">SHORT_LIVED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Object<sp/>will<sp/>be<sp/>freed<sp/>soon</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6daeb41920a1a8253029c0d52611ab41209" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6daeb41920a1a8253029c0d52611ab41209" kindref="member">LONG_LIVED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Object<sp/>will<sp/>live<sp/>for<sp/>a<sp/>long<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6da9efa08c5286257d9c3971c611508a0d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6da9efa08c5286257d9c3971c611508a0d2" kindref="member">CACHE_LINE_ALIGNED</ref>,<sp/></highlight><highlight class="comment">//<sp/>Align<sp/>to<sp/>cache<sp/>line<sp/>boundary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6dae696ed98bebf54dfd82e830e7eb75b41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6dae696ed98bebf54dfd82e830e7eb75b41" kindref="member">PAGE_ALIGNED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Align<sp/>to<sp/>page<sp/>boundary<sp/>(4KB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1memory_1_1_i_allocator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1memory_1_1_i_allocator" kindref="compound">IAllocator</ref><sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1memory_1_1_i_allocator_1a50e403c4abbfde7c52a9cb92f453469b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1memory_1_1_i_allocator_1a50e403c4abbfde7c52a9cb92f453469b" kindref="member">~IAllocator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127" refid="classthemis_1_1memory_1_1_i_allocator_1a586207145a8de22db97f4f68dc09d346" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result&lt;void*&gt;</ref><sp/><ref refid="classthemis_1_1memory_1_1_i_allocator_1a586207145a8de22db97f4f68dc09d346" kindref="member">allocate</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,<sp/><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6d" kindref="member">AllocationHint</ref><sp/>hint<sp/>=<sp/><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6dab50339a10e1de285ac99d4c3990b8693" kindref="member">AllocationHint::NONE</ref>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134" refid="classthemis_1_1memory_1_1_i_allocator_1a739b771f3225eac41cbcc380292db03e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result&lt;void&gt;</ref><sp/><ref refid="classthemis_1_1memory_1_1_i_allocator_1a739b771f3225eac41cbcc380292db03e" kindref="member">deallocate</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1memory_1_1_i_allocator_1ad5efb1a9f351063579ea9333b317381b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats" kindref="compound">AllocationStats</ref>&amp;<sp/><ref refid="classthemis_1_1memory_1_1_i_allocator_1ad5efb1a9f351063579ea9333b317381b" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1memory_1_1_i_allocator_1a347423882a86bf16b43ede995dd22c1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result&lt;void&gt;</ref><sp/><ref refid="classthemis_1_1memory_1_1_i_allocator_1a347423882a86bf16b43ede995dd22c1f" kindref="member">reset</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1memory_1_1_i_allocator_1ab00329da6b51d75fdafb232614452870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1memory_1_1_i_allocator_1ab00329da6b51d75fdafb232614452870" kindref="member">getName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="classthemis_1_1memory_1_1_buddy_allocator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1memory_1_1_buddy_allocator_1a3b0ad9134dc284c401daf1f2355b94f7" kindref="member">BuddyAllocator</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1memory_1_1_i_allocator" kindref="compound">IAllocator</ref><sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1memory_1_1_buddy_allocator_1a3b0ad9134dc284c401daf1f2355b94f7" kindref="member">BuddyAllocator</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_size,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>min_block_size<sp/>=<sp/>64);</highlight></codeline>
+<codeline lineno="178" refid="classthemis_1_1memory_1_1_buddy_allocator_1ae44ab4759deedc98344ec5a10a3f7bcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1memory_1_1_buddy_allocator_1ae44ab4759deedc98344ec5a10a3f7bcd" kindref="member">~BuddyAllocator</ref>()<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*&gt;<sp/><ref refid="classthemis_1_1memory_1_1_buddy_allocator_1a962c03c1282c7626150ec214659c854d" kindref="member">allocate</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,<sp/><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6d" kindref="member">AllocationHint</ref><sp/>hint<sp/>=<sp/><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6d" kindref="member">AllocationHint</ref>::<ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6dab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>)<sp/>override;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1memory_1_1_buddy_allocator_1aca373d93cd1644bc409d10928c9ae62f" kindref="member">deallocate</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr)<sp/>override;</highlight></codeline>
+<codeline lineno="182" refid="classthemis_1_1memory_1_1_buddy_allocator_1a86bf3bc0119b90ee00eb35238ed2762e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats" kindref="compound">AllocationStats</ref>&amp;<sp/><ref refid="classthemis_1_1memory_1_1_buddy_allocator_1a86bf3bc0119b90ee00eb35238ed2762e" kindref="member">getStats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result&lt;void&gt;</ref><sp/><ref refid="classthemis_1_1memory_1_1_buddy_allocator_1ac711636da134a7e4f37cce1f6c7e2780" kindref="member">reset</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184" refid="classthemis_1_1memory_1_1_buddy_allocator_1a662db98be2e54491f3b0938010084499" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1memory_1_1_buddy_allocator_1a662db98be2e54491f3b0938010084499" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;BuddyAllocator&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1memory_1_1_buddy_allocator_1a66acb12ee296ce66643aac53314fbceb" kindref="member">getFragmentation</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Block;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Impl;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats" kindref="compound">AllocationStats</ref><sp/>stats_;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1memory_1_1_slab_allocator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1memory_1_1_slab_allocator_1a55d334ad3dc960387c4d783ee6450538" kindref="member">SlabAllocator</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1memory_1_1_i_allocator" kindref="compound">IAllocator</ref><sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1memory_1_1_slab_allocator_1a55d334ad3dc960387c4d783ee6450538" kindref="member">SlabAllocator</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>object_size,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>objects_per_slab<sp/>=<sp/>64,<sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_slabs<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="222" refid="classthemis_1_1memory_1_1_slab_allocator_1aff915e1631e9207c9450bc4b6a9ad81f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1memory_1_1_slab_allocator_1aff915e1631e9207c9450bc4b6a9ad81f" kindref="member">~SlabAllocator</ref>()<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*&gt;<sp/><ref refid="classthemis_1_1memory_1_1_slab_allocator_1a2b90d6166b8f0a895d133d00f37c111c" kindref="member">allocate</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,<sp/><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6d" kindref="member">AllocationHint</ref><sp/>hint<sp/>=<sp/><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6d" kindref="member">AllocationHint</ref>::<ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6dab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>)<sp/>override;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref>&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1memory_1_1_slab_allocator_1ac1ed008cf0162c7450740f416b314531" kindref="member">deallocate</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr)<sp/>override;</highlight></codeline>
+<codeline lineno="226" refid="classthemis_1_1memory_1_1_slab_allocator_1aaeb7d65e91f247e14cd1b5656b521503" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats" kindref="compound">AllocationStats</ref>&amp;<sp/><ref refid="classthemis_1_1memory_1_1_slab_allocator_1aaeb7d65e91f247e14cd1b5656b521503" kindref="member">getStats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result&lt;void&gt;</ref><sp/><ref refid="classthemis_1_1memory_1_1_slab_allocator_1ad473437448ad6bda70e87b7630407ceb" kindref="member">reset</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228" refid="classthemis_1_1memory_1_1_slab_allocator_1a0bbb7a08f007dbdbf15d5fbcf2eedca7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1memory_1_1_slab_allocator_1a0bbb7a08f007dbdbf15d5fbcf2eedca7" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;SlabAllocator&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1memory_1_1_slab_allocator_1a986412c8b16492d5cd37beae3525ff60" kindref="member">getSlabCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1memory_1_1_slab_allocator_1a0e725ca87f2ec3755606bede00da8a82" kindref="member">getUtilization</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Slab;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Impl;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats" kindref="compound">AllocationStats</ref><sp/>stats_;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256" refid="classthemis_1_1memory_1_1_stack_allocator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1memory_1_1_stack_allocator_1aefe060360eef5fe9b3b118c0e73464b5" kindref="member">StackAllocator</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1memory_1_1_i_allocator" kindref="compound">IAllocator</ref><sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1memory_1_1_stack_allocator_1aefe060360eef5fe9b3b118c0e73464b5" kindref="member">StackAllocator</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>capacity);</highlight></codeline>
+<codeline lineno="263" refid="classthemis_1_1memory_1_1_stack_allocator_1a52f4245c9cc90a65b60832b51223a200" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1memory_1_1_stack_allocator_1a52f4245c9cc90a65b60832b51223a200" kindref="member">~StackAllocator</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result&lt;void*&gt;</ref><sp/><ref refid="classthemis_1_1memory_1_1_stack_allocator_1a10864833fd6b02bfb8109047e59b74eb" kindref="member">allocate</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,<sp/><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6d" kindref="member">AllocationHint</ref><sp/>hint<sp/>=<sp/><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6dab50339a10e1de285ac99d4c3990b8693" kindref="member">AllocationHint::NONE</ref>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result&lt;void&gt;</ref><sp/><ref refid="classthemis_1_1memory_1_1_stack_allocator_1a934f368661328a4a72d798dc94b78669" kindref="member">deallocate</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267" refid="classthemis_1_1memory_1_1_stack_allocator_1a5b808b7adb7280605dace26def46461e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats" kindref="compound">AllocationStats</ref>&amp;<sp/><ref refid="classthemis_1_1memory_1_1_stack_allocator_1a5b808b7adb7280605dace26def46461e" kindref="member">getStats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result&lt;void&gt;</ref><sp/><ref refid="classthemis_1_1memory_1_1_stack_allocator_1a34cf9339e5ffc5662472ab9375f466e3" kindref="member">reset</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269" refid="classthemis_1_1memory_1_1_stack_allocator_1a7a400fa7b5004f234adeb9bdf6c83c1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1memory_1_1_stack_allocator_1a7a400fa7b5004f234adeb9bdf6c83c1c" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;StackAllocator&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1memory_1_1_stack_allocator_1ae15d10a90a2ec4d6fa4830ebc14ee627" kindref="member">getCurrentOffset</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1memory_1_1_stack_allocator_1aba3d3258b58c15ab74346c236b7a9943" kindref="member">getAvailableSpace</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1memory_1_1_stack_allocator_1a5a035a6aa5bd40476b06c538e9830705" kindref="member">savePosition</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result&lt;void&gt;</ref><sp/><ref refid="classthemis_1_1memory_1_1_stack_allocator_1a68949cba904db7fb33da77d29637c486" kindref="member">restorePosition</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>position);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Impl;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats" kindref="compound">AllocationStats</ref><sp/>stats_;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305" refid="classthemis_1_1memory_1_1_pool_allocator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1memory_1_1_pool_allocator_1aacb07236a98d61f6433b13732778aac3" kindref="member">PoolAllocator</ref><sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="310" refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1ae616fcfe7db05646bd26731f8f13f3c2" kindref="member">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="311" refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a0241df9ed864a6ac6e8644a73f373bc2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a0241df9ed864a6ac6e8644a73f373bc2" kindref="member">buddy_pool_size</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="312" refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a54b50bca8e5190d00090ddff8ff0ee0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a54b50bca8e5190d00090ddff8ff0ee0c" kindref="member">buddy_min_block</ref>;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Common<sp/>slab<sp/>sizes<sp/>(powers<sp/>of<sp/>2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315" refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1af0845ed215e0c4bfa77a3f2821c2445f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/><ref refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1af0845ed215e0c4bfa77a3f2821c2445f" kindref="member">slab_sizes</ref>;</highlight></codeline>
+<codeline lineno="316" refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a82fa570155079df79bf5014799e73ac7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a82fa570155079df79bf5014799e73ac7" kindref="member">slab_objects_per_slab</ref>;</highlight></codeline>
+<codeline lineno="317" refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1ae4544b07d833bd8190277dadd3017869" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1ae4544b07d833bd8190277dadd3017869" kindref="member">slab_max_slabs</ref>;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="319" refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a3232600c0a465ba82711935ca5ac6355" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a3232600c0a465ba82711935ca5ac6355" kindref="member">stack_capacity</ref>;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="321" refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1acd00532b2319cc89fa2b2a6571f5173f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1acd00532b2319cc89fa2b2a6571f5173f" kindref="member">enable_thread_local_cache</ref>;</highlight></codeline>
+<codeline lineno="322" refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a3a9617723671b94051eba900f59a51ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a3a9617723671b94051eba900f59a51ae" kindref="member">enable_statistics</ref>;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="324" refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1ae616fcfe7db05646bd26731f8f13f3c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1ae616fcfe7db05646bd26731f8f13f3c2" kindref="member">Config</ref>()</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a0241df9ed864a6ac6e8644a73f373bc2" kindref="member">buddy_pool_size</ref>(16<sp/>*<sp/>1024<sp/>*<sp/>1024),</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a54b50bca8e5190d00090ddff8ff0ee0c" kindref="member">buddy_min_block</ref>(64),</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1af0845ed215e0c4bfa77a3f2821c2445f" kindref="member">slab_sizes</ref>({64,<sp/>128,<sp/>256,<sp/>512,<sp/>1024,<sp/>2048}),</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a82fa570155079df79bf5014799e73ac7" kindref="member">slab_objects_per_slab</ref>(64),</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1ae4544b07d833bd8190277dadd3017869" kindref="member">slab_max_slabs</ref>(256),</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a3232600c0a465ba82711935ca5ac6355" kindref="member">stack_capacity</ref>(1<sp/>*<sp/>1024<sp/>*<sp/>1024),</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1acd00532b2319cc89fa2b2a6571f5173f" kindref="member">enable_thread_local_cache</ref>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_pool_allocator_1_1_config_1a3a9617723671b94051eba900f59a51ae" kindref="member">enable_statistics</ref>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>{}</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1memory_1_1_pool_allocator_1aacb07236a98d61f6433b13732778aac3" kindref="member">PoolAllocator</ref>();</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1memory_1_1_pool_allocator_1aacb07236a98d61f6433b13732778aac3" kindref="member">PoolAllocator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="337" refid="classthemis_1_1memory_1_1_pool_allocator_1ac8e7798740327843f4d7162e943d016d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1memory_1_1_pool_allocator_1ac8e7798740327843f4d7162e943d016d" kindref="member">~PoolAllocator</ref>();</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result&lt;void*&gt;</ref><sp/><ref refid="classthemis_1_1memory_1_1_pool_allocator_1a4d659b895776bea5bdeebc5103459202" kindref="member">allocate</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,<sp/><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6d" kindref="member">AllocationHint</ref><sp/>hint<sp/>=<sp/><ref refid="namespacethemis_1_1memory_1a248ddcb735871cb5fd9f806e955d4a6dab50339a10e1de285ac99d4c3990b8693" kindref="member">AllocationHint::NONE</ref>);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result&lt;void&gt;</ref><sp/><ref refid="classthemis_1_1memory_1_1_pool_allocator_1a2ec292a283945e04d1fa936583318b21" kindref="member">deallocate</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats" kindref="compound">AllocationStats</ref><sp/><ref refid="classthemis_1_1memory_1_1_pool_allocator_1a1b6b85dd13bf94a2018f5d823747fbb3" kindref="member">getCombinedStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats" kindref="compound">AllocationStats</ref>&amp;<sp/><ref refid="classthemis_1_1memory_1_1_pool_allocator_1a6d86e0e31a6a7dc82c0a654c828dd69d" kindref="member">getBuddyStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats" kindref="compound">AllocationStats</ref>&amp;<sp/><ref refid="classthemis_1_1memory_1_1_pool_allocator_1ace9b6671ef516466229c9ef094c6572d" kindref="member">getSlabStats</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1memory_1_1_allocation_stats" kindref="compound">AllocationStats</ref>&amp;<sp/><ref refid="classthemis_1_1memory_1_1_pool_allocator_1ac9d1e9c3c519979e1cf742b91eefa426" kindref="member">getStackStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result&lt;void&gt;</ref><sp/><ref refid="classthemis_1_1memory_1_1_pool_allocator_1a959da41cacd3cfa92fc095996ecb6bc9" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1memory_1_1_pool_allocator_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="369"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>memory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/utils/memory/pool_allocator.h"/>
+  </compounddef>
+</doxygen>

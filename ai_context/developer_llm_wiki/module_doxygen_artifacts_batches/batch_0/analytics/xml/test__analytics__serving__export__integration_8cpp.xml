@@ -1,0 +1,985 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__analytics__serving__export__integration_8cpp" kind="file" language="C++">
+    <compoundname>test_analytics_serving_export_integration.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="analytics__export_8h" local="yes">analytics/analytics_export.h</includes>
+    <includes refid="distributed__analytics_8h" local="yes">analytics/distributed_analytics.h</includes>
+    <includes refid="ml__serving_8h" local="yes">analytics/ml_serving.h</includes>
+    <includes refid="model__serving_8h" local="yes">analytics/model_serving.h</includes>
+    <includes refid="streaming__window_8h" local="yes">analytics/streaming_window.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="11">
+        <label>analytics/analytics_api_contract.h</label>
+        <link refid="analytics__api__contract_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>analytics/analytics_export.h</label>
+        <link refid="analytics__export_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>analytics/anomaly_detection.h</label>
+        <link refid="anomaly__detection_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>arrow_export.h</label>
+        <link refid="arrow__export_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>analytics/automl.h</label>
+        <link refid="automl_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>analytics/distributed_analytics.h</label>
+        <link refid="distributed__analytics_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>analytics/ml_serving.h</label>
+        <link refid="ml__serving_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>analytics/model_serving.h</label>
+        <link refid="model__serving_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>analytics/olap.h</label>
+        <link refid="olap_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>analytics/streaming_window.h</label>
+        <link refid="streaming__window_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/analytics/test_analytics_serving_export_integration.cpp</label>
+        <link refid="test__analytics__serving__export__integration_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>algorithm</label>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="14">
+        <label>chrono</label>
+      </node>
+      <node id="21">
+        <label>condition_variable</label>
+      </node>
+      <node id="12">
+        <label>cstddef</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="29">
+        <label>deque</label>
+      </node>
+      <node id="16">
+        <label>functional</label>
+      </node>
+      <node id="15">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="26">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="22">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="23">
+        <label>queue</label>
+      </node>
+      <node id="30">
+        <label>shared_mutex</label>
+      </node>
+      <node id="36">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="19">
+        <label>string_view</label>
+      </node>
+      <node id="24">
+        <label>thread</label>
+      </node>
+      <node id="20">
+        <label>unordered_map</label>
+      </node>
+      <node id="34">
+        <label>unordered_set</label>
+      </node>
+      <node id="35">
+        <label>utility</label>
+      </node>
+      <node id="8">
+        <label>variant</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__analytics__serving__export__integration_8cpp_1a6e6f38527df57f77ef7b61cd208386f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServingExportIntegrationTests, SEI_01_TumblingWindowCardinalityCap)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServingExportIntegrationTests</type>
+        </param>
+        <param>
+          <type>SEI_01_TumblingWindowCardinalityCap</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_serving_export_integration.cpp" line="86" column="1" bodyfile="tests/analytics/test_analytics_serving_export_integration.cpp" bodystart="86" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__serving__export__integration_8cpp_1a1f15dae755e62d5e2fcf50ab27b92d88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServingExportIntegrationTests, SEI_02_SlidingWindowCardinalityCap)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServingExportIntegrationTests</type>
+        </param>
+        <param>
+          <type>SEI_02_SlidingWindowCardinalityCap</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_serving_export_integration.cpp" line="116" column="1" bodyfile="tests/analytics/test_analytics_serving_export_integration.cpp" bodystart="116" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__serving__export__integration_8cpp_1ab2da84aab3b443e542760912c2230968" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServingExportIntegrationTests, SEI_03_HoppingWindowCardinalityCap)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServingExportIntegrationTests</type>
+        </param>
+        <param>
+          <type>SEI_03_HoppingWindowCardinalityCap</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_serving_export_integration.cpp" line="143" column="1" bodyfile="tests/analytics/test_analytics_serving_export_integration.cpp" bodystart="143" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__serving__export__integration_8cpp_1a7ee560e99f6f7aeb0bdf929abe68584a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServingExportIntegrationTests, SEI_03b_TumblingWindow_NoCap_Default)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServingExportIntegrationTests</type>
+        </param>
+        <param>
+          <type>SEI_03b_TumblingWindow_NoCap_Default</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_serving_export_integration.cpp" line="164" column="1" bodyfile="tests/analytics/test_analytics_serving_export_integration.cpp" bodystart="164" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__serving__export__integration_8cpp_1a7e8067ec0295a09c8fb287757c564545" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServingExportIntegrationTests, SEI_04_ModelServingIntegrityRequiredNoSHA)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServingExportIntegrationTests</type>
+        </param>
+        <param>
+          <type>SEI_04_ModelServingIntegrityRequiredNoSHA</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_serving_export_integration.cpp" line="183" column="1" bodyfile="tests/analytics/test_analytics_serving_export_integration.cpp" bodystart="183" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__serving__export__integration_8cpp_1a3bc0ba6d8260def028eb806881ed0cc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServingExportIntegrationTests, SEI_05_ModelServingIntegrityMismatch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServingExportIntegrationTests</type>
+        </param>
+        <param>
+          <type>SEI_05_ModelServingIntegrityMismatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_serving_export_integration.cpp" line="198" column="1" bodyfile="tests/analytics/test_analytics_serving_export_integration.cpp" bodystart="198" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__serving__export__integration_8cpp_1ab1942774e0353dcee29e3eb770252714" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServingExportIntegrationTests, SEI_06_TFServingInsecureTransportBlocked)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServingExportIntegrationTests</type>
+        </param>
+        <param>
+          <type>SEI_06_TFServingInsecureTransportBlocked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_serving_export_integration.cpp" line="214" column="1" bodyfile="tests/analytics/test_analytics_serving_export_integration.cpp" bodystart="214" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__serving__export__integration_8cpp_1a75eb4b9403209626934d685f448cab09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServingExportIntegrationTests, SEI_07_ExportToInvalidPathReturnsError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServingExportIntegrationTests</type>
+        </param>
+        <param>
+          <type>SEI_07_ExportToInvalidPathReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_serving_export_integration.cpp" line="239" column="1" bodyfile="tests/analytics/test_analytics_serving_export_integration.cpp" bodystart="239" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__serving__export__integration_8cpp_1a51256b843b609981669f199cf7038eeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServingExportIntegrationTests, SEI_08_DistributedResult_TimingOnSuccess)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServingExportIntegrationTests</type>
+        </param>
+        <param>
+          <type>SEI_08_DistributedResult_TimingOnSuccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_serving_export_integration.cpp" line="258" column="1" bodyfile="tests/analytics/test_analytics_serving_export_integration.cpp" bodystart="258" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__serving__export__integration_8cpp_1a5dd81def3fc46da6670f307204d8cb06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServingExportIntegrationTests, SEI_09_DistributedResult_HintsOnShardFailure)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServingExportIntegrationTests</type>
+        </param>
+        <param>
+          <type>SEI_09_DistributedResult_HintsOnShardFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_serving_export_integration.cpp" line="282" column="1" bodyfile="tests/analytics/test_analytics_serving_export_integration.cpp" bodystart="282" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__serving__export__integration_8cpp_1a948ef96e75e0d96a3a282b44a6938357" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServingExportIntegrationTests, SEI_10_DistributedResult_CircuitBreakerHint)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServingExportIntegrationTests</type>
+        </param>
+        <param>
+          <type>SEI_10_DistributedResult_CircuitBreakerHint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_serving_export_integration.cpp" line="317" column="1" bodyfile="tests/analytics/test_analytics_serving_export_integration.cpp" bodystart="317" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__serving__export__integration_8cpp_1ad20358658bba1216a73ce5531b2ce116" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServingExportIntegrationTests, SEI_11_DistributedResult_MergeDurationSeparate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServingExportIntegrationTests</type>
+        </param>
+        <param>
+          <type>SEI_11_DistributedResult_MergeDurationSeparate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_serving_export_integration.cpp" line="355" column="1" bodyfile="tests/analytics/test_analytics_serving_export_integration.cpp" bodystart="355" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="test__analytics__serving__export__integration_8cpp_1a68e863015729b2bd56973248ee041597" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ServingExportIntegrationTests, SEI_12_WindowStats_PartitionKeysRejectedZeroByDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ServingExportIntegrationTests</type>
+        </param>
+        <param>
+          <type>SEI_12_WindowStats_PartitionKeysRejectedZeroByDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_serving_export_integration.cpp" line="378" column="1" bodyfile="tests/analytics/test_analytics_serving_export_integration.cpp" bodystart="378" bodyend="391"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Integration regression coverage for analytics serving and export failure classes. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test IDs: SEI-01 … SEI-12</para>
+<para>Covers three previously-open Q4 2026 roadmap items:<orderedlist>
+<listitem><para>&quot;strengthen bounded-memory behavior in high-cardinality streaming windows&quot; → max_distinct_partition_keys enforcement for <ref refid="classthemisdb_1_1analytics_1_1_tumbling_window" kindref="compound">TumblingWindow</ref>, <ref refid="classthemisdb_1_1analytics_1_1_sliding_window" kindref="compound">SlidingWindow</ref>, <ref refid="classthemisdb_1_1analytics_1_1_hopping_window" kindref="compound">HoppingWindow</ref> (SEI-01..SEI-03).</para>
+</listitem><listitem><para>&quot;extend integration regression coverage for serving and export failure classes&quot; → <ref refid="classthemisdb_1_1analytics_1_1_model_serving_engine" kindref="compound">ModelServingEngine</ref> fail-closed on integrity mismatch (SEI-04..SEI-05), <ref refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend" kindref="compound">TFServingBackend</ref> insecure-transport block (SEI-06), <ref refid="structthemis_1_1analytics_1_1_export_result" kindref="compound">ExportResult</ref> error path on invalid output (SEI-07).</para>
+</listitem><listitem><para>&quot;improve distributed merge diagnostics and operator-facing telemetry&quot; → operator_hints populated on shard failures (SEI-08..SEI-10), total_execution_ms and merge_duration_ms populated (SEI-11..SEI-12).</para>
+</listitem></orderedlist>
+</para>
+<para><simplesect kind="copyright"><para>Copyright (c) 2025 VCC-URN Project @license Apache-2.0 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="analytics__export_8h" kindref="compound">analytics/analytics_export.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__analytics_8h" kindref="compound">analytics/distributed_analytics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ml__serving_8h" kindref="compound">analytics/ml_serving.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="model__serving_8h" kindref="compound">analytics/model_serving.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="streaming__window_8h" kindref="compound">analytics/streaming_window.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics" kindref="compound">themisdb::analytics</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics" kindref="compound">themis::analytics</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_stream_record" kindref="compound">StreamRecord</ref><sp/>makeKeyedRecord(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>ts)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_stream_record" kindref="compound">StreamRecord</ref><sp/>r;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1analytics_1_1_stream_record_1a7f0f1ecc24574213da8340033cfe8420" kindref="member">record_id</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>key<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_rec&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1analytics_1_1_stream_record_1a91a31697897f4c6391e8a15bbd661990" kindref="member">event_time</ref><sp/><sp/><sp/><sp/>=<sp/>ts;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1analytics_1_1_stream_record_1a5b57a5e5c2a1d3f50a0be3aea2927a91" kindref="member">partition_key</ref><sp/>=<sp/>key;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemisdb_1_1analytics_1_1_stream_record_1aae82afeed99a443da5cf36756bb11660" kindref="member">fields</ref>[</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AlwaysFailingExecutor<sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_shard_query_executor" kindref="compound">ShardQueryExecutor</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>AlwaysFailingExecutor(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>msg<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;simulated<sp/>shard<sp/>error&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>msg_(msg)<sp/>{}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a3b88b9c5f1e8b9e1690589fe79feca45" kindref="member">OLAPResult</ref><sp/>execute(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*shard_id*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a8b47afb9dc74d79e986abd7e2c8eb334" kindref="member">OLAPQuery</ref>&amp;<sp/></highlight><highlight class="comment">/*query*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(msg_);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isHealthy()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>msg_;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">SucceedingExecutor<sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_shard_query_executor" kindref="compound">ShardQueryExecutor</ref><sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a3b88b9c5f1e8b9e1690589fe79feca45" kindref="member">OLAPResult</ref><sp/>execute(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*shard_id*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a8b47afb9dc74d79e986abd7e2c8eb334" kindref="member">OLAPQuery</ref>&amp;<sp/></highlight><highlight class="comment">/*query*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a3b88b9c5f1e8b9e1690589fe79feca45" kindref="member">OLAPResult</ref>{};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isHealthy()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SEI-01:<sp/>TumblingWindow<sp/>max_distinct_partition_keys<sp/>—<sp/>keys<sp/>beyond<sp/>limit<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__analytics__serving__export__integration_8cpp_1a6e6f38527df57f77ef7b61cd208386f7" kindref="member">TEST</ref>(ServingExportIntegrationTests,<sp/>SEI_01_TumblingWindowCardinalityCap)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config" kindref="compound">TumblingWindowConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config_1a22218bdfb2fc29c8d5781e15455be149" kindref="member">size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds(10);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config_1a408249b6b41e3f163b1f3c9a9fe81580" kindref="member">max_distinct_partition_keys</ref><sp/>=<sp/>3;<sp/><sp/></highlight><highlight class="comment">//<sp/>allow<sp/>at<sp/>most<sp/>3<sp/>distinct<sp/>keys<sp/>per<sp/>window</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_tumbling_window" kindref="compound">TumblingWindow</ref><sp/>win(cfg);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>base_ts<sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Keys<sp/>&quot;k1&quot;,<sp/>&quot;k2&quot;,<sp/>&quot;k3&quot;<sp/>—<sp/>all<sp/>fit<sp/>within<sp/>the<sp/>cap.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(win.ingest(makeKeyedRecord(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>base_ts)));</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(win.ingest(makeKeyedRecord(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/>base_ts)));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(win.ingest(makeKeyedRecord(</highlight><highlight class="stringliteral">&quot;k3&quot;</highlight><highlight class="normal">,<sp/>base_ts)));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;k4&quot;<sp/>is<sp/>a<sp/>new<sp/>unseen<sp/>key<sp/>—<sp/>must<sp/>be<sp/>rejected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(win.ingest(makeKeyedRecord(</highlight><highlight class="stringliteral">&quot;k4&quot;</highlight><highlight class="normal">,<sp/>base_ts)));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Existing<sp/>keys<sp/>still<sp/>accepted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(win.ingest(makeKeyedRecord(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>base_ts)));</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(win.ingest(makeKeyedRecord(</highlight><highlight class="stringliteral">&quot;k3&quot;</highlight><highlight class="normal">,<sp/>base_ts)));</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_stats" kindref="compound">WindowStats</ref><sp/>s<sp/>=<sp/>win.getStats();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemisdb_1_1analytics_1_1_window_stats_1a1289ada0839f88c9d90188da39723da6" kindref="member">partition_keys_rejected</ref>,<sp/>1u);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>dropped<sp/>counts<sp/>should<sp/>include<sp/>the<sp/>key-rejected<sp/>record.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(s.<ref refid="structthemisdb_1_1analytics_1_1_window_stats_1af0b80d70c365fd1d32c4b61f13aa370f" kindref="member">records_dropped</ref>,<sp/>1u);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SEI-02:<sp/>SlidingWindow<sp/>max_distinct_partition_keys<sp/>—<sp/>cardinality<sp/>bounded<sp/>globally</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="test__analytics__serving__export__integration_8cpp_1a6e6f38527df57f77ef7b61cd208386f7" kindref="member">TEST</ref>(ServingExportIntegrationTests,<sp/>SEI_02_SlidingWindowCardinalityCap)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_sliding_window_config" kindref="compound">SlidingWindowConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_sliding_window_config_1a8103e255c6471ad8f0d69c73a977d174" kindref="member">size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds(10);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_sliding_window_config_1a9694b6d3bcb8c4592fb354bfdda903a6" kindref="member">slide</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds(2);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_sliding_window_config_1a37c1026c7b491f3cfdbb04751bd05b30" kindref="member">max_distinct_partition_keys</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_sliding_window" kindref="compound">SlidingWindow</ref><sp/>win(cfg);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>base_ts<sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(win.ingest(makeKeyedRecord(</highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">,<sp/>base_ts)));</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(win.ingest(makeKeyedRecord(</highlight><highlight class="stringliteral">&quot;beta&quot;</highlight><highlight class="normal">,<sp/><sp/>base_ts)));</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;gamma&quot;<sp/>is<sp/>a<sp/>third<sp/>distinct<sp/>key<sp/>—<sp/>must<sp/>be<sp/>rejected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(win.ingest(makeKeyedRecord(</highlight><highlight class="stringliteral">&quot;gamma&quot;</highlight><highlight class="normal">,<sp/>base_ts)));</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Existing<sp/>keys<sp/>are<sp/>still<sp/>accepted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(win.ingest(makeKeyedRecord(</highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">,<sp/>base_ts)));</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_stats" kindref="compound">WindowStats</ref><sp/>s<sp/>=<sp/>win.getStats();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemisdb_1_1analytics_1_1_window_stats_1a1289ada0839f88c9d90188da39723da6" kindref="member">partition_keys_rejected</ref>,<sp/>1u);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(s.<ref refid="structthemisdb_1_1analytics_1_1_window_stats_1af0b80d70c365fd1d32c4b61f13aa370f" kindref="member">records_dropped</ref>,<sp/>1u);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SEI-03:<sp/>HoppingWindow<sp/>max_distinct_partition_keys<sp/>—<sp/>cardinality<sp/>bounded<sp/>globally</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="test__analytics__serving__export__integration_8cpp_1a6e6f38527df57f77ef7b61cd208386f7" kindref="member">TEST</ref>(ServingExportIntegrationTests,<sp/>SEI_03_HoppingWindowCardinalityCap)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_hopping_window_config" kindref="compound">HoppingWindowConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1a32966cebe80b7ae6ad12eecab13599e8" kindref="member">size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds(10);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1a1312531feb17a715f228e898b936fd76" kindref="member">hop</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds(3);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_hopping_window_config_1aa2128c68115c2ab7d4de6e8e62c50d48" kindref="member">max_distinct_partition_keys</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_hopping_window" kindref="compound">HoppingWindow</ref><sp/>win(cfg);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>base_ts<sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(win.ingest(makeKeyedRecord(</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/><sp/>base_ts)));</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(win.ingest(makeKeyedRecord(</highlight><highlight class="stringliteral">&quot;y&quot;</highlight><highlight class="normal">,<sp/><sp/>base_ts)));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(win.ingest(makeKeyedRecord(</highlight><highlight class="stringliteral">&quot;z&quot;</highlight><highlight class="normal">,<sp/>base_ts)));<sp/><sp/></highlight><highlight class="comment">//<sp/>third<sp/>key<sp/>→<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_window_stats" kindref="compound">WindowStats</ref><sp/>s<sp/>=<sp/>win.getStats();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemisdb_1_1analytics_1_1_window_stats_1a1289ada0839f88c9d90188da39723da6" kindref="member">partition_keys_rejected</ref>,<sp/>1u);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SEI-03b:<sp/>Unlimited<sp/>cardinality<sp/>when<sp/>max_distinct_partition_keys<sp/>==<sp/>0<sp/>(default)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="test__analytics__serving__export__integration_8cpp_1a6e6f38527df57f77ef7b61cd208386f7" kindref="member">TEST</ref>(ServingExportIntegrationTests,<sp/>SEI_03b_TumblingWindow_NoCap_Default)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config" kindref="compound">TumblingWindowConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config_1a22218bdfb2fc29c8d5781e15455be149" kindref="member">size</ref><sp/>=<sp/>std::chrono::seconds(10);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>max_distinct_partition_keys<sp/>defaults<sp/>to<sp/>0<sp/>(unlimited)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_tumbling_window" kindref="compound">TumblingWindow</ref><sp/>win(cfg);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>base_ts<sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ingest<sp/>20<sp/>distinct<sp/>keys<sp/>—<sp/>all<sp/>must<sp/>be<sp/>accepted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>20;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(win.ingest(makeKeyedRecord(</highlight><highlight class="stringliteral">&quot;key_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>base_ts)));</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(win.getStats().partition_keys_rejected,<sp/>0u);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SEI-04:<sp/>ModelServingEngine<sp/>—<sp/>fail-closed<sp/>without<sp/>SHA<sp/>when<sp/>integrity<sp/>required</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="test__analytics__serving__export__integration_8cpp_1a6e6f38527df57f77ef7b61cd208386f7" kindref="member">TEST</ref>(ServingExportIntegrationTests,<sp/>SEI_04_ModelServingIntegrityRequiredNoSHA)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_model_serving_config" kindref="compound">ModelServingConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_model_serving_config_1a5b2fda6517c69ca7bf34080499c4da36" kindref="member">require_model_integrity</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_model_serving_engine" kindref="compound">ModelServingEngine</ref><sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>loadModel<sp/>without<sp/>SHA<sp/>must<sp/>throw<sp/>when<sp/>integrity<sp/>is<sp/>required.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>engine.loadModel(</highlight><highlight class="stringliteral">&quot;my-model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;/models/my-model.onnx&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SEI-05:<sp/>ModelServingEngine<sp/>—<sp/>fail-closed<sp/>on<sp/>SHA<sp/>mismatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><ref refid="test__analytics__serving__export__integration_8cpp_1a6e6f38527df57f77ef7b61cd208386f7" kindref="member">TEST</ref>(ServingExportIntegrationTests,<sp/>SEI_05_ModelServingIntegrityMismatch)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_model_serving_config" kindref="compound">ModelServingConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_model_serving_config_1a5b2fda6517c69ca7bf34080499c4da36" kindref="member">require_model_integrity</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_model_serving_engine" kindref="compound">ModelServingEngine</ref><sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>loadModel<sp/>with<sp/>an<sp/>obviously<sp/>wrong<sp/>SHA<sp/>must<sp/>throw.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>engine.loadModel(</highlight><highlight class="stringliteral">&quot;my-model&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;/models/my-model.onnx&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;0000000000000000000000000000000000000000000000000000000000000000&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SEI-06:<sp/>TFServingBackend<sp/>—<sp/>insecure<sp/>HTTP<sp/>transport<sp/>blocked<sp/>by<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><ref refid="test__analytics__serving__export__integration_8cpp_1a6e6f38527df57f77ef7b61cd208386f7" kindref="member">TEST</ref>(ServingExportIntegrationTests,<sp/>SEI_06_TFServingInsecureTransportBlocked)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_t_f_serving_config" kindref="compound">TFServingConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_t_f_serving_config_1a386d066a59146fa2d117e2c8dc85cc36" kindref="member">base_url</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://insecure-endpoint:8501&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_t_f_serving_config_1a968d0bd38fab584c45fc3b04999b8b06" kindref="member">allow_insecure_transport</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>default;<sp/>explicit<sp/>for<sp/>clarity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend" kindref="compound">TFServingBackend</ref><sp/>backend(cfg);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_request" kindref="compound">MLServingRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_request_1a3031da876101607383bbad78ee5cefbb" kindref="member">model_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;my-model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_request_1aa5fe778a065831504383c7333a14ae7a" kindref="member">inputs</ref>.push_back(<ref refid="structthemisdb_1_1analytics_1_1_m_l_tensor" kindref="compound">MLTensor</ref>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.shape<sp/>=<sp/>{1},</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.data<sp/>=<sp/>{1.0f},</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response" kindref="compound">MLServingResponse</ref><sp/>resp<sp/>=<sp/>backend.infer(req);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>response<sp/>must<sp/>indicate<sp/>failure<sp/>—<sp/>insecure<sp/>transport<sp/>is<sp/>blocked<sp/>fail-closed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(resp.<ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a6e625937c188c6d6dd8b11bb01a439c1" kindref="member">ok</ref>())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>insecure<sp/>HTTP<sp/>transport<sp/>to<sp/>be<sp/>blocked&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(resp.<ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response_1a1be2485a3ebb6598f214ccc09f172c4a" kindref="member">status</ref>,<sp/><ref refid="namespacethemisdb_1_1analytics_1a726ee0882c922469701fdf19bfa5886aae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">MLServingStatus::OK</ref>);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SEI-07:<sp/>ExportResult<sp/>error<sp/>class<sp/>—<sp/>exportToFile<sp/>to<sp/>an<sp/>invalid<sp/>path<sp/>returns<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="test__analytics__serving__export__integration_8cpp_1a6e6f38527df57f77ef7b61cd208386f7" kindref="member">TEST</ref>(ServingExportIntegrationTests,<sp/>SEI_07_ExportToInvalidPathReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exporter<sp/>=<sp/><ref refid="classthemis_1_1analytics_1_1_exporter_factory_1ab458864183fa333f918bae5ea006b15a" kindref="member">ExporterFactory::createDefaultExporter</ref>();</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(exporter,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch" kindref="compound">ArrowRecordBatch</ref><sp/>batch;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_export_options" kindref="compound">ExportOptions</ref><sp/>opts;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>path<sp/>that<sp/>cannot<sp/>exist<sp/>on<sp/>any<sp/>standard<sp/>system.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_export_result" kindref="compound">ExportResult</ref><sp/>result<sp/>=<sp/>exporter-&gt;exportToFile(</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>batch,<sp/></highlight><highlight class="stringliteral">&quot;/dev/null/this/path/cannot/exist/file.csv&quot;</highlight><highlight class="normal">,<sp/>opts);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>result<sp/>must<sp/>signal<sp/>failure<sp/>without<sp/>crashing<sp/>or<sp/>throwing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.<ref refid="structthemis_1_1analytics_1_1_export_result_1ac1516a90381c135d94d7a3b759e3ca7e" kindref="member">status</ref>,<sp/><ref refid="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">ExportStatus::SUCCESS</ref>)</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>export<sp/>to<sp/>an<sp/>invalid<sp/>path<sp/>to<sp/>return<sp/>an<sp/>error<sp/>status&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SEI-08:<sp/>DistributedResult<sp/>—<sp/>total_execution_ms<sp/>populated<sp/>on<sp/>success</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><ref refid="test__analytics__serving__export__integration_8cpp_1a6e6f38527df57f77ef7b61cd208386f7" kindref="member">TEST</ref>(ServingExportIntegrationTests,<sp/>SEI_08_DistributedResult_TimingOnSuccess)<sp/>{</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config" kindref="compound">DistributedAnalyticsSharding::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a1b08802b64e766651311255041d4dec7" kindref="member">allow_partial_results</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a0c00fcab8de6ad925b9361409bdaf24d" kindref="member">enable_circuit_breaker</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding" kindref="compound">DistributedAnalyticsSharding</ref><sp/>das(cfg);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>das.addShard(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/>std::make_shared&lt;SucceedingExecutor&gt;());</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref><sp/>q;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a26d794162df6903794467719f2451cc3" kindref="member">collection</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_coll&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>das.executeDistributed(q);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.total_execution_ms,<sp/>0.0)</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;total_execution_ms<sp/>must<sp/>be<sp/>populated<sp/>for<sp/>successful<sp/>queries&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>merge_duration_ms<sp/>is<sp/>the<sp/>mergeResults<sp/>portion<sp/>only<sp/>—<sp/>must<sp/>be<sp/>non-negative.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.merge_duration_ms,<sp/>0.0);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>hints<sp/>expected<sp/>for<sp/>a<sp/>clean<sp/>run.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.<ref refid="structthemis_1_1analytics_1_1_export_result_1aef0b92bb9185c33099fef16d3211c3ba" kindref="member">operator_hints</ref>.empty());</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SEI-09:<sp/>DistributedResult<sp/>—<sp/>operator_hints<sp/>populated<sp/>on<sp/>shard<sp/>failures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><ref refid="test__analytics__serving__export__integration_8cpp_1a6e6f38527df57f77ef7b61cd208386f7" kindref="member">TEST</ref>(ServingExportIntegrationTests,<sp/>SEI_09_DistributedResult_HintsOnShardFailure)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config" kindref="compound">DistributedAnalyticsSharding::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a1b08802b64e766651311255041d4dec7" kindref="member">allow_partial_results</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a8195c9b82872d76e4cd9654b542bff0b" kindref="member">max_failure_rate</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>tolerate<sp/>100%<sp/>failures<sp/>for<sp/>this<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a0c00fcab8de6ad925b9361409bdaf24d" kindref="member">enable_circuit_breaker</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a62434b58985c9bbb1b9c1be739a71d6b" kindref="member">shard_timeout_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>timeout;<sp/>failures<sp/>are<sp/>exception-based</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding" kindref="compound">DistributedAnalyticsSharding</ref><sp/>das(cfg);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>das.addShard(</highlight><highlight class="stringliteral">&quot;fail_shard_a&quot;</highlight><highlight class="normal">,<sp/>std::make_shared&lt;AlwaysFailingExecutor&gt;());</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>das.addShard(</highlight><highlight class="stringliteral">&quot;fail_shard_b&quot;</highlight><highlight class="normal">,<sp/>std::make_shared&lt;AlwaysFailingExecutor&gt;());</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref><sp/>q;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a26d794162df6903794467719f2451cc3" kindref="member">collection</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_coll&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>das.executeDistributed(q);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failure<sp/>rate<sp/>is<sp/>100%<sp/>—<sp/>&quot;high<sp/>failure<sp/>rate&quot;<sp/>and<sp/>&quot;partial<sp/>result&quot;<sp/>hints<sp/>expected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.<ref refid="structthemis_1_1analytics_1_1_export_result_1aef0b92bb9185c33099fef16d3211c3ba" kindref="member">operator_hints</ref>.empty())</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;operator_hints<sp/>must<sp/>be<sp/>non-empty<sp/>when<sp/>all<sp/>shards<sp/>fail&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>least<sp/>one<sp/>hint<sp/>must<sp/>mention<sp/>partial<sp/>result<sp/>or<sp/>failure<sp/>rate.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_partial_or_failure<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>hint<sp/>:<sp/>result.<ref refid="structthemis_1_1analytics_1_1_export_result_1aef0b92bb9185c33099fef16d3211c3ba" kindref="member">operator_hints</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(hint.find(</highlight><highlight class="stringliteral">&quot;artial&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos<sp/>||</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hint.find(</highlight><highlight class="stringliteral">&quot;ailure&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>has_partial_or_failure<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_partial_or_failure)</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>a<sp/>hint<sp/>about<sp/>partial<sp/>results<sp/>or<sp/>high<sp/>failure<sp/>rate&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SEI-10:<sp/>DistributedResult<sp/>—<sp/>circuit-breaker<sp/>OPEN<sp/>hint<sp/>generated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><ref refid="test__analytics__serving__export__integration_8cpp_1a6e6f38527df57f77ef7b61cd208386f7" kindref="member">TEST</ref>(ServingExportIntegrationTests,<sp/>SEI_10_DistributedResult_CircuitBreakerHint)<sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config" kindref="compound">DistributedAnalyticsSharding::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a1b08802b64e766651311255041d4dec7" kindref="member">allow_partial_results</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a8195c9b82872d76e4cd9654b542bff0b" kindref="member">max_failure_rate</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a0c00fcab8de6ad925b9361409bdaf24d" kindref="member">enable_circuit_breaker</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a99c3926aa814b2fedb511c6ff575af42" kindref="member">circuit_breaker_failure_threshold</ref><sp/>=<sp/>1;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>trip<sp/>after<sp/>1<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1ada6e9126dd76584c7429b0ad535eb2cc" kindref="member">circuit_breaker_recovery_delay_ms</ref><sp/>=<sp/>60000;<sp/></highlight><highlight class="comment">//<sp/>won&apos;t<sp/>recover<sp/>during<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding" kindref="compound">DistributedAnalyticsSharding</ref><sp/>das(cfg);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>das.addShard(</highlight><highlight class="stringliteral">&quot;trip_shard&quot;</highlight><highlight class="normal">,<sp/>std::make_shared&lt;AlwaysFailingExecutor&gt;());</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref><sp/>q;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a26d794162df6903794467719f2451cc3" kindref="member">collection</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cb_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>call:<sp/>shard<sp/>fails,<sp/>circuit<sp/>breaker<sp/>trips<sp/>to<sp/>OPEN.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>das.executeDistributed(q);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>call:<sp/>shard<sp/>is<sp/>skipped<sp/>(OPEN)<sp/>—<sp/>operator<sp/>hint<sp/>about<sp/>OPEN<sp/>CB<sp/>expected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result2<sp/>=<sp/>das.executeDistributed(q);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>the<sp/>first<sp/>call<sp/>the<sp/>circuit<sp/>breaker<sp/>should<sp/>be<sp/>OPEN<sp/>for<sp/>trip_shard.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>second<sp/>call<sp/>will<sp/>have<sp/>no<sp/>active<sp/>shards<sp/>or<sp/>a<sp/>circuit-open<sp/>hint.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>accept<sp/>either<sp/>scenario<sp/>(no-shard<sp/>early<sp/>exit<sp/>or<sp/>hint<sp/>in<sp/>result).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hint_present<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>h<sp/>:<sp/>result2.operator_hints)<sp/>{</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(h.find(</highlight><highlight class="stringliteral">&quot;OPEN&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos<sp/>||<sp/>h.find(</highlight><highlight class="stringliteral">&quot;circuit&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hint_present<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>no<sp/>shards<sp/>were<sp/>active<sp/>(empty<sp/>result),<sp/>that<sp/>is<sp/>also<sp/>an<sp/>acceptable<sp/>fail-closed<sp/>outcome.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>empty_shards<sp/>=<sp/>(result2.total_shards<sp/>==<sp/>0);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hint_present<sp/>||<sp/>empty_shards)</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>either<sp/>a<sp/>circuit-breaker<sp/>OPEN<sp/>hint<sp/>or<sp/>zero<sp/>active<sp/>shards&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SEI-11:<sp/>DistributedResult<sp/>—<sp/>merge_duration_ms<sp/>reflects<sp/>actual<sp/>merge<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><ref refid="test__analytics__serving__export__integration_8cpp_1a6e6f38527df57f77ef7b61cd208386f7" kindref="member">TEST</ref>(ServingExportIntegrationTests,<sp/>SEI_11_DistributedResult_MergeDurationSeparate)<sp/>{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config" kindref="compound">DistributedAnalyticsSharding::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a1b08802b64e766651311255041d4dec7" kindref="member">allow_partial_results</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a0c00fcab8de6ad925b9361409bdaf24d" kindref="member">enable_circuit_breaker</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding" kindref="compound">DistributedAnalyticsSharding</ref><sp/>das(cfg);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>das.addShard(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/>std::make_shared&lt;SucceedingExecutor&gt;());</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>das.addShard(</highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">,<sp/>std::make_shared&lt;SucceedingExecutor&gt;());</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref><sp/>q;</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a26d794162df6903794467719f2451cc3" kindref="member">collection</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;timing_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>das.executeDistributed(q);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.total_execution_ms,<sp/>0.0);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>merge_duration_ms<sp/>must<sp/>be<sp/>≤<sp/>total_execution_ms<sp/>(merge<sp/>is<sp/>a<sp/>subset<sp/>of<sp/>total).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.merge_duration_ms,<sp/>result.total_execution_ms<sp/>+<sp/>1.0<sp/></highlight><highlight class="comment">/*<sp/>1ms<sp/>tolerance<sp/>*/</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.successful_shards,<sp/>2u);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SEI-12:<sp/>WindowStats<sp/>—<sp/>partition_keys_rejected<sp/>is<sp/>zero<sp/>by<sp/>default<sp/>(no<sp/>cap)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><ref refid="test__analytics__serving__export__integration_8cpp_1a6e6f38527df57f77ef7b61cd208386f7" kindref="member">TEST</ref>(ServingExportIntegrationTests,<sp/>SEI_12_WindowStats_PartitionKeysRejectedZeroByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config" kindref="compound">TumblingWindowConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_tumbling_window_config_1a22218bdfb2fc29c8d5781e15455be149" kindref="member">size</ref><sp/>=<sp/>std::chrono::seconds(10);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>cardinality<sp/>cap<sp/>set<sp/>(max_distinct_partition_keys<sp/>==<sp/>0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_tumbling_window" kindref="compound">TumblingWindow</ref><sp/>win(cfg);</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>win.ingest(makeKeyedRecord(</highlight><highlight class="stringliteral">&quot;key_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>now));</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(win.getStats().partition_keys_rejected,<sp/>0u);</highlight></codeline>
+<codeline lineno="391"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/analytics/test_analytics_serving_export_integration.cpp"/>
+  </compounddef>
+</doxygen>

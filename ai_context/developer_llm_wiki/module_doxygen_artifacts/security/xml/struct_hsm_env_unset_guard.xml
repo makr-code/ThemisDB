@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_hsm_env_unset_guard" kind="struct" language="C++" prot="public">
+    <compoundname>HsmEnvUnsetGuard</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_hsm_env_unset_guard_1acbaa54ba7aed26567fda870e1b7582f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string HsmEnvUnsetGuard::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>HsmEnvUnsetGuard::name</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_key_provider_adapter.cpp" line="431" column="17" bodyfile="tests/security/test_hsm_key_provider_adapter.cpp" bodystart="431" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_hsm_env_unset_guard_1a938fd3d219c9d04cf7376331190dc57c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string HsmEnvUnsetGuard::previous</definition>
+        <argsstring></argsstring>
+        <name>previous</name>
+        <qualifiedname>HsmEnvUnsetGuard::previous</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_key_provider_adapter.cpp" line="432" column="17" bodyfile="tests/security/test_hsm_key_provider_adapter.cpp" bodystart="432" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_hsm_env_unset_guard_1af0845b1091c717ff57fe42a5fbe43c8b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool HsmEnvUnsetGuard::had_previous</definition>
+        <argsstring></argsstring>
+        <name>had_previous</name>
+        <qualifiedname>HsmEnvUnsetGuard::had_previous</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_key_provider_adapter.cpp" line="433" column="10" bodyfile="tests/security/test_hsm_key_provider_adapter.cpp" bodystart="433" bodyend="433"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_hsm_env_unset_guard_1acd24e18ef9768bb8a785564cf162248c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>HsmEnvUnsetGuard::HsmEnvUnsetGuard</definition>
+        <argsstring>(std::string var_name)</argsstring>
+        <name>HsmEnvUnsetGuard</name>
+        <qualifiedname>HsmEnvUnsetGuard::HsmEnvUnsetGuard</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>var_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_key_provider_adapter.cpp" line="435" column="14" bodyfile="tests/security/test_hsm_key_provider_adapter.cpp" bodystart="435" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_hsm_env_unset_guard_1a12505f0cfefc8f16d1a29df344ba344e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>HsmEnvUnsetGuard::~HsmEnvUnsetGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~HsmEnvUnsetGuard</name>
+        <qualifiedname>HsmEnvUnsetGuard::~HsmEnvUnsetGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_key_provider_adapter.cpp" line="448" column="5" bodyfile="tests/security/test_hsm_key_provider_adapter.cpp" bodystart="448" bodyend="462"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_hsm_key_provider_adapter.cpp" line="430" column="1" bodyfile="tests/security/test_hsm_key_provider_adapter.cpp" bodystart="430" bodyend="463"/>
+    <listofallmembers>
+      <member refid="struct_hsm_env_unset_guard_1af0845b1091c717ff57fe42a5fbe43c8b" prot="public" virt="non-virtual"><scope>HsmEnvUnsetGuard</scope><name>had_previous</name></member>
+      <member refid="struct_hsm_env_unset_guard_1acd24e18ef9768bb8a785564cf162248c" prot="public" virt="non-virtual"><scope>HsmEnvUnsetGuard</scope><name>HsmEnvUnsetGuard</name></member>
+      <member refid="struct_hsm_env_unset_guard_1acbaa54ba7aed26567fda870e1b7582f0" prot="public" virt="non-virtual"><scope>HsmEnvUnsetGuard</scope><name>name</name></member>
+      <member refid="struct_hsm_env_unset_guard_1a938fd3d219c9d04cf7376331190dc57c" prot="public" virt="non-virtual"><scope>HsmEnvUnsetGuard</scope><name>previous</name></member>
+      <member refid="struct_hsm_env_unset_guard_1a12505f0cfefc8f16d1a29df344ba344e" prot="public" virt="non-virtual"><scope>HsmEnvUnsetGuard</scope><name>~HsmEnvUnsetGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

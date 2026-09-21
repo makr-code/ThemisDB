@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_q_l_migration_assistant_test" kind="class" language="C++" prot="public">
+    <compoundname>AQLMigrationAssistantTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_q_l_migration_assistant_test_1a0cbd556c5c3c33830285ba6cbcd8928b" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_migration_assistant" kindref="compound">AQLMigrationAssistant</ref></type>
+        <definition>AQLMigrationAssistant AQLMigrationAssistantTest::assistant</definition>
+        <argsstring></argsstring>
+        <name>assistant</name>
+        <qualifiedname>AQLMigrationAssistantTest::assistant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_migration_assistant.cpp" line="99" column="27" bodyfile="tests/aql/test_aql_migration_assistant.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AQLMigrationAssistantTest</label>
+        <link refid="class_a_q_l_migration_assistant_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AQLMigrationAssistantTest</label>
+        <link refid="class_a_q_l_migration_assistant_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>assistant</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::aql::AQLMigrationAssistant</label>
+        <link refid="classthemis_1_1aql_1_1_a_q_l_migration_assistant"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_migration_assistant.cpp" line="97" column="1" bodyfile="tests/aql/test_aql_migration_assistant.cpp" bodystart="97" bodyend="100"/>
+    <listofallmembers>
+      <member refid="class_a_q_l_migration_assistant_test_1a0cbd556c5c3c33830285ba6cbcd8928b" prot="protected" virt="non-virtual"><scope>AQLMigrationAssistantTest</scope><name>assistant</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

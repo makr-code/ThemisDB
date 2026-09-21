@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_replay_iterator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::utils::ReplayIterator</compoundname>
+    <derivedcompoundref refid="classthemis_1_1utils_1_1_vector_replay_iterator" prot="public" virt="non-virtual">themis::utils::VectorReplayIterator</derivedcompoundref>
+    <includes refid="utils__interfaces_8h" local="no">utils_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_replay_iterator_1a9bdd8a0587483b98971265dc321496da" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::utils::ReplayIterator::~ReplayIterator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ReplayIterator</name>
+        <qualifiedname>themis::utils::ReplayIterator::~ReplayIterator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="485" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_replay_iterator_1ac1cca319b80b0672ce641dbe96e12859" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::utils::ReplayIterator::hasNext</definition>
+        <argsstring>() const =0</argsstring>
+        <name>hasNext</name>
+        <qualifiedname>themis::utils::ReplayIterator::hasNext</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_vector_replay_iterator_1a3bf3794a1c64f5a23d1beaab618a9890">hasNext</reimplementedby>
+        <briefdescription>
+<para>true when at least one more entry is available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="488" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_replay_iterator_1a3a63d81ce4452b1c2c8d64e604ac5900" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_s_a_g_a_log_entry" kindref="compound">SAGALogEntry</ref></type>
+        <definition>virtual SAGALogEntry themis::utils::ReplayIterator::next</definition>
+        <argsstring>()=0</argsstring>
+        <name>next</name>
+        <qualifiedname>themis::utils::ReplayIterator::next</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_vector_replay_iterator_1ade0389304298b203b2ebd62d6ca9588c">next</reimplementedby>
+        <briefdescription>
+<para>Return the next entry and advance the cursor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Behaviour is undefined when <ref refid="classthemis_1_1utils_1_1_replay_iterator_1ac1cca319b80b0672ce641dbe96e12859" kindref="member">hasNext()</ref> == false. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="495" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_replay_iterator_1afc85c84f78fc3349fd0b172aba02ddf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::utils::ReplayIterator::reset</definition>
+        <argsstring>()=0</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::utils::ReplayIterator::reset</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_vector_replay_iterator_1a1240ab995f19950f9241db09ccca2842">reset</reimplementedby>
+        <briefdescription>
+<para>Rewind to the first entry in the segment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="498" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Forward-only, read-only iterator over entries in a compacted segment. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>No random access; <ref refid="classthemis_1_1utils_1_1_replay_iterator_1afc85c84f78fc3349fd0b172aba02ddf6" kindref="member">reset()</ref> rewinds to the first entry. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::utils::ReplayIterator</label>
+        <link refid="classthemis_1_1utils_1_1_replay_iterator"/>
+      </node>
+      <node id="2">
+        <label>themis::utils::VectorReplayIterator</label>
+        <link refid="classthemis_1_1utils_1_1_vector_replay_iterator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/utils/utils_interfaces.h" line="483" column="1" bodyfile="include/utils/utils_interfaces.h" bodystart="483" bodyend="499"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_replay_iterator_1ac1cca319b80b0672ce641dbe96e12859" prot="public" virt="pure-virtual"><scope>themis::utils::ReplayIterator</scope><name>hasNext</name></member>
+      <member refid="classthemis_1_1utils_1_1_replay_iterator_1a3a63d81ce4452b1c2c8d64e604ac5900" prot="public" virt="pure-virtual"><scope>themis::utils::ReplayIterator</scope><name>next</name></member>
+      <member refid="classthemis_1_1utils_1_1_replay_iterator_1afc85c84f78fc3349fd0b172aba02ddf6" prot="public" virt="pure-virtual"><scope>themis::utils::ReplayIterator</scope><name>reset</name></member>
+      <member refid="classthemis_1_1utils_1_1_replay_iterator_1a9bdd8a0587483b98971265dc321496da" prot="public" virt="virtual"><scope>themis::utils::ReplayIterator</scope><name>~ReplayIterator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

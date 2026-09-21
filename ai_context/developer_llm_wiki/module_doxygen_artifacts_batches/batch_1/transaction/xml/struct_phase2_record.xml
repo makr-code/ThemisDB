@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_phase2_record" kind="struct" language="C++" prot="public">
+    <compoundname>Phase2Record</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_phase2_record_1ae788bb620e95cfc07e52f11b641593e4" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex Phase2Record::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <qualifiedname>Phase2Record::mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_grpc_rpc_adapter.cpp" line="115" column="41" bodyfile="tests/transaction/test_grpc_rpc_adapter.cpp" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_phase2_record_1a50a84b682de40cb636604ecf30763328" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; Phase2Record::nodes</definition>
+        <argsstring></argsstring>
+        <name>nodes</name>
+        <qualifiedname>Phase2Record::nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_grpc_rpc_adapter.cpp" line="116" column="28" bodyfile="tests/transaction/test_grpc_rpc_adapter.cpp" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_phase2_record_1a228d8f5c9d1dc546f5734184210ab67c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; bool &gt;</type>
+        <definition>std::vector&lt;bool&gt; Phase2Record::commits</definition>
+        <argsstring></argsstring>
+        <name>commits</name>
+        <qualifiedname>Phase2Record::commits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_grpc_rpc_adapter.cpp" line="117" column="35" bodyfile="tests/transaction/test_grpc_rpc_adapter.cpp" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/transaction/test_grpc_rpc_adapter.cpp" line="114" column="1" bodyfile="tests/transaction/test_grpc_rpc_adapter.cpp" bodystart="114" bodyend="118"/>
+    <listofallmembers>
+      <member refid="struct_phase2_record_1a228d8f5c9d1dc546f5734184210ab67c" prot="public" virt="non-virtual"><scope>Phase2Record</scope><name>commits</name></member>
+      <member refid="struct_phase2_record_1ae788bb620e95cfc07e52f11b641593e4" prot="public" virt="non-virtual"><scope>Phase2Record</scope><name>mu</name></member>
+      <member refid="struct_phase2_record_1a50a84b682de40cb636604ecf30763328" prot="public" virt="non-virtual"><scope>Phase2Record</scope><name>nodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

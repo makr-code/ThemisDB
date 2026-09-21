@@ -1,0 +1,330 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="path__constraints_8h" kind="file" language="C++">
+    <compoundname>path_constraints.h</compoundname>
+    <includes local="yes">utils/expected.h</includes>
+    <includes refid="ontology__manager_8h" local="yes">graph/ontology_manager.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="graph__query__optimizer_8cpp" local="yes">src/graph/graph_query_optimizer.cpp</includedby>
+    <includedby refid="path__constraints_8cpp" local="yes">src/graph/path_constraints.cpp</includedby>
+    <includedby refid="test__graph__advanced__features_8cpp" local="yes">tests/graph/test_graph_advanced_features.cpp</includedby>
+    <includedby refid="test__graph__query__optimizer_8cpp" local="yes">tests/graph/test_graph_query_optimizer.cpp</includedby>
+    <includedby refid="test__path__constraints__semantic_8cpp" local="yes">tests/graph/test_path_constraints_semantic.cpp</includedby>
+    <includedby refid="test__query__explain_8cpp" local="yes">tests/graph/test_query_explain.cpp</includedby>
+    <incdepgraph>
+      <node id="3">
+        <label>graph/ontology_manager.h</label>
+        <link refid="ontology__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/graph/path_constraints.h</label>
+        <link refid="path__constraints_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>list</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>shared_mutex</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>unordered_set</label>
+      </node>
+      <node id="13">
+        <label>utility</label>
+      </node>
+      <node id="2">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/graph/path_constraints.h</label>
+        <link refid="path__constraints_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/graph/graph_query_optimizer.cpp</label>
+        <link refid="graph__query__optimizer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/graph/path_constraints.cpp</label>
+        <link refid="path__constraints_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/graph/test_graph_advanced_features.cpp</label>
+        <link refid="test__graph__advanced__features_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/graph/test_graph_query_optimizer.cpp</label>
+        <link refid="test__graph__query__optimizer_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/graph/test_path_constraints_semantic.cpp</label>
+        <link refid="test__path__constraints__semantic_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/graph/test_query_explain.cpp</label>
+        <link refid="test__query__explain_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1graph_1_1_path_constraints" prot="public">themis::graph::PathConstraints</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint" prot="public">themis::graph::PathConstraints::Constraint</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result" prot="public">themis::graph::PathConstraints::PathResult</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation" prot="public">themis::graph::PathConstraints::ConstraintViolation</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1graph">themis::graph</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ontology__manager_8h" kindref="compound">graph/ontology_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">GraphIndexManager;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph" kindref="compound">graph</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1graph_1_1_path_constraints" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1graph_1_1_path_constraints_1a610d091da064509294d7c04b33fe1b7e" kindref="member">PathConstraints</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172" kindref="member">ConstraintType</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a37a170272952c0bc76414ec30e422e1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a37a170272952c0bc76414ec30e422e1b" kindref="member">MIN_LENGTH</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimum<sp/>path<sp/>length</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a4aba510a03033f785222cd6286058e24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a4aba510a03033f785222cd6286058e24" kindref="member">MAX_LENGTH</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>path<sp/>length</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a8e1497021b36fe1fa81b9ee776692648" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a8e1497021b36fe1fa81b9ee776692648" kindref="member">NODE_PROPERTY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Node<sp/>must<sp/>have<sp/>specific<sp/>property</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172acd76e9bf4c1c8e22d56a537c38704e77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172acd76e9bf4c1c8e22d56a537c38704e77" kindref="member">EDGE_PROPERTY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Edge<sp/>must<sp/>have<sp/>specific<sp/>property</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172aa9a5492fe24fc1ef6c821c698c5116cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172aa9a5492fe24fc1ef6c821c698c5116cb" kindref="member">FORBIDDEN_NODE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>cannot<sp/>include<sp/>this<sp/>node</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a895cc7235085cc7ab46738eb440ee4b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a895cc7235085cc7ab46738eb440ee4b2" kindref="member">REQUIRED_NODE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>must<sp/>include<sp/>this<sp/>node</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a802f32b4ea690f81f95ea47c2330dc0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a802f32b4ea690f81f95ea47c2330dc0a" kindref="member">FORBIDDEN_EDGE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>cannot<sp/>include<sp/>this<sp/>edge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172aa4e429edd1e103b12f8eacb0cb8a6131" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172aa4e429edd1e103b12f8eacb0cb8a6131" kindref="member">REQUIRED_EDGE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>must<sp/>include<sp/>this<sp/>edge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a37f8a2e960a9c8a3ac899fdfb0f8f20d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a37f8a2e960a9c8a3ac899fdfb0f8f20d" kindref="member">NO_CYCLES</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>must<sp/>be<sp/>acyclic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a29c8563080452e78cd0acd3177cf6d0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a29c8563080452e78cd0acd3177cf6d0b" kindref="member">UNIQUE_NODES</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>nodes<sp/>in<sp/>path<sp/>must<sp/>be<sp/>unique</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a27867b19456b4d1d3eaf827b8cb2539c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a27867b19456b4d1d3eaf827b8cb2539c" kindref="member">UNIQUE_EDGES</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>edges<sp/>in<sp/>path<sp/>must<sp/>be<sp/>unique</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a8fd536800a031838e53456ef87ff1a4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a8fd536800a031838e53456ef87ff1a4a" kindref="member">CUSTOM_PREDICATE</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Custom<sp/>validation<sp/>function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a715cd43ad13a8a92773059868f417eba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a715cd43ad13a8a92773059868f417eba" kindref="member">MAX_WEIGHT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>path<sp/>weight<sp/>must<sp/>not<sp/>exceed<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a55d356c39cea4eef3411c7c7db51c817" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172a55d356c39cea4eef3411c7c7db51c817" kindref="member">MIN_WEIGHT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>path<sp/>weight<sp/>must<sp/>meet<sp/>minimum<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a06c2538afd37faca873bc809952392b7" kindref="member">Constraint</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1af373379b0f1e3f06d76a51586a411955" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172" kindref="member">ConstraintType</ref><sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1af373379b0f1e3f06d76a51586a411955" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1ad5a128936313a7a0b5d4e89aedf071d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;int&gt;<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1ad5a128936313a7a0b5d4e89aedf071d4" kindref="member">int_value</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1aafa8a07152b07c9b5cd4a4564bac2dcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1aafa8a07152b07c9b5cd4a4564bac2dcb" kindref="member">string_value</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1ac3070ee3514bdf33ef2bf3a0859151a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;)&gt;&gt;<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1ac3070ee3514bdf33ef2bf3a0859151a5" kindref="member">predicate</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a56def477220f2c72599965c464d932d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a56def477220f2c72599965c464d932d2" kindref="member">property_key</ref>;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a12e3d9a01bb42773f5d8e9460bc342eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;double&gt;<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a12e3d9a01bb42773f5d8e9460bc342eb" kindref="member">double_value</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a06c2538afd37faca873bc809952392b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a06c2538afd37faca873bc809952392b7" kindref="member">Constraint</ref>(<ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172" kindref="member">ConstraintType</ref><sp/>t)<sp/>:<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1af373379b0f1e3f06d76a51586a411955" kindref="member">type</ref>(t)<sp/>{}</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1ac405ba9edb5efbf2285eaf94e4ecb3f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1ac405ba9edb5efbf2285eaf94e4ecb3f5" kindref="member">Constraint</ref>(<ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172" kindref="member">ConstraintType</ref><sp/>t,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>value)<sp/>:<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1af373379b0f1e3f06d76a51586a411955" kindref="member">type</ref>(t),<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1ad5a128936313a7a0b5d4e89aedf071d4" kindref="member">int_value</ref>(value)<sp/>{}</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a37dc93b7cde4d89202c48a3527c2d6a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a37dc93b7cde4d89202c48a3527c2d6a7" kindref="member">Constraint</ref>(<ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172" kindref="member">ConstraintType</ref><sp/>t,<sp/>std::string<sp/>value)<sp/>:<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1af373379b0f1e3f06d76a51586a411955" kindref="member">type</ref>(t),<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1aafa8a07152b07c9b5cd4a4564bac2dcb" kindref="member">string_value</ref>(std::move(value))<sp/>{}</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a2efbd599b7eee4aeb3548d6c66196343" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a2efbd599b7eee4aeb3548d6c66196343" kindref="member">Constraint</ref>(<ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172" kindref="member">ConstraintType</ref><sp/>t,<sp/>std::string<sp/>key,<sp/>std::string<sp/>value)</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1af373379b0f1e3f06d76a51586a411955" kindref="member">type</ref>(t),<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1aafa8a07152b07c9b5cd4a4564bac2dcb" kindref="member">string_value</ref>(std::move(value)),<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a56def477220f2c72599965c464d932d2" kindref="member">property_key</ref>(std::move(key))<sp/>{}</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a6a2d723b4e537341fb7c6ec64b1e097d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a6a2d723b4e537341fb7c6ec64b1e097d" kindref="member">Constraint</ref>(<ref refid="classthemis_1_1graph_1_1_path_constraints_1af631828e7a1119a7b5ea320dba7ac172" kindref="member">ConstraintType</ref><sp/>t,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>threshold)<sp/>:<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1af373379b0f1e3f06d76a51586a411955" kindref="member">type</ref>(t),<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_1a12e3d9a01bb42773f5d8e9460bc342eb" kindref="member">double_value</ref>(threshold)<sp/>{}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result" kindref="compound">PathResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1a8f13528cfc7371b565e7946a4bb09a2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1a8f13528cfc7371b565e7946a4bb09a2d" kindref="member">nodes</ref>;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1a5fed123e6a3b40915e67fa8630eef211" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1a5fed123e6a3b40915e67fa8630eef211" kindref="member">edges</ref>;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1aa49426cca23b9771086d16089b4a71e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1aa49426cca23b9771086d16089b4a71e1" kindref="member">cost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1a6cfd562dc06b04f82f8e6e042c613da8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1a6cfd562dc06b04f82f8e6e042c613da8" kindref="member">satisfies_all_constraints</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1a3fc9a6bc8a741faad98123a9a1f8e2e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1a3fc9a6bc8a741faad98123a9a1f8e2e6" kindref="member">violated_constraints</ref>;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1graph_1_1_path_constraints_1a610d091da064509294d7c04b33fe1b7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1a610d091da064509294d7c04b33fe1b7e" kindref="member">PathConstraints</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1a610d091da064509294d7c04b33fe1b7e" kindref="member">PathConstraints</ref>(GraphIndexManager*<sp/>graph_mgr);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1a3c38a6a52f6cb322f957bcec9f2ed90e" kindref="member">setGraphManager</ref>(GraphIndexManager*<sp/>graph_mgr);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1aeb760861a367afffff02f8d666ea93fd" kindref="member">addMinLength</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>min_length);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1af837e9ab52e790e6ff1806304c0973a7" kindref="member">addMaxLength</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_length);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1a6eb399fedcd43227d2aa9e07c0610fd5" kindref="member">addForbiddenNode</ref>(std::string_view<sp/>node_id);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1ae0ffbb5838d6f8f8859caf0e0fbd6505" kindref="member">addRequiredNode</ref>(std::string_view<sp/>node_id);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1acbbd5f591d26fb87562a5517dfca4996" kindref="member">addForbiddenEdge</ref>(std::string_view<sp/>edge_id);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1a574de96415d1edd19a6a7bf42eb8a102" kindref="member">addRequiredEdge</ref>(std::string_view<sp/>edge_id);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1a24b27fb2916acafeca0812ed72e60164" kindref="member">addEdgePropertyConstraint</ref>(std::string_view<sp/>field_name,<sp/>std::string_view<sp/>expected_value);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1abdcaefa1eb638ab264a17bef22e53fd8" kindref="member">addNodePropertyConstraint</ref>(std::string_view<sp/>field_name,<sp/>std::string_view<sp/>expected_value);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1ad807973fe65e12b5e724d88b07c2bfd0" kindref="member">addMaxWeight</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>max_weight);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1a50b3073c6b2782cd192c5271172f9c5c" kindref="member">addMinWeight</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>min_weight);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1ad1e3194f29e357cdee6a4427f66c3510" kindref="member">requireAcyclic</ref>();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1ad4483c5e746bfea05e2c5d6766e671f4" kindref="member">requireUniqueNodes</ref>();</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1ad487201b8de1017793525969e07ba3b8" kindref="member">requireUniqueEdges</ref>();</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1ab728317db5a1d2df80093eb1ad3cab91" kindref="member">addCustomPredicate</ref>(std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;)&gt;<sp/>predicate);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;bool&gt;<sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1aa8a2f051a89e28c1f55ac1160dc6506e" kindref="member">validatePath</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>nodes,<sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>edges)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::vector&lt;PathResult&gt;&gt;<sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1aab26db066f042b01f0b8f35225d5f26b" kindref="member">findConstrainedPaths</ref>(</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>start_node,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>end_node,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="bench__graph__release__gates_8cpp_1a5a4ec807ee7fa2424bd471f55335e36a" kindref="member">max_results</ref><sp/>=<sp/>10</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation" kindref="compound">ConstraintViolation</ref><sp/>{</highlight></codeline>
+<codeline lineno="183" refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation_1a93f0187e47f311a839ce68b7d3d9b3e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation_1a93f0187e47f311a839ce68b7d3d9b3e7" kindref="member">edge_id</ref>;</highlight></codeline>
+<codeline lineno="184" refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation_1a498d2a8a117cf7e63233443876e73078" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation_1a498d2a8a117cf7e63233443876e73078" kindref="member">source_class</ref>;</highlight></codeline>
+<codeline lineno="185" refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation_1ab6257aafaabf8445d382e69f3b33a1e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation_1ab6257aafaabf8445d382e69f3b33a1e3" kindref="member">target_class</ref>;</highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation_1af37523a4d79b390cca55cff5601ba529" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation_1af37523a4d79b390cca55cff5601ba529" kindref="member">edge_type</ref>;</highlight></codeline>
+<codeline lineno="187" refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation_1a04cc2748befed86a6b59b1abf96afc16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation_1a04cc2748befed86a6b59b1abf96afc16" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1a8bafef53cfacf035a287479e0154bee8" kindref="member">addSemanticConstraint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager" kindref="compound">OntologyManager</ref>*<sp/>ontology,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8" kindref="member">OntologyManager::Ruleset</ref><sp/>ruleset<sp/>=<sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8a2e979835dd62324f5bfe217449ba4974" kindref="member">OntologyManager::Ruleset::Strict</ref>);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ConstraintViolation&gt;<sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1ae52cb6ef96efad582b4a0eec4a1e4bb8" kindref="member">validateSemanticPath</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result" kindref="compound">PathResult</ref>&amp;<sp/>result)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200" refid="classthemis_1_1graph_1_1_path_constraints_1a27bee180005ed672f3715a789616de7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ConstraintViolation&gt;&amp;<sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1a27bee180005ed672f3715a789616de7e" kindref="member">lastViolations</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>last_violations_;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1a75271d2f6666cb4e2e301021b05708ae" kindref="member">clearConstraints</ref>();</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1a9ed65b005894c0d7fb7eb4149ffbfcf5" kindref="member">describeConstraints</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215" refid="classthemis_1_1graph_1_1_path_constraints_1aa2e4ae0163b490b6e3ff5f0461af26ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Constraint&gt;&amp;<sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1aa2e4ae0163b490b6e3ff5f0461af26ae" kindref="member">getConstraints</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>constraints_;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Security<sp/>constants<sp/>──────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220" refid="classthemis_1_1graph_1_1_path_constraints_1a523c51dcd99d0bd4ee59bb11af9608c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1a523c51dcd99d0bd4ee59bb11af9608c8" kindref="member">MAX_ID_LENGTH</ref><sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="221" refid="classthemis_1_1graph_1_1_path_constraints_1a5c8aec7125ea9bc8ed4a850399d16067" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1a5c8aec7125ea9bc8ed4a850399d16067" kindref="member">MAX_FIELD_NAME_LENGTH</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="222" refid="classthemis_1_1graph_1_1_path_constraints_1a6e17e5cdc43844e5ab6d42d6f7a758fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1a6e17e5cdc43844e5ab6d42d6f7a758fe" kindref="member">MAX_FIELD_VALUE_LENGTH</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="223" refid="classthemis_1_1graph_1_1_path_constraints_1a832a2e0652ec7db5e9b3459d87c1ce18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_path_constraints_1a832a2e0652ec7db5e9b3459d87c1ce18" kindref="member">MAX_RESULTS_LIMIT</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Constraint&gt;<sp/>constraints_;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>forbidden_nodes_;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>required_nodes_;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>forbidden_edges_;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>required_edges_;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>GraphIndexManager*<sp/>graph_mgr_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Semantic<sp/>constraint<sp/>state<sp/>───────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager" kindref="compound">OntologyManager</ref>*<sp/>ontology_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8" kindref="member">OntologyManager::Ruleset</ref><sp/>ontology_ruleset_<sp/>=<sp/><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8a2e979835dd62324f5bfe217449ba4974" kindref="member">OntologyManager::Ruleset::Strict</ref>;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::vector&lt;ConstraintViolation&gt;<sp/>last_violations_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isValidIdentifier(std::string_view<sp/>s)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isValidFieldName(std::string_view<sp/>s)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/graph/path_constraints.h"/>
+  </compounddef>
+</doxygen>

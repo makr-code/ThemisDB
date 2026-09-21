@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardStats</compoundname>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_stats_1af85d672c3dc0d1c25131564232298e3d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a1b09ca5c4bcc56b5d53ab289dad7bdbd" kindref="member">ShardId</ref></type>
+        <definition>ShardId themis::sharding::ShardStats::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::ShardStats::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="92" column="13" bodyfile="include/sharding/sharding_interfaces.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_stats_1a755c433533986b372858ae524ba97a84" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardStats::cpu_usage</definition>
+        <argsstring></argsstring>
+        <name>cpu_usage</name>
+        <qualifiedname>themis::sharding::ShardStats::cpu_usage</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Normalised to [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="93" column="12" bodyfile="include/sharding/sharding_interfaces.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_stats_1aa97d01cd41b2bca6362799f88602b4b0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardStats::memory_usage</definition>
+        <argsstring></argsstring>
+        <name>memory_usage</name>
+        <qualifiedname>themis::sharding::ShardStats::memory_usage</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Normalised to [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="94" column="12" bodyfile="include/sharding/sharding_interfaces.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_stats_1aa799ce96112ca03c09d343fc85f147ae" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardStats::storage_usage</definition>
+        <argsstring></argsstring>
+        <name>storage_usage</name>
+        <qualifiedname>themis::sharding::ShardStats::storage_usage</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Normalised to [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="95" column="12" bodyfile="include/sharding/sharding_interfaces.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_stats_1a5b745cf1e737e8cc6c80005e93158300" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardStats::request_rate</definition>
+        <argsstring></argsstring>
+        <name>request_rate</name>
+        <qualifiedname>themis::sharding::ShardStats::request_rate</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Requests per second. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="96" column="12" bodyfile="include/sharding/sharding_interfaces.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_stats_1abb7f25158aca97e5d764be0b8392bac3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ShardStats::key_count</definition>
+        <argsstring></argsstring>
+        <name>key_count</name>
+        <qualifiedname>themis::sharding::ShardStats::key_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of keys stored on this shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="97" column="14" bodyfile="include/sharding/sharding_interfaces.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_stats_1a23f05bdb0e479caec11cff11ffeec47f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ShardStats::pending_llm_requests</definition>
+        <argsstring></argsstring>
+        <name>pending_llm_requests</name>
+        <qualifiedname>themis::sharding::ShardStats::pending_llm_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Current number of queued LLM requests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="98" column="14" bodyfile="include/sharding/sharding_interfaces.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_stats_1ad79e6105a7694bc5c5504f333338279d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ShardStats::avg_llm_queue_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_llm_queue_ms</name>
+        <qualifiedname>themis::sharding::ShardStats::avg_llm_queue_ms</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Average LLM queue wait time in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="99" column="12" bodyfile="include/sharding/sharding_interfaces.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_stats_1a269d53a811a1caff3c53cc3bede80eb8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ShardStats::active_lora_adapters</definition>
+        <argsstring></argsstring>
+        <name>active_lora_adapters</name>
+        <qualifiedname>themis::sharding::ShardStats::active_lora_adapters</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of active LoRA adapters on this shard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="100" column="14" bodyfile="include/sharding/sharding_interfaces.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-shard telemetry snapshot consumed by <ref refid="classthemis_1_1sharding_1_1_i_adaptive_rebalancer_1a41472446a2669cd6c2d77f2d53cffd00" kindref="member">IAdaptiveRebalancer::planRebalance()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/sharding_interfaces.h" line="91" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="91" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_stats_1a269d53a811a1caff3c53cc3bede80eb8" prot="public" virt="non-virtual"><scope>themis::sharding::ShardStats</scope><name>active_lora_adapters</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_stats_1ad79e6105a7694bc5c5504f333338279d" prot="public" virt="non-virtual"><scope>themis::sharding::ShardStats</scope><name>avg_llm_queue_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_stats_1a755c433533986b372858ae524ba97a84" prot="public" virt="non-virtual"><scope>themis::sharding::ShardStats</scope><name>cpu_usage</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_stats_1abb7f25158aca97e5d764be0b8392bac3" prot="public" virt="non-virtual"><scope>themis::sharding::ShardStats</scope><name>key_count</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_stats_1aa97d01cd41b2bca6362799f88602b4b0" prot="public" virt="non-virtual"><scope>themis::sharding::ShardStats</scope><name>memory_usage</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_stats_1a23f05bdb0e479caec11cff11ffeec47f" prot="public" virt="non-virtual"><scope>themis::sharding::ShardStats</scope><name>pending_llm_requests</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_stats_1a5b745cf1e737e8cc6c80005e93158300" prot="public" virt="non-virtual"><scope>themis::sharding::ShardStats</scope><name>request_rate</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_stats_1af85d672c3dc0d1c25131564232298e3d" prot="public" virt="non-virtual"><scope>themis::sharding::ShardStats</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_stats_1aa799ce96112ca03c09d343fc85f147ae" prot="public" virt="non-virtual"><scope>themis::sharding::ShardStats</scope><name>storage_usage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

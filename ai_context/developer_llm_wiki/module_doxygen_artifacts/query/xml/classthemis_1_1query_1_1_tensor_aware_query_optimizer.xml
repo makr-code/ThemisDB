@@ -1,0 +1,476 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_tensor_aware_query_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::TensorAwareQueryOptimizer</compoundname>
+    <includes refid="tensor__aware__query__optimizer_8h" local="no">tensor_aware_query_optimizer.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats" prot="public">themis::query::TensorAwareQueryOptimizer::RewriteStats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1ab73d27ddc43ea3b61b36c580ba56fa6c" prot="public" static="no">
+        <type>std::function&lt; std::optional&lt; std::string &gt;(const <ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref> &amp;)&gt;</type>
+        <definition>using themis::query::TensorAwareQueryOptimizer::TensorNodeDetectorFn = std::function&lt;std::optional&lt;std::string&gt;(const QueryPlanNode&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TensorNodeDetectorFn</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::TensorNodeDetectorFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="50" column="5" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1af314d68cd5d52e6492bd775bc7ab5204" prot="public" static="no">
+        <type>std::function&lt; bool(<ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref> &amp;node, double &amp;baseline_cost_out)&gt;</type>
+        <definition>using themis::query::TensorAwareQueryOptimizer::IRVisitorFn = std::function&lt;bool(QueryPlanNode&amp; node,
+                                          double&amp; baseline_cost_out)&gt;</definition>
+        <argsstring></argsstring>
+        <name>IRVisitorFn</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::IRVisitorFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="56" column="5" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a52ff96095d24319ad255a0f1ff82f5f2" prot="public" static="no">
+        <type>std::function&lt; void(<ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref> &amp;)&gt;</type>
+        <definition>using themis::query::TensorAwareQueryOptimizer::AstVisitorFn = std::function&lt;void(QueryPlanNode&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>AstVisitorFn</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::AstVisitorFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="114" column="5" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a19fb1fea7ca55d3329b534a2cd31c48b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats" kindref="compound">RewriteStats</ref></type>
+        <definition>RewriteStats themis::query::TensorAwareQueryOptimizer::last_stats_</definition>
+        <argsstring></argsstring>
+        <name>last_stats_</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::last_stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="134" column="18" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a002f9cee4c07c93fca66d3653ce43c7d" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::query::TensorAwareQueryOptimizer::detector_mutex_</definition>
+        <argsstring></argsstring>
+        <name>detector_mutex_</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::detector_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="135" column="31" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1aadd65c195bc6f712a9baa1fb01544fb7" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1ab73d27ddc43ea3b61b36c580ba56fa6c" kindref="member">TensorNodeDetectorFn</ref></type>
+        <definition>TensorNodeDetectorFn themis::query::TensorAwareQueryOptimizer::tensor_node_detector_fn_</definition>
+        <argsstring></argsstring>
+        <name>tensor_node_detector_fn_</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::tensor_node_detector_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="136" column="26" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a2a642cf32719e501a669c71d12b35f76" prot="private" static="yes" mutable="no">
+        <type>const std::unordered_set&lt; std::string &gt;</type>
+        <definition>const std::unordered_set&lt; std::string &gt; themis::query::TensorAwareQueryOptimizer::kTensorFunctions</definition>
+        <argsstring></argsstring>
+        <name>kTensorFunctions</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::kTensorFunctions</qualifiedname>
+        <initializer>                                                                     = {
+    &quot;TENSOR_SIMILARITY&quot;,
+    &quot;TENSOR_NORM&quot;,
+    &quot;TENSOR_SLICE&quot;,
+    &quot;TENSOR_COMPRESS&quot;,
+    &quot;TENSOR_INFO&quot;,
+    &quot;TENSOR_CONTRACT&quot;,
+    &quot;TENSOR_PROJECT&quot;,
+    &quot;TENSOR_DECOMPOSE&quot;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="139" column="37" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1ab58f4d39c0204c6b88f18c0b88b0e1b8" prot="private" static="yes" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1af314d68cd5d52e6492bd775bc7ab5204" kindref="member">IRVisitorFn</ref></type>
+        <definition>TensorAwareQueryOptimizer::IRVisitorFn themis::query::TensorAwareQueryOptimizer::ir_visitor_fn_</definition>
+        <argsstring></argsstring>
+        <name>ir_visitor_fn_</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::ir_visitor_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="142" column="27" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1ad1d16bd7c3e07b944a2e524f92df6976" prot="private" static="yes" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::query::TensorAwareQueryOptimizer::ir_visitor_mutex_</definition>
+        <argsstring></argsstring>
+        <name>ir_visitor_mutex_</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::ir_visitor_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="143" column="27" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a83094a1b9f7a1cbaf14caea8e624522e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::TensorAwareQueryOptimizer::TensorAwareQueryOptimizer</definition>
+        <argsstring>()=default</argsstring>
+        <name>TensorAwareQueryOptimizer</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::TensorAwareQueryOptimizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a1046aff04747267d643b7ff444f0409c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; QueryPlanNode &gt; themis::query::TensorAwareQueryOptimizer::rewrite</definition>
+        <argsstring>(std::shared_ptr&lt; QueryPlanNode &gt; root)</argsstring>
+        <name>rewrite</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::rewrite</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref> &gt;</type>
+          <declname>root</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="73" column="9" bodyfile="src/query/tensor_aware_query_optimizer.cpp" bodystart="342" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a75b663ecc54d850affd7a837f369664f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::TensorAwareQueryOptimizer::setTensorNodeDetectorFn</definition>
+        <argsstring>(TensorNodeDetectorFn fn)</argsstring>
+        <name>setTensorNodeDetectorFn</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::setTensorNodeDetectorFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1ab73d27ddc43ea3b61b36c580ba56fa6c" kindref="member">TensorNodeDetectorFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>─── Detector bridge ────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Tensor Node Detector Fn.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="89" column="10" bodyfile="src/query/tensor_aware_query_optimizer.cpp" bodystart="206" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1aeddda17de5ce7bf08d4820606377c20a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::TensorAwareQueryOptimizer::clearTensorNodeDetectorFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearTensorNodeDetectorFn</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::clearTensorNodeDetectorFn</qualifiedname>
+        <briefdescription>
+<para>Clear Tensor Node Detector Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="94" column="10" bodyfile="src/query/tensor_aware_query_optimizer.cpp" bodystart="215" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a262761e7d4b6802ceaac0777c3162860" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats" kindref="compound">RewriteStats</ref></type>
+        <definition>RewriteStats themis::query::TensorAwareQueryOptimizer::lastStats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>lastStats</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::lastStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="110" column="19" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a27ba845ebb0ff9a8dfb66f529371c024" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::TensorAwareQueryOptimizer::setIRVisitorFn</definition>
+        <argsstring>(IRVisitorFn fn)</argsstring>
+        <name>setIRVisitorFn</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::setIRVisitorFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1af314d68cd5d52e6492bd775bc7ab5204" kindref="member">IRVisitorFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set IRVisitor Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="63" column="17" bodyfile="src/query/tensor_aware_query_optimizer.cpp" bodystart="89" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a0b99b78009c9fbbb84d1ce93f55462e3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::TensorAwareQueryOptimizer::clearIRVisitorFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearIRVisitorFn</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::clearIRVisitorFn</qualifiedname>
+        <briefdescription>
+<para>Clear IRVisitor Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="68" column="17" bodyfile="src/query/tensor_aware_query_optimizer.cpp" bodystart="98" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1ab63a16a50b73cb376afbee5a6198517b" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::TensorAwareQueryOptimizer::isTensorFunction</definition>
+        <argsstring>(const std::string &amp;name) noexcept</argsstring>
+        <name>isTensorFunction</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::isTensorFunction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="77" column="18" bodyfile="src/query/tensor_aware_query_optimizer.cpp" bodystart="107" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a9dee252104349dcdc850934a4b979982" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::TensorAwareQueryOptimizer::estimateTTCost</definition>
+        <argsstring>(const std::string &amp;function_name, std::size_t order, std::size_t mode_size, std::size_t max_rank) noexcept</argsstring>
+        <name>estimateTTCost</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::estimateTTCost</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>function_name</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>order</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>mode_size</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_rank</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="79" column="20" bodyfile="src/query/tensor_aware_query_optimizer.cpp" bodystart="156" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a89e6428e464987900c9458cc06b64931" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::TensorAwareQueryOptimizer::setAstVisitorFn</definition>
+        <argsstring>(AstVisitorFn fn)</argsstring>
+        <name>setAstVisitorFn</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::setAstVisitorFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a52ff96095d24319ad255a0f1ff82f5f2" kindref="member">AstVisitorFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Ast Visitor Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="120" column="17" bodyfile="src/query/tensor_aware_query_optimizer.cpp" bodystart="40" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1afa91a92aac2251d9276779c106382cd2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::TensorAwareQueryOptimizer::clearAstVisitorFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearAstVisitorFn</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::clearAstVisitorFn</qualifiedname>
+        <briefdescription>
+<para>Clear Ast Visitor Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="125" column="17" bodyfile="src/query/tensor_aware_query_optimizer.cpp" bodystart="49" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a066877d653ef6995ca1628115ca8a47f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::TensorAwareQueryOptimizer::rewriteNode</definition>
+        <argsstring>(QueryPlanNode &amp;node)</argsstring>
+        <name>rewriteNode</name>
+        <qualifiedname>themis::query::TensorAwareQueryOptimizer::rewriteNode</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Rewrite Node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), visitor_snap(), THEMIS_WARN(), detector(), reset(), has_value(), <ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1ab63a16a50b73cb376afbee5a6198517b" kindref="member">isTensorFunction()</ref>, reserve(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="132" column="10" bodyfile="src/query/tensor_aware_query_optimizer.cpp" bodystart="226" bodyend="335"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/tensor_aware_query_optimizer.h" line="48" column="1" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="48" bodyend="144"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a52ff96095d24319ad255a0f1ff82f5f2" prot="public" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>AstVisitorFn</name></member>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1afa91a92aac2251d9276779c106382cd2" prot="public" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>clearAstVisitorFn</name></member>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a0b99b78009c9fbbb84d1ce93f55462e3" prot="public" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>clearIRVisitorFn</name></member>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1aeddda17de5ce7bf08d4820606377c20a" prot="public" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>clearTensorNodeDetectorFn</name></member>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a002f9cee4c07c93fca66d3653ce43c7d" prot="private" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>detector_mutex_</name></member>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a9dee252104349dcdc850934a4b979982" prot="public" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>estimateTTCost</name></member>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1ab58f4d39c0204c6b88f18c0b88b0e1b8" prot="private" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>ir_visitor_fn_</name></member>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1ad1d16bd7c3e07b944a2e524f92df6976" prot="private" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>ir_visitor_mutex_</name></member>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1af314d68cd5d52e6492bd775bc7ab5204" prot="public" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>IRVisitorFn</name></member>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1ab63a16a50b73cb376afbee5a6198517b" prot="public" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>isTensorFunction</name></member>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a2a642cf32719e501a669c71d12b35f76" prot="private" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>kTensorFunctions</name></member>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a19fb1fea7ca55d3329b534a2cd31c48b" prot="private" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>last_stats_</name></member>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a262761e7d4b6802ceaac0777c3162860" prot="public" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>lastStats</name></member>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a1046aff04747267d643b7ff444f0409c" prot="public" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>rewrite</name></member>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a066877d653ef6995ca1628115ca8a47f" prot="private" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>rewriteNode</name></member>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a89e6428e464987900c9458cc06b64931" prot="public" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>setAstVisitorFn</name></member>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a27ba845ebb0ff9a8dfb66f529371c024" prot="public" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>setIRVisitorFn</name></member>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a75b663ecc54d850affd7a837f369664f" prot="public" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>setTensorNodeDetectorFn</name></member>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1aadd65c195bc6f712a9baa1fb01544fb7" prot="private" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>tensor_node_detector_fn_</name></member>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a83094a1b9f7a1cbaf14caea8e624522e" prot="public" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>TensorAwareQueryOptimizer</name></member>
+      <member refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1ab73d27ddc43ea3b61b36c580ba56fa6c" prot="public" virt="non-virtual"><scope>themis::query::TensorAwareQueryOptimizer</scope><name>TensorNodeDetectorFn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

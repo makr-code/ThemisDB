@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::MoralAnalyzer::EthicalDecision::Metrics</compoundname>
+    <includes refid="moral__analyzer_8h" local="no">moral_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics_1a3a790e52cbbb9821ad98dda2c6cbb1a9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::MoralAnalyzer::EthicalDecision::Metrics::consistency</definition>
+        <argsstring></argsstring>
+        <name>consistency</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::EthicalDecision::Metrics::consistency</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="83" column="20" bodyfile="include/llm/moral_analyzer.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics_1ae303ad3e6a9113a2e84e402b6aed6d63" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::MoralAnalyzer::EthicalDecision::Metrics::fairness</definition>
+        <argsstring></argsstring>
+        <name>fairness</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::EthicalDecision::Metrics::fairness</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="84" column="20" bodyfile="include/llm/moral_analyzer.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics_1a1af3ed685148b08097bb4e0fa9c3000e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::MoralAnalyzer::EthicalDecision::Metrics::transparency</definition>
+        <argsstring></argsstring>
+        <name>transparency</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::EthicalDecision::Metrics::transparency</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="85" column="20" bodyfile="include/llm/moral_analyzer.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics_1a4c610261450fa4e0ade9ed55d61c60dd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::MoralAnalyzer::EthicalDecision::Metrics::feasibility</definition>
+        <argsstring></argsstring>
+        <name>feasibility</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::EthicalDecision::Metrics::feasibility</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="86" column="20" bodyfile="include/llm/moral_analyzer.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics_1a172356ec94e6ee0575b4ae4a63e5fd85" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::MoralAnalyzer::EthicalDecision::Metrics::long_term_impact</definition>
+        <argsstring></argsstring>
+        <name>long_term_impact</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::EthicalDecision::Metrics::long_term_impact</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="87" column="20" bodyfile="include/llm/moral_analyzer.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/moral_analyzer.h" line="82" column="9" bodyfile="include/llm/moral_analyzer.h" bodystart="82" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics_1a3a790e52cbbb9821ad98dda2c6cbb1a9" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer::EthicalDecision::Metrics</scope><name>consistency</name></member>
+      <member refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics_1ae303ad3e6a9113a2e84e402b6aed6d63" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer::EthicalDecision::Metrics</scope><name>fairness</name></member>
+      <member refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics_1a4c610261450fa4e0ade9ed55d61c60dd" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer::EthicalDecision::Metrics</scope><name>feasibility</name></member>
+      <member refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics_1a172356ec94e6ee0575b4ae4a63e5fd85" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer::EthicalDecision::Metrics</scope><name>long_term_impact</name></member>
+      <member refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics_1a1af3ed685148b08097bb4e0fa9c3000e" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer::EthicalDecision::Metrics</scope><name>transparency</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

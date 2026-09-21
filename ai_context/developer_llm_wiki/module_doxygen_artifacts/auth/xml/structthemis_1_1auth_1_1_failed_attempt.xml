@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_failed_attempt" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::FailedAttempt</compoundname>
+    <includes refid="auth__rate__limiter_8h" local="no">auth_rate_limiter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_failed_attempt_1af16120655aa6a8589193420a658aad7d" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::FailedAttempt::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::auth::FailedAttempt::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="110" column="43" bodyfile="include/auth/auth_rate_limiter.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_failed_attempt_1ae955c32c4371f5312276e65c25f23116" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::FailedAttempt::ip_address</definition>
+        <argsstring></argsstring>
+        <name>ip_address</name>
+        <qualifiedname>themis::auth::FailedAttempt::ip_address</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="111" column="17" bodyfile="include/auth/auth_rate_limiter.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_failed_attempt_1af1f418c8e5a32da0c373dc7a0e64536b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::FailedAttempt::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::auth::FailedAttempt::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="112" column="17" bodyfile="include/auth/auth_rate_limiter.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_failed_attempt_1a564781827e7a8a3904d7f658b4b725da" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::FailedAttempt::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::auth::FailedAttempt::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="113" column="17" bodyfile="include/auth/auth_rate_limiter.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/auth_rate_limiter.h" line="109" column="1" bodyfile="include/auth/auth_rate_limiter.h" bodystart="109" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_failed_attempt_1ae955c32c4371f5312276e65c25f23116" prot="public" virt="non-virtual"><scope>themis::auth::FailedAttempt</scope><name>ip_address</name></member>
+      <member refid="structthemis_1_1auth_1_1_failed_attempt_1a564781827e7a8a3904d7f658b4b725da" prot="public" virt="non-virtual"><scope>themis::auth::FailedAttempt</scope><name>reason</name></member>
+      <member refid="structthemis_1_1auth_1_1_failed_attempt_1af16120655aa6a8589193420a658aad7d" prot="public" virt="non-virtual"><scope>themis::auth::FailedAttempt</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1auth_1_1_failed_attempt_1af1f418c8e5a32da0c373dc7a0e64536b" prot="public" virt="non-virtual"><scope>themis::auth::FailedAttempt</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

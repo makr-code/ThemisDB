@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_federated_blob_route" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::FederatedBlobRoute</compoundname>
+    <includes refid="federated__blob__router_8h" local="no">federated_blob_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_federated_blob_route_1acda848a0c0f8247e7e64d942476a857c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::FederatedBlobRoute::primary_region</definition>
+        <argsstring></argsstring>
+        <name>primary_region</name>
+        <qualifiedname>themis::storage::FederatedBlobRoute::primary_region</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/federated_blob_router.h" line="52" column="17" bodyfile="include/storage/federated_blob_router.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_federated_blob_route_1ad66ff758891ebd0d4661be21fee25e6e" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, BlobRef&gt; themis::storage::FederatedBlobRoute::region_refs</definition>
+        <argsstring></argsstring>
+        <name>region_refs</name>
+        <qualifiedname>themis::storage::FederatedBlobRoute::region_refs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/federated_blob_router.h" line="53" column="24" bodyfile="include/storage/federated_blob_router.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_federated_blob_route_1aaf7450a189507388b370182ec7104d65" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::storage::FederatedBlobRoute::optional_failures</definition>
+        <argsstring></argsstring>
+        <name>optional_failures</name>
+        <qualifiedname>themis::storage::FederatedBlobRoute::optional_failures</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/federated_blob_router.h" line="54" column="33" bodyfile="include/storage/federated_blob_router.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Multi-region placement result for a federated blob write. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The route records the blob reference returned by each participating backend so that subsequent reads and deletes can use the correct region-local metadata. </para>
+    </detaileddescription>
+    <location file="include/storage/federated_blob_router.h" line="51" column="1" bodyfile="include/storage/federated_blob_router.h" bodystart="51" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_federated_blob_route_1aaf7450a189507388b370182ec7104d65" prot="public" virt="non-virtual"><scope>themis::storage::FederatedBlobRoute</scope><name>optional_failures</name></member>
+      <member refid="structthemis_1_1storage_1_1_federated_blob_route_1acda848a0c0f8247e7e64d942476a857c" prot="public" virt="non-virtual"><scope>themis::storage::FederatedBlobRoute</scope><name>primary_region</name></member>
+      <member refid="structthemis_1_1storage_1_1_federated_blob_route_1ad66ff758891ebd0d4661be21fee25e6e" prot="public" virt="non-virtual"><scope>themis::storage::FederatedBlobRoute</scope><name>region_refs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

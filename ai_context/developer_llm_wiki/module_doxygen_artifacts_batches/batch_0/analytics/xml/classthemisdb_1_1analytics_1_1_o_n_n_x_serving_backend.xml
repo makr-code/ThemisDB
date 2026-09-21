@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ONNXServingBackend</compoundname>
+    <basecompoundref refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend" prot="public" virt="non-virtual">themisdb::analytics::IMLServingBackend</basecompoundref>
+    <includes refid="ml__serving_8h" local="no">ml_serving.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1_1_impl" prot="public">themisdb::analytics::ONNXServingBackend::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1a27e4c4879cab0d3a4c209cd2d242f94d" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themisdb::analytics::ONNXServingBackend::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themisdb::analytics::ONNXServingBackend::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="166" column="21" bodyfile="include/analytics/ml_serving.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1a7846b38f921537205ede55034f637e78" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ONNXServingBackend::ONNXServingBackend</definition>
+        <argsstring>(const ONNXBackendConfig &amp;config={})</argsstring>
+        <name>ONNXServingBackend</name>
+        <qualifiedname>themisdb::analytics::ONNXServingBackend::ONNXServingBackend</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_o_n_n_x_backend_config" kindref="compound">ONNXBackendConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="157" column="14" bodyfile="src/analytics/ml_serving.cpp" bodystart="441" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1a1913d865b0e2c4fd9de1612a507cc572" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::ONNXServingBackend::~ONNXServingBackend</definition>
+        <argsstring>() override</argsstring>
+        <name>~ONNXServingBackend</name>
+        <qualifiedname>themisdb::analytics::ONNXServingBackend::~ONNXServingBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="158" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1aa35e3da43397c93bd4f758c9b0eade8b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ONNXServingBackend::backendName</definition>
+        <argsstring>() const override</argsstring>
+        <name>backendName</name>
+        <qualifiedname>themisdb::analytics::ONNXServingBackend::backendName</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend_1ab0ce459c0a7f9878648f5011adadb905">backendName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="160" column="17" bodyfile="src/analytics/ml_serving.cpp" bodystart="445" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1a5b2888d146590107de8130211db07c29" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ONNXServingBackend::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themisdb::analytics::ONNXServingBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend_1ab7267e20a652b9d582cb52081fca4289">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="161" column="17" bodyfile="src/analytics/ml_serving.cpp" bodystart="449" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1a274452a05f02c545d942e0aaa5989bdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response" kindref="compound">MLServingResponse</ref></type>
+        <definition>MLServingResponse themisdb::analytics::ONNXServingBackend::infer</definition>
+        <argsstring>(const MLServingRequest &amp;req) override</argsstring>
+        <name>infer</name>
+        <qualifiedname>themisdb::analytics::ONNXServingBackend::infer</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend_1a04af437d7078da76b9e31176869472d8">infer</reimplements>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_request" kindref="compound">MLServingRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Infer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="162" column="23" bodyfile="src/analytics/ml_serving.cpp" bodystart="459" bodyend="468"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themisdb::analytics::IMLServingBackend</label>
+        <link refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::ONNXServingBackend</label>
+        <link refid="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::analytics::IMLServingBackend</label>
+        <link refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::ONNXServingBackend</label>
+        <link refid="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/ml_serving.h" line="155" column="1" bodyfile="include/analytics/ml_serving.h" bodystart="155" bodyend="167"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1aa35e3da43397c93bd4f758c9b0eade8b" prot="public" virt="virtual"><scope>themisdb::analytics::ONNXServingBackend</scope><name>backendName</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1a27e4c4879cab0d3a4c209cd2d242f94d" prot="private" virt="non-virtual"><scope>themisdb::analytics::ONNXServingBackend</scope><name>impl_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1a274452a05f02c545d942e0aaa5989bdf" prot="public" virt="virtual"><scope>themisdb::analytics::ONNXServingBackend</scope><name>infer</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1a5b2888d146590107de8130211db07c29" prot="public" virt="virtual"><scope>themisdb::analytics::ONNXServingBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1a7846b38f921537205ede55034f637e78" prot="public" virt="non-virtual"><scope>themisdb::analytics::ONNXServingBackend</scope><name>ONNXServingBackend</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend_1a9ab47d57e701d58dabe01bce5c712fe7" prot="public" virt="virtual"><scope>themisdb::analytics::ONNXServingBackend</scope><name>~IMLServingBackend</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_o_n_n_x_serving_backend_1a1913d865b0e2c4fd9de1612a507cc572" prot="public" virt="non-virtual"><scope>themisdb::analytics::ONNXServingBackend</scope><name>~ONNXServingBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

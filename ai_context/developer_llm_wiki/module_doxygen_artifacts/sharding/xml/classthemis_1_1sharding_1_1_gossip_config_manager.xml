@@ -1,0 +1,1560 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_gossip_config_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::GossipConfigManager</compoundname>
+    <includes refid="gossip__config__manager_8h" local="no">gossip_config_manager.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics" prot="public">themis::sharding::GossipConfigManager::Statistics</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_gossip_config_manager_1adc436559ecbf4e1f18217b06587f05fc" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1sharding_1_1_config_update" kindref="compound">ConfigUpdate</ref> &amp;)&gt;</type>
+        <definition>using themis::sharding::GossipConfigManager::ConfigUpdateCallback = std::function&lt;void(const ConfigUpdate&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ConfigUpdateCallback</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::ConfigUpdateCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="215" column="5" bodyfile="include/sharding/gossip_config_manager.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a069ca88666e0b25a6ddd831f49a293fa" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1sharding_1_1_resource_snapshot" kindref="compound">ResourceSnapshot</ref> &amp;)&gt;</type>
+        <definition>using themis::sharding::GossipConfigManager::ResourceSnapshotCallback = std::function&lt;void(const ResourceSnapshot&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ResourceSnapshotCallback</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::ResourceSnapshotCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="216" column="5" bodyfile="include/sharding/gossip_config_manager.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_gossip_config_manager_1ab14b5f6048fdce1d17c00454a8370750" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;peer_endpoint, const proto::GossipMessage &amp;message)&gt;</type>
+        <definition>using themis::sharding::GossipConfigManager::GossipSendFn = std::function&lt;bool(const std::string&amp; peer_endpoint,
+                                           const proto::GossipMessage&amp; message)&gt;</definition>
+        <argsstring></argsstring>
+        <name>GossipSendFn</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::GossipSendFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Transport function type for gossip message delivery. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>peer_endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination endpoint string (e.g. &quot;https://shard-2:8080&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Gossip message to deliver </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the message was accepted by the peer, false on error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="224" column="5" bodyfile="include/sharding/gossip_config_manager.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a3b0b5bf55da23167c57846af1a079f7d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config" kindref="compound">GossipConfigManagerConfig</ref></type>
+        <definition>GossipConfigManagerConfig themis::sharding::GossipConfigManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="352" column="31" bodyfile="include/sharding/gossip_config_manager.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1ad58637d855493b661d23d811f69ca8c4" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardTopology&gt; themis::sharding::GossipConfigManager::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="353" column="21" bodyfile="include/sharding/gossip_config_manager.h" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1ac388ae349ab844150abaf3682b25a190" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_client" kindref="compound">MTLSClient</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MTLSClient&gt; themis::sharding::GossipConfigManager::client_</definition>
+        <argsstring></argsstring>
+        <name>client_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::client_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="354" column="21" bodyfile="include/sharding/gossip_config_manager.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a28a83a6dfb24872bc03d56e527951c4c" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PrometheusMetrics&gt; themis::sharding::GossipConfigManager::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="355" column="21" bodyfile="include/sharding/gossip_config_manager.h" bodystart="355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a77dc7d025bd5ffb151438b750c58841b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_vector_clock" kindref="compound">VectorClock</ref></type>
+        <definition>VectorClock themis::sharding::GossipConfigManager::local_clock_</definition>
+        <argsstring></argsstring>
+        <name>local_clock_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::local_clock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="358" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="358" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a310a7a288457319976feef5b97d34a94" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::GossipConfigManager::clock_mutex_</definition>
+        <argsstring></argsstring>
+        <name>clock_mutex_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::clock_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="359" column="24" bodyfile="include/sharding/gossip_config_manager.h" bodystart="359" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1adb0d6d1dccb5c7c0baf934d6be40ebac" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_config_update" kindref="compound">ConfigUpdate</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ConfigUpdate&gt; themis::sharding::GossipConfigManager::config_updates_</definition>
+        <argsstring></argsstring>
+        <name>config_updates_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::config_updates_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="362" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="362" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1ae81bfbe621cce5d95d9c0d351359d544" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::sharding::GossipConfigManager::current_config_</definition>
+        <argsstring></argsstring>
+        <name>current_config_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::current_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="363" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="363" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1afef752ebff685cb8f2d214d9b0908ab0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::GossipConfigManager::config_mutex_</definition>
+        <argsstring></argsstring>
+        <name>config_mutex_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::config_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="364" column="24" bodyfile="include/sharding/gossip_config_manager.h" bodystart="364" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a0343afc3479a21fe8e37b44f9f03d49a" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_resource_snapshot" kindref="compound">ResourceSnapshot</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ResourceSnapshot&gt; themis::sharding::GossipConfigManager::resource_snapshots_</definition>
+        <argsstring></argsstring>
+        <name>resource_snapshots_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::resource_snapshots_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="367" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="367" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a14eed42b32877d0fe6969e6e39e5abc4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::GossipConfigManager::resource_mutex_</definition>
+        <argsstring></argsstring>
+        <name>resource_mutex_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::resource_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="368" column="24" bodyfile="include/sharding/gossip_config_manager.h" bodystart="368" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a26ecb67ff60e4fc1c7d8b0d983619629" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::sharding::GossipConfigManager::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="371" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="371" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a4942f601efd6df9af4959884850f4cc2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::GossipConfigManager::lifecycle_mutex_</definition>
+        <argsstring></argsstring>
+        <name>lifecycle_mutex_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::lifecycle_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="372" column="24" bodyfile="include/sharding/gossip_config_manager.h" bodystart="372" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a4dff1ed85ca257c0a18d73c57fe68a30" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::sharding::GossipConfigManager::gossip_thread_</definition>
+        <argsstring></argsstring>
+        <name>gossip_thread_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::gossip_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="373" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="373" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a5d1e63f89364342ec859b3c0d7fb5901" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::sharding::GossipConfigManager::anti_entropy_thread_</definition>
+        <argsstring></argsstring>
+        <name>anti_entropy_thread_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::anti_entropy_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="374" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="374" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a0392a16fd16ce25ce7e3991c9e87b958" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_gossip_config_manager_1adc436559ecbf4e1f18217b06587f05fc" kindref="member">ConfigUpdateCallback</ref></type>
+        <definition>ConfigUpdateCallback themis::sharding::GossipConfigManager::config_update_callback_</definition>
+        <argsstring></argsstring>
+        <name>config_update_callback_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::config_update_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="377" column="26" bodyfile="include/sharding/gossip_config_manager.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a91c35be566dba0c28daebfdd50dba64f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a069ca88666e0b25a6ddd831f49a293fa" kindref="member">ResourceSnapshotCallback</ref></type>
+        <definition>ResourceSnapshotCallback themis::sharding::GossipConfigManager::resource_snapshot_callback_</definition>
+        <argsstring></argsstring>
+        <name>resource_snapshot_callback_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::resource_snapshot_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="378" column="30" bodyfile="include/sharding/gossip_config_manager.h" bodystart="378" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a7d4c7dbc7b602dcb09d5f8a22e747db1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::GossipConfigManager::callback_mutex_</definition>
+        <argsstring></argsstring>
+        <name>callback_mutex_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::callback_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="379" column="24" bodyfile="include/sharding/gossip_config_manager.h" bodystart="379" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a47bf822a0dc24f67e809ddff7c7f2803" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="classthemis_1_1sharding_1_1_gossip_config_manager_1ab14b5f6048fdce1d17c00454a8370750" kindref="member">GossipSendFn</ref> &gt;</type>
+        <definition>std::optional&lt;GossipSendFn&gt; themis::sharding::GossipConfigManager::gossip_send_fn_</definition>
+        <argsstring></argsstring>
+        <name>gossip_send_fn_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::gossip_send_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="380" column="19" bodyfile="include/sharding/gossip_config_manager.h" bodystart="380" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a34016c6c6fa097c2365ad5b0b7551ea1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::GossipConfigManager::gossip_send_fn_mutex_</definition>
+        <argsstring></argsstring>
+        <name>gossip_send_fn_mutex_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::gossip_send_fn_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="381" column="24" bodyfile="include/sharding/gossip_config_manager.h" bodystart="381" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1aefbe112f1bcb93727e18a3e28717aa68" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::GossipConfigManager::gossip_rounds_</definition>
+        <argsstring></argsstring>
+        <name>gossip_rounds_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::gossip_rounds_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="384" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="384" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a8413cbec43a78944eeeb3e9de037e2c3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::GossipConfigManager::messages_sent_</definition>
+        <argsstring></argsstring>
+        <name>messages_sent_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::messages_sent_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="385" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="385" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1ab9239f7ca8748e8ed0217aa59b8a1d84" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::GossipConfigManager::messages_received_</definition>
+        <argsstring></argsstring>
+        <name>messages_received_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::messages_received_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="386" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="386" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1ac7faa1a91ad3bfdc42b6db6dfa630a74" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::GossipConfigManager::config_updates_sent_</definition>
+        <argsstring></argsstring>
+        <name>config_updates_sent_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::config_updates_sent_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="387" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="387" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a7f9cdd3dd8816412dc9fdf8ad1853af0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::GossipConfigManager::config_updates_received_</definition>
+        <argsstring></argsstring>
+        <name>config_updates_received_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::config_updates_received_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="388" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="388" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a6d2b44388a25d29fa0f5ac29121c69dc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::GossipConfigManager::resource_snapshots_sent_</definition>
+        <argsstring></argsstring>
+        <name>resource_snapshots_sent_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::resource_snapshots_sent_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="389" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="389" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1aa0b33cf2749c7a483c4c8ac848325692" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::GossipConfigManager::resource_snapshots_received_</definition>
+        <argsstring></argsstring>
+        <name>resource_snapshots_received_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::resource_snapshots_received_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="390" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="390" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a9baa49ee6c3345832affada7fc86320d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::GossipConfigManager::conflicts_resolved_</definition>
+        <argsstring></argsstring>
+        <name>conflicts_resolved_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::conflicts_resolved_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="391" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="391" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1af5bee1d5db574e5b3f211cdc968eac92" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::GossipConfigManager::anti_entropy_syncs_</definition>
+        <argsstring></argsstring>
+        <name>anti_entropy_syncs_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::anti_entropy_syncs_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="392" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="392" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1ad9ce561fe5a09c92bcf1df08d03bc9e9" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::sharding::GossipConfigManager::propagation_latencies_ms_</definition>
+        <argsstring></argsstring>
+        <name>propagation_latencies_ms_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::propagation_latencies_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="395" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="395" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a0816d59e73d14ab52688ba475c035e79" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::GossipConfigManager::latency_mutex_</definition>
+        <argsstring></argsstring>
+        <name>latency_mutex_</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::latency_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="396" column="24" bodyfile="include/sharding/gossip_config_manager.h" bodystart="396" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a59acf6759f5f2eace7b3644d2d9ed9ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::GossipConfigManager::GossipConfigManager</definition>
+        <argsstring>(const GossipConfigManagerConfig &amp;config, std::shared_ptr&lt; ShardTopology &gt; topology, std::shared_ptr&lt; PrometheusMetrics &gt; metrics=nullptr)</argsstring>
+        <name>GossipConfigManager</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::GossipConfigManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config" kindref="compound">GossipConfigManagerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+          <declname>metrics</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct <ref refid="classthemis_1_1sharding_1_1_gossip_config_manager" kindref="compound">GossipConfigManager</ref> <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration parameters </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> for peer discovery </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional Prometheus metrics exporter </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">clock_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="233" column="5" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="234" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a654f828df135bc8d379784e91969679b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::GossipConfigManager::~GossipConfigManager</definition>
+        <argsstring>()</argsstring>
+        <name>~GossipConfigManager</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::~GossipConfigManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="237" column="5" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="264" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a98828b19ffc4b3812da3aac110165d4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipConfigManager::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start the gossip config manager</para>
+<para>Calls: lifecycle_lock(), load(), store(), std::thread(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="242" column="10" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="272" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a6d68983daaef0531eed1867401e32aaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipConfigManager::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop the gossip config manager</para>
+<para>Calls: lifecycle_lock(), load(), store(), joinable(), themis::utils::joinThreadWithin(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="247" column="10" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="313" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a34b9afb17a7e8788b9817c3ba35c0c44" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::GossipConfigManager::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if manager is running </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="252" column="10" bodyfile="include/sharding/gossip_config_manager.h" bodystart="252" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a91bdd65e3e5a5db3616738273aee148f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GossipConfigManager::publishConfigUpdate</definition>
+        <argsstring>(const std::string &amp;config_key, const std::string &amp;config_value)</argsstring>
+        <name>publishConfigUpdate</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::publishConfigUpdate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_value</declname>
+        </param>
+        <briefdescription>
+<para>Publish Config Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Publish a configuration update <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration value (JSON-encoded) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Update ID</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), spdlog::error(), generateUpdateId(), std::chrono::system_clock::now(), time_since_epoch(), count(), lock(), increment(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="260" column="17" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="344" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1afdbe7c8886135d2c28091c4bde950eb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipConfigManager::publishResourceSnapshot</definition>
+        <argsstring>(const ResourceSnapshot &amp;snapshot)</argsstring>
+        <name>publishResourceSnapshot</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::publishResourceSnapshot</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_resource_snapshot" kindref="compound">ResourceSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Publish Resource Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Publish a resource snapshot <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Resource snapshot to publish</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), spdlog::error(), handleResourceSnapshot(), selectRandomPeers(), getShard(), sendGossipMessage(), createResourceSnapshotMessage(), recordGossipResourceSnapshot(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="267" column="10" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="408" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a42184f52ef2ed3a068a53b3ef7baff26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>proto::GossipMessage</type>
+        <definition>proto::GossipMessage themis::sharding::GossipConfigManager::handleGossipMessage</definition>
+        <argsstring>(const proto::GossipMessage &amp;message)</argsstring>
+        <name>handleGossipMessage</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::handleGossipMessage</qualifiedname>
+        <param>
+          <type>const proto::GossipMessage &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Handle Gossip Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Handle incoming gossip message <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Received gossip message </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Response message</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: message_type(), empty(), spdlog::error(), set_sender_shard_id(), set_message_type(), sender_shard_id(), spdlog::warn(), recordGossipMessagesReceived(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="274" column="26" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="466" bodyend="555"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a56919b42178743e1dbfbe218f86bbb43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipConfigManager::onConfigUpdate</definition>
+        <argsstring>(ConfigUpdateCallback callback)</argsstring>
+        <name>onConfigUpdate</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::onConfigUpdate</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_gossip_config_manager_1adc436559ecbf4e1f18217b06587f05fc" kindref="member">ConfigUpdateCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>On Config Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register callback for config updates <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function called when config update is received</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="280" column="10" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="562" bodyend="565"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1aa7d49867401a598584e5edd6a1e07689" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipConfigManager::onResourceSnapshot</definition>
+        <argsstring>(ResourceSnapshotCallback callback)</argsstring>
+        <name>onResourceSnapshot</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::onResourceSnapshot</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a069ca88666e0b25a6ddd831f49a293fa" kindref="member">ResourceSnapshotCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>On Resource Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register callback for resource snapshots <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function called when resource snapshot is received</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="286" column="10" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="572" bodyend="575"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1ab5b3f7aaee31a1d615699c9fc32ff4e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipConfigManager::setGossipSendFunction</definition>
+        <argsstring>(GossipSendFn fn)</argsstring>
+        <name>setGossipSendFunction</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::setGossipSendFunction</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_gossip_config_manager_1ab14b5f6048fdce1d17c00454a8370750" kindref="member">GossipSendFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Gossip Send Function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Inject a custom gossip transport function.</para>
+<para>When set, every outbound gossip message is delivered via <computeroutput>fn</computeroutput> instead of the default <ref refid="classthemis_1_1sharding_1_1_m_t_l_s_client" kindref="compound">MTLSClient</ref> HTTP path. Intended for testing or for integrating alternative transports (e.g. gRPC gossip service).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable with signature <computeroutput>bool(const std::string&amp; endpoint, const proto::GossipMessage&amp;)</computeroutput>. Returning true counts as a successful delivery; false increments the error counter. Must be thread-safe.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="300" column="10" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="805" bodyend="808"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1af2e35390393e042a4f3b2cacce8d4652" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GossipConfigManager::getConfig</definition>
+        <argsstring>(const std::string &amp;config_key) const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::getConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get current configuration value <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Configuration value (empty if not found) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="307" column="17" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="577" bodyend="586"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a05dfb4d7f808b7b24a4fd9b2c8f53cb2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt; std::string, std::string &gt; themis::sharding::GossipConfigManager::getAllConfigs</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllConfigs</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::getAllConfigs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all configurations <simplesect kind="return"><para>Map of config key to value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="313" column="14" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="588" bodyend="596"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a920df82d9e17098dfcc3fcc7f76efa42" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_resource_snapshot" kindref="compound">ResourceSnapshot</ref></type>
+        <definition>ResourceSnapshot themis::sharding::GossipConfigManager::getResourceSnapshot</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>getResourceSnapshot</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::getResourceSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get resource snapshot for a shard <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Resource snapshot (empty if not found) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">resource_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="320" column="22" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="598" bodyend="607"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a028f94cde9bc37c3113e3709453e80d1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_resource_snapshot" kindref="compound">ResourceSnapshot</ref> &gt;</type>
+        <definition>std::map&lt; std::string, ResourceSnapshot &gt; themis::sharding::GossipConfigManager::getAllResourceSnapshots</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllResourceSnapshots</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::getAllResourceSnapshots</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all resource snapshots <simplesect kind="return"><para>Map of shard_id to <ref refid="structthemis_1_1sharding_1_1_resource_snapshot" kindref="compound">ResourceSnapshot</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">resource_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="326" column="14" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="609" bodyend="617"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a9c072df33807bb5538fd319175e88776" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_vector_clock" kindref="compound">VectorClock</ref></type>
+        <definition>VectorClock themis::sharding::GossipConfigManager::getVectorClock</definition>
+        <argsstring>() const</argsstring>
+        <name>getVectorClock</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::getVectorClock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get local vector clock </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">clock_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="331" column="17" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="619" bodyend="627"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1ae9e9440af502d88781a0a6a12d48a3c3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>GossipConfigManager::Statistics themis::sharding::GossipConfigManager::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="349" column="16" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="629" bodyend="661"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1ae187a5e55194060a8153978da63bd925" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipConfigManager::gossipLoop</definition>
+        <argsstring>()</argsstring>
+        <name>gossipLoop</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::gossipLoop</qualifiedname>
+        <briefdescription>
+<para>Gossip Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), performGossipRound(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="399" column="10" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="671" bodyend="685"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a57a613ebb529200ad890702d76c3a60f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipConfigManager::antiEntropyLoop</definition>
+        <argsstring>()</argsstring>
+        <name>antiEntropyLoop</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::antiEntropyLoop</qualifiedname>
+        <briefdescription>
+<para>Anti Entropy Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), performAntiEntropyScan(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="400" column="10" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="691" bodyend="705"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a3f6a506d8fe82a7391b7b9335732d28c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipConfigManager::performGossipRound</definition>
+        <argsstring>()</argsstring>
+        <name>performGossipRound</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::performGossipRound</qualifiedname>
+        <briefdescription>
+<para>Perform Gossip Round. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: recordGossipConfigRound(), selectRandomPeers(), getShard(), sendGossipMessage(), createHeartbeatMessage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="401" column="10" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="711" bodyend="733"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a16443a1ff2c6e6b27755e41ac7564f0d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipConfigManager::performAntiEntropyScan</definition>
+        <argsstring>()</argsstring>
+        <name>performAntiEntropyScan</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::performAntiEntropyScan</qualifiedname>
+        <briefdescription>
+<para>Perform Anti Entropy Scan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: recordGossipConfigAntiEntropy(), selectRandomPeers(), getShard(), sendGossipMessage(), createAntiEntropyMessage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="402" column="10" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="739" bodyend="760"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a12d5b7b54661168a2fd78441c3457e88" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::sharding::GossipConfigManager::selectRandomPeers</definition>
+        <argsstring>(size_t count)</argsstring>
+        <name>selectRandomPeers</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::selectRandomPeers</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Select Random Peers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getAllShards(), push_back(), empty(), gen(), std::shuffle(), begin(), end(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="404" column="17" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="768" bodyend="798"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a41977f8455d5d4873a0f539de759b390" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipConfigManager::sendGossipMessage</definition>
+        <argsstring>(const std::string &amp;peer_endpoint, const proto::GossipMessage &amp;message)</argsstring>
+        <name>sendGossipMessage</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::sendGossipMessage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>peer_endpoint</declname>
+        </param>
+        <param>
+          <type>const proto::GossipMessage &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Send Gossip Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">peer_endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::chrono::steady_clock::now(), SerializeToString(), spdlog::warn(), nlohmann::json::binary_t(), begin(), end(), post(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="405" column="10" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="816" bodyend="876"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1ab172cbfae3ba0b11326083cd59c38c06" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipConfigManager::handleConfigUpdate</definition>
+        <argsstring>(const ConfigUpdate &amp;update)</argsstring>
+        <name>handleConfigUpdate</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::handleConfigUpdate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_config_update" kindref="compound">ConfigUpdate</ref> &amp;</type>
+          <declname>update</declname>
+        </param>
+        <briefdescription>
+<para>Handle Config Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">update</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: shouldAcceptUpdate(), lock(), find(), end(), compare(), recordGossipConfigConflict(), size(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="408" column="10" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="883" bodyend="974"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a4765369808d4b085fa2bcad4ba8c744c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipConfigManager::handleResourceSnapshot</definition>
+        <argsstring>(const ResourceSnapshot &amp;snapshot)</argsstring>
+        <name>handleResourceSnapshot</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::handleResourceSnapshot</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_resource_snapshot" kindref="compound">ResourceSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Handle Resource Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), recordGossipResourceSnapshot(), resource_snapshot_callback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="409" column="10" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="981" bodyend="1011"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1afa96e0d9d1fbbb4c96283e78cdda48d7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::GossipConfigManager::shouldAcceptUpdate</definition>
+        <argsstring>(const ConfigUpdate &amp;update)</argsstring>
+        <name>shouldAcceptUpdate</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::shouldAcceptUpdate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_config_update" kindref="compound">ConfigUpdate</ref> &amp;</type>
+          <declname>update</declname>
+        </param>
+        <briefdescription>
+<para>Should Accept Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">update</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="411" column="10" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="1019" bodyend="1048"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1af0813b8d12fa1044773b6635e493452f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::GossipConfigManager::mergeVectorClock</definition>
+        <argsstring>(const VectorClock &amp;other)</argsstring>
+        <name>mergeVectorClock</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::mergeVectorClock</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1sharding_1_1_vector_clock" kindref="compound">VectorClock</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Merge Vector Clock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), merge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="412" column="10" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="1055" bodyend="1058"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a7f20c0051ccb4f936bf552cfeb4a3370" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::GossipConfigManager::generateUpdateId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateUpdateId</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::generateUpdateId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="414" column="17" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="1060" bodyend="1073"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a31f6b67d83e1a899cfba7e40a53a14b4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>proto::GossipMessage</type>
+        <definition>proto::GossipMessage themis::sharding::GossipConfigManager::createHeartbeatMessage</definition>
+        <argsstring>()</argsstring>
+        <name>createHeartbeatMessage</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::createHeartbeatMessage</qualifiedname>
+        <briefdescription>
+<para>Create Heartbeat Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: set_sender_shard_id(), set_timestamp_ns(), std::chrono::system_clock::now(), time_since_epoch(), count(), set_message_type(), lock(), mutable_vector_clock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="415" column="26" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="1080" bodyend="1094"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1ab8f5e50b14fb1975b64bc180905889a9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>proto::GossipMessage</type>
+        <definition>proto::GossipMessage themis::sharding::GossipConfigManager::createConfigUpdateMessage</definition>
+        <argsstring>(const ConfigUpdate &amp;update)</argsstring>
+        <name>createConfigUpdateMessage</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::createConfigUpdateMessage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_config_update" kindref="compound">ConfigUpdate</ref> &amp;</type>
+          <declname>update</declname>
+        </param>
+        <briefdescription>
+<para>Create Config Update Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">update</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: set_sender_shard_id(), set_timestamp_ns(), std::chrono::system_clock::now(), time_since_epoch(), count(), set_message_type(), lock(), mutable_vector_clock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="416" column="26" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="1102" bodyend="1120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1a23ed7bfa590ee89096bfda09ae931790" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>proto::GossipMessage</type>
+        <definition>proto::GossipMessage themis::sharding::GossipConfigManager::createResourceSnapshotMessage</definition>
+        <argsstring>(const ResourceSnapshot &amp;snapshot)</argsstring>
+        <name>createResourceSnapshotMessage</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::createResourceSnapshotMessage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_resource_snapshot" kindref="compound">ResourceSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Create Resource Snapshot Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: set_sender_shard_id(), set_timestamp_ns(), std::chrono::system_clock::now(), time_since_epoch(), count(), set_message_type(), lock(), mutable_vector_clock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="417" column="26" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="1128" bodyend="1146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_gossip_config_manager_1aa818ecdbdb229475795fa92523558016" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>proto::GossipMessage</type>
+        <definition>proto::GossipMessage themis::sharding::GossipConfigManager::createAntiEntropyMessage</definition>
+        <argsstring>()</argsstring>
+        <name>createAntiEntropyMessage</name>
+        <qualifiedname>themis::sharding::GossipConfigManager::createAntiEntropyMessage</qualifiedname>
+        <briefdescription>
+<para>Create Anti Entropy Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: set_sender_shard_id(), set_timestamp_ns(), std::chrono::system_clock::now(), time_since_epoch(), count(), set_message_type(), lock(), mutable_vector_clock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="418" column="26" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="1153" bodyend="1170"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Gossip-Enhanced Configuration Manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements a decentralized configuration management system using gossip protocols with vector clocks for anti-entropy. Inspired by YARN&apos;s NodeManager heartbeat pattern and Dynamo&apos;s anti-entropy design.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Decentralized config propagation (reduces etcd dependency)</para>
+</listitem><listitem><para>Vector clock-based conflict resolution</para>
+</listitem><listitem><para>Anti-entropy for eventual consistency</para>
+</listitem><listitem><para>YARN-inspired resource tracking</para>
+</listitem><listitem><para>Periodic gossip rounds with peer selection</para>
+</listitem><listitem><para>Prometheus metrics integration</para>
+</listitem></itemizedlist>
+</para>
+<para>Sources:<itemizedlist>
+<listitem><para>YARN Architecture: NodeManager heartbeat and resource tracking</para>
+</listitem><listitem><para>Dynamo: Vector clocks and anti-entropy</para>
+</listitem><listitem><para>Cassandra: Gossip protocol implementation</para>
+</listitem></itemizedlist>
+</para>
+<para>Example: <ref refid="structthemis_1_1sharding_1_1_gossip_config_manager_config" kindref="compound">GossipConfigManagerConfig</ref> config; config.local_shard_id = &quot;shard-1&quot;; config.local_endpoint = &quot;localhost:8080&quot;;</para>
+<para>auto manager = std::make_unique&lt;GossipConfigManager&gt;(config, topology); manager-&gt;<ref refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a98828b19ffc4b3812da3aac110165d4d" kindref="member">start()</ref>;</para>
+<para>// Publish a config update manager-&gt;publishConfigUpdate(&quot;shard.replication_factor&quot;, &quot;3&quot;);</para>
+<para>// Register listener for updates manager-&gt;onConfigUpdate([](const <ref refid="structthemis_1_1sharding_1_1_config_update" kindref="compound">ConfigUpdate</ref>&amp; update) { std::cout &lt;&lt; &quot;Config updated: &quot; &lt;&lt; update.config_key &lt;&lt; std::endl; }); </para>
+    </detaileddescription>
+    <location file="include/sharding/gossip_config_manager.h" line="213" column="1" bodyfile="include/sharding/gossip_config_manager.h" bodystart="213" bodyend="419"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1af5bee1d5db574e5b3f211cdc968eac92" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>anti_entropy_syncs_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a5d1e63f89364342ec859b3c0d7fb5901" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>anti_entropy_thread_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a57a613ebb529200ad890702d76c3a60f" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>antiEntropyLoop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a7d4c7dbc7b602dcb09d5f8a22e747db1" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>callback_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1ac388ae349ab844150abaf3682b25a190" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>client_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a310a7a288457319976feef5b97d34a94" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>clock_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a3b0b5bf55da23167c57846af1a079f7d" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1afef752ebff685cb8f2d214d9b0908ab0" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>config_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a0392a16fd16ce25ce7e3991c9e87b958" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>config_update_callback_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1adb0d6d1dccb5c7c0baf934d6be40ebac" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>config_updates_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a7f9cdd3dd8816412dc9fdf8ad1853af0" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>config_updates_received_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1ac7faa1a91ad3bfdc42b6db6dfa630a74" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>config_updates_sent_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1adc436559ecbf4e1f18217b06587f05fc" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>ConfigUpdateCallback</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a9baa49ee6c3345832affada7fc86320d" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>conflicts_resolved_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1aa818ecdbdb229475795fa92523558016" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>createAntiEntropyMessage</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1ab8f5e50b14fb1975b64bc180905889a9" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>createConfigUpdateMessage</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a31f6b67d83e1a899cfba7e40a53a14b4" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>createHeartbeatMessage</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a23ed7bfa590ee89096bfda09ae931790" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>createResourceSnapshotMessage</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1ae81bfbe621cce5d95d9c0d351359d544" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>current_config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a7f20c0051ccb4f936bf552cfeb4a3370" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>generateUpdateId</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a05dfb4d7f808b7b24a4fd9b2c8f53cb2" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>getAllConfigs</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a028f94cde9bc37c3113e3709453e80d1" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>getAllResourceSnapshots</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1af2e35390393e042a4f3b2cacce8d4652" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a920df82d9e17098dfcc3fcc7f76efa42" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>getResourceSnapshot</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1ae9e9440af502d88781a0a6a12d48a3c3" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a9c072df33807bb5538fd319175e88776" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>getVectorClock</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1aefbe112f1bcb93727e18a3e28717aa68" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>gossip_rounds_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a47bf822a0dc24f67e809ddff7c7f2803" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>gossip_send_fn_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a34016c6c6fa097c2365ad5b0b7551ea1" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>gossip_send_fn_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a4dff1ed85ca257c0a18d73c57fe68a30" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>gossip_thread_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a59acf6759f5f2eace7b3644d2d9ed9ab" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>GossipConfigManager</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1ae187a5e55194060a8153978da63bd925" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>gossipLoop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1ab14b5f6048fdce1d17c00454a8370750" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>GossipSendFn</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1ab172cbfae3ba0b11326083cd59c38c06" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>handleConfigUpdate</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a42184f52ef2ed3a068a53b3ef7baff26" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>handleGossipMessage</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a4765369808d4b085fa2bcad4ba8c744c" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>handleResourceSnapshot</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a34b9afb17a7e8788b9817c3ba35c0c44" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a0816d59e73d14ab52688ba475c035e79" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>latency_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a4942f601efd6df9af4959884850f4cc2" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>lifecycle_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a77dc7d025bd5ffb151438b750c58841b" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>local_clock_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1af0813b8d12fa1044773b6635e493452f" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>mergeVectorClock</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1ab9239f7ca8748e8ed0217aa59b8a1d84" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>messages_received_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a8413cbec43a78944eeeb3e9de037e2c3" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>messages_sent_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a28a83a6dfb24872bc03d56e527951c4c" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a56919b42178743e1dbfbe218f86bbb43" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>onConfigUpdate</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1aa7d49867401a598584e5edd6a1e07689" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>onResourceSnapshot</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a16443a1ff2c6e6b27755e41ac7564f0d" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>performAntiEntropyScan</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a3f6a506d8fe82a7391b7b9335732d28c" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>performGossipRound</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1ad9ce561fe5a09c92bcf1df08d03bc9e9" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>propagation_latencies_ms_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a91bdd65e3e5a5db3616738273aee148f" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>publishConfigUpdate</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1afdbe7c8886135d2c28091c4bde950eb0" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>publishResourceSnapshot</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a14eed42b32877d0fe6969e6e39e5abc4" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>resource_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a91c35be566dba0c28daebfdd50dba64f" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>resource_snapshot_callback_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a0343afc3479a21fe8e37b44f9f03d49a" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>resource_snapshots_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1aa0b33cf2749c7a483c4c8ac848325692" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>resource_snapshots_received_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a6d2b44388a25d29fa0f5ac29121c69dc" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>resource_snapshots_sent_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a069ca88666e0b25a6ddd831f49a293fa" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>ResourceSnapshotCallback</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a26ecb67ff60e4fc1c7d8b0d983619629" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>running_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a12d5b7b54661168a2fd78441c3457e88" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>selectRandomPeers</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a41977f8455d5d4873a0f539de759b390" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>sendGossipMessage</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1ab5b3f7aaee31a1d615699c9fc32ff4e4" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>setGossipSendFunction</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1afa96e0d9d1fbbb4c96283e78cdda48d7" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>shouldAcceptUpdate</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a98828b19ffc4b3812da3aac110165d4d" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>start</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a6d68983daaef0531eed1867401e32aaf" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>stop</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1ad58637d855493b661d23d811f69ca8c4" prot="private" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>topology_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_gossip_config_manager_1a654f828df135bc8d379784e91969679b" prot="public" virt="non-virtual"><scope>themis::sharding::GossipConfigManager</scope><name>~GossipConfigManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

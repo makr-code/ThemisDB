@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_669f9394955d1b4a0ec314e3bf31bb7d" kind="dir">
+    <compoundname>benchmarks/rpc_grpc</compoundname>
+    <innerfile refid="bench__rpc__grpc__dedicated__gates_8cpp">bench_rpc_grpc_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__rpc__grpc__release__gates_8cpp">bench_rpc_grpc_release_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/rpc_grpc/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespaceanalytics__test" kind="namespace" language="C++">
+    <compoundname>analytics_test</compoundname>
+    <innernamespace refid="namespaceanalytics__test_1_1process__mining__tests">analytics_test::process_mining_tests</innernamespace>
+    <innernamespace refid="namespaceanalytics__test_1_1automl__forecasting__tests">analytics_test::automl_forecasting_tests</innernamespace>
+    <innernamespace refid="namespaceanalytics__test_1_1streaming__cep__tests">analytics_test::streaming_cep_tests</innernamespace>
+    <innernamespace refid="namespaceanalytics__test_1_1knowledge__base__tests">analytics_test::knowledge_base_tests</innernamespace>
+    <innernamespace refid="namespaceanalytics__test_1_1utilities__tests">analytics_test::utilities_tests</innernamespace>
+    <innernamespace refid="namespaceanalytics__test_1_1integration__tests">analytics_test::integration_tests</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_gap_closure.cpp" line="37" column="1"/>
+  </compounddef>
+</doxygen>

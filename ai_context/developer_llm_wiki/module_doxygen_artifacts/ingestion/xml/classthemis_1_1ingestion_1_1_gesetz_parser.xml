@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_gesetz_parser" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::GesetzParser</compoundname>
+    <includes refid="legal__domain_8h" local="no">legal_domain.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_gesetz_parser_1a525597be7dedae66b2115fd8779fbb8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::GesetzParser::GesetzParser</definition>
+        <argsstring>()=default</argsstring>
+        <name>GesetzParser</name>
+        <qualifiedname>themis::ingestion::GesetzParser::GesetzParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="77" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_gesetz_parser_1a890fc8c51c564ae4fc8adfdb0ab3d90f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1ingestion_1_1_gesetz_hierarchy" kindref="compound">GesetzHierarchy</ref> &gt;</type>
+        <definition>Result&lt; GesetzHierarchy &gt; themis::ingestion::GesetzParser::parse</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;norm_abbreviation=&quot;&quot;) const</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::ingestion::GesetzParser::parse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>norm_abbreviation</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Parse a full statute text into a hierarchy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw text of the statute. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>norm_abbreviation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional short name (e.g. &quot;BImSchG&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Hierarchy on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="86" column="12" bodyfile="src/ingestion/legal_domain.cpp" bodystart="198" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_gesetz_parser_1a2fe14a2e32616f9d350881e3151789f9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_gesetz_node" kindref="compound">GesetzNode</ref> &gt;</type>
+        <definition>std::vector&lt; GesetzNode &gt; themis::ingestion::GesetzParser::extractParagraphs</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>extractParagraphs</name>
+        <qualifiedname>themis::ingestion::GesetzParser::extractParagraphs</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Extract all §-paragraphs from a text block as a flat list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Faster than a full hierarchy parse when only paragraph texts are needed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="94" column="17" bodyfile="src/ingestion/legal_domain.cpp" bodystart="361" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_gesetz_parser_1a7d3ceacd6d12f052c81c672538e05b25" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref> &gt;</type>
+        <definition>std::vector&lt; BaseEntity &gt; themis::ingestion::GesetzParser::toEntities</definition>
+        <argsstring>(const GesetzHierarchy &amp;hierarchy) const</argsstring>
+        <name>toEntities</name>
+        <qualifiedname>themis::ingestion::GesetzParser::toEntities</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_gesetz_hierarchy" kindref="compound">GesetzHierarchy</ref> &amp;</type>
+          <declname>hierarchy</declname>
+        </param>
+        <briefdescription>
+<para>Convert a <computeroutput><ref refid="structthemis_1_1ingestion_1_1_gesetz_hierarchy" kindref="compound">GesetzHierarchy</ref></computeroutput> into a flat list of <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity" kindref="compound">BaseEntity</ref></computeroutput>s using canonical IDs (<computeroutput>law:&lt;norm&gt;:§&lt;n&gt;:Abs&lt;m&gt;</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="100" column="17" bodyfile="src/ingestion/legal_domain.cpp" bodystart="375" bodyend="432"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_gesetz_parser_1af171745b272989673b034bfb09443638" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::size_t, <ref refid="structthemis_1_1ingestion_1_1_gesetz_node" kindref="compound">GesetzNode</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::size_t, GesetzNode &gt; &gt; themis::ingestion::GesetzParser::extractParagraphsWithOffsets</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>extractParagraphsWithOffsets</name>
+        <qualifiedname>themis::ingestion::GesetzParser::extractParagraphsWithOffsets</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Extract §-paragraphs together with their byte-offset in the source text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns pairs of (match_start_offset, <ref refid="structthemis_1_1ingestion_1_1_gesetz_node" kindref="compound">GesetzNode</ref>) so that <computeroutput><ref refid="classthemis_1_1ingestion_1_1_gesetz_parser_1a890fc8c51c564ae4fc8adfdb0ab3d90f" kindref="member">parse()</ref></computeroutput> can assign each paragraph to the correct Teil section based on relative position. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Input. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="110" column="9" bodyfile="src/ingestion/legal_domain.cpp" bodystart="269" bodyend="359"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Parser for German legal text structure. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Recognises:<itemizedlist>
+<listitem><para>§-paragraphs (§ N, §§ N-M)</para>
+</listitem><listitem><para>Teil / Abschnitt / Kapitel / Unterabschnitt headings</para>
+</listitem><listitem><para>Absatz numbering within paragraphs: (1), (2), …</para>
+</listitem></itemizedlist>
+</para>
+<para>Implements a single-pass regex-based parser; no external dependencies. </para>
+    </detaileddescription>
+    <location file="include/ingestion/legal_domain.h" line="75" column="1" bodyfile="include/ingestion/legal_domain.h" bodystart="75" bodyend="111"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_gesetz_parser_1a2fe14a2e32616f9d350881e3151789f9" prot="public" virt="non-virtual"><scope>themis::ingestion::GesetzParser</scope><name>extractParagraphs</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_gesetz_parser_1af171745b272989673b034bfb09443638" prot="private" virt="non-virtual"><scope>themis::ingestion::GesetzParser</scope><name>extractParagraphsWithOffsets</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_gesetz_parser_1a525597be7dedae66b2115fd8779fbb8d" prot="public" virt="non-virtual"><scope>themis::ingestion::GesetzParser</scope><name>GesetzParser</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_gesetz_parser_1a890fc8c51c564ae4fc8adfdb0ab3d90f" prot="public" virt="non-virtual"><scope>themis::ingestion::GesetzParser</scope><name>parse</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_gesetz_parser_1a7d3ceacd6d12f052c81c672538e05b25" prot="public" virt="non-virtual"><scope>themis::ingestion::GesetzParser</scope><name>toEntities</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

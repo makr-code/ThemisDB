@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::prompt_engineering::IChainOfThoughtTracer</compoundname>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1_co_t_trace_collector" prot="public" virt="non-virtual">themis::prompt_engineering::CoTTraceCollector</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer" prot="public" virt="non-virtual">themis::prompt_engineering::RecordingCoTTracer</derivedcompoundref>
+    <includes refid="cot__tracer_8h" local="no">cot_tracer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer_1a5cd27c95f56b8cda33a5d7149497d907" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::prompt_engineering::IChainOfThoughtTracer::~IChainOfThoughtTracer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IChainOfThoughtTracer</name>
+        <qualifiedname>themis::prompt_engineering::IChainOfThoughtTracer::~IChainOfThoughtTracer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="71" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer_1ae5bf66df9be5df2a1fdbcc5dd4c04a5c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::prompt_engineering::IChainOfThoughtTracer::onStepBegin</definition>
+        <argsstring>(StepId step_index, const std::string &amp;label) noexcept=0</argsstring>
+        <name>onStepBegin</name>
+        <qualifiedname>themis::prompt_engineering::IChainOfThoughtTracer::onStepBegin</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_co_t_trace_collector_1a4442f71640030d533fda3f5917c4de4c">onStepBegin</reimplementedby>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1a199ecfdb3ff20a1c5e770b4fb0745411">onStepBegin</reimplementedby>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1ac6e6b01dd412c7044c3297dbeb3ead9a" kindref="member">StepId</ref></type>
+          <declname>step_index</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>label</declname>
+        </param>
+        <briefdescription>
+<para>Called immediately before a reasoning step is rendered into the prompt string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>step_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>0-based index of the step being rendered. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Step label (auto-numbered or explicit). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="80" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer_1aed9dfb55d3afd870aa31b0e56183856d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::prompt_engineering::IChainOfThoughtTracer::onStepEnd</definition>
+        <argsstring>(StepId step_index, const std::string &amp;content, std::chrono::microseconds duration) noexcept=0</argsstring>
+        <name>onStepEnd</name>
+        <qualifiedname>themis::prompt_engineering::IChainOfThoughtTracer::onStepEnd</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_co_t_trace_collector_1a673e6099789638dadfea5d09cfecac7c">onStepEnd</reimplementedby>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1afffc9df3de4d6bc5350f05a2cd375a1c">onStepEnd</reimplementedby>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1ac6e6b01dd412c7044c3297dbeb3ead9a" kindref="member">StepId</ref></type>
+          <declname>step_index</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>std::chrono::microseconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Called immediately after a reasoning step has been appended to the output buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>step_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Same index as the corresponding <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer_1ae5bf66df9be5df2a1fdbcc5dd4c04a5c" kindref="member">onStepBegin</ref></computeroutput> call. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The step content that was appended. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Wall-clock time elapsed since <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer_1ae5bf66df9be5df2a1fdbcc5dd4c04a5c" kindref="member">onStepBegin</ref></computeroutput> for this step (precision: microseconds). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="92" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer_1a4a9bbd60a5aafa317fbf01e12ccb255e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::prompt_engineering::IChainOfThoughtTracer::name</definition>
+        <argsstring>() const =0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::prompt_engineering::IChainOfThoughtTracer::name</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_co_t_trace_collector_1a1e0b81a353cf970ed83b7281bf2e9209">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer_1aa52325d7a14aae519ad88074746d20dd">name</reimplementedby>
+        <briefdescription>
+<para>Human-readable name of this tracer implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Tracer name string, e.g. <computeroutput>&quot;recording-cot-tracer&quot;</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/cot_tracer.h" line="100" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Pluggable tracer interface for <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder" kindref="compound">ChainOfThoughtBuilder</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Both methods are <computeroutput>noexcept</computeroutput> so that a misbehaving implementation can never interrupt the prompt-construction path. Implementations must handle all errors internally (log + swallow).</para>
+<para>Grounded in OpenTelemetry span model:<itemizedlist>
+<listitem><para><computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer_1ae5bf66df9be5df2a1fdbcc5dd4c04a5c" kindref="member">onStepBegin()</ref></computeroutput> ≈ Span.Start</para>
+</listitem><listitem><para><computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer_1aed9dfb55d3afd870aa31b0e56183856d" kindref="member">onStepEnd()</ref></computeroutput> ≈ Span.End + attribute recording </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::prompt_engineering::CoTTraceCollector</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_co_t_trace_collector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::IChainOfThoughtTracer</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer"/>
+      </node>
+      <node id="3">
+        <label>themis::prompt_engineering::RecordingCoTTracer</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_recording_co_t_tracer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/prompt_engineering/cot_tracer.h" line="69" column="1" bodyfile="include/prompt_engineering/cot_tracer.h" bodystart="69" bodyend="101"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer_1a4a9bbd60a5aafa317fbf01e12ccb255e" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IChainOfThoughtTracer</scope><name>name</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer_1ae5bf66df9be5df2a1fdbcc5dd4c04a5c" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IChainOfThoughtTracer</scope><name>onStepBegin</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer_1aed9dfb55d3afd870aa31b0e56183856d" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IChainOfThoughtTracer</scope><name>onStepEnd</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_chain_of_thought_tracer_1a5cd27c95f56b8cda33a5d7149497d907" prot="public" virt="virtual"><scope>themis::prompt_engineering::IChainOfThoughtTracer</scope><name>~IChainOfThoughtTracer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

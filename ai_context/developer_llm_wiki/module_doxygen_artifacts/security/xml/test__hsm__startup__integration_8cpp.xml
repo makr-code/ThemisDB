@@ -1,0 +1,505 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__hsm__startup__integration_8cpp" kind="file" language="C++">
+    <compoundname>test_hsm_startup_integration.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="hsm__provider_8h" local="yes">security/hsm_provider.h</includes>
+    <includes refid="hsm__security__checker_8h" local="yes">security/hsm_security_checker.h</includes>
+    <includes refid="hsm__security__metrics_8h" local="yes">security/hsm_security_metrics.h</includes>
+    <includes local="no">cstdlib</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">optional</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>security/hsm_provider.h</label>
+        <link refid="hsm__provider_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>security/hsm_security_checker.h</label>
+        <link refid="hsm__security__checker_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>security/hsm_security_metrics.h</label>
+        <link refid="hsm__security__metrics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/security/test_hsm_startup_integration.cpp</label>
+        <link refid="test__hsm__startup__integration_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>atomic</label>
+      </node>
+      <node id="17">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>cstdlib</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="15">
+        <label>sstream</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>thread</label>
+      </node>
+      <node id="12">
+        <label>utils/logger.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_h_s_m_startup_integration_test" prot="public">HSMStartupIntegrationTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__hsm__startup__integration_8cpp_1a97cb02772404f84ec5c4756ce04a5c37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStartupIntegrationTest, StubHSM_DevelopmentMode_Succeeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_startup_integration_test" kindref="compound">HSMStartupIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>StubHSM_DevelopmentMode_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test that stub HSM initialization succeeds in development mode </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_integration.cpp" line="71" column="1" bodyfile="tests/security/test_hsm_startup_integration.cpp" bodystart="71" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__startup__integration_8cpp_1a28287c187d18d0c2676c6af5c0d92d90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStartupIntegrationTest, StubHSM_ProductionMode_Blocked)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_startup_integration_test" kindref="compound">HSMStartupIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>StubHSM_ProductionMode_Blocked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test that stub HSM is blocked in production mode without flag </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_integration.cpp" line="90" column="1" bodyfile="tests/security/test_hsm_startup_integration.cpp" bodystart="90" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__startup__integration_8cpp_1ac66e315d600215c0862d4c37935fd2c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStartupIntegrationTest, StubHSM_ProductionMode_AllowedWithFlag)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_startup_integration_test" kindref="compound">HSMStartupIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>StubHSM_ProductionMode_AllowedWithFlag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test that <ndash/>allow-stub-hsm flag allows stub in production (with warning) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_integration.cpp" line="107" column="1" bodyfile="tests/security/test_hsm_startup_integration.cpp" bodystart="107" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__startup__integration_8cpp_1a6081b022261ae97436a498098caa9e04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStartupIntegrationTest, PeriodicWarning_StubActive_ReturnsMessage)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_startup_integration_test" kindref="compound">HSMStartupIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>PeriodicWarning_StubActive_ReturnsMessage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test periodic warning message generation </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_integration.cpp" line="124" column="1" bodyfile="tests/security/test_hsm_startup_integration.cpp" bodystart="124" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__startup__integration_8cpp_1afee2f245190b93e94cb7171e7353b303" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStartupIntegrationTest, PeriodicWarning_RealHSM_NoMessage)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_startup_integration_test" kindref="compound">HSMStartupIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>PeriodicWarning_RealHSM_NoMessage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test periodic warning is empty with real HSM.</para>
+<para>This test requires a real HSM library to be available. The path to the library must be provided via the THEMIS_REAL_HSM_LIBRARY environment variable. If the variable is not set, the test is skipped. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_integration.cpp" line="146" column="1" bodyfile="tests/security/test_hsm_startup_integration.cpp" bodystart="146" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__startup__integration_8cpp_1a8ac4e3fa0e7ce58fdfef74bd08a2dadb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStartupIntegrationTest, SecurityMetrics_StubActive_ProperValues)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_startup_integration_test" kindref="compound">HSMStartupIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>SecurityMetrics_StubActive_ProperValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test HSM security metrics generation </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_integration.cpp" line="168" column="1" bodyfile="tests/security/test_hsm_startup_integration.cpp" bodystart="168" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__startup__integration_8cpp_1adce53d63bdb9598c49722920b9c7afe6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStartupIntegrationTest, SecurityMetrics_JSON_ProperFormat)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_startup_integration_test" kindref="compound">HSMStartupIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>SecurityMetrics_JSON_ProperFormat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test JSON metrics export </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_integration.cpp" line="190" column="1" bodyfile="tests/security/test_hsm_startup_integration.cpp" bodystart="190" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__startup__integration_8cpp_1a6faeccb761b3a8b7c894bd1d5fff3d99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStartupIntegrationTest, PeriodicSecurityCheck_NoThrow)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_startup_integration_test" kindref="compound">HSMStartupIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>PeriodicSecurityCheck_NoThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test that periodic security check can be called safely </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_integration.cpp" line="209" column="1" bodyfile="tests/security/test_hsm_startup_integration.cpp" bodystart="209" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="test__hsm__startup__integration_8cpp_1a3bd5d214e7efe7e8c41c14faa8b6d6f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HSMStartupIntegrationTest, ComplianceStatus_StubActive_NonCompliant)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_h_s_m_startup_integration_test" kindref="compound">HSMStartupIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ComplianceStatus_StubActive_NonCompliant</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test compliance status in metrics </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_integration.cpp" line="223" column="1" bodyfile="tests/security/test_hsm_startup_integration.cpp" bodystart="223" bodyend="237"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>setenv(name,<sp/>value,<sp/>overwrite)<sp/>_putenv_s(name,<sp/>value)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>unsetenv(name)<sp/>_putenv_s(name,<sp/>&quot;&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hsm__provider_8h" kindref="compound">security/hsm_provider.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hsm__security__checker_8h" kindref="compound">security/hsm_security_checker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hsm__security__metrics_8h" kindref="compound">security/hsm_security_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdlib&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">themis::security</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="class_h_s_m_startup_integration_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_h_s_m_startup_integration_test" kindref="compound">HSMStartupIntegrationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_h_s_m_startup_integration_test_1a5d87060b58e3415f4388cf93ac68300d" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Save<sp/>original<sp/>environment<sp/>(store<sp/>copies<sp/>to<sp/>avoid<sp/>pointer<sp/>invalidation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>prod_mode<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(prod_mode)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_h_s_m_startup_integration_test_1abae0f3591d997724c45236b016c7e9ed" kindref="member">saved_prod_mode_</ref><sp/>=<sp/>std::string(prod_mode);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>environment<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(environment)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_h_s_m_startup_integration_test_1a4e93684aefce6d0a1d644ad6f12b6905" kindref="member">saved_environment_</ref><sp/>=<sp/>std::string(environment);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_h_s_m_startup_integration_test_1a6bcb045f3844701f4a870c9a5d701591" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Restore<sp/>original<sp/>environment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_h_s_m_startup_integration_test_1abae0f3591d997724c45236b016c7e9ed" kindref="member">saved_prod_mode_</ref>.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_h_s_m_startup_integration_test_1abae0f3591d997724c45236b016c7e9ed" kindref="member">saved_prod_mode_</ref>-&gt;c_str(),<sp/>1);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_h_s_m_startup_integration_test_1a4e93684aefce6d0a1d644ad6f12b6905" kindref="member">saved_environment_</ref>.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_h_s_m_startup_integration_test_1a4e93684aefce6d0a1d644ad6f12b6905" kindref="member">saved_environment_</ref>-&gt;c_str(),<sp/>1);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="class_h_s_m_startup_integration_test_1abae0f3591d997724c45236b016c7e9ed" kindref="member">saved_prod_mode_</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="class_h_s_m_startup_integration_test_1a4e93684aefce6d0a1d644ad6f12b6905" kindref="member">saved_environment_</ref>;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="test__hsm__startup__integration_8cpp_1a97cb02772404f84ec5c4756ce04a5c37" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_startup_integration_test" kindref="compound">HSMStartupIntegrationTest</ref>,<sp/>StubHSM_DevelopmentMode_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>unsetenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ENVIRONMENT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>=<sp/>stub<sp/>provider</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hsm.initialize());</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hsm.isStubProvider());</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hsm.isReady());</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1aec413693772eb6ffab9122494630e627" kindref="member">HSMSecurityChecker::validateProductionSafety</ref>(hsm,<sp/>1,<sp/></highlight><highlight class="keyword">const_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(argv)));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="test__hsm__startup__integration_8cpp_1a97cb02772404f84ec5c4756ce04a5c37" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_startup_integration_test" kindref="compound">HSMStartupIntegrationTest</ref>,<sp/>StubHSM_ProductionMode_Blocked)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Stub<sp/>provider</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>hsm.initialize();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>fail<sp/>in<sp/>production<sp/>without<sp/>--allow-stub-hsm<sp/>flag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1aec413693772eb6ffab9122494630e627" kindref="member">HSMSecurityChecker::validateProductionSafety</ref>(hsm,<sp/>1,<sp/></highlight><highlight class="keyword">const_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(argv)));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__hsm__startup__integration_8cpp_1a97cb02772404f84ec5c4756ce04a5c37" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_startup_integration_test" kindref="compound">HSMStartupIntegrationTest</ref>,<sp/>StubHSM_ProductionMode_AllowedWithFlag)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Stub<sp/>provider</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>hsm.initialize();</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;themis_server&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;--allow-stub-hsm&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>succeed<sp/>with<sp/>flag<sp/>(but<sp/>logs<sp/>warning)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1aec413693772eb6ffab9122494630e627" kindref="member">HSMSecurityChecker::validateProductionSafety</ref>(hsm,<sp/>2,<sp/></highlight><highlight class="keyword">const_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(argv)));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__hsm__startup__integration_8cpp_1a97cb02772404f84ec5c4756ce04a5c37" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_startup_integration_test" kindref="compound">HSMStartupIntegrationTest</ref>,<sp/>PeriodicWarning_StubActive_ReturnsMessage)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Stub<sp/>provider</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>hsm.initialize();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>warning<sp/>=<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1a2f088184c4cace6bbf9e0234492346ac" kindref="member">HSMSecurityChecker::getPeriodicWarning</ref>(hsm);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(warning.empty());</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(warning.find(</highlight><highlight class="stringliteral">&quot;SECURITY<sp/>ALERT&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(warning.find(</highlight><highlight class="stringliteral">&quot;HSM<sp/>stub<sp/>provider&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__hsm__startup__integration_8cpp_1a97cb02772404f84ec5c4756ce04a5c37" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_startup_integration_test" kindref="compound">HSMStartupIntegrationTest</ref>,<sp/>PeriodicWarning_RealHSM_NoMessage)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>setenv(</highlight><highlight class="stringliteral">&quot;THEMIS_PRODUCTION_MODE&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>real_hsm_lib<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_REAL_HSM_LIBRARY&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!real_hsm_lib<sp/>||<sp/>std::string(real_hsm_lib).empty())<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Real<sp/>HSM<sp/>library<sp/>not<sp/>configured;<sp/>set<sp/>THEMIS_REAL_HSM_LIBRARY<sp/>to<sp/>run<sp/>this<sp/>test.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/>real_hsm_lib;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>hsm.initialize();</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>a<sp/>real<sp/>HSM<sp/>in<sp/>production<sp/>mode,<sp/>there<sp/>should<sp/>be<sp/>no<sp/>periodic<sp/>warning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>warning<sp/>=<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1a2f088184c4cace6bbf9e0234492346ac" kindref="member">HSMSecurityChecker::getPeriodicWarning</ref>(hsm);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(warning.empty());</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="test__hsm__startup__integration_8cpp_1a97cb02772404f84ec5c4756ce04a5c37" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_startup_integration_test" kindref="compound">HSMStartupIntegrationTest</ref>,<sp/>SecurityMetrics_StubActive_ProperValues)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Stub<sp/>provider</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>hsm.initialize();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>metrics<sp/>=<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_security_metrics_1a50e865d6d353c9ae49990ef8d70d4d6f" kindref="member">HSMSecurityMetrics::exportMetrics</ref>(hsm);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>for<sp/>required<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(metrics.find(</highlight><highlight class="stringliteral">&quot;themis_hsm_insecure_config&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(metrics.find(</highlight><highlight class="stringliteral">&quot;themis_hsm_provider_type&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(metrics.find(</highlight><highlight class="stringliteral">&quot;hsm_security_stub_active&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>stub<sp/>is<sp/>marked<sp/>as<sp/>insecure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(metrics.find(</highlight><highlight class="stringliteral">&quot;themis_hsm_insecure_config<sp/>1&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(metrics.find(</highlight><highlight class="stringliteral">&quot;provider=\&quot;stub\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><ref refid="test__hsm__startup__integration_8cpp_1a97cb02772404f84ec5c4756ce04a5c37" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_startup_integration_test" kindref="compound">HSMStartupIntegrationTest</ref>,<sp/>SecurityMetrics_JSON_ProperFormat)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Stub<sp/>provider</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>hsm.initialize();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref><sp/>=<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_security_metrics_1ac4722c69a5c2c0e1484300d583acd4fd" kindref="member">HSMSecurityMetrics::exportJSON</ref>(hsm);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>JSON<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref>.find(</highlight><highlight class="stringliteral">&quot;\&quot;hsm_security\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref>.find(</highlight><highlight class="stringliteral">&quot;\&quot;stub_active\&quot;:<sp/>true&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref>.find(</highlight><highlight class="stringliteral">&quot;\&quot;provider_type\&quot;:<sp/>\&quot;stub\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref>.find(</highlight><highlight class="stringliteral">&quot;\&quot;compliance\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="test__hsm__startup__integration_8cpp_1a97cb02772404f84ec5c4756ce04a5c37" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_startup_integration_test" kindref="compound">HSMStartupIntegrationTest</ref>,<sp/>PeriodicSecurityCheck_NoThrow)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Stub<sp/>provider</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>hsm.initialize();</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>throw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(hsm.periodicSecurityCheck());</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><ref refid="test__hsm__startup__integration_8cpp_1a97cb02772404f84ec5c4756ce04a5c37" kindref="member">TEST_F</ref>(<ref refid="class_h_s_m_startup_integration_test" kindref="compound">HSMStartupIntegrationTest</ref>,<sp/>ComplianceStatus_StubActive_NonCompliant)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Stub<sp/>provider</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_h_s_m_provider" kindref="compound">HSMProvider</ref><sp/>hsm(config);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>hsm.initialize();</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>metrics<sp/>=<sp/><ref refid="classthemis_1_1security_1_1_h_s_m_security_metrics_1a50e865d6d353c9ae49990ef8d70d4d6f" kindref="member">HSMSecurityMetrics::exportMetrics</ref>(hsm);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>compliance<sp/>standards<sp/>should<sp/>be<sp/>0<sp/>(non-compliant)<sp/>with<sp/>stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(metrics.find(</highlight><highlight class="stringliteral">&quot;hsm_compliance_status{standard=\&quot;nist_sp_800_53_sc_12\&quot;}<sp/>0&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(metrics.find(</highlight><highlight class="stringliteral">&quot;hsm_compliance_status{standard=\&quot;iso_27001_a_8_24\&quot;}<sp/>0&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(metrics.find(</highlight><highlight class="stringliteral">&quot;hsm_compliance_status{standard=\&quot;pci_dss_3_6\&quot;}<sp/>0&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(metrics.find(</highlight><highlight class="stringliteral">&quot;hsm_compliance_status{standard=\&quot;gdpr_art_32\&quot;}<sp/>0&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_hsm_startup_integration.cpp"/>
+  </compounddef>
+</doxygen>

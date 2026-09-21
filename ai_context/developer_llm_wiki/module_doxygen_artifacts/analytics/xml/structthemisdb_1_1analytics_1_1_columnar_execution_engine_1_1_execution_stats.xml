@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_columnar_execution_engine_1_1_execution_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ColumnarExecutionEngine::ExecutionStats</compoundname>
+    <includes refid="columnar__execution_8h" local="no">columnar_execution.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_columnar_execution_engine_1_1_execution_stats_1a276a2002285d422e500a53b83c7dee5e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::ColumnarExecutionEngine::ExecutionStats::batches_processed</definition>
+        <argsstring></argsstring>
+        <name>batches_processed</name>
+        <qualifiedname>themisdb::analytics::ColumnarExecutionEngine::ExecutionStats::batches_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="642" column="16" bodyfile="include/analytics/columnar_execution.h" bodystart="642" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_columnar_execution_engine_1_1_execution_stats_1a01ec3a84bd8ba921b883e98809e4fe72" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::ColumnarExecutionEngine::ExecutionStats::rows_in</definition>
+        <argsstring></argsstring>
+        <name>rows_in</name>
+        <qualifiedname>themisdb::analytics::ColumnarExecutionEngine::ExecutionStats::rows_in</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="643" column="16" bodyfile="include/analytics/columnar_execution.h" bodystart="643" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_columnar_execution_engine_1_1_execution_stats_1ac413dc63e94f4b7b3971d35c8420a43a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::ColumnarExecutionEngine::ExecutionStats::rows_out</definition>
+        <argsstring></argsstring>
+        <name>rows_out</name>
+        <qualifiedname>themisdb::analytics::ColumnarExecutionEngine::ExecutionStats::rows_out</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="644" column="16" bodyfile="include/analytics/columnar_execution.h" bodystart="644" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_columnar_execution_engine_1_1_execution_stats_1a292f8597df6849a6f90d936aba1d03c2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ColumnarExecutionEngine::ExecutionStats::elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>elapsed_ms</name>
+        <qualifiedname>themisdb::analytics::ColumnarExecutionEngine::ExecutionStats::elapsed_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="645" column="16" bodyfile="include/analytics/columnar_execution.h" bodystart="645" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/columnar_execution.h" line="641" column="5" bodyfile="include/analytics/columnar_execution.h" bodystart="641" bodyend="646"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_columnar_execution_engine_1_1_execution_stats_1a276a2002285d422e500a53b83c7dee5e" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnarExecutionEngine::ExecutionStats</scope><name>batches_processed</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_columnar_execution_engine_1_1_execution_stats_1a292f8597df6849a6f90d936aba1d03c2" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnarExecutionEngine::ExecutionStats</scope><name>elapsed_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_columnar_execution_engine_1_1_execution_stats_1a01ec3a84bd8ba921b883e98809e4fe72" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnarExecutionEngine::ExecutionStats</scope><name>rows_in</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_columnar_execution_engine_1_1_execution_stats_1ac413dc63e94f4b7b3971d35c8420a43a" prot="public" virt="non-virtual"><scope>themisdb::analytics::ColumnarExecutionEngine::ExecutionStats</scope><name>rows_out</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

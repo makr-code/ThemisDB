@@ -1,0 +1,861 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_vision_encoder" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::VisionEncoder</compoundname>
+    <includes refid="vision__encoder_8h" local="no">vision_encoder.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_vision_encoder_1ae015c3e2c0df60be3ad162b605aa447f" prot="private" static="no" mutable="no">
+        <type>clip_ctx *</type>
+        <definition>clip_ctx* themis::llm::VisionEncoder::clip_ctx_</definition>
+        <argsstring></argsstring>
+        <name>clip_ctx_</name>
+        <qualifiedname>themis::llm::VisionEncoder::clip_ctx_</qualifiedname>
+        <briefdescription>
+<para>CLIP context (opaque pointer). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="139" column="14" bodyfile="include/llm/vision_encoder.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_vision_encoder_1aeec25dac5d8aa68ad0841c37d72049f7" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionEncoder::model_path_</definition>
+        <argsstring></argsstring>
+        <name>model_path_</name>
+        <qualifiedname>themis::llm::VisionEncoder::model_path_</qualifiedname>
+        <briefdescription>
+<para>Path to CLIP model file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="140" column="17" bodyfile="include/llm/vision_encoder.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_vision_encoder_1ac8a6c54ce9c5ae1047765f571b9ea4d5" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionEncoder::model_id_</definition>
+        <argsstring></argsstring>
+        <name>model_id_</name>
+        <qualifiedname>themis::llm::VisionEncoder::model_id_</qualifiedname>
+        <briefdescription>
+<para>Model identifier for tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="141" column="17" bodyfile="include/llm/vision_encoder.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_vision_encoder_1a7b82d79f43aa84d111f9b59bcf61157d" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::VisionEncoder::verbosity_</definition>
+        <argsstring></argsstring>
+        <name>verbosity_</name>
+        <qualifiedname>themis::llm::VisionEncoder::verbosity_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Logging verbosity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="142" column="9" bodyfile="include/llm/vision_encoder.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_vision_encoder_1aa5740852e9f06e71c811ec76a69d7bbd" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionEncoder::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::llm::VisionEncoder::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Initialization status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="143" column="10" bodyfile="include/llm/vision_encoder.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_vision_encoder_1a4f2920de711e32cc6384b135f6663ab3" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_vision_config" kindref="compound">VisionConfig</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;VisionConfig&gt; themis::llm::VisionEncoder::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::VisionEncoder::config_</qualifiedname>
+        <briefdescription>
+<para>Vision configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="146" column="21" bodyfile="include/llm/vision_encoder.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_vision_encoder_1a93339b39858b6b0109407d70b0124b49" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_vision_resource_monitor" kindref="compound">VisionResourceMonitor</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;VisionResourceMonitor&gt; themis::llm::VisionEncoder::resource_monitor_</definition>
+        <argsstring></argsstring>
+        <name>resource_monitor_</name>
+        <qualifiedname>themis::llm::VisionEncoder::resource_monitor_</qualifiedname>
+        <briefdescription>
+<para>Resource monitor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="147" column="21" bodyfile="include/llm/vision_encoder.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_vision_encoder_1acbba1f82927af861ce2c25f9e495cf1d" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionEncoder::current_user_id_</definition>
+        <argsstring></argsstring>
+        <name>current_user_id_</name>
+        <qualifiedname>themis::llm::VisionEncoder::current_user_id_</qualifiedname>
+        <briefdescription>
+<para>Current user context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="148" column="17" bodyfile="include/llm/vision_encoder.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1a924052d959279b0d2ae69d6ce52c1db0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::VisionEncoder::VisionEncoder</definition>
+        <argsstring>(const std::string &amp;clip_model_path, std::shared_ptr&lt; VisionConfig &gt; config=nullptr, std::shared_ptr&lt; VisionResourceMonitor &gt; resource_monitor=nullptr, int verbosity=1)</argsstring>
+        <name>VisionEncoder</name>
+        <qualifiedname>themis::llm::VisionEncoder::VisionEncoder</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>clip_model_path</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_vision_config" kindref="compound">VisionConfig</ref> &gt;</type>
+          <declname>config</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_vision_resource_monitor" kindref="compound">VisionResourceMonitor</ref> &gt;</type>
+          <declname>resource_monitor</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>verbosity</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="31" column="14" bodyfile="src/llm/vision_encoder.cpp" bodystart="125" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1a39c86a2c037a78118fb2767ccb07af1e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::VisionEncoder::VisionEncoder</definition>
+        <argsstring>(const std::string &amp;clip_model_path, int verbosity=1)</argsstring>
+        <name>VisionEncoder</name>
+        <qualifiedname>themis::llm::VisionEncoder::VisionEncoder</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>clip_model_path</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>verbosity</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="36" column="14" bodyfile="src/llm/vision_encoder.cpp" bodystart="253" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1ac89085499233e229ca8da83c6d267981" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::VisionEncoder::~VisionEncoder</definition>
+        <argsstring>()</argsstring>
+        <name>~VisionEncoder</name>
+        <qualifiedname>themis::llm::VisionEncoder::~VisionEncoder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="38" column="5" bodyfile="src/llm/vision_encoder.cpp" bodystart="259" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1a0086a151c8488d420015230beab896bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::VisionEncoder::VisionEncoder</definition>
+        <argsstring>(const VisionEncoder &amp;)=delete</argsstring>
+        <name>VisionEncoder</name>
+        <qualifiedname>themis::llm::VisionEncoder::VisionEncoder</qualifiedname>
+        <param>
+          <type>const VisionEncoder &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="41" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1abd7607ddadd436911dfd49388b66839e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_vision_encoder_1a924052d959279b0d2ae69d6ce52c1db0" kindref="member">VisionEncoder</ref> &amp;</type>
+        <definition>VisionEncoder &amp; themis::llm::VisionEncoder::operator=</definition>
+        <argsstring>(const VisionEncoder &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::VisionEncoder::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_vision_encoder_1a924052d959279b0d2ae69d6ce52c1db0" kindref="member">VisionEncoder</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="42" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1ad254d0786d4aea2bea96d800acd1fa20" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::VisionEncoder::VisionEncoder</definition>
+        <argsstring>(VisionEncoder &amp;&amp;other) noexcept</argsstring>
+        <name>VisionEncoder</name>
+        <qualifiedname>themis::llm::VisionEncoder::VisionEncoder</qualifiedname>
+        <param>
+          <type>VisionEncoder &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="45" column="5" bodyfile="src/llm/vision_encoder.cpp" bodystart="274" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1a4c9a6d233269a58e80737a690574da40" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_vision_encoder_1a924052d959279b0d2ae69d6ce52c1db0" kindref="member">VisionEncoder</ref> &amp;</type>
+        <definition>VisionEncoder &amp; themis::llm::VisionEncoder::operator=</definition>
+        <argsstring>(VisionEncoder &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::VisionEncoder::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_vision_encoder_1a924052d959279b0d2ae69d6ce52c1db0" kindref="member">VisionEncoder</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="46" column="19" bodyfile="src/llm/vision_encoder.cpp" bodystart="284" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1a17051ea9753cf0f2f80dd7388c97538d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::VisionEncoder::encodeImage</definition>
+        <argsstring>(const std::string &amp;image_path)</argsstring>
+        <name>encodeImage</name>
+        <qualifiedname>themis::llm::VisionEncoder::encodeImage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>image_path</declname>
+        </param>
+        <briefdescription>
+<para>Encode Image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">image_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the image. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">image_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the image. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1_vision_encoder_1a27a28c2ab9705ef70d4542e22a7714fc" kindref="member">validateImage()</ref>, std::chrono::steady_clock::now(), canAcceptRequest(), startRequest(), clip_image_u8_init(), clip_image_load_from_file(), c_str(), clip_image_u8_free(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="53" column="17" bodyfile="src/llm/vision_encoder.cpp" bodystart="310" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1a7e9caa3b35a5b3cdd2c7aac3c08da252" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::VisionEncoder::encodeImageData</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;image_data)</argsstring>
+        <name>encodeImageData</name>
+        <qualifiedname>themis::llm::VisionEncoder::encodeImageData</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>image_data</declname>
+        </param>
+        <briefdescription>
+<para>Encode Image Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">image_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">image_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::filesystem::temp_directory_path(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), string(), ofs(), write(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="60" column="17" bodyfile="src/llm/vision_encoder.cpp" bodystart="410" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1a9021934b9514222445a38804a82c4873" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::VisionEncoder::getEmbeddingDimension</definition>
+        <argsstring>() const</argsstring>
+        <name>getEmbeddingDimension</name>
+        <qualifiedname>themis::llm::VisionEncoder::getEmbeddingDimension</qualifiedname>
+        <briefdescription>
+<para>Get Embedding Dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="66" column="9" bodyfile="src/llm/vision_encoder.cpp" bodystart="442" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1a5678200263c0003fc88cd95922e8884a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::VisionEncoder::getNumPatches</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumPatches</name>
+        <qualifiedname>themis::llm::VisionEncoder::getNumPatches</qualifiedname>
+        <briefdescription>
+<para>Get Num Patches. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="72" column="9" bodyfile="src/llm/vision_encoder.cpp" bodystart="453" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1ae5674847569a6659d971d9d378c31cad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionEncoder::getTotalEmbeddingSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalEmbeddingSize</name>
+        <qualifiedname>themis::llm::VisionEncoder::getTotalEmbeddingSize</qualifiedname>
+        <briefdescription>
+<para>Get Total Embedding Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="78" column="12" bodyfile="src/llm/vision_encoder.cpp" bodystart="464" bodyend="477"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1a283542b5830aa76d9a902089d2929900" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionEncoder::isReady</definition>
+        <argsstring>() const</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::llm::VisionEncoder::isReady</qualifiedname>
+        <briefdescription>
+<para>Is Ready. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="84" column="10" bodyfile="src/llm/vision_encoder.cpp" bodystart="479" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1ac62c1bd0831a532a7b818b6651dcfb9d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionEncoder::getModelInfo</definition>
+        <argsstring>() const</argsstring>
+        <name>getModelInfo</name>
+        <qualifiedname>themis::llm::VisionEncoder::getModelInfo</qualifiedname>
+        <briefdescription>
+<para>Get Model Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="90" column="17" bodyfile="src/llm/vision_encoder.cpp" bodystart="483" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1a7e67eec2301798bfb89c66b81a073237" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1llm_1_1_model_license" kindref="compound">ModelLicense</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ModelLicense &gt; themis::llm::VisionEncoder::getModelLicense</definition>
+        <argsstring>() const</argsstring>
+        <name>getModelLicense</name>
+        <qualifiedname>themis::llm::VisionEncoder::getModelLicense</qualifiedname>
+        <briefdescription>
+<para>Get Model License. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="96" column="21" bodyfile="src/llm/vision_encoder.cpp" bodystart="506" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1a27a28c2ab9705ef70d4542e22a7714fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionEncoder::validateImage</definition>
+        <argsstring>(const std::string &amp;image_path) const</argsstring>
+        <name>validateImage</name>
+        <qualifiedname>themis::llm::VisionEncoder::validateImage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>image_path</declname>
+        </param>
+        <briefdescription>
+<para>Validate Image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">image_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the image. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="103" column="10" bodyfile="src/llm/vision_encoder.cpp" bodystart="513" bodyend="546"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1ad82140695fd09dbbc72be64f3a788ae0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::VisionEncoder::setUserContext</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>setUserContext</name>
+        <qualifiedname>themis::llm::VisionEncoder::setUserContext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Set User Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setUserContext without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="109" column="10" bodyfile="src/llm/vision_encoder.cpp" bodystart="553" bodyend="555"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1aaec40d920a67ef5aef5faf8fa8008294" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>clip_image_u8 *</type>
+        <definition>clip_image_u8 * themis::llm::VisionEncoder::loadImage</definition>
+        <argsstring>(const std::string &amp;image_path)</argsstring>
+        <name>loadImage</name>
+        <qualifiedname>themis::llm::VisionEncoder::loadImage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>image_path</declname>
+        </param>
+        <briefdescription>
+<para>Load Image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">image_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the image. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">image_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the image. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: clip_image_u8_init(), clip_image_load_from_file(), c_str(), clip_image_u8_free(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="117" column="19" bodyfile="src/llm/vision_encoder.cpp" bodystart="635" bodyend="651"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1a82f433b245bffc4b03c57758d9b64333" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>clip_image_f32 *</type>
+        <definition>clip_image_f32 * themis::llm::VisionEncoder::preprocessImage</definition>
+        <argsstring>(const clip_image_u8 *img_u8)</argsstring>
+        <name>preprocessImage</name>
+        <qualifiedname>themis::llm::VisionEncoder::preprocessImage</qualifiedname>
+        <param>
+          <type>const clip_image_u8 *</type>
+          <declname>img_u8</declname>
+        </param>
+        <briefdescription>
+<para>Preprocess Image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">img_u8</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">img_u8</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: clip_image_f32_init(), clip_image_preprocess(), clip_image_f32_free(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="124" column="20" bodyfile="src/llm/vision_encoder.cpp" bodystart="660" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1abb5b5a34eb9dfc5dffe2ab09eb7e1627" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::VisionEncoder::freeImage</definition>
+        <argsstring>(clip_image_u8 *img_u8)</argsstring>
+        <name>freeImage</name>
+        <qualifiedname>themis::llm::VisionEncoder::freeImage</qualifiedname>
+        <param>
+          <type>clip_image_u8 *</type>
+          <declname>img_u8</declname>
+        </param>
+        <briefdescription>
+<para>Free Image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">img_u8</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">img_u8</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: clip_image_u8_free(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="130" column="10" bodyfile="src/llm/vision_encoder.cpp" bodystart="687" bodyend="693"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1adfb7eb416cdb0fee0af7dca0fc27743b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::VisionEncoder::freeImage</definition>
+        <argsstring>(clip_image_f32 *img_f32)</argsstring>
+        <name>freeImage</name>
+        <qualifiedname>themis::llm::VisionEncoder::freeImage</qualifiedname>
+        <param>
+          <type>clip_image_f32 *</type>
+          <declname>img_f32</declname>
+        </param>
+        <briefdescription>
+<para>Free Image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">img_f32</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">img_f32</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: clip_image_f32_free(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="135" column="10" bodyfile="src/llm/vision_encoder.cpp" bodystart="700" bodyend="706"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1a90cf6538148b032103ef71b39f44f2f1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionEncoder::validateImageSize</definition>
+        <argsstring>(const std::string &amp;image_path) const</argsstring>
+        <name>validateImageSize</name>
+        <qualifiedname>themis::llm::VisionEncoder::validateImageSize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>image_path</declname>
+        </param>
+        <briefdescription>
+<para>Validate Image Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">image_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the image. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="156" column="10" bodyfile="src/llm/vision_encoder.cpp" bodystart="557" bodyend="574"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1aaf78fef32a71f22cbde71304c33c5012" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionEncoder::validateImageFormat</definition>
+        <argsstring>(const std::string &amp;image_path) const</argsstring>
+        <name>validateImageFormat</name>
+        <qualifiedname>themis::llm::VisionEncoder::validateImageFormat</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>image_path</declname>
+        </param>
+        <briefdescription>
+<para>Validate Image Format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">image_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the image. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="162" column="10" bodyfile="src/llm/vision_encoder.cpp" bodystart="576" bodyend="601"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vision_encoder_1ac9028e7c34fea7cf4730dfebbafefb30" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionEncoder::validateImageResolution</definition>
+        <argsstring>(const std::string &amp;image_path) const</argsstring>
+        <name>validateImageResolution</name>
+        <qualifiedname>themis::llm::VisionEncoder::validateImageResolution</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>image_path</declname>
+        </param>
+        <briefdescription>
+<para>Validate Image Resolution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">image_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the image. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_encoder.h" line="168" column="10" bodyfile="src/llm/vision_encoder.cpp" bodystart="603" bodyend="626"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/vision_encoder.h" line="29" column="1" bodyfile="include/llm/vision_encoder.h" bodystart="29" bodyend="169"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1ae015c3e2c0df60be3ad162b605aa447f" prot="private" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>clip_ctx_</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1a4f2920de711e32cc6384b135f6663ab3" prot="private" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1acbba1f82927af861ce2c25f9e495cf1d" prot="private" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>current_user_id_</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1a17051ea9753cf0f2f80dd7388c97538d" prot="public" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>encodeImage</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1a7e9caa3b35a5b3cdd2c7aac3c08da252" prot="public" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>encodeImageData</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1abb5b5a34eb9dfc5dffe2ab09eb7e1627" prot="private" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>freeImage</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1adfb7eb416cdb0fee0af7dca0fc27743b" prot="private" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>freeImage</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1a9021934b9514222445a38804a82c4873" prot="public" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>getEmbeddingDimension</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1ac62c1bd0831a532a7b818b6651dcfb9d" prot="public" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>getModelInfo</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1a7e67eec2301798bfb89c66b81a073237" prot="public" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>getModelLicense</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1a5678200263c0003fc88cd95922e8884a" prot="public" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>getNumPatches</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1ae5674847569a6659d971d9d378c31cad" prot="public" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>getTotalEmbeddingSize</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1aa5740852e9f06e71c811ec76a69d7bbd" prot="private" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1a283542b5830aa76d9a902089d2929900" prot="public" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1aaec40d920a67ef5aef5faf8fa8008294" prot="private" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>loadImage</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1ac8a6c54ce9c5ae1047765f571b9ea4d5" prot="private" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>model_id_</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1aeec25dac5d8aa68ad0841c37d72049f7" prot="private" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>model_path_</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1abd7607ddadd436911dfd49388b66839e" prot="public" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1a4c9a6d233269a58e80737a690574da40" prot="public" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1a82f433b245bffc4b03c57758d9b64333" prot="private" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>preprocessImage</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1a93339b39858b6b0109407d70b0124b49" prot="private" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>resource_monitor_</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1ad82140695fd09dbbc72be64f3a788ae0" prot="public" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>setUserContext</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1a27a28c2ab9705ef70d4542e22a7714fc" prot="public" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>validateImage</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1aaf78fef32a71f22cbde71304c33c5012" prot="private" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>validateImageFormat</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1ac9028e7c34fea7cf4730dfebbafefb30" prot="private" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>validateImageResolution</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1a90cf6538148b032103ef71b39f44f2f1" prot="private" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>validateImageSize</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1a7b82d79f43aa84d111f9b59bcf61157d" prot="private" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>verbosity_</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1a924052d959279b0d2ae69d6ce52c1db0" prot="public" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>VisionEncoder</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1a39c86a2c037a78118fb2767ccb07af1e" prot="public" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>VisionEncoder</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1a0086a151c8488d420015230beab896bd" prot="public" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>VisionEncoder</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1ad254d0786d4aea2bea96d800acd1fa20" prot="public" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>VisionEncoder</name></member>
+      <member refid="classthemis_1_1llm_1_1_vision_encoder_1ac89085499233e229ca8da83c6d267981" prot="public" virt="non-virtual"><scope>themis::llm::VisionEncoder</scope><name>~VisionEncoder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

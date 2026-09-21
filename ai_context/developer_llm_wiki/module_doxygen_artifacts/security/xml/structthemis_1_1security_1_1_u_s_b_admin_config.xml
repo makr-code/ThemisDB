@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_u_s_b_admin_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::USBAdminConfig</compoundname>
+    <includes refid="usb__admin__authenticator_8h" local="no">usb_admin_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_config_1ad451783e7d3be4bb269eab8b811fb97f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::USBAdminConfig::mount_path</definition>
+        <argsstring></argsstring>
+        <name>mount_path</name>
+        <qualifiedname>themis::security::USBAdminConfig::mount_path</qualifiedname>
+        <initializer>= &quot;/mnt/themis-admin&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="58" column="17" bodyfile="include/security/usb_admin_authenticator.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_config_1aa479c1bbcca0de6b35eecf0082c1d3e8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::USBAdminConfig::license_file</definition>
+        <argsstring></argsstring>
+        <name>license_file</name>
+        <qualifiedname>themis::security::USBAdminConfig::license_file</qualifiedname>
+        <initializer>= &quot;themis_admin.lic&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="59" column="17" bodyfile="include/security/usb_admin_authenticator.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_config_1ace86abaa6846984802b8c1611cb5d5c6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::USBAdminConfig::challenge_file</definition>
+        <argsstring></argsstring>
+        <name>challenge_file</name>
+        <qualifiedname>themis::security::USBAdminConfig::challenge_file</qualifiedname>
+        <initializer>= &quot;challenge.dat&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="60" column="17" bodyfile="include/security/usb_admin_authenticator.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_config_1a49930039e798587c0bb1abfc1d4cc9e9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::USBAdminConfig::require_usb_for_admin</definition>
+        <argsstring></argsstring>
+        <name>require_usb_for_admin</name>
+        <qualifiedname>themis::security::USBAdminConfig::require_usb_for_admin</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="61" column="10" bodyfile="include/security/usb_admin_authenticator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_config_1a0c0fdfb614bc5c269e81e5b5970206d8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::USBAdminConfig::silent_failure</definition>
+        <argsstring></argsstring>
+        <name>silent_failure</name>
+        <qualifiedname>themis::security::USBAdminConfig::silent_failure</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="62" column="10" bodyfile="include/security/usb_admin_authenticator.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_config_1ab6e304d65dd32f697cca1754b6cffe5b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::USBAdminConfig::audit_log_path</definition>
+        <argsstring></argsstring>
+        <name>audit_log_path</name>
+        <qualifiedname>themis::security::USBAdminConfig::audit_log_path</qualifiedname>
+        <initializer>= &quot;/var/log/themis/admin_auth_audit.log&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="63" column="17" bodyfile="include/security/usb_admin_authenticator.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_config_1a10c4915e729b6cd7f56428a46d723f0a" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::security::USBAdminConfig::challenge_ttl</definition>
+        <argsstring></argsstring>
+        <name>challenge_ttl</name>
+        <qualifiedname>themis::security::USBAdminConfig::challenge_ttl</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="64" column="26" bodyfile="include/security/usb_admin_authenticator.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_config_1af4bcb45befa91b0940569b3c363bc4f5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::USBAdminConfig::max_validation_attempts</definition>
+        <argsstring></argsstring>
+        <name>max_validation_attempts</name>
+        <qualifiedname>themis::security::USBAdminConfig::max_validation_attempts</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="65" column="14" bodyfile="include/security/usb_admin_authenticator.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_config_1ac2f9e439eded53748852ef50f2b73724" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::security::USBAdminConfig::lockout_duration</definition>
+        <argsstring></argsstring>
+        <name>lockout_duration</name>
+        <qualifiedname>themis::security::USBAdminConfig::lockout_duration</qualifiedname>
+        <initializer>{600}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="66" column="26" bodyfile="include/security/usb_admin_authenticator.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_config_1a072de8afa4b55421008e2c41d7588578" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::USBAdminConfig::usb_protected_scopes</definition>
+        <argsstring></argsstring>
+        <name>usb_protected_scopes</name>
+        <qualifiedname>themis::security::USBAdminConfig::usb_protected_scopes</qualifiedname>
+        <initializer>                                 = {
+    &quot;admin&quot;,
+    &quot;config:write&quot;,
+    &quot;cdc:admin&quot;,
+    &quot;admin:backup&quot;,
+    &quot;admin:restore&quot;,
+    &quot;admin:topology&quot;,
+    &quot;admin:rebalance&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="70" column="17" bodyfile="include/security/usb_admin_authenticator.h" bodystart="70" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_config_1aab283982a892ecd9c8bf270dee582516" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::USBAdminConfig::require_readonly_mount</definition>
+        <argsstring></argsstring>
+        <name>require_readonly_mount</name>
+        <qualifiedname>themis::security::USBAdminConfig::require_readonly_mount</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, refreshUSBStatus() rejects the USB unless the filesystem is mounted read-only. A read-only mount prevents any process running on the host from writing to the stick while it is in use. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="85" column="10" bodyfile="include/security/usb_admin_authenticator.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_config_1a02911c65288aed41d9050382c19d0dd5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::USBAdminConfig::expected_volume_hash</definition>
+        <argsstring></argsstring>
+        <name>expected_volume_hash</name>
+        <qualifiedname>themis::security::USBAdminConfig::expected_volume_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If non-empty, refreshUSBStatus() rejects the USB unless the SHA-256 hash of the license file matches this value (lowercase hex, 64 chars). Provision this value from a secure, server-side configuration store. Any FAT-level modification of the license file will be detected. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="91" column="17" bodyfile="include/security/usb_admin_authenticator.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_u_s_b_admin_config_1a3920c17f459fcc8f2ee2d4cfdb2b1f48" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::USBAdminConfig::expected_usb_serial</definition>
+        <argsstring></argsstring>
+        <name>expected_usb_serial</name>
+        <qualifiedname>themis::security::USBAdminConfig::expected_usb_serial</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If non-empty, refreshUSBStatus() rejects the USB unless the device serial number matches this value. This prevents a <computeroutput>dd</computeroutput> clone of the stick from being accepted on the same or a different host. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/usb_admin_authenticator.h" line="96" column="17" bodyfile="include/security/usb_admin_authenticator.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for USB Admin Authentication. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/usb_admin_authenticator.h" line="57" column="1" bodyfile="include/security/usb_admin_authenticator.h" bodystart="57" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_config_1ab6e304d65dd32f697cca1754b6cffe5b" prot="public" virt="non-virtual"><scope>themis::security::USBAdminConfig</scope><name>audit_log_path</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_config_1ace86abaa6846984802b8c1611cb5d5c6" prot="public" virt="non-virtual"><scope>themis::security::USBAdminConfig</scope><name>challenge_file</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_config_1a10c4915e729b6cd7f56428a46d723f0a" prot="public" virt="non-virtual"><scope>themis::security::USBAdminConfig</scope><name>challenge_ttl</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_config_1a3920c17f459fcc8f2ee2d4cfdb2b1f48" prot="public" virt="non-virtual"><scope>themis::security::USBAdminConfig</scope><name>expected_usb_serial</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_config_1a02911c65288aed41d9050382c19d0dd5" prot="public" virt="non-virtual"><scope>themis::security::USBAdminConfig</scope><name>expected_volume_hash</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_config_1aa479c1bbcca0de6b35eecf0082c1d3e8" prot="public" virt="non-virtual"><scope>themis::security::USBAdminConfig</scope><name>license_file</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_config_1ac2f9e439eded53748852ef50f2b73724" prot="public" virt="non-virtual"><scope>themis::security::USBAdminConfig</scope><name>lockout_duration</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_config_1af4bcb45befa91b0940569b3c363bc4f5" prot="public" virt="non-virtual"><scope>themis::security::USBAdminConfig</scope><name>max_validation_attempts</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_config_1ad451783e7d3be4bb269eab8b811fb97f" prot="public" virt="non-virtual"><scope>themis::security::USBAdminConfig</scope><name>mount_path</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_config_1aab283982a892ecd9c8bf270dee582516" prot="public" virt="non-virtual"><scope>themis::security::USBAdminConfig</scope><name>require_readonly_mount</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_config_1a49930039e798587c0bb1abfc1d4cc9e9" prot="public" virt="non-virtual"><scope>themis::security::USBAdminConfig</scope><name>require_usb_for_admin</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_config_1a0c0fdfb614bc5c269e81e5b5970206d8" prot="public" virt="non-virtual"><scope>themis::security::USBAdminConfig</scope><name>silent_failure</name></member>
+      <member refid="structthemis_1_1security_1_1_u_s_b_admin_config_1a072de8afa4b55421008e2c41d7588578" prot="public" virt="non-virtual"><scope>themis::security::USBAdminConfig</scope><name>usb_protected_scopes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

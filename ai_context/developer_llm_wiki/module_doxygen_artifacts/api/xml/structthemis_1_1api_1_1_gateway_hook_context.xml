@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1api_1_1_gateway_hook_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::api::GatewayHookContext</compoundname>
+    <includes refid="api__gateway__hook_8h" local="no">api_gateway_hook.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_gateway_hook_context_1a577505f900a61434bad5efcabdf3ebdd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::GatewayHookContext::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::api::GatewayHookContext::request_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="42" column="17" bodyfile="include/api/api_gateway_hook.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_gateway_hook_context_1a8ecb573c30f5268297b99ff139c5120c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::GatewayHookContext::method</definition>
+        <argsstring></argsstring>
+        <name>method</name>
+        <qualifiedname>themis::api::GatewayHookContext::method</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="43" column="17" bodyfile="include/api/api_gateway_hook.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_gateway_hook_context_1a871cd0008872b351af372b26ec9a6040" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::GatewayHookContext::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::api::GatewayHookContext::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="44" column="17" bodyfile="include/api/api_gateway_hook.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_gateway_hook_context_1a97da6282bbf7074e170f4f5d5f008e13" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::api::GatewayHookContext::headers</definition>
+        <argsstring></argsstring>
+        <name>headers</name>
+        <qualifiedname>themis::api::GatewayHookContext::headers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="45" column="14" bodyfile="include/api/api_gateway_hook.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_gateway_hook_context_1a74c918b51127c4f74142740d78dfde97" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::GatewayHookContext::body</definition>
+        <argsstring></argsstring>
+        <name>body</name>
+        <qualifiedname>themis::api::GatewayHookContext::body</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="46" column="17" bodyfile="include/api/api_gateway_hook.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_gateway_hook_context_1abe5a90ffb023a9028355abb6ee46e741" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::api::GatewayHookContext::client_ip</definition>
+        <argsstring></argsstring>
+        <name>client_ip</name>
+        <qualifiedname>themis::api::GatewayHookContext::client_ip</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="47" column="17" bodyfile="include/api/api_gateway_hook.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1api_1_1_gateway_hook_context_1ad10e080f250fb5852efca42b2e5ae156" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::api::GatewayHookContext::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::api::GatewayHookContext::metadata</qualifiedname>
+        <briefdescription>
+<para>Mutable bag for hook-to-hook state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_gateway_hook.h" line="48" column="14" bodyfile="include/api/api_gateway_hook.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/api_gateway_hook.h" line="41" column="1" bodyfile="include/api/api_gateway_hook.h" bodystart="41" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1api_1_1_gateway_hook_context_1a74c918b51127c4f74142740d78dfde97" prot="public" virt="non-virtual"><scope>themis::api::GatewayHookContext</scope><name>body</name></member>
+      <member refid="structthemis_1_1api_1_1_gateway_hook_context_1abe5a90ffb023a9028355abb6ee46e741" prot="public" virt="non-virtual"><scope>themis::api::GatewayHookContext</scope><name>client_ip</name></member>
+      <member refid="structthemis_1_1api_1_1_gateway_hook_context_1a97da6282bbf7074e170f4f5d5f008e13" prot="public" virt="non-virtual"><scope>themis::api::GatewayHookContext</scope><name>headers</name></member>
+      <member refid="structthemis_1_1api_1_1_gateway_hook_context_1ad10e080f250fb5852efca42b2e5ae156" prot="public" virt="non-virtual"><scope>themis::api::GatewayHookContext</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1api_1_1_gateway_hook_context_1a8ecb573c30f5268297b99ff139c5120c" prot="public" virt="non-virtual"><scope>themis::api::GatewayHookContext</scope><name>method</name></member>
+      <member refid="structthemis_1_1api_1_1_gateway_hook_context_1a871cd0008872b351af372b26ec9a6040" prot="public" virt="non-virtual"><scope>themis::api::GatewayHookContext</scope><name>path</name></member>
+      <member refid="structthemis_1_1api_1_1_gateway_hook_context_1a577505f900a61434bad5efcabdf3ebdd" prot="public" virt="non-virtual"><scope>themis::api::GatewayHookContext</scope><name>request_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

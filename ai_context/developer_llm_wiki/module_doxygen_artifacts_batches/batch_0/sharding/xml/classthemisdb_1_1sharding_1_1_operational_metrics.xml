@@ -1,0 +1,1287 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_operational_metrics" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::OperationalMetrics</compoundname>
+    <includes refid="operational__metrics_8h" local="no">operational_metrics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_operational_metrics_1a426e4811503898575659a3a1bee34fa3" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::OperationalMetrics::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="374" column="24" bodyfile="include/sharding/operational_metrics.h" bodystart="374" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_operational_metrics_1ac28c85ebebbe3ef422d95dc2059c4407" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::unique_ptr&lt; <ref refid="structthemisdb_1_1sharding_1_1_shard_metrics" kindref="compound">ShardMetrics</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::unique_ptr&lt;ShardMetrics&gt; &gt; themisdb::sharding::OperationalMetrics::shard_metrics_</definition>
+        <argsstring></argsstring>
+        <name>shard_metrics_</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::shard_metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="375" column="14" bodyfile="include/sharding/operational_metrics.h" bodystart="375" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1ac8c34b28c5fba625bfdd8c0fde8fd112" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::OperationalMetrics::OperationalMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>OperationalMetrics</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::OperationalMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="197" column="5" bodyfile="src/sharding/operational_metrics.cpp" bodystart="24" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1a135e04f18b342e69e94c0a5c797c4121" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::OperationalMetrics::~OperationalMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>~OperationalMetrics</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::~OperationalMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="198" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1ab9f93ea0979debee5824c722b41b01a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::OperationalMetrics::registerShard</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>registerShard</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::registerShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Register a shard for metrics collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Shard.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique shard identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), std::chrono::system_clock::now(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="204" column="10" bodyfile="src/sharding/operational_metrics.cpp" bodystart="32" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1ab077795f7cda6c2b68bd0a5bd1ccd0d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::OperationalMetrics::unregisterShard</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>unregisterShard</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::unregisterShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Unregister a shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unregister Shard.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="210" column="10" bodyfile="src/sharding/operational_metrics.cpp" bodystart="48" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1a24767574e2837d66a1e17d37e9db9b3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_shard_metrics" kindref="compound">ShardMetrics</ref> *</type>
+        <definition>ShardMetrics * themisdb::sharding::OperationalMetrics::getShardMetrics</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>getShardMetrics</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::getShardMetrics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Get metrics for a specific shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Shard Metrics.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to shard metrics (nullptr if not found)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: lock(), find(), end(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="217" column="18" bodyfile="src/sharding/operational_metrics.cpp" bodystart="59" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1acd0ea4efff07f5a5e116ffe38917c4a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::sharding::OperationalMetrics::getShardIds</definition>
+        <argsstring>() const</argsstring>
+        <name>getShardIds</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::getShardIds</qualifiedname>
+        <briefdescription>
+<para>Get all shard IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="222" column="17" bodyfile="src/sharding/operational_metrics.cpp" bodystart="70" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1a6f867a2d95a8769fda9594c4b63fd792" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::OperationalMetrics::exportPrometheusMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>exportPrometheusMetrics</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::exportPrometheusMetrics</qualifiedname>
+        <briefdescription>
+<para>Export metrics in Prometheus text format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Prometheus-formatted metrics string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="228" column="17" bodyfile="src/sharding/operational_metrics.cpp" bodystart="89" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1a0adb28e60798fb48342af23afe3a22c4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::OperationalMetrics::exportJSONMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>exportJSONMetrics</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::exportJSONMetrics</qualifiedname>
+        <briefdescription>
+<para>Export metrics as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON-formatted metrics string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="234" column="17" bodyfile="src/sharding/operational_metrics.cpp" bodystart="281" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1a2261b397d5d357edebcd6bdb75c97529" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::OperationalMetrics::getAggregatedMetrics</definition>
+        <argsstring>(ShardMetrics &amp;out) const</argsstring>
+        <name>getAggregatedMetrics</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::getAggregatedMetrics</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1sharding_1_1_shard_metrics" kindref="compound">ShardMetrics</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Get aggregated metrics across all shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output parameter to receive aggregated metrics </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="240" column="10" bodyfile="src/sharding/operational_metrics.cpp" bodystart="348" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1ab616fe4dc440eeb8788ac6d718b33738" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_health_status" kindref="compound">HealthStatus</ref></type>
+        <definition>HealthStatus themisdb::sharding::OperationalMetrics::getClusterHealth</definition>
+        <argsstring>() const</argsstring>
+        <name>getClusterHealth</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::getClusterHealth</qualifiedname>
+        <briefdescription>
+<para>Get cluster-wide health status Based on individual shard health. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="246" column="18" bodyfile="src/sharding/operational_metrics.cpp" bodystart="393" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1a31f3887bd553eafcb809abe38584c06b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::OperationalMetrics::recordRpcCall</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::string &amp;method, const std::string &amp;outcome, uint64_t latency_us)</argsstring>
+        <name>recordRpcCall</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::recordRpcCall</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>outcome</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>latency_us</declname>
+        </param>
+        <briefdescription>
+<para>Record a cross-shard RPC call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Rpc Call.</para>
+<para>Called by <ref refid="classthemis_1_1sharding_1_1_shard_r_p_c_client" kindref="compound">ShardRPCClient</ref> for every call attempt so that latency and outcome distributions are visible in dashboards.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target shard identifier (metric label). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RPC method name: &quot;prepare&quot;, &quot;commit&quot;, &quot;abort&quot;, etc. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>outcome</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>&quot;success&quot;, &quot;retryable_error&quot;, or &quot;non_retryable_error&quot;. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Round-trip latency of this single attempt in microseconds.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">outcome</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemisdb_1_1sharding_1_1_operational_metrics_1af6d78665cb6ef2f712057fc65c465693" kindref="member">recordRequest()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="259" column="10" bodyfile="src/sharding/operational_metrics.cpp" bodystart="447" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1af6d78665cb6ef2f712057fc65c465693" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::OperationalMetrics::recordRequest</definition>
+        <argsstring>(const std::string &amp;shard_id, uint64_t latency_us, bool success, bool is_write)</argsstring>
+        <name>recordRequest</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::recordRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>latency_us</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_write</declname>
+        </param>
+        <briefdescription>
+<para>Record a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Latency in microseconds </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether request succeeded </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>is_write</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether it&apos;s a write operation</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">is_write</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a24767574e2837d66a1e17d37e9db9b3f" kindref="member">getShardMetrics()</ref>, fetch_add(), load(), compare_exchange_weak(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="273" column="10" bodyfile="src/sharding/operational_metrics.cpp" bodystart="469" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1a80fd7ae5eb5270eec4ea0ff5a71fdb53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::OperationalMetrics::updateResourceUsage</definition>
+        <argsstring>(const std::string &amp;shard_id, uint64_t memory_bytes, uint64_t disk_bytes)</argsstring>
+        <name>updateResourceUsage</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::updateResourceUsage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>memory_bytes</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>disk_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Update resource usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Resource Usage.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>memory_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Memory usage in bytes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>disk_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Disk usage in bytes</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">memory_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">disk_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a24767574e2837d66a1e17d37e9db9b3f" kindref="member">getShardMetrics()</ref>, store(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="286" column="10" bodyfile="src/sharding/operational_metrics.cpp" bodystart="521" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1af74c726e51bd30652573d56b14433135" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::OperationalMetrics::recordNetworkTraffic</definition>
+        <argsstring>(const std::string &amp;shard_id, uint64_t bytes_sent, uint64_t bytes_received)</argsstring>
+        <name>recordNetworkTraffic</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::recordNetworkTraffic</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes_sent</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes_received</declname>
+        </param>
+        <briefdescription>
+<para>Record network traffic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Network Traffic.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bytes_sent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes sent </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bytes_received</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes received</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_sent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_received</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a24767574e2837d66a1e17d37e9db9b3f" kindref="member">getShardMetrics()</ref>, fetch_add(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="298" column="10" bodyfile="src/sharding/operational_metrics.cpp" bodystart="543" bodyend="556"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1a44719824fa0c6efc4181747a20b92d80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::OperationalMetrics::updateReplicationMetrics</definition>
+        <argsstring>(const std::string &amp;shard_id, uint64_t lag_ms, uint64_t replica_count, uint64_t sync_replica_count)</argsstring>
+        <name>updateReplicationMetrics</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::updateReplicationMetrics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>lag_ms</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>replica_count</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>sync_replica_count</declname>
+        </param>
+        <briefdescription>
+<para>Update replication metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Replication Metrics.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lag_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replication lag in milliseconds </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>replica_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total replica count </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sync_replica_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Synchronous replica count</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lag_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">replica_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sync_replica_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a24767574e2837d66a1e17d37e9db9b3f" kindref="member">getShardMetrics()</ref>, store(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="311" column="10" bodyfile="src/sharding/operational_metrics.cpp" bodystart="566" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1a68b2e4615582c40c53c95b2206776e48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::OperationalMetrics::recordQuorumOperation</definition>
+        <argsstring>(const std::string &amp;shard_id, bool is_write, bool success)</argsstring>
+        <name>recordQuorumOperation</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::recordQuorumOperation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_write</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+<para>Record quorum operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Quorum Operation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>is_write</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether it&apos;s a write operation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether quorum was achieved</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">is_write</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a24767574e2837d66a1e17d37e9db9b3f" kindref="member">getShardMetrics()</ref>, fetch_add(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="324" column="10" bodyfile="src/sharding/operational_metrics.cpp" bodystart="590" bodyend="611"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1a356c9552bee5dbbccd7f89c640f11553" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::OperationalMetrics::recordDurabilityOperation</definition>
+        <argsstring>(const std::string &amp;shard_id, bool wal_sync, bool checkpoint_created)</argsstring>
+        <name>recordDurabilityOperation</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::recordDurabilityOperation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>wal_sync</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>checkpoint_created</declname>
+        </param>
+        <briefdescription>
+<para>Record durability operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Durability Operation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>wal_sync</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether WAL was synced </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>checkpoint_created</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether checkpoint was created</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">wal_sync</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_created</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a24767574e2837d66a1e17d37e9db9b3f" kindref="member">getShardMetrics()</ref>, fetch_add(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="336" column="10" bodyfile="src/sharding/operational_metrics.cpp" bodystart="620" bodyend="639"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1a0df6c5c4a3adaa1c50b6a2f722bc34bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::OperationalMetrics::recordTransaction</definition>
+        <argsstring>(const std::string &amp;shard_id, bool committed, bool had_conflict)</argsstring>
+        <name>recordTransaction</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::recordTransaction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>committed</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>had_conflict</declname>
+        </param>
+        <briefdescription>
+<para>Record transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Transaction.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>committed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether transaction committed (vs aborted) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>had_conflict</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether transaction had a conflict</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">committed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">had_conflict</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a24767574e2837d66a1e17d37e9db9b3f" kindref="member">getShardMetrics()</ref>, fetch_add(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="348" column="10" bodyfile="src/sharding/operational_metrics.cpp" bodystart="648" bodyend="671"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1a4c137d221292509f953d22c4270e706b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::OperationalMetrics::recordPartitionEvent</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>recordPartitionEvent</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::recordPartitionEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Record partition event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Partition Event.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a24767574e2837d66a1e17d37e9db9b3f" kindref="member">getShardMetrics()</ref>, fetch_add(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="358" column="10" bodyfile="src/sharding/operational_metrics.cpp" bodystart="678" bodyend="686"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1ac13c2fa62288d01fd8da9f6dd5efb5f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::OperationalMetrics::updateShardHealth</definition>
+        <argsstring>(const std::string &amp;shard_id, HealthStatus status)</argsstring>
+        <name>updateShardHealth</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::updateShardHealth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemisdb_1_1sharding_1_1_health_status" kindref="compound">HealthStatus</ref></type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>Update shard health status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Shard Health.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New health status</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a24767574e2837d66a1e17d37e9db9b3f" kindref="member">getShardMetrics()</ref>, setHealthStatus(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="365" column="10" bodyfile="src/sharding/operational_metrics.cpp" bodystart="694" bodyend="705"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1a04982637b3c6ae3d0c55e57c5f4267ef" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::OperationalMetrics::healthStatusToString</definition>
+        <argsstring>(HealthStatus status)</argsstring>
+        <name>healthStatusToString</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::healthStatusToString</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1sharding_1_1_health_status" kindref="compound">HealthStatus</ref></type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>Convert health status to string Utility method for converting <ref refid="structthemisdb_1_1sharding_1_1_health_status" kindref="compound">HealthStatus</ref> enum to string representation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Health Status To String.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements healthStatusToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="371" column="24" bodyfile="src/sharding/operational_metrics.cpp" bodystart="713" bodyend="721"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1abbf58c9d89e8c01868bf832a4fcbbcdf" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::OperationalMetrics::formatPrometheusMetric</definition>
+        <argsstring>(const std::string &amp;name, MetricType type, double value, const std::map&lt; std::string, std::string &gt; &amp;labels={})</argsstring>
+        <name>formatPrometheusMetric</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::formatPrometheusMetric</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a08cdbea9f10b76529d099969d601982c" kindref="member">MetricType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Format metric for Prometheus. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="380" column="24" bodyfile="src/sharding/operational_metrics.cpp" bodystart="723" bodyend="750"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1a4fd43fea9ace6afc3b2496e7828197ce" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::OperationalMetrics::formatPrometheusMetric</definition>
+        <argsstring>(const std::string &amp;name, MetricType type, uint64_t value, const std::map&lt; std::string, std::string &gt; &amp;labels={})</argsstring>
+        <name>formatPrometheusMetric</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::formatPrometheusMetric</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a08cdbea9f10b76529d099969d601982c" kindref="member">MetricType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="387" column="24" bodyfile="src/sharding/operational_metrics.cpp" bodystart="752" bodyend="759"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_operational_metrics_1a165d525d80e0054df91ab915a59d2b3e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::OperationalMetrics::formatPrometheusMetric</definition>
+        <argsstring>(const std::string &amp;name, MetricType type, int value, const std::map&lt; std::string, std::string &gt; &amp;labels={})</argsstring>
+        <name>formatPrometheusMetric</name>
+        <qualifiedname>themisdb::sharding::OperationalMetrics::formatPrometheusMetric</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a08cdbea9f10b76529d099969d601982c" kindref="member">MetricType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/operational_metrics.h" line="394" column="24" bodyfile="src/sharding/operational_metrics.cpp" bodystart="761" bodyend="768"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Operational metrics collector and exporter. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Collects metrics from sharding components and exports them in Prometheus format for monitoring and alerting. </para>
+    </detaileddescription>
+    <location file="include/sharding/operational_metrics.h" line="195" column="1" bodyfile="include/sharding/operational_metrics.h" bodystart="195" bodyend="400"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a0adb28e60798fb48342af23afe3a22c4" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>exportJSONMetrics</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a6f867a2d95a8769fda9594c4b63fd792" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>exportPrometheusMetrics</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1abbf58c9d89e8c01868bf832a4fcbbcdf" prot="private" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>formatPrometheusMetric</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a4fd43fea9ace6afc3b2496e7828197ce" prot="private" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>formatPrometheusMetric</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a165d525d80e0054df91ab915a59d2b3e" prot="private" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>formatPrometheusMetric</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a2261b397d5d357edebcd6bdb75c97529" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>getAggregatedMetrics</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1ab616fe4dc440eeb8788ac6d718b33738" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>getClusterHealth</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1acd0ea4efff07f5a5e116ffe38917c4a2" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>getShardIds</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a24767574e2837d66a1e17d37e9db9b3f" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>getShardMetrics</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a04982637b3c6ae3d0c55e57c5f4267ef" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>healthStatusToString</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a426e4811503898575659a3a1bee34fa3" prot="private" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1ac8c34b28c5fba625bfdd8c0fde8fd112" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>OperationalMetrics</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a356c9552bee5dbbccd7f89c640f11553" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>recordDurabilityOperation</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1af74c726e51bd30652573d56b14433135" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>recordNetworkTraffic</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a4c137d221292509f953d22c4270e706b" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>recordPartitionEvent</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a68b2e4615582c40c53c95b2206776e48" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>recordQuorumOperation</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1af6d78665cb6ef2f712057fc65c465693" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>recordRequest</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a31f3887bd553eafcb809abe38584c06b" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>recordRpcCall</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a0df6c5c4a3adaa1c50b6a2f722bc34bf" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>recordTransaction</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1ab9f93ea0979debee5824c722b41b01a1" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>registerShard</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1ac28c85ebebbe3ef422d95dc2059c4407" prot="private" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>shard_metrics_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1ab077795f7cda6c2b68bd0a5bd1ccd0d0" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>unregisterShard</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a44719824fa0c6efc4181747a20b92d80" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>updateReplicationMetrics</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a80fd7ae5eb5270eec4ea0ff5a71fdb53" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>updateResourceUsage</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1ac13c2fa62288d01fd8da9f6dd5efb5f9" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>updateShardHealth</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_operational_metrics_1a135e04f18b342e69e94c0a5c797c4121" prot="public" virt="non-virtual"><scope>themisdb::sharding::OperationalMetrics</scope><name>~OperationalMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

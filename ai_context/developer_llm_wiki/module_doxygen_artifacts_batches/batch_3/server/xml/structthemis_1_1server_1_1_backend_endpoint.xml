@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_backend_endpoint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::BackendEndpoint</compoundname>
+    <includes refid="smart__routing_8h" local="no">smart_routing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_backend_endpoint_1aab3efba498749c2d9aaddfa64cd079e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::BackendEndpoint::backend_id</definition>
+        <argsstring></argsstring>
+        <name>backend_id</name>
+        <qualifiedname>themis::server::BackendEndpoint::backend_id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier (e.g. &quot;shard-0&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="29" column="17" bodyfile="include/server/smart_routing.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_backend_endpoint_1a8d4f2f87a3cbcafd3c5487eb75c0c2fa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::BackendEndpoint::address</definition>
+        <argsstring></argsstring>
+        <name>address</name>
+        <qualifiedname>themis::server::BackendEndpoint::address</qualifiedname>
+        <briefdescription>
+<para>Host name or IP. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="30" column="17" bodyfile="include/server/smart_routing.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_backend_endpoint_1ac35699a91edc5c0a52d0367f3ffde194" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::server::BackendEndpoint::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::server::BackendEndpoint::port</qualifiedname>
+        <initializer>{8080}</initializer>
+        <briefdescription>
+<para>HTTP port. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="31" column="17" bodyfile="include/server/smart_routing.h" bodystart="31" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_backend_endpoint_1ad8db503b7bffce50558c9b142d11c247" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::BackendEndpoint::operator==</definition>
+        <argsstring>(const BackendEndpoint &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::server::BackendEndpoint::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_backend_endpoint" kindref="compound">BackendEndpoint</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="33" column="10" bodyfile="include/server/smart_routing.h" bodystart="33" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/smart_routing.h" line="28" column="1" bodyfile="include/server/smart_routing.h" bodystart="28" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_backend_endpoint_1a8d4f2f87a3cbcafd3c5487eb75c0c2fa" prot="public" virt="non-virtual"><scope>themis::server::BackendEndpoint</scope><name>address</name></member>
+      <member refid="structthemis_1_1server_1_1_backend_endpoint_1aab3efba498749c2d9aaddfa64cd079e0" prot="public" virt="non-virtual"><scope>themis::server::BackendEndpoint</scope><name>backend_id</name></member>
+      <member refid="structthemis_1_1server_1_1_backend_endpoint_1ad8db503b7bffce50558c9b142d11c247" prot="public" virt="non-virtual"><scope>themis::server::BackendEndpoint</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1server_1_1_backend_endpoint_1ac35699a91edc5c0a52d0367f3ffde194" prot="public" virt="non-virtual"><scope>themis::server::BackendEndpoint</scope><name>port</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

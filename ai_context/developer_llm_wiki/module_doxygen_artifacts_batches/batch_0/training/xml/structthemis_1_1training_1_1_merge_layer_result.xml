@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_merge_layer_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::MergeLayerResult</compoundname>
+    <includes refid="lora__adapter__merger_8h" local="no">lora_adapter_merger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_merge_layer_result_1a5b9b4dd06056c7e19c0b52263feb2231" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::MergeLayerResult::layer_name</definition>
+        <argsstring></argsstring>
+        <name>layer_name</name>
+        <qualifiedname>themis::training::MergeLayerResult::layer_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="37" column="24" bodyfile="include/training/lora_adapter_merger.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_merge_layer_result_1a47ea26547d7071cf59d1b25343c4e69e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::training::MergeLayerResult::B</definition>
+        <argsstring></argsstring>
+        <name>B</name>
+        <qualifiedname>themis::training::MergeLayerResult::B</qualifiedname>
+        <briefdescription>
+<para>Merged B matrix (in_dim × rank). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="38" column="17" bodyfile="include/training/lora_adapter_merger.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_merge_layer_result_1aaef7ff27535697a23977715fc055aec4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::training::MergeLayerResult::A</definition>
+        <argsstring></argsstring>
+        <name>A</name>
+        <qualifiedname>themis::training::MergeLayerResult::A</qualifiedname>
+        <briefdescription>
+<para>Merged A matrix (rank × out_dim). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="39" column="17" bodyfile="include/training/lora_adapter_merger.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_merge_layer_result_1acca96b00c25205e55c9e0ef48e764ef8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::MergeLayerResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::training::MergeLayerResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="40" column="24" bodyfile="include/training/lora_adapter_merger.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_merge_layer_result_1aa35a65033920d89a1827022be2f3ad9f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::MergeLayerResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::training::MergeLayerResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="41" column="24" bodyfile="include/training/lora_adapter_merger.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a merge operation for a single output layer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/lora_adapter_merger.h" line="36" column="1" bodyfile="include/training/lora_adapter_merger.h" bodystart="36" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_merge_layer_result_1aaef7ff27535697a23977715fc055aec4" prot="public" virt="non-virtual"><scope>themis::training::MergeLayerResult</scope><name>A</name></member>
+      <member refid="structthemis_1_1training_1_1_merge_layer_result_1a47ea26547d7071cf59d1b25343c4e69e" prot="public" virt="non-virtual"><scope>themis::training::MergeLayerResult</scope><name>B</name></member>
+      <member refid="structthemis_1_1training_1_1_merge_layer_result_1aa35a65033920d89a1827022be2f3ad9f" prot="public" virt="non-virtual"><scope>themis::training::MergeLayerResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1training_1_1_merge_layer_result_1a5b9b4dd06056c7e19c0b52263feb2231" prot="public" virt="non-virtual"><scope>themis::training::MergeLayerResult</scope><name>layer_name</name></member>
+      <member refid="structthemis_1_1training_1_1_merge_layer_result_1acca96b00c25205e55c9e0ef48e764ef8" prot="public" virt="non-virtual"><scope>themis::training::MergeLayerResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

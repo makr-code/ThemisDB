@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_sampling_strategy_1_1_adaptive_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SamplingStrategy::AdaptiveConfig</compoundname>
+    <includes refid="tracing_8h" local="no">tracing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_sampling_strategy_1_1_adaptive_config_1a85c6bb7897e44a3b7c7f8e5251fba755" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SamplingStrategy::AdaptiveConfig::max_spans_per_second</definition>
+        <argsstring></argsstring>
+        <name>max_spans_per_second</name>
+        <qualifiedname>themis::SamplingStrategy::AdaptiveConfig::max_spans_per_second</qualifiedname>
+        <initializer>= 1000.0</initializer>
+        <briefdescription>
+<para>Target maximum span creation rate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="64" column="16" bodyfile="include/utils/tracing.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_sampling_strategy_1_1_adaptive_config_1a65ed8902c8d5a7ebc05569133e860599" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SamplingStrategy::AdaptiveConfig::min_rate</definition>
+        <argsstring></argsstring>
+        <name>min_rate</name>
+        <qualifiedname>themis::SamplingStrategy::AdaptiveConfig::min_rate</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+<para>Minimum sample probability (floor). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="65" column="16" bodyfile="include/utils/tracing.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_sampling_strategy_1_1_adaptive_config_1a3b452e81c21f9b1376723fa60df65953" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::SamplingStrategy::AdaptiveConfig::window</definition>
+        <argsstring></argsstring>
+        <name>window</name>
+        <qualifiedname>themis::SamplingStrategy::AdaptiveConfig::window</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+<para>Rate-measurement window duration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/tracing.h" line="66" column="35" bodyfile="include/utils/tracing.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the ADAPTIVE sampling strategy. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/tracing.h" line="63" column="5" bodyfile="include/utils/tracing.h" bodystart="63" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_sampling_strategy_1_1_adaptive_config_1a85c6bb7897e44a3b7c7f8e5251fba755" prot="public" virt="non-virtual"><scope>themis::SamplingStrategy::AdaptiveConfig</scope><name>max_spans_per_second</name></member>
+      <member refid="structthemis_1_1_sampling_strategy_1_1_adaptive_config_1a65ed8902c8d5a7ebc05569133e860599" prot="public" virt="non-virtual"><scope>themis::SamplingStrategy::AdaptiveConfig</scope><name>min_rate</name></member>
+      <member refid="structthemis_1_1_sampling_strategy_1_1_adaptive_config_1a3b452e81c21f9b1376723fa60df65953" prot="public" virt="non-virtual"><scope>themis::SamplingStrategy::AdaptiveConfig</scope><name>window</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_o_l_a_p_g_p_u_aggregate_correctness_test" kind="class" language="C++" prot="public">
+    <compoundname>OLAPGPUAggregateCorrectnessTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_o_l_a_p_g_p_u_aggregate_correctness_test_1ad3ee03b5c612813b733143d8842171af" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>OLAPEngine</type>
+        <definition>static OLAPEngine OLAPGPUAggregateCorrectnessTest::makeGPUEngine</definition>
+        <argsstring>(size_t threshold=1)</argsstring>
+        <name>makeGPUEngine</name>
+        <qualifiedname>OLAPGPUAggregateCorrectnessTest::makeGPUEngine</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>threshold</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="273" column="23" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="273" bodyend="278"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>OLAPGPUAggregateCorrectnessTest</label>
+        <link refid="class_o_l_a_p_g_p_u_aggregate_correctness_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>OLAPGPUAggregateCorrectnessTest</label>
+        <link refid="class_o_l_a_p_g_p_u_aggregate_correctness_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_olap_accelerator.cpp" line="269" column="1" bodyfile="tests/gpu/test_gpu_olap_accelerator.cpp" bodystart="269" bodyend="279"/>
+    <listofallmembers>
+      <member refid="class_o_l_a_p_g_p_u_aggregate_correctness_test_1ad3ee03b5c612813b733143d8842171af" prot="protected" virt="non-virtual"><scope>OLAPGPUAggregateCorrectnessTest</scope><name>makeGPUEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

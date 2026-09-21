@@ -44,6 +44,10 @@ Der Zweck dieser Rollenaufteilung ist eine saubere Release-Kette:
   — PR-Gate fuer geaenderten C/C++-Sourcecode: GS3-Doxygen-Strukturpruefung, Doxygen-Audit-Warnungen, XML-Generierbarkeit, Coverage-/Waiver-Eskalation
 - `.github/workflows/gate-pr-doc-metadata.yml`
   — Leichtgewichtiges Markdown-Metadaten-Gate fuer geaenderte Doku-Dateien; prueft Author/Urheber, Created, Last Updated und Status mit klaren Excludes fuer Backlog-/Archiv-/Template-Dateien
+- `.github/workflows/gate-pr-primary-doc-structure.yml`
+  — PR-Gate fuer Primaerdokument-Struktur in `src/*/README.md` und `src/*/ARCHITECTURE.md` inklusive konformer Failure-Feedback-Hooks
+- `.github/workflows/gate-pr-module-doxygen-xml.yml`
+  — Modulbasierte Doxygen-XML/Direct-Doxygen Evidence Lane (schedule + dispatch) fuer Drift-Evidenz und Coverage-Artefakte
 - `.github/workflows/build-mainline.yml`
   — Multi-OS Build/Test-Matrix inkl. optionaler Sanitizer-Lane per `workflow_dispatch`
 - `.github/workflows/build-clang-fast.yml`
@@ -72,6 +76,8 @@ Der Zweck dieser Rollenaufteilung ist eine saubere Release-Kette:
   — Compliance-/Governance- und Release-Policy-Gates
 - `.github/workflows/maintenance-docs.yml`
   — Dokumentations-Hygiene/Alignment Workflows; deckt auch `ai_context/**` und `ai_working/**` ab (Stale-Cleanup + Orphan-Check)
+- `.github/workflows/maintenance-soll-ist-gap-issues.yml`
+  — Soll-Ist Gap Report + idempotenter Issue-Sync fuer modulbezogene Docs-/Impl-Drift
 - `.github/workflows/maintenance-docs-db-build.yml`
   — Docs-to-ThemisDB: Ingests docs/ into a RocksDB database via themis_docs_builder; triggered on docs/** changes (push develop/community); content-hash guard prevents redundant rebuilds; workflow_dispatch supports arbitrary input_dir
 - `.github/workflows/maintenance-architecture-ci.yml`
@@ -129,7 +135,7 @@ Der Zweck dieser Rollenaufteilung ist eine saubere Release-Kette:
 - `.github/workflows/gate-pr-version-targeting.yml`
   — PR gate: Target Version field and milestone assignment validation; PR-only (opened/edited/synchronize)
 - `.github/workflows/maintenance-ai-working.yml`
-  — AI Working cleanup (LLM Wiki stale files); schedule + push + dispatch
+  — Maintenance: AI Working Cleanup - LLM Wiki (LLM Wiki stale files); schedule + push + dispatch
 - `.github/workflows/maintenance-housekeeping.yml`
   — Weekly housekeeping (replaces maintenance-labels + maintenance-milestones + maintenance-issue-recommendations): label sync, milestone sync+assignment, issue closure recommendations; schedule Monday + push + issues/PR-target + dispatch
 - `.github/workflows/maintenance-build-issues.yml`

@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_user" kind="struct" language="C++" prot="public">
+    <compoundname>themis::User</compoundname>
+    <includes refid="include_2document_2encrypted__entities_8h" local="no">encrypted_entities.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_user_1a579237c7b124ab756b28a367ef7f95a0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::User::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::User::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/encrypted_entities.h" line="23" column="17" bodyfile="include/document/encrypted_entities.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_user_1a183ff438d00db778e5fc93170e3d9a82" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::User::username</definition>
+        <argsstring></argsstring>
+        <name>username</name>
+        <qualifiedname>themis::User::username</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/encrypted_entities.h" line="24" column="17" bodyfile="include/document/encrypted_entities.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_user_1a4663776a1ea76bd5bde08bb7f4dbaa16" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::User::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::User::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/encrypted_entities.h" line="25" column="13" bodyfile="include/document/encrypted_entities.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_user_1ab586fd10c32c116dc90ab75a99837a45" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::User::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::User::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/encrypted_entities.h" line="26" column="17" bodyfile="include/document/encrypted_entities.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_user_1af77f475dd1da5d7bf9b6530b8aedcde8" prot="public" static="no" mutable="no">
+        <type>EncryptedField&lt; std::string &gt;</type>
+        <definition>EncryptedField&lt;std::string&gt; themis::User::email</definition>
+        <argsstring></argsstring>
+        <name>email</name>
+        <qualifiedname>themis::User::email</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/encrypted_entities.h" line="29" column="20" bodyfile="include/document/encrypted_entities.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_user_1aea736465f21d1e41758dddd01258cbbd" prot="public" static="no" mutable="no">
+        <type>EncryptedField&lt; std::string &gt;</type>
+        <definition>EncryptedField&lt;std::string&gt; themis::User::phone</definition>
+        <argsstring></argsstring>
+        <name>phone</name>
+        <qualifiedname>themis::User::phone</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/encrypted_entities.h" line="30" column="20" bodyfile="include/document/encrypted_entities.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_user_1a9b2de361e090a00c800da50a00301359" prot="public" static="no" mutable="no">
+        <type>EncryptedField&lt; std::string &gt;</type>
+        <definition>EncryptedField&lt;std::string&gt; themis::User::ssn</definition>
+        <argsstring></argsstring>
+        <name>ssn</name>
+        <qualifiedname>themis::User::ssn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/encrypted_entities.h" line="31" column="20" bodyfile="include/document/encrypted_entities.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_user_1a22b997b7ca80a37d88777ec931b6675d" prot="public" static="no" mutable="no">
+        <type>EncryptedField&lt; std::string &gt;</type>
+        <definition>EncryptedField&lt;std::string&gt; themis::User::address</definition>
+        <argsstring></argsstring>
+        <name>address</name>
+        <qualifiedname>themis::User::address</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/encrypted_entities.h" line="32" column="20" bodyfile="include/document/encrypted_entities.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_user_1aca4e35c0502847cf4254741285d6cead" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::User::User</definition>
+        <argsstring>()</argsstring>
+        <name>User</name>
+        <qualifiedname>themis::User::User</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/encrypted_entities.h" line="34" column="5" bodyfile="include/document/encrypted_entities.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_user_1a51552d7721c9e61a226d732fe417fac6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::User::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::User::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/encrypted_entities.h" line="36" column="20" bodyfile="include/document/encrypted_entities.h" bodystart="36" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_user_1aaef587bc246d0119046c246f55abbb24" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_user_1aca4e35c0502847cf4254741285d6cead" kindref="member">User</ref></type>
+        <definition>static User themis::User::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::User::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), contains(), fromBase64(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/encrypted_entities.h" line="66" column="17" bodyfile="include/document/encrypted_entities.h" bodystart="66" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/document/encrypted_entities.h" line="21" column="1" bodyfile="include/document/encrypted_entities.h" bodystart="21" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_user_1a22b997b7ca80a37d88777ec931b6675d" prot="public" virt="non-virtual"><scope>themis::User</scope><name>address</name></member>
+      <member refid="structthemis_1_1_user_1a4663776a1ea76bd5bde08bb7f4dbaa16" prot="public" virt="non-virtual"><scope>themis::User</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1_user_1af77f475dd1da5d7bf9b6530b8aedcde8" prot="public" virt="non-virtual"><scope>themis::User</scope><name>email</name></member>
+      <member refid="structthemis_1_1_user_1aaef587bc246d0119046c246f55abbb24" prot="public" virt="non-virtual"><scope>themis::User</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1_user_1a579237c7b124ab756b28a367ef7f95a0" prot="public" virt="non-virtual"><scope>themis::User</scope><name>id</name></member>
+      <member refid="structthemis_1_1_user_1aea736465f21d1e41758dddd01258cbbd" prot="public" virt="non-virtual"><scope>themis::User</scope><name>phone</name></member>
+      <member refid="structthemis_1_1_user_1a9b2de361e090a00c800da50a00301359" prot="public" virt="non-virtual"><scope>themis::User</scope><name>ssn</name></member>
+      <member refid="structthemis_1_1_user_1ab586fd10c32c116dc90ab75a99837a45" prot="public" virt="non-virtual"><scope>themis::User</scope><name>status</name></member>
+      <member refid="structthemis_1_1_user_1a51552d7721c9e61a226d732fe417fac6" prot="public" virt="non-virtual"><scope>themis::User</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1_user_1aca4e35c0502847cf4254741285d6cead" prot="public" virt="non-virtual"><scope>themis::User</scope><name>User</name></member>
+      <member refid="structthemis_1_1_user_1a183ff438d00db778e5fc93170e3d9a82" prot="public" virt="non-virtual"><scope>themis::User</scope><name>username</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

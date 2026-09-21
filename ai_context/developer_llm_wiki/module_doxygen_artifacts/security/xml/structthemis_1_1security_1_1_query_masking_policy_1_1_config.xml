@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_query_masking_policy_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::QueryMaskingPolicy::Config</compoundname>
+    <includes refid="query__masking__policy_8h" local="no">query_masking_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_query_masking_policy_1_1_config_1ab5f72cfbb551c04eb4425496c1a9977e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::QueryMaskingPolicy::Config::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::Config::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable/disable masking entirely (kill-switch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="72" column="14" bodyfile="include/security/query_masking_policy.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_query_masking_policy_1_1_config_1a84afc5795e611b0dd59c226940b21ea8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::QueryMaskingPolicy::Config::auto_detect_pii</definition>
+        <argsstring></argsstring>
+        <name>auto_detect_pii</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::Config::auto_detect_pii</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Scan string values for inline PII (e.g. phone/email embedded in free text). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="74" column="14" bodyfile="include/security/query_masking_policy.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_query_masking_policy_1_1_config_1afee7d26c3618b192369b3110f8058858" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::QueryMaskingPolicy::Config::mask_by_field_name</definition>
+        <argsstring></argsstring>
+        <name>mask_by_field_name</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::Config::mask_by_field_name</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Use field-name hints from PIIDetector to mask values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="76" column="14" bodyfile="include/security/query_masking_policy.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_query_masking_policy_1_1_config_1a87c2ff80ac50d5a791ba5e670f64444a" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::security::QueryMaskingPolicy::Config::privileged_roles</definition>
+        <argsstring></argsstring>
+        <name>privileged_roles</name>
+        <qualifiedname>themis::security::QueryMaskingPolicy::Config::privileged_roles</qualifiedname>
+        <initializer>= {&quot;admin&quot;}</initializer>
+        <briefdescription>
+<para>Roles whose members receive fully unmasked results. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/query_masking_policy.h" line="78" column="28" bodyfile="include/security/query_masking_policy.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Policy-wide configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/query_masking_policy.h" line="70" column="5" bodyfile="include/security/query_masking_policy.h" bodystart="70" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_query_masking_policy_1_1_config_1a84afc5795e611b0dd59c226940b21ea8" prot="public" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy::Config</scope><name>auto_detect_pii</name></member>
+      <member refid="structthemis_1_1security_1_1_query_masking_policy_1_1_config_1ab5f72cfbb551c04eb4425496c1a9977e" prot="public" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy::Config</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1security_1_1_query_masking_policy_1_1_config_1afee7d26c3618b192369b3110f8058858" prot="public" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy::Config</scope><name>mask_by_field_name</name></member>
+      <member refid="structthemis_1_1security_1_1_query_masking_policy_1_1_config_1a87c2ff80ac50d5a791ba5e670f64444a" prot="public" virt="non-virtual"><scope>themis::security::QueryMaskingPolicy::Config</scope><name>privileged_roles</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

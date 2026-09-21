@@ -1,0 +1,361 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="class_a_i_decision_auditor_test" kind="class"><name>AIDecisionAuditorTest</name>
+    <member refid="class_a_i_decision_auditor_test_1ae7a420839d40213c71c31de3e146eab8" kind="variable"><name>db_path_</name></member>
+    <member refid="class_a_i_decision_auditor_test_1a6cd79a3173404c271053b9ea2ff610b8" kind="variable"><name>db_</name></member>
+    <member refid="class_a_i_decision_auditor_test_1a72bd7a29e1535dfd7a4754e965ae3a69" kind="variable"><name>auditor_</name></member>
+    <member refid="class_a_i_decision_auditor_test_1a3b5d9adc0be161370f5573b0ff427411" kind="function"><name>SetUp</name></member>
+    <member refid="class_a_i_decision_auditor_test_1af2c207e43a17a8f13aaca92b0d57a9d2" kind="function"><name>TearDown</name></member>
+    <member refid="class_a_i_decision_auditor_test_1ab70bb6fe976bec747b1ff9b795100661" kind="function"><name>createTestAudit</name></member>
+  </compound>
+  <compound refid="class_a_i_plugin_generator" kind="class"><name>AIPluginGenerator</name>
+    <member refid="class_a_i_plugin_generator_1aac040bbc41ca6a78b61b984934438e14" kind="typedef"><name>CAISafetyEvalFn</name></member>
+    <member refid="class_a_i_plugin_generator_1aa7f60f64174b7a674663b6f6607b909e" kind="typedef"><name>FederatedTelemetryFn</name></member>
+    <member refid="class_a_i_plugin_generator_1ae462adef446904d2e73132ea7fa8c9d0" kind="typedef"><name>EndpointInvokeFn</name></member>
+    <member refid="class_a_i_plugin_generator_1a9526cde32d4525bb2a67362eec866690" kind="typedef"><name>SandboxVerifyFn</name></member>
+    <member refid="class_a_i_plugin_generator_1a9c4353b15f87d85b30c6b9353eb0019d" kind="typedef"><name>LLMGenerateFn</name></member>
+    <member refid="class_a_i_plugin_generator_1a1f8d754b357d53c609746463b7387ac7" kind="typedef"><name>LlmHttpPostFn</name></member>
+    <member refid="class_a_i_plugin_generator_1ab119c51f3f2e8df2b5f32fd514498ed9" kind="typedef"><name>HttpPostFn</name></member>
+    <member refid="class_a_i_plugin_generator_1a21f6c105a64d3ec6fb234611c4914e95" kind="variable"><name>config_</name></member>
+    <member refid="class_a_i_plugin_generator_1a7401a6df8d0a4de167fea89e6bbc015a" kind="variable"><name>llm_http_post_fn_</name></member>
+    <member refid="class_a_i_plugin_generator_1a326c1bf4d78d3761d9e51df78930f56c" kind="variable"><name>stat_validation_errors_</name></member>
+    <member refid="class_a_i_plugin_generator_1ad2da5c7cf76a3622d95118d0d92d7470" kind="variable"><name>stat_transport_errors_</name></member>
+    <member refid="class_a_i_plugin_generator_1ab855ce5565529ab284ee50e4626b9a0c" kind="variable"><name>stat_http_errors_</name></member>
+    <member refid="class_a_i_plugin_generator_1ad6b8f81ad6e6c93d8ad6db9618c8cdba" kind="variable"><name>stat_parse_errors_</name></member>
+    <member refid="class_a_i_plugin_generator_1a3978d588ff4bfe92d0d055e2e3082a97" kind="variable"><name>stat_safety_rejections_</name></member>
+    <member refid="class_a_i_plugin_generator_1a6731469981061fca94acb15922aeb3ca" kind="variable"><name>stat_sandbox_rejections_</name></member>
+    <member refid="class_a_i_plugin_generator_1af58de6f70234700377a720cab7f6a2f6" kind="variable"><name>stat_successes_</name></member>
+    <member refid="class_a_i_plugin_generator_1a8283af0a9f1018a79c0a099108adc0f3" kind="function"><name>getStats</name></member>
+    <member refid="class_a_i_plugin_generator_1aa51556448e7eaa2c1d33fc16b4d6e000" kind="function"><name>setLLMGenerateFn</name></member>
+    <member refid="class_a_i_plugin_generator_1adac1c3317dc373e36797de860f67f7dc" kind="function"><name>AIPluginGenerator</name></member>
+    <member refid="class_a_i_plugin_generator_1ae927c03a7fc87514113c06571ad60614" kind="function"><name>~AIPluginGenerator</name></member>
+    <member refid="class_a_i_plugin_generator_1ae31d129ea056773cf6af6bdefaa5fdb6" kind="function"><name>setLlmHttpPostFn</name></member>
+    <member refid="class_a_i_plugin_generator_1ac27133d28d0b179ce622986bef8f8270" kind="function"><name>generatePlugin</name></member>
+    <member refid="class_a_i_plugin_generator_1a37a8500a5133aba17053a5c85552a084" kind="function"><name>validatePrompt</name></member>
+    <member refid="class_a_i_plugin_generator_1a772f93e31c68bd67a7940036cde2123b" kind="function"><name>setHttpPostFn</name></member>
+    <member refid="class_a_i_plugin_generator_1a92c975920c88f6e751399edf71a96b22" kind="function"><name>clearHttpPostFn</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator" kind="class"><name>themis::plugins::ai::AIPluginGenerator</name>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1aac040bbc41ca6a78b61b984934438e14" kind="typedef"><name>CAISafetyEvalFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1aa7f60f64174b7a674663b6f6607b909e" kind="typedef"><name>FederatedTelemetryFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1ae462adef446904d2e73132ea7fa8c9d0" kind="typedef"><name>EndpointInvokeFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1a9526cde32d4525bb2a67362eec866690" kind="typedef"><name>SandboxVerifyFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1a9c4353b15f87d85b30c6b9353eb0019d" kind="typedef"><name>LLMGenerateFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1a1f8d754b357d53c609746463b7387ac7" kind="typedef"><name>LlmHttpPostFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1ab119c51f3f2e8df2b5f32fd514498ed9" kind="typedef"><name>HttpPostFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1a21f6c105a64d3ec6fb234611c4914e95" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1a7401a6df8d0a4de167fea89e6bbc015a" kind="variable"><name>llm_http_post_fn_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1a326c1bf4d78d3761d9e51df78930f56c" kind="variable"><name>stat_validation_errors_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1ad2da5c7cf76a3622d95118d0d92d7470" kind="variable"><name>stat_transport_errors_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1ab855ce5565529ab284ee50e4626b9a0c" kind="variable"><name>stat_http_errors_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1ad6b8f81ad6e6c93d8ad6db9618c8cdba" kind="variable"><name>stat_parse_errors_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1a3978d588ff4bfe92d0d055e2e3082a97" kind="variable"><name>stat_safety_rejections_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1a6731469981061fca94acb15922aeb3ca" kind="variable"><name>stat_sandbox_rejections_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1af58de6f70234700377a720cab7f6a2f6" kind="variable"><name>stat_successes_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1a8283af0a9f1018a79c0a099108adc0f3" kind="function"><name>getStats</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1aa51556448e7eaa2c1d33fc16b4d6e000" kind="function"><name>setLLMGenerateFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1adac1c3317dc373e36797de860f67f7dc" kind="function"><name>AIPluginGenerator</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1ae927c03a7fc87514113c06571ad60614" kind="function"><name>~AIPluginGenerator</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1ae31d129ea056773cf6af6bdefaa5fdb6" kind="function"><name>setLlmHttpPostFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1ac27133d28d0b179ce622986bef8f8270" kind="function"><name>generatePlugin</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1a37a8500a5133aba17053a5c85552a084" kind="function"><name>validatePrompt</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1a772f93e31c68bd67a7940036cde2123b" kind="function"><name>setHttpPostFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1a92c975920c88f6e751399edf71a96b22" kind="function"><name>clearHttpPostFn</name></member>
+  </compound>
+  <compound refid="structthemis_1_1ai_1_1_c_a_i_ethics_config" kind="struct"><name>themis::ai::CAIEthicsConfig</name>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_ethics_config_1a7fa09ea15e923d45a513a1173dde3aa5" kind="variable"><name>max_cai_rounds</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_ethics_config_1a01bb340969a4cda284466f5e12ea7b5d" kind="variable"><name>improvement_threshold</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_ethics_config_1a02189a57d5313d8bd44307066b1cb9ed" kind="variable"><name>min_cai_score</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_ethics_config_1acf70cbde8682fccb6f1caedda328f78c" kind="variable"><name>ethics_weights</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_ethics_config_1a57f75b1f99374bff2c1d21f325a3d3a5" kind="variable"><name>load_default_principles</name></member>
+  </compound>
+  <compound refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration" kind="class"><name>themis::ai::CAIEthicsIntegration</name>
+    <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a0aa675a1181f7e550e13a7cc72ac0a76" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a24e8ced7b868563a9b22b5cd0f30fa9b" kind="variable"><name>cai_engine_</name></member>
+    <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a06b9331ab6d95f3cd7d527da8dc8123b" kind="variable"><name>ethics_evaluator_</name></member>
+    <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1abf063bb2738b3aa9a639dcc3705f53ab" kind="function"><name>CAIEthicsIntegration</name></member>
+    <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a91dcecda9ed9ebfde39eea7df6b3802b" kind="function"><name>~CAIEthicsIntegration</name></member>
+    <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1aadce3e2be0f2d33abedc53261d746902" kind="function"><name>CAIEthicsIntegration</name></member>
+    <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a8bb76680eac0b76bc604a60be3db3167" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a7c9ff3df588d9f2c489b0c709cc32251" kind="function"><name>CAIEthicsIntegration</name></member>
+    <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a62d80872156410f34a7dc982a280f798" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a56702fd931e22ebe862c98acbf1843d2" kind="function"><name>evaluate</name></member>
+    <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a69c080cad3c6ddcbc0b9c2bc4348a1ce" kind="function"><name>addPrinciple</name></member>
+    <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a8a9ab6f90f4c687ce916ec4bd69f762d" kind="function"><name>getPrinciples</name></member>
+    <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1ae49cf0e98ef90d70fbd6b84971e16bd7" kind="function"><name>principleCount</name></member>
+    <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a0c9e143da9cd27b51dd6170bef618f50" kind="function"><name>config</name></member>
+    <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1a61373448f384fd2387f7a200aa90f233" kind="function"><name>passesAcceptanceCriteria</name></member>
+    <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1aca98f1492e7e75181bad28c92ab98a84" kind="function"><name>buildDecision</name></member>
+    <member refid="classthemis_1_1ai_1_1_c_a_i_ethics_integration_1ad6b0357a0df90608992bd5fa5cf1bdc0" kind="function"><name>buildArguments</name></member>
+  </compound>
+  <compound refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result" kind="struct"><name>themis::ai::CAIEvaluationResult</name>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1af160052105d144e1a7ba38026d182b26" kind="variable"><name>original_response</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1af786f2e1b276a081a233a0da94d6fd25" kind="variable"><name>revised_response</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a458f2a50c835c156b5d61040ed746fbd" kind="variable"><name>was_revised</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a5cc9b218dff78d321694fd5d5bbb3a45" kind="variable"><name>cai_iterations</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a4d24d1479026c71c3b0b295de51c3444" kind="variable"><name>cai_original_score</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a9bee2fb881cd1b9063f1b03adc0f4a74" kind="variable"><name>cai_revised_score</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a1f4d094f589bae70f7eda285c2d5d238" kind="variable"><name>violated_principles</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a909f1cbca8ea23d1127e6faab2b8b239" kind="variable"><name>applied_principles</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a020495fe9ca67bfcb08e357ceaf92143" kind="variable"><name>ethics_overall_score</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1ae286319ec88f0156522466e1d2c725c2" kind="variable"><name>ethics_decision_quality</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a3cd0fc51352f856e4f1f63a9172e3967" kind="variable"><name>ethics_consistency</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1aa1dca94f73616504d9e379c5540f7295" kind="variable"><name>ethics_fairness</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1af327f4012d24075e3fdc7de14019b4cc" kind="variable"><name>ethics_alignment</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a71990b5087d9f502e2b7166ca07e80fe" kind="variable"><name>ethics_transparency</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a2da37a418909098e92fe968fd4d4ce30" kind="variable"><name>ethics_framework_domains</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a1bc4eb365bc903c38ac663a74b86e686" kind="variable"><name>ethics_argument_chain_ids</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1abb9a10133823e3f89fd82fcd6ae881f9" kind="variable"><name>ethics_framework_principles</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1adf4bc2bb9488a60fddc6d9f69c414e45" kind="variable"><name>total_latency</name></member>
+    <member refid="structthemis_1_1ai_1_1_c_a_i_evaluation_result_1a0f5e8fbe0ef10043cefe91d7f8091ef5" kind="function"><name>safety_score</name></member>
+  </compound>
+  <compound refid="struct_a_i_plugin_generator_1_1_config" kind="struct"><name>AIPluginGenerator::Config</name>
+    <member refid="struct_a_i_plugin_generator_1_1_config_1a36824354b7b3608cdda155dcc083db60" kind="variable"><name>llm_endpoint</name></member>
+    <member refid="struct_a_i_plugin_generator_1_1_config_1a32a658321edeadc77de37384011e57fe" kind="variable"><name>allowed_llm_endpoints</name></member>
+    <member refid="struct_a_i_plugin_generator_1_1_config_1af90ae2470e729415a6d9676c6b617b4e" kind="variable"><name>sandbox_dir</name></member>
+    <member refid="struct_a_i_plugin_generator_1_1_config_1a4e77571cda027d97a8e09d8e6809ce18" kind="variable"><name>output_dir</name></member>
+    <member refid="struct_a_i_plugin_generator_1_1_config_1ab66f13a9a5683c6943ad8d0242323657" kind="variable"><name>timeout_ms</name></member>
+    <member refid="struct_a_i_plugin_generator_1_1_config_1a2b8008c9f2d95c2439fcbb72903fd8f6" kind="variable"><name>max_request_body_bytes</name></member>
+    <member refid="struct_a_i_plugin_generator_1_1_config_1a0abc008b20f02f50f182d7528b9dd291" kind="variable"><name>max_response_body_bytes</name></member>
+    <member refid="struct_a_i_plugin_generator_1_1_config_1ac478a8bc6ab1cfbcee39b85211243ade" kind="variable"><name>endpoint_invoke_fn</name></member>
+    <member refid="struct_a_i_plugin_generator_1_1_config_1a9b96c54c85f5faad97e9d2da8a59efa1" kind="variable"><name>enable_c1_cai_safety_gate</name></member>
+    <member refid="struct_a_i_plugin_generator_1_1_config_1aaa9bfc6addc8bbbc8ffc82a85443608f" kind="variable"><name>c1_min_safety_score</name></member>
+    <member refid="struct_a_i_plugin_generator_1_1_config_1a94491d10b0ea32bc16381ab3aa458109" kind="variable"><name>c1_cai_eval_fn</name></member>
+    <member refid="struct_a_i_plugin_generator_1_1_config_1a3d3c07119a217e9b836707465a7f099b" kind="variable"><name>enable_c2_federated_telemetry</name></member>
+    <member refid="struct_a_i_plugin_generator_1_1_config_1a0e18a3bc25bd667b33ee7d7bf466e6f7" kind="variable"><name>c2_federated_telemetry_fn</name></member>
+    <member refid="struct_a_i_plugin_generator_1_1_config_1ac9be7973ac6972da90466bd6aa55267b" kind="variable"><name>enable_sandbox_gate</name></member>
+    <member refid="struct_a_i_plugin_generator_1_1_config_1a3ac1e350d58a699578baaa7399da3f6a" kind="variable"><name>sandbox_verify_fn</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config" kind="struct"><name>themis::plugins::ai::AIPluginGenerator::Config</name>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a36824354b7b3608cdda155dcc083db60" kind="variable"><name>llm_endpoint</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a32a658321edeadc77de37384011e57fe" kind="variable"><name>allowed_llm_endpoints</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1af90ae2470e729415a6d9676c6b617b4e" kind="variable"><name>sandbox_dir</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a4e77571cda027d97a8e09d8e6809ce18" kind="variable"><name>output_dir</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1ab66f13a9a5683c6943ad8d0242323657" kind="variable"><name>timeout_ms</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a2b8008c9f2d95c2439fcbb72903fd8f6" kind="variable"><name>max_request_body_bytes</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a0abc008b20f02f50f182d7528b9dd291" kind="variable"><name>max_response_body_bytes</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1ac478a8bc6ab1cfbcee39b85211243ade" kind="variable"><name>endpoint_invoke_fn</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a9b96c54c85f5faad97e9d2da8a59efa1" kind="variable"><name>enable_c1_cai_safety_gate</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1aaa9bfc6addc8bbbc8ffc82a85443608f" kind="variable"><name>c1_min_safety_score</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a94491d10b0ea32bc16381ab3aa458109" kind="variable"><name>c1_cai_eval_fn</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a3d3c07119a217e9b836707465a7f099b" kind="variable"><name>enable_c2_federated_telemetry</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a0e18a3bc25bd667b33ee7d7bf466e6f7" kind="variable"><name>c2_federated_telemetry_fn</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1ac9be7973ac6972da90466bd6aa55267b" kind="variable"><name>enable_sandbox_gate</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a3ac1e350d58a699578baaa7399da3f6a" kind="variable"><name>sandbox_verify_fn</name></member>
+  </compound>
+  <compound refid="struct_generated_plugin" kind="struct"><name>GeneratedPlugin</name>
+    <member refid="struct_generated_plugin_1a7709e7fd6f19807807f916cec9b41010" kind="variable"><name>header_code</name></member>
+    <member refid="struct_generated_plugin_1af350ea1a89e5d88b2ca6084a04d087e9" kind="variable"><name>implementation_code</name></member>
+    <member refid="struct_generated_plugin_1a8bf75343c8da40bfcb10fa065100afad" kind="variable"><name>test_code</name></member>
+    <member refid="struct_generated_plugin_1ae114cf7d881fc652929c829f38997625" kind="variable"><name>cmake_code</name></member>
+    <member refid="struct_generated_plugin_1a2b19b4195c80133615ddee933baf4a07" kind="variable"><name>manifest</name></member>
+    <member refid="struct_generated_plugin_1a407a7e0cc7fc80119822ee1a41686ab6" kind="variable"><name>build_dependencies</name></member>
+    <member refid="struct_generated_plugin_1a5d5087b2dfdef5c8d6417ed2544c6f0e" kind="variable"><name>passed_security_checks</name></member>
+    <member refid="struct_generated_plugin_1a404a569f0ba10165195b6cd497f156ec" kind="variable"><name>security_report</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ai_1_1_generated_plugin" kind="struct"><name>themis::plugins::ai::GeneratedPlugin</name>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_generated_plugin_1a7709e7fd6f19807807f916cec9b41010" kind="variable"><name>header_code</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_generated_plugin_1af350ea1a89e5d88b2ca6084a04d087e9" kind="variable"><name>implementation_code</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_generated_plugin_1a8bf75343c8da40bfcb10fa065100afad" kind="variable"><name>test_code</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_generated_plugin_1ae114cf7d881fc652929c829f38997625" kind="variable"><name>cmake_code</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_generated_plugin_1a2b19b4195c80133615ddee933baf4a07" kind="variable"><name>manifest</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_generated_plugin_1a407a7e0cc7fc80119822ee1a41686ab6" kind="variable"><name>build_dependencies</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_generated_plugin_1a5d5087b2dfdef5c8d6417ed2544c6f0e" kind="variable"><name>passed_security_checks</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_generated_plugin_1a404a569f0ba10165195b6cd497f156ec" kind="variable"><name>security_report</name></member>
+  </compound>
+  <compound refid="struct_generation_result" kind="struct"><name>GenerationResult</name>
+    <member refid="struct_generation_result_1aec817bd640a4dbb035ac889fa3a23e00" kind="variable"><name>success</name></member>
+    <member refid="struct_generation_result_1a2e1151f34805b4b8a47319c7264448fb" kind="variable"><name>validation_error</name></member>
+    <member refid="struct_generation_result_1af5d23e6310a73a8c2f48f80a28ec821d" kind="variable"><name>transport_error</name></member>
+    <member refid="struct_generation_result_1a3fe79e1d378061844b67506a0876734b" kind="variable"><name>parse_error</name></member>
+    <member refid="struct_generation_result_1affd24d2528e4d7e1b4fdf69fae14d340" kind="variable"><name>latency_us</name></member>
+  </compound>
+  <compound refid="struct_plugin_generation_prompt" kind="struct"><name>PluginGenerationPrompt</name>
+    <member refid="struct_plugin_generation_prompt_1a1b1fee4bfd4c33a64d5c86a1b2a302ef" kind="variable"><name>description</name></member>
+    <member refid="struct_plugin_generation_prompt_1aba9e5d919cf5c611f0279ae68ec4b616" kind="variable"><name>type</name></member>
+    <member refid="struct_plugin_generation_prompt_1af13139acda458870c696e04cf921b4ac" kind="variable"><name>required_capabilities</name></member>
+    <member refid="struct_plugin_generation_prompt_1ac39b78263d7e1a8a2ea235daa006ec25" kind="variable"><name>dependencies</name></member>
+    <member refid="struct_plugin_generation_prompt_1a2b8dde4fedcfc301c82470665d33e806" kind="variable"><name>llm_model</name></member>
+    <member refid="struct_plugin_generation_prompt_1a3db9f9ed4543143558984d29a9e0e5a7" kind="variable"><name>security_level</name></member>
+    <member refid="struct_plugin_generation_prompt_1ac98a0b8a743ae369718070c68281f15f" kind="variable"><name>generate_tests</name></member>
+    <member refid="struct_plugin_generation_prompt_1ae221e9c377de0aad1bd3824906c4d722" kind="variable"><name>generate_docs</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt" kind="struct"><name>themis::plugins::ai::PluginGenerationPrompt</name>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1a1b1fee4bfd4c33a64d5c86a1b2a302ef" kind="variable"><name>description</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1aba9e5d919cf5c611f0279ae68ec4b616" kind="variable"><name>type</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1af13139acda458870c696e04cf921b4ac" kind="variable"><name>required_capabilities</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1ac39b78263d7e1a8a2ea235daa006ec25" kind="variable"><name>dependencies</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1a2b8dde4fedcfc301c82470665d33e806" kind="variable"><name>llm_model</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1a3db9f9ed4543143558984d29a9e0e5a7" kind="variable"><name>security_level</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1ac98a0b8a743ae369718070c68281f15f" kind="variable"><name>generate_tests</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_plugin_generation_prompt_1ae221e9c377de0aad1bd3824906c4d722" kind="variable"><name>generate_docs</name></member>
+  </compound>
+  <compound refid="struct_a_i_plugin_generator_1_1_stats" kind="struct"><name>AIPluginGenerator::Stats</name>
+    <member refid="struct_a_i_plugin_generator_1_1_stats_1a01fc63244decd712f943fe7fbc0f033a" kind="variable"><name>validation_errors</name></member>
+    <member refid="struct_a_i_plugin_generator_1_1_stats_1a794d0af5e26009463ba5b5610417ef7c" kind="variable"><name>transport_errors</name></member>
+    <member refid="struct_a_i_plugin_generator_1_1_stats_1ac44751115f5346547d7a43775c81248b" kind="variable"><name>http_errors</name></member>
+    <member refid="struct_a_i_plugin_generator_1_1_stats_1ace79422934722ef4ed1ef89d4dda66c7" kind="variable"><name>parse_errors</name></member>
+    <member refid="struct_a_i_plugin_generator_1_1_stats_1af7bcf1b49da84bf4f9d4f86e838c7bef" kind="variable"><name>safety_rejections</name></member>
+    <member refid="struct_a_i_plugin_generator_1_1_stats_1a8ec35e33b8e59094e808883985292030" kind="variable"><name>sandbox_rejections</name></member>
+    <member refid="struct_a_i_plugin_generator_1_1_stats_1a49af1c28151aa668e12be5d4e937ae8a" kind="variable"><name>successes</name></member>
+  </compound>
+  <compound refid="struct_stub_a_i_generation_pipeline_1_1_stats" kind="struct"><name>StubAIGenerationPipeline::Stats</name>
+    <member refid="struct_stub_a_i_generation_pipeline_1_1_stats_1a47ef62164d2daec5de958f7cb0cb98f3" kind="variable"><name>validation_errors</name></member>
+    <member refid="struct_stub_a_i_generation_pipeline_1_1_stats_1a1cd7af6a5dd64966e557bcf6fa417c38" kind="variable"><name>transport_errors</name></member>
+    <member refid="struct_stub_a_i_generation_pipeline_1_1_stats_1a93b44f76d55d4646f6c09361b0373690" kind="variable"><name>parse_errors</name></member>
+    <member refid="struct_stub_a_i_generation_pipeline_1_1_stats_1a4a76b012426a4485db194d4e37962150" kind="variable"><name>successes</name></member>
+    <member refid="struct_stub_a_i_generation_pipeline_1_1_stats_1a8e325f2a26c1e2f38dd8123a5c85136f" kind="variable"><name>total_calls</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats" kind="struct"><name>themis::plugins::ai::AIPluginGenerator::Stats</name>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1a01fc63244decd712f943fe7fbc0f033a" kind="variable"><name>validation_errors</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1a794d0af5e26009463ba5b5610417ef7c" kind="variable"><name>transport_errors</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1ac44751115f5346547d7a43775c81248b" kind="variable"><name>http_errors</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1ace79422934722ef4ed1ef89d4dda66c7" kind="variable"><name>parse_errors</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1af7bcf1b49da84bf4f9d4f86e838c7bef" kind="variable"><name>safety_rejections</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1a8ec35e33b8e59094e808883985292030" kind="variable"><name>sandbox_rejections</name></member>
+    <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_stats_1a49af1c28151aa668e12be5d4e937ae8a" kind="variable"><name>successes</name></member>
+  </compound>
+  <compound refid="class_stub_a_i_generation_pipeline" kind="class"><name>StubAIGenerationPipeline</name>
+    <member refid="class_stub_a_i_generation_pipeline_1ae0004581238a4650da005c8c6a331f6e" kind="variable"><name>mode_</name></member>
+    <member refid="class_stub_a_i_generation_pipeline_1ad8081e1835387333f3990dedd2f77bb7" kind="variable"><name>simulated_latency_</name></member>
+    <member refid="class_stub_a_i_generation_pipeline_1a797f5d93aa3f8e23708107893adf31d3" kind="variable"><name>total_calls_</name></member>
+    <member refid="class_stub_a_i_generation_pipeline_1a2fece7e799497ea082e78af310491b3e" kind="variable"><name>successes_</name></member>
+    <member refid="class_stub_a_i_generation_pipeline_1a69c83487b845c802a0ba25ff5a7b481d" kind="variable"><name>validation_errors_</name></member>
+    <member refid="class_stub_a_i_generation_pipeline_1af64ee066faddcb58a99751a30838311b" kind="variable"><name>transport_errors_</name></member>
+    <member refid="class_stub_a_i_generation_pipeline_1a34285d8ab57eb8f5639cf074d3f13d90" kind="variable"><name>parse_errors_</name></member>
+    <member refid="class_stub_a_i_generation_pipeline_1a597cc08efb11c04417f6d115b867a5cc" kind="function"><name>StubAIGenerationPipeline</name></member>
+    <member refid="class_stub_a_i_generation_pipeline_1a3374d824e59c582d15375169d2595f6d" kind="function"><name>call</name></member>
+    <member refid="class_stub_a_i_generation_pipeline_1a15870c2e249c28e79725d5c427caf152" kind="function"><name>setMode</name></member>
+    <member refid="class_stub_a_i_generation_pipeline_1a6a803d008b1561defacdcafb4c01a793" kind="function"><name>getStats</name></member>
+  </compound>
+  <compound refid="namespace_0d065030125130373254021066243216116030132101054042" kind="namespace"><name>@065030125130373254021066243216116030132101054042</name>
+  </compound>
+  <compound refid="namespace_0d316220140231134345342224221311367223142225367025" kind="namespace"><name>@316220140231134345342224221311367223142225367025</name>
+  </compound>
+  <compound refid="namespacestd_1_1chrono__literals" kind="namespace"><name>std::chrono_literals</name>
+  </compound>
+  <compound refid="namespacetesting" kind="namespace"><name>testing</name>
+  </compound>
+  <compound refid="namespacethemis" kind="namespace"><name>themis</name>
+  </compound>
+  <compound refid="namespacethemis_1_1ai" kind="namespace"><name>themis::ai</name>
+  </compound>
+  <compound refid="namespacethemis_1_1ai_1_1_0d225312325316033107054115365261302142323377361112" kind="namespace"><name>themis::ai::@225312325316033107054115365261302142323377361112</name>
+  </compound>
+  <compound refid="namespacethemis_1_1llm" kind="namespace"><name>themis::llm</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins" kind="namespace"><name>themis::plugins</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1ai" kind="namespace"><name>themis::plugins::ai</name>
+    <member refid="namespacethemis_1_1plugins_1_1ai_1af59d3cf8d31a60082febd8cf2d0fbe6c" kind="enum"><name>LLMModel</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ai_1af59d3cf8d31a60082febd8cf2d0fbe6ca72828469d3f2899d8afa9dcc03b9fde1" kind="enumvalue"><name>CODE_LLAMA</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ai_1af59d3cf8d31a60082febd8cf2d0fbe6cab7d5bc716512b5d686912bd550c133d0" kind="enumvalue"><name>CODEX</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ai_1af59d3cf8d31a60082febd8cf2d0fbe6cabe5e79d7f592bbbb69569c9a294204be" kind="enumvalue"><name>STARCODER</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ai_1af59d3cf8d31a60082febd8cf2d0fbe6ca8589fc84db2dc71b1409a9b88581e6fe" kind="enumvalue"><name>GITHUB_COPILOT</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ai_1af59d3cf8d31a60082febd8cf2d0fbe6ca72baef04098f035e8a320b03ad197818" kind="enumvalue"><name>CUSTOM</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ai_1a78db63ca18bb89fdf559333a350e0c4a" kind="enum"><name>SecurityLevel</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ai_1a78db63ca18bb89fdf559333a350e0c4aa41bc94cbd8eebea13ce0491b2ac11b88" kind="enumvalue"><name>LOW</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ai_1a78db63ca18bb89fdf559333a350e0c4aac87f3be66ffc3c0d4249f1c2cc5f3cce" kind="enumvalue"><name>MEDIUM</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ai_1a78db63ca18bb89fdf559333a350e0c4aab89de3b4b81c4facfac906edf29aec8c" kind="enumvalue"><name>HIGH</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ai_1a78db63ca18bb89fdf559333a350e0c4aaa04e21e4201c441d2aa8e7759462bb19" kind="enumvalue"><name>PARANOID</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ai_1abd40e188cc223709e1ef37fc1d31161d" kind="typedef"><name>json</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1ai_1_1_0d375377150326150001172234261301026133016020064223" kind="namespace"><name>themis::plugins::ai::@375377150326150001172234261301026133016020064223</name>
+  </compound>
+  <compound refid="bench__ai__plugin__generator_8cpp" kind="file"><name>bench_ai_plugin_generator.cpp</name>
+  </compound>
+  <compound refid="ai__plugin__generator_8h" kind="file"><name>ai_plugin_generator.h</name>
+  </compound>
+  <compound refid="cai__ethics__integration_8h" kind="file"><name>cai_ethics_integration.h</name>
+  </compound>
+  <compound refid="ai__plugin__generator_8cpp" kind="file"><name>ai_plugin_generator.cpp</name>
+    <member refid="ai__plugin__generator_8cpp_1a9870feea4dea31c34b3fc586350db1e0" kind="define"><name>THEMIS_AI_TRACE_SCOPE</name></member>
+    <member refid="ai__plugin__generator_8cpp_1a2f2dcbba59284880e44516e5042f2006" kind="define"><name>THEMIS_AI_TRACE_EVENT</name></member>
+  </compound>
+  <compound refid="cai__ethics__integration_8cpp" kind="file"><name>cai_ethics_integration.cpp</name>
+  </compound>
+  <compound refid="test__ai__decision__auditor_8cpp" kind="file"><name>test_ai_decision_auditor.cpp</name>
+    <member refid="test__ai__decision__auditor_8cpp_1a69b95ae702cadb6c93d7c90b58e14930" kind="function"><name>TEST_F</name></member>
+    <member refid="test__ai__decision__auditor_8cpp_1a62d4aeda7ae700490d50ede0f2a6ecee" kind="function"><name>TEST_F</name></member>
+    <member refid="test__ai__decision__auditor_8cpp_1a411fc263d40b9921c8ca72bdf3ed7fa4" kind="function"><name>TEST_F</name></member>
+    <member refid="test__ai__decision__auditor_8cpp_1a05529b799d6891d90edf0ca92f04bb8d" kind="function"><name>TEST_F</name></member>
+    <member refid="test__ai__decision__auditor_8cpp_1a725c8ffa9b646e5d0d2a03690ec7e012" kind="function"><name>TEST_F</name></member>
+    <member refid="test__ai__decision__auditor_8cpp_1a5bb18bdf7b37ed79c97cff5d16d5e9d3" kind="function"><name>TEST_F</name></member>
+    <member refid="test__ai__decision__auditor_8cpp_1a6ac3394c05f5de4d89e9500071dbfccb" kind="function"><name>TEST_F</name></member>
+    <member refid="test__ai__decision__auditor_8cpp_1a7a605b9f24cd199fa4a3bda999e3e7c1" kind="function"><name>TEST_F</name></member>
+    <member refid="test__ai__decision__auditor_8cpp_1abf05b0fe5a3a1f75e1018d6cae66598e" kind="function"><name>TEST_F</name></member>
+    <member refid="test__ai__decision__auditor_8cpp_1a99344360cf6c8d89069129d0f709330c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__ai__decision__auditor_8cpp_1aeb3bec1912882d9ed6a69e0a0d66a55c" kind="function"><name>TEST_F</name></member>
+    <member refid="test__ai__decision__auditor_8cpp_1a2d31aa19b26f07004eea8eb8025ec5ad" kind="function"><name>TEST_F</name></member>
+    <member refid="test__ai__decision__auditor_8cpp_1a2e18002e37542985e0fa3d260eee692f" kind="function"><name>TEST_F</name></member>
+    <member refid="test__ai__decision__auditor_8cpp_1a6b8371651b56632f2b758182f6d8d2fa" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="test__ai__generation__soak__60min_8cpp" kind="file"><name>test_ai_generation_soak_60min.cpp</name>
+    <member refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95" kind="enum"><name>StubMode</name></member>
+    <member refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95a311a6573cc01db09b739b0cc2fe6a010" kind="enumvalue"><name>AlwaysSucceed</name></member>
+    <member refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95a86861597fb7693f8ff3d83c07ac6570b" kind="enumvalue"><name>AlwaysTransportFail</name></member>
+    <member refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95adbca9d9191f3a94721d80fdeda5aea32" kind="enumvalue"><name>AlwaysParseError</name></member>
+    <member refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95ace95b011ee6a99ffe2c43239e7237c96" kind="enumvalue"><name>MixedValidInvalid</name></member>
+    <member refid="test__ai__generation__soak__60min_8cpp_1ac156c3a7aaadd5993a2818f741a00d2b" kind="function"><name>soakDurationMs</name></member>
+    <member refid="test__ai__generation__soak__60min_8cpp_1ade88b552eb6b866f782771d738ee4880" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__generation__soak__60min_8cpp_1a0f4b30017207857ed70e06a940fd9c39" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__generation__soak__60min_8cpp_1a38121281687b921eb366348f31d638bf" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__generation__soak__60min_8cpp_1ab19a449778f04644bb870598fc8177bb" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__ai__highcardinality__stress_8cpp" kind="file"><name>test_ai_highcardinality_stress.cpp</name>
+    <member refid="test__ai__highcardinality__stress_8cpp_1a9246dc74097b49162b32b7788473da4a" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__highcardinality__stress_8cpp_1a39ba0c45d8c798c2131b13759b0358a8" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__highcardinality__stress_8cpp_1a894f4d52754e1aff90fd646417e03127" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__ai__plugin__generator_8cpp" kind="file"><name>test_ai_plugin_generator.cpp</name>
+    <member refid="test__ai__plugin__generator_8cpp_1a94823ac85bfbddc14a78f4f8f707760c" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a0bdb3561168aeb6a1d256e6951470c7e" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1ac864c022334fffecf689247510fe37cc" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a920873371d2269ce404a35f162abb0b2" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a983964a6f290b3c7984e4f35eba81725" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a0827dacccfc7cc6fd441a7a501ebe4c7" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1acb3636e26207e1dfcc231111e5e4d7fe" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a1279e946f30016a4799e10b9be08c5cb" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1ae212aa121b9b68b87dcf78890af1b821" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a5a9ef37a2f1b02cf3b480fff470370d8" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a7028bd2c975ad431594c36d38613f839" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1aa4ed11a1caa89d761ef4d7e065ab815b" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a77f52899171980a433dbef412948efd4" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a658e13b32f7438ef60d0e384557c9104" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a74e02a6b1f1db993e8977e30971d6299" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a687e3850d93c2fa9fc6567952e037538" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1ad72a116bb4a81d6cd03d2542a658b5f0" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a0d90fe601003809413ce6a8aab219b01" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a40bad833c6cbf588bfb972d00abb8dc9" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1ab95520ea1b98d5d65bb1d3e7ee3c4c7f" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a32e7b79c0e1b3ca62f6880565586a9ce" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a39a9fe721ad01d644037dac52f4c3e30" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1ac67b715b36d59950f519d16608582b97" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1aff1b2c4b5e753d2f2d96c2e56d7e84bf" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a96edcb7ee77358b13008faf6a8c6c27b" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a2a90db37b773712ad7f6bc1d1ff58304" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a19cb484e85add8bfc4fe05aa7c564762" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a9e171046d9ac14f3ef8f96ea9236025b" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1ae4373cfe7a76443ed1790f2187094c7f" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a252ace4c34b1ffa69effa02578b76cb3" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a2b2226cc281cab3a28c449d9c2a0745f" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1a7bfb49531414d344bd16bdfdfe490e5e" kind="function"><name>TEST</name></member>
+    <member refid="test__ai__plugin__generator_8cpp_1aa5fce01200ec6fbc986bb766ebe07e99" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="dir_db8a5f50ee8425e00e9e1db9d8fc548b" kind="dir"><name>benchmarks/ai</name>
+  </compound>
+  <compound refid="dir_9f94a405e787828644b412ab81725f16" kind="dir"><name>include/ai</name>
+  </compound>
+  <compound refid="dir_128a93aeeff33a8423f079f46929dbb3" kind="dir"><name>src/ai</name>
+  </compound>
+  <compound refid="dir_7a345da2daccad8f375dd5beaab2903e" kind="dir"><name>tests/ai</name>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+</doxygenindex>

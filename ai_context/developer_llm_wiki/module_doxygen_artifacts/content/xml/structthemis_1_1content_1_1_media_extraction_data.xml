@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_media_extraction_data" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::MediaExtractionData</compoundname>
+    <includes refid="content__plugin__interface_8h" local="no">content_plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_media_extraction_data_1ab7a8f9fca1665062f49a6f4c31705030" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::content::MediaExtractionData::duration_ms</definition>
+        <argsstring></argsstring>
+        <name>duration_ms</name>
+        <qualifiedname>themis::content::MediaExtractionData::duration_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="70" column="13" bodyfile="include/content/content_plugin_interface.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_media_extraction_data_1a9cf6ba5fc1a7830332663bd3cc7bf101" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::MediaExtractionData::width</definition>
+        <argsstring></argsstring>
+        <name>width</name>
+        <qualifiedname>themis::content::MediaExtractionData::width</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="71" column="9" bodyfile="include/content/content_plugin_interface.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_media_extraction_data_1abcd6d69c15eb5ff8b78821d0277cd8c6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::MediaExtractionData::height</definition>
+        <argsstring></argsstring>
+        <name>height</name>
+        <qualifiedname>themis::content::MediaExtractionData::height</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="72" column="9" bodyfile="include/content/content_plugin_interface.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_media_extraction_data_1ab403a838bf37d05cdfe3d8895d9d1833" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::MediaExtractionData::video_codec</definition>
+        <argsstring></argsstring>
+        <name>video_codec</name>
+        <qualifiedname>themis::content::MediaExtractionData::video_codec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="73" column="17" bodyfile="include/content/content_plugin_interface.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_media_extraction_data_1a2d795c2b38fe2b5e749070af0a6eed66" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::MediaExtractionData::audio_codec</definition>
+        <argsstring></argsstring>
+        <name>audio_codec</name>
+        <qualifiedname>themis::content::MediaExtractionData::audio_codec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="74" column="17" bodyfile="include/content/content_plugin_interface.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_media_extraction_data_1a2e76852e454d7aabd47253a9588450ee" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::MediaExtractionData::bitrate_kbps</definition>
+        <argsstring></argsstring>
+        <name>bitrate_kbps</name>
+        <qualifiedname>themis::content::MediaExtractionData::bitrate_kbps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="75" column="9" bodyfile="include/content/content_plugin_interface.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_media_extraction_data_1a3f795a97a1683773b8a867b4669be364" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::content::MediaExtractionData::framerate</definition>
+        <argsstring></argsstring>
+        <name>framerate</name>
+        <qualifiedname>themis::content::MediaExtractionData::framerate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="76" column="12" bodyfile="include/content/content_plugin_interface.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_media_extraction_data_1a20975224f83d9d48764f83af80bc636d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::MediaExtractionData::sample_rate</definition>
+        <argsstring></argsstring>
+        <name>sample_rate</name>
+        <qualifiedname>themis::content::MediaExtractionData::sample_rate</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="77" column="9" bodyfile="include/content/content_plugin_interface.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_media_extraction_data_1afe96f9b57f90cc4f69b0d8d18911beeb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::MediaExtractionData::channels</definition>
+        <argsstring></argsstring>
+        <name>channels</name>
+        <qualifiedname>themis::content::MediaExtractionData::channels</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="78" column="9" bodyfile="include/content/content_plugin_interface.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_media_extraction_data_1a79e63734148cc2fc47c9940d79b202ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::MediaExtractionData::container_format</definition>
+        <argsstring></argsstring>
+        <name>container_format</name>
+        <qualifiedname>themis::content::MediaExtractionData::container_format</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="79" column="17" bodyfile="include/content/content_plugin_interface.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_media_extraction_data_1a0eb7bb79db6df46fe333d689589ed6a6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt;int64_t&gt; themis::content::MediaExtractionData::keyframe_timestamps</definition>
+        <argsstring></argsstring>
+        <name>keyframe_timestamps</name>
+        <qualifiedname>themis::content::MediaExtractionData::keyframe_timestamps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="82" column="17" bodyfile="include/content/content_plugin_interface.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_media_extraction_data_1a8d810e632af11c284875e38675bc07ce" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt;int64_t&gt; themis::content::MediaExtractionData::scene_boundaries</definition>
+        <argsstring></argsstring>
+        <name>scene_boundaries</name>
+        <qualifiedname>themis::content::MediaExtractionData::scene_boundaries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="83" column="17" bodyfile="include/content/content_plugin_interface.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_media_extraction_data_1a419e8afdd81f988da9531feefdb59dd6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::MediaExtractionData::subtitles</definition>
+        <argsstring></argsstring>
+        <name>subtitles</name>
+        <qualifiedname>themis::content::MediaExtractionData::subtitles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="84" column="17" bodyfile="include/content/content_plugin_interface.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_plugin_interface.h" line="69" column="1" bodyfile="include/content/content_plugin_interface.h" bodystart="69" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_media_extraction_data_1a2d795c2b38fe2b5e749070af0a6eed66" prot="public" virt="non-virtual"><scope>themis::content::MediaExtractionData</scope><name>audio_codec</name></member>
+      <member refid="structthemis_1_1content_1_1_media_extraction_data_1a2e76852e454d7aabd47253a9588450ee" prot="public" virt="non-virtual"><scope>themis::content::MediaExtractionData</scope><name>bitrate_kbps</name></member>
+      <member refid="structthemis_1_1content_1_1_media_extraction_data_1afe96f9b57f90cc4f69b0d8d18911beeb" prot="public" virt="non-virtual"><scope>themis::content::MediaExtractionData</scope><name>channels</name></member>
+      <member refid="structthemis_1_1content_1_1_media_extraction_data_1a79e63734148cc2fc47c9940d79b202ec" prot="public" virt="non-virtual"><scope>themis::content::MediaExtractionData</scope><name>container_format</name></member>
+      <member refid="structthemis_1_1content_1_1_media_extraction_data_1ab7a8f9fca1665062f49a6f4c31705030" prot="public" virt="non-virtual"><scope>themis::content::MediaExtractionData</scope><name>duration_ms</name></member>
+      <member refid="structthemis_1_1content_1_1_media_extraction_data_1a3f795a97a1683773b8a867b4669be364" prot="public" virt="non-virtual"><scope>themis::content::MediaExtractionData</scope><name>framerate</name></member>
+      <member refid="structthemis_1_1content_1_1_media_extraction_data_1abcd6d69c15eb5ff8b78821d0277cd8c6" prot="public" virt="non-virtual"><scope>themis::content::MediaExtractionData</scope><name>height</name></member>
+      <member refid="structthemis_1_1content_1_1_media_extraction_data_1a0eb7bb79db6df46fe333d689589ed6a6" prot="public" virt="non-virtual"><scope>themis::content::MediaExtractionData</scope><name>keyframe_timestamps</name></member>
+      <member refid="structthemis_1_1content_1_1_media_extraction_data_1a20975224f83d9d48764f83af80bc636d" prot="public" virt="non-virtual"><scope>themis::content::MediaExtractionData</scope><name>sample_rate</name></member>
+      <member refid="structthemis_1_1content_1_1_media_extraction_data_1a8d810e632af11c284875e38675bc07ce" prot="public" virt="non-virtual"><scope>themis::content::MediaExtractionData</scope><name>scene_boundaries</name></member>
+      <member refid="structthemis_1_1content_1_1_media_extraction_data_1a419e8afdd81f988da9531feefdb59dd6" prot="public" virt="non-virtual"><scope>themis::content::MediaExtractionData</scope><name>subtitles</name></member>
+      <member refid="structthemis_1_1content_1_1_media_extraction_data_1ab403a838bf37d05cdfe3d8895d9d1833" prot="public" virt="non-virtual"><scope>themis::content::MediaExtractionData</scope><name>video_codec</name></member>
+      <member refid="structthemis_1_1content_1_1_media_extraction_data_1a9cf6ba5fc1a7830332663bd3cc7bf101" prot="public" virt="non-virtual"><scope>themis::content::MediaExtractionData</scope><name>width</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

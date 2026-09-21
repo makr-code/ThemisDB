@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::test::VoiceSessionChaosTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1a230f104821c15dffa85fb18b37a11b07" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::test::VoiceSessionChaosTest::kTestSampleRate</definition>
+        <argsstring></argsstring>
+        <name>kTestSampleRate</name>
+        <qualifiedname>themis::voice::test::VoiceSessionChaosTest::kTestSampleRate</qualifiedname>
+        <initializer>= 16000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="29" column="31" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1aecc3d6ae77fa0cd1a86fec2bd598dbcd" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::voice::test::VoiceSessionChaosTest::kTestChannels</definition>
+        <argsstring></argsstring>
+        <name>kTestChannels</name>
+        <qualifiedname>themis::voice::test::VoiceSessionChaosTest::kTestChannels</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="30" column="30" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1a29923ece16549ad9bf59406f52ae12c1" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::voice::test::VoiceSessionChaosTest::kTestBitDepth</definition>
+        <argsstring></argsstring>
+        <name>kTestBitDepth</name>
+        <qualifiedname>themis::voice::test::VoiceSessionChaosTest::kTestBitDepth</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="31" column="30" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1a980e08040a2804cb4c4dddd3dcef7c4e" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::test::VoiceSessionChaosTest::kChunkSize</definition>
+        <argsstring></argsstring>
+        <name>kChunkSize</name>
+        <qualifiedname>themis::voice::test::VoiceSessionChaosTest::kChunkSize</qualifiedname>
+        <initializer>= 2048</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="32" column="29" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1af2a55b11f9f732593da2b328cd275e26" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::voice::test::VoiceSessionChaosTest::create_valid_audio_chunk</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>create_valid_audio_chunk</name>
+        <qualifiedname>themis::voice::test::VoiceSessionChaosTest::create_valid_audio_chunk</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="34" column="17" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="34" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1a3aaa691d2142d68606be47a316d954b6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::voice::test::VoiceSessionChaosTest::create_malformed_chunk</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>create_malformed_chunk</name>
+        <qualifiedname>themis::voice::test::VoiceSessionChaosTest::create_malformed_chunk</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="42" column="17" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1a06cc323026e42175da0387317996df9c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::voice::test::VoiceSessionChaosTest::create_silence_chunk</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>create_silence_chunk</name>
+        <qualifiedname>themis::voice::test::VoiceSessionChaosTest::create_silence_chunk</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="46" column="17" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="46" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::test::VoiceSessionChaosTest</label>
+        <link refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::test::VoiceSessionChaosTest</label>
+        <link refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/voice/test_voice_session_chaos_isolation.cpp" line="27" column="1" bodyfile="tests/voice/test_voice_session_chaos_isolation.cpp" bodystart="27" bodyend="49"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1a3aaa691d2142d68606be47a316d954b6" prot="protected" virt="non-virtual"><scope>themis::voice::test::VoiceSessionChaosTest</scope><name>create_malformed_chunk</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1a06cc323026e42175da0387317996df9c" prot="protected" virt="non-virtual"><scope>themis::voice::test::VoiceSessionChaosTest</scope><name>create_silence_chunk</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1af2a55b11f9f732593da2b328cd275e26" prot="protected" virt="non-virtual"><scope>themis::voice::test::VoiceSessionChaosTest</scope><name>create_valid_audio_chunk</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1a980e08040a2804cb4c4dddd3dcef7c4e" prot="protected" virt="non-virtual"><scope>themis::voice::test::VoiceSessionChaosTest</scope><name>kChunkSize</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1a29923ece16549ad9bf59406f52ae12c1" prot="protected" virt="non-virtual"><scope>themis::voice::test::VoiceSessionChaosTest</scope><name>kTestBitDepth</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1aecc3d6ae77fa0cd1a86fec2bd598dbcd" prot="protected" virt="non-virtual"><scope>themis::voice::test::VoiceSessionChaosTest</scope><name>kTestChannels</name></member>
+      <member refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1a230f104821c15dffa85fb18b37a11b07" prot="protected" virt="non-virtual"><scope>themis::voice::test::VoiceSessionChaosTest</scope><name>kTestSampleRate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

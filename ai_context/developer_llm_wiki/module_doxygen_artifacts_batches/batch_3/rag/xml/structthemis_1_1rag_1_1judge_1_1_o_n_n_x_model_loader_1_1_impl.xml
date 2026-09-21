@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_loader_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::ONNXModelLoader::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_loader_1_1_impl_1ade238095fa6faedb7ceee08991286ab4" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info" kindref="compound">ONNXModelInfo</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ONNXModelInfo&gt; themis::rag::judge::ONNXModelLoader::Impl::cache</definition>
+        <argsstring></argsstring>
+        <name>cache</name>
+        <qualifiedname>themis::rag::judge::ONNXModelLoader::Impl::cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/onnx_model_loader.cpp" line="26" column="24" bodyfile="src/rag/onnx_model_loader.cpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_loader_1_1_impl_1a4f1c6e1324566466a26ea74b88b542e1" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::judge::ONNXModelLoader::Impl::cache_mutex</definition>
+        <argsstring></argsstring>
+        <name>cache_mutex</name>
+        <qualifiedname>themis::rag::judge::ONNXModelLoader::Impl::cache_mutex</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/onnx_model_loader.cpp" line="27" column="16" bodyfile="src/rag/onnx_model_loader.cpp" bodystart="27" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/rag/onnx_model_loader.cpp" line="25" column="1" bodyfile="src/rag/onnx_model_loader.cpp" bodystart="25" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_loader_1_1_impl_1ade238095fa6faedb7ceee08991286ab4" prot="public" virt="non-virtual"><scope>themis::rag::judge::ONNXModelLoader::Impl</scope><name>cache</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_loader_1_1_impl_1a4f1c6e1324566466a26ea74b88b542e1" prot="public" virt="non-virtual"><scope>themis::rag::judge::ONNXModelLoader::Impl</scope><name>cache_mutex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structsharding_1_1_s_a_g_a_step" kind="struct" language="C++" prot="public">
+    <compoundname>sharding::SAGAStep</compoundname>
+    <includes refid="transaction__snapshot_8h" local="no">transaction_snapshot.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsharding_1_1_s_a_g_a_step_1a4fbffcc3c3693fc1ca5f324294a02d0b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t sharding::SAGAStep::step_number</definition>
+        <argsstring></argsstring>
+        <name>step_number</name>
+        <qualifiedname>sharding::SAGAStep::step_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="54" column="14" bodyfile="include/sharding/transaction_snapshot.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_s_a_g_a_step_1ae9323f16bc29f5e4f679accfd73c1e56" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string sharding::SAGAStep::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>sharding::SAGAStep::operation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="55" column="17" bodyfile="include/sharding/transaction_snapshot.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_s_a_g_a_step_1af1ae75ff953d6bc5ea0913263cd519e6" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json sharding::SAGAStep::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>sharding::SAGAStep::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="56" column="20" bodyfile="include/sharding/transaction_snapshot.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_s_a_g_a_step_1a5e152d0f627506ba7d0a897957f7ef8e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sharding::SAGAStep::completed</definition>
+        <argsstring></argsstring>
+        <name>completed</name>
+        <qualifiedname>sharding::SAGAStep::completed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="57" column="10" bodyfile="include/sharding/transaction_snapshot.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_s_a_g_a_step_1a69ee87fd457c4297a8df0cf1d8cc2a35" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sharding::SAGAStep::compensated</definition>
+        <argsstring></argsstring>
+        <name>compensated</name>
+        <qualifiedname>sharding::SAGAStep::compensated</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="58" column="10" bodyfile="include/sharding/transaction_snapshot.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_s_a_g_a_step_1a3a8ad684bb49641f754c1d2cdc9af397" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t sharding::SAGAStep::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>sharding::SAGAStep::timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_snapshot.h" line="59" column="14" bodyfile="include/sharding/transaction_snapshot.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One SAGA step or compensation step snapshot record. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/transaction_snapshot.h" line="53" column="1" bodyfile="include/sharding/transaction_snapshot.h" bodystart="53" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structsharding_1_1_s_a_g_a_step_1a69ee87fd457c4297a8df0cf1d8cc2a35" prot="public" virt="non-virtual"><scope>sharding::SAGAStep</scope><name>compensated</name></member>
+      <member refid="structsharding_1_1_s_a_g_a_step_1a5e152d0f627506ba7d0a897957f7ef8e" prot="public" virt="non-virtual"><scope>sharding::SAGAStep</scope><name>completed</name></member>
+      <member refid="structsharding_1_1_s_a_g_a_step_1af1ae75ff953d6bc5ea0913263cd519e6" prot="public" virt="non-virtual"><scope>sharding::SAGAStep</scope><name>data</name></member>
+      <member refid="structsharding_1_1_s_a_g_a_step_1ae9323f16bc29f5e4f679accfd73c1e56" prot="public" virt="non-virtual"><scope>sharding::SAGAStep</scope><name>operation</name></member>
+      <member refid="structsharding_1_1_s_a_g_a_step_1a4fbffcc3c3693fc1ca5f324294a02d0b" prot="public" virt="non-virtual"><scope>sharding::SAGAStep</scope><name>step_number</name></member>
+      <member refid="structsharding_1_1_s_a_g_a_step_1a3a8ad684bb49641f754c1d2cdc9af397" prot="public" virt="non-virtual"><scope>sharding::SAGAStep</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

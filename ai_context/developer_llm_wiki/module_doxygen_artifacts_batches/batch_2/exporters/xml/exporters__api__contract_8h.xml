@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="exporters__api__contract_8h" kind="file" language="C++">
+    <compoundname>exporters_api_contract.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__exporters__release__gates_8cpp" local="yes">benchmarks/exporters/bench_exporters_release_gates.cpp</includedby>
+    <includedby refid="test__exporters__contract__hardening__focused_8cpp" local="yes">tests/exporters/test_exporters_contract_hardening_focused.cpp</includedby>
+    <includedby refid="test__exporters__phase23__hardening__focused_8cpp" local="yes">tests/exporters/test_exporters_phase23_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/exporters/exporters_api_contract.h</label>
+        <link refid="exporters__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/exporters/bench_exporters_release_gates.cpp</label>
+        <link refid="bench__exporters__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/exporters/exporters_api_contract.h</label>
+        <link refid="exporters__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tests/exporters/test_exporters_contract_hardening_focused.cpp</label>
+        <link refid="test__exporters__contract__hardening__focused_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/exporters/test_exporters_phase23_hardening_focused.cpp</label>
+        <link refid="test__exporters__phase23__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1exporters">themis::exporters</innernamespace>
+    <briefdescription>
+<para>Frozen exporters contract: determinism, streaming order, null handling, and error taxonomy. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header defines the normative contract for the exporters module. All exporter implementations (CSV, Parquet, Arrow/IPC, streaming, incremental, join exporters) must honour these semantics within the v1.x major line.</para>
+<sect1 id="exporters__api__contract_8h_1autotoc_md0_1s1"><sect2 id="exporters__api__contract_8h_1autotoc_md0">
+<title>Determinism Contract</title><para>Given the same input data and the same format version, the output bytes MUST be byte-for-byte identical across repeated export calls on the same platform. This enables content-addressable checksums of export artifacts.</para>
+</sect2></sect1>
+<sect1 id="exporters__api__contract_8h_1autotoc_md1_1s1"><sect2 id="exporters__api__contract_8h_1autotoc_md1">
+<title>Streaming Contract</title><para>Chunks in a streaming export are delivered in the order they were produced. Chunk reordering is a contract violation. The consumer MUST be able to reconstruct the full export by concatenating chunks in arrival order.</para>
+</sect2></sect1>
+<sect1 id="exporters__api__contract_8h_1autotoc_md2_1s1"><sect2 id="exporters__api__contract_8h_1autotoc_md2">
+<title>Null Handling Contract</title><para><itemizedlist>
+<listitem><para>CSV: null → empty cell (two adjacent delimiters, or empty quoted field).</para>
+</listitem><listitem><para>Parquet: null → bit clear in the definition-level / null-bitmap column.</para>
+</listitem><listitem><para>Arrow: null → bit clear in the validity bitmap.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="exporters__api__contract_8h_1autotoc_md3_1s1"><sect2 id="exporters__api__contract_8h_1autotoc_md3">
+<title>Error Contract</title><para>An unsupported format must be signalled before any output bytes are written. A write failure mid-stream surfaces STREAM_INTERRUPTED; the consumer must discard partial output and may resume from the last successfully acked chunk.</para>
+</sect2></sect1>
+<sect1 id="exporters__api__contract_8h_1autotoc_md4_1s1"><sect2 id="exporters__api__contract_8h_1autotoc_md4">
+<title>Versioning</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump.</para>
+<para><simplesect kind="see"><para>src/exporters/ROADMAP.md — Phase 1 item </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="exporter__interface_8h" kindref="compound">include/exporters/exporter_interface.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="streaming__exporter_8h" kindref="compound">include/exporters/streaming_exporter.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="parquet__exporter_8h" kindref="compound">include/exporters/parquet_exporter.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="arrow__ipc__exporter_8h" kindref="compound">include/exporters/arrow_ipc_exporter.h</ref> </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1exporters" kindref="compound">exporters</ref><sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Format<sp/>versioning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1exporters_1ad2a5206087c93e0c6677def8245e2c38" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint32_t<sp/><ref refid="namespacethemis_1_1exporters_1ad2a5206087c93e0c6677def8245e2c38" kindref="member">kCsvFormatVersion</ref><sp/>=<sp/>1u;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1exporters_1a339e4e80545183238268c223ae314a70" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint32_t<sp/><ref refid="namespacethemis_1_1exporters_1a339e4e80545183238268c223ae314a70" kindref="member">kParquetFormatVersion</ref><sp/>=<sp/>2u;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1exporters_1ada97da5620c50df1d142f0b642457ead" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint32_t<sp/><ref refid="namespacethemis_1_1exporters_1ada97da5620c50df1d142f0b642457ead" kindref="member">kArrowFormatVersion</ref><sp/>=<sp/>1u;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>CSV<sp/>contract<sp/>constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1_1exporters_1a43e2d56a01b38d8d6e2db7c2575eb338" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1exporters_1a43e2d56a01b38d8d6e2db7c2575eb338" kindref="member">kCsvDefaultDelimiter</ref><sp/>=<sp/></highlight><highlight class="charliteral">&apos;,&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1_1exporters_1a68ea963bd1c87c6c530b10eff0dceafc" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1exporters_1a68ea963bd1c87c6c530b10eff0dceafc" kindref="member">kCsvQuoteChar</ref><sp/>=<sp/></highlight><highlight class="charliteral">&apos;&quot;&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1exporters_1ac349de8c98142f5d8359393a398b21fc" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1exporters_1ac349de8c98142f5d8359393a398b21fc" kindref="member">kCsvEscapeChar</ref><sp/>=<sp/></highlight><highlight class="charliteral">&apos;&quot;&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1exporters_1a5c1fa81d0e4e26c2224213749a937126" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1exporters_1a5c1fa81d0e4e26c2224213749a937126" kindref="member">kCsvDefaultLineSep</ref>[]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;\r\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="namespacethemis_1_1exporters_1ac27caba014ed01decd686b7d76cf5f83" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1exporters_1ac27caba014ed01decd686b7d76cf5f83" kindref="member">kCsvMaxColumns</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="namespacethemis_1_1exporters_1a970eadf842ff1cc900387e4469af4a81" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1exporters_1a970eadf842ff1cc900387e4469af4a81" kindref="member">kCsvHeaderRequired</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Streaming<sp/>contract<sp/>constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="namespacethemis_1_1exporters_1acc3e00e454a0ff5ec69e81a7ea9c8a7a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1exporters_1acc3e00e454a0ff5ec69e81a7ea9c8a7a" kindref="member">kDefaultChunkBytes</ref><sp/>=<sp/>64<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="namespacethemis_1_1exporters_1a2255a3917cb1239f409f4aecdb3fcf1a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1exporters_1a2255a3917cb1239f409f4aecdb3fcf1a" kindref="member">kMaxChunkBytes</ref><sp/>=<sp/>256<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="namespacethemis_1_1exporters_1a20b4dc917afd0c9a07bb476f26b066a0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint64_t<sp/><ref refid="namespacethemis_1_1exporters_1a20b4dc917afd0c9a07bb476f26b066a0" kindref="member">kFirstChunkSequence</ref><sp/>=<sp/>0u;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Export<sp/>quota<sp/>constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="namespacethemis_1_1exporters_1a81a4e26c41e9ad9d8fe2f2c4ba92ef5b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint64_t<sp/><ref refid="namespacethemis_1_1exporters_1a81a4e26c41e9ad9d8fe2f2c4ba92ef5b" kindref="member">kDefaultExportRowLimit</ref><sp/>=<sp/>0u;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="namespacethemis_1_1exporters_1aa41672ca1b891dc3acd9cb997a64689a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint64_t<sp/><ref refid="namespacethemis_1_1exporters_1aa41672ca1b891dc3acd9cb997a64689a" kindref="member">kDefaultExportByteLimit</ref><sp/>=<sp/>0u;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Error<sp/>taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3a" kindref="member">ExporterErrorCode</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="120" refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aa5a34fa8bc7c1f79532fc89e27be0360a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aa5a34fa8bc7c1f79532fc89e27be0360a" kindref="member">EXPORT_FORMAT_UNSUPPORTED</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aa3ece79b01ab99d4b4898f152d1b030dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aa3ece79b01ab99d4b4898f152d1b030dd" kindref="member">EXPORT_WRITE_FAILED</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aaefca99629ce65cbe657a380c887f1152" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aaefca99629ce65cbe657a380c887f1152" kindref="member">STREAM_INTERRUPTED</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aa9dd2006f93ad6581cd4b1d5d93cfa5bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aa9dd2006f93ad6581cd4b1d5d93cfa5bd" kindref="member">SCHEMA_MISMATCH</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aabc56602da5a8282afc0f0432435db4c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aabc56602da5a8282afc0f0432435db4c6" kindref="member">QUOTA_EXCEEDED</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aac8477198d53c8f2b004da7a7c5f14bc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aac8477198d53c8f2b004da7a7c5f14bc1" kindref="member">COLUMN_NOT_FOUND</ref><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aa0711c70d5395e80dbef2bd18feb1a6ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aa0711c70d5395e80dbef2bd18feb1a6ce" kindref="member">SCHEMA_SERIALIZATION_FAILED</ref><sp/>=<sp/>7,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aaba5d1c4b0fed8d2e53cf8d494f0f161e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aaba5d1c4b0fed8d2e53cf8d494f0f161e" kindref="member">EXPORT_ABORTED</ref><sp/>=<sp/>8,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/>=<sp/>9,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="namespacethemis_1_1exporters_1a9cd9357cbf7aab9d67104f490c6eb8e1" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1exporters_1a9cd9357cbf7aab9d67104f490c6eb8e1" kindref="member">isResumableError</ref>(<ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3a" kindref="member">ExporterErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aaefca99629ce65cbe657a380c887f1152" kindref="member">ExporterErrorCode::STREAM_INTERRUPTED</ref>;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="namespacethemis_1_1exporters_1aeb6fca96f9a0d48ce477cd9715d4a364" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1exporters_1aeb6fca96f9a0d48ce477cd9715d4a364" kindref="member">isTransientError</ref>(<ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3a" kindref="member">ExporterErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aa3ece79b01ab99d4b4898f152d1b030dd" kindref="member">ExporterErrorCode::EXPORT_WRITE_FAILED</ref></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3aaefca99629ce65cbe657a380c887f1152" kindref="member">ExporterErrorCode::STREAM_INTERRUPTED</ref>;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Determinism<sp/>contract<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="namespacethemis_1_1exporters_1ad625fb3e554179068a849821fbf5c73c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1exporters_1ad625fb3e554179068a849821fbf5c73c" kindref="member">CsvDeterministicOrder</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="174" refid="namespacethemis_1_1exporters_1ad625fb3e554179068a849821fbf5c73cad816fd669088887c714378250c70164b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1ad625fb3e554179068a849821fbf5c73cad816fd669088887c714378250c70164b" kindref="member">PrimaryKeyAsc</ref><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="176" refid="namespacethemis_1_1exporters_1ad625fb3e554179068a849821fbf5c73ca07ca98431b9f4f9f6bdfd2de4a66a5b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1ad625fb3e554179068a849821fbf5c73ca07ca98431b9f4f9f6bdfd2de4a66a5b7" kindref="member">InsertionOrder</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="178" refid="namespacethemis_1_1exporters_1ad625fb3e554179068a849821fbf5c73ca6adf97f83acf6453d4a6a4b1070f3754" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1exporters_1ad625fb3e554179068a849821fbf5c73ca6adf97f83acf6453d4a6a4b1070f3754" kindref="member">None</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>exporters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/exporters/exporters_api_contract.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1observability_1_1telemetry_1_1layers" kind="namespace" language="C++">
+    <compoundname>themis::observability::telemetry::layers</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1telemetry_1_1layers_1a77f878031a4ad61f4723bb53307a9d59" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::telemetry::layers::kAnn</definition>
+        <argsstring></argsstring>
+        <name>kAnn</name>
+        <qualifiedname>themis::observability::telemetry::layers::kAnn</qualifiedname>
+        <initializer>= &quot;ann&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/telemetry_keys.h" line="33" column="35" bodyfile="include/observability/telemetry_keys.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1telemetry_1_1layers_1a12855f0af03a472d3e41411ead991669" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::telemetry::layers::kTensor</definition>
+        <argsstring></argsstring>
+        <name>kTensor</name>
+        <qualifiedname>themis::observability::telemetry::layers::kTensor</qualifiedname>
+        <initializer>= &quot;tensor&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/telemetry_keys.h" line="34" column="35" bodyfile="include/observability/telemetry_keys.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1telemetry_1_1layers_1a815fd49bac56fed6048c6cb7f757c66f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::telemetry::layers::kGraph</definition>
+        <argsstring></argsstring>
+        <name>kGraph</name>
+        <qualifiedname>themis::observability::telemetry::layers::kGraph</qualifiedname>
+        <initializer>= &quot;graph&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/telemetry_keys.h" line="35" column="35" bodyfile="include/observability/telemetry_keys.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1telemetry_1_1layers_1a831a0bcc06ff5be07e47d23d92c8b501" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::telemetry::layers::kFinalLayer</definition>
+        <argsstring></argsstring>
+        <name>kFinalLayer</name>
+        <qualifiedname>themis::observability::telemetry::layers::kFinalLayer</qualifiedname>
+        <initializer>= &quot;final_layer&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/telemetry_keys.h" line="36" column="35" bodyfile="include/observability/telemetry_keys.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/telemetry_keys.h" line="32" column="1"/>
+  </compounddef>
+</doxygen>

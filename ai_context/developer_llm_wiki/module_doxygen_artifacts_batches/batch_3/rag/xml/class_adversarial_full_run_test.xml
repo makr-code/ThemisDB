@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_adversarial_full_run_test" kind="class" language="C++" prot="public">
+    <compoundname>AdversarialFullRunTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_adversarial_full_run_test_1ae920160fd1b28dddc53b45bedc5c9f8f" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester" kindref="compound">AdversarialTester</ref></type>
+        <definition>AdversarialTester AdversarialFullRunTest::tester</definition>
+        <argsstring></argsstring>
+        <name>tester</name>
+        <qualifiedname>AdversarialFullRunTest::tester</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_adversarial_tester.cpp" line="322" column="23" bodyfile="tests/rag/test_rag_adversarial_tester.cpp" bodystart="322" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_adversarial_full_run_test_1a42a7734e2c9660440f64afac6671ce66" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AdversarialFullRunTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AdversarialFullRunTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_adversarial_tester.cpp" line="319" column="10" bodyfile="tests/rag/test_rag_adversarial_tester.cpp" bodystart="319" bodyend="321"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AdversarialFullRunTest</label>
+        <link refid="class_adversarial_full_run_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AdversarialFullRunTest</label>
+        <link refid="class_adversarial_full_run_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>tester</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::rag::adversarial::AdversarialTester</label>
+        <link refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_adversarial_tester.cpp" line="317" column="1" bodyfile="tests/rag/test_rag_adversarial_tester.cpp" bodystart="317" bodyend="323"/>
+    <listofallmembers>
+      <member refid="class_adversarial_full_run_test_1a42a7734e2c9660440f64afac6671ce66" prot="protected" virt="non-virtual"><scope>AdversarialFullRunTest</scope><name>SetUp</name></member>
+      <member refid="class_adversarial_full_run_test_1ae920160fd1b28dddc53b45bedc5c9f8f" prot="protected" virt="non-virtual"><scope>AdversarialFullRunTest</scope><name>tester</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

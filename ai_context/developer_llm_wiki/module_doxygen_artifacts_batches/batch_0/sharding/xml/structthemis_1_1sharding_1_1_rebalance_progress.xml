@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_rebalance_progress" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::RebalanceProgress</compoundname>
+    <includes refid="rebalance__operation_8h" local="no">rebalance_operation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebalance_progress_1a98e48389d1eeb2b7b0bb7b532858c9ea" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RebalanceProgress::records_migrated</definition>
+        <argsstring></argsstring>
+        <name>records_migrated</name>
+        <qualifiedname>themis::sharding::RebalanceProgress::records_migrated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="37" column="14" bodyfile="include/sharding/rebalance_operation.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebalance_progress_1a7d038a54aac3de2d0844595d0f8acc48" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RebalanceProgress::total_records</definition>
+        <argsstring></argsstring>
+        <name>total_records</name>
+        <qualifiedname>themis::sharding::RebalanceProgress::total_records</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="38" column="14" bodyfile="include/sharding/rebalance_operation.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebalance_progress_1af3126bf0acc4714a69f7b0d59a41dd88" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RebalanceProgress::bytes_transferred</definition>
+        <argsstring></argsstring>
+        <name>bytes_transferred</name>
+        <qualifiedname>themis::sharding::RebalanceProgress::bytes_transferred</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="39" column="14" bodyfile="include/sharding/rebalance_operation.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebalance_progress_1a5e91c4597f59cb2c60431716eb5b01a8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::RebalanceProgress::progress_percent</definition>
+        <argsstring></argsstring>
+        <name>progress_percent</name>
+        <qualifiedname>themis::sharding::RebalanceProgress::progress_percent</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="40" column="12" bodyfile="include/sharding/rebalance_operation.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebalance_progress_1abf8fad0bb0f6f79b47de6fad7c88031a" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::RebalanceProgress::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::sharding::RebalanceProgress::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="41" column="43" bodyfile="include/sharding/rebalance_operation.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_rebalance_progress_1ad7d0765c174ec84d931f93e7895d20c8" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::RebalanceProgress::estimated_completion</definition>
+        <argsstring></argsstring>
+        <name>estimated_completion</name>
+        <qualifiedname>themis::sharding::RebalanceProgress::estimated_completion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/rebalance_operation.h" line="42" column="43" bodyfile="include/sharding/rebalance_operation.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mutable progress snapshot for a running rebalance operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/rebalance_operation.h" line="36" column="1" bodyfile="include/sharding/rebalance_operation.h" bodystart="36" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_rebalance_progress_1af3126bf0acc4714a69f7b0d59a41dd88" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceProgress</scope><name>bytes_transferred</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebalance_progress_1ad7d0765c174ec84d931f93e7895d20c8" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceProgress</scope><name>estimated_completion</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebalance_progress_1a5e91c4597f59cb2c60431716eb5b01a8" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceProgress</scope><name>progress_percent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebalance_progress_1a98e48389d1eeb2b7b0bb7b532858c9ea" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceProgress</scope><name>records_migrated</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebalance_progress_1abf8fad0bb0f6f79b47de6fad7c88031a" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceProgress</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1sharding_1_1_rebalance_progress_1a7d038a54aac3de2d0844595d0f8acc48" prot="public" virt="non-virtual"><scope>themis::sharding::RebalanceProgress</scope><name>total_records</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

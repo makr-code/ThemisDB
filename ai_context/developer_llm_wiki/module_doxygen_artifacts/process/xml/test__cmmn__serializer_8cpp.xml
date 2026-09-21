@@ -1,0 +1,486 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__cmmn__serializer_8cpp" kind="file" language="C++">
+    <compoundname>test_cmmn_serializer.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">index/process_graph.h</includes>
+    <includes refid="cmmn__serializer_8h" local="yes">process/cmmn_serializer.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">variant</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>process/cmmn_serializer.h</label>
+        <link refid="cmmn__serializer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/process/test_cmmn_serializer.cpp</label>
+        <link refid="test__cmmn__serializer_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>index/process_graph.h</label>
+      </node>
+      <node id="5">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>string_view</label>
+      </node>
+      <node id="9">
+        <label>variant</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="test__cmmn__serializer_8cpp_1ab6ca72a6457d7ef7265b4bd3d92b9dde" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* kFullCmmnXml</definition>
+        <argsstring></argsstring>
+        <name>kFullCmmnXml</name>
+        <initializer>                               = R&quot;(&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;definitions xmlns=&quot;http://www.omg.org/spec/CMMN/20151109/MODEL&quot;
+             targetNamespace=&quot;http://themis.db/test&quot;
+             id=&quot;defs1&quot;&gt;
+  &lt;case id=&quot;case_test&quot; name=&quot;Test Case&quot;&gt;
+    &lt;casePlanModel id=&quot;cpm1&quot; name=&quot;Test Plan&quot;&gt;
+      &lt;humanTask id=&quot;ht1&quot; name=&quot;Review Application&quot;/&gt;
+      &lt;processTask id=&quot;pt1&quot; name=&quot;Trigger Subprocess&quot;/&gt;
+      &lt;caseTask id=&quot;ct1&quot; name=&quot;Delegate Case&quot;/&gt;
+      &lt;stage id=&quot;stg1&quot; name=&quot;Investigation Stage&quot;/&gt;
+      &lt;milestone id=&quot;ms1&quot; name=&quot;Approval Milestone&quot;&gt;
+        &lt;entryCriterion id=&quot;ec1&quot; sentryRef=&quot;s1&quot;/&gt;
+      &lt;/milestone&gt;
+      &lt;sentry id=&quot;s1&quot;&gt;
+        &lt;onPart sourceRef=&quot;ht1&quot;/&gt;
+      &lt;/sentry&gt;
+    &lt;/casePlanModel&gt;
+  &lt;/case&gt;
+&lt;/definitions&gt;)&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Full CMMN 1.1 document with humanTask, processTask, caseTask, stage, milestone and a sentry/onPart. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_cmmn_serializer.cpp" line="36" column="19" bodyfile="tests/process/test_cmmn_serializer.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="test__cmmn__serializer_8cpp_1a8f42d886c8f107c55d7cf99449230473" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* kMinimalCmmnXml</definition>
+        <argsstring></argsstring>
+        <name>kMinimalCmmnXml</name>
+        <initializer>                                  = R&quot;(&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;definitions xmlns=&quot;http://www.omg.org/spec/CMMN/20151109/MODEL&quot;
+             targetNamespace=&quot;http://themis.db/test&quot;&gt;
+  &lt;case id=&quot;case_min&quot; name=&quot;Minimal Case&quot;&gt;
+    &lt;casePlanModel id=&quot;cpm_min&quot; name=&quot;Minimal Plan&quot;&gt;
+      &lt;humanTask id=&quot;ht_min&quot; name=&quot;The Only Task&quot;/&gt;
+    &lt;/casePlanModel&gt;
+  &lt;/case&gt;
+&lt;/definitions&gt;)&quot;</initializer>
+        <briefdescription>
+<para>Minimal CMMN with only a humanTask (no stage/milestone/sentry). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_cmmn_serializer.cpp" line="57" column="19" bodyfile="tests/process/test_cmmn_serializer.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__cmmn__serializer_8cpp_1a53d33df1595c430d1ae650a9fb4c8567" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const ProcessNodeInfo *</type>
+        <definition>static const ProcessNodeInfo * findNode</definition>
+        <argsstring>(const std::vector&lt; ProcessNodeInfo &gt; &amp;nodes, const std::string &amp;id)</argsstring>
+        <name>findNode</name>
+        <param>
+          <type>const std::vector&lt; ProcessNodeInfo &gt; &amp;</type>
+          <declname>nodes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_cmmn_serializer.cpp" line="71" column="30" bodyfile="tests/process/test_cmmn_serializer.cpp" bodystart="71" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cmmn__serializer_8cpp_1a7c7c66cdd1bc97e90f15557afca1b6dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CmmnSerializer, CMN01_ImportValid)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_cmmn_serializer" kindref="compound">CmmnSerializer</ref></type>
+        </param>
+        <param>
+          <type>CMN01_ImportValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_cmmn_serializer.cpp" line="88" column="1" bodyfile="tests/process/test_cmmn_serializer.cpp" bodystart="88" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cmmn__serializer_8cpp_1ab8d30763cde548220993cd60e2b1a011" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CmmnSerializer, CMN02_ImportEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_cmmn_serializer" kindref="compound">CmmnSerializer</ref></type>
+        </param>
+        <param>
+          <type>CMN02_ImportEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_cmmn_serializer.cpp" line="97" column="1" bodyfile="tests/process/test_cmmn_serializer.cpp" bodystart="97" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cmmn__serializer_8cpp_1aa7a9fb784c1b420de432392a2029ccbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CmmnSerializer, CMN03_TaskNodeTypes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_cmmn_serializer" kindref="compound">CmmnSerializer</ref></type>
+        </param>
+        <param>
+          <type>CMN03_TaskNodeTypes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_cmmn_serializer.cpp" line="104" column="1" bodyfile="tests/process/test_cmmn_serializer.cpp" bodystart="104" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cmmn__serializer_8cpp_1a800af3ca1da2c90cc476bfaa6495f22e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CmmnSerializer, CMN04_SentryCreatesEdge)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_cmmn_serializer" kindref="compound">CmmnSerializer</ref></type>
+        </param>
+        <param>
+          <type>CMN04_SentryCreatesEdge</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_cmmn_serializer.cpp" line="130" column="1" bodyfile="tests/process/test_cmmn_serializer.cpp" bodystart="130" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cmmn__serializer_8cpp_1a4437dcecc0b37ddcd6c14e6c6a67692b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CmmnSerializer, CMN05_StageNodeType)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_cmmn_serializer" kindref="compound">CmmnSerializer</ref></type>
+        </param>
+        <param>
+          <type>CMN05_StageNodeType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_cmmn_serializer.cpp" line="150" column="1" bodyfile="tests/process/test_cmmn_serializer.cpp" bodystart="150" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cmmn__serializer_8cpp_1a9d8b78175492b2df9be09edb44da771a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CmmnSerializer, CMN06_MilestoneNodeType)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_cmmn_serializer" kindref="compound">CmmnSerializer</ref></type>
+        </param>
+        <param>
+          <type>CMN06_MilestoneNodeType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_cmmn_serializer.cpp" line="162" column="1" bodyfile="tests/process/test_cmmn_serializer.cpp" bodystart="162" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cmmn__serializer_8cpp_1a5c6457bf7fcbd041048b6629bd47a06a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CmmnSerializer, CMN07_ExportRoundTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1process_1_1_cmmn_serializer" kindref="compound">CmmnSerializer</ref></type>
+        </param>
+        <param>
+          <type>CMN07_ExportRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_cmmn_serializer.cpp" line="174" column="1" bodyfile="tests/process/test_cmmn_serializer.cpp" bodystart="174" bodyend="203"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>-<sp/>Process<sp/>Modeling<sp/>Module</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>File:<sp/><sp/><sp/><sp/>test_cmmn_serializer.cpp</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>Module:<sp/><sp/>tests/process/</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>Purpose:<sp/>GTest<sp/>unit<sp/>tests<sp/>CMN-01..CMN-07<sp/>for<sp/>CmmnSerializer.</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/>Tests<sp/>cover:</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/><sp/><sp/>CMN-01:<sp/>import<sp/>valid<sp/>CMMN<sp/>1.1<sp/>XML<sp/>→<sp/>ok=true,<sp/>nodes<sp/>populated</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/><sp/><sp/>CMN-02:<sp/>import<sp/>empty<sp/>XML<sp/>→<sp/>ok=false</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*<sp/><sp/><sp/>CMN-03:<sp/>humanTask/processTask/caseTask<sp/>mapped<sp/>to<sp/>BPMNNodeType::TASK</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/><sp/><sp/>CMN-04:<sp/>sentry/onPart<sp/>→<sp/>SEQUENCE_FLOW<sp/>edge<sp/>created</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/><sp/><sp/>CMN-05:<sp/>stage<sp/>mapped<sp/>to<sp/>BPMNNodeType::SUBPROCESS<sp/>with<sp/>subtype<sp/>STAGE</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/><sp/><sp/>CMN-06:<sp/>milestone<sp/>mapped<sp/>to<sp/>BPMNNodeType::INTERMEDIATE_EVENT</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/><sp/><sp/>CMN-07:<sp/>exportXml<sp/>round-trip<sp/>preserves<sp/>node<sp/>count<sp/>and<sp/>subtypes</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/process_graph.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cmmn__serializer_8h" kindref="compound">process/cmmn_serializer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">themis::process</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>XML<sp/>fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kFullCmmnXml<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;UTF-8&quot;?&gt;</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral">&lt;definitions<sp/>xmlns=&quot;http://www.omg.org/spec/CMMN/20151109/MODEL&quot;</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>targetNamespace=&quot;http://themis.db/test&quot;</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>id=&quot;defs1&quot;&gt;</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/>&lt;case<sp/>id=&quot;case_test&quot;<sp/>name=&quot;Test<sp/>Case&quot;&gt;</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;casePlanModel<sp/>id=&quot;cpm1&quot;<sp/>name=&quot;Test<sp/>Plan&quot;&gt;</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;humanTask<sp/>id=&quot;ht1&quot;<sp/>name=&quot;Review<sp/>Application&quot;/&gt;</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;processTask<sp/>id=&quot;pt1&quot;<sp/>name=&quot;Trigger<sp/>Subprocess&quot;/&gt;</highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;caseTask<sp/>id=&quot;ct1&quot;<sp/>name=&quot;Delegate<sp/>Case&quot;/&gt;</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;stage<sp/>id=&quot;stg1&quot;<sp/>name=&quot;Investigation<sp/>Stage&quot;/&gt;</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;milestone<sp/>id=&quot;ms1&quot;<sp/>name=&quot;Approval<sp/>Milestone&quot;&gt;</highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;entryCriterion<sp/>id=&quot;ec1&quot;<sp/>sentryRef=&quot;s1&quot;/&gt;</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/milestone&gt;</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;sentry<sp/>id=&quot;s1&quot;&gt;</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;onPart<sp/>sourceRef=&quot;ht1&quot;/&gt;</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;/sentry&gt;</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/casePlanModel&gt;</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"><sp/><sp/>&lt;/case&gt;</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral">&lt;/definitions&gt;)&quot;;</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kMinimalCmmnXml<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;?xml<sp/>version=&quot;1.0&quot;<sp/>encoding=&quot;UTF-8&quot;?&gt;</highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral">&lt;definitions<sp/>xmlns=&quot;http://www.omg.org/spec/CMMN/20151109/MODEL&quot;</highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>targetNamespace=&quot;http://themis.db/test&quot;&gt;</highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral"><sp/><sp/>&lt;case<sp/>id=&quot;case_min&quot;<sp/>name=&quot;Minimal<sp/>Case&quot;&gt;</highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;casePlanModel<sp/>id=&quot;cpm_min&quot;<sp/>name=&quot;Minimal<sp/>Plan&quot;&gt;</highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;humanTask<sp/>id=&quot;ht_min&quot;<sp/>name=&quot;The<sp/>Only<sp/>Task&quot;/&gt;</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&lt;/casePlanModel&gt;</highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral"><sp/><sp/>&lt;/case&gt;</highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral">&lt;/definitions&gt;)&quot;;</highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProcessNodeInfo*<sp/>findNode(</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ProcessNodeInfo&gt;&amp;<sp/>nodes,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>n<sp/>:<sp/>nodes)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(n.node_id<sp/>==<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>&amp;n;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CMN-01:<sp/>Valid<sp/>CMMN<sp/>XML<sp/>imports<sp/>successfully.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__cmmn__serializer_8cpp_1a7c7c66cdd1bc97e90f15557afca1b6dc" kindref="member">TEST</ref>(<ref refid="classthemis_1_1process_1_1_cmmn_serializer" kindref="compound">CmmnSerializer</ref>,<sp/>CMN01_ImportValid)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_cmmn_serializer_1af731cfa0faf76363f16549e6590de282" kindref="member">CmmnSerializer::importXml</ref>(kFullCmmnXml);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.ok)<sp/>&lt;&lt;<sp/>result.message;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.case_id,<sp/></highlight><highlight class="stringliteral">&quot;case_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.case_name,<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>Case&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.nodes.empty());</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CMN-02:<sp/>Empty<sp/>XML<sp/>→<sp/>ok=false.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="test__cmmn__serializer_8cpp_1a7c7c66cdd1bc97e90f15557afca1b6dc" kindref="member">TEST</ref>(<ref refid="classthemis_1_1process_1_1_cmmn_serializer" kindref="compound">CmmnSerializer</ref>,<sp/>CMN02_ImportEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_cmmn_serializer_1af731cfa0faf76363f16549e6590de282" kindref="member">CmmnSerializer::importXml</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.ok);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.message.empty());</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CMN-03:<sp/>humanTask,<sp/>processTask,<sp/>caseTask<sp/>→<sp/>BPMNNodeType::TASK<sp/>with<sp/>correct<sp/>subtypes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="test__cmmn__serializer_8cpp_1a7c7c66cdd1bc97e90f15557afca1b6dc" kindref="member">TEST</ref>(<ref refid="classthemis_1_1process_1_1_cmmn_serializer" kindref="compound">CmmnSerializer</ref>,<sp/>CMN03_TaskNodeTypes)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_cmmn_serializer_1af731cfa0faf76363f16549e6590de282" kindref="member">CmmnSerializer::importXml</ref>(kFullCmmnXml);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.ok)<sp/>&lt;&lt;<sp/>result.message;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProcessNodeInfo*<sp/>ht<sp/>=<sp/>findNode(result.nodes,<sp/></highlight><highlight class="stringliteral">&quot;ht1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProcessNodeInfo*<sp/>pt<sp/>=<sp/>findNode(result.nodes,<sp/></highlight><highlight class="stringliteral">&quot;pt1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProcessNodeInfo*<sp/>ct<sp/>=<sp/>findNode(result.nodes,<sp/></highlight><highlight class="stringliteral">&quot;ct1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(ht,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;humanTask<sp/>&apos;ht1&apos;<sp/>not<sp/>found&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(pt,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;processTask<sp/>&apos;pt1&apos;<sp/>not<sp/>found&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(ct,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;caseTask<sp/>&apos;ct1&apos;<sp/>not<sp/>found&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;BPMNNodeType&gt;(ht-&gt;node_type));</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::get&lt;BPMNNodeType&gt;(ht-&gt;node_type),<sp/>BPMNNodeType::TASK);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ht-&gt;subtype,<sp/></highlight><highlight class="stringliteral">&quot;HUMAN_TASK&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;BPMNNodeType&gt;(pt-&gt;node_type));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::get&lt;BPMNNodeType&gt;(pt-&gt;node_type),<sp/>BPMNNodeType::TASK);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pt-&gt;subtype,<sp/></highlight><highlight class="stringliteral">&quot;PROCESS_TASK&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;BPMNNodeType&gt;(ct-&gt;node_type));</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::get&lt;BPMNNodeType&gt;(ct-&gt;node_type),<sp/>BPMNNodeType::TASK);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ct-&gt;subtype,<sp/></highlight><highlight class="stringliteral">&quot;CASE_TASK&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CMN-04:<sp/>sentry/onPart<sp/>→<sp/>SEQUENCE_FLOW<sp/>edge<sp/>from<sp/>humanTask<sp/>to<sp/>milestone.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="test__cmmn__serializer_8cpp_1a7c7c66cdd1bc97e90f15557afca1b6dc" kindref="member">TEST</ref>(<ref refid="classthemis_1_1process_1_1_cmmn_serializer" kindref="compound">CmmnSerializer</ref>,<sp/>CMN04_SentryCreatesEdge)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_cmmn_serializer_1af731cfa0faf76363f16549e6590de282" kindref="member">CmmnSerializer::importXml</ref>(kFullCmmnXml);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.ok)<sp/>&lt;&lt;<sp/>result.message;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.edges.empty())</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>at<sp/>least<sp/>one<sp/>edge<sp/>from<sp/>sentry/onPart&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_edge<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>result.edges)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e.from_node<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;ht1&quot;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>e.to_node<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;ms1&quot;</highlight><highlight class="normal"><sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.edge_type<sp/>==<sp/>ProcessEdgeType::SEQUENCE_FLOW)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_edge<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_edge)</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>SEQUENCE_FLOW<sp/>edge<sp/>from<sp/>&apos;ht1&apos;<sp/>to<sp/>&apos;ms1&apos;<sp/>via<sp/>sentry&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CMN-05:<sp/>stage<sp/>→<sp/>BPMNNodeType::SUBPROCESS<sp/>with<sp/>subtype<sp/>STAGE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="test__cmmn__serializer_8cpp_1a7c7c66cdd1bc97e90f15557afca1b6dc" kindref="member">TEST</ref>(<ref refid="classthemis_1_1process_1_1_cmmn_serializer" kindref="compound">CmmnSerializer</ref>,<sp/>CMN05_StageNodeType)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_cmmn_serializer_1af731cfa0faf76363f16549e6590de282" kindref="member">CmmnSerializer::importXml</ref>(kFullCmmnXml);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.ok)<sp/>&lt;&lt;<sp/>result.message;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProcessNodeInfo*<sp/>stg<sp/>=<sp/>findNode(result.nodes,<sp/></highlight><highlight class="stringliteral">&quot;stg1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(stg,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;stage<sp/>&apos;stg1&apos;<sp/>not<sp/>found&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;BPMNNodeType&gt;(stg-&gt;node_type));</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::get&lt;BPMNNodeType&gt;(stg-&gt;node_type),<sp/>BPMNNodeType::SUBPROCESS);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stg-&gt;subtype,<sp/></highlight><highlight class="stringliteral">&quot;STAGE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CMN-06:<sp/>milestone<sp/>→<sp/>BPMNNodeType::INTERMEDIATE_EVENT<sp/>with<sp/>subtype<sp/>MILESTONE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="test__cmmn__serializer_8cpp_1a7c7c66cdd1bc97e90f15557afca1b6dc" kindref="member">TEST</ref>(<ref refid="classthemis_1_1process_1_1_cmmn_serializer" kindref="compound">CmmnSerializer</ref>,<sp/>CMN06_MilestoneNodeType)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_cmmn_serializer_1af731cfa0faf76363f16549e6590de282" kindref="member">CmmnSerializer::importXml</ref>(kFullCmmnXml);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.ok)<sp/>&lt;&lt;<sp/>result.message;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProcessNodeInfo*<sp/>ms<sp/>=<sp/>findNode(result.nodes,<sp/></highlight><highlight class="stringliteral">&quot;ms1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(ms,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;milestone<sp/>&apos;ms1&apos;<sp/>not<sp/>found&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::holds_alternative&lt;BPMNNodeType&gt;(ms-&gt;node_type));</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::get&lt;BPMNNodeType&gt;(ms-&gt;node_type),<sp/>BPMNNodeType::INTERMEDIATE_EVENT);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ms-&gt;subtype,<sp/></highlight><highlight class="stringliteral">&quot;MILESTONE&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CMN-07:<sp/>exportXml<sp/>round-trip<sp/>—<sp/>node<sp/>count<sp/>and<sp/>subtypes<sp/>are<sp/>preserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="test__cmmn__serializer_8cpp_1a7c7c66cdd1bc97e90f15557afca1b6dc" kindref="member">TEST</ref>(<ref refid="classthemis_1_1process_1_1_cmmn_serializer" kindref="compound">CmmnSerializer</ref>,<sp/>CMN07_ExportRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>import1<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_cmmn_serializer_1af731cfa0faf76363f16549e6590de282" kindref="member">CmmnSerializer::importXml</ref>(kMinimalCmmnXml);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(import1.ok)<sp/>&lt;&lt;<sp/>import1.message;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>original_node_count<sp/>=<sp/>import1.nodes.size();</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GT(original_node_count,<sp/>0u);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>exported<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_cmmn_serializer_1a31aba7224e8d0d8e4c4f394b01e4ce98" kindref="member">CmmnSerializer::exportXml</ref>(</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>import1.case_id,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>import1.case_name,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>import1.nodes,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>import1.edges);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(exported.empty());</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(exported.find(</highlight><highlight class="stringliteral">&quot;&lt;definitions&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Exported<sp/>XML<sp/>should<sp/>contain<sp/>&lt;definitions&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(exported.find(</highlight><highlight class="stringliteral">&quot;casePlanModel&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Exported<sp/>XML<sp/>should<sp/>contain<sp/>casePlanModel&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(exported.find(</highlight><highlight class="stringliteral">&quot;humanTask&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Exported<sp/>XML<sp/>should<sp/>contain<sp/>humanTask&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-import<sp/>the<sp/>exported<sp/>XML.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>import2<sp/>=<sp/><ref refid="classthemis_1_1process_1_1_cmmn_serializer_1af731cfa0faf76363f16549e6590de282" kindref="member">CmmnSerializer::importXml</ref>(exported);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(import2.ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Re-import<sp/>failed:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>import2.message;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>round-trip,<sp/>the<sp/>humanTask<sp/>node<sp/>should<sp/>still<sp/>be<sp/>present.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProcessNodeInfo*<sp/>ht<sp/>=<sp/>findNode(import2.nodes,<sp/></highlight><highlight class="stringliteral">&quot;ht_min&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(ht,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;humanTask<sp/>&apos;ht_min&apos;<sp/>lost<sp/>after<sp/>round-trip&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ht-&gt;subtype,<sp/></highlight><highlight class="stringliteral">&quot;HUMAN_TASK&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/process/test_cmmn_serializer.cpp"/>
+  </compounddef>
+</doxygen>

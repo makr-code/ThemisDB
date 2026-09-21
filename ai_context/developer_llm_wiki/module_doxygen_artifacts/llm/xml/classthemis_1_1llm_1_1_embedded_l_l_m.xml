@@ -1,0 +1,1407 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_embedded_l_l_m" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::EmbeddedLLM</compoundname>
+    <includes refid="embedded__llm_8h" local="no">embedded_llm.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_embedded_l_l_m_1_1_config" prot="public">themis::llm::EmbeddedLLM::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_embedded_l_l_m_1aee4cf42f026ae40b427c8b6b4f60665e" prot="public" static="no">
+        <type>std::function&lt; <ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref>(const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;)&gt;</type>
+        <definition>using themis::llm::EmbeddedLLM::GenerateFullFn = std::function&lt;InferenceResponse(const InferenceRequest&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>GenerateFullFn</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::GenerateFullFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="28" column="5" bodyfile="include/llm/embedded_llm.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_embedded_l_l_m_1a09d7b9058facb31e24c94fa7b0e4c259" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; float &gt;(const std::string &amp;)&gt;</type>
+        <definition>using themis::llm::EmbeddedLLM::EmbedFn = std::function&lt;std::vector&lt;float&gt;(const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EmbedFn</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::EmbedFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="29" column="5" bodyfile="include/llm/embedded_llm.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_embedded_l_l_m_1a394bb92f5bf82f2479c88513db62617b" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_llama_wrapper" kindref="compound">LlamaWrapper</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LlamaWrapper&gt; themis::llm::EmbeddedLLM::wrapper_</definition>
+        <argsstring></argsstring>
+        <name>wrapper_</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::wrapper_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="189" column="21" bodyfile="include/llm/embedded_llm.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_embedded_l_l_m_1ad6b1aa4bd02de335e6947bbfddb5517e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_embedded_l_l_m_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::EmbeddedLLM::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="190" column="12" bodyfile="include/llm/embedded_llm.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_embedded_l_l_m_1a9080fbd685dbb0d6389b0cc00edee6ce" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_ethical_guidelines_manager" kindref="compound">EthicalGuidelinesManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;EthicalGuidelinesManager&gt; themis::llm::EmbeddedLLM::ethical_guidelines_</definition>
+        <argsstring></argsstring>
+        <name>ethical_guidelines_</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::ethical_guidelines_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="191" column="21" bodyfile="include/llm/embedded_llm.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_embedded_l_l_m_1ac731e36dc359d77e2e396aee246c3197" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::EmbeddedLLM::callback_mutex_</definition>
+        <argsstring></argsstring>
+        <name>callback_mutex_</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::callback_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="193" column="24" bodyfile="include/llm/embedded_llm.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_embedded_l_l_m_1ad5d95b5a5fae68e184b7eca50557cbdc" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_embedded_l_l_m_1aee4cf42f026ae40b427c8b6b4f60665e" kindref="member">GenerateFullFn</ref></type>
+        <definition>GenerateFullFn themis::llm::EmbeddedLLM::generate_full_fn_</definition>
+        <argsstring></argsstring>
+        <name>generate_full_fn_</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::generate_full_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="194" column="20" bodyfile="include/llm/embedded_llm.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_embedded_l_l_m_1a00caecda20b0e40eb9aba01381531d58" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a09d7b9058facb31e24c94fa7b0e4c259" kindref="member">EmbedFn</ref></type>
+        <definition>EmbedFn themis::llm::EmbeddedLLM::embed_fn_</definition>
+        <argsstring></argsstring>
+        <name>embed_fn_</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::embed_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="195" column="13" bodyfile="include/llm/embedded_llm.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_embedded_l_l_m_1a21fc2141d94366cd935ae72c99e4572c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::EmbeddedLLM::cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cache_mutex_</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="198" column="24" bodyfile="include/llm/embedded_llm.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_embedded_l_l_m_1ab9bd8f47c6a430f16fb8eba0521a8c9c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;float&gt; &gt; themis::llm::EmbeddedLLM::embedding_cache_</definition>
+        <argsstring></argsstring>
+        <name>embedding_cache_</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::embedding_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="199" column="24" bodyfile="include/llm/embedded_llm.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1a32b998e1c4968c569037315a4f47c837" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::EmbeddedLLM::EmbeddedLLM</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>EmbeddedLLM</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::EmbeddedLLM</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_embedded_l_l_m_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Embedded LLM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="51" column="14" bodyfile="src/llm/embedded_llm.cpp" bodystart="89" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1a85a5b399c5dc06b17b125964f7437953" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::EmbeddedLLM::EmbeddedLLM</definition>
+        <argsstring>()</argsstring>
+        <name>EmbeddedLLM</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::EmbeddedLLM</qualifiedname>
+        <briefdescription>
+<para>Embedded LLM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="56" column="14" bodyfile="src/llm/embedded_llm.cpp" bodystart="85" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1abe50c3e3cef9b7f2bf6dfb834ce91ad9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::EmbeddedLLM::~EmbeddedLLM</definition>
+        <argsstring>()</argsstring>
+        <name>~EmbeddedLLM</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::~EmbeddedLLM</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="57" column="5" bodyfile="src/llm/embedded_llm.cpp" bodystart="127" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1a8784e4af5556f4877336904500fcbcac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EmbeddedLLM::generate</definition>
+        <argsstring>(const std::string &amp;prompt, int max_tokens=512)</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::generate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+          <defval>512</defval>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Simple text generation ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: applyEthicalGuidelines(), createRequest(), <ref refid="classthemis_1_1llm_1_1_embedded_l_l_m_1acd80d3ff01ee32540366c116343f65eb" kindref="member">generateFull()</ref>, <ref refid="classthemis_1_1llm_1_1_embedded_l_l_m_1afcad5b397cf3d26b81100dce661ee8b5" kindref="member">hasEthicalGuidelines()</ref>, detectEthicalContext(), augmentResponse().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: createRequest(), <ref refid="classthemis_1_1llm_1_1_embedded_l_l_m_1acd80d3ff01ee32540366c116343f65eb" kindref="member">generateFull()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1llm_1a7a104affb6b21c3e25df1ff9d923d784" kindref="member">createEmbeddedLLM()</ref>, std::string(), <ref refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a58557ec0f88ff6fa1838795c24663a72" kindref="member">generateWithParams()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="63" column="17" bodyfile="src/llm/embedded_llm.cpp" bodystart="161" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1a58557ec0f88ff6fa1838795c24663a72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EmbeddedLLM::generateWithParams</definition>
+        <argsstring>(const std::string &amp;prompt, float temperature=0.7f, float top_p=0.9f, int max_tokens=512)</argsstring>
+        <name>generateWithParams</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::generateWithParams</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>temperature</declname>
+          <defval>0.7f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>top_p</declname>
+          <defval>0.9f</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+          <defval>512</defval>
+        </param>
+        <briefdescription>
+<para>Generate With Params. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">temperature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">top_p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: applyEthicalGuidelines(), createRequest(), <ref refid="classthemis_1_1llm_1_1_embedded_l_l_m_1acd80d3ff01ee32540366c116343f65eb" kindref="member">generateFull()</ref>, <ref refid="classthemis_1_1llm_1_1_embedded_l_l_m_1afcad5b397cf3d26b81100dce661ee8b5" kindref="member">hasEthicalGuidelines()</ref>, detectEthicalContext(), augmentResponse().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">temperature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">top_p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: createRequest(), <ref refid="classthemis_1_1llm_1_1_embedded_l_l_m_1acd80d3ff01ee32540366c116343f65eb" kindref="member">generateFull()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">temperature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">top_p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1llm_1a7a104affb6b21c3e25df1ff9d923d784" kindref="member">createEmbeddedLLM()</ref>, std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="65" column="17" bodyfile="src/llm/embedded_llm.cpp" bodystart="186" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1a309830040faefe8cf23576049e043fc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EmbeddedLLM::chat</definition>
+        <argsstring>(const std::vector&lt; ChatMessage &gt; &amp;messages, ChatFormat format=ChatFormat::ChatML)</argsstring>
+        <name>chat</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::chat</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_chat_message" kindref="compound">ChatMessage</ref> &gt; &amp;</type>
+          <declname>messages</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a415552324ff3cbcf71204c435ffe8e9b" kindref="member">ChatFormat</ref></type>
+          <declname>format</declname>
+          <defval><ref refid="namespacethemis_1_1llm_1a415552324ff3cbcf71204c435ffe8e9ba7348096d035f2bb3b2e5ef222a288f24" kindref="member">ChatFormat::ChatML</ref></defval>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Chat interface ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Chat.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">messages</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: formatChatMessages(), <ref refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a8784e4af5556f4877336904500fcbcac" kindref="member">generate()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">messages</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), push_back(), append(), <ref refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a8784e4af5556f4877336904500fcbcac" kindref="member">generate()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">messages</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1llm_1a7a104affb6b21c3e25df1ff9d923d784" kindref="member">createEmbeddedLLM()</ref>, std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="76" column="17" bodyfile="src/llm/embedded_llm.cpp" bodystart="215" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1af5a2b5c2fedf758402baf696fbbc9b33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EmbeddedLLM::chatSimple</definition>
+        <argsstring>(const std::string &amp;system_prompt, const std::string &amp;user_message)</argsstring>
+        <name>chatSimple</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::chatSimple</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>system_prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_message</declname>
+        </param>
+        <briefdescription>
+<para>Chat Simple. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">system_prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">system_prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a309830040faefe8cf23576049e043fc0" kindref="member">chat()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="87" column="17" bodyfile="src/llm/embedded_llm.cpp" bodystart="233" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1a711411ae2362daa194a1ed06f82673f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::EmbeddedLLM::embed</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>embed</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::embed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Embeddings (for semantic search, vector DB) ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Embed.</para>
+<para>═══════════════════════════════════════════════════════════ Embeddings ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), embed_fn(), empty(), isModelLoaded(), lk(), find(), end(), buildFallbackEmbedding().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), embed_fn_(), empty(), spdlog::warn(), what(), cache_lock(), find(), end().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1llm_1a7a104affb6b21c3e25df1ff9d923d784" kindref="member">createEmbeddedLLM()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="98" column="17" bodyfile="src/llm/embedded_llm.cpp" bodystart="252" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1a787664136c06f084f59a74f6bf9278dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; float &gt; &gt; themis::llm::EmbeddedLLM::embedBatch</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;texts)</argsstring>
+        <name>embedBatch</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::embedBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>texts</declname>
+        </param>
+        <briefdescription>
+<para>Embed Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">texts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">texts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(), <ref refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a711411ae2362daa194a1ed06f82673f9" kindref="member">embed()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">texts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1llm_1a7a104affb6b21c3e25df1ff9d923d784" kindref="member">createEmbeddedLLM()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="105" column="17" bodyfile="src/llm/embedded_llm.cpp" bodystart="305" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1adc3e5fe11c1ea079ddf24f6c1e294b7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EmbeddedLLM::generateStreaming</definition>
+        <argsstring>(const std::string &amp;prompt, std::function&lt; void(const std::string &amp;token)&gt; callback, int max_tokens=512)</argsstring>
+        <name>generateStreaming</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::generateStreaming</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(const std::string &amp;token)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+          <defval>512</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="111" column="17" bodyfile="src/llm/embedded_llm.cpp" bodystart="320" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1a890debf95c73f7b4a2722b61eed033c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EmbeddedLLM::generateStreamingSSE</definition>
+        <argsstring>(const std::string &amp;prompt, std::function&lt; void(const std::string &amp;sse_event)&gt; callback, const std::string &amp;request_id=&quot;&quot;, int max_tokens=512)</argsstring>
+        <name>generateStreamingSSE</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::generateStreamingSSE</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(const std::string &amp;sse_event)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+          <defval>512</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="117" column="17" bodyfile="src/llm/embedded_llm.cpp" bodystart="331" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1a996f58659e8b33ed2477226eac656fe2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::EmbeddedLLM::generateAsMCP</definition>
+        <argsstring>(const std::string &amp;prompt, int max_tokens=512)</argsstring>
+        <name>generateAsMCP</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::generateAsMCP</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+          <defval>512</defval>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Output formatting ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate As MCP.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: createRequest(), <ref refid="classthemis_1_1llm_1_1_embedded_l_l_m_1acd80d3ff01ee32540366c116343f65eb" kindref="member">generateFull()</ref>, <ref refid="classthemis_1_1llm_1_1_llama_wrapper_1a97398ba17eb17598f21405908f395732" kindref="member">LlamaWrapper::formatAsMCPResponse()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a8784e4af5556f4877336904500fcbcac" kindref="member">generate()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1llm_1a7a104affb6b21c3e25df1ff9d923d784" kindref="member">createEmbeddedLLM()</ref>, json::object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="128" column="10" bodyfile="src/llm/embedded_llm.cpp" bodystart="354" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1a94df76cc260f7e34e10c3056a0304f7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::EmbeddedLLM::generateAsJsonMarkdown</definition>
+        <argsstring>(const std::string &amp;prompt, int max_tokens=512)</argsstring>
+        <name>generateAsJsonMarkdown</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::generateAsJsonMarkdown</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+          <defval>512</defval>
+        </param>
+        <briefdescription>
+<para>Generate As Json Markdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: createRequest(), <ref refid="classthemis_1_1llm_1_1_embedded_l_l_m_1acd80d3ff01ee32540366c116343f65eb" kindref="member">generateFull()</ref>, <ref refid="classthemis_1_1llm_1_1_llama_wrapper_1afdd26fc22983476d034e7477f9c78f44" kindref="member">LlamaWrapper::formatAsJsonMarkdown()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a8784e4af5556f4877336904500fcbcac" kindref="member">generate()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1llm_1a7a104affb6b21c3e25df1ff9d923d784" kindref="member">createEmbeddedLLM()</ref>, json::object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="130" column="10" bodyfile="src/llm/embedded_llm.cpp" bodystart="367" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1acd80d3ff01ee32540366c116343f65eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse themis::llm::EmbeddedLLM::generateFull</definition>
+        <argsstring>(const InferenceRequest &amp;request)</argsstring>
+        <name>generateFull</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::generateFull</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Generate Full. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1llm_1_1prompt__safety_1adf589a0b4ce9b5f73bd0a96d319d3942" kindref="member">prompt_safety::sanitizePromptWithSharedPolicy()</ref>, spdlog::warn(), std::move(), lock(), generate_full_fn_(), empty(), stream_callback(), what().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1llm_1a7a104affb6b21c3e25df1ff9d923d784" kindref="member">createEmbeddedLLM()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="137" column="23" bodyfile="src/llm/embedded_llm.cpp" bodystart="379" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1af972a388d8fb497222c904029f005321" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::EmbeddedLLM::isReady</definition>
+        <argsstring>() const</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::isReady</qualifiedname>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Utility methods ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="144" column="10" bodyfile="src/llm/embedded_llm.cpp" bodystart="456" bodyend="469"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1adc298d8ba4ea95d45157a510440c8e6b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EmbeddedLLM::getModelInfo</definition>
+        <argsstring>() const</argsstring>
+        <name>getModelInfo</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::getModelInfo</qualifiedname>
+        <briefdescription>
+<para>Get Model Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="150" column="17" bodyfile="src/llm/embedded_llm.cpp" bodystart="471" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1aeb8be93079a44a8b9763bb6e7f53bb25" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::EmbeddedLLM::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="156" column="10" bodyfile="src/llm/embedded_llm.cpp" bodystart="484" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1a4f08ac080d89f4676f5d3b74eaa3e000" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::EmbeddedLLM::setGenerateFullFn</definition>
+        <argsstring>(GenerateFullFn fn)</argsstring>
+        <name>setGenerateFullFn</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::setGenerateFullFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_embedded_l_l_m_1aee4cf42f026ae40b427c8b6b4f60665e" kindref="member">GenerateFullFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Generate Full Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setGenerateFullFn without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="162" column="10" bodyfile="src/llm/embedded_llm.cpp" bodystart="138" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1a89b1bd6fded4fc6fb3c9029dd8ee53d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::EmbeddedLLM::setEmbedFn</definition>
+        <argsstring>(EmbedFn fn)</argsstring>
+        <name>setEmbedFn</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::setEmbedFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a09d7b9058facb31e24c94fa7b0e4c259" kindref="member">EmbedFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Embed Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setEmbedFn without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="168" column="10" bodyfile="src/llm/embedded_llm.cpp" bodystart="148" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1a35fd4bdb50bcdbb4d5ef40fc908971d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::EmbeddedLLM::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::clearCache</qualifiedname>
+        <briefdescription>
+<para>Clear Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), size(), clear(), spdlog::info().</para>
+<para>Calls: lock(), clear().</para>
+<para>Calls: <ref refid="namespacethemis_1_1llm_1a7a104affb6b21c3e25df1ff9d923d784" kindref="member">createEmbeddedLLM()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="173" column="10" bodyfile="src/llm/embedded_llm.cpp" bodystart="516" bodyend="524"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1a47ab899f641fa26af865ccfa99974c8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_ethical_guidelines_manager" kindref="compound">EthicalGuidelinesManager</ref> *</type>
+        <definition>EthicalGuidelinesManager * themis::llm::EmbeddedLLM::getEthicalGuidelines</definition>
+        <argsstring>()</argsstring>
+        <name>getEthicalGuidelines</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::getEthicalGuidelines</qualifiedname>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Ethical Guidelines Support ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Ethical Guidelines.</para>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: get().</para>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements getEthicalGuidelines without additional internal calls.</para>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1llm_1a7a104affb6b21c3e25df1ff9d923d784" kindref="member">createEmbeddedLLM()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="180" column="30" bodyfile="src/llm/embedded_llm.cpp" bodystart="580" bodyend="582"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1afcad5b397cf3d26b81100dce661ee8b5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::EmbeddedLLM::hasEthicalGuidelines</definition>
+        <argsstring>() const</argsstring>
+        <name>hasEthicalGuidelines</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::hasEthicalGuidelines</qualifiedname>
+        <briefdescription>
+<para>Has Ethical Guidelines. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="186" column="10" bodyfile="src/llm/embedded_llm.cpp" bodystart="584" bodyend="586"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1add3a40d73a06a66140ebab512cc2a3df" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref></type>
+        <definition>InferenceRequest themis::llm::EmbeddedLLM::createRequest</definition>
+        <argsstring>(const std::string &amp;prompt, int max_tokens, float temperature=0.7f, float top_p=0.9f)</argsstring>
+        <name>createRequest</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::createRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>temperature</declname>
+          <defval>0.7f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>top_p</declname>
+          <defval>0.9f</defval>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Internal helpers ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">temperature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">top_p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createRequest without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="202" column="22" bodyfile="src/llm/embedded_llm.cpp" bodystart="536" bodyend="550"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_embedded_l_l_m_1a8b4a77845c12588e211e83fbe768fd40" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EmbeddedLLM::applyEthicalGuidelines</definition>
+        <argsstring>(const std::string &amp;prompt, const std::string &amp;context_text=&quot;&quot;)</argsstring>
+        <name>applyEthicalGuidelines</name>
+        <qualifiedname>themis::llm::EmbeddedLLM::applyEthicalGuidelines</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context_text</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Apply Ethical Guidelines. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isEnabled(), empty(), detectEthicalContext(), augmentPrompt().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements applyEthicalGuidelines without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/embedded_llm.h" line="210" column="17" bodyfile="src/llm/embedded_llm.cpp" bodystart="559" bodyend="573"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/embedded_llm.h" line="26" column="1" bodyfile="include/llm/embedded_llm.h" bodystart="26" bodyend="214"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a8b4a77845c12588e211e83fbe768fd40" prot="private" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>applyEthicalGuidelines</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a21fc2141d94366cd935ae72c99e4572c" prot="private" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>cache_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1ac731e36dc359d77e2e396aee246c3197" prot="private" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>callback_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a309830040faefe8cf23576049e043fc0" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>chat</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1af5a2b5c2fedf758402baf696fbbc9b33" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>chatSimple</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a35fd4bdb50bcdbb4d5ef40fc908971d2" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1ad6b1aa4bd02de335e6947bbfddb5517e" prot="private" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1add3a40d73a06a66140ebab512cc2a3df" prot="private" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>createRequest</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a711411ae2362daa194a1ed06f82673f9" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>embed</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a00caecda20b0e40eb9aba01381531d58" prot="private" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>embed_fn_</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a787664136c06f084f59a74f6bf9278dc" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>embedBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a32b998e1c4968c569037315a4f47c837" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>EmbeddedLLM</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a85a5b399c5dc06b17b125964f7437953" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>EmbeddedLLM</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1ab9bd8f47c6a430f16fb8eba0521a8c9c" prot="private" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>embedding_cache_</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a09d7b9058facb31e24c94fa7b0e4c259" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>EmbedFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a9080fbd685dbb0d6389b0cc00edee6ce" prot="private" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>ethical_guidelines_</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a8784e4af5556f4877336904500fcbcac" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>generate</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1ad5d95b5a5fae68e184b7eca50557cbdc" prot="private" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>generate_full_fn_</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a94df76cc260f7e34e10c3056a0304f7d" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>generateAsJsonMarkdown</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a996f58659e8b33ed2477226eac656fe2" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>generateAsMCP</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1acd80d3ff01ee32540366c116343f65eb" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>generateFull</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1aee4cf42f026ae40b427c8b6b4f60665e" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>GenerateFullFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1adc3e5fe11c1ea079ddf24f6c1e294b7a" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>generateStreaming</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a890debf95c73f7b4a2722b61eed033c7" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>generateStreamingSSE</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a58557ec0f88ff6fa1838795c24663a72" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>generateWithParams</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a47ab899f641fa26af865ccfa99974c8c" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>getEthicalGuidelines</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1adc298d8ba4ea95d45157a510440c8e6b" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>getModelInfo</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1aeb8be93079a44a8b9763bb6e7f53bb25" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1afcad5b397cf3d26b81100dce661ee8b5" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>hasEthicalGuidelines</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1af972a388d8fb497222c904029f005321" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a89b1bd6fded4fc6fb3c9029dd8ee53d5" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>setEmbedFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a4f08ac080d89f4676f5d3b74eaa3e000" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>setGenerateFullFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1a394bb92f5bf82f2479c88513db62617b" prot="private" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>wrapper_</name></member>
+      <member refid="classthemis_1_1llm_1_1_embedded_l_l_m_1abe50c3e3cef9b7f2bf6dfb834ce91ad9" prot="public" virt="non-virtual"><scope>themis::llm::EmbeddedLLM</scope><name>~EmbeddedLLM</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

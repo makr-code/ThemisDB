@@ -1,0 +1,961 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_tensor_edge_case_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorEdgeCaseHandler</compoundname>
+    <includes refid="tensor__edge__case__handler_8h" local="no">tensor_edge_case_handler.h</includes>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats" prot="public">themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a00b15e13ea34f82abf29354794a8d67d" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::TensorEdgeCaseHandler::detailed_diagnostics_</definition>
+        <argsstring></argsstring>
+        <name>detailed_diagnostics_</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::detailed_diagnostics_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="515" column="10" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="515" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a5b67081abc40fa4a2ddc6a47f5234794" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats" kindref="compound">EdgeCaseStats</ref></type>
+        <definition>EdgeCaseStats themis::tensor::TensorEdgeCaseHandler::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="516" column="19" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="516" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1ae42771723bfdc13d5303a5ae4552e91a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TensorEdgeCaseHandler::TensorEdgeCaseHandler</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>TensorEdgeCaseHandler</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::TensorEdgeCaseHandler</qualifiedname>
+        <briefdescription>
+<para>Constructor: initializes the handler with default recovery strategies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="165" column="5" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="53" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a1dc9602f84c7d55138acc08f6cdee2d7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TensorEdgeCaseHandler::~TensorEdgeCaseHandler</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>~TensorEdgeCaseHandler</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::~TensorEdgeCaseHandler</qualifiedname>
+        <briefdescription>
+<para>Destructor: cleans up all resources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="168" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a9a9a7d90b46b3e1c64d13fbe49159554" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_edge_case_result" kindref="compound">EdgeCaseResult</ref></type>
+        <definition>EdgeCaseResult themis::tensor::TensorEdgeCaseHandler::handleInvalidAdapterReference</definition>
+        <argsstring>(const std::string &amp;adapter_key, const std::string &amp;context_op=&quot;graph_query&quot;) noexcept</argsstring>
+        <name>handleInvalidAdapterReference</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::handleInvalidAdapterReference</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context_op</declname>
+          <defval>&quot;graph_query&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Handle invalid adapter reference in graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Scenario (TEDGE-01)</bold>: Caller references an adapter key that does not exist in the graph. This is a common failure when adapters are removed or the graph becomes stale.</para>
+<para><bold>Error Code</bold>: ERR_TENSOR_ADAPTER_NOT_FOUND (9531)</para>
+<para><bold>Recovery</bold>: Fail-closed with clear error indication. Caller must verify adapter exists before calling graph methods.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapter_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The invalid adapter key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context_op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Context operation (&quot;findSimilar&quot;, &quot;entry&quot;, etc.). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with error code 9531 and fail-closed recovery. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="190" column="21" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="60" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1ade45ac146093487bf06630991a45b6dc" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_edge_case_result" kindref="compound">EdgeCaseResult</ref></type>
+        <definition>EdgeCaseResult themis::tensor::TensorEdgeCaseHandler::handleOutOfBoundsIndex</definition>
+        <argsstring>(std::size_t requested_k, std::size_t actual_size) noexcept</argsstring>
+        <name>handleOutOfBoundsIndex</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::handleOutOfBoundsIndex</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>requested_k</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>actual_size</declname>
+        </param>
+        <briefdescription>
+<para>Handle out-of-bounds index access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Scenario (TEDGE-02)</bold>: Caller requests top-k results where k &gt; graph size. Requesting top-1000 adapters when graph has only 50 adapters.</para>
+<para><bold>Error Code</bold>: ERR_TENSOR_INDEX_LOOKUP_FAILED (9521)</para>
+<para><bold>Recovery</bold>: Graceful degradation. Return top-min(k, size) results.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>requested_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The requested number of results. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>actual_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actual number of adapters in graph. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with error code, recovery=&quot;degrade&quot;. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="208" column="21" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="82" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a9a0c59eaab8184bd290aded6d4e30e11" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_edge_case_result" kindref="compound">EdgeCaseResult</ref></type>
+        <definition>EdgeCaseResult themis::tensor::TensorEdgeCaseHandler::handleStaleFingerprint</definition>
+        <argsstring>(const std::string &amp;adapter_key, float norm_value) noexcept</argsstring>
+        <name>handleStaleFingerprint</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::handleStaleFingerprint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_key</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>norm_value</declname>
+        </param>
+        <briefdescription>
+<para>Handle stale/invalid fingerprints (NaN/Inf/invalid norm). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Scenario (TEDGE-03)</bold>: Fingerprint entry has NaN, Inf, or invalid norm. This indicates data corruption or computation failure upstream.</para>
+<para><bold>Error Code</bold>: ERR_TENSOR_GRAPH_INVALID_SELF_IP (9510)</para>
+<para><bold>Recovery</bold>: Fail-closed with data corruption indication. Requires fingerprint recomputation or graph reconstruction.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapter_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The adapter with invalid fingerprint. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>norm_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The invalid norm value (NaN/Inf). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with error code 9510 and fail-closed recovery. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="227" column="21" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="104" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a2f87290324f110cedf992664bb89e1f2" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_edge_case_result" kindref="compound">EdgeCaseResult</ref></type>
+        <definition>EdgeCaseResult themis::tensor::TensorEdgeCaseHandler::handleSelfSimilarityFailure</definition>
+        <argsstring>(const std::string &amp;adapter_key, float computed_score) noexcept</argsstring>
+        <name>handleSelfSimilarityFailure</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::handleSelfSimilarityFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_key</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>computed_score</declname>
+        </param>
+        <briefdescription>
+<para>Handle self-similarity computation failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Scenario (TEDGE-04)</bold>: Computing adapter&apos;s similarity to itself should yield 1.0, but computation fails or returns invalid value.</para>
+<para><bold>Error Code</bold>: ERR_TENSOR_GRAPH_INVALID_SELF_IP (9510)</para>
+<para><bold>Recovery</bold>: Retry with validation, then fail-closed if persistent.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapter_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The adapter being compared to itself. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>computed_score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The invalid similarity score. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with error code and retry/fail-closed recovery. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="245" column="21" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="135" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a0baa498931c25a7f31a354dc333ff4fe" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_edge_case_result" kindref="compound">EdgeCaseResult</ref></type>
+        <definition>EdgeCaseResult themis::tensor::TensorEdgeCaseHandler::handleNullTrainComparison</definition>
+        <argsstring>(const std::string &amp;key_a, const std::string &amp;key_b, const std::string &amp;null_train_key=&quot;&quot;) noexcept</argsstring>
+        <name>handleNullTrainComparison</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::handleNullTrainComparison</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_b</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>null_train_key</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Handle cross-adapter comparison with null/empty trains. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Scenario (TEDGE-05)</bold>: Attempting to compare adapters where one or both have empty or null TT-train representations.</para>
+<para><bold>Error Code</bold>: ERR_TENSOR_GRAPH_OTHER_TRAIN_NOT_FOUND (9513)</para>
+<para><bold>Recovery</bold>: Fail-closed. Trains must be non-empty for comparison.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key_a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First adapter key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key_b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second adapter key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>null_train_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which adapter has null/empty train (if known). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with error code 9513 and fail-closed recovery. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="264" column="21" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="166" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1aaabb1f754833f1bc508088b0e4305f99" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_edge_case_result" kindref="compound">EdgeCaseResult</ref></type>
+        <definition>EdgeCaseResult themis::tensor::TensorEdgeCaseHandler::handleConcurrentModification</definition>
+        <argsstring>(const std::string &amp;operation, const std::string &amp;affected_key=&quot;&quot;) noexcept</argsstring>
+        <name>handleConcurrentModification</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::handleConcurrentModification</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>affected_key</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Handle concurrent modification detected during traversal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Scenario (TEDGE-06)</bold>: Graph structure changes during an ongoing query (adapter added/removed while findSimilar is executing).</para>
+<para><bold>Error Code</bold>: ERR_TENSOR_CONCURRENT_MODIFICATION (9570)</para>
+<para><bold>Recovery</bold>: Retry with full read-lock, or fail-closed if contention high.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation being performed (&quot;findSimilar&quot;, etc.). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>affected_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Adapter key that was modified. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with error code 9570 and retry/fail-closed recovery. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="283" column="21" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="193" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1aeaba98962d5c1449e6fd061b2257809f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_edge_case_result" kindref="compound">EdgeCaseResult</ref></type>
+        <definition>EdgeCaseResult themis::tensor::TensorEdgeCaseHandler::handleBridgeRoutingFailure</definition>
+        <argsstring>(double load_level, std::size_t queue_depth) noexcept</argsstring>
+        <name>handleBridgeRoutingFailure</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::handleBridgeRoutingFailure</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>load_level</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>queue_depth</declname>
+        </param>
+        <briefdescription>
+<para>Handle bridge routing failures under load. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Scenario (TEDGE-07)</bold>: Ingestion bridge cannot route request to appropriate decomposer (queue full, all decomposers busy).</para>
+<para><bold>Error Code</bold>: ERR_TENSOR_INDEX_ROUTING_FAILED (9522)</para>
+<para><bold>Recovery</bold>: Retry with exponential backoff, or queue for later.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>load_level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current system load (0.0..1.0+). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>queue_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current routing queue depth. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with error code 9522 and retry recovery. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="305" column="21" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="219" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a90bc2d13d9df0f5ce303b12232e9fa29" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_edge_case_result" kindref="compound">EdgeCaseResult</ref></type>
+        <definition>EdgeCaseResult themis::tensor::TensorEdgeCaseHandler::handleAdapterCommunicationFailure</definition>
+        <argsstring>(const std::string &amp;adapter_key, uint32_t timeout_ms) noexcept</argsstring>
+        <name>handleAdapterCommunicationFailure</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::handleAdapterCommunicationFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_key</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+<para>Handle adapter communication timeout/disconnect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Scenario (TEDGE-08)</bold>: Adapter service is unreachable, network timeout, or connection drop during decomposition request.</para>
+<para><bold>Error Code</bold>: ERR_TENSOR_ADAPTER_COMMUNICATION_ERROR (9532)</para>
+<para><bold>Recovery</bold>: Retry with backoff, or fallback to cached/degraded results.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapter_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The unreachable adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timeout duration in milliseconds. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with error code 9532 and retry/fallback recovery. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="323" column="21" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="241" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a43677e6063eb93c064b01ae2ff1a36d3" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_edge_case_result" kindref="compound">EdgeCaseResult</ref></type>
+        <definition>EdgeCaseResult themis::tensor::TensorEdgeCaseHandler::handleInvalidDecompositionResult</definition>
+        <argsstring>(const std::string &amp;chunk_id, const std::string &amp;error_detail) noexcept</argsstring>
+        <name>handleInvalidDecompositionResult</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::handleInvalidDecompositionResult</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_detail</declname>
+        </param>
+        <briefdescription>
+<para>Handle invalid decomposition results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Scenario (TEDGE-09)</bold>: Bridge receives decomposition result with invalid data: rank overflow, NaN in cores, dimension mismatch.</para>
+<para><bold>Error Code</bold>: ERR_TENSOR_FINGERPRINT_COMPUTATION_FAILED (9540)</para>
+<para><bold>Recovery</bold>: Reject result, retry decomposition with different params.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>chunk_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Chunk being decomposed. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Description of invalid result. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with error code 9540 and retry recovery. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="341" column="21" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="263" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a4d347a4bb0dceadf8059aca60ee870ee" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_edge_case_result" kindref="compound">EdgeCaseResult</ref></type>
+        <definition>EdgeCaseResult themis::tensor::TensorEdgeCaseHandler::handleKappaGateViolation</definition>
+        <argsstring>(std::size_t embedding_dim, double estimated_kappa, double min_kappa) noexcept</argsstring>
+        <name>handleKappaGateViolation</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::handleKappaGateViolation</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>embedding_dim</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>estimated_kappa</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_kappa</declname>
+        </param>
+        <briefdescription>
+<para>Handle kappa-gate threshold violation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Scenario (TEDGE-10)</bold>: κ-gate (kappa gate) estimates that compression won&apos;t achieve min_kappa threshold, but caller ignores and forces decompose.</para>
+<para><bold>Error Code</bold>: ERR_TENSOR_FINGERPRINT_COMPUTATION_FAILED (9540)</para>
+<para><bold>Recovery</bold>: Graceful degradation or fail-closed based on policy.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>embedding_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Embedding dimension. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>estimated_kappa</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Estimated compression ratio. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_kappa</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum required ratio. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with error code and degrade/fail-closed recovery. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="360" column="21" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="285" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1aed76564a8da6ef8ab6f464d2b3dfed6e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_edge_case_result" kindref="compound">EdgeCaseResult</ref></type>
+        <definition>EdgeCaseResult themis::tensor::TensorEdgeCaseHandler::handleExportSerializationFailure</definition>
+        <argsstring>(const std::string &amp;export_path, const std::string &amp;error_detail) noexcept</argsstring>
+        <name>handleExportSerializationFailure</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::handleExportSerializationFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>export_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_detail</declname>
+        </param>
+        <briefdescription>
+<para>Handle export serialization failures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Scenario (TEDGE-11)</bold>: Serializing graph to file/buffer fails: I/O error, permission denied, or serializer exception.</para>
+<para><bold>Error Code</bold>: ERR_TENSOR_PERSISTENCE_FAILED (9561)</para>
+<para><bold>Recovery</bold>: Retry with different path, or fail-closed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>export_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target export path. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_detail</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>System error message. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with error code 9561 and retry/fail-closed recovery. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="383" column="21" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="308" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a044af52d75e9b13c308c9268d20dd670" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_edge_case_result" kindref="compound">EdgeCaseResult</ref></type>
+        <definition>EdgeCaseResult themis::tensor::TensorEdgeCaseHandler::handleReplayDeserialization</definition>
+        <argsstring>(const std::string &amp;adapter_key, const std::string &amp;corruption_type) noexcept</argsstring>
+        <name>handleReplayDeserialization</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::handleReplayDeserialization</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>corruption_type</declname>
+        </param>
+        <briefdescription>
+<para>Handle corrupted fingerprint during replay. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Scenario (TEDGE-12)</bold>: Replaying graph from persisted state, but fingerprint data is corrupted: deserialization fails, checksums mismatch.</para>
+<para><bold>Error Code</bold>: ERR_TENSOR_PERSISTENCE_FAILED (9561)</para>
+<para><bold>Recovery</bold>: Skip corrupt entry, or abort replay with full rebuild.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapter_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The corrupt entry&apos;s adapter key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>corruption_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Description (&quot;invalid_checksum&quot;, &quot;deserialization_error&quot;, etc.). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with error code 9561 and skip/rebuild recovery. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="401" column="21" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="330" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a8bcbd3289e94c0d93d3f8db1ccc5d299" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_edge_case_result" kindref="compound">EdgeCaseResult</ref></type>
+        <definition>EdgeCaseResult themis::tensor::TensorEdgeCaseHandler::handlePartialGraphLossRecovery</definition>
+        <argsstring>(std::size_t total_entries, std::size_t recovered_entries) noexcept</argsstring>
+        <name>handlePartialGraphLossRecovery</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::handlePartialGraphLossRecovery</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>total_entries</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>recovered_entries</declname>
+        </param>
+        <briefdescription>
+<para>Handle partial graph loss recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Scenario (TEDGE-13)</bold>: Detecting that graph persistence is incomplete: some entries missing, or state file truncated/partial.</para>
+<para><bold>Error Code</bold>: ERR_TENSOR_PERSISTENCE_FAILED (9561)</para>
+<para><bold>Recovery</bold>: Partial recovery (load what&apos;s available) with warning, or full reconstruction from source.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>total_entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected number of graph entries. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>recovered_entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actual entries successfully recovered. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with error code 9561 and degrade/rebuild recovery. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="420" column="21" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="352" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1ad0988d63061113f3f199f4d0b10b6fb4" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_edge_case_result" kindref="compound">EdgeCaseResult</ref></type>
+        <definition>EdgeCaseResult themis::tensor::TensorEdgeCaseHandler::handleOutOfMemoryDuringComputation</definition>
+        <argsstring>(std::size_t requested_bytes, const std::string &amp;operation) noexcept</argsstring>
+        <name>handleOutOfMemoryDuringComputation</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::handleOutOfMemoryDuringComputation</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>requested_bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <briefdescription>
+<para>Handle out-of-memory during fingerprint computation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Scenario (TEDGE-14)</bold>: Allocating fingerprint structures, TT-cores, or temporary buffers fails due to insufficient memory.</para>
+<para><bold>Error Code</bold>: ERR_TENSOR_FINGERPRINT_COMPUTATION_FAILED (9540)</para>
+<para><bold>Recovery</bold>: Fail-closed with memory exhaustion indication. Requires freeing memory or rejecting new requests.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>requested_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes that could not be allocated. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation that failed (&quot;fingerprint_compute&quot;, etc.). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with error code 9540 and fail-closed recovery. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="443" column="21" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="378" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1abb9c6f541589b25ee3875d5676b3e996" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_edge_case_result" kindref="compound">EdgeCaseResult</ref></type>
+        <definition>EdgeCaseResult themis::tensor::TensorEdgeCaseHandler::handleConcurrentMemoryExhaustion</definition>
+        <argsstring>(std::size_t current_memory_bytes, std::size_t max_memory_bytes, std::size_t concurrent_threads) noexcept</argsstring>
+        <name>handleConcurrentMemoryExhaustion</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::handleConcurrentMemoryExhaustion</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>current_memory_bytes</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_memory_bytes</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>concurrent_threads</declname>
+        </param>
+        <briefdescription>
+<para>Handle memory exhaustion under concurrent access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Scenario (TEDGE-15)</bold>: During high concurrency (many threads accessing graph), memory growth becomes unbounded or exceeds limit.</para>
+<para><bold>Error Code</bold>: ERR_TENSOR_LOCK_ACQUISITION_FAILED (9571)</para>
+<para><bold>Recovery</bold>: Throttle new requests, trigger cleanup, or fail-closed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_memory_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current memory usage. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_memory_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Memory limit. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>concurrent_threads</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of concurrent threads. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with error code 9571 and throttle/fail-closed recovery. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="462" column="21" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="402" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1aa03285f8b56f661afc5bab7b40b82bff" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorEdgeCaseHandler::setDetailedDiagnostics</definition>
+        <argsstring>(bool enable) noexcept</argsstring>
+        <name>setDetailedDiagnostics</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::setDetailedDiagnostics</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enable</declname>
+        </param>
+        <briefdescription>
+<para>Enable detailed error diagnostics for debugging. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When enabled, all error handlers emit detailed diagnostics including stack traces and context snapshots.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>enable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, enable diagnostics; if false, use minimal logging. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="479" column="10" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="432" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a36c69d50a74c27a941b233d9d33df0f7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats" kindref="compound">EdgeCaseStats</ref></type>
+        <definition>TensorEdgeCaseHandler::EdgeCaseStats themis::tensor::TensorEdgeCaseHandler::getStats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::getStats</qualifiedname>
+        <briefdescription>
+<para>Get current error statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="505" column="20" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="436" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1af913b483674f4a871279604088881882" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorEdgeCaseHandler::resetStats</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset error statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="508" column="10" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="440" bodyend="442"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a7599da0a3a1130ebb132873b7ebd3bf8" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorEdgeCaseHandler::emitDiagnostic</definition>
+        <argsstring>(const std::string &amp;scenario, const EdgeCaseResult &amp;result) const noexcept</argsstring>
+        <name>emitDiagnostic</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::emitDiagnostic</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scenario</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_edge_case_result" kindref="compound">EdgeCaseResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Emit diagnostic event for error tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="523" column="10" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="448" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1ad18e80fae0d938ca5a591d8a748c9e8d" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::TensorEdgeCaseHandler::formatErrorMessage</definition>
+        <argsstring>(const std::string &amp;base_message, const std::string &amp;context) const noexcept</argsstring>
+        <name>formatErrorMessage</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::formatErrorMessage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Format error message with context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="526" column="17" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="487" bodyend="494"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a342e6c551b1afc5c12f0c5d933a6c788" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::TensorEdgeCaseHandler::isRecoverable</definition>
+        <argsstring>(int error_code) const noexcept</argsstring>
+        <name>isRecoverable</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::isRecoverable</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>error_code</declname>
+        </param>
+        <briefdescription>
+<para>Determine if error is recoverable based on type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="530" column="10" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="496" bodyend="500"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Centralized handler for deterministic edge case scenarios. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class manages all edge case scenarios for the tensor module, ensuring deterministic behavior, explicit error codes, and well-defined recovery paths. </para>
+    </detaileddescription>
+    <location file="include/tensor/tensor_edge_case_handler.h" line="162" column="1" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="162" bodyend="531"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a00b15e13ea34f82abf29354794a8d67d" prot="private" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>detailed_diagnostics_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a7599da0a3a1130ebb132873b7ebd3bf8" prot="private" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>emitDiagnostic</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1ad18e80fae0d938ca5a591d8a748c9e8d" prot="private" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>formatErrorMessage</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a36c69d50a74c27a941b233d9d33df0f7" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a90bc2d13d9df0f5ce303b12232e9fa29" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>handleAdapterCommunicationFailure</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1aeaba98962d5c1449e6fd061b2257809f" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>handleBridgeRoutingFailure</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1abb9c6f541589b25ee3875d5676b3e996" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>handleConcurrentMemoryExhaustion</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1aaabb1f754833f1bc508088b0e4305f99" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>handleConcurrentModification</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1aed76564a8da6ef8ab6f464d2b3dfed6e" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>handleExportSerializationFailure</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a9a9a7d90b46b3e1c64d13fbe49159554" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>handleInvalidAdapterReference</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a43677e6063eb93c064b01ae2ff1a36d3" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>handleInvalidDecompositionResult</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a4d347a4bb0dceadf8059aca60ee870ee" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>handleKappaGateViolation</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a0baa498931c25a7f31a354dc333ff4fe" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>handleNullTrainComparison</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1ade45ac146093487bf06630991a45b6dc" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>handleOutOfBoundsIndex</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1ad0988d63061113f3f199f4d0b10b6fb4" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>handleOutOfMemoryDuringComputation</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a8bcbd3289e94c0d93d3f8db1ccc5d299" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>handlePartialGraphLossRecovery</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a044af52d75e9b13c308c9268d20dd670" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>handleReplayDeserialization</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a2f87290324f110cedf992664bb89e1f2" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>handleSelfSimilarityFailure</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a9a0c59eaab8184bd290aded6d4e30e11" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>handleStaleFingerprint</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a342e6c551b1afc5c12f0c5d933a6c788" prot="private" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>isRecoverable</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1af913b483674f4a871279604088881882" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1aa03285f8b56f661afc5bab7b40b82bff" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>setDetailedDiagnostics</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a5b67081abc40fa4a2ddc6a47f5234794" prot="private" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1ae42771723bfdc13d5303a5ae4552e91a" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>TensorEdgeCaseHandler</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_edge_case_handler_1a1dc9602f84c7d55138acc08f6cdee2d7" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler</scope><name>~TensorEdgeCaseHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

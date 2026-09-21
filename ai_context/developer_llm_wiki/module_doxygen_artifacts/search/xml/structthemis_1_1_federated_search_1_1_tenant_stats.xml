@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_federated_search_1_1_tenant_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::FederatedSearch::TenantStats</compoundname>
+    <includes refid="federated__search_8h" local="no">federated_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_federated_search_1_1_tenant_stats_1a9b9741f0ec91a8c9621097fadae914d6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::FederatedSearch::TenantStats::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::FederatedSearch::TenantStats::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Tenant identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="109" column="21" bodyfile="include/search/federated_search.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_federated_search_1_1_tenant_stats_1a94518ab6505d3e048ad52bc569cc6803" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::FederatedSearch::TenantStats::results_count</definition>
+        <argsstring></argsstring>
+        <name>results_count</name>
+        <qualifiedname>themis::FederatedSearch::TenantStats::results_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Results returned by this tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="110" column="16" bodyfile="include/search/federated_search.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_federated_search_1_1_tenant_stats_1a00319415ed10c400d82aa88ad184b8ac" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::FederatedSearch::TenantStats::skipped</definition>
+        <argsstring></argsstring>
+        <name>skipped</name>
+        <qualifiedname>themis::FederatedSearch::TenantStats::skipped</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when tenant was skipped (null/weight=0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="111" column="14" bodyfile="include/search/federated_search.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-tenant diagnostics returned alongside search results. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/federated_search.h" line="108" column="5" bodyfile="include/search/federated_search.h" bodystart="108" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_federated_search_1_1_tenant_stats_1a94518ab6505d3e048ad52bc569cc6803" prot="public" virt="non-virtual"><scope>themis::FederatedSearch::TenantStats</scope><name>results_count</name></member>
+      <member refid="structthemis_1_1_federated_search_1_1_tenant_stats_1a00319415ed10c400d82aa88ad184b8ac" prot="public" virt="non-virtual"><scope>themis::FederatedSearch::TenantStats</scope><name>skipped</name></member>
+      <member refid="structthemis_1_1_federated_search_1_1_tenant_stats_1a9b9741f0ec91a8c9621097fadae914d6" prot="public" virt="non-virtual"><scope>themis::FederatedSearch::TenantStats</scope><name>tenant_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

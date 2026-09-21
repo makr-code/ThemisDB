@@ -1,0 +1,413 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_raft_mvcc_bridge" kind="class" language="C++" prot="public">
+    <compoundname>themis::RaftMvccBridge</compoundname>
+    <includes refid="raft__mvcc__bridge_8h" local="no">raft_mvcc_bridge.h</includes>
+    <innerclass refid="structthemis_1_1_raft_mvcc_bridge_1_1_linearizable_result" prot="public">themis::RaftMvccBridge::LinearizableResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_raft_mvcc_bridge_1a2d3ac5a7910a3d764ac414fb1bf6a85e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_m_v_c_c_store" kindref="compound">MVCCStore</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MVCCStore&gt; themis::RaftMvccBridge::mvcc_store_</definition>
+        <argsstring></argsstring>
+        <name>mvcc_store_</name>
+        <qualifiedname>themis::RaftMvccBridge::mvcc_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/raft_mvcc_bridge.h" line="203" column="61" bodyfile="include/storage/raft_mvcc_bridge.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_raft_mvcc_bridge_1af60a444808a597665c9bbbec96e60d36" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themisdb::sharding::DistributedTimeCoordinator &gt;</type>
+        <definition>std::shared_ptr&lt;themisdb::sharding::DistributedTimeCoordinator&gt; themis::RaftMvccBridge::coordinator_</definition>
+        <argsstring></argsstring>
+        <name>coordinator_</name>
+        <qualifiedname>themis::RaftMvccBridge::coordinator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/raft_mvcc_bridge.h" line="204" column="23" bodyfile="include/storage/raft_mvcc_bridge.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_raft_mvcc_bridge_1a420f627764717d938d4bbcaea0ed824b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::RaftMvccBridge::RaftMvccBridge</definition>
+        <argsstring>(std::shared_ptr&lt; MVCCStore &gt; mvcc_store, std::shared_ptr&lt; themisdb::sharding::DistributedTimeCoordinator &gt; coordinator)</argsstring>
+        <name>RaftMvccBridge</name>
+        <qualifiedname>themis::RaftMvccBridge::RaftMvccBridge</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_m_v_c_c_store" kindref="compound">MVCCStore</ref> &gt;</type>
+          <declname>mvcc_store</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; themisdb::sharding::DistributedTimeCoordinator &gt;</type>
+          <declname>coordinator</declname>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1_raft_mvcc_bridge" kindref="compound">RaftMvccBridge</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mvcc_store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared MVCC store for this shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>coordinator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared DistributedTimeCoordinator backed by the Raft consensus module for this shard. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/raft_mvcc_bridge.h" line="106" column="5" bodyfile="src/storage/raft_mvcc_bridge.cpp" bodystart="27" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_raft_mvcc_bridge_1ab924d975caff3ef8dc07bdfc1fd269ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+        <definition>HLCTimestamp themis::RaftMvccBridge::snapshotTimestamp</definition>
+        <argsstring>()</argsstring>
+        <name>snapshotTimestamp</name>
+        <qualifiedname>themis::RaftMvccBridge::snapshotTimestamp</qualifiedname>
+        <briefdescription>
+<para>Produce an HLC snapshot timestamp consistent with the Raft commit index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Snapshot Timestamp.</para>
+<para>Advances the <ref refid="classthemis_1_1_m_v_c_c_store" kindref="compound">MVCCStore</ref>&apos;s HLC to be ≥ the synthetic HLC derived from the coordinator&apos;s current view (system wall-clock + Raft log index). The returned timestamp can be used directly in <computeroutput><ref refid="classthemis_1_1_raft_mvcc_bridge_1ac55d1d70bbce7559c0b2e1ddc0d8610c" kindref="member">snapshotRead()</ref></computeroutput> or <computeroutput><ref refid="classthemis_1_1_m_v_c_c_store_1a5d4696c10a5d34994f5823595acbc17c" kindref="member">MVCCStore::getAtTimestamp()</ref></computeroutput>.</para>
+<para><simplesect kind="return"><para>HLC timestamp consistent with the current Raft commit point.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: now(), <ref refid="classthemis_1_1_raft_mvcc_bridge_1aa52701f65132e07509ec90a627239852" kindref="member">toHlcTimestamp()</ref>, updateClock(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/raft_mvcc_bridge.h" line="124" column="18" bodyfile="src/storage/raft_mvcc_bridge.cpp" bodystart="79" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_raft_mvcc_bridge_1a7de2763fc5423ed21c5d9e47ff30fe43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_raft_mvcc_bridge_1_1_linearizable_result" kindref="compound">LinearizableResult</ref></type>
+        <definition>RaftMvccBridge::LinearizableResult themis::RaftMvccBridge::linearizableRead</definition>
+        <argsstring>(std::string_view key)</argsstring>
+        <name>linearizableRead</name>
+        <qualifiedname>themis::RaftMvccBridge::linearizableRead</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Linearizable read: only succeeds on the Raft leader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the latest committed version of <computeroutput>key</computeroutput>. If this node is not the Raft leader, <computeroutput>is_leader</computeroutput> will be <computeroutput>false</computeroutput> and <computeroutput>value</computeroutput> will be empty — the caller must retry on the leader returned by <computeroutput>DistributedTimeCoordinator</computeroutput> / its underlying <computeroutput>ConsensusModule</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The logical record key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1_raft_mvcc_bridge_1_1_linearizable_result" kindref="compound">LinearizableResult</ref></computeroutput> with <computeroutput>is_leader</computeroutput> and optionally <computeroutput>value</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/raft_mvcc_bridge.h" line="152" column="24" bodyfile="src/storage/raft_mvcc_bridge.cpp" bodystart="99" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_raft_mvcc_bridge_1ac55d1d70bbce7559c0b2e1ddc0d8610c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::RaftMvccBridge::snapshotRead</definition>
+        <argsstring>(std::string_view key, HLCTimestamp ts)</argsstring>
+        <name>snapshotRead</name>
+        <qualifiedname>themis::RaftMvccBridge::snapshotRead</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+          <declname>ts</declname>
+        </param>
+        <briefdescription>
+<para>Snapshot read at a specific HLC timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reads the most-recent version of <computeroutput>key</computeroutput> committed at or before <computeroutput>ts</computeroutput>. Safe to call on any replica (leader or follower) — data visibility is determined entirely by <computeroutput>ts</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The logical record key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The snapshot point (from <computeroutput><ref refid="classthemis_1_1_raft_mvcc_bridge_1ab924d975caff3ef8dc07bdfc1fd269ff" kindref="member">snapshotTimestamp()</ref></computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The value bytes, or <computeroutput>std::nullopt</computeroutput> if no version exists ≤ ts. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/raft_mvcc_bridge.h" line="165" column="19" bodyfile="src/storage/raft_mvcc_bridge.cpp" bodystart="116" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_raft_mvcc_bridge_1aa67e45a79d75de564cec2edf622fb36a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+        <definition>HLCTimestamp themis::RaftMvccBridge::raftAwareWrite</definition>
+        <argsstring>(std::string_view key, const std::vector&lt; uint8_t &gt; &amp;value)</argsstring>
+        <name>raftAwareWrite</name>
+        <qualifiedname>themis::RaftMvccBridge::raftAwareWrite</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Raft-aware write: stamps the value with a Raft-consistent HLC. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Raft Aware Write.</para>
+<para>Obtains the current HLC advanced to the Raft coordinator&apos;s view of time and calls <computeroutput><ref refid="classthemis_1_1_m_v_c_c_store_1a7149c634e395b1581f423adbccd18968" kindref="member">MVCCStore::putWithTimestamp</ref></computeroutput> so the write is visible to snapshot reads that use <computeroutput><ref refid="classthemis_1_1_raft_mvcc_bridge_1ab924d975caff3ef8dc07bdfc1fd269ff" kindref="member">snapshotTimestamp()</ref></computeroutput> <emphasis>after</emphasis> this call returns. This call is leader-only and throws if invoked on a follower.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The logical record key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">Value</ref> bytes to store. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The HLC timestamp assigned to this write. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if this node is not the current Raft leader.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1_raft_mvcc_bridge_1ac8eafe5ab1dd1327549c81ee7056d648" kindref="member">isLeader()</ref>, <ref refid="classthemis_1_1_raft_mvcc_bridge_1ab924d975caff3ef8dc07bdfc1fd269ff" kindref="member">snapshotTimestamp()</ref>, putWithTimestamp(), spdlog::debug(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/raft_mvcc_bridge.h" line="185" column="18" bodyfile="src/storage/raft_mvcc_bridge.cpp" bodystart="137" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_raft_mvcc_bridge_1ac8eafe5ab1dd1327549c81ee7056d648" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RaftMvccBridge::isLeader</definition>
+        <argsstring>() const</argsstring>
+        <name>isLeader</name>
+        <qualifiedname>themis::RaftMvccBridge::isLeader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Whether this node is the current Raft leader. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/raft_mvcc_bridge.h" line="193" column="10" bodyfile="src/storage/raft_mvcc_bridge.cpp" bodystart="168" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_raft_mvcc_bridge_1a74c557d1a460a530ac09899526cb0ad1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_m_v_c_c_store" kindref="compound">MVCCStore</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; MVCCStore &gt; themis::RaftMvccBridge::mvccStore</definition>
+        <argsstring>() const</argsstring>
+        <name>mvccStore</name>
+        <qualifiedname>themis::RaftMvccBridge::mvccStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The underlying MVCC store. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/raft_mvcc_bridge.h" line="196" column="21" bodyfile="include/storage/raft_mvcc_bridge.h" bodystart="196" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_raft_mvcc_bridge_1a16daebdcf5436aba905c21b2faf1cea2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; themisdb::sharding::DistributedTimeCoordinator &gt;</type>
+        <definition>std::shared_ptr&lt; themisdb::sharding::DistributedTimeCoordinator &gt; themis::RaftMvccBridge::coordinator</definition>
+        <argsstring>() const</argsstring>
+        <name>coordinator</name>
+        <qualifiedname>themis::RaftMvccBridge::coordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The underlying DistributedTimeCoordinator. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/raft_mvcc_bridge.h" line="200" column="5" bodyfile="include/storage/raft_mvcc_bridge.h" bodystart="200" bodyend="200"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_raft_mvcc_bridge_1aa52701f65132e07509ec90a627239852" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+        <definition>HLCTimestamp themis::RaftMvccBridge::toHlcTimestamp</definition>
+        <argsstring>(const themisdb::sharding::DistributedTimeCoordinator::TimeInterval &amp;interval)</argsstring>
+        <name>toHlcTimestamp</name>
+        <qualifiedname>themis::RaftMvccBridge::toHlcTimestamp</qualifiedname>
+        <param>
+          <type>const themisdb::sharding::DistributedTimeCoordinator::TimeInterval &amp;</type>
+          <declname>interval</declname>
+        </param>
+        <briefdescription>
+<para>Convert a Raft <computeroutput>TimeInterval</computeroutput> to an HLC timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para>This is a pure static conversion — it does <bold>not</bold> advance any clock. Use <computeroutput><ref refid="classthemis_1_1_raft_mvcc_bridge_1ab924d975caff3ef8dc07bdfc1fd269ff" kindref="member">snapshotTimestamp()</ref></computeroutput> if you also need to advance the local clock.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A <computeroutput>TimeInterval</computeroutput> returned by <computeroutput>DistributedTimeCoordinator::now()</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Equivalent <computeroutput><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></computeroutput> with physical=wall_ms, logical=log_idx&amp;0xFFFFF.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">interval</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1_h_l_c_timestamp_1af7764302af1bd082ae5319f9b5ee5f91" kindref="member">HLCTimestamp::from()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/raft_mvcc_bridge.h" line="135" column="25" bodyfile="src/storage/raft_mvcc_bridge.cpp" bodystart="57" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Bridge between the Raft consensus layer and the per-shard MVCC store. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>In a distributed ThemisDB cluster each shard runs its own <computeroutput><ref refid="classthemis_1_1_m_v_c_c_store" kindref="compound">MVCCStore</ref></computeroutput> whose writes are stamped with <computeroutput><ref refid="classthemis_1_1_hybrid_logical_clock" kindref="compound">HybridLogicalClock</ref></computeroutput> (HLC) timestamps. The cluster also runs a Raft consensus group managed through <computeroutput>DistributedTimeCoordinator</computeroutput> which assigns causally-ordered <emphasis>log-index</emphasis> timestamps to committed entries.</para>
+<para>This class bridges the two timestamp spaces to enable:</para>
+<para><heading level="3">Linearizable reads (across the Raft group)</heading>
+</para>
+<para>A linearizable read is guaranteed to see all writes that completed before the read was issued. It must be served by the Raft <bold>leader</bold> (or by a follower that has confirmed the leader&apos;s commit index via a lease read).</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[value,<sp/>ok]<sp/>=<sp/>bridge.linearizableRead(</highlight><highlight class="stringliteral">&quot;user:42&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>ok<sp/>==<sp/>false<sp/>if<sp/>this<sp/>node<sp/>is<sp/>not<sp/>the<sp/>leader<sp/>→<sp/>caller<sp/>must<sp/>retry<sp/>on<sp/>leader</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Snapshot reads at a Raft-consistent timestamp</heading>
+</para>
+<para>A snapshot read returns a consistent view of the data as of the moment the Raft commit index was last advanced. The bridge converts the Raft commit index into an HLC timestamp that is guaranteed to be ≥ any HLC timestamp of a write that was reflected in that commit index.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">HLCTimestamp<sp/>snap_ts<sp/>=<sp/>bridge.snapshotTimestamp();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>val<sp/>=<sp/>bridge.snapshotRead(</highlight><highlight class="stringliteral">&quot;user:42&quot;</highlight><highlight class="normal">,<sp/>snap_ts);</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Raft-aware writes</heading>
+</para>
+<para>After proposing a new value to Raft, the bridge calls <computeroutput>putWithTimestamp</computeroutput> on the <ref refid="classthemis_1_1_m_v_c_c_store" kindref="compound">MVCCStore</ref> using the HLC timestamp at the moment of the Raft proposal. This keeps the HLC and the Raft log causally consistent.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">HLCTimestamp<sp/>commit_ts<sp/>=<sp/>bridge.raftAwareWrite(</highlight><highlight class="stringliteral">&quot;user:42&quot;</highlight><highlight class="normal">,<sp/>new_value);</highlight></codeline>
+</programlisting></para>
+<sect1 id="classthemis_1_1_raft_mvcc_bridge_1autotoc_md15_1s1"><sect2 id="classthemis_1_1_raft_mvcc_bridge_1autotoc_md15">
+<title>Timestamp conversion</title><para><computeroutput>DistributedTimeCoordinator::now()</computeroutput> returns a <computeroutput>TimeInterval</computeroutput> whose fields are:<itemizedlist>
+<listitem><para><computeroutput>logical_timestamp</computeroutput> : current Raft last-log-index</para>
+</listitem><listitem><para><computeroutput>system_time_ns</computeroutput> : wall-clock nanoseconds since epoch</para>
+</listitem><listitem><para><computeroutput>uncertainty_ns</computeroutput> : upper bound on clock skew</para>
+</listitem></itemizedlist>
+</para>
+<para>This bridge converts that to an <computeroutput><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></computeroutput> as follows:<itemizedlist>
+<listitem><para><computeroutput>physical_ms = system_time_ns / 1e6</computeroutput> (wall-clock ms)</para>
+</listitem><listitem><para><computeroutput>logical = logical_timestamp &amp; 0xFFFFF</computeroutput> (lower 20 bits of log index)</para>
+</listitem></itemizedlist>
+</para>
+<para>The resulting HLC timestamp is then passed through <computeroutput>HybridLogicalClock::update(synthetic)</computeroutput> so the local clock advances monotonically.</para>
+<para><simplesect kind="note"><para>The bridge does <bold>not</bold> own either the <ref refid="classthemis_1_1_m_v_c_c_store" kindref="compound">MVCCStore</ref> or the coordinator. Both must outlive this object. </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/storage/raft_mvcc_bridge.h" line="86" column="1" bodyfile="include/storage/raft_mvcc_bridge.h" bodystart="86" bodyend="205"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_raft_mvcc_bridge_1a16daebdcf5436aba905c21b2faf1cea2" prot="public" virt="non-virtual"><scope>themis::RaftMvccBridge</scope><name>coordinator</name></member>
+      <member refid="classthemis_1_1_raft_mvcc_bridge_1af60a444808a597665c9bbbec96e60d36" prot="private" virt="non-virtual"><scope>themis::RaftMvccBridge</scope><name>coordinator_</name></member>
+      <member refid="classthemis_1_1_raft_mvcc_bridge_1ac8eafe5ab1dd1327549c81ee7056d648" prot="public" virt="non-virtual"><scope>themis::RaftMvccBridge</scope><name>isLeader</name></member>
+      <member refid="classthemis_1_1_raft_mvcc_bridge_1a7de2763fc5423ed21c5d9e47ff30fe43" prot="public" virt="non-virtual"><scope>themis::RaftMvccBridge</scope><name>linearizableRead</name></member>
+      <member refid="classthemis_1_1_raft_mvcc_bridge_1a2d3ac5a7910a3d764ac414fb1bf6a85e" prot="private" virt="non-virtual"><scope>themis::RaftMvccBridge</scope><name>mvcc_store_</name></member>
+      <member refid="classthemis_1_1_raft_mvcc_bridge_1a74c557d1a460a530ac09899526cb0ad1" prot="public" virt="non-virtual"><scope>themis::RaftMvccBridge</scope><name>mvccStore</name></member>
+      <member refid="classthemis_1_1_raft_mvcc_bridge_1aa67e45a79d75de564cec2edf622fb36a" prot="public" virt="non-virtual"><scope>themis::RaftMvccBridge</scope><name>raftAwareWrite</name></member>
+      <member refid="classthemis_1_1_raft_mvcc_bridge_1a420f627764717d938d4bbcaea0ed824b" prot="public" virt="non-virtual"><scope>themis::RaftMvccBridge</scope><name>RaftMvccBridge</name></member>
+      <member refid="classthemis_1_1_raft_mvcc_bridge_1ac55d1d70bbce7559c0b2e1ddc0d8610c" prot="public" virt="non-virtual"><scope>themis::RaftMvccBridge</scope><name>snapshotRead</name></member>
+      <member refid="classthemis_1_1_raft_mvcc_bridge_1ab924d975caff3ef8dc07bdfc1fd269ff" prot="public" virt="non-virtual"><scope>themis::RaftMvccBridge</scope><name>snapshotTimestamp</name></member>
+      <member refid="classthemis_1_1_raft_mvcc_bridge_1aa52701f65132e07509ec90a627239852" prot="public" virt="non-virtual"><scope>themis::RaftMvccBridge</scope><name>toHlcTimestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

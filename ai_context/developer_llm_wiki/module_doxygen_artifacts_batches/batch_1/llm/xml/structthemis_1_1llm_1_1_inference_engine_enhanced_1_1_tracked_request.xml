@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_tracked_request" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::InferenceEngineEnhanced::TrackedRequest</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_tracked_request_1aa6915b394b6f145b23068b7fb2381afa" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request" kindref="compound">EnhancedInferenceRequest</ref></type>
+        <definition>EnhancedInferenceRequest themis::llm::InferenceEngineEnhanced::TrackedRequest::request</definition>
+        <argsstring></argsstring>
+        <name>request</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::TrackedRequest::request</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="486" column="34" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="486" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_tracked_request_1a7e9a47a7f409dbc3983a10d709de669f" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::llm::InferenceEngineEnhanced::TrackedRequest::deadline</definition>
+        <argsstring></argsstring>
+        <name>deadline</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::TrackedRequest::deadline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="487" column="47" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="487" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_tracked_request_1a1e41c49745f98e0b66473f1622b066a2" prot="public" static="no" mutable="no">
+        <type>std::promise&lt; <ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref> &gt;</type>
+        <definition>std::promise&lt;InferenceResponse&gt; themis::llm::InferenceEngineEnhanced::TrackedRequest::promise</definition>
+        <argsstring></argsstring>
+        <name>promise</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::TrackedRequest::promise</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="488" column="22" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="488" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_tracked_request_1a6408751a63ad2fb65e8689eaa0b41b8b" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(const <ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;void(const InferenceResponse&amp;)&gt; themis::llm::InferenceEngineEnhanced::TrackedRequest::callback</definition>
+        <argsstring></argsstring>
+        <name>callback</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::TrackedRequest::callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="489" column="23" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="489" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_tracked_request_1a0f7ed6823dfa1bac1a56f76ac4986a40" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; std::atomic&lt; bool &gt; &gt;</type>
+        <definition>std::shared_ptr&lt;std::atomic&lt;bool&gt; &gt; themis::llm::InferenceEngineEnhanced::TrackedRequest::cancel_token</definition>
+        <argsstring></argsstring>
+        <name>cancel_token</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::TrackedRequest::cancel_token</qualifiedname>
+        <initializer>                         =
+std::make_shared&lt;std::atomic&lt;bool&gt;&gt;(false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="492" column="25" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="492" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::InferenceEngineEnhanced::EnhancedInferenceRequest</label>
+        <link refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>base_request</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::llm::InferenceEngineEnhanced::TrackedRequest</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>request</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::InferenceRequest</label>
+        <link refid="structthemis_1_1llm_1_1_inference_request"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/inference_engine_enhanced.h" line="485" column="5" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="485" bodyend="494"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_tracked_request_1a6408751a63ad2fb65e8689eaa0b41b8b" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::TrackedRequest</scope><name>callback</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_tracked_request_1a0f7ed6823dfa1bac1a56f76ac4986a40" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::TrackedRequest</scope><name>cancel_token</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_tracked_request_1a7e9a47a7f409dbc3983a10d709de669f" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::TrackedRequest</scope><name>deadline</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_tracked_request_1a1e41c49745f98e0b66473f1622b066a2" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::TrackedRequest</scope><name>promise</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_tracked_request_1aa6915b394b6f145b23068b7fb2381afa" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::TrackedRequest</scope><name>request</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

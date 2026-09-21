@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::toolbox::ContentToolboxBridge::BridgeResult</compoundname>
+    <includes refid="content__toolbox__bridge_8h" local="no">content_toolbox_bridge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1a9f0877ba3ba78ebba2fbe6a1794871d8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::toolbox::ContentToolboxBridge::BridgeResult::content_id</definition>
+        <argsstring></argsstring>
+        <name>content_id</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::BridgeResult::content_id</qualifiedname>
+        <briefdescription>
+<para>Primary content ID assigned by ContentManager. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="122" column="21" bodyfile="include/toolbox/content_toolbox_bridge.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1a79858afece3c24e01ca5517545624f61" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::toolbox::ContentToolboxBridge::BridgeResult::child_ids</definition>
+        <argsstring></argsstring>
+        <name>child_ids</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::BridgeResult::child_ids</qualifiedname>
+        <briefdescription>
+<para>Child content IDs (archive members). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="123" column="21" bodyfile="include/toolbox/content_toolbox_bridge.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1aa89c0afaf4e2f3061cff35b95dae27ba" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; ingestion::BaseEntity &gt;</type>
+        <definition>std::vector&lt;ingestion::BaseEntity&gt; themis::toolbox::ContentToolboxBridge::BridgeResult::entities</definition>
+        <argsstring></argsstring>
+        <name>entities</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::BridgeResult::entities</qualifiedname>
+        <briefdescription>
+<para>NER / deontic entities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="126" column="23" bodyfile="include/toolbox/content_toolbox_bridge.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1af432ddb1133052f6600707f6662ef811" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; ingestion::VectorRecord &gt;</type>
+        <definition>std::vector&lt;ingestion::VectorRecord&gt; themis::toolbox::ContentToolboxBridge::BridgeResult::vectors</definition>
+        <argsstring></argsstring>
+        <name>vectors</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::BridgeResult::vectors</qualifiedname>
+        <briefdescription>
+<para>Embedding records. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="127" column="21" bodyfile="include/toolbox/content_toolbox_bridge.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1a50849115360d84908bc03bd83457e27f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::toolbox::ContentToolboxBridge::BridgeResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::BridgeResult::ok</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="130" column="14" bodyfile="include/toolbox/content_toolbox_bridge.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1a1cf416feb6fa51d5a0c968fcecde9327" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::toolbox::ContentToolboxBridge::BridgeResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::BridgeResult::error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="131" column="21" bodyfile="include/toolbox/content_toolbox_bridge.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1af334e17963679cbe96f5b46ffa2389e8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::toolbox::ContentToolboxBridge::BridgeResult::sinks_written</definition>
+        <argsstring></argsstring>
+        <name>sinks_written</name>
+        <qualifiedname>themis::toolbox::ContentToolboxBridge::BridgeResult::sinks_written</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>true when entities or vectors were written to external sinks </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/toolbox/content_toolbox_bridge.h" line="134" column="14" bodyfile="include/toolbox/content_toolbox_bridge.h" bodystart="134" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Combined outcome of ContentManager ingest + Toolbox enrichment. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/toolbox/content_toolbox_bridge.h" line="120" column="5" bodyfile="include/toolbox/content_toolbox_bridge.h" bodystart="120" bodyend="135"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1a79858afece3c24e01ca5517545624f61" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge::BridgeResult</scope><name>child_ids</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1a9f0877ba3ba78ebba2fbe6a1794871d8" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge::BridgeResult</scope><name>content_id</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1aa89c0afaf4e2f3061cff35b95dae27ba" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge::BridgeResult</scope><name>entities</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1a1cf416feb6fa51d5a0c968fcecde9327" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge::BridgeResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1a50849115360d84908bc03bd83457e27f" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge::BridgeResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1af334e17963679cbe96f5b46ffa2389e8" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge::BridgeResult</scope><name>sinks_written</name></member>
+      <member refid="structthemis_1_1toolbox_1_1_content_toolbox_bridge_1_1_bridge_result_1af432ddb1133052f6600707f6662ef811" prot="public" virt="non-virtual"><scope>themis::toolbox::ContentToolboxBridge::BridgeResult</scope><name>vectors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

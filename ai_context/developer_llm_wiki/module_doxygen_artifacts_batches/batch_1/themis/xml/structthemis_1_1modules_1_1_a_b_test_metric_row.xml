@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_a_b_test_metric_row" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::ABTestMetricRow</compoundname>
+    <includes refid="ab__test__manager_8h" local="no">ab_test_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_test_metric_row_1a3115f2a299e12f2ce0a09b4d010d7112" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ABTestMetricRow::test_id</definition>
+        <argsstring></argsstring>
+        <name>test_id</name>
+        <qualifiedname>themis::modules::ABTestMetricRow::test_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="148" column="18" bodyfile="include/themis/base/ab_test_manager.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_test_metric_row_1a7d91f7eac67a433964c18f726bf37736" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ABTestMetricRow::variant</definition>
+        <argsstring></argsstring>
+        <name>variant</name>
+        <qualifiedname>themis::modules::ABTestMetricRow::variant</qualifiedname>
+        <briefdescription>
+<para>&quot;control&quot; or &quot;treatment&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="149" column="18" bodyfile="include/themis/base/ab_test_manager.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_test_metric_row_1a3ac83411d1d16148fd9493a36a390c7e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::modules::ABTestMetricRow::requests</definition>
+        <argsstring></argsstring>
+        <name>requests</name>
+        <qualifiedname>themis::modules::ABTestMetricRow::requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total requests routed to this variant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="150" column="18" bodyfile="include/themis/base/ab_test_manager.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_test_metric_row_1af951aa3aaa78bf6a3c13e8f1d8c7eca8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::modules::ABTestMetricRow::conversions</definition>
+        <argsstring></argsstring>
+        <name>conversions</name>
+        <qualifiedname>themis::modules::ABTestMetricRow::conversions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Successful outcomes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="151" column="18" bodyfile="include/themis/base/ab_test_manager.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_test_metric_row_1a8d2e30cb1f657d9c6ac621e635658532" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::modules::ABTestMetricRow::success_rate</definition>
+        <argsstring></argsstring>
+        <name>success_rate</name>
+        <qualifiedname>themis::modules::ABTestMetricRow::success_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>conversions / requests </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="152" column="18" bodyfile="include/themis/base/ab_test_manager.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_test_metric_row_1ab178692693152d5b111a1299ac6a044d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::modules::ABTestMetricRow::mean_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>mean_latency_ms</name>
+        <qualifiedname>themis::modules::ABTestMetricRow::mean_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Running mean latency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="153" column="18" bodyfile="include/themis/base/ab_test_manager.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_test_metric_row_1a45bb752be0c33a45f95d104e688280c9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::modules::ABTestMetricRow::latency_p99_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_p99_ms</name>
+        <qualifiedname>themis::modules::ABTestMetricRow::latency_p99_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Estimated p99 (mean + 2.33 σ). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="154" column="18" bodyfile="include/themis/base/ab_test_manager.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_test_metric_row_1a6b969895711b554b9770ccbf124cc698" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1modules_1ad3905b5fe67ae8739bc992c9309b9f0b" kindref="member">ABTestStatus</ref></type>
+        <definition>ABTestStatus themis::modules::ABTestMetricRow::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::modules::ABTestMetricRow::status</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1modules_1ad3905b5fe67ae8739bc992c9309b9f0ba18ff74f43da410c5529f7d6fca84f115" kindref="member">ABTestStatus::ACTIVE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="155" column="18" bodyfile="include/themis/base/ab_test_manager.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A flat metric snapshot for one variant of one A/B test. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Returned by <ref refid="classthemis_1_1modules_1_1_a_b_test_manager_1a664d59ccdfe09e4ac52b3c3232af9692" kindref="member">ABTestManager::exportMetricsSnapshot()</ref> for admin API consumption. </para>
+    </detaileddescription>
+    <location file="include/themis/base/ab_test_manager.h" line="147" column="1" bodyfile="include/themis/base/ab_test_manager.h" bodystart="147" bodyend="156"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_a_b_test_metric_row_1af951aa3aaa78bf6a3c13e8f1d8c7eca8" prot="public" virt="non-virtual"><scope>themis::modules::ABTestMetricRow</scope><name>conversions</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_test_metric_row_1a45bb752be0c33a45f95d104e688280c9" prot="public" virt="non-virtual"><scope>themis::modules::ABTestMetricRow</scope><name>latency_p99_ms</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_test_metric_row_1ab178692693152d5b111a1299ac6a044d" prot="public" virt="non-virtual"><scope>themis::modules::ABTestMetricRow</scope><name>mean_latency_ms</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_test_metric_row_1a3ac83411d1d16148fd9493a36a390c7e" prot="public" virt="non-virtual"><scope>themis::modules::ABTestMetricRow</scope><name>requests</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_test_metric_row_1a6b969895711b554b9770ccbf124cc698" prot="public" virt="non-virtual"><scope>themis::modules::ABTestMetricRow</scope><name>status</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_test_metric_row_1a8d2e30cb1f657d9c6ac621e635658532" prot="public" virt="non-virtual"><scope>themis::modules::ABTestMetricRow</scope><name>success_rate</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_test_metric_row_1a3115f2a299e12f2ce0a09b4d010d7112" prot="public" virt="non-virtual"><scope>themis::modules::ABTestMetricRow</scope><name>test_id</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_test_metric_row_1a7d91f7eac67a433964c18f726bf37736" prot="public" virt="non-virtual"><scope>themis::modules::ABTestMetricRow</scope><name>variant</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

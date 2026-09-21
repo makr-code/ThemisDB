@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_tensor_workflow_health_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorWorkflowHealthSummary</compoundname>
+    <includes refid="tensor__workflow__observability_8h" local="no">tensor_workflow_observability.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_workflow_health_summary_1a22582a2fac7812eb2a55d79929c95c5b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::TensorWorkflowHealthSummary::healthy</definition>
+        <argsstring></argsstring>
+        <name>healthy</name>
+        <qualifiedname>themis::tensor::TensorWorkflowHealthSummary::healthy</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="30" column="10" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_workflow_health_summary_1a636d2da96e0efa2156499c90b325b77e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::TensorWorkflowHealthSummary::error_rate</definition>
+        <argsstring></argsstring>
+        <name>error_rate</name>
+        <qualifiedname>themis::tensor::TensorWorkflowHealthSummary::error_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="31" column="12" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_workflow_health_summary_1a333beeb50aa8857b3a77ff2193bbdcc9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::TensorWorkflowHealthSummary::error_budget_burn</definition>
+        <argsstring></argsstring>
+        <name>error_budget_burn</name>
+        <qualifiedname>themis::tensor::TensorWorkflowHealthSummary::error_budget_burn</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="32" column="12" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_workflow_health_summary_1a61ebedef91b01540982521def8520efc" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::tensor::TensorWorkflowHealthSummary::p95_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p95_latency_ms</name>
+        <qualifiedname>themis::tensor::TensorWorkflowHealthSummary::p95_latency_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="33" column="14" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_workflow_health_summary_1a729d9f44d2082b0b9d1e12d258babc1e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::tensor::TensorWorkflowHealthSummary::violations</definition>
+        <argsstring></argsstring>
+        <name>violations</name>
+        <qualifiedname>themis::tensor::TensorWorkflowHealthSummary::violations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_workflow_observability.h" line="34" column="17" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_workflow_observability.h" line="29" column="1" bodyfile="include/tensor/tensor_workflow_observability.h" bodystart="29" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary_1a333beeb50aa8857b3a77ff2193bbdcc9" prot="public" virt="non-virtual"><scope>themis::tensor::TensorWorkflowHealthSummary</scope><name>error_budget_burn</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary_1a636d2da96e0efa2156499c90b325b77e" prot="public" virt="non-virtual"><scope>themis::tensor::TensorWorkflowHealthSummary</scope><name>error_rate</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary_1a22582a2fac7812eb2a55d79929c95c5b" prot="public" virt="non-virtual"><scope>themis::tensor::TensorWorkflowHealthSummary</scope><name>healthy</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary_1a61ebedef91b01540982521def8520efc" prot="public" virt="non-virtual"><scope>themis::tensor::TensorWorkflowHealthSummary</scope><name>p95_latency_ms</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary_1a729d9f44d2082b0b9d1e12d258babc1e" prot="public" virt="non-virtual"><scope>themis::tensor::TensorWorkflowHealthSummary</scope><name>violations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

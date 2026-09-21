@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_raft_v2_joint_consensus_add_test" kind="class" language="C++" prot="public">
+    <compoundname>RaftV2JointConsensusAddTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_raft_v2_joint_consensus_add_test_1a7e3c56ee4ea51cfc47fe0f68fea0566a" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config" kindref="compound">RaftV2ClusterConfig</ref></type>
+        <definition>RaftV2ClusterConfig RaftV2JointConsensusAddTest::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>RaftV2JointConsensusAddTest::cfg_</qualifiedname>
+        <initializer>{makeMembers({&quot;A&quot;, &quot;B&quot;, &quot;C&quot;})}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_raft_v2.cpp" line="114" column="25" bodyfile="tests/replication/test_replication_raft_v2.cpp" bodystart="114" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RaftV2JointConsensusAddTest</label>
+        <link refid="class_raft_v2_joint_consensus_add_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RaftV2JointConsensusAddTest</label>
+        <link refid="class_raft_v2_joint_consensus_add_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::replication::RaftV2ClusterConfig</label>
+        <link refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/replication/test_replication_raft_v2.cpp" line="112" column="1" bodyfile="tests/replication/test_replication_raft_v2.cpp" bodystart="112" bodyend="115"/>
+    <listofallmembers>
+      <member refid="class_raft_v2_joint_consensus_add_test_1a7e3c56ee4ea51cfc47fe0f68fea0566a" prot="protected" virt="non-virtual"><scope>RaftV2JointConsensusAddTest</scope><name>cfg_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

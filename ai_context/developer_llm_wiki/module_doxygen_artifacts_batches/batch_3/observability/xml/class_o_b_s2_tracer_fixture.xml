@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_o_b_s2_tracer_fixture" kind="class" language="C++" prot="public">
+    <compoundname>OBS2TracerFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_o_b_s2_tracer_fixture_1a579b5f3335df1a1da54b5cdb4235ca87" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1observability_1_1_observability_tracer" kindref="compound">ObservabilityTracer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ObservabilityTracer&gt; OBS2TracerFixture::tracer_</definition>
+        <argsstring></argsstring>
+        <name>tracer_</name>
+        <qualifiedname>OBS2TracerFixture::tracer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_goals.cpp" line="191" column="21" bodyfile="benchmarks/observability/bench_observability_goals.cpp" bodystart="191" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_o_b_s2_tracer_fixture_1a216751dae9418cc3d98f595d5e2917c9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OBS2TracerFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;st) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>OBS2TracerFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+          <declname>st</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_goals.cpp" line="177" column="10" bodyfile="benchmarks/observability/bench_observability_goals.cpp" bodystart="177" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="class_o_b_s2_tracer_fixture_1a76d34eb4fff6ecf5edfed8938b9f5b24" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OBS2TracerFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>OBS2TracerFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_goals.cpp" line="186" column="10" bodyfile="benchmarks/observability/bench_observability_goals.cpp" bodystart="186" bodyend="189"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>OBS2TracerFixture</label>
+        <link refid="class_o_b_s2_tracer_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>OBS2TracerFixture</label>
+        <link refid="class_o_b_s2_tracer_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/observability/bench_observability_goals.cpp" line="175" column="1" bodyfile="benchmarks/observability/bench_observability_goals.cpp" bodystart="175" bodyend="192"/>
+    <listofallmembers>
+      <member refid="class_o_b_s2_tracer_fixture_1a216751dae9418cc3d98f595d5e2917c9" prot="public" virt="non-virtual"><scope>OBS2TracerFixture</scope><name>SetUp</name></member>
+      <member refid="class_o_b_s2_tracer_fixture_1a76d34eb4fff6ecf5edfed8938b9f5b24" prot="public" virt="non-virtual"><scope>OBS2TracerFixture</scope><name>TearDown</name></member>
+      <member refid="class_o_b_s2_tracer_fixture_1a579b5f3335df1a1da54b5cdb4235ca87" prot="protected" virt="non-virtual"><scope>OBS2TracerFixture</scope><name>tracer_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

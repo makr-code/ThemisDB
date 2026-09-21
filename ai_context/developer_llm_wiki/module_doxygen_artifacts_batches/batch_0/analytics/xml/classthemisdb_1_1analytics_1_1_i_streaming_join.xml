@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_i_streaming_join" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themisdb::analytics::IStreamingJoin</compoundname>
+    <derivedcompoundref refid="classthemisdb_1_1analytics_1_1_hash_join" prot="public" virt="non-virtual">themisdb::analytics::HashJoin</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1analytics_1_1_interval_join" prot="public" virt="non-virtual">themisdb::analytics::IntervalJoin</derivedcompoundref>
+    <includes refid="streaming__join_8h" local="no">streaming_join.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_i_streaming_join_1a33e65340163dccf42838ed5287106a0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themisdb::analytics::IStreamingJoin::~IStreamingJoin</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IStreamingJoin</name>
+        <qualifiedname>themisdb::analytics::IStreamingJoin::~IStreamingJoin</qualifiedname>
+        <briefdescription>
+<para>IStreaming Join. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="46" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_i_streaming_join_1a7788293ea806dda788027829103f9239" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref></type>
+        <definition>virtual ColumnBatch themisdb::analytics::IStreamingJoin::probe</definition>
+        <argsstring>(const ColumnBatch &amp;probe)=0</argsstring>
+        <name>probe</name>
+        <qualifiedname>themisdb::analytics::IStreamingJoin::probe</qualifiedname>
+        <reimplementedby refid="classthemisdb_1_1analytics_1_1_hash_join_1a0d34ff67af2a3fe3b0d1e7b07674629c">probe</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1analytics_1_1_interval_join_1ae78f365163cbbed49fbb8f2fbfa6fcb1">probe</reimplementedby>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_column_batch" kindref="compound">ColumnBatch</ref> &amp;</type>
+          <declname>probe</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="48" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_i_streaming_join_1a4310131a97526a5be28d4dfada49d479" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::analytics::IStreamingJoin::reset</definition>
+        <argsstring>()=0</argsstring>
+        <name>reset</name>
+        <qualifiedname>themisdb::analytics::IStreamingJoin::reset</qualifiedname>
+        <reimplementedby refid="classthemisdb_1_1analytics_1_1_hash_join_1ad52eb3236cb0fc4f3a25cdc952b0df05">reset</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1analytics_1_1_interval_join_1a81ca75f21c64cfaea2e257cc93fadb2a">reset</reimplementedby>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="53" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_i_streaming_join_1a099385e10e55dd17bfb6e8ff33a386a7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themisdb::analytics::IStreamingJoin::buildSideSize</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>buildSideSize</name>
+        <qualifiedname>themisdb::analytics::IStreamingJoin::buildSideSize</qualifiedname>
+        <reimplementedby refid="classthemisdb_1_1analytics_1_1_hash_join_1a23c0d9b00726bd645afc12d37e878d06">buildSideSize</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1analytics_1_1_interval_join_1a13029d3070dd144f9627f50194cb57e7">buildSideSize</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_join.h" line="55" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themisdb::analytics::HashJoin</label>
+        <link refid="classthemisdb_1_1analytics_1_1_hash_join"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::IStreamingJoin</label>
+        <link refid="classthemisdb_1_1analytics_1_1_i_streaming_join"/>
+      </node>
+      <node id="3">
+        <label>themisdb::analytics::IntervalJoin</label>
+        <link refid="classthemisdb_1_1analytics_1_1_interval_join"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/analytics/streaming_join.h" line="40" column="1" bodyfile="include/analytics/streaming_join.h" bodystart="40" bodyend="56"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_i_streaming_join_1a099385e10e55dd17bfb6e8ff33a386a7" prot="public" virt="pure-virtual"><scope>themisdb::analytics::IStreamingJoin</scope><name>buildSideSize</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_i_streaming_join_1a7788293ea806dda788027829103f9239" prot="public" virt="pure-virtual"><scope>themisdb::analytics::IStreamingJoin</scope><name>probe</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_i_streaming_join_1a4310131a97526a5be28d4dfada49d479" prot="public" virt="pure-virtual"><scope>themisdb::analytics::IStreamingJoin</scope><name>reset</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_i_streaming_join_1a33e65340163dccf42838ed5287106a0d" prot="public" virt="virtual"><scope>themisdb::analytics::IStreamingJoin</scope><name>~IStreamingJoin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

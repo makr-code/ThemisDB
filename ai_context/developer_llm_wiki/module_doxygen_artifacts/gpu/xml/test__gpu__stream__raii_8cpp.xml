@@ -1,0 +1,402 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__stream__raii_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_stream_raii.cpp</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="cuda__raii_8h" local="yes">gpu/cuda_raii.h</includes>
+    <includes local="yes">themis/gpu/stream_manager.h</includes>
+    <incdepgraph>
+      <node id="7">
+        <label>gpu/cuda_raii.h</label>
+        <link refid="cuda__raii_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/gpu/test_gpu_stream_raii.cpp</label>
+        <link refid="test__gpu__stream__raii_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>cstddef</label>
+      </node>
+      <node id="6">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>themis/gpu/stream_manager.h</label>
+      </node>
+      <node id="4">
+        <label>thread</label>
+      </node>
+      <node id="9">
+        <label>utility</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__stream__raii_8cpp_1a8079f7ea04659190739f013f340335ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamRaii, STREAM_RAII_01_DefaultIsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamRaii</type>
+        </param>
+        <param>
+          <type>STREAM_RAII_01_DefaultIsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_raii.cpp" line="36" column="1" bodyfile="tests/gpu/test_gpu_stream_raii.cpp" bodystart="36" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__raii_8cpp_1a1f8f345f3f9be4350c41140bc0d2e05d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamRaii, STREAM_RAII_02_AdoptNullptrIsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamRaii</type>
+        </param>
+        <param>
+          <type>STREAM_RAII_02_AdoptNullptrIsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_raii.cpp" line="41" column="1" bodyfile="tests/gpu/test_gpu_stream_raii.cpp" bodystart="41" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__raii_8cpp_1aea0feef325caaf801014861fd377f52b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamRaii, STREAM_RAII_03_MoveConstructTransfersOwnership)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamRaii</type>
+        </param>
+        <param>
+          <type>STREAM_RAII_03_MoveConstructTransfersOwnership</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_raii.cpp" line="46" column="1" bodyfile="tests/gpu/test_gpu_stream_raii.cpp" bodystart="46" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__raii_8cpp_1a44da4f1acb2cc45b64d9cecfb0b560f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamRaii, STREAM_RAII_04_MoveAssignTransfersOwnership)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamRaii</type>
+        </param>
+        <param>
+          <type>STREAM_RAII_04_MoveAssignTransfersOwnership</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_raii.cpp" line="60" column="1" bodyfile="tests/gpu/test_gpu_stream_raii.cpp" bodystart="60" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__raii_8cpp_1aa5cb6b18462fe22c93a8eebf66650b0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamRaii, STREAM_RAII_05_NullAdoptedGuardDestructsCleanly)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamRaii</type>
+        </param>
+        <param>
+          <type>STREAM_RAII_05_NullAdoptedGuardDestructsCleanly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_raii.cpp" line="71" column="1" bodyfile="tests/gpu/test_gpu_stream_raii.cpp" bodystart="71" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__raii_8cpp_1a331115ea281cef481744b5d3b3ad3898" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamRaii, STREAM_RAII_06_CreateDestroyRoundTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamRaii</type>
+        </param>
+        <param>
+          <type>STREAM_RAII_06_CreateDestroyRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_raii.cpp" line="93" column="1" bodyfile="tests/gpu/test_gpu_stream_raii.cpp" bodystart="93" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__raii_8cpp_1a02063156713bc364a4ebb77ac1b424cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamRaii, STREAM_RAII_07_DestroyUnknownReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamRaii</type>
+        </param>
+        <param>
+          <type>STREAM_RAII_07_DestroyUnknownReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_raii.cpp" line="101" column="1" bodyfile="tests/gpu/test_gpu_stream_raii.cpp" bodystart="101" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__raii_8cpp_1aa1693c55ebf1698ac87d1a8dc9afc46b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamRaii, STREAM_RAII_08_CreateDuplicateReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamRaii</type>
+        </param>
+        <param>
+          <type>STREAM_RAII_08_CreateDuplicateReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_raii.cpp" line="106" column="1" bodyfile="tests/gpu/test_gpu_stream_raii.cpp" bodystart="106" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__raii_8cpp_1a622c8b90fe468cb9693b9e5913d4c8dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamRaii, STREAM_RAII_09_DestructorCleansUpAllStreams)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamRaii</type>
+        </param>
+        <param>
+          <type>STREAM_RAII_09_DestructorCleansUpAllStreams</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_raii.cpp" line="113" column="1" bodyfile="tests/gpu/test_gpu_stream_raii.cpp" bodystart="113" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__stream__raii_8cpp_1a71a2f1463878b10a70e76bfdb71e18e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(StreamRaii, STREAM_RAII_10_ConcurrentCreateDestroyIsRaceFree)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>StreamRaii</type>
+        </param>
+        <param>
+          <type>STREAM_RAII_10_ConcurrentCreateDestroyIsRaceFree</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stream_raii.cpp" line="125" column="1" bodyfile="tests/gpu/test_gpu_stream_raii.cpp" bodystart="125" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>STREAM-RAII-01..10 — CudaStreamGuard adoption + GPUStreamManager RAII tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wave A Phase C prerequisite: raw <computeroutput>uintptr_t</computeroutput> CUDA stream handles replaced by <computeroutput>CudaStreamGuard</computeroutput> with <computeroutput>adopt()</computeroutput> factory. These tests verify the non-CUDA (CPU-stub) build path so they run in CI without CUDA hardware.</para>
+<para>Tests cover: STREAM-RAII-01 — default-constructed guard is empty (not valid) STREAM-RAII-02 — adopt(nullptr) produces an empty guard STREAM-RAII-03 — move-constructed guard transfers ownership STREAM-RAII-04 — move-assigned guard transfers ownership STREAM-RAII-05 — adopted guard destructs without crash on non-CUDA build STREAM-RAII-06 — GPUStreamManager createStream / destroyStream round-trip STREAM-RAII-07 — destroyStream returns false for unknown stream STREAM-RAII-08 — createStream rejects duplicate names STREAM-RAII-09 — destructor cleans up all streams without crashing STREAM-RAII-10 — concurrent createStream + destroyStream is race-free </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cuda__raii_8h" kindref="compound">gpu/cuda_raii.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/stream_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CudaStreamGuard<sp/>unit<sp/>tests<sp/>(CPU-stub<sp/>path)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><ref refid="test__gpu__stream__raii_8cpp_1a8079f7ea04659190739f013f340335ac" kindref="member">TEST</ref>(StreamRaii,<sp/>STREAM_RAII_01_DefaultIsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard" kindref="compound">themis::gpu::CudaStreamGuard</ref><sp/>g;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(g.<ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a37976e4d96b6f0b7c3b77ec43d6df6ae" kindref="member">isValid</ref>());</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__gpu__stream__raii_8cpp_1a8079f7ea04659190739f013f340335ac" kindref="member">TEST</ref>(StreamRaii,<sp/>STREAM_RAII_02_AdoptNullptrIsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g<sp/>=<sp/><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a991546f74beeaa3bc522528f3d98e0ce" kindref="member">themis::gpu::CudaStreamGuard::adopt</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(g.isValid());</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__gpu__stream__raii_8cpp_1a8079f7ea04659190739f013f340335ac" kindref="member">TEST</ref>(StreamRaii,<sp/>STREAM_RAII_03_MoveConstructTransfersOwnership)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>On<sp/>non-CUDA<sp/>builds,<sp/>cudaStream_t<sp/>is<sp/>`void*`;<sp/>use<sp/>a<sp/>sentinel<sp/>pointer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>sentinel<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">decltype(<ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard" kindref="compound">themis::gpu::CudaStreamGuard</ref>{}.stream)</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0xDEADBEEF);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g1<sp/>=<sp/><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a991546f74beeaa3bc522528f3d98e0ce" kindref="member">themis::gpu::CudaStreamGuard::adopt</ref>(sentinel);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(g1.isValid());</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard" kindref="compound">themis::gpu::CudaStreamGuard</ref><sp/>g2(std::move(g1));</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(g2.isValid());</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(g1.isValid());<sp/></highlight><highlight class="comment">//<sp/>NOLINT(bugprone-use-after-move)<sp/>—<sp/>intentional<sp/>post-move<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>actual<sp/>cudaStreamDestroy<sp/>being<sp/>called<sp/>on<sp/>the<sp/>sentinel<sp/>in<sp/>CUDA<sp/>builds:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>release<sp/>ownership<sp/>manually<sp/>before<sp/>the<sp/>guard<sp/>destructs.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>g2.stream<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__gpu__stream__raii_8cpp_1a8079f7ea04659190739f013f340335ac" kindref="member">TEST</ref>(StreamRaii,<sp/>STREAM_RAII_04_MoveAssignTransfersOwnership)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>sentinel<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">decltype(<ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard" kindref="compound">themis::gpu::CudaStreamGuard</ref>{}.stream)</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(0xCAFEBABE);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g1<sp/>=<sp/><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a991546f74beeaa3bc522528f3d98e0ce" kindref="member">themis::gpu::CudaStreamGuard::adopt</ref>(sentinel);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard" kindref="compound">themis::gpu::CudaStreamGuard</ref><sp/>g2;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>g2<sp/>=<sp/>std::move(g1);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(g2.<ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a37976e4d96b6f0b7c3b77ec43d6df6ae" kindref="member">isValid</ref>());</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(g1.isValid());<sp/></highlight><highlight class="comment">//<sp/>NOLINT(bugprone-use-after-move)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>g2.<ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a26e9b46c0cb3a75cbce6a16f01d78a3d" kindref="member">stream</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="test__gpu__stream__raii_8cpp_1a8079f7ea04659190739f013f340335ac" kindref="member">TEST</ref>(StreamRaii,<sp/>STREAM_RAII_05_NullAdoptedGuardDestructsCleanly)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>On<sp/>non-CUDA<sp/>builds<sp/>the<sp/>destructor<sp/>is<sp/>a<sp/>no-op;<sp/>on<sp/>CUDA<sp/>builds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>cudaStreamDestroy(nullptr)<sp/>is<sp/>a<sp/>safe<sp/>no-op<sp/>per<sp/>CUDA<sp/>docs.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g<sp/>=<sp/><ref refid="structthemis_1_1gpu_1_1_cuda_stream_guard_1a991546f74beeaa3bc522528f3d98e0ce" kindref="member">themis::gpu::CudaStreamGuard::adopt</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Let<sp/>g<sp/>destruct<sp/>normally.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GPUStreamManager<sp/>RAII<sp/>integration<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>themis::gpu::GPUStreamManager::StreamConfig<sp/>makeCfg(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::gpu::GPUStreamManager::StreamConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.name<sp/>=<sp/>name;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="test__gpu__stream__raii_8cpp_1a8079f7ea04659190739f013f340335ac" kindref="member">TEST</ref>(StreamRaii,<sp/>STREAM_RAII_06_CreateDestroyRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::gpu::GPUStreamManager<sp/>mgr;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.createStream(makeCfg(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.streamCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.destroyStream(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.streamCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="test__gpu__stream__raii_8cpp_1a8079f7ea04659190739f013f340335ac" kindref="member">TEST</ref>(StreamRaii,<sp/>STREAM_RAII_07_DestroyUnknownReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::gpu::GPUStreamManager<sp/>mgr;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.destroyStream(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="test__gpu__stream__raii_8cpp_1a8079f7ea04659190739f013f340335ac" kindref="member">TEST</ref>(StreamRaii,<sp/>STREAM_RAII_08_CreateDuplicateReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::gpu::GPUStreamManager<sp/>mgr;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.createStream(makeCfg(</highlight><highlight class="stringliteral">&quot;dup&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.createStream(makeCfg(</highlight><highlight class="stringliteral">&quot;dup&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.streamCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="test__gpu__stream__raii_8cpp_1a8079f7ea04659190739f013f340335ac" kindref="member">TEST</ref>(StreamRaii,<sp/>STREAM_RAII_09_DestructorCleansUpAllStreams)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::gpu::GPUStreamManager<sp/>mgr;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>8;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.createStream(makeCfg(</highlight><highlight class="stringliteral">&quot;s&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)));</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.streamCount(),<sp/>8u);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mgr<sp/>destructs<sp/>here<sp/>—<sp/>no<sp/>crash,<sp/>no<sp/>leak<sp/>(RAII).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__gpu__stream__raii_8cpp_1a8079f7ea04659190739f013f340335ac" kindref="member">TEST</ref>(StreamRaii,<sp/>STREAM_RAII_10_ConcurrentCreateDestroyIsRaceFree)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::gpu::GPUStreamManager<sp/>mgr;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kIter<sp/><sp/><sp/><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(kThreads);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>errors{0};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;mgr,<sp/>&amp;errors,<sp/>t]()<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kIter;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>name<sp/>=</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(t)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_s&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.createStream(makeCfg(name));</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.destroyStream(name);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++errors;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(errors.load(),<sp/>0);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_stream_raii.cpp"/>
+  </compounddef>
+</doxygen>

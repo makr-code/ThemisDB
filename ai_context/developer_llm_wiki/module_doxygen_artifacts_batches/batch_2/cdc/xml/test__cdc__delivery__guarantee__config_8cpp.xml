@@ -1,0 +1,736 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__cdc__delivery__guarantee__config_8cpp" kind="file" language="C++">
+    <compoundname>test_cdc_delivery_guarantee_config.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="idelivery__guarantee__config_8h" local="yes">cdc/idelivery_guarantee_config.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="10">
+        <label>cdc/changefeed.h</label>
+        <link refid="changefeed_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cdc/idelivery_guarantee_config.h</label>
+        <link refid="idelivery__guarantee__config_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/cdc/test_cdc_delivery_guarantee_config.cpp</label>
+        <link refid="test__cdc__delivery__guarantee__config_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="16">
+        <label>condition_variable</label>
+      </node>
+      <node id="14">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>deque</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="20">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="18">
+        <label>set</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>thread</label>
+      </node>
+      <node id="19">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>unordered_set</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacestd_1_1chrono__literals">std::chrono_literals</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__cdc__delivery__guarantee__config_8cpp_1a4df5edf229c6d20c2cfb1b56b3b41807" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeliveryGuaranteeConfigTest, DefaultModeIsAtLeastOnce)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeliveryGuaranteeConfigTest</type>
+        </param>
+        <param>
+          <type>DefaultModeIsAtLeastOnce</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_delivery_guarantee_config.cpp" line="43" column="1" bodyfile="tests/cdc/test_cdc_delivery_guarantee_config.cpp" bodystart="43" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__delivery__guarantee__config_8cpp_1a03dad12833aec38bb2cdf93c488ce226" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeliveryGuaranteeConfigTest, DefaultAckTimeout)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeliveryGuaranteeConfigTest</type>
+        </param>
+        <param>
+          <type>DefaultAckTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_delivery_guarantee_config.cpp" line="48" column="1" bodyfile="tests/cdc/test_cdc_delivery_guarantee_config.cpp" bodystart="48" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__delivery__guarantee__config_8cpp_1abea64eef77838b26059e9023ca6e46ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeliveryGuaranteeConfigTest, DefaultDeduplicationWindow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeliveryGuaranteeConfigTest</type>
+        </param>
+        <param>
+          <type>DefaultDeduplicationWindow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_delivery_guarantee_config.cpp" line="53" column="1" bodyfile="tests/cdc/test_cdc_delivery_guarantee_config.cpp" bodystart="53" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__delivery__guarantee__config_8cpp_1a1fe86baee8a57dab75fb966387ab02b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeliveryGuaranteeConfigTest, SetModeExactlyOnce)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeliveryGuaranteeConfigTest</type>
+        </param>
+        <param>
+          <type>SetModeExactlyOnce</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_delivery_guarantee_config.cpp" line="62" column="1" bodyfile="tests/cdc/test_cdc_delivery_guarantee_config.cpp" bodystart="62" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__delivery__guarantee__config_8cpp_1a7dc2442d8d21eed767a33a63aec3241e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeliveryGuaranteeConfigTest, SwitchModeBackToAtLeastOnce)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeliveryGuaranteeConfigTest</type>
+        </param>
+        <param>
+          <type>SwitchModeBackToAtLeastOnce</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_delivery_guarantee_config.cpp" line="68" column="1" bodyfile="tests/cdc/test_cdc_delivery_guarantee_config.cpp" bodystart="68" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__delivery__guarantee__config_8cpp_1aa45b6e2070ed1c47ce6706a3a862765e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeliveryGuaranteeConfigTest, SetAckTimeout)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeliveryGuaranteeConfigTest</type>
+        </param>
+        <param>
+          <type>SetAckTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_delivery_guarantee_config.cpp" line="79" column="1" bodyfile="tests/cdc/test_cdc_delivery_guarantee_config.cpp" bodystart="79" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__delivery__guarantee__config_8cpp_1a6b50203e46ae51457a6acb569a4743ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeliveryGuaranteeConfigTest, SetAckTimeoutZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeliveryGuaranteeConfigTest</type>
+        </param>
+        <param>
+          <type>SetAckTimeoutZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_delivery_guarantee_config.cpp" line="85" column="1" bodyfile="tests/cdc/test_cdc_delivery_guarantee_config.cpp" bodystart="85" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__delivery__guarantee__config_8cpp_1a993bf79e8f248420b9b41ad767fc923f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeliveryGuaranteeConfigTest, SetDeduplicationWindow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeliveryGuaranteeConfigTest</type>
+        </param>
+        <param>
+          <type>SetDeduplicationWindow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_delivery_guarantee_config.cpp" line="95" column="1" bodyfile="tests/cdc/test_cdc_delivery_guarantee_config.cpp" bodystart="95" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__delivery__guarantee__config_8cpp_1a39a5407769e9fff9e32d7ba9b0466470" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeliveryGuaranteeConfigTest, ConstructorOverridesDefaults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeliveryGuaranteeConfigTest</type>
+        </param>
+        <param>
+          <type>ConstructorOverridesDefaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_delivery_guarantee_config.cpp" line="105" column="1" bodyfile="tests/cdc/test_cdc_delivery_guarantee_config.cpp" bodystart="105" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__delivery__guarantee__config_8cpp_1a193d22b0cf7a7c947a23806def75c519" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeliveryGuaranteeConfigTest, ConcurrentModeUpdates)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeliveryGuaranteeConfigTest</type>
+        </param>
+        <param>
+          <type>ConcurrentModeUpdates</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_delivery_guarantee_config.cpp" line="119" column="1" bodyfile="tests/cdc/test_cdc_delivery_guarantee_config.cpp" bodystart="119" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__delivery__guarantee__config_8cpp_1ab1754e03682f9262d208508eaaba9d66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeliveryGuaranteeConfigTest, PolymorphicUsage)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeliveryGuaranteeConfigTest</type>
+        </param>
+        <param>
+          <type>PolymorphicUsage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_delivery_guarantee_config.cpp" line="149" column="1" bodyfile="tests/cdc/test_cdc_delivery_guarantee_config.cpp" bodystart="149" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__delivery__guarantee__config_8cpp_1a757f5a7133fa4bcb1cf5eafbc038da6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InMemoryIdempotentListenerTest, NewSequenceIsNotDuplicate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InMemoryIdempotentListenerTest</type>
+        </param>
+        <param>
+          <type>NewSequenceIsNotDuplicate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_delivery_guarantee_config.cpp" line="164" column="1" bodyfile="tests/cdc/test_cdc_delivery_guarantee_config.cpp" bodystart="164" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__delivery__guarantee__config_8cpp_1a6dbc716f83b0b34261f7f8415e5a95b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InMemoryIdempotentListenerTest, MarkProcessedMakesDuplicate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InMemoryIdempotentListenerTest</type>
+        </param>
+        <param>
+          <type>MarkProcessedMakesDuplicate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_delivery_guarantee_config.cpp" line="169" column="1" bodyfile="tests/cdc/test_cdc_delivery_guarantee_config.cpp" bodystart="169" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__delivery__guarantee__config_8cpp_1a359a55f64b6b781144111a8a16e4e7d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InMemoryIdempotentListenerTest, MarkProcessedIdempotent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InMemoryIdempotentListenerTest</type>
+        </param>
+        <param>
+          <type>MarkProcessedIdempotent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_delivery_guarantee_config.cpp" line="175" column="1" bodyfile="tests/cdc/test_cdc_delivery_guarantee_config.cpp" bodystart="175" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__delivery__guarantee__config_8cpp_1a044cfd58952cf42a0630e5e46f30f73c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InMemoryIdempotentListenerTest, ProcessedCountIncrements)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InMemoryIdempotentListenerTest</type>
+        </param>
+        <param>
+          <type>ProcessedCountIncrements</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_delivery_guarantee_config.cpp" line="182" column="1" bodyfile="tests/cdc/test_cdc_delivery_guarantee_config.cpp" bodystart="182" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__delivery__guarantee__config_8cpp_1ac28ff40f028bd2fc6c38338797a5a371" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InMemoryIdempotentListenerTest, MultipleCollectionsAreIndependent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InMemoryIdempotentListenerTest</type>
+        </param>
+        <param>
+          <type>MultipleCollectionsAreIndependent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_delivery_guarantee_config.cpp" line="190" column="1" bodyfile="tests/cdc/test_cdc_delivery_guarantee_config.cpp" bodystart="190" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__delivery__guarantee__config_8cpp_1aaf51e2a1f1be6f2217c3aff41d33f7e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InMemoryIdempotentListenerTest, FifoEvictionOnWindowFull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InMemoryIdempotentListenerTest</type>
+        </param>
+        <param>
+          <type>FifoEvictionOnWindowFull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_delivery_guarantee_config.cpp" line="197" column="1" bodyfile="tests/cdc/test_cdc_delivery_guarantee_config.cpp" bodystart="197" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__delivery__guarantee__config_8cpp_1a0621b26329f736839be432a32af4014b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InMemoryIdempotentListenerTest, ConcurrentMarkAndCheck)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InMemoryIdempotentListenerTest</type>
+        </param>
+        <param>
+          <type>ConcurrentMarkAndCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_delivery_guarantee_config.cpp" line="214" column="1" bodyfile="tests/cdc/test_cdc_delivery_guarantee_config.cpp" bodystart="214" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__delivery__guarantee__config_8cpp_1a8ab8ae20b6f9f685b540d23411bae0f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InMemoryIdempotentListenerTest, PolymorphicUsage)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InMemoryIdempotentListenerTest</type>
+        </param>
+        <param>
+          <type>PolymorphicUsage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_delivery_guarantee_config.cpp" line="244" column="1" bodyfile="tests/cdc/test_cdc_delivery_guarantee_config.cpp" bodystart="244" bodyend="251"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="idelivery__guarantee__config_8h" kindref="compound">cdc/idelivery_guarantee_config.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cdc" kindref="compound">themis::cdc</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>InMemoryDeliveryGuaranteeConfig<sp/>—<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="test__cdc__delivery__guarantee__config_8cpp_1a4df5edf229c6d20c2cfb1b56b3b41807" kindref="member">TEST</ref>(DeliveryGuaranteeConfigTest,<sp/>DefaultModeIsAtLeastOnce)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config" kindref="compound">InMemoryDeliveryGuaranteeConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1ac6fb8e325b53c95d97aae4d2df228abf" kindref="member">mode</ref>(),<sp/><ref refid="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620af6d671c71857fbf356655879cd21f5ea" kindref="member">DeliveryMode::AtLeastOnce</ref>);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="test__cdc__delivery__guarantee__config_8cpp_1a4df5edf229c6d20c2cfb1b56b3b41807" kindref="member">TEST</ref>(DeliveryGuaranteeConfigTest,<sp/>DefaultAckTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config" kindref="compound">InMemoryDeliveryGuaranteeConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a58e8633c0e18208d5508a5b4ea80d109" kindref="member">ackTimeout</ref>(),<sp/>std::chrono::seconds(30));</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="test__cdc__delivery__guarantee__config_8cpp_1a4df5edf229c6d20c2cfb1b56b3b41807" kindref="member">TEST</ref>(DeliveryGuaranteeConfigTest,<sp/>DefaultDeduplicationWindow)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config" kindref="compound">InMemoryDeliveryGuaranteeConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a3bbfd6c32c6aa8eb1b85cdf56d22f29f" kindref="member">deduplicationWindow</ref>(),<sp/>std::chrono::minutes(5));</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>setMode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__cdc__delivery__guarantee__config_8cpp_1a4df5edf229c6d20c2cfb1b56b3b41807" kindref="member">TEST</ref>(DeliveryGuaranteeConfigTest,<sp/>SetModeExactlyOnce)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config" kindref="compound">InMemoryDeliveryGuaranteeConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a7a04b29c77e33709e69abfd75ceb2e5e" kindref="member">setMode</ref>(<ref refid="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620a0f950c3ab0c28ae55d66e45f4b4e0aaf" kindref="member">DeliveryMode::ExactlyOnce</ref>);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1ac6fb8e325b53c95d97aae4d2df228abf" kindref="member">mode</ref>(),<sp/><ref refid="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620a0f950c3ab0c28ae55d66e45f4b4e0aaf" kindref="member">DeliveryMode::ExactlyOnce</ref>);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__cdc__delivery__guarantee__config_8cpp_1a4df5edf229c6d20c2cfb1b56b3b41807" kindref="member">TEST</ref>(DeliveryGuaranteeConfigTest,<sp/>SwitchModeBackToAtLeastOnce)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config" kindref="compound">InMemoryDeliveryGuaranteeConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a7a04b29c77e33709e69abfd75ceb2e5e" kindref="member">setMode</ref>(<ref refid="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620a0f950c3ab0c28ae55d66e45f4b4e0aaf" kindref="member">DeliveryMode::ExactlyOnce</ref>);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a7a04b29c77e33709e69abfd75ceb2e5e" kindref="member">setMode</ref>(<ref refid="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620af6d671c71857fbf356655879cd21f5ea" kindref="member">DeliveryMode::AtLeastOnce</ref>);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1ac6fb8e325b53c95d97aae4d2df228abf" kindref="member">mode</ref>(),<sp/><ref refid="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620af6d671c71857fbf356655879cd21f5ea" kindref="member">DeliveryMode::AtLeastOnce</ref>);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>setAckTimeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__cdc__delivery__guarantee__config_8cpp_1a4df5edf229c6d20c2cfb1b56b3b41807" kindref="member">TEST</ref>(DeliveryGuaranteeConfigTest,<sp/>SetAckTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config" kindref="compound">InMemoryDeliveryGuaranteeConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a90aed76116b8ae0e6047a665099b1d0d" kindref="member">setAckTimeout</ref>(10s);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a58e8633c0e18208d5508a5b4ea80d109" kindref="member">ackTimeout</ref>(),<sp/>10s);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__cdc__delivery__guarantee__config_8cpp_1a4df5edf229c6d20c2cfb1b56b3b41807" kindref="member">TEST</ref>(DeliveryGuaranteeConfigTest,<sp/>SetAckTimeoutZero)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config" kindref="compound">InMemoryDeliveryGuaranteeConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a90aed76116b8ae0e6047a665099b1d0d" kindref="member">setAckTimeout</ref>(std::chrono::milliseconds(0));</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a58e8633c0e18208d5508a5b4ea80d109" kindref="member">ackTimeout</ref>(),<sp/>std::chrono::milliseconds(0));</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>setDeduplicationWindow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__cdc__delivery__guarantee__config_8cpp_1a4df5edf229c6d20c2cfb1b56b3b41807" kindref="member">TEST</ref>(DeliveryGuaranteeConfigTest,<sp/>SetDeduplicationWindow)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config" kindref="compound">InMemoryDeliveryGuaranteeConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1afe94df17a7c905a704629895b81e72c0" kindref="member">setDeduplicationWindow</ref>(std::chrono::minutes(10));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a3bbfd6c32c6aa8eb1b85cdf56d22f29f" kindref="member">deduplicationWindow</ref>(),<sp/>std::chrono::minutes(10));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Constructor<sp/>overrides</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__cdc__delivery__guarantee__config_8cpp_1a4df5edf229c6d20c2cfb1b56b3b41807" kindref="member">TEST</ref>(DeliveryGuaranteeConfigTest,<sp/>ConstructorOverridesDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config" kindref="compound">InMemoryDeliveryGuaranteeConfig</ref><sp/>cfg(</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620a0f950c3ab0c28ae55d66e45f4b4e0aaf" kindref="member">DeliveryMode::ExactlyOnce</ref>,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds(5),</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::minutes(1));</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1ac6fb8e325b53c95d97aae4d2df228abf" kindref="member">mode</ref>(),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620a0f950c3ab0c28ae55d66e45f4b4e0aaf" kindref="member">DeliveryMode::ExactlyOnce</ref>);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a58e8633c0e18208d5508a5b4ea80d109" kindref="member">ackTimeout</ref>(),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds(5));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a3bbfd6c32c6aa8eb1b85cdf56d22f29f" kindref="member">deduplicationWindow</ref>(),<sp/><sp/>std::chrono::minutes(1));</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread-safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="test__cdc__delivery__guarantee__config_8cpp_1a4df5edf229c6d20c2cfb1b56b3b41807" kindref="member">TEST</ref>(DeliveryGuaranteeConfigTest,<sp/>ConcurrentModeUpdates)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config" kindref="compound">InMemoryDeliveryGuaranteeConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kIter<sp/><sp/><sp/><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(kThreads);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;,<sp/>t]<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kIter;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a7a04b29c77e33709e69abfd75ceb2e5e" kindref="member">setMode</ref>((t<sp/>+<sp/>i)<sp/>%<sp/>2<sp/>==<sp/>0</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/><ref refid="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620af6d671c71857fbf356655879cd21f5ea" kindref="member">DeliveryMode::AtLeastOnce</ref></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620a0f950c3ab0c28ae55d66e45f4b4e0aaf" kindref="member">DeliveryMode::ExactlyOnce</ref>);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1ac6fb8e325b53c95d97aae4d2df228abf" kindref="member">mode</ref>();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1a58e8633c0e18208d5508a5b4ea80d109" kindref="member">ackTimeout</ref>();</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>be<sp/>one<sp/>of<sp/>the<sp/>two<sp/>valid<sp/>modes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>m<sp/>=<sp/>cfg.<ref refid="classthemis_1_1cdc_1_1_in_memory_delivery_guarantee_config_1ac6fb8e325b53c95d97aae4d2df228abf" kindref="member">mode</ref>();</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(m<sp/>==<sp/><ref refid="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620af6d671c71857fbf356655879cd21f5ea" kindref="member">DeliveryMode::AtLeastOnce</ref><sp/>||<sp/>m<sp/>==<sp/><ref refid="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620a0f950c3ab0c28ae55d66e45f4b4e0aaf" kindref="member">DeliveryMode::ExactlyOnce</ref>);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Polymorphic<sp/>usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="test__cdc__delivery__guarantee__config_8cpp_1a4df5edf229c6d20c2cfb1b56b3b41807" kindref="member">TEST</ref>(DeliveryGuaranteeConfigTest,<sp/>PolymorphicUsage)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;IDeliveryGuaranteeConfig&gt;<sp/>cfg<sp/>=</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_unique&lt;InMemoryDeliveryGuaranteeConfig&gt;();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg-&gt;mode(),<sp/><ref refid="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620af6d671c71857fbf356655879cd21f5ea" kindref="member">DeliveryMode::AtLeastOnce</ref>);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg-&gt;setMode(<ref refid="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620a0f950c3ab0c28ae55d66e45f4b4e0aaf" kindref="member">DeliveryMode::ExactlyOnce</ref>);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg-&gt;mode(),<sp/><ref refid="namespacethemis_1_1cdc_1aa94b5eef9b810a4479d1285e05980620a0f950c3ab0c28ae55d66e45f4b4e0aaf" kindref="member">DeliveryMode::ExactlyOnce</ref>);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg-&gt;setAckTimeout(std::chrono::seconds(60));</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg-&gt;ackTimeout(),<sp/>std::chrono::seconds(60));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═════════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>InMemoryIdempotentListener</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═════════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="test__cdc__delivery__guarantee__config_8cpp_1a4df5edf229c6d20c2cfb1b56b3b41807" kindref="member">TEST</ref>(InMemoryIdempotentListenerTest,<sp/>NewSequenceIsNotDuplicate)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener" kindref="compound">InMemoryIdempotentListener</ref><sp/>listener;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a580527cd66f20168b95620b09dfe29ee" kindref="member">isDuplicate</ref>(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>1));</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><ref refid="test__cdc__delivery__guarantee__config_8cpp_1a4df5edf229c6d20c2cfb1b56b3b41807" kindref="member">TEST</ref>(InMemoryIdempotentListenerTest,<sp/>MarkProcessedMakesDuplicate)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener" kindref="compound">InMemoryIdempotentListener</ref><sp/>listener;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a8542f85d43e73d67d0c48928c4cf2fcb" kindref="member">markProcessed</ref>(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a580527cd66f20168b95620b09dfe29ee" kindref="member">isDuplicate</ref>(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>1));</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="test__cdc__delivery__guarantee__config_8cpp_1a4df5edf229c6d20c2cfb1b56b3b41807" kindref="member">TEST</ref>(InMemoryIdempotentListenerTest,<sp/>MarkProcessedIdempotent)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener" kindref="compound">InMemoryIdempotentListener</ref><sp/>listener;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a8542f85d43e73d67d0c48928c4cf2fcb" kindref="member">markProcessed</ref>(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a8542f85d43e73d67d0c48928c4cf2fcb" kindref="member">markProcessed</ref>(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>1);<sp/></highlight><highlight class="comment">//<sp/>no-op</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a0013fbc88b3781dae371e26dcf012eee" kindref="member">processedCount</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="test__cdc__delivery__guarantee__config_8cpp_1a4df5edf229c6d20c2cfb1b56b3b41807" kindref="member">TEST</ref>(InMemoryIdempotentListenerTest,<sp/>ProcessedCountIncrements)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener" kindref="compound">InMemoryIdempotentListener</ref><sp/>listener;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint64_t<sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;=<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a8542f85d43e73d67d0c48928c4cf2fcb" kindref="member">markProcessed</ref>(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>i);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a0013fbc88b3781dae371e26dcf012eee" kindref="member">processedCount</ref>(),<sp/>5u);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><ref refid="test__cdc__delivery__guarantee__config_8cpp_1a4df5edf229c6d20c2cfb1b56b3b41807" kindref="member">TEST</ref>(InMemoryIdempotentListenerTest,<sp/>MultipleCollectionsAreIndependent)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener" kindref="compound">InMemoryIdempotentListener</ref><sp/>listener;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a8542f85d43e73d67d0c48928c4cf2fcb" kindref="member">markProcessed</ref>(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a580527cd66f20168b95620b09dfe29ee" kindref="member">isDuplicate</ref>(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>1));</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a580527cd66f20168b95620b09dfe29ee" kindref="member">isDuplicate</ref>(</highlight><highlight class="stringliteral">&quot;inventory&quot;</highlight><highlight class="normal">,<sp/>1));<sp/></highlight><highlight class="comment">//<sp/>different<sp/>collection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__cdc__delivery__guarantee__config_8cpp_1a4df5edf229c6d20c2cfb1b56b3b41807" kindref="member">TEST</ref>(InMemoryIdempotentListenerTest,<sp/>FifoEvictionOnWindowFull)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Window<sp/>size<sp/>=<sp/>3;<sp/>adding<sp/>a<sp/>4th<sp/>entry<sp/>evicts<sp/>the<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener" kindref="compound">InMemoryIdempotentListener</ref><sp/>listener(3);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a8542f85d43e73d67d0c48928c4cf2fcb" kindref="member">markProcessed</ref>(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a8542f85d43e73d67d0c48928c4cf2fcb" kindref="member">markProcessed</ref>(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a8542f85d43e73d67d0c48928c4cf2fcb" kindref="member">markProcessed</ref>(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a0013fbc88b3781dae371e26dcf012eee" kindref="member">processedCount</ref>(),<sp/>3u);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a8542f85d43e73d67d0c48928c4cf2fcb" kindref="member">markProcessed</ref>(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>4);<sp/></highlight><highlight class="comment">//<sp/>evicts<sp/>seq=1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a0013fbc88b3781dae371e26dcf012eee" kindref="member">processedCount</ref>(),<sp/>3u);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a580527cd66f20168b95620b09dfe29ee" kindref="member">isDuplicate</ref>(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>1));<sp/></highlight><highlight class="comment">//<sp/>evicted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a580527cd66f20168b95620b09dfe29ee" kindref="member">isDuplicate</ref>(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/><sp/>2));</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a580527cd66f20168b95620b09dfe29ee" kindref="member">isDuplicate</ref>(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/><sp/>3));</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a580527cd66f20168b95620b09dfe29ee" kindref="member">isDuplicate</ref>(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/><sp/>4));</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><ref refid="test__cdc__delivery__guarantee__config_8cpp_1a4df5edf229c6d20c2cfb1b56b3b41807" kindref="member">TEST</ref>(InMemoryIdempotentListenerTest,<sp/>ConcurrentMarkAndCheck)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener" kindref="compound">InMemoryIdempotentListener</ref><sp/>listener;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kSeqs<sp/><sp/><sp/><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>kThreads<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multiple<sp/>threads<sp/>mark<sp/>the<sp/>same<sp/>sequences</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(kThreads);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint64_t<sp/>s<sp/>=<sp/>1;<sp/>s<sp/>&lt;=<sp/>kSeqs;<sp/>++s)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a8542f85d43e73d67d0c48928c4cf2fcb" kindref="member">markProcessed</ref>(</highlight><highlight class="stringliteral">&quot;col&quot;</highlight><highlight class="normal">,<sp/>s);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a580527cd66f20168b95620b09dfe29ee" kindref="member">isDuplicate</ref>(</highlight><highlight class="stringliteral">&quot;col&quot;</highlight><highlight class="normal">,<sp/>s);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Every<sp/>sequence<sp/>must<sp/>be<sp/>marked<sp/>as<sp/>duplicate<sp/>now</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint64_t<sp/>s<sp/>=<sp/>1;<sp/>s<sp/>&lt;=<sp/>kSeqs;<sp/>++s)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(listener.<ref refid="classthemis_1_1cdc_1_1_in_memory_idempotent_listener_1a580527cd66f20168b95620b09dfe29ee" kindref="member">isDuplicate</ref>(</highlight><highlight class="stringliteral">&quot;col&quot;</highlight><highlight class="normal">,<sp/>s));</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Polymorphic:<sp/>IIdempotentCDCListener</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><ref refid="test__cdc__delivery__guarantee__config_8cpp_1a4df5edf229c6d20c2cfb1b56b3b41807" kindref="member">TEST</ref>(InMemoryIdempotentListenerTest,<sp/>PolymorphicUsage)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;IIdempotentCDCListener&gt;<sp/>listener<sp/>=</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_unique&lt;InMemoryIdempotentListener&gt;();</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(listener-&gt;isDuplicate(</highlight><highlight class="stringliteral">&quot;col&quot;</highlight><highlight class="normal">,<sp/>42));</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>listener-&gt;markProcessed(</highlight><highlight class="stringliteral">&quot;col&quot;</highlight><highlight class="normal">,<sp/>42);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(listener-&gt;isDuplicate(</highlight><highlight class="stringliteral">&quot;col&quot;</highlight><highlight class="normal">,<sp/>42));</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/cdc/test_cdc_delivery_guarantee_config.cpp"/>
+  </compounddef>
+</doxygen>

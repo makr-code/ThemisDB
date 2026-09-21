@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rpc_1_1_chunk_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rpc::ChunkInfo</compoundname>
+    <includes refid="differential__update__engine_8h" local="no">differential_update_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_chunk_info_1a08539d096451fc34d1b86a0fc6ebd99c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rpc::ChunkInfo::hash</definition>
+        <argsstring></argsstring>
+        <name>hash</name>
+        <qualifiedname>themis::rpc::ChunkInfo::hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="31" column="17" bodyfile="include/server/rpc/differential_update_engine.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_chunk_info_1ae822e54a993a50eebf4d4ca98fe26178" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::ChunkInfo::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::rpc::ChunkInfo::offset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="32" column="14" bodyfile="include/server/rpc/differential_update_engine.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_chunk_info_1a47055db62f51961a948f8ea3719309e5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::rpc::ChunkInfo::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::rpc::ChunkInfo::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="33" column="14" bodyfile="include/server/rpc/differential_update_engine.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_chunk_info_1ae95f7ecdfca6df3ca6c6966e54193d95" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::rpc::ChunkInfo::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <qualifiedname>themis::rpc::ChunkInfo::index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="34" column="14" bodyfile="include/server/rpc/differential_update_engine.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rpc/differential_update_engine.h" line="30" column="1" bodyfile="include/server/rpc/differential_update_engine.h" bodystart="30" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rpc_1_1_chunk_info_1a08539d096451fc34d1b86a0fc6ebd99c" prot="public" virt="non-virtual"><scope>themis::rpc::ChunkInfo</scope><name>hash</name></member>
+      <member refid="structthemis_1_1rpc_1_1_chunk_info_1ae95f7ecdfca6df3ca6c6966e54193d95" prot="public" virt="non-virtual"><scope>themis::rpc::ChunkInfo</scope><name>index</name></member>
+      <member refid="structthemis_1_1rpc_1_1_chunk_info_1ae822e54a993a50eebf4d4ca98fe26178" prot="public" virt="non-virtual"><scope>themis::rpc::ChunkInfo</scope><name>offset</name></member>
+      <member refid="structthemis_1_1rpc_1_1_chunk_info_1a47055db62f51961a948f8ea3719309e5" prot="public" virt="non-virtual"><scope>themis::rpc::ChunkInfo</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

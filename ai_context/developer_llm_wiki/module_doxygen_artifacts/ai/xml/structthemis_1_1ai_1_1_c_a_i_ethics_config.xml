@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ai_1_1_c_a_i_ethics_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ai::CAIEthicsConfig</compoundname>
+    <includes refid="cai__ethics__integration_8h" local="no">cai_ethics_integration.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_ethics_config_1a7fa09ea15e923d45a513a1173dde3aa5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ai::CAIEthicsConfig::max_cai_rounds</definition>
+        <argsstring></argsstring>
+        <name>max_cai_rounds</name>
+        <qualifiedname>themis::ai::CAIEthicsConfig::max_cai_rounds</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="57" column="9" bodyfile="include/ai/cai_ethics_integration.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_ethics_config_1a01bb340969a4cda284466f5e12ea7b5d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::ai::CAIEthicsConfig::improvement_threshold</definition>
+        <argsstring></argsstring>
+        <name>improvement_threshold</name>
+        <qualifiedname>themis::ai::CAIEthicsConfig::improvement_threshold</qualifiedname>
+        <initializer>= 0.05f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="59" column="11" bodyfile="include/ai/cai_ethics_integration.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_ethics_config_1a02189a57d5313d8bd44307066b1cb9ed" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::ai::CAIEthicsConfig::min_cai_score</definition>
+        <argsstring></argsstring>
+        <name>min_cai_score</name>
+        <qualifiedname>themis::ai::CAIEthicsConfig::min_cai_score</qualifiedname>
+        <initializer>= 0.7f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="61" column="11" bodyfile="include/ai/cai_ethics_integration.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_ethics_config_1acf70cbde8682fccb6f1caedda328f78c" prot="public" static="no" mutable="no">
+        <type>plugins::ethics::EthicsEvaluator::Config</type>
+        <definition>plugins::ethics::EthicsEvaluator::Config themis::ai::CAIEthicsConfig::ethics_weights</definition>
+        <argsstring></argsstring>
+        <name>ethics_weights</name>
+        <qualifiedname>themis::ai::CAIEthicsConfig::ethics_weights</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="63" column="46" bodyfile="include/ai/cai_ethics_integration.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ai_1_1_c_a_i_ethics_config_1a57f75b1f99374bff2c1d21f325a3d3a5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ai::CAIEthicsConfig::load_default_principles</definition>
+        <argsstring></argsstring>
+        <name>load_default_principles</name>
+        <qualifiedname>themis::ai::CAIEthicsConfig::load_default_principles</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/cai_ethics_integration.h" line="65" column="10" bodyfile="include/ai/cai_ethics_integration.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ai/cai_ethics_integration.h" line="56" column="1" bodyfile="include/ai/cai_ethics_integration.h" bodystart="56" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_ethics_config_1acf70cbde8682fccb6f1caedda328f78c" prot="public" virt="non-virtual"><scope>themis::ai::CAIEthicsConfig</scope><name>ethics_weights</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_ethics_config_1a01bb340969a4cda284466f5e12ea7b5d" prot="public" virt="non-virtual"><scope>themis::ai::CAIEthicsConfig</scope><name>improvement_threshold</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_ethics_config_1a57f75b1f99374bff2c1d21f325a3d3a5" prot="public" virt="non-virtual"><scope>themis::ai::CAIEthicsConfig</scope><name>load_default_principles</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_ethics_config_1a7fa09ea15e923d45a513a1173dde3aa5" prot="public" virt="non-virtual"><scope>themis::ai::CAIEthicsConfig</scope><name>max_cai_rounds</name></member>
+      <member refid="structthemis_1_1ai_1_1_c_a_i_ethics_config_1a02189a57d5313d8bd44307066b1cb9ed" prot="public" virt="non-virtual"><scope>themis::ai::CAIEthicsConfig</scope><name>min_cai_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

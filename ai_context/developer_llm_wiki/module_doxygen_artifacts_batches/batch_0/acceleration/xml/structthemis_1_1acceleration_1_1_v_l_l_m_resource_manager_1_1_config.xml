@@ -1,0 +1,257 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::VLLMResourceManager::Config</compoundname>
+    <includes refid="vllm__resource__manager_8h" local="no">vllm_resource_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a1a1d0b391e34fa571ad01dbbb15d3a72" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::VLLMResourceManager::Config::total_cpu_cores</definition>
+        <argsstring></argsstring>
+        <name>total_cpu_cores</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::Config::total_cpu_cores</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="32" column="16" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1af2560566a7a50f6e9b24c1015c145fc3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::VLLMResourceManager::Config::total_ram_gb</definition>
+        <argsstring></argsstring>
+        <name>total_ram_gb</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::Config::total_ram_gb</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="33" column="16" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a9d6b9ba24e8b4d6c5aee7ee839a44482" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::VLLMResourceManager::Config::total_gpu_count</definition>
+        <argsstring></argsstring>
+        <name>total_gpu_count</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::Config::total_gpu_count</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="34" column="16" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a5df732e06d9b0c16dafa69dc1a93f144" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::VLLMResourceManager::Config::vllm_cpu_cores</definition>
+        <argsstring></argsstring>
+        <name>vllm_cpu_cores</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::Config::vllm_cpu_cores</qualifiedname>
+        <initializer>= 14</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="37" column="16" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a1cfb154578e71c6c4e2f4d6577041b75" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::VLLMResourceManager::Config::vllm_ram_gb</definition>
+        <argsstring></argsstring>
+        <name>vllm_ram_gb</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::Config::vllm_ram_gb</qualifiedname>
+        <initializer>= 56</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="38" column="16" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a54af10f097523a3adefaea1e2a622328" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::VLLMResourceManager::Config::themis_cpu_cores</definition>
+        <argsstring></argsstring>
+        <name>themis_cpu_cores</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::Config::themis_cpu_cores</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="41" column="16" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a32ade0796932bd1be59c5fc6c1dbd8e7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::VLLMResourceManager::Config::themis_ram_gb</definition>
+        <argsstring></argsstring>
+        <name>themis_ram_gb</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::Config::themis_ram_gb</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="42" column="16" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a7757a7c08e75ac98a972d73b0d7c58db" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::acceleration::VLLMResourceManager::Config::rocksdb_thread_ratio</definition>
+        <argsstring></argsstring>
+        <name>rocksdb_thread_ratio</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::Config::rocksdb_thread_ratio</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="45" column="16" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1ac639fa737dd35b648959ca1ddb165c63" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::acceleration::VLLMResourceManager::Config::tbb_thread_ratio</definition>
+        <argsstring></argsstring>
+        <name>tbb_thread_ratio</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::Config::tbb_thread_ratio</qualifiedname>
+        <initializer>= 0.6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="46" column="16" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a623015f6dc8af63dff3f5301e3a96bfd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::acceleration::VLLMResourceManager::Config::system_reserve_ratio</definition>
+        <argsstring></argsstring>
+        <name>system_reserve_ratio</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::Config::system_reserve_ratio</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="47" column="16" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a0b46d3192072efe5e64fc3ef67ae18d0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::VLLMResourceManager::Config::max_gpu_vram_mb</definition>
+        <argsstring></argsstring>
+        <name>max_gpu_vram_mb</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::Config::max_gpu_vram_mb</qualifiedname>
+        <initializer>= 2048</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="50" column="16" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a01093cf49f23c9777d80b36fc56513c6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::VLLMResourceManager::Config::max_vector_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_vector_batch_size</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::Config::max_vector_batch_size</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="51" column="16" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1ab88b477b2188ce85b25b6d17aea12690" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::acceleration::VLLMResourceManager::Config::gpu_priority</definition>
+        <argsstring></argsstring>
+        <name>gpu_priority</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::Config::gpu_priority</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="52" column="13" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1ae1406174639b6392bb05a304e6d48998" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::VLLMResourceManager::Config::gpu_device_index</definition>
+        <argsstring></argsstring>
+        <name>gpu_device_index</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::Config::gpu_device_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Primary device to monitor (default: 0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="64" column="18" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1adcbce2820cd949c5224eadc6d25701a0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint32_t &gt;</type>
+        <definition>std::vector&lt;uint32_t&gt; themis::acceleration::VLLMResourceManager::Config::gpu_device_indices</definition>
+        <argsstring></argsstring>
+        <name>gpu_device_indices</name>
+        <qualifiedname>themis::acceleration::VLLMResourceManager::Config::gpu_device_indices</qualifiedname>
+        <briefdescription>
+<para>Explicit multi-device override; empty = use gpu_device_index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vllm_resource_manager.h" line="65" column="21" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/vllm_resource_manager.h" line="30" column="5" bodyfile="include/acceleration/vllm_resource_manager.h" bodystart="30" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1ae1406174639b6392bb05a304e6d48998" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::Config</scope><name>gpu_device_index</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1adcbce2820cd949c5224eadc6d25701a0" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::Config</scope><name>gpu_device_indices</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1ab88b477b2188ce85b25b6d17aea12690" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::Config</scope><name>gpu_priority</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a0b46d3192072efe5e64fc3ef67ae18d0" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::Config</scope><name>max_gpu_vram_mb</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a01093cf49f23c9777d80b36fc56513c6" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::Config</scope><name>max_vector_batch_size</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a7757a7c08e75ac98a972d73b0d7c58db" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::Config</scope><name>rocksdb_thread_ratio</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a623015f6dc8af63dff3f5301e3a96bfd" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::Config</scope><name>system_reserve_ratio</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1ac639fa737dd35b648959ca1ddb165c63" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::Config</scope><name>tbb_thread_ratio</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a54af10f097523a3adefaea1e2a622328" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::Config</scope><name>themis_cpu_cores</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a32ade0796932bd1be59c5fc6c1dbd8e7" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::Config</scope><name>themis_ram_gb</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a1a1d0b391e34fa571ad01dbbb15d3a72" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::Config</scope><name>total_cpu_cores</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a9d6b9ba24e8b4d6c5aee7ee839a44482" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::Config</scope><name>total_gpu_count</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1af2560566a7a50f6e9b24c1015c145fc3" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::Config</scope><name>total_ram_gb</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a5df732e06d9b0c16dafa69dc1a93f144" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::Config</scope><name>vllm_cpu_cores</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_v_l_l_m_resource_manager_1_1_config_1a1cfb154578e71c6c4e2f4d6577041b75" prot="public" virt="non-virtual"><scope>themis::acceleration::VLLMResourceManager::Config</scope><name>vllm_ram_gb</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

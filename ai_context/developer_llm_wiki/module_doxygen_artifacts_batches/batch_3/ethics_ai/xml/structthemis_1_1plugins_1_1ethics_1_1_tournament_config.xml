@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_tournament_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::TournamentConfig</compoundname>
+    <includes refid="tournament__mode__selector_8h" local="no">tournament_mode_selector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_tournament_config_1ab7caa8a56c8dca1d6120f16818ca2a6d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::ethics::TournamentConfig::primary_opponent_count</definition>
+        <argsstring></argsstring>
+        <name>primary_opponent_count</name>
+        <qualifiedname>themis::plugins::ethics::TournamentConfig::primary_opponent_count</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+<para>Number of fully-injected opponents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/tournament_mode_selector.h" line="31" column="17" bodyfile="include/ethics_ai/tournament_mode_selector.h" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_tournament_config_1af6ca6d3adc398dca2b9be14f5f74006a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::TournamentConfig::selection_criterion</definition>
+        <argsstring></argsstring>
+        <name>selection_criterion</name>
+        <qualifiedname>themis::plugins::ethics::TournamentConfig::selection_criterion</qualifiedname>
+        <initializer>{&quot;rebuttal_cite_weight&quot;}</initializer>
+        <briefdescription>
+<para>&quot;rebuttal_cite_weight&quot; or &quot;final_score&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/tournament_mode_selector.h" line="32" column="17" bodyfile="include/ethics_ai/tournament_mode_selector.h" bodystart="32" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_tournament_config_1a038792a2f5cbadcba06b9a99f2d7b984" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::TournamentConfig::secondary_injection</definition>
+        <argsstring></argsstring>
+        <name>secondary_injection</name>
+        <qualifiedname>themis::plugins::ethics::TournamentConfig::secondary_injection</qualifiedname>
+        <initializer>{&quot;headline&quot;}</initializer>
+        <briefdescription>
+<para>&quot;headline&quot; or &quot;none&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/tournament_mode_selector.h" line="33" column="17" bodyfile="include/ethics_ai/tournament_mode_selector.h" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_tournament_config_1a3c56366a625ec13dea71ecb9b1c83c96" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1ethics_1aecbc9b8b2fb5fd0930b6a3490e6ed4ef" kindref="member">OpponentInjectionMode</ref></type>
+        <definition>OpponentInjectionMode themis::plugins::ethics::TournamentConfig::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::plugins::ethics::TournamentConfig::mode</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1plugins_1_1ethics_1aecbc9b8b2fb5fd0930b6a3490e6ed4efa46ba89eb960127fef8af5df131a5212a" kindref="member">OpponentInjectionMode::TOURNAMENT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/tournament_mode_selector.h" line="34" column="27" bodyfile="include/ethics_ai/tournament_mode_selector.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/tournament_mode_selector.h" line="30" column="1" bodyfile="include/ethics_ai/tournament_mode_selector.h" bodystart="30" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_config_1a3c56366a625ec13dea71ecb9b1c83c96" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::TournamentConfig</scope><name>mode</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_config_1ab7caa8a56c8dca1d6120f16818ca2a6d" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::TournamentConfig</scope><name>primary_opponent_count</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_config_1a038792a2f5cbadcba06b9a99f2d7b984" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::TournamentConfig</scope><name>secondary_injection</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_config_1af6ca6d3adc398dca2b9be14f5f74006a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::TournamentConfig</scope><name>selection_criterion</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

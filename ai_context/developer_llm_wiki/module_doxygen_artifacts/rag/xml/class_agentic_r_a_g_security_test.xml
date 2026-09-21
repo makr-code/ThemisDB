@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_agentic_r_a_g_security_test" kind="class" language="C++" prot="public">
+    <compoundname>AgenticRAGSecurityTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_agentic_r_a_g_security_test_1aed9f890f7ac45cfd1c1043cf9c5f40fc" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config" kindref="compound">AgenticRAGConfig</ref></type>
+        <definition>AgenticRAGConfig AgenticRAGSecurityTest::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>AgenticRAGSecurityTest::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_agentic.cpp" line="451" column="22" bodyfile="tests/rag/test_rag_agentic.cpp" bodystart="451" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_agentic_r_a_g_security_test_1a118431c13d4a79424ba6b47ff03c2a68" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AgenticRAGSecurityTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AgenticRAGSecurityTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_agentic.cpp" line="453" column="10" bodyfile="tests/rag/test_rag_agentic.cpp" bodystart="453" bodyend="455"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_agentic_r_a_g_security_test_1a0a198c5e6bd8242fd4ee15b1ce787217" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref></type>
+        <definition>static RetrievedDocument AgenticRAGSecurityTest::makeInjectionDoc</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;payload)</argsstring>
+        <name>makeInjectionDoc</name>
+        <qualifiedname>AgenticRAGSecurityTest::makeInjectionDoc</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_agentic.cpp" line="458" column="30" bodyfile="tests/rag/test_rag_agentic.cpp" bodystart="458" bodyend="465"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AgenticRAGSecurityTest</label>
+        <link refid="class_agentic_r_a_g_security_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AgenticRAGSecurityTest</label>
+        <link refid="class_agentic_r_a_g_security_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::rag::agentic::AgenticRAGConfig</label>
+        <link refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>judge_config</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>gap_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::rag::judge::RAGJudgeConfig</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config"/>
+      </node>
+      <node id="5">
+        <label>themis::rag::knowledge_gap::KnowledgeGapConfig</label>
+        <link refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_agentic.cpp" line="449" column="1" bodyfile="tests/rag/test_rag_agentic.cpp" bodystart="449" bodyend="466"/>
+    <listofallmembers>
+      <member refid="class_agentic_r_a_g_security_test_1aed9f890f7ac45cfd1c1043cf9c5f40fc" prot="protected" virt="non-virtual"><scope>AgenticRAGSecurityTest</scope><name>config</name></member>
+      <member refid="class_agentic_r_a_g_security_test_1a0a198c5e6bd8242fd4ee15b1ce787217" prot="protected" virt="non-virtual"><scope>AgenticRAGSecurityTest</scope><name>makeInjectionDoc</name></member>
+      <member refid="class_agentic_r_a_g_security_test_1a118431c13d4a79424ba6b47ff03c2a68" prot="protected" virt="non-virtual"><scope>AgenticRAGSecurityTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

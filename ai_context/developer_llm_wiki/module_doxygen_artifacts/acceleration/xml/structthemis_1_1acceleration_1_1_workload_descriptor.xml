@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_workload_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::WorkloadDescriptor</compoundname>
+    <includes refid="compute__backend_8h" local="no">compute_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_workload_descriptor_1a7bdc5e0933892eaf9b17c40399718f16" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::WorkloadDescriptor::byte_size</definition>
+        <argsstring></argsstring>
+        <name>byte_size</name>
+        <qualifiedname>themis::acceleration::WorkloadDescriptor::byte_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total input data size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="983" column="18" bodyfile="include/acceleration/compute_backend.h" bodystart="983" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_workload_descriptor_1a05feb9a9301d9ec9cb0c3095bd150e7c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::acceleration::WorkloadDescriptor::flop_estimate</definition>
+        <argsstring></argsstring>
+        <name>flop_estimate</name>
+        <qualifiedname>themis::acceleration::WorkloadDescriptor::flop_estimate</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Estimated FLOPs (0 = unknown). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="984" column="18" bodyfile="include/acceleration/compute_backend.h" bodystart="984" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_workload_descriptor_1a4e3dac5b29addf36094a7eb2ff77a4ba" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a3f40ff96691912999b8dc663a007c69a" kindref="member">LatencyClass</ref></type>
+        <definition>LatencyClass themis::acceleration::WorkloadDescriptor::latency_class</definition>
+        <argsstring></argsstring>
+        <name>latency_class</name>
+        <qualifiedname>themis::acceleration::WorkloadDescriptor::latency_class</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1acceleration_1a3f40ff96691912999b8dc663a007c69aa3dba7f2d2578ffb4bd657af94b1add80" kindref="member">LatencyClass::BATCH</ref></initializer>
+        <briefdescription>
+<para>Scheduling priority hint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="985" column="18" bodyfile="include/acceleration/compute_backend.h" bodystart="985" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_workload_descriptor_1a89ff85cef99beacb637b9cc06be5eb06" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1aef777e7dd3ac6c6539d74768aba452b4" kindref="member">PrecisionMode</ref></type>
+        <definition>PrecisionMode themis::acceleration::WorkloadDescriptor::precision</definition>
+        <argsstring></argsstring>
+        <name>precision</name>
+        <qualifiedname>themis::acceleration::WorkloadDescriptor::precision</qualifiedname>
+        <initializer>= PrecisionMode::FP32</initializer>
+        <briefdescription>
+<para>Required precision mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="986" column="19" bodyfile="include/acceleration/compute_backend.h" bodystart="986" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_backend.h" line="982" column="1" bodyfile="include/acceleration/compute_backend.h" bodystart="982" bodyend="987"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_workload_descriptor_1a7bdc5e0933892eaf9b17c40399718f16" prot="public" virt="non-virtual"><scope>themis::acceleration::WorkloadDescriptor</scope><name>byte_size</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_workload_descriptor_1a05feb9a9301d9ec9cb0c3095bd150e7c" prot="public" virt="non-virtual"><scope>themis::acceleration::WorkloadDescriptor</scope><name>flop_estimate</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_workload_descriptor_1a4e3dac5b29addf36094a7eb2ff77a4ba" prot="public" virt="non-virtual"><scope>themis::acceleration::WorkloadDescriptor</scope><name>latency_class</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_workload_descriptor_1a89ff85cef99beacb637b9cc06be5eb06" prot="public" virt="non-virtual"><scope>themis::acceleration::WorkloadDescriptor</scope><name>precision</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

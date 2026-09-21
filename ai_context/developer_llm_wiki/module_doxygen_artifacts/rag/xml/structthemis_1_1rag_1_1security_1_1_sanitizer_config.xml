@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1security_1_1_sanitizer_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::security::SanitizerConfig</compoundname>
+    <includes refid="prompt__injection__detector_8h" local="no">prompt_injection_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1security_1_1_sanitizer_config_1a9b360f4ddaf09a22839b3af97cf59938" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::security::SanitizerConfig::placeholder</definition>
+        <argsstring></argsstring>
+        <name>placeholder</name>
+        <qualifiedname>themis::rag::security::SanitizerConfig::placeholder</qualifiedname>
+        <initializer>= &quot;[CONTENT REMOVED: injection risk]&quot;</initializer>
+        <briefdescription>
+<para>Replace matched injection fragments with this placeholder. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="142" column="17" bodyfile="include/rag/prompt_injection_detector.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1security_1_1_sanitizer_config_1ae175070ebd8013c04a883d2a180b3a56" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1security_1aced152c244ea2041fbc5bcc3bce43986" kindref="member">InjectionSeverity</ref></type>
+        <definition>InjectionSeverity themis::rag::security::SanitizerConfig::removal_threshold</definition>
+        <argsstring></argsstring>
+        <name>removal_threshold</name>
+        <qualifiedname>themis::rag::security::SanitizerConfig::removal_threshold</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1rag_1_1security_1aced152c244ea2041fbc5bcc3bce43986ac87f3be66ffc3c0d4249f1c2cc5f3cce" kindref="member">InjectionSeverity::MEDIUM</ref></initializer>
+        <briefdescription>
+<para>Only remove findings at or above this threshold (default MEDIUM). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="145" column="23" bodyfile="include/rag/prompt_injection_detector.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1security_1_1_sanitizer_config_1ac2a33e04ab133ced515fb2cabe007e49" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::security::SanitizerConfig::max_document_length</definition>
+        <argsstring></argsstring>
+        <name>max_document_length</name>
+        <qualifiedname>themis::rag::security::SanitizerConfig::max_document_length</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Limit maximum document length to this many characters (0 = no limit). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="148" column="12" bodyfile="include/rag/prompt_injection_detector.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1security_1_1_sanitizer_config_1af9db7f47a0b2ab2f9f0b5fe16b890192" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::security::SanitizerConfig::strip_unicode_overrides</definition>
+        <argsstring></argsstring>
+        <name>strip_unicode_overrides</name>
+        <qualifiedname>themis::rag::security::SanitizerConfig::strip_unicode_overrides</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Strip Unicode direction-override characters unconditionally. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="151" column="10" bodyfile="include/rag/prompt_injection_detector.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the sanitizer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/prompt_injection_detector.h" line="140" column="1" bodyfile="include/rag/prompt_injection_detector.h" bodystart="140" bodyend="152"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1security_1_1_sanitizer_config_1ac2a33e04ab133ced515fb2cabe007e49" prot="public" virt="non-virtual"><scope>themis::rag::security::SanitizerConfig</scope><name>max_document_length</name></member>
+      <member refid="structthemis_1_1rag_1_1security_1_1_sanitizer_config_1a9b360f4ddaf09a22839b3af97cf59938" prot="public" virt="non-virtual"><scope>themis::rag::security::SanitizerConfig</scope><name>placeholder</name></member>
+      <member refid="structthemis_1_1rag_1_1security_1_1_sanitizer_config_1ae175070ebd8013c04a883d2a180b3a56" prot="public" virt="non-virtual"><scope>themis::rag::security::SanitizerConfig</scope><name>removal_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1security_1_1_sanitizer_config_1af9db7f47a0b2ab2f9f0b5fe16b890192" prot="public" virt="non-virtual"><scope>themis::rag::security::SanitizerConfig</scope><name>strip_unicode_overrides</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

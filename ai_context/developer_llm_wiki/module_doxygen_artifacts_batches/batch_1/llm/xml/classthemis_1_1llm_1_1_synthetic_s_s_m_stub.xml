@@ -1,0 +1,735 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::SyntheticSSMStub</compoundname>
+    <basecompoundref refid="structthemis_1_1llm_1_1_i_s_s_m_plugin" prot="public" virt="non-virtual">themis::llm::ISSMPlugin</basecompoundref>
+    <includes refid="ssm__stub__plugin_8h" local="no">ssm_stub_plugin.h</includes>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a88464604f2285ae9bf1b5620b3e5f9b6" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::SyntheticSSMStub::HIDDEN_DIM</definition>
+        <argsstring></argsstring>
+        <name>HIDDEN_DIM</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::HIDDEN_DIM</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="72" column="26" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a9078c200ff4ea5eef6c7dccaadd5f182" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::SyntheticSSMStub::STUB_SEED</definition>
+        <argsstring></argsstring>
+        <name>STUB_SEED</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::STUB_SEED</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="73" column="31" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a2eb3a5c1a593c6a0c585f6e7b78db379" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::SyntheticSSMStub::hidden_state_</definition>
+        <argsstring></argsstring>
+        <name>hidden_state_</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::hidden_state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="75" column="17" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a53887ba952032205d1c58ba8bff872a1" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::SyntheticSSMStub::token_count_</definition>
+        <argsstring></argsstring>
+        <name>token_count_</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::token_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="77" column="14" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a263bc6d1a38cc6f67cc4ee0d75f3b274" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::SyntheticSSMStub::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="79" column="10" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a97bfc479ac1b3bbad897043764075034" prot="private" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 themis::llm::SyntheticSSMStub::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::rng_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="81" column="18" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1ab8c121586631dfa1b48f82366207fa1e" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SyntheticSSMStub::fingerprint_</definition>
+        <argsstring></argsstring>
+        <name>fingerprint_</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::fingerprint_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="83" column="17" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a8e00e398b2c795a9ec467271788b815c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::SyntheticSSMStub::SyntheticSSMStub</definition>
+        <argsstring>()</argsstring>
+        <name>SyntheticSSMStub</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::SyntheticSSMStub</qualifiedname>
+        <briefdescription>
+<para>Synthetic SSMStub. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="20" column="5" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="95" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a6a15981c05ddbbf2c45ed761dc42e612" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SyntheticSSMStub::getName</definition>
+        <argsstring>() const</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="22" column="17" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="22" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a8437309b464eec76cfbfbeb448adf647" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SyntheticSSMStub::getVersion</definition>
+        <argsstring>() const</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::getVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="24" column="17" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="24" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a8e3233c462c96b7fe6fcf83e497ff2cc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SyntheticSSMStub::getDescription</definition>
+        <argsstring>() const</argsstring>
+        <name>getDescription</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::getDescription</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="26" column="17" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="26" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a601cd797cdae5b4e12b9852d29da6e31" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::SyntheticSSMStub::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::fill(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="34" column="10" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="103" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a08204e8917d0fd886da54c96b6d5d4a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::SyntheticSSMStub::deinitialize</definition>
+        <argsstring>()</argsstring>
+        <name>deinitialize</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::deinitialize</qualifiedname>
+        <briefdescription>
+<para>Deinitialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="39" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a022d340fe0565d75e766751bc9b5eaa7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::SyntheticSSMStub::isAvailable</definition>
+        <argsstring>() const</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::isAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="40" column="10" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a91cb44034e2834e62f4384ba4652b5ad" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::SyntheticSSMStub::loadModel</definition>
+        <argsstring>(const std::string &amp;, const json &amp;={}) override</argsstring>
+        <name>loadModel</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::loadModel</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab2f6318ca437d31318a0beca0c5d4742">loadModel</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="43" column="10" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1aca0f44c26bfb29e8e3dd3651f44553c7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::llm::SyntheticSSMStub::unloadModel</definition>
+        <argsstring>() override</argsstring>
+        <name>unloadModel</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::unloadModel</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a20a8a402b6aca0e9a79b87e5a6c2fd20">unloadModel</reimplements>
+        <briefdescription>
+<para>Unload Model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="44" column="10" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a1aaec30cec79b1c214a1f1e164d52bce" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_model_info" kindref="compound">ModelInfo</ref> &gt;</type>
+        <definition>std::optional&lt; ModelInfo &gt; themis::llm::SyntheticSSMStub::getModelInfo</definition>
+        <argsstring>() const override</argsstring>
+        <name>getModelInfo</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::getModelInfo</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a3bfc697aeb24baf7fc2fdf4d697d389c">getModelInfo</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="45" column="19" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a197b8231e2b70e4843502f15e9d5e2e8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::SyntheticSSMStub::isModelLoaded</definition>
+        <argsstring>() const override</argsstring>
+        <name>isModelLoaded</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::isModelLoaded</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a016365da7a906c3a2c6c81a440591698">isModelLoaded</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="46" column="10" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a418ce1d58d647be96b04691c58ca4e00" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::SyntheticSSMStub::loadLoRA</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;, float=1.0f) override</argsstring>
+        <name>loadLoRA</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::loadLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a2c33ddf52b0dc03bc395d8346c805e6b">loadLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>float</type>
+          <defval>1.0f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="48" column="10" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a047251c956d113c6667453bd1c4a050f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::SyntheticSSMStub::unloadLoRA</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>unloadLoRA</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::unloadLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab72da450bc0dc2904fe7eff875d71667">unloadLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="49" column="10" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a695780c33f9fd1a2985114cf8bdabb9b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_lo_r_a_info" kindref="compound">LoRAInfo</ref> &gt;</type>
+        <definition>std::vector&lt; LoRAInfo &gt; themis::llm::SyntheticSSMStub::listLoRAs</definition>
+        <argsstring>() const override</argsstring>
+        <name>listLoRAs</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::listLoRAs</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa4a9a794e561f78c5ed77d2d59343d12">listLoRAs</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="50" column="17" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a58945c42bb05e0dade85030094b16202" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse themis::llm::SyntheticSSMStub::generate</definition>
+        <argsstring>(const InferenceRequest &amp;) override</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::generate</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a0554007ed2a748e84472f01a30369a1d">generate</reimplements>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="52" column="23" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1ab83ade5f2081b5af8db8439aa2aa24e9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse themis::llm::SyntheticSSMStub::generateRAG</definition>
+        <argsstring>(const RAGContext &amp;, const InferenceRequest &amp;) override</argsstring>
+        <name>generateRAG</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::generateRAG</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a6166ce75f4c3572cab7b4b1c487dfc94">generateRAG</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_r_a_g_context" kindref="compound">RAGContext</ref> &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="53" column="23" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a7a5f3e09ef49c9afea107ddb40b0c306" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::SyntheticSSMStub::embed</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>embed</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::embed</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a14195e7bc658ae90b32b7374169ee239">embed</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="54" column="17" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a91bf5db0d6c2c23dfabb673c0419437f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities" kindref="compound">LLMCapabilities</ref></type>
+        <definition>LLMCapabilities themis::llm::SyntheticSSMStub::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a66a14a28b9ddc624c8886eaaaf6abbfa">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="56" column="21" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a6dbdee4f82e4b25b3b2ff74859953208" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::SyntheticSSMStub::getMemoryStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getMemoryStats</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::getMemoryStats</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1afbc46d4815c236a390d9f17789bb9a99">getMemoryStats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="57" column="10" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a10db4dd56605f0ffd4b7459f77eec6f1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::SyntheticSSMStub::getPerformanceStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getPerformanceStats</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::getPerformanceStats</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a8817d5900eff52785e71a314d39f0b47">getPerformanceStats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="58" column="10" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1aeb927d62e919f357d48f2b603815cf82" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::llm::SyntheticSSMStub::exportLoRA</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>exportLoRA</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::exportLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5bceecb2024467d70f4e67c951111d9a">exportLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="60" column="17" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a4b0ccb99dc1835ffdb4b03bebdd4e0e7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::SyntheticSSMStub::importLoRA</definition>
+        <argsstring>(const std::string &amp;, const std::vector&lt; uint8_t &gt; &amp;) override</argsstring>
+        <name>importLoRA</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::importLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aca1ef263bd70ffc0d1c04c92a1cd00fc">importLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="61" column="10" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1aa589a2888ccc212edc263eb1bf5c6b3e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::SyntheticSSMStub::updateState</definition>
+        <argsstring>(const std::vector&lt; int32_t &gt; &amp;tokens) override</argsstring>
+        <name>updateState</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::updateState</qualifiedname>
+        <reimplements refid="structthemis_1_1llm_1_1_i_s_s_m_plugin_1a3904072af7da13c3ed5e94183763d4d4">updateState</reimplements>
+        <param>
+          <type>const std::vector&lt; int32_t &gt; &amp;</type>
+          <declname>tokens</declname>
+        </param>
+        <briefdescription>
+<para>Update State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements updateState without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="64" column="10" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="116" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a5de94386da6d348601f25dc84223f268" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot" kindref="compound">SSMStateSnapshot</ref></type>
+        <definition>SSMStateSnapshot themis::llm::SyntheticSSMStub::getStateSnapshot</definition>
+        <argsstring>(core::HLCTimestamp snapshot_ts) override</argsstring>
+        <name>getStateSnapshot</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::getStateSnapshot</qualifiedname>
+        <reimplements refid="structthemis_1_1llm_1_1_i_s_s_m_plugin_1a42b62bdfedcf5b33191174b255a0cf1c">getStateSnapshot</reimplements>
+        <param>
+          <type>core::HLCTimestamp</type>
+          <declname>snapshot_ts</declname>
+        </param>
+        <briefdescription>
+<para>Get State Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: resize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="65" column="22" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="135" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a5fcde9dc2fd4224ad645eb1789e1086b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::SyntheticSSMStub::restoreState</definition>
+        <argsstring>(const SSMStateSnapshot &amp;snapshot) override</argsstring>
+        <name>restoreState</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::restoreState</qualifiedname>
+        <reimplements refid="structthemis_1_1llm_1_1_i_s_s_m_plugin_1a82d80bc5f09aed75e7637f694b00b8de">restoreState</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot" kindref="compound">SSMStateSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Restore State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="66" column="10" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="153" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a6a23a32ddbbbc62b3167caf8c7c036bd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::llm::SyntheticSSMStub::resetState</definition>
+        <argsstring>() override</argsstring>
+        <name>resetState</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::resetState</qualifiedname>
+        <reimplements refid="structthemis_1_1llm_1_1_i_s_s_m_plugin_1ac048a73a985eac0405381ab3e450ef0f">resetState</reimplements>
+        <briefdescription>
+<para>Reset State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::fill(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="67" column="10" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="171" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a761c2711872066cef9622b48e64858cc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>double</type>
+        <definition>double themis::llm::SyntheticSSMStub::getStateRetentionScore</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStateRetentionScore</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::getStateRetentionScore</qualifiedname>
+        <reimplements refid="structthemis_1_1llm_1_1_i_s_s_m_plugin_1a93ef7bec1b969cf52daffd6b8dcdb470">getStateRetentionScore</reimplements>
+        <briefdescription>
+<para>Get State Retention Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="68" column="12" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="176" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a6d9cb40e9d3a5e06eab4fabee5abb5b2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SyntheticSSMStub::getStateFingerprint</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStateFingerprint</name>
+        <qualifiedname>themis::llm::SyntheticSSMStub::getStateFingerprint</qualifiedname>
+        <reimplements refid="structthemis_1_1llm_1_1_i_s_s_m_plugin_1a90bfdf2b2731ab00761c7d46f4a316cd">getStateFingerprint</reimplements>
+        <briefdescription>
+<para>Get State Fingerprint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ssm_stub_plugin.h" line="69" column="17" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="182" bodyend="182"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+      <node id="2">
+        <label>themis::llm::ISSMPlugin</label>
+        <link refid="structthemis_1_1llm_1_1_i_s_s_m_plugin"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::llm::SyntheticSSMStub</label>
+        <link refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+      <node id="2">
+        <label>themis::llm::ISSMPlugin</label>
+        <link refid="structthemis_1_1llm_1_1_i_s_s_m_plugin"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::llm::SyntheticSSMStub</label>
+        <link refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/ssm_stub_plugin.h" line="18" column="1" bodyfile="include/llm/ssm_stub_plugin.h" bodystart="18" bodyend="84"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a08204e8917d0fd886da54c96b6d5d4a3" prot="public" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>deinitialize</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a7a5f3e09ef49c9afea107ddb40b0c306" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>embed</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1aeb927d62e919f357d48f2b603815cf82" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>exportLoRA</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1ab8c121586631dfa1b48f82366207fa1e" prot="private" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>fingerprint_</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a58945c42bb05e0dade85030094b16202" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>generate</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa5297bc971b879d93360f913a76e9469" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>generateDraftTokens</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a113e6f344509f115a632b0ee1614b6c2" prot="public" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>GenerateDraftTokensFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1ab83ade5f2081b5af8db8439aa2aa24e9" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>generateRAG</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a91bf5db0d6c2c23dfabb673c0419437f" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a8e3233c462c96b7fe6fcf83e497ff2cc" prot="public" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>getDescription</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a6dbdee4f82e4b25b3b2ff74859953208" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>getMemoryStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a1aaec30cec79b1c214a1f1e164d52bce" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>getModelInfo</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a6a15981c05ddbbf2c45ed761dc42e612" prot="public" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>getName</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a10db4dd56605f0ffd4b7459f77eec6f1" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>getPerformanceStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a6d9cb40e9d3a5e06eab4fabee5abb5b2" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>getStateFingerprint</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a761c2711872066cef9622b48e64858cc" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>getStateRetentionScore</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a5de94386da6d348601f25dc84223f268" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>getStateSnapshot</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a8437309b464eec76cfbfbeb448adf647" prot="public" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a88464604f2285ae9bf1b5620b3e5f9b6" prot="private" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>HIDDEN_DIM</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a2eb3a5c1a593c6a0c585f6e7b78db379" prot="private" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>hidden_state_</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5570aa4f4dec749da0d2d0b9a5d7e549" prot="public" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ae20ccb33c21564f563810ed78f50c6cf" prot="public" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a617f63576be5c553550530c3a72c5f53" prot="protected" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a4b0ccb99dc1835ffdb4b03bebdd4e0e7" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>importLoRA</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a601cd797cdae5b4e12b9852d29da6e31" prot="public" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a263bc6d1a38cc6f67cc4ee0d75f3b274" prot="private" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a022d340fe0565d75e766751bc9b5eaa7" prot="public" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a197b8231e2b70e4843502f15e9d5e2e8" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>isModelLoaded</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a695780c33f9fd1a2985114cf8bdabb9b" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>listLoRAs</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a418ce1d58d647be96b04691c58ca4e00" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>loadLoRA</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a91cb44034e2834e62f4384ba4652b5ad" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>loadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a06828a4415efeab05bd0d69c7d54828c" prot="public" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a379dc1e0152b9197835c0a05f95d234c" prot="public" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a6a23a32ddbbbc62b3167caf8c7c036bd" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>resetState</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a5fcde9dc2fd4224ad645eb1789e1086b" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>restoreState</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a97bfc479ac1b3bbad897043764075034" prot="private" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>rng_</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1abbcb81e46949a1afe9c567de3f8f6d61" prot="public" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>setDefaultGenerateDraftTokensFn</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a9078c200ff4ea5eef6c7dccaadd5f182" prot="private" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>STUB_SEED</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a8e00e398b2c795a9ec467271788b815c" prot="public" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>SyntheticSSMStub</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a53887ba952032205d1c58ba8bff872a1" prot="private" virt="non-virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>token_count_</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1a047251c956d113c6667453bd1c4a050f" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>unloadLoRA</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1aca0f44c26bfb29e8e3dd3651f44553c7" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>unloadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_synthetic_s_s_m_stub_1aa589a2888ccc212edc263eb1bf5c6b3e" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>updateState</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a9c52c9bc3ec16061fceacc8963da3176" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>~ILLMPlugin</name></member>
+      <member refid="structthemis_1_1llm_1_1_i_s_s_m_plugin_1a10e4234c07a92de2b2b273035deb68d7" prot="public" virt="virtual"><scope>themis::llm::SyntheticSSMStub</scope><name>~ISSMPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="embedding__pipeline_8h" kind="file" language="C++">
+    <compoundname>embedding_pipeline.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="content__manager_8h" local="yes">include/content/content_manager.h</includedby>
+    <includedby refid="embedding__pipeline_8cpp" local="yes">src/content/embedding_pipeline.cpp</includedby>
+    <includedby refid="test__content__embedding__pipeline_8cpp" local="yes">tests/content/test_content_embedding_pipeline.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/content/embedding_pipeline.h</label>
+        <link refid="embedding__pipeline_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/content/content_manager.h</label>
+        <link refid="content__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/content/embedding_pipeline.h</label>
+        <link refid="embedding__pipeline_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/content/async_ingestion_worker.cpp</label>
+        <link refid="async__ingestion__worker_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/content/content_manager.cpp</label>
+        <link refid="content__manager_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/content/content_manager_embedding.cpp</label>
+        <link refid="content__manager__embedding_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/content/content_manager_llm.cpp</label>
+        <link refid="content__manager__llm_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/content/embedding_pipeline.cpp</label>
+        <link refid="embedding__pipeline_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/content/test_content_deduplication.cpp</label>
+        <link refid="test__content__deduplication_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/content/test_content_embedding_pipeline.cpp</label>
+        <link refid="test__content__embedding__pipeline_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/content/test_content_fulltext_index.cpp</label>
+        <link refid="test__content__fulltext__index_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/content/test_content_toolbox_bridge.cpp</label>
+        <link refid="test__content__toolbox__bridge_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1content_1_1_embedding_pipeline_config" prot="public">themis::content::EmbeddingPipelineConfig</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_embedding_pipeline" prot="public">themis::content::EmbeddingPipeline</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content">themis::content</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2024<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>MIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration<sp/>—<sp/>avoids<sp/>pulling<sp/>in<sp/>the<sp/>full<sp/>content_metrics.h<sp/>header</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>from<sp/>headers<sp/>that<sp/>only<sp/>include<sp/>embedding_pipeline.h.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">content</ref><sp/>{<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1_content_metrics" kindref="compound">ContentMetrics</ref>;<sp/>}<sp/>}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">content</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1content_1_1_embedding_pipeline_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_embedding_pipeline_config" kindref="compound">EmbeddingPipelineConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1content_1_1_embedding_pipeline_config_1a7a7f8dc395e6c22e512d8617de11f321" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_embedding_pipeline_config_1a7a7f8dc395e6c22e512d8617de11f321" kindref="member">model_name</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1content_1_1_embedding_pipeline_config_1ac43f31d847646a5aeb3ae9e4e8c13c18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_embedding_pipeline_config_1ac43f31d847646a5aeb3ae9e4e8c13c18" kindref="member">batch_size</ref><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1content_1_1_embedding_pipeline_config_1a4104fa0c71210c04d59b05905fd3a72b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_embedding_pipeline_config_1a4104fa0c71210c04d59b05905fd3a72b" kindref="member">timeout_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1content_1_1_embedding_pipeline_config_1a2e726e32286ec3aa82a1beb1060f8696" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_embedding_pipeline_config_1a2e726e32286ec3aa82a1beb1060f8696" kindref="member">embedding_dim</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1content_1_1_embedding_pipeline_config_1a2b7bc306138ffb4912cdc77dbff5cffc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_content_metrics" kindref="compound">ContentMetrics</ref>*<sp/><ref refid="structthemis_1_1content_1_1_embedding_pipeline_config_1a2b7bc306138ffb4912cdc77dbff5cffc" kindref="member">metrics</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1content_1_1_embedding_pipeline" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1_embedding_pipeline_1a316bba15bed1b144f2a09f31c805f2e2" kindref="member">EmbeddingPipeline</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_embedding_pipeline_1a316bba15bed1b144f2a09f31c805f2e2" kindref="member">EmbeddingPipeline</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_embedding_pipeline_config" kindref="compound">EmbeddingPipelineConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1content_1_1_embedding_pipeline_1ac8a226e4e4937be4edac964059be76a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_embedding_pipeline_1ac8a226e4e4937be4edac964059be76a8" kindref="member">~EmbeddingPipeline</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1content_1_1_embedding_pipeline_1abd6905bc8f5d025163b0388498b49e1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_embedding_pipeline_1abd6905bc8f5d025163b0388498b49e1f" kindref="member">EmbeddingPipeline</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_embedding_pipeline_1a316bba15bed1b144f2a09f31c805f2e2" kindref="member">EmbeddingPipeline</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55" refid="classthemis_1_1content_1_1_embedding_pipeline_1a48e2e3627b7648b4076d6d4ee86727c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_embedding_pipeline_1a316bba15bed1b144f2a09f31c805f2e2" kindref="member">EmbeddingPipeline</ref>&amp;<sp/><ref refid="classthemis_1_1content_1_1_embedding_pipeline_1a48e2e3627b7648b4076d6d4ee86727c2" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_embedding_pipeline_1a316bba15bed1b144f2a09f31c805f2e2" kindref="member">EmbeddingPipeline</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1content_1_1_embedding_pipeline_1ac13b733baae71b39fdd37ddf060ff4f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_embedding_pipeline_1ac13b733baae71b39fdd37ddf060ff4f7" kindref="member">EmbeddingPipeline</ref>(<ref refid="classthemis_1_1content_1_1_embedding_pipeline_1a316bba15bed1b144f2a09f31c805f2e2" kindref="member">EmbeddingPipeline</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="57" refid="classthemis_1_1content_1_1_embedding_pipeline_1a59be03e2224c4e38fbd960b5229f947c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_embedding_pipeline_1a316bba15bed1b144f2a09f31c805f2e2" kindref="member">EmbeddingPipeline</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1content_1_1_embedding_pipeline_1a316bba15bed1b144f2a09f31c805f2e2" kindref="member">EmbeddingPipeline</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1content_1_1_embedding_pipeline_1a38d7eed5d9dafdcd095e9c7ca926e9bd" kindref="member">generateEmbedding</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&gt;&gt;<sp/><ref refid="classthemis_1_1content_1_1_embedding_pipeline_1add7cf4e4721185ef83845e1959759517" kindref="member">generateEmbeddingBatch</ref>(</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;&amp;<sp/>texts);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1content_1_1_embedding_pipeline_1a537f37b18b24a90f080c5605f7e4ef54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_embedding_pipeline_1a537f37b18b24a90f080c5605f7e4ef54" kindref="member">isEnabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!config_.model_name.empty();<sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1content_1_1_embedding_pipeline_1a40e5a1a377f30b0d63c60964ca6d474f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1content_1_1_embedding_pipeline_1a40e5a1a377f30b0d63c60964ca6d474f" kindref="member">getFailureCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>failure_count_.load();<sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1content_1_1_embedding_pipeline_1ae55fc6a06753fdfa5b2b13a1fa5af802" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_embedding_pipeline_1ae55fc6a06753fdfa5b2b13a1fa5af802" kindref="member">getEmbeddingDim</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>embedding_dim_.load();<sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1content_1_1_embedding_pipeline_1aba91f1f0313c3fca5fa0a27ba554eaa9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_embedding_pipeline_config" kindref="compound">EmbeddingPipelineConfig</ref>&amp;<sp/><ref refid="classthemis_1_1content_1_1_embedding_pipeline_1aba91f1f0313c3fca5fa0a27ba554eaa9" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_embedding_pipeline_config" kindref="compound">EmbeddingPipelineConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>failure_count_{0};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;int&gt;<sp/>embedding_dim_{0};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>embedWithTimeout(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>notifyFailure()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/content/embedding_pipeline.h"/>
+  </compounddef>
+</doxygen>

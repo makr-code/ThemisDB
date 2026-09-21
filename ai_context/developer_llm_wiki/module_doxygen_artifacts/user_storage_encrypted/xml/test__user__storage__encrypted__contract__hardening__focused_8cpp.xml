@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__user__storage__encrypted__contract__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_user_storage_encrypted_contract_hardening_focused.cpp</compoundname>
+    <includes local="yes">gtest/gtest.h</includes>
+    <includes refid="user__storage__encrypted__api__contract_8h" local="yes">user_storage_encrypted/user_storage_encrypted_api_contract.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">set</includes>
+    <includes local="no">string</includes>
+    <includes local="no">type_traits</includes>
+    <includes local="no">utility</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>user_storage_encrypted/user_storage_encrypted_api_contract.h</label>
+        <link refid="user__storage__encrypted__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp</label>
+        <link refid="test__user__storage__encrypted__contract__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>set</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>type_traits</label>
+      </node>
+      <node id="9">
+        <label>utility</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1user__storage__encrypted">themis::user_storage_encrypted</innernamespace>
+    <innernamespace refid="namespacethemis_1_1user__storage__encrypted_1_1test">themis::user_storage_encrypted::test</innernamespace>
+    <briefdescription>
+<para>Phase 4 focused contract-hardening tests for the user_storage_encrypted module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test IDs: USE-01 through USE-08 No file I/O, no network, deterministic only.</para>
+<para><simplesect kind="see"><para><ref refid="user__storage__encrypted__api__contract_8h" kindref="compound">include/user_storage_encrypted/user_storage_encrypted_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/user_storage_encrypted/ROADMAP.md — Phase 4 items </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/gtest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="user__storage__encrypted__api__contract_8h" kindref="compound">user_storage_encrypted/user_storage_encrypted_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1user__storage__encrypted" kindref="compound">user_storage_encrypted</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1user__storage__encrypted_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Canonical<sp/>PRNG<sp/>seed<sp/>(deterministic,<sp/>release-pinned).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/>kSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>USE-01<sp/>—<sp/>Error<sp/>code<sp/>uniqueness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a7b50189b7fc846b8f28dd7868889f8f6" kindref="member">TEST</ref>(UserStorageEncryptedContractHardening,<sp/>USE01_ErrorCodeUniqueness)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;int32_t&gt;<sp/>seen<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>int32_t<sp/>codes[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a89fac98a6c0330a83200efd9e959469a" kindref="member">UserStorageEncryptedError::kMountFailed</ref>),</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a7edbbc1dc229b886a002e7b3832b722a" kindref="member">UserStorageEncryptedError::kUnmountFailed</ref>),</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a8b8a8241e3d9a6276628a1c6965dea83" kindref="member">UserStorageEncryptedError::kKeyDerivationFailed</ref>),</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a62e2b7540ba13d6eb4e80ccf2ceeda3b" kindref="member">UserStorageEncryptedError::kRotationFailed</ref>),</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a353e71b117acbf17b4d48bbd3f5ea917" kindref="member">UserStorageEncryptedError::kBackendUnavailable</ref>),</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a8cc651c72dce2275bb12691f545170ad" kindref="member">UserStorageEncryptedError::kInvalidPath</ref>),</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30adc0b458db7d0dd510aae0367dfafc4af" kindref="member">UserStorageEncryptedError::kPermissionDenied</ref>),</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30afcd417a134c251034b0d61b07c826394" kindref="member">UserStorageEncryptedError::kInternalError</ref>),</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>c<sp/>:<sp/>codes)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(seen.insert(c).second)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Duplicate<sp/>error<sp/>code:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>c;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(seen.size(),<sp/>8u);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)kSeed;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>USE-02<sp/>—<sp/>Error<sp/>code<sp/>range<sp/>[8600,<sp/>8699]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a7b50189b7fc846b8f28dd7868889f8f6" kindref="member">TEST</ref>(UserStorageEncryptedContractHardening,<sp/>USE02_ErrorCodeRange)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>int32_t<sp/>codes[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a89fac98a6c0330a83200efd9e959469a" kindref="member">UserStorageEncryptedError::kMountFailed</ref>),</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a7edbbc1dc229b886a002e7b3832b722a" kindref="member">UserStorageEncryptedError::kUnmountFailed</ref>),</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a8b8a8241e3d9a6276628a1c6965dea83" kindref="member">UserStorageEncryptedError::kKeyDerivationFailed</ref>),</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a62e2b7540ba13d6eb4e80ccf2ceeda3b" kindref="member">UserStorageEncryptedError::kRotationFailed</ref>),</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a353e71b117acbf17b4d48bbd3f5ea917" kindref="member">UserStorageEncryptedError::kBackendUnavailable</ref>),</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a8cc651c72dce2275bb12691f545170ad" kindref="member">UserStorageEncryptedError::kInvalidPath</ref>),</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30adc0b458db7d0dd510aae0367dfafc4af" kindref="member">UserStorageEncryptedError::kPermissionDenied</ref>),</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30afcd417a134c251034b0d61b07c826394" kindref="member">UserStorageEncryptedError::kInternalError</ref>),</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>c<sp/>:<sp/>codes)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(c,<sp/>8600)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Code<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>c<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>below<sp/>reserved<sp/>base<sp/>8600&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(c,<sp/>8699)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Code<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>c<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>above<sp/>reserved<sp/>max<sp/>8699&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>USE-03<sp/>—<sp/>Switch<sp/>dispatch:<sp/>all<sp/>cases<sp/>must<sp/>be<sp/>handled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a7b50189b7fc846b8f28dd7868889f8f6" kindref="member">TEST</ref>(UserStorageEncryptedContractHardening,<sp/>USE03_SwitchDispatch)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>describe<sp/>=<sp/>[](<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30" kindref="member">UserStorageEncryptedError</ref><sp/>e)<sp/>-&gt;<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(e)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a8c632159fa131f09d04f94e3cbcd8782" kindref="member">UserStorageEncryptedError::kSuccess</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a89fac98a6c0330a83200efd9e959469a" kindref="member">UserStorageEncryptedError::kMountFailed</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;mount_failed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a7edbbc1dc229b886a002e7b3832b722a" kindref="member">UserStorageEncryptedError::kUnmountFailed</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;unmount_failed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a8b8a8241e3d9a6276628a1c6965dea83" kindref="member">UserStorageEncryptedError::kKeyDerivationFailed</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;key_derivation_failed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a62e2b7540ba13d6eb4e80ccf2ceeda3b" kindref="member">UserStorageEncryptedError::kRotationFailed</ref>:<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;rotation_failed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a353e71b117acbf17b4d48bbd3f5ea917" kindref="member">UserStorageEncryptedError::kBackendUnavailable</ref>:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;backend_unavailable&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a8cc651c72dce2275bb12691f545170ad" kindref="member">UserStorageEncryptedError::kInvalidPath</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;invalid_path&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30adc0b458db7d0dd510aae0367dfafc4af" kindref="member">UserStorageEncryptedError::kPermissionDenied</ref>:<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;permission_denied&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30afcd417a134c251034b0d61b07c826394" kindref="member">UserStorageEncryptedError::kInternalError</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;internal_error&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;unknown&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(describe(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a8c632159fa131f09d04f94e3cbcd8782" kindref="member">UserStorageEncryptedError::kSuccess</ref>),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(describe(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a89fac98a6c0330a83200efd9e959469a" kindref="member">UserStorageEncryptedError::kMountFailed</ref>),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;mount_failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(describe(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a353e71b117acbf17b4d48bbd3f5ea917" kindref="member">UserStorageEncryptedError::kBackendUnavailable</ref>),<sp/><sp/></highlight><highlight class="stringliteral">&quot;backend_unavailable&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(describe(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30afcd417a134c251034b0d61b07c826394" kindref="member">UserStorageEncryptedError::kInternalError</ref>),<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;internal_error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>USE-04<sp/>—<sp/>EncryptedMountDescriptor<sp/>default<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a7b50189b7fc846b8f28dd7868889f8f6" kindref="member">TEST</ref>(UserStorageEncryptedContractHardening,<sp/>USE04_EncryptedMountDescriptorDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EncryptedMountDescriptor<sp/>desc;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(desc.container_path.empty());</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(desc.mount_point.empty());</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(desc.read_only);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(desc.timeout,<sp/><ref refid="namespacethemis_1_1user__storage__encrypted_1ad61be314ea2613c72723ba70c2788dca" kindref="member">kMaxMountTimeout</ref>);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>USE-05<sp/>—<sp/>KeyDerivationRequest<sp/>default<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><ref refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a7b50189b7fc846b8f28dd7868889f8f6" kindref="member">TEST</ref>(UserStorageEncryptedContractHardening,<sp/>USE05_KeyDerivationRequestDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>KeyDerivationRequest<sp/>req;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(req.passphrase.empty());</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(req.salt.empty());</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.iterations,<sp/>100&apos;000u);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>USE-06<sp/>—<sp/>Copy<sp/>semantics<sp/>for<sp/>EncryptedMountDescriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a7b50189b7fc846b8f28dd7868889f8f6" kindref="member">TEST</ref>(UserStorageEncryptedContractHardening,<sp/>USE06_EncryptedMountDescriptorCopy)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EncryptedMountDescriptor<sp/>src;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>src.container_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/data/enc/user-42&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>src.mount_point<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/mnt/user-42&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>src.read_only<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EncryptedMountDescriptor<sp/>copy<sp/>=<sp/>src;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(copy.container_path,<sp/>src.container_path);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(copy.mount_point,<sp/><sp/><sp/><sp/>src.mount_point);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(copy.read_only,<sp/><sp/><sp/><sp/><sp/><sp/>src.read_only);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>USE-07<sp/>—<sp/>Move<sp/>semantics<sp/>for<sp/>KeyDerivationRequest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a7b50189b7fc846b8f28dd7868889f8f6" kindref="member">TEST</ref>(UserStorageEncryptedContractHardening,<sp/>USE07_KeyDerivationRequestMove)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>KeyDerivationRequest<sp/>src;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>src.passphrase<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;super-secret-passphrase&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>src.iterations<sp/>=<sp/>200&apos;000;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>KeyDerivationRequest<sp/>moved<sp/>=<sp/>std::move(src);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(moved.passphrase,<sp/></highlight><highlight class="stringliteral">&quot;super-secret-passphrase&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(moved.iterations,<sp/>200&apos;000u);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>USE-08<sp/>—<sp/>isUserStorageEncryptedFailClosed<sp/>predicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a7b50189b7fc846b8f28dd7868889f8f6" kindref="member">TEST</ref>(UserStorageEncryptedContractHardening,<sp/>USE08_FailClosedPredicate)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>be<sp/>fail-closed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1user__storage__encrypted_1a3cef2eca2c4a44f0a69be4c4e0f32577" kindref="member">isUserStorageEncryptedFailClosed</ref>(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a353e71b117acbf17b4d48bbd3f5ea917" kindref="member">UserStorageEncryptedError::kBackendUnavailable</ref>));</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1user__storage__encrypted_1a3cef2eca2c4a44f0a69be4c4e0f32577" kindref="member">isUserStorageEncryptedFailClosed</ref>(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a8b8a8241e3d9a6276628a1c6965dea83" kindref="member">UserStorageEncryptedError::kKeyDerivationFailed</ref>));</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1user__storage__encrypted_1a3cef2eca2c4a44f0a69be4c4e0f32577" kindref="member">isUserStorageEncryptedFailClosed</ref>(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30afcd417a134c251034b0d61b07c826394" kindref="member">UserStorageEncryptedError::kInternalError</ref>));</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>NOT<sp/>be<sp/>fail-closed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1user__storage__encrypted_1a3cef2eca2c4a44f0a69be4c4e0f32577" kindref="member">isUserStorageEncryptedFailClosed</ref>(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a8c632159fa131f09d04f94e3cbcd8782" kindref="member">UserStorageEncryptedError::kSuccess</ref>));</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1user__storage__encrypted_1a3cef2eca2c4a44f0a69be4c4e0f32577" kindref="member">isUserStorageEncryptedFailClosed</ref>(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a89fac98a6c0330a83200efd9e959469a" kindref="member">UserStorageEncryptedError::kMountFailed</ref>));</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1user__storage__encrypted_1a3cef2eca2c4a44f0a69be4c4e0f32577" kindref="member">isUserStorageEncryptedFailClosed</ref>(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a7edbbc1dc229b886a002e7b3832b722a" kindref="member">UserStorageEncryptedError::kUnmountFailed</ref>));</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1user__storage__encrypted_1a3cef2eca2c4a44f0a69be4c4e0f32577" kindref="member">isUserStorageEncryptedFailClosed</ref>(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a62e2b7540ba13d6eb4e80ccf2ceeda3b" kindref="member">UserStorageEncryptedError::kRotationFailed</ref>));</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1user__storage__encrypted_1a3cef2eca2c4a44f0a69be4c4e0f32577" kindref="member">isUserStorageEncryptedFailClosed</ref>(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a8cc651c72dce2275bb12691f545170ad" kindref="member">UserStorageEncryptedError::kInvalidPath</ref>));</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1user__storage__encrypted_1a3cef2eca2c4a44f0a69be4c4e0f32577" kindref="member">isUserStorageEncryptedFailClosed</ref>(<ref refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30adc0b458db7d0dd510aae0367dfafc4af" kindref="member">UserStorageEncryptedError::kPermissionDenied</ref>));</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>user_storage_encrypted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

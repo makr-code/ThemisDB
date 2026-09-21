@@ -1,0 +1,33 @@
+Microsoft (R) COFF/PE Dumper Version 14.44.35228.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file .\build-msvc-windows-debug-gpu-verify\bin\themis_geo.dll
+
+File Type: DLL
+
+  Image has the following dependencies:
+
+    themis_transaction.dll
+    themis_storage.dll
+    themis_base.dll
+    spdlogd.dll
+    fmtd.dll
+    libcurl-d.dll
+    MSVCP140D.dll
+    VCRUNTIME140D.dll
+    VCRUNTIME140_1D.dll
+    ucrtbased.dll
+    KERNEL32.dll
+
+  Summary
+
+        1000 .00cfg
+        C000 .data
+        6000 .idata
+       39000 .pdata
+      466000 .rdata
+        9000 .reloc
+        1000 .rsrc
+      2DA000 .text
+        1000 .tls

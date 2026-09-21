@@ -1,0 +1,281 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_i_user_registration_plugin" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::security::IUserRegistrationPlugin</compoundname>
+    <derivedcompoundref refid="classthemis_1_1security_1_1_arrow_user_registration_plugin" prot="public" virt="non-virtual">themis::security::ArrowUserRegistrationPlugin</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1security_1_1_embedded_user_registration_plugin" prot="public" virt="non-virtual">themis::security::EmbeddedUserRegistrationPlugin</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin" prot="public" virt="non-virtual">themis::security::WebDAVUserRegistrationPlugin</derivedcompoundref>
+    <includes refid="user__registration__plugin_8h" local="no">user_registration_plugin.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_i_user_registration_plugin_1ad8dda604915e5dbbcd1c8c389ea808fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::security::IUserRegistrationPlugin::~IUserRegistrationPlugin</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IUserRegistrationPlugin</name>
+        <qualifiedname>themis::security::IUserRegistrationPlugin::~IUserRegistrationPlugin</qualifiedname>
+        <briefdescription>
+<para>IUser Registration Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/user_registration_plugin.h" line="54" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_i_user_registration_plugin_1ac464e79cc5025c7528cc405e939935a4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::security::IUserRegistrationPlugin::getName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::security::IUserRegistrationPlugin::getName</qualifiedname>
+        <reimplementedby refid="classthemis_1_1security_1_1_arrow_user_registration_plugin_1aa1f13db594a6a0fcacb789a5812f0b01">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1aba09a1cd31ec585e90e344f407011b3c">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1ab38166e6199807c353df95bd25e56c0f">getName</reimplementedby>
+        <briefdescription>
+<para>Get plugin name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Plugin name (e.g., &quot;arrow&quot;, &quot;webdav&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/user_registration_plugin.h" line="60" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_i_user_registration_plugin_1ad814451e726203192e7f1227e1b859e7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::security::IUserRegistrationPlugin::isAvailable</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::security::IUserRegistrationPlugin::isAvailable</qualifiedname>
+        <reimplementedby refid="classthemis_1_1security_1_1_arrow_user_registration_plugin_1abccb88ef016e2ebb17b91aee239b8559">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1ab691a70904b8ffb8f4c0e99375fc9f9a">isAvailable</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1a34fb30893dd47fc2f706efe5818fa482">isAvailable</reimplementedby>
+        <briefdescription>
+<para>Check if plugin is available and configured. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if plugin can be used </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/user_registration_plugin.h" line="66" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_i_user_registration_plugin_1a06e423808b4a458fab9c8d791d82056e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1security_1_1_user_registration_data" kindref="compound">UserRegistrationData</ref> &gt;</type>
+        <definition>virtual Result&lt; UserRegistrationData &gt; themis::security::IUserRegistrationPlugin::registerUser</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;password, const std::unordered_map&lt; std::string, std::string &gt; &amp;attributes={})=0</argsstring>
+        <name>registerUser</name>
+        <qualifiedname>themis::security::IUserRegistrationPlugin::registerUser</qualifiedname>
+        <reimplementedby refid="classthemis_1_1security_1_1_arrow_user_registration_plugin_1a85dbcc8a660472cc6f0d645faf7dd0ed">registerUser</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1ad1724b2af896e4f27989e1cd97cd3962">registerUser</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1afdee12fac1bfbe739450328ed7cb79cf">registerUser</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>password</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>attributes</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Register user through plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The plugin is responsible for:<itemizedlist>
+<listitem><para>Validating user credentials with external system</para>
+</listitem><listitem><para>Hashing passwords if needed</para>
+</listitem><listitem><para>Mapping user attributes and roles</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>password</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plain text password (will be hashed by plugin) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>attributes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional additional attributes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;UserRegistrationData&gt; Registration data or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/user_registration_plugin.h" line="81" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_i_user_registration_plugin_1a26e712a99383e21200533ccb7974a221" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1security_1_1_user_registration_data" kindref="compound">UserRegistrationData</ref> &gt;</type>
+        <definition>virtual Result&lt; UserRegistrationData &gt; themis::security::IUserRegistrationPlugin::authenticateUser</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;password)=0</argsstring>
+        <name>authenticateUser</name>
+        <qualifiedname>themis::security::IUserRegistrationPlugin::authenticateUser</qualifiedname>
+        <reimplementedby refid="classthemis_1_1security_1_1_arrow_user_registration_plugin_1a4879bd6271e106ea5ef364b743125f2d">authenticateUser</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1a0815b62caadc6643f5e4ca62202203b6">authenticateUser</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1a991b64395c09b6d9ba99d18e87ba890d">authenticateUser</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>password</declname>
+        </param>
+        <briefdescription>
+<para>Authenticate user through plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies credentials against external system (e.g., WebDAV server). If successful, returns user data that can be synchronized locally.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>password</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plain text password </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;UserRegistrationData&gt; <ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> data if authenticated </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/user_registration_plugin.h" line="97" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_i_user_registration_plugin_1a4aa344b1a853cb9f19e192dedadf60c2" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; std::vector&lt; <ref refid="structthemis_1_1security_1_1_user_registration_data" kindref="compound">UserRegistrationData</ref> &gt; &gt;</type>
+        <definition>virtual Result&lt; std::vector&lt; UserRegistrationData &gt; &gt; themis::security::IUserRegistrationPlugin::syncUsers</definition>
+        <argsstring>()=0</argsstring>
+        <name>syncUsers</name>
+        <qualifiedname>themis::security::IUserRegistrationPlugin::syncUsers</qualifiedname>
+        <reimplementedby refid="classthemis_1_1security_1_1_arrow_user_registration_plugin_1a1ae79607453366f626de15f4f701282e">syncUsers</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1ae3f9ad10a9c1dea91253eb3d9beaa27d">syncUsers</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1aca79ee8821041b6d4e03fd6df6c33d79">syncUsers</reimplementedby>
+        <briefdescription>
+<para>Synchronize users from external source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Batch operation to import/sync users from external system. Used for Apache Arrow-based bulk imports or WebDAV directory sync.</para>
+<para><simplesect kind="return"><para>Result&lt;vector&lt;UserRegistrationData&gt;&gt; List of users or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/user_registration_plugin.h" line="110" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_i_user_registration_plugin_1af75e7351a5887e22c0ab1731a1e114e0" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1security_1_1_user_registration_data" kindref="compound">UserRegistrationData</ref> &gt;</type>
+        <definition>virtual Result&lt; UserRegistrationData &gt; themis::security::IUserRegistrationPlugin::updateUser</definition>
+        <argsstring>(const std::string &amp;user_id)=0</argsstring>
+        <name>updateUser</name>
+        <qualifiedname>themis::security::IUserRegistrationPlugin::updateUser</qualifiedname>
+        <reimplementedby refid="classthemis_1_1security_1_1_arrow_user_registration_plugin_1ae1a67d550f76f48ca0761ed73e8cda9d">updateUser</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1a5face23986888f7e02c0c99dea23420c">updateUser</reimplementedby>
+        <reimplementedby refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin_1a509588a200e042bad3cbc9d4981934dc">updateUser</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Update user information from external source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;UserRegistrationData&gt; Updated user data or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/user_registration_plugin.h" line="118" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> Registration Plugin Interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Interface for plugins that provide user registration functionality. Primary implementations: Apache Arrow and WebDAV.</para>
+<para>Plugins can integrate with external identity providers and automatically synchronize users into ThemisDB. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::security::ArrowUserRegistrationPlugin</label>
+        <link refid="classthemis_1_1security_1_1_arrow_user_registration_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::security::EmbeddedUserRegistrationPlugin</label>
+        <link refid="classthemis_1_1security_1_1_embedded_user_registration_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::security::IUserRegistrationPlugin</label>
+        <link refid="classthemis_1_1security_1_1_i_user_registration_plugin"/>
+      </node>
+      <node id="4">
+        <label>themis::security::WebDAVUserRegistrationPlugin</label>
+        <link refid="classthemis_1_1security_1_1_web_d_a_v_user_registration_plugin"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/security/user_registration_plugin.h" line="48" column="1" bodyfile="include/security/user_registration_plugin.h" bodystart="48" bodyend="119"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_i_user_registration_plugin_1a26e712a99383e21200533ccb7974a221" prot="public" virt="pure-virtual"><scope>themis::security::IUserRegistrationPlugin</scope><name>authenticateUser</name></member>
+      <member refid="classthemis_1_1security_1_1_i_user_registration_plugin_1ac464e79cc5025c7528cc405e939935a4" prot="public" virt="pure-virtual"><scope>themis::security::IUserRegistrationPlugin</scope><name>getName</name></member>
+      <member refid="classthemis_1_1security_1_1_i_user_registration_plugin_1ad814451e726203192e7f1227e1b859e7" prot="public" virt="pure-virtual"><scope>themis::security::IUserRegistrationPlugin</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1security_1_1_i_user_registration_plugin_1a06e423808b4a458fab9c8d791d82056e" prot="public" virt="pure-virtual"><scope>themis::security::IUserRegistrationPlugin</scope><name>registerUser</name></member>
+      <member refid="classthemis_1_1security_1_1_i_user_registration_plugin_1a4aa344b1a853cb9f19e192dedadf60c2" prot="public" virt="pure-virtual"><scope>themis::security::IUserRegistrationPlugin</scope><name>syncUsers</name></member>
+      <member refid="classthemis_1_1security_1_1_i_user_registration_plugin_1af75e7351a5887e22c0ab1731a1e114e0" prot="public" virt="pure-virtual"><scope>themis::security::IUserRegistrationPlugin</scope><name>updateUser</name></member>
+      <member refid="classthemis_1_1security_1_1_i_user_registration_plugin_1ad8dda604915e5dbbcd1c8c389ea808fb" prot="public" virt="virtual"><scope>themis::security::IUserRegistrationPlugin</scope><name>~IUserRegistrationPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

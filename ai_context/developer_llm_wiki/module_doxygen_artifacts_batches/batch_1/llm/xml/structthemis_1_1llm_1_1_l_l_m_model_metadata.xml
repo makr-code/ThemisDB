@@ -1,0 +1,563 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_l_l_m_model_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LLMModelMetadata</compoundname>
+    <includes refid="llm__model__storage_8h" local="no">llm_model_storage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1aa930f755a871b7216305d7012750f864" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelMetadata::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="38" column="17" bodyfile="include/llm/llm_model_storage.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a62c5ad0bb61ac6b383d33b0e459dd10b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelMetadata::model_name</definition>
+        <argsstring></argsstring>
+        <name>model_name</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::model_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="39" column="17" bodyfile="include/llm/llm_model_storage.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a2db290a78cf53755ea388db4b04bdaab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelMetadata::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="40" column="17" bodyfile="include/llm/llm_model_storage.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1af525ae7f276f294ca671c9e83b95c516" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelMetadata::architecture</definition>
+        <argsstring></argsstring>
+        <name>architecture</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::architecture</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="41" column="17" bodyfile="include/llm/llm_model_storage.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1ae93cc76ea8662d0ba8f5635816e9e5bf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelMetadata::file_path</definition>
+        <argsstring></argsstring>
+        <name>file_path</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::file_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="44" column="17" bodyfile="include/llm/llm_model_storage.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a31a1b01900666606104d1a61f509e151" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelMetadata::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::format</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="45" column="17" bodyfile="include/llm/llm_model_storage.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a0e5a9e62caf31a6a07633ebfc2208b59" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelMetadata::quantization</definition>
+        <argsstring></argsstring>
+        <name>quantization</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::quantization</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="46" column="17" bodyfile="include/llm/llm_model_storage.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a16f92d85b019cfee5237e3f6efe289ab" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LLMModelMetadata::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="47" column="12" bodyfile="include/llm/llm_model_storage.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1ab4fe27a5d188ab9dd5e4ef4e8d9bafdb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelMetadata::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::checksum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="48" column="17" bodyfile="include/llm/llm_model_storage.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a54b8aa9b274624c76028474530416f2c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelMetadata::checksum_type</definition>
+        <argsstring></argsstring>
+        <name>checksum_type</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::checksum_type</qualifiedname>
+        <initializer>= &quot;sha256&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="49" column="17" bodyfile="include/llm/llm_model_storage.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1aa9ecd2a152496c0f99e7ee3d01b3e555" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::LLMModelMetadata::parameter_count</definition>
+        <argsstring></argsstring>
+        <name>parameter_count</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::parameter_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="52" column="13" bodyfile="include/llm/llm_model_storage.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1abe70084872ea528f652b1754ab94c462" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LLMModelMetadata::context_length</definition>
+        <argsstring></argsstring>
+        <name>context_length</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::context_length</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="53" column="9" bodyfile="include/llm/llm_model_storage.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a4988f1b2ee750e1a73e8a85d36d56dc4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LLMModelMetadata::vocabulary_size</definition>
+        <argsstring></argsstring>
+        <name>vocabulary_size</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::vocabulary_size</qualifiedname>
+        <initializer>= 32000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="54" column="9" bodyfile="include/llm/llm_model_storage.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a900228a9d9a2dfc05520daf38a26a267" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LLMModelMetadata::num_layers</definition>
+        <argsstring></argsstring>
+        <name>num_layers</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::num_layers</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="55" column="9" bodyfile="include/llm/llm_model_storage.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1ad1edbb2698c0d1f83c73514be1f6c00a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::LLMModelMetadata::hidden_size</definition>
+        <argsstring></argsstring>
+        <name>hidden_size</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::hidden_size</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="56" column="9" bodyfile="include/llm/llm_model_storage.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1ae0ca0c8c544c7d428487e6118628f13c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::LLMModelMetadata::capabilities</definition>
+        <argsstring></argsstring>
+        <name>capabilities</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::capabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="59" column="17" bodyfile="include/llm/llm_model_storage.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a7638ea684b2258818e8e057f39ee0399" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::LLMModelMetadata::languages</definition>
+        <argsstring></argsstring>
+        <name>languages</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::languages</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="60" column="17" bodyfile="include/llm/llm_model_storage.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a12925f8aa12faee67dd416f2514c9a14" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::LLMModelMetadata::tags</definition>
+        <argsstring></argsstring>
+        <name>tags</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::tags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="61" column="17" bodyfile="include/llm/llm_model_storage.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1af96eb975eb9c9ae8f2db1b2d47519b81" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::LLMModelMetadata::tokens_per_second</definition>
+        <argsstring></argsstring>
+        <name>tokens_per_second</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::tokens_per_second</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="64" column="11" bodyfile="include/llm/llm_model_storage.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1aebe9763c31663147097d6f4e9f289248" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LLMModelMetadata::vram_required_mb</definition>
+        <argsstring></argsstring>
+        <name>vram_required_mb</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::vram_required_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="65" column="12" bodyfile="include/llm/llm_model_storage.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a0113d92a24b025d025e69641d3536fa8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LLMModelMetadata::ram_required_mb</definition>
+        <argsstring></argsstring>
+        <name>ram_required_mb</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::ram_required_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="66" column="12" bodyfile="include/llm/llm_model_storage.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a53d9d4c87a5527fd297ffaadbf66704c" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::LLMModelMetadata::total_inferences</definition>
+        <argsstring></argsstring>
+        <name>total_inferences</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::total_inferences</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="69" column="13" bodyfile="include/llm/llm_model_storage.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a18bfd534375648028fe1b2b5685518f0" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::llm::LLMModelMetadata::total_tokens_generated</definition>
+        <argsstring></argsstring>
+        <name>total_tokens_generated</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::total_tokens_generated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="70" column="13" bodyfile="include/llm/llm_model_storage.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1aaddcda654cc6621f68fd494c3fbdbfc7" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::LLMModelMetadata::first_used</definition>
+        <argsstring></argsstring>
+        <name>first_used</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::first_used</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="71" column="43" bodyfile="include/llm/llm_model_storage.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a6f0d7783568aff5549cfb639d2f061f1" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::LLMModelMetadata::last_used</definition>
+        <argsstring></argsstring>
+        <name>last_used</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::last_used</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="72" column="43" bodyfile="include/llm/llm_model_storage.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1ae7c43b0b185586cccffc87f9dc3feebd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelMetadata::source</definition>
+        <argsstring></argsstring>
+        <name>source</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::source</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="75" column="17" bodyfile="include/llm/llm_model_storage.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a78ed22eafe6ccfe9fcf803deac37f25e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelMetadata::source_url</definition>
+        <argsstring></argsstring>
+        <name>source_url</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::source_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="76" column="17" bodyfile="include/llm/llm_model_storage.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a438857c364a965ab956e73349f474cae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelMetadata::license</definition>
+        <argsstring></argsstring>
+        <name>license</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::license</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="77" column="17" bodyfile="include/llm/llm_model_storage.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a32e958499182207e00311b921ad60cb5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelMetadata::created_by</definition>
+        <argsstring></argsstring>
+        <name>created_by</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::created_by</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="78" column="17" bodyfile="include/llm/llm_model_storage.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1ac7b42763864c111a743b8da36d3b6879" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::LLMModelMetadata::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="79" column="43" bodyfile="include/llm/llm_model_storage.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a547fccfd44c621a630ca5443efff7a95" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::LLMModelMetadata::custom_metadata</definition>
+        <argsstring></argsstring>
+        <name>custom_metadata</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::custom_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="82" column="10" bodyfile="include/llm/llm_model_storage.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a5e2e99a0b62eae0d77d48af27853baf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::LLMModelMetadata::~LLMModelMetadata</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LLMModelMetadata</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::~LLMModelMetadata</qualifiedname>
+        <briefdescription>
+<para>LLMModel Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="36" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a63d08ae6bfd834755ed3d504e428a439" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::LLMModelMetadata::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="84" column="10" bodyfile="include/llm/llm_model_storage.h" bodystart="84" bodyend="122"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a49788ed31168d552700cd4d10594bffa" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_model_metadata" kindref="compound">LLMModelMetadata</ref></type>
+        <definition>static LLMModelMetadata themis::llm::LLMModelMetadata::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::LLMModelMetadata::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_model_storage.h" line="130" column="29" bodyfile="include/llm/llm_model_storage.h" bodystart="130" bodyend="174"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_model_storage.h" line="31" column="1" bodyfile="include/llm/llm_model_storage.h" bodystart="31" bodyend="175"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1af525ae7f276f294ca671c9e83b95c516" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>architecture</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1ae0ca0c8c544c7d428487e6118628f13c" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>capabilities</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1ab4fe27a5d188ab9dd5e4ef4e8d9bafdb" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>checksum</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a54b8aa9b274624c76028474530416f2c" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>checksum_type</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1abe70084872ea528f652b1754ab94c462" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>context_length</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1ac7b42763864c111a743b8da36d3b6879" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a32e958499182207e00311b921ad60cb5" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>created_by</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a547fccfd44c621a630ca5443efff7a95" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>custom_metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1ae93cc76ea8662d0ba8f5635816e9e5bf" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>file_path</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1aaddcda654cc6621f68fd494c3fbdbfc7" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>first_used</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a31a1b01900666606104d1a61f509e151" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>format</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a49788ed31168d552700cd4d10594bffa" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1ad1edbb2698c0d1f83c73514be1f6c00a" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>hidden_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a7638ea684b2258818e8e057f39ee0399" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>languages</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a6f0d7783568aff5549cfb639d2f061f1" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>last_used</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a438857c364a965ab956e73349f474cae" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>license</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1aa930f755a871b7216305d7012750f864" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a62c5ad0bb61ac6b383d33b0e459dd10b" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>model_name</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a900228a9d9a2dfc05520daf38a26a267" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>num_layers</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1aa9ecd2a152496c0f99e7ee3d01b3e555" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>parameter_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a0e5a9e62caf31a6a07633ebfc2208b59" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>quantization</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a0113d92a24b025d025e69641d3536fa8" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>ram_required_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a16f92d85b019cfee5237e3f6efe289ab" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1ae7c43b0b185586cccffc87f9dc3feebd" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>source</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a78ed22eafe6ccfe9fcf803deac37f25e" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>source_url</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a12925f8aa12faee67dd416f2514c9a14" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>tags</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a63d08ae6bfd834755ed3d504e428a439" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1af96eb975eb9c9ae8f2db1b2d47519b81" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>tokens_per_second</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a53d9d4c87a5527fd297ffaadbf66704c" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>total_inferences</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a18bfd534375648028fe1b2b5685518f0" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>total_tokens_generated</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a2db290a78cf53755ea388db4b04bdaab" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>version</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a4988f1b2ee750e1a73e8a85d36d56dc4" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>vocabulary_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1aebe9763c31663147097d6f4e9f289248" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelMetadata</scope><name>vram_required_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_metadata_1a5e2e99a0b62eae0d77d48af27853baf6" prot="public" virt="virtual"><scope>themis::llm::LLMModelMetadata</scope><name>~LLMModelMetadata</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

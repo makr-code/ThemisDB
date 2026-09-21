@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_context_quality_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ContextQualityMetrics</compoundname>
+    <includes refid="context__quality__metrics_8h" local="no">context_quality_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_context_quality_metrics_1ac7ca2e4889b5521f649b6052298d35f3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::ContextQualityMetrics::total_tokens</definition>
+        <argsstring></argsstring>
+        <name>total_tokens</name>
+        <qualifiedname>themis::llm::ContextQualityMetrics::total_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total tokens in context window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/context_quality_metrics.h" line="31" column="14" bodyfile="include/llm/context_quality_metrics.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_context_quality_metrics_1a2aaea0eb50f19cac6549b0008c9f2e19" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::ContextQualityMetrics::l1_tokens</definition>
+        <argsstring></argsstring>
+        <name>l1_tokens</name>
+        <qualifiedname>themis::llm::ContextQualityMetrics::l1_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Tokens available in L1 (working memory). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/context_quality_metrics.h" line="34" column="14" bodyfile="include/llm/context_quality_metrics.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_context_quality_metrics_1a2bc86106f87e4893ecd4be7a99f84b4e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::ContextQualityMetrics::l2_tokens</definition>
+        <argsstring></argsstring>
+        <name>l2_tokens</name>
+        <qualifiedname>themis::llm::ContextQualityMetrics::l2_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Tokens compressed into L2 (episodic memory). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/context_quality_metrics.h" line="37" column="14" bodyfile="include/llm/context_quality_metrics.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_context_quality_metrics_1ae9901ce09d7fdc54c5d90e2620f9809e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::ContextQualityMetrics::l3_tokens</definition>
+        <argsstring></argsstring>
+        <name>l3_tokens</name>
+        <qualifiedname>themis::llm::ContextQualityMetrics::l3_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Estimated tokens in L3 (long-term memory via RAG). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/context_quality_metrics.h" line="40" column="14" bodyfile="include/llm/context_quality_metrics.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_context_quality_metrics_1ababfb4a03058bd7566aa13e8c4d3c50b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::ContextQualityMetrics::state_retention_score</definition>
+        <argsstring></argsstring>
+        <name>state_retention_score</name>
+        <qualifiedname>themis::llm::ContextQualityMetrics::state_retention_score</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>State retention score from SSM plugin [0.0, 1.0] Reflects how much history is retained in SSM state 1.0 = fresh state with full history 0.0 = degraded state, loss of history </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/context_quality_metrics.h" line="46" column="12" bodyfile="include/llm/context_quality_metrics.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_context_quality_metrics_1acb7136f17d73f6df2a2732fff686dd6b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::ContextQualityMetrics::factual_drift_estimate</definition>
+        <argsstring></argsstring>
+        <name>factual_drift_estimate</name>
+        <qualifiedname>themis::llm::ContextQualityMetrics::factual_drift_estimate</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Factual drift estimate [0.0, 1.0] Measures semantic coherence degradation over context window 1.0 = coherent, no drift 0.0 = severe drift, likely hallucination risk </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/context_quality_metrics.h" line="52" column="12" bodyfile="include/llm/context_quality_metrics.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_context_quality_metrics_1a47282da2dbbbb536705069e59719a1d1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::ContextQualityMetrics::tokens_since_last_retrieval</definition>
+        <argsstring></argsstring>
+        <name>tokens_since_last_retrieval</name>
+        <qualifiedname>themis::llm::ContextQualityMetrics::tokens_since_last_retrieval</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Tokens processed since last RAG retrieval Used to decide when to refresh context via AgenticRAG </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/context_quality_metrics.h" line="56" column="14" bodyfile="include/llm/context_quality_metrics.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_context_quality_metrics_1a1482329e33fa3efc92520861b07438a7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::ContextQualityMetrics::drift_threshold</definition>
+        <argsstring></argsstring>
+        <name>drift_threshold</name>
+        <qualifiedname>themis::llm::ContextQualityMetrics::drift_threshold</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum acceptable drift before forcing RAG refresh Config parameter: typically 0.3 (30% degradation threshold) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/context_quality_metrics.h" line="60" column="12" bodyfile="include/llm/context_quality_metrics.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_context_quality_metrics_1aa9fc6681fd531ba98813569122daaff2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ContextQualityMetrics::shouldRefreshRAG</definition>
+        <argsstring>() const</argsstring>
+        <name>shouldRefreshRAG</name>
+        <qualifiedname>themis::llm::ContextQualityMetrics::shouldRefreshRAG</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if quality metrics justify RAG refresh <simplesect kind="return"><para>true if drift &gt; threshold or retention &lt; 0.5 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/context_quality_metrics.h" line="64" column="10" bodyfile="include/llm/context_quality_metrics.h" bodystart="64" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_context_quality_metrics_1a99f4566cfc04ab316695760629a03eb1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ContextQualityMetrics::isTransformerQuality</definition>
+        <argsstring>() const</argsstring>
+        <name>isTransformerQuality</name>
+        <qualifiedname>themis::llm::ContextQualityMetrics::isTransformerQuality</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if context quality is sufficient for Transformer path <simplesect kind="return"><para>true if drift &lt; 0.1 and retention &gt; 0.7 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/context_quality_metrics.h" line="71" column="10" bodyfile="include/llm/context_quality_metrics.h" bodystart="71" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_context_quality_metrics_1a8ae6af70b9d6c19bb6379591bb00d62a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ContextQualityMetrics::isInfiniQuality</definition>
+        <argsstring>() const</argsstring>
+        <name>isInfiniQuality</name>
+        <qualifiedname>themis::llm::ContextQualityMetrics::isInfiniQuality</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if quality is sufficient for Infini-attention path <simplesect kind="return"><para>true if drift &lt; 0.2 and retention &gt; 0.5 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/context_quality_metrics.h" line="78" column="10" bodyfile="include/llm/context_quality_metrics.h" bodystart="78" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_context_quality_metrics_1aad946a2526f266b261f050a56819d10d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ContextQualityMetrics::isSSMQuality</definition>
+        <argsstring>() const</argsstring>
+        <name>isSSMQuality</name>
+        <qualifiedname>themis::llm::ContextQualityMetrics::isSSMQuality</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if quality is sufficient for SSM hybrid path <simplesect kind="return"><para>true (SSM compensates for drift via state compression) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/context_quality_metrics.h" line="85" column="10" bodyfile="include/llm/context_quality_metrics.h" bodystart="85" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Context quality metrics for state-aware routing (P1-D06). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Extends existing <ref refid="structthemis_1_1llm_1_1_context_window_budget" kindref="compound">ContextWindowBudget</ref> with state-retention and drift signals:<itemizedlist>
+<listitem><para>state_retention_score [0.0, 1.0]: HLC-based freshness of SSM state</para>
+</listitem><listitem><para>factual_drift_estimate [0.0, 1.0]: semantic coherence degradation</para>
+</listitem><listitem><para>tokens_since_last_retrieval: RAG refresh cadence metric</para>
+</listitem></itemizedlist>
+</para>
+<para>Used by HybridContextRouter (P3-D01) for architecture selection. Integration: <ref refid="structthemis_1_1llm_1_1_context_window_budget_1aeb8d85da9a0140e362422d5fd5f6cc94" kindref="member">ContextWindowBudget::compute()</ref> returns <ref refid="structthemis_1_1llm_1_1_context_quality_metrics" kindref="compound">ContextQualityMetrics</ref>. </para>
+    </detaileddescription>
+    <location file="include/llm/context_quality_metrics.h" line="29" column="1" bodyfile="include/llm/context_quality_metrics.h" bodystart="29" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_context_quality_metrics_1a1482329e33fa3efc92520861b07438a7" prot="public" virt="non-virtual"><scope>themis::llm::ContextQualityMetrics</scope><name>drift_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_context_quality_metrics_1acb7136f17d73f6df2a2732fff686dd6b" prot="public" virt="non-virtual"><scope>themis::llm::ContextQualityMetrics</scope><name>factual_drift_estimate</name></member>
+      <member refid="structthemis_1_1llm_1_1_context_quality_metrics_1a8ae6af70b9d6c19bb6379591bb00d62a" prot="public" virt="non-virtual"><scope>themis::llm::ContextQualityMetrics</scope><name>isInfiniQuality</name></member>
+      <member refid="structthemis_1_1llm_1_1_context_quality_metrics_1aad946a2526f266b261f050a56819d10d" prot="public" virt="non-virtual"><scope>themis::llm::ContextQualityMetrics</scope><name>isSSMQuality</name></member>
+      <member refid="structthemis_1_1llm_1_1_context_quality_metrics_1a99f4566cfc04ab316695760629a03eb1" prot="public" virt="non-virtual"><scope>themis::llm::ContextQualityMetrics</scope><name>isTransformerQuality</name></member>
+      <member refid="structthemis_1_1llm_1_1_context_quality_metrics_1a2aaea0eb50f19cac6549b0008c9f2e19" prot="public" virt="non-virtual"><scope>themis::llm::ContextQualityMetrics</scope><name>l1_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_context_quality_metrics_1a2bc86106f87e4893ecd4be7a99f84b4e" prot="public" virt="non-virtual"><scope>themis::llm::ContextQualityMetrics</scope><name>l2_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_context_quality_metrics_1ae9901ce09d7fdc54c5d90e2620f9809e" prot="public" virt="non-virtual"><scope>themis::llm::ContextQualityMetrics</scope><name>l3_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_context_quality_metrics_1aa9fc6681fd531ba98813569122daaff2" prot="public" virt="non-virtual"><scope>themis::llm::ContextQualityMetrics</scope><name>shouldRefreshRAG</name></member>
+      <member refid="structthemis_1_1llm_1_1_context_quality_metrics_1ababfb4a03058bd7566aa13e8c4d3c50b" prot="public" virt="non-virtual"><scope>themis::llm::ContextQualityMetrics</scope><name>state_retention_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_context_quality_metrics_1a47282da2dbbbb536705069e59719a1d1" prot="public" virt="non-virtual"><scope>themis::llm::ContextQualityMetrics</scope><name>tokens_since_last_retrieval</name></member>
+      <member refid="structthemis_1_1llm_1_1_context_quality_metrics_1ac7ca2e4889b5521f649b6052298d35f3" prot="public" virt="non-virtual"><scope>themis::llm::ContextQualityMetrics</scope><name>total_tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

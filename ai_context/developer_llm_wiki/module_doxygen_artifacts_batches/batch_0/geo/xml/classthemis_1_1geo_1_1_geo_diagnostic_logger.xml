@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_geo_diagnostic_logger" kind="class" language="C++" prot="public">
+    <compoundname>themis::geo::GeoDiagnosticLogger</compoundname>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_diagnostic_logger_1a411862f09e151c811a326854845b13a7" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::geo::GeoDiagnosticLogger::logBackendFallback</definition>
+        <argsstring>(const BackendFallbackDiagnostic &amp;diag) noexcept</argsstring>
+        <name>logBackendFallback</name>
+        <qualifiedname>themis::geo::GeoDiagnosticLogger::logBackendFallback</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic" kindref="compound">BackendFallbackDiagnostic</ref> &amp;</type>
+          <declname>diag</declname>
+        </param>
+        <briefdescription>
+<para>Log a backend fallback incident with full diagnostic context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>diag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Diagnostic context (populated by backend dispatch code) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_phase2_phase3_integration.cpp" line="292" column="17" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="292" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_diagnostic_logger_1abd06664511121cf8653fe63efdcf2329" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::geo::GeoDiagnosticLogger::logGeometryValidationFailure</definition>
+        <argsstring>(const std::string &amp;geometry_type, const std::string &amp;error_message, const std::string &amp;context) noexcept</argsstring>
+        <name>logGeometryValidationFailure</name>
+        <qualifiedname>themis::geo::GeoDiagnosticLogger::logGeometryValidationFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>geometry_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Log a geometry validation failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>geometry_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of geometry that failed validation </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Structured error message </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation context (e.g., &quot;ST_Intersects&quot;, &quot;ST_Contains&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_phase2_phase3_integration.cpp" line="305" column="17" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="305" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_diagnostic_logger_1a7322bb6ea38866fb8c54da5d1971a3e5" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::geo::GeoDiagnosticLogger::logIndexInvariantViolation</definition>
+        <argsstring>(const std::string &amp;operation, const std::string &amp;reason) noexcept</argsstring>
+        <name>logIndexInvariantViolation</name>
+        <qualifiedname>themis::geo::GeoDiagnosticLogger::logIndexInvariantViolation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Log a spatial index invariant violation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used when the index consistency check detects an invariant violation (e.g., query result outside query envelope).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index operation name (e.g., &quot;query&quot;, &quot;insert&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Description of the invariant violation </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_phase2_phase3_integration.cpp" line="322" column="17" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="322" bodyend="327"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Diagnostic event logger for backend fallback and geo incidents. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Consolidates all geo diagnostic logging to a structured log sink. Used to produce actionable error messages for production geo incidents. </para>
+    </detaileddescription>
+    <location file="src/geo/geo_phase2_phase3_integration.cpp" line="285" column="1" bodyfile="src/geo/geo_phase2_phase3_integration.cpp" bodystart="285" bodyend="328"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_geo_diagnostic_logger_1a411862f09e151c811a326854845b13a7" prot="public" virt="non-virtual"><scope>themis::geo::GeoDiagnosticLogger</scope><name>logBackendFallback</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_diagnostic_logger_1abd06664511121cf8653fe63efdcf2329" prot="public" virt="non-virtual"><scope>themis::geo::GeoDiagnosticLogger</scope><name>logGeometryValidationFailure</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_diagnostic_logger_1a7322bb6ea38866fb8c54da5d1971a3e5" prot="public" virt="non-virtual"><scope>themis::geo::GeoDiagnosticLogger</scope><name>logIndexInvariantViolation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

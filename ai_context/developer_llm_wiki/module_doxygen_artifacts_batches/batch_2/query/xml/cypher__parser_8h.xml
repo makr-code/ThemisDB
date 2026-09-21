@@ -1,0 +1,323 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cypher__parser_8h" kind="file" language="C++">
+    <compoundname>cypher_parser.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">variant</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includedby refid="cypher__parser_8cpp" local="yes">src/query/cypher_parser.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/cypher_parser.h</label>
+        <link refid="cypher__parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="5">
+        <label>variant</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/query/cypher_parser.h</label>
+        <link refid="cypher__parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/query/cypher_parser.cpp</label>
+        <link refid="cypher__parser_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1_cypher_property_filter" prot="public">themis::query::CypherPropertyFilter</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_cypher_node_pattern" prot="public">themis::query::CypherNodePattern</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_cypher_rel_pattern" prot="public">themis::query::CypherRelPattern</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_cypher_path_segment" prot="public">themis::query::CypherPathSegment</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_cypher_path_pattern" prot="public">themis::query::CypherPathPattern</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_cypher_expr" prot="public">themis::query::CypherExpr</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_cypher_literal_expr" prot="public">themis::query::CypherLiteralExpr</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_cypher_property_expr" prot="public">themis::query::CypherPropertyExpr</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_cypher_binary_op_expr" prot="public">themis::query::CypherBinaryOpExpr</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_cypher_unary_op_expr" prot="public">themis::query::CypherUnaryOpExpr</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_cypher_return_item" prot="public">themis::query::CypherReturnItem</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_cypher_sort_spec" prot="public">themis::query::CypherSortSpec</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_cypher_a_s_t_node" prot="public">themis::query::CypherASTNode</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_cypher_parse_error" prot="public">themis::query::CypherParseError</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_cypher_parser" prot="public">themis::query::CypherParser</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_cypher_to_a_q_l_transpiler" prot="public">themis::query::CypherToAQLTranspiler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.12 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cypher<sp/>compatibility<sp/>layer<sp/>–<sp/>MATCH/WHERE/RETURN<sp/>query<sp/>parsing<sp/>and<sp/>AQL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>transpilation.<sp/><sp/>The<sp/>generated<sp/>AQL<sp/>can<sp/>be<sp/>fed<sp/>directly<sp/>into<sp/>executeAql().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread-safety<sp/>note:<sp/>CypherParser<sp/>instances<sp/>are<sp/>NOT<sp/>thread-safe.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Create<sp/>one<sp/>instance<sp/>per<sp/>thread<sp/>or<sp/>protect<sp/>shared<sp/>instances<sp/>with<sp/>a<sp/>mutex.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cypher<sp/>value<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1query_1ac952d9530117fac7be6118903a519eb8" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1ac952d9530117fac7be6118903a519eb8" kindref="member">CypherLiteralValue</ref><sp/>=<sp/>std::variant&lt;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>std::nullptr_t,<sp/><sp/></highlight><highlight class="comment">//<sp/>NULL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>bool,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>true<sp/>/<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>integer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>double,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>float</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">&gt;;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cypher<sp/>node<sp/>pattern</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1query_1_1_cypher_property_filter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_cypher_property_filter" kindref="compound">CypherPropertyFilter</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1query_1_1_cypher_property_filter_1a267b8fe2760037f44b0a71077960c918" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_cypher_property_filter_1a267b8fe2760037f44b0a71077960c918" kindref="member">key</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1query_1_1_cypher_property_filter_1a26238354662303c08a4f944e90db8d82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ac952d9530117fac7be6118903a519eb8" kindref="member">CypherLiteralValue</ref><sp/><ref refid="structthemis_1_1query_1_1_cypher_property_filter_1a26238354662303c08a4f944e90db8d82" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1query_1_1_cypher_node_pattern" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_cypher_node_pattern" kindref="compound">CypherNodePattern</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1query_1_1_cypher_node_pattern_1a1485321f99a22c3e751ebd15659739a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_cypher_node_pattern_1a1485321f99a22c3e751ebd15659739a9" kindref="member">variable</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1query_1_1_cypher_node_pattern_1a9d39b3620c8f6a560acbffdfbed0b073" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_cypher_node_pattern_1a9d39b3620c8f6a560acbffdfbed0b073" kindref="member">labels</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1query_1_1_cypher_node_pattern_1aa24bc24532785fc616fdef18e7f2ce24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CypherPropertyFilter&gt;<sp/><ref refid="structthemis_1_1query_1_1_cypher_node_pattern_1aa24bc24532785fc616fdef18e7f2ce24" kindref="member">properties</ref>;<sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cypher<sp/>relationship<sp/>pattern</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1query_1aaf9bc00eb5cacc2ccd3b8fe478e39f4a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1aaf9bc00eb5cacc2ccd3b8fe478e39f4a" kindref="member">CypherRelDirection</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1query_1aaf9bc00eb5cacc2ccd3b8fe478e39f4aa7c147cda9e49590f6abe83d118b7353b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aaf9bc00eb5cacc2ccd3b8fe478e39f4aa7c147cda9e49590f6abe83d118b7353b" kindref="member">Out</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(a)-[r]-&gt;(b)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1query_1aaf9bc00eb5cacc2ccd3b8fe478e39f4aaefeb369cccbd560588a756610865664c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1affc80a450a05256c6310ab5a93827f10aefeb369cccbd560588a756610865664c" kindref="member">In</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(a)&lt;-[r]-(b)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1query_1aaf9bc00eb5cacc2ccd3b8fe478e39f4aa130c5b3473c57faa76e2a1c54e26f88e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aaf9bc00eb5cacc2ccd3b8fe478e39f4aa130c5b3473c57faa76e2a1c54e26f88e" kindref="member">Both</ref><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(a)-[r]-(b)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1query_1_1_cypher_rel_pattern" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_cypher_rel_pattern" kindref="compound">CypherRelPattern</ref><sp/>{</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1query_1_1_cypher_rel_pattern_1a6c32d46b1bd50b507d77aa29d3cc3d89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_cypher_rel_pattern_1a6c32d46b1bd50b507d77aa29d3cc3d89" kindref="member">variable</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1query_1_1_cypher_rel_pattern_1abf09615839a5a7c0653e14aeaf8bb071" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_cypher_rel_pattern_1abf09615839a5a7c0653e14aeaf8bb071" kindref="member">types</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1query_1_1_cypher_rel_pattern_1abf653b8d67c86df03df9a82c8996c8db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aaf9bc00eb5cacc2ccd3b8fe478e39f4a" kindref="member">CypherRelDirection</ref><sp/><ref refid="structthemis_1_1query_1_1_cypher_rel_pattern_1abf653b8d67c86df03df9a82c8996c8db" kindref="member">direction</ref><sp/>=<sp/><ref refid="namespacethemis_1_1query_1aaf9bc00eb5cacc2ccd3b8fe478e39f4aa7c147cda9e49590f6abe83d118b7353b" kindref="member">CypherRelDirection::Out</ref>;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1query_1_1_cypher_rel_pattern_1af5e46cbdee61e567a90622be4e170cce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;int&gt;<sp/><ref refid="structthemis_1_1query_1_1_cypher_rel_pattern_1af5e46cbdee61e567a90622be4e170cce" kindref="member">min_hops</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1query_1_1_cypher_rel_pattern_1ab91d5c3c847a9911215c3f4c0252406d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;int&gt;<sp/><ref refid="structthemis_1_1query_1_1_cypher_rel_pattern_1ab91d5c3c847a9911215c3f4c0252406d" kindref="member">max_hops</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cypher<sp/>path<sp/>pattern:<sp/>node<sp/>(-rel-&gt;<sp/>node)*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1query_1_1_cypher_path_segment" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_cypher_path_segment" kindref="compound">CypherPathSegment</ref><sp/>{</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1query_1_1_cypher_path_segment_1affcd38d4e24dcbad52f4961dd70cca66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_cypher_rel_pattern" kindref="compound">CypherRelPattern</ref><sp/><ref refid="structthemis_1_1query_1_1_cypher_path_segment_1affcd38d4e24dcbad52f4961dd70cca66" kindref="member">rel</ref>;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1query_1_1_cypher_path_segment_1a49ee4c63c0a09132dcb9c504be5ddb8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_cypher_node_pattern" kindref="compound">CypherNodePattern</ref><sp/><ref refid="structthemis_1_1query_1_1_cypher_path_segment_1a49ee4c63c0a09132dcb9c504be5ddb8c" kindref="member">node</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1query_1_1_cypher_path_pattern" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_cypher_path_pattern" kindref="compound">CypherPathPattern</ref><sp/>{</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1query_1_1_cypher_path_pattern_1ab7df7c4b1917a81a20c123741ef1116c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_cypher_node_pattern" kindref="compound">CypherNodePattern</ref><sp/><ref refid="structthemis_1_1query_1_1_cypher_path_pattern_1ab7df7c4b1917a81a20c123741ef1116c" kindref="member">start</ref>;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1query_1_1_cypher_path_pattern_1a36f1b9eb5945ca4d3779f32efd26694a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CypherPathSegment&gt;<sp/><ref refid="structthemis_1_1query_1_1_cypher_path_pattern_1a36f1b9eb5945ca4d3779f32efd26694a" kindref="member">segments</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cypher<sp/>WHERE<sp/>expression</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="namespacethemis_1_1query_1a00ee46eae0393449e2ba0b84b7278133" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a00ee46eae0393449e2ba0b84b7278133" kindref="member">CypherExprType</ref><sp/>{</highlight></codeline>
+<codeline lineno="95" refid="namespacethemis_1_1query_1a00ee46eae0393449e2ba0b84b7278133ad7da1b76e5799f53a399b7a96ba67437" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8fad7da1b76e5799f53a399b7a96ba67437" kindref="member">Literal</ref>,</highlight></codeline>
+<codeline lineno="96" refid="namespacethemis_1_1query_1a00ee46eae0393449e2ba0b84b7278133a5ad234cb2cde4266195252a23ca7d84e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a00ee46eae0393449e2ba0b84b7278133a5ad234cb2cde4266195252a23ca7d84e" kindref="member">Property</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>n.prop</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="namespacethemis_1_1query_1a00ee46eae0393449e2ba0b84b7278133a72146646648d0b47b0dac2e2af592d39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8fa72146646648d0b47b0dac2e2af592d39" kindref="member">BinaryOp</ref>,</highlight></codeline>
+<codeline lineno="98" refid="namespacethemis_1_1query_1a00ee46eae0393449e2ba0b84b7278133a40a92e96cc89b8dd3cf793d4c2a3b6e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8fa40a92e96cc89b8dd3cf793d4c2a3b6e8" kindref="member">UnaryOp</ref></highlight></codeline>
+<codeline lineno="99"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1query_1_1_cypher_expr" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_cypher_expr" kindref="compound">CypherExpr</ref><sp/>{</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1query_1_1_cypher_expr_1a8f0d7b995b8037b5c8685a1fbd0c26ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_cypher_expr_1a8f0d7b995b8037b5c8685a1fbd0c26ba" kindref="member">~CypherExpr</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1query_1_1_cypher_expr_1a43eff704c734ea9a3203d2cdf686e76c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a00ee46eae0393449e2ba0b84b7278133" kindref="member">CypherExprType</ref><sp/><ref refid="structthemis_1_1query_1_1_cypher_expr_1a43eff704c734ea9a3203d2cdf686e76c" kindref="member">exprType</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1query_1_1_cypher_literal_expr" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_cypher_literal_expr_1afed0748127b568bccb06496891797af1" kindref="member">CypherLiteralExpr</ref><sp/>:<sp/><ref refid="structthemis_1_1query_1_1_cypher_expr" kindref="compound">CypherExpr</ref><sp/>{</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1query_1_1_cypher_literal_expr_1ad4b0d80d1e3b40514c951ea9df32f4e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ac952d9530117fac7be6118903a519eb8" kindref="member">CypherLiteralValue</ref><sp/><ref refid="structthemis_1_1query_1_1_cypher_literal_expr_1ad4b0d80d1e3b40514c951ea9df32f4e4" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1query_1_1_cypher_literal_expr_1afed0748127b568bccb06496891797af1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_cypher_literal_expr_1afed0748127b568bccb06496891797af1" kindref="member">CypherLiteralExpr</ref>(<ref refid="namespacethemis_1_1query_1ac952d9530117fac7be6118903a519eb8" kindref="member">CypherLiteralValue</ref><sp/>v)<sp/>:<sp/><ref refid="structthemis_1_1query_1_1_cypher_literal_expr_1ad4b0d80d1e3b40514c951ea9df32f4e4" kindref="member">value</ref>(std::move(v))<sp/>{}</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1query_1_1_cypher_literal_expr_1afd61b29679fc1f859ee3ccfc38a68eba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a00ee46eae0393449e2ba0b84b7278133" kindref="member">CypherExprType</ref><sp/><ref refid="structthemis_1_1query_1_1_cypher_literal_expr_1afd61b29679fc1f859ee3ccfc38a68eba" kindref="member">exprType</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a00ee46eae0393449e2ba0b84b7278133ad7da1b76e5799f53a399b7a96ba67437" kindref="member">CypherExprType::Literal</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1query_1_1_cypher_property_expr" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_cypher_property_expr_1a4dea224e44539a187f19768f7dae6499" kindref="member">CypherPropertyExpr</ref><sp/>:<sp/><ref refid="structthemis_1_1query_1_1_cypher_expr" kindref="compound">CypherExpr</ref><sp/>{</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1query_1_1_cypher_property_expr_1a36fcfd9c0a970381c23f8999d4bfdcbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_cypher_property_expr_1a36fcfd9c0a970381c23f8999d4bfdcbc" kindref="member">variable</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1query_1_1_cypher_property_expr_1a7ce7bca05f14d68476e8fc75e87d1521" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keyword">property</highlight><highlight class="normal"><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1query_1_1_cypher_property_expr_1a4dea224e44539a187f19768f7dae6499" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_cypher_property_expr_1a4dea224e44539a187f19768f7dae6499" kindref="member">CypherPropertyExpr</ref>(std::string<sp/>v,<sp/>std::string<sp/>p)</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1query_1_1_cypher_property_expr_1a36fcfd9c0a970381c23f8999d4bfdcbc" kindref="member">variable</ref>(std::move(v)),<sp/><ref refid="structthemis_1_1query_1_1_cypher_property_expr_1a7ce7bca05f14d68476e8fc75e87d1521" kindref="member">property</ref>(std::move(p))<sp/>{}</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1query_1_1_cypher_property_expr_1a213b28d4e62b72d793e0ca50783c6455" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a00ee46eae0393449e2ba0b84b7278133" kindref="member">CypherExprType</ref><sp/><ref refid="structthemis_1_1query_1_1_cypher_property_expr_1a213b28d4e62b72d793e0ca50783c6455" kindref="member">exprType</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a00ee46eae0393449e2ba0b84b7278133a5ad234cb2cde4266195252a23ca7d84e" kindref="member">CypherExprType::Property</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1query_1_1_cypher_binary_op_expr" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_cypher_binary_op_expr_1adeb1ba64738459b95ae4cce273bfa0b3" kindref="member">CypherBinaryOpExpr</ref><sp/>:<sp/><ref refid="structthemis_1_1query_1_1_cypher_expr" kindref="compound">CypherExpr</ref><sp/>{</highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1query_1_1_cypher_binary_op_expr_1a078b961174cfeca2d51ac5bc631d72b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_cypher_binary_op_expr_1a078b961174cfeca2d51ac5bc631d72b9" kindref="member">op</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1query_1_1_cypher_binary_op_expr_1a3411c579669b1e121c2f2d5f742c7bba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;CypherExpr&gt;<sp/><ref refid="structthemis_1_1query_1_1_cypher_binary_op_expr_1a3411c579669b1e121c2f2d5f742c7bba" kindref="member">left</ref>;</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1query_1_1_cypher_binary_op_expr_1a25ee5c5bdfa6d79a03ec3f1943dc5693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;CypherExpr&gt;<sp/><ref refid="structthemis_1_1query_1_1_cypher_binary_op_expr_1a25ee5c5bdfa6d79a03ec3f1943dc5693" kindref="member">right</ref>;</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1query_1_1_cypher_binary_op_expr_1adeb1ba64738459b95ae4cce273bfa0b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_cypher_binary_op_expr_1adeb1ba64738459b95ae4cce273bfa0b3" kindref="member">CypherBinaryOpExpr</ref>(std::string<sp/>o,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;CypherExpr&gt;<sp/>l,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;CypherExpr&gt;<sp/>r)</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1query_1_1_cypher_binary_op_expr_1a078b961174cfeca2d51ac5bc631d72b9" kindref="member">op</ref>(std::move(o)),<sp/><ref refid="structthemis_1_1query_1_1_cypher_binary_op_expr_1a3411c579669b1e121c2f2d5f742c7bba" kindref="member">left</ref>(std::move(l)),<sp/><ref refid="structthemis_1_1query_1_1_cypher_binary_op_expr_1a25ee5c5bdfa6d79a03ec3f1943dc5693" kindref="member">right</ref>(std::move(r))<sp/>{}</highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1query_1_1_cypher_binary_op_expr_1a6cfd748122b75084f366731af936a151" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a00ee46eae0393449e2ba0b84b7278133" kindref="member">CypherExprType</ref><sp/><ref refid="structthemis_1_1query_1_1_cypher_binary_op_expr_1a6cfd748122b75084f366731af936a151" kindref="member">exprType</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a00ee46eae0393449e2ba0b84b7278133a72146646648d0b47b0dac2e2af592d39" kindref="member">CypherExprType::BinaryOp</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1query_1_1_cypher_unary_op_expr" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_cypher_unary_op_expr_1aee7ad6fb7e73f7302157212891fc1bc2" kindref="member">CypherUnaryOpExpr</ref><sp/>:<sp/><ref refid="structthemis_1_1query_1_1_cypher_expr" kindref="compound">CypherExpr</ref><sp/>{</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1query_1_1_cypher_unary_op_expr_1aaa6e2482d857a729b11ddd53f80736b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_cypher_unary_op_expr_1aaa6e2482d857a729b11ddd53f80736b4" kindref="member">op</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1query_1_1_cypher_unary_op_expr_1afb04813f3031f082be8984b928aed8f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;CypherExpr&gt;<sp/><ref refid="structthemis_1_1query_1_1_cypher_unary_op_expr_1afb04813f3031f082be8984b928aed8f4" kindref="member">operand</ref>;</highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1query_1_1_cypher_unary_op_expr_1aee7ad6fb7e73f7302157212891fc1bc2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_cypher_unary_op_expr_1aee7ad6fb7e73f7302157212891fc1bc2" kindref="member">CypherUnaryOpExpr</ref>(std::string<sp/>o,<sp/>std::shared_ptr&lt;CypherExpr&gt;<sp/>e)</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1query_1_1_cypher_unary_op_expr_1aaa6e2482d857a729b11ddd53f80736b4" kindref="member">op</ref>(std::move(o)),<sp/><ref refid="structthemis_1_1query_1_1_cypher_unary_op_expr_1afb04813f3031f082be8984b928aed8f4" kindref="member">operand</ref>(std::move(e))<sp/>{}</highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1query_1_1_cypher_unary_op_expr_1a11108860e62249bab2a6b792b02a9d85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a00ee46eae0393449e2ba0b84b7278133" kindref="member">CypherExprType</ref><sp/><ref refid="structthemis_1_1query_1_1_cypher_unary_op_expr_1a11108860e62249bab2a6b792b02a9d85" kindref="member">exprType</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a00ee46eae0393449e2ba0b84b7278133a40a92e96cc89b8dd3cf793d4c2a3b6e8" kindref="member">CypherExprType::UnaryOp</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cypher<sp/>RETURN<sp/>item</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1query_1_1_cypher_return_item" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_cypher_return_item" kindref="compound">CypherReturnItem</ref><sp/>{</highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1query_1_1_cypher_return_item_1a60a6832f037e61b82b4226bf44851330" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_cypher_return_item_1a60a6832f037e61b82b4226bf44851330" kindref="member">star</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1query_1_1_cypher_return_item_1aa22f7bca0faf197dbe9a2460553cbdcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_cypher_return_item_1aa22f7bca0faf197dbe9a2460553cbdcb" kindref="member">distinct</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1query_1_1_cypher_return_item_1a9ed4fa2a5de30cb9468077258eb405f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_cypher_return_item_1a9ed4fa2a5de30cb9468077258eb405f7" kindref="member">expression</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1query_1_1_cypher_return_item_1acb03ccd54b23322bc5dc218dde17bc42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_cypher_return_item_1acb03ccd54b23322bc5dc218dde17bc42" kindref="member">alias</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cypher<sp/>ORDER<sp/>BY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1query_1_1_cypher_sort_spec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_cypher_sort_spec" kindref="compound">CypherSortSpec</ref><sp/>{</highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1query_1_1_cypher_sort_spec_1a82a6080243a8fb4091a4e6ee97c112ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_cypher_sort_spec_1a82a6080243a8fb4091a4e6ee97c112ae" kindref="member">expression</ref>;</highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1query_1_1_cypher_sort_spec_1a92b75f42cca3bb1c7cf945e4c720ae1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_cypher_sort_spec_1a92b75f42cca3bb1c7cf945e4c720ae1c" kindref="member">ascending</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cypher<sp/>AST</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1query_1_1_cypher_a_s_t_node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_cypher_a_s_t_node" kindref="compound">CypherASTNode</ref><sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MATCH<sp/>clause</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1query_1_1_cypher_a_s_t_node_1a114706a27cd3b096094fdee362f6028c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CypherPathPattern&gt;<sp/><ref refid="structthemis_1_1query_1_1_cypher_a_s_t_node_1a114706a27cd3b096094fdee362f6028c" kindref="member">match_patterns</ref>;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WHERE<sp/>clause<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1query_1_1_cypher_a_s_t_node_1ac598d8c6281069f8c3b61e71bc88c7a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;CypherExpr&gt;<sp/><ref refid="structthemis_1_1query_1_1_cypher_a_s_t_node_1ac598d8c6281069f8c3b61e71bc88c7a5" kindref="member">where</ref>;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RETURN<sp/>clause</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="structthemis_1_1query_1_1_cypher_a_s_t_node_1a981e9fa67a14fc8d23321e24a1c1495f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CypherReturnItem&gt;<sp/><ref refid="structthemis_1_1query_1_1_cypher_a_s_t_node_1a981e9fa67a14fc8d23321e24a1c1495f" kindref="member">return_items</ref>;</highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1query_1_1_cypher_a_s_t_node_1a9717f959c66ae17d6c823850a9c617b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_cypher_a_s_t_node_1a9717f959c66ae17d6c823850a9c617b5" kindref="member">return_distinct</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ORDER<sp/>BY<sp/>/<sp/>SKIP<sp/>/<sp/>LIMIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="structthemis_1_1query_1_1_cypher_a_s_t_node_1aa6052bc8b9f5c610344dc4560e8084f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CypherSortSpec&gt;<sp/><ref refid="structthemis_1_1query_1_1_cypher_a_s_t_node_1aa6052bc8b9f5c610344dc4560e8084f0" kindref="member">order_by</ref>;</highlight></codeline>
+<codeline lineno="184" refid="structthemis_1_1query_1_1_cypher_a_s_t_node_1a3fc1169964c626e4a72c83463bf52a41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;int64_t&gt;<sp/><ref refid="structthemis_1_1query_1_1_cypher_a_s_t_node_1a3fc1169964c626e4a72c83463bf52a41" kindref="member">skip</ref>;</highlight></codeline>
+<codeline lineno="185" refid="structthemis_1_1query_1_1_cypher_a_s_t_node_1a9e5e18f7a7f489ae93b26a9934dfe51e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;int64_t&gt;<sp/><ref refid="structthemis_1_1query_1_1_cypher_a_s_t_node_1a9e5e18f7a7f489ae93b26a9934dfe51e" kindref="member">limit</ref>;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Parse<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="structthemis_1_1query_1_1_cypher_parse_error" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_cypher_parse_error" kindref="compound">CypherParseError</ref><sp/>{</highlight></codeline>
+<codeline lineno="193" refid="structthemis_1_1query_1_1_cypher_parse_error_1a501cc750790c04a8ffea992e9685d086" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_cypher_parse_error_1a501cc750790c04a8ffea992e9685d086" kindref="member">message</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="194" refid="structthemis_1_1query_1_1_cypher_parse_error_1ad04cae899bfb8933169f505ebafa0b02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_cypher_parse_error_1ad04cae899bfb8933169f505ebafa0b02" kindref="member">position</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="structthemis_1_1query_1_1_cypher_parse_error_1a88e457f9ac1b78584b99043923fcdcc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_cypher_parse_error_1a88e457f9ac1b78584b99043923fcdcc4" kindref="member">toString</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Cypher<sp/>parse<sp/>error<sp/>at<sp/>position<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(<ref refid="structthemis_1_1query_1_1_cypher_parse_error_1ad04cae899bfb8933169f505ebafa0b02" kindref="member">position</ref>)</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="structthemis_1_1query_1_1_cypher_parse_error_1a501cc750790c04a8ffea992e9685d086" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CypherParser</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Parses<sp/>a<sp/>subset<sp/>of<sp/>openCypher<sp/>MATCH/WHERE/RETURN<sp/>queries<sp/>into<sp/>a<sp/>CypherASTNode.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread-safety:<sp/>NOT<sp/>thread-safe;<sp/>create<sp/>one<sp/>instance<sp/>per<sp/>thread.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208" refid="classthemis_1_1query_1_1_cypher_parser" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_cypher_parser_1a1befcc471aa0e28794915ffbb6610909" kindref="member">CypherParser</ref><sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="210" refid="classthemis_1_1query_1_1_cypher_parser_1a1befcc471aa0e28794915ffbb6610909" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_cypher_parser_1a1befcc471aa0e28794915ffbb6610909" kindref="member">CypherParser</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;CypherASTNode&gt;<sp/><ref refid="classthemis_1_1query_1_1_cypher_parser_1a138037669761015ea4485e8fd6a2782f" kindref="member">parse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>cypher_query);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_token" kindref="compound">Token</ref>;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_lexer" kindref="compound">Lexer</ref>;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_cypher_parser_1_1_parser" kindref="compound">Parser</ref>;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CypherToAQLTranspiler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Translates<sp/>a<sp/>CypherASTNode<sp/>into<sp/>an<sp/>AQL<sp/>query<sp/>string<sp/>suitable<sp/>for<sp/>execution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>through<sp/>the<sp/>existing<sp/>AQL<sp/>pipeline<sp/>(executeAql<sp/>/<sp/>AQLParser<sp/>/<sp/>AQLTranslator).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231" refid="classthemis_1_1query_1_1_cypher_to_a_q_l_transpiler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_cypher_to_a_q_l_transpiler_1adca521b4f301c8af86a66147a526fbbc" kindref="member">CypherToAQLTranspiler</ref><sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="233" refid="classthemis_1_1query_1_1_cypher_to_a_q_l_transpiler_1adca521b4f301c8af86a66147a526fbbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_cypher_to_a_q_l_transpiler_1adca521b4f301c8af86a66147a526fbbc" kindref="member">CypherToAQLTranspiler</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::string&gt;<sp/><ref refid="classthemis_1_1query_1_1_cypher_to_a_q_l_transpiler_1a0be395ce7ade883b4e1ca324b6dce3cf" kindref="member">transpile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_cypher_a_s_t_node" kindref="compound">CypherASTNode</ref>&amp;<sp/>ast);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>literalToAQL(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1ac952d9530117fac7be6118903a519eb8" kindref="member">CypherLiteralValue</ref>&amp;<sp/>val);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>exprToAQL(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_cypher_expr" kindref="compound">CypherExpr</ref>&amp;<sp/>expr,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>default_var);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>nodePatternToFilter(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_cypher_node_pattern" kindref="compound">CypherNodePattern</ref>&amp;<sp/>node,</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>var);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/cypher_parser.h"/>
+  </compounddef>
+</doxygen>

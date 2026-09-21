@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_j_i_t_equivalence_test" kind="class" language="C++" prot="public">
+    <compoundname>JITEquivalenceTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_j_i_t_equivalence_test_1adee7cd691c42397d1fa5411536c626af" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_query_compiler" kindref="compound">QueryCompiler</ref></type>
+        <definition>QueryCompiler JITEquivalenceTest::compiler_</definition>
+        <argsstring></argsstring>
+        <name>compiler_</name>
+        <qualifiedname>JITEquivalenceTest::compiler_</qualifiedname>
+        <initializer>{<ref refid="class_j_i_t_equivalence_test_1a4d83ab2350fdba0683f1039e5439f9d7" kindref="member">makeCompilerConfig</ref>()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_jit_equivalence.cpp" line="45" column="19" bodyfile="tests/query/test_query_jit_equivalence.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_j_i_t_equivalence_test_1a4d83ab2350fdba0683f1039e5439f9d7" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_query_compiler_1_1_config" kindref="compound">QueryCompiler::Config</ref></type>
+        <definition>static QueryCompiler::Config JITEquivalenceTest::makeCompilerConfig</definition>
+        <argsstring>()</argsstring>
+        <name>makeCompilerConfig</name>
+        <qualifiedname>JITEquivalenceTest::makeCompilerConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_jit_equivalence.cpp" line="37" column="34" bodyfile="tests/query/test_query_jit_equivalence.cpp" bodystart="37" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_j_i_t_equivalence_test_1ac92e36cb92a03601d0909ffd01be0b99" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_query_compiler_1a7215d058f55050d62a9decb4a67de3c2" kindref="member">QueryCompiler::ExecuteFn</ref></type>
+        <definition>static QueryCompiler::ExecuteFn JITEquivalenceTest::makeEchoExecutor</definition>
+        <argsstring>()</argsstring>
+        <name>makeEchoExecutor</name>
+        <qualifiedname>JITEquivalenceTest::makeEchoExecutor</qualifiedname>
+        <briefdescription>
+<para>Simple echo executor: returns the query text in a result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_jit_equivalence.cpp" line="48" column="37" bodyfile="tests/query/test_query_jit_equivalence.cpp" bodystart="48" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="class_j_i_t_equivalence_test_1a1a952c31742520db367a82c88c23bf45" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_query_compiler_1a7215d058f55050d62a9decb4a67de3c2" kindref="member">QueryCompiler::ExecuteFn</ref></type>
+        <definition>static QueryCompiler::ExecuteFn JITEquivalenceTest::makeDeterministicExecutor</definition>
+        <argsstring>()</argsstring>
+        <name>makeDeterministicExecutor</name>
+        <qualifiedname>JITEquivalenceTest::makeDeterministicExecutor</qualifiedname>
+        <briefdescription>
+<para>Deterministic executor: returns fixed results based on query hash. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_jit_equivalence.cpp" line="60" column="37" bodyfile="tests/query/test_query_jit_equivalence.cpp" bodystart="60" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_j_i_t_equivalence_test_1adffd1c9fa458ff4e1d2361d5f5a3b8e4" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_query_compiler_1a7215d058f55050d62a9decb4a67de3c2" kindref="member">QueryCompiler::ExecuteFn</ref></type>
+        <definition>static QueryCompiler::ExecuteFn JITEquivalenceTest::makeFailingExecutor</definition>
+        <argsstring>(const std::string &amp;fail_pattern)</argsstring>
+        <name>makeFailingExecutor</name>
+        <qualifiedname>JITEquivalenceTest::makeFailingExecutor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fail_pattern</declname>
+        </param>
+        <briefdescription>
+<para>Executor that fails on specific query patterns (for fallback testing). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_jit_equivalence.cpp" line="85" column="37" bodyfile="tests/query/test_query_jit_equivalence.cpp" bodystart="85" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>JITEquivalenceTest</label>
+        <link refid="class_j_i_t_equivalence_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>JITEquivalenceTest</label>
+        <link refid="class_j_i_t_equivalence_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>compiler_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::query::QueryCompiler</label>
+        <link refid="classthemis_1_1query_1_1_query_compiler"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_jit_equivalence.cpp" line="35" column="1" bodyfile="tests/query/test_query_jit_equivalence.cpp" bodystart="35" bodyend="97"/>
+    <listofallmembers>
+      <member refid="class_j_i_t_equivalence_test_1adee7cd691c42397d1fa5411536c626af" prot="protected" virt="non-virtual"><scope>JITEquivalenceTest</scope><name>compiler_</name></member>
+      <member refid="class_j_i_t_equivalence_test_1a4d83ab2350fdba0683f1039e5439f9d7" prot="protected" virt="non-virtual"><scope>JITEquivalenceTest</scope><name>makeCompilerConfig</name></member>
+      <member refid="class_j_i_t_equivalence_test_1a1a952c31742520db367a82c88c23bf45" prot="protected" virt="non-virtual"><scope>JITEquivalenceTest</scope><name>makeDeterministicExecutor</name></member>
+      <member refid="class_j_i_t_equivalence_test_1ac92e36cb92a03601d0909ffd01be0b99" prot="protected" virt="non-virtual"><scope>JITEquivalenceTest</scope><name>makeEchoExecutor</name></member>
+      <member refid="class_j_i_t_equivalence_test_1adffd1c9fa458ff4e1d2361d5f5a3b8e4" prot="protected" virt="non-virtual"><scope>JITEquivalenceTest</scope><name>makeFailingExecutor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

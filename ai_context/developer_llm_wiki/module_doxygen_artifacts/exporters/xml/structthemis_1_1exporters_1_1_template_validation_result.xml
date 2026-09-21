@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_template_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::TemplateValidationResult</compoundname>
+    <includes refid="format__template_8h" local="no">format_template.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_template_validation_result_1a4bc2631acb4ec30fcbd6ee0541ffb7fa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::TemplateValidationResult::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::exporters::TemplateValidationResult::valid</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/format_template.h" line="155" column="10" bodyfile="include/exporters/format_template.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_template_validation_result_1a014039321624e3d00d83ec4704de675e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::exporters::TemplateValidationResult::missing_fields</definition>
+        <argsstring></argsstring>
+        <name>missing_fields</name>
+        <qualifiedname>themis::exporters::TemplateValidationResult::missing_fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/format_template.h" line="157" column="17" bodyfile="include/exporters/format_template.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_template_validation_result_1a49841abad632cbe49c903a29c03d04f1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::TemplateValidationResult::entities_checked</definition>
+        <argsstring></argsstring>
+        <name>entities_checked</name>
+        <qualifiedname>themis::exporters::TemplateValidationResult::entities_checked</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/format_template.h" line="159" column="12" bodyfile="include/exporters/format_template.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_template_validation_result_1ae323e91fe4543bcc1d8c04661dab7fb1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::TemplateValidationResult::entities_failed</definition>
+        <argsstring></argsstring>
+        <name>entities_failed</name>
+        <qualifiedname>themis::exporters::TemplateValidationResult::entities_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/format_template.h" line="161" column="12" bodyfile="include/exporters/format_template.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/format_template.h" line="154" column="1" bodyfile="include/exporters/format_template.h" bodystart="154" bodyend="162"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_template_validation_result_1a49841abad632cbe49c903a29c03d04f1" prot="public" virt="non-virtual"><scope>themis::exporters::TemplateValidationResult</scope><name>entities_checked</name></member>
+      <member refid="structthemis_1_1exporters_1_1_template_validation_result_1ae323e91fe4543bcc1d8c04661dab7fb1" prot="public" virt="non-virtual"><scope>themis::exporters::TemplateValidationResult</scope><name>entities_failed</name></member>
+      <member refid="structthemis_1_1exporters_1_1_template_validation_result_1a014039321624e3d00d83ec4704de675e" prot="public" virt="non-virtual"><scope>themis::exporters::TemplateValidationResult</scope><name>missing_fields</name></member>
+      <member refid="structthemis_1_1exporters_1_1_template_validation_result_1a4bc2631acb4ec30fcbd6ee0541ffb7fa" prot="public" virt="non-virtual"><scope>themis::exporters::TemplateValidationResult</scope><name>valid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

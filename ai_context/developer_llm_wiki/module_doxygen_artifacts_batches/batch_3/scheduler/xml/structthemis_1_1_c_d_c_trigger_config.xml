@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_c_d_c_trigger_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::CDCTriggerConfig</compoundname>
+    <includes refid="event__trigger_8h" local="no">event_trigger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_c_d_c_trigger_config_1afcc98b4ef8136d981f3b66124c251c63" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::CDCTriggerConfig::key_prefix</definition>
+        <argsstring></argsstring>
+        <name>key_prefix</name>
+        <qualifiedname>themis::CDCTriggerConfig::key_prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="32" column="17" bodyfile="include/scheduler/event_trigger.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_c_d_c_trigger_config_1ac2bac89c746eecdbb8398359d588c879" prot="public" static="no" mutable="no">
+        <type>std::set&lt; Changefeed::ChangeEventType &gt;</type>
+        <definition>std::set&lt;Changefeed::ChangeEventType&gt; themis::CDCTriggerConfig::event_types</definition>
+        <argsstring></argsstring>
+        <name>event_types</name>
+        <qualifiedname>themis::CDCTriggerConfig::event_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="33" column="14" bodyfile="include/scheduler/event_trigger.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_c_d_c_trigger_config_1a82fce6ef8fc28f137801db8ca992d8a7" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::CDCTriggerConfig::condition</definition>
+        <argsstring></argsstring>
+        <name>condition</name>
+        <qualifiedname>themis::CDCTriggerConfig::condition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="34" column="19" bodyfile="include/scheduler/event_trigger.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_c_d_c_trigger_config_1a9bfd18d0628b24713a385ca54d83107f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::CDCTriggerConfig::debounce_ms</definition>
+        <argsstring></argsstring>
+        <name>debounce_ms</name>
+        <qualifiedname>themis::CDCTriggerConfig::debounce_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="35" column="14" bodyfile="include/scheduler/event_trigger.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_c_d_c_trigger_config_1ad30c7fa34e9d6371419ed616f4706037" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::CDCTriggerConfig::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::CDCTriggerConfig::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="38" column="10" bodyfile="src/scheduler/event_trigger.cpp" bodystart="84" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_c_d_c_trigger_config_1af9bee1c6aff8516894a4f05884cbcadf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::CDCTriggerConfig::getValidationError</definition>
+        <argsstring>() const</argsstring>
+        <name>getValidationError</name>
+        <qualifiedname>themis::CDCTriggerConfig::getValidationError</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="39" column="17" bodyfile="src/scheduler/event_trigger.cpp" bodystart="88" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for CDC-based event trigger. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/event_trigger.h" line="31" column="1" bodyfile="include/scheduler/event_trigger.h" bodystart="31" bodyend="40"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_c_d_c_trigger_config_1a82fce6ef8fc28f137801db8ca992d8a7" prot="public" virt="non-virtual"><scope>themis::CDCTriggerConfig</scope><name>condition</name></member>
+      <member refid="structthemis_1_1_c_d_c_trigger_config_1a9bfd18d0628b24713a385ca54d83107f" prot="public" virt="non-virtual"><scope>themis::CDCTriggerConfig</scope><name>debounce_ms</name></member>
+      <member refid="structthemis_1_1_c_d_c_trigger_config_1ac2bac89c746eecdbb8398359d588c879" prot="public" virt="non-virtual"><scope>themis::CDCTriggerConfig</scope><name>event_types</name></member>
+      <member refid="structthemis_1_1_c_d_c_trigger_config_1af9bee1c6aff8516894a4f05884cbcadf" prot="public" virt="non-virtual"><scope>themis::CDCTriggerConfig</scope><name>getValidationError</name></member>
+      <member refid="structthemis_1_1_c_d_c_trigger_config_1ad30c7fa34e9d6371419ed616f4706037" prot="public" virt="non-virtual"><scope>themis::CDCTriggerConfig</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1_c_d_c_trigger_config_1afcc98b4ef8136d981f3b66124c251c63" prot="public" virt="non-virtual"><scope>themis::CDCTriggerConfig</scope><name>key_prefix</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

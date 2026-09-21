@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="parallel__traversal_8h" kind="file" language="C++">
+    <compoundname>parallel_traversal.h</compoundname>
+    <includes local="yes">index/graph_index.h</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">atomic</includes>
+    <includedby refid="bench__graph__query__optimizer_8cpp" local="yes">benchmarks/graph/bench_graph_query_optimizer.cpp</includedby>
+    <includedby refid="bench__graph__traversal_8cpp" local="yes">benchmarks/graph/bench_graph_traversal.cpp</includedby>
+    <includedby refid="parallel__traversal_8cpp" local="yes">src/graph/parallel_traversal.cpp</includedby>
+    <includedby refid="test__graph__parallel__traversal_8cpp" local="yes">tests/graph/test_graph_parallel_traversal.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/graph/parallel_traversal.h</label>
+        <link refid="parallel__traversal_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/graph/bench_graph_query_optimizer.cpp</label>
+        <link refid="bench__graph__query__optimizer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/graph/bench_graph_traversal.cpp</label>
+        <link refid="bench__graph__traversal_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/graph/parallel_traversal.h</label>
+        <link refid="parallel__traversal_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/graph/parallel_traversal.cpp</label>
+        <link refid="parallel__traversal_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/graph/test_graph_parallel_traversal.cpp</label>
+        <link refid="test__graph__parallel__traversal_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1graph_1_1_parallel_traversal" prot="public">themis::graph::ParallelTraversal</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config" prot="public">themis::graph::ParallelTraversal::Config</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result" prot="public">themis::graph::ParallelTraversal::MultiSourceResult</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_source_traversal_result" prot="private">themis::graph::ParallelTraversal::SourceTraversalResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1graph">themis::graph</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.18 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/graph_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph" kindref="compound">graph</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="classthemis_1_1graph_1_1_parallel_traversal" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1graph_1_1_parallel_traversal_1aef317a93c905f906ddad70cd47e52c14" kindref="member">ParallelTraversal</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1abfe9c29ab2fe132123334ad47449f412" kindref="member">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1a03b216bb0ac27b8c19f5789085fa8ad4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1a03b216bb0ac27b8c19f5789085fa8ad4" kindref="member">max_depth</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1a8678252b916746f8681939be628e04bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1a8678252b916746f8681939be628e04bf" kindref="member">max_results</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1a42a397e7a3cf6bc61819ada7459f9ba9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1a42a397e7a3cf6bc61819ada7459f9ba9" kindref="member">num_threads</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1a79988bae07aa40c46eabd778d5d189a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1a79988bae07aa40c46eabd778d5d189a1" kindref="member">timeout_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1af4e1b35b6616a00717ce78f8887fc6c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1af4e1b35b6616a00717ce78f8887fc6c1" kindref="member">forbidden_vertices</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1a3e2ae5dab86359182ff0e6c42784533b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1a3e2ae5dab86359182ff0e6c42784533b" kindref="member">fan_out_threshold</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1abfe9c29ab2fe132123334ad47449f412" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config_1abfe9c29ab2fe132123334ad47449f412" kindref="member">Config</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result" kindref="compound">MultiSourceResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1a238d33f41b6feff6ec8b2cdf6e326e91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1a238d33f41b6feff6ec8b2cdf6e326e91" kindref="member">visited_vertices</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1a420f5f1377a8a51e036fb47f26f3c31a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1a420f5f1377a8a51e036fb47f26f3c31a" kindref="member">vertex_to_source</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1ac66d16bafe69668aaed948746d096f5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1ac66d16bafe69668aaed948746d096f5f" kindref="member">total_nodes_explored</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1ab0e4ab8f03d7644ce0b84d733df4f908" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1ab0e4ab8f03d7644ce0b84d733df4f908" kindref="member">total_edges_traversed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1a76676296d8542f9d7ff44e9d2c772965" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1a76676296d8542f9d7ff44e9d2c772965" kindref="member">execution_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1ae39c19d3012dc5b1ca554e8356746982" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_multi_source_result_1ae39c19d3012dc5b1ca554e8356746982" kindref="member">timed_out</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_parallel_traversal_1aef317a93c905f906ddad70cd47e52c14" kindref="member">ParallelTraversal</ref>(GraphIndexManager&amp;<sp/>graph_manager);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;MultiSourceResult&gt;<sp/><ref refid="classthemis_1_1graph_1_1_parallel_traversal_1ab6c2e5833948e00eb112a449938a01d4" kindref="member">multiSourceBFS</ref>(</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>sources</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;MultiSourceResult&gt;<sp/><ref refid="classthemis_1_1graph_1_1_parallel_traversal_1ab6c2e5833948e00eb112a449938a01d4" kindref="member">multiSourceBFS</ref>(</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>sources,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;MultiSourceResult&gt;<sp/><ref refid="classthemis_1_1graph_1_1_parallel_traversal_1a809c8c6a6e982f34bffc71908a2afdf3" kindref="member">multiSourceDFS</ref>(</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>sources</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;MultiSourceResult&gt;<sp/><ref refid="classthemis_1_1graph_1_1_parallel_traversal_1a809c8c6a6e982f34bffc71908a2afdf3" kindref="member">multiSourceDFS</ref>(</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>sources,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>GraphIndexManager&amp;<sp/>graph_manager_;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>effectiveThreadCount(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_parallel_traversal_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_sources);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">SourceTraversalResult<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>source<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>visited;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ordered<sp/>by<sp/>discovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>nodes_explored<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>edges_traversed<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>timed_out<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>SourceTraversalResult<sp/>runSingleBFS(</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>source,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>SourceTraversalResult<sp/>runSingleDFS(</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>source,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>MultiSourceResult<sp/>mergeResults(</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;SourceTraversalResult&gt;&amp;&amp;<sp/>per_source,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>execution_time_ms</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/graph/parallel_traversal.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1604 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_property_graph_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::PropertyGraphManager</compoundname>
+    <includes refid="property__graph_8h" local="no">property_graph.h</includes>
+    <innerclass refid="structthemis_1_1_property_graph_manager_1_1_status" prot="public">themis::PropertyGraphManager::Status</innerclass>
+    <innerclass refid="structthemis_1_1_property_graph_manager_1_1_node_info" prot="public">themis::PropertyGraphManager::NodeInfo</innerclass>
+    <innerclass refid="structthemis_1_1_property_graph_manager_1_1_edge_info" prot="public">themis::PropertyGraphManager::EdgeInfo</innerclass>
+    <innerclass refid="structthemis_1_1_property_graph_manager_1_1_federation_pattern" prot="public">themis::PropertyGraphManager::FederationPattern</innerclass>
+    <innerclass refid="structthemis_1_1_property_graph_manager_1_1_graph_stats" prot="public">themis::PropertyGraphManager::GraphStats</innerclass>
+    <innerclass refid="structthemis_1_1_property_graph_manager_1_1_federation_result" prot="public">themis::PropertyGraphManager::FederationResult</innerclass>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1_property_graph_manager_1a9a17262e8a8b53f51138ee7aebbe2d78" prot="private" static="no">
+        <type>std::function&lt; std::vector&lt; std::string &gt;(const std::string &amp;node_id)&gt;</type>
+        <definition>using themis::PropertyGraphManager::StringArrayFn = std::function&lt;std::vector&lt;std::string&gt;(const std::string&amp; node_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>StringArrayFn</name>
+        <qualifiedname>themis::PropertyGraphManager::StringArrayFn</qualifiedname>
+        <briefdescription>
+<para>Type alias for label extraction injection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="283" column="5" bodyfile="include/index/property_graph.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_property_graph_manager_1adf4f99216c6f84803457ad7176ca0e23" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper &amp;</type>
+        <definition>RocksDBWrapper&amp; themis::PropertyGraphManager::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::PropertyGraphManager::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="278" column="20" bodyfile="include/index/property_graph.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a14494bdbb0fd9ed4b1e0ba33636704dc" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::PropertyGraphManager::PropertyGraphManager</definition>
+        <argsstring>(RocksDBWrapper &amp;db)</argsstring>
+        <name>PropertyGraphManager</name>
+        <qualifiedname>themis::PropertyGraphManager::PropertyGraphManager</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="110" column="14" bodyfile="src/index/property_graph.cpp" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a3f59a2a4136e5ee0497846dd0367803e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>PropertyGraphManager::Status themis::PropertyGraphManager::addNode</definition>
+        <argsstring>(const BaseEntity &amp;node, std::string_view graph_id=&quot;default&quot;)</argsstring>
+        <name>addNode</name>
+        <qualifiedname>themis::PropertyGraphManager::addNode</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+<para>===== Node Label Operations ===== </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add node with labels (entity must have _labels array field) Creates label index entries for each label</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), <ref refid="structthemis_1_1_property_graph_manager_1_1_status_1ad2a81e8e0fd70af809b270eccfa144ca" kindref="member">Status::Error()</ref>, getFieldAsString(), has_value(), extractLabels_(), createWriteBatch(), makeNodeKey_(), put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="116" column="12" bodyfile="src/index/property_graph.cpp" bodystart="99" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1aa09e2d8a26c1f8819c0585f6cf6b230f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>PropertyGraphManager::Status themis::PropertyGraphManager::deleteNode</definition>
+        <argsstring>(std::string_view pk, std::string_view graph_id=&quot;default&quot;)</argsstring>
+        <name>deleteNode</name>
+        <qualifiedname>themis::PropertyGraphManager::deleteNode</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Remove node and all label indices. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete Node.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), <ref refid="structthemis_1_1_property_graph_manager_1_1_status_1ad2a81e8e0fd70af809b270eccfa144ca" kindref="member">Status::Error()</ref>, makeNodeKey_(), get(), has_value(), <ref refid="structthemis_1_1_property_graph_manager_1_1_status_1a519be290bf2776438e261818c1ac096c" kindref="member">Status::OK()</ref>, BaseEntity::deserialize(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="119" column="12" bodyfile="src/index/property_graph.cpp" bodystart="142" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a5c333c4b363cd747b09d598d746bd148" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>PropertyGraphManager::Status themis::PropertyGraphManager::addNodeLabel</definition>
+        <argsstring>(std::string_view pk, std::string_view label, std::string_view graph_id=&quot;default&quot;)</argsstring>
+        <name>addNodeLabel</name>
+        <qualifiedname>themis::PropertyGraphManager::addNodeLabel</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>label</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Add label to existing node (updates label index). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Node Label.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), <ref refid="structthemis_1_1_property_graph_manager_1_1_status_1ad2a81e8e0fd70af809b270eccfa144ca" kindref="member">Status::Error()</ref>, makeNodeKey_(), get(), has_value(), BaseEntity::deserialize(), std::string(), extractLabels_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="122" column="12" bodyfile="src/index/property_graph.cpp" bodystart="262" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1af83537bd663a31ac4179ad71403c82c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>PropertyGraphManager::Status themis::PropertyGraphManager::removeNodeLabel</definition>
+        <argsstring>(std::string_view pk, std::string_view label, std::string_view graph_id=&quot;default&quot;)</argsstring>
+        <name>removeNodeLabel</name>
+        <qualifiedname>themis::PropertyGraphManager::removeNodeLabel</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>label</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Remove label from node (updates label index). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Node Label.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), <ref refid="structthemis_1_1_property_graph_manager_1_1_status_1ad2a81e8e0fd70af809b270eccfa144ca" kindref="member">Status::Error()</ref>, makeNodeKey_(), get(), has_value(), BaseEntity::deserialize(), std::string(), extractLabels_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="125" column="12" bodyfile="src/index/property_graph.cpp" bodystart="313" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a6d5b73bcf3d3360c47c6aa26d8f0a07d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref>, bool &gt;</type>
+        <definition>std::pair&lt; PropertyGraphManager::Status, bool &gt; themis::PropertyGraphManager::hasNodeLabel</definition>
+        <argsstring>(std::string_view pk, std::string_view label, std::string_view graph_id=&quot;default&quot;) const</argsstring>
+        <name>hasNodeLabel</name>
+        <qualifiedname>themis::PropertyGraphManager::hasNodeLabel</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>label</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Check if node has specific label. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="128" column="15" bodyfile="src/index/property_graph.cpp" bodystart="357" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a002bb9fa34e9fcd3707619007cc1b5a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; PropertyGraphManager::Status, std::vector&lt; std::string &gt; &gt; themis::PropertyGraphManager::getNodesByLabel</definition>
+        <argsstring>(std::string_view label, std::string_view graph_id=&quot;default&quot;) const</argsstring>
+        <name>getNodesByLabel</name>
+        <qualifiedname>themis::PropertyGraphManager::getNodesByLabel</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>label</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all nodes with specific label Returns vector of primary keys </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Extract PK from key: label:&lt;graph_id&gt;:&lt;label&gt;:&lt;pk&gt; <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="132" column="15" bodyfile="src/index/property_graph.cpp" bodystart="369" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a2b52b4a631fa2ccf5d25befdf6bb0923" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; PropertyGraphManager::Status, std::vector&lt; std::string &gt; &gt; themis::PropertyGraphManager::getNodeLabels</definition>
+        <argsstring>(std::string_view pk, std::string_view graph_id=&quot;default&quot;) const</argsstring>
+        <name>getNodeLabels</name>
+        <qualifiedname>themis::PropertyGraphManager::getNodeLabels</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Get all labels for a node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="135" column="15" bodyfile="src/index/property_graph.cpp" bodystart="400" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a8c306cfac94224bee6a1abef38673830" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>PropertyGraphManager::Status themis::PropertyGraphManager::addEdge</definition>
+        <argsstring>(const BaseEntity &amp;edge, std::string_view graph_id=&quot;default&quot;)</argsstring>
+        <name>addEdge</name>
+        <qualifiedname>themis::PropertyGraphManager::addEdge</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>edge</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+<para>===== Relationship Type Operations ===== </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add edge with type (entity must have _type string field) Creates type index entry</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), <ref refid="structthemis_1_1_property_graph_manager_1_1_status_1ad2a81e8e0fd70af809b270eccfa144ca" kindref="member">Status::Error()</ref>, getFieldAsString(), extractType_(), createWriteBatch(), makeEdgeKey_(), put(), serialize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="141" column="12" bodyfile="src/index/property_graph.cpp" bodystart="427" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a4933d7f10a91f712be0f5c1de5614496" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>PropertyGraphManager::Status themis::PropertyGraphManager::deleteEdge</definition>
+        <argsstring>(std::string_view edgeId, std::string_view graph_id=&quot;default&quot;)</argsstring>
+        <name>deleteEdge</name>
+        <qualifiedname>themis::PropertyGraphManager::deleteEdge</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>edgeId</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Remove edge and type index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete Edge.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edgeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), <ref refid="structthemis_1_1_property_graph_manager_1_1_status_1ad2a81e8e0fd70af809b270eccfa144ca" kindref="member">Status::Error()</ref>, makeEdgeKey_(), get(), has_value(), <ref refid="structthemis_1_1_property_graph_manager_1_1_status_1a519be290bf2776438e261818c1ac096c" kindref="member">Status::OK()</ref>, BaseEntity::deserialize(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="144" column="12" bodyfile="src/index/property_graph.cpp" bodystart="482" bodyend="528"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a71e11dff7ad175b38a1253d4416a9437" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_edge_info" kindref="compound">EdgeInfo</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; PropertyGraphManager::Status, std::vector&lt; PropertyGraphManager::EdgeInfo &gt; &gt; themis::PropertyGraphManager::getEdgesByType</definition>
+        <argsstring>(std::string_view type, std::string_view graph_id=&quot;default&quot;) const</argsstring>
+        <name>getEdgesByType</name>
+        <qualifiedname>themis::PropertyGraphManager::getEdgesByType</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all edges with specific type Returns <ref refid="structthemis_1_1_property_graph_manager_1_1_edge_info" kindref="compound">EdgeInfo</ref> with full metadata </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Extract edgeId from key: type:&lt;graph_id&gt;:&lt;type&gt;:&lt;edgeId&gt; <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="148" column="15" bodyfile="src/index/property_graph.cpp" bodystart="531" bodyend="579"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a8bba55c6e5709b6bff22a063f44ac4a6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref>, std::string &gt;</type>
+        <definition>std::pair&lt; PropertyGraphManager::Status, std::string &gt; themis::PropertyGraphManager::getEdgeType</definition>
+        <argsstring>(std::string_view edgeId, std::string_view graph_id=&quot;default&quot;) const</argsstring>
+        <name>getEdgeType</name>
+        <qualifiedname>themis::PropertyGraphManager::getEdgeType</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>edgeId</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Get type of specific edge. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="151" column="15" bodyfile="src/index/property_graph.cpp" bodystart="581" bodyend="601"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1af0b84ba62e94f6135e18e4936ef7b38f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_edge_info" kindref="compound">EdgeInfo</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; PropertyGraphManager::Status, std::vector&lt; PropertyGraphManager::EdgeInfo &gt; &gt; themis::PropertyGraphManager::getTypedOutEdges</definition>
+        <argsstring>(std::string_view fromPk, std::string_view type, std::string_view graph_id=&quot;default&quot;) const</argsstring>
+        <name>getTypedOutEdges</name>
+        <qualifiedname>themis::PropertyGraphManager::getTypedOutEdges</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>fromPk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Get typed edges from specific node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Extract edgeId from key: graph:out:&lt;graph_id&gt;:&lt;from_pk&gt;:&lt;edgeId&gt; <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+To Pk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="154" column="15" bodyfile="src/index/property_graph.cpp" bodystart="604" bodyend="662"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a87d6d9254060280c4ba613f6258314c6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; PropertyGraphManager::Status, std::vector&lt; std::string &gt; &gt; themis::PropertyGraphManager::listGraphs</definition>
+        <argsstring>() const</argsstring>
+        <name>listGraphs</name>
+        <qualifiedname>themis::PropertyGraphManager::listGraphs</qualifiedname>
+        <briefdescription>
+<para>List all graph IDs in database. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="163" column="15" bodyfile="src/index/property_graph.cpp" bodystart="666" bodyend="695"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1ac2846ac6d492e959feca166a70418b39" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_property_graph_manager_1_1_graph_stats" kindref="compound">GraphStats</ref> &gt;</type>
+        <definition>std::pair&lt; PropertyGraphManager::Status, PropertyGraphManager::GraphStats &gt; themis::PropertyGraphManager::getGraphStats</definition>
+        <argsstring>(std::string_view graph_id) const</argsstring>
+        <name>getGraphStats</name>
+        <qualifiedname>themis::PropertyGraphManager::getGraphStats</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="173" column="15" bodyfile="src/index/property_graph.cpp" bodystart="698" bodyend="770"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a81698353ad265dccec0d31263e177647" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref>, <ref refid="structthemis_1_1_property_graph_manager_1_1_federation_result" kindref="compound">FederationResult</ref> &gt;</type>
+        <definition>std::pair&lt; PropertyGraphManager::Status, PropertyGraphManager::FederationResult &gt; themis::PropertyGraphManager::federatedQuery</definition>
+        <argsstring>(const std::vector&lt; FederationPattern &gt; &amp;patterns) const</argsstring>
+        <name>federatedQuery</name>
+        <qualifiedname>themis::PropertyGraphManager::federatedQuery</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_federation_pattern" kindref="compound">FederationPattern</ref> &gt; &amp;</type>
+          <declname>patterns</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="181" column="15" bodyfile="src/index/property_graph.cpp" bodystart="773" bodyend="803"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a9a2e42fb5432a3ed7131e4de544e5e3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>PropertyGraphManager::Status themis::PropertyGraphManager::addNodesBatch</definition>
+        <argsstring>(const std::vector&lt; BaseEntity &gt; &amp;nodes, std::string_view graph_id=&quot;default&quot;)</argsstring>
+        <name>addNodesBatch</name>
+        <qualifiedname>themis::PropertyGraphManager::addNodesBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>nodes</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Add multiple nodes with labels (atomic). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== Batch Operations =====</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), <ref refid="structthemis_1_1_property_graph_manager_1_1_status_1ad2a81e8e0fd70af809b270eccfa144ca" kindref="member">Status::Error()</ref>, createWriteBatch(), getFieldAsString(), has_value(), rollback(), makeNodeKey_(), put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="186" column="12" bodyfile="src/index/property_graph.cpp" bodystart="813" bodyend="849"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a2dfe92a81b1455c271d7fcdf5513f216" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>PropertyGraphManager::Status themis::PropertyGraphManager::addEdgesBatch</definition>
+        <argsstring>(const std::vector&lt; BaseEntity &gt; &amp;edges, std::string_view graph_id=&quot;default&quot;)</argsstring>
+        <name>addEdgesBatch</name>
+        <qualifiedname>themis::PropertyGraphManager::addEdgesBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; BaseEntity &gt; &amp;</type>
+          <declname>edges</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Add multiple edges with types (atomic). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Edges Batch.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">edges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the graph. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isOpen(), <ref refid="structthemis_1_1_property_graph_manager_1_1_status_1ad2a81e8e0fd70af809b270eccfa144ca" kindref="member">Status::Error()</ref>, createWriteBatch(), getFieldAsString(), rollback(), makeEdgeKey_(), put(), serialize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="189" column="12" bodyfile="src/index/property_graph.cpp" bodystart="858" bodyend="906"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1ac3554cdd19574b3d82976b13da60d05e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; PropertyGraphManager::Status, std::vector&lt; std::string &gt; &gt; themis::PropertyGraphManager::traverseBFS</definition>
+        <argsstring>(std::string_view start_node_pk, std::string_view graph_id=&quot;default&quot;, int max_depth=-1) const</argsstring>
+        <name>traverseBFS</name>
+        <qualifiedname>themis::PropertyGraphManager::traverseBFS</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_node_pk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+          <defval>-1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Breadth-First Search traversal from a starting node <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start_node_pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Starting node primary key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target graph </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum depth to traverse (-1 for unlimited) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref> and vector of node primary keys in BFS order </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Neighbor. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="198" column="15" bodyfile="src/index/property_graph.cpp" bodystart="911" bodyend="964"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1ac3e452feebbf32218a5de9c3f94a992e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; PropertyGraphManager::Status, std::vector&lt; std::string &gt; &gt; themis::PropertyGraphManager::traverseDFS</definition>
+        <argsstring>(std::string_view start_node_pk, std::string_view graph_id=&quot;default&quot;, int max_depth=-1) const</argsstring>
+        <name>traverseDFS</name>
+        <qualifiedname>themis::PropertyGraphManager::traverseDFS</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_node_pk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_depth</declname>
+          <defval>-1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Depth-First Search traversal from a starting node <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start_node_pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Starting node primary key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target graph </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum depth to traverse (-1 for unlimited) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref> and vector of node primary keys in DFS order </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Neighbor. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="209" column="15" bodyfile="src/index/property_graph.cpp" bodystart="967" bodyend="1029"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1ac6ab53fedb9ec4146cd3eddb320e9118" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; PropertyGraphManager::Status, std::vector&lt; std::string &gt; &gt; themis::PropertyGraphManager::findShortestPath</definition>
+        <argsstring>(std::string_view from_pk, std::string_view to_pk, std::string_view graph_id=&quot;default&quot;) const</argsstring>
+        <name>findShortestPath</name>
+        <qualifiedname>themis::PropertyGraphManager::findShortestPath</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>from_pk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>to_pk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Find shortest path between two nodes using BFS (unweighted) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from_pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Starting node primary key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to_pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target node primary key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target graph </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref> and vector of node primary keys representing the path </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>From str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+To str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">to_pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Neighbor. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="220" column="15" bodyfile="src/index/property_graph.cpp" bodystart="1032" bodyend="1125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1ade514b2e050dc35e45dbde9414c01da1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref>, BaseEntity &gt;</type>
+        <definition>std::pair&lt; PropertyGraphManager::Status, BaseEntity &gt; themis::PropertyGraphManager::getNode</definition>
+        <argsstring>(std::string_view pk, std::string_view graph_id=&quot;default&quot;) const</argsstring>
+        <name>getNode</name>
+        <qualifiedname>themis::PropertyGraphManager::getNode</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get node entity by primary key <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node primary key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target graph </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref> and BaseEntity </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="230" column="15" bodyfile="src/index/property_graph.cpp" bodystart="1128" bodyend="1145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a32da57bb9c7d2a267798b603de096ad9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref>, BaseEntity &gt;</type>
+        <definition>std::pair&lt; PropertyGraphManager::Status, BaseEntity &gt; themis::PropertyGraphManager::getEdge</definition>
+        <argsstring>(std::string_view edgeId, std::string_view graph_id=&quot;default&quot;) const</argsstring>
+        <name>getEdge</name>
+        <qualifiedname>themis::PropertyGraphManager::getEdge</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>edgeId</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get edge entity by edge ID <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>edgeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Edge identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target graph </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref> and BaseEntity </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="239" column="15" bodyfile="src/index/property_graph.cpp" bodystart="1148" bodyend="1165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a4cf77cd97d0fd24dde3146c6f467a8e7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_edge_info" kindref="compound">EdgeInfo</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; PropertyGraphManager::Status, std::vector&lt; PropertyGraphManager::EdgeInfo &gt; &gt; themis::PropertyGraphManager::getOutgoingEdges</definition>
+        <argsstring>(std::string_view fromPk, std::string_view graph_id=&quot;default&quot;) const</argsstring>
+        <name>getOutgoingEdges</name>
+        <qualifiedname>themis::PropertyGraphManager::getOutgoingEdges</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>fromPk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all outgoing edges from a node <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fromPk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source node primary key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target graph </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref> and vector of <ref refid="structthemis_1_1_property_graph_manager_1_1_edge_info" kindref="compound">EdgeInfo</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Extract edgeId from key: graph:out:&lt;graph_id&gt;:&lt;from_pk&gt;:&lt;edgeId&gt; <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+To Pk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="248" column="15" bodyfile="src/index/property_graph.cpp" bodystart="1168" bodyend="1222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1afbb72213fe633b93882662896ca85d07" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref>, std::vector&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_edge_info" kindref="compound">EdgeInfo</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; PropertyGraphManager::Status, std::vector&lt; PropertyGraphManager::EdgeInfo &gt; &gt; themis::PropertyGraphManager::getIncomingEdges</definition>
+        <argsstring>(std::string_view toPk, std::string_view graph_id=&quot;default&quot;) const</argsstring>
+        <name>getIncomingEdges</name>
+        <qualifiedname>themis::PropertyGraphManager::getIncomingEdges</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>toPk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all incoming edges to a node <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>toPk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target node primary key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target graph </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref> and vector of <ref refid="structthemis_1_1_property_graph_manager_1_1_edge_info" kindref="compound">EdgeInfo</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Extract edgeId from key: graph:in:&lt;graph_id&gt;:&lt;to_pk&gt;:&lt;edgeId&gt; <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+From Pk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="257" column="15" bodyfile="src/index/property_graph.cpp" bodystart="1225" bodyend="1279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a78cbe8502414e8a9524b865dab69c33b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref>, std::map&lt; std::string, double &gt; &gt;</type>
+        <definition>std::pair&lt; PropertyGraphManager::Status, std::map&lt; std::string, double &gt; &gt; themis::PropertyGraphManager::computePageRank</definition>
+        <argsstring>(std::string_view graph_id=&quot;default&quot;, double damping_factor=0.85, int max_iterations=100, double tolerance=1e-6) const</argsstring>
+        <name>computePageRank</name>
+        <qualifiedname>themis::PropertyGraphManager::computePageRank</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>damping_factor</declname>
+          <defval>0.85</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_iterations</declname>
+          <defval>100</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>tolerance</declname>
+          <defval>1e-6</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PageRank computation for node importance ranking <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target graph </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>damping_factor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Damping factor (default 0.85) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_iterations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum iterations (default 100) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tolerance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Convergence tolerance (default 1e-6) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of <ref refid="structthemis_1_1_property_graph_manager_1_1_status" kindref="compound">Status</ref> and map of node_pk -&gt; PageRank score </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+To node. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="270" column="15" bodyfile="src/index/property_graph.cpp" bodystart="1284" bodyend="1399"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1ac2fbfa3271146e434801c4dcf02efd99" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::PropertyGraphManager::setStringArrayFn</definition>
+        <argsstring>(StringArrayFn fn)</argsstring>
+        <name>setStringArrayFn</name>
+        <qualifiedname>themis::PropertyGraphManager::setStringArrayFn</qualifiedname>
+        <param>
+          <type>StringArrayFn</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Install a label extraction callback for extractLabels_(). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, extractLabels_() returns the result of this function instead of the comma-split fallback on the <computeroutput>_labels</computeroutput> string field. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable receiving a node ID → vector of labels. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="292" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1acb46aedfd5516bab3ddbc787659e7b4b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::PropertyGraphManager::clearStringArrayFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearStringArrayFn</name>
+        <qualifiedname>themis::PropertyGraphManager::clearStringArrayFn</qualifiedname>
+        <briefdescription>
+<para>Remove the label extraction bridge (reverts to comma-split). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="297" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1ab8ec693454714c5e6a86e55037630b09" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::PropertyGraphManager::extractLabels_</definition>
+        <argsstring>(const BaseEntity &amp;node) const</argsstring>
+        <name>extractLabels_</name>
+        <qualifiedname>themis::PropertyGraphManager::extractLabels_</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="300" column="17" bodyfile="src/index/property_graph.cpp" bodystart="40" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1afa68a6961aa930403eeca80953a5051a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::PropertyGraphManager::extractType_</definition>
+        <argsstring>(const BaseEntity &amp;edge) const</argsstring>
+        <name>extractType_</name>
+        <qualifiedname>themis::PropertyGraphManager::extractType_</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>edge</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="303" column="19" bodyfile="src/index/property_graph.cpp" bodystart="51" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a8994f87059856d21b39d6bbd08842a67" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::PropertyGraphManager::makeLabelIndexKey_</definition>
+        <argsstring>(std::string_view graph_id, std::string_view label, std::string_view pk) const</argsstring>
+        <name>makeLabelIndexKey_</name>
+        <qualifiedname>themis::PropertyGraphManager::makeLabelIndexKey_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>label</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="306" column="17" bodyfile="src/index/property_graph.cpp" bodystart="55" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a51c4807f0d2a768c446ce780545f5366" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::PropertyGraphManager::makeTypeIndexKey_</definition>
+        <argsstring>(std::string_view graph_id, std::string_view type, std::string_view edgeId) const</argsstring>
+        <name>makeTypeIndexKey_</name>
+        <qualifiedname>themis::PropertyGraphManager::makeTypeIndexKey_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edgeId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="309" column="17" bodyfile="src/index/property_graph.cpp" bodystart="61" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a0616be680fd5f278cc955650653e5870" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::PropertyGraphManager::makeNodeKey_</definition>
+        <argsstring>(std::string_view graph_id, std::string_view pk) const</argsstring>
+        <name>makeNodeKey_</name>
+        <qualifiedname>themis::PropertyGraphManager::makeNodeKey_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>pk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="312" column="17" bodyfile="src/index/property_graph.cpp" bodystart="67" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1ac48f6b36400d445feb1eca8e580cbba8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::PropertyGraphManager::makeEdgeKey_</definition>
+        <argsstring>(std::string_view graph_id, std::string_view edgeId) const</argsstring>
+        <name>makeEdgeKey_</name>
+        <qualifiedname>themis::PropertyGraphManager::makeEdgeKey_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edgeId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="315" column="17" bodyfile="src/index/property_graph.cpp" bodystart="73" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1a6c75657c04dd9b28ef8a291cde5be644" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::PropertyGraphManager::makeGraphOutdexKey_</definition>
+        <argsstring>(std::string_view graph_id, std::string_view fromPk, std::string_view edgeId) const</argsstring>
+        <name>makeGraphOutdexKey_</name>
+        <qualifiedname>themis::PropertyGraphManager::makeGraphOutdexKey_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>fromPk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edgeId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="318" column="17" bodyfile="src/index/property_graph.cpp" bodystart="79" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_property_graph_manager_1ac77e77905f9fb2889a46ac3a559d2f53" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::PropertyGraphManager::makeGraphIndegKey_</definition>
+        <argsstring>(std::string_view graph_id, std::string_view toPk, std::string_view edgeId) const</argsstring>
+        <name>makeGraphIndegKey_</name>
+        <qualifiedname>themis::PropertyGraphManager::makeGraphIndegKey_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>graph_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>toPk</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edgeId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/property_graph.h" line="321" column="17" bodyfile="src/index/property_graph.cpp" bodystart="85" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Property Graph Extension for <ref refid="classthemis_1_1_graph_index_manager" kindref="compound">GraphIndexManager</ref></para>
+<para>Features:<itemizedlist>
+<listitem><para>Node Labels: Nodes can have multiple labels (e.g., :Person, :Employee)</para>
+</listitem><listitem><para>Relationship Types: Edges have a type (e.g., FOLLOWS, LIKES, WORKS_AT)</para>
+</listitem><listitem><para>Multi-Graph Federation: Support multiple isolated graphs with cross-graph queries</para>
+</listitem></itemizedlist>
+</para>
+<para>Schema Extensions:<itemizedlist>
+<listitem><para>Node: BaseEntity with _labels array field (e.g., [&quot;Person&quot;, &quot;Employee&quot;])</para>
+</listitem><listitem><para>Edge: BaseEntity with _type string field (e.g., &quot;FOLLOWS&quot;)</para>
+</listitem><listitem><para>Graph ID: Prefix to isolate multiple graphs (default: &quot;default&quot;)</para>
+</listitem></itemizedlist>
+</para>
+<para>Key Schemas:<itemizedlist>
+<listitem><para>Label Index: label:&lt;graph_id&gt;:&lt;label&gt;:&lt;pk&gt; -&gt; (empty)</para>
+</listitem><listitem><para>Type Index: type:&lt;graph_id&gt;:&lt;type&gt;:&lt;edge_id&gt; -&gt; (empty)</para>
+</listitem><listitem><para>Graph Outdex: graph:out:&lt;graph_id&gt;:&lt;from_pk&gt;:&lt;edge_id&gt; -&gt; &lt;to_pk&gt;</para>
+</listitem><listitem><para>Graph Indeg: graph:in:&lt;graph_id&gt;:&lt;to_pk&gt;:&lt;edge_id&gt; -&gt; &lt;from_pk&gt;</para>
+</listitem></itemizedlist>
+</para>
+<para>Performance:<itemizedlist>
+<listitem><para>Label queries: O(N_label) via prefix scan</para>
+</listitem><listitem><para>Type queries: O(E_type) via prefix scan</para>
+</listitem><listitem><para>Cross-graph isolation: O(1) via graph_id prefix</para>
+</listitem></itemizedlist>
+</para>
+<para>Example: <programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classthemis_1_1_property_graph_manager_1a14494bdbb0fd9ed4b1e0ba33636704dc" kindref="member">PropertyGraphManager</ref><sp/>pgm(db);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Create<sp/>node<sp/>with<sp/>labels</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">BaseEntity<sp/>alice(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">alice.setField(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">alice.setField(</highlight><highlight class="stringliteral">&quot;_labels&quot;</highlight><highlight class="normal">,<sp/>std::vector&lt;std::string&gt;{</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Employee&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal">pgm.addNode(alice,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>graph_id<sp/>=<sp/>&quot;social&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Create<sp/>typed<sp/>edge</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">BaseEntity<sp/>follows(</highlight><highlight class="stringliteral">&quot;follows_1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">follows.setField(</highlight><highlight class="stringliteral">&quot;_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">follows.setField(</highlight><highlight class="stringliteral">&quot;_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">follows.setField(</highlight><highlight class="stringliteral">&quot;_type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FOLLOWS&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">follows.setField(</highlight><highlight class="stringliteral">&quot;since&quot;</highlight><highlight class="normal">,<sp/>2020);</highlight></codeline>
+<codeline><highlight class="normal">pgm.addEdge(follows,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Query<sp/>by<sp/>label</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[st,<sp/>nodes]<sp/>=<sp/>pgm.getNodesByLabel(</highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Result:<sp/>[alice,<sp/>bob,<sp/>...]</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Query<sp/>by<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[st2,<sp/>edges]<sp/>=<sp/>pgm.getEdgesByType(</highlight><highlight class="stringliteral">&quot;FOLLOWS&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Result:<sp/>[follows_1,<sp/>follows_2,<sp/>...]</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cross-graph<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[st3,<sp/>results]<sp/>=<sp/>pgm.federatedQuery({</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;social&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Person&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FOLLOWS&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;corporate&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Employee&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;REPORTS_TO&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/index/property_graph.h" line="81" column="1" bodyfile="include/index/property_graph.h" bodystart="81" bodyend="322"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_property_graph_manager_1a8c306cfac94224bee6a1abef38673830" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>addEdge</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a2dfe92a81b1455c271d7fcdf5513f216" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>addEdgesBatch</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a3f59a2a4136e5ee0497846dd0367803e" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>addNode</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a5c333c4b363cd747b09d598d746bd148" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>addNodeLabel</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a9a2e42fb5432a3ed7131e4de544e5e3e" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>addNodesBatch</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1acb46aedfd5516bab3ddbc787659e7b4b" prot="private" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>clearStringArrayFn</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a78cbe8502414e8a9524b865dab69c33b" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>computePageRank</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1adf4f99216c6f84803457ad7176ca0e23" prot="private" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a4933d7f10a91f712be0f5c1de5614496" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>deleteEdge</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1aa09e2d8a26c1f8819c0585f6cf6b230f" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>deleteNode</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1ab8ec693454714c5e6a86e55037630b09" prot="private" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>extractLabels_</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1afa68a6961aa930403eeca80953a5051a" prot="private" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>extractType_</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a81698353ad265dccec0d31263e177647" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>federatedQuery</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1ac6ab53fedb9ec4146cd3eddb320e9118" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>findShortestPath</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a32da57bb9c7d2a267798b603de096ad9" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>getEdge</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a71e11dff7ad175b38a1253d4416a9437" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>getEdgesByType</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a8bba55c6e5709b6bff22a063f44ac4a6" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>getEdgeType</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1ac2846ac6d492e959feca166a70418b39" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>getGraphStats</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1afbb72213fe633b93882662896ca85d07" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>getIncomingEdges</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1ade514b2e050dc35e45dbde9414c01da1" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>getNode</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a2b52b4a631fa2ccf5d25befdf6bb0923" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>getNodeLabels</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a002bb9fa34e9fcd3707619007cc1b5a9" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>getNodesByLabel</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a4cf77cd97d0fd24dde3146c6f467a8e7" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>getOutgoingEdges</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1af0b84ba62e94f6135e18e4936ef7b38f" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>getTypedOutEdges</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a6d5b73bcf3d3360c47c6aa26d8f0a07d" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>hasNodeLabel</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a87d6d9254060280c4ba613f6258314c6" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>listGraphs</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1ac48f6b36400d445feb1eca8e580cbba8" prot="private" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>makeEdgeKey_</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1ac77e77905f9fb2889a46ac3a559d2f53" prot="private" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>makeGraphIndegKey_</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a6c75657c04dd9b28ef8a291cde5be644" prot="private" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>makeGraphOutdexKey_</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a8994f87059856d21b39d6bbd08842a67" prot="private" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>makeLabelIndexKey_</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a0616be680fd5f278cc955650653e5870" prot="private" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>makeNodeKey_</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a51c4807f0d2a768c446ce780545f5366" prot="private" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>makeTypeIndexKey_</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a14494bdbb0fd9ed4b1e0ba33636704dc" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>PropertyGraphManager</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1af83537bd663a31ac4179ad71403c82c9" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>removeNodeLabel</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1ac2fbfa3271146e434801c4dcf02efd99" prot="private" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>setStringArrayFn</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1a9a17262e8a8b53f51138ee7aebbe2d78" prot="private" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>StringArrayFn</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1ac3554cdd19574b3d82976b13da60d05e" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>traverseBFS</name></member>
+      <member refid="classthemis_1_1_property_graph_manager_1ac3e452feebbf32218a5de9c3f94a992e" prot="public" virt="non-virtual"><scope>themis::PropertyGraphManager</scope><name>traverseDFS</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_circuit_breaker" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::CircuitBreaker</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_circuit_breaker_1a0c092f6a05cc1ef23f5e92ad7796929a" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a8a202fcdbd7e4a30065bb943bf2054f0" kindref="member">CircuitState</ref></type>
+        <definition>CircuitState themis::voice::CircuitBreaker::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::voice::CircuitBreaker::state_</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1a8a202fcdbd7e4a30065bb943bf2054f0a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CircuitState::CLOSED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="42" column="18" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_circuit_breaker_1a16120da4c4f58b46956103b2d0e3fb88" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::CircuitBreaker::failure_count_</definition>
+        <argsstring></argsstring>
+        <name>failure_count_</name>
+        <qualifiedname>themis::voice::CircuitBreaker::failure_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="43" column="9" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_circuit_breaker_1a3d19f693d9018334b358c3406be890d7" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::CircuitBreaker::failure_threshold_</definition>
+        <argsstring></argsstring>
+        <name>failure_threshold_</name>
+        <qualifiedname>themis::voice::CircuitBreaker::failure_threshold_</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="44" column="9" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_circuit_breaker_1a179d52672d00b2b877b40b4b059a2615" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::CircuitBreaker::success_count_</definition>
+        <argsstring></argsstring>
+        <name>success_count_</name>
+        <qualifiedname>themis::voice::CircuitBreaker::success_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="45" column="9" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_circuit_breaker_1a7a9875ee4564ff692a78a78b54c41a54" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::CircuitBreaker::success_threshold_</definition>
+        <argsstring></argsstring>
+        <name>success_threshold_</name>
+        <qualifiedname>themis::voice::CircuitBreaker::success_threshold_</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="46" column="9" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_circuit_breaker_1a05ac011d57331423ac3ae9d61d9d75b4" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::voice::CircuitBreaker::open_time_</definition>
+        <argsstring></argsstring>
+        <name>open_time_</name>
+        <qualifiedname>themis::voice::CircuitBreaker::open_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="47" column="43" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_circuit_breaker_1a948484d8abd9309f1270b7eb5c2468ae" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::CircuitBreaker::timeout_ms_</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms_</name>
+        <qualifiedname>themis::voice::CircuitBreaker::timeout_ms_</qualifiedname>
+        <initializer>= 60000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="48" column="9" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_circuit_breaker_1ae633cb06778edd78a3f4244eb4ddae15" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1a8a202fcdbd7e4a30065bb943bf2054f0" kindref="member">CircuitState</ref></type>
+        <definition>CircuitState themis::voice::CircuitBreaker::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::voice::CircuitBreaker::getState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="51" column="18" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_circuit_breaker_1a6fee6b04229c3e80fc5cad3202d581d9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::CircuitBreaker::isOpen</definition>
+        <argsstring>() const</argsstring>
+        <name>isOpen</name>
+        <qualifiedname>themis::voice::CircuitBreaker::isOpen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="53" column="10" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_circuit_breaker_1a0db71ddc519ba232b71bf6907026ac17" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::CircuitBreaker::isHalfOpen</definition>
+        <argsstring>() const</argsstring>
+        <name>isHalfOpen</name>
+        <qualifiedname>themis::voice::CircuitBreaker::isHalfOpen</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="55" column="10" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_circuit_breaker_1a5c1ea9aa24e3e36048ab6dfc600143a7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::CircuitBreaker::canAttempt</definition>
+        <argsstring>()</argsstring>
+        <name>canAttempt</name>
+        <qualifiedname>themis::voice::CircuitBreaker::canAttempt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="57" column="10" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="57" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_circuit_breaker_1a7f66454bbbc3d4c39dd82b141c44cf65" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::CircuitBreaker::recordSuccess</definition>
+        <argsstring>()</argsstring>
+        <name>recordSuccess</name>
+        <qualifiedname>themis::voice::CircuitBreaker::recordSuccess</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="78" column="10" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="78" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_circuit_breaker_1af70101e35c5a20e3a940f2a154a15615" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::CircuitBreaker::recordFailure</definition>
+        <argsstring>()</argsstring>
+        <name>recordFailure</name>
+        <qualifiedname>themis::voice::CircuitBreaker::recordFailure</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="90" column="10" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="90" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_circuit_breaker_1a786d726d529d4347ca323cc7cabb6de7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::CircuitBreaker::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::voice::CircuitBreaker::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="103" column="10" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="103" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_backend_degradation_focused.cpp" line="40" column="1" bodyfile="tests/voice/test_voice_backend_degradation_focused.cpp" bodystart="40" bodyend="108"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_circuit_breaker_1a5c1ea9aa24e3e36048ab6dfc600143a7" prot="public" virt="non-virtual"><scope>themis::voice::CircuitBreaker</scope><name>canAttempt</name></member>
+      <member refid="classthemis_1_1voice_1_1_circuit_breaker_1a16120da4c4f58b46956103b2d0e3fb88" prot="private" virt="non-virtual"><scope>themis::voice::CircuitBreaker</scope><name>failure_count_</name></member>
+      <member refid="classthemis_1_1voice_1_1_circuit_breaker_1a3d19f693d9018334b358c3406be890d7" prot="private" virt="non-virtual"><scope>themis::voice::CircuitBreaker</scope><name>failure_threshold_</name></member>
+      <member refid="classthemis_1_1voice_1_1_circuit_breaker_1ae633cb06778edd78a3f4244eb4ddae15" prot="public" virt="non-virtual"><scope>themis::voice::CircuitBreaker</scope><name>getState</name></member>
+      <member refid="classthemis_1_1voice_1_1_circuit_breaker_1a0db71ddc519ba232b71bf6907026ac17" prot="public" virt="non-virtual"><scope>themis::voice::CircuitBreaker</scope><name>isHalfOpen</name></member>
+      <member refid="classthemis_1_1voice_1_1_circuit_breaker_1a6fee6b04229c3e80fc5cad3202d581d9" prot="public" virt="non-virtual"><scope>themis::voice::CircuitBreaker</scope><name>isOpen</name></member>
+      <member refid="classthemis_1_1voice_1_1_circuit_breaker_1a05ac011d57331423ac3ae9d61d9d75b4" prot="private" virt="non-virtual"><scope>themis::voice::CircuitBreaker</scope><name>open_time_</name></member>
+      <member refid="classthemis_1_1voice_1_1_circuit_breaker_1af70101e35c5a20e3a940f2a154a15615" prot="public" virt="non-virtual"><scope>themis::voice::CircuitBreaker</scope><name>recordFailure</name></member>
+      <member refid="classthemis_1_1voice_1_1_circuit_breaker_1a7f66454bbbc3d4c39dd82b141c44cf65" prot="public" virt="non-virtual"><scope>themis::voice::CircuitBreaker</scope><name>recordSuccess</name></member>
+      <member refid="classthemis_1_1voice_1_1_circuit_breaker_1a786d726d529d4347ca323cc7cabb6de7" prot="public" virt="non-virtual"><scope>themis::voice::CircuitBreaker</scope><name>reset</name></member>
+      <member refid="classthemis_1_1voice_1_1_circuit_breaker_1a0c092f6a05cc1ef23f5e92ad7796929a" prot="private" virt="non-virtual"><scope>themis::voice::CircuitBreaker</scope><name>state_</name></member>
+      <member refid="classthemis_1_1voice_1_1_circuit_breaker_1a179d52672d00b2b877b40b4b059a2615" prot="private" virt="non-virtual"><scope>themis::voice::CircuitBreaker</scope><name>success_count_</name></member>
+      <member refid="classthemis_1_1voice_1_1_circuit_breaker_1a7a9875ee4564ff692a78a78b54c41a54" prot="private" virt="non-virtual"><scope>themis::voice::CircuitBreaker</scope><name>success_threshold_</name></member>
+      <member refid="classthemis_1_1voice_1_1_circuit_breaker_1a948484d8abd9309f1270b7eb5c2468ae" prot="private" virt="non-virtual"><scope>themis::voice::CircuitBreaker</scope><name>timeout_ms_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

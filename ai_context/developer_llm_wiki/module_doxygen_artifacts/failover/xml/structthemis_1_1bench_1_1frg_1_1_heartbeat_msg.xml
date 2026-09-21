@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1frg_1_1_heartbeat_msg" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::frg::HeartbeatMsg</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1frg_1_1_heartbeat_msg_1a6286ceb96d0afc98d1720464ad5226af" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::frg::HeartbeatMsg::epoch</definition>
+        <argsstring></argsstring>
+        <name>epoch</name>
+        <qualifiedname>themis::bench::frg::HeartbeatMsg::epoch</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="80" column="19" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1frg_1_1_heartbeat_msg_1a463184abf465a71b1c972d821bc9d3a9" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::frg::HeartbeatMsg::sender_id</definition>
+        <argsstring></argsstring>
+        <name>sender_id</name>
+        <qualifiedname>themis::bench::frg::HeartbeatMsg::sender_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="81" column="19" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1frg_1_1_heartbeat_msg_1a2367d570f3a6c31ad3f794c4463ee504" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::frg::HeartbeatMsg::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::bench::frg::HeartbeatMsg::timestamp_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="82" column="19" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1frg_1_1_heartbeat_msg_1abb02354d59fb8df6be7a5acf8f6ec3f0" prot="public" static="no" mutable="no">
+        <type>char</type>
+        <definition>char themis::bench::frg::HeartbeatMsg::padding[8]</definition>
+        <argsstring>[8]</argsstring>
+        <name>padding</name>
+        <qualifiedname>themis::bench::frg::HeartbeatMsg::padding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="83" column="19" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/failover/bench_failover_release_gates.cpp" line="79" column="1" bodyfile="benchmarks/failover/bench_failover_release_gates.cpp" bodystart="79" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1frg_1_1_heartbeat_msg_1a6286ceb96d0afc98d1720464ad5226af" prot="public" virt="non-virtual"><scope>themis::bench::frg::HeartbeatMsg</scope><name>epoch</name></member>
+      <member refid="structthemis_1_1bench_1_1frg_1_1_heartbeat_msg_1abb02354d59fb8df6be7a5acf8f6ec3f0" prot="public" virt="non-virtual"><scope>themis::bench::frg::HeartbeatMsg</scope><name>padding</name></member>
+      <member refid="structthemis_1_1bench_1_1frg_1_1_heartbeat_msg_1a463184abf465a71b1c972d821bc9d3a9" prot="public" virt="non-virtual"><scope>themis::bench::frg::HeartbeatMsg</scope><name>sender_id</name></member>
+      <member refid="structthemis_1_1bench_1_1frg_1_1_heartbeat_msg_1a2367d570f3a6c31ad3f794c4463ee504" prot="public" virt="non-virtual"><scope>themis::bench::frg::HeartbeatMsg</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_operator_diagnostics_test" kind="class" language="C++" prot="public">
+    <compoundname>OperatorDiagnosticsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_operator_diagnostics_test_1a95ed5350f073183c4734b1cc463609bf" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1document_1_1_document_diagnostic_sink" kindref="compound">DocumentDiagnosticSink</ref></type>
+        <definition>DocumentDiagnosticSink OperatorDiagnosticsTest::sink_</definition>
+        <argsstring></argsstring>
+        <name>sink_</name>
+        <qualifiedname>OperatorDiagnosticsTest::sink_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_conflict_diagnostics_focused.cpp" line="533" column="28" bodyfile="tests/document/test_document_conflict_diagnostics_focused.cpp" bodystart="533" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_operator_diagnostics_test_1a016625fae93232a8a279b63431217523" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OperatorDiagnosticsTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>OperatorDiagnosticsTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_conflict_diagnostics_focused.cpp" line="528" column="10" bodyfile="tests/document/test_document_conflict_diagnostics_focused.cpp" bodystart="528" bodyend="531"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fixture for operator diagnostics coverage tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Exercises <ref refid="classthemis_1_1document_1_1_document_diagnostic_sink" kindref="compound">DocumentDiagnosticSink</ref>, <ref refid="namespacethemis_1_1document_1a3368a041f18baa0ecc3d3f5028a6987f" kindref="member">classifyDocumentError()</ref>, <ref refid="namespacethemis_1_1document_1a35fe1901e4724d2c5d4c054fa510b878" kindref="member">documentErrorDescription()</ref>, and <ref refid="namespacethemis_1_1document_1a8780db39a809d8b94134ae31470d482d" kindref="member">formatDocumentError()</ref> for the EXCHANGE_ERROR and ROUND_TRIP_ERROR failure paths. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>OperatorDiagnosticsTest</label>
+        <link refid="class_operator_diagnostics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>OperatorDiagnosticsTest</label>
+        <link refid="class_operator_diagnostics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>sink_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::document::DocumentDiagnosticSink</label>
+        <link refid="classthemis_1_1document_1_1_document_diagnostic_sink"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/document/test_document_conflict_diagnostics_focused.cpp" line="526" column="1" bodyfile="tests/document/test_document_conflict_diagnostics_focused.cpp" bodystart="526" bodyend="534"/>
+    <listofallmembers>
+      <member refid="class_operator_diagnostics_test_1a016625fae93232a8a279b63431217523" prot="protected" virt="non-virtual"><scope>OperatorDiagnosticsTest</scope><name>SetUp</name></member>
+      <member refid="class_operator_diagnostics_test_1a95ed5350f073183c4734b1cc463609bf" prot="protected" virt="non-virtual"><scope>OperatorDiagnosticsTest</scope><name>sink_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,921 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_query_profiler" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::QueryProfiler</compoundname>
+    <includes refid="query__profiler_8h" local="no">query_profiler.h</includes>
+    <innerclass refid="classthemis_1_1observability_1_1_query_profiler_1_1_impl" prot="public">themis::observability::QueryProfiler::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_query_profiler_1af34d5e602494ac617f98c876fe957728" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1observability_1_1_query_profiler_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::observability::QueryProfiler::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::observability::QueryProfiler::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="267" column="21" bodyfile="include/observability/query_profiler.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1afdaaa610c9c3feaff55cc56aa6d7e2bd" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::QueryProfiler::QueryProfiler</definition>
+        <argsstring>(const QueryProfilerConfig &amp;config=QueryProfilerConfig{})</argsstring>
+        <name>QueryProfiler</name>
+        <qualifiedname>themis::observability::QueryProfiler::QueryProfiler</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_query_profiler_config" kindref="compound">QueryProfilerConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1observability_1_1_query_profiler_config" kindref="compound">QueryProfilerConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="131" column="14" bodyfile="src/observability/query_profiler.cpp" bodystart="198" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1a0b18420f068c708c1ad2d4be48fd7bb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::QueryProfiler::~QueryProfiler</definition>
+        <argsstring>()</argsstring>
+        <name>~QueryProfiler</name>
+        <qualifiedname>themis::observability::QueryProfiler::~QueryProfiler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="132" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1a8564fc77c182f7158d125ef432f0bb15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::QueryProfiler::QueryProfiler</definition>
+        <argsstring>(const QueryProfiler &amp;)=delete</argsstring>
+        <name>QueryProfiler</name>
+        <qualifiedname>themis::observability::QueryProfiler::QueryProfiler</qualifiedname>
+        <param>
+          <type>const QueryProfiler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="135" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1a2041915bc9499a93d876a364612488fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_query_profiler_1afdaaa610c9c3feaff55cc56aa6d7e2bd" kindref="member">QueryProfiler</ref> &amp;</type>
+        <definition>QueryProfiler &amp; themis::observability::QueryProfiler::operator=</definition>
+        <argsstring>(const QueryProfiler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::QueryProfiler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_query_profiler_1afdaaa610c9c3feaff55cc56aa6d7e2bd" kindref="member">QueryProfiler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="136" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1abd3f7e936029a680d1a1993f1a048e76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::QueryProfiler::start_query</definition>
+        <argsstring>(const std::string &amp;query_id, const std::string &amp;query_text)</argsstring>
+        <name>start_query</name>
+        <qualifiedname>themis::observability::QueryProfiler::start_query</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_text</declname>
+        </param>
+        <briefdescription>
+<para>Start profiling a query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start query.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique query identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query text </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Profile handle</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::chrono::system_clock::now(), cleanup_old_profiles(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="144" column="17" bodyfile="src/observability/query_profiler.cpp" bodystart="210" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1a4558bdfbedddaf23f4b522bb30985ce6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::QueryProfiler::end_query</definition>
+        <argsstring>(const std::string &amp;query_id)</argsstring>
+        <name>end_query</name>
+        <qualifiedname>themis::observability::QueryProfiler::end_query</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_id</declname>
+        </param>
+        <briefdescription>
+<para>End profiling a query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>End query.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the query.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), std::chrono::system_clock::now(), log_slow_query(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="150" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="235" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1a4bd328e1c1fda0233c2979f6f2048c16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::QueryProfiler::record_phase</definition>
+        <argsstring>(const std::string &amp;query_id, QueryPhase phase, std::chrono::microseconds duration)</argsstring>
+        <name>record_phase</name>
+        <qualifiedname>themis::observability::QueryProfiler::record_phase</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1a5ed6d895c0b1e66877f5eaf80f402134" kindref="member">QueryPhase</ref></type>
+          <declname>phase</declname>
+        </param>
+        <param>
+          <type>std::chrono::microseconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Record phase timing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record phase.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query phase </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Phase duration</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="158" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="264" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1a187903e965ea4da59a3ecdcba87eb35f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::QueryProfiler::record_operator</definition>
+        <argsstring>(const std::string &amp;query_id, const OperatorStats &amp;stats)</argsstring>
+        <name>record_operator</name>
+        <qualifiedname>themis::observability::QueryProfiler::record_operator</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_operator_stats" kindref="compound">OperatorStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Record operator statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record operator.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operator statistics</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="166" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="284" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1ad80e003ec45baa7f635ef51e356c0fe2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::QueryProfiler::record_index_usage</definition>
+        <argsstring>(const std::string &amp;query_id, const std::string &amp;index_name)</argsstring>
+        <name>record_index_usage</name>
+        <qualifiedname>themis::observability::QueryProfiler::record_index_usage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>index_name</declname>
+        </param>
+        <briefdescription>
+<para>Record index usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>index_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index name</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">index_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the index.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="173" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="304" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1ad024e89a98e75cff8dff760519c55fc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::QueryProfiler::record_cache_usage</definition>
+        <argsstring>(const std::string &amp;query_id, bool cache_hit)</argsstring>
+        <name>record_cache_usage</name>
+        <qualifiedname>themis::observability::QueryProfiler::record_cache_usage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>cache_hit</declname>
+        </param>
+        <briefdescription>
+<para>Record cache usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cache_hit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether it was a cache hit</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_hit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="180" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="325" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1ab5e6f33cea228f5b99b091c21645fd49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::QueryProfiler::add_hint</definition>
+        <argsstring>(const std::string &amp;query_id, const std::string &amp;hint)</argsstring>
+        <name>add_hint</name>
+        <qualifiedname>themis::observability::QueryProfiler::add_hint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hint</declname>
+        </param>
+        <briefdescription>
+<para>Add optimization hint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add hint.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optimization hint</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="187" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="346" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1a627e9e76ce01f125a7ae913c5fad62ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::QueryProfiler::add_warning</definition>
+        <argsstring>(const std::string &amp;query_id, const std::string &amp;warning)</argsstring>
+        <name>add_warning</name>
+        <qualifiedname>themis::observability::QueryProfiler::add_warning</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>warning</declname>
+        </param>
+        <briefdescription>
+<para>Add warning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>warning</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Warning message</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">warning</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="194" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="365" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1a1d2f8000c1e67f88b8f4e9b97b0e8986" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1observability_1_1_query_profile" kindref="compound">QueryProfile</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; QueryProfile &gt; themis::observability::QueryProfiler::get_profile</definition>
+        <argsstring>(const std::string &amp;query_id) const</argsstring>
+        <name>get_profile</name>
+        <qualifiedname>themis::observability::QueryProfiler::get_profile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_id</declname>
+        </param>
+        <briefdescription>
+<para>Get profile for a query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Query profile or nullptr if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="201" column="21" bodyfile="src/observability/query_profiler.cpp" bodystart="378" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1a365b54a5fdd2300e0c839427ea8cffdc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1observability_1_1_query_profile" kindref="compound">QueryProfile</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::shared_ptr&lt; QueryProfile &gt; &gt; themis::observability::QueryProfiler::get_all_profiles</definition>
+        <argsstring>() const</argsstring>
+        <name>get_all_profiles</name>
+        <qualifiedname>themis::observability::QueryProfiler::get_all_profiles</qualifiedname>
+        <briefdescription>
+<para>Get all profiles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of all profiles </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="207" column="17" bodyfile="src/observability/query_profiler.cpp" bodystart="388" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1a8404e257326a0356a6dd37a5e80f6204" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1observability_1_1_query_profile" kindref="compound">QueryProfile</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::shared_ptr&lt; QueryProfile &gt; &gt; themis::observability::QueryProfiler::get_slow_queries</definition>
+        <argsstring>(std::chrono::milliseconds threshold) const</argsstring>
+        <name>get_slow_queries</name>
+        <qualifiedname>themis::observability::QueryProfiler::get_slow_queries</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Get slow queries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Slow query threshold </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of slow query profiles </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="214" column="17" bodyfile="src/observability/query_profiler.cpp" bodystart="399" bodyend="418"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1a9af4dc6abe7f1ccf55d85fc27fc9b6bb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1observability_1_1_query_profile" kindref="compound">QueryProfile</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::shared_ptr&lt; QueryProfile &gt; &gt; themis::observability::QueryProfiler::get_top_queries</definition>
+        <argsstring>(size_t limit=10) const</argsstring>
+        <name>get_top_queries</name>
+        <qualifiedname>themis::observability::QueryProfiler::get_top_queries</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Get top queries by duration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of queries to return </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of top queries </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="222" column="17" bodyfile="src/observability/query_profiler.cpp" bodystart="420" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1a28046c38afb057f7dce07f0c9f0dcd66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::QueryProfiler::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::observability::QueryProfiler::clear</qualifiedname>
+        <briefdescription>
+<para>Clear all profiles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="227" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="445" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1a49c775ba84bf9f5706d648462839192b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::QueryProfiler::export_to_json</definition>
+        <argsstring>(const std::string &amp;filename) const</argsstring>
+        <name>export_to_json</name>
+        <qualifiedname>themis::observability::QueryProfiler::export_to_json</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+<para>Export profiles to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output file path </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="233" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="450" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1ae8de4d0e6f22e1d8de592f4705fd0aef" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_query_profiler_config" kindref="compound">QueryProfilerConfig</ref></type>
+        <definition>QueryProfilerConfig themis::observability::QueryProfiler::get_config</definition>
+        <argsstring>() const</argsstring>
+        <name>get_config</name>
+        <qualifiedname>themis::observability::QueryProfiler::get_config</qualifiedname>
+        <briefdescription>
+<para>Get configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="238" column="25" bodyfile="src/observability/query_profiler.cpp" bodystart="467" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1a2060454ad3db6b49a597b18139632e86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::QueryProfiler::set_config</definition>
+        <argsstring>(const QueryProfilerConfig &amp;config)</argsstring>
+        <name>set_config</name>
+        <qualifiedname>themis::observability::QueryProfiler::set_config</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_query_profiler_config" kindref="compound">QueryProfilerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="243" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="477" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1a1f7ac0a7c1e443246095755f27b82414" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::QueryProfiler::enable</definition>
+        <argsstring>()</argsstring>
+        <name>enable</name>
+        <qualifiedname>themis::observability::QueryProfiler::enable</qualifiedname>
+        <briefdescription>
+<para>Enable profiling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable.</para>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="248" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="486" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1a41c6ea20cf3f0c0557b74b5e6c786daa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::QueryProfiler::disable</definition>
+        <argsstring>()</argsstring>
+        <name>disable</name>
+        <qualifiedname>themis::observability::QueryProfiler::disable</qualifiedname>
+        <briefdescription>
+<para>Disable profiling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Disable.</para>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="253" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="495" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1a6c5c3c79842331cf7a8388c466ad2ef2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::QueryProfiler::is_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>is_enabled</name>
+        <qualifiedname>themis::observability::QueryProfiler::is_enabled</qualifiedname>
+        <briefdescription>
+<para>Check if profiling is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="258" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="500" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1ae229f4d46f1074d1fa01a2647556f88f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::QueryProfiler::get_statistics</definition>
+        <argsstring>() const</argsstring>
+        <name>get_statistics</name>
+        <qualifiedname>themis::observability::QueryProfiler::get_statistics</qualifiedname>
+        <briefdescription>
+<para>Get statistics summary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="263" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="505" bodyend="540"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1a51fd16b800216f52fb455c64e7262738" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::QueryProfiler::cleanup_old_profiles</definition>
+        <argsstring>()</argsstring>
+        <name>cleanup_old_profiles</name>
+        <qualifiedname>themis::observability::QueryProfiler::cleanup_old_profiles</qualifiedname>
+        <briefdescription>
+<para>Cleanup old profiles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: cleanup_old(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="269" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="546" bodyend="548"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_query_profiler_1a213bc74e201225fcf3d650d9810d93ae" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::QueryProfiler::log_slow_query</definition>
+        <argsstring>(const QueryProfile &amp;profile)</argsstring>
+        <name>log_slow_query</name>
+        <qualifiedname>themis::observability::QueryProfiler::log_slow_query</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_query_profile" kindref="compound">QueryProfile</ref> &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <briefdescription>
+<para>Log slow query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements log_slow_query without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/query_profiler.h" line="270" column="10" bodyfile="src/observability/query_profiler.cpp" bodystart="555" bodyend="559"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Query execution profiler. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Profiles query execution, collecting timing, resource usage, and operator statistics for performance analysis. </para>
+    </detaileddescription>
+    <location file="include/observability/query_profiler.h" line="129" column="1" bodyfile="include/observability/query_profiler.h" bodystart="129" bodyend="271"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1ab5e6f33cea228f5b99b091c21645fd49" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>add_hint</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1a627e9e76ce01f125a7ae913c5fad62ae" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>add_warning</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1a51fd16b800216f52fb455c64e7262738" prot="private" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>cleanup_old_profiles</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1a28046c38afb057f7dce07f0c9f0dcd66" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>clear</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1a41c6ea20cf3f0c0557b74b5e6c786daa" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>disable</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1a1f7ac0a7c1e443246095755f27b82414" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>enable</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1a4558bdfbedddaf23f4b522bb30985ce6" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>end_query</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1a49c775ba84bf9f5706d648462839192b" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>export_to_json</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1a365b54a5fdd2300e0c839427ea8cffdc" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>get_all_profiles</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1ae8de4d0e6f22e1d8de592f4705fd0aef" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>get_config</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1a1d2f8000c1e67f88b8f4e9b97b0e8986" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>get_profile</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1a8404e257326a0356a6dd37a5e80f6204" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>get_slow_queries</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1ae229f4d46f1074d1fa01a2647556f88f" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>get_statistics</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1a9af4dc6abe7f1ccf55d85fc27fc9b6bb" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>get_top_queries</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1af34d5e602494ac617f98c876fe957728" prot="private" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1a6c5c3c79842331cf7a8388c466ad2ef2" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>is_enabled</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1a213bc74e201225fcf3d650d9810d93ae" prot="private" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>log_slow_query</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1a2041915bc9499a93d876a364612488fd" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1afdaaa610c9c3feaff55cc56aa6d7e2bd" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>QueryProfiler</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1a8564fc77c182f7158d125ef432f0bb15" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>QueryProfiler</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1ad024e89a98e75cff8dff760519c55fc1" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>record_cache_usage</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1ad80e003ec45baa7f635ef51e356c0fe2" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>record_index_usage</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1a187903e965ea4da59a3ecdcba87eb35f" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>record_operator</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1a4bd328e1c1fda0233c2979f6f2048c16" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>record_phase</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1a2060454ad3db6b49a597b18139632e86" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>set_config</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1abd3f7e936029a680d1a1993f1a048e76" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>start_query</name></member>
+      <member refid="classthemis_1_1observability_1_1_query_profiler_1a0b18420f068c708c1ad2d4be48fd7bb4" prot="public" virt="non-virtual"><scope>themis::observability::QueryProfiler</scope><name>~QueryProfiler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

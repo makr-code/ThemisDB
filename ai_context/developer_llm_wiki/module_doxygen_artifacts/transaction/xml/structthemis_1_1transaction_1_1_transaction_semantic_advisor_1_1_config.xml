@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::TransactionSemanticAdvisor::Config</compoundname>
+    <includes refid="transaction__semantic__advisor_8h" local="no">transaction_semantic_advisor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config_1a25e19971c7f8409bd160c20f46d67897" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::transaction::TransactionSemanticAdvisor::Config::affinity_threshold</definition>
+        <argsstring></argsstring>
+        <name>affinity_threshold</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::Config::affinity_threshold</qualifiedname>
+        <initializer>{0.8}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="50" column="16" bodyfile="include/transaction/transaction_semantic_advisor.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config_1acded5b1d320bc10f1aa1aa739401e5d1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::transaction::TransactionSemanticAdvisor::Config::write_conflict_probability</definition>
+        <argsstring></argsstring>
+        <name>write_conflict_probability</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::Config::write_conflict_probability</qualifiedname>
+        <initializer>{0.75}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="52" column="16" bodyfile="include/transaction/transaction_semantic_advisor.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config_1aac7fa6f4eaa605e6fa17205adc32cd1d" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::transaction::TransactionSemanticAdvisor::Config::default_deferral_ms</definition>
+        <argsstring></argsstring>
+        <name>default_deferral_ms</name>
+        <qualifiedname>themis::transaction::TransactionSemanticAdvisor::Config::default_deferral_ms</qualifiedname>
+        <initializer>{50}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_semantic_advisor.h" line="54" column="35" bodyfile="include/transaction/transaction_semantic_advisor.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_semantic_advisor.h" line="49" column="5" bodyfile="include/transaction/transaction_semantic_advisor.h" bodystart="49" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config_1a25e19971c7f8409bd160c20f46d67897" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor::Config</scope><name>affinity_threshold</name></member>
+      <member refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config_1aac7fa6f4eaa605e6fa17205adc32cd1d" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor::Config</scope><name>default_deferral_ms</name></member>
+      <member refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config_1acded5b1d320bc10f1aa1aa739401e5d1" prot="public" virt="non-virtual"><scope>themis::transaction::TransactionSemanticAdvisor::Config</scope><name>write_conflict_probability</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

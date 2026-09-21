@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_alertmanager_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::AlertmanagerConfig</compoundname>
+    <includes refid="alertmanager_8h" local="no">alertmanager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alertmanager_config_1af6a4ebdbbea33afa8914b3752b4b075b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::AlertmanagerConfig::endpoint_url</definition>
+        <argsstring></argsstring>
+        <name>endpoint_url</name>
+        <qualifiedname>themis::observability::AlertmanagerConfig::endpoint_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="80" column="17" bodyfile="include/observability/alertmanager.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alertmanager_config_1a72450d0ff362fb4373f9b68ad52cc6f6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::AlertmanagerConfig::auth_token</definition>
+        <argsstring></argsstring>
+        <name>auth_token</name>
+        <qualifiedname>themis::observability::AlertmanagerConfig::auth_token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="81" column="17" bodyfile="include/observability/alertmanager.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alertmanager_config_1a0d8e4aff86def92ba7e3b626bb7f9c61" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::observability::AlertmanagerConfig::timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>timeout_seconds</name>
+        <qualifiedname>themis::observability::AlertmanagerConfig::timeout_seconds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="82" column="9" bodyfile="include/observability/alertmanager.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alertmanager_config_1a5146fd63d79ce4cc1e022cffe9b62389" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::AlertmanagerConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::observability::AlertmanagerConfig::enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="83" column="10" bodyfile="include/observability/alertmanager.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alertmanager_config_1aa39373be76d89423c9deaa6629d32715" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::AlertmanagerConfig::receivers</definition>
+        <argsstring></argsstring>
+        <name>receivers</name>
+        <qualifiedname>themis::observability::AlertmanagerConfig::receivers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="84" column="17" bodyfile="include/observability/alertmanager.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alertmanager_config_1a7843ca91bccc7d282d0e1e77e82e3df3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::observability::AlertmanagerConfig::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themis::observability::AlertmanagerConfig::retry_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="85" column="9" bodyfile="include/observability/alertmanager.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alertmanager_config_1a9758699ae7948c49d49a314101b1ee5a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::observability::AlertmanagerConfig::retry_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_delay_ms</name>
+        <qualifiedname>themis::observability::AlertmanagerConfig::retry_delay_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="86" column="9" bodyfile="include/observability/alertmanager.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_alertmanager_config_1a4cbfcf34d9c88cbb23820e9bdf018a76" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::AlertmanagerConfig::AlertmanagerConfig</definition>
+        <argsstring>()</argsstring>
+        <name>AlertmanagerConfig</name>
+        <qualifiedname>themis::observability::AlertmanagerConfig::AlertmanagerConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="88" column="5" bodyfile="include/observability/alertmanager.h" bodystart="88" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1observability_1_1_alertmanager" kindref="compound">Alertmanager</ref> configuration </para>
+    </detaileddescription>
+    <location file="include/observability/alertmanager.h" line="79" column="1" bodyfile="include/observability/alertmanager.h" bodystart="79" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_alertmanager_config_1a4cbfcf34d9c88cbb23820e9bdf018a76" prot="public" virt="non-virtual"><scope>themis::observability::AlertmanagerConfig</scope><name>AlertmanagerConfig</name></member>
+      <member refid="structthemis_1_1observability_1_1_alertmanager_config_1a72450d0ff362fb4373f9b68ad52cc6f6" prot="public" virt="non-virtual"><scope>themis::observability::AlertmanagerConfig</scope><name>auth_token</name></member>
+      <member refid="structthemis_1_1observability_1_1_alertmanager_config_1a5146fd63d79ce4cc1e022cffe9b62389" prot="public" virt="non-virtual"><scope>themis::observability::AlertmanagerConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1observability_1_1_alertmanager_config_1af6a4ebdbbea33afa8914b3752b4b075b" prot="public" virt="non-virtual"><scope>themis::observability::AlertmanagerConfig</scope><name>endpoint_url</name></member>
+      <member refid="structthemis_1_1observability_1_1_alertmanager_config_1aa39373be76d89423c9deaa6629d32715" prot="public" virt="non-virtual"><scope>themis::observability::AlertmanagerConfig</scope><name>receivers</name></member>
+      <member refid="structthemis_1_1observability_1_1_alertmanager_config_1a7843ca91bccc7d282d0e1e77e82e3df3" prot="public" virt="non-virtual"><scope>themis::observability::AlertmanagerConfig</scope><name>retry_count</name></member>
+      <member refid="structthemis_1_1observability_1_1_alertmanager_config_1a9758699ae7948c49d49a314101b1ee5a" prot="public" virt="non-virtual"><scope>themis::observability::AlertmanagerConfig</scope><name>retry_delay_ms</name></member>
+      <member refid="structthemis_1_1observability_1_1_alertmanager_config_1a0d8e4aff86def92ba7e3b626bb7f9c61" prot="public" virt="non-virtual"><scope>themis::observability::AlertmanagerConfig</scope><name>timeout_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

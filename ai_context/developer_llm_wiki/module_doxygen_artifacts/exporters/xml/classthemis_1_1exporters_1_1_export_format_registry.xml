@@ -1,0 +1,459 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_export_format_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::exporters::ExportFormatRegistry</compoundname>
+    <includes refid="export__format__registry_8h" local="no">export_format_registry.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1exporters_1_1_export_format_registry_1a6e7d9618a95eebfd4f5a6d690000296e" prot="public" static="no">
+        <type>std::function&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1exporters_1_1_i_exporter" kindref="compound">IExporter</ref> &gt;()&gt;</type>
+        <definition>using themis::exporters::ExportFormatRegistry::Factory = std::function&lt;std::unique_ptr&lt;IExporter&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>Factory</name>
+        <qualifiedname>themis::exporters::ExportFormatRegistry::Factory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_format_registry.h" line="27" column="5" bodyfile="include/exporters/export_format_registry.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_export_format_registry_1ab9a5679c38adcc0bf410eb031645250d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::exporters::ExportFormatRegistry::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::exporters::ExportFormatRegistry::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_format_registry.h" line="90" column="24" bodyfile="include/exporters/export_format_registry.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_export_format_registry_1a5e39298eab7c29d019b2034b2ad5784b" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6e7d9618a95eebfd4f5a6d690000296e" kindref="member">Factory</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Factory&gt; themis::exporters::ExportFormatRegistry::formats_</definition>
+        <argsstring></argsstring>
+        <name>formats_</name>
+        <qualifiedname>themis::exporters::ExportFormatRegistry::formats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_format_registry.h" line="91" column="24" bodyfile="include/exporters/export_format_registry.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ExportFormatRegistry &amp;</type>
+        <definition>ExportFormatRegistry &amp; themis::exporters::ExportFormatRegistry::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::exporters::ExportFormatRegistry::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_format_registry.h" line="33" column="33" bodyfile="src/exporters/export_format_registry.cpp" bodystart="31" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_export_format_registry_1af896a154b261f3adc16045d386b1c970" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExportFormatRegistry::registerFormat</definition>
+        <argsstring>(const std::string &amp;format_key, Factory factory)</argsstring>
+        <name>registerFormat</name>
+        <qualifiedname>themis::exporters::ExportFormatRegistry::registerFormat</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>format_key</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a6e7d9618a95eebfd4f5a6d690000296e" kindref="member">Factory</ref></type>
+          <declname>factory</declname>
+        </param>
+        <briefdescription>
+<para>Register Format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">format_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">factory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">factory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_format_registry.h" line="40" column="10" bodyfile="src/exporters/export_format_registry.cpp" bodystart="42" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_export_format_registry_1a528d4c195136371ccab8adbed34616d2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1exporters_1_1_i_exporter" kindref="compound">IExporter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IExporter &gt; themis::exporters::ExportFormatRegistry::createExporter</definition>
+        <argsstring>(const std::string &amp;format_key) const</argsstring>
+        <name>createExporter</name>
+        <qualifiedname>themis::exporters::ExportFormatRegistry::createExporter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>format_key</declname>
+        </param>
+        <briefdescription>
+<para>Create Exporter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">format_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/exporters/export_format_registry.h" line="47" column="21" bodyfile="src/exporters/export_format_registry.cpp" bodystart="47" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_export_format_registry_1ac7bbbe66b0fb895c3b64bc3fbde38c89" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::exporters::ExportFormatRegistry::hasFormat</definition>
+        <argsstring>(const std::string &amp;format_key) const</argsstring>
+        <name>hasFormat</name>
+        <qualifiedname>themis::exporters::ExportFormatRegistry::hasFormat</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>format_key</declname>
+        </param>
+        <briefdescription>
+<para>Has Format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">format_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/exporters/export_format_registry.h" line="54" column="10" bodyfile="src/exporters/export_format_registry.cpp" bodystart="61" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_export_format_registry_1a50050ffed9ebbac3fbe7127da178dd12" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::exporters::ExportFormatRegistry::registeredFormats</definition>
+        <argsstring>() const</argsstring>
+        <name>registeredFormats</name>
+        <qualifiedname>themis::exporters::ExportFormatRegistry::registeredFormats</qualifiedname>
+        <briefdescription>
+<para>Registered Formats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/exporters/export_format_registry.h" line="60" column="17" bodyfile="src/exporters/export_format_registry.cpp" bodystart="71" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_export_format_registry_1a48f90ed2fb7397ecac42bcfa2913dfc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExportFormatRegistry::registerBuiltins</definition>
+        <argsstring>()</argsstring>
+        <name>registerBuiltins</name>
+        <qualifiedname>themis::exporters::ExportFormatRegistry::registerBuiltins</qualifiedname>
+        <briefdescription>
+<para>Register Builtins. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1exporters_1_1_export_format_registry_1af896a154b261f3adc16045d386b1c970" kindref="member">registerFormat()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_format_registry.h" line="65" column="10" bodyfile="src/exporters/export_format_registry.cpp" bodystart="92" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_export_format_registry_1ac72c3ef10d7fefd3a92ebb31eb53fca7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExportFormatRegistry::loadTemplatesFromConfig</definition>
+        <argsstring>(const std::string &amp;config_path)</argsstring>
+        <name>loadTemplatesFromConfig</name>
+        <qualifiedname>themis::exporters::ExportFormatRegistry::loadTemplatesFromConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_path</declname>
+        </param>
+        <briefdescription>
+<para>Load Templates From Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the retention policy configuration file.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the retention policy configuration file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: f(), is_open(), content(), <ref refid="classthemis_1_1exporters_1_1_export_format_registry_1a30db44512ac89d09bc90134ff4fb7e63" kindref="member">loadTemplatesFromJson()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_format_registry.h" line="71" column="10" bodyfile="src/exporters/export_format_registry.cpp" bodystart="243" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_export_format_registry_1a30db44512ac89d09bc90134ff4fb7e63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExportFormatRegistry::loadTemplatesFromJson</definition>
+        <argsstring>(const std::string &amp;json_str)</argsstring>
+        <name>loadTemplatesFromJson</name>
+        <qualifiedname>themis::exporters::ExportFormatRegistry::loadTemplatesFromJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_str</declname>
+        </param>
+        <briefdescription>
+<para>Load Templates From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">json_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: nlohmann::json::parse(), contains(), is_array(), reserve(), size(), is_string(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_format_registry.h" line="77" column="10" bodyfile="src/exporters/export_format_registry.cpp" bodystart="158" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_export_format_registry_1abe1fa970aa4b993657a0058c04da8d52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExportFormatRegistry::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::exporters::ExportFormatRegistry::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_format_registry.h" line="82" column="10" bodyfile="src/exporters/export_format_registry.cpp" bodystart="256" bodyend="259"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_export_format_registry_1a194e7bc02316736b33dd2e02c6cc3e52" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::ExportFormatRegistry::ExportFormatRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>ExportFormatRegistry</name>
+        <qualifiedname>themis::exporters::ExportFormatRegistry::ExportFormatRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_format_registry.h" line="85" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_export_format_registry_1aaa151fe29b66c6b92362d70b3af6091d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::ExportFormatRegistry::~ExportFormatRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ExportFormatRegistry</name>
+        <qualifiedname>themis::exporters::ExportFormatRegistry::~ExportFormatRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_format_registry.h" line="86" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_export_format_registry_1a9150697c586fe36beed3b408a1b48468" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::ExportFormatRegistry::ExportFormatRegistry</definition>
+        <argsstring>(const ExportFormatRegistry &amp;)=delete</argsstring>
+        <name>ExportFormatRegistry</name>
+        <qualifiedname>themis::exporters::ExportFormatRegistry::ExportFormatRegistry</qualifiedname>
+        <param>
+          <type>const ExportFormatRegistry &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_format_registry.h" line="87" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_export_format_registry_1af40a8a01fae1cd4bb47f06bfaa13a7e8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ExportFormatRegistry &amp;</type>
+        <definition>ExportFormatRegistry &amp; themis::exporters::ExportFormatRegistry::operator=</definition>
+        <argsstring>(const ExportFormatRegistry &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::exporters::ExportFormatRegistry::operator=</qualifiedname>
+        <param>
+          <type>const ExportFormatRegistry &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/export_format_registry.h" line="88" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/export_format_registry.h" line="25" column="1" bodyfile="include/exporters/export_format_registry.h" bodystart="25" bodyend="92"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_export_format_registry_1abe1fa970aa4b993657a0058c04da8d52" prot="public" virt="non-virtual"><scope>themis::exporters::ExportFormatRegistry</scope><name>clear</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_format_registry_1a528d4c195136371ccab8adbed34616d2" prot="public" virt="non-virtual"><scope>themis::exporters::ExportFormatRegistry</scope><name>createExporter</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_format_registry_1a194e7bc02316736b33dd2e02c6cc3e52" prot="private" virt="non-virtual"><scope>themis::exporters::ExportFormatRegistry</scope><name>ExportFormatRegistry</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_format_registry_1a9150697c586fe36beed3b408a1b48468" prot="private" virt="non-virtual"><scope>themis::exporters::ExportFormatRegistry</scope><name>ExportFormatRegistry</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_format_registry_1a6e7d9618a95eebfd4f5a6d690000296e" prot="public" virt="non-virtual"><scope>themis::exporters::ExportFormatRegistry</scope><name>Factory</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_format_registry_1a5e39298eab7c29d019b2034b2ad5784b" prot="private" virt="non-virtual"><scope>themis::exporters::ExportFormatRegistry</scope><name>formats_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_format_registry_1ac7bbbe66b0fb895c3b64bc3fbde38c89" prot="public" virt="non-virtual"><scope>themis::exporters::ExportFormatRegistry</scope><name>hasFormat</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_format_registry_1a6101672e508fd49a3bd0bb58a59fb3a2" prot="public" virt="non-virtual"><scope>themis::exporters::ExportFormatRegistry</scope><name>instance</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_format_registry_1ac72c3ef10d7fefd3a92ebb31eb53fca7" prot="public" virt="non-virtual"><scope>themis::exporters::ExportFormatRegistry</scope><name>loadTemplatesFromConfig</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_format_registry_1a30db44512ac89d09bc90134ff4fb7e63" prot="public" virt="non-virtual"><scope>themis::exporters::ExportFormatRegistry</scope><name>loadTemplatesFromJson</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_format_registry_1ab9a5679c38adcc0bf410eb031645250d" prot="private" virt="non-virtual"><scope>themis::exporters::ExportFormatRegistry</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_format_registry_1af40a8a01fae1cd4bb47f06bfaa13a7e8" prot="private" virt="non-virtual"><scope>themis::exporters::ExportFormatRegistry</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_format_registry_1a48f90ed2fb7397ecac42bcfa2913dfc9" prot="public" virt="non-virtual"><scope>themis::exporters::ExportFormatRegistry</scope><name>registerBuiltins</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_format_registry_1a50050ffed9ebbac3fbe7127da178dd12" prot="public" virt="non-virtual"><scope>themis::exporters::ExportFormatRegistry</scope><name>registeredFormats</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_format_registry_1af896a154b261f3adc16045d386b1c970" prot="public" virt="non-virtual"><scope>themis::exporters::ExportFormatRegistry</scope><name>registerFormat</name></member>
+      <member refid="classthemis_1_1exporters_1_1_export_format_registry_1aaa151fe29b66c6b92362d70b3af6091d" prot="private" virt="non-virtual"><scope>themis::exporters::ExportFormatRegistry</scope><name>~ExportFormatRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::ChangeStreamCompressor::Config</compoundname>
+    <includes refid="change__stream__compressor_8h" local="no">change_stream_compressor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_config_1a33df4d83b03973cef43c5697ae883daa" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cdc_1ad8c6d7fbb0f052116399df63d056f136" kindref="member">StreamCompressionAlgorithm</ref></type>
+        <definition>StreamCompressionAlgorithm themis::cdc::ChangeStreamCompressor::Config::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::cdc::ChangeStreamCompressor::Config::algorithm</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1cdc_1ad8c6d7fbb0f052116399df63d056f136a8406cc2302e19183037b61249546b234" kindref="member">StreamCompressionAlgorithm::ZSTD</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/change_stream_compressor.h" line="149" column="36" bodyfile="include/cdc/change_stream_compressor.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_config_1a66bc843d27f8124582eade351f45c1b7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::cdc::ChangeStreamCompressor::Config::level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <qualifiedname>themis::cdc::ChangeStreamCompressor::Config::level</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Zstd compression level (1–22). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/change_stream_compressor.h" line="150" column="16" bodyfile="include/cdc/change_stream_compressor.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_config_1a60723ce913195b81a60bde0d25db4a4e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::ChangeStreamCompressor::Config::min_compression_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>min_compression_size_bytes</name>
+        <qualifiedname>themis::cdc::ChangeStreamCompressor::Config::min_compression_size_bytes</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Skip compression for smaller payloads. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/change_stream_compressor.h" line="151" column="16" bodyfile="include/cdc/change_stream_compressor.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/change_stream_compressor.h" line="148" column="5" bodyfile="include/cdc/change_stream_compressor.h" bodystart="148" bodyend="152"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_config_1a33df4d83b03973cef43c5697ae883daa" prot="public" virt="non-virtual"><scope>themis::cdc::ChangeStreamCompressor::Config</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_config_1a66bc843d27f8124582eade351f45c1b7" prot="public" virt="non-virtual"><scope>themis::cdc::ChangeStreamCompressor::Config</scope><name>level</name></member>
+      <member refid="structthemis_1_1cdc_1_1_change_stream_compressor_1_1_config_1a60723ce913195b81a60bde0d25db4a4e" prot="public" virt="non-virtual"><scope>themis::cdc::ChangeStreamCompressor::Config</scope><name>min_compression_size_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

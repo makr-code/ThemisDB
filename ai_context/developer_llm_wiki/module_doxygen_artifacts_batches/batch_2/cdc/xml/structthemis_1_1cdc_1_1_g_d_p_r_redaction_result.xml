@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::GDPRRedactionResult</compoundname>
+    <includes refid="cdc__admin_8h" local="no">cdc_admin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a095eaeba6731db3818e5d590809bc56d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::GDPRRedactionResult::events_scanned</definition>
+        <argsstring></argsstring>
+        <name>events_scanned</name>
+        <qualifiedname>themis::cdc::GDPRRedactionResult::events_scanned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total events examined. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="150" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a70567a66df0b1fa52aa46a8117265a29" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::GDPRRedactionResult::events_redacted</definition>
+        <argsstring></argsstring>
+        <name>events_redacted</name>
+        <qualifiedname>themis::cdc::GDPRRedactionResult::events_redacted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Events whose value was scrubbed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="151" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a19335c9b1dd62f657235243c17982d0f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::GDPRRedactionResult::elapsed_time_ms</definition>
+        <argsstring></argsstring>
+        <name>elapsed_time_ms</name>
+        <qualifiedname>themis::cdc::GDPRRedactionResult::elapsed_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wall-clock time of the operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="152" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a0e7fb3e80fc611e8a924c450b882feb4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::GDPRRedactionResult::key_prefix</definition>
+        <argsstring></argsstring>
+        <name>key_prefix</name>
+        <qualifiedname>themis::cdc::GDPRRedactionResult::key_prefix</qualifiedname>
+        <briefdescription>
+<para>Key prefix that was matched. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="153" column="17" bodyfile="include/cdc/cdc_admin.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1aa7097ae877ce3f108dc551ac9bda246d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::GDPRRedactionResult::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::cdc::GDPRRedactionResult::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Tenant context (for multi-tenant deployments). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="154" column="17" bodyfile="include/cdc/cdc_admin.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a0da8655f5721cb0b806267e36533c5c3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::GDPRRedactionResult::operator_id</definition>
+        <argsstring></argsstring>
+        <name>operator_id</name>
+        <qualifiedname>themis::cdc::GDPRRedactionResult::operator_id</qualifiedname>
+        <briefdescription>
+<para>Identity of the requesting operator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="155" column="17" bodyfile="include/cdc/cdc_admin.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a10ac01e2a9fcb38bd03828a234866a64" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cdc::GDPRRedactionResult::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::cdc::GDPRRedactionResult::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Epoch ms when redaction completed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="156" column="14" bodyfile="include/cdc/cdc_admin.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a108d808a33bc7aef17ffbf5142011ad6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::GDPRRedactionResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::cdc::GDPRRedactionResult::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_admin.h" line="158" column="20" bodyfile="include/cdc/cdc_admin.h" bodystart="158" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/cdc_admin.h" line="149" column="1" bodyfile="include/cdc/cdc_admin.h" bodystart="149" bodyend="169"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a19335c9b1dd62f657235243c17982d0f" prot="public" virt="non-virtual"><scope>themis::cdc::GDPRRedactionResult</scope><name>elapsed_time_ms</name></member>
+      <member refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a70567a66df0b1fa52aa46a8117265a29" prot="public" virt="non-virtual"><scope>themis::cdc::GDPRRedactionResult</scope><name>events_redacted</name></member>
+      <member refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a095eaeba6731db3818e5d590809bc56d" prot="public" virt="non-virtual"><scope>themis::cdc::GDPRRedactionResult</scope><name>events_scanned</name></member>
+      <member refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a0e7fb3e80fc611e8a924c450b882feb4" prot="public" virt="non-virtual"><scope>themis::cdc::GDPRRedactionResult</scope><name>key_prefix</name></member>
+      <member refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a0da8655f5721cb0b806267e36533c5c3" prot="public" virt="non-virtual"><scope>themis::cdc::GDPRRedactionResult</scope><name>operator_id</name></member>
+      <member refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1aa7097ae877ce3f108dc551ac9bda246d" prot="public" virt="non-virtual"><scope>themis::cdc::GDPRRedactionResult</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a10ac01e2a9fcb38bd03828a234866a64" prot="public" virt="non-virtual"><scope>themis::cdc::GDPRRedactionResult</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1cdc_1_1_g_d_p_r_redaction_result_1a108d808a33bc7aef17ffbf5142011ad6" prot="public" virt="non-virtual"><scope>themis::cdc::GDPRRedactionResult</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,295 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_g_p_u_memory_manager_stub" kind="class" language="C++" prot="public">
+    <compoundname>themis::GPUMemoryManagerStub</compoundname>
+    <basecompoundref refid="classthemis_1_1_g_p_u_memory_manager" prot="public" virt="non-virtual">themis::GPUMemoryManager</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_g_p_u_memory_manager_stub_1a881f3c3651e91adde961156180bd5ec9" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::GPUMemoryManagerStub::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::GPUMemoryManagerStub::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="40" column="10" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_g_p_u_memory_manager_stub_1a833c0636d29d85347133adfa6ccbfd9d" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::GPUMemoryManagerStub::device_id_</definition>
+        <argsstring></argsstring>
+        <name>device_id_</name>
+        <qualifiedname>themis::GPUMemoryManagerStub::device_id_</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="41" column="9" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_g_p_u_memory_manager_stub_1a2bf7562319fd96ea56aa448d3dea321f" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::GPUMemoryManagerStub::total_memory_</definition>
+        <argsstring></argsstring>
+        <name>total_memory_</name>
+        <qualifiedname>themis::GPUMemoryManagerStub::total_memory_</qualifiedname>
+        <initializer>= 8ULL * 1024 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="42" column="12" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_g_p_u_memory_manager_stub_1a47059caa9cdc8f5450a4f005557ef699" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::GPUMemoryManagerStub::allocated_memory_</definition>
+        <argsstring></argsstring>
+        <name>allocated_memory_</name>
+        <qualifiedname>themis::GPUMemoryManagerStub::allocated_memory_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="43" column="12" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_g_p_u_memory_manager_stub_1acbbb7bd6df265dd9823889199dba775f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_g_p_u_memory_manager_1_1_memory_block" kindref="compound">MemoryBlock</ref> &gt;</type>
+        <definition>std::vector&lt;MemoryBlock&gt; themis::GPUMemoryManagerStub::allocations_</definition>
+        <argsstring></argsstring>
+        <name>allocations_</name>
+        <qualifiedname>themis::GPUMemoryManagerStub::allocations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="44" column="17" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_g_p_u_memory_manager_stub_1a1dca4d242e0c265cf2d4976951e3c176" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::GPUMemoryManagerStub::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::GPUMemoryManagerStub::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="45" column="24" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_memory_manager_stub_1a0ec94964fd231ebc45697ad8ac9d7a95" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::GPUMemoryManagerStub::initialize</definition>
+        <argsstring>(int device_id=0) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::GPUMemoryManagerStub::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1_g_p_u_memory_manager_1a53cc94ba08b9559e4d6fd65bb7f93e0f">initialize</reimplements>
+        <param>
+          <type>int</type>
+          <declname>device_id</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="48" column="10" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="48" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_memory_manager_stub_1a6d81c2c6536d4832de1527c0c05562a0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1_g_p_u_memory_manager_1_1_memory_block" kindref="compound">MemoryBlock</ref></type>
+        <definition>MemoryBlock themis::GPUMemoryManagerStub::allocate</definition>
+        <argsstring>(size_t size) override</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::GPUMemoryManagerStub::allocate</qualifiedname>
+        <reimplements refid="classthemis_1_1_g_p_u_memory_manager_1a69e96e1369f8d9e7c7a22fa5a48f7d04">allocate</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="56" column="17" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="56" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_memory_manager_stub_1a0cd290dd4b58f62c272cd2747e8d2472" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::GPUMemoryManagerStub::deallocate</definition>
+        <argsstring>(const MemoryBlock &amp;block) override</argsstring>
+        <name>deallocate</name>
+        <qualifiedname>themis::GPUMemoryManagerStub::deallocate</qualifiedname>
+        <reimplements refid="classthemis_1_1_g_p_u_memory_manager_1ad6c19200a09e64e50edcbeca31210a67">deallocate</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1_g_p_u_memory_manager_1_1_memory_block" kindref="compound">MemoryBlock</ref> &amp;</type>
+          <declname>block</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="71" column="10" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="71" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_memory_manager_stub_1abd58ace01672fe2439f2f4801da806e2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::GPUMemoryManagerStub::getAvailableMemory</definition>
+        <argsstring>() const override</argsstring>
+        <name>getAvailableMemory</name>
+        <qualifiedname>themis::GPUMemoryManagerStub::getAvailableMemory</qualifiedname>
+        <reimplements refid="classthemis_1_1_g_p_u_memory_manager_1aa12193394a1e6ca757558693eee21f07">getAvailableMemory</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="89" column="12" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="89" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_memory_manager_stub_1a260d98cdbcf430bea76ade28137eb946" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::GPUMemoryManagerStub::getTotalMemory</definition>
+        <argsstring>() const override</argsstring>
+        <name>getTotalMemory</name>
+        <qualifiedname>themis::GPUMemoryManagerStub::getTotalMemory</qualifiedname>
+        <reimplements refid="classthemis_1_1_g_p_u_memory_manager_1acdc1db98e511d77ca64faa868159d73f">getTotalMemory</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="94" column="12" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="94" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_memory_manager_stub_1aa81d48b46138b3279c5e5fc4ed2abe49" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::GPUMemoryManagerStub::isInitialized</definition>
+        <argsstring>() const override</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::GPUMemoryManagerStub::isInitialized</qualifiedname>
+        <reimplements refid="classthemis_1_1_g_p_u_memory_manager_1a720484e9a9393769770ba9d1e9076784">isInitialized</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="98" column="10" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="98" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_memory_manager_stub_1a3152244f4af733620c1ef60aa30051f4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::GPUMemoryManagerStub::setTotalMemory</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>setTotalMemory</name>
+        <qualifiedname>themis::GPUMemoryManagerStub::setTotalMemory</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="104" column="10" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="104" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_memory_manager_stub_1a14654410ca235e84aabbba2587e96bf8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::GPUMemoryManagerStub::getAllocatedMemory</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllocatedMemory</name>
+        <qualifiedname>themis::GPUMemoryManagerStub::getAllocatedMemory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="108" column="12" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="108" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_g_p_u_memory_manager_stub_1a113b88a2c0802c06983d52be3f0dcc71" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::GPUMemoryManagerStub::getAllocationCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllocationCount</name>
+        <qualifiedname>themis::GPUMemoryManagerStub::getAllocationCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="113" column="12" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="113" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::GPUMemoryManager</label>
+        <link refid="classthemis_1_1_g_p_u_memory_manager"/>
+      </node>
+      <node id="1">
+        <label>themis::GPUMemoryManagerStub</label>
+        <link refid="classthemis_1_1_g_p_u_memory_manager_stub"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::GPUMemoryManager</label>
+        <link refid="classthemis_1_1_g_p_u_memory_manager"/>
+      </node>
+      <node id="1">
+        <label>themis::GPUMemoryManagerStub</label>
+        <link refid="classthemis_1_1_g_p_u_memory_manager_stub"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_stubs_comprehensive.cpp" line="38" column="1" bodyfile="tests/gpu/test_gpu_stubs_comprehensive.cpp" bodystart="38" bodyend="117"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_stub_1a6d81c2c6536d4832de1527c0c05562a0" prot="public" virt="virtual"><scope>themis::GPUMemoryManagerStub</scope><name>allocate</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_stub_1a47059caa9cdc8f5450a4f005557ef699" prot="private" virt="non-virtual"><scope>themis::GPUMemoryManagerStub</scope><name>allocated_memory_</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_stub_1acbbb7bd6df265dd9823889199dba775f" prot="private" virt="non-virtual"><scope>themis::GPUMemoryManagerStub</scope><name>allocations_</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_stub_1a0cd290dd4b58f62c272cd2747e8d2472" prot="public" virt="virtual"><scope>themis::GPUMemoryManagerStub</scope><name>deallocate</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_stub_1a833c0636d29d85347133adfa6ccbfd9d" prot="private" virt="non-virtual"><scope>themis::GPUMemoryManagerStub</scope><name>device_id_</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_stub_1a14654410ca235e84aabbba2587e96bf8" prot="public" virt="non-virtual"><scope>themis::GPUMemoryManagerStub</scope><name>getAllocatedMemory</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_stub_1a113b88a2c0802c06983d52be3f0dcc71" prot="public" virt="non-virtual"><scope>themis::GPUMemoryManagerStub</scope><name>getAllocationCount</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_stub_1abd58ace01672fe2439f2f4801da806e2" prot="public" virt="virtual"><scope>themis::GPUMemoryManagerStub</scope><name>getAvailableMemory</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_stub_1a260d98cdbcf430bea76ade28137eb946" prot="public" virt="virtual"><scope>themis::GPUMemoryManagerStub</scope><name>getTotalMemory</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_stub_1a0ec94964fd231ebc45697ad8ac9d7a95" prot="public" virt="virtual"><scope>themis::GPUMemoryManagerStub</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_stub_1a881f3c3651e91adde961156180bd5ec9" prot="private" virt="non-virtual"><scope>themis::GPUMemoryManagerStub</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_stub_1aa81d48b46138b3279c5e5fc4ed2abe49" prot="public" virt="virtual"><scope>themis::GPUMemoryManagerStub</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_stub_1a1dca4d242e0c265cf2d4976951e3c176" prot="private" virt="non-virtual"><scope>themis::GPUMemoryManagerStub</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_stub_1a3152244f4af733620c1ef60aa30051f4" prot="public" virt="non-virtual"><scope>themis::GPUMemoryManagerStub</scope><name>setTotalMemory</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_stub_1a2bf7562319fd96ea56aa448d3dea321f" prot="private" virt="non-virtual"><scope>themis::GPUMemoryManagerStub</scope><name>total_memory_</name></member>
+      <member refid="classthemis_1_1_g_p_u_memory_manager_1abc520c42ac1c5edeaf551bc94f52c09a" prot="public" virt="virtual"><scope>themis::GPUMemoryManagerStub</scope><name>~GPUMemoryManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

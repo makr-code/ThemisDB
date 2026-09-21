@@ -1,0 +1,375 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::AuditedImporter::ImmutableAuditLog</compoundname>
+    <includes refid="audit__trail_8h" local="no">audit_trail.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1ab22fccbf5542bd828ebf91c107280f19" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_audited_importer_1_1_audit_event" kindref="compound">AuditEvent</ref> &gt;</type>
+        <definition>std::vector&lt;AuditEvent&gt; themis::importers::AuditedImporter::ImmutableAuditLog::events_</definition>
+        <argsstring></argsstring>
+        <name>events_</name>
+        <qualifiedname>themis::importers::AuditedImporter::ImmutableAuditLog::events_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="196" column="21" bodyfile="include/importers/audit_trail.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1a7b227c26aaab4792c31827de1f612ff5" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::AuditedImporter::ImmutableAuditLog::chain_hashes_</definition>
+        <argsstring></argsstring>
+        <name>chain_hashes_</name>
+        <qualifiedname>themis::importers::AuditedImporter::ImmutableAuditLog::chain_hashes_</qualifiedname>
+        <briefdescription>
+<para>SHA-256 per event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="197" column="21" bodyfile="include/importers/audit_trail.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1aefe1839dbed7b75e32792f6fe102b670" prot="private" static="no" mutable="yes">
+        <type>std::string</type>
+        <definition>std::string themis::importers::AuditedImporter::ImmutableAuditLog::current_root_</definition>
+        <argsstring></argsstring>
+        <name>current_root_</name>
+        <qualifiedname>themis::importers::AuditedImporter::ImmutableAuditLog::current_root_</qualifiedname>
+        <briefdescription>
+<para>Running root hash. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="198" column="29" bodyfile="include/importers/audit_trail.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1a6399f55a4475de296c5a2dab2a4562dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::AuditedImporter::ImmutableAuditLog::recordEvent</definition>
+        <argsstring>(const AuditEvent &amp;event)</argsstring>
+        <name>recordEvent</name>
+        <qualifiedname>themis::importers::AuditedImporter::ImmutableAuditLog::recordEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_audited_importer_1_1_audit_event" kindref="compound">AuditEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Record Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), back(), computeEventHash(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="150" column="14" bodyfile="src/importers/audit_trail.cpp" bodystart="141" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1ae7e66d4ea35f599a4a1ff8e20bb9ed16" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::AuditedImporter::ImmutableAuditLog::verifyIntegrity</definition>
+        <argsstring>() const</argsstring>
+        <name>verifyIntegrity</name>
+        <qualifiedname>themis::importers::AuditedImporter::ImmutableAuditLog::verifyIntegrity</qualifiedname>
+        <briefdescription>
+<para>Verify Integrity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="156" column="14" bodyfile="src/importers/audit_trail.cpp" bodystart="148" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1aaed666ff74dab3ea1b277d4b75963be1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::AuditedImporter::ImmutableAuditLog::exportForSIEM</definition>
+        <argsstring>(const std::string &amp;format=&quot;raw&quot;) const</argsstring>
+        <name>exportForSIEM</name>
+        <qualifiedname>themis::importers::AuditedImporter::ImmutableAuditLog::exportForSIEM</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>format</declname>
+          <defval>&quot;raw&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="158" column="14" bodyfile="src/importers/audit_trail.cpp" bodystart="163" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1a5f41951f91254ccb638f9e93dc413520" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::importers::AuditedImporter::ImmutableAuditLog::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::importers::AuditedImporter::ImmutableAuditLog::size</qualifiedname>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="164" column="16" bodyfile="src/importers/audit_trail.cpp" bodystart="191" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1a65716c2e95962deccc9a0b3112155774" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1importers_1_1_audited_importer_1_1_audit_event" kindref="compound">AuditEvent</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; AuditedImporter::AuditEvent &gt; &amp; themis::importers::AuditedImporter::ImmutableAuditLog::events</definition>
+        <argsstring>() const</argsstring>
+        <name>events</name>
+        <qualifiedname>themis::importers::AuditedImporter::ImmutableAuditLog::events</qualifiedname>
+        <briefdescription>
+<para>Events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="170" column="27" bodyfile="src/importers/audit_trail.cpp" bodystart="195" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1a6668c2029f4f9fe5d0bac1f8b7eab60e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::AuditedImporter::ImmutableAuditLog::emitAuditEvent</definition>
+        <argsstring>(const AuditEvent &amp;event)</argsstring>
+        <name>emitAuditEvent</name>
+        <qualifiedname>themis::importers::AuditedImporter::ImmutableAuditLog::emitAuditEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_audited_importer_1_1_audit_event" kindref="compound">AuditEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Emit Audit Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Phase 2 T2.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+3.3 – Unified Audit Event Schema &amp; Correlation ============================================================================ Calls: <ref refid="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1a5f41951f91254ccb638f9e93dc413520" kindref="member">size()</ref>, empty(), erase(), begin(), <ref refid="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1a6399f55a4475de296c5a2dab2a4562dc" kindref="member">recordEvent()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="176" column="14" bodyfile="src/importers/audit_trail.cpp" bodystart="205" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1a584fa5616e450c1213199ef7792a0a62" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_audited_importer_1_1_audit_event" kindref="compound">AuditEvent</ref> &gt;</type>
+        <definition>std::vector&lt; AuditedImporter::AuditEvent &gt; themis::importers::AuditedImporter::ImmutableAuditLog::getAuditTrailForImport</definition>
+        <argsstring>(const std::string &amp;import_id) const</argsstring>
+        <name>getAuditTrailForImport</name>
+        <qualifiedname>themis::importers::AuditedImporter::ImmutableAuditLog::getAuditTrailForImport</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>import_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Audit Trail For Import. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">import_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the import. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="183" column="21" bodyfile="src/importers/audit_trail.cpp" bodystart="224" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1aac6010ea4a1b50f19a160387ea2cdd44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::AuditedImporter::ImmutableAuditLog::emitRollbackEvent</definition>
+        <argsstring>(const RollbackAuditEvent &amp;rollback_event, const std::string &amp;import_id, const std::string &amp;user_principal)</argsstring>
+        <name>emitRollbackEvent</name>
+        <qualifiedname>themis::importers::AuditedImporter::ImmutableAuditLog::emitRollbackEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_rollback_audit_event" kindref="compound">RollbackAuditEvent</ref> &amp;</type>
+          <declname>rollback_event</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>import_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_principal</declname>
+        </param>
+        <briefdescription>
+<para>Emit Rollback Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rollback_event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">import_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the import. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rollback_event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">import_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the import. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1a5f41951f91254ccb638f9e93dc413520" kindref="member">size()</ref>, std::chrono::high_resolution_clock::now(), time_since_epoch(), count(), toJson(), <ref refid="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1a6399f55a4475de296c5a2dab2a4562dc" kindref="member">recordEvent()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="191" column="14" bodyfile="src/importers/audit_trail.cpp" bodystart="286" bodyend="309"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1aec6cb8299eb34b324809e654076c34b5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::AuditedImporter::ImmutableAuditLog::computeEventHash</definition>
+        <argsstring>(const AuditEvent &amp;event, const std::string &amp;prev_hash) const</argsstring>
+        <name>computeEventHash</name>
+        <qualifiedname>themis::importers::AuditedImporter::ImmutableAuditLog::computeEventHash</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_audited_importer_1_1_audit_event" kindref="compound">AuditEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prev_hash</declname>
+        </param>
+        <briefdescription>
+<para>Compute Event Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prev_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/audit_trail.h" line="206" column="21" bodyfile="src/importers/audit_trail.cpp" bodystart="107" bodyend="130"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/audit_trail.h" line="144" column="5" bodyfile="include/importers/audit_trail.h" bodystart="144" bodyend="208"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1a7b227c26aaab4792c31827de1f612ff5" prot="private" virt="non-virtual"><scope>themis::importers::AuditedImporter::ImmutableAuditLog</scope><name>chain_hashes_</name></member>
+      <member refid="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1aec6cb8299eb34b324809e654076c34b5" prot="private" virt="non-virtual"><scope>themis::importers::AuditedImporter::ImmutableAuditLog</scope><name>computeEventHash</name></member>
+      <member refid="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1aefe1839dbed7b75e32792f6fe102b670" prot="private" virt="non-virtual"><scope>themis::importers::AuditedImporter::ImmutableAuditLog</scope><name>current_root_</name></member>
+      <member refid="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1a6668c2029f4f9fe5d0bac1f8b7eab60e" prot="public" virt="non-virtual"><scope>themis::importers::AuditedImporter::ImmutableAuditLog</scope><name>emitAuditEvent</name></member>
+      <member refid="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1aac6010ea4a1b50f19a160387ea2cdd44" prot="public" virt="non-virtual"><scope>themis::importers::AuditedImporter::ImmutableAuditLog</scope><name>emitRollbackEvent</name></member>
+      <member refid="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1a65716c2e95962deccc9a0b3112155774" prot="public" virt="non-virtual"><scope>themis::importers::AuditedImporter::ImmutableAuditLog</scope><name>events</name></member>
+      <member refid="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1ab22fccbf5542bd828ebf91c107280f19" prot="private" virt="non-virtual"><scope>themis::importers::AuditedImporter::ImmutableAuditLog</scope><name>events_</name></member>
+      <member refid="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1aaed666ff74dab3ea1b277d4b75963be1" prot="public" virt="non-virtual"><scope>themis::importers::AuditedImporter::ImmutableAuditLog</scope><name>exportForSIEM</name></member>
+      <member refid="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1a584fa5616e450c1213199ef7792a0a62" prot="public" virt="non-virtual"><scope>themis::importers::AuditedImporter::ImmutableAuditLog</scope><name>getAuditTrailForImport</name></member>
+      <member refid="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1a6399f55a4475de296c5a2dab2a4562dc" prot="public" virt="non-virtual"><scope>themis::importers::AuditedImporter::ImmutableAuditLog</scope><name>recordEvent</name></member>
+      <member refid="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1a5f41951f91254ccb638f9e93dc413520" prot="public" virt="non-virtual"><scope>themis::importers::AuditedImporter::ImmutableAuditLog</scope><name>size</name></member>
+      <member refid="classthemis_1_1importers_1_1_audited_importer_1_1_immutable_audit_log_1ae7e66d4ea35f599a4a1ff8e20bb9ed16" prot="public" virt="non-virtual"><scope>themis::importers::AuditedImporter::ImmutableAuditLog</scope><name>verifyIntegrity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

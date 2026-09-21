@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_window_manager_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::WindowManager::Stats</compoundname>
+    <includes refid="cep__engine_8h" local="no">cep_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_manager_1_1_stats_1aa1e87fb7f4def0cc1016fd29f8dd9bdb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::WindowManager::Stats::windows_created</definition>
+        <argsstring></argsstring>
+        <name>windows_created</name>
+        <qualifiedname>themisdb::analytics::WindowManager::Stats::windows_created</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="666" column="18" bodyfile="include/analytics/cep_engine.h" bodystart="666" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_manager_1_1_stats_1ac338d7941ad16da619f9059bdce77176" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::WindowManager::Stats::windows_closed</definition>
+        <argsstring></argsstring>
+        <name>windows_closed</name>
+        <qualifiedname>themisdb::analytics::WindowManager::Stats::windows_closed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="667" column="18" bodyfile="include/analytics/cep_engine.h" bodystart="667" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_manager_1_1_stats_1ab8c543abef52fe9b32fd6f8105445fbb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::WindowManager::Stats::events_in_window</definition>
+        <argsstring></argsstring>
+        <name>events_in_window</name>
+        <qualifiedname>themisdb::analytics::WindowManager::Stats::events_in_window</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="668" column="18" bodyfile="include/analytics/cep_engine.h" bodystart="668" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_window_manager_1_1_stats_1a7f164ae1f20356ce1c794b15d56c1cd2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::WindowManager::Stats::late_events</definition>
+        <argsstring></argsstring>
+        <name>late_events</name>
+        <qualifiedname>themisdb::analytics::WindowManager::Stats::late_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="669" column="18" bodyfile="include/analytics/cep_engine.h" bodystart="669" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/cep_engine.h" line="665" column="5" bodyfile="include/analytics/cep_engine.h" bodystart="665" bodyend="670"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_window_manager_1_1_stats_1ab8c543abef52fe9b32fd6f8105445fbb" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowManager::Stats</scope><name>events_in_window</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_manager_1_1_stats_1a7f164ae1f20356ce1c794b15d56c1cd2" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowManager::Stats</scope><name>late_events</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_manager_1_1_stats_1ac338d7941ad16da619f9059bdce77176" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowManager::Stats</scope><name>windows_closed</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_window_manager_1_1_stats_1aa1e87fb7f4def0cc1016fd29f8dd9bdb" prot="public" virt="non-virtual"><scope>themisdb::analytics::WindowManager::Stats</scope><name>windows_created</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_o_i_d_c_provider_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::OIDCProviderConfig</compoundname>
+    <includes refid="oidc__provider_8h" local="no">oidc_provider.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a08ab5fea9538bd44066eebfcb0074bb8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OIDCProviderConfig::issuer_url</definition>
+        <argsstring></argsstring>
+        <name>issuer_url</name>
+        <qualifiedname>themis::auth::OIDCProviderConfig::issuer_url</qualifiedname>
+        <briefdescription>
+<para>Base issuer URL (discovery appended automatically). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="43" column="17" bodyfile="include/auth/oidc_provider.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1ab043cb4e8d3d2fd8e761fdbc0e18d155" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OIDCProviderConfig::client_id</definition>
+        <argsstring></argsstring>
+        <name>client_id</name>
+        <qualifiedname>themis::auth::OIDCProviderConfig::client_id</qualifiedname>
+        <briefdescription>
+<para>OAuth 2.0 client identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="44" column="17" bodyfile="include/auth/oidc_provider.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a0586e6ea48c27dbc8ce9b9724428ddc1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OIDCProviderConfig::client_secret</definition>
+        <argsstring></argsstring>
+        <name>client_secret</name>
+        <qualifiedname>themis::auth::OIDCProviderConfig::client_secret</qualifiedname>
+        <briefdescription>
+<para>Client secret (empty for public clients). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="45" column="17" bodyfile="include/auth/oidc_provider.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a0c9fd44edb61de42eed5f2aedc130b8d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::OIDCProviderConfig::scopes</definition>
+        <argsstring></argsstring>
+        <name>scopes</name>
+        <qualifiedname>themis::auth::OIDCProviderConfig::scopes</qualifiedname>
+        <briefdescription>
+<para>Requested scopes (default: {&quot;openid&quot;}). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="46" column="17" bodyfile="include/auth/oidc_provider.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a6a959a78bed2d8839f712782a79cbbcd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OIDCProviderConfig::expected_audience</definition>
+        <argsstring></argsstring>
+        <name>expected_audience</name>
+        <qualifiedname>themis::auth::OIDCProviderConfig::expected_audience</qualifiedname>
+        <briefdescription>
+<para>Expected audience claim in tokens (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="47" column="17" bodyfile="include/auth/oidc_provider.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1ae260bb644c1ac1a9de8defd5aaa09c50" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::auth::OIDCProviderConfig::jwks_cache_ttl</definition>
+        <argsstring></argsstring>
+        <name>jwks_cache_ttl</name>
+        <qualifiedname>themis::auth::OIDCProviderConfig::jwks_cache_ttl</qualifiedname>
+        <initializer>{600}</initializer>
+        <briefdescription>
+<para>How long to cache JWKS responses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="49" column="26" bodyfile="include/auth/oidc_provider.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a6dece772218b7181ada33a8b6b9cfd9b" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::auth::OIDCProviderConfig::clock_skew</definition>
+        <argsstring></argsstring>
+        <name>clock_skew</name>
+        <qualifiedname>themis::auth::OIDCProviderConfig::clock_skew</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+<para>Allowed clock skew for token validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="50" column="26" bodyfile="include/auth/oidc_provider.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1af34e98490ce6898dc4f029bb2c8efe34" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::OIDCProviderConfig::http_timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>http_timeout_seconds</name>
+        <qualifiedname>themis::auth::OIDCProviderConfig::http_timeout_seconds</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+<para>Timeout for discovery and JWKS HTTP requests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="52" column="9" bodyfile="include/auth/oidc_provider.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/oidc_provider.h" line="42" column="1" bodyfile="include/auth/oidc_provider.h" bodystart="42" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1ab043cb4e8d3d2fd8e761fdbc0e18d155" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProviderConfig</scope><name>client_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a0586e6ea48c27dbc8ce9b9724428ddc1" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProviderConfig</scope><name>client_secret</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a6dece772218b7181ada33a8b6b9cfd9b" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProviderConfig</scope><name>clock_skew</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a6a959a78bed2d8839f712782a79cbbcd" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProviderConfig</scope><name>expected_audience</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1af34e98490ce6898dc4f029bb2c8efe34" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProviderConfig</scope><name>http_timeout_seconds</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a08ab5fea9538bd44066eebfcb0074bb8" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProviderConfig</scope><name>issuer_url</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1ae260bb644c1ac1a9de8defd5aaa09c50" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProviderConfig</scope><name>jwks_cache_ttl</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a0c9fd44edb61de42eed5f2aedc130b8d" prot="public" virt="non-virtual"><scope>themis::auth::OIDCProviderConfig</scope><name>scopes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

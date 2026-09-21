@@ -1,0 +1,313 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_m_m_replication_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::MMReplicationConfig</compoundname>
+    <includes refid="multi__master__replication_8h" local="no">multi_master_replication.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_replication_config_1aceb7f3fb7ccfac6e51087aa4e2dbc80d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MMReplicationConfig::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themisdb::replication::MMReplicationConfig::node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="334" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_replication_config_1aea0c6df57ab985e3d598b6acee0337f3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::replication::MMReplicationConfig::seed_peers</definition>
+        <argsstring></argsstring>
+        <name>seed_peers</name>
+        <qualifiedname>themisdb::replication::MMReplicationConfig::seed_peers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="335" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_replication_config_1af9e66efdfc9e784d1fb216c39e9f3b88" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MMReplicationConfig::datacenter</definition>
+        <argsstring></argsstring>
+        <name>datacenter</name>
+        <qualifiedname>themisdb::replication::MMReplicationConfig::datacenter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="336" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_replication_config_1a1fc0372ff7b5c74471648ee084237dae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MMReplicationConfig::region</definition>
+        <argsstring></argsstring>
+        <name>region</name>
+        <qualifiedname>themisdb::replication::MMReplicationConfig::region</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="337" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_replication_config_1a2faaf0ba6abb3db3ce6b1fc9893d69d7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::MMReplicationConfig::replication_factor</definition>
+        <argsstring></argsstring>
+        <name>replication_factor</name>
+        <qualifiedname>themisdb::replication::MMReplicationConfig::replication_factor</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="340" column="14" bodyfile="include/replication/multi_master_replication.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_replication_config_1ad47e0dcbefe163f639be9e98cebcb863" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::MMReplicationConfig::write_quorum</definition>
+        <argsstring></argsstring>
+        <name>write_quorum</name>
+        <qualifiedname>themisdb::replication::MMReplicationConfig::write_quorum</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="341" column="14" bodyfile="include/replication/multi_master_replication.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_replication_config_1a9a453c0ea3c927d5f8c4ad9bd9637421" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::MMReplicationConfig::read_quorum</definition>
+        <argsstring></argsstring>
+        <name>read_quorum</name>
+        <qualifiedname>themisdb::replication::MMReplicationConfig::read_quorum</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="342" column="14" bodyfile="include/replication/multi_master_replication.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_replication_config_1a508af821622fb11b97b43f36a3f30719" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::MMReplicationConfig::heartbeat_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_interval_ms</name>
+        <qualifiedname>themisdb::replication::MMReplicationConfig::heartbeat_interval_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="345" column="14" bodyfile="include/replication/multi_master_replication.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_replication_config_1a87bf69f6acbe1962e3ba425ae7f70c6e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::MMReplicationConfig::sync_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>sync_interval_ms</name>
+        <qualifiedname>themisdb::replication::MMReplicationConfig::sync_interval_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="346" column="14" bodyfile="include/replication/multi_master_replication.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_replication_config_1a72c0b7603135483440b2aa3e49c27f51" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::MMReplicationConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themisdb::replication::MMReplicationConfig::timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="347" column="14" bodyfile="include/replication/multi_master_replication.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_replication_config_1ac6e36d5ed7a2175ce967a03ef3b2590d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MMReplicationConfig::default_resolution_strategy</definition>
+        <argsstring></argsstring>
+        <name>default_resolution_strategy</name>
+        <qualifiedname>themisdb::replication::MMReplicationConfig::default_resolution_strategy</qualifiedname>
+        <initializer>= &quot;LAST_WRITE_WINS&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="350" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_replication_config_1a2578858c7a93a4412485247855eab6fd" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themisdb::replication::MMReplicationConfig::collection_strategies</definition>
+        <argsstring></argsstring>
+        <name>collection_strategies</name>
+        <qualifiedname>themisdb::replication::MMReplicationConfig::collection_strategies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="351" column="14" bodyfile="include/replication/multi_master_replication.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_replication_config_1afc8a2f3b1297fdd2c979f546dfaf761d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::MMReplicationConfig::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themisdb::replication::MMReplicationConfig::max_batch_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="354" column="14" bodyfile="include/replication/multi_master_replication.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_replication_config_1aa1ddd518968f123d2486df8c99f31499" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::MMReplicationConfig::max_pending_writes</definition>
+        <argsstring></argsstring>
+        <name>max_pending_writes</name>
+        <qualifiedname>themisdb::replication::MMReplicationConfig::max_pending_writes</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="355" column="14" bodyfile="include/replication/multi_master_replication.h" bodystart="355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_replication_config_1a014aa0e22a610b5e2a00733901ae0903" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::MMReplicationConfig::async_apply</definition>
+        <argsstring></argsstring>
+        <name>async_apply</name>
+        <qualifiedname>themisdb::replication::MMReplicationConfig::async_apply</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="356" column="10" bodyfile="include/replication/multi_master_replication.h" bodystart="356" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_replication_config_1a5fc58da173840bfdaff54568bc38b30e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::MMReplicationConfig::use_mtls</definition>
+        <argsstring></argsstring>
+        <name>use_mtls</name>
+        <qualifiedname>themisdb::replication::MMReplicationConfig::use_mtls</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="359" column="10" bodyfile="include/replication/multi_master_replication.h" bodystart="359" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_replication_config_1a417993a24738a7e9840b190c8fdfa195" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MMReplicationConfig::cert_path</definition>
+        <argsstring></argsstring>
+        <name>cert_path</name>
+        <qualifiedname>themisdb::replication::MMReplicationConfig::cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="360" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="360" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_replication_config_1a4c46a5816e997a01ebd28dd2483daff7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MMReplicationConfig::key_path</definition>
+        <argsstring></argsstring>
+        <name>key_path</name>
+        <qualifiedname>themisdb::replication::MMReplicationConfig::key_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="361" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="361" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_m_m_replication_config_1a92d872f9bc0ca4d6cbd6fff194ac73b3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MMReplicationConfig::ca_path</definition>
+        <argsstring></argsstring>
+        <name>ca_path</name>
+        <qualifiedname>themisdb::replication::MMReplicationConfig::ca_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="362" column="17" bodyfile="include/replication/multi_master_replication.h" bodystart="362" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Multi-Master Replication Configuration </para>
+    </detaileddescription>
+    <location file="include/replication/multi_master_replication.h" line="333" column="1" bodyfile="include/replication/multi_master_replication.h" bodystart="333" bodyend="363"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_replication_config_1a014aa0e22a610b5e2a00733901ae0903" prot="public" virt="non-virtual"><scope>themisdb::replication::MMReplicationConfig</scope><name>async_apply</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_replication_config_1a92d872f9bc0ca4d6cbd6fff194ac73b3" prot="public" virt="non-virtual"><scope>themisdb::replication::MMReplicationConfig</scope><name>ca_path</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_replication_config_1a417993a24738a7e9840b190c8fdfa195" prot="public" virt="non-virtual"><scope>themisdb::replication::MMReplicationConfig</scope><name>cert_path</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_replication_config_1a2578858c7a93a4412485247855eab6fd" prot="public" virt="non-virtual"><scope>themisdb::replication::MMReplicationConfig</scope><name>collection_strategies</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_replication_config_1af9e66efdfc9e784d1fb216c39e9f3b88" prot="public" virt="non-virtual"><scope>themisdb::replication::MMReplicationConfig</scope><name>datacenter</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_replication_config_1ac6e36d5ed7a2175ce967a03ef3b2590d" prot="public" virt="non-virtual"><scope>themisdb::replication::MMReplicationConfig</scope><name>default_resolution_strategy</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_replication_config_1a508af821622fb11b97b43f36a3f30719" prot="public" virt="non-virtual"><scope>themisdb::replication::MMReplicationConfig</scope><name>heartbeat_interval_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_replication_config_1a4c46a5816e997a01ebd28dd2483daff7" prot="public" virt="non-virtual"><scope>themisdb::replication::MMReplicationConfig</scope><name>key_path</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_replication_config_1afc8a2f3b1297fdd2c979f546dfaf761d" prot="public" virt="non-virtual"><scope>themisdb::replication::MMReplicationConfig</scope><name>max_batch_size</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_replication_config_1aa1ddd518968f123d2486df8c99f31499" prot="public" virt="non-virtual"><scope>themisdb::replication::MMReplicationConfig</scope><name>max_pending_writes</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_replication_config_1aceb7f3fb7ccfac6e51087aa4e2dbc80d" prot="public" virt="non-virtual"><scope>themisdb::replication::MMReplicationConfig</scope><name>node_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_replication_config_1a9a453c0ea3c927d5f8c4ad9bd9637421" prot="public" virt="non-virtual"><scope>themisdb::replication::MMReplicationConfig</scope><name>read_quorum</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_replication_config_1a1fc0372ff7b5c74471648ee084237dae" prot="public" virt="non-virtual"><scope>themisdb::replication::MMReplicationConfig</scope><name>region</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_replication_config_1a2faaf0ba6abb3db3ce6b1fc9893d69d7" prot="public" virt="non-virtual"><scope>themisdb::replication::MMReplicationConfig</scope><name>replication_factor</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_replication_config_1aea0c6df57ab985e3d598b6acee0337f3" prot="public" virt="non-virtual"><scope>themisdb::replication::MMReplicationConfig</scope><name>seed_peers</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_replication_config_1a87bf69f6acbe1962e3ba425ae7f70c6e" prot="public" virt="non-virtual"><scope>themisdb::replication::MMReplicationConfig</scope><name>sync_interval_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_replication_config_1a72c0b7603135483440b2aa3e49c27f51" prot="public" virt="non-virtual"><scope>themisdb::replication::MMReplicationConfig</scope><name>timeout_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_replication_config_1a5fc58da173840bfdaff54568bc38b30e" prot="public" virt="non-virtual"><scope>themisdb::replication::MMReplicationConfig</scope><name>use_mtls</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_m_m_replication_config_1ad47e0dcbefe163f639be9e98cebcb863" prot="public" virt="non-virtual"><scope>themisdb::replication::MMReplicationConfig</scope><name>write_quorum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

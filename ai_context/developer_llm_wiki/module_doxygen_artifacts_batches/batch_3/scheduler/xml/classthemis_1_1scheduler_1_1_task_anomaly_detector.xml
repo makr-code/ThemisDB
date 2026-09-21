@@ -1,0 +1,878 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scheduler_1_1_task_anomaly_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::scheduler::TaskAnomalyDetector</compoundname>
+    <includes refid="task__anomaly__detector_8h" local="no">task_anomaly_detector.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1ae01c8406f4482f10ed4d11a52ca2bcd5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config" kindref="compound">AnomalyDetectorConfig</ref></type>
+        <definition>AnomalyDetectorConfig themis::scheduler::TaskAnomalyDetector::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="202" column="27" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1afb34a9d397b29c896531a3ae1f43006d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::scheduler::TaskAnomalyDetector::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="203" column="24" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a739d07d75028bd964c643e74fdc1279c" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1scheduler_1_1_task_statistics" kindref="compound">TaskStatistics</ref> &gt;</type>
+        <definition>std::map&lt;std::string, TaskStatistics&gt; themis::scheduler::TaskAnomalyDetector::task_stats_</definition>
+        <argsstring></argsstring>
+        <name>task_stats_</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::task_stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="206" column="14" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a4dce0792456645ccf2d261cf9aed691b" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::scheduler::TaskAnomalyDetector::callback_thread_</definition>
+        <argsstring></argsstring>
+        <name>callback_thread_</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::callback_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="209" column="17" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1aa82c14071c7a6b76c04cbb26a21905ce" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::scheduler::TaskAnomalyDetector::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="210" column="17" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="210" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a00612a4160ca91603805d7cf38c3c792" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; std::pair&lt; std::string, <ref refid="structthemis_1_1scheduler_1_1_anomaly_metrics" kindref="compound">AnomalyMetrics</ref> &gt; &gt;</type>
+        <definition>std::queue&lt;std::pair&lt;std::string, AnomalyMetrics&gt; &gt; themis::scheduler::TaskAnomalyDetector::anomaly_queue_</definition>
+        <argsstring></argsstring>
+        <name>anomaly_queue_</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::anomaly_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="211" column="16" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1aa8d387d0b4524d0c1650f77a03130cc2" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::scheduler::TaskAnomalyDetector::queue_mutex_</definition>
+        <argsstring></argsstring>
+        <name>queue_mutex_</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::queue_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="212" column="16" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1ab3b097fbc4f286f737352d1eba1f551c" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::scheduler::TaskAnomalyDetector::queue_cv_</definition>
+        <argsstring></argsstring>
+        <name>queue_cv_</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::queue_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="213" column="29" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a6c9fa1be84e0dd2e29e74a212878a334" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::TaskAnomalyDetector::TaskAnomalyDetector</definition>
+        <argsstring>(const AnomalyDetectorConfig &amp;config=AnomalyDetectorConfig())</argsstring>
+        <name>TaskAnomalyDetector</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::TaskAnomalyDetector</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config" kindref="compound">AnomalyDetectorConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config" kindref="compound">AnomalyDetectorConfig</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="119" column="14" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="21" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a3d10c6425453c1e343cad821cd31761f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scheduler::TaskAnomalyDetector::~TaskAnomalyDetector</definition>
+        <argsstring>()</argsstring>
+        <name>~TaskAnomalyDetector</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::~TaskAnomalyDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="121" column="5" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="31" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a71dafba5d6cc24cf2a8545707a3dcad5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scheduler::TaskAnomalyDetector::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::start</qualifiedname>
+        <briefdescription>
+<para>GAP 2 FIX: Lifecycle management for background callback thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), load(), store(), std::thread(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="124" column="10" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="39" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1aa22135c0978352d08e268ac57d2dc0e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scheduler::TaskAnomalyDetector::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), load(), store(), notify_all(), joinable(), join(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="125" column="10" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="54" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a872ffe0490485b43b291cdd7ad3c1c47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1scheduler_1_1_anomaly_metrics" kindref="compound">AnomalyMetrics</ref></type>
+        <definition>AnomalyMetrics themis::scheduler::TaskAnomalyDetector::recordExecution</definition>
+        <argsstring>(const TaskAuditEvent &amp;event)</argsstring>
+        <name>recordExecution</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::recordExecution</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">TaskAuditEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Record a task execution event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Execution.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Audit event to process </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Anomaly metrics for this execution</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), updateStatistics(), <ref refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a34608da672dd270a0d84f5f1ddb61577" kindref="member">hasBaseline()</ref>, detectFrequencyAnomaly(), detectPatternAnomaly(), detectResourceAnomaly(), detectFailureRateAnomaly(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="132" column="20" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="115" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1ae43ccaf448dc9e64d80f6386e083ffe4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1scheduler_1_1_task_statistics" kindref="compound">TaskStatistics</ref> &gt;</type>
+        <definition>std::optional&lt; TaskStatistics &gt; themis::scheduler::TaskAnomalyDetector::getTaskStatistics</definition>
+        <argsstring>(const std::string &amp;task_id) const</argsstring>
+        <name>getTaskStatistics</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::getTaskStatistics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Get statistics for a specific task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Task statistics (or empty if task not found) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="139" column="19" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="602" bodyend="616"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a15dab2854fe6a2c82b2db027e027019d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1scheduler_1_1_task_statistics" kindref="compound">TaskStatistics</ref> &gt;</type>
+        <definition>std::map&lt; std::string, TaskStatistics &gt; themis::scheduler::TaskAnomalyDetector::getAllStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllStatistics</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::getAllStatistics</qualifiedname>
+        <briefdescription>
+<para>Get all task statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Map of task_id -&gt; statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="145" column="14" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="618" bodyend="626"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1aa4d838d995e928f9364903ff04e3c7dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scheduler::TaskAnomalyDetector::resetTaskStatistics</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>resetTaskStatistics</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::resetTaskStatistics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Reset statistics for a specific task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Task Statistics.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="151" column="10" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="633" bodyend="636"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1aee957a163a9ca0985065ca5ffd624dad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scheduler::TaskAnomalyDetector::resetAllStatistics</definition>
+        <argsstring>()</argsstring>
+        <name>resetAllStatistics</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::resetAllStatistics</qualifiedname>
+        <briefdescription>
+<para>Reset all statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset All Statistics.</para>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="156" column="10" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="642" bodyend="645"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a34608da672dd270a0d84f5f1ddb61577" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::scheduler::TaskAnomalyDetector::hasBaseline</definition>
+        <argsstring>(const std::string &amp;task_id) const</argsstring>
+        <name>hasBaseline</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::hasBaseline</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Check if task has sufficient baseline data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if baseline is established </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="163" column="10" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="446" bodyend="453"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a45fd20bb985acdcfd70f011a1cc10a2a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1scheduler_1_1_anomaly_metrics" kindref="compound">AnomalyMetrics</ref></type>
+        <definition>AnomalyMetrics themis::scheduler::TaskAnomalyDetector::checkAnomaly</definition>
+        <argsstring>(const std::string &amp;task_id) const</argsstring>
+        <name>checkAnomaly</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::checkAnomaly</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Check anomaly status without recording an execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GAP 1 FIX: On-demand anomaly detection for external invocation <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Anomaly metrics (advisory, non-blocking) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="171" column="20" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="456" bodyend="544"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1acfa9d22329982a1177643cf954562a03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scheduler::TaskAnomalyDetector::recalibrateBaseline</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>recalibrateBaseline</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::recalibrateBaseline</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Recalibrate baseline for a task (reset time-window data). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GAP 3 FIX: Explicit baseline recalibration.</para>
+<para>GAP 3 FIX: Explicit baseline recalibration <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Preserves existing statistics but resets time-based calculations</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), THEMIS_WARN(), cleanupOldData(), empty(), calculateMean(), calculateStdDev(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="179" column="10" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="551" bodyend="600"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1adee30f96aa2fc4493303e62d25de34b1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config" kindref="compound">AnomalyDetectorConfig</ref></type>
+        <definition>AnomalyDetectorConfig themis::scheduler::TaskAnomalyDetector::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="184" column="27" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="647" bodyend="655"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a4a06d70d93ef6b823c25eee826e76156" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scheduler::TaskAnomalyDetector::updateConfig</definition>
+        <argsstring>(const AnomalyDetectorConfig &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config" kindref="compound">AnomalyDetectorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the access control configuration.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="189" column="10" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="662" bodyend="665"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a45206ef07aff5f3fd3e4b56bda57de63" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::scheduler::TaskAnomalyDetector::exportStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>exportStatistics</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::exportStatistics</qualifiedname>
+        <briefdescription>
+<para>Export statistics to JSON (for persistence/analysis). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="194" column="20" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="667" bodyend="731"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a44c7c2f4ee871f864c90e8e2376c359f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scheduler::TaskAnomalyDetector::importStatistics</definition>
+        <argsstring>(const nlohmann::json &amp;data)</argsstring>
+        <name>importStatistics</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::importStatistics</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Import statistics from JSON (for restoration). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Import Statistics.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), contains(), items(), push_back(), jsonToDequeDouble(), clear(), std::chrono::system_clock::time_point(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="199" column="10" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="738" bodyend="821"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a4f669f1f9f253b3da0889b5ab63af533" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scheduler::TaskAnomalyDetector::anomalyCallbackWorker</definition>
+        <argsstring>()</argsstring>
+        <name>anomalyCallbackWorker</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::anomalyCallbackWorker</qualifiedname>
+        <briefdescription>
+<para>Background worker thread for async anomaly callbacks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_DEBUG(), load(), lock(), wait_for(), std::chrono::milliseconds(), empty(), std::move(), front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="216" column="10" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="76" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1ab8b7f20ec9e2811fde12562b427d168b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskAnomalyDetector::detectFrequencyAnomaly</definition>
+        <argsstring>(const std::string &amp;task_id, const std::chrono::system_clock::time_point &amp;now) const</argsstring>
+        <name>detectFrequencyAnomaly</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::detectFrequencyAnomaly</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>const std::chrono::system_clock::time_point &amp;</type>
+          <declname>now</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="219" column="12" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="290" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1ab7075ab66986fb28b054bc43b9bbd55a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskAnomalyDetector::detectPatternAnomaly</definition>
+        <argsstring>(const std::string &amp;task_id, const std::chrono::system_clock::time_point &amp;now) const</argsstring>
+        <name>detectPatternAnomaly</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::detectPatternAnomaly</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>const std::chrono::system_clock::time_point &amp;</type>
+          <declname>now</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="222" column="12" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="334" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a4bb7f5d1915b26e8e342f68fa3c5c068" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskAnomalyDetector::detectResourceAnomaly</definition>
+        <argsstring>(const std::string &amp;task_id, const TaskResourceUsage &amp;resource_usage) const</argsstring>
+        <name>detectResourceAnomaly</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::detectResourceAnomaly</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_task_resource_usage" kindref="compound">TaskResourceUsage</ref> &amp;</type>
+          <declname>resource_usage</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="225" column="12" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="386" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a4da7aa60c9b01cb85f399b4f2561d000" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskAnomalyDetector::detectFailureRateAnomaly</definition>
+        <argsstring>(const std::string &amp;task_id, bool success) const</argsstring>
+        <name>detectFailureRateAnomaly</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::detectFailureRateAnomaly</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="228" column="12" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="421" bodyend="444"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1aefa74bdc836ebffcbad6b7822416cfbb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scheduler::TaskAnomalyDetector::updateStatistics</definition>
+        <argsstring>(const std::string &amp;task_id, const TaskAuditEvent &amp;event)</argsstring>
+        <name>updateStatistics</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::updateStatistics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">TaskAuditEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Update Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), size(), pop_front(), empty(), calculateMean(), calculateStdDev(), std::min_element(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="232" column="10" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="205" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a2d316ef274610a58ec8bb8272dc2e0fe" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskAnomalyDetector::calculateMean</definition>
+        <argsstring>(const std::deque&lt; double &gt; &amp;values) const</argsstring>
+        <name>calculateMean</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::calculateMean</qualifiedname>
+        <param>
+          <type>const std::deque&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="233" column="12" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="824" bodyend="831"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1adb2d53369b0002fad4756b999010d454" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskAnomalyDetector::calculateStdDev</definition>
+        <argsstring>(const std::deque&lt; double &gt; &amp;values, double mean) const</argsstring>
+        <name>calculateStdDev</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::calculateStdDev</qualifiedname>
+        <param>
+          <type>const std::deque&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>mean</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="234" column="12" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="833" bodyend="845"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1aebe4b4bcf9c5dbd038150895dc60c456" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskAnomalyDetector::calculatePercentile</definition>
+        <argsstring>(const std::deque&lt; double &gt; &amp;values, double percentile) const</argsstring>
+        <name>calculatePercentile</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::calculatePercentile</qualifiedname>
+        <param>
+          <type>const std::deque&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>percentile</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="235" column="12" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="847" bodyend="858"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a4bc753ddbab5f2dbbdcb128960d4e2cc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scheduler::TaskAnomalyDetector::cleanupOldData</definition>
+        <argsstring>(TaskStatistics &amp;stats)</argsstring>
+        <name>cleanupOldData</name>
+        <qualifiedname>themis::scheduler::TaskAnomalyDetector::cleanupOldData</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1scheduler_1_1_task_statistics" kindref="compound">TaskStatistics</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Cleanup Old Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), front(), pop_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_anomaly_detector.h" line="238" column="10" bodyfile="src/scheduler/task_anomaly_detector.cpp" bodystart="865" bodyend="888"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Anomaly detector for task scheduler. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Features:<itemizedlist>
+<listitem><para>Statistical baseline learning from historical data</para>
+</listitem><listitem><para>Real-time anomaly scoring (0-1 scale)</para>
+</listitem><listitem><para>Multi-dimensional anomaly detection (frequency, pattern, resource, failure)</para>
+</listitem><listitem><para>Configurable sensitivity and thresholds</para>
+</listitem><listitem><para>Thread-safe operation</para>
+</listitem><listitem><para>Automatic baseline updates </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/scheduler/task_anomaly_detector.h" line="117" column="1" bodyfile="include/scheduler/task_anomaly_detector.h" bodystart="117" bodyend="239"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a00612a4160ca91603805d7cf38c3c792" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>anomaly_queue_</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a4f669f1f9f253b3da0889b5ab63af533" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>anomalyCallbackWorker</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a2d316ef274610a58ec8bb8272dc2e0fe" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>calculateMean</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1aebe4b4bcf9c5dbd038150895dc60c456" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>calculatePercentile</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1adb2d53369b0002fad4756b999010d454" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>calculateStdDev</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a4dce0792456645ccf2d261cf9aed691b" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>callback_thread_</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a45fd20bb985acdcfd70f011a1cc10a2a" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>checkAnomaly</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a4bc753ddbab5f2dbbdcb128960d4e2cc" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>cleanupOldData</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1ae01c8406f4482f10ed4d11a52ca2bcd5" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>config_</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a4da7aa60c9b01cb85f399b4f2561d000" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>detectFailureRateAnomaly</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1ab8b7f20ec9e2811fde12562b427d168b" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>detectFrequencyAnomaly</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1ab7075ab66986fb28b054bc43b9bbd55a" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>detectPatternAnomaly</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a4bb7f5d1915b26e8e342f68fa3c5c068" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>detectResourceAnomaly</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a45206ef07aff5f3fd3e4b56bda57de63" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>exportStatistics</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a15dab2854fe6a2c82b2db027e027019d" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>getAllStatistics</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1adee30f96aa2fc4493303e62d25de34b1" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1ae43ccaf448dc9e64d80f6386e083ffe4" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>getTaskStatistics</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a34608da672dd270a0d84f5f1ddb61577" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>hasBaseline</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a44c7c2f4ee871f864c90e8e2376c359f" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>importStatistics</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1afb34a9d397b29c896531a3ae1f43006d" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1ab3b097fbc4f286f737352d1eba1f551c" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>queue_cv_</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1aa8d387d0b4524d0c1650f77a03130cc2" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>queue_mutex_</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1acfa9d22329982a1177643cf954562a03" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>recalibrateBaseline</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a872ffe0490485b43b291cdd7ad3c1c47" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>recordExecution</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1aee957a163a9ca0985065ca5ffd624dad" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>resetAllStatistics</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1aa4d838d995e928f9364903ff04e3c7dc" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>resetTaskStatistics</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1aa82c14071c7a6b76c04cbb26a21905ce" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>running_</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a71dafba5d6cc24cf2a8545707a3dcad5" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>start</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1aa22135c0978352d08e268ac57d2dc0e9" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>stop</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a739d07d75028bd964c643e74fdc1279c" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>task_stats_</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a6c9fa1be84e0dd2e29e74a212878a334" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>TaskAnomalyDetector</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a4a06d70d93ef6b823c25eee826e76156" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>updateConfig</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1aefa74bdc836ebffcbad6b7822416cfbb" prot="private" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>updateStatistics</name></member>
+      <member refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a3d10c6425453c1e343cad821cd31761f" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskAnomalyDetector</scope><name>~TaskAnomalyDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

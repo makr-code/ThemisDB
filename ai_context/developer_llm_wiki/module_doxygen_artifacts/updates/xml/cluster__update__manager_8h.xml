@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cluster__update__manager_8h" kind="file" language="C++">
+    <compoundname>cluster_update_manager.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="cluster__update__manager_8cpp" local="yes">src/updates/cluster_update_manager.cpp</includedby>
+    <includedby refid="test__updates__batch5__finalization_8cpp" local="yes">tests/updates/test_updates_batch5_finalization.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/updates/cluster_update_manager.h</label>
+        <link refid="cluster__update__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/updates/cluster_update_manager.h</label>
+        <link refid="cluster__update__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/updates/cluster_update_manager.cpp</label>
+        <link refid="cluster__update__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/updates/test_updates_batch5_finalization.cpp</label>
+        <link refid="test__updates__batch5__finalization_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1updates_1_1_cluster_node" prot="public">themis::updates::ClusterNode</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_cluster_node_status" prot="public">themis::updates::ClusterNodeStatus</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_cluster_update_progress" prot="public">themis::updates::ClusterUpdateProgress</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_cluster_update_options" prot="public">themis::updates::ClusterUpdateOptions</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_cluster_update_result" prot="public">themis::updates::ClusterUpdateResult</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_cluster_update_manager" prot="public">themis::updates::ClusterUpdateManager</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_cluster_update_manager_1_1_config" prot="public">themis::updates::ClusterUpdateManager::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1updates">themis::updates</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates" kindref="compound">updates</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Enums</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0" kindref="member">ClusterNodeState</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0ac69f06e1a9b016d133907b4e5f5864d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">PENDING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0a6a83fb962e26a218fee9b429eb62dbc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0a6a83fb962e26a218fee9b429eb62dbc6" kindref="member">DRAINING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0a6af03e66d770a160658b53d1ac9ce3f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0a6af03e66d770a160658b53d1ac9ce3f5" kindref="member">APPLYING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0acee3a250774f2737dbe133597fc3c9bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0acee3a250774f2737dbe133597fc3c9bd" kindref="member">HEALTH_CHECK</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0a2cd13db0d3dae49248e556109d0386c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0a2cd13db0d3dae49248e556109d0386c2" kindref="member">REJOINING</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0a8f7afecbc8fbc4cd0f50a57d1172482e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0a8f7afecbc8fbc4cd0f50a57d1172482e" kindref="member">COMPLETED</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0ab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0ab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0aed701d1c3d474e00c7a2f416f8d6858c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0aed701d1c3d474e00c7a2f416f8d6858c" kindref="member">ROLLED_BACK</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0a203ec08f57cb105eeb2b121ba6503b52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0a203ec08f57cb105eeb2b121ba6503b52" kindref="member">SKIPPED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Data<sp/>structures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1updates_1_1_cluster_node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_cluster_node" kindref="compound">ClusterNode</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1updates_1_1_cluster_node_1a36686a746aa7b37f0a7b857c613248da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_cluster_node_1a36686a746aa7b37f0a7b857c613248da" kindref="member">node_id</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1updates_1_1_cluster_node_1a79cfaab5a935aad711d91bcf898e3350" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_cluster_node_1a79cfaab5a935aad711d91bcf898e3350" kindref="member">address</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1updates_1_1_cluster_node_1a88b609cebbbc4a51ab1e7ba3d78ea136" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_cluster_node_1a88b609cebbbc4a51ab1e7ba3d78ea136" kindref="member">is_leader</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1updates_1_1_cluster_node_1a2590ff55fea99e89f992d90bf365e885" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_cluster_node_1a2590ff55fea99e89f992d90bf365e885" kindref="member">current_version</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1updates_1_1_cluster_node_status" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_cluster_node_status" kindref="compound">ClusterNodeStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1updates_1_1_cluster_node_status_1a95e0e0f18f2b104b354d6472254752d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_cluster_node_status_1a95e0e0f18f2b104b354d6472254752d4" kindref="member">node_id</ref>;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1updates_1_1_cluster_node_status_1a8aebc1613a00d262b0b3e10c18cb7744" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0" kindref="member">ClusterNodeState</ref><sp/><ref refid="structthemis_1_1updates_1_1_cluster_node_status_1a8aebc1613a00d262b0b3e10c18cb7744" kindref="member">state</ref><sp/>=<sp/><ref refid="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">ClusterNodeState::PENDING</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1updates_1_1_cluster_node_status_1ab3fee51f2fffd3634965ee32b39411a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_cluster_node_status_1ab3fee51f2fffd3634965ee32b39411a3" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1updates_1_1_cluster_node_status_1a43b0287062c361d0ab22cbb119d7d087" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_cluster_node_status_1a43b0287062c361d0ab22cbb119d7d087" kindref="member">applied_version</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1updates_1_1_cluster_node_status_1ad0e8385b8163685b3cdb07cc3beac761" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_cluster_node_status_1ad0e8385b8163685b3cdb07cc3beac761" kindref="member">is_leader</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1updates_1_1_cluster_update_progress" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_cluster_update_progress" kindref="compound">ClusterUpdateProgress</ref><sp/>{</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1updates_1_1_cluster_update_progress_1a11a81214576761e0a9e59394507a98b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_progress_1a11a81214576761e0a9e59394507a98b9" kindref="member">total_nodes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1updates_1_1_cluster_update_progress_1a92a13dc23db8ceb7af290c511932dd81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_progress_1a92a13dc23db8ceb7af290c511932dd81" kindref="member">nodes_updated</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1updates_1_1_cluster_update_progress_1aa0302266bb62eed4734a03524ae5c8b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_progress_1aa0302266bb62eed4734a03524ae5c8b5" kindref="member">nodes_failed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1updates_1_1_cluster_update_progress_1aa3093e47442e0fbf644c3c5ddd49dc45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_progress_1aa3093e47442e0fbf644c3c5ddd49dc45" kindref="member">current_node</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1updates_1_1_cluster_update_progress_1a525f772ec7cb76ad22e3c2d6fb3debb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_progress_1a525f772ec7cb76ad22e3c2d6fb3debb3" kindref="member">status</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1updates_1_1_cluster_update_progress_1af1c544724c9b8b8f0da46ac90de83f3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ClusterNodeStatus&gt;<sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_progress_1af1c544724c9b8b8f0da46ac90de83f3d" kindref="member">node_statuses</ref>;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1updates_1_1_cluster_update_options" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_cluster_update_options" kindref="compound">ClusterUpdateOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1updates_1_1_cluster_update_options_1a5f36db84cf4f1d04bb0e27b1fb7fe22d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_options_1a5f36db84cf4f1d04bb0e27b1fb7fe22d" kindref="member">health_check_timeout</ref>{30};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1updates_1_1_cluster_update_options_1a49ef3940c4395fd6fb83ba98497bd2a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_options_1a49ef3940c4395fd6fb83ba98497bd2a2" kindref="member">rollback_on_failure</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1updates_1_1_cluster_update_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_cluster_update_result" kindref="compound">ClusterUpdateResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1updates_1_1_cluster_update_result_1a5c50fba3187ad6ad19831c0f5aa7652a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_result_1a5c50fba3187ad6ad19831c0f5aa7652a" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1updates_1_1_cluster_update_result_1a495dd825606ab42d402a230b59b85699" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_result_1a495dd825606ab42d402a230b59b85699" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1updates_1_1_cluster_update_result_1a3566605d039dda9ffda98eefd54510bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ClusterNodeStatus&gt;<sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_result_1a3566605d039dda9ffda98eefd54510bb" kindref="member">node_statuses</ref>;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1updates_1_1_cluster_update_result_1a854e5fb9b1060484aebbfd8edba4cc72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_result_1a854e5fb9b1060484aebbfd8edba4cc72" kindref="member">nodes_updated</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1updates_1_1_cluster_update_result_1a0e7336a40a22d28760e11dcdeabdc2bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_result_1a0e7336a40a22d28760e11dcdeabdc2bc" kindref="member">nodes_failed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1updates_1_1_cluster_update_result_1a56e59b3208b9a933eddc3cc678e3111e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_result_1a56e59b3208b9a933eddc3cc678e3111e" kindref="member">nodes_rolled_back</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ClusterUpdateManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="classthemis_1_1updates_1_1_cluster_update_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1aa2d20ded2231e24e6004af3fcd9494a4" kindref="member">ClusterUpdateManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225" refid="classthemis_1_1updates_1_1_cluster_update_manager_1abe48401f0bfd1c8b4cda6d5cba892ce4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1abe48401f0bfd1c8b4cda6d5cba892ce4" kindref="member">NodeUpdateFunc</ref><sp/>=</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_cluster_node" kindref="compound">ClusterNode</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node,</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>version,</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_options" kindref="compound">ClusterUpdateOptions</ref>&amp;<sp/>opts)&gt;;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237" refid="classthemis_1_1updates_1_1_cluster_update_manager_1a0a2040daf1e8aaa76b4a32dfdfa52e6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1a0a2040daf1e8aaa76b4a32dfdfa52e6b" kindref="member">NodeHealthCheckFunc</ref><sp/>=</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_cluster_node" kindref="compound">ClusterNode</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node,</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>timeout)&gt;;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253" refid="classthemis_1_1updates_1_1_cluster_update_manager_1aa1e2e78fdbfa26dc8f1d9fce132fac87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1aa1e2e78fdbfa26dc8f1d9fce132fac87" kindref="member">NodeRollbackFunc</ref><sp/>=</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_cluster_node" kindref="compound">ClusterNode</ref>&amp;<sp/>node,</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>applied_version)&gt;;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260" refid="classthemis_1_1updates_1_1_cluster_update_manager_1a73609694fd96109a99f57de1ffd3c854" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1a73609694fd96109a99f57de1ffd3c854" kindref="member">ProgressCallback</ref><sp/>=</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_progress" kindref="compound">ClusterUpdateProgress</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270" refid="structthemis_1_1updates_1_1_cluster_update_manager_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_cluster_update_manager_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="272" refid="structthemis_1_1updates_1_1_cluster_update_manager_1_1_config_1a81b0b812ab38e03b6e3508bd68cdfe39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ClusterNode&gt;<sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_manager_1_1_config_1a81b0b812ab38e03b6e3508bd68cdfe39" kindref="member">nodes</ref>;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275" refid="structthemis_1_1updates_1_1_cluster_update_manager_1_1_config_1a5fffbe1050c35aa68325214d1566ee56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_options" kindref="compound">ClusterUpdateOptions</ref><sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_manager_1_1_config_1a5fffbe1050c35aa68325214d1566ee56" kindref="member">default_options</ref>;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1aa2d20ded2231e24e6004af3fcd9494a4" kindref="member">ClusterUpdateManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_manager_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290" refid="classthemis_1_1updates_1_1_cluster_update_manager_1ad9e0c88753f7af707162a6d93e1e1917" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1ad9e0c88753f7af707162a6d93e1e1917" kindref="member">~ClusterUpdateManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292" refid="classthemis_1_1updates_1_1_cluster_update_manager_1a54dfb5cd1fc2e7eb2e78f584d779681f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1a54dfb5cd1fc2e7eb2e78f584d779681f" kindref="member">ClusterUpdateManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1aa2d20ded2231e24e6004af3fcd9494a4" kindref="member">ClusterUpdateManager</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="293" refid="classthemis_1_1updates_1_1_cluster_update_manager_1a485f4199548bd46f4f33187517b69484" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1aa2d20ded2231e24e6004af3fcd9494a4" kindref="member">ClusterUpdateManager</ref>&amp;<sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1a485f4199548bd46f4f33187517b69484" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1aa2d20ded2231e24e6004af3fcd9494a4" kindref="member">ClusterUpdateManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Core<sp/>operation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_result" kindref="compound">ClusterUpdateResult</ref><sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1ad300e2f371876179d27163198ee57258" kindref="member">updateCluster</ref>(</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>version,</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_options" kindref="compound">ClusterUpdateOptions</ref>&amp;<sp/>opts);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_result" kindref="compound">ClusterUpdateResult</ref><sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1ad300e2f371876179d27163198ee57258" kindref="member">updateCluster</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1a9e4e71349c75aa9933e43f36e847a96c" kindref="member">cancelUpdate</ref>();</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Accessors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ClusterNodeStatus&gt;<sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1a07f49b97ae1a7f17eb040611c8a69442" kindref="member">nodeStatuses</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1a52f5af38bbaf4520c807812302028b55" kindref="member">isCancelled</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1a4fe5db5ba834ad5a41f4ff17f98db521" kindref="member">totalNodes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callback<sp/>registration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1ac5c782fd197a40f32d048d06d55d4855" kindref="member">setNodeUpdateFunc</ref>(<ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1abe48401f0bfd1c8b4cda6d5cba892ce4" kindref="member">NodeUpdateFunc</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1a224174083a83edb5d32e42539371b596" kindref="member">setNodeHealthCheckFunc</ref>(<ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1a0a2040daf1e8aaa76b4a32dfdfa52e6b" kindref="member">NodeHealthCheckFunc</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1af1249523da4f06aa4ff38495e6c0f550" kindref="member">setNodeRollbackFunc</ref>(<ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1aa1e2e78fdbfa26dc8f1d9fce132fac87" kindref="member">NodeRollbackFunc</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1a6c66ab3c0930d3ef070e5c58287dd433" kindref="member">setProgressCallback</ref>(<ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1a73609694fd96109a99f57de1ffd3c854" kindref="member">ProgressCallback</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>findNodeIndex(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>emitProgress(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>current_node,</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>status_msg);</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>updateSingleNode(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_cluster_node" kindref="compound">ClusterNode</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node,</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>version,</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_options" kindref="compound">ClusterUpdateOptions</ref>&amp;<sp/>opts);</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_cluster_update_manager_1_1_config" kindref="compound">Config</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ClusterNode&gt;<sp/><sp/><sp/><sp/><sp/><sp/>sorted_nodes_;<sp/></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ClusterNodeStatus&gt;<sp/>node_statuses_;</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>cancelled_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1abe48401f0bfd1c8b4cda6d5cba892ce4" kindref="member">NodeUpdateFunc</ref><sp/><sp/><sp/><sp/><sp/><sp/>node_update_fn_;</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1a0a2040daf1e8aaa76b4a32dfdfa52e6b" kindref="member">NodeHealthCheckFunc</ref><sp/>node_health_check_fn_;</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1aa1e2e78fdbfa26dc8f1d9fce132fac87" kindref="member">NodeRollbackFunc</ref><sp/><sp/><sp/><sp/>node_rollback_fn_;</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1a73609694fd96109a99f57de1ffd3c854" kindref="member">ProgressCallback</ref><sp/><sp/><sp/><sp/>progress_cb_;</highlight></codeline>
+<codeline lineno="407"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>updates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/updates/cluster_update_manager.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1test_1_1_mock_plugin_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::test::MockPluginImpl</compoundname>
+    <basecompoundref refid="classthemis_1_1plugins_1_1test_1_1_i_mock_plugin" prot="public" virt="non-virtual">themis::plugins::test::IMockPlugin</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1test_1_1_mock_plugin_impl_1a3423dba3d1c4cb07debaeacc2b9451ec" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::test::MockPluginImpl::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>themis::plugins::test::MockPluginImpl::name_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_registry_concurrency_hardening.cpp" line="38" column="17" bodyfile="tests/plugins/test_registry_concurrency_hardening.cpp" bodystart="38" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1test_1_1_mock_plugin_impl_1a5e0e42076fd7f256a1a9ae2a13652862" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::test::MockPluginImpl::MockPluginImpl</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>MockPluginImpl</name>
+        <qualifiedname>themis::plugins::test::MockPluginImpl::MockPluginImpl</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_registry_concurrency_hardening.cpp" line="40" column="5" bodyfile="tests/plugins/test_registry_concurrency_hardening.cpp" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1test_1_1_mock_plugin_impl_1aebae8f9ae05f972542c539e503e32053" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::test::MockPluginImpl::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::plugins::test::MockPluginImpl::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1test_1_1_i_mock_plugin_1ab3b3042b3fe8616a222e33ad949e5cb7">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_registry_concurrency_hardening.cpp" line="41" column="17" bodyfile="tests/plugins/test_registry_concurrency_hardening.cpp" bodystart="41" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::plugins::test::IMockPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1test_1_1_i_mock_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::plugins::test::MockPluginImpl</label>
+        <link refid="classthemis_1_1plugins_1_1test_1_1_mock_plugin_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::plugins::test::IMockPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1test_1_1_i_mock_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::plugins::test::MockPluginImpl</label>
+        <link refid="classthemis_1_1plugins_1_1test_1_1_mock_plugin_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/plugins/test_registry_concurrency_hardening.cpp" line="36" column="1" bodyfile="tests/plugins/test_registry_concurrency_hardening.cpp" bodystart="36" bodyend="42"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1test_1_1_mock_plugin_impl_1aebae8f9ae05f972542c539e503e32053" prot="public" virt="virtual"><scope>themis::plugins::test::MockPluginImpl</scope><name>getName</name></member>
+      <member refid="classthemis_1_1plugins_1_1test_1_1_mock_plugin_impl_1a5e0e42076fd7f256a1a9ae2a13652862" prot="public" virt="non-virtual"><scope>themis::plugins::test::MockPluginImpl</scope><name>MockPluginImpl</name></member>
+      <member refid="classthemis_1_1plugins_1_1test_1_1_mock_plugin_impl_1a3423dba3d1c4cb07debaeacc2b9451ec" prot="private" virt="non-virtual"><scope>themis::plugins::test::MockPluginImpl</scope><name>name_</name></member>
+      <member refid="classthemis_1_1plugins_1_1test_1_1_i_mock_plugin_1aad6bfe30e9759507364187bd8db8ac74" prot="public" virt="virtual"><scope>themis::plugins::test::MockPluginImpl</scope><name>~IMockPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

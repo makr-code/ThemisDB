@@ -1,0 +1,379 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::OpenTelemetryTracer::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a5029cc04beeaabe8aed5181d7b9d923e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_o_tel_config" kindref="compound">OTelConfig</ref></type>
+        <definition>OTelConfig themis::observability::OpenTelemetryTracer::Impl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::Impl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/opentelemetry_tracer.cpp" line="300" column="31" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1ac3bbe75c86582681c3a05271d2a35ec5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::OpenTelemetryTracer::Impl::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::Impl::initialized_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/opentelemetry_tracer.cpp" line="301" column="31" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a26de301b31ca6acc9207935317ca1e47" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1observability_1ab5c02e761efb35d6a2c448926523845b" kindref="member">ExporterType</ref> &gt;</type>
+        <definition>std::vector&lt;ExporterType&gt; themis::observability::OpenTelemetryTracer::Impl::active_exporter_types_</definition>
+        <argsstring></argsstring>
+        <name>active_exporter_types_</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::Impl::active_exporter_types_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/opentelemetry_tracer.cpp" line="302" column="17" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1ad34b9c42a3faeec79128593468eb9670" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; api::OtlpExporter &gt;</type>
+        <definition>std::shared_ptr&lt;api::OtlpExporter&gt; themis::observability::OpenTelemetryTracer::Impl::otlp_exporter_</definition>
+        <argsstring></argsstring>
+        <name>otlp_exporter_</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::Impl::otlp_exporter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/opentelemetry_tracer.cpp" line="307" column="21" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1acfa1a18297fc3dacbca577a86da9b1ed" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; core::concerns::ITracer &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;core::concerns::ITracer&gt; &gt; themis::observability::OpenTelemetryTracer::Impl::delegate_tracers_</definition>
+        <argsstring></argsstring>
+        <name>delegate_tracers_</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::Impl::delegate_tracers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/opentelemetry_tracer.cpp" line="310" column="17" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a2259f4fbd8c6c0af8c25a3d0ef7c9024" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::observability::OpenTelemetryTracer::Impl::ring_mu_</definition>
+        <argsstring></argsstring>
+        <name>ring_mu_</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::Impl::ring_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/opentelemetry_tracer.cpp" line="312" column="28" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a973c959364b78f65524b1c0600e1f834" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1observability_1_1_span_record" kindref="compound">SpanRecord</ref> &gt;</type>
+        <definition>std::deque&lt;SpanRecord&gt; themis::observability::OpenTelemetryTracer::Impl::ring_buf_</definition>
+        <argsstring></argsstring>
+        <name>ring_buf_</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::Impl::ring_buf_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/opentelemetry_tracer.cpp" line="313" column="16" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1aaf06d0d0dcd6008c18ea961e471ddf83" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::observability::OpenTelemetryTracer::Impl::total_spans_</definition>
+        <argsstring></argsstring>
+        <name>total_spans_</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::Impl::total_spans_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/opentelemetry_tracer.cpp" line="315" column="17" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="315" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1aca2ff6cea0066b3a819a41bbda0cf7be" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::observability::OpenTelemetryTracer::Impl::active_spans_</definition>
+        <argsstring></argsstring>
+        <name>active_spans_</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::Impl::active_spans_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/opentelemetry_tracer.cpp" line="316" column="17" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="316" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a3010774a9114dfe53767f2c07f6af77c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::observability::OpenTelemetryTracer::Impl::dropped_spans_</definition>
+        <argsstring></argsstring>
+        <name>dropped_spans_</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::Impl::dropped_spans_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/opentelemetry_tracer.cpp" line="317" column="17" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="317" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a90f1e2b3598cb5b9213e32d83423d50e" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::observability::OpenTelemetryTracer::Impl::ctx_mu_</definition>
+        <argsstring></argsstring>
+        <name>ctx_mu_</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::Impl::ctx_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/opentelemetry_tracer.cpp" line="320" column="24" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a7d608231a9a4e4fdec9b54466aeceaca" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::OpenTelemetryTracer::Impl::last_trace_id_</definition>
+        <argsstring></argsstring>
+        <name>last_trace_id_</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::Impl::last_trace_id_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/opentelemetry_tracer.cpp" line="321" column="24" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="321" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a7516f3d0b25452691f9f8583bcad82ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::OpenTelemetryTracer::Impl::last_span_id_</definition>
+        <argsstring></argsstring>
+        <name>last_span_id_</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::Impl::last_span_id_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/opentelemetry_tracer.cpp" line="322" column="24" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="322" bodyend="322"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1add5ace2a1c38b13275c26ee5363d4851" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::OpenTelemetryTracer::Impl::Impl</definition>
+        <argsstring>(const OTelConfig &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_o_tel_config" kindref="compound">OTelConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl" kindref="compound">Impl</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/opentelemetry_tracer.cpp" line="258" column="14" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="258" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a5cf33c66ea1aed128b58a9b701153165" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::OpenTelemetryTracer::Impl::~Impl</definition>
+        <argsstring>()</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/opentelemetry_tracer.cpp" line="293" column="5" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="293" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a3fe546d9ca628d3b443e1064d9e9e4a4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>OtelSpan::ExportCallback</type>
+        <definition>OtelSpan::ExportCallback themis::observability::OpenTelemetryTracer::Impl::makeExportCallback</definition>
+        <argsstring>()</argsstring>
+        <name>makeExportCallback</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::Impl::makeExportCallback</qualifiedname>
+        <briefdescription>
+<para>Make Export Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), lock(), time_since_epoch(), count(), enqueue(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/opentelemetry_tracer.cpp" line="329" column="30" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="329" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a37d511128bf0cd4fa05f4fd5c270cb0f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::unique_ptr&lt; core::concerns::ITracer::ISpan &gt;</type>
+        <definition>std::unique_ptr&lt; core::concerns::ITracer::ISpan &gt; themis::observability::OpenTelemetryTracer::Impl::makeSpan</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;trace_id, const std::string &amp;parent_span_id)</argsstring>
+        <name>makeSpan</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::Impl::makeSpan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>trace_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>parent_span_id</declname>
+        </param>
+        <briefdescription>
+<para>Make Span. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">trace_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the trace. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parent_span_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the parent span. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/opentelemetry_tracer.cpp" line="377" column="21" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="377" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a626c11e55fbdc616d516ec003c4bb786" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::OpenTelemetryTracer::Impl::publishMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>publishMetrics</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::Impl::publishMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/opentelemetry_tracer.cpp" line="416" column="10" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="416" bodyend="427"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::observability::OTelConfig</label>
+        <link refid="structthemis_1_1observability_1_1_o_tel_config"/>
+      </node>
+      <node id="1">
+        <label>themis::observability::OpenTelemetryTracer::Impl</label>
+        <link refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/observability/opentelemetry_tracer.cpp" line="251" column="1" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="251" bodyend="428"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a26de301b31ca6acc9207935317ca1e47" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer::Impl</scope><name>active_exporter_types_</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1aca2ff6cea0066b3a819a41bbda0cf7be" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer::Impl</scope><name>active_spans_</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a5029cc04beeaabe8aed5181d7b9d923e" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer::Impl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a90f1e2b3598cb5b9213e32d83423d50e" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer::Impl</scope><name>ctx_mu_</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1acfa1a18297fc3dacbca577a86da9b1ed" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer::Impl</scope><name>delegate_tracers_</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a3010774a9114dfe53767f2c07f6af77c" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer::Impl</scope><name>dropped_spans_</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1add5ace2a1c38b13275c26ee5363d4851" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1ac3bbe75c86582681c3a05271d2a35ec5" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer::Impl</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a7516f3d0b25452691f9f8583bcad82ec" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer::Impl</scope><name>last_span_id_</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a7d608231a9a4e4fdec9b54466aeceaca" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer::Impl</scope><name>last_trace_id_</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a3fe546d9ca628d3b443e1064d9e9e4a4" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer::Impl</scope><name>makeExportCallback</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a37d511128bf0cd4fa05f4fd5c270cb0f" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer::Impl</scope><name>makeSpan</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1ad34b9c42a3faeec79128593468eb9670" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer::Impl</scope><name>otlp_exporter_</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a626c11e55fbdc616d516ec003c4bb786" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer::Impl</scope><name>publishMetrics</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a973c959364b78f65524b1c0600e1f834" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer::Impl</scope><name>ring_buf_</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a2259f4fbd8c6c0af8c25a3d0ef7c9024" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer::Impl</scope><name>ring_mu_</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1aaf06d0d0dcd6008c18ea961e471ddf83" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer::Impl</scope><name>total_spans_</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl_1a5cf33c66ea1aed128b58a9b701153165" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

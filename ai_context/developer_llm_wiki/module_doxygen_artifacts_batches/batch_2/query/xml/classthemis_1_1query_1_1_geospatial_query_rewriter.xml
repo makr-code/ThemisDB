@@ -1,0 +1,591 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_geospatial_query_rewriter" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::GeospatialQueryRewriter</compoundname>
+    <includes refid="geospatial__query__rewrite_8h" local="no">geospatial_query_rewrite.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_query_rewriter_1a5a30de48d93d6920b998ae1672a91d29" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::GeospatialQueryRewriter::optimizeQueryPlan</definition>
+        <argsstring>(ExecutionPlan &amp;plan, double estimatedCostBefore)</argsstring>
+        <name>optimizeQueryPlan</name>
+        <qualifiedname>themis::query::GeospatialQueryRewriter::optimizeQueryPlan</qualifiedname>
+        <param>
+          <type>ExecutionPlan &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>estimatedCostBefore</declname>
+        </param>
+        <briefdescription>
+<para>Optimize <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> Plan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">estimatedCostBefore</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">estimatedCostBefore</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1query_1_1_geospatial_query_rewriter_1ad4c29f5474ca4a149d314fab7c005ffe" kindref="member">applyIndexPathReordering()</ref>, THEMIS_DEBUG(), <ref refid="classthemis_1_1query_1_1_geospatial_query_rewriter_1a631ab0a001ef0666c8b704d1ba586de1" kindref="member">applyDistanceOrderingOptimization()</ref>, <ref refid="classthemis_1_1query_1_1_geospatial_query_rewriter_1a0969ba5437912a234ce08d85d3fbc1da" kindref="member">applyIntersectionOptimization()</ref>, <ref refid="classthemis_1_1query_1_1_geospatial_query_rewriter_1adc5a8d458b4a392d659686f203dd11bf" kindref="member">applyRedundantPredicateElimination()</ref>, <ref refid="classthemis_1_1query_1_1_geospatial_query_rewriter_1aa265dec5424dd882a145c0db9b31797d" kindref="member">applyPredicatePushdown()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_query_rewrite.h" line="48" column="17" bodyfile="src/query/geospatial_query_rewrite.cpp" bodystart="27" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_query_rewriter_1ad4c29f5474ca4a149d314fab7c005ffe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_rewrite_result" kindref="compound">RewriteResult</ref></type>
+        <definition>RewriteResult themis::query::GeospatialQueryRewriter::applyIndexPathReordering</definition>
+        <argsstring>(ExecutionPlan &amp;plan)</argsstring>
+        <name>applyIndexPathReordering</name>
+        <qualifiedname>themis::query::GeospatialQueryRewriter::applyIndexPathReordering</qualifiedname>
+        <param>
+          <type>ExecutionPlan &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>Apply Index Path Reordering. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractSpatialPredicates(), empty(), canBeIndexed(), push_back(), insert(), end(), begin(), reorderFilterPredicates(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_query_rewrite.h" line="57" column="26" bodyfile="src/query/geospatial_query_rewrite.cpp" bodystart="83" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_query_rewriter_1a631ab0a001ef0666c8b704d1ba586de1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_rewrite_result" kindref="compound">RewriteResult</ref></type>
+        <definition>RewriteResult themis::query::GeospatialQueryRewriter::applyDistanceOrderingOptimization</definition>
+        <argsstring>(ExecutionPlan &amp;plan)</argsstring>
+        <name>applyDistanceOrderingOptimization</name>
+        <qualifiedname>themis::query::GeospatialQueryRewriter::applyDistanceOrderingOptimization</qualifiedname>
+        <param>
+          <type>ExecutionPlan &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>Apply Distance Ordering Optimization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractSpatialPredicates(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_query_rewrite.h" line="64" column="26" bodyfile="src/query/geospatial_query_rewrite.cpp" bodystart="139" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_query_rewriter_1a0969ba5437912a234ce08d85d3fbc1da" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_rewrite_result" kindref="compound">RewriteResult</ref></type>
+        <definition>RewriteResult themis::query::GeospatialQueryRewriter::applyIntersectionOptimization</definition>
+        <argsstring>(ExecutionPlan &amp;plan)</argsstring>
+        <name>applyIntersectionOptimization</name>
+        <qualifiedname>themis::query::GeospatialQueryRewriter::applyIntersectionOptimization</qualifiedname>
+        <param>
+          <type>ExecutionPlan &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>Apply Intersection Optimization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractSpatialPredicates(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_query_rewrite.h" line="71" column="26" bodyfile="src/query/geospatial_query_rewrite.cpp" bodystart="180" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_query_rewriter_1adc5a8d458b4a392d659686f203dd11bf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_rewrite_result" kindref="compound">RewriteResult</ref></type>
+        <definition>RewriteResult themis::query::GeospatialQueryRewriter::applyRedundantPredicateElimination</definition>
+        <argsstring>(ExecutionPlan &amp;plan)</argsstring>
+        <name>applyRedundantPredicateElimination</name>
+        <qualifiedname>themis::query::GeospatialQueryRewriter::applyRedundantPredicateElimination</qualifiedname>
+        <param>
+          <type>ExecutionPlan &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>Apply Redundant Predicate Elimination. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractSpatialPredicates(), size(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_query_rewrite.h" line="78" column="26" bodyfile="src/query/geospatial_query_rewrite.cpp" bodystart="219" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_query_rewriter_1aa265dec5424dd882a145c0db9b31797d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_rewrite_result" kindref="compound">RewriteResult</ref></type>
+        <definition>RewriteResult themis::query::GeospatialQueryRewriter::applyPredicatePushdown</definition>
+        <argsstring>(ExecutionPlan &amp;plan)</argsstring>
+        <name>applyPredicatePushdown</name>
+        <qualifiedname>themis::query::GeospatialQueryRewriter::applyPredicatePushdown</qualifiedname>
+        <param>
+          <type>ExecutionPlan &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>Apply Predicate Pushdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractSpatialPredicates(), empty(), std::to_string(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_query_rewrite.h" line="85" column="26" bodyfile="src/query/geospatial_query_rewrite.cpp" bodystart="264" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_query_rewriter_1a6fcc439806fc0dcefe8e106a987c7629" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::GeospatialQueryRewriter::validatePlanEquivalence</definition>
+        <argsstring>(const ExecutionPlan &amp;originalPlan, const ExecutionPlan &amp;transformedPlan)</argsstring>
+        <name>validatePlanEquivalence</name>
+        <qualifiedname>themis::query::GeospatialQueryRewriter::validatePlanEquivalence</qualifiedname>
+        <param>
+          <type>const ExecutionPlan &amp;</type>
+          <declname>originalPlan</declname>
+        </param>
+        <param>
+          <type>const ExecutionPlan &amp;</type>
+          <declname>transformedPlan</declname>
+        </param>
+        <briefdescription>
+<para>Validate Plan Equivalence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">originalPlan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">transformedPlan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">originalPlan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">transformedPlan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements validatePlanEquivalence without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_query_rewrite.h" line="93" column="17" bodyfile="src/query/geospatial_query_rewrite.cpp" bodystart="300" bodyend="314"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_query_rewriter_1a0a0bfd682df4af48128ce201f471a512" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::GeospatialQueryRewriter::canBeIndexed</definition>
+        <argsstring>(const std::string &amp;predicateType)</argsstring>
+        <name>canBeIndexed</name>
+        <qualifiedname>themis::query::GeospatialQueryRewriter::canBeIndexed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicateType</declname>
+        </param>
+        <briefdescription>
+<para>Can Be Indexed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">predicateType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">predicateType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_query_rewrite.h" line="103" column="17" bodyfile="src/query/geospatial_query_rewrite.cpp" bodystart="323" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_query_rewriter_1a4de217674fd11974a5888139c3813c63" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::GeospatialQueryRewriter::estimateCostReduction</definition>
+        <argsstring>(const std::string &amp;transformation, size_t affectedRows, double costBefore)</argsstring>
+        <name>estimateCostReduction</name>
+        <qualifiedname>themis::query::GeospatialQueryRewriter::estimateCostReduction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transformation</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>affectedRows</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>costBefore</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Cost Reduction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transformation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">affectedRows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">costBefore</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transformation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">affectedRows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">costBefore</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements estimateCostReduction without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_query_rewrite.h" line="112" column="19" bodyfile="src/query/geospatial_query_rewrite.cpp" bodystart="336" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_query_rewriter_1adfa58b662a5007dcf4d747a28755380b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::query::GeospatialQueryRewriter::extractSpatialPredicates</definition>
+        <argsstring>(const ExecutionPlan &amp;plan)</argsstring>
+        <name>extractSpatialPredicates</name>
+        <qualifiedname>themis::query::GeospatialQueryRewriter::extractSpatialPredicates</qualifiedname>
+        <param>
+          <type>const ExecutionPlan &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>Extract Spatial Predicates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements extractSpatialPredicates without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_query_rewrite.h" line="122" column="24" bodyfile="src/query/geospatial_query_rewrite.cpp" bodystart="365" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_geospatial_query_rewriter_1afd22e8c40e53acea4af69831fa8fb90c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::GeospatialQueryRewriter::reorderFilterPredicates</definition>
+        <argsstring>(ExecutionPlan &amp;plan, const std::vector&lt; std::string &gt; &amp;newOrder)</argsstring>
+        <name>reorderFilterPredicates</name>
+        <qualifiedname>themis::query::GeospatialQueryRewriter::reorderFilterPredicates</qualifiedname>
+        <param>
+          <type>ExecutionPlan &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>newOrder</declname>
+        </param>
+        <briefdescription>
+<para>Reorder Filter Predicates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">newOrder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">newOrder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/geospatial_query_rewrite.h" line="131" column="17" bodyfile="src/query/geospatial_query_rewrite.cpp" bodystart="390" bodyend="403"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/geospatial_query_rewrite.h" line="40" column="1" bodyfile="include/query/geospatial_query_rewrite.h" bodystart="40" bodyend="134"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_geospatial_query_rewriter_1a631ab0a001ef0666c8b704d1ba586de1" prot="public" virt="non-virtual"><scope>themis::query::GeospatialQueryRewriter</scope><name>applyDistanceOrderingOptimization</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_query_rewriter_1ad4c29f5474ca4a149d314fab7c005ffe" prot="public" virt="non-virtual"><scope>themis::query::GeospatialQueryRewriter</scope><name>applyIndexPathReordering</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_query_rewriter_1a0969ba5437912a234ce08d85d3fbc1da" prot="public" virt="non-virtual"><scope>themis::query::GeospatialQueryRewriter</scope><name>applyIntersectionOptimization</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_query_rewriter_1aa265dec5424dd882a145c0db9b31797d" prot="public" virt="non-virtual"><scope>themis::query::GeospatialQueryRewriter</scope><name>applyPredicatePushdown</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_query_rewriter_1adc5a8d458b4a392d659686f203dd11bf" prot="public" virt="non-virtual"><scope>themis::query::GeospatialQueryRewriter</scope><name>applyRedundantPredicateElimination</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_query_rewriter_1a0a0bfd682df4af48128ce201f471a512" prot="private" virt="non-virtual"><scope>themis::query::GeospatialQueryRewriter</scope><name>canBeIndexed</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_query_rewriter_1a4de217674fd11974a5888139c3813c63" prot="private" virt="non-virtual"><scope>themis::query::GeospatialQueryRewriter</scope><name>estimateCostReduction</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_query_rewriter_1adfa58b662a5007dcf4d747a28755380b" prot="private" virt="non-virtual"><scope>themis::query::GeospatialQueryRewriter</scope><name>extractSpatialPredicates</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_query_rewriter_1a5a30de48d93d6920b998ae1672a91d29" prot="public" virt="non-virtual"><scope>themis::query::GeospatialQueryRewriter</scope><name>optimizeQueryPlan</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_query_rewriter_1afd22e8c40e53acea4af69831fa8fb90c" prot="private" virt="non-virtual"><scope>themis::query::GeospatialQueryRewriter</scope><name>reorderFilterPredicates</name></member>
+      <member refid="classthemis_1_1query_1_1_geospatial_query_rewriter_1a6fcc439806fc0dcefe8e106a987c7629" prot="public" virt="non-virtual"><scope>themis::query::GeospatialQueryRewriter</scope><name>validatePlanEquivalence</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

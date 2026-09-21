@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_ingestion_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::IngestionReport</compoundname>
+    <includes refid="huggingface__ingest__plugin_8h" local="no">huggingface_ingest_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_ingestion_report_1a506a51a47362f0cfd4ea557355354400" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::IngestionReport::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::importers::IngestionReport::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="61" column="10" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_ingestion_report_1a28ccf1ea5a53ed99b20ac396cbdefbf3" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::importers::IngestionReport::imported_documents</definition>
+        <argsstring></argsstring>
+        <name>imported_documents</name>
+        <qualifiedname>themis::importers::IngestionReport::imported_documents</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="62" column="17" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_ingestion_report_1ad57885f1e2685c2b00e498706967b545" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::importers::IngestionReport::failed_records</definition>
+        <argsstring></argsstring>
+        <name>failed_records</name>
+        <qualifiedname>themis::importers::IngestionReport::failed_records</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="63" column="17" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_ingestion_report_1a9db46d0d34f08e0c9ca5f1471c513192" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::importers::IngestionReport::dirty_records</definition>
+        <argsstring></argsstring>
+        <name>dirty_records</name>
+        <qualifiedname>themis::importers::IngestionReport::dirty_records</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="64" column="17" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_ingestion_report_1a1278d1c888a3c4d2168e1fe8444c8309" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::IngestionReport::checkpoint_token</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_token</name>
+        <qualifiedname>themis::importers::IngestionReport::checkpoint_token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="65" column="17" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_ingestion_report_1a93d64bcde250b73eba1bd0b47c310cb2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::IngestionReport::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::importers::IngestionReport::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="66" column="17" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/huggingface_ingest_plugin.h" line="60" column="1" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="60" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_ingestion_report_1a1278d1c888a3c4d2168e1fe8444c8309" prot="public" virt="non-virtual"><scope>themis::importers::IngestionReport</scope><name>checkpoint_token</name></member>
+      <member refid="structthemis_1_1importers_1_1_ingestion_report_1a9db46d0d34f08e0c9ca5f1471c513192" prot="public" virt="non-virtual"><scope>themis::importers::IngestionReport</scope><name>dirty_records</name></member>
+      <member refid="structthemis_1_1importers_1_1_ingestion_report_1a93d64bcde250b73eba1bd0b47c310cb2" prot="public" virt="non-virtual"><scope>themis::importers::IngestionReport</scope><name>errors</name></member>
+      <member refid="structthemis_1_1importers_1_1_ingestion_report_1ad57885f1e2685c2b00e498706967b545" prot="public" virt="non-virtual"><scope>themis::importers::IngestionReport</scope><name>failed_records</name></member>
+      <member refid="structthemis_1_1importers_1_1_ingestion_report_1a28ccf1ea5a53ed99b20ac396cbdefbf3" prot="public" virt="non-virtual"><scope>themis::importers::IngestionReport</scope><name>imported_documents</name></member>
+      <member refid="structthemis_1_1importers_1_1_ingestion_report_1a506a51a47362f0cfd4ea557355354400" prot="public" virt="non-virtual"><scope>themis::importers::IngestionReport</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

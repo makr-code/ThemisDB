@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_hallucination_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::HallucinationEntry</compoundname>
+    <includes refid="hallucination__dashboard_8h" local="no">hallucination_dashboard.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_hallucination_entry_1ab25965b18e1c7aa359b21e1c04dca987" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::rag::judge::HallucinationEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::rag::judge::HallucinationEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="31" column="43" bodyfile="include/rag/hallucination_dashboard.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_hallucination_entry_1a4516e34a1f131967fe41e2ed6a7463f9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::HallucinationEntry::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::rag::judge::HallucinationEntry::query</qualifiedname>
+        <briefdescription>
+<para>Query associated with the evaluation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="32" column="17" bodyfile="include/rag/hallucination_dashboard.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_hallucination_entry_1aaa621d5609918b7b4fa3473dc5cbb5d1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::HallucinationEntry::faithfulness_score</definition>
+        <argsstring></argsstring>
+        <name>faithfulness_score</name>
+        <qualifiedname>themis::rag::judge::HallucinationEntry::faithfulness_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Faithfulness score [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="33" column="12" bodyfile="include/rag/hallucination_dashboard.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_hallucination_entry_1a41b0e4a908d9a2a56b4f4357b180a13d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::HallucinationEntry::is_hallucination</definition>
+        <argsstring></argsstring>
+        <name>is_hallucination</name>
+        <qualifiedname>themis::rag::judge::HallucinationEntry::is_hallucination</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true when faithfulness &lt; threshold </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="34" column="12" bodyfile="include/rag/hallucination_dashboard.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_hallucination_entry_1aeae1881db551a0dcaf62e760c065520f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::HallucinationEntry::evaluation_mode</definition>
+        <argsstring></argsstring>
+        <name>evaluation_mode</name>
+        <qualifiedname>themis::rag::judge::HallucinationEntry::evaluation_mode</qualifiedname>
+        <briefdescription>
+<para>&quot;FAST&quot; | &quot;BALANCED&quot; | &quot;THOROUGH&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="35" column="17" bodyfile="include/rag/hallucination_dashboard.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single recorded hallucination-tracking entry. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/hallucination_dashboard.h" line="30" column="1" bodyfile="include/rag/hallucination_dashboard.h" bodystart="30" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry_1aeae1881db551a0dcaf62e760c065520f" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationEntry</scope><name>evaluation_mode</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry_1aaa621d5609918b7b4fa3473dc5cbb5d1" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationEntry</scope><name>faithfulness_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry_1a41b0e4a908d9a2a56b4f4357b180a13d" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationEntry</scope><name>is_hallucination</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry_1a4516e34a1f131967fe41e2ed6a7463f9" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationEntry</scope><name>query</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry_1ab25965b18e1c7aa359b21e1c04dca987" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationEntry</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

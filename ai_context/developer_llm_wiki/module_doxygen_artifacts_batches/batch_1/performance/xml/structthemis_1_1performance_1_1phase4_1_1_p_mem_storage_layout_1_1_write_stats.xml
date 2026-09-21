@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_write_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase4::PMemStorageLayout::WriteStats</compoundname>
+    <includes refid="pmem__storage_8h" local="no">pmem_storage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_write_stats_1a28d24bb02151a8a8bf6380fbc3d0bd78" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::PMemStorageLayout::WriteStats::writes</definition>
+        <argsstring></argsstring>
+        <name>writes</name>
+        <qualifiedname>themis::performance::phase4::PMemStorageLayout::WriteStats::writes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total <ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1a36bc1b8a7004c93ed2ed7ad17011e8ed" kindref="member">write()</ref> calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="323" column="18" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="323" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_write_stats_1aeb2320104c28aa71fa436f9b6fa3f36b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::PMemStorageLayout::WriteStats::bytes_written</definition>
+        <argsstring></argsstring>
+        <name>bytes_written</name>
+        <qualifiedname>themis::performance::phase4::PMemStorageLayout::WriteStats::bytes_written</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total payload bytes written. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="324" column="18" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="324" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_write_stats_1a6007cc18f95c49bab3b2d55e0eb8f6d2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::PMemStorageLayout::WriteStats::bytes_persisted</definition>
+        <argsstring></argsstring>
+        <name>bytes_persisted</name>
+        <qualifiedname>themis::performance::phase4::PMemStorageLayout::WriteStats::bytes_persisted</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total bytes flushed to PMem. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="325" column="18" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="325" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_write_stats_1ac6ae14b87062d1fbb934543ec74c2d4a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase4::PMemStorageLayout::WriteStats::write_amplification_x1000</definition>
+        <argsstring></argsstring>
+        <name>write_amplification_x1000</name>
+        <qualifiedname>themis::performance::phase4::PMemStorageLayout::WriteStats::write_amplification_x1000</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+<para>bytes_persisted/bytes_written * 1000 </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="326" column="18" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="326" bodyend="326"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase4/pmem_storage.h" line="322" column="5" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="322" bodyend="327"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_write_stats_1a6007cc18f95c49bab3b2d55e0eb8f6d2" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemStorageLayout::WriteStats</scope><name>bytes_persisted</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_write_stats_1aeb2320104c28aa71fa436f9b6fa3f36b" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemStorageLayout::WriteStats</scope><name>bytes_written</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_write_stats_1ac6ae14b87062d1fbb934543ec74c2d4a" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemStorageLayout::WriteStats</scope><name>write_amplification_x1000</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_write_stats_1a28d24bb02151a8a8bf6380fbc3d0bd78" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemStorageLayout::WriteStats</scope><name>writes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

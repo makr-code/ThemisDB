@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_j_w_t_validator_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::JWTValidatorConfig</compoundname>
+    <includes refid="jwt__validator_8h" local="no">jwt_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_validator_config_1aa40c5ea424e4bd25eeea1704615b6c06" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::JWTValidatorConfig::jwks_url</definition>
+        <argsstring></argsstring>
+        <name>jwks_url</name>
+        <qualifiedname>themis::auth::JWTValidatorConfig::jwks_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="61" column="17" bodyfile="include/auth/jwt_validator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_validator_config_1a938217746fb36f44a33ce55dbc2ea68e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::auth::JWTValidatorConfig::expected_issuer</definition>
+        <argsstring></argsstring>
+        <name>expected_issuer</name>
+        <qualifiedname>themis::auth::JWTValidatorConfig::expected_issuer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="62" column="19" bodyfile="include/auth/jwt_validator.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_validator_config_1ac9fa0ecd608decf1b9249ddb232c2904" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::auth::JWTValidatorConfig::expected_audience</definition>
+        <argsstring></argsstring>
+        <name>expected_audience</name>
+        <qualifiedname>themis::auth::JWTValidatorConfig::expected_audience</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="63" column="19" bodyfile="include/auth/jwt_validator.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_validator_config_1a6da430779c9f4bf4536a4d9df13e5297" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::auth::JWTValidatorConfig::cache_ttl</definition>
+        <argsstring></argsstring>
+        <name>cache_ttl</name>
+        <qualifiedname>themis::auth::JWTValidatorConfig::cache_ttl</qualifiedname>
+        <initializer>{600000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="64" column="31" bodyfile="include/auth/jwt_validator.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_validator_config_1aeb555dd4bb2a8de1c48f72408937093a" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::auth::JWTValidatorConfig::clock_skew</definition>
+        <argsstring></argsstring>
+        <name>clock_skew</name>
+        <qualifiedname>themis::auth::JWTValidatorConfig::clock_skew</qualifiedname>
+        <initializer>{60000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="65" column="31" bodyfile="include/auth/jwt_validator.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_validator_config_1a2b7303bedc869223122f1d0311fb7042" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::JWTValidatorConfig::revoked_kids</definition>
+        <argsstring></argsstring>
+        <name>revoked_kids</name>
+        <qualifiedname>themis::auth::JWTValidatorConfig::revoked_kids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="66" column="17" bodyfile="include/auth/jwt_validator.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_validator_config_1a60eb5dbf2e0b093ed3eab7dc3b4fe07f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::JWTValidatorConfig::jwks_timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>jwks_timeout_seconds</name>
+        <qualifiedname>themis::auth::JWTValidatorConfig::jwks_timeout_seconds</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1auth_1a331373c23a91e0c74ff8139c41b1dc56" kindref="member">DEFAULT_JWKS_TIMEOUT_SECONDS</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="67" column="9" bodyfile="include/auth/jwt_validator.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_validator_config_1a64f1b046941b2e934597a4beaf06b8a8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::JWTValidatorConfig::jwks_max_retries</definition>
+        <argsstring></argsstring>
+        <name>jwks_max_retries</name>
+        <qualifiedname>themis::auth::JWTValidatorConfig::jwks_max_retries</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1auth_1ac99a77fa1b1b0081dc02bbc4960784ab" kindref="member">MAX_JWKS_RETRY_ATTEMPTS</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="68" column="9" bodyfile="include/auth/jwt_validator.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_validator_config_1aa8671c6f17d19060a8d54033e6020235" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::JWTValidatorConfig::require_issuer_validation</definition>
+        <argsstring></argsstring>
+        <name>require_issuer_validation</name>
+        <qualifiedname>themis::auth::JWTValidatorConfig::require_issuer_validation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="69" column="10" bodyfile="include/auth/jwt_validator.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_validator_config_1a30c832c40701252f7b57d3c0d4a9b6fe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::JWTValidatorConfig::require_audience_validation</definition>
+        <argsstring></argsstring>
+        <name>require_audience_validation</name>
+        <qualifiedname>themis::auth::JWTValidatorConfig::require_audience_validation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="70" column="10" bodyfile="include/auth/jwt_validator.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_validator_config_1aca6522c2564124aff627faa82fbcae4d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::JWTValidatorConfig::require_jti</definition>
+        <argsstring></argsstring>
+        <name>require_jti</name>
+        <qualifiedname>themis::auth::JWTValidatorConfig::require_jti</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="71" column="10" bodyfile="include/auth/jwt_validator.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_t_validator_config_1a34d34230eae91876e72b04dee84317df" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::auth::JWTValidatorConfig::refresh_wait_timeout</definition>
+        <argsstring></argsstring>
+        <name>refresh_wait_timeout</name>
+        <qualifiedname>themis::auth::JWTValidatorConfig::refresh_wait_timeout</qualifiedname>
+        <initializer>{15&apos;000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="72" column="31" bodyfile="include/auth/jwt_validator.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/jwt_validator.h" line="60" column="1" bodyfile="include/auth/jwt_validator.h" bodystart="60" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a6da430779c9f4bf4536a4d9df13e5297" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidatorConfig</scope><name>cache_ttl</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1aeb555dd4bb2a8de1c48f72408937093a" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidatorConfig</scope><name>clock_skew</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1ac9fa0ecd608decf1b9249ddb232c2904" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidatorConfig</scope><name>expected_audience</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a938217746fb36f44a33ce55dbc2ea68e" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidatorConfig</scope><name>expected_issuer</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a64f1b046941b2e934597a4beaf06b8a8" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidatorConfig</scope><name>jwks_max_retries</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a60eb5dbf2e0b093ed3eab7dc3b4fe07f" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidatorConfig</scope><name>jwks_timeout_seconds</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1aa40c5ea424e4bd25eeea1704615b6c06" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidatorConfig</scope><name>jwks_url</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a34d34230eae91876e72b04dee84317df" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidatorConfig</scope><name>refresh_wait_timeout</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a30c832c40701252f7b57d3c0d4a9b6fe" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidatorConfig</scope><name>require_audience_validation</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1aa8671c6f17d19060a8d54033e6020235" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidatorConfig</scope><name>require_issuer_validation</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1aca6522c2564124aff627faa82fbcae4d" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidatorConfig</scope><name>require_jti</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a2b7303bedc869223122f1d0311fb7042" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidatorConfig</scope><name>revoked_kids</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

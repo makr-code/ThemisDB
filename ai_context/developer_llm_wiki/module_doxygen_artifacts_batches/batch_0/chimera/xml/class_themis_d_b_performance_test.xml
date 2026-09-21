@@ -1,0 +1,341 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_themis_d_b_performance_test" kind="class" language="C++" prot="public">
+    <compoundname>ThemisDBPerformanceTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_themis_d_b_performance_test_1a955df846092746af173b94af68f63c14" prot="protected" static="no" mutable="no">
+        <type><ref refid="classchimera_1_1_themis_d_b_adapter" kindref="compound">ThemisDBAdapter</ref></type>
+        <definition>ThemisDBAdapter ThemisDBPerformanceTest::adapter</definition>
+        <argsstring></argsstring>
+        <name>adapter</name>
+        <qualifiedname>ThemisDBPerformanceTest::adapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="782" column="21" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="782" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_themis_d_b_performance_test_1ac129bab15968f83927f49e53707cfa9b" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* ThemisDBPerformanceTest::kDocCol</definition>
+        <argsstring></argsstring>
+        <name>kDocCol</name>
+        <qualifiedname>ThemisDBPerformanceTest::kDocCol</qualifiedname>
+        <initializer>= &quot;perf_docs&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="784" column="33" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="784" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_themis_d_b_performance_test_1a628e476b08893bfe1457b711e43f5060" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* ThemisDBPerformanceTest::kVecCol</definition>
+        <argsstring></argsstring>
+        <name>kVecCol</name>
+        <qualifiedname>ThemisDBPerformanceTest::kVecCol</qualifiedname>
+        <initializer>= &quot;perf_vecs&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="785" column="33" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="785" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_themis_d_b_performance_test_1acce8ea075f434817f0a21fb58e9e8c4e" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* ThemisDBPerformanceTest::kRowTbl</definition>
+        <argsstring></argsstring>
+        <name>kRowTbl</name>
+        <qualifiedname>ThemisDBPerformanceTest::kRowTbl</qualifiedname>
+        <initializer>= &quot;perf_rows&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="786" column="33" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="786" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_themis_d_b_performance_test_1aece82b4ce3f81406a1104b5652923d08" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ThemisDBPerformanceTest::kDocCount</definition>
+        <argsstring></argsstring>
+        <name>kDocCount</name>
+        <qualifiedname>ThemisDBPerformanceTest::kDocCount</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="788" column="29" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="788" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_themis_d_b_performance_test_1a9b1a3ba630b43b6cad56f0e2ec0832b5" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ThemisDBPerformanceTest::kVecDim</definition>
+        <argsstring></argsstring>
+        <name>kVecDim</name>
+        <qualifiedname>ThemisDBPerformanceTest::kVecDim</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="789" column="29" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="789" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_themis_d_b_performance_test_1a9ac676914b1d41cd1799d9141293745a" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ThemisDBPerformanceTest::kVecCount</definition>
+        <argsstring></argsstring>
+        <name>kVecCount</name>
+        <qualifiedname>ThemisDBPerformanceTest::kVecCount</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="790" column="29" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="790" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_themis_d_b_performance_test_1a60ecf069203d04455349398666116a11" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ThemisDBPerformanceTest::kSearchK</definition>
+        <argsstring></argsstring>
+        <name>kSearchK</name>
+        <qualifiedname>ThemisDBPerformanceTest::kSearchK</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="791" column="29" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="791" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_themis_d_b_performance_test_1a474a9e014bf64b92e0253f88d4c24cc5" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ThemisDBPerformanceTest::kSearchRuns</definition>
+        <argsstring></argsstring>
+        <name>kSearchRuns</name>
+        <qualifiedname>ThemisDBPerformanceTest::kSearchRuns</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="792" column="29" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="792" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_themis_d_b_performance_test_1aa331ed09e6dcb6ce20b98be7da12c92f" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ThemisDBPerformanceTest::kRowCount</definition>
+        <argsstring></argsstring>
+        <name>kRowCount</name>
+        <qualifiedname>ThemisDBPerformanceTest::kRowCount</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="793" column="29" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="793" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_themis_d_b_performance_test_1a84d818d519b5a799014392bdef324049" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ThemisDBPerformanceTest::kTxnRuns</definition>
+        <argsstring></argsstring>
+        <name>kTxnRuns</name>
+        <qualifiedname>ThemisDBPerformanceTest::kTxnRuns</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="794" column="29" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="794" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_themis_d_b_performance_test_1a1832b5c9956b471818ea5a8090dafd17" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t ThemisDBPerformanceTest::kBulkDocMs</definition>
+        <argsstring></argsstring>
+        <name>kBulkDocMs</name>
+        <qualifiedname>ThemisDBPerformanceTest::kBulkDocMs</qualifiedname>
+        <initializer>= 2000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="797" column="30" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="797" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_themis_d_b_performance_test_1a89d95468f376550ae342473bd320f8e7" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t ThemisDBPerformanceTest::kBulkVecMs</definition>
+        <argsstring></argsstring>
+        <name>kBulkVecMs</name>
+        <qualifiedname>ThemisDBPerformanceTest::kBulkVecMs</qualifiedname>
+        <initializer>= 2000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="798" column="30" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="798" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_themis_d_b_performance_test_1a4ae7e1e562e2db05da28e2ffc4388b4e" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t ThemisDBPerformanceTest::kSearchMs</definition>
+        <argsstring></argsstring>
+        <name>kSearchMs</name>
+        <qualifiedname>ThemisDBPerformanceTest::kSearchMs</qualifiedname>
+        <initializer>= 2000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="799" column="30" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="799" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_themis_d_b_performance_test_1a10819fe88221c5b22c1056bf7e53fae8" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t ThemisDBPerformanceTest::kBulkRowMs</definition>
+        <argsstring></argsstring>
+        <name>kBulkRowMs</name>
+        <qualifiedname>ThemisDBPerformanceTest::kBulkRowMs</qualifiedname>
+        <initializer>= 2000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="800" column="30" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="800" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_themis_d_b_performance_test_1ac1ea09af2144a0a772608b5f313e1cb1" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t ThemisDBPerformanceTest::kTxnMs</definition>
+        <argsstring></argsstring>
+        <name>kTxnMs</name>
+        <qualifiedname>ThemisDBPerformanceTest::kTxnMs</qualifiedname>
+        <initializer>= 2000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="801" column="30" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="801" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_themis_d_b_performance_test_1a84d47ea363636d15974442cbfb6c56e8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ThemisDBPerformanceTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ThemisDBPerformanceTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_themisdb_adapter.cpp" line="778" column="10" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="778" bodyend="780"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ThemisDBPerformanceTest</label>
+        <link refid="class_themis_d_b_performance_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>IAsyncDatabaseAdapter</label>
+      </node>
+      <node id="4">
+        <label>IDatabaseAdapter</label>
+      </node>
+      <node id="1">
+        <label>ThemisDBPerformanceTest</label>
+        <link refid="class_themis_d_b_performance_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>adapter</edgelabel>
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chimera::IPreparedStatementAdapter</label>
+        <link refid="classchimera_1_1_i_prepared_statement_adapter"/>
+      </node>
+      <node id="6">
+        <label>chimera::IStreamingAdapter</label>
+        <link refid="classchimera_1_1_i_streaming_adapter"/>
+      </node>
+      <node id="3">
+        <label>chimera::ThemisDBAdapter</label>
+        <link refid="classchimera_1_1_themis_d_b_adapter"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/chimera/test_themisdb_adapter.cpp" line="776" column="1" bodyfile="tests/chimera/test_themisdb_adapter.cpp" bodystart="776" bodyend="802"/>
+    <listofallmembers>
+      <member refid="class_themis_d_b_performance_test_1a955df846092746af173b94af68f63c14" prot="protected" virt="non-virtual"><scope>ThemisDBPerformanceTest</scope><name>adapter</name></member>
+      <member refid="class_themis_d_b_performance_test_1a1832b5c9956b471818ea5a8090dafd17" prot="protected" virt="non-virtual"><scope>ThemisDBPerformanceTest</scope><name>kBulkDocMs</name></member>
+      <member refid="class_themis_d_b_performance_test_1a10819fe88221c5b22c1056bf7e53fae8" prot="protected" virt="non-virtual"><scope>ThemisDBPerformanceTest</scope><name>kBulkRowMs</name></member>
+      <member refid="class_themis_d_b_performance_test_1a89d95468f376550ae342473bd320f8e7" prot="protected" virt="non-virtual"><scope>ThemisDBPerformanceTest</scope><name>kBulkVecMs</name></member>
+      <member refid="class_themis_d_b_performance_test_1ac129bab15968f83927f49e53707cfa9b" prot="protected" virt="non-virtual"><scope>ThemisDBPerformanceTest</scope><name>kDocCol</name></member>
+      <member refid="class_themis_d_b_performance_test_1aece82b4ce3f81406a1104b5652923d08" prot="protected" virt="non-virtual"><scope>ThemisDBPerformanceTest</scope><name>kDocCount</name></member>
+      <member refid="class_themis_d_b_performance_test_1aa331ed09e6dcb6ce20b98be7da12c92f" prot="protected" virt="non-virtual"><scope>ThemisDBPerformanceTest</scope><name>kRowCount</name></member>
+      <member refid="class_themis_d_b_performance_test_1acce8ea075f434817f0a21fb58e9e8c4e" prot="protected" virt="non-virtual"><scope>ThemisDBPerformanceTest</scope><name>kRowTbl</name></member>
+      <member refid="class_themis_d_b_performance_test_1a60ecf069203d04455349398666116a11" prot="protected" virt="non-virtual"><scope>ThemisDBPerformanceTest</scope><name>kSearchK</name></member>
+      <member refid="class_themis_d_b_performance_test_1a4ae7e1e562e2db05da28e2ffc4388b4e" prot="protected" virt="non-virtual"><scope>ThemisDBPerformanceTest</scope><name>kSearchMs</name></member>
+      <member refid="class_themis_d_b_performance_test_1a474a9e014bf64b92e0253f88d4c24cc5" prot="protected" virt="non-virtual"><scope>ThemisDBPerformanceTest</scope><name>kSearchRuns</name></member>
+      <member refid="class_themis_d_b_performance_test_1ac1ea09af2144a0a772608b5f313e1cb1" prot="protected" virt="non-virtual"><scope>ThemisDBPerformanceTest</scope><name>kTxnMs</name></member>
+      <member refid="class_themis_d_b_performance_test_1a84d818d519b5a799014392bdef324049" prot="protected" virt="non-virtual"><scope>ThemisDBPerformanceTest</scope><name>kTxnRuns</name></member>
+      <member refid="class_themis_d_b_performance_test_1a628e476b08893bfe1457b711e43f5060" prot="protected" virt="non-virtual"><scope>ThemisDBPerformanceTest</scope><name>kVecCol</name></member>
+      <member refid="class_themis_d_b_performance_test_1a9ac676914b1d41cd1799d9141293745a" prot="protected" virt="non-virtual"><scope>ThemisDBPerformanceTest</scope><name>kVecCount</name></member>
+      <member refid="class_themis_d_b_performance_test_1a9b1a3ba630b43b6cad56f0e2ec0832b5" prot="protected" virt="non-virtual"><scope>ThemisDBPerformanceTest</scope><name>kVecDim</name></member>
+      <member refid="class_themis_d_b_performance_test_1a84d47ea363636d15974442cbfb6c56e8" prot="protected" virt="non-virtual"><scope>ThemisDBPerformanceTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

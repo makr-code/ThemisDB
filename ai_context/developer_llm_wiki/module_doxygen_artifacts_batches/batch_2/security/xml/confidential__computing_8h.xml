@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="confidential__computing_8h" kind="file" language="C++">
+    <compoundname>confidential_computing.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="confidential__computing_8cpp" local="yes">src/security/confidential_computing.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/security/confidential_computing.h</label>
+        <link refid="confidential__computing_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/security/confidential_computing.h</label>
+        <link refid="confidential__computing_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/security/confidential_computing.cpp</label>
+        <link refid="confidential__computing_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1security_1_1_tee_detection_result" prot="public">themis::security::TeeDetectionResult</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_tee_attestation_report" prot="public">themis::security::TeeAttestationReport</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_sealed_blob" prot="public">themis::security::SealedBlob</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_confidential_computing" prot="public">themis::security::ConfidentialComputing</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">security</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824d" kindref="member">TeeType</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824dab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824dab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824da8808428eb68c102a612cbf42320bf942" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824da8808428eb68c102a612cbf42320bf942" kindref="member">INTEL_TDX</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824da1e8c23256b7c17006022c24d0d2dfa7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824da1e8c23256b7c17006022c24d0d2dfa7a" kindref="member">AMD_SEV</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824da2ff71fc5246570a1f222fa503760dbd4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824da2ff71fc5246570a1f222fa503760dbd4" kindref="member">AMD_SEV_SNP</ref><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1security_1_1_tee_detection_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_tee_detection_result" kindref="compound">TeeDetectionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1security_1_1_tee_detection_result_1a6897cdb38da47b9466b27a95e083cab7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824d" kindref="member">TeeType</ref><sp/><ref refid="structthemis_1_1security_1_1_tee_detection_result_1a6897cdb38da47b9466b27a95e083cab7" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824dab50339a10e1de285ac99d4c3990b8693" kindref="member">TeeType::NONE</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1security_1_1_tee_detection_result_1ab2543530b0aded7427a601a361917f82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_tee_detection_result_1ab2543530b0aded7427a601a361917f82" kindref="member">description</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1security_1_1_tee_detection_result_1a1d8705dc2bb261eb3e858ce6c0a24868" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_tee_detection_result_1a1d8705dc2bb261eb3e858ce6c0a24868" kindref="member">hardware_attested</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1security_1_1_tee_attestation_report" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_tee_attestation_report" kindref="compound">TeeAttestationReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1security_1_1_tee_attestation_report_1a14e064c0dc52562169df35cda4ea74b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824d" kindref="member">TeeType</ref><sp/><ref refid="structthemis_1_1security_1_1_tee_attestation_report_1a14e064c0dc52562169df35cda4ea74b7" kindref="member">tee_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824dab50339a10e1de285ac99d4c3990b8693" kindref="member">TeeType::NONE</ref>;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1security_1_1_tee_attestation_report_1a0ed2f6931120b519d922379e3a996f1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_tee_attestation_report_1a0ed2f6931120b519d922379e3a996f1c" kindref="member">report_data</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1security_1_1_tee_attestation_report_1ad9a167c13b1e7fc48ac8a92dff4938a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_tee_attestation_report_1ad9a167c13b1e7fc48ac8a92dff4938a7" kindref="member">raw_report</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1security_1_1_tee_attestation_report_1ac8d3d5b4f0c2a58fbba908ffe401b738" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_tee_attestation_report_1ac8d3d5b4f0c2a58fbba908ffe401b738" kindref="member">tee_version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1security_1_1_tee_attestation_report_1ae24391735b67efb90aaa83cd85377ce2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_tee_attestation_report_1ae24391735b67efb90aaa83cd85377ce2" kindref="member">is_genuine</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1security_1_1_tee_attestation_report_1af3cf5b52b8c335fe61af0107ce1c8139" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_tee_attestation_report_1af3cf5b52b8c335fe61af0107ce1c8139" kindref="member">empty</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_tee_attestation_report_1ad9a167c13b1e7fc48ac8a92dff4938a7" kindref="member">raw_report</ref>.empty();<sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1security_1_1_sealed_blob" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_sealed_blob" kindref="compound">SealedBlob</ref><sp/>{</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1security_1_1_sealed_blob_1a212aeb2826c3994868fda5ce4bc384f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824d" kindref="member">TeeType</ref><sp/><ref refid="structthemis_1_1security_1_1_sealed_blob_1a212aeb2826c3994868fda5ce4bc384f5" kindref="member">tee_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824dab50339a10e1de285ac99d4c3990b8693" kindref="member">TeeType::NONE</ref>;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1security_1_1_sealed_blob_1a611876710c8753cf0f07dafa64d73171" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_sealed_blob_1a611876710c8753cf0f07dafa64d73171" kindref="member">iv</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1security_1_1_sealed_blob_1a26311e902e9dca9673ca1d8fce4c8614" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_sealed_blob_1a26311e902e9dca9673ca1d8fce4c8614" kindref="member">ciphertext</ref>;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1security_1_1_sealed_blob_1a38cf2f977f06ce11046391c98f1c04fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_sealed_blob_1a38cf2f977f06ce11046391c98f1c04fd" kindref="member">tag</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1security_1_1_sealed_blob_1ac23a97a934042c7eda3388fccd24c1df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_sealed_blob_1ac23a97a934042c7eda3388fccd24c1df" kindref="member">measurement_binding</ref>;<sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1security_1_1_confidential_computing" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_confidential_computing_1a65f3f4b0a9f3e17514ec8a01933f636d" kindref="member">ConfidentialComputing</ref><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1security_1_1_confidential_computing_1ae7464cdc2ea4f517690aa9f5ff4149d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_confidential_computing_1ae7464cdc2ea4f517690aa9f5ff4149d8" kindref="member">~ConfidentialComputing</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1security_1_1_confidential_computing_1a65f3f4b0a9f3e17514ec8a01933f636d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_confidential_computing_1a65f3f4b0a9f3e17514ec8a01933f636d" kindref="member">ConfidentialComputing</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_confidential_computing_1a65f3f4b0a9f3e17514ec8a01933f636d" kindref="member">ConfidentialComputing</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1security_1_1_confidential_computing_1ac37a71a61891eb486630582ec26485bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_confidential_computing_1a65f3f4b0a9f3e17514ec8a01933f636d" kindref="member">ConfidentialComputing</ref>&amp;<sp/><ref refid="classthemis_1_1security_1_1_confidential_computing_1ac37a71a61891eb486630582ec26485bd" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_confidential_computing_1a65f3f4b0a9f3e17514ec8a01933f636d" kindref="member">ConfidentialComputing</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120" refid="classthemis_1_1security_1_1_confidential_computing_1a02f30cc033edaa202dfc41ca83f559ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_confidential_computing_1a02f30cc033edaa202dfc41ca83f559ae" kindref="member">ConfidentialComputing</ref>(<ref refid="classthemis_1_1security_1_1_confidential_computing_1a65f3f4b0a9f3e17514ec8a01933f636d" kindref="member">ConfidentialComputing</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1security_1_1_confidential_computing_1ad1b4cc31aad4758a90af446db3d85e8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_confidential_computing_1a65f3f4b0a9f3e17514ec8a01933f636d" kindref="member">ConfidentialComputing</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1security_1_1_confidential_computing_1a65f3f4b0a9f3e17514ec8a01933f636d" kindref="member">ConfidentialComputing</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::unique_ptr&lt;<ref refid="classthemis_1_1security_1_1_confidential_computing_1a65f3f4b0a9f3e17514ec8a01933f636d" kindref="member">ConfidentialComputing</ref>&gt;<sp/><ref refid="classthemis_1_1security_1_1_confidential_computing_1a38971f360137ae080acf86e3da9569dd" kindref="member">create</ref>();</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1security_1_1_confidential_computing_1afe609384936135d248f13659f791ec9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/><ref refid="structthemis_1_1security_1_1_tee_detection_result" kindref="compound">TeeDetectionResult</ref><sp/><ref refid="classthemis_1_1security_1_1_confidential_computing_1afe609384936135d248f13659f791ec9d" kindref="member">detect</ref>()<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1security_1_1_confidential_computing_1a769e75f7006943d41d8902b4b05f302f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/><ref refid="structthemis_1_1security_1_1_tee_attestation_report" kindref="compound">TeeAttestationReport</ref><sp/><ref refid="classthemis_1_1security_1_1_confidential_computing_1a769e75f7006943d41d8902b4b05f302f" kindref="member">getAttestationReport</ref>(</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>report_data)<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="classthemis_1_1security_1_1_confidential_computing_1acc5d0ccdbc18e9926dc2f335f3b2c910" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/><ref refid="structthemis_1_1security_1_1_sealed_blob" kindref="compound">SealedBlob</ref><sp/><ref refid="classthemis_1_1security_1_1_confidential_computing_1acc5d0ccdbc18e9926dc2f335f3b2c910" kindref="member">seal</ref>(const<sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>plaintext)<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="classthemis_1_1security_1_1_confidential_computing_1a83cdfbc3e0b56e09062d2bd9df611873" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1security_1_1_confidential_computing_1a83cdfbc3e0b56e09062d2bd9df611873" kindref="member">unseal</ref>(const<sp/><ref refid="structthemis_1_1security_1_1_sealed_blob" kindref="compound">SealedBlob</ref>&amp;<sp/>blob)<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="classthemis_1_1security_1_1_confidential_computing_1a023f2b47e5ef047cb157575137371d05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_confidential_computing_1a023f2b47e5ef047cb157575137371d05" kindref="member">name</ref>()<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal">protected:</highlight></codeline>
+<codeline lineno="178" refid="classthemis_1_1security_1_1_confidential_computing_1a03f61787562dcd3bc27239d8ea08a75e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_confidential_computing_1a65f3f4b0a9f3e17514ec8a01933f636d" kindref="member">ConfidentialComputing</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="namespacethemis_1_1security_1aca96c8a966e648bdc99b310f61dff8f5" refkind="member"><highlight class="normal">inline<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1security_1aca96c8a966e648bdc99b310f61dff8f5" kindref="member">teeTypeToString</ref>(<ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824d" kindref="member">TeeType</ref><sp/>t)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(t)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824da8808428eb68c102a612cbf42320bf942" kindref="member">TeeType::INTEL_TDX</ref>:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Intel<sp/>TDX&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824da1e8c23256b7c17006022c24d0d2dfa7a" kindref="member">TeeType::AMD_SEV</ref>:<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;AMD<sp/>SEV&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824da2ff71fc5246570a1f222fa503760dbd4" kindref="member">TeeType::AMD_SEV_SNP</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;AMD<sp/>SEV-SNP&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;None&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>security</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/security/confidential_computing.h"/>
+  </compounddef>
+</doxygen>

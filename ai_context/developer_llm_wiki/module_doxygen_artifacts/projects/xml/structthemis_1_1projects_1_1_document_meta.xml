@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1projects_1_1_document_meta" kind="struct" language="C++" prot="public">
+    <compoundname>themis::projects::DocumentMeta</compoundname>
+    <includes refid="document__manager_8h" local="no">document_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_document_meta_1ad740e980d84a7c7ab13f7b01381cb852" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::DocumentMeta::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::projects::DocumentMeta::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="36" column="17" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_document_meta_1a493ff292d36b5f6b0cbb0fd1b7430fb3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::DocumentMeta::title</definition>
+        <argsstring></argsstring>
+        <name>title</name>
+        <qualifiedname>themis::projects::DocumentMeta::title</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="37" column="17" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_document_meta_1a298cf7ee18ab640bc8e72368ea0b6236" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::DocumentMeta::source</definition>
+        <argsstring></argsstring>
+        <name>source</name>
+        <qualifiedname>themis::projects::DocumentMeta::source</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="38" column="17" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_document_meta_1a1b49fa1b780aa6b3d0f77c7595f5849d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::DocumentMeta::mime_type</definition>
+        <argsstring></argsstring>
+        <name>mime_type</name>
+        <qualifiedname>themis::projects::DocumentMeta::mime_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="39" column="17" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_document_meta_1ab59b2add85a13b6bb1280941b82cb62d" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::projects::DocumentMeta::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::projects::DocumentMeta::size_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="40" column="13" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_document_meta_1aac07921bb4d5f69b9325fdde8820f51b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::projects::DocumentMeta::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::projects::DocumentMeta::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="41" column="13" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_document_meta_1a97e35ab0191ffe3a175fc96545b3ac55" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::projects::DocumentMeta::embedding_dim</definition>
+        <argsstring></argsstring>
+        <name>embedding_dim</name>
+        <qualifiedname>themis::projects::DocumentMeta::embedding_dim</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="42" column="9" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_document_meta_1a8815959f42f648f1a9b7f0975d732e62" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::projects::DocumentMeta::chunk_count</definition>
+        <argsstring></argsstring>
+        <name>chunk_count</name>
+        <qualifiedname>themis::projects::DocumentMeta::chunk_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="43" column="9" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_document_meta_1adfd39558070cbd8b0f9e4def48120e98" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::DocumentMeta::chunking_strategy</definition>
+        <argsstring></argsstring>
+        <name>chunking_strategy</name>
+        <qualifiedname>themis::projects::DocumentMeta::chunking_strategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="44" column="17" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_document_meta_1a18c625eb4a9691cb39783e271013dbce" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref></type>
+        <definition>json themis::projects::DocumentMeta::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::projects::DocumentMeta::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="45" column="10" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1projects_1_1_document_meta_1abab2e75da139868bb6e8183f81dc9db4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref></type>
+        <definition>json themis::projects::DocumentMeta::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::projects::DocumentMeta::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="48" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1projects_1_1_document_meta_1a5852a519b0c206fdc2502d7ff5547218" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1projects_1_1_document_meta" kindref="compound">DocumentMeta</ref></type>
+        <definition>static DocumentMeta themis::projects::DocumentMeta::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::projects::DocumentMeta::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="49" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Document Metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Stores metadata about uploaded documents. Primary Key: doc:&lt;uuid&gt; </para>
+    </detaileddescription>
+    <location file="include/projects/DocumentManager/document_manager.h" line="35" column="1" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="35" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1projects_1_1_document_meta_1a8815959f42f648f1a9b7f0975d732e62" prot="public" virt="non-virtual"><scope>themis::projects::DocumentMeta</scope><name>chunk_count</name></member>
+      <member refid="structthemis_1_1projects_1_1_document_meta_1adfd39558070cbd8b0f9e4def48120e98" prot="public" virt="non-virtual"><scope>themis::projects::DocumentMeta</scope><name>chunking_strategy</name></member>
+      <member refid="structthemis_1_1projects_1_1_document_meta_1aac07921bb4d5f69b9325fdde8820f51b" prot="public" virt="non-virtual"><scope>themis::projects::DocumentMeta</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1projects_1_1_document_meta_1a97e35ab0191ffe3a175fc96545b3ac55" prot="public" virt="non-virtual"><scope>themis::projects::DocumentMeta</scope><name>embedding_dim</name></member>
+      <member refid="structthemis_1_1projects_1_1_document_meta_1a5852a519b0c206fdc2502d7ff5547218" prot="public" virt="non-virtual"><scope>themis::projects::DocumentMeta</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1projects_1_1_document_meta_1ad740e980d84a7c7ab13f7b01381cb852" prot="public" virt="non-virtual"><scope>themis::projects::DocumentMeta</scope><name>id</name></member>
+      <member refid="structthemis_1_1projects_1_1_document_meta_1a18c625eb4a9691cb39783e271013dbce" prot="public" virt="non-virtual"><scope>themis::projects::DocumentMeta</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1projects_1_1_document_meta_1a1b49fa1b780aa6b3d0f77c7595f5849d" prot="public" virt="non-virtual"><scope>themis::projects::DocumentMeta</scope><name>mime_type</name></member>
+      <member refid="structthemis_1_1projects_1_1_document_meta_1ab59b2add85a13b6bb1280941b82cb62d" prot="public" virt="non-virtual"><scope>themis::projects::DocumentMeta</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1projects_1_1_document_meta_1a298cf7ee18ab640bc8e72368ea0b6236" prot="public" virt="non-virtual"><scope>themis::projects::DocumentMeta</scope><name>source</name></member>
+      <member refid="structthemis_1_1projects_1_1_document_meta_1a493ff292d36b5f6b0cbb0fd1b7430fb3" prot="public" virt="non-virtual"><scope>themis::projects::DocumentMeta</scope><name>title</name></member>
+      <member refid="structthemis_1_1projects_1_1_document_meta_1abab2e75da139868bb6e8183f81dc9db4" prot="public" virt="non-virtual"><scope>themis::projects::DocumentMeta</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

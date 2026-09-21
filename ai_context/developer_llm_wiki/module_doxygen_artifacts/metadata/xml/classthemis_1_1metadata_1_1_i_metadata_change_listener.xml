@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1metadata_1_1_i_metadata_change_listener" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::metadata::IMetadataChangeListener</compoundname>
+    <derivedcompoundref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener" prot="public" virt="non-virtual">themis::metadata::RecordingMetadataChangeListener</derivedcompoundref>
+    <includes refid="imetadata__change__listener_8h" local="no">imetadata_change_listener.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_i_metadata_change_listener_1abf83b79cf3b5a00fead89c2b56aa1557" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::metadata::IMetadataChangeListener::~IMetadataChangeListener</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IMetadataChangeListener</name>
+        <qualifiedname>themis::metadata::IMetadataChangeListener::~IMetadataChangeListener</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="101" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_i_metadata_change_listener_1a38ce15acd111c2b2d01b09ccae1618da" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::metadata::IMetadataChangeListener::onMetadataChanged</definition>
+        <argsstring>(const MetadataChangeEvent &amp;event)=0</argsstring>
+        <name>onMetadataChanged</name>
+        <qualifiedname>themis::metadata::IMetadataChangeListener::onMetadataChanged</qualifiedname>
+        <reimplementedby refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a5f51a7c20eb0e9fdb73c7d0b04ad4a86">onMetadataChanged</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1metadata_1_1_metadata_change_event" kindref="compound">MetadataChangeEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Called when a metadata change event occurs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Details of the change.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Implementations should return quickly to avoid blocking the dispatcher. Heavy processing should be queued asynchronously. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="111" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract observer interface for metadata change notifications. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations MUST be thread-safe, as <ref refid="classthemis_1_1metadata_1_1_i_metadata_change_listener_1a38ce15acd111c2b2d01b09ccae1618da" kindref="member">onMetadataChanged()</ref> may be invoked from any background thread. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::metadata::IMetadataChangeListener</label>
+        <link refid="classthemis_1_1metadata_1_1_i_metadata_change_listener"/>
+      </node>
+      <node id="2">
+        <label>themis::metadata::RecordingMetadataChangeListener</label>
+        <link refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/metadata/imetadata_change_listener.h" line="99" column="1" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="99" bodyend="112"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1metadata_1_1_i_metadata_change_listener_1a38ce15acd111c2b2d01b09ccae1618da" prot="public" virt="pure-virtual"><scope>themis::metadata::IMetadataChangeListener</scope><name>onMetadataChanged</name></member>
+      <member refid="classthemis_1_1metadata_1_1_i_metadata_change_listener_1abf83b79cf3b5a00fead89c2b56aa1557" prot="public" virt="virtual"><scope>themis::metadata::IMetadataChangeListener</scope><name>~IMetadataChangeListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

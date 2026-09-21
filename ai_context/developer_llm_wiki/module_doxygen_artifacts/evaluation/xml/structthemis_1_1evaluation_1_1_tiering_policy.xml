@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_tiering_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::TieringPolicy</compoundname>
+    <includes refid="hardware__profile_8h" local="no">hardware_profile.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tiering_policy_1afc67b9cf1d54624c8f0fbe54f8f217e0" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::evaluation::TieringPolicy::hot_tier_max_gib</definition>
+        <argsstring></argsstring>
+        <name>hot_tier_max_gib</name>
+        <qualifiedname>themis::evaluation::TieringPolicy::hot_tier_max_gib</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="64" column="17" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tiering_policy_1a1be351d2e13f7c6c4c115536729a5559" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::evaluation::TieringPolicy::warm_tier_max_gib</definition>
+        <argsstring></argsstring>
+        <name>warm_tier_max_gib</name>
+        <qualifiedname>themis::evaluation::TieringPolicy::warm_tier_max_gib</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="65" column="17" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tiering_policy_1ac836e2868e383b153b1a9084fc033e99" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::TieringPolicy::cold_tier_requires_remote_storage</definition>
+        <argsstring></argsstring>
+        <name>cold_tier_requires_remote_storage</name>
+        <qualifiedname>themis::evaluation::TieringPolicy::cold_tier_requires_remote_storage</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="66" column="10" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tiering_policy_1ac22e7643edef54c40d6396baa1dc5e5d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::TieringPolicy::supports_live_tier_rebalancing</definition>
+        <argsstring></argsstring>
+        <name>supports_live_tier_rebalancing</name>
+        <qualifiedname>themis::evaluation::TieringPolicy::supports_live_tier_rebalancing</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="67" column="10" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/hardware_profile.h" line="63" column="1" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="63" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_tiering_policy_1ac836e2868e383b153b1a9084fc033e99" prot="public" virt="non-virtual"><scope>themis::evaluation::TieringPolicy</scope><name>cold_tier_requires_remote_storage</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tiering_policy_1afc67b9cf1d54624c8f0fbe54f8f217e0" prot="public" virt="non-virtual"><scope>themis::evaluation::TieringPolicy</scope><name>hot_tier_max_gib</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tiering_policy_1ac22e7643edef54c40d6396baa1dc5e5d" prot="public" virt="non-virtual"><scope>themis::evaluation::TieringPolicy</scope><name>supports_live_tier_rebalancing</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tiering_policy_1a1be351d2e13f7c6c4c115536729a5559" prot="public" virt="non-virtual"><scope>themis::evaluation::TieringPolicy</scope><name>warm_tier_max_gib</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

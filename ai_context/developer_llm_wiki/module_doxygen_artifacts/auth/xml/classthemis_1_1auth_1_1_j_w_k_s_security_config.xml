@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_j_w_k_s_security_config" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::JWKSSecurityConfig</compoundname>
+    <includes refid="jwks__security_8h" local="no">jwks_security.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config" prot="public">themis::auth::JWKSSecurityConfig::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a711a3a87025493c00fd06e0e2ff91c26" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PinningMode</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::PinningMode</qualifiedname>
+        <enumvalue id="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a711a3a87025493c00fd06e0e2ff91c26ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a711a3a87025493c00fd06e0e2ff91c26a5944a3d5d92d1849bd20f002c323c759" prot="public">
+          <name>PUBLIC_KEY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a711a3a87025493c00fd06e0e2ff91c26aad1694fa18786504d416601fa3e96d01" prot="public">
+          <name>CERTIFICATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a711a3a87025493c00fd06e0e2ff91c26aecddc45e2a6e1106d6f61124e8341fe0" prot="public">
+          <name>CA_CERTIFICATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="25" column="5" bodyfile="include/auth/jwks_security.h" bodystart="25" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="enum" id="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a21744a123a81ee79215536d0acf0843d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TLSVersion</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::TLSVersion</qualifiedname>
+        <enumvalue id="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a21744a123a81ee79215536d0acf0843daf470d9139c3e556e44d5981550169f5d" prot="public">
+          <name>TLS_1_0</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a21744a123a81ee79215536d0acf0843da9a1d7c0d501ed870ad7a51ed313aef0a" prot="public">
+          <name>TLS_1_1</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a21744a123a81ee79215536d0acf0843da707dc1c0b85efa508ecc2cc365254625" prot="public">
+          <name>TLS_1_2</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a21744a123a81ee79215536d0acf0843da6de65e8f2312c506ac0e9ecc22d21bfe" prot="public">
+          <name>TLS_1_3</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="32" column="5" bodyfile="include/auth/jwks_security.h" bodystart="32" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_k_s_security_config_1aeb87a4c5940a9ed24efc3577b539ff85" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::auth::JWKSSecurityConfig::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="106" column="12" bodyfile="include/auth/jwks_security.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a0f88a2eb6d1774ee37a2074f8f7be342" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::JWKSSecurityConfig::JWKSSecurityConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>JWKSSecurityConfig</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::JWKSSecurityConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>JWKSSecurity <ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="70" column="14" bodyfile="src/auth/jwks_security.cpp" bodystart="122" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a72bef666f0230471f4c4590e6901313d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::auth::JWKSSecurityConfig::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="72" column="18" bodyfile="include/auth/jwks_security.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a083e7679df87de1c066a00d866de34c4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::JWKSSecurityConfig::validate</definition>
+        <argsstring>() const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::validate</qualifiedname>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="77" column="10" bodyfile="src/auth/jwks_security.cpp" bodystart="133" bodyend="166"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a6b42a439dfb33119c4a71e9872f2cf9f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config" kindref="compound">Config</ref></type>
+        <definition>JWKSSecurityConfig::Config themis::auth::JWKSSecurityConfig::withPublicKeyPinning</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;spki_hashes)</argsstring>
+        <name>withPublicKeyPinning</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::withPublicKeyPinning</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>spki_hashes</declname>
+        </param>
+        <briefdescription>
+<para>With Public Key Pinning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spki_hashes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="84" column="19" bodyfile="src/auth/jwks_security.cpp" bodystart="169" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_security_config_1add700e6863ec25f25d2e0880d951f0d8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config" kindref="compound">Config</ref></type>
+        <definition>JWKSSecurityConfig::Config themis::auth::JWKSSecurityConfig::withCertificatePinning</definition>
+        <argsstring>(const std::string &amp;cert_path)</argsstring>
+        <name>withCertificatePinning</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::withCertificatePinning</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_path</declname>
+        </param>
+        <briefdescription>
+<para>With Certificate Pinning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the cert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="91" column="19" bodyfile="src/auth/jwks_security.cpp" bodystart="180" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_security_config_1af6a6f2876541c5c5480100a156e6a566" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config" kindref="compound">Config</ref></type>
+        <definition>JWKSSecurityConfig::Config themis::auth::JWKSSecurityConfig::withMTLS</definition>
+        <argsstring>(const std::string &amp;client_cert_path, const std::string &amp;client_key_path, const std::string &amp;key_password=&quot;&quot;)</argsstring>
+        <name>withMTLS</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::withMTLS</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_cert_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_key_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_password</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="93" column="19" bodyfile="src/auth/jwks_security.cpp" bodystart="191" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_k_s_security_config_1ab475c1ff497a1c86ac0500905e807c26" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config" kindref="compound">Config</ref></type>
+        <definition>JWKSSecurityConfig::Config themis::auth::JWKSSecurityConfig::secureDefaults</definition>
+        <argsstring>()</argsstring>
+        <name>secureDefaults</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::secureDefaults</qualifiedname>
+        <briefdescription>
+<para>Secure Defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Config(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="103" column="19" bodyfile="src/auth/jwks_security.cpp" bodystart="212" bodyend="218"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/jwks_security.h" line="23" column="1" bodyfile="include/auth/jwks_security.h" bodystart="23" bodyend="107"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1aeb87a4c5940a9ed24efc3577b539ff85" prot="private" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a72bef666f0230471f4c4590e6901313d" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a0f88a2eb6d1774ee37a2074f8f7be342" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig</scope><name>JWKSSecurityConfig</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a711a3a87025493c00fd06e0e2ff91c26" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig</scope><name>PinningMode</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1ab475c1ff497a1c86ac0500905e807c26" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig</scope><name>secureDefaults</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a21744a123a81ee79215536d0acf0843d" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig</scope><name>TLSVersion</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a083e7679df87de1c066a00d866de34c4" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig</scope><name>validate</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1add700e6863ec25f25d2e0880d951f0d8" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig</scope><name>withCertificatePinning</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1af6a6f2876541c5c5480100a156e6a566" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig</scope><name>withMTLS</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a6b42a439dfb33119c4a71e9872f2cf9f" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig</scope><name>withPublicKeyPinning</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

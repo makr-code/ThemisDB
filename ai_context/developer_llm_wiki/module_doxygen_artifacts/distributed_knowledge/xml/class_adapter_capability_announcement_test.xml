@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_adapter_capability_announcement_test" kind="class" language="C++" prot="public">
+    <compoundname>AdapterCapabilityAnnouncementTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_adapter_capability_announcement_test_1a4f7859b2a7674aa74849fd9f6dc46934" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="test__adapter__capability__announcement__focused_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt;json&gt; AdapterCapabilityAnnouncementTest::gossip_messages_</definition>
+        <argsstring></argsstring>
+        <name>gossip_messages_</name>
+        <qualifiedname>AdapterCapabilityAnnouncementTest::gossip_messages_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" line="37" column="17" bodyfile="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_adapter_capability_announcement_test_1a0fc079f78fce0c520e12e0144c98a74c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AdapterCapabilityAnnouncementTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AdapterCapabilityAnnouncementTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" line="33" column="10" bodyfile="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" bodystart="33" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adapter_capability_announcement_test_1a7c8b8c3854e49834b6d9596220b8b310" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto AdapterCapabilityAnnouncementTest::make_gossip_fn</definition>
+        <argsstring>()</argsstring>
+        <name>make_gossip_fn</name>
+        <qualifiedname>AdapterCapabilityAnnouncementTest::make_gossip_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" line="39" column="10" bodyfile="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" bodystart="39" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AdapterCapabilityAnnouncementTest</label>
+        <link refid="class_adapter_capability_announcement_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AdapterCapabilityAnnouncementTest</label>
+        <link refid="class_adapter_capability_announcement_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" line="31" column="1" bodyfile="tests/distributed_knowledge/test_adapter_capability_announcement_focused.cpp" bodystart="31" bodyend="44"/>
+    <listofallmembers>
+      <member refid="class_adapter_capability_announcement_test_1a4f7859b2a7674aa74849fd9f6dc46934" prot="protected" virt="non-virtual"><scope>AdapterCapabilityAnnouncementTest</scope><name>gossip_messages_</name></member>
+      <member refid="class_adapter_capability_announcement_test_1a7c8b8c3854e49834b6d9596220b8b310" prot="protected" virt="non-virtual"><scope>AdapterCapabilityAnnouncementTest</scope><name>make_gossip_fn</name></member>
+      <member refid="class_adapter_capability_announcement_test_1a0fc079f78fce0c520e12e0144c98a74c" prot="protected" virt="non-virtual"><scope>AdapterCapabilityAnnouncementTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

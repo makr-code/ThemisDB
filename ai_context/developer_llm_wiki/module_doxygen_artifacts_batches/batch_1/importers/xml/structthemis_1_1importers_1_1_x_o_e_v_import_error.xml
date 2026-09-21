@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_x_o_e_v_import_error" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::XOEVImportError</compoundname>
+    <includes refid="xoev__importer_8h" local="no">xoev_importer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_import_error_1aa92eb9a0442534fd36c876256189a5af" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::importers::XOEVImportError::record_index</definition>
+        <argsstring></argsstring>
+        <name>record_index</name>
+        <qualifiedname>themis::importers::XOEVImportError::record_index</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>0-based index of the failing record </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="118" column="17" bodyfile="include/importers/xoev_importer.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_import_error_1ac301e7736210e7d65fc87f244f3fa69e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::XOEVImportError::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::importers::XOEVImportError::field</qualifiedname>
+        <briefdescription>
+<para>Affected XML path / field name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="119" column="17" bodyfile="include/importers/xoev_importer.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_import_error_1a18cc1331959ad8814688f5bfbb029bdf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::XOEVImportError::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::importers::XOEVImportError::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable error description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="120" column="17" bodyfile="include/importers/xoev_importer.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_import_error_1a64eebf6ac416586fdbc33566fef56ab7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::XOEVImportError::fatal</definition>
+        <argsstring></argsstring>
+        <name>fatal</name>
+        <qualifiedname>themis::importers::XOEVImportError::fatal</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True → import was aborted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="121" column="10" bodyfile="include/importers/xoev_importer.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/xoev_importer.h" line="117" column="1" bodyfile="include/importers/xoev_importer.h" bodystart="117" bodyend="122"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_import_error_1a64eebf6ac416586fdbc33566fef56ab7" prot="public" virt="non-virtual"><scope>themis::importers::XOEVImportError</scope><name>fatal</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_import_error_1ac301e7736210e7d65fc87f244f3fa69e" prot="public" virt="non-virtual"><scope>themis::importers::XOEVImportError</scope><name>field</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_import_error_1a18cc1331959ad8814688f5bfbb029bdf" prot="public" virt="non-virtual"><scope>themis::importers::XOEVImportError</scope><name>message</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_import_error_1aa92eb9a0442534fd36c876256189a5af" prot="public" virt="non-virtual"><scope>themis::importers::XOEVImportError</scope><name>record_index</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

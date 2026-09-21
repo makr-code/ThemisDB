@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_execution_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ExecutionContext</compoundname>
+    <includes refid="query__executor_8h" local="no">query_executor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_execution_context_1a797feca589f58989887192176a341f8c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::ExecutionContext::max_materialise_rows</definition>
+        <argsstring></argsstring>
+        <name>max_materialise_rows</name>
+        <qualifiedname>themis::query::ExecutionContext::max_materialise_rows</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="74" column="17" bodyfile="include/query/query_executor.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_execution_context_1a6c829c6d807637d6f0c63785fddc2062" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::ExecutionContext::row_limit</definition>
+        <argsstring></argsstring>
+        <name>row_limit</name>
+        <qualifiedname>themis::query::ExecutionContext::row_limit</qualifiedname>
+        <initializer>= 100&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="75" column="17" bodyfile="include/query/query_executor.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_execution_context_1a3e36622ec53d392464a4b3a9cad92304" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::query::ExecutionContext::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::query::ExecutionContext::timeout_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="76" column="14" bodyfile="include/query/query_executor.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_executor.h" line="73" column="1" bodyfile="include/query/query_executor.h" bodystart="73" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_execution_context_1a797feca589f58989887192176a341f8c" prot="public" virt="non-virtual"><scope>themis::query::ExecutionContext</scope><name>max_materialise_rows</name></member>
+      <member refid="structthemis_1_1query_1_1_execution_context_1a6c829c6d807637d6f0c63785fddc2062" prot="public" virt="non-virtual"><scope>themis::query::ExecutionContext</scope><name>row_limit</name></member>
+      <member refid="structthemis_1_1query_1_1_execution_context_1a3e36622ec53d392464a4b3a9cad92304" prot="public" virt="non-virtual"><scope>themis::query::ExecutionContext</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

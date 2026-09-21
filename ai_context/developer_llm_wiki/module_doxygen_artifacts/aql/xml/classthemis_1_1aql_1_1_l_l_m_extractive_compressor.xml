@@ -1,0 +1,391 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_l_l_m_extractive_compressor" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::aql::LLMExtractiveCompressor</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IHistoryCompressor</basecompoundref>
+    <includes refid="llm__extractive__compressor_8h" local="no">llm_extractive_compressor.h</includes>
+    <innerclass refid="structthemis_1_1aql_1_1_l_l_m_extractive_compressor_1_1_config" prot="public">themis::aql::LLMExtractiveCompressor::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1a77f40bd9bbcf1b9feed9b7815f0b54e8" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref> &amp;</type>
+        <definition>LLMAQLHandler&amp; themis::aql::LLMExtractiveCompressor::handler_</definition>
+        <argsstring></argsstring>
+        <name>handler_</name>
+        <qualifiedname>themis::aql::LLMExtractiveCompressor::handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_extractive_compressor.h" line="61" column="19" bodyfile="include/aql/llm_extractive_compressor.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1aee887dc6fd68aede98ca5374475db46f" prot="private" static="no" mutable="no">
+        <type>LLMInteractionStore *</type>
+        <definition>LLMInteractionStore* themis::aql::LLMExtractiveCompressor::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::aql::LLMExtractiveCompressor::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_extractive_compressor.h" line="62" column="25" bodyfile="include/aql/llm_extractive_compressor.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1af612892f87daac16b033a4a3b8c8aa9f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1aql_1_1_l_l_m_extractive_compressor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::aql::LLMExtractiveCompressor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::aql::LLMExtractiveCompressor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_extractive_compressor.h" line="63" column="12" bodyfile="include/aql/llm_extractive_compressor.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1a69eb45fec83fe035e899163aef6193ad" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::aql::LLMExtractiveCompressor::total_compressions_</definition>
+        <argsstring></argsstring>
+        <name>total_compressions_</name>
+        <qualifiedname>themis::aql::LLMExtractiveCompressor::total_compressions_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_extractive_compressor.h" line="66" column="13" bodyfile="include/aql/llm_extractive_compressor.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1a7410e57b5060926ae2baddb544a861f0" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::aql::LLMExtractiveCompressor::successful_compressions_</definition>
+        <argsstring></argsstring>
+        <name>successful_compressions_</name>
+        <qualifiedname>themis::aql::LLMExtractiveCompressor::successful_compressions_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_extractive_compressor.h" line="67" column="13" bodyfile="include/aql/llm_extractive_compressor.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1a5bfbfef3c3168bb5418b808b004c8593" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::aql::LLMExtractiveCompressor::failed_compressions_</definition>
+        <argsstring></argsstring>
+        <name>failed_compressions_</name>
+        <qualifiedname>themis::aql::LLMExtractiveCompressor::failed_compressions_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_extractive_compressor.h" line="68" column="13" bodyfile="include/aql/llm_extractive_compressor.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1a73cb3351e166648ed7400648a6086353" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::aql::LLMExtractiveCompressor::total_compression_ratio_</definition>
+        <argsstring></argsstring>
+        <name>total_compression_ratio_</name>
+        <qualifiedname>themis::aql::LLMExtractiveCompressor::total_compression_ratio_</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_extractive_compressor.h" line="69" column="12" bodyfile="include/aql/llm_extractive_compressor.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1a58f8343f99676a0f58162a45e9286319" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::LLMExtractiveCompressor::LLMExtractiveCompressor</definition>
+        <argsstring>(LLMAQLHandler &amp;handler, LLMInteractionStore *store=nullptr, const Config &amp;config=Config())</argsstring>
+        <name>LLMExtractiveCompressor</name>
+        <qualifiedname>themis::aql::LLMExtractiveCompressor::LLMExtractiveCompressor</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref> &amp;</type>
+          <declname>handler</declname>
+        </param>
+        <param>
+          <type>LLMInteractionStore *</type>
+          <declname>store</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_l_l_m_extractive_compressor_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1aql_1_1_l_l_m_extractive_compressor_1_1_config" kindref="compound">Config</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_extractive_compressor.h" line="46" column="14" bodyfile="src/aql/llm_extractive_compressor.cpp" bodystart="91" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1ab1d2e7bb8e7f6d63b6a1e97e6186d408" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; CompressionResult &gt;</type>
+        <definition>std::unique_ptr&lt; CompressionResult &gt; themis::aql::LLMExtractiveCompressor::compressHistory</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;history, int32_t max_tokens, float min_similarity=0.85f) override</argsstring>
+        <name>compressHistory</name>
+        <qualifiedname>themis::aql::LLMExtractiveCompressor::compressHistory</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>history</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>min_similarity</declname>
+          <defval>0.85f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_extractive_compressor.h" line="52" column="21" bodyfile="src/aql/llm_extractive_compressor.cpp" bodystart="97" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1a83b812f40f234668a748ace856251283" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::LLMExtractiveCompressor::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::aql::LLMExtractiveCompressor::isAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_extractive_compressor.h" line="57" column="10" bodyfile="src/aql/llm_extractive_compressor.cpp" bodystart="193" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1ad8149f90e92bfb6263cb80d3945debfb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::LLMExtractiveCompressor::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::aql::LLMExtractiveCompressor::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_extractive_compressor.h" line="58" column="17" bodyfile="src/aql/llm_extractive_compressor.cpp" bodystart="198" bodyend="208"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1a75ac8f29f2fc9cd4b386faadf68762db" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int32_t &gt;</type>
+        <definition>std::vector&lt; int32_t &gt; themis::aql::LLMExtractiveCompressor::rankTurnsByImportance</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;history)</argsstring>
+        <name>rankTurnsByImportance</name>
+        <qualifiedname>themis::aql::LLMExtractiveCompressor::rankTurnsByImportance</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>history</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_extractive_compressor.h" line="71" column="17" bodyfile="src/aql/llm_extractive_compressor.cpp" bodystart="210" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1af5bd1ac5056241bbd053e6b1f533a733" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int32_t &gt;</type>
+        <definition>std::vector&lt; int32_t &gt; themis::aql::LLMExtractiveCompressor::selectTopTurns</definition>
+        <argsstring>(const std::vector&lt; int32_t &gt; &amp;ranked_indices, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;history, int32_t max_tokens)</argsstring>
+        <name>selectTopTurns</name>
+        <qualifiedname>themis::aql::LLMExtractiveCompressor::selectTopTurns</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int32_t &gt; &amp;</type>
+          <declname>ranked_indices</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>history</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>max_tokens</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_extractive_compressor.h" line="74" column="17" bodyfile="src/aql/llm_extractive_compressor.cpp" bodystart="250" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1a67db70d253855b4c834b96500af9fb6b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::aql::LLMExtractiveCompressor::computeSimilarity</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;original, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;compressed)</argsstring>
+        <name>computeSimilarity</name>
+        <qualifiedname>themis::aql::LLMExtractiveCompressor::computeSimilarity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>original</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>compressed</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_extractive_compressor.h" line="79" column="11" bodyfile="src/aql/llm_extractive_compressor.cpp" bodystart="328" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1ab68de16372b31e7ac5a63115196a7af2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::LLMExtractiveCompressor::storeEpisode</definition>
+        <argsstring>(const CompressionResult &amp;result)</argsstring>
+        <name>storeEpisode</name>
+        <qualifiedname>themis::aql::LLMExtractiveCompressor::storeEpisode</qualifiedname>
+        <param>
+          <type>const CompressionResult &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Store Episode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: createInteraction(), spdlog::warn(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_extractive_compressor.h" line="87" column="10" bodyfile="src/aql/llm_extractive_compressor.cpp" bodystart="380" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1ac1785a664da36134453b42118cc7bafe" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::LLMExtractiveCompressor::formatTurnsForPrompt</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;history, const std::vector&lt; int32_t &gt; &amp;selected_indices)</argsstring>
+        <name>formatTurnsForPrompt</name>
+        <qualifiedname>themis::aql::LLMExtractiveCompressor::formatTurnsForPrompt</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>history</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int32_t &gt; &amp;</type>
+          <declname>selected_indices</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_extractive_compressor.h" line="89" column="17" bodyfile="src/aql/llm_extractive_compressor.cpp" bodystart="407" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1aca07620aa977a06326a7e21e7d1856d1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::LLMExtractiveCompressor::generateUUID</definition>
+        <argsstring>()</argsstring>
+        <name>generateUUID</name>
+        <qualifiedname>themis::aql::LLMExtractiveCompressor::generateUUID</qualifiedname>
+        <briefdescription>
+<para>Generate UUID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: utils::generate_uuid_v4(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_extractive_compressor.h" line="97" column="17" bodyfile="src/aql/llm_extractive_compressor.cpp" bodystart="429" bodyend="431"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IHistoryCompressor</label>
+      </node>
+      <node id="1">
+        <label>themis::aql::LLMExtractiveCompressor</label>
+        <link refid="classthemis_1_1aql_1_1_l_l_m_extractive_compressor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IHistoryCompressor</label>
+      </node>
+      <node id="1">
+        <label>themis::aql::LLMExtractiveCompressor</label>
+        <link refid="classthemis_1_1aql_1_1_l_l_m_extractive_compressor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/aql/llm_extractive_compressor.h" line="23" column="1" bodyfile="include/aql/llm_extractive_compressor.h" bodystart="23" bodyend="98"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1ab1d2e7bb8e7f6d63b6a1e97e6186d408" prot="public" virt="non-virtual"><scope>themis::aql::LLMExtractiveCompressor</scope><name>compressHistory</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1a67db70d253855b4c834b96500af9fb6b" prot="private" virt="non-virtual"><scope>themis::aql::LLMExtractiveCompressor</scope><name>computeSimilarity</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1af612892f87daac16b033a4a3b8c8aa9f" prot="private" virt="non-virtual"><scope>themis::aql::LLMExtractiveCompressor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1a5bfbfef3c3168bb5418b808b004c8593" prot="private" virt="non-virtual"><scope>themis::aql::LLMExtractiveCompressor</scope><name>failed_compressions_</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1ac1785a664da36134453b42118cc7bafe" prot="private" virt="non-virtual"><scope>themis::aql::LLMExtractiveCompressor</scope><name>formatTurnsForPrompt</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1aca07620aa977a06326a7e21e7d1856d1" prot="private" virt="non-virtual"><scope>themis::aql::LLMExtractiveCompressor</scope><name>generateUUID</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1ad8149f90e92bfb6263cb80d3945debfb" prot="public" virt="non-virtual"><scope>themis::aql::LLMExtractiveCompressor</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1a77f40bd9bbcf1b9feed9b7815f0b54e8" prot="private" virt="non-virtual"><scope>themis::aql::LLMExtractiveCompressor</scope><name>handler_</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1a83b812f40f234668a748ace856251283" prot="public" virt="non-virtual"><scope>themis::aql::LLMExtractiveCompressor</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1a58f8343f99676a0f58162a45e9286319" prot="public" virt="non-virtual"><scope>themis::aql::LLMExtractiveCompressor</scope><name>LLMExtractiveCompressor</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1a75ac8f29f2fc9cd4b386faadf68762db" prot="private" virt="non-virtual"><scope>themis::aql::LLMExtractiveCompressor</scope><name>rankTurnsByImportance</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1af5bd1ac5056241bbd053e6b1f533a733" prot="private" virt="non-virtual"><scope>themis::aql::LLMExtractiveCompressor</scope><name>selectTopTurns</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1aee887dc6fd68aede98ca5374475db46f" prot="private" virt="non-virtual"><scope>themis::aql::LLMExtractiveCompressor</scope><name>store_</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1ab68de16372b31e7ac5a63115196a7af2" prot="private" virt="non-virtual"><scope>themis::aql::LLMExtractiveCompressor</scope><name>storeEpisode</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1a7410e57b5060926ae2baddb544a861f0" prot="private" virt="non-virtual"><scope>themis::aql::LLMExtractiveCompressor</scope><name>successful_compressions_</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1a73cb3351e166648ed7400648a6086353" prot="private" virt="non-virtual"><scope>themis::aql::LLMExtractiveCompressor</scope><name>total_compression_ratio_</name></member>
+      <member refid="classthemis_1_1aql_1_1_l_l_m_extractive_compressor_1a69eb45fec83fe035e899163aef6193ad" prot="private" virt="non-virtual"><scope>themis::aql::LLMExtractiveCompressor</scope><name>total_compressions_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

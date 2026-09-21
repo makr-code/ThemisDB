@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::AdvancedConflictResolver::ResolutionContext</compoundname>
+    <includes refid="conflict__resolution_8h" local="no">conflict_resolution.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context_1ac0979d5585458515c16e40557a44ce7c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::AdvancedConflictResolver::ResolutionContext::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themisdb::replication::AdvancedConflictResolver::ResolutionContext::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/conflict_resolution.h" line="70" column="21" bodyfile="include/replication/conflict_resolution.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context_1a5c19419d46fa39cdde9f6a0e980da261" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::AdvancedConflictResolver::ResolutionContext::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themisdb::replication::AdvancedConflictResolver::ResolutionContext::document_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/conflict_resolution.h" line="71" column="21" bodyfile="include/replication/conflict_resolution.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context_1a5c7a16b64fffea019d944dc5ca9ef19d" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themisdb::replication::AdvancedConflictResolver::ResolutionContext::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themisdb::replication::AdvancedConflictResolver::ResolutionContext::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/conflict_resolution.h" line="72" column="20" bodyfile="include/replication/conflict_resolution.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context_1af6918ef0fa091b5be504ff0f5c80828d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::replication::AdvancedConflictResolver::ResolutionContext::user_roles</definition>
+        <argsstring></argsstring>
+        <name>user_roles</name>
+        <qualifiedname>themisdb::replication::AdvancedConflictResolver::ResolutionContext::user_roles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/conflict_resolution.h" line="73" column="33" bodyfile="include/replication/conflict_resolution.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context_1a261f78b390ceba9c4cee65dec5453526" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::AdvancedConflictResolver::ResolutionContext::client_ip</definition>
+        <argsstring></argsstring>
+        <name>client_ip</name>
+        <qualifiedname>themisdb::replication::AdvancedConflictResolver::ResolutionContext::client_ip</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/conflict_resolution.h" line="74" column="46" bodyfile="include/replication/conflict_resolution.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context_1acdaa8cc0f6b02b3b2d43a2bb3bbaae8d" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::replication::AdvancedConflictResolver::ResolutionContext::request_time</definition>
+        <argsstring></argsstring>
+        <name>request_time</name>
+        <qualifiedname>themisdb::replication::AdvancedConflictResolver::ResolutionContext::request_time</qualifiedname>
+        <initializer>= std::chrono::system_clock::now()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/conflict_resolution.h" line="75" column="47" bodyfile="include/replication/conflict_resolution.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Context provided to <ref refid="classthemisdb_1_1replication_1_1_advanced_conflict_resolver_1a33e26c20337a64ba1c08277ea3c3157e" kindref="member">resolve()</ref> on every invocation. </para>
+    </detaileddescription>
+    <location file="include/replication/conflict_resolution.h" line="69" column="5" bodyfile="include/replication/conflict_resolution.h" bodystart="69" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context_1a261f78b390ceba9c4cee65dec5453526" prot="public" virt="non-virtual"><scope>themisdb::replication::AdvancedConflictResolver::ResolutionContext</scope><name>client_ip</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context_1ac0979d5585458515c16e40557a44ce7c" prot="public" virt="non-virtual"><scope>themisdb::replication::AdvancedConflictResolver::ResolutionContext</scope><name>collection</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context_1a5c19419d46fa39cdde9f6a0e980da261" prot="public" virt="non-virtual"><scope>themisdb::replication::AdvancedConflictResolver::ResolutionContext</scope><name>document_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context_1a5c7a16b64fffea019d944dc5ca9ef19d" prot="public" virt="non-virtual"><scope>themisdb::replication::AdvancedConflictResolver::ResolutionContext</scope><name>metadata</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context_1acdaa8cc0f6b02b3b2d43a2bb3bbaae8d" prot="public" virt="non-virtual"><scope>themisdb::replication::AdvancedConflictResolver::ResolutionContext</scope><name>request_time</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_advanced_conflict_resolver_1_1_resolution_context_1af6918ef0fa091b5be504ff0f5c80828d" prot="public" virt="non-virtual"><scope>themisdb::replication::AdvancedConflictResolver::ResolutionContext</scope><name>user_roles</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

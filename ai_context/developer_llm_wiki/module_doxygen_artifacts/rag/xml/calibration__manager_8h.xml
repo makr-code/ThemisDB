@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="calibration__manager_8h" kind="file" language="C++">
+    <compoundname>calibration_manager.h</compoundname>
+    <includes refid="rag__judge_8h" local="yes">rag/rag_judge.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="calibration__manager_8cpp" local="yes">src/rag/calibration_manager.cpp</includedby>
+    <includedby refid="test__rag__calibration__manager_8cpp" local="yes">tests/rag/test_rag_calibration_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/calibration_manager.h</label>
+        <link refid="calibration__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cmath</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/calibration_manager.h</label>
+        <link refid="calibration__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rag/calibration_manager.cpp</label>
+        <link refid="calibration__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/rag/test_rag_calibration_manager.cpp</label>
+        <link refid="test__rag__calibration__manager_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation" prot="public">themis::rag::judge::GroundTruthAnnotation</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics" prot="public">themis::rag::judge::CalibrationMetrics</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_calibration_config" prot="public">themis::rag::judge::CalibrationConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_calibration_manager" prot="public">themis::rag::judge::CalibrationManager</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_calibration_manager_1_1_platt_parameters" prot="private">themis::rag::judge::CalibrationManager::PlattParameters</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1judge">themis::rag::judge</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rag__judge_8h" kindref="compound">rag/rag_judge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">themis::rag::judge</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1rag_1_1judge_1ac0616f111cb2c59957a3e2f12ce27cd9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ac0616f111cb2c59957a3e2f12ce27cd9" kindref="member">CalibrationMethod</ref><sp/>{</highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1rag_1_1judge_1ac0616f111cb2c59957a3e2f12ce27cd9a8c15b5925727b083c8e4ae44af62db02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ac0616f111cb2c59957a3e2f12ce27cd9a8c15b5925727b083c8e4ae44af62db02" kindref="member">TEMPERATURE_SCALING</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1rag_1_1judge_1ac0616f111cb2c59957a3e2f12ce27cd9a8e4964a80e4113529d9f9c856d427322" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ac0616f111cb2c59957a3e2f12ce27cd9a8e4964a80e4113529d9f9c856d427322" kindref="member">PLATT_SCALING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1rag_1_1judge_1ac0616f111cb2c59957a3e2f12ce27cd9aabea6691a5fa8a3c5dd9e671f12ab7bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ac0616f111cb2c59957a3e2f12ce27cd9aabea6691a5fa8a3c5dd9e671f12ab7bf" kindref="member">ISOTONIC_REGRESSION</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1rag_1_1judge_1ac0616f111cb2c59957a3e2f12ce27cd9ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ade54e047bde556864f566b26edb60583ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation" kindref="compound">GroundTruthAnnotation</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1acf1c3586cfd85192967dd92162710043" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1acf1c3586cfd85192967dd92162710043" kindref="member">test_id</ref>;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1aec645d04d3f6e5878db8d87eb1f797ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1aec645d04d3f6e5878db8d87eb1f797ea" kindref="member">query</ref>;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1a71cbff08df2ba80241b4b36be6811fa2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1a71cbff08df2ba80241b4b36be6811fa2" kindref="member">answer</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1ae5a809f38bb9dfb72331f87d15e51be3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1ae5a809f38bb9dfb72331f87d15e51be3" kindref="member">documents</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Human<sp/>annotations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1af0cabf8246dbcd83d2f2eee3f31429c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1af0cabf8246dbcd83d2f2eee3f31429c7" kindref="member">faithfulness_score</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1a6373f9efc859961acc6a861c1e3e2815" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1a6373f9efc859961acc6a861c1e3e2815" kindref="member">relevance_score</ref>;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1ab5428e5e957dbec15ce1add380ea1953" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1ab5428e5e957dbec15ce1add380ea1953" kindref="member">completeness_score</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1a91493b3b17d39f20033c2f626e1483e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1a91493b3b17d39f20033c2f626e1483e9" kindref="member">coherence_score</ref>;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1aa45fbbf12c8acfa2d1f9b3b3462d81cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1aa45fbbf12c8acfa2d1f9b3b3462d81cb" kindref="member">overall_score</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1a95f333400660f9d7387a15a8168aade5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1a95f333400660f9d7387a15a8168aade5" kindref="member">annotators</ref>;<sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1a68c3cb0b21a0e6754fd13b02a6a872f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation_1a68c3cb0b21a0e6754fd13b02a6a872f2" kindref="member">inter_annotator_agreement</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics" kindref="compound">CalibrationMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1adb6d8b53c40a09604cdf58655a6038e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1adb6d8b53c40a09604cdf58655a6038e0" kindref="member">expected_calibration_error</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1ae697521e295b06850ecadd67f27595f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1ae697521e295b06850ecadd67f27595f3" kindref="member">brier_score</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1a4164db304adfbb7d62ace122ec5a8178" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1a4164db304adfbb7d62ace122ec5a8178" kindref="member">correlation</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1aa55534a0c4157fdd639393a45609c72e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1aa55534a0c4157fdd639393a45609c72e" kindref="member">mae</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1a263452a9760ea855ebc2257d0940632f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1a263452a9760ea855ebc2257d0940632f" kindref="member">rmse</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1ad481d7a975a6fc3a36319ef63c905810" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>double&gt;<sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics_1ad481d7a975a6fc3a36319ef63c905810" kindref="member">per_dimension_ece</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1rag_1_1judge_1_1_calibration_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1judge_1_1_calibration_config" kindref="compound">CalibrationConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1rag_1_1judge_1_1_calibration_config_1a1fee27ca1e655d4589ab8c656564434d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ac0616f111cb2c59957a3e2f12ce27cd9" kindref="member">CalibrationMethod</ref><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_calibration_config_1a1fee27ca1e655d4589ab8c656564434d" kindref="member">method</ref><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ac0616f111cb2c59957a3e2f12ce27cd9a8c15b5925727b083c8e4ae44af62db02" kindref="member">CalibrationMethod::TEMPERATURE_SCALING</ref>;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1rag_1_1judge_1_1_calibration_config_1a129b5bd375f0f90a1be5e0607675b62e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_calibration_config_1a129b5bd375f0f90a1be5e0607675b62e" kindref="member">num_bins</ref><sp/>=<sp/>10;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1rag_1_1judge_1_1_calibration_config_1aeadf27502db8959573b052b7d237ded5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_calibration_config_1aeadf27502db8959573b052b7d237ded5" kindref="member">confidence_threshold</ref><sp/>=<sp/>0.5;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1rag_1_1judge_1_1_calibration_config_1a1b8c6c78e5f8c3ff46d0a4ed9855f9a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_calibration_config_1a1b8c6c78e5f8c3ff46d0a4ed9855f9a7" kindref="member">apply_to_all_dimensions</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1rag_1_1judge_1_1_calibration_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1judge_1_1_calibration_manager_1ae4d73624b5bb570095559fda4c464fda" kindref="member">CalibrationManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_calibration_manager_1ae4d73624b5bb570095559fda4c464fda" kindref="member">CalibrationManager</ref>();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_calibration_manager_1ae4d73624b5bb570095559fda4c464fda" kindref="member">CalibrationManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_calibration_config" kindref="compound">CalibrationConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_calibration_manager_1ad1b3c471922855e1baf9010b7cbe92ce" kindref="member">loadGroundTruth</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filepath);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_calibration_manager_1aa6287e2a365d722a642be8e69b326431" kindref="member">addGroundTruth</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation" kindref="compound">GroundTruthAnnotation</ref>&amp;<sp/>annotation);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;CalibrationMetrics,<sp/>CalibrationMetrics&gt;<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_calibration_manager_1a6fb8fb49de6fac7e43c54a8f1d38ed41" kindref="member">train</ref>(<ref refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" kindref="compound">RAGJudge</ref>&amp;<sp/><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_calibration_manager_1a7b3bf211c6c0bb54daaf51d9ab425021" kindref="member">calibrate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref>&amp;<sp/>result);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics" kindref="compound">CalibrationMetrics</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_calibration_manager_1a743db66c51148947567ccbc3f4195a33" kindref="member">calculateMetrics</ref>(</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;EvaluationResult&gt;&amp;<sp/>predictions,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;GroundTruthAnnotation&gt;&amp;<sp/>ground_truth</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_calibration_manager_1ad43eca8507c7c64cd1c338ed8ab17a51" kindref="member">calculateECE</ref>(</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>predictions,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>ground_truth,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>confidences</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_calibration_manager_1a202823cef74ffd5969bd063507989664" kindref="member">calculateBrierScore</ref>(</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>predictions,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>ground_truth</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_calibration_manager_1ab0eba4f6aa6d3be38963391f211b4478" kindref="member">calculateInterAnnotatorAgreement</ref>(</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;double&gt;&gt;&amp;<sp/>annotations</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_calibration_manager_1a9e716728f02db6c330433dcc1d9dec3c" kindref="member">saveModel</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filepath);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_calibration_manager_1adad4e9260bcfec5f8889bc02ab340bb7" kindref="member">loadModel</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filepath);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_calibration_manager_1a7669d0d8a02a6df14d42438a7375b1aa" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_calibration_config" kindref="compound">CalibrationConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_calibration_config" kindref="compound">CalibrationConfig</ref><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_calibration_manager_1a8d30d6ed6ea7a07a606da575870bd302" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_calibration_config" kindref="compound">CalibrationConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GroundTruthAnnotation&gt;<sp/>ground_truth_;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Calibration<sp/>parameters<sp/>(learned<sp/>from<sp/>training)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>temperature_<sp/>=<sp/>1.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>double&gt;<sp/>dimension_temperatures_;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>Platt<sp/>scaling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">PlattParameters<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>A<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>B<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>PlattParameters&gt;<sp/>platt_params_;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>applyTemperatureScaling(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>temperature);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>applyPlattScaling(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PlattParameters&amp;<sp/>params);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;double,<sp/>double&gt;&gt;<sp/>buildIsotonicModel(</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>predictions,</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>ground_truth</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag::judge</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/calibration_manager.h"/>
+  </compounddef>
+</doxygen>

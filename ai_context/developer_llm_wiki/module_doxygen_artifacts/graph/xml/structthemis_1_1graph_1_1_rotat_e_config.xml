@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_rotat_e_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::RotatEConfig</compoundname>
+    <includes refid="rotate__completion_8h" local="no">rotate_completion.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_rotat_e_config_1a371deb17237106fe8a724c820739617f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::RotatEConfig::embedding_dim</definition>
+        <argsstring></argsstring>
+        <name>embedding_dim</name>
+        <qualifiedname>themis::graph::RotatEConfig::embedding_dim</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Complex embedding dimension d (total 2d floats). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="41" column="12" bodyfile="include/graph/rotate_completion.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_rotat_e_config_1a13fab35c9999ca66ae04c96e1f1d5ad4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::RotatEConfig::neg_samples</definition>
+        <argsstring></argsstring>
+        <name>neg_samples</name>
+        <qualifiedname>themis::graph::RotatEConfig::neg_samples</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Negative samples per positive triple. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="42" column="12" bodyfile="include/graph/rotate_completion.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_rotat_e_config_1af95d26cfc4d471c586cd017c568fefaf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::RotatEConfig::epochs</definition>
+        <argsstring></argsstring>
+        <name>epochs</name>
+        <qualifiedname>themis::graph::RotatEConfig::epochs</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Training epochs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="43" column="12" bodyfile="include/graph/rotate_completion.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_rotat_e_config_1adca44477bdf68c3d5f126ab1ff5bc02d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::graph::RotatEConfig::learning_rate</definition>
+        <argsstring></argsstring>
+        <name>learning_rate</name>
+        <qualifiedname>themis::graph::RotatEConfig::learning_rate</qualifiedname>
+        <initializer>= 1e-3f</initializer>
+        <briefdescription>
+<para>SGD / Adam learning rate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="44" column="12" bodyfile="include/graph/rotate_completion.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_rotat_e_config_1a897b2624d7bbb4935c0fd1cc12527e84" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::graph::RotatEConfig::margin</definition>
+        <argsstring></argsstring>
+        <name>margin</name>
+        <qualifiedname>themis::graph::RotatEConfig::margin</qualifiedname>
+        <initializer>= 6.0f</initializer>
+        <briefdescription>
+<para>Margin γ for self-adversarial loss. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="45" column="12" bodyfile="include/graph/rotate_completion.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_rotat_e_config_1a471d80323fa0ec2513e12b34069a224e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::graph::RotatEConfig::adv_temperature</definition>
+        <argsstring></argsstring>
+        <name>adv_temperature</name>
+        <qualifiedname>themis::graph::RotatEConfig::adv_temperature</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+<para>Temperature for adversarial weight. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="46" column="12" bodyfile="include/graph/rotate_completion.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_rotat_e_config_1ac1076832f7e81df4a6e9968c4c5b7ac4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::RotatEConfig::uniform_neg</definition>
+        <argsstring></argsstring>
+        <name>uniform_neg</name>
+        <qualifiedname>themis::graph::RotatEConfig::uniform_neg</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>True: uniform negative sampling; false: self-adversarial. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="47" column="12" bodyfile="include/graph/rotate_completion.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_rotat_e_config_1afe6876d3b10a897c2d975e99cec52b40" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::RotatEConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::graph::RotatEConfig::batch_size</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Training batch size (triples per step). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="48" column="12" bodyfile="include/graph/rotate_completion.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/rotate_completion.h" line="40" column="1" bodyfile="include/graph/rotate_completion.h" bodystart="40" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_rotat_e_config_1a471d80323fa0ec2513e12b34069a224e" prot="public" virt="non-virtual"><scope>themis::graph::RotatEConfig</scope><name>adv_temperature</name></member>
+      <member refid="structthemis_1_1graph_1_1_rotat_e_config_1afe6876d3b10a897c2d975e99cec52b40" prot="public" virt="non-virtual"><scope>themis::graph::RotatEConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1graph_1_1_rotat_e_config_1a371deb17237106fe8a724c820739617f" prot="public" virt="non-virtual"><scope>themis::graph::RotatEConfig</scope><name>embedding_dim</name></member>
+      <member refid="structthemis_1_1graph_1_1_rotat_e_config_1af95d26cfc4d471c586cd017c568fefaf" prot="public" virt="non-virtual"><scope>themis::graph::RotatEConfig</scope><name>epochs</name></member>
+      <member refid="structthemis_1_1graph_1_1_rotat_e_config_1adca44477bdf68c3d5f126ab1ff5bc02d" prot="public" virt="non-virtual"><scope>themis::graph::RotatEConfig</scope><name>learning_rate</name></member>
+      <member refid="structthemis_1_1graph_1_1_rotat_e_config_1a897b2624d7bbb4935c0fd1cc12527e84" prot="public" virt="non-virtual"><scope>themis::graph::RotatEConfig</scope><name>margin</name></member>
+      <member refid="structthemis_1_1graph_1_1_rotat_e_config_1a13fab35c9999ca66ae04c96e1f1d5ad4" prot="public" virt="non-virtual"><scope>themis::graph::RotatEConfig</scope><name>neg_samples</name></member>
+      <member refid="structthemis_1_1graph_1_1_rotat_e_config_1ac1076832f7e81df4a6e9968c4c5b7ac4" prot="public" virt="non-virtual"><scope>themis::graph::RotatEConfig</scope><name>uniform_neg</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

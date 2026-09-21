@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1license_1_1_license_client_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::license::LicenseClient::Impl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1license_1_1_license_client_1_1_impl_1af11baafc407f3716f728d752e1b3e263" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1license_1_1_license_client_config" kindref="compound">LicenseClientConfig</ref></type>
+        <definition>LicenseClientConfig themis::license::LicenseClient::Impl::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::license::LicenseClient::Impl::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/themis/license_info.cpp" line="872" column="38" bodyfile="src/themis/license_info.cpp" bodystart="872" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1license_1_1_license_client_1_1_impl_1a22e863e1481ddac9a3f560bfb7d5b6b0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::license::LicenseClient::Impl::cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cache_mutex_</name>
+        <qualifiedname>themis::license::LicenseClient::Impl::cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/themis/license_info.cpp" line="873" column="38" bodyfile="src/themis/license_info.cpp" bodystart="873" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1license_1_1_license_client_1_1_impl_1af2714d38ce609c83aa66c97ea5ce4308" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref> &gt;</type>
+        <definition>std::optional&lt;LicenseData&gt; themis::license::LicenseClient::Impl::cached_license_</definition>
+        <argsstring></argsstring>
+        <name>cached_license_</name>
+        <qualifiedname>themis::license::LicenseClient::Impl::cached_license_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/themis/license_info.cpp" line="874" column="25" bodyfile="src/themis/license_info.cpp" bodystart="874" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1license_1_1_license_client_1_1_impl_1acd12da0dca1d849e8993a855fe37cfd3" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::license::LicenseClient::Impl::last_check_time_</definition>
+        <argsstring></argsstring>
+        <name>last_check_time_</name>
+        <qualifiedname>themis::license::LicenseClient::Impl::last_check_time_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/themis/license_info.cpp" line="875" column="43" bodyfile="src/themis/license_info.cpp" bodystart="875" bodyend="875"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1license_1_1_license_client_1_1_impl_1a9e393f27f79c33fee2282e61fceba0fc" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::license::LicenseClient::Impl::Impl</definition>
+        <argsstring>(const LicenseClientConfig &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::license::LicenseClient::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1license_1_1_license_client_config" kindref="compound">LicenseClientConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/themis/license_info.cpp" line="556" column="14" bodyfile="src/themis/license_info.cpp" bodystart="556" bodyend="556"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1license_1_1_license_client_1_1_impl_1a29484105214815240ce3c0ca70dc4bea" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1license_1_1_license_activation_result" kindref="compound">LicenseActivationResult</ref></type>
+        <definition>LicenseActivationResult themis::license::LicenseClient::Impl::activate</definition>
+        <argsstring>()</argsstring>
+        <name>activate</name>
+        <qualifiedname>themis::license::LicenseClient::Impl::activate</qualifiedname>
+        <briefdescription>
+<para>Activate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1license_1ab8fe53fe64a9f428f396975e824be913" kindref="member">getEmbeddedLicense()</ref>, empty(), performOnlineRequest(), <ref refid="namespacethemis_1_1license_1a0e165ad8f252201f4a6484216152d78b" kindref="member">isLicenseValid()</ref>, lock(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/themis/license_info.cpp" line="563" column="29" bodyfile="src/themis/license_info.cpp" bodystart="563" bodyend="603"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1license_1_1_license_client_1_1_impl_1a846805027e8734a7a36847fa3117bfaa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1license_1_1_license_activation_result" kindref="compound">LicenseActivationResult</ref></type>
+        <definition>LicenseActivationResult themis::license::LicenseClient::Impl::validate</definition>
+        <argsstring>()</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::license::LicenseClient::Impl::validate</qualifiedname>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::chrono::steady_clock::now(), std::chrono::hours(), <ref refid="namespacethemis_1_1license_1a0e165ad8f252201f4a6484216152d78b" kindref="member">isLicenseValid()</ref>, <ref refid="classthemis_1_1license_1_1_license_client_1_1_impl_1a29484105214815240ce3c0ca70dc4bea" kindref="member">activate()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/themis/license_info.cpp" line="610" column="29" bodyfile="src/themis/license_info.cpp" bodystart="610" bodyend="630"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1license_1_1_license_client_1_1_impl_1aa239b4821bd3ac6ee96227806fcfc32e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref> &gt;</type>
+        <definition>std::optional&lt; LicenseData &gt; themis::license::LicenseClient::Impl::getCachedLicense</definition>
+        <argsstring>() const</argsstring>
+        <name>getCachedLicense</name>
+        <qualifiedname>themis::license::LicenseClient::Impl::getCachedLicense</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/themis/license_info.cpp" line="632" column="19" bodyfile="src/themis/license_info.cpp" bodystart="632" bodyend="640"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1license_1_1_license_client_1_1_impl_1a9b5195529c167a344d393c82ada8cbd3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1license_1_1_license_activation_result" kindref="compound">LicenseActivationResult</ref></type>
+        <definition>LicenseActivationResult themis::license::LicenseClient::Impl::refresh</definition>
+        <argsstring>()</argsstring>
+        <name>refresh</name>
+        <qualifiedname>themis::license::LicenseClient::Impl::refresh</qualifiedname>
+        <briefdescription>
+<para>Refresh. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1license_1_1_license_client_1_1_impl_1a29484105214815240ce3c0ca70dc4bea" kindref="member">activate()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/themis/license_info.cpp" line="647" column="29" bodyfile="src/themis/license_info.cpp" bodystart="647" bodyend="653"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1license_1_1_license_client_1_1_impl_1a843a6d0cb1ee8d32061bbad2d2aa0fcd" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::license::LicenseClient::Impl::getMachineFingerprint</definition>
+        <argsstring>()</argsstring>
+        <name>getMachineFingerprint</name>
+        <qualifiedname>themis::license::LicenseClient::Impl::getMachineFingerprint</qualifiedname>
+        <briefdescription>
+<para>Get Machine Fingerprint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getPrimaryMacAddress(), computeFingerprintHash(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/themis/license_info.cpp" line="660" column="24" bodyfile="src/themis/license_info.cpp" bodystart="660" bodyend="663"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1license_1_1_license_client_1_1_impl_1ac39e2d0967e148c9c0049fcd2f58fc06" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1license_1_1_license_activation_result" kindref="compound">LicenseActivationResult</ref></type>
+        <definition>LicenseActivationResult themis::license::LicenseClient::Impl::handleOfflineFallback</definition>
+        <argsstring>(const LicenseData &amp;license, LicenseActivationResult &amp;base)</argsstring>
+        <name>handleOfflineFallback</name>
+        <qualifiedname>themis::license::LicenseClient::Impl::handleOfflineFallback</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref> &amp;</type>
+          <declname>license</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1license_1_1_license_activation_result" kindref="compound">LicenseActivationResult</ref> &amp;</type>
+          <declname>base</declname>
+        </param>
+        <briefdescription>
+<para>Handle Offline Fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">license</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">base</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::chrono::steady_clock::now(), count(), std::to_string(), <ref refid="namespacethemis_1_1license_1a0e165ad8f252201f4a6484216152d78b" kindref="member">isLicenseValid()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/themis/license_info.cpp" line="833" column="29" bodyfile="src/themis/license_info.cpp" bodystart="833" bodyend="870"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/themis/license_info.cpp" line="554" column="1" bodyfile="src/themis/license_info.cpp" bodystart="554" bodyend="876"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1license_1_1_license_client_1_1_impl_1a29484105214815240ce3c0ca70dc4bea" prot="public" virt="non-virtual"><scope>themis::license::LicenseClient::Impl</scope><name>activate</name></member>
+      <member refid="classthemis_1_1license_1_1_license_client_1_1_impl_1a22e863e1481ddac9a3f560bfb7d5b6b0" prot="private" virt="non-virtual"><scope>themis::license::LicenseClient::Impl</scope><name>cache_mutex_</name></member>
+      <member refid="classthemis_1_1license_1_1_license_client_1_1_impl_1af2714d38ce609c83aa66c97ea5ce4308" prot="private" virt="non-virtual"><scope>themis::license::LicenseClient::Impl</scope><name>cached_license_</name></member>
+      <member refid="classthemis_1_1license_1_1_license_client_1_1_impl_1af11baafc407f3716f728d752e1b3e263" prot="private" virt="non-virtual"><scope>themis::license::LicenseClient::Impl</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1license_1_1_license_client_1_1_impl_1aa239b4821bd3ac6ee96227806fcfc32e" prot="public" virt="non-virtual"><scope>themis::license::LicenseClient::Impl</scope><name>getCachedLicense</name></member>
+      <member refid="classthemis_1_1license_1_1_license_client_1_1_impl_1a843a6d0cb1ee8d32061bbad2d2aa0fcd" prot="public" virt="non-virtual"><scope>themis::license::LicenseClient::Impl</scope><name>getMachineFingerprint</name></member>
+      <member refid="classthemis_1_1license_1_1_license_client_1_1_impl_1ac39e2d0967e148c9c0049fcd2f58fc06" prot="private" virt="non-virtual"><scope>themis::license::LicenseClient::Impl</scope><name>handleOfflineFallback</name></member>
+      <member refid="classthemis_1_1license_1_1_license_client_1_1_impl_1a9e393f27f79c33fee2282e61fceba0fc" prot="public" virt="non-virtual"><scope>themis::license::LicenseClient::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1license_1_1_license_client_1_1_impl_1acd12da0dca1d849e8993a855fe37cfd3" prot="private" virt="non-virtual"><scope>themis::license::LicenseClient::Impl</scope><name>last_check_time_</name></member>
+      <member refid="classthemis_1_1license_1_1_license_client_1_1_impl_1a9b5195529c167a344d393c82ada8cbd3" prot="public" virt="non-virtual"><scope>themis::license::LicenseClient::Impl</scope><name>refresh</name></member>
+      <member refid="classthemis_1_1license_1_1_license_client_1_1_impl_1a846805027e8734a7a36847fa3117bfaa" prot="public" virt="non-virtual"><scope>themis::license::LicenseClient::Impl</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

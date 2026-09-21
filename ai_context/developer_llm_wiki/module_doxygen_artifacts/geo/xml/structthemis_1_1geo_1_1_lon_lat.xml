@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_lon_lat" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::LonLat</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_lon_lat_1a58cf592a474c74e95a551b2f5d30fab2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::LonLat::lon</definition>
+        <argsstring></argsstring>
+        <name>lon</name>
+        <qualifiedname>themis::geo::LonLat::lon</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_clustering.cpp" line="129" column="12" bodyfile="src/geo/geo_clustering.cpp" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_lon_lat_1a97ab9e89ebe57b403f6b99c9692098b3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::LonLat::lat</definition>
+        <argsstring></argsstring>
+        <name>lat</name>
+        <qualifiedname>themis::geo::LonLat::lat</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_clustering.cpp" line="130" column="12" bodyfile="src/geo/geo_clustering.cpp" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_lon_lat_1a52cdaaacee120e87649195d69558821a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::geo::LonLat::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::geo::LonLat::valid</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_clustering.cpp" line="131" column="10" bodyfile="src/geo/geo_clustering.cpp" bodystart="131" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/geo/geo_clustering.cpp" line="128" column="1" bodyfile="src/geo/geo_clustering.cpp" bodystart="128" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_lon_lat_1a97ab9e89ebe57b403f6b99c9692098b3" prot="public" virt="non-virtual"><scope>themis::geo::LonLat</scope><name>lat</name></member>
+      <member refid="structthemis_1_1geo_1_1_lon_lat_1a58cf592a474c74e95a551b2f5d30fab2" prot="public" virt="non-virtual"><scope>themis::geo::LonLat</scope><name>lon</name></member>
+      <member refid="structthemis_1_1geo_1_1_lon_lat_1a52cdaaacee120e87649195d69558821a" prot="public" virt="non-virtual"><scope>themis::geo::LonLat</scope><name>valid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

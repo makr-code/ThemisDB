@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="chaos__contract_8h" kind="file" language="C++">
+    <compoundname>chaos_contract.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">string_view</includes>
+    <includedby refid="bench__chaos__microbenchmarks_8cpp" local="yes">benchmarks/chaos/bench_chaos_microbenchmarks.cpp</includedby>
+    <includedby refid="bench__chaos__release__gates_8cpp" local="yes">benchmarks/chaos/bench_chaos_release_gates.cpp</includedby>
+    <includedby refid="test__chaos__callback__determinism_8cpp" local="yes">tests/chaos/test_chaos_callback_determinism.cpp</includedby>
+    <includedby refid="test__chaos__concurrency__hardening_8cpp" local="yes">tests/chaos/test_chaos_concurrency_hardening.cpp</includedby>
+    <includedby refid="test__chaos__scheduler__timing_8cpp" local="yes">tests/chaos/test_chaos_scheduler_timing.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/chaos/chaos_contract.h</label>
+        <link refid="chaos__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/chaos/bench_chaos_microbenchmarks.cpp</label>
+        <link refid="bench__chaos__microbenchmarks_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/chaos/bench_chaos_release_gates.cpp</label>
+        <link refid="bench__chaos__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/chaos/chaos_contract.h</label>
+        <link refid="chaos__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>tests/chaos/test_chaos_callback_determinism.cpp</label>
+        <link refid="test__chaos__callback__determinism_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/chaos/test_chaos_concurrency_hardening.cpp</label>
+        <link refid="test__chaos__concurrency__hardening_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/chaos/test_chaos_scheduler_timing.cpp</label>
+        <link refid="test__chaos__scheduler__timing_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1chaos">themis::chaos</innernamespace>
+    <briefdescription>
+<para>Frozen fault descriptor and scheduler contract semantics for the active v1.x line. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header defines the normative contract for chaos fault injection and scheduler behaviour that all chaos module components must honour in the current major release line.</para>
+<sect1 id="chaos__contract_8h_1autotoc_md0_1s1"><sect2 id="chaos__contract_8h_1autotoc_md0">
+<title>Contract Scope</title><para>The contracts below are binding for all implementations that participate in the ThemisDB chaos simulation pipeline:<itemizedlist>
+<listitem><para>FaultInjector (in-process fault registry)</para>
+</listitem><listitem><para>ChaosScheduler (time-driven fault scheduler)</para>
+</listitem><listitem><para>EventCallback consumers (lifecycle event observers)</para>
+</listitem><listitem><para>Test fixtures that query isFaultActive() or pendingCount()</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="chaos__contract_8h_1autotoc_md1_1s1"><sect2 id="chaos__contract_8h_1autotoc_md1">
+<title>Versioning</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump with migration notes and a CHANGELOG entry.</para>
+<para><simplesect kind="see"><para>src/chaos/ROADMAP.md — Phase 1 item </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="chaos__framework_8h" kindref="compound">include/chaos/chaos_framework.h</ref> — implementation header </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1chaos" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1chaos" kindref="compound">chaos</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Fault<sp/>descriptor<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Current<sp/>v1.x<sp/>runtime<sp/>guarantees:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>injectFault()<sp/>rejects<sp/>empty<sp/>node_id<sp/>and<sp/>probability<sp/>outside<sp/>[0.0,<sp/>1.0].</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>schedule()/scheduleIn()<sp/>accept<sp/>entries<sp/>without<sp/>additional<sp/>range<sp/>checks.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Additional<sp/>constants<sp/>in<sp/>this<sp/>section<sp/>are<sp/>frozen<sp/>interoperability<sp/>guardrails</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>for<sp/>callers/tests<sp/>and<sp/>future<sp/>hardening<sp/>work;<sp/>they<sp/>are<sp/>not<sp/>yet<sp/>uniformly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>enforced<sp/>by<sp/>chaos_framework.cpp.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1chaos_1a3780baa07fff86cf676da790be6230db" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1chaos_1a3780baa07fff86cf676da790be6230db" kindref="member">kMaxNodeIdBytes</ref><sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1chaos_1a162fe58cb968d42d93df8fad0e8546ff" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1chaos_1a162fe58cb968d42d93df8fad0e8546ff" kindref="member">kMaxDescriptionBytes</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1chaos_1a71932bd4a5ba29b5a7bca6356d1c1a8a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1chaos_1a71932bd4a5ba29b5a7bca6356d1c1a8a" kindref="member">kMinProbability</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1chaos_1a394984f19b508835d9a725b660482530" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1chaos_1a394984f19b508835d9a725b660482530" kindref="member">kMaxProbability</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1chaos_1a167e717f931a3129ff7fee077f61355d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1chaos_1a167e717f931a3129ff7fee077f61355d" kindref="member">kMinNodeIdBytes</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Temporal<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>time<sp/>comparisons<sp/>use<sp/>std::chrono::steady_clock.<sp/><sp/>The<sp/>scheduler<sp/>fires</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>faults<sp/>as<sp/>soon<sp/>as<sp/>their<sp/>trigger_at<sp/>time<sp/>has<sp/>elapsed<sp/>within<sp/>the<sp/>tick<sp/>window.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1chaos_1a27951e791ad0f19ba77f1d3110a8940e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::hours<sp/><ref refid="namespacethemis_1_1chaos_1a27951e791ad0f19ba77f1d3110a8940e" kindref="member">kMaxFaultDuration</ref>{24<sp/>*<sp/>7};<sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1chaos_1acc474eb9e0586b2547524f1802f15238" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1chaos_1acc474eb9e0586b2547524f1802f15238" kindref="member">kMaxTickInterval</ref>{60&apos;000};<sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1chaos_1a725741196f7eb313f2ad993401de2ff9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1chaos_1a725741196f7eb313f2ad993401de2ff9" kindref="member">kMinTickInterval</ref>{1};<sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1chaos_1a12fa1534913bb6c40474914813334f67" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1chaos_1a12fa1534913bb6c40474914813334f67" kindref="member">kMaxPendingEntries</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Failure<sp/>classification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>chaos<sp/>components<sp/>must<sp/>map<sp/>their<sp/>internal<sp/>error<sp/>states<sp/>to<sp/>one<sp/>of<sp/>these</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>canonical<sp/>failure<sp/>classes<sp/>so<sp/>that<sp/>callers<sp/>can<sp/>apply<sp/>uniform<sp/>diagnostics.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcad" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcad" kindref="member">ChaosFailureClass</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="103" refid="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcadab6a3446ef6633c9d048af1e250346fef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcadab6a3446ef6633c9d048af1e250346fef" kindref="member">MalformedDescriptor</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcadaedf260198e4d75d1cb3c7588f7380120" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcadaedf260198e4d75d1cb3c7588f7380120" kindref="member">InvalidState</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcadaccb6e0d08df2028b9c1ddc4e1463b71c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcadaccb6e0d08df2028b9c1ddc4e1463b71c" kindref="member">TemporalViolation</ref><sp/><sp/><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcadafe518b5d77e35a7d9bebb6025ba8f992" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcadafe518b5d77e35a7d9bebb6025ba8f992" kindref="member">CapacityExceeded</ref><sp/><sp/><sp/><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcada8462b58246e70e5c83e5b939a9332cb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcada8462b58246e70e5c83e5b939a9332cb5" kindref="member">InternalError</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Fail-closed<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Current<sp/>v1.x<sp/>fail-closed<sp/>behavior<sp/>is<sp/>limited<sp/>to:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>a)<sp/>injectFault():<sp/>return<sp/>false<sp/>on<sp/>empty<sp/>node_id<sp/>or<sp/>probability<sp/>out<sp/>of<sp/>range.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>b)<sp/>recoverFault():<sp/>return<sp/>false<sp/>if<sp/>no<sp/>matching<sp/>active<sp/>fault<sp/>exists.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>c)<sp/>schedule()/scheduleIn():<sp/>always<sp/>queue;<sp/>entries<sp/>fire<sp/>only<sp/>while<sp/>RUNNING.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Callers<sp/>MUST<sp/>NOT<sp/>rely<sp/>on<sp/>undefined<sp/>behaviour<sp/>when<sp/>inputs<sp/>are<sp/>out<sp/>of<sp/>range.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="namespacethemis_1_1chaos_1aa259cfa7527fe1360cfc01b7e9af85dc" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1chaos_1aa259cfa7527fe1360cfc01b7e9af85dc" kindref="member">isFailClosedClass</ref>(<ref refid="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcad" kindref="member">ChaosFailureClass</ref><sp/>fc)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(fc)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcadab6a3446ef6633c9d048af1e250346fef" kindref="member">ChaosFailureClass::MalformedDescriptor</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcadaedf260198e4d75d1cb3c7588f7380120" kindref="member">ChaosFailureClass::InvalidState</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcadaccb6e0d08df2028b9c1ddc4e1463b71c" kindref="member">ChaosFailureClass::TemporalViolation</ref>:<sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcadafe518b5d77e35a7d9bebb6025ba8f992" kindref="member">ChaosFailureClass::CapacityExceeded</ref>:<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1chaos_1a584b9733d97d77ecf4e17b79b9cfbcada8462b58246e70e5c83e5b939a9332cb5" kindref="member">ChaosFailureClass::InternalError</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>default<sp/>to<sp/>fail-closed<sp/>for<sp/>unknown<sp/>future<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Callback<sp/>/<sp/>event<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FaultInjector::registerEventCallback()<sp/>consumers<sp/>must<sp/>honour<sp/>the<sp/>following</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>invariants<sp/>to<sp/>remain<sp/>correct<sp/>under<sp/>concurrent<sp/>use:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>1.<sp/>Callbacks<sp/>are<sp/>invoked<sp/>synchronously<sp/>on<sp/>the<sp/>thread<sp/>that<sp/>calls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>injectFault()<sp/>or<sp/>recoverFault().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>2.<sp/>recoverFault()<sp/>currently<sp/>dispatches<sp/>while<sp/>fault_mutex_<sp/>is<sp/>held;<sp/>callbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>should<sp/>not<sp/>re-enter<sp/>the<sp/>same<sp/>FaultInjector<sp/>from<sp/>that<sp/>call<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>injectFault()<sp/>dispatches<sp/>after<sp/>registry<sp/>mutation<sp/>is<sp/>complete.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>3.<sp/>Callbacks<sp/>are<sp/>invoked<sp/>in<sp/>registration<sp/>order<sp/>(FIFO).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>4.<sp/>Callback<sp/>exceptions<sp/>are<sp/>not<sp/>caught<sp/>by<sp/>the<sp/>framework.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>5.<sp/>Callback<sp/>arguments<sp/>are<sp/>passed<sp/>as<sp/>(const<sp/>FaultSpec&amp;,<sp/>bool<sp/>injected).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="namespacethemis_1_1chaos_1a8c7f8ccbc29a2f772159ebe9189391ad" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1chaos_1a8c7f8ccbc29a2f772159ebe9189391ad" kindref="member">kMaxEventCallbacks</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Scheduler<sp/>state<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ChaosScheduler<sp/>state<sp/>transitions<sp/>must<sp/>obey<sp/>the<sp/>following<sp/>finite-state<sp/>machine:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>STOPPED<sp/>──start()──►<sp/>RUNNING<sp/>──stop()──►<sp/>STOPPED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Additional<sp/>invariants:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>start()<sp/>on<sp/>a<sp/>RUNNING<sp/>scheduler<sp/>is<sp/>idempotent<sp/>(no-op,<sp/>no<sp/>exception).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>stop()<sp/>on<sp/>a<sp/>STOPPED<sp/>scheduler<sp/>is<sp/>idempotent<sp/>(no-op,<sp/>no<sp/>exception).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>schedule()<sp/>/<sp/>scheduleIn()<sp/>called<sp/>on<sp/>a<sp/>STOPPED<sp/>scheduler<sp/>MAY<sp/>queue<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>entry<sp/>but<sp/>the<sp/>entry<sp/>will<sp/>NOT<sp/>be<sp/>fired<sp/>until<sp/>start()<sp/>is<sp/>called<sp/>again.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>clearPending()<sp/>is<sp/>safe<sp/>to<sp/>call<sp/>from<sp/>any<sp/>state<sp/>(STOPPED<sp/>or<sp/>RUNNING).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>The<sp/>scheduler<sp/>thread<sp/>MUST<sp/>exit<sp/>within<sp/>kSchedulerStopTimeoutMs<sp/>after</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>stop()<sp/>is<sp/>called;<sp/>callers<sp/>may<sp/>observe<sp/>isRunning()<sp/>transitioning<sp/>to<sp/>false.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="namespacethemis_1_1chaos_1a1da32a926ab33f630557017462aa6172" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1chaos_1a1da32a926ab33f630557017462aa6172" kindref="member">kSchedulerStopTimeout</ref>{500};</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>7<sp/><sp/>Process-local<sp/>blast-radius<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>chaos<sp/>module<sp/>is<sp/>strictly<sp/>in-process.<sp/><sp/>The<sp/>following<sp/>invariants<sp/>hold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>unconditionally<sp/>regardless<sp/>of<sp/>active<sp/>fault<sp/>mix<sp/>or<sp/>scheduler<sp/>state:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>1.<sp/>No<sp/>real<sp/>network<sp/>packet<sp/>is<sp/>suppressed<sp/>or<sp/>delayed<sp/>by<sp/>FaultInjector.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>2.<sp/>No<sp/>real<sp/>disk<sp/>I/O<sp/>is<sp/>blocked<sp/>by<sp/>FaultInjector.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>3.<sp/>isFaultActive()<sp/>never<sp/>blocks<sp/>(returns<sp/>under<sp/>lock<sp/>in<sp/>bounded<sp/>time).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>4.<sp/>injectFault()<sp/>/<sp/>recoverFault()<sp/>never<sp/>perform<sp/>I/O<sp/>or<sp/>cross-process<sp/>IPC.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>5.<sp/>FaultInjector<sp/>state<sp/>is<sp/>not<sp/>persisted<sp/>across<sp/>process<sp/>restarts.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>6.<sp/>ChaosScheduler<sp/>uses<sp/>a<sp/>single<sp/>background<sp/>thread;<sp/>its<sp/>CPU<sp/>usage<sp/>is<sp/>bounded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>by<sp/>the<sp/>tick_interval<sp/>and<sp/>the<sp/>number<sp/>of<sp/>pending<sp/>entries.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>chaos</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/chaos/chaos_contract.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rpc_1_1_differential_update_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::rpc::DifferentialUpdateEngine</compoundname>
+    <includes refid="differential__update__engine_8h" local="no">differential_update_engine.h</includes>
+    <innerclass refid="classthemis_1_1rpc_1_1_differential_update_engine_1_1_impl" prot="public">themis::rpc::DifferentialUpdateEngine::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_differential_update_engine_1a7688e5573ff7adf49ad5c9f2bd7b3622" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rpc_1_1_differential_update_engine_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rpc::DifferentialUpdateEngine::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rpc::DifferentialUpdateEngine::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="95" column="21" bodyfile="include/server/rpc/differential_update_engine.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_differential_update_engine_1aa18a3fe113b800ba5afe82ba6c589d31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc::DifferentialUpdateEngine::DifferentialUpdateEngine</definition>
+        <argsstring>()</argsstring>
+        <name>DifferentialUpdateEngine</name>
+        <qualifiedname>themis::rpc::DifferentialUpdateEngine::DifferentialUpdateEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="55" column="5" bodyfile="src/server/rpc/differential_update_engine.cpp" bodystart="348" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_differential_update_engine_1a36b45a603ccdb0ab91af5a970f0f7bee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc::DifferentialUpdateEngine::~DifferentialUpdateEngine</definition>
+        <argsstring>()</argsstring>
+        <name>~DifferentialUpdateEngine</name>
+        <qualifiedname>themis::rpc::DifferentialUpdateEngine::~DifferentialUpdateEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="56" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_differential_update_engine_1ac71aae50f8879ca2e4afe002db18d6b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc::DifferentialUpdateEngine::DifferentialUpdateEngine</definition>
+        <argsstring>(const DifferentialUpdateEngine &amp;)=delete</argsstring>
+        <name>DifferentialUpdateEngine</name>
+        <qualifiedname>themis::rpc::DifferentialUpdateEngine::DifferentialUpdateEngine</qualifiedname>
+        <param>
+          <type>const DifferentialUpdateEngine &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="59" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_differential_update_engine_1af8d3b976e0ffd1238d5fc4a9cfa47713" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rpc_1_1_differential_update_engine_1aa18a3fe113b800ba5afe82ba6c589d31" kindref="member">DifferentialUpdateEngine</ref> &amp;</type>
+        <definition>DifferentialUpdateEngine &amp; themis::rpc::DifferentialUpdateEngine::operator=</definition>
+        <argsstring>(const DifferentialUpdateEngine &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rpc::DifferentialUpdateEngine::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rpc_1_1_differential_update_engine_1aa18a3fe113b800ba5afe82ba6c589d31" kindref="member">DifferentialUpdateEngine</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="60" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_differential_update_engine_1a6eb904d13fd3c7a838756c14612f7b74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rpc_1_1_chunk_info" kindref="compound">ChunkInfo</ref> &gt;</type>
+        <definition>std::vector&lt; ChunkInfo &gt; themis::rpc::DifferentialUpdateEngine::GenerateManifest</definition>
+        <argsstring>(const std::string &amp;blob_path, themis::sharding::proto::DifferentialMode mode, uint32_t chunk_size_kb=64)</argsstring>
+        <name>GenerateManifest</name>
+        <qualifiedname>themis::rpc::DifferentialUpdateEngine::GenerateManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_path</declname>
+        </param>
+        <param>
+          <type>themis::sharding::proto::DifferentialMode</type>
+          <declname>mode</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>chunk_size_kb</declname>
+          <defval>64</defval>
+        </param>
+        <briefdescription>
+<para>Generate Manifest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the blob. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_size_kb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements GenerateManifest without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="62" column="17" bodyfile="src/server/rpc/differential_update_engine.cpp" bodystart="361" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_differential_update_engine_1a35a12ad8d38fb4de3efa6f882543a295" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rpc_1_1_delta_result" kindref="compound">DeltaResult</ref></type>
+        <definition>DeltaResult themis::rpc::DifferentialUpdateEngine::ComputeDelta</definition>
+        <argsstring>(const std::vector&lt; ChunkInfo &gt; &amp;base_manifest, const std::vector&lt; ChunkInfo &gt; &amp;target_manifest)</argsstring>
+        <name>ComputeDelta</name>
+        <qualifiedname>themis::rpc::DifferentialUpdateEngine::ComputeDelta</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rpc_1_1_chunk_info" kindref="compound">ChunkInfo</ref> &gt; &amp;</type>
+          <declname>base_manifest</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rpc_1_1_chunk_info" kindref="compound">ChunkInfo</ref> &gt; &amp;</type>
+          <declname>target_manifest</declname>
+        </param>
+        <briefdescription>
+<para>Compute Delta. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements ComputeDelta without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="74" column="17" bodyfile="src/server/rpc/differential_update_engine.cpp" bodystart="376" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_differential_update_engine_1a555ae0ee919f3430d76c1296fa1aa132" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themis::sharding::proto::DifferentialMode</type>
+        <definition>themis::sharding::proto::DifferentialMode themis::rpc::DifferentialUpdateEngine::SelectStrategy</definition>
+        <argsstring>(const BlobMetadata &amp;metadata)</argsstring>
+        <name>SelectStrategy</name>
+        <qualifiedname>themis::rpc::DifferentialUpdateEngine::SelectStrategy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rpc_1_1_blob_metadata" kindref="compound">BlobMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Select Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements SelectStrategy without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="84" column="47" bodyfile="src/server/rpc/differential_update_engine.cpp" bodystart="389" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_differential_update_engine_1a5d0095cdd0baf75e6762a59d7ba479fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; uint32_t, std::string &gt;</type>
+        <definition>std::map&lt; uint32_t, std::string &gt; themis::rpc::DifferentialUpdateEngine::ExtractChunks</definition>
+        <argsstring>(const std::string &amp;blob_path, const std::vector&lt; uint32_t &gt; &amp;chunk_indices)</argsstring>
+        <name>ExtractChunks</name>
+        <qualifiedname>themis::rpc::DifferentialUpdateEngine::ExtractChunks</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_path</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>chunk_indices</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="88" column="14" bodyfile="src/server/rpc/differential_update_engine.cpp" bodystart="395" bodyend="400"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rpc/differential_update_engine.h" line="53" column="1" bodyfile="include/server/rpc/differential_update_engine.h" bodystart="53" bodyend="96"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rpc_1_1_differential_update_engine_1a35a12ad8d38fb4de3efa6f882543a295" prot="public" virt="non-virtual"><scope>themis::rpc::DifferentialUpdateEngine</scope><name>ComputeDelta</name></member>
+      <member refid="classthemis_1_1rpc_1_1_differential_update_engine_1aa18a3fe113b800ba5afe82ba6c589d31" prot="public" virt="non-virtual"><scope>themis::rpc::DifferentialUpdateEngine</scope><name>DifferentialUpdateEngine</name></member>
+      <member refid="classthemis_1_1rpc_1_1_differential_update_engine_1ac71aae50f8879ca2e4afe002db18d6b2" prot="public" virt="non-virtual"><scope>themis::rpc::DifferentialUpdateEngine</scope><name>DifferentialUpdateEngine</name></member>
+      <member refid="classthemis_1_1rpc_1_1_differential_update_engine_1a5d0095cdd0baf75e6762a59d7ba479fc" prot="public" virt="non-virtual"><scope>themis::rpc::DifferentialUpdateEngine</scope><name>ExtractChunks</name></member>
+      <member refid="classthemis_1_1rpc_1_1_differential_update_engine_1a6eb904d13fd3c7a838756c14612f7b74" prot="public" virt="non-virtual"><scope>themis::rpc::DifferentialUpdateEngine</scope><name>GenerateManifest</name></member>
+      <member refid="classthemis_1_1rpc_1_1_differential_update_engine_1a7688e5573ff7adf49ad5c9f2bd7b3622" prot="private" virt="non-virtual"><scope>themis::rpc::DifferentialUpdateEngine</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_differential_update_engine_1af8d3b976e0ffd1238d5fc4a9cfa47713" prot="public" virt="non-virtual"><scope>themis::rpc::DifferentialUpdateEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rpc_1_1_differential_update_engine_1a555ae0ee919f3430d76c1296fa1aa132" prot="public" virt="non-virtual"><scope>themis::rpc::DifferentialUpdateEngine</scope><name>SelectStrategy</name></member>
+      <member refid="classthemis_1_1rpc_1_1_differential_update_engine_1a36b45a603ccdb0ab91af5a970f0f7bee" prot="public" virt="non-virtual"><scope>themis::rpc::DifferentialUpdateEngine</scope><name>~DifferentialUpdateEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

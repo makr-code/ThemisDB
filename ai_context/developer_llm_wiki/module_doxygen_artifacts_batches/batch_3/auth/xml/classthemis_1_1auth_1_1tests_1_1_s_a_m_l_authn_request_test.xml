@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_authn_request_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::tests::SAMLAuthnRequestTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_authn_request_test_1a91ffc14af13a52f07a75831726cb953f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator" kindref="compound">SAMLAuthenticator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SAMLAuthenticator&gt; themis::auth::tests::SAMLAuthnRequestTest::authenticator_</definition>
+        <argsstring></argsstring>
+        <name>authenticator_</name>
+        <qualifiedname>themis::auth::tests::SAMLAuthnRequestTest::authenticator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_saml_authenticator_focused.cpp" line="161" column="21" bodyfile="tests/auth/test_saml_authenticator_focused.cpp" bodystart="161" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_authn_request_test_1afdfda57bec03037723c91028251c8a9a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::tests::SAMLAuthnRequestTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::auth::tests::SAMLAuthnRequestTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_saml_authenticator_focused.cpp" line="163" column="10" bodyfile="tests/auth/test_saml_authenticator_focused.cpp" bodystart="163" bodyend="172"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::SAMLAuthnRequestTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_authn_request_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::SAMLAuthnRequestTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_authn_request_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_saml_authenticator_focused.cpp" line="159" column="1" bodyfile="tests/auth/test_saml_authenticator_focused.cpp" bodystart="159" bodyend="173"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_authn_request_test_1a91ffc14af13a52f07a75831726cb953f" prot="protected" virt="non-virtual"><scope>themis::auth::tests::SAMLAuthnRequestTest</scope><name>authenticator_</name></member>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_authn_request_test_1afdfda57bec03037723c91028251c8a9a" prot="protected" virt="non-virtual"><scope>themis::auth::tests::SAMLAuthnRequestTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

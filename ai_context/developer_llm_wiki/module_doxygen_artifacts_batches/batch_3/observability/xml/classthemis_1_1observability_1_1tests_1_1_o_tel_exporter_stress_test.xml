@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1tests_1_1_o_tel_exporter_stress_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::tests::OTelExporterStressTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1tests_1_1_o_tel_exporter_stress_test_1ad1b77e67e10f1c63dd98e840bb82038d" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::observability::tests::OTelExporterStressTest::SUSTAINED_SPAN_RATE</definition>
+        <argsstring></argsstring>
+        <name>SUSTAINED_SPAN_RATE</name>
+        <qualifiedname>themis::observability::tests::OTelExporterStressTest::SUSTAINED_SPAN_RATE</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_exporter_stress.cpp" line="124" column="24" bodyfile="tests/observability/test_otel_exporter_stress.cpp" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1tests_1_1_o_tel_exporter_stress_test_1acf9600ec0d44d5c1001b39d861fee0cb" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::observability::tests::OTelExporterStressTest::RECOVERY_TIME_MS</definition>
+        <argsstring></argsstring>
+        <name>RECOVERY_TIME_MS</name>
+        <qualifiedname>themis::observability::tests::OTelExporterStressTest::RECOVERY_TIME_MS</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_exporter_stress.cpp" line="125" column="24" bodyfile="tests/observability/test_otel_exporter_stress.cpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1tests_1_1_o_tel_exporter_stress_test_1a5638181a02614c66db5a99f1fde6d5e2" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::observability::tests::OTelExporterStressTest::MAX_CARDINALITY</definition>
+        <argsstring></argsstring>
+        <name>MAX_CARDINALITY</name>
+        <qualifiedname>themis::observability::tests::OTelExporterStressTest::MAX_CARDINALITY</qualifiedname>
+        <initializer>= 50000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_otel_exporter_stress.cpp" line="126" column="24" bodyfile="tests/observability/test_otel_exporter_stress.cpp" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::observability::tests::OTelExporterStressTest</label>
+        <link refid="classthemis_1_1observability_1_1tests_1_1_o_tel_exporter_stress_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::observability::tests::OTelExporterStressTest</label>
+        <link refid="classthemis_1_1observability_1_1tests_1_1_o_tel_exporter_stress_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/observability/test_otel_exporter_stress.cpp" line="122" column="1" bodyfile="tests/observability/test_otel_exporter_stress.cpp" bodystart="122" bodyend="127"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1tests_1_1_o_tel_exporter_stress_test_1a5638181a02614c66db5a99f1fde6d5e2" prot="protected" virt="non-virtual"><scope>themis::observability::tests::OTelExporterStressTest</scope><name>MAX_CARDINALITY</name></member>
+      <member refid="classthemis_1_1observability_1_1tests_1_1_o_tel_exporter_stress_test_1acf9600ec0d44d5c1001b39d861fee0cb" prot="protected" virt="non-virtual"><scope>themis::observability::tests::OTelExporterStressTest</scope><name>RECOVERY_TIME_MS</name></member>
+      <member refid="classthemis_1_1observability_1_1tests_1_1_o_tel_exporter_stress_test_1ad1b77e67e10f1c63dd98e840bb82038d" prot="protected" virt="non-virtual"><scope>themis::observability::tests::OTelExporterStressTest</scope><name>SUSTAINED_SPAN_RATE</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

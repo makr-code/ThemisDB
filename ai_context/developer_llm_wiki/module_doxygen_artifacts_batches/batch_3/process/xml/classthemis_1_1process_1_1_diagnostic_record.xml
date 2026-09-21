@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_diagnostic_record" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::DiagnosticRecord</compoundname>
+    <derivedcompoundref refid="classthemis_1_1process_1_1_extended_diagnostic_record" prot="public" virt="non-virtual">themis::process::ExtendedDiagnosticRecord</derivedcompoundref>
+    <includes refid="process__diagnostics_8h" local="no">process_diagnostics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_diagnostic_record_1afd81675cccba5066708bfc88527bc1a1" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::DiagnosticRecord::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::process::DiagnosticRecord::timestamp_ms</qualifiedname>
+        <briefdescription>
+<para>UTC timestamp when incident was recorded (milliseconds since epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="94" column="13" bodyfile="include/process/process_diagnostics.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_diagnostic_record_1ac4d760e5b1c707a0e59a91775db9559a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref></type>
+        <definition>DiagnosticIncidentType themis::process::DiagnosticRecord::incident_type</definition>
+        <argsstring></argsstring>
+        <name>incident_type</name>
+        <qualifiedname>themis::process::DiagnosticRecord::incident_type</qualifiedname>
+        <briefdescription>
+<para>Incident classification. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="96" column="28" bodyfile="include/process/process_diagnostics.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_diagnostic_record_1ac15be67632bd6e8975b5f094b966cc46" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref></type>
+        <definition>ProcError themis::process::DiagnosticRecord::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::process::DiagnosticRecord::error_code</qualifiedname>
+        <briefdescription>
+<para><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref> code from <ref refid="process__api__contract_8h" kindref="compound">process_api_contract.h</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="98" column="15" bodyfile="include/process/process_diagnostics.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_diagnostic_record_1a78b1c3b4100dd9b683689fce9261c425" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::DiagnosticRecord::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themis::process::DiagnosticRecord::operation</qualifiedname>
+        <briefdescription>
+<para>Operation context (e.g., &quot;deserialize_bpmn&quot;, &quot;link_process_instance&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="100" column="17" bodyfile="include/process/process_diagnostics.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_diagnostic_record_1a03903d078cba40ea0d41e7e5ceab4e31" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::DiagnosticRecord::input_identifier</definition>
+        <argsstring></argsstring>
+        <name>input_identifier</name>
+        <qualifiedname>themis::process::DiagnosticRecord::input_identifier</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Input identifier (e.g., filename, model ID, instance ID). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="102" column="17" bodyfile="include/process/process_diagnostics.h" bodystart="102" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_diagnostic_record_1a5f447e0e5dd16730350c52cd6222fad5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::DiagnosticRecord::actionable_message</definition>
+        <argsstring></argsstring>
+        <name>actionable_message</name>
+        <qualifiedname>themis::process::DiagnosticRecord::actionable_message</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Actionable message describing the failure and remediation steps. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="104" column="17" bodyfile="include/process/process_diagnostics.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_diagnostic_record_1a70e2f869749760be14b2f60f67292564" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::DiagnosticRecord::DiagnosticRecord</definition>
+        <argsstring>(DiagnosticIncidentType incident_type, ProcError error_code, std::string_view operation, std::string_view input_identifier, std::string_view actionable_message)</argsstring>
+        <name>DiagnosticRecord</name>
+        <qualifiedname>themis::process::DiagnosticRecord::DiagnosticRecord</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref></type>
+          <declname>incident_type</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref></type>
+          <declname>error_code</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>input_identifier</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>actionable_message</declname>
+        </param>
+        <briefdescription>
+<para>Construct a diagnostic record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>incident_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Classification of the incident. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref> from <ref refid="process__api__contract_8h" kindref="compound">process_api_contract.h</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable operation name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_identifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input identifier (filename, ID, etc.). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>actionable_message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actionable message for operator. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="114" column="5" bodyfile="src/process/process_diagnostics.cpp" bodystart="59" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_diagnostic_record_1af09e1e250bcfacedcabcb9f85fcfcba4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::process::DiagnosticRecord::~DiagnosticRecord</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DiagnosticRecord</name>
+        <qualifiedname>themis::process::DiagnosticRecord::~DiagnosticRecord</qualifiedname>
+        <briefdescription>
+<para>Format the diagnostic record as a structured log message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A formatted string suitable for logging.</para>
+</simplesect>
+Example output: <programlisting><codeline><highlight class="normal">[<ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1dacf8b649ab3b2e7f532f9d2e7ecb694cf" kindref="member">IMPORT_INCIDENT</ref>]<sp/>model_v1.bpmn<sp/>(error=7603,<sp/>ts=2026-08-05T17:53:26Z)</highlight></codeline>
+<codeline><highlight class="normal">Operation:<sp/>deserialize_bpmn</highlight></codeline>
+<codeline><highlight class="normal">Message:<sp/>Invalid<sp/>gateway<sp/>type:<sp/>COMPLEX_AND<sp/>not<sp/>supported<sp/>in<sp/>v2.0</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="133" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_diagnostic_record_1ab4335046f2ab9735b961a3125eb3e14a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::DiagnosticRecord::toFormattedMessage</definition>
+        <argsstring>() const</argsstring>
+        <name>toFormattedMessage</name>
+        <qualifiedname>themis::process::DiagnosticRecord::toFormattedMessage</qualifiedname>
+        <reimplementedby refid="classthemis_1_1process_1_1_extended_diagnostic_record_1a8d2b4ba43e904dfee6b94da365ad2e5c">toFormattedMessage</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="135" column="25" bodyfile="src/process/process_diagnostics.cpp" bodystart="79" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_diagnostic_record_1a773ca7cb91c7358d1ff2c4e77a7adde9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::process::DiagnosticRecord::getActionableMessage</definition>
+        <argsstring>() const</argsstring>
+        <name>getActionableMessage</name>
+        <qualifiedname>themis::process::DiagnosticRecord::getActionableMessage</qualifiedname>
+        <briefdescription>
+<para>Get the actionable message (operator-facing). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The actionable message string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="141" column="22" bodyfile="include/process/process_diagnostics.h" bodystart="141" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_diagnostic_record_1aabeb030ec1cae9241e8138d4fb8febf8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref></type>
+        <definition>ProcError themis::process::DiagnosticRecord::getErrorCode</definition>
+        <argsstring>() const</argsstring>
+        <name>getErrorCode</name>
+        <qualifiedname>themis::process::DiagnosticRecord::getErrorCode</qualifiedname>
+        <briefdescription>
+<para>Get the error code. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The <ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref> code. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="149" column="15" bodyfile="include/process/process_diagnostics.h" bodystart="149" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_diagnostic_record_1ab4992662ba73d4b1ac8e4a4f14c6458c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref></type>
+        <definition>DiagnosticIncidentType themis::process::DiagnosticRecord::getIncidentType</definition>
+        <argsstring>() const</argsstring>
+        <name>getIncidentType</name>
+        <qualifiedname>themis::process::DiagnosticRecord::getIncidentType</qualifiedname>
+        <briefdescription>
+<para>Get the incident type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The <ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_diagnostics.h" line="157" column="28" bodyfile="include/process/process_diagnostics.h" bodystart="157" bodyend="159"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Structured diagnostic record for a process module incident. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures the complete context needed for incident triage:<itemizedlist>
+<listitem><para>when it occurred (UTC timestamp)</para>
+</listitem><listitem><para>what class of failure it represents</para>
+</listitem><listitem><para>which operation and input triggered it</para>
+</listitem><listitem><para>the error code from <ref refid="namespacethemis_1_1process_1a1335b0d0c8ab9e0c3cb80e113314b9e7" kindref="member">ProcError</ref> enum</para>
+</listitem><listitem><para>an actionable message for the operator</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="invariant"><para>All fields are immutable after construction. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::process::DiagnosticRecord</label>
+        <link refid="classthemis_1_1process_1_1_diagnostic_record"/>
+      </node>
+      <node id="2">
+        <label>themis::process::ExtendedDiagnosticRecord</label>
+        <link refid="classthemis_1_1process_1_1_extended_diagnostic_record"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/process/process_diagnostics.h" line="91" column="1" bodyfile="include/process/process_diagnostics.h" bodystart="91" bodyend="160"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1a5f447e0e5dd16730350c52cd6222fad5" prot="public" virt="non-virtual"><scope>themis::process::DiagnosticRecord</scope><name>actionable_message</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1a70e2f869749760be14b2f60f67292564" prot="public" virt="non-virtual"><scope>themis::process::DiagnosticRecord</scope><name>DiagnosticRecord</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1ac15be67632bd6e8975b5f094b966cc46" prot="public" virt="non-virtual"><scope>themis::process::DiagnosticRecord</scope><name>error_code</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1a773ca7cb91c7358d1ff2c4e77a7adde9" prot="public" virt="non-virtual"><scope>themis::process::DiagnosticRecord</scope><name>getActionableMessage</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1aabeb030ec1cae9241e8138d4fb8febf8" prot="public" virt="non-virtual"><scope>themis::process::DiagnosticRecord</scope><name>getErrorCode</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1ab4992662ba73d4b1ac8e4a4f14c6458c" prot="public" virt="non-virtual"><scope>themis::process::DiagnosticRecord</scope><name>getIncidentType</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1ac4d760e5b1c707a0e59a91775db9559a" prot="public" virt="non-virtual"><scope>themis::process::DiagnosticRecord</scope><name>incident_type</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1a03903d078cba40ea0d41e7e5ceab4e31" prot="public" virt="non-virtual"><scope>themis::process::DiagnosticRecord</scope><name>input_identifier</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1a78b1c3b4100dd9b683689fce9261c425" prot="public" virt="non-virtual"><scope>themis::process::DiagnosticRecord</scope><name>operation</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1afd81675cccba5066708bfc88527bc1a1" prot="public" virt="non-virtual"><scope>themis::process::DiagnosticRecord</scope><name>timestamp_ms</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1ab4335046f2ab9735b961a3125eb3e14a" prot="public" virt="virtual"><scope>themis::process::DiagnosticRecord</scope><name>toFormattedMessage</name></member>
+      <member refid="classthemis_1_1process_1_1_diagnostic_record_1af09e1e250bcfacedcabcb9f85fcfcba4" prot="public" virt="virtual"><scope>themis::process::DiagnosticRecord</scope><name>~DiagnosticRecord</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

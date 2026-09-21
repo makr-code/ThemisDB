@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_e_i_d_auth_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::EIDAuthConfig</compoundname>
+    <includes refid="eid__authenticator_8h" local="no">eid_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_config_1ac1db1b5dad89d93019b285c51486ae7b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::EIDAuthConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::auth::EIDAuthConfig::enabled</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="150" column="10" bodyfile="include/auth/eid_authenticator.h" bodystart="150" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_config_1ae5c7b7831f310deb618f103bc2b73d2c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::EIDAuthConfig::eid_server_url</definition>
+        <argsstring></argsstring>
+        <name>eid_server_url</name>
+        <qualifiedname>themis::auth::EIDAuthConfig::eid_server_url</qualifiedname>
+        <briefdescription>
+<para>PAOS endpoint, e.g. &quot;https://eid.example.de/eIDServer/ServiceRequests&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="153" column="17" bodyfile="include/auth/eid_authenticator.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_config_1ab0f6be11d84bc672119473dc612d0121" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::EIDAuthConfig::sp_return_url</definition>
+        <argsstring></argsstring>
+        <name>sp_return_url</name>
+        <qualifiedname>themis::auth::EIDAuthConfig::sp_return_url</qualifiedname>
+        <briefdescription>
+<para>SP callback URL after authentication. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="154" column="17" bodyfile="include/auth/eid_authenticator.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_config_1aecd742214748ffcc126fead876e88795" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::EIDAuthConfig::terminal_certificate</definition>
+        <argsstring></argsstring>
+        <name>terminal_certificate</name>
+        <qualifiedname>themis::auth::EIDAuthConfig::terminal_certificate</qualifiedname>
+        <briefdescription>
+<para>PEM-encoded terminal certificate (AT cert). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="155" column="17" bodyfile="include/auth/eid_authenticator.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_config_1af3eb34851a14bae2c5c67e40d3963a24" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::EIDAuthConfig::terminal_key_path</definition>
+        <argsstring></argsstring>
+        <name>terminal_key_path</name>
+        <qualifiedname>themis::auth::EIDAuthConfig::terminal_key_path</qualifiedname>
+        <briefdescription>
+<para>Path to terminal private key (never logged). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="156" column="17" bodyfile="include/auth/eid_authenticator.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_config_1aab15301bb3962c0ab8eb027de06f174f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::EIDAuthConfig::eid_server_ca_cert</definition>
+        <argsstring></argsstring>
+        <name>eid_server_ca_cert</name>
+        <qualifiedname>themis::auth::EIDAuthConfig::eid_server_ca_cert</qualifiedname>
+        <briefdescription>
+<para>eID-Server CA certificate for TLS validation </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="157" column="17" bodyfile="include/auth/eid_authenticator.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_config_1a0697adcbdd7d8dbc75fae55151b0536a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1auth_1adbe1819a1ce7e38755f5dbc3bb9fa980" kindref="member">EIDAttributeType</ref> &gt;</type>
+        <definition>std::vector&lt;EIDAttributeType&gt; themis::auth::EIDAuthConfig::requested_attributes</definition>
+        <argsstring></argsstring>
+        <name>requested_attributes</name>
+        <qualifiedname>themis::auth::EIDAuthConfig::requested_attributes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="160" column="17" bodyfile="include/auth/eid_authenticator.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_config_1a6840544d62e3af2b6e3321b478a73b27" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>std::optional&lt;int&gt; themis::auth::EIDAuthConfig::age_verification_threshold</definition>
+        <argsstring></argsstring>
+        <name>age_verification_threshold</name>
+        <qualifiedname>themis::auth::EIDAuthConfig::age_verification_threshold</qualifiedname>
+        <briefdescription>
+<para>Verify age ≥ N years (or nullopt). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="163" column="19" bodyfile="include/auth/eid_authenticator.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_config_1a5a8ec95de2240fb6847ce25aefd9d6e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::EIDAuthConfig::community_id_sector</definition>
+        <argsstring></argsstring>
+        <name>community_id_sector</name>
+        <qualifiedname>themis::auth::EIDAuthConfig::community_id_sector</qualifiedname>
+        <briefdescription>
+<para>Sector for RESTRICTED_ID derivation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="164" column="17" bodyfile="include/auth/eid_authenticator.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_config_1a8cf1c6cac53774eaeb606d08b7bcaaac" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::auth::EIDAuthConfig::session_timeout</definition>
+        <argsstring></argsstring>
+        <name>session_timeout</name>
+        <qualifiedname>themis::auth::EIDAuthConfig::session_timeout</qualifiedname>
+        <initializer>{std::chrono::seconds(300)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="167" column="26" bodyfile="include/auth/eid_authenticator.h" bodystart="167" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_e_i_d_auth_config_1ac5ca7d7d2954ad3ea5d7885cdb60f8c1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1auth_1a0bc27dea4311d86005a5329762696607" kindref="member">EIDAssuranceLevel</ref></type>
+        <definition>EIDAssuranceLevel themis::auth::EIDAuthConfig::minimum_assurance</definition>
+        <argsstring></argsstring>
+        <name>minimum_assurance</name>
+        <qualifiedname>themis::auth::EIDAuthConfig::minimum_assurance</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1auth_1a0bc27dea4311d86005a5329762696607ab89de3b4b81c4facfac906edf29aec8c" kindref="member">EIDAssuranceLevel::HIGH</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/eid_authenticator.h" line="170" column="23" bodyfile="include/auth/eid_authenticator.h" bodystart="170" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/eid_authenticator.h" line="149" column="1" bodyfile="include/auth/eid_authenticator.h" bodystart="149" bodyend="171"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_config_1a6840544d62e3af2b6e3321b478a73b27" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthConfig</scope><name>age_verification_threshold</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_config_1a5a8ec95de2240fb6847ce25aefd9d6e0" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthConfig</scope><name>community_id_sector</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_config_1aab15301bb3962c0ab8eb027de06f174f" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthConfig</scope><name>eid_server_ca_cert</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_config_1ae5c7b7831f310deb618f103bc2b73d2c" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthConfig</scope><name>eid_server_url</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_config_1ac1db1b5dad89d93019b285c51486ae7b" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_config_1ac5ca7d7d2954ad3ea5d7885cdb60f8c1" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthConfig</scope><name>minimum_assurance</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_config_1a0697adcbdd7d8dbc75fae55151b0536a" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthConfig</scope><name>requested_attributes</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_config_1a8cf1c6cac53774eaeb606d08b7bcaaac" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthConfig</scope><name>session_timeout</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_config_1ab0f6be11d84bc672119473dc612d0121" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthConfig</scope><name>sp_return_url</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_config_1aecd742214748ffcc126fead876e88795" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthConfig</scope><name>terminal_certificate</name></member>
+      <member refid="structthemis_1_1auth_1_1_e_i_d_auth_config_1af3eb34851a14bae2c5c67e40d3963a24" prot="public" virt="non-virtual"><scope>themis::auth::EIDAuthConfig</scope><name>terminal_key_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

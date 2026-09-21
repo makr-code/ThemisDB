@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_cost_based_rate_limiter_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::CostBasedRateLimiter::Config</compoundname>
+    <includes refid="cost__based__rate__limiter_8h" local="no">cost_based_rate_limiter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_cost_based_rate_limiter_1_1_config_1ace23a93ba886ed84b374020c1391f412" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::CostBasedRateLimiter::Config::budget_per_window</definition>
+        <argsstring></argsstring>
+        <name>budget_per_window</name>
+        <qualifiedname>themis::server::CostBasedRateLimiter::Config::budget_per_window</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cost_based_rate_limiter.h" line="51" column="16" bodyfile="include/server/cost_based_rate_limiter.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_cost_based_rate_limiter_1_1_config_1a677726f34f539d3e1725ee2ee85a9857" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::CostBasedRateLimiter::Config::window_seconds</definition>
+        <argsstring></argsstring>
+        <name>window_seconds</name>
+        <qualifiedname>themis::server::CostBasedRateLimiter::Config::window_seconds</qualifiedname>
+        <initializer>= 60</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cost_based_rate_limiter.h" line="53" column="18" bodyfile="include/server/cost_based_rate_limiter.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_cost_based_rate_limiter_1_1_config_1aac057f58841e60f78639ce0d8cda5aa1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::CostBasedRateLimiter::Config::max_clients</definition>
+        <argsstring></argsstring>
+        <name>max_clients</name>
+        <qualifiedname>themis::server::CostBasedRateLimiter::Config::max_clients</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cost_based_rate_limiter.h" line="55" column="16" bodyfile="include/server/cost_based_rate_limiter.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/cost_based_rate_limiter.h" line="50" column="5" bodyfile="include/server/cost_based_rate_limiter.h" bodystart="50" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_cost_based_rate_limiter_1_1_config_1ace23a93ba886ed84b374020c1391f412" prot="public" virt="non-virtual"><scope>themis::server::CostBasedRateLimiter::Config</scope><name>budget_per_window</name></member>
+      <member refid="structthemis_1_1server_1_1_cost_based_rate_limiter_1_1_config_1aac057f58841e60f78639ce0d8cda5aa1" prot="public" virt="non-virtual"><scope>themis::server::CostBasedRateLimiter::Config</scope><name>max_clients</name></member>
+      <member refid="structthemis_1_1server_1_1_cost_based_rate_limiter_1_1_config_1a677726f34f539d3e1725ee2ee85a9857" prot="public" virt="non-virtual"><scope>themis::server::CostBasedRateLimiter::Config</scope><name>window_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

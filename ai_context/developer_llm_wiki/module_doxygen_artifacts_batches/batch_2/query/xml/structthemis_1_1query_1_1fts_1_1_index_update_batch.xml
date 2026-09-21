@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1fts_1_1_index_update_batch" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::fts::IndexUpdateBatch</compoundname>
+    <includes refid="fts__index_8h" local="no">fts_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_index_update_batch_1a6e278642bb74d12d4f4ed5c09683838f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; uint64_t, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;uint64_t, std::string&gt; &gt; themis::query::fts::IndexUpdateBatch::additions</definition>
+        <argsstring></argsstring>
+        <name>additions</name>
+        <qualifiedname>themis::query::fts::IndexUpdateBatch::additions</qualifiedname>
+        <briefdescription>
+<para>Docs to add. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_index.h" line="116" column="15" bodyfile="include/query/fts_index.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_index_update_batch_1acc1763b56fd95d6c4549eeb9cd0a9fc7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt;uint64_t&gt; themis::query::fts::IndexUpdateBatch::deletions</definition>
+        <argsstring></argsstring>
+        <name>deletions</name>
+        <qualifiedname>themis::query::fts::IndexUpdateBatch::deletions</qualifiedname>
+        <briefdescription>
+<para>Doc IDs to remove. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_index.h" line="117" column="15" bodyfile="include/query/fts_index.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/fts_index.h" line="115" column="1" bodyfile="include/query/fts_index.h" bodystart="115" bodyend="118"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1fts_1_1_index_update_batch_1a6e278642bb74d12d4f4ed5c09683838f" prot="public" virt="non-virtual"><scope>themis::query::fts::IndexUpdateBatch</scope><name>additions</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_index_update_batch_1acc1763b56fd95d6c4549eeb9cd0a9fc7" prot="public" virt="non-virtual"><scope>themis::query::fts::IndexUpdateBatch</scope><name>deletions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

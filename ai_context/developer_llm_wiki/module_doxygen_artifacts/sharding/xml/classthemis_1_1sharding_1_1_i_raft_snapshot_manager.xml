@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_i_raft_snapshot_manager" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::sharding::IRaftSnapshotManager</compoundname>
+    <derivedcompoundref refid="class_mock_raft_snapshot_manager" prot="public" virt="non-virtual">MockRaftSnapshotManager</derivedcompoundref>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_raft_snapshot_manager_1a0d5f23203191b1d89cbd52c15cd924fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::sharding::IRaftSnapshotManager::~IRaftSnapshotManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IRaftSnapshotManager</name>
+        <qualifiedname>themis::sharding::IRaftSnapshotManager::~IRaftSnapshotManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="513" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_raft_snapshot_manager_1a36bdb22bf0db15b266fc59c973ae533f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1sharding_1_1_snapshot_handle" kindref="compound">SnapshotHandle</ref> &gt;</type>
+        <definition>virtual std::future&lt; SnapshotHandle &gt; themis::sharding::IRaftSnapshotManager::initiateSnapshot</definition>
+        <argsstring>(const ShardId &amp;shard_id)=0</argsstring>
+        <name>initiateSnapshot</name>
+        <qualifiedname>themis::sharding::IRaftSnapshotManager::initiateSnapshot</qualifiedname>
+        <reimplementedby refid="class_mock_raft_snapshot_manager_1a859922730c7654e99ced1e6da872c8b2">initiateSnapshot</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1a1b09ca5c4bcc56b5d53ab289dad7bdbd" kindref="member">ShardId</ref> &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Initiate an asynchronous snapshot for the given shard. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target shard. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Future resolving to a <ref refid="structthemis_1_1sharding_1_1_snapshot_handle" kindref="compound">SnapshotHandle</ref> upon completion. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="518" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_raft_snapshot_manager_1a6533e25cba1a122b50e08914e20e2f0f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::sharding::IRaftSnapshotManager::verifySnapshot</definition>
+        <argsstring>(const SnapshotHandle &amp;handle) const =0</argsstring>
+        <name>verifySnapshot</name>
+        <qualifiedname>themis::sharding::IRaftSnapshotManager::verifySnapshot</qualifiedname>
+        <reimplementedby refid="class_mock_raft_snapshot_manager_1a8232d3cdaf31b08068b9cf2b11bc5593">verifySnapshot</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_snapshot_handle" kindref="compound">SnapshotHandle</ref> &amp;</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify the integrity of an existing snapshot. Returns false if the snapshot&apos;s HMAC is invalid or the handle is empty. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="522" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_raft_snapshot_manager_1a25b04c4309e69323db5285917446fc38" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1sharding_1_1_compaction_result" kindref="compound">CompactionResult</ref> &gt;</type>
+        <definition>virtual std::future&lt; CompactionResult &gt; themis::sharding::IRaftSnapshotManager::compactLog</definition>
+        <argsstring>(const ShardId &amp;shard_id, const SnapshotHandle &amp;snapshot, const AdminContext &amp;context)=0</argsstring>
+        <name>compactLog</name>
+        <qualifiedname>themis::sharding::IRaftSnapshotManager::compactLog</qualifiedname>
+        <reimplementedby refid="class_mock_raft_snapshot_manager_1aca759de55f24c28c2b96dd68d2e0a787">compactLog</reimplementedby>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1a1b09ca5c4bcc56b5d53ab289dad7bdbd" kindref="member">ShardId</ref> &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_snapshot_handle" kindref="compound">SnapshotHandle</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_admin_context" kindref="compound">AdminContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Truncate the Raft log for shard <computeroutput>shard_id</computeroutput> up to the index recorded in <computeroutput>snapshot</computeroutput>. Requires a valid <ref refid="structthemis_1_1sharding_1_1_admin_context" kindref="compound">AdminContext</ref> and a snapshot that passes <ref refid="classthemis_1_1sharding_1_1_i_raft_snapshot_manager_1a6533e25cba1a122b50e08914e20e2f0f" kindref="member">verifySnapshot()</ref>; throws <ref refid="classthemis_1_1sharding_1_1_permission_denied_error" kindref="compound">PermissionDeniedError</ref> otherwise.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard whose log is to be compacted. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Verified snapshot at the desired compaction point. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Admin capability token. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Future resolving to <ref refid="structthemis_1_1sharding_1_1_compaction_result" kindref="compound">CompactionResult</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="532" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Asynchronous Raft snapshot creation and log compaction interface.</para>
+<para>All public methods are async; no blocking calls on the public interface.</para>
+<para>Security: <ref refid="classthemis_1_1sharding_1_1_i_raft_snapshot_manager_1a25b04c4309e69323db5285917446fc38" kindref="member">compactLog()</ref> validates the <ref refid="structthemis_1_1sharding_1_1_snapshot_handle" kindref="compound">SnapshotHandle</ref>&apos;s HMAC before truncating the log; tampered snapshots cause <ref refid="classthemis_1_1sharding_1_1_i_raft_snapshot_manager_1a25b04c4309e69323db5285917446fc38" kindref="member">compactLog()</ref> to fail.</para>
+<para>Performance contracts: <ref refid="classthemis_1_1sharding_1_1_i_raft_snapshot_manager_1a36bdb22bf0db15b266fc59c973ae533f" kindref="member">initiateSnapshot()</ref> round-trip to future ready: ≤ 1 s. Compressed snapshot: &lt; 35% of uncompressed (ZSTD level 3). Lagging replica catch-up via snapshot transfer: &gt; 200 MB/s on 10 GbE. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>MockRaftSnapshotManager</label>
+        <link refid="class_mock_raft_snapshot_manager"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::sharding::IRaftSnapshotManager</label>
+        <link refid="classthemis_1_1sharding_1_1_i_raft_snapshot_manager"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/sharding/sharding_interfaces.h" line="511" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="511" bodyend="537"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_i_raft_snapshot_manager_1a25b04c4309e69323db5285917446fc38" prot="public" virt="pure-virtual"><scope>themis::sharding::IRaftSnapshotManager</scope><name>compactLog</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_raft_snapshot_manager_1a36bdb22bf0db15b266fc59c973ae533f" prot="public" virt="pure-virtual"><scope>themis::sharding::IRaftSnapshotManager</scope><name>initiateSnapshot</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_raft_snapshot_manager_1a6533e25cba1a122b50e08914e20e2f0f" prot="public" virt="pure-virtual"><scope>themis::sharding::IRaftSnapshotManager</scope><name>verifySnapshot</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_raft_snapshot_manager_1a0d5f23203191b1d89cbd52c15cd924fb" prot="public" virt="virtual"><scope>themis::sharding::IRaftSnapshotManager</scope><name>~IRaftSnapshotManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

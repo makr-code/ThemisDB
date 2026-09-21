@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1_exporter_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::ExporterFactory</compoundname>
+    <includes refid="analytics__export_8h" local="no">analytics_export.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_exporter_factory_1a46517ed36613c998ca03fbf2fcbf71af" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter" kindref="compound">IAnalyticsExporter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IAnalyticsExporter &gt; themis::analytics::ExporterFactory::createExporter</definition>
+        <argsstring>(ExportFormat format)</argsstring>
+        <name>createExporter</name>
+        <qualifiedname>themis::analytics::ExporterFactory::createExporter</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191" kindref="member">ExportFormat</ref></type>
+          <declname>format</declname>
+        </param>
+        <briefdescription>
+<para>Create Exporter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: throwArrowUnavailable(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_export.h" line="125" column="28" bodyfile="src/analytics/analytics_export.cpp" bodystart="997" bodyend="1027"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_exporter_factory_1ab458864183fa333f918bae5ea006b15a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter" kindref="compound">IAnalyticsExporter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; IAnalyticsExporter &gt; themis::analytics::ExporterFactory::createDefaultExporter</definition>
+        <argsstring>()</argsstring>
+        <name>createDefaultExporter</name>
+        <qualifiedname>themis::analytics::ExporterFactory::createDefaultExporter</qualifiedname>
+        <briefdescription>
+<para>Create Default Exporter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createDefaultExporter without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_export.h" line="131" column="28" bodyfile="src/analytics/analytics_export.cpp" bodystart="1034" bodyend="1036"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/analytics_export.h" line="118" column="1" bodyfile="include/analytics/analytics_export.h" bodystart="118" bodyend="132"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1_exporter_factory_1ab458864183fa333f918bae5ea006b15a" prot="public" virt="non-virtual"><scope>themis::analytics::ExporterFactory</scope><name>createDefaultExporter</name></member>
+      <member refid="classthemis_1_1analytics_1_1_exporter_factory_1a46517ed36613c998ca03fbf2fcbf71af" prot="public" virt="non-virtual"><scope>themis::analytics::ExporterFactory</scope><name>createExporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

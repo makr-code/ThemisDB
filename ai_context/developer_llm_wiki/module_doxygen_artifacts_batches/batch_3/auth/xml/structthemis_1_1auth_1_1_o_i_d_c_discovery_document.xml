@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_o_i_d_c_discovery_document" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::OIDCDiscoveryDocument</compoundname>
+    <includes refid="oidc__provider_8h" local="no">oidc_provider.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a7790b7cd02728b6d122e4084a00dacaa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OIDCDiscoveryDocument::issuer</definition>
+        <argsstring></argsstring>
+        <name>issuer</name>
+        <qualifiedname>themis::auth::OIDCDiscoveryDocument::issuer</qualifiedname>
+        <briefdescription>
+<para>Issuer identifier (must match token iss). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="29" column="17" bodyfile="include/auth/oidc_provider.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a0f42f720b61bbd51f18021dc26d03e06" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OIDCDiscoveryDocument::jwks_uri</definition>
+        <argsstring></argsstring>
+        <name>jwks_uri</name>
+        <qualifiedname>themis::auth::OIDCDiscoveryDocument::jwks_uri</qualifiedname>
+        <briefdescription>
+<para>JWKS endpoint for public key retrieval. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="30" column="17" bodyfile="include/auth/oidc_provider.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a551a3a8b93637a15863cbe539ddcd613" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OIDCDiscoveryDocument::token_endpoint</definition>
+        <argsstring></argsstring>
+        <name>token_endpoint</name>
+        <qualifiedname>themis::auth::OIDCDiscoveryDocument::token_endpoint</qualifiedname>
+        <briefdescription>
+<para>Token endpoint (authorization_code / device). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="31" column="17" bodyfile="include/auth/oidc_provider.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1afbf10034d1646cc54767d2da971d7cc0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OIDCDiscoveryDocument::revocation_endpoint</definition>
+        <argsstring></argsstring>
+        <name>revocation_endpoint</name>
+        <qualifiedname>themis::auth::OIDCDiscoveryDocument::revocation_endpoint</qualifiedname>
+        <briefdescription>
+<para>OAuth2 token revocation endpoint (RFC 7009). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="32" column="17" bodyfile="include/auth/oidc_provider.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1af20469bfdc774aeb7461d77a9d49e9aa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OIDCDiscoveryDocument::authorization_endpoint</definition>
+        <argsstring></argsstring>
+        <name>authorization_endpoint</name>
+        <qualifiedname>themis::auth::OIDCDiscoveryDocument::authorization_endpoint</qualifiedname>
+        <briefdescription>
+<para>Authorization endpoint (code flow). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="33" column="17" bodyfile="include/auth/oidc_provider.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a176c8834b4225cdbee9a7447816ee091" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OIDCDiscoveryDocument::device_authorization_endpoint</definition>
+        <argsstring></argsstring>
+        <name>device_authorization_endpoint</name>
+        <qualifiedname>themis::auth::OIDCDiscoveryDocument::device_authorization_endpoint</qualifiedname>
+        <briefdescription>
+<para>Device authorization endpoint (RFC 8628). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="34" column="17" bodyfile="include/auth/oidc_provider.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1ae59867414f157e90cf6d649c909a2b67" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::OIDCDiscoveryDocument::userinfo_endpoint</definition>
+        <argsstring></argsstring>
+        <name>userinfo_endpoint</name>
+        <qualifiedname>themis::auth::OIDCDiscoveryDocument::userinfo_endpoint</qualifiedname>
+        <briefdescription>
+<para>UserInfo endpoint (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="35" column="17" bodyfile="include/auth/oidc_provider.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1acfe15c6287d5d2a229d35f697521cb9f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::OIDCDiscoveryDocument::id_token_signing_alg_values_supported</definition>
+        <argsstring></argsstring>
+        <name>id_token_signing_alg_values_supported</name>
+        <qualifiedname>themis::auth::OIDCDiscoveryDocument::id_token_signing_alg_values_supported</qualifiedname>
+        <briefdescription>
+<para>Signing algorithms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="36" column="17" bodyfile="include/auth/oidc_provider.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a7b67344e748214b3c9494888a92ab5fb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::OIDCDiscoveryDocument::response_types_supported</definition>
+        <argsstring></argsstring>
+        <name>response_types_supported</name>
+        <qualifiedname>themis::auth::OIDCDiscoveryDocument::response_types_supported</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="37" column="17" bodyfile="include/auth/oidc_provider.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a83990a4fe3b1e109fa3ff5919ab43ad1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::OIDCDiscoveryDocument::grant_types_supported</definition>
+        <argsstring></argsstring>
+        <name>grant_types_supported</name>
+        <qualifiedname>themis::auth::OIDCDiscoveryDocument::grant_types_supported</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="38" column="17" bodyfile="include/auth/oidc_provider.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1aca8fd207699bd4a71a836732b04e0381" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::OIDCDiscoveryDocument::scopes_supported</definition>
+        <argsstring></argsstring>
+        <name>scopes_supported</name>
+        <qualifiedname>themis::auth::OIDCDiscoveryDocument::scopes_supported</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/oidc_provider.h" line="39" column="17" bodyfile="include/auth/oidc_provider.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/oidc_provider.h" line="28" column="1" bodyfile="include/auth/oidc_provider.h" bodystart="28" bodyend="40"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1af20469bfdc774aeb7461d77a9d49e9aa" prot="public" virt="non-virtual"><scope>themis::auth::OIDCDiscoveryDocument</scope><name>authorization_endpoint</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a176c8834b4225cdbee9a7447816ee091" prot="public" virt="non-virtual"><scope>themis::auth::OIDCDiscoveryDocument</scope><name>device_authorization_endpoint</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a83990a4fe3b1e109fa3ff5919ab43ad1" prot="public" virt="non-virtual"><scope>themis::auth::OIDCDiscoveryDocument</scope><name>grant_types_supported</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1acfe15c6287d5d2a229d35f697521cb9f" prot="public" virt="non-virtual"><scope>themis::auth::OIDCDiscoveryDocument</scope><name>id_token_signing_alg_values_supported</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a7790b7cd02728b6d122e4084a00dacaa" prot="public" virt="non-virtual"><scope>themis::auth::OIDCDiscoveryDocument</scope><name>issuer</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a0f42f720b61bbd51f18021dc26d03e06" prot="public" virt="non-virtual"><scope>themis::auth::OIDCDiscoveryDocument</scope><name>jwks_uri</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a7b67344e748214b3c9494888a92ab5fb" prot="public" virt="non-virtual"><scope>themis::auth::OIDCDiscoveryDocument</scope><name>response_types_supported</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1afbf10034d1646cc54767d2da971d7cc0" prot="public" virt="non-virtual"><scope>themis::auth::OIDCDiscoveryDocument</scope><name>revocation_endpoint</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1aca8fd207699bd4a71a836732b04e0381" prot="public" virt="non-virtual"><scope>themis::auth::OIDCDiscoveryDocument</scope><name>scopes_supported</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a551a3a8b93637a15863cbe539ddcd613" prot="public" virt="non-virtual"><scope>themis::auth::OIDCDiscoveryDocument</scope><name>token_endpoint</name></member>
+      <member refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1ae59867414f157e90cf6d649c909a2b67" prot="public" virt="non-virtual"><scope>themis::auth::OIDCDiscoveryDocument</scope><name>userinfo_endpoint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_column_spec" kind="struct" language="C++" prot="public">
+    <compoundname>ColumnSpec</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_column_spec_1af1421843d5c2f82b4ba7b2e6672844bf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ColumnSpec::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>ColumnSpec::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_diff.cpp" line="38" column="17" bodyfile="tests/metadata/test_schema_diff.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_column_spec_1a780b4342c7dd8323c247ecd62c774b5b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ColumnSpec::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>ColumnSpec::type</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_diff.cpp" line="39" column="17" bodyfile="tests/metadata/test_schema_diff.cpp" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_column_spec_1addbbfb11e3e73ad7a15d9d0b2b33ae68" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ColumnSpec::nullable</definition>
+        <argsstring></argsstring>
+        <name>nullable</name>
+        <qualifiedname>ColumnSpec::nullable</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_diff.cpp" line="40" column="17" bodyfile="tests/metadata/test_schema_diff.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_column_spec_1aa8cbbc032a34e710a89e35ef09c226d9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ColumnSpec::indexed</definition>
+        <argsstring></argsstring>
+        <name>indexed</name>
+        <qualifiedname>ColumnSpec::indexed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_diff.cpp" line="41" column="17" bodyfile="tests/metadata/test_schema_diff.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_column_spec_1a23815a04c062a538ff83719e33fe0693" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ColumnSpec::index_type</definition>
+        <argsstring></argsstring>
+        <name>index_type</name>
+        <qualifiedname>ColumnSpec::index_type</qualifiedname>
+        <initializer>= &quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_diff.cpp" line="42" column="17" bodyfile="tests/metadata/test_schema_diff.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/metadata/test_schema_diff.cpp" line="37" column="1" bodyfile="tests/metadata/test_schema_diff.cpp" bodystart="37" bodyend="43"/>
+    <listofallmembers>
+      <member refid="struct_column_spec_1a23815a04c062a538ff83719e33fe0693" prot="public" virt="non-virtual"><scope>ColumnSpec</scope><name>index_type</name></member>
+      <member refid="struct_column_spec_1aa8cbbc032a34e710a89e35ef09c226d9" prot="public" virt="non-virtual"><scope>ColumnSpec</scope><name>indexed</name></member>
+      <member refid="struct_column_spec_1af1421843d5c2f82b4ba7b2e6672844bf" prot="public" virt="non-virtual"><scope>ColumnSpec</scope><name>name</name></member>
+      <member refid="struct_column_spec_1addbbfb11e3e73ad7a15d9d0b2b33ae68" prot="public" virt="non-virtual"><scope>ColumnSpec</scope><name>nullable</name></member>
+      <member refid="struct_column_spec_1a780b4342c7dd8323c247ecd62c774b5b" prot="public" virt="non-virtual"><scope>ColumnSpec</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

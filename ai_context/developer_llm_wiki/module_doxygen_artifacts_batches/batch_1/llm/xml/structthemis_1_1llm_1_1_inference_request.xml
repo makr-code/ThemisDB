@@ -1,0 +1,355 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_inference_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::InferenceRequest</compoundname>
+    <includes refid="llm__plugin__interface_8h" local="no">llm_plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::InferenceRequest::prompt</definition>
+        <argsstring></argsstring>
+        <name>prompt</name>
+        <qualifiedname>themis::llm::InferenceRequest::prompt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="141" column="17" bodyfile="include/llm/llm_plugin_interface.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1a16a3b10fe4e3845d0b7ade97c567d775" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::InferenceRequest::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::InferenceRequest::model_id</qualifiedname>
+        <initializer>= &quot;default&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="142" column="17" bodyfile="include/llm/llm_plugin_interface.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1afd00b541568845c3b1d2fb15478444a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::InferenceRequest::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::llm::InferenceRequest::request_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="143" column="17" bodyfile="include/llm/llm_plugin_interface.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1a2fd2eeeee3a22ccc9117630cc8fcc606" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::InferenceRequest::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::llm::InferenceRequest::trace_id</qualifiedname>
+        <briefdescription>
+<para>W3C traceparent trace-id (128-bit hex, 32 chars). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="151" column="17" bodyfile="include/llm/llm_plugin_interface.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1a89276fb73214000d0a4456a54fb1c888" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::InferenceRequest::span_id</definition>
+        <argsstring></argsstring>
+        <name>span_id</name>
+        <qualifiedname>themis::llm::InferenceRequest::span_id</qualifiedname>
+        <briefdescription>
+<para>W3C traceparent parent-id (64-bit hex, 16 chars). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="152" column="17" bodyfile="include/llm/llm_plugin_interface.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1aa328461ee7286c7f9b0afee1be7dd21a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::InferenceRequest::max_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_tokens</name>
+        <qualifiedname>themis::llm::InferenceRequest::max_tokens</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="155" column="9" bodyfile="include/llm/llm_plugin_interface.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1acf11ee5fc926c90b9bd14f825e711034" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::InferenceRequest::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::llm::InferenceRequest::temperature</qualifiedname>
+        <initializer>= 0.7f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="156" column="11" bodyfile="include/llm/llm_plugin_interface.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1a35955b00a87b285696f281bbfb4ee6b4" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::InferenceRequest::top_p</definition>
+        <argsstring></argsstring>
+        <name>top_p</name>
+        <qualifiedname>themis::llm::InferenceRequest::top_p</qualifiedname>
+        <initializer>= 0.9f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="157" column="11" bodyfile="include/llm/llm_plugin_interface.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1a4fa0e6d8fbcdabebf97b19d795689dfa" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::InferenceRequest::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::llm::InferenceRequest::top_k</qualifiedname>
+        <initializer>= 40</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="158" column="9" bodyfile="include/llm/llm_plugin_interface.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1aaa0e88281440d1824f61ad43bb367608" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::InferenceRequest::repetition_penalty</definition>
+        <argsstring></argsstring>
+        <name>repetition_penalty</name>
+        <qualifiedname>themis::llm::InferenceRequest::repetition_penalty</qualifiedname>
+        <initializer>= 1.1f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="159" column="11" bodyfile="include/llm/llm_plugin_interface.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1ab9c65c033a8f619058e66bf0b04ade63" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::InferenceRequest::system_prompt</definition>
+        <argsstring></argsstring>
+        <name>system_prompt</name>
+        <qualifiedname>themis::llm::InferenceRequest::system_prompt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="162" column="19" bodyfile="include/llm/llm_plugin_interface.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1ae928960d1325a6935e0edc8af8cf828e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::InferenceRequest::lora_adapter_id</definition>
+        <argsstring></argsstring>
+        <name>lora_adapter_id</name>
+        <qualifiedname>themis::llm::InferenceRequest::lora_adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="165" column="19" bodyfile="include/llm/llm_plugin_interface.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1affc0457e8be86c6a2465c0d1d5e5a952" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::InferenceRequest::grammar_type</definition>
+        <argsstring></argsstring>
+        <name>grammar_type</name>
+        <qualifiedname>themis::llm::InferenceRequest::grammar_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="168" column="19" bodyfile="include/llm/llm_plugin_interface.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1a1291f8ac2bb5567885edb59ac75cad62" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::InferenceRequest::grammar_ebnf</definition>
+        <argsstring></argsstring>
+        <name>grammar_ebnf</name>
+        <qualifiedname>themis::llm::InferenceRequest::grammar_ebnf</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="169" column="19" bodyfile="include/llm/llm_plugin_interface.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1acdd7731a162c149d10600dbf7278554f" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &gt;</type>
+        <definition>std::optional&lt;json&gt; themis::llm::InferenceRequest::json_schema</definition>
+        <argsstring></argsstring>
+        <name>json_schema</name>
+        <qualifiedname>themis::llm::InferenceRequest::json_schema</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="174" column="19" bodyfile="include/llm/llm_plugin_interface.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1ade8e1c3ccb2207513346d70dc9b6b945" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_tool_definition" kindref="compound">ToolDefinition</ref> &gt;</type>
+        <definition>std::vector&lt;ToolDefinition&gt; themis::llm::InferenceRequest::tools</definition>
+        <argsstring></argsstring>
+        <name>tools</name>
+        <qualifiedname>themis::llm::InferenceRequest::tools</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="180" column="17" bodyfile="include/llm/llm_plugin_interface.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1aeca42075c71a503b0856dfcc74c58173" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(const std::string &amp;token)&gt;</type>
+        <definition>std::function&lt;void(const std::string&amp; token)&gt; themis::llm::InferenceRequest::stream_callback</definition>
+        <argsstring></argsstring>
+        <name>stream_callback</name>
+        <qualifiedname>themis::llm::InferenceRequest::stream_callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="183" column="19" bodyfile="include/llm/llm_plugin_interface.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1a267e1b869cf8a15d912bbd79397e2596" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::InferenceRequest::stop_sequences</definition>
+        <argsstring></argsstring>
+        <name>stop_sequences</name>
+        <qualifiedname>themis::llm::InferenceRequest::stop_sequences</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="186" column="17" bodyfile="include/llm/llm_plugin_interface.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::InferenceRequest::image_paths</definition>
+        <argsstring></argsstring>
+        <name>image_paths</name>
+        <qualifiedname>themis::llm::InferenceRequest::image_paths</qualifiedname>
+        <briefdescription>
+<para>Paths to image files (JPEG, PNG, …). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="192" column="17" bodyfile="include/llm/llm_plugin_interface.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1a1198a7bd8fad766a9bab6fce40fdc39b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::InferenceRequest::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::llm::InferenceRequest::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="195" column="10" bodyfile="include/llm/llm_plugin_interface.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1aa455cf7016195caf92fb6fe8f252bac1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::InferenceRequest::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::llm::InferenceRequest::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="200" column="17" bodyfile="include/llm/llm_plugin_interface.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_request_1ac602a40018fe6f13c5b87cc5cc528b15" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; std::atomic&lt; bool &gt; &gt;</type>
+        <definition>std::shared_ptr&lt;std::atomic&lt;bool&gt; &gt; themis::llm::InferenceRequest::cancellation_token</definition>
+        <argsstring></argsstring>
+        <name>cancellation_token</name>
+        <qualifiedname>themis::llm::InferenceRequest::cancellation_token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="209" column="21" bodyfile="include/llm/llm_plugin_interface.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_plugin_interface.h" line="140" column="1" bodyfile="include/llm/llm_plugin_interface.h" bodystart="140" bodyend="210"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1ac602a40018fe6f13c5b87cc5cc528b15" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>cancellation_token</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1a1291f8ac2bb5567885edb59ac75cad62" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>grammar_ebnf</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1affc0457e8be86c6a2465c0d1d5e5a952" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>grammar_type</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>image_paths</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1acdd7731a162c149d10600dbf7278554f" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>json_schema</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1ae928960d1325a6935e0edc8af8cf828e" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>lora_adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1aa328461ee7286c7f9b0afee1be7dd21a" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>max_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1a1198a7bd8fad766a9bab6fce40fdc39b" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1a16a3b10fe4e3845d0b7ade97c567d775" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>prompt</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1aaa0e88281440d1824f61ad43bb367608" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>repetition_penalty</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1afd00b541568845c3b1d2fb15478444a3" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>request_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1a89276fb73214000d0a4456a54fb1c888" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>span_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1a267e1b869cf8a15d912bbd79397e2596" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>stop_sequences</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1aeca42075c71a503b0856dfcc74c58173" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>stream_callback</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1ab9c65c033a8f619058e66bf0b04ade63" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>system_prompt</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1acf11ee5fc926c90b9bd14f825e711034" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>temperature</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1aa455cf7016195caf92fb6fe8f252bac1" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1ade8e1c3ccb2207513346d70dc9b6b945" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>tools</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1a4fa0e6d8fbcdabebf97b19d795689dfa" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>top_k</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1a35955b00a87b285696f281bbfb4ee6b4" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>top_p</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_request_1a2fd2eeeee3a22ccc9117630cc8fcc606" prot="public" virt="non-virtual"><scope>themis::llm::InferenceRequest</scope><name>trace_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

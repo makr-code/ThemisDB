@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::transaction::IInDoubtRecoveryCoordinator</compoundname>
+    <derivedcompoundref refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator" prot="public" virt="non-virtual">themis::transaction::IRecoverableTwoPhaseCoordinator</derivedcompoundref>
+    <includes refid="in__doubt__recovery__coordinator_8h" local="no">in_doubt_recovery_coordinator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator_1a2bf59187a7b469b2af380a9b45244e1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::transaction::IInDoubtRecoveryCoordinator::~IInDoubtRecoveryCoordinator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IInDoubtRecoveryCoordinator</name>
+        <qualifiedname>themis::transaction::IInDoubtRecoveryCoordinator::~IInDoubtRecoveryCoordinator</qualifiedname>
+        <briefdescription>
+<para>IIn Doubt Recovery Coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/in_doubt_recovery_coordinator.h" line="30" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator_1a1508f43768f357c83c88521a440a8194" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::transaction::IInDoubtRecoveryCoordinator::recoverInDoubtTransactions</definition>
+        <argsstring>()=0</argsstring>
+        <name>recoverInDoubtTransactions</name>
+        <qualifiedname>themis::transaction::IInDoubtRecoveryCoordinator::recoverInDoubtTransactions</qualifiedname>
+        <reimplementedby refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a49b0deaa44277c19d8db1cc50b7ec704">recoverInDoubtTransactions</reimplementedby>
+        <reimplementedby refid="classthemis_1_1transaction_1_1_global_transaction_manager_1a243514ff91f17b59abf717932e186dde">recoverInDoubtTransactions</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/in_doubt_recovery_coordinator.h" line="32" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>themis::transaction::DistributedTransactionManager</label>
+        <link refid="classthemis_1_1transaction_1_1_distributed_transaction_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::transaction::GlobalTransactionManager</label>
+        <link refid="classthemis_1_1transaction_1_1_global_transaction_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::transaction::IInDoubtRecoveryCoordinator</label>
+        <link refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator"/>
+      </node>
+      <node id="2">
+        <label>themis::transaction::IRecoverableTwoPhaseCoordinator</label>
+        <link refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/transaction/in_doubt_recovery_coordinator.h" line="24" column="1" bodyfile="include/transaction/in_doubt_recovery_coordinator.h" bodystart="24" bodyend="33"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator_1a1508f43768f357c83c88521a440a8194" prot="public" virt="pure-virtual"><scope>themis::transaction::IInDoubtRecoveryCoordinator</scope><name>recoverInDoubtTransactions</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator_1a2bf59187a7b469b2af380a9b45244e1b" prot="public" virt="virtual"><scope>themis::transaction::IInDoubtRecoveryCoordinator</scope><name>~IInDoubtRecoveryCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

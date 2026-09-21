@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyCoverageAnalyzer::OverlapResult</compoundname>
+    <includes refid="compliance__reporting_8h" local="no">compliance_reporting.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result_1afaea62e97dfded9331b72446bc393e74" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyCoverageAnalyzer::OverlapResult::resource_pattern</definition>
+        <argsstring></argsstring>
+        <name>resource_pattern</name>
+        <qualifiedname>themis::governance::PolicyCoverageAnalyzer::OverlapResult::resource_pattern</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="76" column="21" bodyfile="include/governance/compliance_reporting.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result_1aa4328b53c61396551a6dce4a61ac5967" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::PolicyCoverageAnalyzer::OverlapResult::action_pattern</definition>
+        <argsstring></argsstring>
+        <name>action_pattern</name>
+        <qualifiedname>themis::governance::PolicyCoverageAnalyzer::OverlapResult::action_pattern</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="77" column="21" bodyfile="include/governance/compliance_reporting.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result_1aa37b6c62149643be00037dc99d21013b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::PolicyCoverageAnalyzer::OverlapResult::overlapping_rule_ids</definition>
+        <argsstring></argsstring>
+        <name>overlapping_rule_ids</name>
+        <qualifiedname>themis::governance::PolicyCoverageAnalyzer::OverlapResult::overlapping_rule_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="78" column="21" bodyfile="include/governance/compliance_reporting.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result_1ade75af94302081cac158f534e7b7306e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::PolicyCoverageAnalyzer::OverlapResult::overlap_count</definition>
+        <argsstring></argsstring>
+        <name>overlap_count</name>
+        <qualifiedname>themis::governance::PolicyCoverageAnalyzer::OverlapResult::overlap_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="79" column="13" bodyfile="include/governance/compliance_reporting.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result_1a29deaed3b292f453a6c91e8c57b55b36" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::PolicyCoverageAnalyzer::OverlapResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::PolicyCoverageAnalyzer::OverlapResult::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="85" column="24" bodyfile="src/governance/compliance_reporting.cpp" bodystart="282" bodyend="289"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_reporting.h" line="75" column="5" bodyfile="include/governance/compliance_reporting.h" bodystart="75" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result_1aa4328b53c61396551a6dce4a61ac5967" prot="public" virt="non-virtual"><scope>themis::governance::PolicyCoverageAnalyzer::OverlapResult</scope><name>action_pattern</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result_1ade75af94302081cac158f534e7b7306e" prot="public" virt="non-virtual"><scope>themis::governance::PolicyCoverageAnalyzer::OverlapResult</scope><name>overlap_count</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result_1aa37b6c62149643be00037dc99d21013b" prot="public" virt="non-virtual"><scope>themis::governance::PolicyCoverageAnalyzer::OverlapResult</scope><name>overlapping_rule_ids</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result_1afaea62e97dfded9331b72446bc393e74" prot="public" virt="non-virtual"><scope>themis::governance::PolicyCoverageAnalyzer::OverlapResult</scope><name>resource_pattern</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_coverage_analyzer_1_1_overlap_result_1a29deaed3b292f453a6c91e8c57b55b36" prot="public" virt="non-virtual"><scope>themis::governance::PolicyCoverageAnalyzer::OverlapResult</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

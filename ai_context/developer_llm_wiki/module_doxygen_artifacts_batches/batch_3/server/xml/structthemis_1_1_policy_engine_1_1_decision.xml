@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_policy_engine_1_1_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::PolicyEngine::Decision</compoundname>
+    <includes refid="policy__engine_8h" local="no">policy_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_policy_engine_1_1_decision_1ad93a49b0e8a96fdfb5022a9e175cd192" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::PolicyEngine::Decision::allowed</definition>
+        <argsstring></argsstring>
+        <name>allowed</name>
+        <qualifiedname>themis::PolicyEngine::Decision::allowed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="64" column="14" bodyfile="include/server/policy_engine.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_policy_engine_1_1_decision_1a0d51c43af697e35ec26ebb82fb72ad6f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::PolicyEngine::Decision::policy_id</definition>
+        <argsstring></argsstring>
+        <name>policy_id</name>
+        <qualifiedname>themis::PolicyEngine::Decision::policy_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="65" column="21" bodyfile="include/server/policy_engine.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_policy_engine_1_1_decision_1a56917cde171d597af04c7f65c4dca151" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::PolicyEngine::Decision::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::PolicyEngine::Decision::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="66" column="21" bodyfile="include/server/policy_engine.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/policy_engine.h" line="63" column="5" bodyfile="include/server/policy_engine.h" bodystart="63" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_policy_engine_1_1_decision_1ad93a49b0e8a96fdfb5022a9e175cd192" prot="public" virt="non-virtual"><scope>themis::PolicyEngine::Decision</scope><name>allowed</name></member>
+      <member refid="structthemis_1_1_policy_engine_1_1_decision_1a0d51c43af697e35ec26ebb82fb72ad6f" prot="public" virt="non-virtual"><scope>themis::PolicyEngine::Decision</scope><name>policy_id</name></member>
+      <member refid="structthemis_1_1_policy_engine_1_1_decision_1a56917cde171d597af04c7f65c4dca151" prot="public" virt="non-virtual"><scope>themis::PolicyEngine::Decision</scope><name>reason</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

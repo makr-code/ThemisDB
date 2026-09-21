@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__metadata__schema__llm__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_metadata_schema_llm_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">utils/error_registry.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/metadata/test_metadata_schema_llm_focused.cpp</label>
+        <link refid="test__metadata__schema__llm__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>utils/error_registry.h</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis_1_1errors">themis::errors</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__metadata__schema__llm__focused_8cpp_1abe2cf1513b6d53d4d1c1844734d2958c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataSchemaLlmFocused, MS1_LlmEnabledMacro_CanBeChecked)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataSchemaLlmFocused</type>
+        </param>
+        <param>
+          <type>MS1_LlmEnabledMacro_CanBeChecked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_schema_llm_focused.cpp" line="19" column="1" bodyfile="tests/metadata/test_metadata_schema_llm_focused.cpp" bodystart="19" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__schema__llm__focused_8cpp_1a761e4eb3ce164f847c468511a1a84441" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataSchemaLlmFocused, MS2_LlmModelNotFoundCode_InRange)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataSchemaLlmFocused</type>
+        </param>
+        <param>
+          <type>MS2_LlmModelNotFoundCode_InRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_schema_llm_focused.cpp" line="31" column="1" bodyfile="tests/metadata/test_metadata_schema_llm_focused.cpp" bodystart="31" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__schema__llm__focused_8cpp_1a28b58c5cac4070389b13a84c64549ff0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataSchemaLlmFocused, MS3_LlmErrorCodes_RegisteredInRegistry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataSchemaLlmFocused</type>
+        </param>
+        <param>
+          <type>MS3_LlmErrorCodes_RegisteredInRegistry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_schema_llm_focused.cpp" line="39" column="1" bodyfile="tests/metadata/test_metadata_schema_llm_focused.cpp" bodystart="39" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__schema__llm__focused_8cpp_1a7ed35cf732c3101ad58ee98b488113df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataSchemaLlmFocused, MS4_LlmInvalidHandle_SolutionPresent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataSchemaLlmFocused</type>
+        </param>
+        <param>
+          <type>MS4_LlmInvalidHandle_SolutionPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_schema_llm_focused.cpp" line="60" column="1" bodyfile="tests/metadata/test_metadata_schema_llm_focused.cpp" bodystart="60" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__schema__llm__focused_8cpp_1aa2e657d1007fdb45fed906a4a6c9a892" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataSchemaLlmFocused, MS5_LlmKeywords_FindLlmErrors)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataSchemaLlmFocused</type>
+        </param>
+        <param>
+          <type>MS5_LlmKeywords_FindLlmErrors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_schema_llm_focused.cpp" line="67" column="1" bodyfile="tests/metadata/test_metadata_schema_llm_focused.cpp" bodystart="67" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Group MS — <ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref> LLM-capability path tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The <ref refid="schema__manager_8cpp" kindref="compound">schema_manager.cpp</ref> reports &quot;llm&quot; as a server capability when THEMIS_LLM_ENABLED is set at build time. These tests verify the capability JSON structure and LLM-related schema constants. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/error_registry.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Use<sp/>the<sp/>error<sp/>code<sp/>definitions<sp/>visible<sp/>to<sp/>the<sp/>metadata<sp/>module</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(metadata/schema_manager.cpp<sp/>uses<sp/>these<sp/>codes<sp/>for<sp/>LLM<sp/>capability<sp/>checks)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::errors;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>MS1:<sp/>LLM<sp/>capability<sp/>flag<sp/>reflected<sp/>in<sp/>THEMIS_LLM_ENABLED<sp/>constant<sp/>────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><ref refid="test__metadata__schema__llm__focused_8cpp_1abe2cf1513b6d53d4d1c1844734d2958c" kindref="member">TEST</ref>(MetadataSchemaLlmFocused,<sp/>MS1_LlmEnabledMacro_CanBeChecked)<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_LLM_ENABLED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>LLM<sp/>is<sp/>enabled<sp/>at<sp/>build<sp/>time,<sp/>the<sp/>macro<sp/>is<sp/>defined</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>standard<sp/>CI<sp/>without<sp/>LLM<sp/>backend<sp/>the<sp/>macro<sp/>is<sp/>undefined<sp/>—</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>this<sp/>is<sp/>acceptable;<sp/>the<sp/>test<sp/>documents<sp/>the<sp/>expected<sp/>behaviour.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>MS2:<sp/>ErrorCode<sp/>for<sp/>LLM<sp/>model<sp/>not<sp/>found<sp/>is<sp/>in<sp/>metadata-accessible<sp/>range<sp/>───</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><ref refid="test__metadata__schema__llm__focused_8cpp_1abe2cf1513b6d53d4d1c1844734d2958c" kindref="member">TEST</ref>(MetadataSchemaLlmFocused,<sp/>MS2_LlmModelNotFoundCode_InRange)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LLM<sp/>errors<sp/>occupy<sp/>the<sp/>2000-2xxx<sp/>range<sp/>agreed<sp/>in<sp/>the<sp/>error<sp/>taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ErrorCode::ERR_LLM_MODEL_NOT_FOUND);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(code,<sp/>2000);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(code,<sp/>3000);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>MS3:<sp/>Schema-related<sp/>LLM<sp/>error<sp/>codes<sp/>are<sp/>registered<sp/>and<sp/>categorised<sp/>────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="test__metadata__schema__llm__focused_8cpp_1abe2cf1513b6d53d4d1c1844734d2958c" kindref="member">TEST</ref>(MetadataSchemaLlmFocused,<sp/>MS3_LlmErrorCodes_RegisteredInRegistry)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>reg<sp/>=<sp/>ErrorRegistry::getInstance();</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ErrorCode&gt;<sp/>schema_llm_codes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ErrorCode::ERR_LLM_MODEL_NOT_FOUND,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ErrorCode::ERR_LLM_MODEL_LOAD_FAILED,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ErrorCode::ERR_LLM_CONTEXT_CREATION_FAILED,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>:<sp/>schema_llm_codes)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>meta<sp/>=<sp/>reg.getError(code);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(meta.category,<sp/></highlight><highlight class="stringliteral">&quot;LLM&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>LLM<sp/>category<sp/>for<sp/>code<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(meta.message_template.empty())</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>non-empty<sp/>message_template<sp/>for<sp/>code<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>MS4:<sp/>ERR_LLM_INVALID_HANDLE<sp/>has<sp/>non-empty<sp/>solution<sp/>───────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__metadata__schema__llm__focused_8cpp_1abe2cf1513b6d53d4d1c1844734d2958c" kindref="member">TEST</ref>(MetadataSchemaLlmFocused,<sp/>MS4_LlmInvalidHandle_SolutionPresent)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>reg<sp/><sp/>=<sp/>ErrorRegistry::getInstance();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>meta<sp/><sp/>=<sp/>reg.getError(ErrorCode::ERR_LLM_INVALID_HANDLE);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(meta.solution.empty());</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>MS5:<sp/>LLM<sp/>error<sp/>keyword<sp/>search<sp/>finds<sp/>relevant<sp/>entries<sp/>─────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__metadata__schema__llm__focused_8cpp_1abe2cf1513b6d53d4d1c1844734d2958c" kindref="member">TEST</ref>(MetadataSchemaLlmFocused,<sp/>MS5_LlmKeywords_FindLlmErrors)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>reg<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>ErrorRegistry::getInstance();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>llm_errors<sp/>=<sp/>reg.getErrorsByCategory(</highlight><highlight class="stringliteral">&quot;LLM&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Every<sp/>retrieved<sp/>metadata<sp/>entry<sp/>must<sp/>be<sp/>in<sp/>the<sp/>LLM<sp/>category</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>meta<sp/>:<sp/>llm_errors)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(meta.category,<sp/></highlight><highlight class="stringliteral">&quot;LLM&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/metadata/test_metadata_schema_llm_focused.cpp"/>
+  </compounddef>
+</doxygen>

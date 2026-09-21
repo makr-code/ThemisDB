@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_consistent_hash" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::ConsistentHash</compoundname>
+    <includes refid="consistent__hash_8h" local="no">consistent_hash.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_consistent_hash_1a0095d9d77730d6795deaf60f17c6860f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref></type>
+        <definition>ConsistentHashRing themis::sharding::ConsistentHash::ring_</definition>
+        <argsstring></argsstring>
+        <name>ring_</name>
+        <qualifiedname>themis::sharding::ConsistentHash::ring_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="225" column="24" bodyfile="include/sharding/consistent_hash.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_consistent_hash_1a5d9be2e5ac7a0ac61ba9f1f996710093" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::sharding::ConsistentHash::endpoints_</definition>
+        <argsstring></argsstring>
+        <name>endpoints_</name>
+        <qualifiedname>themis::sharding::ConsistentHash::endpoints_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="226" column="14" bodyfile="include/sharding/consistent_hash.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_1a879a211c9b6d7e84f81da57ded50ed3b" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ConsistentHash::ConsistentHash</definition>
+        <argsstring>(int)</argsstring>
+        <name>ConsistentHash</name>
+        <qualifiedname>themis::sharding::ConsistentHash::ConsistentHash</qualifiedname>
+        <param>
+          <type>int</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="193" column="14" bodyfile="include/sharding/consistent_hash.h" bodystart="193" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_1a5bdfaaca92dc101224d787f513f5468b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ConsistentHash::addNode</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::string &amp;endpoint, size_t virtual_nodes=150)</argsstring>
+        <name>addNode</name>
+        <qualifiedname>themis::sharding::ConsistentHash::addNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>virtual_nodes</declname>
+          <defval>150</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="195" column="10" bodyfile="include/sharding/consistent_hash.h" bodystart="195" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_1a3bfd91da9a42932b41191de1fe198948" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ConsistentHash::removeNode</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>removeNode</name>
+        <qualifiedname>themis::sharding::ConsistentHash::removeNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="200" column="10" bodyfile="include/sharding/consistent_hash.h" bodystart="200" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_1a577c64898e369299e3d4aa9fcaf762b4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_shard_info" kindref="compound">ShardInfo</ref> &gt;</type>
+        <definition>std::optional&lt; ShardInfo &gt; themis::sharding::ConsistentHash::getNode</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>getNode</name>
+        <qualifiedname>themis::sharding::ConsistentHash::getNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="205" column="19" bodyfile="include/sharding/consistent_hash.h" bodystart="205" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_1ad12b7049e6560ce7e7bf716e9180a118" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::ConsistentHash::getShardCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getShardCount</name>
+        <qualifiedname>themis::sharding::ConsistentHash::getShardCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="221" column="12" bodyfile="include/sharding/consistent_hash.h" bodystart="221" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_consistent_hash_1aa3c18509bc1cd798ae59703aedee0e08" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::ConsistentHash::getVirtualNodeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getVirtualNodeCount</name>
+        <qualifiedname>themis::sharding::ConsistentHash::getVirtualNodeCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consistent_hash.h" line="222" column="12" bodyfile="include/sharding/consistent_hash.h" bodystart="222" bodyend="222"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Consistent hash component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/consistent_hash.h" line="191" column="1" bodyfile="include/sharding/consistent_hash.h" bodystart="191" bodyend="227"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_1a5bdfaaca92dc101224d787f513f5468b" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHash</scope><name>addNode</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_1a879a211c9b6d7e84f81da57ded50ed3b" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHash</scope><name>ConsistentHash</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_1a5d9be2e5ac7a0ac61ba9f1f996710093" prot="private" virt="non-virtual"><scope>themis::sharding::ConsistentHash</scope><name>endpoints_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_1a577c64898e369299e3d4aa9fcaf762b4" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHash</scope><name>getNode</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_1ad12b7049e6560ce7e7bf716e9180a118" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHash</scope><name>getShardCount</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_1aa3c18509bc1cd798ae59703aedee0e08" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHash</scope><name>getVirtualNodeCount</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_1a3bfd91da9a42932b41191de1fe198948" prot="public" virt="non-virtual"><scope>themis::sharding::ConsistentHash</scope><name>removeNode</name></member>
+      <member refid="classthemis_1_1sharding_1_1_consistent_hash_1a0095d9d77730d6795deaf60f17c6860f" prot="private" virt="non-virtual"><scope>themis::sharding::ConsistentHash</scope><name>ring_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

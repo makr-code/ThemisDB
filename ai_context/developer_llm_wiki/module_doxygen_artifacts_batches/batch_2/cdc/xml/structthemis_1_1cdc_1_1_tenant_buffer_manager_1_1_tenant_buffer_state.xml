@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_tenant_buffer_manager_1_1_tenant_buffer_state" kind="struct" language="C++" prot="private">
+    <compoundname>themis::cdc::TenantBufferManager::TenantBufferState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_buffer_manager_1_1_tenant_buffer_state_1a9a3f187a6b7867fa20c314f4292b13ce" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_changefeed_buffer" kindref="compound">ChangefeedBuffer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ChangefeedBuffer&gt; themis::cdc::TenantBufferManager::TenantBufferState::buffer</definition>
+        <argsstring></argsstring>
+        <name>buffer</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::TenantBufferState::buffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="207" column="25" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_buffer_manager_1_1_tenant_buffer_state_1a3542b30c8a415a6f22422f3b1fdee074" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cdc_1_1_tenant_config" kindref="compound">TenantConfig</ref></type>
+        <definition>TenantConfig themis::cdc::TenantBufferManager::TenantBufferState::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::TenantBufferState::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="208" column="22" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_buffer_manager_1_1_tenant_buffer_state_1afbfbbda85cd1451e735300d1b8694d68" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cdc_1_1_tenant_stats" kindref="compound">TenantStats</ref></type>
+        <definition>TenantStats themis::cdc::TenantBufferManager::TenantBufferState::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::TenantBufferState::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="209" column="21" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_buffer_manager_1_1_tenant_buffer_state_1acb59f6eafbc9b6ffa8674e892c07ad29" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::cdc::TenantBufferManager::TenantBufferState::last_event_time</definition>
+        <argsstring></argsstring>
+        <name>last_event_time</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::TenantBufferState::last_event_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="210" column="47" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_buffer_manager_1_1_tenant_buffer_state_1a46ea646f6336f2e1b977081f13d53857" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::cdc::TenantBufferManager::TenantBufferState::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::TenantBufferState::enabled</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="211" column="21" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="211" bodyend="211"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::ChangefeedBufferConfig</label>
+        <link refid="structthemis_1_1_changefeed_buffer_config"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::TenantBufferManager::TenantBufferState</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cdc::TenantConfig</label>
+        <link refid="structthemis_1_1cdc_1_1_tenant_config"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>buffer_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::cdc::TenantStats</label>
+        <link refid="structthemis_1_1cdc_1_1_tenant_stats"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/tenant_buffer_manager.h" line="206" column="5" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="206" bodyend="212"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_tenant_buffer_manager_1_1_tenant_buffer_state_1a9a3f187a6b7867fa20c314f4292b13ce" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager::TenantBufferState</scope><name>buffer</name></member>
+      <member refid="structthemis_1_1cdc_1_1_tenant_buffer_manager_1_1_tenant_buffer_state_1a3542b30c8a415a6f22422f3b1fdee074" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager::TenantBufferState</scope><name>config</name></member>
+      <member refid="structthemis_1_1cdc_1_1_tenant_buffer_manager_1_1_tenant_buffer_state_1a46ea646f6336f2e1b977081f13d53857" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager::TenantBufferState</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1cdc_1_1_tenant_buffer_manager_1_1_tenant_buffer_state_1acb59f6eafbc9b6ffa8674e892c07ad29" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager::TenantBufferState</scope><name>last_event_time</name></member>
+      <member refid="structthemis_1_1cdc_1_1_tenant_buffer_manager_1_1_tenant_buffer_state_1afbfbbda85cd1451e735300d1b8694d68" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager::TenantBufferState</scope><name>stats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

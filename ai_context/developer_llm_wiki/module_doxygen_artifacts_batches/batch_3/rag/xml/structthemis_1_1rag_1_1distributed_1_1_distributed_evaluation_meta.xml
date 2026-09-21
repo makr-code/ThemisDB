@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::distributed::DistributedEvaluationMeta</compoundname>
+    <includes refid="distributed__rag__evaluator_8h" local="no">distributed_rag_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta_1aa248de0598d9fa533d82db0354af1bb2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::distributed::DistributedEvaluationMeta::successful_judges</definition>
+        <argsstring></argsstring>
+        <name>successful_judges</name>
+        <qualifiedname>themis::rag::distributed::DistributedEvaluationMeta::successful_judges</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of judges that completed successfully. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="78" column="12" bodyfile="include/rag/distributed_rag_evaluator.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta_1ab1772665e95865bba92145fb9a259586" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::distributed::DistributedEvaluationMeta::failed_judges</definition>
+        <argsstring></argsstring>
+        <name>failed_judges</name>
+        <qualifiedname>themis::rag::distributed::DistributedEvaluationMeta::failed_judges</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of judges that failed (timeout / exception). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="81" column="12" bodyfile="include/rag/distributed_rag_evaluator.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta_1a18104d7dea57a55fc0209845f3a55c89" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">judge::EvaluationResult</ref> &gt;</type>
+        <definition>std::vector&lt;judge::EvaluationResult&gt; themis::rag::distributed::DistributedEvaluationMeta::individual_results</definition>
+        <argsstring></argsstring>
+        <name>individual_results</name>
+        <qualifiedname>themis::rag::distributed::DistributedEvaluationMeta::individual_results</qualifiedname>
+        <briefdescription>
+<para>Per-judge individual results (order matches <ref refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config" kindref="compound">JudgeWorkerConfig</ref> order). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="84" column="17" bodyfile="include/rag/distributed_rag_evaluator.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta_1a1eca961b823b4f8dea4fb692ee6d4b8f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::distributed::DistributedEvaluationMeta::inter_judge_agreement</definition>
+        <argsstring></argsstring>
+        <name>inter_judge_agreement</name>
+        <qualifiedname>themis::rag::distributed::DistributedEvaluationMeta::inter_judge_agreement</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Inter-judge agreement score [0, 1] on the overall dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="87" column="12" bodyfile="include/rag/distributed_rag_evaluator.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta_1a5300631fb266600cdca98426aa884b60" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::rag::distributed::DistributedEvaluationMeta::total_elapsed</definition>
+        <argsstring></argsstring>
+        <name>total_elapsed</name>
+        <qualifiedname>themis::rag::distributed::DistributedEvaluationMeta::total_elapsed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Wall-clock time for the entire distributed evaluation round. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="90" column="31" bodyfile="include/rag/distributed_rag_evaluator.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Metadata emitted alongside the aggregated result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/distributed_rag_evaluator.h" line="76" column="1" bodyfile="include/rag/distributed_rag_evaluator.h" bodystart="76" bodyend="91"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta_1ab1772665e95865bba92145fb9a259586" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedEvaluationMeta</scope><name>failed_judges</name></member>
+      <member refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta_1a18104d7dea57a55fc0209845f3a55c89" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedEvaluationMeta</scope><name>individual_results</name></member>
+      <member refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta_1a1eca961b823b4f8dea4fb692ee6d4b8f" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedEvaluationMeta</scope><name>inter_judge_agreement</name></member>
+      <member refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta_1aa248de0598d9fa533d82db0354af1bb2" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedEvaluationMeta</scope><name>successful_judges</name></member>
+      <member refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluation_meta_1a5300631fb266600cdca98426aa884b60" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedEvaluationMeta</scope><name>total_elapsed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

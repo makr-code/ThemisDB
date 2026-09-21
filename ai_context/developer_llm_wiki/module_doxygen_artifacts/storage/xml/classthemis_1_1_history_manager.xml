@@ -1,0 +1,479 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_history_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::HistoryManager</compoundname>
+    <includes refid="history__manager_8h" local="no">history_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_history_manager_1a68a572182c84d0873c4e70c6161689d5" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::HistoryManager::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::HistoryManager::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="212" column="25" bodyfile="include/storage/history_manager.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_history_manager_1af6c6dd3835a98caaf41ba655a43158e9" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_hybrid_logical_clock" kindref="compound">HybridLogicalClock</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;HybridLogicalClock&gt; themis::HistoryManager::clock_</definition>
+        <argsstring></argsstring>
+        <name>clock_</name>
+        <qualifiedname>themis::HistoryManager::clock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="213" column="21" bodyfile="include/storage/history_manager.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_history_manager_1ad7729763342776838872fb7aa9377355" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::HistoryManager::HistoryManager</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; db, std::shared_ptr&lt; HybridLogicalClock &gt; clock=nullptr)</argsstring>
+        <name>HistoryManager</name>
+        <qualifiedname>themis::HistoryManager::HistoryManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref> &gt;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_hybrid_logical_clock" kindref="compound">HybridLogicalClock</ref> &gt;</type>
+          <declname>clock</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1_history_manager" kindref="compound">HistoryManager</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Underlying RocksDB instance (shared ownership). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>clock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HLC clock used to generate timestamps (shared ownership). If null, a new <ref refid="classthemis_1_1_hybrid_logical_clock" kindref="compound">HybridLogicalClock</ref> is created internally. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="131" column="14" bodyfile="src/storage/history_manager.cpp" bodystart="154" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_history_manager_1aebb6c4b48fdf58804a87948696410095" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref> &gt;</type>
+        <definition>std::optional&lt; HLCTimestamp &gt; themis::HistoryManager::recordPut</definition>
+        <argsstring>(RocksDBWrapper::TransactionWrapper &amp;txn, std::string_view base_key, const std::vector&lt; uint8_t &gt; &amp;value, uint64_t txn_id=0)</argsstring>
+        <name>recordPut</name>
+        <qualifiedname>themis::HistoryManager::recordPut</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper" kindref="compound">RocksDBWrapper::TransactionWrapper</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>base_key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>txn_id</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Write a &quot;put&quot; history entry within an existing transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Transactional write helpers ───────────────────────────────────────────────</para>
+<para>Both the live-key write and this history write share the same <computeroutput>txn</computeroutput> so they are committed atomically.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Active RocksDB transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>base_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The live key that was written. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value that was written. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Originating transaction ID (0 if unknown). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The HLC timestamp assigned to this history entry, or std::nullopt if the history write failed (caller should treat the operation as failed).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: now(), std::string(), <ref refid="classthemis_1_1_history_manager_1a16f69358cd01b6576ef0d422cf49176f" kindref="member">historyKey()</ref>, <ref refid="classthemis_1_1_history_manager_1a7009c049ac7fdf59b7e8fbd5cfcc8bcd" kindref="member">serializeHistoryRecord()</ref>, put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="167" column="19" bodyfile="src/storage/history_manager.cpp" bodystart="258" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_history_manager_1a37eccdedc72e97ac603b7b38459c995a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref> &gt;</type>
+        <definition>std::optional&lt; HLCTimestamp &gt; themis::HistoryManager::recordDel</definition>
+        <argsstring>(RocksDBWrapper::TransactionWrapper &amp;txn, std::string_view base_key, uint64_t txn_id=0)</argsstring>
+        <name>recordDel</name>
+        <qualifiedname>themis::HistoryManager::recordDel</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper" kindref="compound">RocksDBWrapper::TransactionWrapper</ref> &amp;</type>
+          <declname>txn</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>base_key</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>txn_id</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Write a tombstone &quot;del&quot; history entry within an existing transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Del.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Active RocksDB transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>base_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The live key that was deleted. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Originating transaction ID (0 if unknown). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The HLC timestamp assigned to this history entry, or std::nullopt if the history write failed (caller should treat the operation as failed).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: now(), std::string(), <ref refid="classthemis_1_1_history_manager_1a16f69358cd01b6576ef0d422cf49176f" kindref="member">historyKey()</ref>, <ref refid="classthemis_1_1_history_manager_1a7009c049ac7fdf59b7e8fbd5cfcc8bcd" kindref="member">serializeHistoryRecord()</ref>, put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="183" column="19" bodyfile="src/storage/history_manager.cpp" bodystart="287" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_history_manager_1ae847e6bb718872c4173d6ff1720c8e6f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_history_record" kindref="compound">HistoryRecord</ref> &gt;</type>
+        <definition>std::optional&lt; HistoryRecord &gt; themis::HistoryManager::getAtTimestamp</definition>
+        <argsstring>(std::string_view base_key, HLCTimestamp ts) const</argsstring>
+        <name>getAtTimestamp</name>
+        <qualifiedname>themis::HistoryManager::getAtTimestamp</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>base_key</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+          <declname>ts</declname>
+        </param>
+        <briefdescription>
+<para>Return the most-recent history record for <computeroutput>base_key</computeroutput> at or before <computeroutput>ts</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1_history_record" kindref="compound">HistoryRecord</ref>, or std::nullopt if no version exists at or before <computeroutput>ts</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="196" column="19" bodyfile="src/storage/history_manager.cpp" bodystart="308" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_history_manager_1a731a031f64092685650c6983b660f8cc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_history_record" kindref="compound">HistoryRecord</ref> &gt;</type>
+        <definition>std::vector&lt; HistoryRecord &gt; themis::HistoryManager::listVersions</definition>
+        <argsstring>(std::string_view base_key) const</argsstring>
+        <name>listVersions</name>
+        <qualifiedname>themis::HistoryManager::listVersions</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>base_key</declname>
+        </param>
+        <briefdescription>
+<para>Return all history versions of <computeroutput>base_key</computeroutput>, oldest first. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="204" column="17" bodyfile="src/storage/history_manager.cpp" bodystart="361" bodyend="372"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_history_manager_1a16f69358cd01b6576ef0d422cf49176f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::HistoryManager::historyKey</definition>
+        <argsstring>(std::string_view base_key, HLCTimestamp ts)</argsstring>
+        <name>historyKey</name>
+        <qualifiedname>themis::HistoryManager::historyKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>base_key</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+          <declname>ts</declname>
+        </param>
+        <briefdescription>
+<para>Build the history key for <computeroutput>base_key</computeroutput> at <computeroutput>ts</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Key encoding ─────────────────────────────────────────────────────────────</para>
+<para>Format: <computeroutput>hist:&lt;base_key&gt;\x00&lt;8-byte-big-endian-ts&gt;</computeroutput></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), append(), data(), push_back(), encodeToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="143" column="24" bodyfile="src/storage/history_manager.cpp" bodystart="174" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_history_manager_1a5177ff18756f510dc7c1cba905a654ae" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::HistoryManager::historyPrefix</definition>
+        <argsstring>(std::string_view base_key)</argsstring>
+        <name>historyPrefix</name>
+        <qualifiedname>themis::HistoryManager::historyPrefix</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>base_key</declname>
+        </param>
+        <briefdescription>
+<para>Build the scan prefix for all history versions of <computeroutput>base_key</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>History Prefix.</para>
+<para>Format: <computeroutput>hist:&lt;base_key&gt;\x00</computeroutput></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), append(), data(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="150" column="24" bodyfile="src/storage/history_manager.cpp" bodystart="191" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_history_manager_1a7009c049ac7fdf59b7e8fbd5cfcc8bcd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::HistoryManager::serializeHistoryRecord</definition>
+        <argsstring>(const HistoryRecord &amp;rec)</argsstring>
+        <name>serializeHistoryRecord</name>
+        <qualifiedname>themis::HistoryManager::serializeHistoryRecord</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_history_record" kindref="compound">HistoryRecord</ref> &amp;</type>
+          <declname>rec</declname>
+        </param>
+        <briefdescription>
+<para>── Serialization ───────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: bytesToHex(), dump(), buf(), begin(), end(), append_crc32(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="208" column="24" bodyfile="src/storage/history_manager.cpp" bodystart="207" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_history_manager_1a5586d7f8551cb84a373500b29aecf87e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_history_record" kindref="compound">HistoryRecord</ref> &gt;</type>
+        <definition>std::optional&lt; HistoryRecord &gt; themis::HistoryManager::deserializeHistoryRecord</definition>
+        <argsstring>(std::string_view data)</argsstring>
+        <name>deserializeHistoryRecord</name>
+        <qualifiedname>themis::HistoryManager::deserializeHistoryRecord</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize History Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: verify_crc32(), nlohmann::json::parse(), begin(), end(), value(), HLCTimestamp(), hexToBytes(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="209" column="26" bodyfile="src/storage/history_manager.cpp" bodystart="227" bodyend="246"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages the immutable history keyspace. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>History keys are stored as: <computeroutput>hist:&lt;base_key&gt;\x00&lt;8-byte-big-endian-HLC-ts&gt;</computeroutput></para>
+<para>This allows a prefix scan over <computeroutput>hist:&lt;base_key&gt;\x00</computeroutput> to iterate all versions in chronological order, consistent with the existing <ref refid="classthemis_1_1_m_v_c_c_store" kindref="compound">MVCCStore</ref> versioned-key scheme.</para>
+<para>Thread-safety: Read operations are thread-safe. Write operations must be performed within a single-writer transaction to guarantee atomicity with live-key writes. </para>
+    </detaileddescription>
+    <location file="include/storage/history_manager.h" line="122" column="1" bodyfile="include/storage/history_manager.h" bodystart="122" bodyend="214"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_history_manager_1af6c6dd3835a98caaf41ba655a43158e9" prot="private" virt="non-virtual"><scope>themis::HistoryManager</scope><name>clock_</name></member>
+      <member refid="classthemis_1_1_history_manager_1a68a572182c84d0873c4e70c6161689d5" prot="private" virt="non-virtual"><scope>themis::HistoryManager</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_history_manager_1a5586d7f8551cb84a373500b29aecf87e" prot="public" virt="non-virtual"><scope>themis::HistoryManager</scope><name>deserializeHistoryRecord</name></member>
+      <member refid="classthemis_1_1_history_manager_1ae847e6bb718872c4173d6ff1720c8e6f" prot="public" virt="non-virtual"><scope>themis::HistoryManager</scope><name>getAtTimestamp</name></member>
+      <member refid="classthemis_1_1_history_manager_1a16f69358cd01b6576ef0d422cf49176f" prot="public" virt="non-virtual"><scope>themis::HistoryManager</scope><name>historyKey</name></member>
+      <member refid="classthemis_1_1_history_manager_1ad7729763342776838872fb7aa9377355" prot="public" virt="non-virtual"><scope>themis::HistoryManager</scope><name>HistoryManager</name></member>
+      <member refid="classthemis_1_1_history_manager_1a5177ff18756f510dc7c1cba905a654ae" prot="public" virt="non-virtual"><scope>themis::HistoryManager</scope><name>historyPrefix</name></member>
+      <member refid="classthemis_1_1_history_manager_1a731a031f64092685650c6983b660f8cc" prot="public" virt="non-virtual"><scope>themis::HistoryManager</scope><name>listVersions</name></member>
+      <member refid="classthemis_1_1_history_manager_1a37eccdedc72e97ac603b7b38459c995a" prot="public" virt="non-virtual"><scope>themis::HistoryManager</scope><name>recordDel</name></member>
+      <member refid="classthemis_1_1_history_manager_1aebb6c4b48fdf58804a87948696410095" prot="public" virt="non-virtual"><scope>themis::HistoryManager</scope><name>recordPut</name></member>
+      <member refid="classthemis_1_1_history_manager_1a7009c049ac7fdf59b7e8fbd5cfcc8bcd" prot="public" virt="non-virtual"><scope>themis::HistoryManager</scope><name>serializeHistoryRecord</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

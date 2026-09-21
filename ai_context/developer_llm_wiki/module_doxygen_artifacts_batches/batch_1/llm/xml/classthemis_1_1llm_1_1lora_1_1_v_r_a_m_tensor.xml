@@ -1,0 +1,315 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::VRAMTensor</compoundname>
+    <includes refid="vram__allocator_8h" local="no">vram_allocator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a014bbf719537c8dd6d0be10c4cd6e75e" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" kindref="compound">VRAMAllocator</ref> *</type>
+        <definition>VRAMAllocator* themis::llm::lora::VRAMTensor::allocator_</definition>
+        <argsstring></argsstring>
+        <name>allocator_</name>
+        <qualifiedname>themis::llm::lora::VRAMTensor::allocator_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="190" column="19" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a25b6aef0636f3da7230d69a2ce90610f" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::lora::VRAMTensor::ptr_</definition>
+        <argsstring></argsstring>
+        <name>ptr_</name>
+        <qualifiedname>themis::llm::lora::VRAMTensor::ptr_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="191" column="10" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1adadeceed1e014bb8fd316184f615d4d3" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::VRAMTensor::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>themis::llm::lora::VRAMTensor::size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="192" column="12" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a19acaa5eaf896f730ce70f21aa1ed652" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::VRAMTensor::VRAMTensor</definition>
+        <argsstring>(VRAMAllocator *allocator, size_t size_bytes)</argsstring>
+        <name>VRAMTensor</name>
+        <qualifiedname>themis::llm::lora::VRAMTensor::VRAMTensor</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" kindref="compound">VRAMAllocator</ref> *</type>
+          <declname>allocator</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="162" column="5" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="1075" bodyend="1081"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a6b149177f6ee5e191fe24bef7ab558cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::VRAMTensor::~VRAMTensor</definition>
+        <argsstring>()</argsstring>
+        <name>~VRAMTensor</name>
+        <qualifiedname>themis::llm::lora::VRAMTensor::~VRAMTensor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="163" column="5" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="1083" bodyend="1087"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1ae9e9f7c77d9a79a91a21a5d2baf8af09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::VRAMTensor::VRAMTensor</definition>
+        <argsstring>(const VRAMTensor &amp;)=delete</argsstring>
+        <name>VRAMTensor</name>
+        <qualifiedname>themis::llm::lora::VRAMTensor::VRAMTensor</qualifiedname>
+        <param>
+          <type>const VRAMTensor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="166" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a5e56e2ab1eba03a894a07a468613d002" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a19acaa5eaf896f730ce70f21aa1ed652" kindref="member">VRAMTensor</ref> &amp;</type>
+        <definition>VRAMTensor &amp; themis::llm::lora::VRAMTensor::operator=</definition>
+        <argsstring>(const VRAMTensor &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::VRAMTensor::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a19acaa5eaf896f730ce70f21aa1ed652" kindref="member">VRAMTensor</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="167" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1af803df7fccb898fbe3bba76b44c53aae" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::VRAMTensor::VRAMTensor</definition>
+        <argsstring>(VRAMTensor &amp;&amp;other) noexcept</argsstring>
+        <name>VRAMTensor</name>
+        <qualifiedname>themis::llm::lora::VRAMTensor::VRAMTensor</qualifiedname>
+        <param>
+          <type>VRAMTensor &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="168" column="5" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="1089" bodyend="1097"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a22117d5c990753ff3b1f6947ef133900" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a19acaa5eaf896f730ce70f21aa1ed652" kindref="member">VRAMTensor</ref> &amp;</type>
+        <definition>VRAMTensor &amp; themis::llm::lora::VRAMTensor::operator=</definition>
+        <argsstring>(VRAMTensor &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::VRAMTensor::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a19acaa5eaf896f730ce70f21aa1ed652" kindref="member">VRAMTensor</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="169" column="16" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="1099" bodyend="1114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a7bcbeda1bf1ef286ad9da1a661bacd0e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::llm::lora::VRAMTensor::ptr</definition>
+        <argsstring>() const</argsstring>
+        <name>ptr</name>
+        <qualifiedname>themis::llm::lora::VRAMTensor::ptr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="171" column="10" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="171" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a627cee4619933d92b37de2a167ee2f4a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::VRAMTensor::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::llm::lora::VRAMTensor::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="172" column="12" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="172" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a9c39eb1aa69d4df9729b725089f5133d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::VRAMTensor::upload</definition>
+        <argsstring>(const void *src, size_t size_bytes)</argsstring>
+        <name>upload</name>
+        <qualifiedname>themis::llm::lora::VRAMTensor::upload</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Upload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements upload without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="180" column="10" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="1123" bodyend="1133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a6fa853ca8aaf92bfaabbbbbe590952f9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::VRAMTensor::download</definition>
+        <argsstring>(void *dst, size_t size_bytes) const</argsstring>
+        <name>download</name>
+        <qualifiedname>themis::llm::lora::VRAMTensor::download</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>dst</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Download. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">dst</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/vram_allocator.h" line="187" column="10" bodyfile="src/llm/lora_framework/vram_allocator.cpp" bodystart="1135" bodyend="1145"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/vram_allocator.h" line="160" column="1" bodyfile="include/llm/lora_framework/vram_allocator.h" bodystart="160" bodyend="193"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a014bbf719537c8dd6d0be10c4cd6e75e" prot="private" virt="non-virtual"><scope>themis::llm::lora::VRAMTensor</scope><name>allocator_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a6fa853ca8aaf92bfaabbbbbe590952f9" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMTensor</scope><name>download</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a5e56e2ab1eba03a894a07a468613d002" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMTensor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a22117d5c990753ff3b1f6947ef133900" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMTensor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a7bcbeda1bf1ef286ad9da1a661bacd0e" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMTensor</scope><name>ptr</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a25b6aef0636f3da7230d69a2ce90610f" prot="private" virt="non-virtual"><scope>themis::llm::lora::VRAMTensor</scope><name>ptr_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a627cee4619933d92b37de2a167ee2f4a" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMTensor</scope><name>size</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1adadeceed1e014bb8fd316184f615d4d3" prot="private" virt="non-virtual"><scope>themis::llm::lora::VRAMTensor</scope><name>size_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a9c39eb1aa69d4df9729b725089f5133d" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMTensor</scope><name>upload</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a19acaa5eaf896f730ce70f21aa1ed652" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMTensor</scope><name>VRAMTensor</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1ae9e9f7c77d9a79a91a21a5d2baf8af09" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMTensor</scope><name>VRAMTensor</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1af803df7fccb898fbe3bba76b44c53aae" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMTensor</scope><name>VRAMTensor</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_tensor_1a6b149177f6ee5e191fe24bef7ab558cd" prot="public" virt="non-virtual"><scope>themis::llm::lora::VRAMTensor</scope><name>~VRAMTensor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

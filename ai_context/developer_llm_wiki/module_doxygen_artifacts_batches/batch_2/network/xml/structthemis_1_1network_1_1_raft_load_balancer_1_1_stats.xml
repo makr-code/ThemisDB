@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_raft_load_balancer_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::RaftLoadBalancer::Stats</compoundname>
+    <includes refid="raft__load__balancer_8h" local="no">raft_load_balancer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_stats_1ac507b3549fe7b2bc3d31bb98b60c2e61" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::RaftLoadBalancer::Stats::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Stats::total_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Requests routed since start. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="148" column="18" bodyfile="include/network/raft_load_balancer.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_stats_1a853d47d32345d2119e4a3fe1da6e918e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::RaftLoadBalancer::Stats::failed_requests</definition>
+        <argsstring></argsstring>
+        <name>failed_requests</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Stats::failed_requests</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Requests that resulted in failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="149" column="18" bodyfile="include/network/raft_load_balancer.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_stats_1af497ec7538bba8a10aaa5aec88385ab3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::RaftLoadBalancer::Stats::failed_backends</definition>
+        <argsstring></argsstring>
+        <name>failed_backends</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Stats::failed_backends</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Backends currently unhealthy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="150" column="18" bodyfile="include/network/raft_load_balancer.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_stats_1a0588951b5b0d2fe8e5f4f9b2430bed88" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::RaftLoadBalancer::Stats::rebalance_events</definition>
+        <argsstring></argsstring>
+        <name>rebalance_events</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Stats::rebalance_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Times dynamic weight adjustment ran. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="151" column="18" bodyfile="include/network/raft_load_balancer.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_stats_1ada99b06559b9b58d3ba31255aead1a1a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::RaftLoadBalancer::Stats::failover_events</definition>
+        <argsstring></argsstring>
+        <name>failover_events</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Stats::failover_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Times a backend was marked unhealthy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="152" column="18" bodyfile="include/network/raft_load_balancer.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_stats_1a2ea172bb79fd53e1de5623101f854cf1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::RaftLoadBalancer::Stats::recovery_events</definition>
+        <argsstring></argsstring>
+        <name>recovery_events</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Stats::recovery_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Times a backend recovered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="153" column="18" bodyfile="include/network/raft_load_balancer.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_stats_1a4c138ead969ed4aa163c5ca23860f14b" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::map&lt;std::string, uint64_t&gt; themis::network::RaftLoadBalancer::Stats::requests_per_backend</definition>
+        <argsstring></argsstring>
+        <name>requests_per_backend</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Stats::requests_per_backend</qualifiedname>
+        <briefdescription>
+<para>Per-backend totals. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="154" column="18" bodyfile="include/network/raft_load_balancer.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregate statistics for this load-balancer node. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/raft_load_balancer.h" line="147" column="5" bodyfile="include/network/raft_load_balancer.h" bodystart="147" bodyend="155"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_stats_1af497ec7538bba8a10aaa5aec88385ab3" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Stats</scope><name>failed_backends</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_stats_1a853d47d32345d2119e4a3fe1da6e918e" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Stats</scope><name>failed_requests</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_stats_1ada99b06559b9b58d3ba31255aead1a1a" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Stats</scope><name>failover_events</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_stats_1a0588951b5b0d2fe8e5f4f9b2430bed88" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Stats</scope><name>rebalance_events</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_stats_1a2ea172bb79fd53e1de5623101f854cf1" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Stats</scope><name>recovery_events</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_stats_1a4c138ead969ed4aa163c5ca23860f14b" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Stats</scope><name>requests_per_backend</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_stats_1ac507b3549fe7b2bc3d31bb98b60c2e61" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Stats</scope><name>total_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

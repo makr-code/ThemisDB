@@ -1,0 +1,823 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_adapter_compatibility_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::AdapterCompatibilityValidator</compoundname>
+    <includes refid="adapter__compatibility_8h" local="no">adapter_compatibility.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check" prot="public">themis::llm::AdapterCompatibilityValidator::CompatibilityCheck</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result" prot="public">themis::llm::AdapterCompatibilityValidator::ValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec" prot="public">themis::llm::AdapterCompatibilityValidator::ModelSpec</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_version_parts" prot="private">themis::llm::AdapterCompatibilityValidator::VersionParts</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ValidationLevel</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::ValidationLevel</qualifiedname>
+        <enumvalue id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753a4c50b1af679a751969aaad2881a34bef" prot="public">
+          <name>STRICT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753a5137485eff3ff278d233d993c8539599" prot="public">
+          <name>MODERATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753a57676e0bedd941be2b5a7138f24bfd97" prot="public">
+          <name>PERMISSIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="32" column="5" bodyfile="include/llm/adapter_compatibility.h" bodystart="32" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a5749a9cc4b61318bce180de89d96eebf" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753" kindref="member">ValidationLevel</ref></type>
+        <definition>ValidationLevel themis::llm::AdapterCompatibilityValidator::validation_level_</definition>
+        <argsstring></argsstring>
+        <name>validation_level_</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::validation_level_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="169" column="21" bodyfile="include/llm/adapter_compatibility.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a9ec708ce8fc5de5f448d3a5db65ec25b" prot="private" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726c" kindref="member">CompatibilityCheck::CheckType</ref>, bool &gt;</type>
+        <definition>std::map&lt;CompatibilityCheck::CheckType, bool&gt; themis::llm::AdapterCompatibilityValidator::enabled_checks_</definition>
+        <argsstring></argsstring>
+        <name>enabled_checks_</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::enabled_checks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="170" column="14" bodyfile="include/llm/adapter_compatibility.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a07f306fb03f28e8e457278a46b702f6f" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec" kindref="compound">ModelSpec</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ModelSpec&gt; themis::llm::AdapterCompatibilityValidator::known_models_</definition>
+        <argsstring></argsstring>
+        <name>known_models_</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::known_models_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="171" column="14" bodyfile="include/llm/adapter_compatibility.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1ab0fb0a6cf1e38cf0a13ea03ae0727b4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::AdapterCompatibilityValidator::~AdapterCompatibilityValidator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AdapterCompatibilityValidator</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::~AdapterCompatibilityValidator</qualifiedname>
+        <briefdescription>
+<para>Adapter Compatibility Validator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="31" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1ad63c563c44eaa45f79c65869813ce5c3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::AdapterCompatibilityValidator::AdapterCompatibilityValidator</definition>
+        <argsstring>(ValidationLevel level=ValidationLevel::STRICT)</argsstring>
+        <name>AdapterCompatibilityValidator</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::AdapterCompatibilityValidator</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753" kindref="member">ValidationLevel</ref></type>
+          <declname>level</declname>
+          <defval><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753a4c50b1af679a751969aaad2881a34bef" kindref="member">ValidationLevel::STRICT</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="84" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1afe90e1e89cfd2121c2271dae87ef045c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::llm::AdapterCompatibilityValidator::validate</definition>
+        <argsstring>(const AdapterMetadata &amp;adapter, const std::string &amp;base_model_name, const std::string &amp;base_model_version=&quot;&quot;)</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::validate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>adapter</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_version</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="90" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a494730992e93deeaf1d8f37fa95b3405" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterCompatibilityValidator::isCompatible</definition>
+        <argsstring>(const AdapterMetadata &amp;adapter, const std::string &amp;base_model_name)</argsstring>
+        <name>isCompatible</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::isCompatible</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>adapter</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_name</declname>
+        </param>
+        <briefdescription>
+<para>Is Compatible. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the base model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="102" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a4410f41059a8c50e5808d9d1d9cefeaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::llm::AdapterCompatibilityValidator::validateAdapterPair</definition>
+        <argsstring>(const AdapterMetadata &amp;adapter1, const AdapterMetadata &amp;adapter2)</argsstring>
+        <name>validateAdapterPair</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::validateAdapterPair</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>adapter1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>adapter2</declname>
+        </param>
+        <briefdescription>
+<para>Validate Adapter Pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="113" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a1bc89fe6e67443e01a5df34b1b29994f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec" kindref="compound">ModelSpec</ref> &gt;</type>
+        <definition>std::optional&lt; ModelSpec &gt; themis::llm::AdapterCompatibilityValidator::getModelSpec</definition>
+        <argsstring>(const std::string &amp;model_name)</argsstring>
+        <name>getModelSpec</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::getModelSpec</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Model Spec. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="139" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1ad86c617b5841bc7ca620f5ea03f5fea8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::AdapterCompatibilityValidator::registerModelSpec</definition>
+        <argsstring>(const std::string &amp;model_name, const ModelSpec &amp;spec)</argsstring>
+        <name>registerModelSpec</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::registerModelSpec</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_model_spec" kindref="compound">ModelSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+<para>Register Model Spec. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="146" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a506bf3810a89ad6468e7a65d1bf336df" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::AdapterCompatibilityValidator::setValidationLevel</definition>
+        <argsstring>(ValidationLevel level)</argsstring>
+        <name>setValidationLevel</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::setValidationLevel</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753" kindref="member">ValidationLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Set Validation Level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setValidationLevel without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="155" column="10" bodyfile="include/llm/adapter_compatibility.h" bodystart="155" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a5435c9da6b62a0eac6ee53c225114093" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753" kindref="member">ValidationLevel</ref></type>
+        <definition>ValidationLevel themis::llm::AdapterCompatibilityValidator::getValidationLevel</definition>
+        <argsstring>() const</argsstring>
+        <name>getValidationLevel</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::getValidationLevel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="157" column="21" bodyfile="include/llm/adapter_compatibility.h" bodystart="157" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1aaccf1a8109f3f35bf863f61c3546835f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::AdapterCompatibilityValidator::enableCheck</definition>
+        <argsstring>(CompatibilityCheck::CheckType type, bool enabled=true)</argsstring>
+        <name>enableCheck</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::enableCheck</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726c" kindref="member">CompatibilityCheck::CheckType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="159" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a009f35d6bb30d090ba419dbcb36f7757" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterCompatibilityValidator::isCheckEnabled</definition>
+        <argsstring>(CompatibilityCheck::CheckType type) const</argsstring>
+        <name>isCheckEnabled</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::isCheckEnabled</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check_1a0b37ea7a888701bcf899ca12fb4f726c" kindref="member">CompatibilityCheck::CheckType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Is Check Enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="166" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a7cf23634a28ceaa6e3e0419f180c2970" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check" kindref="compound">CompatibilityCheck</ref></type>
+        <definition>CompatibilityCheck themis::llm::AdapterCompatibilityValidator::checkModelNameMatch</definition>
+        <argsstring>(const AdapterMetadata &amp;adapter, const std::string &amp;base_model_name)</argsstring>
+        <name>checkModelNameMatch</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::checkModelNameMatch</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>adapter</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_name</declname>
+        </param>
+        <briefdescription>
+<para>Check Model Name Match. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the base model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="180" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a40cf791bd7d6d515336591300c6dac25" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check" kindref="compound">CompatibilityCheck</ref></type>
+        <definition>CompatibilityCheck themis::llm::AdapterCompatibilityValidator::checkArchitectureMatch</definition>
+        <argsstring>(const AdapterMetadata &amp;adapter, const std::string &amp;base_model_name)</argsstring>
+        <name>checkArchitectureMatch</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::checkArchitectureMatch</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>adapter</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_name</declname>
+        </param>
+        <briefdescription>
+<para>Check Architecture Match. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the base model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="191" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1af72e5c37f8c447fbbf6cc1adb03aa30e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check" kindref="compound">CompatibilityCheck</ref></type>
+        <definition>CompatibilityCheck themis::llm::AdapterCompatibilityValidator::checkDimensionCompatibility</definition>
+        <argsstring>(const AdapterMetadata &amp;adapter, const std::string &amp;base_model_name)</argsstring>
+        <name>checkDimensionCompatibility</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::checkDimensionCompatibility</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>adapter</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_name</declname>
+        </param>
+        <briefdescription>
+<para>Check Dimension Compatibility. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the base model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="202" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1aee9f48a8bff318167913aa0aa4702d22" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check" kindref="compound">CompatibilityCheck</ref></type>
+        <definition>CompatibilityCheck themis::llm::AdapterCompatibilityValidator::checkTokenizerCompatibility</definition>
+        <argsstring>(const AdapterMetadata &amp;adapter, const std::string &amp;base_model_name)</argsstring>
+        <name>checkTokenizerCompatibility</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::checkTokenizerCompatibility</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>adapter</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_name</declname>
+        </param>
+        <briefdescription>
+<para>Check Tokenizer Compatibility. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the base model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="213" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a748e517c56a35210aa44005c809acc79" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check" kindref="compound">CompatibilityCheck</ref></type>
+        <definition>CompatibilityCheck themis::llm::AdapterCompatibilityValidator::checkVersionCompatibility</definition>
+        <argsstring>(const AdapterMetadata &amp;adapter, const std::string &amp;base_model_version)</argsstring>
+        <name>checkVersionCompatibility</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::checkVersionCompatibility</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>adapter</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_version</declname>
+        </param>
+        <briefdescription>
+<para>Check Version Compatibility. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="224" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a46e8d40180d31db402e97f24baaa016b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_compatibility_validator_1_1_compatibility_check" kindref="compound">CompatibilityCheck</ref></type>
+        <definition>CompatibilityCheck themis::llm::AdapterCompatibilityValidator::checkQuantizationCompatibility</definition>
+        <argsstring>(const AdapterMetadata &amp;adapter, const std::string &amp;base_model_name)</argsstring>
+        <name>checkQuantizationCompatibility</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::checkQuantizationCompatibility</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>adapter</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_name</declname>
+        </param>
+        <briefdescription>
+<para>Check Quantization Compatibility. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the base model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="235" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1af4f95b806e7f5194e2c44a58e0b79130" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::AdapterCompatibilityValidator::initializeKnownModels</definition>
+        <argsstring>()</argsstring>
+        <name>initializeKnownModels</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::initializeKnownModels</qualifiedname>
+        <briefdescription>
+<para>Helper: Initialize known model database. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="243" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a547a823eba344e8df2c79451e01a93a8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterCompatibilityValidator::normalizeModelName</definition>
+        <argsstring>(const std::string &amp;model_name) const</argsstring>
+        <name>normalizeModelName</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::normalizeModelName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_name</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Normalize model name (handle variations). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="250" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a04b009c2877cf849abb17f0d339866a4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>VersionParts</type>
+        <definition>VersionParts themis::llm::AdapterCompatibilityValidator::parseVersion</definition>
+        <argsstring>(const std::string &amp;version_str) const</argsstring>
+        <name>parseVersion</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::parseVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_str</declname>
+        </param>
+        <briefdescription>
+<para>Parse Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="265" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a224e7a469867c0d70e5fc5851d5e68c2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterCompatibilityValidator::areVersionsCompatible</definition>
+        <argsstring>(const VersionParts &amp;v1, const VersionParts &amp;v2) const</argsstring>
+        <name>areVersionsCompatible</name>
+        <qualifiedname>themis::llm::AdapterCompatibilityValidator::areVersionsCompatible</qualifiedname>
+        <param>
+          <type>const VersionParts &amp;</type>
+          <declname>v1</declname>
+        </param>
+        <param>
+          <type>const VersionParts &amp;</type>
+          <declname>v2</declname>
+        </param>
+        <briefdescription>
+<para>Are Versions Compatible. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_compatibility.h" line="272" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_compatibility.h" line="25" column="1" bodyfile="include/llm/adapter_compatibility.h" bodystart="25" bodyend="273"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1ad63c563c44eaa45f79c65869813ce5c3" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>AdapterCompatibilityValidator</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a224e7a469867c0d70e5fc5851d5e68c2" prot="private" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>areVersionsCompatible</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a40cf791bd7d6d515336591300c6dac25" prot="private" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>checkArchitectureMatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1af72e5c37f8c447fbbf6cc1adb03aa30e" prot="private" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>checkDimensionCompatibility</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a7cf23634a28ceaa6e3e0419f180c2970" prot="private" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>checkModelNameMatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a46e8d40180d31db402e97f24baaa016b" prot="private" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>checkQuantizationCompatibility</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1aee9f48a8bff318167913aa0aa4702d22" prot="private" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>checkTokenizerCompatibility</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a748e517c56a35210aa44005c809acc79" prot="private" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>checkVersionCompatibility</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1aaccf1a8109f3f35bf863f61c3546835f" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>enableCheck</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a9ec708ce8fc5de5f448d3a5db65ec25b" prot="private" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>enabled_checks_</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a1bc89fe6e67443e01a5df34b1b29994f" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>getModelSpec</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a5435c9da6b62a0eac6ee53c225114093" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>getValidationLevel</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1af4f95b806e7f5194e2c44a58e0b79130" prot="private" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>initializeKnownModels</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a009f35d6bb30d090ba419dbcb36f7757" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>isCheckEnabled</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a494730992e93deeaf1d8f37fa95b3405" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>isCompatible</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a07f306fb03f28e8e457278a46b702f6f" prot="private" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>known_models_</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a547a823eba344e8df2c79451e01a93a8" prot="private" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>normalizeModelName</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a04b009c2877cf849abb17f0d339866a4" prot="private" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>parseVersion</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1ad86c617b5841bc7ca620f5ea03f5fea8" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>registerModelSpec</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a506bf3810a89ad6468e7a65d1bf336df" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>setValidationLevel</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1afe90e1e89cfd2121c2271dae87ef045c" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>validate</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a4410f41059a8c50e5808d9d1d9cefeaf" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>validateAdapterPair</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1a5749a9cc4b61318bce180de89d96eebf" prot="private" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>validation_level_</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1acd18503e70cc4847894981348028a753" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>ValidationLevel</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_compatibility_validator_1ab0fb0a6cf1e38cf0a13ea03ae0727b4c" prot="public" virt="virtual"><scope>themis::llm::AdapterCompatibilityValidator</scope><name>~AdapterCompatibilityValidator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

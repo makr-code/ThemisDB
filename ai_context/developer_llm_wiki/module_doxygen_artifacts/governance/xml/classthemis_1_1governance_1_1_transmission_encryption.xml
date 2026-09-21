@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_transmission_encryption" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::governance::TransmissionEncryption</compoundname>
+    <basecompoundref refid="classthemis_1_1governance_1_1_i_compliance_rule" prot="public" virt="non-virtual">themis::governance::IComplianceRule</basecompoundref>
+    <includes refid="pci__dss__rules_8h" local="no">pci_dss_rules.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_transmission_encryption_1ad6cd46ef5f76ea0ee4586b6513195839" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::TransmissionEncryption::id</definition>
+        <argsstring>() const override</argsstring>
+        <name>id</name>
+        <qualifiedname>themis::governance::TransmissionEncryption::id</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1a01395f8af99fa20ce9be6b77cd3b5557">id</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/pci_dss_rules.h" line="77" column="17" bodyfile="include/governance/pci_dss_rules.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_transmission_encryption_1af4a79348ad9392215402edccb87296bb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::TransmissionEncryption::framework</definition>
+        <argsstring>() const override</argsstring>
+        <name>framework</name>
+        <qualifiedname>themis::governance::TransmissionEncryption::framework</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1ae95c843e2f550ded2eeb7ad923960aba">framework</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/pci_dss_rules.h" line="78" column="17" bodyfile="include/governance/pci_dss_rules.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_transmission_encryption_1a8d3ee205145a1f3d0d0ab93b865561d4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::TransmissionEncryption::description</definition>
+        <argsstring>() const override</argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::TransmissionEncryption::description</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1af1ff57617e2151936aa46d9a4d6d39b2">description</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/pci_dss_rules.h" line="79" column="17" bodyfile="include/governance/pci_dss_rules.h" bodystart="79" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_transmission_encryption_1aee0bdbe5ffadf14a22bb560399290d71" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::TransmissionEncryption::evaluate</definition>
+        <argsstring>(const PolicyRule &amp;rule) const override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::governance::TransmissionEncryption::evaluate</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1a96562e0417b8471400cfcf2ea185a7ea">evaluate</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/pci_dss_rules.h" line="85" column="10" bodyfile="src/governance/pci_dss_rules.cpp" bodystart="67" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::governance::IComplianceRule</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_rule"/>
+      </node>
+      <node id="1">
+        <label>themis::governance::TransmissionEncryption</label>
+        <link refid="classthemis_1_1governance_1_1_transmission_encryption"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::governance::IComplianceRule</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_rule"/>
+      </node>
+      <node id="1">
+        <label>themis::governance::TransmissionEncryption</label>
+        <link refid="classthemis_1_1governance_1_1_transmission_encryption"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/governance/pci_dss_rules.h" line="75" column="1" bodyfile="include/governance/pci_dss_rules.h" bodystart="75" bodyend="86"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_transmission_encryption_1a8d3ee205145a1f3d0d0ab93b865561d4" prot="public" virt="virtual"><scope>themis::governance::TransmissionEncryption</scope><name>description</name></member>
+      <member refid="classthemis_1_1governance_1_1_transmission_encryption_1aee0bdbe5ffadf14a22bb560399290d71" prot="public" virt="virtual"><scope>themis::governance::TransmissionEncryption</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1governance_1_1_transmission_encryption_1af4a79348ad9392215402edccb87296bb" prot="public" virt="virtual"><scope>themis::governance::TransmissionEncryption</scope><name>framework</name></member>
+      <member refid="classthemis_1_1governance_1_1_transmission_encryption_1ad6cd46ef5f76ea0ee4586b6513195839" prot="public" virt="virtual"><scope>themis::governance::TransmissionEncryption</scope><name>id</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_compliance_rule_1a6f34423b2bbde587233879f221cb63b8" prot="public" virt="virtual"><scope>themis::governance::TransmissionEncryption</scope><name>~IComplianceRule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_index_metadata" kind="struct" language="C++" prot="private">
+    <compoundname>themis::importers::PostgreSQLImporter::IndexMetadata</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_index_metadata_1abbbf5136a9720dbfbf08a445c8f83b12" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLImporter::IndexMetadata::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::IndexMetadata::name</qualifiedname>
+        <briefdescription>
+<para>Index name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="135" column="21" bodyfile="include/importers/postgres_importer.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_index_metadata_1aec3ba1f6bcaaf0345d82808214079084" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLImporter::IndexMetadata::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::IndexMetadata::type</qualifiedname>
+        <briefdescription>
+<para>btree | hash | gist | gin | brin (default: btree) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="136" column="21" bodyfile="include/importers/postgres_importer.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_index_metadata_1a96d5367d48e64fb655ea68a7fc98999e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::PostgreSQLImporter::IndexMetadata::columns</definition>
+        <argsstring></argsstring>
+        <name>columns</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::IndexMetadata::columns</qualifiedname>
+        <briefdescription>
+<para>Indexed columns in order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="137" column="21" bodyfile="include/importers/postgres_importer.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_index_metadata_1a3ea61bd07983959b73c9b0b6aa810c81" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::IndexMetadata::unique</definition>
+        <argsstring></argsstring>
+        <name>unique</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::IndexMetadata::unique</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>UNIQUE index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="138" column="14" bodyfile="include/importers/postgres_importer.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_index_metadata_1ac733353cf7ad45ef3f96c552d32d37bc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::IndexMetadata::partial</definition>
+        <argsstring></argsstring>
+        <name>partial</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::IndexMetadata::partial</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Has WHERE clause. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="139" column="14" bodyfile="include/importers/postgres_importer.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_index_metadata_1a361b33262c7736ea3a33e96019744db8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLImporter::IndexMetadata::where_clause</definition>
+        <argsstring></argsstring>
+        <name>where_clause</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::IndexMetadata::where_clause</qualifiedname>
+        <briefdescription>
+<para>Partial index WHERE expression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="140" column="21" bodyfile="include/importers/postgres_importer.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_index_metadata_1af8b592be6993d96d2ea1a0b4756f658c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::PostgreSQLImporter::IndexMetadata::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::IndexMetadata::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="142" column="14" bodyfile="include/importers/postgres_importer.h" bodystart="142" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/postgres_importer.h" line="134" column="5" bodyfile="include/importers/postgres_importer.h" bodystart="134" bodyend="152"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_index_metadata_1a96d5367d48e64fb655ea68a7fc98999e" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::IndexMetadata</scope><name>columns</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_index_metadata_1abbbf5136a9720dbfbf08a445c8f83b12" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::IndexMetadata</scope><name>name</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_index_metadata_1ac733353cf7ad45ef3f96c552d32d37bc" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::IndexMetadata</scope><name>partial</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_index_metadata_1af8b592be6993d96d2ea1a0b4756f658c" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::IndexMetadata</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_index_metadata_1aec3ba1f6bcaaf0345d82808214079084" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::IndexMetadata</scope><name>type</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_index_metadata_1a3ea61bd07983959b73c9b0b6aa810c81" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::IndexMetadata</scope><name>unique</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_index_metadata_1a361b33262c7736ea3a33e96019744db8" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::IndexMetadata</scope><name>where_clause</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

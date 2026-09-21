@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_discovered_process_1_1_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::DiscoveredProcess::Node</compoundname>
+    <includes refid="process__mining_8h" local="no">process_mining.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_discovered_process_1_1_node_1a4d4b7c5facebda10e5a1d2beb8930308" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::DiscoveredProcess::Node::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::DiscoveredProcess::Node::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="116" column="21" bodyfile="include/analytics/process_mining.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_discovered_process_1_1_node_1aacf0a478c728dc9373b0ca661b81a6c4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::DiscoveredProcess::Node::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::DiscoveredProcess::Node::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="117" column="21" bodyfile="include/analytics/process_mining.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_discovered_process_1_1_node_1ac7907c0d0b1ca4abe8e3b0c9e0b97df3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::DiscoveredProcess::Node::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::DiscoveredProcess::Node::type</qualifiedname>
+        <briefdescription>
+<para>TASK, EVENT, GATEWAY. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="118" column="21" bodyfile="include/analytics/process_mining.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_discovered_process_1_1_node_1a65d63601cf751195b4f130ae4b8d6f34" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::DiscoveredProcess::Node::gateway_type</definition>
+        <argsstring></argsstring>
+        <name>gateway_type</name>
+        <qualifiedname>themis::DiscoveredProcess::Node::gateway_type</qualifiedname>
+        <briefdescription>
+<para>XOR, AND, OR (für Gateways). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="119" column="21" bodyfile="include/analytics/process_mining.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_discovered_process_1_1_node_1acacc021f33ca8745c9b017c0f0fb4577" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::DiscoveredProcess::Node::frequency</definition>
+        <argsstring></argsstring>
+        <name>frequency</name>
+        <qualifiedname>themis::DiscoveredProcess::Node::frequency</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="122" column="13" bodyfile="include/analytics/process_mining.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_discovered_process_1_1_node_1a720d3d7bc71fa80b7d6748b4a0f37db4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::DiscoveredProcess::Node::avg_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_duration_ms</name>
+        <qualifiedname>themis::DiscoveredProcess::Node::avg_duration_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="123" column="16" bodyfile="include/analytics/process_mining.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_mining.h" line="115" column="5" bodyfile="include/analytics/process_mining.h" bodystart="115" bodyend="124"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_discovered_process_1_1_node_1a720d3d7bc71fa80b7d6748b4a0f37db4" prot="public" virt="non-virtual"><scope>themis::DiscoveredProcess::Node</scope><name>avg_duration_ms</name></member>
+      <member refid="structthemis_1_1_discovered_process_1_1_node_1acacc021f33ca8745c9b017c0f0fb4577" prot="public" virt="non-virtual"><scope>themis::DiscoveredProcess::Node</scope><name>frequency</name></member>
+      <member refid="structthemis_1_1_discovered_process_1_1_node_1a65d63601cf751195b4f130ae4b8d6f34" prot="public" virt="non-virtual"><scope>themis::DiscoveredProcess::Node</scope><name>gateway_type</name></member>
+      <member refid="structthemis_1_1_discovered_process_1_1_node_1a4d4b7c5facebda10e5a1d2beb8930308" prot="public" virt="non-virtual"><scope>themis::DiscoveredProcess::Node</scope><name>id</name></member>
+      <member refid="structthemis_1_1_discovered_process_1_1_node_1aacf0a478c728dc9373b0ca661b81a6c4" prot="public" virt="non-virtual"><scope>themis::DiscoveredProcess::Node</scope><name>name</name></member>
+      <member refid="structthemis_1_1_discovered_process_1_1_node_1ac7907c0d0b1ca4abe8e3b0c9e0b97df3" prot="public" virt="non-virtual"><scope>themis::DiscoveredProcess::Node</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::AdapterSnapshot</compoundname>
+    <includes refid="lora__provenance_8h" local="no">lora_provenance.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot_1a700f980f70c027b3225e5e5b8703520e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::AdapterSnapshot::snapshot_id</definition>
+        <argsstring></argsstring>
+        <name>snapshot_id</name>
+        <qualifiedname>themis::llm::lora::AdapterSnapshot::snapshot_id</qualifiedname>
+        <briefdescription>
+<para>Unique snapshot identifier (UUID or similar). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="104" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot_1ae74397fc42c545cf34ef014e65951a74" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::AdapterSnapshot::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::llm::lora::AdapterSnapshot::adapter_id</qualifiedname>
+        <briefdescription>
+<para>Adapter this snapshot belongs to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="105" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot_1af34062f1c1bb2f990d08127734b38d0f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::AdapterSnapshot::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::llm::lora::AdapterSnapshot::version</qualifiedname>
+        <briefdescription>
+<para>Adapter version string at snapshot time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="106" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot_1ab25ce019499f87a8f0d58d314104f64e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::AdapterSnapshot::weights_hash</definition>
+        <argsstring></argsstring>
+        <name>weights_hash</name>
+        <qualifiedname>themis::llm::lora::AdapterSnapshot::weights_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of adapter weights at snapshot time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="108" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot_1a74426d1e3505be5caee66eaed403cc34" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::AdapterSnapshot::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::llm::lora::AdapterSnapshot::timestamp</qualifiedname>
+        <briefdescription>
+<para>ISO 8601 UTC timestamp of snapshot creation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="109" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot_1a7f3529e0ab8841a912847e53119aac36" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::AdapterSnapshot::parent_snapshot_id</definition>
+        <argsstring></argsstring>
+        <name>parent_snapshot_id</name>
+        <qualifiedname>themis::llm::lora::AdapterSnapshot::parent_snapshot_id</qualifiedname>
+        <briefdescription>
+<para>Previous snapshot in the chain (empty = root). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="110" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot_1a9fc3fe5d0d025b2581161e890d511ad0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record" kindref="compound">LoRAProvenanceRecord</ref></type>
+        <definition>LoRAProvenanceRecord themis::llm::lora::AdapterSnapshot::provenance</definition>
+        <argsstring></argsstring>
+        <name>provenance</name>
+        <qualifiedname>themis::llm::lora::AdapterSnapshot::provenance</qualifiedname>
+        <briefdescription>
+<para>Full provenance at snapshot time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="112" column="26" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot_1a6c911b0a8698be28f232681f976e3b8f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::AdapterSnapshot::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::AdapterSnapshot::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="118" column="10" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="198" bodyend="208"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot_1ab320de9f91e110ddff235ddddc08f101" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot" kindref="compound">AdapterSnapshot</ref></type>
+        <definition>AdapterSnapshot themis::llm::lora::AdapterSnapshot::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::lora::AdapterSnapshot::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), is_string(), get_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="124" column="28" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="216" bodyend="232"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::lora::AdapterSnapshot</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>provenance</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::lora::LoRAProvenanceRecord</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/lora_provenance.h" line="103" column="1" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="103" bodyend="125"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot_1ae74397fc42c545cf34ef014e65951a74" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSnapshot</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot_1ab320de9f91e110ddff235ddddc08f101" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSnapshot</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot_1a7f3529e0ab8841a912847e53119aac36" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSnapshot</scope><name>parent_snapshot_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot_1a9fc3fe5d0d025b2581161e890d511ad0" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSnapshot</scope><name>provenance</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot_1a700f980f70c027b3225e5e5b8703520e" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSnapshot</scope><name>snapshot_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot_1a74426d1e3505be5caee66eaed403cc34" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSnapshot</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot_1a6c911b0a8698be28f232681f976e3b8f" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSnapshot</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot_1af34062f1c1bb2f990d08127734b38d0f" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSnapshot</scope><name>version</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot_1ab25ce019499f87a8f0d58d314104f64e" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterSnapshot</scope><name>weights_hash</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

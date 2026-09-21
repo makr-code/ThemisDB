@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_performance_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::PerformanceSnapshot</compoundname>
+    <includes refid="hardware__telemetry_8h" local="no">hardware_telemetry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_performance_snapshot_1a18917758ee006287c0b92489d416bd51" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::updates::PerformanceSnapshot::avg_query_latency_us</definition>
+        <argsstring></argsstring>
+        <name>avg_query_latency_us</name>
+        <qualifiedname>themis::updates::PerformanceSnapshot::avg_query_latency_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Average query execution latency across the last interval (microseconds). 0 if no queries were executed or metrics are unavailable. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="93" column="14" bodyfile="include/updates/hardware_telemetry.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_performance_snapshot_1a621daa122dfe33a0387f2d44042ee488" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::updates::PerformanceSnapshot::p99_query_latency_us</definition>
+        <argsstring></argsstring>
+        <name>p99_query_latency_us</name>
+        <qualifiedname>themis::updates::PerformanceSnapshot::p99_query_latency_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>P99 query execution latency across the last interval (microseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="96" column="14" bodyfile="include/updates/hardware_telemetry.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_performance_snapshot_1a278dcfbdb0eac357e975eb23b725f527" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::updates::PerformanceSnapshot::queries_per_second_bucket</definition>
+        <argsstring></argsstring>
+        <name>queries_per_second_bucket</name>
+        <qualifiedname>themis::updates::PerformanceSnapshot::queries_per_second_bucket</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Approximate queries per second over the last interval, bucketed to the nearest power of 2 (1, 2, 4, 8, …). 0 if unavailable. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="100" column="14" bodyfile="include/updates/hardware_telemetry.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_performance_snapshot_1ab15d23ed309fcd07d66853a4d44f2e8d" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::updates::PerformanceSnapshot::cache_hit_rate_pct</definition>
+        <argsstring></argsstring>
+        <name>cache_hit_rate_pct</name>
+        <qualifiedname>themis::updates::PerformanceSnapshot::cache_hit_rate_pct</qualifiedname>
+        <initializer>= 255</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Query cache hit rate as an integer percentage 0–100. 255 = unavailable / not applicable. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="104" column="13" bodyfile="include/updates/hardware_telemetry.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_performance_snapshot_1a21755f527aac5822fc603d23111027df" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::updates::PerformanceSnapshot::process_rss_mb_bucket</definition>
+        <argsstring></argsstring>
+        <name>process_rss_mb_bucket</name>
+        <qualifiedname>themis::updates::PerformanceSnapshot::process_rss_mb_bucket</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Process resident-set size in MiB, rounded down to the nearest 64 MiB bucket. 0 if unavailable. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="108" column="14" bodyfile="include/updates/hardware_telemetry.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_performance_snapshot_1a12e9c6d35d84bbde993b4b802a3665c6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::updates::PerformanceSnapshot::uptime_seconds</definition>
+        <argsstring></argsstring>
+        <name>uptime_seconds</name>
+        <qualifiedname>themis::updates::PerformanceSnapshot::uptime_seconds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Process uptime in seconds since the ThemisDB server started. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="111" column="14" bodyfile="include/updates/hardware_telemetry.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_performance_snapshot_1a4d2e652fc05d4ff28f826b2285f047b4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::updates::PerformanceSnapshot::active_connections_bucket</definition>
+        <argsstring></argsstring>
+        <name>active_connections_bucket</name>
+        <qualifiedname>themis::updates::PerformanceSnapshot::active_connections_bucket</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of currently active client connections, bucketed to the nearest power of 2. 0 if unavailable. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="115" column="14" bodyfile="include/updates/hardware_telemetry.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_performance_snapshot_1a8a79f98eda134bedf3836c75ba465787" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::updates::PerformanceSnapshot::db_size_mb_bucket</definition>
+        <argsstring></argsstring>
+        <name>db_size_mb_bucket</name>
+        <qualifiedname>themis::updates::PerformanceSnapshot::db_size_mb_bucket</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total on-disk database size in MiB, rounded down to the nearest 512 MiB bucket. 0 if unavailable. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="119" column="14" bodyfile="include/updates/hardware_telemetry.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Anonymous runtime performance metrics for one reporting interval. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All values are coarse or bucketed to prevent workload fingerprinting. No query text, table names, or user data is ever included. </para>
+    </detaileddescription>
+    <location file="include/updates/hardware_telemetry.h" line="90" column="1" bodyfile="include/updates/hardware_telemetry.h" bodystart="90" bodyend="120"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_performance_snapshot_1a4d2e652fc05d4ff28f826b2285f047b4" prot="public" virt="non-virtual"><scope>themis::updates::PerformanceSnapshot</scope><name>active_connections_bucket</name></member>
+      <member refid="structthemis_1_1updates_1_1_performance_snapshot_1a18917758ee006287c0b92489d416bd51" prot="public" virt="non-virtual"><scope>themis::updates::PerformanceSnapshot</scope><name>avg_query_latency_us</name></member>
+      <member refid="structthemis_1_1updates_1_1_performance_snapshot_1ab15d23ed309fcd07d66853a4d44f2e8d" prot="public" virt="non-virtual"><scope>themis::updates::PerformanceSnapshot</scope><name>cache_hit_rate_pct</name></member>
+      <member refid="structthemis_1_1updates_1_1_performance_snapshot_1a8a79f98eda134bedf3836c75ba465787" prot="public" virt="non-virtual"><scope>themis::updates::PerformanceSnapshot</scope><name>db_size_mb_bucket</name></member>
+      <member refid="structthemis_1_1updates_1_1_performance_snapshot_1a621daa122dfe33a0387f2d44042ee488" prot="public" virt="non-virtual"><scope>themis::updates::PerformanceSnapshot</scope><name>p99_query_latency_us</name></member>
+      <member refid="structthemis_1_1updates_1_1_performance_snapshot_1a21755f527aac5822fc603d23111027df" prot="public" virt="non-virtual"><scope>themis::updates::PerformanceSnapshot</scope><name>process_rss_mb_bucket</name></member>
+      <member refid="structthemis_1_1updates_1_1_performance_snapshot_1a278dcfbdb0eac357e975eb23b725f527" prot="public" virt="non-virtual"><scope>themis::updates::PerformanceSnapshot</scope><name>queries_per_second_bucket</name></member>
+      <member refid="structthemis_1_1updates_1_1_performance_snapshot_1a12e9c6d35d84bbde993b4b802a3665c6" prot="public" virt="non-virtual"><scope>themis::updates::PerformanceSnapshot</scope><name>uptime_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

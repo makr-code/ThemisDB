@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::SLOReporter::Config</compoundname>
+    <includes refid="slo__monitor_8h" local="no">slo_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1aa33436288462fed1595530529d768c6c" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_s_l_o_reporter_1a093654965346ae933f7446cda4cfad07" kindref="member">ReportFrequency</ref></type>
+        <definition>ReportFrequency themis::sharding::SLOReporter::Config::frequency</definition>
+        <argsstring></argsstring>
+        <name>frequency</name>
+        <qualifiedname>themis::sharding::SLOReporter::Config::frequency</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1sharding_1_1_s_l_o_reporter_1a093654965346ae933f7446cda4cfad07a791490f9f4842958f00f3791f6c01576" kindref="member">ReportFrequency::DAILY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="282" column="25" bodyfile="include/sharding/slo_monitor.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1aadc0395bb80e840642190d33d441c025" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SLOReporter::Config::output_path</definition>
+        <argsstring></argsstring>
+        <name>output_path</name>
+        <qualifiedname>themis::sharding::SLOReporter::Config::output_path</qualifiedname>
+        <initializer>= &quot;/var/log/<ref refid="namespacethemisdb" kindref="compound">themisdb</ref>/slo_reports/&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="283" column="21" bodyfile="include/sharding/slo_monitor.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1ab077553f583f4dc1ab0cd11e261f7efb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::SLOReporter::Config::enable_json_export</definition>
+        <argsstring></argsstring>
+        <name>enable_json_export</name>
+        <qualifiedname>themis::sharding::SLOReporter::Config::enable_json_export</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="284" column="14" bodyfile="include/sharding/slo_monitor.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1a969050be3768980a229705ad3e97b60e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::SLOReporter::Config::enable_prometheus_export</definition>
+        <argsstring></argsstring>
+        <name>enable_prometheus_export</name>
+        <qualifiedname>themis::sharding::SLOReporter::Config::enable_prometheus_export</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="285" column="14" bodyfile="include/sharding/slo_monitor.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1a55778ef3d0400c536ee0aaf81fdfe269" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::sharding::SLOReporter::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::sharding::SLOReporter::Config::defaults</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/slo_monitor.h" line="286" column="23" bodyfile="include/sharding/slo_monitor.h" bodystart="286" bodyend="286"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/slo_monitor.h" line="281" column="5" bodyfile="include/sharding/slo_monitor.h" bodystart="281" bodyend="287"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1a55778ef3d0400c536ee0aaf81fdfe269" prot="public" virt="non-virtual"><scope>themis::sharding::SLOReporter::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1ab077553f583f4dc1ab0cd11e261f7efb" prot="public" virt="non-virtual"><scope>themis::sharding::SLOReporter::Config</scope><name>enable_json_export</name></member>
+      <member refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1a969050be3768980a229705ad3e97b60e" prot="public" virt="non-virtual"><scope>themis::sharding::SLOReporter::Config</scope><name>enable_prometheus_export</name></member>
+      <member refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1aa33436288462fed1595530529d768c6c" prot="public" virt="non-virtual"><scope>themis::sharding::SLOReporter::Config</scope><name>frequency</name></member>
+      <member refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1aadc0395bb80e840642190d33d441c025" prot="public" virt="non-virtual"><scope>themis::sharding::SLOReporter::Config</scope><name>output_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

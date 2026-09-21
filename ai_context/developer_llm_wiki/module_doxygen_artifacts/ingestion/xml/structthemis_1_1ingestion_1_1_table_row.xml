@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_table_row" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::TableRow</compoundname>
+    <includes refid="extraction__context_8h" local="no">extraction_context.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_table_row_1ad13a3ed707e6ad0f67c22986c9a768b8" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::ingestion::TableRow::row_index</definition>
+        <argsstring></argsstring>
+        <name>row_index</name>
+        <qualifiedname>themis::ingestion::TableRow::row_index</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>0-based row index within the sheet </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="64" column="19" bodyfile="include/ingestion/extraction_context.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_table_row_1ae2cc3d0a3c47c8401c6ef1b688759538" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::TableRow::sheet_name</definition>
+        <argsstring></argsstring>
+        <name>sheet_name</name>
+        <qualifiedname>themis::ingestion::TableRow::sheet_name</qualifiedname>
+        <briefdescription>
+<para>Sheet or table name (empty for single-sheet sources). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="65" column="19" bodyfile="include/ingestion/extraction_context.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_table_row_1af5e325536a644a8333c161632d31ed33" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::TableRow::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <qualifiedname>themis::ingestion::TableRow::values</qualifiedname>
+        <briefdescription>
+<para>Column values in column order; types coerced to string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="66" column="17" bodyfile="include/ingestion/extraction_context.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_table_row_1afd2260d9e68af236cef36492a71100dd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::TableRow::column_names</definition>
+        <argsstring></argsstring>
+        <name>column_names</name>
+        <qualifiedname>themis::ingestion::TableRow::column_names</qualifiedname>
+        <briefdescription>
+<para>Optional header row names (empty if no headers were detected). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/extraction_context.h" line="68" column="17" bodyfile="include/ingestion/extraction_context.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single row from a tabular source (XLSX, CSV). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/extraction_context.h" line="63" column="1" bodyfile="include/ingestion/extraction_context.h" bodystart="63" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_table_row_1afd2260d9e68af236cef36492a71100dd" prot="public" virt="non-virtual"><scope>themis::ingestion::TableRow</scope><name>column_names</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_table_row_1ad13a3ed707e6ad0f67c22986c9a768b8" prot="public" virt="non-virtual"><scope>themis::ingestion::TableRow</scope><name>row_index</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_table_row_1ae2cc3d0a3c47c8401c6ef1b688759538" prot="public" virt="non-virtual"><scope>themis::ingestion::TableRow</scope><name>sheet_name</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_table_row_1af5e325536a644a8333c161632d31ed33" prot="public" virt="non-virtual"><scope>themis::ingestion::TableRow</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

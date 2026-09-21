@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_tenant_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::TenantConfig</compoundname>
+    <includes refid="tenant__buffer__manager_8h" local="no">tenant_buffer_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_config_1a39b1b6a739bba6debe2bb50735c531cc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::TenantConfig::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::cdc::TenantConfig::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="47" column="17" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_config_1a3a8576cffd5270d1bc0d4630d611140e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_changefeed_buffer_config" kindref="compound">ChangefeedBufferConfig</ref></type>
+        <definition>ChangefeedBufferConfig themis::cdc::TenantConfig::buffer_config</definition>
+        <argsstring></argsstring>
+        <name>buffer_config</name>
+        <qualifiedname>themis::cdc::TenantConfig::buffer_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="50" column="28" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_config_1ae65c86364f14e0bab404612f9224186e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cdc::TenantConfig::enable_quotas</definition>
+        <argsstring></argsstring>
+        <name>enable_quotas</name>
+        <qualifiedname>themis::cdc::TenantConfig::enable_quotas</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="53" column="10" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_config_1a998810f6a50c655f5108910881343e1b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::TenantConfig::max_events_per_second</definition>
+        <argsstring></argsstring>
+        <name>max_events_per_second</name>
+        <qualifiedname>themis::cdc::TenantConfig::max_events_per_second</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="54" column="12" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_config_1a540e97078e3e4f9276543c64feb923ef" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::TenantConfig::max_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_memory_bytes</name>
+        <qualifiedname>themis::cdc::TenantConfig::max_memory_bytes</qualifiedname>
+        <initializer>= 100 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="55" column="12" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_config_1a4f8e2b8c70124b29e02d87e4d417091f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::TenantConfig::max_buffered_events</definition>
+        <argsstring></argsstring>
+        <name>max_buffered_events</name>
+        <qualifiedname>themis::cdc::TenantConfig::max_buffered_events</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="56" column="12" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_config_1ab71ce5988cad0f4779164e022d11199b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cdc::TenantConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::cdc::TenantConfig::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="59" column="10" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_tenant_config_1aba3dc9d64baa2cb528a241caa7414090" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::cdc::TenantConfig::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::cdc::TenantConfig::priority</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="60" column="9" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::ChangefeedBufferConfig</label>
+        <link refid="structthemis_1_1_changefeed_buffer_config"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::TenantConfig</label>
+        <link refid="structthemis_1_1cdc_1_1_tenant_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>buffer_config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/tenant_buffer_manager.h" line="46" column="1" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="46" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_tenant_config_1a3a8576cffd5270d1bc0d4630d611140e" prot="public" virt="non-virtual"><scope>themis::cdc::TenantConfig</scope><name>buffer_config</name></member>
+      <member refid="structthemis_1_1cdc_1_1_tenant_config_1ae65c86364f14e0bab404612f9224186e" prot="public" virt="non-virtual"><scope>themis::cdc::TenantConfig</scope><name>enable_quotas</name></member>
+      <member refid="structthemis_1_1cdc_1_1_tenant_config_1ab71ce5988cad0f4779164e022d11199b" prot="public" virt="non-virtual"><scope>themis::cdc::TenantConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1cdc_1_1_tenant_config_1a4f8e2b8c70124b29e02d87e4d417091f" prot="public" virt="non-virtual"><scope>themis::cdc::TenantConfig</scope><name>max_buffered_events</name></member>
+      <member refid="structthemis_1_1cdc_1_1_tenant_config_1a998810f6a50c655f5108910881343e1b" prot="public" virt="non-virtual"><scope>themis::cdc::TenantConfig</scope><name>max_events_per_second</name></member>
+      <member refid="structthemis_1_1cdc_1_1_tenant_config_1a540e97078e3e4f9276543c64feb923ef" prot="public" virt="non-virtual"><scope>themis::cdc::TenantConfig</scope><name>max_memory_bytes</name></member>
+      <member refid="structthemis_1_1cdc_1_1_tenant_config_1aba3dc9d64baa2cb528a241caa7414090" prot="public" virt="non-virtual"><scope>themis::cdc::TenantConfig</scope><name>priority</name></member>
+      <member refid="structthemis_1_1cdc_1_1_tenant_config_1a39b1b6a739bba6debe2bb50735c531cc" prot="public" virt="non-virtual"><scope>themis::cdc::TenantConfig</scope><name>tenant_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

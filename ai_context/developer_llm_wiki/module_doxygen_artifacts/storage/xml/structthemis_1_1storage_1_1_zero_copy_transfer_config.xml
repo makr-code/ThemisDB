@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_zero_copy_transfer_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::ZeroCopyTransferConfig</compoundname>
+    <includes refid="zero__copy__blob__transfer_8h" local="no">zero_copy_blob_transfer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_zero_copy_transfer_config_1a9c5d3d49b2a20d7d262414e8c1a3565f" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::ZeroCopyTransferConfig::zero_copy_threshold_bytes</definition>
+        <argsstring></argsstring>
+        <name>zero_copy_threshold_bytes</name>
+        <qualifiedname>themis::storage::ZeroCopyTransferConfig::zero_copy_threshold_bytes</qualifiedname>
+        <initializer>= ZERO_COPY_MMAP_THRESHOLD_BYTES</initializer>
+        <briefdescription>
+<para>Blobs at or above this size use sendfile()/mmap instead of read+write. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="122" column="13" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_zero_copy_transfer_config_1a99aa8b17ba3148d9774c5a5fe00042fd" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::storage::ZeroCopyTransferConfig::s3_multipart_part_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>s3_multipart_part_size_bytes</name>
+        <qualifiedname>themis::storage::ZeroCopyTransferConfig::s3_multipart_part_size_bytes</qualifiedname>
+        <initializer>= S3_MULTIPART_MIN_PART_BYTES</initializer>
+        <briefdescription>
+<para>Part size for S3 multipart streaming uploads (must be &gt;= 5 MB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="125" column="13" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_zero_copy_transfer_config_1abd9b065ba3f250cfeb7d4baf2d144306" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::ZeroCopyTransferConfig::mmap_sequential_hint</definition>
+        <argsstring></argsstring>
+        <name>mmap_sequential_hint</name>
+        <qualifiedname>themis::storage::ZeroCopyTransferConfig::mmap_sequential_hint</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Hint the kernel with MADV_SEQUENTIAL when mmap-reading blobs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="128" column="10" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for zero-copy blob transfers. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/zero_copy_blob_transfer.h" line="120" column="1" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="120" bodyend="129"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_zero_copy_transfer_config_1abd9b065ba3f250cfeb7d4baf2d144306" prot="public" virt="non-virtual"><scope>themis::storage::ZeroCopyTransferConfig</scope><name>mmap_sequential_hint</name></member>
+      <member refid="structthemis_1_1storage_1_1_zero_copy_transfer_config_1a99aa8b17ba3148d9774c5a5fe00042fd" prot="public" virt="non-virtual"><scope>themis::storage::ZeroCopyTransferConfig</scope><name>s3_multipart_part_size_bytes</name></member>
+      <member refid="structthemis_1_1storage_1_1_zero_copy_transfer_config_1a9c5d3d49b2a20d7d262414e8c1a3565f" prot="public" virt="non-virtual"><scope>themis::storage::ZeroCopyTransferConfig</scope><name>zero_copy_threshold_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,700 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__failover__phase2__phase3__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_failover_phase2_phase3_focused.cpp</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">future</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="auto__failover__manager_8h" local="yes">failover/auto_failover_manager.h</includes>
+    <includes refid="disaster__recovery__manager_8h" local="yes">failover/disaster_recovery_manager.h</includes>
+    <includes refid="failover__api__contract_8h" local="yes">failover/failover_api_contract.h</includes>
+    <incdepgraph>
+      <node id="11">
+        <label>failover/auto_failover_manager.h</label>
+        <link refid="auto__failover__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>failover/disaster_recovery_manager.h</label>
+        <link refid="disaster__recovery__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>failover/failover_api_contract.h</label>
+        <link refid="failover__api__contract_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>failover/quorum_log.h</label>
+        <link refid="quorum__log_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>failover/topology_snapshot.h</label>
+        <link refid="topology__snapshot_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/failover/test_failover_phase2_phase3_focused.cpp</label>
+        <link refid="test__failover__phase2__phase3__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>condition_variable</label>
+      </node>
+      <node id="20">
+        <label>cstdint</label>
+      </node>
+      <node id="24">
+        <label>filesystem</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>future</label>
+      </node>
+      <node id="10">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="14">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="16">
+        <label>queue</label>
+      </node>
+      <node id="25">
+        <label>replication/replication_manager.h</label>
+      </node>
+      <node id="26">
+        <label>sharding/epoch_fencing.h</label>
+      </node>
+      <node id="27">
+        <label>sharding/health_monitor.h</label>
+      </node>
+      <node id="28">
+        <label>sharding/hot_spare_manager.h</label>
+      </node>
+      <node id="17">
+        <label>shared_mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>thread</label>
+      </node>
+      <node id="18">
+        <label>unordered_map</label>
+      </node>
+      <node id="21">
+        <label>utils/retry_contract.h</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__failover__phase2__phase3__focused_8cpp_1abd139ce2a64c6bfabf21a8cf7ea4edfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FailoverPhase2Phase3, P23_01_CanTransitionFalseForImpossibleTransitions)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FailoverPhase2Phase3</type>
+        </param>
+        <param>
+          <type>P23_01_CanTransitionFalseForImpossibleTransitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_phase2_phase3_focused.cpp" line="107" column="1" bodyfile="tests/failover/test_failover_phase2_phase3_focused.cpp" bodystart="107" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="test__failover__phase2__phase3__focused_8cpp_1aaecb83e2feb6875c25f30fb7e9361ba1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FailoverPhase2Phase3, P23_02_CanTransitionTrueForValidForwardTransitions)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FailoverPhase2Phase3</type>
+        </param>
+        <param>
+          <type>P23_02_CanTransitionTrueForValidForwardTransitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_phase2_phase3_focused.cpp" line="132" column="1" bodyfile="tests/failover/test_failover_phase2_phase3_focused.cpp" bodystart="132" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="test__failover__phase2__phase3__focused_8cpp_1a7fd9b66efa3a97b61c8d7f04066c834e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FailoverPhase2Phase3, P23_03_PreventSplitBrainFailsClosedWithNoFencingManager)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FailoverPhase2Phase3</type>
+        </param>
+        <param>
+          <type>P23_03_PreventSplitBrainFailsClosedWithNoFencingManager</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_phase2_phase3_focused.cpp" line="174" column="1" bodyfile="tests/failover/test_failover_phase2_phase3_focused.cpp" bodystart="174" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="test__failover__phase2__phase3__focused_8cpp_1a2a270efcbd163e2359c8cc3c3f0bccea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FailoverPhase2Phase3, P23_04_AttemptRecoveryStatsAfterMaxAttemptsExhausted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FailoverPhase2Phase3</type>
+        </param>
+        <param>
+          <type>P23_04_AttemptRecoveryStatsAfterMaxAttemptsExhausted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_phase2_phase3_focused.cpp" line="189" column="1" bodyfile="tests/failover/test_failover_phase2_phase3_focused.cpp" bodystart="189" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__failover__phase2__phase3__focused_8cpp_1a74ebf31eccf9f6d9d8ce53d58ead1a39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FailoverPhase2Phase3, P23_05_TriggerManualFailoverDropsWhenQueueFull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FailoverPhase2Phase3</type>
+        </param>
+        <param>
+          <type>P23_05_TriggerManualFailoverDropsWhenQueueFull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_phase2_phase3_focused.cpp" line="210" column="1" bodyfile="tests/failover/test_failover_phase2_phase3_focused.cpp" bodystart="210" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="test__failover__phase2__phase3__focused_8cpp_1a4882970cb804d9c803ca4c90d79954a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FailoverPhase2Phase3, P23_06_ExecutePlanConcurrentCallRejected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FailoverPhase2Phase3</type>
+        </param>
+        <param>
+          <type>P23_06_ExecutePlanConcurrentCallRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_phase2_phase3_focused.cpp" line="235" column="1" bodyfile="tests/failover/test_failover_phase2_phase3_focused.cpp" bodystart="235" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="test__failover__phase2__phase3__focused_8cpp_1a8b5bf069dfc3bff200e7f8c8f1542a67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FailoverPhase2Phase3, P23_07_EmitDiagnosticFiresCallbackForQuorumUnavailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FailoverPhase2Phase3</type>
+        </param>
+        <param>
+          <type>P23_07_EmitDiagnosticFiresCallbackForQuorumUnavailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_phase2_phase3_focused.cpp" line="281" column="1" bodyfile="tests/failover/test_failover_phase2_phase3_focused.cpp" bodystart="281" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="test__failover__phase2__phase3__focused_8cpp_1a2adc5b22e24e3a61ff55343034306222" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FailoverPhase2Phase3, P23_08_AttemptRecoveryStatsBatchUpdated)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FailoverPhase2Phase3</type>
+        </param>
+        <param>
+          <type>P23_08_AttemptRecoveryStatsBatchUpdated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/failover/test_failover_phase2_phase3_focused.cpp" line="305" column="1" bodyfile="tests/failover/test_failover_phase2_phase3_focused.cpp" bodystart="305" bodyend="321"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 2 / Phase 3 focused tests (P23-01..P23-08). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates the hardening items delivered in Phase 2 (Core Implementation) and Phase 3 (Error Handling and Edge Cases):</para>
+<para>P23-01 canTransition returns false for impossible state transitions P23-02 canTransition returns true for all valid forward transitions P23-03 preventSplitBrain fails closed when no fencing manager is configured P23-04 attemptRecovery stats are correct after max attempts exhausted P23-05 triggerManualFailover drops when queue full and records the stat P23-06 executePlan concurrent call is rejected with explicit error message P23-07 emitDiagnostic fires the registered event callback for QUORUM_UNAVAILABLE P23-08 attemptRecovery stats are batch-updated: total==N and failed==N</para>
+<para>All tests are self-contained: no network I/O, no filesystem I/O. Canonical PRNG seed: kPhase23Seed = 42.</para>
+<para><simplesect kind="see"><para><ref refid="auto__failover__manager_8h" kindref="compound">include/failover/auto_failover_manager.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="disaster__recovery__manager_8h" kindref="compound">include/failover/disaster_recovery_manager.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/failover/ROADMAP.md — Phase 2 / Phase 3 items </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="auto__failover__manager_8h" kindref="compound">failover/auto_failover_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="disaster__recovery__manager_8h" kindref="compound">failover/disaster_recovery_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="failover__api__contract_8h" kindref="compound">failover/failover_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1failover" kindref="compound">themis::failover</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Canonical<sp/>seed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kPhase23Seed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Config<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="structthemis_1_1failover_1_1_auto_failover_config" kindref="compound">AutoFailoverConfig</ref><sp/>makeFastConfig()<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config" kindref="compound">AutoFailoverConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_auto_failover_config_1ada819a254f1f9643cf3d26f477651ff7" kindref="member">health_check_interval</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10ms;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a2d9746feb08e913c2b69798e1afd837f" kindref="member">failure_detection_interval</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10ms;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a82989ec79e00bf809efeadfdc2d79e82" kindref="member">failover_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>50ms;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_auto_failover_config_1abcae95609e0ea60a0eb5bec29011b5a8" kindref="member">spare_activation_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>50ms;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a67917a8f9f57244c0920d80a83e0e7a5" kindref="member">leader_election_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>50ms;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a3db2bc57410f8c0e793defca913db1ed" kindref="member">recovery_retry_interval</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0ms;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>sleep<sp/>between<sp/>retries<sp/>in<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a6abdbaa8ff78af78d35f45d9fdc6e16f" kindref="member">max_recovery_attempts</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a5b89572c8f79bf1d8b4648fbb700a007" kindref="member">enable_automatic_failover</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a5363390f015029236df58bde5cb9bcfd" kindref="member">enable_automatic_recovery</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>avoid<sp/>5-second<sp/>delay<sp/>in<sp/>unit<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_auto_failover_config_1adbd67b21066c7ec4b71852ec0344a1b5" kindref="member">enable_spare_activation</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_auto_failover_config_1af7cf88ddf1354576af7a1bd343eacee4" kindref="member">enable_network_partition_detection</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a0c741950f92f3fb7bff4055cc5c81477" kindref="member">enable_split_brain_prevention</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a9474de3184275d748e7a4e0bdead334f" kindref="member">max_concurrent_failovers</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a386ef7a169422c0915a973024f01e06f" kindref="member">queue_pressure_threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.75f;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="structthemis_1_1failover_1_1_disaster_recovery_config" kindref="compound">DisasterRecoveryConfig</ref><sp/>makeDRTestConfig()<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_config" kindref="compound">DisasterRecoveryConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1af4bbc6dd83a1c7d61f4c38cb6b27a21e" kindref="member">require_quorum</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a8b5f23587ea484a61a6e8e63b9d29fb4" kindref="member">enforce_epoch_fencing</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a63a7955707bad5f6eabc4182f7591ee5" kindref="member">allow_dry_run_without_managers</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1acfe8b935a50bee74ad9520814cb33664" kindref="member">precheck_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100ms;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1acfe84d25078449799ca846b1b3aed85b" kindref="member">catchup_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100ms;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a816c2c8c18f598b692b017402f8c8479" kindref="member">verification_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100ms;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a12137378db66a7f325253e86c196b6f3" kindref="member">max_verification_retries</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref><sp/>makeDryRunPlan(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>plan_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;plan-p23&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref><sp/>plan;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1acc769e38729cbc2b92c1d837ffcc7093" kindref="member">plan_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>plan_id;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1aafefc723a59a53056a650305551d7045" kindref="member">primary_site</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;site-primary&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a75d2ce13908023593475d239830898a5" kindref="member">recovery_site</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;site-recovery&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a99b007fa9ffa4efc25d5ca9774e820a3" kindref="member">dry_run</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan_1a2fbfc9fdada784b557e49fbb9455ea5a" kindref="member">shift_traffic</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>plan;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P23-01<sp/>—<sp/>canTransition<sp/>returns<sp/>false<sp/>for<sp/>impossible<sp/>state<sp/>transitions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__failover__phase2__phase3__focused_8cpp_1abd139ce2a64c6bfabf21a8cf7ea4edfd" kindref="member">TEST</ref>(FailoverPhase2Phase3,<sp/>P23_01_CanTransitionFalseForImpossibleTransitions)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)kPhase23Seed;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config" kindref="compound">AutoFailoverConfig</ref><sp/>cfg<sp/>=<sp/>makeFastConfig();</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager" kindref="compound">AutoFailoverManager</ref><sp/>mgr(cfg,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Skipping<sp/>states<sp/>in<sp/>the<sp/>forward<sp/>path<sp/>is<sp/>invalid.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.canTransition(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">FailoverOrchestratorState::IDLE</ref>,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da1ef1f0400ad32b1fb2c6453cab26ccec" kindref="member">FailoverOrchestratorState::COMPLETING_FAILOVER</ref>));</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.canTransition(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">FailoverOrchestratorState::IDLE</ref>,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da558880bde5fb36a0ff614b0519943c5f" kindref="member">FailoverOrchestratorState::UPDATING_METADATA</ref>));</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.canTransition(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">FailoverOrchestratorState::IDLE</ref>,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dac4eb361ff95c6132ceff6bf164da6b0f" kindref="member">FailoverOrchestratorState::LEADER_ELECTION_IN_PROGRESS</ref>));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.canTransition(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da26ddf4f9c20c57f6a9b3600c4c873200" kindref="member">FailoverOrchestratorState::VERIFYING_FAILURE</ref>,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da1ef1f0400ad32b1fb2c6453cab26ccec" kindref="member">FailoverOrchestratorState::COMPLETING_FAILOVER</ref>));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.canTransition(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daf50f9596dbf1dd4b173cd16568b9bc1e" kindref="member">FailoverOrchestratorState::CHECKING_QUORUM</ref>,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da558880bde5fb36a0ff614b0519943c5f" kindref="member">FailoverOrchestratorState::UPDATING_METADATA</ref>));</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>COMPLETING_FAILOVER<sp/>may<sp/>not<sp/>transition<sp/>to<sp/>FAILED<sp/>directly<sp/>—<sp/>to<sp/>is<sp/>IDLE.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.canTransition(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da1ef1f0400ad32b1fb2c6453cab26ccec" kindref="member">FailoverOrchestratorState::COMPLETING_FAILOVER</ref>,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daf50f9596dbf1dd4b173cd16568b9bc1e" kindref="member">FailoverOrchestratorState::CHECKING_QUORUM</ref>));</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P23-02<sp/>—<sp/>canTransition<sp/>returns<sp/>true<sp/>for<sp/>all<sp/>valid<sp/>forward<sp/>transitions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="test__failover__phase2__phase3__focused_8cpp_1abd139ce2a64c6bfabf21a8cf7ea4edfd" kindref="member">TEST</ref>(FailoverPhase2Phase3,<sp/>P23_02_CanTransitionTrueForValidForwardTransitions)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config" kindref="compound">AutoFailoverConfig</ref><sp/>cfg<sp/>=<sp/>makeFastConfig();</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager" kindref="compound">AutoFailoverManager</ref><sp/>mgr(cfg,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Primary<sp/>forward<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.canTransition(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">FailoverOrchestratorState::IDLE</ref>,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da26ddf4f9c20c57f6a9b3600c4c873200" kindref="member">FailoverOrchestratorState::VERIFYING_FAILURE</ref>));</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.canTransition(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da26ddf4f9c20c57f6a9b3600c4c873200" kindref="member">FailoverOrchestratorState::VERIFYING_FAILURE</ref>,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daf50f9596dbf1dd4b173cd16568b9bc1e" kindref="member">FailoverOrchestratorState::CHECKING_QUORUM</ref>));</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.canTransition(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daf50f9596dbf1dd4b173cd16568b9bc1e" kindref="member">FailoverOrchestratorState::CHECKING_QUORUM</ref>,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da0f980f515b46f311a9b8098d53a57ada" kindref="member">FailoverOrchestratorState::STARTING_LEADER_ELECTION</ref>));</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.canTransition(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da0f980f515b46f311a9b8098d53a57ada" kindref="member">FailoverOrchestratorState::STARTING_LEADER_ELECTION</ref>,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dac4eb361ff95c6132ceff6bf164da6b0f" kindref="member">FailoverOrchestratorState::LEADER_ELECTION_IN_PROGRESS</ref>));</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Direct<sp/>shortcut<sp/>(processFailover<sp/>skips<sp/>LEADER_ELECTION_IN_PROGRESS)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.canTransition(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da0f980f515b46f311a9b8098d53a57ada" kindref="member">FailoverOrchestratorState::STARTING_LEADER_ELECTION</ref>,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da558880bde5fb36a0ff614b0519943c5f" kindref="member">FailoverOrchestratorState::UPDATING_METADATA</ref>));</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.canTransition(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dac4eb361ff95c6132ceff6bf164da6b0f" kindref="member">FailoverOrchestratorState::LEADER_ELECTION_IN_PROGRESS</ref>,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da558880bde5fb36a0ff614b0519943c5f" kindref="member">FailoverOrchestratorState::UPDATING_METADATA</ref>));</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.canTransition(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da558880bde5fb36a0ff614b0519943c5f" kindref="member">FailoverOrchestratorState::UPDATING_METADATA</ref>,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da1ef1f0400ad32b1fb2c6453cab26ccec" kindref="member">FailoverOrchestratorState::COMPLETING_FAILOVER</ref>));</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.canTransition(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da1ef1f0400ad32b1fb2c6453cab26ccec" kindref="member">FailoverOrchestratorState::COMPLETING_FAILOVER</ref>,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">FailoverOrchestratorState::IDLE</ref>));</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Any<sp/>state<sp/>→<sp/>FAILED<sp/>is<sp/>always<sp/>valid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.canTransition(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">FailoverOrchestratorState::IDLE</ref>,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dab9e14d9b2886bcff408b85aefa780419" kindref="member">FailoverOrchestratorState::FAILED</ref>));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.canTransition(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da26ddf4f9c20c57f6a9b3600c4c873200" kindref="member">FailoverOrchestratorState::VERIFYING_FAILURE</ref>,</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dab9e14d9b2886bcff408b85aefa780419" kindref="member">FailoverOrchestratorState::FAILED</ref>));</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.canTransition(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53da558880bde5fb36a0ff614b0519943c5f" kindref="member">FailoverOrchestratorState::UPDATING_METADATA</ref>,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dab9e14d9b2886bcff408b85aefa780419" kindref="member">FailoverOrchestratorState::FAILED</ref>));</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Any<sp/>state<sp/>→<sp/>IDLE<sp/>is<sp/>always<sp/>valid<sp/>(reset<sp/>/<sp/>stop)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.canTransition(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dab9e14d9b2886bcff408b85aefa780419" kindref="member">FailoverOrchestratorState::FAILED</ref>,</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">FailoverOrchestratorState::IDLE</ref>));</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.canTransition(<ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53dac4eb361ff95c6132ceff6bf164da6b0f" kindref="member">FailoverOrchestratorState::LEADER_ELECTION_IN_PROGRESS</ref>,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1ababad5b24c110dc894d91ee13a9ef53daa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">FailoverOrchestratorState::IDLE</ref>));</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P23-03<sp/>—<sp/>preventSplitBrain<sp/>fails<sp/>closed<sp/>when<sp/>no<sp/>fencing<sp/>manager<sp/>configured</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="test__failover__phase2__phase3__focused_8cpp_1abd139ce2a64c6bfabf21a8cf7ea4edfd" kindref="member">TEST</ref>(FailoverPhase2Phase3,<sp/>P23_03_PreventSplitBrainFailsClosedWithNoFencingManager)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config" kindref="compound">AutoFailoverConfig</ref><sp/>cfg<sp/>=<sp/>makeFastConfig();</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a0c741950f92f3fb7bff4055cc5c81477" kindref="member">enable_split_brain_prevention</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pass<sp/>null<sp/>fencing_manager<sp/>(last<sp/>argument).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager" kindref="compound">AutoFailoverManager</ref><sp/>mgr(cfg,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>return<sp/>false<sp/>(fail<sp/>closed):<sp/>without<sp/>a<sp/>fencing<sp/>manager<sp/>we<sp/>cannot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>guarantee<sp/>exclusive<sp/>leadership,<sp/>so<sp/>the<sp/>safe<sp/>outcome<sp/>is<sp/>to<sp/>reject.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.testPreventSplitBrain(</highlight><highlight class="stringliteral">&quot;node-x&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P23-04<sp/>—<sp/>attemptRecovery<sp/>stats<sp/>are<sp/>correct<sp/>after<sp/>max<sp/>attempts<sp/>exhausted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><ref refid="test__failover__phase2__phase3__focused_8cpp_1abd139ce2a64c6bfabf21a8cf7ea4edfd" kindref="member">TEST</ref>(FailoverPhase2Phase3,<sp/>P23_04_AttemptRecoveryStatsAfterMaxAttemptsExhausted)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config" kindref="compound">AutoFailoverConfig</ref><sp/>cfg<sp/>=<sp/>makeFastConfig();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a6abdbaa8ff78af78d35f45d9fdc6e16f" kindref="member">max_recovery_attempts</ref><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a3db2bc57410f8c0e793defca913db1ed" kindref="member">recovery_retry_interval</ref><sp/>=<sp/>0ms;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pass<sp/>null<sp/>health_monitor<sp/>so<sp/>waitForNodeRecovery<sp/>always<sp/>returns<sp/>false.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager" kindref="compound">AutoFailoverManager</ref><sp/>mgr(cfg,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*health_monitor=null*/</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.testAttemptRecovery(</highlight><highlight class="stringliteral">&quot;node-dead&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>mgr.getStatistics();</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.total_retry_attempts,<sp/>3u);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.failed_retries,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>3u);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.successful_retries,<sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P23-05<sp/>—<sp/>triggerManualFailover<sp/>drops<sp/>when<sp/>queue<sp/>full,<sp/>records<sp/>stat</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="test__failover__phase2__phase3__focused_8cpp_1abd139ce2a64c6bfabf21a8cf7ea4edfd" kindref="member">TEST</ref>(FailoverPhase2Phase3,<sp/>P23_05_TriggerManualFailoverDropsWhenQueueFull)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config" kindref="compound">AutoFailoverConfig</ref><sp/>cfg<sp/>=<sp/>makeFastConfig();</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a9474de3184275d748e7a4e0bdead334f" kindref="member">max_concurrent_failovers</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager" kindref="compound">AutoFailoverManager</ref><sp/>mgr(cfg,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.start());</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>first<sp/><sp/>=<sp/>mgr.triggerManualFailover(</highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>second<sp/>=<sp/>mgr.triggerManualFailover(</highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>queue<sp/>full<sp/>→<sp/>dropped</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(first);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(second);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>the<sp/>worker<sp/>time<sp/>to<sp/>record<sp/>the<sp/>drop<sp/>statistic.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(30ms);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>mgr.getStatistics();</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(stats.tasks_dropped_queue_full,<sp/>1u);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.stop());</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P23-06<sp/>—<sp/>executePlan<sp/>concurrent<sp/>call<sp/>is<sp/>rejected<sp/>with<sp/>explicit<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__failover__phase2__phase3__focused_8cpp_1abd139ce2a64c6bfabf21a8cf7ea4edfd" kindref="member">TEST</ref>(FailoverPhase2Phase3,<sp/>P23_06_ExecutePlanConcurrentCallRejected)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_disaster_recovery_manager" kindref="compound">DisasterRecoveryManager</ref><sp/>mgr(makeDRTestConfig(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gate<sp/>objects:<sp/>first<sp/>execution<sp/>signals<sp/>entry<sp/>then<sp/>blocks<sp/>until<sp/>released.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>std::promise&lt;void&gt;<sp/>hook_entered;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::promise&lt;void&gt;<sp/>hook_release;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hook_entered_future<sp/>=<sp/>hook_entered.get_future();</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hook_release_future<sp/>=<sp/>hook_release.get_future();</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.setStepHook(<ref refid="namespacethemis_1_1failover_1a9d08854b22bc41b9954044ade0d28a66aa95dd7ceac214d9668600481386bdbfd" kindref="member">DisasterRecoveryStep::PRECHECKS</ref>,</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_plan" kindref="compound">DisasterRecoveryPlan</ref>&amp;,<sp/>std::string&amp;<sp/>detail)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hook_entered.set_value();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>signal:<sp/>first<sp/>execution<sp/>is<sp/>inside</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hook_release_future.wait();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>block<sp/>until<sp/>test<sp/>releases<sp/>us</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>detail<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;prechecks<sp/>done&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/><sp/>=<sp/>makeDryRunPlan(</highlight><highlight class="stringliteral">&quot;plan-p23-06-a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan2<sp/>=<sp/>makeDryRunPlan(</highlight><highlight class="stringliteral">&quot;plan-p23-06-b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_disaster_recovery_result" kindref="compound">DisasterRecoveryResult</ref><sp/>first_result;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>t([&amp;]()<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>first_result<sp/>=<sp/>mgr.executePlan(plan);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>until<sp/>the<sp/>first<sp/>execution<sp/>has<sp/>entered<sp/>the<sp/>blocking<sp/>hook<sp/>(holds<sp/>mutex).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(hook_entered_future.wait_for(2s),<sp/>std::future_status::ready)</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Timed<sp/>out<sp/>waiting<sp/>for<sp/>PRECHECKS<sp/>hook<sp/>entry;<sp/>executePlan<sp/>step<sp/>ordering<sp/>may<sp/>be<sp/>broken&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>concurrent<sp/>call<sp/>must<sp/>be<sp/>rejected<sp/>immediately<sp/>(try_to_lock<sp/>fails).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rejected<sp/>=<sp/>mgr.executePlan(plan2);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rejected.success);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rejected.error_message,<sp/></highlight><highlight class="stringliteral">&quot;concurrent<sp/>execution<sp/>rejected&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Release<sp/>the<sp/>first<sp/>execution<sp/>so<sp/>the<sp/>thread<sp/>can<sp/>complete<sp/>cleanly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>hook_release.set_value();</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(first_result.<ref refid="structthemis_1_1failover_1_1_disaster_recovery_result_1a568560f741608d91f06f4253e562142a" kindref="member">success</ref>);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P23-07<sp/>—<sp/>emitDiagnostic<sp/>fires<sp/>registered<sp/>event<sp/>callback<sp/>for<sp/>QUORUM_UNAVAILABLE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><ref refid="test__failover__phase2__phase3__focused_8cpp_1abd139ce2a64c6bfabf21a8cf7ea4edfd" kindref="member">TEST</ref>(FailoverPhase2Phase3,<sp/>P23_07_EmitDiagnosticFiresCallbackForQuorumUnavailable)<sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config" kindref="compound">AutoFailoverConfig</ref><sp/>cfg<sp/>=<sp/>makeFastConfig();</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager" kindref="compound">AutoFailoverManager</ref><sp/>mgr(cfg,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>quorum_failed_events{0};</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.registerEventCallback(</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](<ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6" kindref="member">FailoverEventType</ref><sp/>type,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(type<sp/>==<sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6a9950c183a921303acf8c812d08d2c938" kindref="member">FailoverEventType::QUORUM_CHECK_FAILED</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>quorum_failed_events.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fire<sp/>the<sp/>diagnostic<sp/>directly<sp/>via<sp/>the<sp/>test<sp/>accessor.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.testEmitDiagnostic(<ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccac07ff7b5d7be3b8a5d8435d9827dea76" kindref="member">FailoverErrorCode::QUORUM_UNAVAILABLE</ref>,</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;node-qtest&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;unit<sp/>test<sp/>—<sp/>QUORUM_UNAVAILABLE<sp/>diagnostic&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(quorum_failed_events.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P23-08<sp/>—<sp/>attemptRecovery<sp/>stats<sp/>are<sp/>batch-updated:<sp/>total==N,<sp/>failed==N</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><ref refid="test__failover__phase2__phase3__focused_8cpp_1abd139ce2a64c6bfabf21a8cf7ea4edfd" kindref="member">TEST</ref>(FailoverPhase2Phase3,<sp/>P23_08_AttemptRecoveryStatsBatchUpdated)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1failover_1_1_auto_failover_config" kindref="compound">AutoFailoverConfig</ref><sp/>cfg<sp/>=<sp/>makeFastConfig();</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a6abdbaa8ff78af78d35f45d9fdc6e16f" kindref="member">max_recovery_attempts</ref><sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1failover_1_1_auto_failover_config_1a3db2bc57410f8c0e793defca913db1ed" kindref="member">recovery_retry_interval</ref><sp/>=<sp/>0ms;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Null<sp/>health_monitor<sp/>forces<sp/>all<sp/>waitForNodeRecovery()<sp/>calls<sp/>to<sp/>return<sp/>false.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1failover_1_1_auto_failover_manager" kindref="compound">AutoFailoverManager</ref><sp/>mgr(cfg,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*health_monitor=null*/</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.testAttemptRecovery(</highlight><highlight class="stringliteral">&quot;node-batch&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>mgr.getStatistics();</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Batch<sp/>update<sp/>contract:<sp/>after<sp/>N<sp/>failed<sp/>attempts<sp/>the<sp/>counters<sp/>reflect</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>exactly<sp/>N<sp/>total<sp/>and<sp/>N<sp/>failed<sp/>(no<sp/>double-counting,<sp/>no<sp/>partial<sp/>flush).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.total_retry_attempts,<sp/>5u);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.failed_retries,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>5u);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.successful_retries,<sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/failover/test_failover_phase2_phase3_focused.cpp"/>
+  </compounddef>
+</doxygen>

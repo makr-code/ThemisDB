@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_c_d_c_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::CDCOptions</compoundname>
+    <includes refid="postgres__cdc_8h" local="no">postgres_cdc.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_c_d_c_options_1a3a929ae192aeec2ecee75d2ddfe94690" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::CDCOptions::full_sync_first</definition>
+        <argsstring></argsstring>
+        <name>full_sync_first</name>
+        <qualifiedname>themis::importers::CDCOptions::full_sync_first</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Perform an initial snapshot? </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="27" column="10" bodyfile="include/importers/postgres_cdc.h" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_c_d_c_options_1a44d0f2b86f0abf4c50f184d769a45d22" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::CDCOptions::include_truncate</definition>
+        <argsstring></argsstring>
+        <name>include_truncate</name>
+        <qualifiedname>themis::importers::CDCOptions::include_truncate</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Stream TRUNCATE events? </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="28" column="10" bodyfile="include/importers/postgres_cdc.h" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_c_d_c_options_1a12d63b59c57decc7c8b5d7dc9ffdd765" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::CDCOptions::polling_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>polling_interval_ms</name>
+        <qualifiedname>themis::importers::CDCOptions::polling_interval_ms</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+<para>Reconnect back-off (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="29" column="14" bodyfile="include/importers/postgres_cdc.h" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_c_d_c_options_1a97d1bfe0decb24e379a962bbbe4b19e3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::CDCOptions::buffer_size</definition>
+        <argsstring></argsstring>
+        <name>buffer_size</name>
+        <qualifiedname>themis::importers::CDCOptions::buffer_size</qualifiedname>
+        <initializer>{10000}</initializer>
+        <briefdescription>
+<para>In-memory event buffer capacity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="30" column="12" bodyfile="include/importers/postgres_cdc.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_c_d_c_options_1aeee88f6aa49218a9ab585ef738dca4a9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::CDCOptions::slot_name</definition>
+        <argsstring></argsstring>
+        <name>slot_name</name>
+        <qualifiedname>themis::importers::CDCOptions::slot_name</qualifiedname>
+        <initializer>{&quot;themisdb_cdc_slot&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="31" column="17" bodyfile="include/importers/postgres_cdc.h" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_c_d_c_options_1ab60b7bd172495db94059b1a81062f856" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::CDCOptions::publication_name</definition>
+        <argsstring></argsstring>
+        <name>publication_name</name>
+        <qualifiedname>themis::importers::CDCOptions::publication_name</qualifiedname>
+        <initializer>{&quot;themisdb_publication&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_cdc.h" line="32" column="17" bodyfile="include/importers/postgres_cdc.h" bodystart="32" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/postgres_cdc.h" line="26" column="1" bodyfile="include/importers/postgres_cdc.h" bodystart="26" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_c_d_c_options_1a97d1bfe0decb24e379a962bbbe4b19e3" prot="public" virt="non-virtual"><scope>themis::importers::CDCOptions</scope><name>buffer_size</name></member>
+      <member refid="structthemis_1_1importers_1_1_c_d_c_options_1a3a929ae192aeec2ecee75d2ddfe94690" prot="public" virt="non-virtual"><scope>themis::importers::CDCOptions</scope><name>full_sync_first</name></member>
+      <member refid="structthemis_1_1importers_1_1_c_d_c_options_1a44d0f2b86f0abf4c50f184d769a45d22" prot="public" virt="non-virtual"><scope>themis::importers::CDCOptions</scope><name>include_truncate</name></member>
+      <member refid="structthemis_1_1importers_1_1_c_d_c_options_1a12d63b59c57decc7c8b5d7dc9ffdd765" prot="public" virt="non-virtual"><scope>themis::importers::CDCOptions</scope><name>polling_interval_ms</name></member>
+      <member refid="structthemis_1_1importers_1_1_c_d_c_options_1ab60b7bd172495db94059b1a81062f856" prot="public" virt="non-virtual"><scope>themis::importers::CDCOptions</scope><name>publication_name</name></member>
+      <member refid="structthemis_1_1importers_1_1_c_d_c_options_1aeee88f6aa49218a9ab585ef738dca4a9" prot="public" virt="non-virtual"><scope>themis::importers::CDCOptions</scope><name>slot_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

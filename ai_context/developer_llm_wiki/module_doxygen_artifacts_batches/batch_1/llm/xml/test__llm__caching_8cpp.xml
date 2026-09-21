@@ -1,0 +1,763 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__caching_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_caching.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="model__metadata__cache_8h" local="yes">llm/model_metadata_cache.h</includes>
+    <includes refid="lora__metadata__cache_8h" local="yes">llm/lora_metadata_cache.h</includes>
+    <includes refid="paged__block__manager_8h" local="yes">llm/paged_block_manager.h</includes>
+    <includes local="yes">utils/type_conversion.h</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="8">
+        <label>llm/lora_metadata_cache.h</label>
+        <link refid="lora__metadata__cache_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/model_metadata_cache.h</label>
+        <link refid="model__metadata__cache_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>llm/paged_block_manager.h</label>
+        <link refid="paged__block__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_llm_caching.cpp</label>
+        <link refid="test__llm__caching_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>queue</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>thread</label>
+      </node>
+      <node id="4">
+        <label>utils/concurrent_cache.h</label>
+      </node>
+      <node id="15">
+        <label>utils/type_conversion.h</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__caching_8cpp_1adc0f02283ab53ceb32012b91fec57be0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ModelMetadataCacheTest, PutAndGet)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ModelMetadataCacheTest</type>
+        </param>
+        <param>
+          <type>PutAndGet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_caching.cpp" line="16" column="1" bodyfile="tests/llm/test_llm_caching.cpp" bodystart="16" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__caching_8cpp_1a2baee295d4e6dc4057f482b78cc1bd1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ModelMetadataCacheTest, Touch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ModelMetadataCacheTest</type>
+        </param>
+        <param>
+          <type>Touch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_caching.cpp" line="34" column="1" bodyfile="tests/llm/test_llm_caching.cpp" bodystart="34" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__caching_8cpp_1a79c663277f59c75acca1fcb426021be3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ModelMetadataCacheTest, GetStats)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ModelMetadataCacheTest</type>
+        </param>
+        <param>
+          <type>GetStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_caching.cpp" line="50" column="1" bodyfile="tests/llm/test_llm_caching.cpp" bodystart="50" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__caching_8cpp_1afca5a6c75030a78c1a1076bf018890bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ModelMetadataCacheTest, ConcurrentAccess)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ModelMetadataCacheTest</type>
+        </param>
+        <param>
+          <type>ConcurrentAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_caching.cpp" line="72" column="1" bodyfile="tests/llm/test_llm_caching.cpp" bodystart="72" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__caching_8cpp_1a9cf407e5e0f8f5d3e4ab4c1216bd96d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRAMetadataCacheTest, PutAndGet)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRAMetadataCacheTest</type>
+        </param>
+        <param>
+          <type>PutAndGet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_caching.cpp" line="106" column="1" bodyfile="tests/llm/test_llm_caching.cpp" bodystart="106" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__caching_8cpp_1ada88badd41b3db8238e91ece3397c3c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRAMetadataCacheTest, MarkLoadedUnloaded)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRAMetadataCacheTest</type>
+        </param>
+        <param>
+          <type>MarkLoadedUnloaded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_caching.cpp" line="124" column="1" bodyfile="tests/llm/test_llm_caching.cpp" bodystart="124" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__caching_8cpp_1a80b790c917734d4fc3a3bc174221c2e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRAMetadataCacheTest, GetStats)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRAMetadataCacheTest</type>
+        </param>
+        <param>
+          <type>GetStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_caching.cpp" line="147" column="1" bodyfile="tests/llm/test_llm_caching.cpp" bodystart="147" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__caching_8cpp_1ace1f99b02f3b22d5eb0a0cc691c7cd68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PagedBlockManagerTest, Initialization)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PagedBlockManagerTest</type>
+        </param>
+        <param>
+          <type>Initialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_caching.cpp" line="173" column="1" bodyfile="tests/llm/test_llm_caching.cpp" bodystart="173" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__caching_8cpp_1ab622b4825993f38b0ee99233986bf84e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PagedBlockManagerTest, AllocateAndFree)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PagedBlockManagerTest</type>
+        </param>
+        <param>
+          <type>AllocateAndFree</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_caching.cpp" line="186" column="1" bodyfile="tests/llm/test_llm_caching.cpp" bodystart="186" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__caching_8cpp_1a6237b5a008ac5036100cd183c3091a2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PagedBlockManagerTest, AllocationFailure)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PagedBlockManagerTest</type>
+        </param>
+        <param>
+          <type>AllocationFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_caching.cpp" line="202" column="1" bodyfile="tests/llm/test_llm_caching.cpp" bodystart="202" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__caching_8cpp_1a397906e7fa66f18ed333327c3bcc0650" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PagedBlockManagerTest, GetBlock)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PagedBlockManagerTest</type>
+        </param>
+        <param>
+          <type>GetBlock</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_caching.cpp" line="214" column="1" bodyfile="tests/llm/test_llm_caching.cpp" bodystart="214" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__caching_8cpp_1ad0ee240f20ea42c742a62b6abc85eaa9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PagedBlockManagerTest, ConcurrentAllocation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PagedBlockManagerTest</type>
+        </param>
+        <param>
+          <type>ConcurrentAllocation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_caching.cpp" line="241" column="1" bodyfile="tests/llm/test_llm_caching.cpp" bodystart="241" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__caching_8cpp_1ad8a3fe30b053fb1e951b21b43879df06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PagedBlockManagerTest, Reset)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PagedBlockManagerTest</type>
+        </param>
+        <param>
+          <type>Reset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_caching.cpp" line="271" column="1" bodyfile="tests/llm/test_llm_caching.cpp" bodystart="271" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__caching_8cpp_1a5d70d8c2cc403181008ab07b68f08a24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMCachingIntegrationTest, ModelAndLoRAMetadata)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMCachingIntegrationTest</type>
+        </param>
+        <param>
+          <type>ModelAndLoRAMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_caching.cpp" line="290" column="1" bodyfile="tests/llm/test_llm_caching.cpp" bodystart="290" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__caching_8cpp_1aa9d1d9d47c176e933c03e7ff594b0f4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMCachingIntegrationTest, HighConcurrency)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMCachingIntegrationTest</type>
+        </param>
+        <param>
+          <type>HighConcurrency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_caching.cpp" line="317" column="1" bodyfile="tests/llm/test_llm_caching.cpp" bodystart="317" bodyend="356"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="model__metadata__cache_8h" kindref="compound">llm/model_metadata_cache.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__metadata__cache_8h" kindref="compound">llm/lora_metadata_cache.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="paged__block__manager_8h" kindref="compound">llm/paged_block_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/type_conversion.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref>;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">themis::utils::conversion::safe_size_to_int;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ModelMetadataCache<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(ModelMetadataCacheTest,<sp/>PutAndGet)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache" kindref="compound">ModelMetadataCache</ref><sp/>cache;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_metadata" kindref="compound">ModelMetadata</ref><sp/>meta;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1llm_1_1_model_metadata_1ad7c68b23480d6169fa6c4a649976c152" kindref="member">model_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test-model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1llm_1_1_model_metadata_1a14e44bfb36d68aa6110467204ec93463" kindref="member">path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/models/test.gguf&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1llm_1_1_model_metadata_1a3e09e0a914c2b5d0df0224cfea3b7467" kindref="member">size_bytes</ref><sp/>=<sp/>1000000;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1llm_1_1_model_metadata_1a64d00dd0e8356e0653a607b36fdb1049" kindref="member">n_layers</ref><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1llm_1_1_model_metadata_1af19bbbb76686b6f97facf40ea7f4636a" kindref="member">n_ctx</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a4eac0964abd53aef41e2ebc4737f4494" kindref="member">put</ref>(</highlight><highlight class="stringliteral">&quot;test-model&quot;</highlight><highlight class="normal">,<sp/>meta);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retrieved<sp/>=<sp/>cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1aaef31d0fa7247eeb2b70c64ffee34c91" kindref="member">get</ref>(</highlight><highlight class="stringliteral">&quot;test-model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(retrieved.has_value());</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved-&gt;model_id,<sp/></highlight><highlight class="stringliteral">&quot;test-model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved-&gt;size_bytes,<sp/>1000000);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(ModelMetadataCacheTest,<sp/>Touch)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache" kindref="compound">ModelMetadataCache</ref><sp/>cache;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_metadata" kindref="compound">ModelMetadata</ref><sp/>meta;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1llm_1_1_model_metadata_1ad7c68b23480d6169fa6c4a649976c152" kindref="member">model_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test-model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1llm_1_1_model_metadata_1a14e44bfb36d68aa6110467204ec93463" kindref="member">path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/models/test.gguf&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1llm_1_1_model_metadata_1ae5fa01f5967f5ae217a865901d94902d" kindref="member">access_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a4eac0964abd53aef41e2ebc4737f4494" kindref="member">put</ref>(</highlight><highlight class="stringliteral">&quot;test-model&quot;</highlight><highlight class="normal">,<sp/>meta);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a46394be1b4216e47dd325d5298d65348" kindref="member">touch</ref>(</highlight><highlight class="stringliteral">&quot;test-model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retrieved<sp/>=<sp/>cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1aaef31d0fa7247eeb2b70c64ffee34c91" kindref="member">get</ref>(</highlight><highlight class="stringliteral">&quot;test-model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(retrieved.has_value());</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved-&gt;access_count,<sp/>1);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(ModelMetadataCacheTest,<sp/>GetStats)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache" kindref="compound">ModelMetadataCache</ref><sp/>cache;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_metadata" kindref="compound">ModelMetadata</ref><sp/>meta1;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>meta1.<ref refid="structthemis_1_1llm_1_1_model_metadata_1ad7c68b23480d6169fa6c4a649976c152" kindref="member">model_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;model1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>meta1.<ref refid="structthemis_1_1llm_1_1_model_metadata_1a3e09e0a914c2b5d0df0224cfea3b7467" kindref="member">size_bytes</ref><sp/>=<sp/>1000000;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>meta1.<ref refid="structthemis_1_1llm_1_1_model_metadata_1a862c53de936cbaaac1758e309eff3aea" kindref="member">is_pinned</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_metadata" kindref="compound">ModelMetadata</ref><sp/>meta2;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>meta2.<ref refid="structthemis_1_1llm_1_1_model_metadata_1ad7c68b23480d6169fa6c4a649976c152" kindref="member">model_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;model2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>meta2.<ref refid="structthemis_1_1llm_1_1_model_metadata_1a3e09e0a914c2b5d0df0224cfea3b7467" kindref="member">size_bytes</ref><sp/>=<sp/>2000000;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>meta2.<ref refid="structthemis_1_1llm_1_1_model_metadata_1a862c53de936cbaaac1758e309eff3aea" kindref="member">is_pinned</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a4eac0964abd53aef41e2ebc4737f4494" kindref="member">put</ref>(</highlight><highlight class="stringliteral">&quot;model1&quot;</highlight><highlight class="normal">,<sp/>meta1);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a4eac0964abd53aef41e2ebc4737f4494" kindref="member">put</ref>(</highlight><highlight class="stringliteral">&quot;model2&quot;</highlight><highlight class="normal">,<sp/>meta2);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a449fdd847649ec8925c596d815c2d8cf" kindref="member">getStats</ref>();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.total_entries,<sp/>2);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.pinned_entries,<sp/>1);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.total_size_bytes,<sp/>3000000);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(ModelMetadataCacheTest,<sp/>ConcurrentAccess)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache" kindref="compound">ModelMetadataCache</ref><sp/>cache;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-populate<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_metadata" kindref="compound">ModelMetadata</ref><sp/>meta;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1llm_1_1_model_metadata_1ad7c68b23480d6169fa6c4a649976c152" kindref="member">model_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1llm_1_1_model_metadata_1a3e09e0a914c2b5d0df0224cfea3b7467" kindref="member">size_bytes</ref><sp/>=<sp/>1000000<sp/>*<sp/>i;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a4eac0964abd53aef41e2ebc4737f4494" kindref="member">put</ref>(meta.<ref refid="structthemis_1_1llm_1_1_model_metadata_1ad7c68b23480d6169fa6c4a649976c152" kindref="member">model_id</ref>,<sp/>meta);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Concurrent<sp/>reads<sp/>(lock-free)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>10;<sp/>t++)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;cache]()<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>meta<sp/>=<sp/>cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1aaef31d0fa7247eeb2b70c64ffee34c91" kindref="member">get</ref>(</highlight><highlight class="stringliteral">&quot;model&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i<sp/>%<sp/>10));</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(meta.has_value());</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1ad469eea6bea0569c84d8282dafdd1b5c" kindref="member">size</ref>(),<sp/>10);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LoRAMetadataCache<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LoRAMetadataCacheTest,<sp/>PutAndGet)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_lo_r_a_metadata_cache" kindref="compound">LoRAMetadataCache</ref><sp/>cache;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata" kindref="compound">LoRAMetadata</ref><sp/>meta;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a01b9c354bcb02e54bcb6a3a341afdaef" kindref="member">lora_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test-lora&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1abfa6b8ac9547040d5762c5a1ea451d8c" kindref="member">path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/loras/test.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a36c3bac357caba6d92caf54248d26bc8" kindref="member">base_model_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;base-model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a4e4bff351121c52aee37a440b4d1914f" kindref="member">size_bytes</ref><sp/>=<sp/>50000;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1acb9e5043d15c7cc9dafc043e95bb0390" kindref="member">rank</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1llm_1_1_lo_r_a_metadata_cache_1a85712dacee7da7fc6b5233310f64b3ac" kindref="member">put</ref>(</highlight><highlight class="stringliteral">&quot;test-lora&quot;</highlight><highlight class="normal">,<sp/>meta);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retrieved<sp/>=<sp/>cache.<ref refid="classthemis_1_1llm_1_1_lo_r_a_metadata_cache_1ad82d166e6a2cff8e45f5357619349722" kindref="member">get</ref>(</highlight><highlight class="stringliteral">&quot;test-lora&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(retrieved.has_value());</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved-&gt;lora_id,<sp/></highlight><highlight class="stringliteral">&quot;test-lora&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved-&gt;rank,<sp/>16);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LoRAMetadataCacheTest,<sp/>MarkLoadedUnloaded)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_lo_r_a_metadata_cache" kindref="compound">LoRAMetadataCache</ref><sp/>cache;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata" kindref="compound">LoRAMetadata</ref><sp/>meta;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a01b9c354bcb02e54bcb6a3a341afdaef" kindref="member">lora_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test-lora&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a4043525cb4d9d88054aaa239d1d50fc0" kindref="member">is_loaded</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a62f40c4aadbd0bbca799ea230ea48945" kindref="member">slot_id</ref><sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1llm_1_1_lo_r_a_metadata_cache_1a85712dacee7da7fc6b5233310f64b3ac" kindref="member">put</ref>(</highlight><highlight class="stringliteral">&quot;test-lora&quot;</highlight><highlight class="normal">,<sp/>meta);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1llm_1_1_lo_r_a_metadata_cache_1ac55dfb9a5c6b14db48ab74717968bf5e" kindref="member">markLoaded</ref>(</highlight><highlight class="stringliteral">&quot;test-lora&quot;</highlight><highlight class="normal">,<sp/>5);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retrieved<sp/>=<sp/>cache.<ref refid="classthemis_1_1llm_1_1_lo_r_a_metadata_cache_1ad82d166e6a2cff8e45f5357619349722" kindref="member">get</ref>(</highlight><highlight class="stringliteral">&quot;test-lora&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(retrieved.has_value());</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(retrieved-&gt;is_loaded);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved-&gt;slot_id,<sp/>5);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1llm_1_1_lo_r_a_metadata_cache_1ac1d13dcde3fb90bb2f48763d2009f641" kindref="member">markUnloaded</ref>(</highlight><highlight class="stringliteral">&quot;test-lora&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>retrieved<sp/>=<sp/>cache.<ref refid="classthemis_1_1llm_1_1_lo_r_a_metadata_cache_1ad82d166e6a2cff8e45f5357619349722" kindref="member">get</ref>(</highlight><highlight class="stringliteral">&quot;test-lora&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(retrieved.has_value());</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(retrieved-&gt;is_loaded);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved-&gt;slot_id,<sp/>-1);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LoRAMetadataCacheTest,<sp/>GetStats)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_lo_r_a_metadata_cache" kindref="compound">LoRAMetadataCache</ref><sp/>cache;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata" kindref="compound">LoRAMetadata</ref><sp/>meta1;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>meta1.<ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a01b9c354bcb02e54bcb6a3a341afdaef" kindref="member">lora_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;lora1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>meta1.<ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a4e4bff351121c52aee37a440b4d1914f" kindref="member">size_bytes</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>meta1.<ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a4043525cb4d9d88054aaa239d1d50fc0" kindref="member">is_loaded</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata" kindref="compound">LoRAMetadata</ref><sp/>meta2;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>meta2.<ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a01b9c354bcb02e54bcb6a3a341afdaef" kindref="member">lora_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;lora2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>meta2.<ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a4e4bff351121c52aee37a440b4d1914f" kindref="member">size_bytes</ref><sp/>=<sp/>20000;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>meta2.<ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a4043525cb4d9d88054aaa239d1d50fc0" kindref="member">is_loaded</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1llm_1_1_lo_r_a_metadata_cache_1a85712dacee7da7fc6b5233310f64b3ac" kindref="member">put</ref>(</highlight><highlight class="stringliteral">&quot;lora1&quot;</highlight><highlight class="normal">,<sp/>meta1);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1llm_1_1_lo_r_a_metadata_cache_1a85712dacee7da7fc6b5233310f64b3ac" kindref="member">put</ref>(</highlight><highlight class="stringliteral">&quot;lora2&quot;</highlight><highlight class="normal">,<sp/>meta2);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>cache.<ref refid="classthemis_1_1llm_1_1_lo_r_a_metadata_cache_1a8b8fb5763441aa829e96b529869f3ada" kindref="member">getStats</ref>();</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.total_entries,<sp/>2);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.loaded_entries,<sp/>1);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.total_size_bytes,<sp/>30000);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PagedBlockManager<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(PagedBlockManagerTest,<sp/>Initialization)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_config" kindref="compound">PagedBlockManager::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_config_1a21dfb836a1cff1e5dea3db0d46b6ef47" kindref="member">max_blocks</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_config_1a396399bb00b839879368143cd82c83bc" kindref="member">block_size_tokens</ref><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_paged_block_manager" kindref="compound">PagedBlockManager</ref><sp/>mgr(config);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>mgr.getStats();</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.num_blocks,<sp/>100);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.num_free_blocks,<sp/>100);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.num_allocated_blocks,<sp/>0);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(PagedBlockManagerTest,<sp/>AllocateAndFree)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_config" kindref="compound">PagedBlockManager::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_config_1a21dfb836a1cff1e5dea3db0d46b6ef47" kindref="member">max_blocks</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_paged_block_manager" kindref="compound">PagedBlockManager</ref><sp/>mgr(config);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allocate<sp/>blocks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>block_ids<sp/>=<sp/>mgr.allocateBlocks(10);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(block_ids.size(),<sp/>10);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.getNumFreeBlocks(),<sp/>90);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Free<sp/>blocks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.freeBlocks(block_ids);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.getNumFreeBlocks(),<sp/>100);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(PagedBlockManagerTest,<sp/>AllocationFailure)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_config" kindref="compound">PagedBlockManager::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_config_1a21dfb836a1cff1e5dea3db0d46b6ef47" kindref="member">max_blocks</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_paged_block_manager" kindref="compound">PagedBlockManager</ref><sp/>mgr(config);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>allocate<sp/>more<sp/>than<sp/>available</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>block_ids<sp/>=<sp/>mgr.allocateBlocks(20);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(block_ids.empty());</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.getNumFreeBlocks(),<sp/>10);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(PagedBlockManagerTest,<sp/>GetBlock)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_config" kindref="compound">PagedBlockManager::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_config_1a21dfb836a1cff1e5dea3db0d46b6ef47" kindref="member">max_blocks</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_config_1a396399bb00b839879368143cd82c83bc" kindref="member">block_size_tokens</ref><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_paged_block_manager" kindref="compound">PagedBlockManager</ref><sp/>mgr(config);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>block_ids<sp/>=<sp/>mgr.allocateBlocks(1);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(block_ids.empty());</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>callback<sp/>pattern<sp/>(withBlock)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>callback_executed<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.withBlock(block_ids[0],<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_block" kindref="compound">PagedBlockManager::Block</ref>&amp;<sp/>block)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>callback_executed<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(block.<ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_block_1a609b099b15634db37714588e8f3b4232" kindref="member">block_id</ref>,<sp/>block_ids[0]);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(block.<ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_block_1ab434c4aadda7c82c2d958788c948fa63" kindref="member">is_free</ref>);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(callback_executed);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>reference<sp/>wrapper<sp/>pattern<sp/>(getBlockRef)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>block_ref<sp/>=<sp/>mgr.getBlockRef(block_ids[0]);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(block_ref.has_value());</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_block" kindref="compound">PagedBlockManager::Block</ref>&amp;<sp/>block<sp/>=<sp/>block_ref-&gt;get();</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(block.<ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_block_1a609b099b15634db37714588e8f3b4232" kindref="member">block_id</ref>,<sp/>block_ids[0]);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(block.<ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_block_1ab434c4aadda7c82c2d958788c948fa63" kindref="member">is_free</ref>);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(PagedBlockManagerTest,<sp/>ConcurrentAllocation)<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_config" kindref="compound">PagedBlockManager::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_config_1a21dfb836a1cff1e5dea3db0d46b6ef47" kindref="member">max_blocks</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_paged_block_manager" kindref="compound">PagedBlockManager</ref><sp/>mgr(config);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;int&gt;&gt;<sp/>all_allocated(10);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allocate<sp/>from<sp/>multiple<sp/>threads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>10;<sp/>t++)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;mgr,<sp/>&amp;all_allocated,<sp/>t]()<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>all_allocated[t]<sp/>=<sp/>mgr.allocateBlocks(50);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>all<sp/>allocations<sp/>succeeded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>total_allocated<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ids<sp/>:<sp/>all_allocated)<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_allocated<sp/>+=<sp/>safe_size_to_int(ids.size());</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(total_allocated,<sp/>500);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.getNumFreeBlocks(),<sp/>500);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(PagedBlockManagerTest,<sp/>Reset)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_config" kindref="compound">PagedBlockManager::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_config_1a21dfb836a1cff1e5dea3db0d46b6ef47" kindref="member">max_blocks</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_paged_block_manager" kindref="compound">PagedBlockManager</ref><sp/>mgr(config);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allocate<sp/>some<sp/>blocks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>block_ids<sp/>=<sp/>mgr.allocateBlocks(50);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.getNumFreeBlocks(),<sp/>50);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reset</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.reset();</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.getNumFreeBlocks(),<sp/>100);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Integration<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMCachingIntegrationTest,<sp/>ModelAndLoRAMetadata)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache" kindref="compound">ModelMetadataCache</ref><sp/>model_cache;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_lo_r_a_metadata_cache" kindref="compound">LoRAMetadataCache</ref><sp/>lora_cache;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_metadata" kindref="compound">ModelMetadata</ref><sp/>model_meta;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>model_meta.<ref refid="structthemis_1_1llm_1_1_model_metadata_1ad7c68b23480d6169fa6c4a649976c152" kindref="member">model_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;base-model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>model_meta.<ref refid="structthemis_1_1llm_1_1_model_metadata_1a3e09e0a914c2b5d0df0224cfea3b7467" kindref="member">size_bytes</ref><sp/>=<sp/>6400000000;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>model_cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a4eac0964abd53aef41e2ebc4737f4494" kindref="member">put</ref>(</highlight><highlight class="stringliteral">&quot;base-model&quot;</highlight><highlight class="normal">,<sp/>model_meta);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>LoRAs<sp/>for<sp/>this<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata" kindref="compound">LoRAMetadata</ref><sp/>lora_meta;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lora_meta.<ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a01b9c354bcb02e54bcb6a3a341afdaef" kindref="member">lora_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;lora&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lora_meta.<ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a36c3bac357caba6d92caf54248d26bc8" kindref="member">base_model_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;base-model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lora_meta.<ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a4e4bff351121c52aee37a440b4d1914f" kindref="member">size_bytes</ref><sp/>=<sp/>10000000;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lora_cache.<ref refid="classthemis_1_1llm_1_1_lo_r_a_metadata_cache_1a85712dacee7da7fc6b5233310f64b3ac" kindref="member">put</ref>(lora_meta.<ref refid="structthemis_1_1llm_1_1_lo_r_a_metadata_1a01b9c354bcb02e54bcb6a3a341afdaef" kindref="member">lora_id</ref>,<sp/>lora_meta);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>model<sp/>=<sp/>model_cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1aaef31d0fa7247eeb2b70c64ffee34c91" kindref="member">get</ref>(</highlight><highlight class="stringliteral">&quot;base-model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(model.has_value());</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>lora_stats<sp/>=<sp/>lora_cache.<ref refid="classthemis_1_1llm_1_1_lo_r_a_metadata_cache_1a8b8fb5763441aa829e96b529869f3ada" kindref="member">getStats</ref>();</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(lora_stats.total_entries,<sp/>5);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMCachingIntegrationTest,<sp/>HighConcurrency)<sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache" kindref="compound">ModelMetadataCache</ref><sp/>model_cache;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_paged_block_manager" kindref="compound">PagedBlockManager</ref><sp/>mgr({.max_blocks<sp/>=<sp/>10000});</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mix<sp/>of<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>20;<sp/>t++)<sp/>{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;,<sp/>t]()<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>models</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_metadata" kindref="compound">ModelMetadata</ref><sp/>meta;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1llm_1_1_model_metadata_1ad7c68b23480d6169fa6c4a649976c152" kindref="member">model_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;model_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(t)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>meta.<ref refid="structthemis_1_1llm_1_1_model_metadata_1a3e09e0a914c2b5d0df0224cfea3b7467" kindref="member">size_bytes</ref><sp/>=<sp/>1000000;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model_cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a4eac0964abd53aef41e2ebc4737f4494" kindref="member">put</ref>(meta.<ref refid="structthemis_1_1llm_1_1_model_metadata_1ad7c68b23480d6169fa6c4a649976c152" kindref="member">model_id</ref>,<sp/>meta);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allocate<sp/>blocks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blocks<sp/>=<sp/>mgr.allocateBlocks(10);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Read<sp/>models</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>meta<sp/>=<sp/>model_cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1aaef31d0fa7247eeb2b70c64ffee34c91" kindref="member">get</ref>(</highlight><highlight class="stringliteral">&quot;model_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(t)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(meta.has_value());</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Free<sp/>blocks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!blocks.empty())<sp/>{</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.freeBlocks(blocks);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(model_cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1ad469eea6bea0569c84d8282dafdd1b5c" kindref="member">size</ref>(),<sp/>200);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(mgr.getNumFreeBlocks(),<sp/>9000);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight><highlight class="comment">//<sp/>No<sp/>custom<sp/>main;<sp/>gtest_main<sp/>provides<sp/>the<sp/>entry<sp/>point</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_llm_caching.cpp"/>
+  </compounddef>
+</doxygen>

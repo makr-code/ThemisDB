@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_result_batch" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ResultBatch</compoundname>
+    <includes refid="result__stream_8h" local="no">result_stream.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_result_batch_1a3272bfd549550258d517357f9a4c7e80" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; T &gt;</type>
+        <definition>std::vector&lt;T&gt; themis::query::ResultBatch&lt; T &gt;::items</definition>
+        <argsstring></argsstring>
+        <name>items</name>
+        <qualifiedname>themis::query::ResultBatch::items</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="47" column="17" bodyfile="include/query/result_stream.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_result_batch_1a94a1c355ea7fcaa36804be6817bc7684" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_pagination_cursor" kindref="compound">PaginationCursor</ref></type>
+        <definition>PaginationCursor themis::query::ResultBatch&lt; T &gt;::cursor</definition>
+        <argsstring></argsstring>
+        <name>cursor</name>
+        <qualifiedname>themis::query::ResultBatch::cursor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="48" column="22" bodyfile="include/query/result_stream.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_result_batch_1ab03904c2eb0cf322b6759dabdc631615" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::ResultBatch&lt; T &gt;::total_count</definition>
+        <argsstring></argsstring>
+        <name>total_count</name>
+        <qualifiedname>themis::query::ResultBatch::total_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="49" column="12" bodyfile="include/query/result_stream.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_result_batch_1a5af5f4786cb7492838ac42dc3ffbcd19" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::ResultBatch&lt; T &gt;::is_last_batch</definition>
+        <argsstring></argsstring>
+        <name>is_last_batch</name>
+        <qualifiedname>themis::query::ResultBatch::is_last_batch</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="50" column="10" bodyfile="include/query/result_stream.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::PaginationCursor</label>
+        <link refid="structthemis_1_1query_1_1_pagination_cursor"/>
+      </node>
+      <node id="1">
+        <label>themis::query::ResultBatch&lt; T &gt;</label>
+        <link refid="structthemis_1_1query_1_1_result_batch"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>cursor</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/result_stream.h" line="46" column="1" bodyfile="include/query/result_stream.h" bodystart="46" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_result_batch_1a94a1c355ea7fcaa36804be6817bc7684" prot="public" virt="non-virtual"><scope>themis::query::ResultBatch</scope><name>cursor</name></member>
+      <member refid="structthemis_1_1query_1_1_result_batch_1a5af5f4786cb7492838ac42dc3ffbcd19" prot="public" virt="non-virtual"><scope>themis::query::ResultBatch</scope><name>is_last_batch</name></member>
+      <member refid="structthemis_1_1query_1_1_result_batch_1a3272bfd549550258d517357f9a4c7e80" prot="public" virt="non-virtual"><scope>themis::query::ResultBatch</scope><name>items</name></member>
+      <member refid="structthemis_1_1query_1_1_result_batch_1ab03904c2eb0cf322b6759dabdc631615" prot="public" virt="non-virtual"><scope>themis::query::ResultBatch</scope><name>total_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

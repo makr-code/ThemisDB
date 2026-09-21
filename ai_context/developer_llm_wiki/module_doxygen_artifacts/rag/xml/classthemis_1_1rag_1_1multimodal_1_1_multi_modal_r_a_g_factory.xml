@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::multimodal::MultiModalRAGFactory</compoundname>
+    <includes refid="multimodal__rag_8h" local="no">multimodal_rag.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_factory_1a00948af8317602b9d35a99bc8998aa07" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g" kindref="compound">MultiModalRAG</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; MultiModalRAG &gt; themis::rag::multimodal::MultiModalRAGFactory::createTextOnly</definition>
+        <argsstring>()</argsstring>
+        <name>createTextOnly</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAGFactory::createTextOnly</qualifiedname>
+        <briefdescription>
+<para>Text-only retriever: image retrieval disabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Text Only.</para>
+<para>Suitable as a drop-in for standard RAG pipelines that need multi-modal support in the future.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createTextOnly without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="342" column="28" bodyfile="src/rag/multimodal_rag.cpp" bodystart="380" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_factory_1a061fc12c6e8feec7df87fe343546ba21" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g" kindref="compound">MultiModalRAG</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; MultiModalRAG &gt; themis::rag::multimodal::MultiModalRAGFactory::createTextAndImage</definition>
+        <argsstring>()</argsstring>
+        <name>createTextAndImage</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAGFactory::createTextAndImage</qualifiedname>
+        <briefdescription>
+<para>Text + image retriever with equal modality weights. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Text And Image.</para>
+<para>Suitable for document corpora that mix text passages and images.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createTextAndImage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="349" column="28" bodyfile="src/rag/multimodal_rag.cpp" bodystart="395" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_factory_1acf72b89947fe77890c66dcbd871e6a6e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g" kindref="compound">MultiModalRAG</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; MultiModalRAG &gt; themis::rag::multimodal::MultiModalRAGFactory::createFull</definition>
+        <argsstring>()</argsstring>
+        <name>createFull</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAGFactory::createFull</qualifiedname>
+        <briefdescription>
+<para>Full multi-modal retriever (text + image, OCR and table-QA ready). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Full.</para>
+<para>All flags enabled; callers must supply the appropriate retrieval functions before calling <ref refid="namespacethemis_1_1query" kindref="compound">query()</ref>.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createFull without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="357" column="28" bodyfile="src/rag/multimodal_rag.cpp" bodystart="409" bodyend="417"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Convenience factory for common <ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g" kindref="compound">MultiModalRAG</ref> configurations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/multimodal_rag.h" line="334" column="1" bodyfile="include/rag/multimodal_rag.h" bodystart="334" bodyend="358"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_factory_1acf72b89947fe77890c66dcbd871e6a6e" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAGFactory</scope><name>createFull</name></member>
+      <member refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_factory_1a061fc12c6e8feec7df87fe343546ba21" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAGFactory</scope><name>createTextAndImage</name></member>
+      <member refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_factory_1a00948af8317602b9d35a99bc8998aa07" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAGFactory</scope><name>createTextOnly</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_adapter_domain" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::AdapterDomain</compoundname>
+    <includes refid="lora__pattern__classifier_8h" local="no">lora_pattern_classifier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_adapter_domain_1aaf477b817d096bec4b43c7adf9b97d41" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::AdapterDomain::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themisdb::analytics::AdapterDomain::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="56" column="25" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_adapter_domain_1ae40bc82bbbbe6fb4780685bab6481a1d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::AdapterDomain::domain</definition>
+        <argsstring></argsstring>
+        <name>domain</name>
+        <qualifiedname>themisdb::analytics::AdapterDomain::domain</qualifiedname>
+        <briefdescription>
+<para>Human-readable domain name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="57" column="25" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_adapter_domain_1a772aa65d6b4acce327c011c2ba5cd803" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themisdb::analytics::AdapterDomain::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themisdb::analytics::AdapterDomain::embedding</qualifiedname>
+        <briefdescription>
+<para>For cosine-similarity adapter selection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="58" column="17" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/lora_pattern_classifier.h" line="55" column="1" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="55" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_adapter_domain_1aaf477b817d096bec4b43c7adf9b97d41" prot="public" virt="non-virtual"><scope>themisdb::analytics::AdapterDomain</scope><name>adapter_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_adapter_domain_1ae40bc82bbbbe6fb4780685bab6481a1d" prot="public" virt="non-virtual"><scope>themisdb::analytics::AdapterDomain</scope><name>domain</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_adapter_domain_1a772aa65d6b4acce327c011c2ba5cd803" prot="public" virt="non-virtual"><scope>themisdb::analytics::AdapterDomain</scope><name>embedding</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

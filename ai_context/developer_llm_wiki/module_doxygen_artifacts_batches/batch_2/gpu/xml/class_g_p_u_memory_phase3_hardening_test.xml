@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_p_u_memory_phase3_hardening_test" kind="class" language="C++" prot="public">
+    <compoundname>GPUMemoryPhase3HardeningTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_g_p_u_memory_phase3_hardening_test_1aa27303173dbf1d33d88f2be28b33f19a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUMemoryPhase3HardeningTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GPUMemoryPhase3HardeningTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_management.cpp" line="882" column="10" bodyfile="tests/gpu/test_gpu_memory_management.cpp" bodystart="882" bodyend="882"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_memory_phase3_hardening_test_1ac288dfe0159b72cef0d2104edd15c24d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUMemoryPhase3HardeningTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GPUMemoryPhase3HardeningTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_management.cpp" line="883" column="10" bodyfile="tests/gpu/test_gpu_memory_management.cpp" bodystart="883" bodyend="883"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GPUMemoryPhase3HardeningTest</label>
+        <link refid="class_g_p_u_memory_phase3_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GPUMemoryPhase3HardeningTest</label>
+        <link refid="class_g_p_u_memory_phase3_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_memory_management.cpp" line="880" column="1" bodyfile="tests/gpu/test_gpu_memory_management.cpp" bodystart="880" bodyend="884"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_memory_phase3_hardening_test_1aa27303173dbf1d33d88f2be28b33f19a" prot="protected" virt="non-virtual"><scope>GPUMemoryPhase3HardeningTest</scope><name>SetUp</name></member>
+      <member refid="class_g_p_u_memory_phase3_hardening_test_1ac288dfe0159b72cef0d2104edd15c24d" prot="protected" virt="non-virtual"><scope>GPUMemoryPhase3HardeningTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

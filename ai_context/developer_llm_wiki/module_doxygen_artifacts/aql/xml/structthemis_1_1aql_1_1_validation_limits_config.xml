@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_validation_limits_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::ValidationLimitsConfig</compoundname>
+    <includes refid="llm__error__codes_8h" local="no">llm_error_codes.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_validation_limits_config_1aac14febde17d82dc0aaa55e44e1eb886" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::aql::ValidationLimitsConfig::max_prompt_length</definition>
+        <argsstring></argsstring>
+        <name>max_prompt_length</name>
+        <qualifiedname>themis::aql::ValidationLimitsConfig::max_prompt_length</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a26e729d5393f7c72f0f7ce5714e71159" kindref="member">ValidationLimits::MAX_PROMPT_LENGTH</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_error_codes.h" line="211" column="17" bodyfile="include/aql/llm_error_codes.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_validation_limits_config_1a0bd632fb5fd9c8e8993a2c5bf7aa0b67" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::aql::ValidationLimitsConfig::max_nl_query_length</definition>
+        <argsstring></argsstring>
+        <name>max_nl_query_length</name>
+        <qualifiedname>themis::aql::ValidationLimitsConfig::max_nl_query_length</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a8d569744ab237f009740da8139c1d766" kindref="member">ValidationLimits::MAX_NL_QUERY_LENGTH</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_error_codes.h" line="212" column="17" bodyfile="include/aql/llm_error_codes.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_validation_limits_config_1a47dde8e5913045b24e341a7a682c2fc9" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::aql::ValidationLimitsConfig::max_schema_context_length</definition>
+        <argsstring></argsstring>
+        <name>max_schema_context_length</name>
+        <qualifiedname>themis::aql::ValidationLimitsConfig::max_schema_context_length</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a49e45d1335a3d59cca48241dc6f08397" kindref="member">ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_error_codes.h" line="213" column="17" bodyfile="include/aql/llm_error_codes.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_validation_limits_config_1a86dccf12ea20c619c89fb18b44b005a5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::ValidationLimitsConfig::max_rag_top_k</definition>
+        <argsstring></argsstring>
+        <name>max_rag_top_k</name>
+        <qualifiedname>themis::aql::ValidationLimitsConfig::max_rag_top_k</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a4d0715f67eeb8dd075d96ae0f02011d9" kindref="member">ValidationLimits::MAX_RAG_TOP_K</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_error_codes.h" line="214" column="17" bodyfile="include/aql/llm_error_codes.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_validation_limits_config_1a2355eca27e472ef4ad94ebffcf904448" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::ValidationLimitsConfig::min_rag_top_k</definition>
+        <argsstring></argsstring>
+        <name>min_rag_top_k</name>
+        <qualifiedname>themis::aql::ValidationLimitsConfig::min_rag_top_k</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a29cf8283aaa042aeb1c3565520ed9c9f" kindref="member">ValidationLimits::MIN_RAG_TOP_K</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_error_codes.h" line="215" column="17" bodyfile="include/aql/llm_error_codes.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_validation_limits_config_1a54c4afc4b9975355814fe9681bb1290d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::ValidationLimitsConfig::default_timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>default_timeout_seconds</name>
+        <qualifiedname>themis::aql::ValidationLimitsConfig::default_timeout_seconds</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1aql_1_1_validation_limits_1a6884cec21a93f5e67ca278cd97006bd5" kindref="member">ValidationLimits::DEFAULT_TIMEOUT_SECONDS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_error_codes.h" line="216" column="17" bodyfile="include/aql/llm_error_codes.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_error_codes.h" line="210" column="1" bodyfile="include/aql/llm_error_codes.h" bodystart="210" bodyend="217"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_validation_limits_config_1a54c4afc4b9975355814fe9681bb1290d" prot="public" virt="non-virtual"><scope>themis::aql::ValidationLimitsConfig</scope><name>default_timeout_seconds</name></member>
+      <member refid="structthemis_1_1aql_1_1_validation_limits_config_1a0bd632fb5fd9c8e8993a2c5bf7aa0b67" prot="public" virt="non-virtual"><scope>themis::aql::ValidationLimitsConfig</scope><name>max_nl_query_length</name></member>
+      <member refid="structthemis_1_1aql_1_1_validation_limits_config_1aac14febde17d82dc0aaa55e44e1eb886" prot="public" virt="non-virtual"><scope>themis::aql::ValidationLimitsConfig</scope><name>max_prompt_length</name></member>
+      <member refid="structthemis_1_1aql_1_1_validation_limits_config_1a86dccf12ea20c619c89fb18b44b005a5" prot="public" virt="non-virtual"><scope>themis::aql::ValidationLimitsConfig</scope><name>max_rag_top_k</name></member>
+      <member refid="structthemis_1_1aql_1_1_validation_limits_config_1a47dde8e5913045b24e341a7a682c2fc9" prot="public" virt="non-virtual"><scope>themis::aql::ValidationLimitsConfig</scope><name>max_schema_context_length</name></member>
+      <member refid="structthemis_1_1aql_1_1_validation_limits_config_1a2355eca27e472ef4ad94ebffcf904448" prot="public" virt="non-virtual"><scope>themis::aql::ValidationLimitsConfig</scope><name>min_rag_top_k</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

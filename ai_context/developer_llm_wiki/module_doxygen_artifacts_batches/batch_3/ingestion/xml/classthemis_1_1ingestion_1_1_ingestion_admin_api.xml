@@ -1,0 +1,459 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_ingestion_admin_api" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::IngestionAdminApi</compoundname>
+    <includes refid="ingestion__manager_8h" local="no">ingestion_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_ingestion_admin_api_1aa40230a9b65de9ad8222bb7f5a75799f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref> &amp;</type>
+        <definition>IngestionManager&amp; themis::ingestion::IngestionAdminApi::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>themis::ingestion::IngestionAdminApi::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="2037" column="22" bodyfile="include/ingestion/ingestion_manager.h" bodystart="2037" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_admin_api_1aea1ddb1ffac164735c346fadb9d34492" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::IngestionAdminApi::IngestionAdminApi</definition>
+        <argsstring>(IngestionManager &amp;manager)</argsstring>
+        <name>IngestionAdminApi</name>
+        <qualifiedname>themis::ingestion::IngestionAdminApi::IngestionAdminApi</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref> &amp;</type>
+          <declname>manager</declname>
+        </param>
+        <briefdescription>
+<para>Construct admin API around an existing <ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reference to the manager to control (must outlive this object) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1933" column="14" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2947" bodyend="2948"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_admin_api_1a445768de45b49bb1d538b401b953c865" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::IngestionAdminApi::~IngestionAdminApi</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IngestionAdminApi</name>
+        <qualifiedname>themis::ingestion::IngestionAdminApi::~IngestionAdminApi</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1934" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_admin_api_1aa40c7451426f212293ff34196ebe3b95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::IngestionAdminApi::IngestionAdminApi</definition>
+        <argsstring>(const IngestionAdminApi &amp;)=delete</argsstring>
+        <name>IngestionAdminApi</name>
+        <qualifiedname>themis::ingestion::IngestionAdminApi::IngestionAdminApi</qualifiedname>
+        <param>
+          <type>const IngestionAdminApi &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1937" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_admin_api_1ad62382ceb9c6dc2f84bacc99cfb8e105" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1aea1ddb1ffac164735c346fadb9d34492" kindref="member">IngestionAdminApi</ref> &amp;</type>
+        <definition>IngestionAdminApi &amp; themis::ingestion::IngestionAdminApi::operator=</definition>
+        <argsstring>(const IngestionAdminApi &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ingestion::IngestionAdminApi::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1aea1ddb1ffac164735c346fadb9d34492" kindref="member">IngestionAdminApi</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1938" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_admin_api_1ac490d82e5891974877e4a12e8de0b344" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_source_status" kindref="compound">SourceStatus</ref> &gt;</type>
+        <definition>std::vector&lt; SourceStatus &gt; themis::ingestion::IngestionAdminApi::listSources</definition>
+        <argsstring>() const</argsstring>
+        <name>listSources</name>
+        <qualifiedname>themis::ingestion::IngestionAdminApi::listSources</qualifiedname>
+        <briefdescription>
+<para>List all registered sources with availability and document counts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1945" column="17" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2950" bodyend="2971"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_admin_api_1a1e8ce116ca5aca5cd96332ea7f5268b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref></type>
+        <definition>IngestionStats themis::ingestion::IngestionAdminApi::startSource</definition>
+        <argsstring>(const std::string &amp;source_id)</argsstring>
+        <name>startSource</name>
+        <qualifiedname>themis::ingestion::IngestionAdminApi::startSource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <briefdescription>
+<para>Trigger an immediate ingestion run for a single source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start Source.</para>
+<para><simplesect kind="return"><para>Ingestion statistics from the run</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the source. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ingestSource(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1951" column="20" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2979" bodyend="2981"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_admin_api_1ad968e99cc032bc72d9817359993c1464" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::IngestionAdminApi::pauseSource</definition>
+        <argsstring>(const std::string &amp;source_id)</argsstring>
+        <name>pauseSource</name>
+        <qualifiedname>themis::ingestion::IngestionAdminApi::pauseSource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <briefdescription>
+<para>Disable a source so it is skipped in future <computeroutput>ingestAll()</computeroutput> runs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Pause Source.</para>
+<para><simplesect kind="return"><para>true if source was found and disabled</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the source. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements pauseSource without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1957" column="10" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2989" bodyend="2991"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_admin_api_1aee364a34fc09b7d03b5a13422e01c71f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::IngestionAdminApi::resumeSource</definition>
+        <argsstring>(const std::string &amp;source_id)</argsstring>
+        <name>resumeSource</name>
+        <qualifiedname>themis::ingestion::IngestionAdminApi::resumeSource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <briefdescription>
+<para>Re-enable a previously paused source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Resume Source.</para>
+<para><simplesect kind="return"><para>true if source was found and re-enabled</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the source. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements resumeSource without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1963" column="10" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="2999" bodyend="3001"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_admin_api_1aa394957c7af221e2fc6de0f5ea21af7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::IngestionAdminApi::reconfigureSource</definition>
+        <argsstring>(const std::string &amp;source_id, const SourceConfig &amp;new_config)</argsstring>
+        <name>reconfigureSource</name>
+        <qualifiedname>themis::ingestion::IngestionAdminApi::reconfigureSource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref> &amp;</type>
+          <declname>new_config</declname>
+        </param>
+        <briefdescription>
+<para>Update the configuration of an already-registered source at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reconfigure Source.</para>
+<para>Delegates to <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager_1acbc2751384ca9f4b1179c05dd2e0c55f" kindref="member">IngestionManager::reconfigureSource()</ref></computeroutput>. The change takes effect on the next ingestion run – no restart required.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the source to update </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New configuration to apply </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the source was found and its configuration replaced </para>
+</simplesect>
+<simplesect kind="return"><para>false if no source with <computeroutput>source_id</computeroutput> is registered</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements reconfigureSource without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1976" column="10" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="3010" bodyend="3013"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_admin_api_1a99129d80db8816f67c211f7b017fd31f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_quarantine_entry" kindref="compound">QuarantineEntry</ref> &gt;</type>
+        <definition>std::vector&lt; QuarantineEntry &gt; themis::ingestion::IngestionAdminApi::listQuarantine</definition>
+        <argsstring>() const</argsstring>
+        <name>listQuarantine</name>
+        <qualifiedname>themis::ingestion::IngestionAdminApi::listQuarantine</qualifiedname>
+        <briefdescription>
+<para>List all items currently in quarantine. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="1984" column="17" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="3015" bodyend="3017"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_admin_api_1abe4ad81cbe25e278d51ea3fc4fd2c366" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::IngestionAdminApi::retryQuarantineItem</definition>
+        <argsstring>(const std::string &amp;item_path)</argsstring>
+        <name>retryQuarantineItem</name>
+        <qualifiedname>themis::ingestion::IngestionAdminApi::retryQuarantineItem</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>item_path</declname>
+        </param>
+        <briefdescription>
+<para>Retry a single quarantined item with exponential back-off. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Retry Quarantine Item.</para>
+<para>When the entry has a <computeroutput>raw_payload</computeroutput>, the document is written directly without re-running the whole source. On each failed attempt the back-off delay is doubled (capped at <computeroutput><ref refid="structthemis_1_1ingestion_1_1_retry_config_1a986a17d8762431ea89dd1f9b2e412c91" kindref="member">RetryConfig::max_delay_ms</ref></computeroutput>). If <computeroutput>retry_count</computeroutput> reaches <computeroutput><ref refid="structthemis_1_1ingestion_1_1_retry_config_1a75e10491bdd831a4e8a2668f319c7e97" kindref="member">RetryConfig::max_quarantine_retries</ref></computeroutput> the entry is marked <computeroutput>permanently_failed</computeroutput> and excluded from future retries.</para>
+<para>If <computeroutput>raw_payload</computeroutput> is empty (legacy entry) the method falls back to re-running the originating source from the last checkpoint.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>item_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The quarantined item path/URL </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the item was successfully re-ingested and removed from quarantine; false if not found, permanently failed, or all retry attempts were exhausted</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the item. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getQuarantineItems(), std::find_if(), begin(), end(), getRetryConfig(), empty(), std::max(), getDocumentWriteFn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="2003" column="10" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="3025" bodyend="3106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_admin_api_1a720c6486925a8bb12a1c4f88b23e5fe9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::IngestionAdminApi::retryAllQuarantine</definition>
+        <argsstring>()</argsstring>
+        <name>retryAllQuarantine</name>
+        <qualifiedname>themis::ingestion::IngestionAdminApi::retryAllQuarantine</qualifiedname>
+        <briefdescription>
+<para>Retry all quarantined items that are not permanently failed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Retry All Quarantine.</para>
+<para>Iterates the quarantine list and calls <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1abe4ad81cbe25e278d51ea3fc4fd2c366" kindref="member">retryQuarantineItem()</ref></computeroutput> for every entry whose <computeroutput>permanently_failed</computeroutput> flag is false.</para>
+<para><simplesect kind="return"><para>Number of items that were successfully re-ingested</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getQuarantineItems(), <ref refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1abe4ad81cbe25e278d51ea3fc4fd2c366" kindref="member">retryQuarantineItem()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="2013" column="12" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="3113" bodyend="3124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_admin_api_1acac25e801e967e0afb9cfb6bc51022fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::IngestionAdminApi::dismissQuarantineItem</definition>
+        <argsstring>(const std::string &amp;item_path)</argsstring>
+        <name>dismissQuarantineItem</name>
+        <qualifiedname>themis::ingestion::IngestionAdminApi::dismissQuarantineItem</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>item_path</declname>
+        </param>
+        <briefdescription>
+<para>Dismiss (permanently delete) a quarantined item. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Dismiss Quarantine Item.</para>
+<para><simplesect kind="return"><para>true if the item was found and removed</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">item_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the item. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements dismissQuarantineItem without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="2019" column="10" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="3132" bodyend="3134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_ingestion_admin_api_1ad17d287600ffe739b4eaee35e43cb90f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionAdminApi::healthJson</definition>
+        <argsstring>() const</argsstring>
+        <name>healthJson</name>
+        <qualifiedname>themis::ingestion::IngestionAdminApi::healthJson</qualifiedname>
+        <briefdescription>
+<para>Get a JSON-like health summary string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a compact JSON object with ingestion module health indicators:<itemizedlist>
+<listitem><para><computeroutput>status</computeroutput>: &quot;healthy&quot; | &quot;degraded&quot; | &quot;unhealthy&quot;</para>
+</listitem><listitem><para><computeroutput>registered_sources</computeroutput>: total registered source count</para>
+</listitem><listitem><para><computeroutput>enabled_sources</computeroutput>: enabled source count</para>
+</listitem><listitem><para><computeroutput>quarantine_size</computeroutput>: number of quarantined items</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para>JSON string (UTF-8, no trailing newline) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="2034" column="17" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="3136" bodyend="3168"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Admin / Operator API for the ingestion module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wraps an existing <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref></computeroutput> and provides operator-level status, control, and quarantine management without requiring an HTTP server. An HTTP layer (e.g. crow, cpp-httplib) can expose these methods as REST endpoints (Q3 3.2 final step).</para>
+<para>Example usage: <programlisting><codeline><highlight class="normal">IngestionManager<sp/>mgr(</highlight><highlight class="stringliteral">&quot;db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">mgr.registerSource({...});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1aea1ddb1ffac164735c346fadb9d34492" kindref="member">IngestionAdminApi</ref><sp/>admin(mgr);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>statuses<sp/>=<sp/>admin.listSources();</highlight></codeline>
+<codeline><highlight class="normal">admin.startSource(</highlight><highlight class="stringliteral">&quot;my_source&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>admin.listQuarantine();</highlight></codeline>
+<codeline><highlight class="normal">admin.retryQuarantineItem(</highlight><highlight class="stringliteral">&quot;path/to/file.pdf&quot;</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_manager.h" line="1927" column="1" bodyfile="include/ingestion/ingestion_manager.h" bodystart="1927" bodyend="2038"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1acac25e801e967e0afb9cfb6bc51022fb" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionAdminApi</scope><name>dismissQuarantineItem</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1ad17d287600ffe739b4eaee35e43cb90f" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionAdminApi</scope><name>healthJson</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1aea1ddb1ffac164735c346fadb9d34492" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionAdminApi</scope><name>IngestionAdminApi</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1aa40c7451426f212293ff34196ebe3b95" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionAdminApi</scope><name>IngestionAdminApi</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1a99129d80db8816f67c211f7b017fd31f" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionAdminApi</scope><name>listQuarantine</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1ac490d82e5891974877e4a12e8de0b344" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionAdminApi</scope><name>listSources</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1aa40230a9b65de9ad8222bb7f5a75799f" prot="private" virt="non-virtual"><scope>themis::ingestion::IngestionAdminApi</scope><name>mgr_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1ad62382ceb9c6dc2f84bacc99cfb8e105" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionAdminApi</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1ad968e99cc032bc72d9817359993c1464" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionAdminApi</scope><name>pauseSource</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1aa394957c7af221e2fc6de0f5ea21af7d" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionAdminApi</scope><name>reconfigureSource</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1aee364a34fc09b7d03b5a13422e01c71f" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionAdminApi</scope><name>resumeSource</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1a720c6486925a8bb12a1c4f88b23e5fe9" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionAdminApi</scope><name>retryAllQuarantine</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1abe4ad81cbe25e278d51ea3fc4fd2c366" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionAdminApi</scope><name>retryQuarantineItem</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1a1e8ce116ca5aca5cd96332ea7f5268b8" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionAdminApi</scope><name>startSource</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_ingestion_admin_api_1a445768de45b49bb1d538b401b953c865" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionAdminApi</scope><name>~IngestionAdminApi</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

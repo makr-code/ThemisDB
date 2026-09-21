@@ -1,0 +1,650 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_hnsw_layer_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::HnswLayerOptimizer</compoundname>
+    <includes refid="hnsw__layer__optimizer_8h" local="no">hnsw_layer_optimizer.h</includes>
+    <innerclass refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats" prot="public">themis::HnswLayerOptimizer::LayerStats</innerclass>
+    <innerclass refid="structthemis_1_1_hnsw_layer_optimizer_1_1_query_stats" prot="public">themis::HnswLayerOptimizer::QueryStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_hnsw_layer_optimizer_1a133cb8363ee0ca4b2ef24ce02f3cedf7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_hnsw_optimization_config" kindref="compound">HnswOptimizationConfig</ref></type>
+        <definition>HnswOptimizationConfig themis::HnswLayerOptimizer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::HnswLayerOptimizer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="163" column="28" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_hnsw_layer_optimizer_1affe3215fed8e88db05bc24b4f869609b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::HnswLayerOptimizer::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::HnswLayerOptimizer::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="166" column="24" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_hnsw_layer_optimizer_1a308574bed62c743fbdb281ecbb33cc95" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, <ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats" kindref="compound">LayerStats</ref> &gt;</type>
+        <definition>std::unordered_map&lt;int, LayerStats&gt; themis::HnswLayerOptimizer::layer_stats_</definition>
+        <argsstring></argsstring>
+        <name>layer_stats_</name>
+        <qualifiedname>themis::HnswLayerOptimizer::layer_stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="167" column="24" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_hnsw_layer_optimizer_1a4eade8c81ee27492504ff2e99941e677" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_query_stats" kindref="compound">QueryStats</ref> &gt;</type>
+        <definition>std::deque&lt;QueryStats&gt; themis::HnswLayerOptimizer::recent_queries_</definition>
+        <argsstring></argsstring>
+        <name>recent_queries_</name>
+        <qualifiedname>themis::HnswLayerOptimizer::recent_queries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="170" column="16" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_hnsw_layer_optimizer_1a538f3a3908574ef7842803c7ada313ca" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::HnswLayerOptimizer::HnswLayerOptimizer</definition>
+        <argsstring>(const HnswOptimizationConfig &amp;config)</argsstring>
+        <name>HnswLayerOptimizer</name>
+        <qualifiedname>themis::HnswLayerOptimizer::HnswLayerOptimizer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_hnsw_optimization_config" kindref="compound">HnswOptimizationConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="99" column="14" bodyfile="src/index/hnsw_layer_optimizer.cpp" bodystart="22" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hnsw_layer_optimizer_1acceabe51c90d88e57a4b94901cdaf7b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::HnswLayerOptimizer::~HnswLayerOptimizer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~HnswLayerOptimizer</name>
+        <qualifiedname>themis::HnswLayerOptimizer::~HnswLayerOptimizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="100" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hnsw_layer_optimizer_1a29ea2d07325f620022cb2e80c8276e21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::HnswLayerOptimizer::HnswLayerOptimizer</definition>
+        <argsstring>(const HnswLayerOptimizer &amp;)=delete</argsstring>
+        <name>HnswLayerOptimizer</name>
+        <qualifiedname>themis::HnswLayerOptimizer::HnswLayerOptimizer</qualifiedname>
+        <param>
+          <type>const HnswLayerOptimizer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="103" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hnsw_layer_optimizer_1a0d05350ea4d16769c6ffc260e564e540" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_hnsw_layer_optimizer_1a538f3a3908574ef7842803c7ada313ca" kindref="member">HnswLayerOptimizer</ref> &amp;</type>
+        <definition>HnswLayerOptimizer &amp; themis::HnswLayerOptimizer::operator=</definition>
+        <argsstring>(const HnswLayerOptimizer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::HnswLayerOptimizer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_hnsw_layer_optimizer_1a538f3a3908574ef7842803c7ada313ca" kindref="member">HnswLayerOptimizer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="104" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hnsw_layer_optimizer_1a328f2cfad3c812fd73f809bfc352e914" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::HnswLayerOptimizer::HnswLayerOptimizer</definition>
+        <argsstring>(HnswLayerOptimizer &amp;&amp;) noexcept=delete</argsstring>
+        <name>HnswLayerOptimizer</name>
+        <qualifiedname>themis::HnswLayerOptimizer::HnswLayerOptimizer</qualifiedname>
+        <param>
+          <type>HnswLayerOptimizer &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="105" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hnsw_layer_optimizer_1a6b464d6fff15699b17a9287d8e53517c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_hnsw_layer_optimizer_1a538f3a3908574ef7842803c7ada313ca" kindref="member">HnswLayerOptimizer</ref> &amp;</type>
+        <definition>HnswLayerOptimizer &amp; themis::HnswLayerOptimizer::operator=</definition>
+        <argsstring>(HnswLayerOptimizer &amp;&amp;) noexcept=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::HnswLayerOptimizer::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_hnsw_layer_optimizer_1a538f3a3908574ef7842803c7ada313ca" kindref="member">HnswLayerOptimizer</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="106" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hnsw_layer_optimizer_1ad4b6ad4395d565e20f49a723cfa6cc24" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::HnswLayerOptimizer::isEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::HnswLayerOptimizer::isEnabled</qualifiedname>
+        <briefdescription>
+<para>Check if optimization is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="109" column="10" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hnsw_layer_optimizer_1ada6e5e78377e1f1bdc7cb7633ce96756" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::HnswLayerOptimizer::recordLayerAccess</definition>
+        <argsstring>(int layer, int64_t candidates_found, double search_time_ms)</argsstring>
+        <name>recordLayerAccess</name>
+        <qualifiedname>themis::HnswLayerOptimizer::recordLayerAccess</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>layer</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>candidates_found</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>search_time_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record the observed work for one visited HNSW layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Layer Access.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>layer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Layer number (0 = bottom layer). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidates_found</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of candidates found in this layer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>search_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time spent searching this layer (milliseconds).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">layer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">candidates_found</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">search_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), update(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="117" column="10" bodyfile="src/index/hnsw_layer_optimizer.cpp" bodystart="36" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hnsw_layer_optimizer_1a0fdda38cdbfb1151d3defb246d5a1fcb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::HnswLayerOptimizer::recordQueryStats</definition>
+        <argsstring>(int entry_layer, int ef_used, int layers_traversed, size_t k, double total_time_ms)</argsstring>
+        <name>recordQueryStats</name>
+        <qualifiedname>themis::HnswLayerOptimizer::recordQueryStats</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>entry_layer</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ef_used</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>layers_traversed</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>total_time_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record one full-query observation for adaptive tuning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Query Stats.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entry_layer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entry layer used for this query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ef_used</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>EF search parameter used for this query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>layers_traversed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of layers actually traversed. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of neighbours requested. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>total_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total query time in milliseconds.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry_layer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ef_used</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">layers_traversed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::chrono::steady_clock::now(), push_back(), size(), pop_front(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="127" column="10" bodyfile="src/index/hnsw_layer_optimizer.cpp" bodystart="61" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hnsw_layer_optimizer_1aec3aee885fc5e4b49fe52f70f160c6a6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::HnswLayerOptimizer::getOptimalEntryLayer</definition>
+        <argsstring>() const</argsstring>
+        <name>getOptimalEntryLayer</name>
+        <qualifiedname>themis::HnswLayerOptimizer::getOptimalEntryLayer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get optimal entry layer based on statistics <simplesect kind="return"><para>Recommended entry layer, or -1 to use default </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="132" column="9" bodyfile="src/index/hnsw_layer_optimizer.cpp" bodystart="88" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hnsw_layer_optimizer_1a4f1be819e2c7c3f3ceb087221b4dbb02" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::HnswLayerOptimizer::getOptimalEf</definition>
+        <argsstring>(size_t k) const</argsstring>
+        <name>getOptimalEf</name>
+        <qualifiedname>themis::HnswLayerOptimizer::getOptimalEf</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get optimal ef parameter for given k <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of neighbors to search for </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Recommended ef parameter, or -1 to use default </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="137" column="9" bodyfile="src/index/hnsw_layer_optimizer.cpp" bodystart="132" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hnsw_layer_optimizer_1a808c273acef7a4c18c6548ba3ec69513" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::HnswLayerOptimizer::shouldPruneLayer</definition>
+        <argsstring>(int current_layer, size_t candidate_count, size_t k) const</argsstring>
+        <name>shouldPruneLayer</name>
+        <qualifiedname>themis::HnswLayerOptimizer::shouldPruneLayer</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>current_layer</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>candidate_count</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Decide whether deeper layers can be pruned for the current query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_layer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current layer being searched. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidate_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of candidates found so far. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of neighbours requested. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if deeper layers can be skipped without violating the heuristic. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="146" column="10" bodyfile="src/index/hnsw_layer_optimizer.cpp" bodystart="181" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hnsw_layer_optimizer_1a635dc222f1e13a211f19bf59e7461c6e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; int, <ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats" kindref="compound">LayerStats</ref> &gt;</type>
+        <definition>std::unordered_map&lt; int, HnswLayerOptimizer::LayerStats &gt; themis::HnswLayerOptimizer::getLayerStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getLayerStats</name>
+        <qualifiedname>themis::HnswLayerOptimizer::getLayerStats</qualifiedname>
+        <briefdescription>
+<para>Get layer statistics for monitoring. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="149" column="24" bodyfile="src/index/hnsw_layer_optimizer.cpp" bodystart="198" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hnsw_layer_optimizer_1a9927472037984228bdfb67df57ea0e03" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_query_stats" kindref="compound">QueryStats</ref> &gt;</type>
+        <definition>std::vector&lt; HnswLayerOptimizer::QueryStats &gt; themis::HnswLayerOptimizer::getRecentQueryStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getRecentQueryStats</name>
+        <qualifiedname>themis::HnswLayerOptimizer::getRecentQueryStats</qualifiedname>
+        <briefdescription>
+<para>Get recent query statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="152" column="17" bodyfile="src/index/hnsw_layer_optimizer.cpp" bodystart="208" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hnsw_layer_optimizer_1ac60ecaa9f0782c6ceb147f15f61afad9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::HnswLayerOptimizer::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::HnswLayerOptimizer::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset all collected layer and query statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Stats.</para>
+<para>Calls: lock(), clear(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="157" column="10" bodyfile="src/index/hnsw_layer_optimizer.cpp" bodystart="222" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hnsw_layer_optimizer_1a077c12d0e02bd6d0c388b1c99e606903" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_hnsw_optimization_config" kindref="compound">HnswOptimizationConfig</ref> &amp;</type>
+        <definition>const HnswOptimizationConfig &amp; themis::HnswLayerOptimizer::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::HnswLayerOptimizer::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="160" column="34" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="160" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_hnsw_layer_optimizer_1ab3ef8b856a4e5cef1d1fc89b4944aaa1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::HnswLayerOptimizer::calculateAdaptiveScore_</definition>
+        <argsstring>(int entry_layer, int ef) const</argsstring>
+        <name>calculateAdaptiveScore_</name>
+        <qualifiedname>themis::HnswLayerOptimizer::calculateAdaptiveScore_</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>entry_layer</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ef</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="173" column="12" bodyfile="src/index/hnsw_layer_optimizer.cpp" bodystart="229" bodyend="253"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>HNSW Layer Optimizer Implements layer pruning, adaptive layer selection, and batch insert optimization for HNSW vector index to improve performance at scale (1B+ vectors)</para>
+<para>Sources:<itemizedlist>
+<listitem><para>HNSW Algorithm: Malkov, Y. A., &amp; Yashunin, D. A. (2018). &quot;Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs&quot; IEEE Transactions on Pattern Analysis and Machine Intelligence</para>
+</listitem><listitem><para>Design: docs/performance/phase4_hnsw_layer_optimization.md </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/index/hnsw_layer_optimizer.h" line="61" column="1" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="61" bodyend="174"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1ab3ef8b856a4e5cef1d1fc89b4944aaa1" prot="private" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>calculateAdaptiveScore_</name></member>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1a133cb8363ee0ca4b2ef24ce02f3cedf7" prot="private" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1a077c12d0e02bd6d0c388b1c99e606903" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1a635dc222f1e13a211f19bf59e7461c6e" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>getLayerStats</name></member>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1a4f1be819e2c7c3f3ceb087221b4dbb02" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>getOptimalEf</name></member>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1aec3aee885fc5e4b49fe52f70f160c6a6" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>getOptimalEntryLayer</name></member>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1a9927472037984228bdfb67df57ea0e03" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>getRecentQueryStats</name></member>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1a538f3a3908574ef7842803c7ada313ca" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>HnswLayerOptimizer</name></member>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1a29ea2d07325f620022cb2e80c8276e21" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>HnswLayerOptimizer</name></member>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1a328f2cfad3c812fd73f809bfc352e914" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>HnswLayerOptimizer</name></member>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1ad4b6ad4395d565e20f49a723cfa6cc24" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1a308574bed62c743fbdb281ecbb33cc95" prot="private" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>layer_stats_</name></member>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1a0d05350ea4d16769c6ffc260e564e540" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1a6b464d6fff15699b17a9287d8e53517c" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1a4eade8c81ee27492504ff2e99941e677" prot="private" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>recent_queries_</name></member>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1ada6e5e78377e1f1bdc7cb7633ce96756" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>recordLayerAccess</name></member>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1a0fdda38cdbfb1151d3defb246d5a1fcb" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>recordQueryStats</name></member>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1ac60ecaa9f0782c6ceb147f15f61afad9" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1a808c273acef7a4c18c6548ba3ec69513" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>shouldPruneLayer</name></member>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1affe3215fed8e88db05bc24b4f869609b" prot="private" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1_hnsw_layer_optimizer_1acceabe51c90d88e57a4b94901cdaf7b5" prot="public" virt="non-virtual"><scope>themis::HnswLayerOptimizer</scope><name>~HnswLayerOptimizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

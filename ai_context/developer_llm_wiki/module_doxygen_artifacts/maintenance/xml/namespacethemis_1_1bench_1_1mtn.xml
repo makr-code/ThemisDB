@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1mtn" kind="namespace" language="C++">
+    <compoundname>themis::bench::mtn</compoundname>
+    <innernamespace refid="namespacethemis_1_1bench_1_1mtn_1_1themis">themis::bench::mtn::themis</innernamespace>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1mtn_1a0e9af5fd5a91c5a2aa520aa31772d52a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::mtn::kCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalSeed</name>
+        <qualifiedname>themis::bench::mtn::kCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all MTN benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_maintenance_distributed_gates.cpp" line="54" column="27" bodyfile="benchmarks/maintenance/bench_maintenance_distributed_gates.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1mtn_1a9e9cf15136c0283c8ee74c54c65b7773" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::mtn::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::mtn::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Number of repetitions for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_maintenance_distributed_gates.cpp" line="57" column="22" bodyfile="benchmarks/maintenance/bench_maintenance_distributed_gates.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1mtn_1a0e9af5fd5a91c5a2aa520aa31772d52a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::mtn::kCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalSeed</name>
+        <qualifiedname>themis::bench::mtn::kCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all MTN benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_maintenance_release_gates.cpp" line="57" column="27" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1mtn_1a9e9cf15136c0283c8ee74c54c65b7773" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::mtn::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::mtn::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Number of repetitions for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_maintenance_release_gates.cpp" line="60" column="22" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1mtn_1a49f7cf205511d7319c13d9c5291cad0c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::mtn::BM_MTN_DIST01_LeaderGatedDispatch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_MTN_DIST01_LeaderGatedDispatch</name>
+        <qualifiedname>themis::bench::mtn::BM_MTN_DIST01_LeaderGatedDispatch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Simulates the hot path for leader-gated schedule dispatch: </para>
+        </briefdescription>
+        <detaileddescription>
+<para><orderedlist>
+<listitem><para>Acquire a mock distributed lock (std::mutex + bool flag).</para>
+</listitem><listitem><para>Check whether this node is the leader.</para>
+</listitem><listitem><para>If leader, dispatch (increment counter as a proxy for real work).</para>
+</listitem><listitem><para>Release lock.</para>
+</listitem></orderedlist>
+</para>
+<para>Gate: p99 ≤ 500 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_maintenance_distributed_gates.cpp" line="72" column="13" bodyfile="benchmarks/maintenance/bench_maintenance_distributed_gates.cpp" bodystart="72" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1mtn_1ab74179b6bf23bf4b135512fb45dc8875" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::mtn::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::mtn::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_maintenance_distributed_gates.cpp" line="91" column="5" declfile="benchmarks/maintenance/bench_maintenance_distributed_gates.cpp" declline="91" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1mtn_1a8cbbcec0acc4c41f01511da9b2833905" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::mtn::BM_MTN_DIST02_ScheduleListing</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_MTN_DIST02_ScheduleListing</name>
+        <qualifiedname>themis::bench::mtn::BM_MTN_DIST02_ScheduleListing</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Measures the cost of listing 1000 maintenance schedules from an unordered_map (the listSchedules() hot path in the orchestrator). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 5 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_maintenance_distributed_gates.cpp" line="104" column="13" bodyfile="benchmarks/maintenance/bench_maintenance_distributed_gates.cpp" bodystart="104" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1mtn_1a5562e75232fc0f17478e90c3f91170fd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::mtn::BM_MTN01_ErrorEnumCast</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_MTN01_ErrorEnumCast</name>
+        <qualifiedname>themis::bench::mtn::BM_MTN01_ErrorEnumCast</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_maintenance_release_gates.cpp" line="66" column="13" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="66" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1mtn_1a04072527066aee686651fefec89c01ef" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::mtn::BM_MTN02_SwitchDispatch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_MTN02_SwitchDispatch</name>
+        <qualifiedname>themis::bench::mtn::BM_MTN02_SwitchDispatch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_maintenance_release_gates.cpp" line="83" column="13" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="83" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1mtn_1a502fb13c6fd80e0d55e63c9e85e9ea52" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::mtn::BM_MTN03_StructAlloc</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_MTN03_StructAlloc</name>
+        <qualifiedname>themis::bench::mtn::BM_MTN03_StructAlloc</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_maintenance_release_gates.cpp" line="122" column="13" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="122" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1mtn_1aa9ad1a5aaf3e7a18168acbe5e07790bd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::mtn::BM_MTN04_BatchCast</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_MTN04_BatchCast</name>
+        <qualifiedname>themis::bench::mtn::BM_MTN04_BatchCast</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_maintenance_release_gates.cpp" line="141" column="13" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="141" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1mtn_1acc27b02024bcf7f68e1ca1b93f7b7ce1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::mtn::BM_MTN05_InFlightGuard</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_MTN05_InFlightGuard</name>
+        <qualifiedname>themis::bench::mtn::BM_MTN05_InFlightGuard</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_maintenance_release_gates.cpp" line="180" column="13" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="180" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1mtn_1a619a3b037d93c5e095e656de140e4f8d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::mtn::BM_MTN06_PersistReloadRoundTrip</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_MTN06_PersistReloadRoundTrip</name>
+        <qualifiedname>themis::bench::mtn::BM_MTN06_PersistReloadRoundTrip</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_maintenance_release_gates.cpp" line="246" column="13" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="246" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1mtn_1a41cb70b53430a1bc83630920dc9c23f1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::mtn::BM_MTN07_RingBufferWrite</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_MTN07_RingBufferWrite</name>
+        <qualifiedname>themis::bench::mtn::BM_MTN07_RingBufferWrite</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Measures the cost of a single DispatchOutcome push to the ring buffer (mutex + deque push_back + conditional pop_front). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate: p99 ≤ 200 ns. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/maintenance/bench_maintenance_release_gates.cpp" line="297" column="13" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="297" bodyend="318"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/maintenance/bench_maintenance_distributed_gates.cpp" line="51" column="1"/>
+  </compounddef>
+</doxygen>

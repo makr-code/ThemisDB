@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_tiered_storage_manager_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::TieredStorageManager::Stats</compoundname>
+    <includes refid="tiered__storage_8h" local="no">tiered_storage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tiered_storage_manager_1_1_stats_1ac538bdb5a9fe538ba09c6c450e3ee43b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::TieredStorageManager::Stats::hot_keys</definition>
+        <argsstring></argsstring>
+        <name>hot_keys</name>
+        <qualifiedname>themis::storage::TieredStorageManager::Stats::hot_keys</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="198" column="18" bodyfile="include/storage/tiered_storage.h" bodystart="198" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tiered_storage_manager_1_1_stats_1a2f4651c2f2d6a8ce7647b2ec28f233cb" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::TieredStorageManager::Stats::warm_keys</definition>
+        <argsstring></argsstring>
+        <name>warm_keys</name>
+        <qualifiedname>themis::storage::TieredStorageManager::Stats::warm_keys</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="199" column="18" bodyfile="include/storage/tiered_storage.h" bodystart="199" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tiered_storage_manager_1_1_stats_1af7430164af9b6b389e030f98331685e2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::TieredStorageManager::Stats::cold_keys</definition>
+        <argsstring></argsstring>
+        <name>cold_keys</name>
+        <qualifiedname>themis::storage::TieredStorageManager::Stats::cold_keys</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="200" column="18" bodyfile="include/storage/tiered_storage.h" bodystart="200" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tiered_storage_manager_1_1_stats_1ae5a53e686625a9bc41e19918610892be" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::TieredStorageManager::Stats::migrations_hot_to_warm</definition>
+        <argsstring></argsstring>
+        <name>migrations_hot_to_warm</name>
+        <qualifiedname>themis::storage::TieredStorageManager::Stats::migrations_hot_to_warm</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="201" column="18" bodyfile="include/storage/tiered_storage.h" bodystart="201" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tiered_storage_manager_1_1_stats_1ad4731f73532cde935007dd6c9b830ae2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::TieredStorageManager::Stats::migrations_warm_to_cold</definition>
+        <argsstring></argsstring>
+        <name>migrations_warm_to_cold</name>
+        <qualifiedname>themis::storage::TieredStorageManager::Stats::migrations_warm_to_cold</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="202" column="18" bodyfile="include/storage/tiered_storage.h" bodystart="202" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tiered_storage_manager_1_1_stats_1aefaf005ed25a81b9becd964bbd6aabc4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::TieredStorageManager::Stats::migrations_size_based</definition>
+        <argsstring></argsstring>
+        <name>migrations_size_based</name>
+        <qualifiedname>themis::storage::TieredStorageManager::Stats::migrations_size_based</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="203" column="18" bodyfile="include/storage/tiered_storage.h" bodystart="203" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tiered_storage_manager_1_1_stats_1ab265a548b5d276377982a1a8ac6d417c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::TieredStorageManager::Stats::migration_errors</definition>
+        <argsstring></argsstring>
+        <name>migration_errors</name>
+        <qualifiedname>themis::storage::TieredStorageManager::Stats::migration_errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tiered_storage.h" line="204" column="18" bodyfile="include/storage/tiered_storage.h" bodystart="204" bodyend="204"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/tiered_storage.h" line="197" column="5" bodyfile="include/storage/tiered_storage.h" bodystart="197" bodyend="205"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_tiered_storage_manager_1_1_stats_1af7430164af9b6b389e030f98331685e2" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager::Stats</scope><name>cold_keys</name></member>
+      <member refid="structthemis_1_1storage_1_1_tiered_storage_manager_1_1_stats_1ac538bdb5a9fe538ba09c6c450e3ee43b" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager::Stats</scope><name>hot_keys</name></member>
+      <member refid="structthemis_1_1storage_1_1_tiered_storage_manager_1_1_stats_1ab265a548b5d276377982a1a8ac6d417c" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager::Stats</scope><name>migration_errors</name></member>
+      <member refid="structthemis_1_1storage_1_1_tiered_storage_manager_1_1_stats_1ae5a53e686625a9bc41e19918610892be" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager::Stats</scope><name>migrations_hot_to_warm</name></member>
+      <member refid="structthemis_1_1storage_1_1_tiered_storage_manager_1_1_stats_1aefaf005ed25a81b9becd964bbd6aabc4" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager::Stats</scope><name>migrations_size_based</name></member>
+      <member refid="structthemis_1_1storage_1_1_tiered_storage_manager_1_1_stats_1ad4731f73532cde935007dd6c9b830ae2" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager::Stats</scope><name>migrations_warm_to_cold</name></member>
+      <member refid="structthemis_1_1storage_1_1_tiered_storage_manager_1_1_stats_1a2f4651c2f2d6a8ce7647b2ec28f233cb" prot="public" virt="non-virtual"><scope>themis::storage::TieredStorageManager::Stats</scope><name>warm_keys</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1_1_schema_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::cdc::InMemoryCDCEventSchema::SchemaEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1_1_schema_entry_1a63f3e5992f480d9333580ed73365fa17" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::InMemoryCDCEventSchema::SchemaEntry::definition</definition>
+        <argsstring></argsstring>
+        <name>definition</name>
+        <qualifiedname>themis::cdc::InMemoryCDCEventSchema::SchemaEntry::definition</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="248" column="22" bodyfile="include/cdc/icdc_event_schema.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1_1_schema_entry_1acbeab26c0caec9a1e7fd0bc95c170afa" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cdc_1a445f3ab406dd3bdf0f6e7a20512300c3" kindref="member">SchemaFormat</ref></type>
+        <definition>SchemaFormat themis::cdc::InMemoryCDCEventSchema::SchemaEntry::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::cdc::InMemoryCDCEventSchema::SchemaEntry::format</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_event_schema.h" line="249" column="22" bodyfile="include/cdc/icdc_event_schema.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/icdc_event_schema.h" line="247" column="5" bodyfile="include/cdc/icdc_event_schema.h" bodystart="247" bodyend="250"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1_1_schema_entry_1a63f3e5992f480d9333580ed73365fa17" prot="public" virt="non-virtual"><scope>themis::cdc::InMemoryCDCEventSchema::SchemaEntry</scope><name>definition</name></member>
+      <member refid="structthemis_1_1cdc_1_1_in_memory_c_d_c_event_schema_1_1_schema_entry_1acbeab26c0caec9a1e7fd0bc95c170afa" prot="public" virt="non-virtual"><scope>themis::cdc::InMemoryCDCEventSchema::SchemaEntry</scope><name>format</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

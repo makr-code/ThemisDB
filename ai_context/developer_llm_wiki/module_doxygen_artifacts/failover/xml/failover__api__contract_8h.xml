@@ -1,0 +1,303 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="failover__api__contract_8h" kind="file" language="C++">
+    <compoundname>failover_api_contract.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="yes">utils/retry_contract.h</includes>
+    <includedby refid="bench__failover__phase2__phase3__gates_8cpp" local="yes">benchmarks/failover/bench_failover_phase2_phase3_gates.cpp</includedby>
+    <includedby refid="bench__failover__release__gates_8cpp" local="yes">benchmarks/failover/bench_failover_release_gates.cpp</includedby>
+    <includedby refid="bench__failover__wave__b__gates_8cpp" local="yes">benchmarks/failover/bench_failover_wave_b_gates.cpp</includedby>
+    <includedby refid="auto__failover__manager_8h" local="yes">include/failover/auto_failover_manager.h</includedby>
+    <includedby refid="test__failover__contract__hardening__focused_8cpp" local="yes">tests/failover/test_failover_contract_hardening_focused.cpp</includedby>
+    <includedby refid="test__failover__phase2__phase3__focused_8cpp" local="yes">tests/failover/test_failover_phase2_phase3_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/failover/failover_api_contract.h</label>
+        <link refid="failover__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>utils/retry_contract.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/failover/bench_failover_phase2_phase3_gates.cpp</label>
+        <link refid="bench__failover__phase2__phase3__gates_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/failover/bench_failover_release_gates.cpp</label>
+        <link refid="bench__failover__release__gates_8cpp"/>
+      </node>
+      <node id="4">
+        <label>benchmarks/failover/bench_failover_wave_b_gates.cpp</label>
+        <link refid="bench__failover__wave__b__gates_8cpp"/>
+      </node>
+      <node id="5">
+        <label>include/failover/auto_failover_manager.h</label>
+        <link refid="auto__failover__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/failover/failover_api_contract.h</label>
+        <link refid="failover__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/failover/auto_failover_manager.cpp</label>
+        <link refid="auto__failover__manager_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/failover/test_failover_chaos_scenarios.cpp</label>
+        <link refid="test__failover__chaos__scenarios_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/failover/test_failover_contract_hardening_focused.cpp</label>
+        <link refid="test__failover__contract__hardening__focused_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/failover/test_failover_phase2_phase3_focused.cpp</label>
+        <link refid="test__failover__phase2__phase3__focused_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/failover/test_failover_wave_a_quorum_persistence.cpp</label>
+        <link refid="test__failover__wave__a__quorum__persistence_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/failover/test_failover_wave_a_topology_versioning.cpp</label>
+        <link refid="test__failover__wave__a__topology__versioning_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1failover">themis::failover</innernamespace>
+    <briefdescription>
+<para>Frozen failover, election, and recovery contract for the active v1.x line. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header defines the normative contract for the failover module including leader election, request handover, node recovery, and error classification that all failover module components must honour in the current major release line.</para>
+<sect1 id="failover__api__contract_8h_1autotoc_md0_1s1"><sect2 id="failover__api__contract_8h_1autotoc_md0">
+<title>Contract Scope</title><para>The contracts below are binding for all implementations that participate in the ThemisDB failover pipeline:<itemizedlist>
+<listitem><para>AutoFailoverManager (<ref refid="auto__failover__manager_8h" kindref="compound">auto_failover_manager.h</ref>)</para>
+</listitem><listitem><para>DisasterRecoveryManager (<ref refid="disaster__recovery__manager_8h" kindref="compound">disaster_recovery_manager.h</ref>)</para>
+</listitem><listitem><para>Heartbeat monitors and epoch keepers</para>
+</listitem><listitem><para>In-flight request buffers and handover coordinators</para>
+</listitem><listitem><para>Node rejoin / follower-only promotion gates</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="failover__api__contract_8h_1autotoc_md1_1s1"><sect2 id="failover__api__contract_8h_1autotoc_md1">
+<title>Election Contract</title><para>Exactly one leader is elected per epoch. Epoch numbers are strictly monotonically increasing. A node that observes a higher epoch from any peer immediately steps down as leader candidate for all lower epochs.</para>
+</sect2></sect1>
+<sect1 id="failover__api__contract_8h_1autotoc_md2_1s1"><sect2 id="failover__api__contract_8h_1autotoc_md2">
+<title>Handover Contract</title><para>When a leader handover occurs every in-flight request MUST be either: a) completed by the outgoing leader before it yields, or b) explicitly retried by the new leader after epoch promotion. Silent drops (no completion, no retry) are a contract violation.</para>
+</sect2></sect1>
+<sect1 id="failover__api__contract_8h_1autotoc_md3_1s1"><sect2 id="failover__api__contract_8h_1autotoc_md3">
+<title>Recovery Contract</title><para>A failed node that reconnects MUST rejoin as follower only. Direct promotion to leader on rejoin is prohibited; the node must complete full state synchronisation before it may participate in subsequent elections.</para>
+</sect2></sect1>
+<sect1 id="failover__api__contract_8h_1autotoc_md4_1s1"><sect2 id="failover__api__contract_8h_1autotoc_md4">
+<title>Versioning</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump with migration notes and a CHANGELOG entry.</para>
+<para><simplesect kind="see"><para>src/failover/ROADMAP.md — Phase 1 item </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="auto__failover__manager_8h" kindref="compound">include/failover/auto_failover_manager.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="disaster__recovery__manager_8h" kindref="compound">include/failover/disaster_recovery_manager.h</ref> </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/retry_contract.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1failover" kindref="compound">failover</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Timing<sp/>constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>failover<sp/>timing<sp/>values<sp/>are<sp/>enforced<sp/>at<sp/>every<sp/>participating<sp/>node.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1failover_1a715fec3b25222f58fe59d24f21f7ce7a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1failover_1a715fec3b25222f58fe59d24f21f7ce7a" kindref="member">kHeartbeatInterval</ref>{500};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1failover_1a4e188c44861fb7d760ee97270cc09b4b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1failover_1a4e188c44861fb7d760ee97270cc09b4b" kindref="member">kHeartbeatTimeout</ref>{3&apos;000};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="namespacethemis_1_1failover_1a8a24fc2e4cdf8982d0e222278811a22b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1failover_1a8a24fc2e4cdf8982d0e222278811a22b" kindref="member">kMinHeartbeatTimeout</ref>{200};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1failover_1a11e2e73dc0d10cedf7acae427c401c41" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1failover_1a11e2e73dc0d10cedf7acae427c401c41" kindref="member">kMaxHeartbeatTimeout</ref>{30&apos;000};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1failover_1afb302df324514943368f024901f79681" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1failover_1afb302df324514943368f024901f79681" kindref="member">kElectionTimeoutBudget</ref>{5&apos;000};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1failover_1a77eb6d15b10b62fe4f309b2e6fbe00b0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1failover_1a77eb6d15b10b62fe4f309b2e6fbe00b0" kindref="member">kStateSyncDeadline</ref>{30};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Epoch<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Epochs<sp/>are<sp/>64-bit<sp/>unsigned<sp/>integers.<sp/><sp/>The<sp/>initial<sp/>epoch<sp/>is<sp/>1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Every<sp/>successful<sp/>election<sp/>increments<sp/>the<sp/>epoch<sp/>by<sp/>exactly<sp/>1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>An<sp/>epoch<sp/>value<sp/>of<sp/>0<sp/>is<sp/>reserved<sp/>and<sp/>invalid.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="namespacethemis_1_1failover_1a43c2932af1e3941079a42588c450ea2b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint64_t<sp/><ref refid="namespacethemis_1_1failover_1a43c2932af1e3941079a42588c450ea2b" kindref="member">kInvalidEpoch</ref><sp/>=<sp/>0u;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="namespacethemis_1_1failover_1a96705c0d00320ad61f269ccf4a36aa83" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint64_t<sp/><ref refid="namespacethemis_1_1failover_1a96705c0d00320ad61f269ccf4a36aa83" kindref="member">kFirstValidEpoch</ref><sp/>=<sp/>1u;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="namespacethemis_1_1failover_1a38e15e18ea99230b1dbf9f6caf38689c" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1failover_1a38e15e18ea99230b1dbf9f6caf38689c" kindref="member">isValidEpoch</ref>(std::uint64_t<sp/>epoch)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>epoch<sp/>!=<sp/><ref refid="namespacethemis_1_1failover_1a43c2932af1e3941079a42588c450ea2b" kindref="member">kInvalidEpoch</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="namespacethemis_1_1failover_1ace83577a0da379ee05da9a4a68b43e70" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1failover_1ace83577a0da379ee05da9a4a68b43e70" kindref="member">isNewerEpoch</ref>(</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint64_t<sp/>newer,<sp/>std::uint64_t<sp/>current)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>newer<sp/>&gt;<sp/>current;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Node<sp/>role<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3dda" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3dda" kindref="member">NodeRole</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="125" refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaa88183b946cc5f0e8c96b2e66e1c74a7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaa88183b946cc5f0e8c96b2e66e1c74a7e" kindref="member">Unknown</ref><sp/><sp/><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="126" refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaa829e620db67faa54c8ca8441f1239d41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaa829e620db67faa54c8ca8441f1239d41" kindref="member">Follower</ref><sp/><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="127" refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaa25befec7033aa9feec4a5a586d4e1366" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaa25befec7033aa9feec4a5a586d4e1366" kindref="member">Candidate</ref><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="128" refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaa5158a250e30f1fb4415d86ded2c8e0c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaa5158a250e30f1fb4415d86ded2c8e0c5" kindref="member">Leader</ref><sp/><sp/><sp/><sp/>=<sp/>3,<sp/></highlight></codeline>
+<codeline lineno="129" refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaad7c8c85bf79bbe1b7188497c32c3b0ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaad7c8c85bf79bbe1b7188497c32c3b0ca" kindref="member">Failed</ref><sp/><sp/><sp/><sp/>=<sp/>4,<sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="namespacethemis_1_1failover_1aaed361cb05e980d4be7c686f96516061" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1failover_1aaed361cb05e980d4be7c686f96516061" kindref="member">isWriteEligible</ref>(<ref refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3dda" kindref="member">NodeRole</ref><sp/>role)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>role<sp/>==<sp/><ref refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaa5158a250e30f1fb4415d86ded2c8e0c5" kindref="member">NodeRole::Leader</ref>;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="namespacethemis_1_1failover_1ae6eaef154c2ab2c1dde541256b56f9f7" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1failover_1ae6eaef154c2ab2c1dde541256b56f9f7" kindref="member">isVoteEligible</ref>(<ref refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3dda" kindref="member">NodeRole</ref><sp/>role)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>role<sp/>==<sp/><ref refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaa829e620db67faa54c8ca8441f1239d41" kindref="member">NodeRole::Follower</ref><sp/>||<sp/>role<sp/>==<sp/><ref refid="namespacethemis_1_1failover_1a1e471f7944af1f4c7fdb5334e52e3ddaa25befec7033aa9feec4a5a586d4e1366" kindref="member">NodeRole::Candidate</ref>;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Error<sp/>taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>failover<sp/>components<sp/>must<sp/>map<sp/>their<sp/>internal<sp/>error<sp/>states<sp/>to<sp/>one<sp/>of<sp/>these</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>canonical<sp/>codes<sp/>so<sp/>that<sp/>callers<sp/>can<sp/>apply<sp/>uniform<sp/>policy.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bcc" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bcc" kindref="member">FailoverErrorCode</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="157" refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccade593ea60cab9e1366d8310eadf17120" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccade593ea60cab9e1366d8310eadf17120" kindref="member">ELECTION_TIMEOUT</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccae1060c291804dc70e39623f1078fd270" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccae1060c291804dc70e39623f1078fd270" kindref="member">SPLIT_BRAIN_DETECTED</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccabbaefc9258ba25d647648dda0b553dee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccabbaefc9258ba25d647648dda0b553dee" kindref="member">HANDOVER_INCOMPLETE</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccad457aa9b34aaa594e96e83542c35e2e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ad457aa9b34aaa594e96e83542c35e2e1" kindref="member">NODE_REJOIN_FAILED</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccac3f8a1d7a36d4f74b5a5a7ec44204005" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a6cb28b6acf91a68dd0cb6fa1f7fcedf6ac3f8a1d7a36d4f74b5a5a7ec44204005" kindref="member">HEARTBEAT_MISSED</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bcca0c39c7a0e457b3098b58ddd8cc5c3e41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bcca0c39c7a0e457b3098b58ddd8cc5c3e41" kindref="member">STATE_SYNC_TIMEOUT</ref><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccac07ff7b5d7be3b8a5d8435d9827dea76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccac07ff7b5d7be3b8a5d8435d9827dea76" kindref="member">QUORUM_UNAVAILABLE</ref><sp/>=<sp/>7,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccaba9cd57b65da001f23d76d5fb33f2231" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccaba9cd57b65da001f23d76d5fb33f2231" kindref="member">INVALID_EPOCH</ref><sp/>=<sp/>8,</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184" refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/>=<sp/>9,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="namespacethemis_1_1failover_1a7b6b33c2a70210030bc868d88484161b" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1failover_1a7b6b33c2a70210030bc868d88484161b" kindref="member">isFailSafeCode</ref>(<ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bcc" kindref="member">FailoverErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccae1060c291804dc70e39623f1078fd270" kindref="member">FailoverErrorCode::SPLIT_BRAIN_DETECTED</ref></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccac07ff7b5d7be3b8a5d8435d9827dea76" kindref="member">FailoverErrorCode::QUORUM_UNAVAILABLE</ref></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccae8c0c70879b5895c615677261d64a1ee" kindref="member">FailoverErrorCode::INTERNAL_ERROR</ref>;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="namespacethemis_1_1failover_1ac3bdc2a2063b2eec7c96793ce9e547e9" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1failover_1ac3bdc2a2063b2eec7c96793ce9e547e9" kindref="member">isRetryEscalationCode</ref>(<ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bcc" kindref="member">FailoverErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccade593ea60cab9e1366d8310eadf17120" kindref="member">FailoverErrorCode::ELECTION_TIMEOUT</ref></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bcca0c39c7a0e457b3098b58ddd8cc5c3e41" kindref="member">FailoverErrorCode::STATE_SYNC_TIMEOUT</ref></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccad457aa9b34aaa594e96e83542c35e2e1" kindref="member">FailoverErrorCode::NODE_REJOIN_FAILED</ref>;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206" refid="namespacethemis_1_1failover_1aca1debc6e42aa0e9413a676769fe9c2f" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>themis::utils::RetryTimeoutSource<sp/><ref refid="namespacethemis_1_1failover_1aca1debc6e42aa0e9413a676769fe9c2f" kindref="member">toRetryTimeoutSource</ref>(</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bcc" kindref="member">FailoverErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(code<sp/>==<sp/><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccade593ea60cab9e1366d8310eadf17120" kindref="member">FailoverErrorCode::ELECTION_TIMEOUT</ref></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bcca0c39c7a0e457b3098b58ddd8cc5c3e41" kindref="member">FailoverErrorCode::STATE_SYNC_TIMEOUT</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>themis::utils::RetryTimeoutSource::OVERALL;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(code<sp/>==<sp/><ref refid="namespacethemis_1_1failover_1a95d7daf6a3d9f910d251ade300b60bccac07ff7b5d7be3b8a5d8435d9827dea76" kindref="member">FailoverErrorCode::QUORUM_UNAVAILABLE</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>themis::utils::RetryTimeoutSource::QUORUM;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>themis::utils::RetryTimeoutSource::NONE;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>In-flight<sp/>request<sp/>buffer<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>During<sp/>handover,<sp/>the<sp/>outgoing<sp/>leader<sp/>MUST<sp/>drain<sp/>its<sp/>in-flight<sp/>buffer<sp/>or</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>transfer<sp/>ownership<sp/>to<sp/>the<sp/>new<sp/>leader<sp/>within<sp/>kHandoverDrainDeadline.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Requests<sp/>that<sp/>cannot<sp/>be<sp/>completed<sp/>or<sp/>transferred<sp/>are<sp/>returned<sp/>to<sp/>callers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>with<sp/>a<sp/>retriable<sp/>error<sp/>—<sp/>they<sp/>are<sp/>NEVER<sp/>silently<sp/>dropped.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="namespacethemis_1_1failover_1a87eb9a69cdc18d5a3b7d692a96855489" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1failover_1a87eb9a69cdc18d5a3b7d692a96855489" kindref="member">kMaxInFlightRequests</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231" refid="namespacethemis_1_1failover_1aea8052e89ca3064de4b82c5f2a7d054c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1failover_1aea8052e89ca3064de4b82c5f2a7d054c" kindref="member">kHandoverDrainDeadline</ref>{1&apos;000};</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Quorum<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Elections<sp/>and<sp/>commits<sp/>require<sp/>a<sp/>strict<sp/>majority:<sp/>floor(N/2)+1<sp/>votes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>cluster<sp/>size<sp/>N<sp/>MUST<sp/>be<sp/>odd<sp/>for<sp/>unambiguous<sp/>majorities.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241" refid="namespacethemis_1_1failover_1abcdf0f31195d1e2da55d7ed7bd0debff" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1failover_1abcdf0f31195d1e2da55d7ed7bd0debff" kindref="member">quorumSize</ref>(std::size_t<sp/>cluster_size)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(cluster_size<sp/>/<sp/>2u)<sp/>+<sp/>1u;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>failover</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/failover/failover_api_contract.h"/>
+  </compounddef>
+</doxygen>

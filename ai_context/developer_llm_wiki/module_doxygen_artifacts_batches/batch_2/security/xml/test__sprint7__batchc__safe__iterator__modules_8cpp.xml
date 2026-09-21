@@ -1,0 +1,1422 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__sprint7__batchc__safe__iterator__modules_8cpp" kind="file" language="C++">
+    <compoundname>test_sprint7_batchc_safe_iterator_modules.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">network/wire_protocol.h</includes>
+    <includes local="yes">query/query_executor.h</includes>
+    <includes local="yes">analytics/aggregation.h</includes>
+    <includes local="yes">analytics/time_series.h</includes>
+    <includes local="yes">cache/eviction.h</includes>
+    <includes local="yes">graph/adjacency_list.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_sprint7_batchc_safe_iterator_modules.cpp</label>
+        <link refid="test__sprint7__batchc__safe__iterator__modules_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>analytics/aggregation.h</label>
+      </node>
+      <node id="6">
+        <label>analytics/time_series.h</label>
+      </node>
+      <node id="7">
+        <label>cache/eviction.h</label>
+      </node>
+      <node id="8">
+        <label>graph/adjacency_list.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>network/wire_protocol.h</label>
+      </node>
+      <node id="4">
+        <label>query/query_executor.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_packet_parser_safe_iterator_test" prot="public">PacketParserSafeIteratorTest</innerclass>
+    <innerclass refid="class_result_set_safe_iterator_test" prot="public">ResultSetSafeIteratorTest</innerclass>
+    <innerclass refid="class_aggregator_safe_iterator_test" prot="public">AggregatorSafeIteratorTest</innerclass>
+    <innerclass refid="class_time_series_safe_iterator_test" prot="public">TimeSeriesSafeIteratorTest</innerclass>
+    <innerclass refid="class_eviction_scheduler_safe_iterator_test" prot="public">EvictionSchedulerSafeIteratorTest</innerclass>
+    <innerclass refid="class_adjacency_list_safe_iterator_test" prot="public">AdjacencyListSafeIteratorTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PacketParserSafeIteratorTest, GapB005_TooShortBufferThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_packet_parser_safe_iterator_test" kindref="compound">PacketParserSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB005_TooShortBufferThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="60" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="60" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a53b418147fdc2dbd983bf70a75acfd3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PacketParserSafeIteratorTest, GapB005_WrongMagic0Throws)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_packet_parser_safe_iterator_test" kindref="compound">PacketParserSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB005_WrongMagic0Throws</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="68" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="68" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a335d47011a0bec632d213bb57341f04e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PacketParserSafeIteratorTest, GapB005_WrongMagic1Throws)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_packet_parser_safe_iterator_test" kindref="compound">PacketParserSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB005_WrongMagic1Throws</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="77" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="77" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1ae270b7f38d2110848b1fbba12b88fbf7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PacketParserSafeIteratorTest, GapB001B003_TruncatedPayloadThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_packet_parser_safe_iterator_test" kindref="compound">PacketParserSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB001B003_TruncatedPayloadThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="86" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="86" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a05a4501c7bc4f5dc98efc8af50faec32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PacketParserSafeIteratorTest, ValidPingPacket)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_packet_parser_safe_iterator_test" kindref="compound">PacketParserSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidPingPacket</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="97" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="97" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a83b3781db5beb1c68f4c98648ad97ad6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PacketParserSafeIteratorTest, ValidQueryPacketWithPayload)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_packet_parser_safe_iterator_test" kindref="compound">PacketParserSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidQueryPacketWithPayload</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="108" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="108" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a53d53e23329966a7c5d1c86f086631a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PacketParserSafeIteratorTest, BuildPongIsParseable)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_packet_parser_safe_iterator_test" kindref="compound">PacketParserSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>BuildPongIsParseable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="120" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="120" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a264e11bd9145aba20c11144656783ba6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PacketParserSafeIteratorTest, BuildErrorIsParseable)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_packet_parser_safe_iterator_test" kindref="compound">PacketParserSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>BuildErrorIsParseable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="130" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="130" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a09398b633f93bd09e9e8fc3a7e26b897" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ResultSetSafeIteratorTest, GapB002_AtOnEmptyThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_result_set_safe_iterator_test" kindref="compound">ResultSetSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB002_AtOnEmptyThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="157" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="157" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a52db50598666d6c432ed3265cc0beda7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ResultSetSafeIteratorTest, GapB002_AtPastEndThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_result_set_safe_iterator_test" kindref="compound">ResultSetSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB002_AtPastEndThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="164" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="164" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a42697902c571af6bdcdece1af6197fdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ResultSetSafeIteratorTest, GapB002_AtValidIndex)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_result_set_safe_iterator_test" kindref="compound">ResultSetSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB002_AtValidIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="172" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="172" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a503c4f94748c6d75e40a864938bb9fe9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ResultSetSafeIteratorTest, GapB006_PageOffsetBeyondEndThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_result_set_safe_iterator_test" kindref="compound">ResultSetSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB006_PageOffsetBeyondEndThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="182" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="182" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1ae39eb5e2dfd87281ff91ef95c07daf78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ResultSetSafeIteratorTest, GapB006_PageZeroLimitEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_result_set_safe_iterator_test" kindref="compound">ResultSetSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB006_PageZeroLimitEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="190" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="190" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a0d0e7708077455aa3c43ddf2b7599d74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ResultSetSafeIteratorTest, GapB008_PageSubRangeCorrect)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_result_set_safe_iterator_test" kindref="compound">ResultSetSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB008_PageSubRangeCorrect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="197" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="197" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a8512f087605a1217d7fcc956293984ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ResultSetSafeIteratorTest, GapB008_PageLimitClamped)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_result_set_safe_iterator_test" kindref="compound">ResultSetSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB008_PageLimitClamped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="207" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="207" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1aed42875d43546da3944be34269ac5ead" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AggregatorSafeIteratorTest, GapA004_PushBackDuringMerge_CorrectResult)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_aggregator_safe_iterator_test" kindref="compound">AggregatorSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapA004_PushBackDuringMerge_CorrectResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="234" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="234" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1aecb8d850dc18a67d339972a1db38622e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AggregatorSafeIteratorTest, GapC001_PageValidOffset)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_aggregator_safe_iterator_test" kindref="compound">AggregatorSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapC001_PageValidOffset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="246" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="246" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1abe62dfdfa20a53d376eb0e1f2cbf7a32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AggregatorSafeIteratorTest, GapC001_PageInvalidOffsetThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_aggregator_safe_iterator_test" kindref="compound">AggregatorSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapC001_PageInvalidOffsetThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="264" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="264" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a5648b21c71c647ef7f3022816f22736a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AggregatorSafeIteratorTest, GapC002_AtBoundsChecked)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_aggregator_safe_iterator_test" kindref="compound">AggregatorSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapC002_AtBoundsChecked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="274" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="274" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a350143ff323940149d61f4c5636a32ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AggregatorSafeIteratorTest, EmptyAggregationSafe)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_aggregator_safe_iterator_test" kindref="compound">AggregatorSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyAggregationSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="285" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="285" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a212b15a2aad4fb5a30ac5d72bdded8c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesSafeIteratorTest, EmptyNameThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_safe_iterator_test" kindref="compound">TimeSeriesSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyNameThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="313" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="313" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1aec0c0b5583dc7fcdb9812524eb1af505" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesSafeIteratorTest, GapB013_EmptySeriesWindowSafe)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_safe_iterator_test" kindref="compound">TimeSeriesSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB013_EmptySeriesWindowSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="319" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="319" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a35f84e3be31c8b92f3936ea5dcb09ac6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesSafeIteratorTest, GapB013_WindowBelowDataSafe)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_safe_iterator_test" kindref="compound">TimeSeriesSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB013_WindowBelowDataSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="327" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="327" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1aee124ab658f3de430953d1d0ddb3f59c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesSafeIteratorTest, GapB012_ValidWindowReturnsCorrectPoints)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_safe_iterator_test" kindref="compound">TimeSeriesSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB012_ValidWindowReturnsCorrectPoints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="335" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="335" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a2bc9fe013ee26391e56c00271fa173b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesSafeIteratorTest, GapB011_PageValidOffset)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_safe_iterator_test" kindref="compound">TimeSeriesSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB011_PageValidOffset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="344" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="344" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a0252746d8654e3e5c1f510d99d4c16e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesSafeIteratorTest, GapB011_PageOutOfRangeThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_safe_iterator_test" kindref="compound">TimeSeriesSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB011_PageOutOfRangeThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="354" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="354" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a4262d2a50e6e6e50e417565931d54ed4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeSeriesSafeIteratorTest, AppendBatchSorted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_time_series_safe_iterator_test" kindref="compound">TimeSeriesSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>AppendBatchSorted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="361" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="361" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a47df54ff0066c13a113119021609106f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(EvictionSchedulerSafeIteratorTest, NullScoringFnThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_eviction_scheduler_safe_iterator_test" kindref="compound">EvictionSchedulerSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>NullScoringFnThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="392" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="392" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a46df83013db6b53b98686641108488d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(EvictionSchedulerSafeIteratorTest, GapB012_ZeroTargetThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_eviction_scheduler_safe_iterator_test" kindref="compound">EvictionSchedulerSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB012_ZeroTargetThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="398" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="398" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a8f187f27fd1c44f6ad3908d86ef6c7e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(EvictionSchedulerSafeIteratorTest, GapB013_EmptyCandidatesSafe)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_eviction_scheduler_safe_iterator_test" kindref="compound">EvictionSchedulerSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB013_EmptyCandidatesSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="406" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="406" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1ab4b35a478d2ea3b68fdb50899c7703ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(EvictionSchedulerSafeIteratorTest, SelectFreesEnoughBytes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_eviction_scheduler_safe_iterator_test" kindref="compound">EvictionSchedulerSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>SelectFreesEnoughBytes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="418" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="418" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a67e25ddfe73bd127b7a6135f6290fbf4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(EvictionSchedulerSafeIteratorTest, GapB012_NoWrapAround)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_eviction_scheduler_safe_iterator_test" kindref="compound">EvictionSchedulerSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB012_NoWrapAround</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="432" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="432" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1aabf8d7d6cd34ce43923c91e3afb225dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(EvictionSchedulerSafeIteratorTest, LfuPolicyOrdering)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_eviction_scheduler_safe_iterator_test" kindref="compound">EvictionSchedulerSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>LfuPolicyOrdering</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="442" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="442" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1aa31043dd1fa3b206bc6dc3731fe279f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdjacencyListSafeIteratorTest, GapB009_NeighbourAtUnknownVertexThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adjacency_list_safe_iterator_test" kindref="compound">AdjacencyListSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB009_NeighbourAtUnknownVertexThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="479" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="479" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a4dc2a14323c33f17a39743f02001493e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdjacencyListSafeIteratorTest, GapB009_NeighbourAtOutOfRangeThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adjacency_list_safe_iterator_test" kindref="compound">AdjacencyListSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB009_NeighbourAtOutOfRangeThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="486" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="486" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a3508c2fea3b2ffd42c2a4b70fbbc3224" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdjacencyListSafeIteratorTest, GapB009_NeighbourAtValidIndex)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adjacency_list_safe_iterator_test" kindref="compound">AdjacencyListSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapB009_NeighbourAtValidIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="495" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="495" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a56ea7340256c1cabc5e9de5aef6b23d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdjacencyListSafeIteratorTest, GapA003_RemoveEdgesIfIterationSafe)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adjacency_list_safe_iterator_test" kindref="compound">AdjacencyListSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapA003_RemoveEdgesIfIterationSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="507" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="507" bodyend="517"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a569ec2ddaaedb675e43b163d9489644d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdjacencyListSafeIteratorTest, GapA006_RemoveVertexIncidentEdgesSafe)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adjacency_list_safe_iterator_test" kindref="compound">AdjacencyListSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>GapA006_RemoveVertexIncidentEdgesSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="520" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="520" bodyend="530"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a199a36c5528866abb5ae1dce778e5c97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdjacencyListSafeIteratorTest, AddEdgeToUnknownVertexThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adjacency_list_safe_iterator_test" kindref="compound">AdjacencyListSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>AddEdgeToUnknownVertexThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="533" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="533" bodyend="538"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a50c0a1476c3b35fbb01d0d4671a8c25c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdjacencyListSafeIteratorTest, RemoveEdgesIfUnknownVertexThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adjacency_list_safe_iterator_test" kindref="compound">AdjacencyListSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>RemoveEdgesIfUnknownVertexThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="541" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="541" bodyend="546"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a8e701979858a57747c349ac3bcfb2fd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdjacencyListSafeIteratorTest, EdgeCountCorrect)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adjacency_list_safe_iterator_test" kindref="compound">AdjacencyListSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>EdgeCountCorrect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="549" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="549" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sprint7__batchc__safe__iterator__modules_8cpp_1a6965903f12f92c781bb05f579c1693a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AdjacencyListSafeIteratorTest, NeighboursUnknownVertexEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_adjacency_list_safe_iterator_test" kindref="compound">AdjacencyListSafeIteratorTest</ref></type>
+        </param>
+        <param>
+          <type>NeighboursUnknownVertexEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" line="556" column="1" bodyfile="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp" bodystart="556" bodyend="560"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for Sprint 7 Batch C Phase 2B-D SafeIterator remediations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Verifies that the iterator-safety patterns (BoundsChecker, AdvanceSafe, RangeValidator) applied to the six new production modules correctly reject out-of-bounds access and accept valid inputs.</para>
+<para>Modules covered:<itemizedlist>
+<listitem><para>themis::network::PacketParser / PacketBuilder (gaps B001, B003, B005)</para>
+</listitem><listitem><para>themis::query::ResultSet / QueryExecutor (gaps B002, B006, B008)</para>
+</listitem><listitem><para>themis::analytics::Aggregator (gaps A004, C001, C002)</para>
+</listitem><listitem><para>themis::analytics::TimeSeries (gaps B011, B012, B013)</para>
+</listitem><listitem><para>themis::cache::EvictionScheduler (gaps B012, B013)</para>
+</listitem><listitem><para>themis::graph::AdjacencyList (gaps A003, A006, B009) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;network/wire_protocol.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/query_executor.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;analytics/aggregation.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;analytics/time_series.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;cache/eviction.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;graph/adjacency_list.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>build<sp/>a<sp/>minimal<sp/>valid<sp/>wire<sp/>packet<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">std::vector&lt;uint8_t&gt;<sp/>build_packet(uint8_t<sp/>type_byte,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>payload)</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Header:<sp/>0xDB<sp/>0x01<sp/>&lt;type&gt;<sp/>&lt;payload_len_be32&gt;<sp/>&lt;payload...&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>len<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(payload.size());</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>buf;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.push_back(0xDB);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.push_back(0x01);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.push_back(type_byte);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.push_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(len<sp/>&gt;&gt;<sp/>24u));</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.push_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(len<sp/>&gt;&gt;<sp/>16u));</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.push_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(len<sp/>&gt;&gt;<sp/><sp/>8u));</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.push_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(len<sp/>&gt;&gt;<sp/><sp/>0u));</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>buf.insert(buf.end(),<sp/>payload.begin(),<sp/>payload.end());</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>buf;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>1.<sp/>PacketParser<sp/>/<sp/>PacketBuilder<sp/><sp/>—<sp/>gaps<sp/>B001,<sp/>B003,<sp/>B005</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="class_packet_parser_safe_iterator_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_packet_parser_safe_iterator_test" kindref="compound">PacketParserSafeIteratorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B005:<sp/>buffer<sp/>too<sp/>short<sp/>→<sp/>must<sp/>throw<sp/>before<sp/>any<sp/>dereference</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_packet_parser_safe_iterator_test" kindref="compound">PacketParserSafeIteratorTest</ref>,<sp/>GapB005_TooShortBufferThrows)</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>buf{0xDB};<sp/><sp/></highlight><highlight class="comment">//<sp/>only<sp/>1<sp/>byte<sp/>—<sp/>truncated<sp/>magic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(themis::network::PacketParser::parse(buf),</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::network::ParseError);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B005:<sp/>wrong<sp/>magic<sp/>byte<sp/>0<sp/>→<sp/>ParseError,<sp/>not<sp/>UB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_packet_parser_safe_iterator_test" kindref="compound">PacketParserSafeIteratorTest</ref>,<sp/>GapB005_WrongMagic0Throws)</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>buf<sp/>=<sp/>build_packet(0x01,<sp/>{});</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[0]<sp/>=<sp/>0xAA;<sp/><sp/></highlight><highlight class="comment">//<sp/>corrupt<sp/>magic<sp/>byte<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(themis::network::PacketParser::parse(buf),</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::network::ParseError);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B005:<sp/>wrong<sp/>magic<sp/>byte<sp/>1<sp/>→<sp/>ParseError</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_packet_parser_safe_iterator_test" kindref="compound">PacketParserSafeIteratorTest</ref>,<sp/>GapB005_WrongMagic1Throws)</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>buf<sp/>=<sp/>build_packet(0x01,<sp/>{});</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>buf[1]<sp/>=<sp/>0xFF;<sp/><sp/></highlight><highlight class="comment">//<sp/>corrupt<sp/>magic<sp/>byte<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(themis::network::PacketParser::parse(buf),</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::network::ParseError);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B001/B003:<sp/>payload_len<sp/>&gt;<sp/>actual<sp/>bytes<sp/>remaining<sp/>→<sp/>ParseError<sp/>(not<sp/>OOB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_packet_parser_safe_iterator_test" kindref="compound">PacketParserSafeIteratorTest</ref>,<sp/>GapB001B003_TruncatedPayloadThrows)</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Claim<sp/>10-byte<sp/>payload<sp/>but<sp/>provide<sp/>none<sp/>after<sp/>header.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>buf{0xDB,<sp/>0x01,<sp/>0x02,<sp/><sp/></highlight><highlight class="comment">//<sp/>magic<sp/>+<sp/>query<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00,<sp/>0x00,<sp/>0x00,<sp/>0x0A};<sp/><sp/></highlight><highlight class="comment">//<sp/>length<sp/>=<sp/>10</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>payload<sp/>bytes<sp/>→<sp/>AdvanceSafe<sp/>must<sp/>throw.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(themis::network::PacketParser::parse(buf),</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::network::ParseError);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Happy<sp/>path:<sp/>minimal<sp/>valid<sp/>PING<sp/>packet<sp/>(empty<sp/>payload)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_packet_parser_safe_iterator_test" kindref="compound">PacketParserSafeIteratorTest</ref>,<sp/>ValidPingPacket)</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>buf<sp/>=<sp/>build_packet(0x20,<sp/>{});<sp/><sp/></highlight><highlight class="comment">//<sp/>kPing<sp/>=<sp/>0x20</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pkt<sp/>=<sp/>themis::network::PacketParser::parse(buf);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(pkt.type,<sp/>themis::network::PacketType::kPing);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(pkt.payload.empty());</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Happy<sp/>path:<sp/>packet<sp/>with<sp/>payload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_packet_parser_safe_iterator_test" kindref="compound">PacketParserSafeIteratorTest</ref>,<sp/>ValidQueryPacketWithPayload)</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>payload{0x01,<sp/>0x02,<sp/>0x03};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>buf<sp/>=<sp/>build_packet(0x02,<sp/>payload);<sp/><sp/></highlight><highlight class="comment">//<sp/>kQuery<sp/>=<sp/>0x02</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pkt<sp/>=<sp/>themis::network::PacketParser::parse(buf);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(pkt.type,<sp/>themis::network::PacketType::kQuery);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(pkt.payload,<sp/>payload);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PacketBuilder::build_pong<sp/>produces<sp/>a<sp/>parseable<sp/>pong</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_packet_parser_safe_iterator_test" kindref="compound">PacketParserSafeIteratorTest</ref>,<sp/>BuildPongIsParseable)</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>buf<sp/>=<sp/>themis::network::PacketBuilder::build_pong();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pkt<sp/>=<sp/>themis::network::PacketParser::parse(buf);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(pkt.type,<sp/>themis::network::PacketType::kPong);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PacketBuilder::build_error<sp/>produces<sp/>a<sp/>parseable<sp/>error<sp/>packet</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_packet_parser_safe_iterator_test" kindref="compound">PacketParserSafeIteratorTest</ref>,<sp/>BuildErrorIsParseable)</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>buf<sp/>=<sp/>themis::network::PacketBuilder::build_error(404u,<sp/></highlight><highlight class="stringliteral">&quot;not<sp/>found&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pkt<sp/>=<sp/>themis::network::PacketParser::parse(buf);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(pkt.type,<sp/>themis::network::PacketType::kError);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(pkt.payload.empty());</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2.<sp/>ResultSet<sp/>/<sp/>QueryExecutor<sp/><sp/>—<sp/>gaps<sp/>B002,<sp/>B006,<sp/>B008</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="class_result_set_safe_iterator_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_result_set_safe_iterator_test" kindref="compound">ResultSetSafeIteratorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::query::ResultSet<sp/><ref refid="class_result_set_safe_iterator_test_1a1611f22e486c720aa8e161ce75684e7a" kindref="member">make_result</ref>(std::size_t<sp/>n_rows)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::query::ResultSet<sp/>rs;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rs.column_names<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n_rows;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rs.rows.push_back({</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>*<sp/>1.5});</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rs;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B002:<sp/>at()<sp/>on<sp/>empty<sp/>ResultSet<sp/>→<sp/>std::out_of_range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_result_set_safe_iterator_test" kindref="compound">ResultSetSafeIteratorTest</ref>,<sp/>GapB002_AtOnEmptyThrows)</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rs<sp/>=<sp/>make_result(0);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(rs.at(0),<sp/>std::out_of_range);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B002:<sp/>at()<sp/>past<sp/>end<sp/>→<sp/>std::out_of_range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_result_set_safe_iterator_test" kindref="compound">ResultSetSafeIteratorTest</ref>,<sp/>GapB002_AtPastEndThrows)</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rs<sp/>=<sp/>make_result(3);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(rs.at(3),<sp/>std::out_of_range);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(rs.at(100),<sp/>std::out_of_range);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B002:<sp/>at()<sp/>valid<sp/>index<sp/>→<sp/>correct<sp/>row</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_result_set_safe_iterator_test" kindref="compound">ResultSetSafeIteratorTest</ref>,<sp/>GapB002_AtValidIndex)</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rs<sp/>=<sp/>make_result(5);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>row<sp/>=<sp/>rs.at(2);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(std::get&lt;int64_t&gt;(row[0]),<sp/>2);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B006:<sp/>page()<sp/>with<sp/>offset<sp/>beyond<sp/>end<sp/>returns<sp/>empty<sp/>(not<sp/>UB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_result_set_safe_iterator_test" kindref="compound">ResultSetSafeIteratorTest</ref>,<sp/>GapB006_PageOffsetBeyondEndThrows)</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rs<sp/>=<sp/>make_result(5);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>offset<sp/>==<sp/>size<sp/>is<sp/>valid<sp/>(empty<sp/>result),<sp/>offset<sp/>&gt;<sp/>size<sp/>throws</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(rs.page(10,<sp/>5),<sp/>std::out_of_range);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B006:<sp/>page()<sp/>with<sp/>zero<sp/>limit<sp/>returns<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_result_set_safe_iterator_test" kindref="compound">ResultSetSafeIteratorTest</ref>,<sp/>GapB006_PageZeroLimitEmpty)</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rs<sp/>=<sp/>make_result(5);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rs.page(0,<sp/>0).empty());</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B008:<sp/>page()<sp/>sub-range<sp/>via<sp/>RangeValidator<sp/>—<sp/>correct<sp/>slice</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_result_set_safe_iterator_test" kindref="compound">ResultSetSafeIteratorTest</ref>,<sp/>GapB008_PageSubRangeCorrect)</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rs<sp/>=<sp/>make_result(10);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>page<sp/>=<sp/>rs.page(3,<sp/>4);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(page.size(),<sp/>4u);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::get&lt;int64_t&gt;(page[0][0]),<sp/>3);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::get&lt;int64_t&gt;(page[3][0]),<sp/>6);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B008:<sp/>page()<sp/>clamps<sp/>limit<sp/>at<sp/>container<sp/>boundary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_result_set_safe_iterator_test" kindref="compound">ResultSetSafeIteratorTest</ref>,<sp/>GapB008_PageLimitClamped)</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rs<sp/>=<sp/>make_result(5);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>page<sp/>=<sp/>rs.page(3,<sp/>100);<sp/><sp/></highlight><highlight class="comment">//<sp/>only<sp/>2<sp/>rows<sp/>remain<sp/>after<sp/>offset<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(page.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>3.<sp/>Aggregator<sp/>(analytics)<sp/>—<sp/>gaps<sp/>A004,<sp/>C001,<sp/>C002</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="class_aggregator_safe_iterator_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_aggregator_safe_iterator_test" kindref="compound">AggregatorSafeIteratorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_aggregator_safe_iterator_test_1a94ec0160794569c24118f121d08169d4" kindref="member">AggRow</ref><sp/><sp/>=<sp/>themis::analytics::AggregationRow;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_aggregator_safe_iterator_test_1ae8c6eba54ee25650afde99f13fff2e46" kindref="member">AggSpec</ref><sp/>=<sp/>themis::analytics::AggregateSpec;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_aggregator_safe_iterator_test_1a98ab6a82623298a2a117a2fb0cefe889" kindref="member">AggFn</ref><sp/><sp/><sp/>=<sp/>themis::analytics::AggregateFunction;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::analytics::Aggregator<sp/><ref refid="class_aggregator_safe_iterator_test_1a3f126d802ab0ca40368863570c83a472" kindref="member">make_count_agg</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>group_col)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_aggregator_safe_iterator_test_1ae8c6eba54ee25650afde99f13fff2e46" kindref="member">AggSpec</ref><sp/>spec;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spec.function<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>AggFn::kCount;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spec.source_column<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spec.output_column<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cnt&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>themis::analytics::Aggregator({group_col},<sp/>{spec});</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>A004:<sp/>push_back<sp/>inside<sp/>iterator<sp/>loop<sp/>—<sp/>verified<sp/>by<sp/>correct<sp/>group<sp/>counts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_aggregator_safe_iterator_test" kindref="compound">AggregatorSafeIteratorTest</ref>,<sp/>GapA004_PushBackDuringMerge_CorrectResult)</highlight></codeline>
+<codeline lineno="235"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>agg<sp/>=<sp/>make_count_agg(</highlight><highlight class="stringliteral">&quot;category&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>agg.feed(AggRow{{</highlight><highlight class="stringliteral">&quot;category&quot;</highlight><highlight class="normal">,<sp/>std::string{</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">}},<sp/>{</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">,<sp/>int64_t{1}}});</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>agg.feed(AggRow{{</highlight><highlight class="stringliteral">&quot;category&quot;</highlight><highlight class="normal">,<sp/>std::string{</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">}},<sp/>{</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">,<sp/>int64_t{2}}});</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>agg.feed(AggRow{{</highlight><highlight class="stringliteral">&quot;category&quot;</highlight><highlight class="normal">,<sp/>std::string{</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">}},<sp/>{</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">,<sp/>int64_t{3}}});</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>agg.finalise();</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rows.size(),<sp/>2u);<sp/><sp/></highlight><highlight class="comment">//<sp/>two<sp/>distinct<sp/>groups:<sp/>A,<sp/>B</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>C001:<sp/>page()<sp/>with<sp/>valid<sp/>offset</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_aggregator_safe_iterator_test" kindref="compound">AggregatorSafeIteratorTest</ref>,<sp/>GapC001_PageValidOffset)</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>agg<sp/>=<sp/>make_count_agg(</highlight><highlight class="stringliteral">&quot;cat&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>agg.feed(AggRow{{</highlight><highlight class="stringliteral">&quot;cat&quot;</highlight><highlight class="normal">,<sp/>std::string(1,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal"><sp/>+<sp/>i))},</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">,<sp/>int64_t{i}}});</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>agg.finalise();</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rows.size(),<sp/>10u);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>page()<sp/>with<sp/>valid<sp/>offset:<sp/>must<sp/>not<sp/>throw<sp/>and<sp/>return<sp/>correct<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>page<sp/>=<sp/>result.page(5,<sp/>3);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(page.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>C001:<sp/>page()<sp/>with<sp/>out-of-range<sp/>offset<sp/>→<sp/>std::out_of_range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_aggregator_safe_iterator_test" kindref="compound">AggregatorSafeIteratorTest</ref>,<sp/>GapC001_PageInvalidOffsetThrows)</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>agg<sp/>=<sp/>make_count_agg(</highlight><highlight class="stringliteral">&quot;cat&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>agg.feed(AggRow{{</highlight><highlight class="stringliteral">&quot;cat&quot;</highlight><highlight class="normal">,<sp/>std::string{</highlight><highlight class="stringliteral">&quot;X&quot;</highlight><highlight class="normal">}},<sp/>{</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">,<sp/>int64_t{1}}});</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>agg.finalise();</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(result.page(100,<sp/>5),<sp/>std::out_of_range);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>C002:<sp/>at()<sp/>bounds-checked<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_aggregator_safe_iterator_test" kindref="compound">AggregatorSafeIteratorTest</ref>,<sp/>GapC002_AtBoundsChecked)</highlight></codeline>
+<codeline lineno="275"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>agg<sp/>=<sp/>make_count_agg(</highlight><highlight class="stringliteral">&quot;cat&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>agg.feed(AggRow{{</highlight><highlight class="stringliteral">&quot;cat&quot;</highlight><highlight class="normal">,<sp/>std::string{</highlight><highlight class="stringliteral">&quot;Y&quot;</highlight><highlight class="normal">}},<sp/>{</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">,<sp/>int64_t{7}}});</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>agg.finalise();</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(result.at(0));</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(result.at(1),<sp/>std::out_of_range);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verify<sp/>empty<sp/>aggregation<sp/>is<sp/>safe</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_aggregator_safe_iterator_test" kindref="compound">AggregatorSafeIteratorTest</ref>,<sp/>EmptyAggregationSafe)</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>agg<sp/>=<sp/>make_count_agg(</highlight><highlight class="stringliteral">&quot;col&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>agg.finalise();</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.rows.empty());</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(result.at(0),<sp/>std::out_of_range);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight><highlight class="comment">//<sp/>4.<sp/>TimeSeries<sp/>—<sp/>gaps<sp/>B011,<sp/>B012,<sp/>B013</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297" refid="class_time_series_safe_iterator_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_time_series_safe_iterator_test" kindref="compound">TimeSeriesSafeIteratorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_time_series_safe_iterator_test_1af708eddf03b52d6dabdd93c8a4857e50" kindref="member">TS</ref><sp/>=<sp/>themis::analytics::TimeSeries;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_time_series_safe_iterator_test_1a384edbc524fb59be14afa235da823fba" kindref="member">TW</ref><sp/>=<sp/>themis::analytics::TimeWindow;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_time_series_safe_iterator_test_1a81f283611c7f4efe341933b7515ea956" kindref="member">TP</ref><sp/>=<sp/>themis::analytics::TimePoint;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_time_series_safe_iterator_test_1af708eddf03b52d6dabdd93c8a4857e50" kindref="member">TS</ref><sp/><ref refid="class_time_series_safe_iterator_test_1af890d6b9af7b4d27d6a62d38a855e0bf" kindref="member">make_series</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n)<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_time_series_safe_iterator_test_1af708eddf03b52d6dabdd93c8a4857e50" kindref="member">TS</ref><sp/>ts(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ts.append(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="class_time_series_safe_iterator_test_1a81f283611c7f4efe341933b7515ea956" kindref="member">TP</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>*<sp/>1000),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i));</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ts;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Constructor:<sp/>empty<sp/>name<sp/>→<sp/>invalid_argument</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_time_series_safe_iterator_test" kindref="compound">TimeSeriesSafeIteratorTest</ref>,<sp/>EmptyNameThrows)</highlight></codeline>
+<codeline lineno="314"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(TS(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B013:<sp/>query_window<sp/>on<sp/>empty<sp/>series<sp/>→<sp/>safe<sp/>empty<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_time_series_safe_iterator_test" kindref="compound">TimeSeriesSafeIteratorTest</ref>,<sp/>GapB013_EmptySeriesWindowSafe)</highlight></codeline>
+<codeline lineno="320"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>TS<sp/>ts(</highlight><highlight class="stringliteral">&quot;empty&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>ts.query_window(TW{0,<sp/>100});</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.empty());</highlight></codeline>
+<codeline lineno="324"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B013:<sp/>query_window<sp/>below<sp/>all<sp/>data<sp/>→<sp/>safe<sp/>empty<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_time_series_safe_iterator_test" kindref="compound">TimeSeriesSafeIteratorTest</ref>,<sp/>GapB013_WindowBelowDataSafe)</highlight></codeline>
+<codeline lineno="328"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts<sp/>=<sp/>make_series(5);<sp/><sp/></highlight><highlight class="comment">//<sp/>timestamps<sp/>0..4000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>ts.query_window(TW{10000,<sp/>20000});</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.empty());</highlight></codeline>
+<codeline lineno="332"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B012:<sp/>query_window<sp/>valid<sp/>range<sp/>→<sp/>correct<sp/>points<sp/>returned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_time_series_safe_iterator_test" kindref="compound">TimeSeriesSafeIteratorTest</ref>,<sp/>GapB012_ValidWindowReturnsCorrectPoints)</highlight></codeline>
+<codeline lineno="336"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts<sp/>=<sp/>make_series(10);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>timestamps:<sp/>0,<sp/>1000,<sp/>2000,<sp/>...,<sp/>9000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>ts.query_window(TW{2000,<sp/>5000});</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.size(),<sp/>3u);<sp/><sp/></highlight><highlight class="comment">//<sp/>ts<sp/>2000,<sp/>3000,<sp/>4000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B011:<sp/>page()<sp/>with<sp/>valid<sp/>offset<sp/>on<sp/>large<sp/>series</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_time_series_safe_iterator_test" kindref="compound">TimeSeriesSafeIteratorTest</ref>,<sp/>GapB011_PageValidOffset)</highlight></codeline>
+<codeline lineno="345"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts<sp/>=<sp/>make_series(20);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>page<sp/>=<sp/>ts.page(5,<sp/>10);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(page.size(),<sp/>10u);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="351"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B011:<sp/>page()<sp/>with<sp/>out-of-range<sp/>offset<sp/>→<sp/>std::out_of_range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_time_series_safe_iterator_test" kindref="compound">TimeSeriesSafeIteratorTest</ref>,<sp/>GapB011_PageOutOfRangeThrows)</highlight></codeline>
+<codeline lineno="355"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts<sp/>=<sp/>make_series(5);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(ts.page(100,<sp/>5),<sp/>std::out_of_range);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight><highlight class="comment">//<sp/>append_batch<sp/>+<sp/>sorted<sp/>order<sp/>preserved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_time_series_safe_iterator_test" kindref="compound">TimeSeriesSafeIteratorTest</ref>,<sp/>AppendBatchSorted)</highlight></codeline>
+<codeline lineno="362"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>TS<sp/>ts(</highlight><highlight class="stringliteral">&quot;batch&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>ts.append_batch({{3000,<sp/>3.0},<sp/>{1000,<sp/>1.0},<sp/>{2000,<sp/>2.0}});</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>all<sp/>=<sp/>ts.page(0,<sp/>10);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(all.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(all[0].timestamp,<sp/>all[1].timestamp);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(all[1].timestamp,<sp/>all[2].timestamp);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight><highlight class="comment">//<sp/>5.<sp/>EvictionScheduler<sp/>—<sp/>gaps<sp/>B012,<sp/>B013</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375" refid="class_eviction_scheduler_safe_iterator_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_eviction_scheduler_safe_iterator_test" kindref="compound">EvictionSchedulerSafeIteratorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_eviction_scheduler_safe_iterator_test_1a371fa43876d8659f74c9b973801b78a4" kindref="member">Candidate</ref><sp/>=<sp/>themis::cache::EvictionCandidate;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_eviction_scheduler_safe_iterator_test_1a7ffe299c4f0c82f4153d3fcd926bdc08" kindref="member">Scheduler</ref><sp/>=<sp/>themis::cache::EvictionScheduler;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_eviction_scheduler_safe_iterator_test_1a371fa43876d8659f74c9b973801b78a4" kindref="member">Candidate</ref><sp/><ref refid="class_eviction_scheduler_safe_iterator_test_1ae798a279d505e06e7e403833857de766" kindref="member">make_candidate</ref>(std::string<sp/>key,<sp/>std::size_t<sp/>size_bytes,</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>last_access_ns<sp/>=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_eviction_scheduler_safe_iterator_test_1a371fa43876d8659f74c9b973801b78a4" kindref="member">Candidate</ref><sp/>c;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.key<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::move(key);</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.size_bytes<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>size_bytes;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.last_access_ns<sp/><sp/>=<sp/>last_access_ns;</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.access_count<sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>c;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="389"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Null<sp/>scoring<sp/>function<sp/>→<sp/>invalid_argument</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_eviction_scheduler_safe_iterator_test" kindref="compound">EvictionSchedulerSafeIteratorTest</ref>,<sp/>NullScoringFnThrows)</highlight></codeline>
+<codeline lineno="393"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(Scheduler(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="395"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B012:<sp/>target_free_bytes<sp/>=<sp/>0<sp/>→<sp/>invalid_argument</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_eviction_scheduler_safe_iterator_test" kindref="compound">EvictionSchedulerSafeIteratorTest</ref>,<sp/>GapB012_ZeroTargetThrows)</highlight></codeline>
+<codeline lineno="399"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>Scheduler<sp/>sched(Scheduler::lru_policy());</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Candidate&gt;<sp/>cands{make_candidate(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>100)};</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(sched.select(cands,<sp/>0),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B013:<sp/>empty<sp/>candidate<sp/>list<sp/>→<sp/>safe<sp/>empty<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_eviction_scheduler_safe_iterator_test" kindref="compound">EvictionSchedulerSafeIteratorTest</ref>,<sp/>GapB013_EmptyCandidatesSafe)</highlight></codeline>
+<codeline lineno="407"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/>Scheduler<sp/>sched(Scheduler::lru_policy());</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Candidate&gt;<sp/>empty;</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>sched.select(empty,<sp/>100);</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.evicted_keys.empty());</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.freed_bytes,<sp/>0u);</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="415"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Happy<sp/>path:<sp/>select<sp/>frees<sp/>at<sp/>least<sp/>the<sp/>requested<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_eviction_scheduler_safe_iterator_test" kindref="compound">EvictionSchedulerSafeIteratorTest</ref>,<sp/>SelectFreesEnoughBytes)</highlight></codeline>
+<codeline lineno="419"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/>Scheduler<sp/>sched(Scheduler::lru_policy());</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Candidate&gt;<sp/>cands<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>make_candidate(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>512,<sp/>1000),</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>make_candidate(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>256,<sp/>2000),</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>make_candidate(</highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/>128,<sp/>3000),</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>sched.select(cands,<sp/>600);</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.freed_bytes,<sp/>600u);</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.evicted_keys.empty());</highlight></codeline>
+<codeline lineno="429"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B012:<sp/>unsigned<sp/>overflow<sp/>guard<sp/>—<sp/>select<sp/>stops<sp/>before<sp/>wrapping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_eviction_scheduler_safe_iterator_test" kindref="compound">EvictionSchedulerSafeIteratorTest</ref>,<sp/>GapB012_NoWrapAround)</highlight></codeline>
+<codeline lineno="433"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/>Scheduler<sp/>sched(Scheduler::lru_policy());</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/>kHuge<sp/>=<sp/>std::numeric_limits&lt;std::size_t&gt;::max()<sp/>/<sp/>2<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Candidate&gt;<sp/>cands<sp/>=<sp/>{make_candidate(</highlight><highlight class="stringliteral">&quot;big&quot;</highlight><highlight class="normal">,<sp/>kHuge,<sp/>100)};</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>not<sp/>crash<sp/>or<sp/>overflow.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(sched.select(cands,<sp/>1024));</highlight></codeline>
+<codeline lineno="439"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"></highlight></codeline>
+<codeline lineno="441"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LFU<sp/>policy:<sp/>less-frequently-accessed<sp/>entries<sp/>evicted<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_eviction_scheduler_safe_iterator_test" kindref="compound">EvictionSchedulerSafeIteratorTest</ref>,<sp/>LfuPolicyOrdering)</highlight></codeline>
+<codeline lineno="443"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/>Scheduler<sp/>sched(Scheduler::lfu_policy());</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Candidate&gt;<sp/>cands<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Candidate<sp/>c<sp/>=<sp/>make_candidate(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>100);</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.access_count<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cands.push_back(c);</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>sched.select(cands,<sp/>100);</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.evicted_keys.front(),<sp/></highlight><highlight class="stringliteral">&quot;k0&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>lowest<sp/>access_count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="454"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="457"><highlight class="normal"></highlight><highlight class="comment">//<sp/>6.<sp/>AdjacencyList<sp/>—<sp/>gaps<sp/>A003,<sp/>A006,<sp/>B009</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="459"><highlight class="normal"></highlight></codeline>
+<codeline lineno="460" refid="class_adjacency_list_safe_iterator_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_adjacency_list_safe_iterator_test" kindref="compound">AdjacencyListSafeIteratorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_adjacency_list_safe_iterator_test_1a7f0c88f486852e59e6eaf0c4a52eb0fd" kindref="member">AL</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>themis::graph::AdjacencyList;</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_adjacency_list_safe_iterator_test_1a1ba9d3d611c4902683f370b62d666648" kindref="member">Edge</ref><sp/><sp/><sp/>=<sp/>themis::graph::Edge;</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_adjacency_list_safe_iterator_test_1a1ecf2bd3deb46ffa67558efe7e0c5274" kindref="member">VtxId</ref><sp/><sp/>=<sp/>themis::graph::VertexId;</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"></highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_adjacency_list_safe_iterator_test_1a7f0c88f486852e59e6eaf0c4a52eb0fd" kindref="member">AL</ref><sp/><ref refid="class_adjacency_list_safe_iterator_test_1a5ebd9b4c4c6b270da1f9575c9c092ac3" kindref="member">make_graph_triangle</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_adjacency_list_safe_iterator_test_1a7f0c88f486852e59e6eaf0c4a52eb0fd" kindref="member">AL</ref><sp/>g;</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g.add_vertex(1,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g.add_vertex(2,<sp/></highlight><highlight class="stringliteral">&quot;v2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g.add_vertex(3,<sp/></highlight><highlight class="stringliteral">&quot;v3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g.add_edge(1,<sp/><ref refid="class_adjacency_list_safe_iterator_test_1a1ba9d3d611c4902683f370b62d666648" kindref="member">Edge</ref>{2,<sp/>1.0,<sp/></highlight><highlight class="stringliteral">&quot;e12&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g.add_edge(1,<sp/><ref refid="class_adjacency_list_safe_iterator_test_1a1ba9d3d611c4902683f370b62d666648" kindref="member">Edge</ref>{3,<sp/>1.0,<sp/></highlight><highlight class="stringliteral">&quot;e13&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g.add_edge(2,<sp/><ref refid="class_adjacency_list_safe_iterator_test_1a1ba9d3d611c4902683f370b62d666648" kindref="member">Edge</ref>{3,<sp/>2.0,<sp/></highlight><highlight class="stringliteral">&quot;e23&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g;</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="476"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"></highlight></codeline>
+<codeline lineno="478"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B009:<sp/>neighbour_at()<sp/>on<sp/>non-existent<sp/>vertex<sp/>→<sp/>std::out_of_range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_adjacency_list_safe_iterator_test" kindref="compound">AdjacencyListSafeIteratorTest</ref>,<sp/>GapB009_NeighbourAtUnknownVertexThrows)</highlight></codeline>
+<codeline lineno="480"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/>AL<sp/>g;</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(g.neighbour_at(99,<sp/>0),<sp/>std::out_of_range);</highlight></codeline>
+<codeline lineno="483"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"></highlight></codeline>
+<codeline lineno="485"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B009:<sp/>neighbour_at()<sp/>index<sp/>out<sp/>of<sp/>range<sp/>→<sp/>std::out_of_range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_adjacency_list_safe_iterator_test" kindref="compound">AdjacencyListSafeIteratorTest</ref>,<sp/>GapB009_NeighbourAtOutOfRangeThrows)</highlight></codeline>
+<codeline lineno="487"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/>AL<sp/>g;</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/>g.add_vertex(1,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/>g.add_edge(1,<sp/>Edge{2,<sp/>1.0,<sp/></highlight><highlight class="stringliteral">&quot;e12&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(g.neighbour_at(1,<sp/>5),<sp/>std::out_of_range);</highlight></codeline>
+<codeline lineno="492"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"></highlight></codeline>
+<codeline lineno="494"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>B009:<sp/>neighbour_at()<sp/>valid<sp/>index<sp/>returns<sp/>correct<sp/>edge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_adjacency_list_safe_iterator_test" kindref="compound">AdjacencyListSafeIteratorTest</ref>,<sp/>GapB009_NeighbourAtValidIndex)</highlight></codeline>
+<codeline lineno="496"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/>AL<sp/>g;</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/>g.add_vertex(1,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/>g.add_edge(1,<sp/>Edge{2,<sp/>1.0,<sp/></highlight><highlight class="stringliteral">&quot;e12&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>edge<sp/>=<sp/>g.neighbour_at(1,<sp/>0);</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(edge.target,<sp/>VtxId{2});</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="504"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="505"><highlight class="normal"></highlight></codeline>
+<codeline lineno="506"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>A003:<sp/>remove_edges_if<sp/>during<sp/>iteration<sp/>must<sp/>not<sp/>corrupt<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_adjacency_list_safe_iterator_test" kindref="compound">AdjacencyListSafeIteratorTest</ref>,<sp/>GapA003_RemoveEdgesIfIterationSafe)</highlight></codeline>
+<codeline lineno="508"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g<sp/>=<sp/>make_graph_triangle();</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Remove<sp/>all<sp/>edges<sp/>from<sp/>v1<sp/>pointing<sp/>to<sp/>v3<sp/>(collect-then-erase).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>removed<sp/>=<sp/>g.remove_edges_if(1,</highlight></codeline>
+<codeline lineno="513"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Edge&amp;<sp/>e)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>e.target<sp/>==<sp/>3;<sp/>});</highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(removed,<sp/>1u);</highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(g.out_degree(1),<sp/>1u);<sp/><sp/></highlight><highlight class="comment">//<sp/>only<sp/>e12<sp/>remains</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="517"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="518"><highlight class="normal"></highlight></codeline>
+<codeline lineno="519"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>A006:<sp/>remove_vertex<sp/>removes<sp/>all<sp/>incident<sp/>edges<sp/>via<sp/>collect-then-erase</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_adjacency_list_safe_iterator_test" kindref="compound">AdjacencyListSafeIteratorTest</ref>,<sp/>GapA006_RemoveVertexIncidentEdgesSafe)</highlight></codeline>
+<codeline lineno="521"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g<sp/>=<sp/>make_graph_triangle();</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(g.has_vertex(2));</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(g.remove_vertex(2));</highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(g.has_vertex(2));</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>v1<sp/>should<sp/>no<sp/>longer<sp/>have<sp/>an<sp/>edge<sp/>to<sp/>v2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>g.neighbours(1))<sp/>{</highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(e.target,<sp/>VtxId{2});</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="530"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="531"><highlight class="normal"></highlight></codeline>
+<codeline lineno="532"><highlight class="normal"></highlight><highlight class="comment">//<sp/>add_edge<sp/>to<sp/>non-existent<sp/>vertex<sp/>→<sp/>std::out_of_range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_adjacency_list_safe_iterator_test" kindref="compound">AdjacencyListSafeIteratorTest</ref>,<sp/>AddEdgeToUnknownVertexThrows)</highlight></codeline>
+<codeline lineno="534"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/>AL<sp/>g;</highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/>g.add_vertex(1,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(g.add_edge(99,<sp/>Edge{1,<sp/>1.0,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">}),<sp/>std::out_of_range);</highlight></codeline>
+<codeline lineno="538"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="539"><highlight class="normal"></highlight></codeline>
+<codeline lineno="540"><highlight class="normal"></highlight><highlight class="comment">//<sp/>remove_edges_if<sp/>on<sp/>non-existent<sp/>vertex<sp/>→<sp/>std::out_of_range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_adjacency_list_safe_iterator_test" kindref="compound">AdjacencyListSafeIteratorTest</ref>,<sp/>RemoveEdgesIfUnknownVertexThrows)</highlight></codeline>
+<codeline lineno="542"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="543"><highlight class="normal"><sp/><sp/><sp/><sp/>AL<sp/>g;</highlight></codeline>
+<codeline lineno="544"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(g.remove_edges_if(42,<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Edge&amp;)<sp/>{<sp/>return<sp/>true;<sp/>}),</highlight></codeline>
+<codeline lineno="545"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::out_of_range);</highlight></codeline>
+<codeline lineno="546"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="547"><highlight class="normal"></highlight></codeline>
+<codeline lineno="548"><highlight class="normal"></highlight><highlight class="comment">//<sp/>edge_count<sp/>sums<sp/>across<sp/>all<sp/>vertices</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_adjacency_list_safe_iterator_test" kindref="compound">AdjacencyListSafeIteratorTest</ref>,<sp/>EdgeCountCorrect)</highlight></codeline>
+<codeline lineno="550"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="551"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g<sp/>=<sp/>make_graph_triangle();</highlight></codeline>
+<codeline lineno="552"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(g.edge_count(),<sp/>3u);</highlight></codeline>
+<codeline lineno="553"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="554"><highlight class="normal"></highlight></codeline>
+<codeline lineno="555"><highlight class="normal"></highlight><highlight class="comment">//<sp/>neighbours<sp/>on<sp/>unknown<sp/>vertex<sp/>returns<sp/>empty<sp/>(no<sp/>throw)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="556"><highlight class="normal"><ref refid="test__sprint7__batchc__safe__iterator__modules_8cpp_1a307a5b2686ff6fb4b447dbf6985432a8" kindref="member">TEST_F</ref>(<ref refid="class_adjacency_list_safe_iterator_test" kindref="compound">AdjacencyListSafeIteratorTest</ref>,<sp/>NeighboursUnknownVertexEmpty)</highlight></codeline>
+<codeline lineno="557"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/>AL<sp/>g;</highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(g.neighbours(99).empty());</highlight></codeline>
+<codeline lineno="560"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_sprint7_batchc_safe_iterator_modules.cpp"/>
+  </compounddef>
+</doxygen>

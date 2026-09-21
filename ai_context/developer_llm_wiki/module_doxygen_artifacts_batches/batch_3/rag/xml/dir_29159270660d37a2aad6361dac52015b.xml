@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_29159270660d37a2aad6361dac52015b" kind="dir">
+    <compoundname>tests/rag</compoundname>
+    <innerfile refid="test__dpr__vectorizer_8cpp">test_dpr_vectorizer.cpp</innerfile>
+    <innerfile refid="test__fairness__detector_8cpp">test_fairness_detector.cpp</innerfile>
+    <innerfile refid="test__knowledge__graph__retriever__reasoning_8cpp">test_knowledge_graph_retriever_reasoning.cpp</innerfile>
+    <innerfile refid="test__lora__enhanced__retriever_8cpp">test_lora_enhanced_retriever.cpp</innerfile>
+    <innerfile refid="test__ontology__aware__retriever_8cpp">test_ontology_aware_retriever.cpp</innerfile>
+    <innerfile refid="test__rag__adaptive__retrieval_8cpp">test_rag_adaptive_retrieval.cpp</innerfile>
+    <innerfile refid="test__rag__adversarial__tester_8cpp">test_rag_adversarial_tester.cpp</innerfile>
+    <innerfile refid="test__rag__agentic_8cpp">test_rag_agentic.cpp</innerfile>
+    <innerfile refid="test__rag__aql__integration_8cpp">test_rag_aql_integration.cpp</innerfile>
+    <innerfile refid="test__rag__batch__evaluator_8cpp">test_rag_batch_evaluator.cpp</innerfile>
+    <innerfile refid="test__rag__budget__consistency__focused_8cpp">test_rag_budget_consistency_focused.cpp</innerfile>
+    <innerfile refid="test__rag__calibration__manager_8cpp">test_rag_calibration_manager.cpp</innerfile>
+    <innerfile refid="test__rag__citation__highlighter_8cpp">test_rag_citation_highlighter.cpp</innerfile>
+    <innerfile refid="test__rag__context__assembler_8cpp">test_rag_context_assembler.cpp</innerfile>
+    <innerfile refid="test__rag__context__engine_8cpp">test_rag_context_engine.cpp</innerfile>
+    <innerfile refid="test__rag__distributed__evaluator_8cpp">test_rag_distributed_evaluator.cpp</innerfile>
+    <innerfile refid="test__rag__document__splitter_8cpp">test_rag_document_splitter.cpp</innerfile>
+    <innerfile refid="test__rag__document__summarizer_8cpp">test_rag_document_summarizer.cpp</innerfile>
+    <innerfile refid="test__rag__error__handling__edge__cases__focused_8cpp">test_rag_error_handling_edge_cases_focused.cpp</innerfile>
+    <innerfile refid="test__rag__ethics_8cpp">test_rag_ethics.cpp</innerfile>
+    <innerfile refid="test__rag__evaluation__cache_8cpp">test_rag_evaluation_cache.cpp</innerfile>
+    <innerfile refid="test__rag__evaluation__report__exporter_8cpp">test_rag_evaluation_report_exporter.cpp</innerfile>
+    <innerfile refid="test__rag__hallucination__dashboard_8cpp">test_rag_hallucination_dashboard.cpp</innerfile>
+    <innerfile refid="test__rag__highcardinality__stress_8cpp">test_rag_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__rag__hybrid__retriever_8cpp">test_rag_hybrid_retriever.cpp</innerfile>
+    <innerfile refid="test__rag__ingestion__bridge_8cpp">test_rag_ingestion_bridge.cpp</innerfile>
+    <innerfile refid="test__rag__ingestion__bridge__hardening__focused_8cpp">test_rag_ingestion_bridge_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__rag__judge_8cpp">test_rag_judge.cpp</innerfile>
+    <innerfile refid="test__rag__judge__phase1_8cpp">test_rag_judge_phase1.cpp</innerfile>
+    <innerfile refid="test__rag__judge__phase2_8cpp">test_rag_judge_phase2.cpp</innerfile>
+    <innerfile refid="test__rag__judge__phase3_8cpp">test_rag_judge_phase3.cpp</innerfile>
+    <innerfile refid="test__rag__judge__phase4_8cpp">test_rag_judge_phase4.cpp</innerfile>
+    <innerfile refid="test__rag__knowledge__graph__retriever_8cpp">test_rag_knowledge_graph_retriever.cpp</innerfile>
+    <innerfile refid="test__rag__multi__hop__reasoner_8cpp">test_rag_multi_hop_reasoner.cpp</innerfile>
+    <innerfile refid="test__rag__multimodal_8cpp">test_rag_multimodal.cpp</innerfile>
+    <innerfile refid="test__rag__phase__b__e2e_8cpp">test_rag_phase_b_e2e.cpp</innerfile>
+    <innerfile refid="test__rag__pipeline__integration_8cpp">test_rag_pipeline_integration.cpp</innerfile>
+    <innerfile refid="test__rag__prompt__builder_8cpp">test_rag_prompt_builder.cpp</innerfile>
+    <innerfile refid="test__rag__prompt__injection_8cpp">test_rag_prompt_injection.cpp</innerfile>
+    <innerfile refid="test__rag__replug__retriever_8cpp">test_rag_replug_retriever.cpp</innerfile>
+    <innerfile refid="test__rag__reranker_8cpp">test_rag_reranker.cpp</innerfile>
+    <innerfile refid="test__rag__rlaif__trainer_8cpp">test_rag_rlaif_trainer.cpp</innerfile>
+    <innerfile refid="test__rag__streaming__retriever_8cpp">test_rag_streaming_retriever.cpp</innerfile>
+    <innerfile refid="test__rag__uncovered_8cpp">test_rag_uncovered.cpp</innerfile>
+    <innerfile refid="test__self__rag_8cpp">test_self_rag.cpp</innerfile>
+    <innerfile refid="test__self__rag__alce_8cpp">test_self_rag_alce.cpp</innerfile>
+    <innerfile refid="test__tensor__rag__provenance_8cpp">test_tensor_rag_provenance.cpp</innerfile>
+    <innerfile refid="test__wave5__rag__hardening_8cpp">test_wave5_rag_hardening.cpp</innerfile>
+    <innerfile refid="test__wave7__bm25__positional__fts_8cpp">test_wave7_bm25_positional_fts.cpp</innerfile>
+    <innerfile refid="test__wave7__rag__costmodel__guardrail_8cpp">test_wave7_rag_costmodel_guardrail.cpp</innerfile>
+    <innerfile refid="test__wave8__rag__hnsw_8cpp">test_wave8_rag_hnsw.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/rag/"/>
+  </compounddef>
+</doxygen>

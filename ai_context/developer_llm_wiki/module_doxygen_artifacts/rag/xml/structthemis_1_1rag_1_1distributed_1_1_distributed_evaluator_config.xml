@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::distributed::DistributedEvaluatorConfig</compoundname>
+    <includes refid="distributed__rag__evaluator_8h" local="no">distributed_rag_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1afdefafcdf1bdaa57061fb6219f3d033b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::distributed::DistributedEvaluatorConfig::max_parallel_judges</definition>
+        <argsstring></argsstring>
+        <name>max_parallel_judges</name>
+        <qualifiedname>themis::rag::distributed::DistributedEvaluatorConfig::max_parallel_judges</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of judge tasks to run in parallel. Defaults to the number of configured judges (full parallelism). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="56" column="12" bodyfile="include/rag/distributed_rag_evaluator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1a3807adeb84a5d6baf77e9c837047eb2c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915" kindref="member">AggregationStrategy</ref></type>
+        <definition>AggregationStrategy themis::rag::distributed::DistributedEvaluatorConfig::aggregation</definition>
+        <argsstring></argsstring>
+        <name>aggregation</name>
+        <qualifiedname>themis::rag::distributed::DistributedEvaluatorConfig::aggregation</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1rag_1_1distributed_1a2f9daf144654d160e4736ffcd6f36915ae2880ba1551b4949b27658ade2793990" kindref="member">AggregationStrategy::WEIGHTED_MEAN</ref></initializer>
+        <briefdescription>
+<para>Aggregation strategy for combining per-judge results. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="59" column="25" bodyfile="include/rag/distributed_rag_evaluator.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1ad467dcd4b6c746b36ed1f9c4d9e6f396" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::rag::distributed::DistributedEvaluatorConfig::per_judge_timeout</definition>
+        <argsstring></argsstring>
+        <name>per_judge_timeout</name>
+        <qualifiedname>themis::rag::distributed::DistributedEvaluatorConfig::per_judge_timeout</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Timeout for a single judge evaluation. Zero means no timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="62" column="31" bodyfile="include/rag/distributed_rag_evaluator.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1a529d33066b51266f2765cd5348a2dca9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::distributed::DistributedEvaluatorConfig::skip_failed_judges</definition>
+        <argsstring></argsstring>
+        <name>skip_failed_judges</name>
+        <qualifiedname>themis::rag::distributed::DistributedEvaluatorConfig::skip_failed_judges</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If true, a judge that times out or throws is skipped rather than causing evaluate() to throw. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="66" column="10" bodyfile="include/rag/distributed_rag_evaluator.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1a0e989b6986ea2648c6f0cab0835838dc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::distributed::DistributedEvaluatorConfig::min_successful_judges</definition>
+        <argsstring></argsstring>
+        <name>min_successful_judges</name>
+        <qualifiedname>themis::rag::distributed::DistributedEvaluatorConfig::min_successful_judges</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum number of successful judge responses required. If fewer judges respond successfully, evaluate() throws std::runtime_error. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="70" column="12" bodyfile="include/rag/distributed_rag_evaluator.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1distributed_1_1_distributed_r_a_g_evaluator" kindref="compound">DistributedRAGEvaluator</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/distributed_rag_evaluator.h" line="53" column="1" bodyfile="include/rag/distributed_rag_evaluator.h" bodystart="53" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1a3807adeb84a5d6baf77e9c837047eb2c" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedEvaluatorConfig</scope><name>aggregation</name></member>
+      <member refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1afdefafcdf1bdaa57061fb6219f3d033b" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedEvaluatorConfig</scope><name>max_parallel_judges</name></member>
+      <member refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1a0e989b6986ea2648c6f0cab0835838dc" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedEvaluatorConfig</scope><name>min_successful_judges</name></member>
+      <member refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1ad467dcd4b6c746b36ed1f9c4d9e6f396" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedEvaluatorConfig</scope><name>per_judge_timeout</name></member>
+      <member refid="structthemis_1_1rag_1_1distributed_1_1_distributed_evaluator_config_1a529d33066b51266f2765cd5348a2dca9" prot="public" virt="non-virtual"><scope>themis::rag::distributed::DistributedEvaluatorConfig</scope><name>skip_failed_judges</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,705 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_resource_profiler" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::ResourceProfiler</compoundname>
+    <includes refid="resource__profiler_8h" local="no">resource_profiler.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config" prot="public">themis::llm::lora::ResourceProfiler::Config</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_impl" prot="public">themis::llm::lora::ResourceProfiler::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a3fe7b7b96cf4730e3ce8dd5bc8270780" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::lora::ResourceProfiler::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="253" column="21" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a3991062ba031c83b141d99f2a5b91b87" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::ResourceProfiler::ResourceProfiler</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>ResourceProfiler</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::ResourceProfiler</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Resource Profiler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="155" column="14" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="30" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1af5b8c1b1df51afb0bd19479976076cf4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::ResourceProfiler::ResourceProfiler</definition>
+        <argsstring>()</argsstring>
+        <name>ResourceProfiler</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::ResourceProfiler</qualifiedname>
+        <briefdescription>
+<para>Resource Profiler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="160" column="14" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="35" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a4230545e91de88c0df1a32560edda9d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::ResourceProfiler::~ResourceProfiler</definition>
+        <argsstring>()</argsstring>
+        <name>~ResourceProfiler</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::~ResourceProfiler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="161" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1af86e262ce0a38b61787ef3cece2b4560" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::ResourceProfiler::ResourceProfiler</definition>
+        <argsstring>(const ResourceProfiler &amp;)=delete</argsstring>
+        <name>ResourceProfiler</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::ResourceProfiler</qualifiedname>
+        <param>
+          <type>const ResourceProfiler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="164" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1aea378598c5175c4552340b4639f8c2cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a3991062ba031c83b141d99f2a5b91b87" kindref="member">ResourceProfiler</ref> &amp;</type>
+        <definition>ResourceProfiler &amp; themis::llm::lora::ResourceProfiler::operator=</definition>
+        <argsstring>(const ResourceProfiler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a3991062ba031c83b141d99f2a5b91b87" kindref="member">ResourceProfiler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="165" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1ad433cbcae9e6f4d06373036ef1951429" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::ResourceProfiler::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements start without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="170" column="10" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="46" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a25c7a42f6ac538398b0969e56f1cc3f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::ResourceProfiler::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements stop without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="175" column="10" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="54" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1ab611d6570dd699e49bfcb1070fc35fad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::ResourceProfiler::snapshot</definition>
+        <argsstring>(int epoch, int step, float loss, float lr)</argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::snapshot</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>epoch</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>loss</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>lr</declname>
+        </param>
+        <briefdescription>
+<para>Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">epoch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">loss</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">epoch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">loss</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), query_gpu_memory(), query_cpu_memory(), query_gpu_utilization(), check_alerts(), push_back(), cb(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="184" column="10" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="66" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a27f1b59bc9bde541e817ea62fe6df6f9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot" kindref="compound">ResourceSnapshot</ref></type>
+        <definition>ResourceSnapshot themis::llm::lora::ResourceProfiler::get_current_snapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>get_current_snapshot</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::get_current_snapshot</qualifiedname>
+        <briefdescription>
+<para>Get current snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="190" column="22" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="86" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a648a102f7f457c0cd677c18150a9a761" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot" kindref="compound">ResourceSnapshot</ref> &gt;</type>
+        <definition>std::vector&lt; ResourceSnapshot &gt; themis::llm::lora::ResourceProfiler::get_snapshots</definition>
+        <argsstring>() const</argsstring>
+        <name>get_snapshots</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::get_snapshots</qualifiedname>
+        <briefdescription>
+<para>Get snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="196" column="17" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="93" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a5b16e6643f48c189edee2d803ca187e5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_resource_stats" kindref="compound">ResourceStats</ref></type>
+        <definition>ResourceStats themis::llm::lora::ResourceProfiler::compute_stats</definition>
+        <argsstring>() const</argsstring>
+        <name>compute_stats</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::compute_stats</qualifiedname>
+        <briefdescription>
+<para>Compute stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="202" column="19" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="97" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1aa447550371eb4ae1de2eff00d86c4c40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::ResourceProfiler::register_callback</definition>
+        <argsstring>(ResourceMonitorCallback callback)</argsstring>
+        <name>register_callback</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::register_callback</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1a5752101f086871306516c209ea3fc235" kindref="member">ResourceMonitorCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="208" column="10" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="126" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a1b1708e1dd7015d5ebbde458d8ca0c7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::ResourceProfiler::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="213" column="10" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="134" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a29c00cf12c039860ed9c199d81c102e6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::ResourceProfiler::is_running</definition>
+        <argsstring>() const</argsstring>
+        <name>is_running</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::is_running</qualifiedname>
+        <briefdescription>
+<para>Is running. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="219" column="10" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="138" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a7a92d6ff6ee32c1a2b6581061ba39117" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config" kindref="compound">Config</ref></type>
+        <definition>ResourceProfiler::Config themis::llm::lora::ResourceProfiler::get_config</definition>
+        <argsstring>() const</argsstring>
+        <name>get_config</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::get_config</qualifiedname>
+        <briefdescription>
+<para>Get config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="225" column="12" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="142" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1ab42b1ac2648b6e9fa0e395a963c35ebc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::ResourceProfiler::set_config</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>set_config</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::set_config</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_resource_profiler_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_config without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="231" column="10" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="151" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a4fb607840ec622bb07d7372262452f56" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::ResourceProfiler::export_to_json</definition>
+        <argsstring>(const std::string &amp;filename) const</argsstring>
+        <name>export_to_json</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::export_to_json</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+<para>Export to json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Out. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="237" column="10" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="155" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a2fca5eaea3da85df0ec5ba374d9ad26d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::ResourceProfiler::get_peak_gpu_memory</definition>
+        <argsstring>() const</argsstring>
+        <name>get_peak_gpu_memory</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::get_peak_gpu_memory</qualifiedname>
+        <briefdescription>
+<para>Get peak gpu memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="243" column="12" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="171" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1aa613c9d73d44d74421baab147c25e4c3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::ResourceProfiler::get_peak_cpu_memory</definition>
+        <argsstring>() const</argsstring>
+        <name>get_peak_cpu_memory</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::get_peak_cpu_memory</qualifiedname>
+        <briefdescription>
+<para>Get peak cpu memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="249" column="12" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="181" bodyend="189"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1af1d539993a94cca98bc4dd66ec84ac0d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::ResourceProfiler::query_gpu_memory</definition>
+        <argsstring>(ResourceSnapshot &amp;snapshot) const</argsstring>
+        <name>query_gpu_memory</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::query_gpu_memory</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot" kindref="compound">ResourceSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Query gpu memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="259" column="10" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="191" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1afcb7530d1ae43c4782b3721d187bf9bf" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::ResourceProfiler::query_cpu_memory</definition>
+        <argsstring>(ResourceSnapshot &amp;snapshot) const</argsstring>
+        <name>query_cpu_memory</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::query_cpu_memory</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot" kindref="compound">ResourceSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Query cpu memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="265" column="10" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1afe576efe98c0ec97919d9c269ecbc0b6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::ResourceProfiler::query_gpu_utilization</definition>
+        <argsstring>(ResourceSnapshot &amp;snapshot) const</argsstring>
+        <name>query_gpu_utilization</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::query_gpu_utilization</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot" kindref="compound">ResourceSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Query gpu utilization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="271" column="10" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="193" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1ae2683ebbdb5aec8e03b840b75af02382" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::ResourceProfiler::check_alerts</definition>
+        <argsstring>(const ResourceSnapshot &amp;snapshot)</argsstring>
+        <name>check_alerts</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::check_alerts</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot" kindref="compound">ResourceSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Check alerts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements check_alerts without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="277" column="10" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="199" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1ac1551d3ec76d69d34eee50d4450d9f37" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::ResourceProfiler::log_snapshot</definition>
+        <argsstring>(const ResourceSnapshot &amp;snapshot)</argsstring>
+        <name>log_snapshot</name>
+        <qualifiedname>themis::llm::lora::ResourceProfiler::log_snapshot</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_resource_snapshot" kindref="compound">ResourceSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Log snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements log_snapshot without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/resource_profiler.h" line="283" column="10" bodyfile="src/llm/lora_framework/resource_profiler.cpp" bodystart="205" bodyend="205"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/resource_profiler.h" line="135" column="1" bodyfile="include/llm/lora_framework/resource_profiler.h" bodystart="135" bodyend="284"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1ae2683ebbdb5aec8e03b840b75af02382" prot="private" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>check_alerts</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a1b1708e1dd7015d5ebbde458d8ca0c7b" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>clear</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a5b16e6643f48c189edee2d803ca187e5" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>compute_stats</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a4fb607840ec622bb07d7372262452f56" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>export_to_json</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a7a92d6ff6ee32c1a2b6581061ba39117" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>get_config</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a27f1b59bc9bde541e817ea62fe6df6f9" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>get_current_snapshot</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1aa613c9d73d44d74421baab147c25e4c3" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>get_peak_cpu_memory</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a2fca5eaea3da85df0ec5ba374d9ad26d" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>get_peak_gpu_memory</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a648a102f7f457c0cd677c18150a9a761" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>get_snapshots</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a3fe7b7b96cf4730e3ce8dd5bc8270780" prot="private" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a29c00cf12c039860ed9c199d81c102e6" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>is_running</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1ac1551d3ec76d69d34eee50d4450d9f37" prot="private" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>log_snapshot</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1aea378598c5175c4552340b4639f8c2cf" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1afcb7530d1ae43c4782b3721d187bf9bf" prot="private" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>query_cpu_memory</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1af1d539993a94cca98bc4dd66ec84ac0d" prot="private" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>query_gpu_memory</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1afe576efe98c0ec97919d9c269ecbc0b6" prot="private" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>query_gpu_utilization</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1aa447550371eb4ae1de2eff00d86c4c40" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>register_callback</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a3991062ba031c83b141d99f2a5b91b87" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>ResourceProfiler</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1af5b8c1b1df51afb0bd19479976076cf4" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>ResourceProfiler</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1af86e262ce0a38b61787ef3cece2b4560" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>ResourceProfiler</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1ab42b1ac2648b6e9fa0e395a963c35ebc" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>set_config</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1ab611d6570dd699e49bfcb1070fc35fad" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>snapshot</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1ad433cbcae9e6f4d06373036ef1951429" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>start</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a25c7a42f6ac538398b0969e56f1cc3f1" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>stop</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_resource_profiler_1a4230545e91de88c0df1a32560edda9d2" prot="public" virt="non-virtual"><scope>themis::llm::lora::ResourceProfiler</scope><name>~ResourceProfiler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

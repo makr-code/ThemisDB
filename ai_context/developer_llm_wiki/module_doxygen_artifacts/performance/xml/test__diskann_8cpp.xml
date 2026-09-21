@@ -1,0 +1,622 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__diskann_8cpp" kind="file" language="C++">
+    <compoundname>test_diskann.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="diskann_8h" local="yes">performance/phase3/diskann.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">random</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>performance/phase3/diskann.h</label>
+        <link refid="diskann_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/performance/phase3/test_diskann.cpp</label>
+        <link refid="test__diskann_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>filesystem</label>
+      </node>
+      <node id="10">
+        <label>fstream</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>random</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_disk_a_n_n_test" prot="public">DiskANNTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__diskann_8cpp_1a546364bd2b2facf4f39e6f84f9811396" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DiskANNLRUCachePerformanceTest, BasicOperations)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DiskANNLRUCachePerformanceTest</type>
+        </param>
+        <param>
+          <type>BasicOperations</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_diskann.cpp" line="27" column="1" bodyfile="tests/performance/phase3/test_diskann.cpp" bodystart="27" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="test__diskann_8cpp_1ad65f69469b814d91cbfc63076e1e6e0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DiskANNLRUCachePerformanceTest, Eviction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DiskANNLRUCachePerformanceTest</type>
+        </param>
+        <param>
+          <type>Eviction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_diskann.cpp" line="44" column="1" bodyfile="tests/performance/phase3/test_diskann.cpp" bodystart="44" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="test__diskann_8cpp_1a2fa8effb10937a3ae599f6a86cde6cfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VantagePointTreeTest, Construction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VantagePointTreeTest</type>
+        </param>
+        <param>
+          <type>Construction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_diskann.cpp" line="56" column="1" bodyfile="tests/performance/phase3/test_diskann.cpp" bodystart="56" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__diskann_8cpp_1a5c78f0f98f3df84409553db82391a89e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VantagePointTreeTest, EmptyTree)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VantagePointTreeTest</type>
+        </param>
+        <param>
+          <type>EmptyTree</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_diskann.cpp" line="73" column="1" bodyfile="tests/performance/phase3/test_diskann.cpp" bodystart="73" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__diskann_8cpp_1ad30018bf7a775ecf83cb70deb9efdc09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DiskANNTest, ConstructionAndDestruction)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref></type>
+        </param>
+        <param>
+          <type>ConstructionAndDestruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_diskann.cpp" line="83" column="1" bodyfile="tests/performance/phase3/test_diskann.cpp" bodystart="83" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__diskann_8cpp_1a215eaf43dd61096a6d1b54a587ebe074" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DiskANNTest, BuildSmallIndex)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref></type>
+        </param>
+        <param>
+          <type>BuildSmallIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_diskann.cpp" line="96" column="1" bodyfile="tests/performance/phase3/test_diskann.cpp" bodystart="96" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__diskann_8cpp_1a62c96e489df8c27f3e02b1da41dc7c11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DiskANNTest, SearchNearest)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref></type>
+        </param>
+        <param>
+          <type>SearchNearest</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_diskann.cpp" line="115" column="1" bodyfile="tests/performance/phase3/test_diskann.cpp" bodystart="115" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__diskann_8cpp_1a8ed866c44647dc997036a4595fb23d87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DiskANNTest, AddVector)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref></type>
+        </param>
+        <param>
+          <type>AddVector</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_diskann.cpp" line="140" column="1" bodyfile="tests/performance/phase3/test_diskann.cpp" bodystart="140" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__diskann_8cpp_1ab39f34591e753fb2c34ecd8f8b30ae74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DiskANNTest, CacheStatistics)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref></type>
+        </param>
+        <param>
+          <type>CacheStatistics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_diskann.cpp" line="159" column="1" bodyfile="tests/performance/phase3/test_diskann.cpp" bodystart="159" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__diskann_8cpp_1a28bf8d1df24bb5de0f83b075a95b7733" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DiskANNTest, GraphEdgesTracked)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref></type>
+        </param>
+        <param>
+          <type>GraphEdgesTracked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_diskann.cpp" line="181" column="1" bodyfile="tests/performance/phase3/test_diskann.cpp" bodystart="181" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="test__diskann_8cpp_1a1e7b49beb11d8944edff1f00a293f698" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DiskANNTest, SaveLoadMetadata)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref></type>
+        </param>
+        <param>
+          <type>SaveLoadMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_diskann.cpp" line="198" column="1" bodyfile="tests/performance/phase3/test_diskann.cpp" bodystart="198" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="test__diskann_8cpp_1af481b9a6d862de77fc1c81957fe6c51d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DiskANNTest, LargerDataset)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref></type>
+        </param>
+        <param>
+          <type>LargerDataset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_diskann.cpp" line="220" column="1" bodyfile="tests/performance/phase3/test_diskann.cpp" bodystart="220" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="test__diskann_8cpp_1aa48af61b432cd7e2152c24ea86ab3be3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DiskANNTest, EmptyIndexSearch)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyIndexSearch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_diskann.cpp" line="251" column="1" bodyfile="tests/performance/phase3/test_diskann.cpp" bodystart="251" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="test__diskann_8cpp_1add89122f998bbae9ef7b39d7cc5268dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DiskANNTest, DimensionMismatch)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref></type>
+        </param>
+        <param>
+          <type>DimensionMismatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase3/test_diskann.cpp" line="261" column="1" bodyfile="tests/performance/phase3/test_diskann.cpp" bodystart="261" bodyend="267"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Unit<sp/>tests<sp/>for<sp/>DiskANN<sp/>(Phase<sp/>3)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Based<sp/>on<sp/>&quot;DiskANN:<sp/>Fast<sp/>Accurate<sp/>Billion-point<sp/>Nearest<sp/>Neighbor<sp/>Search&quot;<sp/>(NeurIPS&apos;19)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="diskann_8h" kindref="compound">performance/phase3/diskann.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance_1_1phase3" kindref="compound">themis::performance::phase3</ref>;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11" refid="class_disk_a_n_n_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_disk_a_n_n_test_1a362ccaec2839ea1e019c5c9647b0511e" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_disk_a_n_n_test_1a7b41b1b7cd03b64776af84f825aa084d" kindref="member">test_dir_</ref><sp/>=<sp/>std::filesystem::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themis_diskann_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::create_directories(<ref refid="class_disk_a_n_n_test_1a7b41b1b7cd03b64776af84f825aa084d" kindref="member">test_dir_</ref>);</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_disk_a_n_n_test_1a7530a30cf5ed4d8a700fbb0a87ab3364" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_disk_a_n_n_test_1a7b41b1b7cd03b64776af84f825aa084d" kindref="member">test_dir_</ref>);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::path<sp/><ref refid="class_disk_a_n_n_test_1a7b41b1b7cd03b64776af84f825aa084d" kindref="member">test_dir_</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>====================<sp/>LRUCache<sp/>Tests<sp/>====================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="test__diskann_8cpp_1a546364bd2b2facf4f39e6f84f9811396" kindref="member">TEST</ref>(DiskANNLRUCachePerformanceTest,<sp/>BasicOperations)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_r_u_cache" kindref="compound">LRUCache&lt;int, std::string&gt;</ref><sp/>cache(3);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(1,<sp/></highlight><highlight class="stringliteral">&quot;one&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(2,<sp/></highlight><highlight class="stringliteral">&quot;two&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(3,<sp/></highlight><highlight class="stringliteral">&quot;three&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>value<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cache.get(1,<sp/>value));</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(value,<sp/></highlight><highlight class="stringliteral">&quot;one&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cache.get(2,<sp/>value));</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(value,<sp/></highlight><highlight class="stringliteral">&quot;two&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cache.get(99,<sp/>value));</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><ref refid="test__diskann_8cpp_1a546364bd2b2facf4f39e6f84f9811396" kindref="member">TEST</ref>(DiskANNLRUCachePerformanceTest,<sp/>Eviction)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_l_r_u_cache" kindref="compound">LRUCache&lt;int, std::string&gt;</ref><sp/>cache(2);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(1,<sp/></highlight><highlight class="stringliteral">&quot;one&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(2,<sp/></highlight><highlight class="stringliteral">&quot;two&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(3,<sp/></highlight><highlight class="stringliteral">&quot;three&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>evict<sp/>one<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>====================<sp/>VantagePointTree<sp/>Tests<sp/>====================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__diskann_8cpp_1a546364bd2b2facf4f39e6f84f9811396" kindref="member">TEST</ref>(VantagePointTreeTest,<sp/>Construction)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;VectorID,<sp/>std::vector&lt;float&gt;&gt;&gt;<sp/>vectors<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/>{1.0f,<sp/>0.0f}},</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{2,<sp/>{0.0f,<sp/>1.0f}},</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{3,<sp/>{1.0f,<sp/>1.0f}}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_vantage_point_tree" kindref="compound">VantagePointTree</ref><sp/>vp_tree(vectors);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Find<sp/>entry<sp/>point<sp/>for<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>query<sp/>=<sp/>{0.9f,<sp/>0.1f};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1performance_1_1phase3_1ac2d555c6153e6ef21ef9c1bd089f2877" kindref="member">VectorID</ref><sp/>entry<sp/>=<sp/>vp_tree.find_entry_point(query);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>return<sp/>closest<sp/>vector<sp/>(ID<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry,<sp/>1u);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="test__diskann_8cpp_1a546364bd2b2facf4f39e6f84f9811396" kindref="member">TEST</ref>(VantagePointTreeTest,<sp/>EmptyTree)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;VectorID,<sp/>std::vector&lt;float&gt;&gt;&gt;<sp/>vectors;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_vantage_point_tree" kindref="compound">VantagePointTree</ref><sp/>vp_tree(vectors);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>query<sp/>=<sp/>{1.0f,<sp/>0.0f};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(vp_tree.find_entry_point(query),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>====================<sp/>DiskANNIndex<sp/>Tests<sp/>====================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="test__diskann_8cpp_1ad30018bf7a775ecf83cb70deb9efdc09" kindref="member">TEST_F</ref>(<ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref>,<sp/>ConstructionAndDestruction)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>index_path<sp/>=<sp/>test_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;test_index.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index" kindref="compound">DiskANNIndex</ref><sp/>index(4,<sp/>index_path.string(),<sp/>10);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Index<sp/>should<sp/>be<sp/>created</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::filesystem::exists(index_path));</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>File<sp/>should<sp/>exist<sp/>after<sp/>destruction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::filesystem::exists(index_path));</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__diskann_8cpp_1ad30018bf7a775ecf83cb70deb9efdc09" kindref="member">TEST_F</ref>(<ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref>,<sp/>BuildSmallIndex)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>index_path<sp/>=<sp/>test_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;small_index.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index" kindref="compound">DiskANNIndex</ref><sp/>index(2,<sp/>index_path.string(),<sp/>10);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>index<sp/>with<sp/>5<sp/>vectors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;VectorID,<sp/>std::vector&lt;float&gt;&gt;&gt;<sp/>vectors<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/>{1.0f,<sp/>0.0f}},</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{2,<sp/>{0.0f,<sp/>1.0f}},</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{3,<sp/>{1.0f,<sp/>1.0f}},</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{4,<sp/>{0.5f,<sp/>0.5f}},</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{5,<sp/>{0.8f,<sp/>0.2f}}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>index.build(vectors);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>index.get_stats();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.num_vectors,<sp/>5u);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="test__diskann_8cpp_1ad30018bf7a775ecf83cb70deb9efdc09" kindref="member">TEST_F</ref>(<ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref>,<sp/>SearchNearest)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>index_path<sp/>=<sp/>test_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;search_index.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index" kindref="compound">DiskANNIndex</ref><sp/>index(2,<sp/>index_path.string(),<sp/>10);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;VectorID,<sp/>std::vector&lt;float&gt;&gt;&gt;<sp/>vectors<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/>{1.0f,<sp/>0.0f}},</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{2,<sp/>{0.0f,<sp/>1.0f}},</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{3,<sp/>{1.0f,<sp/>1.0f}},</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{4,<sp/>{0.0f,<sp/>0.0f}}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>index.build(vectors);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Search<sp/>for<sp/>nearest<sp/>neighbor<sp/>to<sp/>(0.9,<sp/>0.1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>query<sp/>=<sp/>{0.9f,<sp/>0.1f};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>index.search(query,<sp/>2);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(results.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>result<sp/>should<sp/>be<sp/>closest<sp/>(ID<sp/>1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>1u);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="test__diskann_8cpp_1ad30018bf7a775ecf83cb70deb9efdc09" kindref="member">TEST_F</ref>(<ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref>,<sp/>AddVector)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>index_path<sp/>=<sp/>test_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;add_index.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index" kindref="compound">DiskANNIndex</ref><sp/>index(2,<sp/>index_path.string(),<sp/>10);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>initial<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;VectorID,<sp/>std::vector&lt;float&gt;&gt;&gt;<sp/>vectors<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/>{1.0f,<sp/>0.0f}},</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{2,<sp/>{0.0f,<sp/>1.0f}}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>index.build(vectors);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>new<sp/>vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>index.add(3,<sp/>{0.5f,<sp/>0.5f});</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>index.get_stats();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.num_vectors,<sp/>3u);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="test__diskann_8cpp_1ad30018bf7a775ecf83cb70deb9efdc09" kindref="member">TEST_F</ref>(<ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref>,<sp/>CacheStatistics)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>index_path<sp/>=<sp/>test_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;cache_index.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index" kindref="compound">DiskANNIndex</ref><sp/>index(2,<sp/>index_path.string(),<sp/>1);<sp/><sp/></highlight><highlight class="comment">//<sp/>Small<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;VectorID,<sp/>std::vector&lt;float&gt;&gt;&gt;<sp/>vectors<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/>{1.0f,<sp/>0.0f}},</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{2,<sp/>{0.0f,<sp/>1.0f}},</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{3,<sp/>{1.0f,<sp/>1.0f}}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>index.build(vectors);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Perform<sp/>searches<sp/>to<sp/>generate<sp/>cache<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>query<sp/>=<sp/>{0.5f,<sp/>0.5f};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>index.search(query,<sp/>1);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>index.search(query,<sp/>1);<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>have<sp/>some<sp/>cache<sp/>hits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>index.get_stats();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats.cache_hits<sp/>+<sp/>stats.cache_misses,<sp/>0u);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="test__diskann_8cpp_1ad30018bf7a775ecf83cb70deb9efdc09" kindref="member">TEST_F</ref>(<ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref>,<sp/>GraphEdgesTracked)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>index_path<sp/>=<sp/>test_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;edges_index.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index" kindref="compound">DiskANNIndex</ref><sp/>index(2,<sp/>index_path.string(),<sp/>10);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;VectorID,<sp/>std::vector&lt;float&gt;&gt;&gt;<sp/>vectors<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/>{1.0f,<sp/>0.0f}},</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{2,<sp/>{0.0f,<sp/>1.0f}},</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{3,<sp/>{1.0f,<sp/>1.0f}},</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{4,<sp/>{0.5f,<sp/>0.5f}}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>index.build(vectors);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>index.get_stats();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats.graph_edges,<sp/>0u);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><ref refid="test__diskann_8cpp_1ad30018bf7a775ecf83cb70deb9efdc09" kindref="member">TEST_F</ref>(<ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref>,<sp/>SaveLoadMetadata)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>index_path<sp/>=<sp/>test_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;meta_index.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index" kindref="compound">DiskANNIndex</ref><sp/>index(2,<sp/>index_path.string(),<sp/>10);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;VectorID,<sp/>std::vector&lt;float&gt;&gt;&gt;<sp/>vectors<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/>{1.0f,<sp/>0.0f}},</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{2,<sp/>{0.0f,<sp/>1.0f}},</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{3,<sp/>{1.0f,<sp/>1.0f}}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>index.build(vectors);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(index.save(index_path.string()));</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>into<sp/>a<sp/>fresh<sp/>index<sp/>instance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index" kindref="compound">DiskANNIndex</ref><sp/>index2(2,<sp/>index_path.string(),<sp/>10);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(index2.load(index_path.string()));</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>index2.get_stats();</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.num_vectors,<sp/>3u);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats.graph_edges,<sp/>0u);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><ref refid="test__diskann_8cpp_1ad30018bf7a775ecf83cb70deb9efdc09" kindref="member">TEST_F</ref>(<ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref>,<sp/>LargerDataset)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>index_path<sp/>=<sp/>test_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;large_index.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index" kindref="compound">DiskANNIndex</ref><sp/>index(4,<sp/>index_path.string(),<sp/>100);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>100<sp/>random<sp/>vectors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(42);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;float&gt;<sp/>dist(0.0f,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;VectorID,<sp/>std::vector&lt;float&gt;&gt;&gt;<sp/>vectors;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(<ref refid="namespacethemis_1_1performance_1_1phase3_1ac2d555c6153e6ef21ef9c1bd089f2877" kindref="member">VectorID</ref><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;=<sp/>100;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>vec(4);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>4;<sp/>j++)<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vec[j]<sp/>=<sp/>dist(rng);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vectors.push_back({i,<sp/>vec});</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>index.build(vectors);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Search</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>query<sp/>=<sp/>{0.5f,<sp/>0.5f,<sp/>0.5f,<sp/>0.5f};</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>index.search(query,<sp/>10);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>10u);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Results<sp/>should<sp/>be<sp/>sorted<sp/>by<sp/>distance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>results.size();<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(results[i-1].distance,<sp/>results[i].distance);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><ref refid="test__diskann_8cpp_1ad30018bf7a775ecf83cb70deb9efdc09" kindref="member">TEST_F</ref>(<ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref>,<sp/>EmptyIndexSearch)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>index_path<sp/>=<sp/>test_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;empty_index.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index" kindref="compound">DiskANNIndex</ref><sp/>index(2,<sp/>index_path.string(),<sp/>10);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>query<sp/>=<sp/>{1.0f,<sp/>0.0f};</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>index.search(query,<sp/>5);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results.empty());</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><ref refid="test__diskann_8cpp_1ad30018bf7a775ecf83cb70deb9efdc09" kindref="member">TEST_F</ref>(<ref refid="class_disk_a_n_n_test" kindref="compound">DiskANNTest</ref>,<sp/>DimensionMismatch)<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>index_path<sp/>=<sp/>test_dir_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;dim_index.bin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase3_1_1_disk_a_n_n_index" kindref="compound">DiskANNIndex</ref><sp/>index(2,<sp/>index_path.string(),<sp/>10);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>add<sp/>vector<sp/>with<sp/>wrong<sp/>dimension</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(index.add(1,<sp/>{1.0f,<sp/>0.0f,<sp/>0.0f}),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/performance/phase3/test_diskann.cpp"/>
+  </compounddef>
+</doxygen>

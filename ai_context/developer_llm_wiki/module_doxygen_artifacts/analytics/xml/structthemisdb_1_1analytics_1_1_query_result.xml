@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_query_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::QueryResult</compoundname>
+    <includes refid="analytics__engine_8h" local="no">analytics_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_query_result_1af391c0170a0e2fb9510750c37416df30" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::QueryResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themisdb::analytics::QueryResult::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Execution succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="42" column="10" bodyfile="include/analytics/analytics_engine.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_query_result_1a741ff2cb5c9a3fbc64528797f6179559" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::QueryResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themisdb::analytics::QueryResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Error details if failed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="43" column="17" bodyfile="include/analytics/analytics_engine.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_query_result_1a2ff9b8803538620ab70da835fa83d6ac" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;std::string&gt; &gt; themisdb::analytics::QueryResult::rows</definition>
+        <argsstring></argsstring>
+        <name>rows</name>
+        <qualifiedname>themisdb::analytics::QueryResult::rows</qualifiedname>
+        <briefdescription>
+<para>Result rows. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="44" column="17" bodyfile="include/analytics/analytics_engine.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_query_result_1a75713192cf766629b65ddba8cf53facc" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::QueryResult::row_count</definition>
+        <argsstring></argsstring>
+        <name>row_count</name>
+        <qualifiedname>themisdb::analytics::QueryResult::row_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of rows returned. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="45" column="13" bodyfile="include/analytics/analytics_engine.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_query_result_1a8d37a2dfe4584e1ba4ed9d52895cce93" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::QueryResult::affected_rows</definition>
+        <argsstring></argsstring>
+        <name>affected_rows</name>
+        <qualifiedname>themisdb::analytics::QueryResult::affected_rows</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of rows affected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="46" column="13" bodyfile="include/analytics/analytics_engine.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_query_result_1a4ddc06c075abadb4e9546e580f9a4b84" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::QueryResult::duration</definition>
+        <argsstring></argsstring>
+        <name>duration</name>
+        <qualifiedname>themisdb::analytics::QueryResult::duration</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Query execution time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="47" column="31" bodyfile="include/analytics/analytics_engine.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/analytics_engine.h" line="41" column="1" bodyfile="include/analytics/analytics_engine.h" bodystart="41" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_query_result_1a8d37a2dfe4584e1ba4ed9d52895cce93" prot="public" virt="non-virtual"><scope>themisdb::analytics::QueryResult</scope><name>affected_rows</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_query_result_1a4ddc06c075abadb4e9546e580f9a4b84" prot="public" virt="non-virtual"><scope>themisdb::analytics::QueryResult</scope><name>duration</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_query_result_1a741ff2cb5c9a3fbc64528797f6179559" prot="public" virt="non-virtual"><scope>themisdb::analytics::QueryResult</scope><name>error_message</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_query_result_1a75713192cf766629b65ddba8cf53facc" prot="public" virt="non-virtual"><scope>themisdb::analytics::QueryResult</scope><name>row_count</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_query_result_1a2ff9b8803538620ab70da835fa83d6ac" prot="public" virt="non-virtual"><scope>themisdb::analytics::QueryResult</scope><name>rows</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_query_result_1af391c0170a0e2fb9510750c37416df30" prot="public" virt="non-virtual"><scope>themisdb::analytics::QueryResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,648 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_participant" kind="class" language="C++" prot="public">
+    <compoundname>MockParticipant</compoundname>
+    <basecompoundref refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback" prot="public" virt="non-virtual">themis::transaction::IDistributedParticipantCallback</basecompoundref>
+    <basecompoundref refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback" prot="public" virt="non-virtual">themis::transaction::IDistributedParticipantCallback</basecompoundref>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Policy</name>
+        <qualifiedname>MockParticipant::Policy</qualifiedname>
+        <enumvalue id="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37a1d0ba376e273b9d622641124d8c59264" prot="public">
+          <name>COMMIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37a8d12a2ca7e5a64036d7251a3eda51a38" prot="public">
+          <name>ABORT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37a655474de4674aba7a436a73cd8d9a906" prot="public">
+          <name>THROW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37ae19b2e2dcd43966d1f0dc4d00df1e3a2" prot="public">
+          <name>ALWAYS_COMMIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37aaf58bc677ea13ed4509d61dc281b8fe9" prot="public">
+          <name>ALWAYS_ABORT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37af5e3a37ed14d1d1da6aa4d015f75aca7" prot="public">
+          <name>THROW_ON_PREPARE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_grpc_rpc_adapter.cpp" line="67" column="5" bodyfile="tests/transaction/test_grpc_rpc_adapter.cpp" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="enum" id="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Policy</name>
+        <qualifiedname>MockParticipant::Policy</qualifiedname>
+        <enumvalue id="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37a1d0ba376e273b9d622641124d8c59264" prot="public">
+          <name>COMMIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37a8d12a2ca7e5a64036d7251a3eda51a38" prot="public">
+          <name>ABORT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37a655474de4674aba7a436a73cd8d9a906" prot="public">
+          <name>THROW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37ae19b2e2dcd43966d1f0dc4d00df1e3a2" prot="public">
+          <name>ALWAYS_COMMIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37aaf58bc677ea13ed4509d61dc281b8fe9" prot="public">
+          <name>ALWAYS_ABORT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37af5e3a37ed14d1d1da6aa4d015f75aca7" prot="public">
+          <name>THROW_ON_PREPARE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="50" column="5" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="50" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_mock_participant_1a90463f546a6aa22dd0c023cb48f93bf8" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; MockParticipant::prepare_count</definition>
+        <argsstring></argsstring>
+        <name>prepare_count</name>
+        <qualifiedname>MockParticipant::prepare_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_grpc_rpc_adapter.cpp" line="80" column="17" bodyfile="tests/transaction/test_grpc_rpc_adapter.cpp" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_participant_1ad3deef15cb574f788fe517a419bb4c8d" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; MockParticipant::commit_count</definition>
+        <argsstring></argsstring>
+        <name>commit_count</name>
+        <qualifiedname>MockParticipant::commit_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_grpc_rpc_adapter.cpp" line="81" column="17" bodyfile="tests/transaction/test_grpc_rpc_adapter.cpp" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_participant_1af2dcd01639fe35b175c34b2553360d6b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; MockParticipant::abort_count</definition>
+        <argsstring></argsstring>
+        <name>abort_count</name>
+        <qualifiedname>MockParticipant::abort_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_grpc_rpc_adapter.cpp" line="82" column="17" bodyfile="tests/transaction/test_grpc_rpc_adapter.cpp" bodystart="82" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_participant_1adbdb2bd10146b9d15863d0fec9667825" prot="private" static="no" mutable="no">
+        <type><ref refid="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37" kindref="member">Policy</ref></type>
+        <definition>Policy MockParticipant::policy_</definition>
+        <argsstring></argsstring>
+        <name>policy_</name>
+        <qualifiedname>MockParticipant::policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_grpc_rpc_adapter.cpp" line="84" column="12" bodyfile="tests/transaction/test_grpc_rpc_adapter.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_participant_1a4e96a57f5f80fe7da572f9a9d588ad9f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex MockParticipant::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>MockParticipant::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="99" column="24" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_participant_1a03cfd8ceaf9fff29e83f90a16c2b6270" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockParticipant::last_prepare_txn_</definition>
+        <argsstring></argsstring>
+        <name>last_prepare_txn_</name>
+        <qualifiedname>MockParticipant::last_prepare_txn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="100" column="23" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_participant_1afca6bc67e046ac4695aa4867373196b1" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockParticipant::last_commit_txn_</definition>
+        <argsstring></argsstring>
+        <name>last_commit_txn_</name>
+        <qualifiedname>MockParticipant::last_commit_txn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="101" column="23" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_participant_1aac929f6c9e2d91661f445320cda01e76" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockParticipant::last_abort_txn_</definition>
+        <argsstring></argsstring>
+        <name>last_abort_txn_</name>
+        <qualifiedname>MockParticipant::last_abort_txn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="102" column="23" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_participant_1a1bc2bfc862a7978a73ee10a921aa76d2" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; MockParticipant::prepare_count_</definition>
+        <argsstring></argsstring>
+        <name>prepare_count_</name>
+        <qualifiedname>MockParticipant::prepare_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="103" column="18" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_participant_1a60d80bf91721240b8dd0d6db680e0960" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; MockParticipant::commit_count_</definition>
+        <argsstring></argsstring>
+        <name>commit_count_</name>
+        <qualifiedname>MockParticipant::commit_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="104" column="18" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_participant_1a18398fcbe8cb88063c0eb9f355763e84" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; MockParticipant::abort_count_</definition>
+        <argsstring></argsstring>
+        <name>abort_count_</name>
+        <qualifiedname>MockParticipant::abort_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="105" column="18" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_participant_1a9db0ecfe34995535dc22a8f71b5989dc" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::set&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::set&lt;std::string&gt; &gt; MockParticipant::prepared_keys_</definition>
+        <argsstring></argsstring>
+        <name>prepared_keys_</name>
+        <qualifiedname>MockParticipant::prepared_keys_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="106" column="14" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_participant_1a39d69080f0d41035b4ba2945da9bc310" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MockParticipant::MockParticipant</definition>
+        <argsstring>(Policy p=Policy::COMMIT)</argsstring>
+        <name>MockParticipant</name>
+        <qualifiedname>MockParticipant::MockParticipant</qualifiedname>
+        <param>
+          <type><ref refid="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37" kindref="member">Policy</ref></type>
+          <declname>p</declname>
+          <defval><ref refid="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37a1d0ba376e273b9d622641124d8c59264" kindref="member">Policy::COMMIT</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_grpc_rpc_adapter.cpp" line="68" column="14" bodyfile="tests/transaction/test_grpc_rpc_adapter.cpp" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_participant_1a8046873deaa9c7c23657f69bec051556" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool MockParticipant::onPrepare</definition>
+        <argsstring>(const std::string &amp;, const std::set&lt; std::string &gt; &amp;) override</argsstring>
+        <name>onPrepare</name>
+        <qualifiedname>MockParticipant::onPrepare</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1a89abea487b7f9ed7022470ed41faba06">onPrepare</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::set&lt; std::string &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_grpc_rpc_adapter.cpp" line="70" column="10" bodyfile="tests/transaction/test_grpc_rpc_adapter.cpp" bodystart="70" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_participant_1afcff8d44a0340bf97f3e73c8ce80063a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockParticipant::onCommit</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>onCommit</name>
+        <qualifiedname>MockParticipant::onCommit</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1af647d0102bad4e770015b086d7cf399a">onCommit</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>On Commit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_grpc_rpc_adapter.cpp" line="77" column="10" bodyfile="tests/transaction/test_grpc_rpc_adapter.cpp" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_participant_1a4a72fde71c3bd3224a2c7eb8280b569b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockParticipant::onAbort</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>onAbort</name>
+        <qualifiedname>MockParticipant::onAbort</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1a683d107218ed5398400b54b9dd8765c8">onAbort</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>On Abort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_grpc_rpc_adapter.cpp" line="78" column="10" bodyfile="tests/transaction/test_grpc_rpc_adapter.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_participant_1ac7a77f79efdcaa8e323280311a8ebc3c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MockParticipant::MockParticipant</definition>
+        <argsstring>(Policy policy=Policy::ALWAYS_COMMIT)</argsstring>
+        <name>MockParticipant</name>
+        <qualifiedname>MockParticipant::MockParticipant</qualifiedname>
+        <param>
+          <type><ref refid="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37" kindref="member">Policy</ref></type>
+          <declname>policy</declname>
+          <defval><ref refid="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37ae19b2e2dcd43966d1f0dc4d00df1e3a2" kindref="member">Policy::ALWAYS_COMMIT</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="52" column="14" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="52" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_participant_1ace7b9162cb13e27f7e862b319d6e199e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool MockParticipant::onPrepare</definition>
+        <argsstring>(const std::string &amp;txn_id, const std::set&lt; std::string &gt; &amp;keys) override</argsstring>
+        <name>onPrepare</name>
+        <qualifiedname>MockParticipant::onPrepare</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1a89abea487b7f9ed7022470ed41faba06">onPrepare</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::set&lt; std::string &gt; &amp;</type>
+          <declname>keys</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="55" column="10" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="55" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_participant_1a9ad157a1f82ac389843b6ea82d42bca6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockParticipant::onCommit</definition>
+        <argsstring>(const std::string &amp;txn_id) override</argsstring>
+        <name>onCommit</name>
+        <qualifiedname>MockParticipant::onCommit</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1af647d0102bad4e770015b086d7cf399a">onCommit</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>On Commit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="67" column="10" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="67" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_participant_1aa1fb35148c2cf66558590cbc560a567e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockParticipant::onAbort</definition>
+        <argsstring>(const std::string &amp;txn_id) override</argsstring>
+        <name>onAbort</name>
+        <qualifiedname>MockParticipant::onAbort</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1a683d107218ed5398400b54b9dd8765c8">onAbort</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>On Abort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="73" column="10" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="73" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_participant_1a52d28372808c0adc6fb845b75e557212" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int MockParticipant::prepareCount</definition>
+        <argsstring>() const</argsstring>
+        <name>prepareCount</name>
+        <qualifiedname>MockParticipant::prepareCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="80" column="9" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_participant_1af38284e04d09d7e1b28bfb58f9a10385" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int MockParticipant::commitCount</definition>
+        <argsstring>() const</argsstring>
+        <name>commitCount</name>
+        <qualifiedname>MockParticipant::commitCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="81" column="9" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_participant_1ab205cb14307f50de38e2a2ca077ecd29" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int MockParticipant::abortCount</definition>
+        <argsstring>() const</argsstring>
+        <name>abortCount</name>
+        <qualifiedname>MockParticipant::abortCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="82" column="9" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_participant_1a1cef32a8de1f948b55e6b6ffcd04bfcb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string MockParticipant::lastPrepareTxn</definition>
+        <argsstring>() const</argsstring>
+        <name>lastPrepareTxn</name>
+        <qualifiedname>MockParticipant::lastPrepareTxn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="84" column="17" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="84" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_participant_1aa464150cf78b17a9b33ff03e996f5972" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string MockParticipant::lastCommitTxn</definition>
+        <argsstring>() const</argsstring>
+        <name>lastCommitTxn</name>
+        <qualifiedname>MockParticipant::lastCommitTxn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="88" column="17" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="88" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_participant_1abfb9e9bbc1c09a934c93efd198f5d39a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string MockParticipant::lastAbortTxn</definition>
+        <argsstring>() const</argsstring>
+        <name>lastAbortTxn</name>
+        <qualifiedname>MockParticipant::lastAbortTxn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_distributed_2pc.cpp" line="92" column="17" bodyfile="tests/transaction/test_transaction_distributed_2pc.cpp" bodystart="92" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockParticipant</label>
+        <link refid="class_mock_participant"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::transaction::IDistributedParticipantCallback</label>
+        <link refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockParticipant</label>
+        <link refid="class_mock_participant"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::transaction::IDistributedParticipantCallback</label>
+        <link refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_grpc_rpc_adapter.cpp" line="65" column="1" bodyfile="tests/transaction/test_grpc_rpc_adapter.cpp" bodystart="65" bodyend="85"/>
+    <listofallmembers>
+      <member refid="class_mock_participant_1af2dcd01639fe35b175c34b2553360d6b" prot="public" virt="non-virtual"><scope>MockParticipant</scope><name>abort_count</name></member>
+      <member refid="class_mock_participant_1a18398fcbe8cb88063c0eb9f355763e84" prot="private" virt="non-virtual"><scope>MockParticipant</scope><name>abort_count_</name></member>
+      <member refid="class_mock_participant_1ab205cb14307f50de38e2a2ca077ecd29" prot="public" virt="non-virtual"><scope>MockParticipant</scope><name>abortCount</name></member>
+      <member refid="class_mock_participant_1ad3deef15cb574f788fe517a419bb4c8d" prot="public" virt="non-virtual"><scope>MockParticipant</scope><name>commit_count</name></member>
+      <member refid="class_mock_participant_1a60d80bf91721240b8dd0d6db680e0960" prot="private" virt="non-virtual"><scope>MockParticipant</scope><name>commit_count_</name></member>
+      <member refid="class_mock_participant_1af38284e04d09d7e1b28bfb58f9a10385" prot="public" virt="non-virtual"><scope>MockParticipant</scope><name>commitCount</name></member>
+      <member refid="class_mock_participant_1aac929f6c9e2d91661f445320cda01e76" prot="private" virt="non-virtual"><scope>MockParticipant</scope><name>last_abort_txn_</name></member>
+      <member refid="class_mock_participant_1afca6bc67e046ac4695aa4867373196b1" prot="private" virt="non-virtual"><scope>MockParticipant</scope><name>last_commit_txn_</name></member>
+      <member refid="class_mock_participant_1a03cfd8ceaf9fff29e83f90a16c2b6270" prot="private" virt="non-virtual"><scope>MockParticipant</scope><name>last_prepare_txn_</name></member>
+      <member refid="class_mock_participant_1abfb9e9bbc1c09a934c93efd198f5d39a" prot="public" virt="non-virtual"><scope>MockParticipant</scope><name>lastAbortTxn</name></member>
+      <member refid="class_mock_participant_1aa464150cf78b17a9b33ff03e996f5972" prot="public" virt="non-virtual"><scope>MockParticipant</scope><name>lastCommitTxn</name></member>
+      <member refid="class_mock_participant_1a1cef32a8de1f948b55e6b6ffcd04bfcb" prot="public" virt="non-virtual"><scope>MockParticipant</scope><name>lastPrepareTxn</name></member>
+      <member refid="class_mock_participant_1a39d69080f0d41035b4ba2945da9bc310" prot="public" virt="non-virtual"><scope>MockParticipant</scope><name>MockParticipant</name></member>
+      <member refid="class_mock_participant_1ac7a77f79efdcaa8e323280311a8ebc3c" prot="public" virt="non-virtual"><scope>MockParticipant</scope><name>MockParticipant</name></member>
+      <member refid="class_mock_participant_1a4e96a57f5f80fe7da572f9a9d588ad9f" prot="private" virt="non-virtual"><scope>MockParticipant</scope><name>mu_</name></member>
+      <member refid="class_mock_participant_1a4a72fde71c3bd3224a2c7eb8280b569b" prot="public" virt="virtual"><scope>MockParticipant</scope><name>onAbort</name></member>
+      <member refid="class_mock_participant_1aa1fb35148c2cf66558590cbc560a567e" prot="public" virt="virtual"><scope>MockParticipant</scope><name>onAbort</name></member>
+      <member refid="class_mock_participant_1afcff8d44a0340bf97f3e73c8ce80063a" prot="public" virt="virtual"><scope>MockParticipant</scope><name>onCommit</name></member>
+      <member refid="class_mock_participant_1a9ad157a1f82ac389843b6ea82d42bca6" prot="public" virt="virtual"><scope>MockParticipant</scope><name>onCommit</name></member>
+      <member refid="class_mock_participant_1a8046873deaa9c7c23657f69bec051556" prot="public" virt="virtual"><scope>MockParticipant</scope><name>onPrepare</name></member>
+      <member refid="class_mock_participant_1ace7b9162cb13e27f7e862b319d6e199e" prot="public" virt="virtual"><scope>MockParticipant</scope><name>onPrepare</name></member>
+      <member refid="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37" prot="public" virt="non-virtual"><scope>MockParticipant</scope><name>Policy</name></member>
+      <member refid="class_mock_participant_1a32d01857c223fdeffc497c3e3d77af37" prot="public" virt="non-virtual"><scope>MockParticipant</scope><name>Policy</name></member>
+      <member refid="class_mock_participant_1adbdb2bd10146b9d15863d0fec9667825" prot="private" virt="non-virtual"><scope>MockParticipant</scope><name>policy_</name></member>
+      <member refid="class_mock_participant_1a90463f546a6aa22dd0c023cb48f93bf8" prot="public" virt="non-virtual"><scope>MockParticipant</scope><name>prepare_count</name></member>
+      <member refid="class_mock_participant_1a1bc2bfc862a7978a73ee10a921aa76d2" prot="private" virt="non-virtual"><scope>MockParticipant</scope><name>prepare_count_</name></member>
+      <member refid="class_mock_participant_1a52d28372808c0adc6fb845b75e557212" prot="public" virt="non-virtual"><scope>MockParticipant</scope><name>prepareCount</name></member>
+      <member refid="class_mock_participant_1a9db0ecfe34995535dc22a8f71b5989dc" prot="private" virt="non-virtual"><scope>MockParticipant</scope><name>prepared_keys_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_distributed_participant_callback_1a8c6c340c8cd2ab3b390cf90c13cac610" prot="public" virt="virtual"><scope>MockParticipant</scope><name>~IDistributedParticipantCallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

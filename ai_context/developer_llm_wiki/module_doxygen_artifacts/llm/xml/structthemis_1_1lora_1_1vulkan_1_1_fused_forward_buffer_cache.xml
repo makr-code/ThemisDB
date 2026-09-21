@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache" kind="struct" language="C++" prot="public">
+    <compoundname>themis::lora::vulkan::FusedForwardBufferCache</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1a1d18b2bcbda64797dfa24761243935db" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context" kindref="compound">VulkanContext</ref> *</type>
+        <definition>VulkanContext* themis::lora::vulkan::FusedForwardBufferCache::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>themis::lora::vulkan::FusedForwardBufferCache::context</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="142" column="19" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1a4e926a22de46f0c4e957bf4f535639c3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::lora::vulkan::FusedForwardBufferCache::size_input</definition>
+        <argsstring></argsstring>
+        <name>size_input</name>
+        <qualifiedname>themis::lora::vulkan::FusedForwardBufferCache::size_input</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="143" column="12" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1ab0b80cd4f20bf844504bea8cafb54818" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::lora::vulkan::FusedForwardBufferCache::size_B</definition>
+        <argsstring></argsstring>
+        <name>size_B</name>
+        <qualifiedname>themis::lora::vulkan::FusedForwardBufferCache::size_B</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="144" column="12" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1a7580ee8d8c0ec6fb8f85d94a27d4de17" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::lora::vulkan::FusedForwardBufferCache::size_A</definition>
+        <argsstring></argsstring>
+        <name>size_A</name>
+        <qualifiedname>themis::lora::vulkan::FusedForwardBufferCache::size_A</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="145" column="12" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1a0d091c8d270218560b6cc711a691b2d5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::lora::vulkan::FusedForwardBufferCache::size_h</definition>
+        <argsstring></argsstring>
+        <name>size_h</name>
+        <qualifiedname>themis::lora::vulkan::FusedForwardBufferCache::size_h</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="146" column="12" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1a240124d142c2e2539d7309987a13f4be" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::lora::vulkan::FusedForwardBufferCache::size_output</definition>
+        <argsstring></argsstring>
+        <name>size_output</name>
+        <qualifiedname>themis::lora::vulkan::FusedForwardBufferCache::size_output</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="147" column="12" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1ab50742591fc92bdca91dbfb12d944ccd" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer" kindref="compound">VulkanBuffer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;VulkanBuffer&gt; themis::lora::vulkan::FusedForwardBufferCache::buf_input</definition>
+        <argsstring></argsstring>
+        <name>buf_input</name>
+        <qualifiedname>themis::lora::vulkan::FusedForwardBufferCache::buf_input</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="149" column="21" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1aa8b13f8a6082d7226d6fd546f82516d6" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer" kindref="compound">VulkanBuffer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;VulkanBuffer&gt; themis::lora::vulkan::FusedForwardBufferCache::buf_B</definition>
+        <argsstring></argsstring>
+        <name>buf_B</name>
+        <qualifiedname>themis::lora::vulkan::FusedForwardBufferCache::buf_B</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="150" column="21" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1a1cca1b05fb46097aa81b0a2f45968223" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer" kindref="compound">VulkanBuffer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;VulkanBuffer&gt; themis::lora::vulkan::FusedForwardBufferCache::buf_A</definition>
+        <argsstring></argsstring>
+        <name>buf_A</name>
+        <qualifiedname>themis::lora::vulkan::FusedForwardBufferCache::buf_A</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="151" column="21" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1ab10eef96f18bc7af9987bd0e30934f53" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer" kindref="compound">VulkanBuffer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;VulkanBuffer&gt; themis::lora::vulkan::FusedForwardBufferCache::buf_h</definition>
+        <argsstring></argsstring>
+        <name>buf_h</name>
+        <qualifiedname>themis::lora::vulkan::FusedForwardBufferCache::buf_h</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="152" column="21" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1aafea4febaa06fa5c4824c6a90a7f7a79" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_buffer" kindref="compound">VulkanBuffer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;VulkanBuffer&gt; themis::lora::vulkan::FusedForwardBufferCache::buf_output</definition>
+        <argsstring></argsstring>
+        <name>buf_output</name>
+        <qualifiedname>themis::lora::vulkan::FusedForwardBufferCache::buf_output</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="153" column="21" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1ac4827aa05857218ef31ecdac3906a22a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::lora::vulkan::FusedForwardBufferCache::ensure</definition>
+        <argsstring>(VulkanContext *ctx, size_t input_size, size_t b_size, size_t a_size, size_t h_size, size_t output_size)</argsstring>
+        <name>ensure</name>
+        <qualifiedname>themis::lora::vulkan::FusedForwardBufferCache::ensure</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context" kindref="compound">VulkanContext</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>input_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>b_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>a_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>h_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>output_size</declname>
+        </param>
+        <briefdescription>
+<para>Ensure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">a_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">h_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">output_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements ensure without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="165" column="10" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="165" bodyend="197"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::lora::vulkan::FusedForwardBufferCache</label>
+        <link refid="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>context</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::lora::vulkan::VulkanContext</label>
+        <link refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="141" column="1" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="141" bodyend="198"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1a1cca1b05fb46097aa81b0a2f45968223" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::FusedForwardBufferCache</scope><name>buf_A</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1aa8b13f8a6082d7226d6fd546f82516d6" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::FusedForwardBufferCache</scope><name>buf_B</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1ab10eef96f18bc7af9987bd0e30934f53" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::FusedForwardBufferCache</scope><name>buf_h</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1ab50742591fc92bdca91dbfb12d944ccd" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::FusedForwardBufferCache</scope><name>buf_input</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1aafea4febaa06fa5c4824c6a90a7f7a79" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::FusedForwardBufferCache</scope><name>buf_output</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1a1d18b2bcbda64797dfa24761243935db" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::FusedForwardBufferCache</scope><name>context</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1ac4827aa05857218ef31ecdac3906a22a" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::FusedForwardBufferCache</scope><name>ensure</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1a7580ee8d8c0ec6fb8f85d94a27d4de17" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::FusedForwardBufferCache</scope><name>size_A</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1ab0b80cd4f20bf844504bea8cafb54818" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::FusedForwardBufferCache</scope><name>size_B</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1a0d091c8d270218560b6cc711a691b2d5" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::FusedForwardBufferCache</scope><name>size_h</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1a4e926a22de46f0c4e957bf4f535639c3" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::FusedForwardBufferCache</scope><name>size_input</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_fused_forward_buffer_cache_1a240124d142c2e2539d7309987a13f4be" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::FusedForwardBufferCache</scope><name>size_output</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

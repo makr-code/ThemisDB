@@ -850,11 +850,11 @@ list(LENGTH ALL_TEST_SOURCES TEST_SOURCE_COUNT)
 message(STATUS "Building ${TEST_SOURCE_COUNT} test files after feature gating")
 
 if(WIN32 AND THEMIS_BUILD_MODULAR)
-    # In modular Windows builds the unified runner is intentionally disabled
-    # (focused targets are the canonical execution path). Excluding it from ALL
-    # prevents large unresolved-external cascades in full preset builds.
-    add_executable(themis_tests EXCLUDE_FROM_ALL ${ALL_TEST_SOURCES})
-    message(STATUS "themis_tests: EXCLUDE_FROM_ALL enabled for WIN32 modular builds")
+    # Keep the aggregate test runner buildable in the standard target graph so
+    # `ctest` does not register a valid test as "not built" due to stale
+    # EXCLUDE_FROM_ALL behavior in modular Windows builds.
+    add_executable(themis_tests ${ALL_TEST_SOURCES})
+    message(STATUS "themis_tests: standard build registration enabled for ctest compatibility")
 else()
     add_executable(themis_tests ${ALL_TEST_SOURCES})
 endif()
@@ -908,7 +908,11 @@ target_sources(themis_tests PRIVATE
     ${THEMIS_ROOT_DIR}/src/replication/lag_alert_manager.cpp
     ${THEMIS_ROOT_DIR}/src/governance/policy_conflict_detector.cpp
     ${THEMIS_ROOT_DIR}/src/importers/postgres_importer.cpp
+    ${THEMIS_ROOT_DIR}/src/failover/topology_snapshot.cpp
+    ${THEMIS_ROOT_DIR}/src/failover/quorum_log.cpp
     ${THEMIS_ROOT_DIR}/src/ethics_ai/argument_store.cpp
+    ${THEMIS_ROOT_DIR}/src/ethics_ai/ethics_ai_types.cpp
+    ${THEMIS_ROOT_DIR}/src/llm/applications/themis_help_lora.cpp
     # AI plugin generator (ai/test_ai_plugin_generator.cpp)
     ${THEMIS_ROOT_DIR}/src/ai/ai_plugin_generator.cpp
     # Continuous query engine helpers (continuous/test_continuous_query_engine.cpp)
@@ -3101,9 +3105,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_distributed.cpp")
     # Build test_graph_distributed into standard bin/ directory
     # (custom output dirs caused Windows AppLocker/AV write blocks)
 
-    # TEMP WORKAROUND: These targets experience LNK1104 file-lock during parallel build on Windows.
-    # Build them serially: cmake --build --preset windows-release --target test_graph_distributed --parallel 1
-    add_executable(test_graph_distributed EXCLUDE_FROM_ALL
+    # Keep these graph-focused executables buildable in the standard target graph
+    # so CTest does not see them as registered-but-not-built artifacts.
+    add_executable(test_graph_distributed
         graph/test_graph_distributed.cpp
         ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
         ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp
@@ -3151,9 +3155,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_distributed.cpp")
             "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin"
     )
 
-    # TEMP WORKAROUND: These targets experience LNK1104 file-lock during parallel build on Windows.
-    # Build them serially: cmake --build --preset windows-release --target test_graph_distributed_shared_mutex_focused --parallel 1
-    add_executable(test_graph_distributed_shared_mutex_focused EXCLUDE_FROM_ALL
+    # Keep this focused graph test executable buildable in the standard target
+    # graph so it is materialized before CTest is asked to run it.
+    add_executable(test_graph_distributed_shared_mutex_focused
         graph/test_graph_distributed.cpp
         ${THEMIS_ROOT_DIR}/src/graph/graph_query_optimizer.cpp
         ${THEMIS_ROOT_DIR}/src/graph/path_constraints.cpp

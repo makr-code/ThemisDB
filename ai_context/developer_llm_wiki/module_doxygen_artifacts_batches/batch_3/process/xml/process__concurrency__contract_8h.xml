@@ -1,0 +1,264 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="process__concurrency__contract_8h" kind="file" language="C++">
+    <compoundname>process_concurrency_contract.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string_view</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/process/process_concurrency_contract.h</label>
+        <link refid="process__concurrency__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract" prot="public">themis::process::BpmnSerializerConcurrencyContract</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_cmmn_serializer_concurrency_contract" prot="public">themis::process::CmmnSerializerConcurrencyContract</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_model_manager_concurrency_contract" prot="public">themis::process::ProcessModelManagerConcurrencyContract</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_linker_concurrency_contract" prot="public">themis::process::ProcessLinkerConcurrencyContract</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract" prot="public">themis::process::ProcessLightRetrieverConcurrencyContract</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_high_churn_scenario_guidelines" prot="public">themis::process::HighChurnScenarioGuidelines</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>Explicit concurrency and thread-safety contracts for process module operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0</para>
+</simplesect>
+</para>
+<sect1 id="process__stress__scenarios_8h_1purpose">
+<title>Purpose</title><para>Defines thread-safety guarantees, atomicity scopes, and conflict resolution semantics for process model CRUD, import/export, linking, and retrieval operations under concurrent access and high model churn.</para>
+</sect1>
+<sect1 id="process__concurrency__contract_8h_1thread_safety_model">
+<title>Thread-Safety Model</title><para>The process module uses a <bold>snapshot isolation with versioning</bold> model:<itemizedlist>
+<listitem><para>Serializers are stateless and fully thread-safe (no locks required)</para>
+</listitem><listitem><para>Model Manager uses snapshot isolation via version clocks</para>
+</listitem><listitem><para>Linker employs fine-grained link-level locking</para>
+</listitem><listitem><para>Retriever is read-only and inherits thread-safety from underlying storage</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="process__concurrency__contract_8h_1concurrency_guarantees">
+<title>Concurrency Guarantees by Layer</title><para><table rows="6" cols="5"><row>
+<entry thead="yes"><para>Layer  </para>
+</entry><entry thead="yes"><para>Pattern  </para>
+</entry><entry thead="yes"><para>Thread-Safe  </para>
+</entry><entry thead="yes"><para>Atomicity  </para>
+</entry><entry thead="yes"><para>Notes  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>BpmnSerializer  </para>
+</entry><entry thead="no"><para>Stateless  </para>
+</entry><entry thead="no"><para>Yes  </para>
+</entry><entry thead="no"><para>N/A  </para>
+</entry><entry thead="no"><para>No shared state  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>CmmnSerializer  </para>
+</entry><entry thead="no"><para>Stateless  </para>
+</entry><entry thead="no"><para>Yes  </para>
+</entry><entry thead="no"><para>N/A  </para>
+</entry><entry thead="no"><para>No shared state  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>ProcessModelManager  </para>
+</entry><entry thead="no"><para>Snapshot isolation  </para>
+</entry><entry thead="no"><para>Yes  </para>
+</entry><entry thead="no"><para>Single model op  </para>
+</entry><entry thead="no"><para>Version clocks  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>ProcessLinker  </para>
+</entry><entry thead="no"><para>Fine-grained locks  </para>
+</entry><entry thead="no"><para>Yes  </para>
+</entry><entry thead="no"><para>Single link op  </para>
+</entry><entry thead="no"><para>Link-level locking  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>ProcessLightRetriever  </para>
+</entry><entry thead="no"><para>Read-only snapshots  </para>
+</entry><entry thead="no"><para>Yes  </para>
+</entry><entry thead="no"><para>N/A  </para>
+</entry><entry thead="no"><para>Snapshot isolation  </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="process__concurrency__contract_8h_1conflict_resolution">
+<title>Conflict Resolution at Federation Boundary</title><para><itemizedlist>
+<listitem><para><bold>Write-Write Conflicts:</bold> Last-Write-Wins (LWW) using monotonic version clocks</para>
+</listitem><listitem><para><bold>Link Staleness:</bold> Detected at read-time; broken links reported via diagnostics</para>
+</listitem><listitem><para><bold>No cascading deletes:</bold> Manual remediation required</para>
+</listitem><listitem><para><bold>Rollback:</bold> Manual retry with latest version; no automatic rollback</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="process__concurrency__contract_8h_1high_churn_behavior">
+<title>High-Churn Scenario Guarantees</title><para><bold>Definition:</bold> High churn = &gt;100 model updates/sec or &gt;1000 concurrent links/sec</para>
+<para><bold>Expected Performance:</bold><itemizedlist>
+<listitem><para>Model serialization: 5-50 ms per model (independent of churn)</para>
+</listitem><listitem><para>Link creation: 1-10 ms per link (scales with contention)</para>
+</listitem><listitem><para>Conflict probability: 5-15% under &gt;500 concurrent operations (LWW resolves)</para>
+</listitem><listitem><para><bold>No silent failures:</bold> All conflicts explicitly reported</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="process__concurrency__contract_8h_1deadlock_prevention">
+<title>Deadlock Prevention</title><para><itemizedlist>
+<listitem><para>Linker uses consistent lock ordering (instance_id → link_id)</para>
+</listitem><listitem><para>Serializers hold no locks (stateless)</para>
+</listitem><listitem><para>Model Manager avoids nested locking</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="process__determinism__spec_8h_1use_example">
+<title>Usage Example</title><para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Concurrent<sp/>reads<sp/>from<sp/>snapshot<sp/>(thread-safe,<sp/>no<sp/>locks)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>model<sp/>=<sp/>mgr.retrieve(model_id,<sp/>version);<sp/><sp/></highlight><highlight class="comment">//<sp/>Snapshot<sp/>isolation</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Concurrent<sp/>updates<sp/>(LWW<sp/>resolution)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result1<sp/>=<sp/>mgr.update(model_id,<sp/>payload1);<sp/><sp/></highlight><highlight class="comment">//<sp/>Writer<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result2<sp/>=<sp/>mgr.update(model_id,<sp/>payload2);<sp/><sp/></highlight><highlight class="comment">//<sp/>Writer<sp/>2<sp/>wins<sp/>(LWW)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Concurrent<sp/>link<sp/>operations<sp/>(fine-grained<sp/>locking)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">linker.attachDocument(instance_id,<sp/>doc_id);<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thread<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">linker.attachDocument(instance_id,<sp/>doc_id2);<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thread<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Both<sp/>succeed;<sp/>contention<sp/>serialized<sp/>at<sp/>link<sp/>level</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Concurrent<sp/>retrieval<sp/>(read-only,<sp/>fully<sp/>thread-safe)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx1<sp/>=<sp/>retriever.retrieve(instance_id);<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thread<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx2<sp/>=<sp/>retriever.retrieve(instance_id);<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thread<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Both<sp/>complete<sp/>without<sp/>locks;<sp/>return<sp/>consistent<sp/>snapshots</highlight></codeline>
+</programlisting></para>
+</sect1>
+<sect1 id="process__determinism__spec_8h_1contract_freeze">
+<title>Contract Freeze</title><para>This contract is frozen for ThemisDB v2.x; breaking changes require major version bump and deprecation path. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">themis::process</ref><sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9da" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9da" kindref="member">ConcurrencyPattern</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="91" refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daac1cb56371c6ef5f518719691632ac912" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daac1cb56371c6ef5f518719691632ac912" kindref="member">STATELESS</ref><sp/>=<sp/>5700,</highlight></codeline>
+<codeline lineno="93" refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daa9eb39169b7db6ecee4ee0980284659bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daa9eb39169b7db6ecee4ee0980284659bd" kindref="member">SNAPSHOT_ISOLATION</ref><sp/>=<sp/>5701,</highlight></codeline>
+<codeline lineno="95" refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daac8485cf88b4acb5dcf1f6d7b97931844" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daac8485cf88b4acb5dcf1f6d7b97931844" kindref="member">FINE_GRAINED_LOCKING</ref><sp/>=<sp/>5702,</highlight></codeline>
+<codeline lineno="97" refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daa79380125caa71dd11cf0856efb531ce7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daa79380125caa71dd11cf0856efb531ce7" kindref="member">READ_ONLY_SNAPSHOT</ref><sp/>=<sp/>5703,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403e" kindref="member">AtomicityScope</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="105" refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403eab51048a45735d4cb8579e7396b264483" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403eab51048a45735d4cb8579e7396b264483" kindref="member">SINGLE_ENTITY</ref><sp/>=<sp/>5710,</highlight></codeline>
+<codeline lineno="107" refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403eaf67eaf493a81934058299022a3dc8356" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403eaf67eaf493a81934058299022a3dc8356" kindref="member">ENTITY_GROUP</ref><sp/>=<sp/>5711,</highlight></codeline>
+<codeline lineno="109" refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403ea47c7e7cb36a953a8c47e02000036bb44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403ea47c7e7cb36a953a8c47e02000036bb44" kindref="member">READ_ONLY</ref><sp/>=<sp/>5712,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037" kindref="member">ConflictResolution</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="117" refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037a3247ad84b54dd5dd5cdf48354b0f4058" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037a3247ad84b54dd5dd5cdf48354b0f4058" kindref="member">LAST_WRITE_WINS</ref><sp/>=<sp/>5720,</highlight></codeline>
+<codeline lineno="119" refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037ac4a088b0ba26e94c35cf87c7ed22be12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037ac4a088b0ba26e94c35cf87c7ed22be12" kindref="member">EXPLICIT_CONFLICT</ref><sp/>=<sp/>5721,</highlight></codeline>
+<codeline lineno="121" refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037ab18ff9ed18b27a951714b14b79b2b687" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037ab18ff9ed18b27a951714b14b79b2b687" kindref="member">NO_CONFLICTS</ref><sp/>=<sp/>5722,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract" kindref="compound">BpmnSerializerConcurrencyContract</ref><sp/>{</highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract_1ab383e26249e38d32dd31e264feab2f9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9da" kindref="member">ConcurrencyPattern</ref><sp/><ref refid="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract_1ab383e26249e38d32dd31e264feab2f9d" kindref="member">pattern</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daac1cb56371c6ef5f518719691632ac912" kindref="member">ConcurrencyPattern::STATELESS</ref>;</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract_1a16511f16bc1262ff46bcf084f72295f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403e" kindref="member">AtomicityScope</ref><sp/><ref refid="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract_1a16511f16bc1262ff46bcf084f72295f1" kindref="member">atomicity</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403ea47c7e7cb36a953a8c47e02000036bb44" kindref="member">AtomicityScope::READ_ONLY</ref>;</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract_1a732feeab720f6f94ef6b52376440eb84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037" kindref="member">ConflictResolution</ref><sp/><ref refid="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract_1a732feeab720f6f94ef6b52376440eb84" kindref="member">conflict_resolution</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037ab18ff9ed18b27a951714b14b79b2b687" kindref="member">ConflictResolution::NO_CONFLICTS</ref>;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract_1af31e8704b6c23aa36f8bffc3412d0974" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract_1af31e8704b6c23aa36f8bffc3412d0974" kindref="member">describe</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;BPMN<sp/>serializer<sp/>is<sp/>stateless;<sp/>fully<sp/>thread-safe<sp/>without<sp/>coordination.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1process_1_1_cmmn_serializer_concurrency_contract" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_cmmn_serializer_concurrency_contract" kindref="compound">CmmnSerializerConcurrencyContract</ref><sp/>{</highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1process_1_1_cmmn_serializer_concurrency_contract_1a1f12db9058fbf33dcf5d763a02020b67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9da" kindref="member">ConcurrencyPattern</ref><sp/><ref refid="structthemis_1_1process_1_1_cmmn_serializer_concurrency_contract_1a1f12db9058fbf33dcf5d763a02020b67" kindref="member">pattern</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daac1cb56371c6ef5f518719691632ac912" kindref="member">ConcurrencyPattern::STATELESS</ref>;</highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1process_1_1_cmmn_serializer_concurrency_contract_1ad0da567317cb36cb8032bb4f280222a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403e" kindref="member">AtomicityScope</ref><sp/><ref refid="structthemis_1_1process_1_1_cmmn_serializer_concurrency_contract_1ad0da567317cb36cb8032bb4f280222a6" kindref="member">atomicity</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403ea47c7e7cb36a953a8c47e02000036bb44" kindref="member">AtomicityScope::READ_ONLY</ref>;</highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1process_1_1_cmmn_serializer_concurrency_contract_1afb2e80b9ac1415480ab88395b91dd260" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037" kindref="member">ConflictResolution</ref><sp/><ref refid="structthemis_1_1process_1_1_cmmn_serializer_concurrency_contract_1afb2e80b9ac1415480ab88395b91dd260" kindref="member">conflict_resolution</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037ab18ff9ed18b27a951714b14b79b2b687" kindref="member">ConflictResolution::NO_CONFLICTS</ref>;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1process_1_1_cmmn_serializer_concurrency_contract_1a7b87b6285d7820a99ee44d61be05fa14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="structthemis_1_1process_1_1_cmmn_serializer_concurrency_contract_1a7b87b6285d7820a99ee44d61be05fa14" kindref="member">describe</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CMMN<sp/>serializer<sp/>is<sp/>stateless;<sp/>fully<sp/>thread-safe<sp/>without<sp/>coordination.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1process_1_1_process_model_manager_concurrency_contract" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_process_model_manager_concurrency_contract" kindref="compound">ProcessModelManagerConcurrencyContract</ref><sp/>{</highlight></codeline>
+<codeline lineno="187" refid="structthemis_1_1process_1_1_process_model_manager_concurrency_contract_1a053fcd11c82bdaa5a2cc9939f796955c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9da" kindref="member">ConcurrencyPattern</ref><sp/><ref refid="structthemis_1_1process_1_1_process_model_manager_concurrency_contract_1a053fcd11c82bdaa5a2cc9939f796955c" kindref="member">pattern</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daa9eb39169b7db6ecee4ee0980284659bd" kindref="member">ConcurrencyPattern::SNAPSHOT_ISOLATION</ref>;</highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1process_1_1_process_model_manager_concurrency_contract_1ad8fd00e6204e5d36b94ea5202f13f5dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403e" kindref="member">AtomicityScope</ref><sp/><ref refid="structthemis_1_1process_1_1_process_model_manager_concurrency_contract_1ad8fd00e6204e5d36b94ea5202f13f5dc" kindref="member">atomicity</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403eab51048a45735d4cb8579e7396b264483" kindref="member">AtomicityScope::SINGLE_ENTITY</ref>;</highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1process_1_1_process_model_manager_concurrency_contract_1a1d32d1aa1afbd3925787216c6c5bf36a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037" kindref="member">ConflictResolution</ref><sp/><ref refid="structthemis_1_1process_1_1_process_model_manager_concurrency_contract_1a1d32d1aa1afbd3925787216c6c5bf36a" kindref="member">conflict_resolution</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037a3247ad84b54dd5dd5cdf48354b0f4058" kindref="member">ConflictResolution::LAST_WRITE_WINS</ref>;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="structthemis_1_1process_1_1_process_model_manager_concurrency_contract_1a9ef7cfcdffefb2c2e0ed2a8853237209" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="structthemis_1_1process_1_1_process_model_manager_concurrency_contract_1a9ef7cfcdffefb2c2e0ed2a8853237209" kindref="member">describe</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Model<sp/>Manager<sp/>uses<sp/>snapshot<sp/>isolation<sp/>with<sp/>version<sp/>clocks.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Concurrent<sp/>reads<sp/>do<sp/>not<sp/>block<sp/>writes.<sp/>Write-write<sp/>conflicts<sp/>resolved<sp/>via<sp/>LWW.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213" refid="structthemis_1_1process_1_1_process_linker_concurrency_contract" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_process_linker_concurrency_contract" kindref="compound">ProcessLinkerConcurrencyContract</ref><sp/>{</highlight></codeline>
+<codeline lineno="214" refid="structthemis_1_1process_1_1_process_linker_concurrency_contract_1a2173eb95b36b72ba0ed657f7a8118289" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9da" kindref="member">ConcurrencyPattern</ref><sp/><ref refid="structthemis_1_1process_1_1_process_linker_concurrency_contract_1a2173eb95b36b72ba0ed657f7a8118289" kindref="member">pattern</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daac8485cf88b4acb5dcf1f6d7b97931844" kindref="member">ConcurrencyPattern::FINE_GRAINED_LOCKING</ref>;</highlight></codeline>
+<codeline lineno="215" refid="structthemis_1_1process_1_1_process_linker_concurrency_contract_1aba580cee2de57f10a1ebc3cc6fd2a673" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403e" kindref="member">AtomicityScope</ref><sp/><ref refid="structthemis_1_1process_1_1_process_linker_concurrency_contract_1aba580cee2de57f10a1ebc3cc6fd2a673" kindref="member">atomicity</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403eab51048a45735d4cb8579e7396b264483" kindref="member">AtomicityScope::SINGLE_ENTITY</ref>;</highlight></codeline>
+<codeline lineno="216" refid="structthemis_1_1process_1_1_process_linker_concurrency_contract_1af559e32e535413e0aa6eda76c7d94c4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037" kindref="member">ConflictResolution</ref><sp/><ref refid="structthemis_1_1process_1_1_process_linker_concurrency_contract_1af559e32e535413e0aa6eda76c7d94c4f" kindref="member">conflict_resolution</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037a3247ad84b54dd5dd5cdf48354b0f4058" kindref="member">ConflictResolution::LAST_WRITE_WINS</ref>;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="structthemis_1_1process_1_1_process_linker_concurrency_contract_1a44927289b5046e87142059a75edb4003" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="structthemis_1_1process_1_1_process_linker_concurrency_contract_1a44927289b5046e87142059a75edb4003" kindref="member">describe</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Linker<sp/>uses<sp/>fine-grained<sp/>per-link<sp/>locking.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Concurrent<sp/>operations<sp/>on<sp/>disjoint<sp/>instances<sp/>proceed<sp/>without<sp/>blocking.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238" refid="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract" kindref="compound">ProcessLightRetrieverConcurrencyContract</ref><sp/>{</highlight></codeline>
+<codeline lineno="239" refid="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract_1aaaa368a606f944cbb5a88e226805af41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9da" kindref="member">ConcurrencyPattern</ref><sp/><ref refid="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract_1aaaa368a606f944cbb5a88e226805af41" kindref="member">pattern</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daa79380125caa71dd11cf0856efb531ce7" kindref="member">ConcurrencyPattern::READ_ONLY_SNAPSHOT</ref>;</highlight></codeline>
+<codeline lineno="240" refid="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract_1aa3e6078c3abc74640b8ce520ffdc6e4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403e" kindref="member">AtomicityScope</ref><sp/><ref refid="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract_1aa3e6078c3abc74640b8ce520ffdc6e4c" kindref="member">atomicity</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403ea47c7e7cb36a953a8c47e02000036bb44" kindref="member">AtomicityScope::READ_ONLY</ref>;</highlight></codeline>
+<codeline lineno="241" refid="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract_1a7e736e087242bbb86afe7dea07b41bfa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037" kindref="member">ConflictResolution</ref><sp/><ref refid="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract_1a7e736e087242bbb86afe7dea07b41bfa" kindref="member">conflict_resolution</ref><sp/>=<sp/><ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037ab18ff9ed18b27a951714b14b79b2b687" kindref="member">ConflictResolution::NO_CONFLICTS</ref>;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243" refid="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract_1a6cb3ef292a2ded3f18edbe89560def57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="structthemis_1_1process_1_1_process_light_retriever_concurrency_contract_1a6cb3ef292a2ded3f18edbe89560def57" kindref="member">describe</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Light<sp/>Retriever<sp/>is<sp/>read-only;<sp/>inherits<sp/>thread-safety<sp/>from<sp/>underlying<sp/>storage.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;All<sp/>queries<sp/>return<sp/>consistent<sp/>snapshots.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260" refid="structthemis_1_1process_1_1_high_churn_scenario_guidelines" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_high_churn_scenario_guidelines" kindref="compound">HighChurnScenarioGuidelines</ref><sp/>{</highlight></codeline>
+<codeline lineno="262" refid="structthemis_1_1process_1_1_high_churn_scenario_guidelines_1a6973e2f722c5b50b51584b7302eaf8c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_high_churn_scenario_guidelines_1a6973e2f722c5b50b51584b7302eaf8c4" kindref="member">max_conflict_probability</ref><sp/>=<sp/>0.15;<sp/><sp/></highlight><highlight class="comment">//<sp/>15%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265" refid="structthemis_1_1process_1_1_high_churn_scenario_guidelines_1a7cc4ac633c3014ac5088e23ad951d1ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int32_t<sp/><ref refid="structthemis_1_1process_1_1_high_churn_scenario_guidelines_1a7cc4ac633c3014ac5088e23ad951d1ce" kindref="member">min_link_throughput</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268" refid="structthemis_1_1process_1_1_high_churn_scenario_guidelines_1a39c3f2624e2e092a8140f873c19ffcc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int32_t<sp/><ref refid="structthemis_1_1process_1_1_high_churn_scenario_guidelines_1a39c3f2624e2e092a8140f873c19ffcc9" kindref="member">max_serialize_latency_ms</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271" refid="structthemis_1_1process_1_1_high_churn_scenario_guidelines_1aedc379cd9225d4c862d579cf9f1ec4b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>int32_t<sp/><ref refid="structthemis_1_1process_1_1_high_churn_scenario_guidelines_1aedc379cd9225d4c862d579cf9f1ec4b3" kindref="member">churn_alert_threshold</ref><sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282" refid="namespacethemis_1_1process_1a408f5cd3a50b2b2639e022e126d9c93d" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a408f5cd3a50b2b2639e022e126d9c93d" kindref="member">isPatternSuitable</ref>(</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9da" kindref="member">ConcurrencyPattern</ref><sp/>pattern,</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>requires_atomicity,</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_high_churn</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stateless<sp/>and<sp/>read-only<sp/>patterns<sp/>are<sp/>always<sp/>suitable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pattern<sp/>==<sp/><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daac1cb56371c6ef5f518719691632ac912" kindref="member">ConcurrencyPattern::STATELESS</ref><sp/>||</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pattern<sp/>==<sp/><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daa79380125caa71dd11cf0856efb531ce7" kindref="member">ConcurrencyPattern::READ_ONLY_SNAPSHOT</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Snapshot<sp/>isolation<sp/>and<sp/>fine-grained<sp/>locking<sp/>support<sp/>high<sp/>churn</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(is_high_churn)<sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pattern<sp/>==<sp/><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daa9eb39169b7db6ecee4ee0980284659bd" kindref="member">ConcurrencyPattern::SNAPSHOT_ISOLATION</ref><sp/>||</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pattern<sp/>==<sp/><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daac8485cf88b4acb5dcf1f6d7b97931844" kindref="member">ConcurrencyPattern::FINE_GRAINED_LOCKING</ref>;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::process</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/process_concurrency_contract.h"/>
+  </compounddef>
+</doxygen>

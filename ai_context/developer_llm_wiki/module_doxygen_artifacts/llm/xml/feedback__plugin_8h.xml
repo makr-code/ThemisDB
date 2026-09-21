@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="feedback__plugin_8h" kind="file" language="C++">
+    <compoundname>feedback_plugin.h</compoundname>
+    <includes refid="lora__feedback_8h" local="yes">lora_feedback.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includedby refid="lora__feedback__storage_8h" local="yes">include/llm/lora_framework/lora_feedback_storage.h</includedby>
+    <includedby refid="lora__training__config_8h" local="yes">include/llm/lora_framework/lora_training_config.h</includedby>
+    <includedby refid="feedback__plugin_8cpp" local="yes">src/llm/lora_framework/feedback_plugin.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/lora_framework/feedback_plugin.h</label>
+        <link refid="feedback__plugin_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>lora_feedback.h</label>
+        <link refid="lora__feedback_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/lora_framework/feedback_plugin.h</label>
+        <link refid="feedback__plugin_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/llm/lora_framework/lora_feedback_storage.h</label>
+        <link refid="lora__feedback__storage_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/llm/lora_framework/lora_training_config.h</label>
+        <link refid="lora__training__config_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/llm/lora_framework/feedback_plugin.cpp</label>
+        <link refid="feedback__plugin_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/llm/lora_framework/lora_feedback_storage.cpp</label>
+        <link refid="lora__feedback__storage_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/llm/lora_framework/lora_training_config.cpp</label>
+        <link refid="lora__training__config_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/llm/test_llm_destructor_noexcept_b1.cpp</label>
+        <link refid="test__llm__destructor__noexcept__b1_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin" prot="public">themis::llm::lora::FeedbackPlugin</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin" prot="public">themis::llm::lora::BaseFeedbackPlugin</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin" prot="public">themis::llm::lora::PrivacyFilterPlugin</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin" prot="public">themis::llm::lora::ContentValidationPlugin</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin" prot="public">themis::llm::lora::TrainingTriggerPlugin</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config" prot="public">themis::llm::lora::TrainingTriggerPlugin::Config</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin" prot="public">themis::llm::lora::CacheAwareWeightingPlugin</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config" prot="public">themis::llm::lora::CacheAwareWeightingPlugin::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__feedback_8h" kindref="compound">lora_feedback.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">lora</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin" kindref="compound">FeedbackPlugin</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin_1a389b7d5762d2f99a345aa3a11b76eb4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin_1a389b7d5762d2f99a345aa3a11b76eb4c" kindref="member">~FeedbackPlugin</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin_1a7674d732bbec8157ec33dff2d7e450be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin_1a7674d732bbec8157ec33dff2d7e450be" kindref="member">validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref>&amp;<sp/>feedback)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin_1a1395d4f7232032e0cf518e9c131a0c54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin_1a1395d4f7232032e0cf518e9c131a0c54" kindref="member">process</ref>(<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref>&amp;<sp/>feedback)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin_1a43fcb1eb5210c145b7852e1e02f4b49e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin_1a43fcb1eb5210c145b7852e1e02f4b49e" kindref="member">onTrainingTrigger</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Feedback&gt;&amp;<sp/>batch)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin_1ad25aaae44d29c01be1b0e355827cc1da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin_1ad25aaae44d29c01be1b0e355827cc1da" kindref="member">getName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin" kindref="compound">BaseFeedbackPlugin</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin" kindref="compound">FeedbackPlugin</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1afe83ca0c780ba5f6b3802898bd688c68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1afe83ca0c780ba5f6b3802898bd688c68" kindref="member">~BaseFeedbackPlugin</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a1bfad4661bb7411cfce7ce0989f4696e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a1bfad4661bb7411cfce7ce0989f4696e" kindref="member">validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref>&amp;<sp/>feedback)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Basic<sp/>validation:<sp/>check<sp/>required<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(feedback.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1aa2953c264898dca278636d2e46b0df13" kindref="member">adapter_id</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(feedback.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a78a6877ba0373c2ad5532c0094ba58c9" kindref="member">user_id</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(feedback.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a43584bf76ba26ceb4df4dd737d33c180" kindref="member">rating</ref><sp/>&lt;<sp/>1<sp/>||<sp/>feedback.<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback_1a43584bf76ba26ceb4df4dd737d33c180" kindref="member">rating</ref><sp/>&gt;<sp/>5)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a7d3d8625b623aa482e2db4d8773ed51a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a7d3d8625b623aa482e2db4d8773ed51a" kindref="member">process</ref>([[maybe_unused]]<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref>&amp;<sp/>feedback)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default:<sp/>no-op</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a65ab7213e5ed159aa019a0b5294abe5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a65ab7213e5ed159aa019a0b5294abe5d" kindref="member">onTrainingTrigger</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Feedback&gt;&amp;<sp/>batch)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default:<sp/>trigger<sp/>when<sp/>batch<sp/>reaches<sp/>100<sp/>items</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>batch.size()<sp/>&gt;=<sp/>100;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a7e5acd991ac8a9d81b2fa500caac48c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a7e5acd991ac8a9d81b2fa500caac48c0" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;BaseFeedbackPlugin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin" kindref="compound">PrivacyFilterPlugin</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin" kindref="compound">BaseFeedbackPlugin</ref><sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin_1a4e51a1b9851d3dcf459d02ce5e0a78aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin_1a4e51a1b9851d3dcf459d02ce5e0a78aa" kindref="member">~PrivacyFilterPlugin</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin_1a166870581df09601aa1134f949a3fedb" kindref="member">process</ref>(<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref>&amp;<sp/>feedback)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin_1a06454ff4f00a061838515435fac5d054" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_privacy_filter_plugin_1a06454ff4f00a061838515435fac5d054" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;PrivacyFilterPlugin&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin" kindref="compound">ContentValidationPlugin</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin" kindref="compound">BaseFeedbackPlugin</ref><sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin_1a61fddc580a0626ffd41e6a167e94b377" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin_1a61fddc580a0626ffd41e6a167e94b377" kindref="member">~ContentValidationPlugin</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin_1a7a97bfc1c292f35372577f2b80a26f73" kindref="member">validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref>&amp;<sp/>feedback)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin_1a7db9460faa839782caf653d148cc2264" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_content_validation_plugin_1a7db9460faa839782caf653d148cc2264" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ContentValidationPlugin&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>containsSpam(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>containsProfanity(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1ab276877cb323ff169caf6401e9e0a0cd" kindref="member">TrainingTriggerPlugin</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin" kindref="compound">BaseFeedbackPlugin</ref><sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config_1a632e17d579213047b73eccf30e18d740" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config_1a632e17d579213047b73eccf30e18d740" kindref="member">min_batch_size</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config_1a13f05484b8f6ae581de7cc29ec58b5e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config_1a13f05484b8f6ae581de7cc29ec58b5e5" kindref="member">max_batch_size</ref><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config_1afedd011b4b280936422d9f2273b367bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config_1afedd011b4b280936422d9f2273b367bd" kindref="member">min_avg_rating</ref><sp/>=<sp/>3.0f;</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config_1ac601e56e878f7fd4c48f692d6452a347" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::hours<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config_1ac601e56e878f7fd4c48f692d6452a347" kindref="member">max_wait_time</ref>{24};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1ab276877cb323ff169caf6401e9e0a0cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1ab276877cb323ff169caf6401e9e0a0cd" kindref="member">TrainingTriggerPlugin</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config)</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>config_(config)<sp/>{}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1acaa73beda1ef846eaa28c9dd57100243" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1acaa73beda1ef846eaa28c9dd57100243" kindref="member">TrainingTriggerPlugin</ref>()<sp/>:<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1ab276877cb323ff169caf6401e9e0a0cd" kindref="member">TrainingTriggerPlugin</ref>(<ref refid="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config" kindref="compound">Config</ref>{})<sp/>{}</highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1a724a310e76961b18aaa385e2f58be511" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1a724a310e76961b18aaa385e2f58be511" kindref="member">~TrainingTriggerPlugin</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1a24f0457751499cf67275bf6fef926ac7" kindref="member">onTrainingTrigger</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Feedback&gt;&amp;<sp/>batch)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1ae0bec248d96a5b3c692b47048f107d30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1ae0bec248d96a5b3c692b47048f107d30" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;TrainingTriggerPlugin&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>calculateAverageRating(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Feedback&gt;&amp;<sp/>batch)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1a0195c31a8d70fb74d7a10fa9fd3d54f5" kindref="member">CacheAwareWeightingPlugin</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin" kindref="compound">BaseFeedbackPlugin</ref><sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config_1a574a51a9d2b962c28c58656ad03add91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config_1a574a51a9d2b962c28c58656ad03add91" kindref="member">direct_response_weight</ref><sp/>=<sp/>1.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Weight<sp/>for<sp/>direct<sp/>LLM<sp/>responses</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config_1aab60360f9a9f7712982edc455c31fd4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config_1aab60360f9a9f7712982edc455c31fd4f" kindref="member">exact_cache_weight</ref><sp/>=<sp/>0.4f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Weight<sp/>for<sp/>exact<sp/>cache<sp/>hits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config_1a69349132cc67b37004a654bc9e93cf78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config_1a69349132cc67b37004a654bc9e93cf78" kindref="member">semantic_cache_base_weight</ref><sp/>=<sp/>0.3f;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Base<sp/>weight<sp/>for<sp/>semantic<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config_1ab30ac7beb48c60dc70ab963e2f20bf5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config_1ab30ac7beb48c60dc70ab963e2f20bf5c" kindref="member">similarity_weight_factor</ref><sp/>=<sp/>0.5f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Factor<sp/>for<sp/>similarity-based<sp/>weight</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config_1ae4c7af5d391d1d8cc48f43756fb9e086" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config_1ae4c7af5d391d1d8cc48f43756fb9e086" kindref="member">disable_cache_training</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>true,<sp/>don&apos;t<sp/>train<sp/>on<sp/>cached<sp/>at<sp/>all</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1a0195c31a8d70fb74d7a10fa9fd3d54f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1a0195c31a8d70fb74d7a10fa9fd3d54f5" kindref="member">CacheAwareWeightingPlugin</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config)</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>config_(config)<sp/>{}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1a25603f35cbef8cc5a9a8069af926c7c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1a25603f35cbef8cc5a9a8069af926c7c7" kindref="member">CacheAwareWeightingPlugin</ref>()<sp/>:<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1a0195c31a8d70fb74d7a10fa9fd3d54f5" kindref="member">CacheAwareWeightingPlugin</ref>(<ref refid="structthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1_1_config" kindref="compound">Config</ref>{})<sp/>{}</highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1aea61c8ed98ae9767d0d53d390cb477c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1aea61c8ed98ae9767d0d53d390cb477c8" kindref="member">~CacheAwareWeightingPlugin</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1a954d84e01c3437ad572cec2ba12bc9f6" kindref="member">process</ref>(<ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref>&amp;<sp/>feedback)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159" refid="classthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1a13e68d4166dfac95b3bd52b263aded73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_cache_aware_weighting_plugin_1a13e68d4166dfac95b3bd52b263aded73" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CacheAwareWeightingPlugin&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>calculateCacheWeight(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref>&amp;<sp/>feedback)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>lora</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/lora_framework/feedback_plugin.h"/>
+  </compounddef>
+</doxygen>

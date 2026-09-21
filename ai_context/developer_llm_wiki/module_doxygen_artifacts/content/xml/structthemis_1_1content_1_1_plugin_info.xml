@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_plugin_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::PluginInfo</compoundname>
+    <includes refid="content__plugin__interface_8h" local="no">content_plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_plugin_info_1ae01612ecbf620f5c862f625058109867" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::PluginInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::content::PluginInfo::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="43" column="17" bodyfile="include/content/content_plugin_interface.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_plugin_info_1a16141fc84beba7fdfc99386aadd94347" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::PluginInfo::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::content::PluginInfo::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="44" column="17" bodyfile="include/content/content_plugin_interface.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_plugin_info_1af6bed9703c669da4cbbae7215ccef9a5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::PluginInfo::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::content::PluginInfo::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="45" column="17" bodyfile="include/content/content_plugin_interface.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_plugin_info_1afa2f9c52d98fbec7886529613fc1c293" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::PluginInfo::author</definition>
+        <argsstring></argsstring>
+        <name>author</name>
+        <qualifiedname>themis::content::PluginInfo::author</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="46" column="17" bodyfile="include/content/content_plugin_interface.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_plugin_info_1a54e1575a6a43503a45c669d8d5c57dde" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::PluginInfo::license</definition>
+        <argsstring></argsstring>
+        <name>license</name>
+        <qualifiedname>themis::content::PluginInfo::license</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="47" column="17" bodyfile="include/content/content_plugin_interface.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_plugin_info_1a999eb1f034c4eae1e39b5dd1ed49f4e5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::content::PluginInfo::mime_types</definition>
+        <argsstring></argsstring>
+        <name>mime_types</name>
+        <qualifiedname>themis::content::PluginInfo::mime_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="48" column="17" bodyfile="include/content/content_plugin_interface.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_plugin_info_1a02ebcafcfb440d5671cdad6e2d4ce442" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::content::PluginInfo::extensions</definition>
+        <argsstring></argsstring>
+        <name>extensions</name>
+        <qualifiedname>themis::content::PluginInfo::extensions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="49" column="17" bodyfile="include/content/content_plugin_interface.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_plugin_info_1aa8f4deb77b42d686631a0abb1b1b3dab" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::PluginInfo::supports_chunking</definition>
+        <argsstring></argsstring>
+        <name>supports_chunking</name>
+        <qualifiedname>themis::content::PluginInfo::supports_chunking</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="52" column="10" bodyfile="include/content/content_plugin_interface.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_plugin_info_1affefb9f1589e955286b3771383c95d09" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::PluginInfo::supports_embedding</definition>
+        <argsstring></argsstring>
+        <name>supports_embedding</name>
+        <qualifiedname>themis::content::PluginInfo::supports_embedding</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="53" column="10" bodyfile="include/content/content_plugin_interface.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_plugin_info_1a9d08fb4db5435b1d8af72c07768ec2af" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::PluginInfo::supports_streaming</definition>
+        <argsstring></argsstring>
+        <name>supports_streaming</name>
+        <qualifiedname>themis::content::PluginInfo::supports_streaming</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="54" column="10" bodyfile="include/content/content_plugin_interface.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_plugin_info_1a138fa0ea3a72a266db0a05ad15d25a3f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::PluginInfo::min_memory_mb</definition>
+        <argsstring></argsstring>
+        <name>min_memory_mb</name>
+        <qualifiedname>themis::content::PluginInfo::min_memory_mb</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="57" column="12" bodyfile="include/content/content_plugin_interface.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_plugin_info_1a4fcf592f2b429f01640432f33dd5cf77" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::PluginInfo::recommended_memory_mb</definition>
+        <argsstring></argsstring>
+        <name>recommended_memory_mb</name>
+        <qualifiedname>themis::content::PluginInfo::recommended_memory_mb</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="58" column="12" bodyfile="include/content/content_plugin_interface.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_plugin_interface.h" line="42" column="1" bodyfile="include/content/content_plugin_interface.h" bodystart="42" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_plugin_info_1afa2f9c52d98fbec7886529613fc1c293" prot="public" virt="non-virtual"><scope>themis::content::PluginInfo</scope><name>author</name></member>
+      <member refid="structthemis_1_1content_1_1_plugin_info_1af6bed9703c669da4cbbae7215ccef9a5" prot="public" virt="non-virtual"><scope>themis::content::PluginInfo</scope><name>description</name></member>
+      <member refid="structthemis_1_1content_1_1_plugin_info_1a02ebcafcfb440d5671cdad6e2d4ce442" prot="public" virt="non-virtual"><scope>themis::content::PluginInfo</scope><name>extensions</name></member>
+      <member refid="structthemis_1_1content_1_1_plugin_info_1a54e1575a6a43503a45c669d8d5c57dde" prot="public" virt="non-virtual"><scope>themis::content::PluginInfo</scope><name>license</name></member>
+      <member refid="structthemis_1_1content_1_1_plugin_info_1a999eb1f034c4eae1e39b5dd1ed49f4e5" prot="public" virt="non-virtual"><scope>themis::content::PluginInfo</scope><name>mime_types</name></member>
+      <member refid="structthemis_1_1content_1_1_plugin_info_1a138fa0ea3a72a266db0a05ad15d25a3f" prot="public" virt="non-virtual"><scope>themis::content::PluginInfo</scope><name>min_memory_mb</name></member>
+      <member refid="structthemis_1_1content_1_1_plugin_info_1ae01612ecbf620f5c862f625058109867" prot="public" virt="non-virtual"><scope>themis::content::PluginInfo</scope><name>name</name></member>
+      <member refid="structthemis_1_1content_1_1_plugin_info_1a4fcf592f2b429f01640432f33dd5cf77" prot="public" virt="non-virtual"><scope>themis::content::PluginInfo</scope><name>recommended_memory_mb</name></member>
+      <member refid="structthemis_1_1content_1_1_plugin_info_1aa8f4deb77b42d686631a0abb1b1b3dab" prot="public" virt="non-virtual"><scope>themis::content::PluginInfo</scope><name>supports_chunking</name></member>
+      <member refid="structthemis_1_1content_1_1_plugin_info_1affefb9f1589e955286b3771383c95d09" prot="public" virt="non-virtual"><scope>themis::content::PluginInfo</scope><name>supports_embedding</name></member>
+      <member refid="structthemis_1_1content_1_1_plugin_info_1a9d08fb4db5435b1d8af72c07768ec2af" prot="public" virt="non-virtual"><scope>themis::content::PluginInfo</scope><name>supports_streaming</name></member>
+      <member refid="structthemis_1_1content_1_1_plugin_info_1a16141fc84beba7fdfc99386aadd94347" prot="public" virt="non-virtual"><scope>themis::content::PluginInfo</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

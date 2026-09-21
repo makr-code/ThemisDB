@@ -1,0 +1,627 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::AdaptiveRateLimiter</compoundname>
+    <includes refid="adaptive__rate__limiter_8h" local="no">adaptive_rate_limiter.h</includes>
+    <innerclass refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats" prot="public">themis::ingestion::AdaptiveRateLimiter::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a3a383a5a0d84edcee3efa5124dd372d2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::ingestion::AdaptiveRateLimiter::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="297" column="24" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a8c2c48bd2139ed53636ab59d23730942" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::AdaptiveRateLimiter::connector_name_</definition>
+        <argsstring></argsstring>
+        <name>connector_name_</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::connector_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="298" column="17" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a35adb2a0baca979fb9ccc16c024ccd20" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config" kindref="compound">AdaptiveRateLimiterConfig</ref></type>
+        <definition>AdaptiveRateLimiterConfig themis::ingestion::AdaptiveRateLimiter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="299" column="31" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a9130bbb81b9940e9db5f3923f2f4c21a" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::AdaptiveRateLimiter::current_rate_limit_</definition>
+        <argsstring></argsstring>
+        <name>current_rate_limit_</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::current_rate_limit_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="300" column="12" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a53fb1352c95bc020efc17f271285438a" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::ingestion::AdaptiveRateLimiter::last_token_time_</definition>
+        <argsstring></argsstring>
+        <name>last_token_time_</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::last_token_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="303" column="43" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a5213b9284f409ed50da7e6ac2649b774" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::AdaptiveRateLimiter::tokens_available_</definition>
+        <argsstring></argsstring>
+        <name>tokens_available_</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::tokens_available_</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="304" column="12" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a8df80fdc8f96ffbc86e7755fc7fdd155" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::ingestion::AdaptiveRateLimiter::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="307" column="11" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1ac41ef797930f0c7b7f753643ba2ad65c" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::ingestion::AdaptiveRateLimiter::measurement_window_start_</definition>
+        <argsstring></argsstring>
+        <name>measurement_window_start_</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::measurement_window_start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="308" column="43" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1ab7d3b41ad725a939b32a4e52a9e84b1a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::AdaptiveRateLimiter::AdaptiveRateLimiter</definition>
+        <argsstring>(const std::string &amp;connector_name, const AdaptiveRateLimiterConfig &amp;config={})</argsstring>
+        <name>AdaptiveRateLimiter</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::AdaptiveRateLimiter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>connector_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config" kindref="compound">AdaptiveRateLimiterConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct a rate limiter for a specific connector/API. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>connector_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the connector (for logging/debugging) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rate limiting configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="198" column="5" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="198" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a93c9d990ad3f53c6b171f83648270b63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::AdaptiveRateLimiter::~AdaptiveRateLimiter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AdaptiveRateLimiter</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::~AdaptiveRateLimiter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="203" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1aad93fcf5eb6245045e7cfb154e7349e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::AdaptiveRateLimiter::AdaptiveRateLimiter</definition>
+        <argsstring>(const AdaptiveRateLimiter &amp;)=delete</argsstring>
+        <name>AdaptiveRateLimiter</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::AdaptiveRateLimiter</qualifiedname>
+        <param>
+          <type>const AdaptiveRateLimiter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="206" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a6c457e1b6f45aa02c7bd006163b85dd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1ab7d3b41ad725a939b32a4e52a9e84b1a" kindref="member">AdaptiveRateLimiter</ref> &amp;</type>
+        <definition>AdaptiveRateLimiter &amp; themis::ingestion::AdaptiveRateLimiter::operator=</definition>
+        <argsstring>(const AdaptiveRateLimiter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1ab7d3b41ad725a939b32a4e52a9e84b1a" kindref="member">AdaptiveRateLimiter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="207" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1adbe4451e6318b187220bed519dd1bc4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::AdaptiveRateLimiter::tryAcquireToken</definition>
+        <argsstring>(bool allow_wait=false)</argsstring>
+        <name>tryAcquireToken</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::tryAcquireToken</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>allow_wait</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Attempt to acquire a request token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Try Acquire Token.</para>
+<para>Uses a token bucket algorithm to enforce the current rate limit. If allow_wait is true, blocks until a token is available. If allow_wait is false, returns immediately.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>allow_wait</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, block until token available; if false, return immediately </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if token acquired; false if rate-limited and not waiting</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">allow_wait</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), refillTokens(), wait_duration(), std::chrono::steady_clock::now(), unlock(), std::this_thread::sleep_until(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="221" column="10" bodyfile="src/ingestion/adaptive_rate_limiter.cpp" bodystart="105" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1abaa258708c237368caf75aa8a841891a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::AdaptiveRateLimiter::acquireToken</definition>
+        <argsstring>()</argsstring>
+        <name>acquireToken</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::acquireToken</qualifiedname>
+        <briefdescription>
+<para>Acquire a token (blocks indefinitely until available). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Useful for simple cases where blocking is acceptable. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="228" column="10" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="228" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1af3d98a356e6314611645a5c2bd75ff43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::AdaptiveRateLimiter::recordResponse</definition>
+        <argsstring>(int http_status_code, const std::map&lt; std::string, std::string &gt; &amp;response_headers={})</argsstring>
+        <name>recordResponse</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::recordResponse</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>http_status_code</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>response_headers</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Record an HTTP response for feedback-based rate adjustment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parses rate limit headers from the response and adjusts the current rate limit accordingly. Call after each HTTP request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>http_status_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HTTP status code (200, 429, 503, etc.) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>response_headers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Response headers (used to parse rate limit info) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="245" column="10" bodyfile="src/ingestion/adaptive_rate_limiter.cpp" bodystart="141" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a7cd8dcf1421f1d0b874c076de440736b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>AdaptiveRateLimiter::Stats themis::ingestion::AdaptiveRateLimiter::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::getStats</qualifiedname>
+        <briefdescription>
+<para>Get current rate limiter statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="253" column="11" bodyfile="src/ingestion/adaptive_rate_limiter.cpp" bodystart="202" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1ac41eccfda771b1f98fda9ec20dd6d6ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::AdaptiveRateLimiter::setRateLimit</definition>
+        <argsstring>(double requests_per_sec)</argsstring>
+        <name>setRateLimit</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::setRateLimit</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>requests_per_sec</declname>
+        </param>
+        <briefdescription>
+<para>Manually set the rate limit (overrides adaptive adjustment). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Rate Limit.</para>
+<para>Useful for explicit configuration or recovery from cascading failures. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>requests_per_sec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New rate limit (will be clamped to min/max)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">requests_per_sec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::clamp(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="261" column="10" bodyfile="src/ingestion/adaptive_rate_limiter.cpp" bodystart="219" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1acc0bc2e5cd4cee30b2d34b5d0c573ea9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::ingestion::AdaptiveRateLimiter::getRateLimit</definition>
+        <argsstring>() const</argsstring>
+        <name>getRateLimit</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::getRateLimit</qualifiedname>
+        <briefdescription>
+<para>Get the current rate limit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="266" column="12" bodyfile="src/ingestion/adaptive_rate_limiter.cpp" bodystart="227" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a671f84ffd2e530f7111406490ae5706c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::AdaptiveRateLimiter::resetToInitial</definition>
+        <argsstring>()</argsstring>
+        <name>resetToInitial</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::resetToInitial</qualifiedname>
+        <briefdescription>
+<para>Reset to initial rate limit and clear failure history. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset To Initial.</para>
+<para>Call this to recover from temporary overload conditions.</para>
+<para>Calls: lock(), Stats(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="273" column="10" bodyfile="src/ingestion/adaptive_rate_limiter.cpp" bodystart="241" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a141131e7ecd35ff1a76c175b1c3b77d9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::ingestion::AdaptiveRateLimiter::getConnectorName</definition>
+        <argsstring>() const</argsstring>
+        <name>getConnectorName</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::getConnectorName</qualifiedname>
+        <briefdescription>
+<para>Get the connector name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="278" column="23" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="278" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a0e42b55ce2a2b71d60a7a2203d4782e6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::AdaptiveRateLimiter::setConfig</definition>
+        <argsstring>(const AdaptiveRateLimiterConfig &amp;new_config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config" kindref="compound">AdaptiveRateLimiterConfig</ref> &amp;</type>
+          <declname>new_config</declname>
+        </param>
+        <briefdescription>
+<para>Set the configuration (takes effect on next token acquisition). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="283" column="10" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="283" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a147ccd37216834758b49acf5f05c90d4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_config" kindref="compound">AdaptiveRateLimiterConfig</ref></type>
+        <definition>AdaptiveRateLimiterConfig themis::ingestion::AdaptiveRateLimiter::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="291" column="31" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="291" bodyend="294"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a50acd37e2486a0c860e48f68b52d5a63" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::AdaptiveRateLimiter::refillTokens</definition>
+        <argsstring>()</argsstring>
+        <name>refillTokens</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::refillTokens</qualifiedname>
+        <briefdescription>
+<para>Refill token bucket based on elapsed time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Refill Tokens.</para>
+<para>Called internally by tryAcquireToken.</para>
+<para>Calls: std::chrono::steady_clock::now(), count(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="315" column="10" bodyfile="src/ingestion/adaptive_rate_limiter.cpp" bodystart="254" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a7f05e335915585169d7ab6394bbbb931" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::AdaptiveRateLimiter::updateStatsSuccess</definition>
+        <argsstring>()</argsstring>
+        <name>updateStatsSuccess</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::updateStatsSuccess</qualifiedname>
+        <briefdescription>
+<para>Update statistics based on a successful response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update <ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats" kindref="compound">Stats</ref> Success.</para>
+<para>Implements updateStatsSuccess without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="320" column="10" bodyfile="src/ingestion/adaptive_rate_limiter.cpp" bodystart="274" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a1c0b1997ac9b65d16a1ead28aafa9cdb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::AdaptiveRateLimiter::updateStatsThrottle</definition>
+        <argsstring>()</argsstring>
+        <name>updateStatsThrottle</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::updateStatsThrottle</qualifiedname>
+        <briefdescription>
+<para>Update statistics based on a throttled response (429). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update <ref refid="structthemis_1_1ingestion_1_1_adaptive_rate_limiter_1_1_stats" kindref="compound">Stats</ref> Throttle.</para>
+<para>Implements updateStatsThrottle without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="325" column="10" bodyfile="src/ingestion/adaptive_rate_limiter.cpp" bodystart="283" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a613b8882fd30eece92fc8d831d6944e7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::AdaptiveRateLimiter::adjustRateLimit</definition>
+        <argsstring>(const RateLimitInfo &amp;info)</argsstring>
+        <name>adjustRateLimit</name>
+        <qualifiedname>themis::ingestion::AdaptiveRateLimiter::adjustRateLimit</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_rate_limit_info" kindref="compound">RateLimitInfo</ref> &amp;</type>
+          <declname>info</declname>
+        </param>
+        <briefdescription>
+<para>Adjust rate limit based on API feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Adjust Rate Limit.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/adaptive_rate_limiter.h" line="330" column="10" bodyfile="src/ingestion/adaptive_rate_limiter.cpp" bodystart="294" bodyend="307"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Adaptive rate limiter that adjusts throughput based on API feedback. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Monitors HTTP response status codes and rate limit headers to dynamically adjust the request rate. Provides both blocking (wait) and non-blocking (fail) semantics for rate-limited conditions.</para>
+<para>Example usage: <programlisting><codeline><highlight class="normal">AdaptiveRateLimiterConfig<sp/>config;</highlight></codeline>
+<codeline><highlight class="normal">config.initial_requests_per_sec<sp/>=<sp/>5.0;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1ab7d3b41ad725a939b32a4e52a9e84b1a" kindref="member">AdaptiveRateLimiter</ref><sp/>limiter(</highlight><highlight class="stringliteral">&quot;my_api&quot;</highlight><highlight class="normal">,<sp/>config);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Before<sp/>making<sp/>a<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!limiter.tryAcquireToken(</highlight><highlight class="keyword">true</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rate<sp/>limited;<sp/>decide<sp/>whether<sp/>to<sp/>retry<sp/>or<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>After<sp/>receiving<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">limiter.recordResponse(200,<sp/>response_headers);<sp/><sp/></highlight><highlight class="comment">//<sp/>Success</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>or</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">limiter.recordResponse(429,<sp/>response_headers);<sp/><sp/></highlight><highlight class="comment">//<sp/>Too<sp/>Many<sp/>Requests</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Monitor<sp/>current<sp/>rate</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>limiter.getStats();</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Current<sp/>rate:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>stats.current_rate_limit<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>req/s&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/ingestion/adaptive_rate_limiter.h" line="179" column="1" bodyfile="include/ingestion/adaptive_rate_limiter.h" bodystart="179" bodyend="331"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1abaa258708c237368caf75aa8a841891a" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>acquireToken</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1ab7d3b41ad725a939b32a4e52a9e84b1a" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>AdaptiveRateLimiter</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1aad93fcf5eb6245045e7cfb154e7349e7" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>AdaptiveRateLimiter</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a613b8882fd30eece92fc8d831d6944e7" prot="private" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>adjustRateLimit</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a35adb2a0baca979fb9ccc16c024ccd20" prot="private" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a8c2c48bd2139ed53636ab59d23730942" prot="private" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>connector_name_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a9130bbb81b9940e9db5f3923f2f4c21a" prot="private" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>current_rate_limit_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a147ccd37216834758b49acf5f05c90d4" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a141131e7ecd35ff1a76c175b1c3b77d9" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>getConnectorName</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1acc0bc2e5cd4cee30b2d34b5d0c573ea9" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>getRateLimit</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a7cd8dcf1421f1d0b874c076de440736b" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a53fb1352c95bc020efc17f271285438a" prot="private" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>last_token_time_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1ac41ef797930f0c7b7f753643ba2ad65c" prot="private" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>measurement_window_start_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a3a383a5a0d84edcee3efa5124dd372d2" prot="private" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a6c457e1b6f45aa02c7bd006163b85dd5" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1af3d98a356e6314611645a5c2bd75ff43" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>recordResponse</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a50acd37e2486a0c860e48f68b52d5a63" prot="private" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>refillTokens</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a671f84ffd2e530f7111406490ae5706c" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>resetToInitial</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a0e42b55ce2a2b71d60a7a2203d4782e6" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1ac41eccfda771b1f98fda9ec20dd6d6ee" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>setRateLimit</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a8df80fdc8f96ffbc86e7755fc7fdd155" prot="private" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a5213b9284f409ed50da7e6ac2649b774" prot="private" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>tokens_available_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1adbe4451e6318b187220bed519dd1bc4c" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>tryAcquireToken</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a7f05e335915585169d7ab6394bbbb931" prot="private" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>updateStatsSuccess</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a1c0b1997ac9b65d16a1ead28aafa9cdb" prot="private" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>updateStatsThrottle</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_adaptive_rate_limiter_1a93c9d990ad3f53c6b171f83648270b63" prot="public" virt="non-virtual"><scope>themis::ingestion::AdaptiveRateLimiter</scope><name>~AdaptiveRateLimiter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

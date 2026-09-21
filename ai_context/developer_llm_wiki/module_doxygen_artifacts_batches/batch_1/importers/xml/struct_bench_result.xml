@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_bench_result" kind="struct" language="C++" prot="public">
+    <compoundname>BenchResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_bench_result_1a22827716ea3e464015343d0ea66b2635" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string BenchResult::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>BenchResult::label</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="245" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_bench_result_1a6be9ad27e79a397954c6713c1aaf983d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t BenchResult::rows</definition>
+        <argsstring></argsstring>
+        <name>rows</name>
+        <qualifiedname>BenchResult::rows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="246" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_bench_result_1a6947642738fe3363bb80fb1bf06d37af" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BenchResult::elapsed_sec</definition>
+        <argsstring></argsstring>
+        <name>elapsed_sec</name>
+        <qualifiedname>BenchResult::elapsed_sec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="247" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_bench_result_1a38952e187adbf646bcfa52b7a558e7c8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BenchResult::rows_per_sec</definition>
+        <argsstring></argsstring>
+        <name>rows_per_sec</name>
+        <qualifiedname>BenchResult::rows_per_sec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="248" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_bench_result_1a78369904bfeabbe5f03087ab00bab916" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BenchResult::bytes_processed</definition>
+        <argsstring></argsstring>
+        <name>bytes_processed</name>
+        <qualifiedname>BenchResult::bytes_processed</qualifiedname>
+        <briefdescription>
+<para>Total bytes read from the generated dump file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="249" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_bench_result_1a74e5a38ccdd34d3143d8d858245e6a69" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double BenchResult::gb_per_hour</definition>
+        <argsstring></argsstring>
+        <name>gb_per_hour</name>
+        <qualifiedname>BenchResult::gb_per_hour</qualifiedname>
+        <briefdescription>
+<para>Throughput in GiB/hr (bytes / elapsed * 3600 / 2^30). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="250" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="250" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/importers/bench_importer_throughput.cpp" line="244" column="1" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="244" bodyend="251"/>
+    <listofallmembers>
+      <member refid="struct_bench_result_1a78369904bfeabbe5f03087ab00bab916" prot="public" virt="non-virtual"><scope>BenchResult</scope><name>bytes_processed</name></member>
+      <member refid="struct_bench_result_1a6947642738fe3363bb80fb1bf06d37af" prot="public" virt="non-virtual"><scope>BenchResult</scope><name>elapsed_sec</name></member>
+      <member refid="struct_bench_result_1a74e5a38ccdd34d3143d8d858245e6a69" prot="public" virt="non-virtual"><scope>BenchResult</scope><name>gb_per_hour</name></member>
+      <member refid="struct_bench_result_1a22827716ea3e464015343d0ea66b2635" prot="public" virt="non-virtual"><scope>BenchResult</scope><name>label</name></member>
+      <member refid="struct_bench_result_1a6be9ad27e79a397954c6713c1aaf983d" prot="public" virt="non-virtual"><scope>BenchResult</scope><name>rows</name></member>
+      <member refid="struct_bench_result_1a38952e187adbf646bcfa52b7a558e7c8" prot="public" virt="non-virtual"><scope>BenchResult</scope><name>rows_per_sec</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

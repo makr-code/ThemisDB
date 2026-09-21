@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_bb2abe0969ff50aa1b3adcf9207127ef" kind="dir">
+    <compoundname>tests/observability</compoundname>
+    <innerfile refid="test__distributed__tracing__sdk_8cpp">test_distributed_tracing_sdk.cpp</innerfile>
+    <innerfile refid="test__exporter__stress__framework_8cpp">test_exporter_stress_framework.cpp</innerfile>
+    <innerfile refid="test__field__diagnostics_8cpp">test_field_diagnostics.cpp</innerfile>
+    <innerfile refid="test__high__cardinality__metrics_8cpp">test_high_cardinality_metrics.cpp</innerfile>
+    <innerfile refid="test__observability__block__a__focused_8cpp">test_observability_block_a_focused.cpp</innerfile>
+    <innerfile refid="test__observability__block__b__focused_8cpp">test_observability_block_b_focused.cpp</innerfile>
+    <innerfile refid="test__observability__contract__hardening__focused_8cpp">test_observability_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__observability__hardening_8cpp">test_observability_hardening.cpp</innerfile>
+    <innerfile refid="test__observability__phase3__continuation__focused_8cpp">test_observability_phase3_continuation_focused.cpp</innerfile>
+    <innerfile refid="test__observability__profilers_8cpp">test_observability_profilers.cpp</innerfile>
+    <innerfile refid="test__operator__remediation__engine_8cpp">test_operator_remediation_engine.cpp</innerfile>
+    <innerfile refid="test__otel__exporter__stress_8cpp">test_otel_exporter_stress.cpp</innerfile>
+    <innerfile refid="test__otel__trace__overhead_8cpp">test_otel_trace_overhead.cpp</innerfile>
+    <innerfile refid="test__provenance__store_8cpp">test_provenance_store.cpp</innerfile>
+    <innerfile refid="test__tracing__integration__replication_8cpp">test_tracing_integration_replication.cpp</innerfile>
+    <innerfile refid="test__tracing__integration__sharding_8cpp">test_tracing_integration_sharding.cpp</innerfile>
+    <innerfile refid="test__tracing__integration__transaction_8cpp">test_tracing_integration_transaction.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/observability/"/>
+  </compounddef>
+</doxygen>

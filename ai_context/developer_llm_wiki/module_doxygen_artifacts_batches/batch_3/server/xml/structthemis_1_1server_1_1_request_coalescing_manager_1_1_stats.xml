@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_request_coalescing_manager_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::RequestCoalescingManager::Stats</compoundname>
+    <includes refid="request__coalescing_8h" local="no">request_coalescing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_coalescing_manager_1_1_stats_1ad814588c60e122ce99a3b4e08a6eb03e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::RequestCoalescingManager::Stats::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::Stats::total_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="51" column="18" bodyfile="include/server/request_coalescing.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_coalescing_manager_1_1_stats_1ad4f7c122abf53137f4bcb3f4c79ccbe9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::RequestCoalescingManager::Stats::coalesced_requests</definition>
+        <argsstring></argsstring>
+        <name>coalesced_requests</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::Stats::coalesced_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Requests merged with an in-flight call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="52" column="18" bodyfile="include/server/request_coalescing.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_coalescing_manager_1_1_stats_1a032d3d7b94f7454dd4dcfa6f3c21064d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::RequestCoalescingManager::Stats::backend_calls</definition>
+        <argsstring></argsstring>
+        <name>backend_calls</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::Stats::backend_calls</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Actual backend invocations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="53" column="18" bodyfile="include/server/request_coalescing.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_coalescing_manager_1_1_stats_1a2ba8d620b244e5aee824af62444db773" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::RequestCoalescingManager::Stats::timeout_fallbacks</definition>
+        <argsstring></argsstring>
+        <name>timeout_fallbacks</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::Stats::timeout_fallbacks</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Waiters that fell back after timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="54" column="18" bodyfile="include/server/request_coalescing.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_request_coalescing_manager_1_1_stats_1adf86356d6f0f3870b5caf82cf3c0e109" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::RequestCoalescingManager::Stats::capacity_fallbacks</definition>
+        <argsstring></argsstring>
+        <name>capacity_fallbacks</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::Stats::capacity_fallbacks</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Waiters that fell back due to max_waiters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="55" column="18" bodyfile="include/server/request_coalescing.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_request_coalescing_manager_1_1_stats_1a760299270cb04db106fc38e6962250fa" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::server::RequestCoalescingManager::Stats::coalescingRatio</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>coalescingRatio</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::Stats::coalescingRatio</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="57" column="16" bodyfile="include/server/request_coalescing.h" bodystart="57" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_request_coalescing_manager_1_1_stats_1aa212d142f99bcec43c214f045d5f2548" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::RequestCoalescingManager::Stats::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::server::RequestCoalescingManager::Stats::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_coalescing.h" line="65" column="24" bodyfile="include/server/request_coalescing.h" bodystart="65" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/request_coalescing.h" line="50" column="5" bodyfile="include/server/request_coalescing.h" bodystart="50" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_request_coalescing_manager_1_1_stats_1a032d3d7b94f7454dd4dcfa6f3c21064d" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager::Stats</scope><name>backend_calls</name></member>
+      <member refid="structthemis_1_1server_1_1_request_coalescing_manager_1_1_stats_1adf86356d6f0f3870b5caf82cf3c0e109" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager::Stats</scope><name>capacity_fallbacks</name></member>
+      <member refid="structthemis_1_1server_1_1_request_coalescing_manager_1_1_stats_1ad4f7c122abf53137f4bcb3f4c79ccbe9" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager::Stats</scope><name>coalesced_requests</name></member>
+      <member refid="structthemis_1_1server_1_1_request_coalescing_manager_1_1_stats_1a760299270cb04db106fc38e6962250fa" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager::Stats</scope><name>coalescingRatio</name></member>
+      <member refid="structthemis_1_1server_1_1_request_coalescing_manager_1_1_stats_1a2ba8d620b244e5aee824af62444db773" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager::Stats</scope><name>timeout_fallbacks</name></member>
+      <member refid="structthemis_1_1server_1_1_request_coalescing_manager_1_1_stats_1aa212d142f99bcec43c214f045d5f2548" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager::Stats</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1server_1_1_request_coalescing_manager_1_1_stats_1ad814588c60e122ce99a3b4e08a6eb03e" prot="public" virt="non-virtual"><scope>themis::server::RequestCoalescingManager::Stats</scope><name>total_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

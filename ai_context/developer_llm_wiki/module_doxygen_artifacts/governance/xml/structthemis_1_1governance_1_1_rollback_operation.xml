@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_rollback_operation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::RollbackOperation</compoundname>
+    <includes refid="policy__change__manager_8h" local="no">policy_change_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rollback_operation_1a0feb419cc1816004935187a9fcc7897e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::RollbackOperation::operation_id</definition>
+        <argsstring></argsstring>
+        <name>operation_id</name>
+        <qualifiedname>themis::governance::RollbackOperation::operation_id</qualifiedname>
+        <briefdescription>
+<para>Unique rollback operation ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="87" column="17" bodyfile="include/governance/policy_change_manager.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rollback_operation_1a2595545d44a59898d1c98eb570800ddc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::RollbackOperation::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::governance::RollbackOperation::rule_id</qualifiedname>
+        <briefdescription>
+<para>Primary rule being rolled back. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="88" column="17" bodyfile="include/governance/policy_change_manager.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rollback_operation_1a05c1280d5d20e49412f695a075e95113" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::RollbackOperation::multi_rule_ids</definition>
+        <argsstring></argsstring>
+        <name>multi_rule_ids</name>
+        <qualifiedname>themis::governance::RollbackOperation::multi_rule_ids</qualifiedname>
+        <briefdescription>
+<para>Additional rules in coordinated rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="89" column="17" bodyfile="include/governance/policy_change_manager.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rollback_operation_1a972c6fb2924ffce7ab62f0d0650a70b2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::RollbackOperation::from_version</definition>
+        <argsstring></argsstring>
+        <name>from_version</name>
+        <qualifiedname>themis::governance::RollbackOperation::from_version</qualifiedname>
+        <briefdescription>
+<para>Version being rolled back from. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="90" column="17" bodyfile="include/governance/policy_change_manager.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rollback_operation_1a359da16862afe4f625c61764560b13f9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::RollbackOperation::to_version</definition>
+        <argsstring></argsstring>
+        <name>to_version</name>
+        <qualifiedname>themis::governance::RollbackOperation::to_version</qualifiedname>
+        <briefdescription>
+<para>Target rollback version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="91" column="17" bodyfile="include/governance/policy_change_manager.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rollback_operation_1afb537bcc73412acfdc9b69343cfd16e5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::RollbackOperation::operator_user</definition>
+        <argsstring></argsstring>
+        <name>operator_user</name>
+        <qualifiedname>themis::governance::RollbackOperation::operator_user</qualifiedname>
+        <briefdescription>
+<para>User performing rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="92" column="17" bodyfile="include/governance/policy_change_manager.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rollback_operation_1a8ea3fed7f5473abe0699df2a7d4c372e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::RollbackOperation::started_at</definition>
+        <argsstring></argsstring>
+        <name>started_at</name>
+        <qualifiedname>themis::governance::RollbackOperation::started_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>When rollback started. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="93" column="13" bodyfile="include/governance/policy_change_manager.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rollback_operation_1afee530daf5f2d95292c0bc10908c81a5" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::RollbackOperation::completed_at</definition>
+        <argsstring></argsstring>
+        <name>completed_at</name>
+        <qualifiedname>themis::governance::RollbackOperation::completed_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>When rollback completed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="94" column="13" bodyfile="include/governance/policy_change_manager.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rollback_operation_1a2550e76f439c61a5c26d6ea73fab976e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::RollbackOperation::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::governance::RollbackOperation::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether operation succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="95" column="10" bodyfile="include/governance/policy_change_manager.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rollback_operation_1a35b84b211730e61085ca0b3eee9b9c19" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::RollbackOperation::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::governance::RollbackOperation::error_message</qualifiedname>
+        <briefdescription>
+<para>Error message if failed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="96" column="17" bodyfile="include/governance/policy_change_manager.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_rollback_operation_1a4fe882578e2c007ab77dbc5bc8c3e77c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::RollbackOperation::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::governance::RollbackOperation::reason</qualifiedname>
+        <briefdescription>
+<para>Why rollback was performed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="97" column="17" bodyfile="include/governance/policy_change_manager.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_rollback_operation_1abd19f58e9e15f27fbf812a263083454e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::RollbackOperation::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::RollbackOperation::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="103" column="20" bodyfile="src/governance/policy_change_manager.cpp" bodystart="115" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_rollback_operation_1a1bb93bf81d5c74549c714709738d37f7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_rollback_operation" kindref="compound">RollbackOperation</ref></type>
+        <definition>RollbackOperation themis::governance::RollbackOperation::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::governance::RollbackOperation::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_change_manager.h" line="109" column="30" bodyfile="src/governance/policy_change_manager.cpp" bodystart="137" bodyend="173"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_change_manager.h" line="86" column="1" bodyfile="include/governance/policy_change_manager.h" bodystart="86" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_rollback_operation_1afee530daf5f2d95292c0bc10908c81a5" prot="public" virt="non-virtual"><scope>themis::governance::RollbackOperation</scope><name>completed_at</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_operation_1a35b84b211730e61085ca0b3eee9b9c19" prot="public" virt="non-virtual"><scope>themis::governance::RollbackOperation</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_operation_1a972c6fb2924ffce7ab62f0d0650a70b2" prot="public" virt="non-virtual"><scope>themis::governance::RollbackOperation</scope><name>from_version</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_operation_1a1bb93bf81d5c74549c714709738d37f7" prot="public" virt="non-virtual"><scope>themis::governance::RollbackOperation</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_operation_1a05c1280d5d20e49412f695a075e95113" prot="public" virt="non-virtual"><scope>themis::governance::RollbackOperation</scope><name>multi_rule_ids</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_operation_1a0feb419cc1816004935187a9fcc7897e" prot="public" virt="non-virtual"><scope>themis::governance::RollbackOperation</scope><name>operation_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_operation_1afb537bcc73412acfdc9b69343cfd16e5" prot="public" virt="non-virtual"><scope>themis::governance::RollbackOperation</scope><name>operator_user</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_operation_1a4fe882578e2c007ab77dbc5bc8c3e77c" prot="public" virt="non-virtual"><scope>themis::governance::RollbackOperation</scope><name>reason</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_operation_1a2595545d44a59898d1c98eb570800ddc" prot="public" virt="non-virtual"><scope>themis::governance::RollbackOperation</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_operation_1a8ea3fed7f5473abe0699df2a7d4c372e" prot="public" virt="non-virtual"><scope>themis::governance::RollbackOperation</scope><name>started_at</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_operation_1a2550e76f439c61a5c26d6ea73fab976e" prot="public" virt="non-virtual"><scope>themis::governance::RollbackOperation</scope><name>success</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_operation_1a359da16862afe4f625c61764560b13f9" prot="public" virt="non-virtual"><scope>themis::governance::RollbackOperation</scope><name>to_version</name></member>
+      <member refid="structthemis_1_1governance_1_1_rollback_operation_1abd19f58e9e15f27fbf812a263083454e" prot="public" virt="non-virtual"><scope>themis::governance::RollbackOperation</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

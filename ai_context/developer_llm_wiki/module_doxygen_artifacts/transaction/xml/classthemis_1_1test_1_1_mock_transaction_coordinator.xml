@@ -1,0 +1,420 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1test_1_1_mock_transaction_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themis::test::MockTransactionCoordinator</compoundname>
+    <innerclass refid="structthemis_1_1test_1_1_mock_transaction_coordinator_1_1_transaction" prot="public">themis::test::MockTransactionCoordinator::Transaction</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a0058cec797615bd6de84e9662139239b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TxnState</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::TxnState</qualifiedname>
+        <enumvalue id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a0058cec797615bd6de84e9662139239ba91d26e4b2b105c74655093c9becd30b7" prot="public">
+          <name>INITIAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a0058cec797615bd6de84e9662139239babd6a3a60251e4e52cdc9c393f33cbe10" prot="public">
+          <name>PREPARING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a0058cec797615bd6de84e9662139239ba6bbfc22048d63183dd626a026e63e497" prot="public">
+          <name>PREPARED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a0058cec797615bd6de84e9662139239ba001d8fa76b26eee4f6d7c8a8d44c73ef" prot="public">
+          <name>COMMITTING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a0058cec797615bd6de84e9662139239ba1c372d13f50af5ca9a935ebc78006e82" prot="public">
+          <name>COMMITTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a0058cec797615bd6de84e9662139239ba0f7fb3ad9bfa0a293be603d57f9fa02c" prot="public">
+          <name>ABORTING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a0058cec797615bd6de84e9662139239ba4e6c860e5da10e31c5fd9cb76ddc2025" prot="public">
+          <name>ABORTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a0058cec797615bd6de84e9662139239ba9c51674930e03c276344d19f9e4398fb" prot="public">
+          <name>CRASHED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="47" column="5" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="47" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a632cfd65cab2e7f1b4d659cce664c363" prot="private" static="no" mutable="no">
+        <type>std::map&lt; int, <ref refid="structthemis_1_1test_1_1_mock_transaction_coordinator_1_1_transaction" kindref="compound">Transaction</ref> &gt;</type>
+        <definition>std::map&lt;int, Transaction&gt; themis::test::MockTransactionCoordinator::txns_</definition>
+        <argsstring></argsstring>
+        <name>txns_</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::txns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="206" column="14" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a710cd000ec8ffbbf782ec3e5a46e5d39" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::test::MockTransactionCoordinator::next_txn_id_</definition>
+        <argsstring></argsstring>
+        <name>next_txn_id_</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::next_txn_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="207" column="9" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a51e2bae7a5b141c9a4012ea09eb8dc99" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::test::MockTransactionCoordinator::next_deadlock_id_</definition>
+        <argsstring></argsstring>
+        <name>next_deadlock_id_</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::next_deadlock_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="208" column="9" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a5aff34137edbff3ad6e9f33a8ffda836" prot="private" static="no" mutable="no">
+        <type>CrashInjector *</type>
+        <definition>CrashInjector* themis::test::MockTransactionCoordinator::crash_injector_</definition>
+        <argsstring></argsstring>
+        <name>crash_injector_</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::crash_injector_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="209" column="19" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_transaction_coordinator_1aef799eb3b2a9c9d3bfaf13e7ea116a99" prot="private" static="no" mutable="no">
+        <type>std::map&lt; int, std::pair&lt; int, int &gt; &gt;</type>
+        <definition>std::map&lt;int, std::pair&lt;int, int&gt; &gt; themis::test::MockTransactionCoordinator::deadlocks_</definition>
+        <argsstring></argsstring>
+        <name>deadlocks_</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::deadlocks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="210" column="14" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_mock_transaction_coordinator_1ab64711d173831d2b92cfb1d5252a4519" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::test::MockTransactionCoordinator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="211" column="24" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="211" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a479794e76a26d92bb150b7d3ae1a277a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::MockTransactionCoordinator::MockTransactionCoordinator</definition>
+        <argsstring>()</argsstring>
+        <name>MockTransactionCoordinator</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::MockTransactionCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="67" column="5" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a4ae76a0b7ebc4e85f81b659d58c92909" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::MockTransactionCoordinator::beginTransaction</definition>
+        <argsstring>()</argsstring>
+        <name>beginTransaction</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::beginTransaction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="69" column="9" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="69" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_transaction_coordinator_1ab42103b44e2b944cad33537590c21034" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::MockTransactionCoordinator::prepareTransaction</definition>
+        <argsstring>(int txn_id)</argsstring>
+        <name>prepareTransaction</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::prepareTransaction</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="77" column="10" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="77" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_transaction_coordinator_1ae953489e10f7c0d3bc636b9890c5eb4c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::MockTransactionCoordinator::commitTransaction</definition>
+        <argsstring>(int txn_id)</argsstring>
+        <name>commitTransaction</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::commitTransaction</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="99" column="10" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="99" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a54300c8e8b52ea300a1629ca7e93d1a4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::MockTransactionCoordinator::abortTransaction</definition>
+        <argsstring>(int txn_id)</argsstring>
+        <name>abortTransaction</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::abortTransaction</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="126" column="10" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="126" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_transaction_coordinator_1aa4847ec4d4a5666cb56ec7247bc16fc2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::MockTransactionCoordinator::setKey</definition>
+        <argsstring>(int txn_id, const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>setKey</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::setKey</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="143" column="10" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="143" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_transaction_coordinator_1ae81f3c9aefeac82c46134168276c5198" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1a0058cec797615bd6de84e9662139239b" kindref="member">TxnState</ref></type>
+        <definition>TxnState themis::test::MockTransactionCoordinator::getState</definition>
+        <argsstring>(int txn_id) const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::getState</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="154" column="14" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="154" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a0d58a9e8cd69b0f30877c25dd9a53092" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::MockTransactionCoordinator::getPendingTransactionCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getPendingTransactionCount</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::getPendingTransactionCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="163" column="9" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="163" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a72239c637bd8dcf9770175e92f299f9e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::MockTransactionCoordinator::setCrashInjector</definition>
+        <argsstring>(CrashInjector *injector)</argsstring>
+        <name>setCrashInjector</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::setCrashInjector</qualifiedname>
+        <param>
+          <type>CrashInjector *</type>
+          <declname>injector</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="174" column="10" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="174" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a4c460205bd46894cf8026919261eebbd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::MockTransactionCoordinator::simulateDeadlock</definition>
+        <argsstring>(int txn_id_a, int txn_id_b)</argsstring>
+        <name>simulateDeadlock</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::simulateDeadlock</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>txn_id_a</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>txn_id_b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="179" column="10" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="179" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_transaction_coordinator_1af830e95f81884e4c08cf5e8ffe97175e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::MockTransactionCoordinator::hasDeadlock</definition>
+        <argsstring>(int txn_id) const</argsstring>
+        <name>hasDeadlock</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::hasDeadlock</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="185" column="10" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="185" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a925687def617ae5c2e7ff8473e4cd70c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::MockTransactionCoordinator::getDeadlockCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getDeadlockCount</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::getDeadlockCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="195" column="9" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="195" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_mock_transaction_coordinator_1a1b3d8462fb6783c31687e1313339f4bc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::MockTransactionCoordinator::clearDeadlocks</definition>
+        <argsstring>()</argsstring>
+        <name>clearDeadlocks</name>
+        <qualifiedname>themis::test::MockTransactionCoordinator::clearDeadlocks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="200" column="10" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="200" bodyend="203"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simple mock transaction coordinator for chaos testing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/transaction/test_transaction_chaos.cpp" line="45" column="1" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="45" bodyend="212"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1a54300c8e8b52ea300a1629ca7e93d1a4" prot="public" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator</scope><name>abortTransaction</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1a4ae76a0b7ebc4e85f81b659d58c92909" prot="public" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator</scope><name>beginTransaction</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1a1b3d8462fb6783c31687e1313339f4bc" prot="public" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator</scope><name>clearDeadlocks</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1ae953489e10f7c0d3bc636b9890c5eb4c" prot="public" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator</scope><name>commitTransaction</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1a5aff34137edbff3ad6e9f33a8ffda836" prot="private" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator</scope><name>crash_injector_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1aef799eb3b2a9c9d3bfaf13e7ea116a99" prot="private" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator</scope><name>deadlocks_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1a925687def617ae5c2e7ff8473e4cd70c" prot="public" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator</scope><name>getDeadlockCount</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1a0d58a9e8cd69b0f30877c25dd9a53092" prot="public" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator</scope><name>getPendingTransactionCount</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1ae81f3c9aefeac82c46134168276c5198" prot="public" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator</scope><name>getState</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1af830e95f81884e4c08cf5e8ffe97175e" prot="public" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator</scope><name>hasDeadlock</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1a479794e76a26d92bb150b7d3ae1a277a" prot="public" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator</scope><name>MockTransactionCoordinator</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1ab64711d173831d2b92cfb1d5252a4519" prot="private" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1a51e2bae7a5b141c9a4012ea09eb8dc99" prot="private" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator</scope><name>next_deadlock_id_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1a710cd000ec8ffbbf782ec3e5a46e5d39" prot="private" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator</scope><name>next_txn_id_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1ab42103b44e2b944cad33537590c21034" prot="public" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator</scope><name>prepareTransaction</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1a72239c637bd8dcf9770175e92f299f9e" prot="public" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator</scope><name>setCrashInjector</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1aa4847ec4d4a5666cb56ec7247bc16fc2" prot="public" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator</scope><name>setKey</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1a4c460205bd46894cf8026919261eebbd" prot="public" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator</scope><name>simulateDeadlock</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1a632cfd65cab2e7f1b4d659cce664c363" prot="private" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator</scope><name>txns_</name></member>
+      <member refid="classthemis_1_1test_1_1_mock_transaction_coordinator_1a0058cec797615bd6de84e9662139239b" prot="public" virt="non-virtual"><scope>themis::test::MockTransactionCoordinator</scope><name>TxnState</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

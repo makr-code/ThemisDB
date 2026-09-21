@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::DistributedTrainingCoordinator::StepResult</compoundname>
+    <includes refid="distributed__training__coordinator_8h" local="no">distributed_training_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result_1a9d4c75ac4e921bd37dc4692d835c1ab6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DistributedTrainingCoordinator::StepResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::StepResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="423" column="14" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="423" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result_1a4e0167e77350db6a8e5e58f24c96e066" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::DistributedTrainingCoordinator::StepResult::step_number</definition>
+        <argsstring></argsstring>
+        <name>step_number</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::StepResult::step_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="424" column="13" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="424" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result_1a85bd36ba404fd14fd7e15ad1b5bb22e7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref> &gt;</type>
+        <definition>std::vector&lt;GradientTensor&gt; themis::llm::DistributedTrainingCoordinator::StepResult::aggregated_gradients</definition>
+        <argsstring></argsstring>
+        <name>aggregated_gradients</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::StepResult::aggregated_gradients</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="425" column="21" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="425" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result_1a24ab3eae4f31d6e47a7a9a95131c3171" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::DistributedTrainingCoordinator::StepResult::sync_time_ms</definition>
+        <argsstring></argsstring>
+        <name>sync_time_ms</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::StepResult::sync_time_ms</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="426" column="15" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="426" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result_1a5773d8c3a315068df7bde2bafd6f30a5" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::DistributedTrainingCoordinator::StepResult::total_time_ms</definition>
+        <argsstring></argsstring>
+        <name>total_time_ms</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::StepResult::total_time_ms</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="427" column="15" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="427" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result_1afd2912c72217434d47c46b5065dcc7ad" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1llm_1_1_shard_training_state" kindref="compound">ShardTrainingState</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ShardTrainingState&gt; themis::llm::DistributedTrainingCoordinator::StepResult::shard_states</definition>
+        <argsstring></argsstring>
+        <name>shard_states</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::StepResult::shard_states</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="428" column="18" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="428" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result_1acc01e6214c8fc4170c761dead3eccb66" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; float &gt;</type>
+        <definition>std::optional&lt;float&gt; themis::llm::DistributedTrainingCoordinator::StepResult::aggregated_loss</definition>
+        <argsstring></argsstring>
+        <name>aggregated_loss</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::StepResult::aggregated_loss</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="429" column="23" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="429" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result_1acd020233f6cc53dc901183b51448a9e2" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; float &gt;</type>
+        <definition>std::optional&lt;float&gt; themis::llm::DistributedTrainingCoordinator::StepResult::aggregated_accuracy</definition>
+        <argsstring></argsstring>
+        <name>aggregated_accuracy</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::StepResult::aggregated_accuracy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="430" column="23" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="430" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result_1ac44456650fa50590a8fc2bae8f92442f" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, float &gt;</type>
+        <definition>std::map&lt;std::string, float&gt; themis::llm::DistributedTrainingCoordinator::StepResult::per_shard_loss</definition>
+        <argsstring></argsstring>
+        <name>per_shard_loss</name>
+        <qualifiedname>themis::llm::DistributedTrainingCoordinator::StepResult::per_shard_loss</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/distributed_training_coordinator.h" line="431" column="18" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="431" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/distributed_training_coordinator.h" line="422" column="5" bodyfile="include/llm/distributed_training_coordinator.h" bodystart="422" bodyend="432"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result_1acd020233f6cc53dc901183b51448a9e2" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator::StepResult</scope><name>aggregated_accuracy</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result_1a85bd36ba404fd14fd7e15ad1b5bb22e7" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator::StepResult</scope><name>aggregated_gradients</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result_1acc01e6214c8fc4170c761dead3eccb66" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator::StepResult</scope><name>aggregated_loss</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result_1ac44456650fa50590a8fc2bae8f92442f" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator::StepResult</scope><name>per_shard_loss</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result_1afd2912c72217434d47c46b5065dcc7ad" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator::StepResult</scope><name>shard_states</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result_1a4e0167e77350db6a8e5e58f24c96e066" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator::StepResult</scope><name>step_number</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result_1a9d4c75ac4e921bd37dc4692d835c1ab6" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator::StepResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result_1a24ab3eae4f31d6e47a7a9a95131c3171" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator::StepResult</scope><name>sync_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_distributed_training_coordinator_1_1_step_result_1a5773d8c3a315068df7bde2bafd6f30a5" prot="public" virt="non-virtual"><scope>themis::llm::DistributedTrainingCoordinator::StepResult</scope><name>total_time_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

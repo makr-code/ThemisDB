@@ -1,0 +1,329 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="voice__audio__storage_8h" kind="file" language="C++">
+    <compoundname>voice_audio_storage.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="voice__assistant_8h" local="yes">include/voice/voice_assistant.h</includedby>
+    <includedby refid="voice__audio__storage_8cpp" local="yes">src/voice/voice_audio_storage.cpp</includedby>
+    <includedby refid="test__voice__coverage_8cpp" local="yes">tests/voice/test_voice_coverage.cpp</includedby>
+    <includedby refid="test__voice__production_8cpp" local="yes">tests/voice/test_voice_production.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/voice/voice_audio_storage.h</label>
+        <link refid="voice__audio__storage_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/voice/bench_voice_assistant.cpp</label>
+        <link refid="bench__voice__assistant_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/voice/voice_assistant.h</label>
+        <link refid="voice__assistant_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/voice/voice_audio_storage.h</label>
+        <link refid="voice__audio__storage_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/voice/voice_assistant.cpp</label>
+        <link refid="voice__assistant_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/voice/voice_assistant_llm.cpp</label>
+        <link refid="voice__assistant__llm_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/voice/voice_audio_storage.cpp</label>
+        <link refid="voice__audio__storage_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/voice/test_voice_api_handler.cpp</label>
+        <link refid="test__voice__api__handler_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/voice/test_voice_assistant.cpp</label>
+        <link refid="test__voice__assistant_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/voice/test_voice_assistant_generateLLMResponse_qw37.cpp</label>
+        <link refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/voice/test_voice_assistant_verifyIdentify_qw38.cpp</label>
+        <link refid="test__voice__assistant__verify_identify__qw38_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/voice/test_voice_coverage.cpp</label>
+        <link refid="test__voice__coverage_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/voice/test_voice_production.cpp</label>
+        <link refid="test__voice__production_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1voice_1_1_audio_format" prot="public">themis::voice::AudioFormat</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_audio_storage_record" prot="public">themis::voice::AudioStorageRecord</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_storage_tier_policy" prot="public">themis::voice::StorageTierPolicy</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_encryption_config" prot="public">themis::voice::EncryptionConfig</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_deduplication_result" prot="public">themis::voice::DeduplicationResult</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_storage_stats" prot="public">themis::voice::StorageStats</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_voice_audio_storage" prot="public">themis::voice::VoiceAudioStorage</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice">themis::voice</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.42 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Audio<sp/>storage<sp/>&amp;<sp/>retrieval<sp/>–<sp/>Phase<sp/>5<sp/>production<sp/>readiness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice" kindref="compound">voice</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Audio<sp/>storage<sp/>tier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1voice_1a4ce66b8a12401bbb80aafc50c371116c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1a4ce66b8a12401bbb80aafc50c371116c" kindref="member">StorageTier</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1voice_1a4ce66b8a12401bbb80aafc50c371116cac429fde8b1b986d42f84ba63dbfef6ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a4ce66b8a12401bbb80aafc50c371116cac429fde8b1b986d42f84ba63dbfef6ac" kindref="member">HOT</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Frequent<sp/>access:<sp/>in-memory<sp/>or<sp/>fast<sp/>disk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1voice_1a4ce66b8a12401bbb80aafc50c371116ca11523c55fca0d056eda7dbbe810490ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a4ce66b8a12401bbb80aafc50c371116ca11523c55fca0d056eda7dbbe810490ca" kindref="member">WARM</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Recent<sp/>but<sp/>not<sp/>active:<sp/>compressed<sp/>on<sp/>disk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1voice_1a4ce66b8a12401bbb80aafc50c371116ca3f7ff4daa99912d1b0c8c64340edb9fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a4ce66b8a12401bbb80aafc50c371116ca3f7ff4daa99912d1b0c8c64340edb9fb" kindref="member">COLD</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Archive:<sp/>heavily<sp/>compressed,<sp/>slow<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1voice_1a4ce66b8a12401bbb80aafc50c371116ca63c2867fdcae0e8e8413d7ac21b69b59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a4ce66b8a12401bbb80aafc50c371116ca63c2867fdcae0e8e8413d7ac21b69b59" kindref="member">DELETED</ref><sp/></highlight><highlight class="comment">//<sp/>Marked<sp/>for<sp/>deletion<sp/>/<sp/>purged</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1voice_1a13cb6be2c62531bee2daaddc4f512775" kindref="member">storageTierToString</ref>(<ref refid="namespacethemis_1_1voice_1a4ce66b8a12401bbb80aafc50c371116c" kindref="member">StorageTier</ref><sp/>tier);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Audio<sp/>format<sp/>descriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1voice_1_1_audio_format" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_audio_format" kindref="compound">AudioFormat</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1voice_1_1_audio_format_1addc228d8818f3d9df6e8c21a971c76eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_audio_format_1addc228d8818f3d9df6e8c21a971c76eb" kindref="member">codec</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;pcm&quot;,<sp/>&quot;wav&quot;,<sp/>&quot;ogg&quot;,<sp/>&quot;mp3&quot;,<sp/>&quot;opus&quot;,<sp/>&quot;aac&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1voice_1_1_audio_format_1abbfb1295bfd989c3eecfa1050fd66742" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_audio_format_1abbfb1295bfd989c3eecfa1050fd66742" kindref="member">sample_rate</ref><sp/>=<sp/>16000;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1voice_1_1_audio_format_1af5515bb98e3b846255eb87481ed357ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_audio_format_1af5515bb98e3b846255eb87481ed357ea" kindref="member">channels</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1voice_1_1_audio_format_1af0491e960fb04d3f95b0cf630eb6baf0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_audio_format_1af0491e960fb04d3f95b0cf630eb6baf0" kindref="member">bit_depth</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1voice_1_1_audio_format_1a6ae705a52b1570525d3ae615d5fe0fe2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_audio_format_1a6ae705a52b1570525d3ae615d5fe0fe2" kindref="member">duration_seconds</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1voice_1_1_audio_format_1a7297beb80b5d82c1724144bc2c0e8821" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_audio_format_1a7297beb80b5d82c1724144bc2c0e8821" kindref="member">size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Audio<sp/>storage<sp/>record<sp/>(metadata<sp/>+<sp/>pointer<sp/>to<sp/>data)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1voice_1_1_audio_storage_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_audio_storage_record" kindref="compound">AudioStorageRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1voice_1_1_audio_storage_record_1a1f8c68330979288121f0bb6a0a385305" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_audio_storage_record_1a1f8c68330979288121f0bb6a0a385305" kindref="member">record_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1voice_1_1_audio_storage_record_1a0b10759f7a697c6d8d12ea54fb4c0f32" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_audio_storage_record_1a0b10759f7a697c6d8d12ea54fb4c0f32" kindref="member">content_hash</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>FNV-1a<sp/>hash<sp/>for<sp/>deduplication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1voice_1_1_audio_storage_record_1a02e8a9e0b1933d877c2f7b8bab5e63c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a4ce66b8a12401bbb80aafc50c371116c" kindref="member">StorageTier</ref><sp/><ref refid="structthemis_1_1voice_1_1_audio_storage_record_1a02e8a9e0b1933d877c2f7b8bab5e63c1" kindref="member">tier</ref><sp/>=<sp/><ref refid="namespacethemis_1_1voice_1a4ce66b8a12401bbb80aafc50c371116cac429fde8b1b986d42f84ba63dbfef6ac" kindref="member">StorageTier::HOT</ref>;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1voice_1_1_audio_storage_record_1afa66d2df308d5fec7130f311f7855b10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_audio_format" kindref="compound">AudioFormat</ref><sp/><ref refid="structthemis_1_1voice_1_1_audio_storage_record_1afa66d2df308d5fec7130f311f7855b10" kindref="member">format</ref>;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1voice_1_1_audio_storage_record_1af586c2b7d3c330711dc9a8ad1fd2cd3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_audio_storage_record_1af586c2b7d3c330711dc9a8ad1fd2cd3e" kindref="member">transcript</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1voice_1_1_audio_storage_record_1a26b325f94a6a8bd95f35285e716f348d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="structthemis_1_1voice_1_1_audio_storage_record_1a26b325f94a6a8bd95f35285e716f348d" kindref="member">metadata</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1voice_1_1_audio_storage_record_1a1a755990379f716a98af853f864a665a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_audio_storage_record_1a1a755990379f716a98af853f864a665a" kindref="member">created_at_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1voice_1_1_audio_storage_record_1af85bc706b6b29c80ae4cbd038dd42e9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_audio_storage_record_1af85bc706b6b29c80ae4cbd038dd42e9d" kindref="member">last_accessed_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1voice_1_1_audio_storage_record_1a78eb5a06d22e8b7c60e6c0c202bc94b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_audio_storage_record_1a78eb5a06d22e8b7c60e6c0c202bc94b9" kindref="member">expires_at_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>=<sp/>no<sp/>expiry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1voice_1_1_audio_storage_record_1af202ebaaee1bf156fcc28663f1cd8430" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_audio_storage_record_1af202ebaaee1bf156fcc28663f1cd8430" kindref="member">encrypted</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1voice_1_1_audio_storage_record_1aec39b7732db0c2d46e89cf05fbc3ace8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_audio_storage_record_1aec39b7732db0c2d46e89cf05fbc3ace8" kindref="member">encryption_key_id</ref>;<sp/></highlight><highlight class="comment">//<sp/>Key<sp/>reference<sp/>(not<sp/>the<sp/>key<sp/>itself)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1voice_1_1_audio_storage_record_1a7aba70898134a9d9b142a56e5a885935" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_audio_storage_record_1a7aba70898134a9d9b142a56e5a885935" kindref="member">access_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1voice_1_1_audio_storage_record_1a5bdc34683ac3bc74492ff06e5c239387" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_audio_storage_record_1a5bdc34683ac3bc74492ff06e5c239387" kindref="member">is_duplicate</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1voice_1_1_audio_storage_record_1a526b91da61b378b8fefd7459d5815347" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_audio_storage_record_1a526b91da61b378b8fefd7459d5815347" kindref="member">duplicate_of</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Points<sp/>to<sp/>original<sp/>if<sp/>duplicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tiered<sp/>storage<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1voice_1_1_storage_tier_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_storage_tier_policy" kindref="compound">StorageTierPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1voice_1_1_storage_tier_policy_1af6203cc0002442812d95a6fd867e75e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_storage_tier_policy_1af6203cc0002442812d95a6fd867e75e4" kindref="member">hot_to_warm_after_ms</ref><sp/>=<sp/>7LL<sp/>*<sp/>24<sp/>*<sp/>3600<sp/>*<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>7<sp/>days</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1voice_1_1_storage_tier_policy_1ab7df747909f8cc7df4e48e1bad66cfc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_storage_tier_policy_1ab7df747909f8cc7df4e48e1bad66cfc5" kindref="member">warm_to_cold_after_ms</ref><sp/>=<sp/>30LL<sp/>*<sp/>24<sp/>*<sp/>3600<sp/>*<sp/>1000;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>30<sp/>days</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1voice_1_1_storage_tier_policy_1a74f2271e1174d9bdf7c0d3a83616c083" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_storage_tier_policy_1a74f2271e1174d9bdf7c0d3a83616c083" kindref="member">cold_to_delete_after_ms</ref><sp/>=<sp/>365LL<sp/>*<sp/>24<sp/>*<sp/>3600<sp/>*<sp/>1000;<sp/></highlight><highlight class="comment">//<sp/>1<sp/>year</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1voice_1_1_storage_tier_policy_1ac2b821ffd8f04ca11fe2a342889fbe7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_storage_tier_policy_1ac2b821ffd8f04ca11fe2a342889fbe7b" kindref="member">max_hot_bytes</ref><sp/>=<sp/>1024ULL<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1voice_1_1_storage_tier_policy_1aa0288fdad125241b73d24cc4a4974f05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_storage_tier_policy_1aa0288fdad125241b73d24cc4a4974f05" kindref="member">max_warm_bytes</ref><sp/>=<sp/>10ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1voice_1_1_storage_tier_policy_1a7fae9de6f5f1a91579bf2fac6f8bff42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_storage_tier_policy_1a7fae9de6f5f1a91579bf2fac6f8bff42" kindref="member">enable_auto_tier</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AES-256<sp/>encryption<sp/>config<sp/>(key<sp/>management<sp/>only<sp/>-<sp/>no<sp/>actual<sp/>crypto<sp/>dependency)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1voice_1_1_encryption_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_encryption_config" kindref="compound">EncryptionConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1voice_1_1_encryption_config_1af7fbc5fb654f7fd540cfb2300d81f25d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_encryption_config_1af7fbc5fb654f7fd540cfb2300d81f25d" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1voice_1_1_encryption_config_1ac15807675d87b99412f1af279ba65312" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_encryption_config_1ac15807675d87b99412f1af279ba65312" kindref="member">key_provider</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;local&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>&quot;local&quot;,<sp/>&quot;vault&quot;,<sp/>&quot;hsm&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1voice_1_1_encryption_config_1a2f89085e0f9f3108ba81cb52b0ef2daa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_encryption_config_1a2f89085e0f9f3108ba81cb52b0ef2daa" kindref="member">key_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>reference</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1voice_1_1_encryption_config_1a99f550278380a6a2c9edff95e6512aae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_encryption_config_1a99f550278380a6a2c9edff95e6512aae" kindref="member">algorithm</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;AES-256-GCM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Deduplication<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1voice_1_1_deduplication_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_deduplication_result" kindref="compound">DeduplicationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1voice_1_1_deduplication_result_1ab3b46c6d2b686c495f644c74477be678" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_deduplication_result_1ab3b46c6d2b686c495f644c74477be678" kindref="member">is_duplicate</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1voice_1_1_deduplication_result_1a22594887c39661bc48d834b5ee1af21c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_deduplication_result_1a22594887c39661bc48d834b5ee1af21c" kindref="member">existing_record_id</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>duplicate,<sp/>the<sp/>original&apos;s<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1voice_1_1_deduplication_result_1a79c124efee1ea86ea791aa69b26bfc28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_deduplication_result_1a79c124efee1ea86ea791aa69b26bfc28" kindref="member">content_hash</ref>;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1voice_1_1_deduplication_result_1ad884ba6bfbfd24775f3d730ca7a93447" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_deduplication_result_1ad884ba6bfbfd24775f3d730ca7a93447" kindref="member">bytes_saved</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Storage<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1voice_1_1_storage_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_storage_stats" kindref="compound">StorageStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1voice_1_1_storage_stats_1a9682d4ea6d141b9a35b338c8fed4387a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_storage_stats_1a9682d4ea6d141b9a35b338c8fed4387a" kindref="member">total_records</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1voice_1_1_storage_stats_1a87bcd8c24cd05f3ebb23b9e7f88a1e44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_storage_stats_1a87bcd8c24cd05f3ebb23b9e7f88a1e44" kindref="member">hot_records</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1voice_1_1_storage_stats_1a6422212c42a3fb17cbd9e7b9bf739014" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_storage_stats_1a6422212c42a3fb17cbd9e7b9bf739014" kindref="member">warm_records</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1voice_1_1_storage_stats_1af49501149f4510fbdde171f04e726174" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_storage_stats_1af49501149f4510fbdde171f04e726174" kindref="member">cold_records</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1voice_1_1_storage_stats_1a377938fa8a7c6220ba3f98543bdaf4b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_storage_stats_1a377938fa8a7c6220ba3f98543bdaf4b1" kindref="member">total_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1voice_1_1_storage_stats_1a12489b269d2a72994131fb7c3c588258" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_storage_stats_1a12489b269d2a72994131fb7c3c588258" kindref="member">deduplicated_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1voice_1_1_storage_stats_1a0757739db91ad8e07f471d5c36d71572" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_storage_stats_1a0757739db91ad8e07f471d5c36d71572" kindref="member">deduplication_hits</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1voice_1_1_storage_stats_1aed8f30e203a6e7a6e3e3aa868b4ed763" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_storage_stats_1aed8f30e203a6e7a6e3e3aa868b4ed763" kindref="member">encryption_enabled_records</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VoiceAudioStorage:<sp/>Phase<sp/>5<sp/>production<sp/>component</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1voice_1_1_voice_audio_storage" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_voice_audio_storage_1aa2382a88a5f3cf0f5e2ab53da6357f66" kindref="member">VoiceAudioStorage</ref><sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_audio_storage_1aa2382a88a5f3cf0f5e2ab53da6357f66" kindref="member">VoiceAudioStorage</ref>(</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_storage_tier_policy" kindref="compound">StorageTierPolicy</ref>&amp;<sp/>policy<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_encryption_config" kindref="compound">EncryptionConfig</ref>&amp;<sp/>enc_config<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1voice_1_1_voice_audio_storage_1a81e0c9fd59ce7539151c13005369d0c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_audio_storage_1a81e0c9fd59ce7539151c13005369d0c7" kindref="member">~VoiceAudioStorage</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Store<sp/>audio<sp/>with<sp/>metadata,<sp/>returns<sp/>record<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1voice_1_1_voice_audio_storage_1a8205f943dec595eb5b9b3e9e39ca4e43" kindref="member">store</ref>(</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>audio_data,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_audio_format" kindref="compound">AudioFormat</ref>&amp;<sp/>format,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>transcript<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref>&amp;<sp/>metadata<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retrieve<sp/>audio<sp/>data<sp/>by<sp/>record<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_audio_storage_1a70ae4628ae92490ba455be69abdca844" kindref="member">retrieve</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>record_id);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>record<sp/>metadata<sp/>without<sp/>loading<sp/>audio</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;AudioStorageRecord&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_audio_storage_1a5e921106575f69a00d553d213e60fb9c" kindref="member">getRecord</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>record_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>record</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_audio_storage_1a046fc0a9dba1fab14ab56b72334f7b4f" kindref="member">deleteRecord</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>record_id);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>List<sp/>records<sp/>matching<sp/>filters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AudioStorageRecord&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_audio_storage_1aa336ca324b3c1ce9052f7029240763da" kindref="member">listRecords</ref>(</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a4ce66b8a12401bbb80aafc50c371116c" kindref="member">StorageTier</ref><sp/>tier_filter<sp/>=<sp/><ref refid="namespacethemis_1_1voice_1a4ce66b8a12401bbb80aafc50c371116cac429fde8b1b986d42f84ba63dbfef6ac" kindref="member">StorageTier::HOT</ref>,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>100</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Search<sp/>transcripts<sp/>by<sp/>keyword<sp/>(case-insensitive<sp/>substring<sp/>match)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>records<sp/>whose<sp/>transcript<sp/>field<sp/>contains<sp/>the<sp/>query<sp/>string.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AudioStorageRecord&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_audio_storage_1a5bd31a3fbe26a72f45100175279805e6" kindref="member">searchTranscripts</ref>(</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>100</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deduplication:<sp/>compute<sp/>hash<sp/>and<sp/>check<sp/>for<sp/>duplicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_deduplication_result" kindref="compound">DeduplicationResult</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_audio_storage_1a33c7c694d062445cf5ebdb45c878ac14" kindref="member">checkDuplicate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>audio_data)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1voice_1_1_voice_audio_storage_1ada3bb5e0143e9acf88b4899e2d07ba06" kindref="member">computeHash</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tiered<sp/>storage<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_audio_storage_1aeaaf34f55385034e563b1c2a94be3a25" kindref="member">applyTierPolicy</ref>();<sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>number<sp/>of<sp/>records<sp/>moved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a4ce66b8a12401bbb80aafc50c371116c" kindref="member">StorageTier</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_audio_storage_1ab60e1803a5e5fb8a5f789d4e269a95a1" kindref="member">computeTier</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_audio_storage_record" kindref="compound">AudioStorageRecord</ref>&amp;<sp/>record)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_audio_storage_1a5a10a53903afe7c979e7be7bfe6b7ffa" kindref="member">promoteTier</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>record_id);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Move<sp/>up<sp/>a<sp/>tier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_audio_storage_1a2e6fb0ea8132f8a326b99b52fdcf7a86" kindref="member">demoteTier</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>record_id);<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Move<sp/>down<sp/>a<sp/>tier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Encryption<sp/>wrapper<sp/>(marks<sp/>records<sp/>as<sp/>encrypted,<sp/>stores<sp/>key<sp/>reference)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_audio_storage_1a038d546bc6f2ee9856d034854d645424" kindref="member">markEncrypted</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>record_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_audio_storage_1a3eb8c82c7a9ceaebfb498b305d5fee42" kindref="member">isEncrypted</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>record_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Audio<sp/>format<sp/>detection<sp/>from<sp/>raw<sp/>bytes<sp/>(magic<sp/>bytes<sp/>check)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_audio_format" kindref="compound">AudioFormat</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_audio_storage_1a68efa757d07c03f3dacfc19da422063b" kindref="member">detectFormat</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Storage<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_storage_stats" kindref="compound">StorageStats</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_audio_storage_1accf271b09a2e51fe06e3b9aecd1ed7da" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_storage_tier_policy" kindref="compound">StorageTierPolicy</ref><sp/>policy_;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_encryption_config" kindref="compound">EncryptionConfig</ref><sp/>enc_config_;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>AudioStorageRecord&gt;<sp/>records_;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::vector&lt;uint8_t&gt;&gt;<sp/>data_;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>actual<sp/>audio<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/>hash_to_id_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>dedup<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateRecordId()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>nowMs()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::voice</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/voice/voice_audio_storage.h"/>
+  </compounddef>
+</doxygen>

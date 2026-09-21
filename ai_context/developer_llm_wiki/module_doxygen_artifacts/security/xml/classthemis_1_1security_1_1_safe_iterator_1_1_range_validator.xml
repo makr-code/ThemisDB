@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_safe_iterator_1_1_range_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::SafeIterator::RangeValidator</compoundname>
+    <includes refid="safe__iterator_8h" local="no">safe_iterator.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename Iterator</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_safe_iterator_1_1_range_validator_1a04762826c867e8f6df6d7f226af00951" prot="private" static="no" mutable="no">
+        <type>Iterator</type>
+        <definition>Iterator themis::security::SafeIterator::RangeValidator&lt; Iterator &gt;::begin_</definition>
+        <argsstring></argsstring>
+        <name>begin_</name>
+        <qualifiedname>themis::security::SafeIterator::RangeValidator::begin_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="246" column="14" bodyfile="include/security/safe_iterator.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_safe_iterator_1_1_range_validator_1aa753a74083d023d434133fbb7c5585f7" prot="private" static="no" mutable="no">
+        <type>Iterator</type>
+        <definition>Iterator themis::security::SafeIterator::RangeValidator&lt; Iterator &gt;::end_</definition>
+        <argsstring></argsstring>
+        <name>end_</name>
+        <qualifiedname>themis::security::SafeIterator::RangeValidator::end_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="247" column="14" bodyfile="include/security/safe_iterator.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_safe_iterator_1_1_range_validator_1a6853c3d4b4e6143bf921eec284307b9d" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::SafeIterator::RangeValidator&lt; Iterator &gt;::validated_</definition>
+        <argsstring></argsstring>
+        <name>validated_</name>
+        <qualifiedname>themis::security::SafeIterator::RangeValidator::validated_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="248" column="10" bodyfile="include/security/safe_iterator.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_iterator_1_1_range_validator_1ac4da636d8b1f19d017aa62b857e87606" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::SafeIterator::RangeValidator&lt; Iterator &gt;::RangeValidator</definition>
+        <argsstring>(const Iterator &amp;begin, const Iterator &amp;end)</argsstring>
+        <name>RangeValidator</name>
+        <qualifiedname>themis::security::SafeIterator::RangeValidator::RangeValidator</qualifiedname>
+        <param>
+          <type>const Iterator &amp;</type>
+          <declname>begin</declname>
+        </param>
+        <param>
+          <type>const Iterator &amp;</type>
+          <declname>end</declname>
+        </param>
+        <briefdescription>
+<para>Validate and store a safe iterator range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">begin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Beginning of the iterator range. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End of the iterator range. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Validated range object. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="209" column="14" bodyfile="include/security/safe_iterator.h" bodystart="209" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_iterator_1_1_range_validator_1ac63a67cf2fef5ca048a16dfa10f2cb09" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>Iterator</type>
+        <definition>Iterator themis::security::SafeIterator::RangeValidator&lt; Iterator &gt;::begin</definition>
+        <argsstring>() const</argsstring>
+        <name>begin</name>
+        <qualifiedname>themis::security::SafeIterator::RangeValidator::begin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="223" column="14" bodyfile="include/security/safe_iterator.h" bodystart="223" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_iterator_1_1_range_validator_1aa585a245d14e58eb34f0550826adbe4a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>Iterator</type>
+        <definition>Iterator themis::security::SafeIterator::RangeValidator&lt; Iterator &gt;::end</definition>
+        <argsstring>() const</argsstring>
+        <name>end</name>
+        <qualifiedname>themis::security::SafeIterator::RangeValidator::end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="225" column="14" bodyfile="include/security/safe_iterator.h" bodystart="225" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_iterator_1_1_range_validator_1af4e32403e734b5e6d775ed8d47ef380d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::SafeIterator::RangeValidator&lt; Iterator &gt;::empty</definition>
+        <argsstring>() const</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::security::SafeIterator::RangeValidator::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="227" column="10" bodyfile="include/security/safe_iterator.h" bodystart="227" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_iterator_1_1_range_validator_1a35aa267879656a6fd658185cc1c7bc05" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::security::SafeIterator::RangeValidator&lt; Iterator &gt;::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::security::SafeIterator::RangeValidator::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_iterator.h" line="229" column="12" bodyfile="include/security/safe_iterator.h" bodystart="229" bodyend="243"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/safe_iterator.h" line="201" column="1" bodyfile="include/security/safe_iterator.h" bodystart="201" bodyend="249"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_range_validator_1ac63a67cf2fef5ca048a16dfa10f2cb09" prot="public" virt="non-virtual"><scope>themis::security::SafeIterator::RangeValidator</scope><name>begin</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_range_validator_1a04762826c867e8f6df6d7f226af00951" prot="private" virt="non-virtual"><scope>themis::security::SafeIterator::RangeValidator</scope><name>begin_</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_range_validator_1af4e32403e734b5e6d775ed8d47ef380d" prot="public" virt="non-virtual"><scope>themis::security::SafeIterator::RangeValidator</scope><name>empty</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_range_validator_1aa585a245d14e58eb34f0550826adbe4a" prot="public" virt="non-virtual"><scope>themis::security::SafeIterator::RangeValidator</scope><name>end</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_range_validator_1aa753a74083d023d434133fbb7c5585f7" prot="private" virt="non-virtual"><scope>themis::security::SafeIterator::RangeValidator</scope><name>end_</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_range_validator_1ac4da636d8b1f19d017aa62b857e87606" prot="public" virt="non-virtual"><scope>themis::security::SafeIterator::RangeValidator</scope><name>RangeValidator</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_range_validator_1a35aa267879656a6fd658185cc1c7bc05" prot="public" virt="non-virtual"><scope>themis::security::SafeIterator::RangeValidator</scope><name>size</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_iterator_1_1_range_validator_1a6853c3d4b4e6143bf921eec284307b9d" prot="private" virt="non-virtual"><scope>themis::security::SafeIterator::RangeValidator</scope><name>validated_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

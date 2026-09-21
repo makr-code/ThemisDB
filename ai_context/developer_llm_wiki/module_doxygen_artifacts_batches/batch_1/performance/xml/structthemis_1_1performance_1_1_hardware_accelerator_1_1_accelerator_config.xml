@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_hardware_accelerator_1_1_accelerator_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::HardwareAccelerator::AcceleratorConfig</compoundname>
+    <includes refid="hardware__accelerator_8h" local="no">hardware_accelerator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_hardware_accelerator_1_1_accelerator_config_1ad36c39ebb808aa7971f5c5d98c75903c" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1performance_1_1_hardware_accelerator_1a58f8f3fa81ac923d089dbe53a2c75596" kindref="member">DeviceType</ref></type>
+        <definition>DeviceType themis::performance::HardwareAccelerator::AcceleratorConfig::device</definition>
+        <argsstring></argsstring>
+        <name>device</name>
+        <qualifiedname>themis::performance::HardwareAccelerator::AcceleratorConfig::device</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1performance_1_1_hardware_accelerator_1a58f8f3fa81ac923d089dbe53a2c75596ae532a01aa444c7086d6fcf042bce4e55" kindref="member">DeviceType::GPU_CUDA</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Preferred execution device. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="211" column="20" bodyfile="include/performance/hardware_accelerator.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_hardware_accelerator_1_1_accelerator_config_1a967fe608d011f6076b3b23ff9db93c0d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::HardwareAccelerator::AcceleratorConfig::device_memory_mb</definition>
+        <argsstring></argsstring>
+        <name>device_memory_mb</name>
+        <qualifiedname>themis::performance::HardwareAccelerator::AcceleratorConfig::device_memory_mb</qualifiedname>
+        <initializer>= 8192</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Device memory budget in MB. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="214" column="16" bodyfile="include/performance/hardware_accelerator.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_hardware_accelerator_1_1_accelerator_config_1ab2716f4441dfff1fa3d97e10304e4a67" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::HardwareAccelerator::AcceleratorConfig::enable_pipelining</definition>
+        <argsstring></argsstring>
+        <name>enable_pipelining</name>
+        <qualifiedname>themis::performance::HardwareAccelerator::AcceleratorConfig::enable_pipelining</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable multi-stage execution pipelining. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="217" column="14" bodyfile="include/performance/hardware_accelerator.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_hardware_accelerator_1_1_accelerator_config_1a140d71aff65055c5345ad7f511a92b09" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::HardwareAccelerator::AcceleratorConfig::enable_async_copy</definition>
+        <argsstring></argsstring>
+        <name>enable_async_copy</name>
+        <qualifiedname>themis::performance::HardwareAccelerator::AcceleratorConfig::enable_async_copy</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Use DMA for host-to-device data transfer (GPU paths). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="220" column="14" bodyfile="include/performance/hardware_accelerator.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_hardware_accelerator_1_1_accelerator_config_1a8849db61929a1d9fb9cfc8ac1332f115" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::HardwareAccelerator::AcceleratorConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::performance::HardwareAccelerator::AcceleratorConfig::batch_size</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of rows per batch when processing large inputs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="223" column="16" bodyfile="include/performance/hardware_accelerator.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-execution accelerator configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/hardware_accelerator.h" line="209" column="5" bodyfile="include/performance/hardware_accelerator.h" bodystart="209" bodyend="224"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_hardware_accelerator_1_1_accelerator_config_1a8849db61929a1d9fb9cfc8ac1332f115" prot="public" virt="non-virtual"><scope>themis::performance::HardwareAccelerator::AcceleratorConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1performance_1_1_hardware_accelerator_1_1_accelerator_config_1ad36c39ebb808aa7971f5c5d98c75903c" prot="public" virt="non-virtual"><scope>themis::performance::HardwareAccelerator::AcceleratorConfig</scope><name>device</name></member>
+      <member refid="structthemis_1_1performance_1_1_hardware_accelerator_1_1_accelerator_config_1a967fe608d011f6076b3b23ff9db93c0d" prot="public" virt="non-virtual"><scope>themis::performance::HardwareAccelerator::AcceleratorConfig</scope><name>device_memory_mb</name></member>
+      <member refid="structthemis_1_1performance_1_1_hardware_accelerator_1_1_accelerator_config_1a140d71aff65055c5345ad7f511a92b09" prot="public" virt="non-virtual"><scope>themis::performance::HardwareAccelerator::AcceleratorConfig</scope><name>enable_async_copy</name></member>
+      <member refid="structthemis_1_1performance_1_1_hardware_accelerator_1_1_accelerator_config_1ab2716f4441dfff1fa3d97e10304e4a67" prot="public" virt="non-virtual"><scope>themis::performance::HardwareAccelerator::AcceleratorConfig</scope><name>enable_pipelining</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

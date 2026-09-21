@@ -1,0 +1,287 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_profiler" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUProfiler</compoundname>
+    <includes refid="profiler_8h" local="no">profiler.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_profiler_1_1_range" prot="public">themis::gpu::GPUProfiler::Range</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_profiler_1_1_active_range" prot="private">themis::gpu::GPUProfiler::ActiveRange</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_profiler_1ab2ba0c03c14650fb705da03055186060" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::GPUProfiler::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::gpu::GPUProfiler::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/profiler.h" line="155" column="24" bodyfile="include/themis/gpu/profiler.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_profiler_1aca3a4983b94e8612e1e6ebb2424479a3" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; ActiveRange &gt;</type>
+        <definition>std::vector&lt;ActiveRange&gt; themis::gpu::GPUProfiler::range_stack_</definition>
+        <argsstring></argsstring>
+        <name>range_stack_</name>
+        <qualifiedname>themis::gpu::GPUProfiler::range_stack_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/profiler.h" line="163" column="17" bodyfile="include/themis/gpu/profiler.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_profiler_1ae17a49cff75d554953854ca028c5f552" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_profiler_1_1_range" kindref="compound">Range</ref> &gt;</type>
+        <definition>std::vector&lt;Range&gt; themis::gpu::GPUProfiler::completed_ranges_</definition>
+        <argsstring></argsstring>
+        <name>completed_ranges_</name>
+        <qualifiedname>themis::gpu::GPUProfiler::completed_ranges_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/profiler.h" line="164" column="23" bodyfile="include/themis/gpu/profiler.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_profiler_1adeb627f2782dfdae9b4cbb082e8e11cd" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>GPUProfiler &amp;</type>
+        <definition>static GPUProfiler &amp; themis::gpu::GPUProfiler::GetInstance</definition>
+        <argsstring>()</argsstring>
+        <name>GetInstance</name>
+        <qualifiedname>themis::gpu::GPUProfiler::GetInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/profiler.h" line="83" column="24" bodyfile="include/themis/gpu/profiler.h" bodystart="83" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_profiler_1afc5f66486289fbc640df31d11e474314" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUProfiler::beginRange</definition>
+        <argsstring>(const std::string &amp;name, uint32_t argb_color=0xFF00FF00)</argsstring>
+        <name>beginRange</name>
+        <qualifiedname>themis::gpu::GPUProfiler::beginRange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>argb_color</declname>
+          <defval>0xFF00FF00</defval>
+        </param>
+        <briefdescription>
+<para>Push a named profiling range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On CUDA builds emits an NVTX <computeroutput>nvtxRangePushEx</computeroutput> with the given ARGB color. On HIP builds emits a <computeroutput>roctxRangePushA</computeroutput>. On CPU-only builds records the start timestamp internally.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable range label (shown in profiler UI). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>argb_color</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ARGB colour for the range in the Nsight/rocTX UI. Default: opaque green (0xFF00FF00). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/profiler.h" line="103" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_profiler_1af8c855e57bce419fb3d8159568cbff90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUProfiler::endRange</definition>
+        <argsstring>()</argsstring>
+        <name>endRange</name>
+        <qualifiedname>themis::gpu::GPUProfiler::endRange</qualifiedname>
+        <briefdescription>
+<para>Pop the most recently pushed range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Emits <computeroutput>nvtxRangePop</computeroutput> / <computeroutput>roctxRangePop</computeroutput> on hardware builds and records the completed range internally. A call without a matching <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_profiler_1afc5f66486289fbc640df31d11e474314" kindref="member">beginRange</ref></computeroutput> is silently ignored. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/profiler.h" line="112" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_profiler_1a2843ad078cd3e788ed9fa7f94d19a3ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUProfiler::markEvent</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>markEvent</name>
+        <qualifiedname>themis::gpu::GPUProfiler::markEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Record a point event (instant marker). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Emits <computeroutput>nvtxMarkA</computeroutput> / <computeroutput>roctxMarkA</computeroutput> on hardware builds. Stored internally as a zero-duration range (start_ns == end_ns).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event label. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/profiler.h" line="122" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_profiler_1a320ddaee5f370f7fa1926b90d82e8e77" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUProfiler::rocm_profiler_export</definition>
+        <argsstring>() const</argsstring>
+        <name>rocm_profiler_export</name>
+        <qualifiedname>themis::gpu::GPUProfiler::rocm_profiler_export</qualifiedname>
+        <briefdescription>
+<para>Export completed ranges in Chrome trace JSON format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The output is compatible with:<itemizedlist>
+<listitem><para>AMD ROCm profiler&apos;s <computeroutput>--sys-trace</computeroutput> JSON output format</para>
+</listitem><listitem><para>Perfetto / <computeroutput>chrome://tracing</computeroutput> for offline analysis</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para>UTF-8 JSON string. The <computeroutput>"traceEvents"</computeroutput> array is present but empty when no ranges have been recorded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/profiler.h" line="138" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_profiler_1a4dc10bb4af0f38873fbfd11146a2910a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_profiler_1_1_range" kindref="compound">Range</ref> &gt;</type>
+        <definition>std::vector&lt; Range &gt; themis::gpu::GPUProfiler::getRanges</definition>
+        <argsstring>() const</argsstring>
+        <name>getRanges</name>
+        <qualifiedname>themis::gpu::GPUProfiler::getRanges</qualifiedname>
+        <briefdescription>
+<para>Return a copy of all completed ranges. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/profiler.h" line="143" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_profiler_1adfd0c6555e3c6c3e85df9e46d1222662" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUProfiler::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::gpu::GPUProfiler::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all recorded ranges (for testing). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does not affect any in-flight hardware profiling sessions. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/profiler.h" line="150" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_profiler_1a26caee888cc717bf90298e8289aba4ce" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUProfiler::GPUProfiler</definition>
+        <argsstring>()=default</argsstring>
+        <name>GPUProfiler</name>
+        <qualifiedname>themis::gpu::GPUProfiler::GPUProfiler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/profiler.h" line="153" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_profiler_1a111f8d6e853275919b8a24ff4a5822f2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t themis::gpu::GPUProfiler::nowNs</definition>
+        <argsstring>()</argsstring>
+        <name>nowNs</name>
+        <qualifiedname>themis::gpu::GPUProfiler::nowNs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/profiler.h" line="166" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>GPU profiling integration for NVIDIA Nsight and AMD ROCm Profiler. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides named range markers and point events that are natively visible in:<itemizedlist>
+<listitem><para>NVIDIA Nsight Systems / Nsight Compute (via NVTX, when THEMIS_ENABLE_CUDA)</para>
+</listitem><listitem><para>AMD ROCm Profiler / rocprof (via rocTX, when THEMIS_ENABLE_HIP)</para>
+</listitem><listitem><para>CPU-only builds: events are stored internally and exportable as Chrome trace JSON compatible with ROCm profiler&apos;s <computeroutput>--sys-trace</computeroutput> output.</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_profiler_1autotoc_md39_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_profiler_1autotoc_md39">
+<title>Typical usage with RAII helper</title><para><programlisting filename=".cpp"><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ScopedGPURange<sp/>range(</highlight><highlight class="stringliteral">&quot;vector_search&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>work<sp/>here<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>range.endRange()<sp/>called<sp/>automatically</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_profiler_1autotoc_md40_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_profiler_1autotoc_md40">
+<title>Manual push/pop</title><para><programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>prof<sp/>=<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_profiler_1adeb627f2782dfdae9b4cbb082e8e11cd" kindref="member">GPUProfiler::GetInstance</ref>();</highlight></codeline>
+<codeline><highlight class="normal">prof.beginRange(</highlight><highlight class="stringliteral">&quot;knn_query&quot;</highlight><highlight class="normal">,<sp/>0xFF0080FF);<sp/><sp/></highlight><highlight class="comment">//<sp/>blue</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">doWork();</highlight></codeline>
+<codeline><highlight class="normal">prof.endRange();</highlight></codeline>
+</programlisting></para>
+<para>Thread safety: all public methods are protected by an internal mutex. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/themis/gpu/profiler.h" line="63" column="1" bodyfile="include/themis/gpu/profiler.h" bodystart="63" bodyend="167"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_profiler_1afc5f66486289fbc640df31d11e474314" prot="public" virt="non-virtual"><scope>themis::gpu::GPUProfiler</scope><name>beginRange</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_profiler_1ae17a49cff75d554953854ca028c5f552" prot="private" virt="non-virtual"><scope>themis::gpu::GPUProfiler</scope><name>completed_ranges_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_profiler_1af8c855e57bce419fb3d8159568cbff90" prot="public" virt="non-virtual"><scope>themis::gpu::GPUProfiler</scope><name>endRange</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_profiler_1adeb627f2782dfdae9b4cbb082e8e11cd" prot="public" virt="non-virtual"><scope>themis::gpu::GPUProfiler</scope><name>GetInstance</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_profiler_1a4dc10bb4af0f38873fbfd11146a2910a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUProfiler</scope><name>getRanges</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_profiler_1a26caee888cc717bf90298e8289aba4ce" prot="private" virt="non-virtual"><scope>themis::gpu::GPUProfiler</scope><name>GPUProfiler</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_profiler_1a2843ad078cd3e788ed9fa7f94d19a3ec" prot="public" virt="non-virtual"><scope>themis::gpu::GPUProfiler</scope><name>markEvent</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_profiler_1ab2ba0c03c14650fb705da03055186060" prot="private" virt="non-virtual"><scope>themis::gpu::GPUProfiler</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_profiler_1a111f8d6e853275919b8a24ff4a5822f2" prot="private" virt="non-virtual"><scope>themis::gpu::GPUProfiler</scope><name>nowNs</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_profiler_1aca3a4983b94e8612e1e6ebb2424479a3" prot="private" virt="non-virtual"><scope>themis::gpu::GPUProfiler</scope><name>range_stack_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_profiler_1adfd0c6555e3c6c3e85df9e46d1222662" prot="public" virt="non-virtual"><scope>themis::gpu::GPUProfiler</scope><name>reset</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_profiler_1a320ddaee5f370f7fa1926b90d82e8e77" prot="public" virt="non-virtual"><scope>themis::gpu::GPUProfiler</scope><name>rocm_profiler_export</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

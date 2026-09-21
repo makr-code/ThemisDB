@@ -1,0 +1,933 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_network_audit_log" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::NetworkAuditLog</compoundname>
+    <includes refid="network__audit__log_8h" local="no">network_audit_log.h</includes>
+    <innerclass refid="structthemis_1_1network_1_1_network_audit_log_1_1_config" prot="public">themis::network::NetworkAuditLog::Config</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_network_audit_log_1_1_stats" prot="public">themis::network::NetworkAuditLog::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_network_audit_log_1a96267652c66d898c7f0658cad44c3963" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::network::NetworkAuditLog::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::network::NetworkAuditLog::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="264" column="27" bodyfile="include/network/network_audit_log.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_network_audit_log_1afe52fd7251862d6a070a55c342e908a1" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1network_1_1_audit_event" kindref="compound">AuditEvent</ref> &gt;</type>
+        <definition>std::deque&lt;AuditEvent&gt; themis::network::NetworkAuditLog::buffer_</definition>
+        <argsstring></argsstring>
+        <name>buffer_</name>
+        <qualifiedname>themis::network::NetworkAuditLog::buffer_</qualifiedname>
+        <briefdescription>
+<para>Ring buffer (front = oldest). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="265" column="16" bodyfile="include/network/network_audit_log.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_network_audit_log_1ada34e762492d94589d8460281da16eba" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::NetworkAuditLog::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::network::NetworkAuditLog::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="266" column="28" bodyfile="include/network/network_audit_log.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_network_audit_log_1a17d461472b9119599443eaf311e6299d" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1network_1_1_audit_event" kindref="compound">AuditEvent</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;void(const AuditEvent&amp;)&gt; themis::network::NetworkAuditLog::callback_</definition>
+        <argsstring></argsstring>
+        <name>callback_</name>
+        <qualifiedname>themis::network::NetworkAuditLog::callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="268" column="19" bodyfile="include/network/network_audit_log.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_network_audit_log_1a858a8e72877928ca459febd5e925ec2e" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::NetworkAuditLog::total_recorded_</definition>
+        <argsstring></argsstring>
+        <name>total_recorded_</name>
+        <qualifiedname>themis::network::NetworkAuditLog::total_recorded_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="271" column="14" bodyfile="include/network/network_audit_log.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_network_audit_log_1ad4564a9cfd018cddf7af4a0e17614b37" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::NetworkAuditLog::total_evicted_</definition>
+        <argsstring></argsstring>
+        <name>total_evicted_</name>
+        <qualifiedname>themis::network::NetworkAuditLog::total_evicted_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="272" column="14" bodyfile="include/network/network_audit_log.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_network_audit_log_1ae442ac441c0bdb46efcae6eb962f77eb" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::NetworkAuditLog::connection_opens_</definition>
+        <argsstring></argsstring>
+        <name>connection_opens_</name>
+        <qualifiedname>themis::network::NetworkAuditLog::connection_opens_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="273" column="14" bodyfile="include/network/network_audit_log.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_network_audit_log_1a6227488aae114eb38d4040bf5f7871ba" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::NetworkAuditLog::connection_closes_</definition>
+        <argsstring></argsstring>
+        <name>connection_closes_</name>
+        <qualifiedname>themis::network::NetworkAuditLog::connection_closes_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="274" column="14" bodyfile="include/network/network_audit_log.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_network_audit_log_1a4227f0d340ad6fd208cea72fbb17b534" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::NetworkAuditLog::auth_successes_</definition>
+        <argsstring></argsstring>
+        <name>auth_successes_</name>
+        <qualifiedname>themis::network::NetworkAuditLog::auth_successes_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="275" column="14" bodyfile="include/network/network_audit_log.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_network_audit_log_1ad04d3aba67ff23d9a845d058ba787ec6" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::NetworkAuditLog::auth_failures_</definition>
+        <argsstring></argsstring>
+        <name>auth_failures_</name>
+        <qualifiedname>themis::network::NetworkAuditLog::auth_failures_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="276" column="14" bodyfile="include/network/network_audit_log.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_network_audit_log_1a8214e1472d0db8bbc09e826a05cb6c65" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::NetworkAuditLog::rate_limited_</definition>
+        <argsstring></argsstring>
+        <name>rate_limited_</name>
+        <qualifiedname>themis::network::NetworkAuditLog::rate_limited_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="277" column="14" bodyfile="include/network/network_audit_log.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_audit_log_1a385ad030ce83f8903b228dc10270a35d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::NetworkAuditLog::NetworkAuditLog</definition>
+        <argsstring>(const Config &amp;config=Config{})</argsstring>
+        <name>NetworkAuditLog</name>
+        <qualifiedname>themis::network::NetworkAuditLog::NetworkAuditLog</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="struct_config" kindref="compound">Config</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="133" column="14" bodyfile="src/network/network_audit_log.cpp" bodystart="133" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_audit_log_1a48cfbf7834f5711c49f6c556a101726b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::NetworkAuditLog::~NetworkAuditLog</definition>
+        <argsstring>()=default</argsstring>
+        <name>~NetworkAuditLog</name>
+        <qualifiedname>themis::network::NetworkAuditLog::~NetworkAuditLog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="134" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_audit_log_1aac69cf29130c4ae78c930050b54e1560" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::NetworkAuditLog::NetworkAuditLog</definition>
+        <argsstring>(const NetworkAuditLog &amp;)=delete</argsstring>
+        <name>NetworkAuditLog</name>
+        <qualifiedname>themis::network::NetworkAuditLog::NetworkAuditLog</qualifiedname>
+        <param>
+          <type>const NetworkAuditLog &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="136" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_audit_log_1ae0622510bbe8b28f7cb6fda7071e8ece" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_network_audit_log_1a385ad030ce83f8903b228dc10270a35d" kindref="member">NetworkAuditLog</ref> &amp;</type>
+        <definition>NetworkAuditLog &amp; themis::network::NetworkAuditLog::operator=</definition>
+        <argsstring>(const NetworkAuditLog &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::NetworkAuditLog::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1network_1_1_network_audit_log_1a385ad030ce83f8903b228dc10270a35d" kindref="member">NetworkAuditLog</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="137" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_audit_log_1aa0e773f86b1192ef6e06360bfb7e1720" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::NetworkAuditLog::NetworkAuditLog</definition>
+        <argsstring>(NetworkAuditLog &amp;&amp;)=delete</argsstring>
+        <name>NetworkAuditLog</name>
+        <qualifiedname>themis::network::NetworkAuditLog::NetworkAuditLog</qualifiedname>
+        <param>
+          <type>NetworkAuditLog &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="138" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_audit_log_1aa81374365cdf6ef3ed3b88eefc96e2c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_network_audit_log_1a385ad030ce83f8903b228dc10270a35d" kindref="member">NetworkAuditLog</ref> &amp;</type>
+        <definition>NetworkAuditLog &amp; themis::network::NetworkAuditLog::operator=</definition>
+        <argsstring>(NetworkAuditLog &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::NetworkAuditLog::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_network_audit_log_1a385ad030ce83f8903b228dc10270a35d" kindref="member">NetworkAuditLog</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="139" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_audit_log_1a402898dc7ec18107475543e9de0b1740" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::NetworkAuditLog::setEventCallback</definition>
+        <argsstring>(std::function&lt; void(const AuditEvent &amp;)&gt; cb)</argsstring>
+        <name>setEventCallback</name>
+        <qualifiedname>themis::network::NetworkAuditLog::setEventCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1network_1_1_audit_event" kindref="compound">AuditEvent</ref> &amp;)&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Register a sink callback invoked for every new event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The callback is called <emphasis>outside</emphasis> the internal mutex, so it may safely call back into the log (e.g., to read stats). Only one callback can be registered at a time; a second call replaces the previous one.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable receiving a const-reference to the new event. Pass nullptr to clear the callback. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="156" column="10" bodyfile="src/network/network_audit_log.cpp" bodystart="146" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_audit_log_1a42d26b9f4124de89e15f406b75b17b0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::NetworkAuditLog::record</definition>
+        <argsstring>(AuditEvent event)</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::network::NetworkAuditLog::record</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1network_1_1_audit_event" kindref="compound">AuditEvent</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Append an event to the audit log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record.</para>
+<para>If the ring buffer is at capacity the oldest entry is silently dropped (stats.total_evicted is incremented).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The event to record. If the event&apos;s timestamp is the default-constructed (epoch), it is replaced with the current wall-clock time.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), void(), lk(), size(), pop_front(), push_back(), updateCounters(), cb_copy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="172" column="10" bodyfile="src/network/network_audit_log.cpp" bodystart="167" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_audit_log_1ae5c8321f246fe583b994136a194087b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::NetworkAuditLog::recordConnectionOpen</definition>
+        <argsstring>(const std::string &amp;remote_address, uint64_t connection_id=0)</argsstring>
+        <name>recordConnectionOpen</name>
+        <qualifiedname>themis::network::NetworkAuditLog::recordConnectionOpen</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote_address</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Convenience helper: record a connection-open event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Connection Open.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>remote_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Peer IP[:port] string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Server-assigned connection identifier.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remote_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="180" column="10" bodyfile="src/network/network_audit_log.cpp" bodystart="201" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_audit_log_1a844d14e1fbe02ccee3431d2099febaff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::NetworkAuditLog::recordConnectionClose</definition>
+        <argsstring>(const std::string &amp;remote_address, uint64_t connection_id=0, const std::string &amp;reason={})</argsstring>
+        <name>recordConnectionClose</name>
+        <qualifiedname>themis::network::NetworkAuditLog::recordConnectionClose</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote_address</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Convenience helper: record a connection-close event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Connection Close.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>remote_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Peer IP[:port] string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Server-assigned connection identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional human-readable close reason.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remote_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="190" column="10" bodyfile="src/network/network_audit_log.cpp" bodystart="218" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_audit_log_1a93754764dafb58fb81c0447832696662" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::NetworkAuditLog::recordAuth</definition>
+        <argsstring>(bool success, const std::string &amp;remote_address, uint64_t connection_id=0, const std::string &amp;principal={}, const std::string &amp;token={})</argsstring>
+        <name>recordAuth</name>
+        <qualifiedname>themis::network::NetworkAuditLog::recordAuth</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote_address</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Convenience helper: record an authentication event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Auth.</para>
+<para>The raw <computeroutput>token</computeroutput> is <emphasis>never</emphasis> stored. A truncated SHA-256 hash (16 lower-case hex chars) is derived and stored in the event&apos;s token_hash field.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true → AUTH_SUCCESS; false → AUTH_FAILURE. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remote_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Peer IP[:port] string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Server-assigned connection identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User / principal name (may be empty). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw token (hashed; never persisted as-is).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remote_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="207" column="10" bodyfile="src/network/network_audit_log.cpp" bodystart="239" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_audit_log_1ae17723282a3e821c843d792fe0a87030" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::NetworkAuditLog::recordRateLimited</definition>
+        <argsstring>(const std::string &amp;remote_address, uint64_t connection_id=0, const std::string &amp;rule={})</argsstring>
+        <name>recordRateLimited</name>
+        <qualifiedname>themis::network::NetworkAuditLog::recordRateLimited</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote_address</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>connection_id</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Convenience helper: record a rate-limit rejection event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Rate Limited.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>remote_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Peer IP[:port] string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Server-assigned connection identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the rate-limit rule that fired.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remote_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="220" column="10" bodyfile="src/network/network_audit_log.cpp" bodystart="262" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_audit_log_1a5a1dcd18b2f144f117bf497ff9407505" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1network_1_1_audit_event" kindref="compound">AuditEvent</ref> &gt;</type>
+        <definition>std::vector&lt; AuditEvent &gt; themis::network::NetworkAuditLog::getRecentEvents</definition>
+        <argsstring>(size_t n=0) const</argsstring>
+        <name>getRecentEvents</name>
+        <qualifiedname>themis::network::NetworkAuditLog::getRecentEvents</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Return the <computeroutput>n</computeroutput> most-recent events (newest last). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of events to return; 0 means all. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="233" column="17" bodyfile="src/network/network_audit_log.cpp" bodystart="279" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_audit_log_1a8f75665a37c8e9fc180f9a9b8674a58e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1network_1_1_audit_event" kindref="compound">AuditEvent</ref> &gt;</type>
+        <definition>std::vector&lt; AuditEvent &gt; themis::network::NetworkAuditLog::getEventsByType</definition>
+        <argsstring>(AuditEventType type) const</argsstring>
+        <name>getEventsByType</name>
+        <qualifiedname>themis::network::NetworkAuditLog::getEventsByType</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1network_1a97bd22c32068a9a1f5cd3caa00e1f8fa" kindref="member">AuditEventType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Return all events matching the given type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="238" column="17" bodyfile="src/network/network_audit_log.cpp" bodystart="294" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_audit_log_1af554ddbb6858305260fbb784fc2ad63d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_network_audit_log_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>NetworkAuditLog::Stats themis::network::NetworkAuditLog::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::network::NetworkAuditLog::getStats</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of counters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="243" column="11" bodyfile="src/network/network_audit_log.cpp" bodystart="311" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_audit_log_1aaf1fa093ac773a5e3f8683c1bca7ebed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::NetworkAuditLog::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::network::NetworkAuditLog::clear</qualifiedname>
+        <briefdescription>
+<para>Clear the in-memory buffer. <ref refid="structthemis_1_1network_1_1_network_audit_log_1_1_stats" kindref="compound">Stats</ref> are retained. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="248" column="10" bodyfile="src/network/network_audit_log.cpp" bodystart="334" bodyend="337"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_audit_log_1ab75a8c47defcbc4d389298ee0dadb727" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::network::NetworkAuditLog::truncatedSha256Hex</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>truncatedSha256Hex</name>
+        <qualifiedname>themis::network::NetworkAuditLog::truncatedSha256Hex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Compute the 16-char truncated SHA-256 hash used for tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Truncated Sha256 Hex.</para>
+<para>Returns the first 8 bytes of the SHA-256 digest of <computeroutput>input</computeroutput>, encoded as lower-case hexadecimal. Returns an empty string when <computeroutput>input</computeroutput> is empty.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), sha256(), data(), size(), std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="261" column="24" bodyfile="src/network/network_audit_log.cpp" bodystart="349" bodyend="362"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_network_audit_log_1ac9c1b9b7fbff84c83e5f8f67b2d85ce0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::NetworkAuditLog::updateCounters</definition>
+        <argsstring>(AuditEventType type)</argsstring>
+        <name>updateCounters</name>
+        <qualifiedname>themis::network::NetworkAuditLog::updateCounters</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1network_1a97bd22c32068a9a1f5cd3caa00e1f8fa" kindref="member">AuditEventType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Update Counters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements updateCounters without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="279" column="10" bodyfile="src/network/network_audit_log.cpp" bodystart="373" bodyend="381"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe structured audit log for the network layer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Records connection and authentication events in a fixed-capacity in-memory ring buffer. An optional callback lets callers forward events to external sinks (file, syslog, OpenTelemetry, …).</para>
+<para>Design goals:<itemizedlist>
+<listitem><para>Zero allocation on the hot path once the ring buffer is full (old entries are evicted rather than heap-growing the container).</para>
+</listitem><listitem><para>Lock is held only while appending/querying; the user-supplied callback is invoked <emphasis>outside</emphasis> the lock to avoid priority inversion.</para>
+</listitem><listitem><para>Authentication tokens are never stored; only a truncated SHA-256 hash is kept for correlation without leaking credentials.</para>
+</listitem></itemizedlist>
+</para>
+<para>Usage: <programlisting><codeline><highlight class="normal">NetworkAuditLog::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_entries<sp/>=<sp/>10000;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1network_1_1_network_audit_log_1a385ad030ce83f8903b228dc10270a35d" kindref="member">NetworkAuditLog</ref><sp/>log(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">log.record({<ref refid="namespacethemis_1_1network_1a97bd22c32068a9a1f5cd3caa00e1f8faa7dde4063164c2cd70ad2064a148f4fa5" kindref="member">AuditEventType::CONNECTION_OPEN</ref>,<sp/>now,<sp/></highlight><highlight class="stringliteral">&quot;192.168.1.1:54321&quot;</highlight><highlight class="normal">,<sp/>42});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recent<sp/>=<sp/>log.getRecentEvents(100);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/network/network_audit_log.h" line="96" column="1" bodyfile="include/network/network_audit_log.h" bodystart="96" bodyend="280"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1ad04d3aba67ff23d9a845d058ba787ec6" prot="private" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>auth_failures_</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1a4227f0d340ad6fd208cea72fbb17b534" prot="private" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>auth_successes_</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1afe52fd7251862d6a070a55c342e908a1" prot="private" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>buffer_</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1a17d461472b9119599443eaf311e6299d" prot="private" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>callback_</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1aaf1fa093ac773a5e3f8683c1bca7ebed" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>clear</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1a96267652c66d898c7f0658cad44c3963" prot="private" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>config_</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1a6227488aae114eb38d4040bf5f7871ba" prot="private" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>connection_closes_</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1ae442ac441c0bdb46efcae6eb962f77eb" prot="private" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>connection_opens_</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1a8f75665a37c8e9fc180f9a9b8674a58e" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>getEventsByType</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1a5a1dcd18b2f144f117bf497ff9407505" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>getRecentEvents</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1af554ddbb6858305260fbb784fc2ad63d" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1ada34e762492d94589d8460281da16eba" prot="private" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1a385ad030ce83f8903b228dc10270a35d" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>NetworkAuditLog</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1aac69cf29130c4ae78c930050b54e1560" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>NetworkAuditLog</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1aa0e773f86b1192ef6e06360bfb7e1720" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>NetworkAuditLog</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1ae0622510bbe8b28f7cb6fda7071e8ece" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1aa81374365cdf6ef3ed3b88eefc96e2c8" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1a8214e1472d0db8bbc09e826a05cb6c65" prot="private" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>rate_limited_</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1a42d26b9f4124de89e15f406b75b17b0a" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>record</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1a93754764dafb58fb81c0447832696662" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>recordAuth</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1a844d14e1fbe02ccee3431d2099febaff" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>recordConnectionClose</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1ae5c8321f246fe583b994136a194087b3" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>recordConnectionOpen</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1ae17723282a3e821c843d792fe0a87030" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>recordRateLimited</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1a402898dc7ec18107475543e9de0b1740" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>setEventCallback</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1ad4564a9cfd018cddf7af4a0e17614b37" prot="private" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>total_evicted_</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1a858a8e72877928ca459febd5e925ec2e" prot="private" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>total_recorded_</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1ab75a8c47defcbc4d389298ee0dadb727" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>truncatedSha256Hex</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1ac9c1b9b7fbff84c83e5f8f67b2d85ce0" prot="private" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>updateCounters</name></member>
+      <member refid="classthemis_1_1network_1_1_network_audit_log_1a48cfbf7834f5711c49f6c556a101726b" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog</scope><name>~NetworkAuditLog</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

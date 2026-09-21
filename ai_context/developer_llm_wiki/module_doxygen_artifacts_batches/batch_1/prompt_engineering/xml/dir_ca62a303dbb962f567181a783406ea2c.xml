@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_ca62a303dbb962f567181a783406ea2c" kind="dir">
+    <compoundname>include/prompt_engineering</compoundname>
+    <innerfile refid="adversarial__prompt__tester_8h">adversarial_prompt_tester.h</innerfile>
+    <innerfile refid="chain__of__thought_8h">chain_of_thought.h</innerfile>
+    <innerfile refid="context__window__manager_8h">context_window_manager.h</innerfile>
+    <innerfile refid="cot__tracer_8h">cot_tracer.h</innerfile>
+    <innerfile refid="dspy__module_8h">dspy_module.h</innerfile>
+    <innerfile refid="feedback__collector_8h">feedback_collector.h</innerfile>
+    <innerfile refid="llm__reflection__adapter_8h">llm_reflection_adapter.h</innerfile>
+    <innerfile refid="markdown__utils_8h">markdown_utils.h</innerfile>
+    <innerfile refid="meta__prompt__generator_8h">meta_prompt_generator.h</innerfile>
+    <innerfile refid="prompt__ab__experiment_8h">prompt_ab_experiment.h</innerfile>
+    <innerfile refid="prompt__compressor_8h">prompt_compressor.h</innerfile>
+    <innerfile refid="prompt__engineering__errors_8h">prompt_engineering_errors.h</innerfile>
+    <innerfile refid="prompt__engineering__integration_8h">prompt_engineering_integration.h</innerfile>
+    <innerfile refid="prompt__engineering__metrics_8h">prompt_engineering_metrics.h</innerfile>
+    <innerfile refid="prompt__evaluator_8h">prompt_evaluator.h</innerfile>
+    <innerfile refid="prompt__injection__detector_8h">prompt_injection_detector.h</innerfile>
+    <innerfile refid="prompt__library__io_8h">prompt_library_io.h</innerfile>
+    <innerfile refid="prompt__manager_8h">prompt_manager.h</innerfile>
+    <innerfile refid="prompt__optimizer_8h">prompt_optimizer.h</innerfile>
+    <innerfile refid="prompt__performance__tracker_8h">prompt_performance_tracker.h</innerfile>
+    <innerfile refid="prompt__quality__evaluator_8h">prompt_quality_evaluator.h</innerfile>
+    <innerfile refid="prompt__regression__runner_8h">prompt_regression_runner.h</innerfile>
+    <innerfile refid="prompt__template__compiler_8h">prompt_template_compiler.h</innerfile>
+    <innerfile refid="prompt__template__validator_8h">prompt_template_validator.h</innerfile>
+    <innerfile refid="prompt__version__control_8h">prompt_version_control.h</innerfile>
+    <innerfile refid="protegi__optimizer_8h">protegi_optimizer.h</innerfile>
+    <innerfile refid="rag__context__budget__manager_8h">rag_context_budget_manager.h</innerfile>
+    <innerfile refid="rag__prompt__builder_8h">rag_prompt_builder.h</innerfile>
+    <innerfile refid="reflection__tuner_8h">reflection_tuner.h</innerfile>
+    <innerfile refid="rewrite__engine_8h">rewrite_engine.h</innerfile>
+    <innerfile refid="rewrite__rule_8h">rewrite_rule.h</innerfile>
+    <innerfile refid="rewrite__rule__loader_8h">rewrite_rule_loader.h</innerfile>
+    <innerfile refid="self__improvement__orchestrator_8h">self_improvement_orchestrator.h</innerfile>
+    <innerfile refid="structured__output_8h">structured_output.h</innerfile>
+    <innerfile refid="system__prompt__manager_8h">system_prompt_manager.h</innerfile>
+    <innerfile refid="tree__of__thoughts_8h">tree_of_thoughts.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_parse_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ParseResult</compoundname>
+    <includes refid="aql__parser__service_8h" local="no">aql_parser_service.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_parse_result_1a41de8c8877033698616a96009f593d2a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::ParseResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::query::ParseResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser_service.h" line="39" column="10" bodyfile="include/query/aql_parser_service.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_parse_result_1ad74d47605c58a51f1eab1597412866d4" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_parser_diagnostics" kindref="compound">ParserDiagnostics</ref></type>
+        <definition>ParserDiagnostics themis::query::ParseResult::diagnostics</definition>
+        <argsstring></argsstring>
+        <name>diagnostics</name>
+        <qualifiedname>themis::query::ParseResult::diagnostics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser_service.h" line="41" column="23" bodyfile="include/query/aql_parser_service.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::query::ParseResult</label>
+        <link refid="structthemis_1_1query_1_1_parse_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>diagnostics</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::ParserDiagnostics</label>
+        <link refid="structthemis_1_1query_1_1_parser_diagnostics"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/aql_parser_service.h" line="38" column="1" bodyfile="include/query/aql_parser_service.h" bodystart="38" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_parse_result_1ad74d47605c58a51f1eab1597412866d4" prot="public" virt="non-virtual"><scope>themis::query::ParseResult</scope><name>diagnostics</name></member>
+      <member refid="structthemis_1_1query_1_1_parse_result_1a41de8c8877033698616a96009f593d2a" prot="public" virt="non-virtual"><scope>themis::query::ParseResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

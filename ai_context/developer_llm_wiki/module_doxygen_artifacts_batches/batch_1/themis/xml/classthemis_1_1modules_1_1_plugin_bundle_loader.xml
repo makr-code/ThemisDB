@@ -1,0 +1,549 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_plugin_bundle_loader" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::PluginBundleLoader</compoundname>
+    <includes refid="module__loader_8h" local="no">module_loader.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_plugin_bundle_loader_1a33c7b845f0d7a9b2bc3a6e93544ea6d9" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::PluginBundleLoader::publicKeyPem_</definition>
+        <argsstring></argsstring>
+        <name>publicKeyPem_</name>
+        <qualifiedname>themis::modules::PluginBundleLoader::publicKeyPem_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1159" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="1159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_plugin_bundle_loader_1ab7321efec18c407a11c05c82c2d13576" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::PluginBundleLoader::allowUnsignedBundles_</definition>
+        <argsstring></argsstring>
+        <name>allowUnsignedBundles_</name>
+        <qualifiedname>themis::modules::PluginBundleLoader::allowUnsignedBundles_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Must be explicitly opted in; never true by default. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1160" column="10" bodyfile="include/themis/base/module_loader.h" bodystart="1160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_bundle_loader_1a7b9c2f2e1a237f172b4b8cf0e1b1ae56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::PluginBundleLoader::PluginBundleLoader</definition>
+        <argsstring>()</argsstring>
+        <name>PluginBundleLoader</name>
+        <qualifiedname>themis::modules::PluginBundleLoader::PluginBundleLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1077" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_bundle_loader_1a684062aae597428f373b2e44f7631c5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::PluginBundleLoader::~PluginBundleLoader</definition>
+        <argsstring>()</argsstring>
+        <name>~PluginBundleLoader</name>
+        <qualifiedname>themis::modules::PluginBundleLoader::~PluginBundleLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1078" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_bundle_loader_1a207bd558437defebf78bc3f349376924" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::PluginBundleLoader::PluginBundleLoader</definition>
+        <argsstring>(const PluginBundleLoader &amp;)=delete</argsstring>
+        <name>PluginBundleLoader</name>
+        <qualifiedname>themis::modules::PluginBundleLoader::PluginBundleLoader</qualifiedname>
+        <param>
+          <type>const PluginBundleLoader &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1080" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_bundle_loader_1a3f405535a4128c8666aac5a9235ef0d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1modules_1_1_plugin_bundle_loader_1a7b9c2f2e1a237f172b4b8cf0e1b1ae56" kindref="member">PluginBundleLoader</ref> &amp;</type>
+        <definition>PluginBundleLoader &amp; themis::modules::PluginBundleLoader::operator=</definition>
+        <argsstring>(const PluginBundleLoader &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::modules::PluginBundleLoader::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1modules_1_1_plugin_bundle_loader_1a7b9c2f2e1a237f172b4b8cf0e1b1ae56" kindref="member">PluginBundleLoader</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1081" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_bundle_loader_1a5bdb1f98e8cddea290b133bc95504001" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::PluginBundleLoader::setPublicKey</definition>
+        <argsstring>(const std::string &amp;publicKeyPem)</argsstring>
+        <name>setPublicKey</name>
+        <qualifiedname>themis::modules::PluginBundleLoader::setPublicKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>publicKeyPem</declname>
+        </param>
+        <briefdescription>
+<para>Set the PEM-encoded Ed25519 public key used to verify bundle signatures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Public Key.</para>
+<para>When no key is set (the default) signature verification is skipped, which is only suitable for development / unit-testing. In production, always set a public key before calling <ref refid="classthemis_1_1modules_1_1_plugin_bundle_loader_1a3b066f81e8fe4221cfcebabd56b5e3ce" kindref="member">loadBundle()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>publicKeyPem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PEM-encoded Ed25519 public key.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">publicKeyPem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setPublicKey without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1093" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1862" bodyend="1864"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_bundle_loader_1aa7c872037d8790b16782dcdd8a5d4fb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::PluginBundleLoader::setAllowUnsignedBundles</definition>
+        <argsstring>(bool allow)</argsstring>
+        <name>setAllowUnsignedBundles</name>
+        <qualifiedname>themis::modules::PluginBundleLoader::setAllowUnsignedBundles</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>allow</declname>
+        </param>
+        <briefdescription>
+<para>Explicitly allow loading bundles without a signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Allow Unsigned Bundles.</para>
+<para>By default (allow = false) <ref refid="classthemis_1_1modules_1_1_plugin_bundle_loader_1a3b066f81e8fe4221cfcebabd56b5e3ce" kindref="member">loadBundle()</ref> fails when no public key has been configured, so that unsigned bundles are never silently accepted. Pass allow = true only in development / testing environments where you intentionally want to skip signature verification.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>allow</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, unsigned bundles are accepted when no public key is set. If false (default), missing public key is an error.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">allow</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAllowUnsignedBundles without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1106" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1871" bodyend="1873"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_bundle_loader_1a3b066f81e8fe4221cfcebabd56b5e3ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_plugin_bundle_load_result" kindref="compound">PluginBundleLoadResult</ref></type>
+        <definition>PluginBundleLoadResult themis::modules::PluginBundleLoader::loadBundle</definition>
+        <argsstring>(const std::string &amp;bundlePath, ModuleLoader &amp;loader)</argsstring>
+        <name>loadBundle</name>
+        <qualifiedname>themis::modules::PluginBundleLoader::loadBundle</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bundlePath</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_module_loader" kindref="compound">ModuleLoader</ref> &amp;</type>
+          <declname>loader</declname>
+        </param>
+        <briefdescription>
+<para>Load a PluginBundle archive and delegate to a <ref refid="classthemis_1_1modules_1_1_module_loader" kindref="compound">ModuleLoader</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Bundle.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bundlePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the .tdb (ZIP) bundle file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>loader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1modules_1_1_module_loader" kindref="compound">ModuleLoader</ref> instance used for the final native- library load step. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1modules_1_1_plugin_bundle_load_result" kindref="compound">PluginBundleLoadResult</ref> indicating success/failure and details.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bundlePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">loader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractToTempDir(), empty(), spdlog::error(), spdlog::debug(), tempGuard(), fs::path(), manifestFile(), is_open(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1124" column="28" bodyfile="src/themis/module_loader.cpp" bodystart="2195" bodyend="2341"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_bundle_loader_1af166fae7453c82b31fdb31c88b421184" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::modules::PluginBundleLoader::currentPlatform</definition>
+        <argsstring>()</argsstring>
+        <name>currentPlatform</name>
+        <qualifiedname>themis::modules::PluginBundleLoader::currentPlatform</qualifiedname>
+        <briefdescription>
+<para>Return the canonical platform token for the current build. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Current Platform.</para>
+<para>Examples: &quot;linux-x86_64&quot;, &quot;linux-arm64&quot;, &quot;windows-x86_64&quot;, &quot;macos-arm64&quot;, &quot;macos-x86_64&quot;.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1114" column="24" bodyfile="src/themis/module_loader.cpp" bodystart="1884" bodyend="1908"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_bundle_loader_1a566c497662e630633f138ad28d2f5410" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::PluginBundleLoader::parseManifest</definition>
+        <argsstring>(const std::string &amp;jsonText, PluginBundleManifest &amp;manifest, std::string &amp;error)</argsstring>
+        <name>parseManifest</name>
+        <qualifiedname>themis::modules::PluginBundleLoader::parseManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>jsonText</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1modules_1_1_plugin_bundle_manifest" kindref="compound">PluginBundleManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Parse a <ref refid="structthemis_1_1modules_1_1_plugin_bundle_manifest" kindref="compound">PluginBundleManifest</ref> from raw JSON text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse Manifest.</para>
+<para>Exposed as a public static helper to facilitate unit testing without requiring a real ZIP archive.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>jsonText</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Contents of manifest.json. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output: populated on success. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output: human-readable error message on failure. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if parsing succeeded and the manifest is valid.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jsonText</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: nlohmann::json::parse(), contains(), is_string(), empty(), is_object(), items(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1138" column="17" bodyfile="src/themis/module_loader.cpp" bodystart="1922" bodyend="1978"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_bundle_loader_1aa50435c51e579f356242310182b73f67" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::PluginBundleLoader::verifyEd25519Signature</definition>
+        <argsstring>(const uint8_t *message, size_t messageLen, const std::vector&lt; uint8_t &gt; &amp;signatureBytes, const std::string &amp;publicKeyPem, std::string &amp;error)</argsstring>
+        <name>verifyEd25519Signature</name>
+        <qualifiedname>themis::modules::PluginBundleLoader::verifyEd25519Signature</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>messageLen</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>signatureBytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>publicKeyPem</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Verify an Ed25519 signature over a message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Ed25519 Signature.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the data that was signed. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>messageLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Length of the data in bytes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>signatureBytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw 64-byte Ed25519 signature. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>publicKeyPem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PEM-encoded Ed25519 public key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output: error description on failure. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the signature is valid; false otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">messageLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signatureBytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">publicKeyPem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), std::to_string(), BIO_new_mem_buf(), data(), PEM_read_bio_PUBKEY(), BIO_free(), opensslLastError(), EVP_MD_CTX_new(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1152" column="17" bodyfile="src/themis/module_loader.cpp" bodystart="1994" bodyend="2046"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_plugin_bundle_loader_1aa34964d4d06ecd30a5132ea3f4479198" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::modules::PluginBundleLoader::extractToTempDir</definition>
+        <argsstring>(const std::string &amp;bundlePath, std::string &amp;error)</argsstring>
+        <name>extractToTempDir</name>
+        <qualifiedname>themis::modules::PluginBundleLoader::extractToTempDir</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bundlePath</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Extract To Temp Dir. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unpack the ZIP at bundlePath into a new temporary subdirectory. Returns the path to the temp dir on success or an empty string + error.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bundlePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: zip_open(), c_str(), zip_error_init_with_code(), std::string(), zip_error_strerror(), zip_error_fini(), makeTempDirPath(), fs::create_directories(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="1164" column="24" bodyfile="src/themis/module_loader.cpp" bodystart="2059" bodyend="2182"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Loader for cross-platform PluginBundle ZIP archives. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1modules_1_1_plugin_bundle_loader_1a3b066f81e8fe4221cfcebabd56b5e3ce" kindref="member">loadBundle()</ref> orchestrates the following steps:<orderedlist>
+<listitem><para>Unpack the ZIP archive to a unique temporary directory.</para>
+</listitem><listitem><para>Parse manifest.json.</para>
+</listitem><listitem><para>Verify the Ed25519 signature of manifest.json (skipped when no public key has been configured — development/test mode only).</para>
+</listitem><listitem><para>Select the native library for the running platform (<ref refid="classthemis_1_1modules_1_1_plugin_bundle_loader_1af166fae7453c82b31fdb31c88b421184" kindref="member">currentPlatform()</ref>). Falls back to the WASM entry if no native library is present.</para>
+</listitem><listitem><para>Delegate the actual binary load to the supplied <ref refid="classthemis_1_1modules_1_1_module_loader" kindref="compound">ModuleLoader</ref> instance.</para>
+</listitem></orderedlist>
+</para>
+<para>Thread-Safety: An individual <ref refid="classthemis_1_1modules_1_1_plugin_bundle_loader" kindref="compound">PluginBundleLoader</ref> instance is NOT thread-safe. Create one instance per loading thread or serialise access externally. </para>
+    </detaileddescription>
+    <location file="include/themis/base/module_loader.h" line="1075" column="1" bodyfile="include/themis/base/module_loader.h" bodystart="1075" bodyend="1166"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_plugin_bundle_loader_1ab7321efec18c407a11c05c82c2d13576" prot="private" virt="non-virtual"><scope>themis::modules::PluginBundleLoader</scope><name>allowUnsignedBundles_</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_bundle_loader_1af166fae7453c82b31fdb31c88b421184" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleLoader</scope><name>currentPlatform</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_bundle_loader_1aa34964d4d06ecd30a5132ea3f4479198" prot="private" virt="non-virtual"><scope>themis::modules::PluginBundleLoader</scope><name>extractToTempDir</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_bundle_loader_1a3b066f81e8fe4221cfcebabd56b5e3ce" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleLoader</scope><name>loadBundle</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_bundle_loader_1a3f405535a4128c8666aac5a9235ef0d7" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleLoader</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_bundle_loader_1a566c497662e630633f138ad28d2f5410" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleLoader</scope><name>parseManifest</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_bundle_loader_1a7b9c2f2e1a237f172b4b8cf0e1b1ae56" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleLoader</scope><name>PluginBundleLoader</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_bundle_loader_1a207bd558437defebf78bc3f349376924" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleLoader</scope><name>PluginBundleLoader</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_bundle_loader_1a33c7b845f0d7a9b2bc3a6e93544ea6d9" prot="private" virt="non-virtual"><scope>themis::modules::PluginBundleLoader</scope><name>publicKeyPem_</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_bundle_loader_1aa7c872037d8790b16782dcdd8a5d4fb0" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleLoader</scope><name>setAllowUnsignedBundles</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_bundle_loader_1a5bdb1f98e8cddea290b133bc95504001" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleLoader</scope><name>setPublicKey</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_bundle_loader_1aa50435c51e579f356242310182b73f67" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleLoader</scope><name>verifyEd25519Signature</name></member>
+      <member refid="classthemis_1_1modules_1_1_plugin_bundle_loader_1a684062aae597428f373b2e44f7631c5a" prot="public" virt="non-virtual"><scope>themis::modules::PluginBundleLoader</scope><name>~PluginBundleLoader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

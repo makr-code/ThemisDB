@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::CertificateUtils::CertInfo</compoundname>
+    <includes refid="jwks__security_8h" local="no">jwks_security.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1a6383f0d56a3554d7da516ca82302f623" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::CertificateUtils::CertInfo::subject</definition>
+        <argsstring></argsstring>
+        <name>subject</name>
+        <qualifiedname>themis::auth::CertificateUtils::CertInfo::subject</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="196" column="21" bodyfile="include/auth/jwks_security.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1ad8e9762ea9f41bfbb790269723ae87f7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::CertificateUtils::CertInfo::issuer</definition>
+        <argsstring></argsstring>
+        <name>issuer</name>
+        <qualifiedname>themis::auth::CertificateUtils::CertInfo::issuer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="197" column="21" bodyfile="include/auth/jwks_security.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1ada64418175abee21f44c7b07c5847446" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::CertificateUtils::CertInfo::serial_number</definition>
+        <argsstring></argsstring>
+        <name>serial_number</name>
+        <qualifiedname>themis::auth::CertificateUtils::CertInfo::serial_number</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="198" column="21" bodyfile="include/auth/jwks_security.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1aeb1621f77f8d7123fd5cd2e368878c1e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::CertificateUtils::CertInfo::not_before</definition>
+        <argsstring></argsstring>
+        <name>not_before</name>
+        <qualifiedname>themis::auth::CertificateUtils::CertInfo::not_before</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="199" column="21" bodyfile="include/auth/jwks_security.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1a7d82d8824e5990252656aff81d21d068" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::CertificateUtils::CertInfo::not_after</definition>
+        <argsstring></argsstring>
+        <name>not_after</name>
+        <qualifiedname>themis::auth::CertificateUtils::CertInfo::not_after</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="200" column="21" bodyfile="include/auth/jwks_security.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1a2667d8f5af3a69cdb5e13c1771a98759" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::CertificateUtils::CertInfo::is_expired</definition>
+        <argsstring></argsstring>
+        <name>is_expired</name>
+        <qualifiedname>themis::auth::CertificateUtils::CertInfo::is_expired</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="201" column="14" bodyfile="include/auth/jwks_security.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1a2b929691330fddf22aeeffb13879691c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::CertificateUtils::CertInfo::key_size_bits</definition>
+        <argsstring></argsstring>
+        <name>key_size_bits</name>
+        <qualifiedname>themis::auth::CertificateUtils::CertInfo::key_size_bits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="202" column="13" bodyfile="include/auth/jwks_security.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1ade6f3d6d6ab061853ac09887898bd179" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::CertificateUtils::CertInfo::signature_algorithm</definition>
+        <argsstring></argsstring>
+        <name>signature_algorithm</name>
+        <qualifiedname>themis::auth::CertificateUtils::CertInfo::signature_algorithm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="203" column="21" bodyfile="include/auth/jwks_security.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/jwks_security.h" line="195" column="5" bodyfile="include/auth/jwks_security.h" bodystart="195" bodyend="204"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1a2667d8f5af3a69cdb5e13c1771a98759" prot="public" virt="non-virtual"><scope>themis::auth::CertificateUtils::CertInfo</scope><name>is_expired</name></member>
+      <member refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1ad8e9762ea9f41bfbb790269723ae87f7" prot="public" virt="non-virtual"><scope>themis::auth::CertificateUtils::CertInfo</scope><name>issuer</name></member>
+      <member refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1a2b929691330fddf22aeeffb13879691c" prot="public" virt="non-virtual"><scope>themis::auth::CertificateUtils::CertInfo</scope><name>key_size_bits</name></member>
+      <member refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1a7d82d8824e5990252656aff81d21d068" prot="public" virt="non-virtual"><scope>themis::auth::CertificateUtils::CertInfo</scope><name>not_after</name></member>
+      <member refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1aeb1621f77f8d7123fd5cd2e368878c1e" prot="public" virt="non-virtual"><scope>themis::auth::CertificateUtils::CertInfo</scope><name>not_before</name></member>
+      <member refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1ada64418175abee21f44c7b07c5847446" prot="public" virt="non-virtual"><scope>themis::auth::CertificateUtils::CertInfo</scope><name>serial_number</name></member>
+      <member refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1ade6f3d6d6ab061853ac09887898bd179" prot="public" virt="non-virtual"><scope>themis::auth::CertificateUtils::CertInfo</scope><name>signature_algorithm</name></member>
+      <member refid="structthemis_1_1auth_1_1_certificate_utils_1_1_cert_info_1a6383f0d56a3554d7da516ca82302f623" prot="public" virt="non-virtual"><scope>themis::auth::CertificateUtils::CertInfo</scope><name>subject</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

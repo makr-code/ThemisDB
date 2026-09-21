@@ -1,0 +1,445 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::delegate_eval::RoundTripSimulator</compoundname>
+    <includes refid="delegate__evaluator_8h" local="no">delegate_evaluator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1adbafb28f31f2580efb7e6ed889a9ef4d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config" kindref="compound">DelegateEvaluatorConfig</ref></type>
+        <definition>DelegateEvaluatorConfig themis::rag::delegate_eval::RoundTripSimulator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::rag::delegate_eval::RoundTripSimulator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="354" column="29" bodyfile="include/rag/delegate_evaluator.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ad8f843c8fdd9b565518713f44792488b" prot="private" static="no" mutable="no">
+        <type>themis::document::IRoundTripEditor *</type>
+        <definition>themis::document::IRoundTripEditor* themis::rag::delegate_eval::RoundTripSimulator::round_trip_editor_</definition>
+        <argsstring></argsstring>
+        <name>round_trip_editor_</name>
+        <qualifiedname>themis::rag::delegate_eval::RoundTripSimulator::round_trip_editor_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="355" column="40" bodyfile="include/rag/delegate_evaluator.h" bodystart="355" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1afb23d523fb2e9021d67529ad206c135f" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::delegate_eval::RoundTripSimulator::last_relay_id_</definition>
+        <argsstring></argsstring>
+        <name>last_relay_id_</name>
+        <qualifiedname>themis::rag::delegate_eval::RoundTripSimulator::last_relay_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="356" column="17" bodyfile="include/rag/delegate_evaluator.h" bodystart="356" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ad9374fc340c475c16b92038a9c9f3da1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::delegate_eval::RoundTripSimulator::RoundTripSimulator</definition>
+        <argsstring>()</argsstring>
+        <name>RoundTripSimulator</name>
+        <qualifiedname>themis::rag::delegate_eval::RoundTripSimulator::RoundTripSimulator</qualifiedname>
+        <briefdescription>
+<para>Construct with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="275" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1abc8eb4a2132beaba1214d6ab7f267797" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::delegate_eval::RoundTripSimulator::RoundTripSimulator</definition>
+        <argsstring>(const DelegateEvaluatorConfig &amp;config)</argsstring>
+        <name>RoundTripSimulator</name>
+        <qualifiedname>themis::rag::delegate_eval::RoundTripSimulator::RoundTripSimulator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config" kindref="compound">DelegateEvaluatorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct with custom configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Simulator configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="281" column="14" bodyfile="src/rag/delegate_evaluator.cpp" bodystart="394" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a550d8ceca8d5b56cac2066df51b47996" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::delegate_eval::RoundTripSimulator::~RoundTripSimulator</definition>
+        <argsstring>()</argsstring>
+        <name>~RoundTripSimulator</name>
+        <qualifiedname>themis::rag::delegate_eval::RoundTripSimulator::~RoundTripSimulator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="283" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a309133f442ac92d47ed573045967eca1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::delegate_eval::RoundTripSimulator::RoundTripSimulator</definition>
+        <argsstring>(const RoundTripSimulator &amp;)=delete</argsstring>
+        <name>RoundTripSimulator</name>
+        <qualifiedname>themis::rag::delegate_eval::RoundTripSimulator::RoundTripSimulator</qualifiedname>
+        <param>
+          <type>const RoundTripSimulator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="286" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1aa89ac505d90dcc6da0b7578f8018c5ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ad9374fc340c475c16b92038a9c9f3da1" kindref="member">RoundTripSimulator</ref> &amp;</type>
+        <definition>RoundTripSimulator &amp; themis::rag::delegate_eval::RoundTripSimulator::operator=</definition>
+        <argsstring>(const RoundTripSimulator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::delegate_eval::RoundTripSimulator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ad9374fc340c475c16b92038a9c9f3da1" kindref="member">RoundTripSimulator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="287" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a28bf5c354a1434fe03e9fc410e7535db" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::delegate_eval::RoundTripSimulator::RoundTripSimulator</definition>
+        <argsstring>(RoundTripSimulator &amp;&amp;) noexcept=default</argsstring>
+        <name>RoundTripSimulator</name>
+        <qualifiedname>themis::rag::delegate_eval::RoundTripSimulator::RoundTripSimulator</qualifiedname>
+        <param>
+          <type>RoundTripSimulator &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="288" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a41a48b8cc224da155720cece481d24a9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ad9374fc340c475c16b92038a9c9f3da1" kindref="member">RoundTripSimulator</ref> &amp;</type>
+        <definition>RoundTripSimulator &amp; themis::rag::delegate_eval::RoundTripSimulator::operator=</definition>
+        <argsstring>(RoundTripSimulator &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::delegate_eval::RoundTripSimulator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ad9374fc340c475c16b92038a9c9f3da1" kindref="member">RoundTripSimulator</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="289" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a85db3c77bc8ecad82219e25faf4044f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result" kindref="compound">RelayResult</ref></type>
+        <definition>RelayResult themis::rag::delegate_eval::RoundTripSimulator::run</definition>
+        <argsstring>(const std::string &amp;seed_doc, const std::vector&lt; RoundTripEditPair &gt; &amp;edit_pairs, const IDomainEvaluator &amp;evaluator, EditFn edit_fn)</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::rag::delegate_eval::RoundTripSimulator::run</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>seed_doc</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_round_trip_edit_pair" kindref="compound">RoundTripEditPair</ref> &gt; &amp;</type>
+          <declname>edit_pairs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator" kindref="compound">IDomainEvaluator</ref> &amp;</type>
+          <declname>evaluator</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a77690185c5e7ffb2644027fe860989b4" kindref="member">EditFn</ref></type>
+          <declname>edit_fn</declname>
+        </param>
+        <briefdescription>
+<para>Run the round-trip relay. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run.</para>
+<para>Executes <computeroutput>config.num_round_trips</computeroutput> complete forward→backward cycles using the provided <computeroutput>edit_pairs</computeroutput> (cycling if there are fewer pairs than rounds). When <computeroutput>num_round_trips == 0</computeroutput> the function returns immediately with RS@0 = 1.0 and <computeroutput><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a108125b3ca005e1e3b5f6b4763ca770aa2aa4029d1e4c1e0f0d8febd58c9afe33" kindref="member">StopReason::COMPLETED_NORMALLY</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>seed_doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original document before any edits. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>edit_pairs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ordered list of edit pair instructions. Must not be empty unless <computeroutput>num_round_trips == 0</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>evaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Domain-specific scorer used after each backward edit. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>edit_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable that applies a single edit instruction to a document. Must be non-null. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result" kindref="compound">RelayResult</ref></computeroutput> containing full RS history and metadata.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If <computeroutput>edit_pairs</computeroutput> is empty and <computeroutput>num_round_trips &gt; 0</computeroutput>, or if <computeroutput>edit_fn</computeroutput> is null.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seed_doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">edit_pairs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">evaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">edit_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="315" column="17" bodyfile="src/rag/delegate_evaluator.cpp" bodystart="433" bodyend="560"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a589b0ce4ba39a753886295ba557719ee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config" kindref="compound">DelegateEvaluatorConfig</ref></type>
+        <definition>DelegateEvaluatorConfig themis::rag::delegate_eval::RoundTripSimulator::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::delegate_eval::RoundTripSimulator::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="323" column="29" bodyfile="src/rag/delegate_evaluator.cpp" bodystart="399" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a8c9f0f5211a6aa99188fa783521db931" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::delegate_eval::RoundTripSimulator::setConfig</definition>
+        <argsstring>(const DelegateEvaluatorConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::delegate_eval::RoundTripSimulator::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_delegate_evaluator_config" kindref="compound">DelegateEvaluatorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Replace the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New configuration.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="329" column="10" bodyfile="src/rag/delegate_evaluator.cpp" bodystart="408" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ac9e780fc07cfdb3e9e76da56171590c3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::delegate_eval::RoundTripSimulator::setRoundTripEditor</definition>
+        <argsstring>(themis::document::IRoundTripEditor *editor) noexcept</argsstring>
+        <name>setRoundTripEditor</name>
+        <qualifiedname>themis::rag::delegate_eval::RoundTripSimulator::setRoundTripEditor</qualifiedname>
+        <param>
+          <type>themis::document::IRoundTripEditor *</type>
+          <declname>editor</declname>
+        </param>
+        <briefdescription>
+<para>Attach an optional round-trip persistence backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, <computeroutput><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a85db3c77bc8ecad82219e25faf4044f4" kindref="member">run()</ref></computeroutput> stores the seed snapshot and every interaction snapshot through this editor. Ownership remains with the caller.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>editor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer (may be nullptr to disable persistence). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="339" column="10" bodyfile="src/rag/delegate_evaluator.cpp" bodystart="412" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1aa16d4759e3ca40e5ad2981b9b1e6d977" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>themis::document::IRoundTripEditor *</type>
+        <definition>themis::document::IRoundTripEditor * themis::rag::delegate_eval::RoundTripSimulator::getRoundTripEditor</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getRoundTripEditor</name>
+        <qualifiedname>themis::rag::delegate_eval::RoundTripSimulator::getRoundTripEditor</qualifiedname>
+        <briefdescription>
+<para>Return the currently attached persistence backend. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="344" column="41" bodyfile="src/rag/delegate_evaluator.cpp" bodystart="417" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a9359a6b0539a39064807dd9b892357e1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::rag::delegate_eval::RoundTripSimulator::getLastRelayId</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getLastRelayId</name>
+        <qualifiedname>themis::rag::delegate_eval::RoundTripSimulator::getLastRelayId</qualifiedname>
+        <briefdescription>
+<para>Last relay id generated by <computeroutput><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a85db3c77bc8ecad82219e25faf4044f4" kindref="member">run()</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Empty string before the first run. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="351" column="24" bodyfile="src/rag/delegate_evaluator.cpp" bodystart="421" bodyend="423"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Orchestrates forward→backward round-trip edits and measures RS@k. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>For each round trip, the simulator:<orderedlist>
+<listitem><para>Calls <computeroutput>edit_fn(current_doc, pair.forward_instruction)</computeroutput> → <computeroutput>forward_doc</computeroutput>.</para>
+</listitem><listitem><para>Calls <computeroutput>edit_fn(forward_doc, pair.backward_instruction)</computeroutput> → <computeroutput>backward_doc</computeroutput>.</para>
+</listitem><listitem><para>Evaluates <computeroutput>evaluator.evaluate(seed_doc, backward_doc)</computeroutput> → RS.</para>
+</listitem><listitem><para>Appends RS to <computeroutput>RelayResult::scores.rs_per_interaction</computeroutput>.</para>
+</listitem></orderedlist>
+</para>
+<para>An exception from <computeroutput>edit_fn</computeroutput> records RS = 0.0 and sets <computeroutput><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a108125b3ca005e1e3b5f6b4763ca770aac4f16930bbe97be0ecda8ae843de8c03" kindref="member">StopReason::EDIT_FAILED</ref></computeroutput>.</para>
+<para><bold>Thread safety:</bold> not shared; create one instance per concurrent request.</para>
+<para><simplesect kind="see"><para>AgenticRAG for the analogous iterative-retrieval design. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/rag/delegate_evaluator.h" line="270" column="1" bodyfile="include/rag/delegate_evaluator.h" bodystart="270" bodyend="357"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1adbafb28f31f2580efb7e6ed889a9ef4d" prot="private" virt="non-virtual"><scope>themis::rag::delegate_eval::RoundTripSimulator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a589b0ce4ba39a753886295ba557719ee" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RoundTripSimulator</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a9359a6b0539a39064807dd9b892357e1" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RoundTripSimulator</scope><name>getLastRelayId</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1aa16d4759e3ca40e5ad2981b9b1e6d977" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RoundTripSimulator</scope><name>getRoundTripEditor</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1afb23d523fb2e9021d67529ad206c135f" prot="private" virt="non-virtual"><scope>themis::rag::delegate_eval::RoundTripSimulator</scope><name>last_relay_id_</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1aa89ac505d90dcc6da0b7578f8018c5ef" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RoundTripSimulator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a41a48b8cc224da155720cece481d24a9" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RoundTripSimulator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ad8f843c8fdd9b565518713f44792488b" prot="private" virt="non-virtual"><scope>themis::rag::delegate_eval::RoundTripSimulator</scope><name>round_trip_editor_</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ad9374fc340c475c16b92038a9c9f3da1" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RoundTripSimulator</scope><name>RoundTripSimulator</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1abc8eb4a2132beaba1214d6ab7f267797" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RoundTripSimulator</scope><name>RoundTripSimulator</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a309133f442ac92d47ed573045967eca1" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RoundTripSimulator</scope><name>RoundTripSimulator</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a28bf5c354a1434fe03e9fc410e7535db" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RoundTripSimulator</scope><name>RoundTripSimulator</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a85db3c77bc8ecad82219e25faf4044f4" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RoundTripSimulator</scope><name>run</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a8c9f0f5211a6aa99188fa783521db931" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RoundTripSimulator</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1ac9e780fc07cfdb3e9e76da56171590c3" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RoundTripSimulator</scope><name>setRoundTripEditor</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a550d8ceca8d5b56cac2066df51b47996" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RoundTripSimulator</scope><name>~RoundTripSimulator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

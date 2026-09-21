@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_tenant_update_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::TenantUpdateStatus</compoundname>
+    <includes refid="tenant__update__scheduler_8h" local="no">tenant_update_scheduler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_tenant_update_status_1ad4a5bdef32128f25be962a9a92bd25ed" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::TenantUpdateStatus::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::updates::TenantUpdateStatus::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="125" column="17" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_tenant_update_status_1ad65b4e25e663dbf9af9c1b4b91fe871e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::TenantUpdateStatus::current_version</definition>
+        <argsstring></argsstring>
+        <name>current_version</name>
+        <qualifiedname>themis::updates::TenantUpdateStatus::current_version</qualifiedname>
+        <briefdescription>
+<para>Version currently deployed for this tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="128" column="17" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_tenant_update_status_1a862ca65159f40c86b71bd0dab282e8a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::TenantUpdateStatus::pending_version</definition>
+        <argsstring></argsstring>
+        <name>pending_version</name>
+        <qualifiedname>themis::updates::TenantUpdateStatus::pending_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pending update version (non-empty when an update has been staged but not yet applied). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="132" column="17" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_tenant_update_status_1afbfc716b2cb49f38927843fc088444e8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::TenantUpdateStatus::last_rollback_id</definition>
+        <argsstring></argsstring>
+        <name>last_rollback_id</name>
+        <qualifiedname>themis::updates::TenantUpdateStatus::last_rollback_id</qualifiedname>
+        <briefdescription>
+<para>Latest rollback ID stored for this tenant (enables per-tenant rollback). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="135" column="17" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_tenant_update_status_1a92a1e04189fe293cf9deb34ee36322e9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::TenantUpdateStatus::consent_granted</definition>
+        <argsstring></argsstring>
+        <name>consent_granted</name>
+        <qualifiedname>themis::updates::TenantUpdateStatus::consent_granted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when a pending update has been explicitly consented. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="138" column="10" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_tenant_update_status_1ac99fc3f7a8055acec322dd1bfcfdd13d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::TenantUpdateStatus::in_maintenance_window</definition>
+        <argsstring></argsstring>
+        <name>in_maintenance_window</name>
+        <qualifiedname>themis::updates::TenantUpdateStatus::in_maintenance_window</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when the tenant is currently inside a maintenance window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="141" column="10" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_tenant_update_status_1a7e990703e8353b14cf92ac3787afaf17" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::TenantUpdateStatus::in_blackout_period</definition>
+        <argsstring></argsstring>
+        <name>in_blackout_period</name>
+        <qualifiedname>themis::updates::TenantUpdateStatus::in_blackout_period</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when the tenant is inside an active blackout period. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="144" column="10" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Status snapshot for a single tenant. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/tenant_update_scheduler.h" line="124" column="1" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="124" bodyend="145"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_tenant_update_status_1a92a1e04189fe293cf9deb34ee36322e9" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateStatus</scope><name>consent_granted</name></member>
+      <member refid="structthemis_1_1updates_1_1_tenant_update_status_1ad65b4e25e663dbf9af9c1b4b91fe871e" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateStatus</scope><name>current_version</name></member>
+      <member refid="structthemis_1_1updates_1_1_tenant_update_status_1a7e990703e8353b14cf92ac3787afaf17" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateStatus</scope><name>in_blackout_period</name></member>
+      <member refid="structthemis_1_1updates_1_1_tenant_update_status_1ac99fc3f7a8055acec322dd1bfcfdd13d" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateStatus</scope><name>in_maintenance_window</name></member>
+      <member refid="structthemis_1_1updates_1_1_tenant_update_status_1afbfc716b2cb49f38927843fc088444e8" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateStatus</scope><name>last_rollback_id</name></member>
+      <member refid="structthemis_1_1updates_1_1_tenant_update_status_1a862ca65159f40c86b71bd0dab282e8a7" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateStatus</scope><name>pending_version</name></member>
+      <member refid="structthemis_1_1updates_1_1_tenant_update_status_1ad4a5bdef32128f25be962a9a92bd25ed" prot="public" virt="non-virtual"><scope>themis::updates::TenantUpdateStatus</scope><name>tenant_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

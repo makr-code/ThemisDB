@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1projects_1_1_project_metrics" kind="class" language="C++" prot="public">
+    <compoundname>themis::projects::ProjectMetrics</compoundname>
+    <includes refid="project__metrics_8h" local="no">project_metrics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_project_metrics_1aa85725ad8fa613ad4a4d36d0ab2c67ba" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::projects::ProjectMetrics::changes_total_</definition>
+        <argsstring></argsstring>
+        <name>changes_total_</name>
+        <qualifiedname>themis::projects::ProjectMetrics::changes_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_metrics.h" line="114" column="17" bodyfile="include/projects/project_metrics.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_project_metrics_1a53a8ab34ed5094c0e51be6e202750bbe" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::projects::ProjectMetrics::diff_calls_total_</definition>
+        <argsstring></argsstring>
+        <name>diff_calls_total_</name>
+        <qualifiedname>themis::projects::ProjectMetrics::diff_calls_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_metrics.h" line="115" column="17" bodyfile="include/projects/project_metrics.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_project_metrics_1a5f3365e5d7e54be980e2b54dd9627ccc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::projects::ProjectMetrics::diff_duration_ms_total_</definition>
+        <argsstring></argsstring>
+        <name>diff_duration_ms_total_</name>
+        <qualifiedname>themis::projects::ProjectMetrics::diff_duration_ms_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_metrics.h" line="116" column="17" bodyfile="include/projects/project_metrics.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_metrics_1a873bfe4a74ee2ae150ea342243776a79" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::projects::ProjectMetrics::ProjectMetrics</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>ProjectMetrics</name>
+        <qualifiedname>themis::projects::ProjectMetrics::ProjectMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_metrics.h" line="56" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_metrics_1adefa8162a3104e8a8b27dfd25803cb04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::projects::ProjectMetrics::ProjectMetrics</definition>
+        <argsstring>(const ProjectMetrics &amp;)=delete</argsstring>
+        <name>ProjectMetrics</name>
+        <qualifiedname>themis::projects::ProjectMetrics::ProjectMetrics</qualifiedname>
+        <param>
+          <type>const ProjectMetrics &amp;</type>
+        </param>
+        <briefdescription>
+<para>Not copyable — each owner should hold a shared_ptr&lt;ProjectMetrics&gt;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_metrics.h" line="59" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_metrics_1a81ae02b20d812c61934e7abcc4ae2d48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1projects_1_1_project_metrics_1a873bfe4a74ee2ae150ea342243776a79" kindref="member">ProjectMetrics</ref> &amp;</type>
+        <definition>ProjectMetrics &amp; themis::projects::ProjectMetrics::operator=</definition>
+        <argsstring>(const ProjectMetrics &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::projects::ProjectMetrics::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1projects_1_1_project_metrics_1a873bfe4a74ee2ae150ea342243776a79" kindref="member">ProjectMetrics</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_metrics.h" line="60" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_metrics_1a0fbb38535d7942c53eaeae3f6f44f21a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::projects::ProjectMetrics::recordChange</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>recordChange</name>
+        <qualifiedname>themis::projects::ProjectMetrics::recordChange</qualifiedname>
+        <briefdescription>
+<para>Increment the collaboration-change counter by one. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Call once per <computeroutput><ref refid="classthemis_1_1projects_1_1_collaboration_manager_1a0003ca9ff3b28792433500bb7ff33f63" kindref="member">CollaborationManager::notifyChange()</ref></computeroutput> invocation. Thread-safe. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_metrics.h" line="70" column="10" bodyfile="include/projects/project_metrics.h" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_metrics_1ac4ce2727c8f05aa6d4e0057adac7037b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::projects::ProjectMetrics::recordDiff</definition>
+        <argsstring>(uint64_t latency_ms) noexcept</argsstring>
+        <name>recordDiff</name>
+        <qualifiedname>themis::projects::ProjectMetrics::recordDiff</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record one completed <computeroutput><ref refid="classthemis_1_1projects_1_1_project_diff_1af0907843be181b03ea73e52f40898345" kindref="member">ProjectDiff::diff()</ref></computeroutput> call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Wall-clock duration of the diff in milliseconds.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Thread-safe. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_metrics.h" line="81" column="10" bodyfile="include/projects/project_metrics.h" bodystart="81" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_metrics_1afff0d107211f36526418dfee9daa69b0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::projects::ProjectMetrics::changesTotal</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>changesTotal</name>
+        <qualifiedname>themis::projects::ProjectMetrics::changesTotal</qualifiedname>
+        <briefdescription>
+<para>Return the total number of change events recorded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_metrics.h" line="89" column="15" bodyfile="include/projects/project_metrics.h" bodystart="89" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_metrics_1a07d27181251dfdf95a3aedcd175014e1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::projects::ProjectMetrics::diffCallsTotal</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>diffCallsTotal</name>
+        <qualifiedname>themis::projects::ProjectMetrics::diffCallsTotal</qualifiedname>
+        <briefdescription>
+<para>Return the total number of diff calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_metrics.h" line="94" column="15" bodyfile="include/projects/project_metrics.h" bodystart="94" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_metrics_1af51e0dd56bfe27b295b3e73e64f31031" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::projects::ProjectMetrics::diffDurationMsTotal</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>diffDurationMsTotal</name>
+        <qualifiedname>themis::projects::ProjectMetrics::diffDurationMsTotal</qualifiedname>
+        <briefdescription>
+<para>Return the cumulative diff duration in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_metrics.h" line="99" column="15" bodyfile="include/projects/project_metrics.h" bodystart="99" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_metrics_1a2e757b5533d26dd33228439e19a81202" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::projects::ProjectMetrics::getMetricsText</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetricsText</name>
+        <qualifiedname>themis::projects::ProjectMetrics::getMetricsText</qualifiedname>
+        <briefdescription>
+<para>Produce a Prometheus text-format (v0.0.4) metrics payload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns an empty string when no data has been recorded yet (avoids emitting zero-value metrics on a fresh instance). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_metrics.h" line="111" column="18" bodyfile="src/projects/project_metrics.cpp" bodystart="19" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe Prometheus metrics sink for the Projects module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks two metric families:</para>
+<para><bold>Collaboration change counter</bold><itemizedlist>
+<listitem><para><computeroutput>projects_changes_total</computeroutput> — total <computeroutput>notifyChange()</computeroutput> calls across all projects</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Diff latency histogram (simple counter-pair)</bold><itemizedlist>
+<listitem><para><computeroutput>project_diff_calls_total</computeroutput> — total <computeroutput><ref refid="classthemis_1_1projects_1_1_project_diff_1af0907843be181b03ea73e52f40898345" kindref="member">ProjectDiff::diff()</ref></computeroutput> invocations</para>
+</listitem><listitem><para><computeroutput>project_diff_duration_ms_total</computeroutput> — cumulative wall-clock latency in ms</para>
+</listitem></itemizedlist>
+</para>
+<para>The counter-pair pattern (sum + count) is equivalent to a Prometheus summary without quantiles and lets the consumer compute the mean: mean_latency_ms = project_diff_duration_ms_total / project_diff_calls_total</para>
+<para><simplesect kind="note"><para>All methods are thread-safe via <computeroutput>std::atomic</computeroutput> relaxed/acq-rel ops.</para>
+</simplesect>
+<heading level="3">Prometheus text output</heading>
+</para>
+<para><programlisting><codeline><highlight class="preprocessor">#<sp/>HELP<sp/>projects_changes_total<sp/>Total<sp/>collaboration<sp/>change<sp/>events<sp/>recorded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/>TYPE<sp/>projects_changes_total<sp/>counter</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">projects_changes_total<sp/>42</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/>HELP<sp/>project_diff_calls_total<sp/>Total<sp/>ProjectDiff::diff()<sp/>invocations.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/>TYPE<sp/>project_diff_calls_total<sp/>counter</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">project_diff_calls_total<sp/>7</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/>HELP<sp/>project_diff_duration_ms_total<sp/>Cumulative<sp/>diff<sp/>computation<sp/>time<sp/>in<sp/>ms.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/>TYPE<sp/>project_diff_duration_ms_total<sp/>counter</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">project_diff_duration_ms_total<sp/>135</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/projects/project_metrics.h" line="54" column="1" bodyfile="include/projects/project_metrics.h" bodystart="54" bodyend="117"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1projects_1_1_project_metrics_1aa85725ad8fa613ad4a4d36d0ab2c67ba" prot="private" virt="non-virtual"><scope>themis::projects::ProjectMetrics</scope><name>changes_total_</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_metrics_1afff0d107211f36526418dfee9daa69b0" prot="public" virt="non-virtual"><scope>themis::projects::ProjectMetrics</scope><name>changesTotal</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_metrics_1a53a8ab34ed5094c0e51be6e202750bbe" prot="private" virt="non-virtual"><scope>themis::projects::ProjectMetrics</scope><name>diff_calls_total_</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_metrics_1a5f3365e5d7e54be980e2b54dd9627ccc" prot="private" virt="non-virtual"><scope>themis::projects::ProjectMetrics</scope><name>diff_duration_ms_total_</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_metrics_1a07d27181251dfdf95a3aedcd175014e1" prot="public" virt="non-virtual"><scope>themis::projects::ProjectMetrics</scope><name>diffCallsTotal</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_metrics_1af51e0dd56bfe27b295b3e73e64f31031" prot="public" virt="non-virtual"><scope>themis::projects::ProjectMetrics</scope><name>diffDurationMsTotal</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_metrics_1a2e757b5533d26dd33228439e19a81202" prot="public" virt="non-virtual"><scope>themis::projects::ProjectMetrics</scope><name>getMetricsText</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_metrics_1a81ae02b20d812c61934e7abcc4ae2d48" prot="public" virt="non-virtual"><scope>themis::projects::ProjectMetrics</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_metrics_1a873bfe4a74ee2ae150ea342243776a79" prot="public" virt="non-virtual"><scope>themis::projects::ProjectMetrics</scope><name>ProjectMetrics</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_metrics_1adefa8162a3104e8a8b27dfd25803cb04" prot="public" virt="non-virtual"><scope>themis::projects::ProjectMetrics</scope><name>ProjectMetrics</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_metrics_1a0fbb38535d7942c53eaeae3f6f44f21a" prot="public" virt="non-virtual"><scope>themis::projects::ProjectMetrics</scope><name>recordChange</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_metrics_1ac4ce2727c8f05aa6d4e0057adac7037b" prot="public" virt="non-virtual"><scope>themis::projects::ProjectMetrics</scope><name>recordDiff</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

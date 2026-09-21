@@ -1,0 +1,266 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_ratchet_compatibility_matrix" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::RatchetCompatibilityMatrix</compoundname>
+    <includes refid="model__switch__workflow_8h" local="no">model_switch_workflow.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a6713ac303a17a5fc89c609df46d2cdcf" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RatchetCompatibilityMatrix::schema_version_</definition>
+        <argsstring></argsstring>
+        <name>schema_version_</name>
+        <qualifiedname>themis::llm::RatchetCompatibilityMatrix::schema_version_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="114" column="17" bodyfile="include/llm/model_switch_workflow.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1ae7954051d35d383860d9fbf2706882af" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_ratchet_compatibility_entry" kindref="compound">RatchetCompatibilityEntry</ref> &gt;</type>
+        <definition>std::vector&lt;RatchetCompatibilityEntry&gt; themis::llm::RatchetCompatibilityMatrix::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themis::llm::RatchetCompatibilityMatrix::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="115" column="17" bodyfile="include/llm/model_switch_workflow.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a8e2cfddc3ed88e8d5f2c23de5c55b40b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::RatchetCompatibilityMatrix::RatchetCompatibilityMatrix</definition>
+        <argsstring>(std::string schema_version=&quot;1.0.0&quot;)</argsstring>
+        <name>RatchetCompatibilityMatrix</name>
+        <qualifiedname>themis::llm::RatchetCompatibilityMatrix::RatchetCompatibilityMatrix</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>schema_version</declname>
+          <defval>&quot;1.0.0&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="81" column="14" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="226" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a8f187b329c2ce4ffebe5ba2ca91cba36" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::RatchetCompatibilityMatrix::registerEntry</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;model_family, const SemVer &amp;min_version, const SemVer &amp;max_version_excl=SemVer{}, bool allow_downgrade=false)</argsstring>
+        <name>registerEntry</name>
+        <qualifiedname>themis::llm::RatchetCompatibilityMatrix::registerEntry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_family</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_sem_ver" kindref="compound">SemVer</ref> &amp;</type>
+          <declname>min_version</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_sem_ver" kindref="compound">SemVer</ref> &amp;</type>
+          <declname>max_version_excl</declname>
+          <defval><ref refid="structthemis_1_1llm_1_1_sem_ver" kindref="compound">SemVer</ref>{}</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>allow_downgrade</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Register Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_family</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">min_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_version_excl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">allow_downgrade</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="87" column="11" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="239" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a9b9409f48f62d8fe014a8abfab71c44e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_ratchet_compatibility_entry" kindref="compound">RatchetCompatibilityEntry</ref> &gt;</type>
+        <definition>std::optional&lt; RatchetCompatibilityEntry &gt; themis::llm::RatchetCompatibilityMatrix::findEntry</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;model_family) const</argsstring>
+        <name>findEntry</name>
+        <qualifiedname>themis::llm::RatchetCompatibilityMatrix::findEntry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_family</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="94" column="5" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="263" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a94f1e2319ef073151780b782f66c4c5a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::RatchetCompatibilityMatrix::isCompatible</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;model_family, const std::string &amp;model_version) const</argsstring>
+        <name>isCompatible</name>
+        <qualifiedname>themis::llm::RatchetCompatibilityMatrix::isCompatible</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_family</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="97" column="11" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="273" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1aa58a36dc3405174a5424cd2e312e5f93" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_ratchet_compatibility_entry" kindref="compound">RatchetCompatibilityEntry</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; RatchetCompatibilityEntry &gt; &amp; themis::llm::RatchetCompatibilityMatrix::entries</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>entries</name>
+        <qualifiedname>themis::llm::RatchetCompatibilityMatrix::entries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="101" column="24" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="286" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1aa1e238997f0e136550543788fdc4500c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::llm::RatchetCompatibilityMatrix::schemaVersion</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>schemaVersion</name>
+        <qualifiedname>themis::llm::RatchetCompatibilityMatrix::schemaVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="103" column="24" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="290" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a16c7f442fab6c2c6460609e729a9c678" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::RatchetCompatibilityMatrix::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::llm::RatchetCompatibilityMatrix::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="109" column="21" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="294" bodyend="300"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a692e58e18268400958e85ec07893d84a" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a8e2cfddc3ed88e8d5f2c23de5c55b40b" kindref="member">RatchetCompatibilityMatrix</ref></type>
+        <definition>RatchetCompatibilityMatrix themis::llm::RatchetCompatibilityMatrix::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::llm::RatchetCompatibilityMatrix::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="111" column="40" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="303" bodyend="313"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_switch_workflow.h" line="79" column="1" bodyfile="include/llm/model_switch_workflow.h" bodystart="79" bodyend="116"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1aa58a36dc3405174a5424cd2e312e5f93" prot="public" virt="non-virtual"><scope>themis::llm::RatchetCompatibilityMatrix</scope><name>entries</name></member>
+      <member refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1ae7954051d35d383860d9fbf2706882af" prot="private" virt="non-virtual"><scope>themis::llm::RatchetCompatibilityMatrix</scope><name>entries_</name></member>
+      <member refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a9b9409f48f62d8fe014a8abfab71c44e" prot="public" virt="non-virtual"><scope>themis::llm::RatchetCompatibilityMatrix</scope><name>findEntry</name></member>
+      <member refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a692e58e18268400958e85ec07893d84a" prot="public" virt="non-virtual"><scope>themis::llm::RatchetCompatibilityMatrix</scope><name>fromJson</name></member>
+      <member refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a94f1e2319ef073151780b782f66c4c5a" prot="public" virt="non-virtual"><scope>themis::llm::RatchetCompatibilityMatrix</scope><name>isCompatible</name></member>
+      <member refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a8e2cfddc3ed88e8d5f2c23de5c55b40b" prot="public" virt="non-virtual"><scope>themis::llm::RatchetCompatibilityMatrix</scope><name>RatchetCompatibilityMatrix</name></member>
+      <member refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a8f187b329c2ce4ffebe5ba2ca91cba36" prot="public" virt="non-virtual"><scope>themis::llm::RatchetCompatibilityMatrix</scope><name>registerEntry</name></member>
+      <member refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a6713ac303a17a5fc89c609df46d2cdcf" prot="private" virt="non-virtual"><scope>themis::llm::RatchetCompatibilityMatrix</scope><name>schema_version_</name></member>
+      <member refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1aa1e238997f0e136550543788fdc4500c" prot="public" virt="non-virtual"><scope>themis::llm::RatchetCompatibilityMatrix</scope><name>schemaVersion</name></member>
+      <member refid="classthemis_1_1llm_1_1_ratchet_compatibility_matrix_1a16c7f442fab6c2c6460609e729a9c678" prot="public" virt="non-virtual"><scope>themis::llm::RatchetCompatibilityMatrix</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

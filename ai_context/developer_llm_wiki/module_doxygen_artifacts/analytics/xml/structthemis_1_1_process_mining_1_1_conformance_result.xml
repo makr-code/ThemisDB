@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_mining_1_1_conformance_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessMining::ConformanceResult</compoundname>
+    <includes refid="process__mining_8h" local="no">process_mining.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_conformance_result_1a155da8789a43d2520651d9d1d6230b69" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ProcessMining::ConformanceResult::fitness</definition>
+        <argsstring></argsstring>
+        <name>fitness</name>
+        <qualifiedname>themis::ProcessMining::ConformanceResult::fitness</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>0.0 - 1.0 </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="280" column="16" bodyfile="include/analytics/process_mining.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_conformance_result_1a7e9c531ee82d2040788a4ede3f9ab362" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ProcessMining::ConformanceResult::precision</definition>
+        <argsstring></argsstring>
+        <name>precision</name>
+        <qualifiedname>themis::ProcessMining::ConformanceResult::precision</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Approximation of precision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="281" column="16" bodyfile="include/analytics/process_mining.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_conformance_result_1ab1595ac4dd68ae2de5e9746c7e5f7284" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ProcessMining::ConformanceResult::consumed_tokens</definition>
+        <argsstring></argsstring>
+        <name>consumed_tokens</name>
+        <qualifiedname>themis::ProcessMining::ConformanceResult::consumed_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="282" column="13" bodyfile="include/analytics/process_mining.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_conformance_result_1ac3a7e6fbfc366d334e7e5742a6bda6db" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ProcessMining::ConformanceResult::produced_tokens</definition>
+        <argsstring></argsstring>
+        <name>produced_tokens</name>
+        <qualifiedname>themis::ProcessMining::ConformanceResult::produced_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="283" column="13" bodyfile="include/analytics/process_mining.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_conformance_result_1a976b0317527c8f5401236b600581bf6f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ProcessMining::ConformanceResult::missing_tokens</definition>
+        <argsstring></argsstring>
+        <name>missing_tokens</name>
+        <qualifiedname>themis::ProcessMining::ConformanceResult::missing_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="284" column="13" bodyfile="include/analytics/process_mining.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_conformance_result_1ad00cfdf25fbad0a39d6f412ee3978f97" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ProcessMining::ConformanceResult::remaining_tokens</definition>
+        <argsstring></argsstring>
+        <name>remaining_tokens</name>
+        <qualifiedname>themis::ProcessMining::ConformanceResult::remaining_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="285" column="13" bodyfile="include/analytics/process_mining.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_conformance_result_1a1d1c8e369fcda5d3405f2727f482fbf4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ProcessMining::ConformanceResult::deviations</definition>
+        <argsstring></argsstring>
+        <name>deviations</name>
+        <qualifiedname>themis::ProcessMining::ConformanceResult::deviations</qualifiedname>
+        <briefdescription>
+<para>Beschreibung der Abweichungen. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="287" column="21" bodyfile="include/analytics/process_mining.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_mining.h" line="279" column="5" bodyfile="include/analytics/process_mining.h" bodystart="279" bodyend="288"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_mining_1_1_conformance_result_1ab1595ac4dd68ae2de5e9746c7e5f7284" prot="public" virt="non-virtual"><scope>themis::ProcessMining::ConformanceResult</scope><name>consumed_tokens</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_conformance_result_1a1d1c8e369fcda5d3405f2727f482fbf4" prot="public" virt="non-virtual"><scope>themis::ProcessMining::ConformanceResult</scope><name>deviations</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_conformance_result_1a155da8789a43d2520651d9d1d6230b69" prot="public" virt="non-virtual"><scope>themis::ProcessMining::ConformanceResult</scope><name>fitness</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_conformance_result_1a976b0317527c8f5401236b600581bf6f" prot="public" virt="non-virtual"><scope>themis::ProcessMining::ConformanceResult</scope><name>missing_tokens</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_conformance_result_1a7e9c531ee82d2040788a4ede3f9ab362" prot="public" virt="non-virtual"><scope>themis::ProcessMining::ConformanceResult</scope><name>precision</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_conformance_result_1ac3a7e6fbfc366d334e7e5742a6bda6db" prot="public" virt="non-virtual"><scope>themis::ProcessMining::ConformanceResult</scope><name>produced_tokens</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_conformance_result_1ad00cfdf25fbad0a39d6f412ee3978f97" prot="public" virt="non-virtual"><scope>themis::ProcessMining::ConformanceResult</scope><name>remaining_tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_7295bfe70283d86b006104b6b7e881a8" kind="dir">
+    <compoundname>benchmarks/llm_wiki</compoundname>
+    <innerfile refid="bench__llm__wiki__dedicated__gates_8cpp">bench_llm_wiki_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__wikipedia__throughput_8cpp">bench_wikipedia_throughput.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/llm_wiki/"/>
+  </compounddef>
+</doxygen>

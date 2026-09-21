@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::DatabaseConnectionManager::ConnectionConfig</compoundname>
+    <includes refid="database__connection__manager_8h" local="no">database_connection_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1abf0d72f1bef8011964e40368f38ec82b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DatabaseConnectionManager::ConnectionConfig::min_connections</definition>
+        <argsstring></argsstring>
+        <name>min_connections</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionConfig::min_connections</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="59" column="16" bodyfile="include/storage/database_connection_manager.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1aa9f4478a9db8c7a564e2de9b25cdba08" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DatabaseConnectionManager::ConnectionConfig::max_connections</definition>
+        <argsstring></argsstring>
+        <name>max_connections</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionConfig::max_connections</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="60" column="16" bodyfile="include/storage/database_connection_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1ab4407d8983dcc09dda305d9d02dee4bc" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::storage::DatabaseConnectionManager::ConnectionConfig::idle_timeout</definition>
+        <argsstring></argsstring>
+        <name>idle_timeout</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionConfig::idle_timeout</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="61" column="30" bodyfile="include/storage/database_connection_manager.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a4154071b3ec4de8f4f1ff33e8bff7267" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::storage::DatabaseConnectionManager::ConnectionConfig::max_connection_age</definition>
+        <argsstring></argsstring>
+        <name>max_connection_age</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionConfig::max_connection_age</qualifiedname>
+        <initializer>{3600}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="62" column="30" bodyfile="include/storage/database_connection_manager.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a0aceba22d44ff7be100bc29096ea3488" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::DatabaseConnectionManager::ConnectionConfig::enable_health_checks</definition>
+        <argsstring></argsstring>
+        <name>enable_health_checks</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionConfig::enable_health_checks</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="65" column="14" bodyfile="include/storage/database_connection_manager.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a8beef89981da3708b719bf18772d15b9" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::storage::DatabaseConnectionManager::ConnectionConfig::health_check_interval</definition>
+        <argsstring></argsstring>
+        <name>health_check_interval</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionConfig::health_check_interval</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="66" column="30" bodyfile="include/storage/database_connection_manager.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a430fe4e666bef9ec89960b88369a13ec" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::storage::DatabaseConnectionManager::ConnectionConfig::connection_timeout</definition>
+        <argsstring></argsstring>
+        <name>connection_timeout</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionConfig::connection_timeout</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="67" column="30" bodyfile="include/storage/database_connection_manager.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a4b52c4b32a9960362678e88fb806e92a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DatabaseConnectionManager::ConnectionConfig::max_retry_attempts</definition>
+        <argsstring></argsstring>
+        <name>max_retry_attempts</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionConfig::max_retry_attempts</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="70" column="16" bodyfile="include/storage/database_connection_manager.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a30a6264053b1128526a393f2c586e53f" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::storage::DatabaseConnectionManager::ConnectionConfig::initial_retry_delay</definition>
+        <argsstring></argsstring>
+        <name>initial_retry_delay</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionConfig::initial_retry_delay</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="71" column="35" bodyfile="include/storage/database_connection_manager.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a29af25f9d105bd961ca842d024af4ede" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::storage::DatabaseConnectionManager::ConnectionConfig::max_retry_delay</definition>
+        <argsstring></argsstring>
+        <name>max_retry_delay</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionConfig::max_retry_delay</qualifiedname>
+        <initializer>{30000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="72" column="35" bodyfile="include/storage/database_connection_manager.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a81b6b2b23a7c98b196dc8485fc4c6e63" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::DatabaseConnectionManager::ConnectionConfig::backoff_multiplier</definition>
+        <argsstring></argsstring>
+        <name>backoff_multiplier</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionConfig::backoff_multiplier</qualifiedname>
+        <initializer>= 2.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="73" column="16" bodyfile="include/storage/database_connection_manager.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a6d7fa898d98cbead4cf33217472747d3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DatabaseConnectionManager::ConnectionConfig::failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>failure_threshold</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionConfig::failure_threshold</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="76" column="16" bodyfile="include/storage/database_connection_manager.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1af29426ea0d58ff922267934e40c0189b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DatabaseConnectionManager::ConnectionConfig::success_threshold</definition>
+        <argsstring></argsstring>
+        <name>success_threshold</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionConfig::success_threshold</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="77" column="16" bodyfile="include/storage/database_connection_manager.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a9b3c1f34210d471fb69e380fa1e9531a" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::storage::DatabaseConnectionManager::ConnectionConfig::circuit_reset_timeout</definition>
+        <argsstring></argsstring>
+        <name>circuit_reset_timeout</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionConfig::circuit_reset_timeout</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="78" column="30" bodyfile="include/storage/database_connection_manager.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a759643c93c9a2efbf33d583d709a670b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::DatabaseConnectionManager::ConnectionConfig::enable_keepalive</definition>
+        <argsstring></argsstring>
+        <name>enable_keepalive</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionConfig::enable_keepalive</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="81" column="14" bodyfile="include/storage/database_connection_manager.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a17d9fae0df353dcfc096dca87526cbd2" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::storage::DatabaseConnectionManager::ConnectionConfig::keepalive_interval</definition>
+        <argsstring></argsstring>
+        <name>keepalive_interval</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionConfig::keepalive_interval</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="82" column="30" bodyfile="include/storage/database_connection_manager.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/database_connection_manager.h" line="57" column="5" bodyfile="include/storage/database_connection_manager.h" bodystart="57" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a81b6b2b23a7c98b196dc8485fc4c6e63" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionConfig</scope><name>backoff_multiplier</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a9b3c1f34210d471fb69e380fa1e9531a" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionConfig</scope><name>circuit_reset_timeout</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a430fe4e666bef9ec89960b88369a13ec" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionConfig</scope><name>connection_timeout</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a0aceba22d44ff7be100bc29096ea3488" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionConfig</scope><name>enable_health_checks</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a759643c93c9a2efbf33d583d709a670b" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionConfig</scope><name>enable_keepalive</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a6d7fa898d98cbead4cf33217472747d3" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionConfig</scope><name>failure_threshold</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a8beef89981da3708b719bf18772d15b9" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionConfig</scope><name>health_check_interval</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1ab4407d8983dcc09dda305d9d02dee4bc" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionConfig</scope><name>idle_timeout</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a30a6264053b1128526a393f2c586e53f" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionConfig</scope><name>initial_retry_delay</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a17d9fae0df353dcfc096dca87526cbd2" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionConfig</scope><name>keepalive_interval</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a4154071b3ec4de8f4f1ff33e8bff7267" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionConfig</scope><name>max_connection_age</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1aa9f4478a9db8c7a564e2de9b25cdba08" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionConfig</scope><name>max_connections</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a4b52c4b32a9960362678e88fb806e92a" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionConfig</scope><name>max_retry_attempts</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1a29af25f9d105bd961ca842d024af4ede" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionConfig</scope><name>max_retry_delay</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1abf0d72f1bef8011964e40368f38ec82b" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionConfig</scope><name>min_connections</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_config_1af29426ea0d58ff922267934e40c0189b" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionConfig</scope><name>success_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

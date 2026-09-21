@@ -1,0 +1,581 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__idempotent__rollback__wave__a_8cpp" kind="file" language="C++">
+    <compoundname>test_idempotent_rollback_wave_a.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="update__state__machine_8h" local="yes">updates/update_state_machine.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>updates/update_state_machine.h</label>
+        <link refid="update__state__machine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/updates/test_idempotent_rollback_wave_a.cpp</label>
+        <link refid="test__idempotent__rollback__wave__a_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>thread</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_idempotent_rollback_test" prot="public">IdempotentRollbackTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__idempotent__rollback__wave__a_8cpp_1a4cd4aa65106b6cde6480ae0aa1bbbc93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IdempotentRollbackTest, SingleRollbackToCheckpoint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>SingleRollbackToCheckpoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test: Single rollback to a checkpoint Verifies basic rollback functionality still works </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_idempotent_rollback_wave_a.cpp" line="70" column="1" bodyfile="tests/updates/test_idempotent_rollback_wave_a.cpp" bodystart="70" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__idempotent__rollback__wave__a_8cpp_1a41d8e71a998699ab179e27d629505052" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IdempotentRollbackTest, DoubleRollbackToSameCheckpoint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>DoubleRollbackToSameCheckpoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test: Double rollback to same checkpoint (main idempotency requirement) This is the key test for UPD-IMPL-006 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_idempotent_rollback_wave_a.cpp" line="95" column="1" bodyfile="tests/updates/test_idempotent_rollback_wave_a.cpp" bodystart="95" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="test__idempotent__rollback__wave__a_8cpp_1a683c9a6e7f8bb8c93b28184a29c54654" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IdempotentRollbackTest, TripleRollbackToSameCheckpoint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>TripleRollbackToSameCheckpoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test: Triple rollback (three calls to same checkpoint) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_idempotent_rollback_wave_a.cpp" line="123" column="1" bodyfile="tests/updates/test_idempotent_rollback_wave_a.cpp" bodystart="123" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="test__idempotent__rollback__wave__a_8cpp_1a3d3497da432061a08bece2e15a3d29be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IdempotentRollbackTest, RollbackFollowedByNewTransition)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>RollbackFollowedByNewTransition</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test: Rollback followed by new state transition Verifies that state machine can continue normally after rollback </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_idempotent_rollback_wave_a.cpp" line="156" column="1" bodyfile="tests/updates/test_idempotent_rollback_wave_a.cpp" bodystart="156" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="test__idempotent__rollback__wave__a_8cpp_1a7f27f296be0ffa384cc86429f1175628" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IdempotentRollbackTest, RollbackToDifferentCheckpoint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>RollbackToDifferentCheckpoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test: Rollback to different checkpoint after first rollback Non-idempotent behavior when rolling back to different checkpoint </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_idempotent_rollback_wave_a.cpp" line="184" column="1" bodyfile="tests/updates/test_idempotent_rollback_wave_a.cpp" bodystart="184" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="test__idempotent__rollback__wave__a_8cpp_1acb35e4515c8f16295cae38d73bf490b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IdempotentRollbackTest, IsRollbackSafeValidation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>IsRollbackSafeValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test: isRollbackSafe() validation </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_idempotent_rollback_wave_a.cpp" line="207" column="1" bodyfile="tests/updates/test_idempotent_rollback_wave_a.cpp" bodystart="207" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="test__idempotent__rollback__wave__a_8cpp_1a9b69c00968497a439e3e4313daa76823" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IdempotentRollbackTest, ValidateRollbackState)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>ValidateRollbackState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test: validateRollbackState() verification </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_idempotent_rollback_wave_a.cpp" line="227" column="1" bodyfile="tests/updates/test_idempotent_rollback_wave_a.cpp" bodystart="227" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="test__idempotent__rollback__wave__a_8cpp_1a0cbd18254507a906cd14ebf40561bc57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IdempotentRollbackTest, DiagnosticTracking)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>DiagnosticTracking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test: Diagnostic methods tracking </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_idempotent_rollback_wave_a.cpp" line="252" column="1" bodyfile="tests/updates/test_idempotent_rollback_wave_a.cpp" bodystart="252" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="test__idempotent__rollback__wave__a_8cpp_1aacba9d27a5a1df76f7cabf8682a7bbec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IdempotentRollbackTest, RollbackNonExistentCheckpoint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>RollbackNonExistentCheckpoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test: Non-existent checkpoint handling </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_idempotent_rollback_wave_a.cpp" line="283" column="1" bodyfile="tests/updates/test_idempotent_rollback_wave_a.cpp" bodystart="283" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="test__idempotent__rollback__wave__a_8cpp_1a2c59448e0ef1f0535315a60c8e1eb67d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(IdempotentRollbackTest, StateConsistencyAfterIdempotentCalls)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref></type>
+        </param>
+        <param>
+          <type>StateConsistencyAfterIdempotentCalls</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test: State machine remains consistent after multiple idempotent calls </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_idempotent_rollback_wave_a.cpp" line="296" column="1" bodyfile="tests/updates/test_idempotent_rollback_wave_a.cpp" bodystart="296" bodyend="318"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Idempotent Rollback Implementation Tests (UPD-IMPL-006). </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="since"><para>1.8.2 (Wave A 2026)</para>
+</simplesect>
+Coverage for UPD-IMPL-006: Idempotent rollback to prevent double-rollback corruption.</para>
+<para>Test scenarios:<itemizedlist>
+<listitem><para>Double-rollback to same checkpoint (main idempotency requirement)</para>
+</listitem><listitem><para>Triple-rollback scenarios</para>
+</listitem><listitem><para>Rollback followed by new state transition</para>
+</listitem><listitem><para>Concurrent rollback attempts</para>
+</listitem><listitem><para>State corruption detection</para>
+</listitem><listitem><para>Diagnostic tracking </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="update__state__machine_8h" kindref="compound">updates/update_state_machine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates" kindref="compound">themis::updates</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="class_idempotent_rollback_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref><sp/><ref refid="class_idempotent_rollback_test_1aa13205b09fff6f2ad67763c43b4ad740" kindref="member">state_machine_</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_idempotent_rollback_test_1af4a95b5c4b31031876e49d251cd4bf2c" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_idempotent_rollback_test_1aa13205b09fff6f2ad67763c43b4ad740" kindref="member">state_machine_</ref><sp/>=<sp/><ref refid="classthemis_1_1updates_1_1_update_state_machine" kindref="compound">UpdateStateMachine</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>In-memory<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>Move<sp/>to<sp/>a<sp/>specific<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_idempotent_rollback_test_1a2f5bf2abfb579ca487c2071bc25d8f41" kindref="member">transitionToState</ref>(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbec" kindref="member">UpdateState</ref><sp/>target,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>version<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_idempotent_rollback_test_1aa13205b09fff6f2ad67763c43b4ad740" kindref="member">state_machine_</ref>.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/>version,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(target<sp/>==<sp/><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_idempotent_rollback_test_1aa13205b09fff6f2ad67763c43b4ad740" kindref="member">state_machine_</ref>.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;verify&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(target<sp/>==<sp/><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_idempotent_rollback_test_1aa13205b09fff6f2ad67763c43b4ad740" kindref="member">state_machine_</ref>.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca6af03e66d770a160658b53d1ac9ce3f5" kindref="member">UpdateState::APPLYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;apply&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(target<sp/>==<sp/><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca6af03e66d770a160658b53d1ac9ce3f5" kindref="member">UpdateState::APPLYING</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_idempotent_rollback_test_1aa13205b09fff6f2ad67763c43b4ad740" kindref="member">state_machine_</ref>.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbecaa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">UpdateState::IDLE</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;complete&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UPD-IMPL-006:<sp/>Idempotent<sp/>Rollback<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="test__idempotent__rollback__wave__a_8cpp_1a4cd4aa65106b6cde6480ae0aa1bbbc93" kindref="member">TEST_F</ref>(<ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref>,<sp/>SingleRollbackToCheckpoint)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setup:<sp/>Transition<sp/>to<sp/>APPLYING<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;verify&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca6af03e66d770a160658b53d1ac9ce3f5" kindref="member">UpdateState::APPLYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;apply&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>checkpoint<sp/>at<sp/>APPLYING<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a402302f9032b9407b094bbd9b6ee8947" kindref="member">CheckpointId</ref><sp/>cp1<sp/>=<sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;checkpoint-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GT(cp1,<sp/>0);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rollback<sp/>to<sp/>checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.rollbackToCheckpoint(cp1));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.currentState(),<sp/><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca6af03e66d770a160658b53d1ac9ce3f5" kindref="member">UpdateState::APPLYING</ref>);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.currentVersion(),<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>diagnostic<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.lastRollbackCheckpoint(),<sp/>cp1);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.rollbackAttemptCount(),<sp/>1);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(state_machine_.isLastRollbackIdempotent());</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__idempotent__rollback__wave__a_8cpp_1a4cd4aa65106b6cde6480ae0aa1bbbc93" kindref="member">TEST_F</ref>(<ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref>,<sp/>DoubleRollbackToSameCheckpoint)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setup:<sp/>Create<sp/>checkpoints<sp/>at<sp/>two<sp/>different<sp/>states</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a402302f9032b9407b094bbd9b6ee8947" kindref="member">CheckpointId</ref><sp/>cp1<sp/>=<sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;checkpoint-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;verify&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a402302f9032b9407b094bbd9b6ee8947" kindref="member">CheckpointId</ref><sp/>cp2<sp/>=<sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;checkpoint-2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca6af03e66d770a160658b53d1ac9ce3f5" kindref="member">UpdateState::APPLYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;apply&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>rollback<sp/>to<sp/>cp1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.rollbackToCheckpoint(cp1));</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.currentState(),<sp/><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.currentVersion(),<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.rollbackAttemptCount(),<sp/>1);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(state_machine_.isLastRollbackIdempotent());</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>rollback<sp/>to<sp/>same<sp/>checkpoint<sp/>(SHOULD<sp/>BE<sp/>IDEMPOTENT)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.rollbackToCheckpoint(cp1));</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.currentState(),<sp/><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.currentVersion(),<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.rollbackAttemptCount(),<sp/>2);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.isLastRollbackIdempotent());<sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>call<sp/>is<sp/>idempotent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="test__idempotent__rollback__wave__a_8cpp_1a4cd4aa65106b6cde6480ae0aa1bbbc93" kindref="member">TEST_F</ref>(<ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref>,<sp/>TripleRollbackToSameCheckpoint)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a402302f9032b9407b094bbd9b6ee8947" kindref="member">CheckpointId</ref><sp/>cp1<sp/>=<sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;checkpoint-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;verify&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca6af03e66d770a160658b53d1ac9ce3f5" kindref="member">UpdateState::APPLYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;apply&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>rollback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.rollbackToCheckpoint(cp1));</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.rollbackAttemptCount(),<sp/>1);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(state_machine_.isLastRollbackIdempotent());</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbec" kindref="member">UpdateState</ref><sp/>state_after_first<sp/>=<sp/>state_machine_.currentState();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>version_after_first<sp/>=<sp/>state_machine_.currentVersion();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>rollback<sp/>(idempotent)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.rollbackToCheckpoint(cp1));</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.rollbackAttemptCount(),<sp/>2);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.isLastRollbackIdempotent());</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.currentState(),<sp/>state_after_first);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.currentVersion(),<sp/>version_after_first);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Third<sp/>rollback<sp/>(also<sp/>idempotent)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.rollbackToCheckpoint(cp1));</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.rollbackAttemptCount(),<sp/>3);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.isLastRollbackIdempotent());</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.currentState(),<sp/>state_after_first);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.currentVersion(),<sp/>version_after_first);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__idempotent__rollback__wave__a_8cpp_1a4cd4aa65106b6cde6480ae0aa1bbbc93" kindref="member">TEST_F</ref>(<ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref>,<sp/>RollbackFollowedByNewTransition)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a402302f9032b9407b094bbd9b6ee8947" kindref="member">CheckpointId</ref><sp/>cp1<sp/>=<sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;checkpoint-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;verify&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca6af03e66d770a160658b53d1ac9ce3f5" kindref="member">UpdateState::APPLYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;apply&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rollback<sp/>to<sp/>checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.rollbackToCheckpoint(cp1));</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.currentState(),<sp/><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>perform<sp/>new<sp/>transition<sp/>(should<sp/>work<sp/>normally)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;verify&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.currentState(),<sp/><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rollback<sp/>again<sp/>to<sp/>cp1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.rollbackToCheckpoint(cp1));</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.currentState(),<sp/><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attempt<sp/>idempotent<sp/>rollback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.rollbackToCheckpoint(cp1));</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.isLastRollbackIdempotent());</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><ref refid="test__idempotent__rollback__wave__a_8cpp_1a4cd4aa65106b6cde6480ae0aa1bbbc93" kindref="member">TEST_F</ref>(<ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref>,<sp/>RollbackToDifferentCheckpoint)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a402302f9032b9407b094bbd9b6ee8947" kindref="member">CheckpointId</ref><sp/>cp1<sp/>=<sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;checkpoint-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;verify&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a402302f9032b9407b094bbd9b6ee8947" kindref="member">CheckpointId</ref><sp/>cp2<sp/>=<sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;checkpoint-2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca6af03e66d770a160658b53d1ac9ce3f5" kindref="member">UpdateState::APPLYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;apply&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>rollback<sp/>to<sp/>cp1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.rollbackToCheckpoint(cp1));</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.rollbackAttemptCount(),<sp/>1);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(state_machine_.isLastRollbackIdempotent());</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>rollback<sp/>to<sp/>cp2<sp/>(different<sp/>checkpoint,<sp/>should<sp/>be<sp/>NEW<sp/>rollback)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.rollbackToCheckpoint(cp2));</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.rollbackAttemptCount(),<sp/>2);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(state_machine_.isLastRollbackIdempotent());<sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>idempotent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><ref refid="test__idempotent__rollback__wave__a_8cpp_1a4cd4aa65106b6cde6480ae0aa1bbbc93" kindref="member">TEST_F</ref>(<ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref>,<sp/>IsRollbackSafeValidation)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a402302f9032b9407b094bbd9b6ee8947" kindref="member">CheckpointId</ref><sp/>cp1<sp/>=<sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;checkpoint-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;verify&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rollback<sp/>should<sp/>be<sp/>safe:<sp/>checkpoint<sp/>exists<sp/>and<sp/>state<sp/>differs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.isRollbackSafe(cp1));</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>rollback,<sp/>checkpoint<sp/>already<sp/>at<sp/>current<sp/>state<sp/>(no-op)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.rollbackToCheckpoint(cp1));</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(state_machine_.isRollbackSafe(cp1));<sp/><sp/></highlight><highlight class="comment">//<sp/>Already<sp/>at<sp/>checkpoint<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-existent<sp/>checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(state_machine_.isRollbackSafe(9999));</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><ref refid="test__idempotent__rollback__wave__a_8cpp_1a4cd4aa65106b6cde6480ae0aa1bbbc93" kindref="member">TEST_F</ref>(<ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref>,<sp/>ValidateRollbackState)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a402302f9032b9407b094bbd9b6ee8947" kindref="member">CheckpointId</ref><sp/>cp1<sp/>=<sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;checkpoint-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;verify&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca6af03e66d770a160658b53d1ac9ce3f5" kindref="member">UpdateState::APPLYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;apply&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rollback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.rollbackToCheckpoint(cp1));</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validate:<sp/>should<sp/>pass<sp/>(state<sp/>and<sp/>version<sp/>match<sp/>checkpoint)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.validateRollbackState(cp1,<sp/></highlight><highlight class="stringliteral">&quot;validation<sp/>test&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Manually<sp/>modify<sp/>version<sp/>(to<sp/>simulate<sp/>corruption)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>In<sp/>a<sp/>real<sp/>scenario,<sp/>this<sp/>would<sp/>require<sp/>friend<sp/>access<sp/>or<sp/>public<sp/>setter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>this<sp/>test,<sp/>we&apos;ll<sp/>move<sp/>to<sp/>a<sp/>different<sp/>checkpoint<sp/>to<sp/>trigger<sp/>validation<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.1.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;verify&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validate:<sp/>should<sp/>fail<sp/>(version<sp/>mismatch)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(state_machine_.validateRollbackState(cp1,<sp/></highlight><highlight class="stringliteral">&quot;version<sp/>changed&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><ref refid="test__idempotent__rollback__wave__a_8cpp_1a4cd4aa65106b6cde6480ae0aa1bbbc93" kindref="member">TEST_F</ref>(<ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref>,<sp/>DiagnosticTracking)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.rollbackAttemptCount(),<sp/>0);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.lastRollbackCheckpoint(),<sp/>0);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a402302f9032b9407b094bbd9b6ee8947" kindref="member">CheckpointId</ref><sp/>cp1<sp/>=<sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;checkpoint-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;verify&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>rollback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.rollbackToCheckpoint(cp1));</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.rollbackAttemptCount(),<sp/>1);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.lastRollbackCheckpoint(),<sp/>cp1);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(state_machine_.isLastRollbackIdempotent());</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>rollback<sp/>(idempotent)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.rollbackToCheckpoint(cp1));</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.rollbackAttemptCount(),<sp/>2);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.lastRollbackCheckpoint(),<sp/>cp1);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.isLastRollbackIdempotent());</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Third<sp/>rollback<sp/>(idempotent)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.rollbackToCheckpoint(cp1));</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.rollbackAttemptCount(),<sp/>3);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.lastRollbackCheckpoint(),<sp/>cp1);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.isLastRollbackIdempotent());</highlight></codeline>
+<codeline lineno="278"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><ref refid="test__idempotent__rollback__wave__a_8cpp_1a4cd4aa65106b6cde6480ae0aa1bbbc93" kindref="member">TEST_F</ref>(<ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref>,<sp/>RollbackNonExistentCheckpoint)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attempt<sp/>rollback<sp/>to<sp/>non-existent<sp/>checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(state_machine_.rollbackToCheckpoint(9999));</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attempt<sp/>count<sp/>should<sp/>NOT<sp/>increase<sp/>for<sp/>failed<sp/>rollbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.rollbackAttemptCount(),<sp/>0);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><ref refid="test__idempotent__rollback__wave__a_8cpp_1a4cd4aa65106b6cde6480ae0aa1bbbc93" kindref="member">TEST_F</ref>(<ref refid="class_idempotent_rollback_test" kindref="compound">IdempotentRollbackTest</ref>,<sp/>StateConsistencyAfterIdempotentCalls)<sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" kindref="member">UpdateState::DOWNLOADING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a402302f9032b9407b094bbd9b6ee8947" kindref="member">CheckpointId</ref><sp/>cp1<sp/>=<sp/>state_machine_.createCheckpoint(</highlight><highlight class="stringliteral">&quot;checkpoint-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" kindref="member">UpdateState::VERIFYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;verify&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.transition(<ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca6af03e66d770a160658b53d1ac9ce3f5" kindref="member">UpdateState::APPLYING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;apply&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Capture<sp/>initial<sp/>rollback<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.rollbackToCheckpoint(cp1));</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbec" kindref="member">UpdateState</ref><sp/>rollback_state<sp/>=<sp/>state_machine_.currentState();</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>rollback_version<sp/>=<sp/>state_machine_.currentVersion();</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Perform<sp/>10<sp/>idempotent<sp/>rollbacks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.rollbackToCheckpoint(cp1));</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.currentState(),<sp/>rollback_state);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.currentVersion(),<sp/>rollback_version);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(state_machine_.isLastRollbackIdempotent());</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>attempt<sp/>count<sp/>should<sp/>be<sp/>11<sp/>(1<sp/>initial<sp/>+<sp/>10<sp/>idempotent)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(state_machine_.rollbackAttemptCount(),<sp/>11);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/updates/test_idempotent_rollback_wave_a.cpp"/>
+  </compounddef>
+</doxygen>

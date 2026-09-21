@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_workload_stats" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::WorkloadStats</compoundname>
+    <includes refid="dostoevsky_8h" local="no">dostoevsky.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_workload_stats_1a3ba39089a8981603aceb4bd8d3ba05a5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::performance::WorkloadStats::reads_</definition>
+        <argsstring></argsstring>
+        <name>reads_</name>
+        <qualifiedname>themis::performance::WorkloadStats::reads_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="67" column="17" bodyfile="include/performance/dostoevsky.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_workload_stats_1a70917afc372748a44a0d6456f0c942b1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::performance::WorkloadStats::writes_</definition>
+        <argsstring></argsstring>
+        <name>writes_</name>
+        <qualifiedname>themis::performance::WorkloadStats::writes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="68" column="17" bodyfile="include/performance/dostoevsky.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_workload_stats_1a6191a6d645f3cb174fce4b5a74e1194f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::WorkloadStats::record_read</definition>
+        <argsstring>()</argsstring>
+        <name>record_read</name>
+        <qualifiedname>themis::performance::WorkloadStats::record_read</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="41" column="10" bodyfile="include/performance/dostoevsky.h" bodystart="41" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_workload_stats_1a4245b124311d657529f9168ea7f74d04" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::WorkloadStats::record_write</definition>
+        <argsstring>()</argsstring>
+        <name>record_write</name>
+        <qualifiedname>themis::performance::WorkloadStats::record_write</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="45" column="10" bodyfile="include/performance/dostoevsky.h" bodystart="45" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_workload_stats_1a1e0c564d772ef8478eb0464f96644c86" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::performance::WorkloadStats::get_read_ratio</definition>
+        <argsstring>() const</argsstring>
+        <name>get_read_ratio</name>
+        <qualifiedname>themis::performance::WorkloadStats::get_read_ratio</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="50" column="12" bodyfile="include/performance/dostoevsky.h" bodystart="50" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_workload_stats_1ae5c8554d4efa1c0decc513a9036a62a6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::WorkloadStats::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::performance::WorkloadStats::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="58" column="10" bodyfile="include/performance/dostoevsky.h" bodystart="58" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_workload_stats_1abcd575a26274a3f6ce86643deabb0c92" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::WorkloadStats::get_reads</definition>
+        <argsstring>() const</argsstring>
+        <name>get_reads</name>
+        <qualifiedname>themis::performance::WorkloadStats::get_reads</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="63" column="14" bodyfile="include/performance/dostoevsky.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_workload_stats_1a4191bedde2cf2dda331cb5a24aaa5f23" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::WorkloadStats::get_writes</definition>
+        <argsstring>() const</argsstring>
+        <name>get_writes</name>
+        <qualifiedname>themis::performance::WorkloadStats::get_writes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="64" column="14" bodyfile="include/performance/dostoevsky.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Workload statistics tracker. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/dostoevsky.h" line="39" column="1" bodyfile="include/performance/dostoevsky.h" bodystart="39" bodyend="69"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_workload_stats_1a1e0c564d772ef8478eb0464f96644c86" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadStats</scope><name>get_read_ratio</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_stats_1abcd575a26274a3f6ce86643deabb0c92" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadStats</scope><name>get_reads</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_stats_1a4191bedde2cf2dda331cb5a24aaa5f23" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadStats</scope><name>get_writes</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_stats_1a3ba39089a8981603aceb4bd8d3ba05a5" prot="private" virt="non-virtual"><scope>themis::performance::WorkloadStats</scope><name>reads_</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_stats_1a6191a6d645f3cb174fce4b5a74e1194f" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadStats</scope><name>record_read</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_stats_1a4245b124311d657529f9168ea7f74d04" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadStats</scope><name>record_write</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_stats_1ae5c8554d4efa1c0decc513a9036a62a6" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadStats</scope><name>reset</name></member>
+      <member refid="classthemis_1_1performance_1_1_workload_stats_1a70917afc372748a44a0d6456f0c942b1" prot="private" virt="non-virtual"><scope>themis::performance::WorkloadStats</scope><name>writes_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

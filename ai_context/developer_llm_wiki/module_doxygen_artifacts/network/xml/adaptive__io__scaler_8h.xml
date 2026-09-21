@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="adaptive__io__scaler_8h" kind="file" language="C++">
+    <compoundname>adaptive_io_scaler.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">thread</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/network/adaptive_io_scaler.h</label>
+        <link refid="adaptive__io__scaler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>thread</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1network_1_1_adaptive_i_o_scaler" prot="public">themis::network::AdaptiveIOScaler</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config" prot="public">themis::network::AdaptiveIOScaler::Config</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats" prot="public">themis::network::AdaptiveIOScaler::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1network">themis::network</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.10 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">network</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1network_1_1_adaptive_i_o_scaler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ada3c9a7c7d9ae84470ba120bcb2a13d8" kindref="member">AdaptiveIOScaler</ref><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1a8512139db4f3658c62ad8024ba750b2e" kindref="member">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1a507323d111219da95edad28974fd7791" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1a507323d111219da95edad28974fd7791" kindref="member">min_threads</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1a27cb6a68a5cdc4eea29354db64c675eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1a27cb6a68a5cdc4eea29354db64c675eb" kindref="member">max_threads</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1abf297b052ee23a6724eb5e737524395a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1abf297b052ee23a6724eb5e737524395a" kindref="member">scale_up_threshold</ref><sp/>=<sp/>200.0;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1ad2f8c06a5bfcd9f08221d6398c17586c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1ad2f8c06a5bfcd9f08221d6398c17586c" kindref="member">scale_down_threshold</ref><sp/>=<sp/>50.0;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1ab2b4f6c1fcd4b496e4c48be964b92221" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1ab2b4f6c1fcd4b496e4c48be964b92221" kindref="member">check_interval</ref>{5000};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1a2b5b744870058b0e31cc162c8d0a5316" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1a2b5b744870058b0e31cc162c8d0a5316" kindref="member">initial_threads</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1a8512139db4f3658c62ad8024ba750b2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config_1a8512139db4f3658c62ad8024ba750b2e" kindref="member">Config</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats_1a4ed79964f65e8386533236822eab16e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats_1a4ed79964f65e8386533236822eab16e4" kindref="member">current_threads</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats_1af72433311de55982510aaea541e4624e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats_1af72433311de55982510aaea541e4624e" kindref="member">scale_up_events</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats_1ad453c55552d88d5cf5f64d5fba183447" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats_1ad453c55552d88d5cf5f64d5fba183447" kindref="member">scale_down_events</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats_1a43fc67bed67ffc0fe8976ced6c143af7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats_1a43fc67bed67ffc0fe8976ced6c143af7" kindref="member">check_iterations</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats_1a3c6a01177821c20d35aa86dadb6d7864" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats_1a3c6a01177821c20d35aa86dadb6d7864" kindref="member">last_connection_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Type<sp/>aliases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1aaae202c9100a6690f73107c935b8b1de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1aaae202c9100a6690f73107c935b8b1de" kindref="member">ConnectionCountProvider</ref><sp/>=<sp/>std::function&lt;uint64_t()&gt;;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ab5d3aadbbc531b81f2b2fa4366d86a50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ab5d3aadbbc531b81f2b2fa4366d86a50" kindref="member">ScaleCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>new_thread_count)&gt;;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ada3c9a7c7d9ae84470ba120bcb2a13d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ada3c9a7c7d9ae84470ba120bcb2a13d8" kindref="member">AdaptiveIOScaler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1aaae202c9100a6690f73107c935b8b1de" kindref="member">ConnectionCountProvider</ref><sp/>provider);</highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1acd6a509fa2319f3326f369eb600643cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1acd6a509fa2319f3326f369eb600643cf" kindref="member">~AdaptiveIOScaler</ref>();</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1aa08649d71c311d0fd18730f8e4b19bb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1aa08649d71c311d0fd18730f8e4b19bb4" kindref="member">AdaptiveIOScaler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ada3c9a7c7d9ae84470ba120bcb2a13d8" kindref="member">AdaptiveIOScaler</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1aea63fe0781256887eeb8e4c064e82ee2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ada3c9a7c7d9ae84470ba120bcb2a13d8" kindref="member">AdaptiveIOScaler</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1aea63fe0781256887eeb8e4c064e82ee2" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ada3c9a7c7d9ae84470ba120bcb2a13d8" kindref="member">AdaptiveIOScaler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143" refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a36cd4b036dff767856ebefc8f5aa68cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a36cd4b036dff767856ebefc8f5aa68cf" kindref="member">AdaptiveIOScaler</ref>(<ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ada3c9a7c7d9ae84470ba120bcb2a13d8" kindref="member">AdaptiveIOScaler</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a9a9f749ab3c34c8ee0d542549f29360d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ada3c9a7c7d9ae84470ba120bcb2a13d8" kindref="member">AdaptiveIOScaler</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a9a9f749ab3c34c8ee0d542549f29360d" kindref="member">operator=</ref>(<ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ada3c9a7c7d9ae84470ba120bcb2a13d8" kindref="member">AdaptiveIOScaler</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a45ed0841d7a2602ed6d753c3be76f904" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a45ed0841d7a2602ed6d753c3be76f904" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a172abb6bcf6082fee1be70ca1e57c18a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a172abb6bcf6082fee1be70ca1e57c18a" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Scale<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a3044edd9e4c8fb22ac9ed443a4b04a13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a3044edd9e4c8fb22ac9ed443a4b04a13" kindref="member">setScaleCallback</ref>(<ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ab5d3aadbbc531b81f2b2fa4366d86a50" kindref="member">ScaleCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Manual<sp/>trigger<sp/>(for<sp/>testing<sp/>/<sp/>immediate<sp/>reaction)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189" refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a8a9adea65b32de82cd948d26a9849588" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a8a9adea65b32de82cd948d26a9849588" kindref="member">evaluateNow</ref>();</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Accessors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a67076e842c2fdada72ad85ba05e197fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a67076e842c2fdada72ad85ba05e197fb" kindref="member">getCurrentThreadCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a83dfc34ba62815c40daaeb3b764c6225" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1a83dfc34ba62815c40daaeb3b764c6225" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208" refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ab828510130f467d3e3c33a399ce0d89e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_adaptive_i_o_scaler_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ab828510130f467d3e3c33a399ce0d89e" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1aaae202c9100a6690f73107c935b8b1de" kindref="member">ConnectionCountProvider</ref><sp/>provider_;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_adaptive_i_o_scaler_1ab5d3aadbbc531b81f2b2fa4366d86a50" kindref="member">ScaleCallback</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scale_cb_;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/>current_threads_;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stats<sp/>counters<sp/>(updated<sp/>under<sp/>mutex_)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>scale_up_events_<sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>scale_down_events_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>check_iterations_<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>last_conn_count_<sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Background<sp/>thread</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>monitor_thread_;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/><sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>monitorLoop();</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>network</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/network/adaptive_io_scaler.h"/>
+  </compounddef>
+</doxygen>

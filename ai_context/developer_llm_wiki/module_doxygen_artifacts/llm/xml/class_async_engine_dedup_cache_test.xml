@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_async_engine_dedup_cache_test" kind="class" language="C++" prot="public">
+    <compoundname>AsyncEngineDedupCacheTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_async_engine_dedup_cache_test_1a355e50b057c079fc3fd37fd36de9780d" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AsyncEngineDedupCacheTest::cache_dir_</definition>
+        <argsstring></argsstring>
+        <name>cache_dir_</name>
+        <qualifiedname>AsyncEngineDedupCacheTest::cache_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="606" column="17" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="606" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_async_engine_dedup_cache_test_1aca9e86e517fa7f2aefe1be27fe945840" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AsyncEngineDedupCacheTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AsyncEngineDedupCacheTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="590" column="10" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="590" bodyend="597"/>
+      </memberdef>
+      <memberdef kind="function" id="class_async_engine_dedup_cache_test_1a150ab67848e9301b697a6b2e2706699a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AsyncEngineDedupCacheTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AsyncEngineDedupCacheTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="599" column="10" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="599" bodyend="604"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AsyncEngineDedupCacheTest</label>
+        <link refid="class_async_engine_dedup_cache_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AsyncEngineDedupCacheTest</label>
+        <link refid="class_async_engine_dedup_cache_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_timeout_cancellation.cpp" line="588" column="1" bodyfile="tests/llm/test_llm_timeout_cancellation.cpp" bodystart="588" bodyend="607"/>
+    <listofallmembers>
+      <member refid="class_async_engine_dedup_cache_test_1a355e50b057c079fc3fd37fd36de9780d" prot="protected" virt="non-virtual"><scope>AsyncEngineDedupCacheTest</scope><name>cache_dir_</name></member>
+      <member refid="class_async_engine_dedup_cache_test_1aca9e86e517fa7f2aefe1be27fe945840" prot="protected" virt="non-virtual"><scope>AsyncEngineDedupCacheTest</scope><name>SetUp</name></member>
+      <member refid="class_async_engine_dedup_cache_test_1a150ab67848e9301b697a6b2e2706699a" prot="protected" virt="non-virtual"><scope>AsyncEngineDedupCacheTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

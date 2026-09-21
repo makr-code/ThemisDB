@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1storage" kind="namespace" language="C++">
+    <compoundname>themis::storage</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB GPU-Accelerated Compression Tests</para>
+<para>Covers:<itemizedlist>
+<listitem><para>GpuCompressionManager (Zstd, Snappy, LZ4) with CPU fallback</para>
+</listitem><listitem><para>Integration with CompressionStrategyManager via GPU_ZSTD, GPU_SNAPPY, GPU_LZ4 CompressionMethod values</para>
+</listitem><listitem><para>Round-trip correctness for all three algorithms</para>
+</listitem><listitem><para><ref refid="test__gpu__training__loop_8cpp_1af47983e44c7b4c07e44229aedf03c895" kindref="member">Batch</ref> compress / decompress</para>
+</listitem><listitem><para>min_size_for_gpu threshold (small data → CPU path)</para>
+</listitem><listitem><para>force_cpu_fallback toggle</para>
+</listitem><listitem><para>Statistics accounting</para>
+</listitem><listitem><para>string_to_method / method_to_string for new enum values </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="tests/gpu/test_gpu_compression.cpp" line="27" column="1"/>
+  </compounddef>
+</doxygen>

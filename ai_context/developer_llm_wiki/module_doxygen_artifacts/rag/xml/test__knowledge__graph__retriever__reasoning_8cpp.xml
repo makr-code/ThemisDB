@@ -1,0 +1,584 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__knowledge__graph__retriever__reasoning_8cpp" kind="file" language="C++">
+    <compoundname>test_knowledge_graph_retriever_reasoning.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="knowledge__graph__retriever_8h" local="yes">rag/knowledge_graph_retriever.h</includes>
+    <includes local="yes">graph/knowledge_graph_reasoner.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>rag/knowledge_graph_retriever.h</label>
+        <link refid="knowledge__graph__retriever_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/rag/test_knowledge_graph_retriever_reasoning.cpp</label>
+        <link refid="test__knowledge__graph__retriever__reasoning_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>cmath</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="13">
+        <label>graph/knowledge_graph_reasoner.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="14">
+        <label>unordered_set</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis_1_1graph">themis::graph</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__knowledge__graph__retriever__reasoning_8cpp_1a4f4b5a7119b33cabd7a2bdd2556d2b31" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref></type>
+        <definition>static KnowledgeGraph makeGraph</definition>
+        <argsstring>()</argsstring>
+        <name>makeGraph</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" line="27" column="23" bodyfile="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" bodystart="27" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="test__knowledge__graph__retriever__reasoning_8cpp_1ab754390fc0ccb0dad5ad05590153e878" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void configureReasoner</definition>
+        <argsstring>(KnowledgeGraphReasoner &amp;kgr)</argsstring>
+        <name>configureReasoner</name>
+        <param>
+          <type>KnowledgeGraphReasoner &amp;</type>
+          <declname>kgr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" line="35" column="13" bodyfile="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" bodystart="35" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__knowledge__graph__retriever__reasoning_8cpp_1a0b5637ac03cd993e4f67d0b0d4475256" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref></type>
+        <definition>static RetrievedDocument makeDoc</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;content, double score=0.8)</argsstring>
+        <name>makeDoc</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>score</declname>
+          <defval>0.8</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" line="45" column="26" bodyfile="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" bodystart="45" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="test__knowledge__graph__retriever__reasoning_8cpp_1a30859c5c265e1ec050b69b806c60c7fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KGRetrieverReasoningTests, KGRRAG01_SetReasonerNull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KGRetrieverReasoningTests</type>
+        </param>
+        <param>
+          <type>KGRRAG01_SetReasonerNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" line="54" column="1" bodyfile="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" bodystart="54" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__knowledge__graph__retriever__reasoning_8cpp_1a97ba30c51d0a758265d00259a971daf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KGRetrieverReasoningTests, KGRRAG02_NoChainsWithoutReasoner)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KGRetrieverReasoningTests</type>
+        </param>
+        <param>
+          <type>KGRRAG02_NoChainsWithoutReasoner</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" line="63" column="1" bodyfile="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" bodystart="63" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__knowledge__graph__retriever__reasoning_8cpp_1a81c2fb38fabd1922f5b0154cf5e2f0d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KGRetrieverReasoningTests, KGRRAG03_ChainsWithReasoner)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KGRetrieverReasoningTests</type>
+        </param>
+        <param>
+          <type>KGRRAG03_ChainsWithReasoner</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" line="79" column="1" bodyfile="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" bodystart="79" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__knowledge__graph__retriever__reasoning_8cpp_1a60e3b39f31b4a4a7279c3f8662f8a167" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KGRetrieverReasoningTests, KGRRAG04_HasReasoningFlag)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KGRetrieverReasoningTests</type>
+        </param>
+        <param>
+          <type>KGRRAG04_HasReasoningFlag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" line="103" column="1" bodyfile="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" bodystart="103" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="test__knowledge__graph__retriever__reasoning_8cpp_1a66d2c6f326b3673a152690bdb9bbaff4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KGRetrieverReasoningTests, KGRRAG05_MetadataReasoningChain)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KGRetrieverReasoningTests</type>
+        </param>
+        <param>
+          <type>KGRRAG05_MetadataReasoningChain</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" line="123" column="1" bodyfile="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" bodystart="123" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="test__knowledge__graph__retriever__reasoning_8cpp_1a9f730437b66a3c41965e532918870176" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KGRetrieverReasoningTests, KGRRAG06_ZeroHopsDisablesInference)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KGRetrieverReasoningTests</type>
+        </param>
+        <param>
+          <type>KGRRAG06_ZeroHopsDisablesInference</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" line="156" column="1" bodyfile="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" bodystart="156" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="test__knowledge__graph__retriever__reasoning_8cpp_1a5e94b0d09ae96682fb1789e2350e0990" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KGRetrieverReasoningTests, KGRRAG07_ApplyLoRAScoreHeuristicFallback)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KGRetrieverReasoningTests</type>
+        </param>
+        <param>
+          <type>KGRRAG07_ApplyLoRAScoreHeuristicFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" line="177" column="1" bodyfile="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" bodystart="177" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="test__knowledge__graph__retriever__reasoning_8cpp_1ab6f93b4382d8b855ca4f165cee3b2ac0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KGRetrieverReasoningTests, KGRRAG08_InjectedLoraScoreFnCalled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KGRetrieverReasoningTests</type>
+        </param>
+        <param>
+          <type>KGRRAG08_InjectedLoraScoreFnCalled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" line="196" column="1" bodyfile="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" bodystart="196" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="test__knowledge__graph__retriever__reasoning_8cpp_1a8c17639afe5faf71574dfdcbf1ccffca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KGRetrieverReasoningTests, KGRRAG09_LoraScoreFilterApplied)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KGRetrieverReasoningTests</type>
+        </param>
+        <param>
+          <type>KGRRAG09_LoraScoreFilterApplied</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" line="225" column="1" bodyfile="tests/rag/test_knowledge_graph_retriever_reasoning.cpp" bodystart="225" bodyend="247"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Test<sp/>suite:<sp/>KGRetrieverReasoningTests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGR-RAG-01<sp/><sp/>setReasoner(nullptr)<sp/>is<sp/>safe<sp/>and<sp/>disables<sp/>reasoning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGR-RAG-02<sp/><sp/>Without<sp/>reasoner:<sp/>retrieve()<sp/>has<sp/>no<sp/>inference<sp/>chains</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGR-RAG-03<sp/><sp/>With<sp/>reasoner:<sp/>retrieve()<sp/>populates<sp/>inference_chains<sp/>for<sp/>linked<sp/>entities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGR-RAG-04<sp/><sp/>has_reasoning<sp/>is<sp/>true<sp/>only<sp/>when<sp/>at<sp/>least<sp/>one<sp/>chain<sp/>is<sp/>non-empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGR-RAG-05<sp/><sp/>Reasoning<sp/>chain<sp/>is<sp/>stored<sp/>in<sp/>metadata[&quot;reasoning_chain&quot;]<sp/>when<sp/>flag<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGR-RAG-06<sp/><sp/>max_inference_hops<sp/>=<sp/>0<sp/>disables<sp/>inference<sp/>even<sp/>with<sp/>a<sp/>reasoner<sp/>attached</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="knowledge__graph__retriever_8h" kindref="compound">rag/knowledge_graph_retriever.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;graph/knowledge_graph_reasoner.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1kg" kindref="compound">themis::rag::kg</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">themis::rag::judge</ref>;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::graph;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref><sp/>makeGraph()<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref><sp/>g;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)g.<ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_1a2fe797bb9972932d735af1176d3067dc" kindref="member">addNode</ref>({</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>{},<sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da9a8538fe173720857a031b8314073752" kindref="member">EntityType::PERSON</ref>});</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)g.addNode({</highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>{},<sp/><ref refid="namespacethemis_1_1rag_1_1kg_1a19ea968cda1c875bfa2a570e46be142da9a8538fe173720857a031b8314073752" kindref="member">EntityType::PERSON</ref>});</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)g.addEdge({</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/>RelationType::RELATED_TO,<sp/>0.9});</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>configureReasoner(KnowledgeGraphReasoner&amp;<sp/>kgr)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rule:<sp/>if<sp/>A<sp/>reports_to<sp/>B<sp/>and<sp/>B<sp/>reports_to<sp/>C<sp/>then<sp/>A<sp/>indirectly_reports_to<sp/>C</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>added_rule<sp/>=<sp/>kgr.addRule({<sp/></highlight><highlight class="stringliteral">&quot;transitive_reports_to&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;?A&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;reports_to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;?B&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;?B&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;reports_to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;?C&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;?A&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;indirectly_reports_to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;?C&quot;</highlight><highlight class="normal">}}<sp/>});</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(added_rule);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>kgr.addFact({</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;reports_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>kgr.addFact({</highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;reports_to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;carol&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref><sp/>makeDoc(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score<sp/>=<sp/>0.8)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{id,<sp/>content,<sp/>score,<sp/>{}};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGR-RAG-01<sp/><sp/>setReasoner(nullptr)<sp/>is<sp/>safe</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__knowledge__graph__retriever__reasoning_8cpp_1a30859c5c265e1ec050b69b806c60c7fe" kindref="member">TEST</ref>(KGRetrieverReasoningTests,<sp/>KGRRAG01_SetReasonerNull)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g<sp/>=<sp/>makeGraph();</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever" kindref="compound">KnowledgeGraphRetriever</ref><sp/>r(g);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(r.setReasoner(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGR-RAG-02<sp/><sp/>Without<sp/>reasoner:<sp/>no<sp/>inference<sp/>chains<sp/>in<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="test__knowledge__graph__retriever__reasoning_8cpp_1a30859c5c265e1ec050b69b806c60c7fe" kindref="member">TEST</ref>(KGRetrieverReasoningTests,<sp/>KGRRAG02_NoChainsWithoutReasoner)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g<sp/>=<sp/>makeGraph();</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever" kindref="compound">KnowledgeGraphRetriever</ref><sp/>r(g);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>cands<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice<sp/>and<sp/>bob&quot;</highlight><highlight class="normal">,<sp/>0.7)</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>r.retrieve(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>cands);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.inference_chains.empty());</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.has_reasoning);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(res.reasoning_elapsed_ms,<sp/>0.0);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGR-RAG-03<sp/><sp/>With<sp/>reasoner:<sp/>inference_chains<sp/>populated<sp/>for<sp/>linked<sp/>entities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__knowledge__graph__retriever__reasoning_8cpp_1a30859c5c265e1ec050b69b806c60c7fe" kindref="member">TEST</ref>(KGRetrieverReasoningTests,<sp/>KGRRAG03_ChainsWithReasoner)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g<sp/><sp/><sp/>=<sp/>makeGraph();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>KnowledgeGraphReasoner<sp/>kgr;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>configureReasoner(kgr);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config" kindref="compound">KGRetrieverConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1ac0452fbfe24b5ec2efb87a308415a818" kindref="member">max_inference_hops</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1afdd95bd54cb2bca9d17cda5ef6ad233b" kindref="member">attach_reasoning_chain_to_metadata</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever" kindref="compound">KnowledgeGraphRetriever</ref><sp/>r(g,<sp/>cfg);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>r.setReasoner(&amp;kgr);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>cands<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice<sp/>reports<sp/>to<sp/>bob&quot;</highlight><highlight class="normal">,<sp/>0.9)</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>r.retrieve(</highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">,<sp/>cands);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>alice<sp/>maps<sp/>to<sp/>the<sp/>KG<sp/>node<sp/>&quot;alice&quot;;<sp/>reasoner<sp/>derives<sp/>indirectly_reports_to<sp/>carol.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.has_reasoning);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.inference_chains.empty());</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGR-RAG-04<sp/><sp/>has_reasoning<sp/>is<sp/>true<sp/>only<sp/>when<sp/>a<sp/>chain<sp/>has<sp/>edges</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__knowledge__graph__retriever__reasoning_8cpp_1a30859c5c265e1ec050b69b806c60c7fe" kindref="member">TEST</ref>(KGRetrieverReasoningTests,<sp/>KGRRAG04_HasReasoningFlag)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>an<sp/>empty<sp/>reasoner<sp/>—<sp/>no<sp/>rules,<sp/>no<sp/>facts<sp/>→<sp/>no<sp/>derived<sp/>edges.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g<sp/>=<sp/>makeGraph();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>KnowledgeGraphReasoner<sp/>empty_kgr;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config" kindref="compound">KGRetrieverConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1ac0452fbfe24b5ec2efb87a308415a818" kindref="member">max_inference_hops</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever" kindref="compound">KnowledgeGraphRetriever</ref><sp/>r(g,<sp/>cfg);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>r.setReasoner(&amp;empty_kgr);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>cands<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>0.7)</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>r.retrieve(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>cands);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.has_reasoning);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGR-RAG-05<sp/><sp/>Reasoning<sp/>chain<sp/>stored<sp/>in<sp/>document<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="test__knowledge__graph__retriever__reasoning_8cpp_1a30859c5c265e1ec050b69b806c60c7fe" kindref="member">TEST</ref>(KGRetrieverReasoningTests,<sp/>KGRRAG05_MetadataReasoningChain)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g<sp/><sp/><sp/>=<sp/>makeGraph();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>KnowledgeGraphReasoner<sp/>kgr;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>configureReasoner(kgr);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config" kindref="compound">KGRetrieverConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1ac0452fbfe24b5ec2efb87a308415a818" kindref="member">max_inference_hops</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1afdd95bd54cb2bca9d17cda5ef6ad233b" kindref="member">attach_reasoning_chain_to_metadata</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever" kindref="compound">KnowledgeGraphRetriever</ref><sp/>r(g,<sp/>cfg);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>r.setReasoner(&amp;kgr);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Document<sp/>mentions<sp/>alice,<sp/>which<sp/>links<sp/>to<sp/>KG<sp/>node<sp/>&quot;alice&quot;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>cands<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice<sp/>reports<sp/>to<sp/>bob<sp/>and<sp/>carol&quot;</highlight><highlight class="normal">,<sp/>0.9)</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>r.retrieve(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>cands);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(res.has_reasoning)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found_chain<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>aug<sp/>:<sp/>res.documents)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(aug.document.metadata.count(</highlight><highlight class="stringliteral">&quot;reasoning_chain&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found_chain<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(aug.document.metadata.at(</highlight><highlight class="stringliteral">&quot;reasoning_chain&quot;</highlight><highlight class="normal">).empty());</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>least<sp/>one<sp/>document<sp/>should<sp/>have<sp/>the<sp/>chain<sp/>metadata<sp/>when<sp/>reasoning<sp/>fired.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(found_chain);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGR-RAG-06<sp/><sp/>max_inference_hops<sp/>=<sp/>0<sp/>disables<sp/>inference</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__knowledge__graph__retriever__reasoning_8cpp_1a30859c5c265e1ec050b69b806c60c7fe" kindref="member">TEST</ref>(KGRetrieverReasoningTests,<sp/>KGRRAG06_ZeroHopsDisablesInference)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>g<sp/><sp/><sp/>=<sp/>makeGraph();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>KnowledgeGraphReasoner<sp/>kgr;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>configureReasoner(kgr);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config" kindref="compound">KGRetrieverConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_retriever_config_1ac0452fbfe24b5ec2efb87a308415a818" kindref="member">max_inference_hops</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>disable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever" kindref="compound">KnowledgeGraphRetriever</ref><sp/>r(g,<sp/>cfg);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>r.setReasoner(&amp;kgr);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RetrievedDocument&gt;<sp/>cands<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDoc(</highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>0.7)</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>r.retrieve(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>cands);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.has_reasoning);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.inference_chains.empty());</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGR-07<sp/><sp/>applyLoRAScore()<sp/>heuristic<sp/>fallback<sp/>—<sp/>score<sp/>=<sp/>1/(1+premises)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="test__knowledge__graph__retriever__reasoning_8cpp_1a30859c5c265e1ec050b69b806c60c7fe" kindref="member">TEST</ref>(KGRetrieverReasoningTests,<sp/>KGRRAG07_ApplyLoRAScoreHeuristicFallback)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>KnowledgeGraphReasoner<sp/>kgr;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>configureReasoner(kgr);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chain<sp/>=<sp/>kgr.infer(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(chain.empty());</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>kgr.applyLoRAScore(chain,<sp/></highlight><highlight class="stringliteral">&quot;test-adapter&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Heuristic:<sp/>score<sp/>=<sp/>1<sp/>/<sp/>(1<sp/>+<sp/>premises.size());<sp/>must<sp/>be<sp/>in<sp/>(0,<sp/>1].</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>edge<sp/>:<sp/>chain.edges)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GT(edge.lora_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(edge.lora_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGR-08<sp/><sp/>setLoraScoreFn()<sp/>—<sp/>injected<sp/>function<sp/>is<sp/>called<sp/>per<sp/>edge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><ref refid="test__knowledge__graph__retriever__reasoning_8cpp_1a30859c5c265e1ec050b69b806c60c7fe" kindref="member">TEST</ref>(KGRetrieverReasoningTests,<sp/>KGRRAG08_InjectedLoraScoreFnCalled)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>KnowledgeGraphReasoner<sp/>kgr;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>configureReasoner(kgr);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>call_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>kFixedScore<sp/>=<sp/>0.77;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>kgr.setLoraScoreFn([&amp;call_count,<sp/>kFixedScore](</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/></highlight><highlight class="comment">/*adapter_id*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>InferenceEdge&amp;<sp/></highlight><highlight class="comment">/*edge*/</highlight><highlight class="normal">)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++call_count;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>kFixedScore;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chain<sp/>=<sp/>kgr.infer(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(chain.empty());</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::size_t<sp/>edge_count<sp/>=<sp/>chain.edges.size();</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>call_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>kgr.applyLoRAScore(chain,<sp/></highlight><highlight class="stringliteral">&quot;test-adapter&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(call_count),<sp/>edge_count);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>edge<sp/>:<sp/>chain.edges)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(edge.lora_score,<sp/>kFixedScore);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KGR-09<sp/><sp/>setLoraScoreFn()<sp/>—<sp/>edges<sp/>below<sp/>min_lora_score<sp/>are<sp/>filtered<sp/>out</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><ref refid="test__knowledge__graph__retriever__reasoning_8cpp_1a30859c5c265e1ec050b69b806c60c7fe" kindref="member">TEST</ref>(KGRetrieverReasoningTests,<sp/>KGRRAG09_LoraScoreFilterApplied)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>KnowledgeGraphReasoner<sp/>kgr;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rule<sp/>with<sp/>min_lora_score<sp/>=<sp/>0.9<sp/>—<sp/>injected<sp/>backend<sp/>returns<sp/>0.5<sp/>→<sp/>filtered</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>added_rule<sp/>=<sp/>kgr.addRule({<sp/></highlight><highlight class="stringliteral">&quot;strict_rule&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;?A&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;likes&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;?B&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;?A&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;loves&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;?B&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*lora_adapter=*/</highlight><highlight class="stringliteral">&quot;test-adapter&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*min_lora_score=*/</highlight><highlight class="normal">0.9<sp/>});</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(added_rule);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>kgr.addFact({</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;likes&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>kgr.setLoraScoreFn([](std::string_view,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>InferenceEdge&amp;)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.5;<sp/></highlight><highlight class="comment">//<sp/>below<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chain<sp/>=<sp/>kgr.infer(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>kgr.applyLoRAScore(chain,<sp/></highlight><highlight class="stringliteral">&quot;test-adapter&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>edges<sp/>from<sp/>strict_rule<sp/>should<sp/>be<sp/>filtered<sp/>out<sp/>(score<sp/>0.5<sp/>&lt;<sp/>0.9).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>edge<sp/>:<sp/>chain.edges)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(edge.rule_id,<sp/></highlight><highlight class="stringliteral">&quot;strict_rule&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/rag/test_knowledge_graph_retriever_reasoning.cpp"/>
+  </compounddef>
+</doxygen>

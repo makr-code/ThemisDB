@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::DatabaseConnectionManager::ConnectionStats</compoundname>
+    <includes refid="database__connection__manager_8h" local="no">database_connection_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1aaf30afff6d2dd6d2d9f692c74867cae7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DatabaseConnectionManager::ConnectionStats::total_connections</definition>
+        <argsstring></argsstring>
+        <name>total_connections</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionStats::total_connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="99" column="16" bodyfile="include/storage/database_connection_manager.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1a84bdeafba7dbd1001b7268718d6737be" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DatabaseConnectionManager::ConnectionStats::active_connections</definition>
+        <argsstring></argsstring>
+        <name>active_connections</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionStats::active_connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="100" column="16" bodyfile="include/storage/database_connection_manager.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1a0ea1dab5d9d0ee93ece4311b4c98a31d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DatabaseConnectionManager::ConnectionStats::idle_connections</definition>
+        <argsstring></argsstring>
+        <name>idle_connections</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionStats::idle_connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="101" column="16" bodyfile="include/storage/database_connection_manager.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1a6221cfa4a5ad148dc8f08155e669c981" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DatabaseConnectionManager::ConnectionStats::failed_connections</definition>
+        <argsstring></argsstring>
+        <name>failed_connections</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionStats::failed_connections</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="102" column="16" bodyfile="include/storage/database_connection_manager.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1acf48177d6f906d1074302f2d3e58a418" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DatabaseConnectionManager::ConnectionStats::total_reconnects</definition>
+        <argsstring></argsstring>
+        <name>total_reconnects</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionStats::total_reconnects</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="103" column="16" bodyfile="include/storage/database_connection_manager.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1a23208fcaaa2c5e80695ee047f5604c4e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DatabaseConnectionManager::ConnectionStats::circuit_breaker_trips</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker_trips</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionStats::circuit_breaker_trips</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="104" column="16" bodyfile="include/storage/database_connection_manager.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1a86261d83ad71f1e47b8f293cbe269e64" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::storage::DatabaseConnectionManager::ConnectionStats::average_error_rate</definition>
+        <argsstring></argsstring>
+        <name>average_error_rate</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::ConnectionStats::average_error_rate</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="105" column="15" bodyfile="include/storage/database_connection_manager.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/database_connection_manager.h" line="98" column="5" bodyfile="include/storage/database_connection_manager.h" bodystart="98" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1a84bdeafba7dbd1001b7268718d6737be" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionStats</scope><name>active_connections</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1a86261d83ad71f1e47b8f293cbe269e64" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionStats</scope><name>average_error_rate</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1a23208fcaaa2c5e80695ee047f5604c4e" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionStats</scope><name>circuit_breaker_trips</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1a6221cfa4a5ad148dc8f08155e669c981" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionStats</scope><name>failed_connections</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1a0ea1dab5d9d0ee93ece4311b4c98a31d" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionStats</scope><name>idle_connections</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1aaf30afff6d2dd6d2d9f692c74867cae7" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionStats</scope><name>total_connections</name></member>
+      <member refid="structthemis_1_1storage_1_1_database_connection_manager_1_1_connection_stats_1acf48177d6f906d1074302f2d3e58a418" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::ConnectionStats</scope><name>total_reconnects</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

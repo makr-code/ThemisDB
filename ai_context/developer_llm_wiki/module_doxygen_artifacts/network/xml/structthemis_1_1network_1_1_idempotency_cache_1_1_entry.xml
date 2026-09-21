@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_idempotency_cache_1_1_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::IdempotencyCache::Entry</compoundname>
+    <includes refid="wire__protocol__server_8h" local="no">wire_protocol_server.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_idempotency_cache_1_1_entry_1a3c84cf534869bdea14cdba836c25e546" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::IdempotencyCache::Entry::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::network::IdempotencyCache::Entry::result</qualifiedname>
+        <briefdescription>
+<para>Serialised response. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="181" column="47" bodyfile="include/network/wire_protocol_server.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_idempotency_cache_1_1_entry_1a4726f145015e75706a3ed6c45f46f78d" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::network::IdempotencyCache::Entry::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::network::IdempotencyCache::Entry::created_at</qualifiedname>
+        <briefdescription>
+<para>Insertion timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="182" column="47" bodyfile="include/network/wire_protocol_server.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>An entry in the idempotency cache. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_server.h" line="180" column="5" bodyfile="include/network/wire_protocol_server.h" bodystart="180" bodyend="183"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_idempotency_cache_1_1_entry_1a4726f145015e75706a3ed6c45f46f78d" prot="public" virt="non-virtual"><scope>themis::network::IdempotencyCache::Entry</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1network_1_1_idempotency_cache_1_1_entry_1a3c84cf534869bdea14cdba836c25e546" prot="public" virt="non-virtual"><scope>themis::network::IdempotencyCache::Entry</scope><name>result</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

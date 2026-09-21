@@ -1,0 +1,512 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__vector__index__llm__paths__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_vector_index_llm_paths_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="gpu__vector__index_8h" local="yes">index/gpu_vector_index.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>index/ann_index.h</label>
+        <link refid="ann__index_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>index/gpu_memory_oversubscription.h</label>
+        <link refid="gpu__memory__oversubscription_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>index/gpu_vector_index.h</label>
+        <link refid="gpu__vector__index_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>index/vector_index.h</label>
+        <link refid="vector__index_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/index/test_gpu_vector_index_llm_paths_focused.cpp</label>
+        <link refid="test__gpu__vector__index__llm__paths__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>acceleration/compute_backend.h</label>
+      </node>
+      <node id="22">
+        <label>algorithm</label>
+      </node>
+      <node id="8">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="13">
+        <label>limits</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="18">
+        <label>mutex</label>
+      </node>
+      <node id="16">
+        <label>optional</label>
+      </node>
+      <node id="12">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>string_view</label>
+      </node>
+      <node id="20">
+        <label>themis/gpu/unified_memory.h</label>
+      </node>
+      <node id="15">
+        <label>unordered_map</label>
+      </node>
+      <node id="17">
+        <label>utility</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__vector__index__llm__paths__focused_8cpp_1a512bbc810ce86dd73c4717d143f42542" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GpuVectorIndexLlmPathsFocused, GV1_ConstructCpuOnly_NoThrow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GpuVectorIndexLlmPathsFocused</type>
+        </param>
+        <param>
+          <type>GV1_ConstructCpuOnly_NoThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_gpu_vector_index_llm_paths_focused.cpp" line="21" column="1" bodyfile="tests/index/test_gpu_vector_index_llm_paths_focused.cpp" bodystart="21" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vector__index__llm__paths__focused_8cpp_1ac702d457f8613a6d7f172421c4faf796" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GpuVectorIndexLlmPathsFocused, GV2_InitCpu_Succeeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GpuVectorIndexLlmPathsFocused</type>
+        </param>
+        <param>
+          <type>GV2_InitCpu_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_gpu_vector_index_llm_paths_focused.cpp" line="30" column="1" bodyfile="tests/index/test_gpu_vector_index_llm_paths_focused.cpp" bodystart="30" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vector__index__llm__paths__focused_8cpp_1afdb4139a6d937eb2616755d538ac3363" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GpuVectorIndexLlmPathsFocused, GV3_InitAuto_FallbackEnabled_NoThrow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GpuVectorIndexLlmPathsFocused</type>
+        </param>
+        <param>
+          <type>GV3_InitAuto_FallbackEnabled_NoThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_gpu_vector_index_llm_paths_focused.cpp" line="40" column="1" bodyfile="tests/index/test_gpu_vector_index_llm_paths_focused.cpp" bodystart="40" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vector__index__llm__paths__focused_8cpp_1abf254c41751f288d5b65bd67dad5b2ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GpuVectorIndexLlmPathsFocused, GV4_VulkanRequested_FallbackEnabled_InitOkOnCI)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GpuVectorIndexLlmPathsFocused</type>
+        </param>
+        <param>
+          <type>GV4_VulkanRequested_FallbackEnabled_InitOkOnCI</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_gpu_vector_index_llm_paths_focused.cpp" line="52" column="1" bodyfile="tests/index/test_gpu_vector_index_llm_paths_focused.cpp" bodystart="52" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vector__index__llm__paths__focused_8cpp_1ac7251771ee3b24697519de706699dac6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GpuVectorIndexLlmPathsFocused, GV5_VulkanRequested_NoFallback_ReturnsFalseOrTrue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GpuVectorIndexLlmPathsFocused</type>
+        </param>
+        <param>
+          <type>GV5_VulkanRequested_NoFallback_ReturnsFalseOrTrue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_gpu_vector_index_llm_paths_focused.cpp" line="64" column="1" bodyfile="tests/index/test_gpu_vector_index_llm_paths_focused.cpp" bodystart="64" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vector__index__llm__paths__focused_8cpp_1aa52de8ac4a3b0d298451b47b6f884f26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GpuVectorIndexLlmPathsFocused, GV6_AddThenSearch_CPU_ReturnsResults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GpuVectorIndexLlmPathsFocused</type>
+        </param>
+        <param>
+          <type>GV6_AddThenSearch_CPU_ReturnsResults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_gpu_vector_index_llm_paths_focused.cpp" line="77" column="1" bodyfile="tests/index/test_gpu_vector_index_llm_paths_focused.cpp" bodystart="77" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vector__index__llm__paths__focused_8cpp_1a365b36483a801eba41f7be37bf307dcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GpuVectorIndexLlmPathsFocused, GV7_GetActiveBackend_CPU_ReturnsCPU)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GpuVectorIndexLlmPathsFocused</type>
+        </param>
+        <param>
+          <type>GV7_GetActiveBackend_CPU_ReturnsCPU</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_gpu_vector_index_llm_paths_focused.cpp" line="95" column="1" bodyfile="tests/index/test_gpu_vector_index_llm_paths_focused.cpp" bodystart="95" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vector__index__llm__paths__focused_8cpp_1a4e476750d783048c66748af3bea07673" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GpuVectorIndexLlmPathsFocused, GV8_GetAvailableBackends_IncludesCPU)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GpuVectorIndexLlmPathsFocused</type>
+        </param>
+        <param>
+          <type>GV8_GetAvailableBackends_IncludesCPU</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_gpu_vector_index_llm_paths_focused.cpp" line="107" column="1" bodyfile="tests/index/test_gpu_vector_index_llm_paths_focused.cpp" bodystart="107" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vector__index__llm__paths__focused_8cpp_1a5ef8b39a5a8129e0281b0018d1fb8b9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GpuVectorIndexLlmPathsFocused, GV9_VulkanFallbackEnabled_UsesCPUWhenUnavailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GpuVectorIndexLlmPathsFocused</type>
+        </param>
+        <param>
+          <type>GV9_VulkanFallbackEnabled_UsesCPUWhenUnavailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_gpu_vector_index_llm_paths_focused.cpp" line="126" column="1" bodyfile="tests/index/test_gpu_vector_index_llm_paths_focused.cpp" bodystart="126" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vector__index__llm__paths__focused_8cpp_1ae00462714022f5e494e428bf04d0d76f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GpuVectorIndexLlmPathsFocused, GV10_VulkanFallbackDisabled_FailsClosedWhenUnavailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GpuVectorIndexLlmPathsFocused</type>
+        </param>
+        <param>
+          <type>GV10_VulkanFallbackDisabled_FailsClosedWhenUnavailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_gpu_vector_index_llm_paths_focused.cpp" line="144" column="1" bodyfile="tests/index/test_gpu_vector_index_llm_paths_focused.cpp" bodystart="144" bodyend="162"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Group GV — <ref refid="classthemis_1_1index_1_1_g_p_u_vector_index" kindref="compound">GPUVectorIndex</ref> Vulkan/LLM path and CPU-fallback tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The <ref refid="classthemis_1_1index_1_1_g_p_u_vector_index" kindref="compound">GPUVectorIndex</ref> includes Vulkan context headers from llm/lora_framework/. These tests verify the LLM-path activation and graceful fallback behaviour when Vulkan/GPU is not available (normal CI environment). </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__vector__index_8h" kindref="compound">index/gpu_vector_index.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1index" kindref="compound">themis::index</ref>;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GV1:<sp/>Construct<sp/>with<sp/>CPU-only<sp/>config<sp/>does<sp/>not<sp/>throw<sp/>────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><ref refid="test__gpu__vector__index__llm__paths__focused_8cpp_1a512bbc810ce86dd73c4717d143f42542" kindref="member">TEST</ref>(GpuVectorIndexLlmPathsFocused,<sp/>GV1_ConstructCpuOnly_NoThrow)<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config" kindref="compound">GPUVectorIndex::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a89b4fd043f792fabbf6c2a0199400516" kindref="member">backend</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1a2b55387dd066c5bac646ac61543d152d" kindref="member">GPUVectorIndex::Backend::CPU</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1ae7cb2f8e05cd0041937f088a74d1411f" kindref="member">allowCPUFallback</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index" kindref="compound">GPUVectorIndex</ref><sp/>idx(cfg);<sp/>});</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GV2:<sp/>Initialize<sp/>with<sp/>CPU<sp/>backend<sp/>succeeds<sp/>─────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><ref refid="test__gpu__vector__index__llm__paths__focused_8cpp_1a512bbc810ce86dd73c4717d143f42542" kindref="member">TEST</ref>(GpuVectorIndexLlmPathsFocused,<sp/>GV2_InitCpu_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config" kindref="compound">GPUVectorIndex::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a89b4fd043f792fabbf6c2a0199400516" kindref="member">backend</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1a2b55387dd066c5bac646ac61543d152d" kindref="member">GPUVectorIndex::Backend::CPU</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1ae7cb2f8e05cd0041937f088a74d1411f" kindref="member">allowCPUFallback</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index" kindref="compound">GPUVectorIndex</ref><sp/>idx(cfg);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(idx.initialize(4));</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GV3:<sp/>Initialize<sp/>with<sp/>AUTO<sp/>backend<sp/>+<sp/>fallback<sp/>enabled<sp/>does<sp/>not<sp/>crash<sp/>───────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><ref refid="test__gpu__vector__index__llm__paths__focused_8cpp_1a512bbc810ce86dd73c4717d143f42542" kindref="member">TEST</ref>(GpuVectorIndexLlmPathsFocused,<sp/>GV3_InitAuto_FallbackEnabled_NoThrow)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config" kindref="compound">GPUVectorIndex::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a89b4fd043f792fabbf6c2a0199400516" kindref="member">backend</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">GPUVectorIndex::Backend::AUTO</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1ae7cb2f8e05cd0041937f088a74d1411f" kindref="member">allowCPUFallback</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index" kindref="compound">GPUVectorIndex</ref><sp/>idx(cfg);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/>ok<sp/>=<sp/>idx.initialize(4);<sp/>});</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GV4:<sp/>With<sp/>Vulkan<sp/>requested<sp/>but<sp/>fallback<sp/>enabled,<sp/>init<sp/>succeeds<sp/>on<sp/>CI<sp/>─────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="test__gpu__vector__index__llm__paths__focused_8cpp_1a512bbc810ce86dd73c4717d143f42542" kindref="member">TEST</ref>(GpuVectorIndexLlmPathsFocused,<sp/>GV4_VulkanRequested_FallbackEnabled_InitOkOnCI)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config" kindref="compound">GPUVectorIndex::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a89b4fd043f792fabbf6c2a0199400516" kindref="member">backend</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1ac60cacb57b9e78f018a9d973bee2f801" kindref="member">GPUVectorIndex::Backend::VULKAN</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1ae7cb2f8e05cd0041937f088a74d1411f" kindref="member">allowCPUFallback</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>CI<sp/>has<sp/>no<sp/>Vulkan<sp/>→<sp/>falls<sp/>back<sp/>to<sp/>CPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index" kindref="compound">GPUVectorIndex</ref><sp/>idx(cfg);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/>ok<sp/>=<sp/>idx.initialize(4);<sp/>});</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GV5:<sp/>Without<sp/>CPU<sp/>fallback<sp/>and<sp/>no<sp/>GPU,<sp/>init<sp/>returns<sp/>false<sp/>(not<sp/>crash)<sp/>──────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__gpu__vector__index__llm__paths__focused_8cpp_1a512bbc810ce86dd73c4717d143f42542" kindref="member">TEST</ref>(GpuVectorIndexLlmPathsFocused,<sp/>GV5_VulkanRequested_NoFallback_ReturnsFalseOrTrue)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config" kindref="compound">GPUVectorIndex::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a89b4fd043f792fabbf6c2a0199400516" kindref="member">backend</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1ac60cacb57b9e78f018a9d973bee2f801" kindref="member">GPUVectorIndex::Backend::VULKAN</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1ae7cb2f8e05cd0041937f088a74d1411f" kindref="member">allowCPUFallback</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index" kindref="compound">GPUVectorIndex</ref><sp/>idx(cfg);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>On<sp/>CI<sp/>without<sp/>GPU<sp/>this<sp/>is<sp/>expected<sp/>to<sp/>return<sp/>false;<sp/>with<sp/>GPU<sp/>it<sp/>may<sp/>be<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/>ok<sp/>=<sp/>idx.initialize(4);<sp/>});</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)ok;<sp/><sp/></highlight><highlight class="comment">//<sp/>Outcome<sp/>is<sp/>environment-dependent;<sp/>we<sp/>only<sp/>verify<sp/>no<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GV6:<sp/>addVector<sp/>+<sp/>search<sp/>roundtrip<sp/>on<sp/>CPU<sp/>backend<sp/>returns<sp/>results<sp/>──────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__gpu__vector__index__llm__paths__focused_8cpp_1a512bbc810ce86dd73c4717d143f42542" kindref="member">TEST</ref>(GpuVectorIndexLlmPathsFocused,<sp/>GV6_AddThenSearch_CPU_ReturnsResults)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config" kindref="compound">GPUVectorIndex::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a89b4fd043f792fabbf6c2a0199400516" kindref="member">backend</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1a2b55387dd066c5bac646ac61543d152d" kindref="member">GPUVectorIndex::Backend::CPU</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1ae7cb2f8e05cd0041937f088a74d1411f" kindref="member">allowCPUFallback</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index" kindref="compound">GPUVectorIndex</ref><sp/>idx(cfg);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.initialize(4));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.addVector(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>{1.f,<sp/>0.f,<sp/>0.f,<sp/>0.f}));</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.addVector(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>{0.f,<sp/>1.f,<sp/>0.f,<sp/>0.f}));</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.addVector(</highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/>{0.f,<sp/>0.f,<sp/>1.f,<sp/>0.f}));</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>idx.search({1.f,<sp/>0.f,<sp/>0.f,<sp/>0.f},<sp/>1);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GV7:<sp/>getActiveBackend<sp/>on<sp/>CPU-only<sp/>init<sp/>returns<sp/>CPU<sp/>────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__gpu__vector__index__llm__paths__focused_8cpp_1a512bbc810ce86dd73c4717d143f42542" kindref="member">TEST</ref>(GpuVectorIndexLlmPathsFocused,<sp/>GV7_GetActiveBackend_CPU_ReturnsCPU)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config" kindref="compound">GPUVectorIndex::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a89b4fd043f792fabbf6c2a0199400516" kindref="member">backend</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1a2b55387dd066c5bac646ac61543d152d" kindref="member">GPUVectorIndex::Backend::CPU</ref>;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1ae7cb2f8e05cd0041937f088a74d1411f" kindref="member">allowCPUFallback</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index" kindref="compound">GPUVectorIndex</ref><sp/>idx(cfg);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.initialize(4));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.getActiveBackend(),<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1a2b55387dd066c5bac646ac61543d152d" kindref="member">GPUVectorIndex::Backend::CPU</ref>);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GV8:<sp/>getAvailableBackends<sp/>always<sp/>includes<sp/>CPU<sp/>────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__gpu__vector__index__llm__paths__focused_8cpp_1a512bbc810ce86dd73c4717d143f42542" kindref="member">TEST</ref>(GpuVectorIndexLlmPathsFocused,<sp/>GV8_GetAvailableBackends_IncludesCPU)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config" kindref="compound">GPUVectorIndex::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a89b4fd043f792fabbf6c2a0199400516" kindref="member">backend</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">GPUVectorIndex::Backend::AUTO</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1ae7cb2f8e05cd0041937f088a74d1411f" kindref="member">allowCPUFallback</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index" kindref="compound">GPUVectorIndex</ref><sp/>idx(cfg);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.initialize(4));</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backends<sp/>=<sp/>idx.getAvailableBackends();</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_cpu<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>:<sp/>backends)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(b<sp/>==<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1a2b55387dd066c5bac646ac61543d152d" kindref="member">GPUVectorIndex::Backend::CPU</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>has_cpu<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_cpu);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GV9:<sp/>Explicit<sp/>fallback<sp/>should<sp/>activate<sp/>CPU<sp/>only<sp/>when<sp/>allowed<sp/>──────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="test__gpu__vector__index__llm__paths__focused_8cpp_1a512bbc810ce86dd73c4717d143f42542" kindref="member">TEST</ref>(GpuVectorIndexLlmPathsFocused,<sp/>GV9_VulkanFallbackEnabled_UsesCPUWhenUnavailable)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config" kindref="compound">GPUVectorIndex::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a89b4fd043f792fabbf6c2a0199400516" kindref="member">backend</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1ac60cacb57b9e78f018a9d973bee2f801" kindref="member">GPUVectorIndex::Backend::VULKAN</ref>;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1ae7cb2f8e05cd0041937f088a74d1411f" kindref="member">allowCPUFallback</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index" kindref="compound">GPUVectorIndex</ref><sp/>idx(cfg);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(idx.initialize(4));</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>available<sp/>=<sp/>idx.getAvailableBackends();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>vulkan_available<sp/>=</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::find(available.begin(),<sp/>available.end(),<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1ac60cacb57b9e78f018a9d973bee2f801" kindref="member">GPUVectorIndex::Backend::VULKAN</ref>)<sp/>!=</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>available.end();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!vulkan_available)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.getActiveBackend(),<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1a2b55387dd066c5bac646ac61543d152d" kindref="member">GPUVectorIndex::Backend::CPU</ref>);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GV10:<sp/>With<sp/>fallback<sp/>disabled,<sp/>unavailable<sp/>Vulkan<sp/>must<sp/>fail<sp/>closed<sp/>─────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="test__gpu__vector__index__llm__paths__focused_8cpp_1a512bbc810ce86dd73c4717d143f42542" kindref="member">TEST</ref>(GpuVectorIndexLlmPathsFocused,<sp/>GV10_VulkanFallbackDisabled_FailsClosedWhenUnavailable)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config" kindref="compound">GPUVectorIndex::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1a89b4fd043f792fabbf6c2a0199400516" kindref="member">backend</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1ac60cacb57b9e78f018a9d973bee2f801" kindref="member">GPUVectorIndex::Backend::VULKAN</ref>;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config_1ae7cb2f8e05cd0041937f088a74d1411f" kindref="member">allowCPUFallback</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index" kindref="compound">GPUVectorIndex</ref><sp/>probe(<ref refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_config" kindref="compound">GPUVectorIndex::Config</ref>{});</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(probe.initialize(4));</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>available<sp/>=<sp/>probe.getAvailableBackends();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>vulkan_available<sp/>=</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::find(available.begin(),<sp/>available.end(),<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1ac60cacb57b9e78f018a9d973bee2f801" kindref="member">GPUVectorIndex::Backend::VULKAN</ref>)<sp/>!=</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>available.end();</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>probe.shutdown();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index" kindref="compound">GPUVectorIndex</ref><sp/>idx(cfg);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>idx.initialize(4);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!vulkan_available)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(ok);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/index/test_gpu_vector_index_llm_paths_focused.cpp"/>
+  </compounddef>
+</doxygen>

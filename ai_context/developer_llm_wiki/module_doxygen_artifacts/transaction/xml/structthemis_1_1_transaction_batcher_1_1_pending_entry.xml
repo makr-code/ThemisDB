@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_transaction_batcher_1_1_pending_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::TransactionBatcher::PendingEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_transaction_batcher_1_1_pending_entry_1aded3b1344fda104e7073c1a816f3110a" prot="public" static="no" mutable="no">
+        <type>std::function&lt; <ref refid="structthemis_1_1_transaction_batcher_1_1_status" kindref="compound">Status</ref>()&gt;</type>
+        <definition>std::function&lt;Status()&gt; themis::TransactionBatcher::PendingEntry::commit_fn</definition>
+        <argsstring></argsstring>
+        <name>commit_fn</name>
+        <qualifiedname>themis::TransactionBatcher::PendingEntry::commit_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="148" column="37" bodyfile="include/transaction/transaction_batcher.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_batcher_1_1_pending_entry_1aee359cd82e4435743a2ce3a8d04c5ac3" prot="public" static="no" mutable="no">
+        <type>std::promise&lt; <ref refid="structthemis_1_1_transaction_batcher_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::promise&lt;Status&gt; themis::TransactionBatcher::PendingEntry::promise</definition>
+        <argsstring></argsstring>
+        <name>promise</name>
+        <qualifiedname>themis::TransactionBatcher::PendingEntry::promise</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="149" column="39" bodyfile="include/transaction/transaction_batcher.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_batcher_1_1_pending_entry_1ac3cd3a88bc01d9ef29b8c527fee0e661" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TransactionBatcher::PendingEntry::table_hint</definition>
+        <argsstring></argsstring>
+        <name>table_hint</name>
+        <qualifiedname>themis::TransactionBatcher::PendingEntry::table_hint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="150" column="47" bodyfile="include/transaction/transaction_batcher.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_batcher_1_1_pending_entry_1a281b9d12c23aafd27e55ed4b5821109b" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::TransactionBatcher::PendingEntry::submitted_at</definition>
+        <argsstring></argsstring>
+        <name>submitted_at</name>
+        <qualifiedname>themis::TransactionBatcher::PendingEntry::submitted_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="151" column="47" bodyfile="include/transaction/transaction_batcher.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_batcher_1_1_pending_entry_1aaa4db20c5e0a398331422fe71f64b393" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::TransactionBatcher::PendingEntry::deadline</definition>
+        <argsstring></argsstring>
+        <name>deadline</name>
+        <qualifiedname>themis::TransactionBatcher::PendingEntry::deadline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_batcher.h" line="152" column="47" bodyfile="include/transaction/transaction_batcher.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_batcher.h" line="147" column="5" bodyfile="include/transaction/transaction_batcher.h" bodystart="147" bodyend="153"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_pending_entry_1aded3b1344fda104e7073c1a816f3110a" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::PendingEntry</scope><name>commit_fn</name></member>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_pending_entry_1aaa4db20c5e0a398331422fe71f64b393" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::PendingEntry</scope><name>deadline</name></member>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_pending_entry_1aee359cd82e4435743a2ce3a8d04c5ac3" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::PendingEntry</scope><name>promise</name></member>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_pending_entry_1a281b9d12c23aafd27e55ed4b5821109b" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::PendingEntry</scope><name>submitted_at</name></member>
+      <member refid="structthemis_1_1_transaction_batcher_1_1_pending_entry_1ac3cd3a88bc01d9ef29b8c527fee0e661" prot="public" virt="non-virtual"><scope>themis::TransactionBatcher::PendingEntry</scope><name>table_hint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

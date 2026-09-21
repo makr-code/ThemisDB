@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="scraper__js__renderer_8h" kind="file" language="C++">
+    <compoundname>scraper_js_renderer.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="scraper__plugin_8h" local="yes">include/scraper/scraper_plugin.h</includedby>
+    <includedby refid="scraper__render__contract_8h" local="yes">include/scraper/scraper_render_contract.h</includedby>
+    <includedby refid="scraper__js__renderer_8cpp" local="yes">src/scraper/scraper_js_renderer.cpp</includedby>
+    <includedby refid="test__scraper__plugin_8cpp" local="yes">tests/scraper/test_scraper_plugin.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/scraper/scraper_js_renderer.h</label>
+        <link refid="scraper__js__renderer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/scraper/scraper_js_renderer.h</label>
+        <link refid="scraper__js__renderer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/scraper/scraper_plugin.h</label>
+        <link refid="scraper__plugin_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/scraper/scraper_render_contract.h</label>
+        <link refid="scraper__render__contract_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>src/scraper/scraper_js_renderer.cpp</label>
+        <link refid="scraper__js__renderer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/scraper/scraper_plugin.cpp</label>
+        <link refid="scraper__plugin_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/scraper/test_scraper_plugin.cpp</label>
+        <link refid="test__scraper__plugin_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/scraper/test_scraper_render_pagination_focused.cpp</label>
+        <link refid="test__scraper__render__pagination__focused_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/scraper/test_scraper_v12_features_focused.cpp</label>
+        <link refid="test__scraper__v12__features__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1scraper_1_1_js_render_request" prot="public">themis::scraper::JsRenderRequest</innerclass>
+    <innerclass refid="structthemis_1_1scraper_1_1_js_render_result" prot="public">themis::scraper::JsRenderResult</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer" prot="public">themis::scraper::IScraperJSRenderer</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer" prot="public">themis::scraper::SubprocessJSRenderer</innerclass>
+    <innerclass refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer" prot="public">themis::scraper::InMemoryJSRenderer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scraper">themis::scraper</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.11 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scraper" kindref="compound">scraper</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>JS<sp/>renderer<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1scraper_1_1_js_render_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_js_render_request" kindref="compound">JsRenderRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1scraper_1_1_js_render_request_1af06902979318a570d64becad09edfcf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_js_render_request_1af06902979318a570d64becad09edfcf2" kindref="member">url</ref>;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1scraper_1_1_js_render_request_1ae4ac1b8ab7104798fa08d684d2d46fbf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_js_render_request_1ae4ac1b8ab7104798fa08d684d2d46fbf" kindref="member">timeout_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1scraper_1_1_js_render_request_1a5221c3224b0ad8f066614630f529ac27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_js_render_request_1a5221c3224b0ad8f066614630f529ac27" kindref="member">wait_selector</ref>;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1scraper_1_1_js_render_request_1a8fd8b2d256a4e811d09ec2c395f449e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1scraper_1_1_js_render_request_1a8fd8b2d256a4e811d09ec2c395f449e6" kindref="member">headers</ref>;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1scraper_1_1_js_render_request_1adf7913a3f133945bd9f3e4d4f11c2a2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1scraper_1_1_js_render_request_1adf7913a3f133945bd9f3e4d4f11c2a2d" kindref="member">extra_args</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1scraper_1_1_js_render_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scraper_1_1_js_render_result" kindref="compound">JsRenderResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1scraper_1_1_js_render_result_1adfb565254466b82bc5985b0caab57c0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_js_render_result_1adfb565254466b82bc5985b0caab57c0e" kindref="member">success</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1scraper_1_1_js_render_result_1afa869ed2bfe9959b23ffea01c8d7787b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_js_render_result_1afa869ed2bfe9959b23ffea01c8d7787b" kindref="member">html</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1scraper_1_1_js_render_result_1a9b07c7187571746de2acc18ee0d73308" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1scraper_1_1_js_render_result_1a9b07c7187571746de2acc18ee0d73308" kindref="member">error</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1scraper_1_1_js_render_result_1ac083c9d8c471433348990c9a8ae742a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_js_render_result_1ac083c9d8c471433348990c9a8ae742a0" kindref="member">status_code</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1scraper_1_1_js_render_result_1a7cde4edb3d2663f66671aacc7f47bbd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_js_render_result_1a7cde4edb3d2663f66671aacc7f47bbd0" kindref="member">elapsed_ms</ref><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer" kindref="compound">IScraperJSRenderer</ref><sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer_1aa2e2207fbe85d69ca0b836f75dfb3e39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer_1aa2e2207fbe85d69ca0b836f75dfb3e39" kindref="member">~IScraperJSRenderer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer_1a2a07e25df7d60cfc155637404a794d8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_js_render_result" kindref="compound">JsRenderResult</ref><sp/><ref refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer_1a2a07e25df7d60cfc155637404a794d8d" kindref="member">render</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_js_render_request" kindref="compound">JsRenderRequest</ref>&amp;<sp/>req)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer_1abe584bf134f16c721ca06b1894f6d547" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer_1abe584bf134f16c721ca06b1894f6d547" kindref="member">isAvailable</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Subprocess<sp/>renderer<sp/>(production)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a992301ac3d0cde74196d8be7d497f6b3" kindref="member">SubprocessJSRenderer</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer" kindref="compound">IScraperJSRenderer</ref><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a992301ac3d0cde74196d8be7d497f6b3" kindref="member">SubprocessJSRenderer</ref>(std::string<sp/>renderer_cmd);</highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a9484c0e271286bd4028550b00f893660" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a9484c0e271286bd4028550b00f893660" kindref="member">~SubprocessJSRenderer</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1aa3465504b1c49f7fb43c42999d29c9c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1aa3465504b1c49f7fb43c42999d29c9c0" kindref="member">SubprocessJSRenderer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a992301ac3d0cde74196d8be7d497f6b3" kindref="member">SubprocessJSRenderer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a0bd9b36227466fd31a86a7f77aebcbe3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a992301ac3d0cde74196d8be7d497f6b3" kindref="member">SubprocessJSRenderer</ref>&amp;<sp/><ref refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a0bd9b36227466fd31a86a7f77aebcbe3" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a992301ac3d0cde74196d8be7d497f6b3" kindref="member">SubprocessJSRenderer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_js_render_result" kindref="compound">JsRenderResult</ref><sp/><ref refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1aff9c42dc1bf5cc33e34101af720a8905" kindref="member">render</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_js_render_request" kindref="compound">JsRenderRequest</ref>&amp;<sp/>req)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_subprocess_j_s_renderer_1a3bbd554f4125984730758f3f5f682124" kindref="member">isAvailable</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>renderer_cmd_;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>buildCommand(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_js_render_request" kindref="compound">JsRenderRequest</ref>&amp;<sp/>req)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>In-memory<sp/>mock<sp/>(tests)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a0732ecb974f8c8734b97531c3a39efca" kindref="member">InMemoryJSRenderer</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer" kindref="compound">IScraperJSRenderer</ref><sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a0732ecb974f8c8734b97531c3a39efca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a0732ecb974f8c8734b97531c3a39efca" kindref="member">InMemoryJSRenderer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a857ace86f2a38b48759b405d42246b37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a857ace86f2a38b48759b405d42246b37" kindref="member">injectResult</ref>(<ref refid="structthemis_1_1scraper_1_1_js_render_result" kindref="compound">JsRenderResult</ref><sp/>result)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>injected_.push_back(std::move(result));</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1ad14afe93196329d4ebf181318097d6f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1ad14afe93196329d4ebf181318097d6f5" kindref="member">clearInjections</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>injected_.clear();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>call_count_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a314dbc1ed2157db178cf48717e3b27ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a314dbc1ed2157db178cf48717e3b27ee" kindref="member">callCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>call_count_;<sp/>}</highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a389e4c56e64036ed67dc778163246fa4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a389e4c56e64036ed67dc778163246fa4" kindref="member">isAvailable</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a906c22b68ffe4542cf33787449cfbfc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_js_render_result" kindref="compound">JsRenderResult</ref><sp/><ref refid="classthemis_1_1scraper_1_1_in_memory_j_s_renderer_1a906c22b68ffe4542cf33787449cfbfc5" kindref="member">render</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scraper_1_1_js_render_request" kindref="compound">JsRenderRequest</ref>&amp;<sp/></highlight><highlight class="comment">/*req*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++call_count_;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(idx_<sp/>&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(injected_.size()))<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>injected_[idx_++];</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scraper_1_1_js_render_result" kindref="compound">JsRenderResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1scraper_1_1_js_render_result_1adfb565254466b82bc5985b0caab57c0e" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1scraper_1_1_js_render_result_1a9b07c7187571746de2acc18ee0d73308" kindref="member">error</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;InMemoryJSRenderer:<sp/>no<sp/>more<sp/>injected<sp/>results&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;JsRenderResult&gt;<sp/>injected_;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>call_count_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>idx_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>scraper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/scraper/scraper_js_renderer.h"/>
+  </compounddef>
+</doxygen>

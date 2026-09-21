@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1benchmark_1_1_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::Event</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_event_1a778062964e3899c99dc8043e79243545" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::Event::case_id</definition>
+        <argsstring></argsstring>
+        <name>case_id</name>
+        <qualifiedname>themis::process::benchmark::Event::case_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="30" column="17" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_event_1a807de2f6faf1535e5e4e197799dfaa5a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::Event::activity</definition>
+        <argsstring></argsstring>
+        <name>activity</name>
+        <qualifiedname>themis::process::benchmark::Event::activity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="31" column="17" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_event_1a970d063ec44769f4ef00c5b13d2a9363" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::benchmark::Event::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::process::benchmark::Event::timestamp_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="32" column="13" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="32" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_event_1ae24fb248a642083141a41e60469f32d2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::Event::resource</definition>
+        <argsstring></argsstring>
+        <name>resource</name>
+        <qualifiedname>themis::process::benchmark::Event::resource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="33" column="17" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simulated event log for process mining. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="29" column="1" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="29" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_event_1a807de2f6faf1535e5e4e197799dfaa5a" prot="public" virt="non-virtual"><scope>themis::process::benchmark::Event</scope><name>activity</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_event_1a778062964e3899c99dc8043e79243545" prot="public" virt="non-virtual"><scope>themis::process::benchmark::Event</scope><name>case_id</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_event_1ae24fb248a642083141a41e60469f32d2" prot="public" virt="non-virtual"><scope>themis::process::benchmark::Event</scope><name>resource</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_event_1a970d063ec44769f4ef00c5b13d2a9363" prot="public" virt="non-virtual"><scope>themis::process::benchmark::Event</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

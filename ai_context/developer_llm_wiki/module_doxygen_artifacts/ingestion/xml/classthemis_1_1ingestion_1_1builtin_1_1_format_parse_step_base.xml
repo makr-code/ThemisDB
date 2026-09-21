@@ -1,0 +1,407 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::builtin::FormatParseStepBase</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_ingestion_step" prot="public" virt="non-virtual">themis::ingestion::IIngestionStep</basecompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_archive_step" prot="public" virt="non-virtual">themis::ingestion::builtin::ParseArchiveStep</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_audio_step" prot="public" virt="non-virtual">themis::ingestion::builtin::ParseAudioStep</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_image_step" prot="public" virt="non-virtual">themis::ingestion::builtin::ParseImageStep</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_office_step" prot="public" virt="non-virtual">themis::ingestion::builtin::ParseOfficeStep</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_pdf_step" prot="public" virt="non-virtual">themis::ingestion::builtin::ParsePdfStep</derivedcompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a534e0b04fb64a315205148691cec2c1c" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_format_extractor" kindref="compound">IFormatExtractor</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IFormatExtractor&gt; themis::ingestion::builtin::FormatParseStepBase::extractor_</definition>
+        <argsstring></argsstring>
+        <name>extractor_</name>
+        <qualifiedname>themis::ingestion::builtin::FormatParseStepBase::extractor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/format_parse_step.cpp" line="179" column="21" bodyfile="src/ingestion/steps/format_parse_step.cpp" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a1e656ff59e4642985617a0f0c9650c25" prot="protected" static="no" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ingestion::builtin::FormatParseStepBase::plugin_name_</definition>
+        <argsstring></argsstring>
+        <name>plugin_name_</name>
+        <qualifiedname>themis::ingestion::builtin::FormatParseStepBase::plugin_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/format_parse_step.cpp" line="180" column="16" bodyfile="src/ingestion/steps/format_parse_step.cpp" bodystart="180" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a54dc93cdc22ed9e6fd08a9796196c391" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::builtin::FormatParseStepBase::FormatParseStepBase</definition>
+        <argsstring>(std::shared_ptr&lt; IFormatExtractor &gt; extractor, const char *plugin_name)</argsstring>
+        <name>FormatParseStepBase</name>
+        <qualifiedname>themis::ingestion::builtin::FormatParseStepBase::FormatParseStepBase</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_format_extractor" kindref="compound">IFormatExtractor</ref> &gt;</type>
+          <declname>extractor</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>plugin_name</declname>
+        </param>
+        <briefdescription>
+<para>Format Parse Step Base. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">extractor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the plugin. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/format_parse_step.cpp" line="58" column="14" bodyfile="src/ingestion/steps/format_parse_step.cpp" bodystart="58" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a48fe64bb0b0c44a0fc8f6a26df4a4687" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::ingestion::builtin::FormatParseStepBase::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::ingestion::builtin::FormatParseStepBase::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/format_parse_step.cpp" line="65" column="16" bodyfile="src/ingestion/steps/format_parse_step.cpp" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1af913c67284497f6f84832f9d5b13ad32" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::ingestion::builtin::FormatParseStepBase::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::ingestion::builtin::FormatParseStepBase::getVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/format_parse_step.cpp" line="66" column="16" bodyfile="src/ingestion/steps/format_parse_step.cpp" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1ab561abf910501b924b0aad7a149be687" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>plugins::PluginCapabilities</type>
+        <definition>plugins::PluginCapabilities themis::ingestion::builtin::FormatParseStepBase::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::ingestion::builtin::FormatParseStepBase::getCapabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/format_parse_step.cpp" line="67" column="33" bodyfile="src/ingestion/steps/format_parse_step.cpp" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a6d22f3f8abbb99bd4c4bf78aad9feefe" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::builtin::FormatParseStepBase::initialize</definition>
+        <argsstring>(const char *) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::ingestion::builtin::FormatParseStepBase::initialize</qualifiedname>
+        <param>
+          <type>const char *</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/format_parse_step.cpp" line="68" column="11" bodyfile="src/ingestion/steps/format_parse_step.cpp" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1aed840b77c14e987e2e347894add262f6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::builtin::FormatParseStepBase::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::ingestion::builtin::FormatParseStepBase::shutdown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/format_parse_step.cpp" line="69" column="11" bodyfile="src/ingestion/steps/format_parse_step.cpp" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a83179b992322ce993e540af98a5fcee2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::ingestion::builtin::FormatParseStepBase::getInstance</definition>
+        <argsstring>() override</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::ingestion::builtin::FormatParseStepBase::getInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/format_parse_step.cpp" line="70" column="10" bodyfile="src/ingestion/steps/format_parse_step.cpp" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a01f7ba2664a9691ca500c85c56b9b98a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::builtin::FormatParseStepBase::canHandle</definition>
+        <argsstring>(const ExtractionContext &amp;ctx) const override</argsstring>
+        <name>canHandle</name>
+        <qualifiedname>themis::ingestion::builtin::FormatParseStepBase::canHandle</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1af4270ae636afe47fd63fb99567408269">canHandle</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when this step can process the current context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default: returns true when <computeroutput><ref refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a45fef724b2a714dbd1777d2e544eb08d" kindref="member">supportedMimeTypes()</ref></computeroutput> is empty (all MIMEs accepted) or when <computeroutput>ctx.manifest.detected_mime</computeroutput> matches any entry in <computeroutput><ref refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a45fef724b2a714dbd1777d2e544eb08d" kindref="member">supportedMimeTypes()</ref></computeroutput>.</para>
+<para>Override for custom capability checks (e.g. &quot;only run if raw_text is
+empty&quot;, &quot;only run for files &lt; 10 MB&quot;). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/format_parse_step.cpp" line="73" column="10" bodyfile="src/ingestion/steps/format_parse_step.cpp" bodystart="73" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a45fef724b2a714dbd1777d2e544eb08d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::ingestion::builtin::FormatParseStepBase::supportedMimeTypes</definition>
+        <argsstring>() const override</argsstring>
+        <name>supportedMimeTypes</name>
+        <qualifiedname>themis::ingestion::builtin::FormatParseStepBase::supportedMimeTypes</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1acd860b2bb15580a25ce67280f671f29a">supportedMimeTypes</reimplements>
+        <briefdescription>
+<para>Returns the MIME types this step can process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>An empty vector means &quot;any MIME type&quot;. Used by <computeroutput><ref refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a01f7ba2664a9691ca500c85c56b9b98a" kindref="member">canHandle()</ref></computeroutput> default implementation. Override <computeroutput><ref refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a01f7ba2664a9691ca500c85c56b9b98a" kindref="member">canHandle()</ref></computeroutput> directly for more complex logic. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/format_parse_step.cpp" line="89" column="17" bodyfile="src/ingestion/steps/format_parse_step.cpp" bodystart="89" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a7a1b77b268d8c8842bc8ea6bdb7aeda0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::ingestion::builtin::FormatParseStepBase::execute</definition>
+        <argsstring>(ExtractionContext &amp;ctx, const StepConfig &amp;) override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::ingestion::builtin::FormatParseStepBase::execute</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1ae420e2b6ce844d288d51bea1d79955d8">execute</reimplements>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_step_config" kindref="compound">StepConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Execute the step, enriching <computeroutput>ctx</computeroutput> in-place. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The step reads any fields it needs from <computeroutput>ctx</computeroutput> and appends results to the appropriate collections (e.g. <computeroutput>ctx.entities</computeroutput>, <computeroutput>ctx.chunks</computeroutput>). It must not clear or overwrite data written by preceding steps.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pipeline context — modified in-place. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Step configuration parsed from the YAML profile. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>Result&lt;void&gt;</computeroutput> — success, or an error with an <computeroutput>ErrorCode</computeroutput> from the <computeroutput>ERR_WORKFLOW_*</computeroutput> range. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">binary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ingestion/steps/format_parse_step.cpp" line="94" column="12" bodyfile="src/ingestion/steps/format_parse_step.cpp" bodystart="94" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1ae3db8f29fa7e5d6fd03041acd72f6fc4" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void themis::ingestion::builtin::FormatParseStepBase::postProcess</definition>
+        <argsstring>(ExtractionContext &amp;, FormatExtractResult &amp;)</argsstring>
+        <name>postProcess</name>
+        <qualifiedname>themis::ingestion::builtin::FormatParseStepBase::postProcess</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_archive_step_1a9a6e1280a962bae8a1fa694256696a26">postProcess</reimplementedby>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_format_extract_result" kindref="compound">FormatExtractResult</ref> &amp;</type>
+        </param>
+        <briefdescription>
+<para>Post Process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements postProcess without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/steps/format_parse_step.cpp" line="176" column="18" bodyfile="src/ingestion/steps/format_parse_step.cpp" bodystart="176" bodyend="177"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::ingestion::IIngestionStep</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_ingestion_step"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::builtin::FormatParseStepBase</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::ingestion::builtin::ParseArchiveStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_archive_step"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::ingestion::builtin::ParseAudioStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_audio_step"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::ingestion::builtin::ParseImageStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_image_step"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::ingestion::builtin::ParseOfficeStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_office_step"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>themis::ingestion::builtin::ParsePdfStep</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_parse_pdf_step"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::plugins::IThemisPlugin</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::ingestion::IIngestionStep</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_ingestion_step"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::ingestion::builtin::FormatParseStepBase</label>
+        <link refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::plugins::IThemisPlugin</label>
+      </node>
+    </collaborationgraph>
+    <location file="src/ingestion/steps/format_parse_step.cpp" line="50" column="1" bodyfile="src/ingestion/steps/format_parse_step.cpp" bodystart="50" bodyend="181"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a01f7ba2664a9691ca500c85c56b9b98a" prot="public" virt="virtual"><scope>themis::ingestion::builtin::FormatParseStepBase</scope><name>canHandle</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a7a1b77b268d8c8842bc8ea6bdb7aeda0" prot="public" virt="virtual"><scope>themis::ingestion::builtin::FormatParseStepBase</scope><name>execute</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a534e0b04fb64a315205148691cec2c1c" prot="protected" virt="non-virtual"><scope>themis::ingestion::builtin::FormatParseStepBase</scope><name>extractor_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a54dc93cdc22ed9e6fd08a9796196c391" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::FormatParseStepBase</scope><name>FormatParseStepBase</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1ab561abf910501b924b0aad7a149be687" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::FormatParseStepBase</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a83179b992322ce993e540af98a5fcee2" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::FormatParseStepBase</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a48fe64bb0b0c44a0fc8f6a26df4a4687" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::FormatParseStepBase</scope><name>getName</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1abee3ec226507c6c1038ef541caaee044" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::FormatParseStepBase</scope><name>getType</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1af913c67284497f6f84832f9d5b13ad32" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::FormatParseStepBase</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a6d22f3f8abbb99bd4c4bf78aad9feefe" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::FormatParseStepBase</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a1e656ff59e4642985617a0f0c9650c25" prot="protected" virt="non-virtual"><scope>themis::ingestion::builtin::FormatParseStepBase</scope><name>plugin_name_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1ae3db8f29fa7e5d6fd03041acd72f6fc4" prot="protected" virt="virtual"><scope>themis::ingestion::builtin::FormatParseStepBase</scope><name>postProcess</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1aed840b77c14e987e2e347894add262f6" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::FormatParseStepBase</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1ingestion_1_1builtin_1_1_format_parse_step_base_1a45fef724b2a714dbd1777d2e544eb08d" prot="public" virt="virtual"><scope>themis::ingestion::builtin::FormatParseStepBase</scope><name>supportedMimeTypes</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_ingestion_step_1ad350e511cf2ebd67ae0c5baf09f33060" prot="public" virt="non-virtual"><scope>themis::ingestion::builtin::FormatParseStepBase</scope><name>~IIngestionStep</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

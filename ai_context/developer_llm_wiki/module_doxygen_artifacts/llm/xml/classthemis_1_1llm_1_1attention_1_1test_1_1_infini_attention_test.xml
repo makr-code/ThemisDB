@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::attention::test::InfiniAttentionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test_1a41d6c72b557b2acb6d2519165c6f1559" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_config" kindref="compound">InfiniAttentionConfig</ref></type>
+        <definition>InfiniAttentionConfig themis::llm::attention::test::InfiniAttentionTest::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::attention::test::InfiniAttentionTest::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_infini_attention.cpp" line="87" column="27" bodyfile="tests/llm/test_infini_attention.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test_1a8782502e986587d085ce1f54a5c68dd7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::attention::test::InfiniAttentionTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::llm::attention::test::InfiniAttentionTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_infini_attention.cpp" line="32" column="10" bodyfile="tests/llm/test_infini_attention.cpp" bodystart="32" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test_1a866bdc390cb771e7e097d7d7a1cfb769" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::attention::test::InfiniAttentionTest::generateRandomTensor</definition>
+        <argsstring>(size_t size, uint32_t seed=42)</argsstring>
+        <name>generateRandomTensor</name>
+        <qualifiedname>themis::llm::attention::test::InfiniAttentionTest::generateRandomTensor</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>seed</declname>
+          <defval>42</defval>
+        </param>
+        <briefdescription>
+<para>Generate random attention tensors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_infini_attention.cpp" line="45" column="17" bodyfile="tests/llm/test_infini_attention.cpp" bodystart="45" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test_1a74ae15ef09a01287ec32aa7562a46c98" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref></type>
+        <definition>Tensor themis::llm::attention::test::InfiniAttentionTest::makeTestTensor</definition>
+        <argsstring>(std::vector&lt; float &gt; &amp;data, std::vector&lt; int &gt; shape)</argsstring>
+        <name>makeTestTensor</name>
+        <qualifiedname>themis::llm::attention::test::InfiniAttentionTest::makeTestTensor</qualifiedname>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; int &gt;</type>
+          <declname>shape</declname>
+        </param>
+        <briefdescription>
+<para>Create a <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> struct from vector data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_infini_attention.cpp" line="57" column="12" bodyfile="tests/llm/test_infini_attention.cpp" bodystart="57" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test_1a3aeeffec87fd37a9e02cd60f20bacc80" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::attention::test::InfiniAttentionTest::calculateMAPE</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;expected, const std::vector&lt; float &gt; &amp;actual)</argsstring>
+        <name>calculateMAPE</name>
+        <qualifiedname>themis::llm::attention::test::InfiniAttentionTest::calculateMAPE</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>expected</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>actual</declname>
+        </param>
+        <briefdescription>
+<para>Calculate MAPE for error measurement. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_infini_attention.cpp" line="68" column="11" bodyfile="tests/llm/test_infini_attention.cpp" bodystart="68" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fixture for Infini-attention tests. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::llm::attention::test::InfiniAttentionTest</label>
+        <link refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::llm::attention::InfiniAttentionConfig</label>
+        <link refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_config"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::attention::test::InfiniAttentionTest</label>
+        <link refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_infini_attention.cpp" line="30" column="1" bodyfile="tests/llm/test_infini_attention.cpp" bodystart="30" bodyend="88"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test_1a3aeeffec87fd37a9e02cd60f20bacc80" prot="protected" virt="non-virtual"><scope>themis::llm::attention::test::InfiniAttentionTest</scope><name>calculateMAPE</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test_1a41d6c72b557b2acb6d2519165c6f1559" prot="protected" virt="non-virtual"><scope>themis::llm::attention::test::InfiniAttentionTest</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test_1a866bdc390cb771e7e097d7d7a1cfb769" prot="protected" virt="non-virtual"><scope>themis::llm::attention::test::InfiniAttentionTest</scope><name>generateRandomTensor</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test_1a74ae15ef09a01287ec32aa7562a46c98" prot="protected" virt="non-virtual"><scope>themis::llm::attention::test::InfiniAttentionTest</scope><name>makeTestTensor</name></member>
+      <member refid="classthemis_1_1llm_1_1attention_1_1test_1_1_infini_attention_test_1a8782502e986587d085ce1f54a5c68dd7" prot="protected" virt="non-virtual"><scope>themis::llm::attention::test::InfiniAttentionTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

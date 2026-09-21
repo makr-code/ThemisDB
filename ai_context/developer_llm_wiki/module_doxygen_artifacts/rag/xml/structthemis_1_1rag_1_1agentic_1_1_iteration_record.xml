@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1agentic_1_1_iteration_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::agentic::IterationRecord</compoundname>
+    <includes refid="agentic__rag_8h" local="no">agentic_rag.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1a1ec8c10663c0c5a9597e804be59433ee" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::agentic::IterationRecord::iteration</definition>
+        <argsstring></argsstring>
+        <name>iteration</name>
+        <qualifiedname>themis::rag::agentic::IterationRecord::iteration</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0-based iteration index </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="50" column="12" bodyfile="include/rag/agentic_rag.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1a73a4b2a6c97632cbc45fd356669d4484" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::agentic::IterationRecord::query_used</definition>
+        <argsstring></argsstring>
+        <name>query_used</name>
+        <qualifiedname>themis::rag::agentic::IterationRecord::query_used</qualifiedname>
+        <briefdescription>
+<para>Query string used this round. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="51" column="17" bodyfile="include/rag/agentic_rag.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1a43d916a5d51e7f6fec16cc19bc3ec235" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;judge::RetrievedDocument&gt; themis::rag::agentic::IterationRecord::documents</definition>
+        <argsstring></argsstring>
+        <name>documents</name>
+        <qualifiedname>themis::rag::agentic::IterationRecord::documents</qualifiedname>
+        <briefdescription>
+<para>Documents retrieved this round. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="52" column="17" bodyfile="include/rag/agentic_rag.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1a0bd750a29d052cfee3deca512b829461" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">judge::EvaluationResult</ref></type>
+        <definition>judge::EvaluationResult themis::rag::agentic::IterationRecord::evaluation</definition>
+        <argsstring></argsstring>
+        <name>evaluation</name>
+        <qualifiedname>themis::rag::agentic::IterationRecord::evaluation</qualifiedname>
+        <briefdescription>
+<para>Judge result for this round. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="53" column="29" bodyfile="include/rag/agentic_rag.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1aad3407d0a265e80dddd5fa91f515d99e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result" kindref="compound">knowledge_gap::DetectionResult</ref></type>
+        <definition>knowledge_gap::DetectionResult themis::rag::agentic::IterationRecord::gap</definition>
+        <argsstring></argsstring>
+        <name>gap</name>
+        <qualifiedname>themis::rag::agentic::IterationRecord::gap</qualifiedname>
+        <briefdescription>
+<para>Gap-detection result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="54" column="36" bodyfile="include/rag/agentic_rag.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1aac4604fe236dafd1c8360e252fde057c" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::rag::agentic::IterationRecord::elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>elapsed_ms</name>
+        <qualifiedname>themis::rag::agentic::IterationRecord::elapsed_ms</qualifiedname>
+        <briefdescription>
+<para>Wall-clock time for this iteration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/agentic_rag.h" line="55" column="31" bodyfile="include/rag/agentic_rag.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Snapshot of a single iteration of the agentic loop. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::agentic::IterationRecord</label>
+        <link refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>evaluation</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>gap</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::judge::EvaluationResult</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result"/>
+      </node>
+      <node id="3">
+        <label>themis::rag::knowledge_gap::DetectionResult</label>
+        <link refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/agentic_rag.h" line="49" column="1" bodyfile="include/rag/agentic_rag.h" bodystart="49" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1a43d916a5d51e7f6fec16cc19bc3ec235" prot="public" virt="non-virtual"><scope>themis::rag::agentic::IterationRecord</scope><name>documents</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1aac4604fe236dafd1c8360e252fde057c" prot="public" virt="non-virtual"><scope>themis::rag::agentic::IterationRecord</scope><name>elapsed_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1a0bd750a29d052cfee3deca512b829461" prot="public" virt="non-virtual"><scope>themis::rag::agentic::IterationRecord</scope><name>evaluation</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1aad3407d0a265e80dddd5fa91f515d99e" prot="public" virt="non-virtual"><scope>themis::rag::agentic::IterationRecord</scope><name>gap</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1a1ec8c10663c0c5a9597e804be59433ee" prot="public" virt="non-virtual"><scope>themis::rag::agentic::IterationRecord</scope><name>iteration</name></member>
+      <member refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1a73a4b2a6c97632cbc45fd356669d4484" prot="public" virt="non-virtual"><scope>themis::rag::agentic::IterationRecord</scope><name>query_used</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

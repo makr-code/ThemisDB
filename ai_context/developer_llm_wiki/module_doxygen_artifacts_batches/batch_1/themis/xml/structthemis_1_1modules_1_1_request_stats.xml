@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_request_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::RequestStats</compoundname>
+    <includes refid="remote__registry__client_8h" local="no">remote_registry_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_request_stats_1a72890d6e6db7adf99ab8f9b9133f369f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::modules::RequestStats::attempts</definition>
+        <argsstring></argsstring>
+        <name>attempts</name>
+        <qualifiedname>themis::modules::RequestStats::attempts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of HTTP attempts made (1 = no retries were needed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="153" column="9" bodyfile="include/themis/base/remote_registry_client.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_request_stats_1ad6592d6d321538a983d38eee906e580d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::RequestStats::last_error</definition>
+        <argsstring></argsstring>
+        <name>last_error</name>
+        <qualifiedname>themis::modules::RequestStats::last_error</qualifiedname>
+        <briefdescription>
+<para>Last error description; empty when the final attempt succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="156" column="17" bodyfile="include/themis/base/remote_registry_client.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_request_stats_1afbd6c697db94b7c201eb0be8a2935cab" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::RequestStats::retry_exhausted_count</definition>
+        <argsstring></argsstring>
+        <name>retry_exhausted_count</name>
+        <qualifiedname>themis::modules::RequestStats::retry_exhausted_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of request sequences that exhausted all retry budget. Incremented once per httpGet()/httpGetBinary() call that ran out of retries without a successful HTTP response. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="165" column="14" bodyfile="include/themis/base/remote_registry_client.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_request_stats_1ad21bd8d2cecde40401ef2a0a85f1ac7d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::RequestStats::timeout_count</definition>
+        <argsstring></argsstring>
+        <name>timeout_count</name>
+        <qualifiedname>themis::modules::RequestStats::timeout_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of individual retry attempts that were classified as timeout events (HTTP response code 0 with a curl timeout error). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="169" column="14" bodyfile="include/themis/base/remote_registry_client.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics for the most recent HTTP request issued by <ref refid="classthemis_1_1modules_1_1_remote_registry_client" kindref="compound">RemoteRegistryClient</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Populated by both httpGet() and httpGetBinary() so callers can inspect retry counts and error details without relying on log output.</para>
+<para>Wave D (observability): <computeroutput>retry_exhausted_count</computeroutput> and <computeroutput>timeout_count</computeroutput> accumulate across the client&apos;s lifetime for exporter reliability tracking. </para>
+    </detaileddescription>
+    <location file="include/themis/base/remote_registry_client.h" line="151" column="1" bodyfile="include/themis/base/remote_registry_client.h" bodystart="151" bodyend="170"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_request_stats_1a72890d6e6db7adf99ab8f9b9133f369f" prot="public" virt="non-virtual"><scope>themis::modules::RequestStats</scope><name>attempts</name></member>
+      <member refid="structthemis_1_1modules_1_1_request_stats_1ad6592d6d321538a983d38eee906e580d" prot="public" virt="non-virtual"><scope>themis::modules::RequestStats</scope><name>last_error</name></member>
+      <member refid="structthemis_1_1modules_1_1_request_stats_1afbd6c697db94b7c201eb0be8a2935cab" prot="public" virt="non-virtual"><scope>themis::modules::RequestStats</scope><name>retry_exhausted_count</name></member>
+      <member refid="structthemis_1_1modules_1_1_request_stats_1ad21bd8d2cecde40401ef2a0a85f1ac7d" prot="public" virt="non-virtual"><scope>themis::modules::RequestStats</scope><name>timeout_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_t_n_s_r_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::TNSRReport</compoundname>
+    <includes refid="tnsr__task_8h" local="no">tnsr_task.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_t_n_s_r_report_1aa68ced64715c78ee988d4b6b01fc28a5" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TNSRReport::bytes_saved</definition>
+        <argsstring></argsstring>
+        <name>bytes_saved</name>
+        <qualifiedname>themis::tensor::TNSRReport::bytes_saved</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total bytes saved by recompression (before – after serialised sizes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="83" column="17" bodyfile="include/tensor/tnsr_task.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_t_n_s_r_report_1af4a815c6536079a5aeb095d8a35e4bae" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::tensor::TNSRReport::rank_delta</definition>
+        <argsstring></argsstring>
+        <name>rank_delta</name>
+        <qualifiedname>themis::tensor::TNSRReport::rank_delta</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sum of (old_max_rank - new_max_rank) across all keys that were rewritten. Positive values indicate rank reduction (storage savings); negative values indicate rank increase (unusual — possible only when recompression with a looser epsilon yields a higher-rank intermediate train, which is rare). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="89" column="18" bodyfile="include/tensor/tnsr_task.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_t_n_s_r_report_1a8c53f9eccb676e10a0a6e9d88f3dea05" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TNSRReport::topology_changes</definition>
+        <argsstring></argsstring>
+        <name>topology_changes</name>
+        <qualifiedname>themis::tensor::TNSRReport::topology_changes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of rerouteEdge calls applied across all keys. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="92" column="17" bodyfile="include/tensor/tnsr_task.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_t_n_s_r_report_1ae637252ae47d7f865aff484e68e3ce3d" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TNSRReport::topology_search_skipped_keys</definition>
+        <argsstring></argsstring>
+        <name>topology_search_skipped_keys</name>
+        <qualifiedname>themis::tensor::TNSRReport::topology_search_skipped_keys</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of keys where topology-search was skipped by fast-path.</para>
+<para>Fast-path applies when the recompressed train is structurally trivial (<computeroutput>cores.size() &lt; 3</computeroutput> or <computeroutput>maxRank() &lt; 2</computeroutput>), where HISS topology analysis cannot produce useful non-chain mutations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="99" column="17" bodyfile="include/tensor/tnsr_task.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_t_n_s_r_report_1a563622cc2cc35a79236dde30d26ccc34" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TNSRReport::keys_processed</definition>
+        <argsstring></argsstring>
+        <name>keys_processed</name>
+        <qualifiedname>themis::tensor::TNSRReport::keys_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of keys inspected (including skipped ones). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="102" column="17" bodyfile="include/tensor/tnsr_task.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_t_n_s_r_report_1abd02e9cd95177d2649240b029bd80e42" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TNSRReport::keys_rewritten</definition>
+        <argsstring></argsstring>
+        <name>keys_rewritten</name>
+        <qualifiedname>themis::tensor::TNSRReport::keys_rewritten</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of keys actually rewritten (saved ≥ min_bytes_saved_to_commit). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="105" column="17" bodyfile="include/tensor/tnsr_task.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_t_n_s_r_report_1adab492f5fcbc410701c782f2f3e6a2f2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::TNSRReport::duration_ms</definition>
+        <argsstring></argsstring>
+        <name>duration_ms</name>
+        <qualifiedname>themis::tensor::TNSRReport::duration_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Wall-clock duration of the run in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="108" column="12" bodyfile="include/tensor/tnsr_task.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_t_n_s_r_report_1a4a55921a425c21286ce029bc8dd6662e" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TNSRReport::error_count</definition>
+        <argsstring></argsstring>
+        <name>error_count</name>
+        <qualifiedname>themis::tensor::TNSRReport::error_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Whether the run produced any error (e.g. deserialisation failure). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Individual key errors are counted in <computeroutput><ref refid="structthemis_1_1tensor_1_1_t_n_s_r_report_1a4a55921a425c21286ce029bc8dd6662e" kindref="member">error_count</ref></computeroutput> but do not abort the run; the task continues with remaining keys. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="116" column="17" bodyfile="include/tensor/tnsr_task.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tnsr_task.h" line="81" column="1" bodyfile="include/tensor/tnsr_task.h" bodystart="81" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_t_n_s_r_report_1aa68ced64715c78ee988d4b6b01fc28a5" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRReport</scope><name>bytes_saved</name></member>
+      <member refid="structthemis_1_1tensor_1_1_t_n_s_r_report_1adab492f5fcbc410701c782f2f3e6a2f2" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRReport</scope><name>duration_ms</name></member>
+      <member refid="structthemis_1_1tensor_1_1_t_n_s_r_report_1a4a55921a425c21286ce029bc8dd6662e" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRReport</scope><name>error_count</name></member>
+      <member refid="structthemis_1_1tensor_1_1_t_n_s_r_report_1a563622cc2cc35a79236dde30d26ccc34" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRReport</scope><name>keys_processed</name></member>
+      <member refid="structthemis_1_1tensor_1_1_t_n_s_r_report_1abd02e9cd95177d2649240b029bd80e42" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRReport</scope><name>keys_rewritten</name></member>
+      <member refid="structthemis_1_1tensor_1_1_t_n_s_r_report_1af4a815c6536079a5aeb095d8a35e4bae" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRReport</scope><name>rank_delta</name></member>
+      <member refid="structthemis_1_1tensor_1_1_t_n_s_r_report_1a8c53f9eccb676e10a0a6e9d88f3dea05" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRReport</scope><name>topology_changes</name></member>
+      <member refid="structthemis_1_1tensor_1_1_t_n_s_r_report_1ae637252ae47d7f865aff484e68e3ce3d" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRReport</scope><name>topology_search_skipped_keys</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

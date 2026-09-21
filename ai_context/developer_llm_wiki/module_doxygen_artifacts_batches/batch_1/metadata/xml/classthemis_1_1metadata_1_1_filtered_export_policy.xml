@@ -1,0 +1,267 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1metadata_1_1_filtered_export_policy" kind="class" language="C++" prot="public">
+    <compoundname>themis::metadata::FilteredExportPolicy</compoundname>
+    <basecompoundref refid="classthemis_1_1metadata_1_1_i_metadata_export_policy" prot="public" virt="non-virtual">themis::metadata::IMetadataExportPolicy</basecompoundref>
+    <includes refid="imetadata__export__policy_8h" local="no">imetadata_export_policy.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_filtered_export_policy_1ab2d95c1e9d847c35645cb826f3fdef19" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::metadata::FilteredExportPolicy::kDefaultDelay</definition>
+        <argsstring></argsstring>
+        <name>kDefaultDelay</name>
+        <qualifiedname>themis::metadata::FilteredExportPolicy::kDefaultDelay</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_export_policy.h" line="157" column="48" bodyfile="include/metadata/imetadata_export_policy.h" bodystart="157" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_filtered_export_policy_1a225051d503db5601e8562f7b926ee104" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::metadata::FilteredExportPolicy::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::metadata::FilteredExportPolicy::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_export_policy.h" line="198" column="30" bodyfile="include/metadata/imetadata_export_policy.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_filtered_export_policy_1aa5b0275637fa8bc2ca42989567f9345e" prot="private" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themis::metadata::FilteredExportPolicy::exclusions_</definition>
+        <argsstring></argsstring>
+        <name>exclusions_</name>
+        <qualifiedname>themis::metadata::FilteredExportPolicy::exclusions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_export_policy.h" line="199" column="17" bodyfile="include/metadata/imetadata_export_policy.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_filtered_export_policy_1aeab583ed11e4f36a62b6549206b7e340" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::metadata::FilteredExportPolicy::delay_</definition>
+        <argsstring></argsstring>
+        <name>delay_</name>
+        <qualifiedname>themis::metadata::FilteredExportPolicy::delay_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_export_policy.h" line="200" column="31" bodyfile="include/metadata/imetadata_export_policy.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_filtered_export_policy_1afe2d34499fbcbd4b7040fa04357d28a8" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::metadata::FilteredExportPolicy::FilteredExportPolicy</definition>
+        <argsstring>(std::chrono::milliseconds delay=kDefaultDelay)</argsstring>
+        <name>FilteredExportPolicy</name>
+        <qualifiedname>themis::metadata::FilteredExportPolicy::FilteredExportPolicy</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>delay</declname>
+          <defval><ref refid="classthemis_1_1metadata_1_1_filtered_export_policy_1ab2d95c1e9d847c35645cb826f3fdef19" kindref="member">kDefaultDelay</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_export_policy.h" line="159" column="14" bodyfile="include/metadata/imetadata_export_policy.h" bodystart="159" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_filtered_export_policy_1a286779dbd12a2ce61f5104c763378422" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::metadata::FilteredExportPolicy::addExclusion</definition>
+        <argsstring>(std::string_view table_name)</argsstring>
+        <name>addExclusion</name>
+        <qualifiedname>themis::metadata::FilteredExportPolicy::addExclusion</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Add <computeroutput>table_name</computeroutput> to the exclusion list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Subsequent <ref refid="classthemis_1_1metadata_1_1_filtered_export_policy_1a0ef7c615b786a3f5d0e8be0357c92621" kindref="member">shouldExport()</ref> calls for that name will return false. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_export_policy.h" line="168" column="10" bodyfile="include/metadata/imetadata_export_policy.h" bodystart="168" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_filtered_export_policy_1a4110505701be347f17131fa63efcd300" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::metadata::FilteredExportPolicy::removeExclusion</definition>
+        <argsstring>(std::string_view table_name)</argsstring>
+        <name>removeExclusion</name>
+        <qualifiedname>themis::metadata::FilteredExportPolicy::removeExclusion</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Remove <computeroutput>table_name</computeroutput> from the exclusion list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op if the name was not excluded. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_export_policy.h" line="178" column="10" bodyfile="include/metadata/imetadata_export_policy.h" bodystart="178" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_filtered_export_policy_1a0ef7c615b786a3f5d0e8be0357c92621" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::metadata::FilteredExportPolicy::shouldExport</definition>
+        <argsstring>(std::string_view table_name, MetadataExportTrigger) const override</argsstring>
+        <name>shouldExport</name>
+        <qualifiedname>themis::metadata::FilteredExportPolicy::shouldExport</qualifiedname>
+        <reimplements refid="classthemis_1_1metadata_1_1_i_metadata_export_policy_1af448113bba1b9928f6931830d0646279">shouldExport</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1metadata_1aa82119ef5e71ceb2723014216f3a7ac4" kindref="member">MetadataExportTrigger</ref></type>
+          <declname>trigger</declname>
+        </param>
+        <briefdescription>
+<para>Return true if <computeroutput>table_name</computeroutput> should be exported on <computeroutput>trigger</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the table/collection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trigger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The event that would trigger the export. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the export should proceed; false to suppress it. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_export_policy.h" line="185" column="10" bodyfile="include/metadata/imetadata_export_policy.h" bodystart="185" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_filtered_export_policy_1a691a440b3b35182599a3d72624b1206e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::metadata::FilteredExportPolicy::exportDelay</definition>
+        <argsstring>(std::string_view, MetadataExportTrigger) const override</argsstring>
+        <name>exportDelay</name>
+        <qualifiedname>themis::metadata::FilteredExportPolicy::exportDelay</qualifiedname>
+        <reimplements refid="classthemis_1_1metadata_1_1_i_metadata_export_policy_1a544138eb2738383c60d729704ca68abe">exportDelay</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1metadata_1aa82119ef5e71ceb2723014216f3a7ac4" kindref="member">MetadataExportTrigger</ref></type>
+          <declname>trigger</declname>
+        </param>
+        <briefdescription>
+<para>Return the delay to apply before exporting <computeroutput>table_name</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A non-zero delay lets the exporter batch several changes that arrive within the window. Zero means export immediately.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the table/collection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trigger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The event that triggered the export request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Delay in milliseconds (0 = immediate). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_export_policy.h" line="191" column="31" bodyfile="include/metadata/imetadata_export_policy.h" bodystart="191" bodyend="195"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe policy that excludes explicitly listed tables from export. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tables not on the exclusion list are exported on all triggers with the configured uniform delay. Exclusion matching is exact (no prefix/glob).</para>
+<para>Example: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1metadata_1_1_filtered_export_policy_1afe2d34499fbcbd4b7040fa04357d28a8" kindref="member">FilteredExportPolicy</ref><sp/>policy{std::chrono::milliseconds{500}};</highlight></codeline>
+<codeline><highlight class="normal">policy.addExclusion(</highlight><highlight class="stringliteral">&quot;_internal_stats&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">policy.addExclusion(</highlight><highlight class="stringliteral">&quot;_tmp_migration&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>&quot;_internal_stats&quot;<sp/>is<sp/>excluded;<sp/>all<sp/>other<sp/>tables<sp/>are<sp/>exported<sp/>after<sp/>500<sp/>ms.</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::metadata::FilteredExportPolicy</label>
+        <link refid="classthemis_1_1metadata_1_1_filtered_export_policy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::metadata::IMetadataExportPolicy</label>
+        <link refid="classthemis_1_1metadata_1_1_i_metadata_export_policy"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::metadata::FilteredExportPolicy</label>
+        <link refid="classthemis_1_1metadata_1_1_filtered_export_policy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::metadata::IMetadataExportPolicy</label>
+        <link refid="classthemis_1_1metadata_1_1_i_metadata_export_policy"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/metadata/imetadata_export_policy.h" line="155" column="1" bodyfile="include/metadata/imetadata_export_policy.h" bodystart="155" bodyend="201"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1metadata_1_1_filtered_export_policy_1a286779dbd12a2ce61f5104c763378422" prot="public" virt="non-virtual"><scope>themis::metadata::FilteredExportPolicy</scope><name>addExclusion</name></member>
+      <member refid="classthemis_1_1metadata_1_1_filtered_export_policy_1aeab583ed11e4f36a62b6549206b7e340" prot="private" virt="non-virtual"><scope>themis::metadata::FilteredExportPolicy</scope><name>delay_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_filtered_export_policy_1aa5b0275637fa8bc2ca42989567f9345e" prot="private" virt="non-virtual"><scope>themis::metadata::FilteredExportPolicy</scope><name>exclusions_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_filtered_export_policy_1a691a440b3b35182599a3d72624b1206e" prot="public" virt="virtual"><scope>themis::metadata::FilteredExportPolicy</scope><name>exportDelay</name></member>
+      <member refid="classthemis_1_1metadata_1_1_filtered_export_policy_1afe2d34499fbcbd4b7040fa04357d28a8" prot="public" virt="non-virtual"><scope>themis::metadata::FilteredExportPolicy</scope><name>FilteredExportPolicy</name></member>
+      <member refid="classthemis_1_1metadata_1_1_filtered_export_policy_1ab2d95c1e9d847c35645cb826f3fdef19" prot="public" virt="non-virtual"><scope>themis::metadata::FilteredExportPolicy</scope><name>kDefaultDelay</name></member>
+      <member refid="classthemis_1_1metadata_1_1_filtered_export_policy_1a225051d503db5601e8562f7b926ee104" prot="private" virt="non-virtual"><scope>themis::metadata::FilteredExportPolicy</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_filtered_export_policy_1a4110505701be347f17131fa63efcd300" prot="public" virt="non-virtual"><scope>themis::metadata::FilteredExportPolicy</scope><name>removeExclusion</name></member>
+      <member refid="classthemis_1_1metadata_1_1_filtered_export_policy_1a0ef7c615b786a3f5d0e8be0357c92621" prot="public" virt="virtual"><scope>themis::metadata::FilteredExportPolicy</scope><name>shouldExport</name></member>
+      <member refid="classthemis_1_1metadata_1_1_i_metadata_export_policy_1a56b656e2ca33e136ba421300caf9647a" prot="public" virt="virtual"><scope>themis::metadata::FilteredExportPolicy</scope><name>~IMetadataExportPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

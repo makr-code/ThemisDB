@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::resource::ResourcePoolManager::GlobalStatistics</compoundname>
+    <includes refid="resource__pool__manager_8h" local="no">resource_pool_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics_1adde81517d22987cdb0ef9aca33ccf573" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics" kindref="compound">AdaptiveConnectionPool::Statistics</ref></type>
+        <definition>AdaptiveConnectionPool::Statistics themis::resource::ResourcePoolManager::GlobalStatistics::conn</definition>
+        <argsstring></argsstring>
+        <name>conn</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::GlobalStatistics::conn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="171" column="44" bodyfile="include/base/resource_pool_manager.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics_1abad3a36d46400c8b9e3417748eba522f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics" kindref="compound">BufferPool::Statistics</ref></type>
+        <definition>BufferPool::Statistics themis::resource::ResourcePoolManager::GlobalStatistics::buffer</definition>
+        <argsstring></argsstring>
+        <name>buffer</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::GlobalStatistics::buffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="172" column="44" bodyfile="include/base/resource_pool_manager.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics_1aae39bc21d4283e2ffc820fdb338b998e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::resource::ResourcePoolManager::GlobalStatistics::saturation_conn</definition>
+        <argsstring></argsstring>
+        <name>saturation_conn</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::GlobalStatistics::saturation_conn</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>conn.in_use / conn.pool_size </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="173" column="16" bodyfile="include/base/resource_pool_manager.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics_1a61f8e12de6e90e26b15bfbd0ddc6ea45" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::resource::ResourcePoolManager::GlobalStatistics::saturation_buffer</definition>
+        <argsstring></argsstring>
+        <name>saturation_buffer</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::GlobalStatistics::saturation_buffer</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>buffer.current_live / theoretical max </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="174" column="16" bodyfile="include/base/resource_pool_manager.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics_1a1b732aefc2165cd38cf94dff980ae683" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::resource::ResourcePoolManager::GlobalStatistics::saturation_alert</definition>
+        <argsstring></argsstring>
+        <name>saturation_alert</name>
+        <qualifiedname>themis::resource::ResourcePoolManager::GlobalStatistics::saturation_alert</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if any pool &gt; threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="175" column="16" bodyfile="include/base/resource_pool_manager.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::resource::AdaptiveConnectionPool::Statistics</label>
+        <link refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics"/>
+      </node>
+      <node id="3">
+        <label>themis::resource::BufferPool::Statistics</label>
+        <link refid="structthemis_1_1resource_1_1_buffer_pool_1_1_statistics"/>
+      </node>
+      <node id="1">
+        <label>themis::resource::ResourcePoolManager::GlobalStatistics</label>
+        <link refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>conn</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>buffer</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/base/resource_pool_manager.h" line="170" column="5" bodyfile="include/base/resource_pool_manager.h" bodystart="170" bodyend="176"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics_1abad3a36d46400c8b9e3417748eba522f" prot="public" virt="non-virtual"><scope>themis::resource::ResourcePoolManager::GlobalStatistics</scope><name>buffer</name></member>
+      <member refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics_1adde81517d22987cdb0ef9aca33ccf573" prot="public" virt="non-virtual"><scope>themis::resource::ResourcePoolManager::GlobalStatistics</scope><name>conn</name></member>
+      <member refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics_1a1b732aefc2165cd38cf94dff980ae683" prot="public" virt="non-virtual"><scope>themis::resource::ResourcePoolManager::GlobalStatistics</scope><name>saturation_alert</name></member>
+      <member refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics_1a61f8e12de6e90e26b15bfbd0ddc6ea45" prot="public" virt="non-virtual"><scope>themis::resource::ResourcePoolManager::GlobalStatistics</scope><name>saturation_buffer</name></member>
+      <member refid="structthemis_1_1resource_1_1_resource_pool_manager_1_1_global_statistics_1aae39bc21d4283e2ffc820fdb338b998e" prot="public" virt="non-virtual"><scope>themis::resource::ResourcePoolManager::GlobalStatistics</scope><name>saturation_conn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

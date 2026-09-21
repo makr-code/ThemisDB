@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_3c3006a634b4d0c4a6d05888ffb06767" kind="dir">
+    <compoundname>src/llm/applications</compoundname>
+    <innerfile refid="themis__help__lora_8cpp">themis_help_lora.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/applications/"/>
+  </compounddef>
+</doxygen>

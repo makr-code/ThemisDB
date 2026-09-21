@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_hybrid_score" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::HybridScore</compoundname>
+    <includes refid="hybrid__retriever_8h" local="no">hybrid_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_hybrid_score_1ab34f007972bea2964a87ac44cca409bf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::HybridScore::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::rag::HybridScore::document_id</qualifiedname>
+        <briefdescription>
+<para>Document identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="54" column="17" bodyfile="include/rag/hybrid_retriever.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_hybrid_score_1a1a6c0a6891b49e542e7d3b763a90307e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::HybridScore::bm25_score</definition>
+        <argsstring></argsstring>
+        <name>bm25_score</name>
+        <qualifiedname>themis::rag::HybridScore::bm25_score</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Raw BM25 score (0 when not in BM25 results). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="55" column="12" bodyfile="include/rag/hybrid_retriever.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_hybrid_score_1a46461a05168aa38f1dfeccef4cd8f647" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::HybridScore::vector_score</definition>
+        <argsstring></argsstring>
+        <name>vector_score</name>
+        <qualifiedname>themis::rag::HybridScore::vector_score</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Raw vector score (0 when not in vector results). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="56" column="12" bodyfile="include/rag/hybrid_retriever.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_hybrid_score_1a58ac9cfed5a0fee04c418fad33d17808" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::HybridScore::hybrid_score</definition>
+        <argsstring></argsstring>
+        <name>hybrid_score</name>
+        <qualifiedname>themis::rag::HybridScore::hybrid_score</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Final fused score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="57" column="12" bodyfile="include/rag/hybrid_retriever.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_hybrid_score_1afa04cd6cfc792e1a137b7089cc9fbe17" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::HybridScore::bm25_rank</definition>
+        <argsstring></argsstring>
+        <name>bm25_rank</name>
+        <qualifiedname>themis::rag::HybridScore::bm25_rank</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>1-based rank in BM25 list (-1 = absent) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="58" column="12" bodyfile="include/rag/hybrid_retriever.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_hybrid_score_1a62e1aa4823c915d5b4bebd3752e09de9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::HybridScore::vector_rank</definition>
+        <argsstring></argsstring>
+        <name>vector_rank</name>
+        <qualifiedname>themis::rag::HybridScore::vector_rank</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>1-based rank in vector list (-1 = absent) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="59" column="12" bodyfile="include/rag/hybrid_retriever.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-document score breakdown returned alongside each result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/hybrid_retriever.h" line="53" column="1" bodyfile="include/rag/hybrid_retriever.h" bodystart="53" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_hybrid_score_1afa04cd6cfc792e1a137b7089cc9fbe17" prot="public" virt="non-virtual"><scope>themis::rag::HybridScore</scope><name>bm25_rank</name></member>
+      <member refid="structthemis_1_1rag_1_1_hybrid_score_1a1a6c0a6891b49e542e7d3b763a90307e" prot="public" virt="non-virtual"><scope>themis::rag::HybridScore</scope><name>bm25_score</name></member>
+      <member refid="structthemis_1_1rag_1_1_hybrid_score_1ab34f007972bea2964a87ac44cca409bf" prot="public" virt="non-virtual"><scope>themis::rag::HybridScore</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1rag_1_1_hybrid_score_1a58ac9cfed5a0fee04c418fad33d17808" prot="public" virt="non-virtual"><scope>themis::rag::HybridScore</scope><name>hybrid_score</name></member>
+      <member refid="structthemis_1_1rag_1_1_hybrid_score_1a62e1aa4823c915d5b4bebd3752e09de9" prot="public" virt="non-virtual"><scope>themis::rag::HybridScore</scope><name>vector_rank</name></member>
+      <member refid="structthemis_1_1rag_1_1_hybrid_score_1a46461a05168aa38f1dfeccef4cd8f647" prot="public" virt="non-virtual"><scope>themis::rag::HybridScore</scope><name>vector_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

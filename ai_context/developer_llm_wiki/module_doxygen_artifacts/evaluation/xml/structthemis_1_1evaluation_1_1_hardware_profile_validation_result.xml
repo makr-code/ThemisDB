@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_hardware_profile_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::HardwareProfileValidationResult</compoundname>
+    <includes refid="hardware__profile_8h" local="no">hardware_profile.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_hardware_profile_validation_result_1ab321e2ec20ad0c9a7aec89f7a7469d3f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::evaluation::HardwareProfileValidationResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::evaluation::HardwareProfileValidationResult::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="89" column="17" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_hardware_profile_validation_result_1a4fe1f0d54db06bcc323306008608de00" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::evaluation::HardwareProfileValidationResult::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::evaluation::HardwareProfileValidationResult::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="90" column="17" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1evaluation_1_1_hardware_profile_validation_result_1acaa1a7c4fa411eb8eb987cd9ba6bcf91" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::evaluation::HardwareProfileValidationResult::ok</definition>
+        <argsstring>() const</argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::evaluation::HardwareProfileValidationResult::ok</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="92" column="11" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/hardware_profile.h" line="88" column="1" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="88" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_hardware_profile_validation_result_1ab321e2ec20ad0c9a7aec89f7a7469d3f" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfileValidationResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_hardware_profile_validation_result_1acaa1a7c4fa411eb8eb987cd9ba6bcf91" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfileValidationResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_hardware_profile_validation_result_1a4fe1f0d54db06bcc323306008608de00" prot="public" virt="non-virtual"><scope>themis::evaluation::HardwareProfileValidationResult</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

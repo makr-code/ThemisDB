@@ -1,0 +1,302 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_api_security_auditor" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::ApiSecurityAuditor</compoundname>
+    <includes refid="api__security__audit_8h" local="no">api_security_audit.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_api_security_auditor_1a64a75a56aa330ac12a8b87cef0426917" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_api_security_audit_report" kindref="compound">ApiSecurityAuditReport</ref></type>
+        <definition>ApiSecurityAuditReport themis::server::ApiSecurityAuditor::audit</definition>
+        <argsstring>(const ApiAuthConfig &amp;config)</argsstring>
+        <name>audit</name>
+        <qualifiedname>themis::server::ApiSecurityAuditor::audit</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_api_auth_config" kindref="compound">ApiAuthConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Audit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_security_audit.h" line="56" column="35" bodyfile="src/server/api_security_audit.cpp" bodystart="226" bodyend="248"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_api_security_auditor_1aef32c734bb599583281835a65c33950c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ApiSecurityAuditor::checkGlobalAuthDisabled</definition>
+        <argsstring>(const ApiAuthConfig &amp;config, std::vector&lt; ApiSecurityAuditFinding &gt; &amp;findings)</argsstring>
+        <name>checkGlobalAuthDisabled</name>
+        <qualifiedname>themis::server::ApiSecurityAuditor::checkGlobalAuthDisabled</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_api_auth_config" kindref="compound">ApiAuthConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1server_1_1_api_security_audit_finding" kindref="compound">ApiSecurityAuditFinding</ref> &gt; &amp;</type>
+          <declname>findings</declname>
+        </param>
+        <briefdescription>
+<para>Check Global Auth Disabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">findings</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_security_audit.h" line="64" column="17" bodyfile="src/server/api_security_audit.cpp" bodystart="92" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_api_security_auditor_1aea1dd24f22fbde3b73e97de140a773a3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ApiSecurityAuditor::checkMissingScopeOnAuthEndpoints</definition>
+        <argsstring>(const ApiAuthConfig &amp;config, std::vector&lt; ApiSecurityAuditFinding &gt; &amp;findings)</argsstring>
+        <name>checkMissingScopeOnAuthEndpoints</name>
+        <qualifiedname>themis::server::ApiSecurityAuditor::checkMissingScopeOnAuthEndpoints</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_api_auth_config" kindref="compound">ApiAuthConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1server_1_1_api_security_audit_finding" kindref="compound">ApiSecurityAuditFinding</ref> &gt; &amp;</type>
+          <declname>findings</declname>
+        </param>
+        <briefdescription>
+<para>Check Missing Scope On Auth Endpoints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">findings</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_security_audit.h" line="73" column="17" bodyfile="src/server/api_security_audit.cpp" bodystart="111" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_api_security_auditor_1a9a9f9f2b9868af003e10b79dc418d5ab" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ApiSecurityAuditor::checkSensitiveEndpointsRequireAuth</definition>
+        <argsstring>(const ApiAuthConfig &amp;config, std::vector&lt; ApiSecurityAuditFinding &gt; &amp;findings)</argsstring>
+        <name>checkSensitiveEndpointsRequireAuth</name>
+        <qualifiedname>themis::server::ApiSecurityAuditor::checkSensitiveEndpointsRequireAuth</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_api_auth_config" kindref="compound">ApiAuthConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1server_1_1_api_security_audit_finding" kindref="compound">ApiSecurityAuditFinding</ref> &gt; &amp;</type>
+          <declname>findings</declname>
+        </param>
+        <briefdescription>
+<para>Check Sensitive Endpoints Require Auth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">findings</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_security_audit.h" line="82" column="17" bodyfile="src/server/api_security_audit.cpp" bodystart="133" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_api_security_auditor_1ab5520d8cd73fb7113b7b8725c7ebb55f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ApiSecurityAuditor::checkRateLimitingDisabled</definition>
+        <argsstring>(const ApiAuthConfig &amp;config, std::vector&lt; ApiSecurityAuditFinding &gt; &amp;findings)</argsstring>
+        <name>checkRateLimitingDisabled</name>
+        <qualifiedname>themis::server::ApiSecurityAuditor::checkRateLimitingDisabled</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_api_auth_config" kindref="compound">ApiAuthConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1server_1_1_api_security_audit_finding" kindref="compound">ApiSecurityAuditFinding</ref> &gt; &amp;</type>
+          <declname>findings</declname>
+        </param>
+        <briefdescription>
+<para>Check Rate Limiting Disabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">findings</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_security_audit.h" line="91" column="17" bodyfile="src/server/api_security_audit.cpp" bodystart="155" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_api_security_auditor_1a3ca935fd99809f15c77d1fc415504a0f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ApiSecurityAuditor::checkMissingRateLimitOnAuthEndpoints</definition>
+        <argsstring>(const ApiAuthConfig &amp;config, std::vector&lt; ApiSecurityAuditFinding &gt; &amp;findings)</argsstring>
+        <name>checkMissingRateLimitOnAuthEndpoints</name>
+        <qualifiedname>themis::server::ApiSecurityAuditor::checkMissingRateLimitOnAuthEndpoints</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_api_auth_config" kindref="compound">ApiAuthConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1server_1_1_api_security_audit_finding" kindref="compound">ApiSecurityAuditFinding</ref> &gt; &amp;</type>
+          <declname>findings</declname>
+        </param>
+        <briefdescription>
+<para>Check Missing Rate Limit On Auth Endpoints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">findings</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_security_audit.h" line="100" column="17" bodyfile="src/server/api_security_audit.cpp" bodystart="174" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_api_security_auditor_1a4f00ba76dad04af0c0e73bd69f127271" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ApiSecurityAuditor::checkExcessiveBurstCapacity</definition>
+        <argsstring>(const ApiAuthConfig &amp;config, std::vector&lt; ApiSecurityAuditFinding &gt; &amp;findings)</argsstring>
+        <name>checkExcessiveBurstCapacity</name>
+        <qualifiedname>themis::server::ApiSecurityAuditor::checkExcessiveBurstCapacity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_api_auth_config" kindref="compound">ApiAuthConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1server_1_1_api_security_audit_finding" kindref="compound">ApiSecurityAuditFinding</ref> &gt; &amp;</type>
+          <declname>findings</declname>
+        </param>
+        <briefdescription>
+<para>Check Excessive Burst Capacity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">findings</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/api_security_audit.h" line="109" column="17" bodyfile="src/server/api_security_audit.cpp" bodystart="196" bodyend="215"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/api_security_audit.h" line="49" column="1" bodyfile="include/server/api_security_audit.h" bodystart="49" bodyend="112"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_api_security_auditor_1a64a75a56aa330ac12a8b87cef0426917" prot="public" virt="non-virtual"><scope>themis::server::ApiSecurityAuditor</scope><name>audit</name></member>
+      <member refid="classthemis_1_1server_1_1_api_security_auditor_1a4f00ba76dad04af0c0e73bd69f127271" prot="private" virt="non-virtual"><scope>themis::server::ApiSecurityAuditor</scope><name>checkExcessiveBurstCapacity</name></member>
+      <member refid="classthemis_1_1server_1_1_api_security_auditor_1aef32c734bb599583281835a65c33950c" prot="private" virt="non-virtual"><scope>themis::server::ApiSecurityAuditor</scope><name>checkGlobalAuthDisabled</name></member>
+      <member refid="classthemis_1_1server_1_1_api_security_auditor_1a3ca935fd99809f15c77d1fc415504a0f" prot="private" virt="non-virtual"><scope>themis::server::ApiSecurityAuditor</scope><name>checkMissingRateLimitOnAuthEndpoints</name></member>
+      <member refid="classthemis_1_1server_1_1_api_security_auditor_1aea1dd24f22fbde3b73e97de140a773a3" prot="private" virt="non-virtual"><scope>themis::server::ApiSecurityAuditor</scope><name>checkMissingScopeOnAuthEndpoints</name></member>
+      <member refid="classthemis_1_1server_1_1_api_security_auditor_1ab5520d8cd73fb7113b7b8725c7ebb55f" prot="private" virt="non-virtual"><scope>themis::server::ApiSecurityAuditor</scope><name>checkRateLimitingDisabled</name></member>
+      <member refid="classthemis_1_1server_1_1_api_security_auditor_1a9a9f9f2b9868af003e10b79dc418d5ab" prot="private" virt="non-virtual"><scope>themis::server::ApiSecurityAuditor</scope><name>checkSensitiveEndpointsRequireAuth</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

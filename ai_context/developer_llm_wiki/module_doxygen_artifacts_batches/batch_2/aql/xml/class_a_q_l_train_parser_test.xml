@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_q_l_train_parser_test" kind="class" language="C++" prot="public">
+    <compoundname>AQLTrainParserTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_q_l_train_parser_test_1a4dfa760b37ba75f3515b3883bc68f18c" prot="protected" static="no" mutable="no">
+        <type>AQLTrainParser</type>
+        <definition>AQLTrainParser AQLTrainParserTest::parser_</definition>
+        <argsstring></argsstring>
+        <name>parser_</name>
+        <qualifiedname>AQLTrainParserTest::parser_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_lora_finetuner.cpp" line="274" column="20" bodyfile="tests/aql/test_aql_lora_finetuner.cpp" bodystart="274" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AQLTrainParserTest</label>
+        <link refid="class_a_q_l_train_parser_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AQLTrainParserTest</label>
+        <link refid="class_a_q_l_train_parser_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_lora_finetuner.cpp" line="272" column="1" bodyfile="tests/aql/test_aql_lora_finetuner.cpp" bodystart="272" bodyend="275"/>
+    <listofallmembers>
+      <member refid="class_a_q_l_train_parser_test_1a4dfa760b37ba75f3515b3883bc68f18c" prot="protected" virt="non-virtual"><scope>AQLTrainParserTest</scope><name>parser_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

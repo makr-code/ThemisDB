@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_canary_deployment_stage" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::CanaryDeploymentStage</compoundname>
+    <includes refid="canary__rollout_8h" local="no">canary_rollout.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_deployment_stage_1a803645127d1801a0c7d2e154c4c00553" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::updates::CanaryDeploymentStage::percentage</definition>
+        <argsstring></argsstring>
+        <name>percentage</name>
+        <qualifiedname>themis::updates::CanaryDeploymentStage::percentage</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Percentage of nodes that should receive the update (1–100). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="369" column="9" bodyfile="include/updates/canary_rollout.h" bodystart="369" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_deployment_stage_1afd46df049e7f0aa738f49868262a1db7" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::updates::CanaryDeploymentStage::duration</definition>
+        <argsstring></argsstring>
+        <name>duration</name>
+        <qualifiedname>themis::updates::CanaryDeploymentStage::duration</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Observation window before the stage is eligible to advance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="372" column="26" bodyfile="include/updates/canary_rollout.h" bodystart="372" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_deployment_stage_1a0446e6d20f3867a9ae17f34833fde62e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::CanaryDeploymentStage::stage_number</definition>
+        <argsstring></argsstring>
+        <name>stage_number</name>
+        <qualifiedname>themis::updates::CanaryDeploymentStage::stage_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0-based stage index (filled in automatically by <ref refid="classthemis_1_1updates_1_1_canary_deployment" kindref="compound">CanaryDeployment</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="375" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="375" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single stage specification for <ref refid="classthemis_1_1updates_1_1_canary_deployment" kindref="compound">CanaryDeployment</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses integer percentages (1, 5, 25, 100) and <computeroutput>std::chrono::seconds</computeroutput> / <computeroutput>std::chrono::hours</computeroutput> durations, consistent with the API documented in Issue #4046. </para>
+    </detaileddescription>
+    <location file="include/updates/canary_rollout.h" line="367" column="1" bodyfile="include/updates/canary_rollout.h" bodystart="367" bodyend="376"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_canary_deployment_stage_1afd46df049e7f0aa738f49868262a1db7" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeploymentStage</scope><name>duration</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_deployment_stage_1a803645127d1801a0c7d2e154c4c00553" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeploymentStage</scope><name>percentage</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_deployment_stage_1a0446e6d20f3867a9ae17f34833fde62e" prot="public" virt="non-virtual"><scope>themis::updates::CanaryDeploymentStage</scope><name>stage_number</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tensor__workflow__observability_8h" kind="file" language="C++">
+    <compoundname>tensor_workflow_observability.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="tensor__workflow__observability_8cpp" local="yes">src/tensor/tensor_workflow_observability.cpp</includedby>
+    <includedby refid="test__tensor__acceleration__observability_8cpp" local="yes">tests/tensor/test_tensor_acceleration_observability.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/tensor/tensor_workflow_observability.h</label>
+        <link refid="tensor__workflow__observability_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/tensor/tensor_workflow_observability.h</label>
+        <link refid="tensor__workflow__observability_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/tensor/tensor_workflow_observability.cpp</label>
+        <link refid="tensor__workflow__observability_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/tensor/test_tensor_acceleration_observability.cpp</label>
+        <link refid="test__tensor__acceleration__observability_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config" prot="public">themis::tensor::TensorWorkflowSloConfig</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary" prot="public">themis::tensor::TensorWorkflowHealthSummary</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_tensor_workflow_observability" prot="public">themis::tensor::TensorWorkflowObservability</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1tensor">themis::tensor</innernamespace>
+    <briefdescription>
+<para>Observability hooks for the tensor processing workflow. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Declares span factories and metric helpers that instrument tensor pipeline stages with OpenTelemetry traces and counters. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1tensor" kindref="compound">themis::tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config" kindref="compound">TensorWorkflowSloConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="21" refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1aa966319396dc0d843c4098110fc39be8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1aa966319396dc0d843c4098110fc39be8" kindref="member">max_p95_persistence_ms</ref><sp/>=<sp/>10.0;</highlight></codeline>
+<codeline lineno="22" refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1a80f6380a829ca22868f5a17e4691b1cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1a80f6380a829ca22868f5a17e4691b1cc" kindref="member">max_p95_training_ms</ref><sp/>=<sp/>250.0;</highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1aca82cfe908e510f35eee3f2a7377591a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1aca82cfe908e510f35eee3f2a7377591a" kindref="member">max_p95_compression_ms</ref><sp/>=<sp/>25.0;</highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1a69af2b0c8a57296f3c93a416d5505699" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1a69af2b0c8a57296f3c93a416d5505699" kindref="member">max_p95_routing_ms</ref><sp/>=<sp/>10.0;</highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1a426f425efc7dd3fb8d7b1bbf44a7756b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1a426f425efc7dd3fb8d7b1bbf44a7756b" kindref="member">max_error_rate</ref><sp/>=<sp/>0.01;</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1a9b6748ed6af2cb55d20fbee5c684d7c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config_1a9b6748ed6af2cb55d20fbee5c684d7c2" kindref="member">max_error_budget_burn</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary" kindref="compound">TensorWorkflowHealthSummary</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary_1a22582a2fac7812eb2a55d79929c95c5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary_1a22582a2fac7812eb2a55d79929c95c5b" kindref="member">healthy</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary_1a636d2da96e0efa2156499c90b325b77e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary_1a636d2da96e0efa2156499c90b325b77e" kindref="member">error_rate</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary_1a333beeb50aa8857b3a77ff2193bbdcc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary_1a333beeb50aa8857b3a77ff2193bbdcc9" kindref="member">error_budget_burn</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary_1a61ebedef91b01540982521def8520efc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary_1a61ebedef91b01540982521def8520efc" kindref="member">p95_latency_ms</ref>;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary_1a729d9f44d2082b0b9d1e12d258babc1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary_1a729d9f44d2082b0b9d1e12d258babc1e" kindref="member">violations</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1tensor_1_1_tensor_workflow_observability" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1tensor_1_1_tensor_workflow_observability" kindref="compound">TensorWorkflowObservability</ref><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332" kindref="member">TrainingState</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332a7b2f31b90fe1c2cc33a52233c1925df3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332a7b2f31b90fe1c2cc33a52233c1925df3" kindref="member">Queued</ref>,</highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332a5bda814c4aedb126839228f1a3d92f09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332a5bda814c4aedb126839228f1a3d92f09" kindref="member">Running</ref>,</highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332a505a83f220c02df2f85c3810cd9ceb38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332a505a83f220c02df2f85c3810cd9ceb38" kindref="member">Success</ref>,</highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332ad7c8c85bf79bbe1b7188497c32c3b0ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332ad7c8c85bf79bbe1b7188497c32c3b0ca" kindref="member">Failed</ref>,</highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332a6327b4e59f58137083214a1fec358855" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332a6327b4e59f58137083214a1fec358855" kindref="member">Retry</ref>,</highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332aa149e85a44aeec9140e92733d9ed694e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332aa149e85a44aeec9140e92733d9ed694e" kindref="member">Cancelled</ref>,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1aaefb89fd4fa52568a77a63efd4941669" kindref="member">recordPersistenceOp</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1af21a7d0ba7f60b2874d1873f1d8648fd" kindref="member">recordTrainingTransition</ref>(<ref refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1acbed3d16408e339316e6a16a0aaa0332" kindref="member">TrainingState</ref><sp/>state);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a05fca979a9a81284cfa87047862044da" kindref="member">recordTrainingLatency</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1accb8be2cd8221a6019598c6f68c0bf81" kindref="member">recordGpuDispatch</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>used_gpu,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>used_fallback,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>error);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a85e51f925c8cfe68dd2133ddd4345bbf" kindref="member">recordCompressionLatency</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a4dea8fd74c9710eec6ebc1f6ec4b258e" kindref="member">recordRoutingLatency</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a6c2abd1229a5eac83508449f3e986088" kindref="member">exportPrometheusText</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_workflow_health_summary" kindref="compound">TensorWorkflowHealthSummary</ref><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_workflow_observability_1a5862e50a7e6b502c4ca2f2d9e5e0513b" kindref="member">evaluateSlo</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_workflow_slo_config" kindref="compound">TensorWorkflowSloConfig</ref>&amp;<sp/>cfg)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>percentile95(std::vector&lt;double&gt;<sp/>values);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>persistence_total_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>persistence_errors_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>persistence_latency_ms_;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>training_queued_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>training_running_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>training_success_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>training_failed_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>training_retry_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>training_cancelled_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>training_latency_ms_;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>gpu_used_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>gpu_fallback_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>gpu_errors_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>compression_latency_ms_;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>routing_latency_ms_;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::tensor</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/tensor/tensor_workflow_observability.h"/>
+  </compounddef>
+</doxygen>

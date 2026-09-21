@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstubs_1_1_graph_query" kind="struct" language="C++" prot="public">
+    <compoundname>stubs::GraphQuery</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structstubs_1_1_graph_query_1a2aa249a9e96b4e6eb2b75bf4b8b15849" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::GraphQuery::queries</definition>
+        <argsstring></argsstring>
+        <name>queries</name>
+        <qualifiedname>stubs::GraphQuery::queries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_dedicated_gates.cpp" line="34" column="17" bodyfile="benchmarks/tensor/bench_tensor_dedicated_gates.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstubs_1_1_graph_query_1a6cab87355f547169511580b3836e426d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool stubs::GraphQuery::query</definition>
+        <argsstring>(uint64_t id)</argsstring>
+        <name>query</name>
+        <qualifiedname>stubs::GraphQuery::query</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_dedicated_gates.cpp" line="35" column="10" bodyfile="benchmarks/tensor/bench_tensor_dedicated_gates.cpp" bodystart="35" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/tensor/bench_tensor_dedicated_gates.cpp" line="33" column="1" bodyfile="benchmarks/tensor/bench_tensor_dedicated_gates.cpp" bodystart="33" bodyend="40"/>
+    <listofallmembers>
+      <member refid="structstubs_1_1_graph_query_1a2aa249a9e96b4e6eb2b75bf4b8b15849" prot="public" virt="non-virtual"><scope>stubs::GraphQuery</scope><name>queries</name></member>
+      <member refid="structstubs_1_1_graph_query_1a6cab87355f547169511580b3836e426d" prot="public" virt="non-virtual"><scope>stubs::GraphQuery</scope><name>query</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

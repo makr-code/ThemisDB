@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::distributed::JudgeWorkerConfig</compoundname>
+    <includes refid="distributed__rag__evaluator_8h" local="no">distributed_rag_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config_1ab6f70d8124d0600a71c7414ce546f490" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::distributed::JudgeWorkerConfig::judge_id</definition>
+        <argsstring></argsstring>
+        <name>judge_id</name>
+        <qualifiedname>themis::rag::distributed::JudgeWorkerConfig::judge_id</qualifiedname>
+        <briefdescription>
+<para>Human-readable identifier for this judge (e.g. model name). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="41" column="17" bodyfile="include/rag/distributed_rag_evaluator.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config_1a24d88fd3e2d90cf5f9e718bc1f716237" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">judge::RAGJudgeConfig</ref></type>
+        <definition>judge::RAGJudgeConfig themis::rag::distributed::JudgeWorkerConfig::judge_config</definition>
+        <argsstring></argsstring>
+        <name>judge_config</name>
+        <qualifiedname>themis::rag::distributed::JudgeWorkerConfig::judge_config</qualifiedname>
+        <briefdescription>
+<para>Evaluation configuration forwarded to the RAGJudge. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="44" column="27" bodyfile="include/rag/distributed_rag_evaluator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config_1aa12869d9c9d00d2f255b6dcee411fbf0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::distributed::JudgeWorkerConfig::weight</definition>
+        <argsstring></argsstring>
+        <name>weight</name>
+        <qualifiedname>themis::rag::distributed::JudgeWorkerConfig::weight</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Weight used by WEIGHTED_MEAN aggregation (default 1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/distributed_rag_evaluator.h" line="47" column="12" bodyfile="include/rag/distributed_rag_evaluator.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-judge configuration entry. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::distributed::JudgeWorkerConfig</label>
+        <link refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>judge_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::judge::RAGJudgeConfig</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/distributed_rag_evaluator.h" line="39" column="1" bodyfile="include/rag/distributed_rag_evaluator.h" bodystart="39" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config_1a24d88fd3e2d90cf5f9e718bc1f716237" prot="public" virt="non-virtual"><scope>themis::rag::distributed::JudgeWorkerConfig</scope><name>judge_config</name></member>
+      <member refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config_1ab6f70d8124d0600a71c7414ce546f490" prot="public" virt="non-virtual"><scope>themis::rag::distributed::JudgeWorkerConfig</scope><name>judge_id</name></member>
+      <member refid="structthemis_1_1rag_1_1distributed_1_1_judge_worker_config_1aa12869d9c9d00d2f255b6dcee411fbf0" prot="public" virt="non-virtual"><scope>themis::rag::distributed::JudgeWorkerConfig</scope><name>weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

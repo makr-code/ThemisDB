@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_pooled_channel" kind="struct" language="C++" prot="private">
+    <compoundname>themis::utils::GrpcChannelPool::PooledChannel</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_pooled_channel_1ab36b9f754fc5d90b59b529da23138534" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; grpc::Channel &gt;</type>
+        <definition>std::shared_ptr&lt;grpc::Channel&gt; themis::utils::GrpcChannelPool::PooledChannel::channel</definition>
+        <argsstring></argsstring>
+        <name>channel</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::PooledChannel::channel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="226" column="25" bodyfile="include/utils/grpc_channel_pool.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_pooled_channel_1af29d717b5e14b66d8ad670a2e22338b8" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::utils::GrpcChannelPool::PooledChannel::last_used</definition>
+        <argsstring></argsstring>
+        <name>last_used</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::PooledChannel::last_used</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="227" column="47" bodyfile="include/utils/grpc_channel_pool.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_pooled_channel_1aaf0950c9e7630220239d7d5fc74d29b5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::GrpcChannelPool::PooledChannel::in_use</definition>
+        <argsstring></argsstring>
+        <name>in_use</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::PooledChannel::in_use</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="228" column="14" bodyfile="include/utils/grpc_channel_pool.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_pooled_channel_1ac60f359434ca859e4d33ebc94035c81a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::GrpcChannelPool::PooledChannel::isStale</definition>
+        <argsstring>(std::chrono::seconds timeout) const</argsstring>
+        <name>isStale</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::PooledChannel::isStale</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="230" column="14" bodyfile="include/utils/grpc_channel_pool.h" bodystart="230" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_pooled_channel_1a3b76a7879ce79e202eb07589abe19fd2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::GrpcChannelPool::PooledChannel::isReady</definition>
+        <argsstring>() const</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::PooledChannel::isReady</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="235" column="14" bodyfile="include/utils/grpc_channel_pool.h" bodystart="235" bodyend="238"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Pooled channel with metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/grpc_channel_pool.h" line="225" column="5" bodyfile="include/utils/grpc_channel_pool.h" bodystart="225" bodyend="239"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_pooled_channel_1ab36b9f754fc5d90b59b529da23138534" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::PooledChannel</scope><name>channel</name></member>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_pooled_channel_1aaf0950c9e7630220239d7d5fc74d29b5" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::PooledChannel</scope><name>in_use</name></member>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_pooled_channel_1a3b76a7879ce79e202eb07589abe19fd2" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::PooledChannel</scope><name>isReady</name></member>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_pooled_channel_1ac60f359434ca859e4d33ebc94035c81a" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::PooledChannel</scope><name>isStale</name></member>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_pooled_channel_1af29d717b5e14b66d8ad670a2e22338b8" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::PooledChannel</scope><name>last_used</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

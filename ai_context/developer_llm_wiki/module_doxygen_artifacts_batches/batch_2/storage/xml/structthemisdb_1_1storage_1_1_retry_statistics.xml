@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1storage_1_1_retry_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::storage::RetryStatistics</compoundname>
+    <includes refid="transaction__retry__manager_8h" local="no">transaction_retry_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_retry_statistics_1a28f984a3153515a3ed925931acb7ff2f" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::storage::RetryStatistics::total_operations</definition>
+        <argsstring></argsstring>
+        <name>total_operations</name>
+        <qualifiedname>themisdb::storage::RetryStatistics::total_operations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="102" column="17" bodyfile="include/storage/transaction_retry_manager.h" bodystart="102" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_retry_statistics_1a23d19f7c1dfe31c4b2eae74726f5f989" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::storage::RetryStatistics::successful_operations</definition>
+        <argsstring></argsstring>
+        <name>successful_operations</name>
+        <qualifiedname>themisdb::storage::RetryStatistics::successful_operations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="103" column="17" bodyfile="include/storage/transaction_retry_manager.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_retry_statistics_1a4b807919e9e2a49d2ef2f0ff4ea9161a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::storage::RetryStatistics::failed_operations</definition>
+        <argsstring></argsstring>
+        <name>failed_operations</name>
+        <qualifiedname>themisdb::storage::RetryStatistics::failed_operations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="104" column="17" bodyfile="include/storage/transaction_retry_manager.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_retry_statistics_1a3fb06c372f9f5017728e4f400c0714cf" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::storage::RetryStatistics::retried_operations</definition>
+        <argsstring></argsstring>
+        <name>retried_operations</name>
+        <qualifiedname>themisdb::storage::RetryStatistics::retried_operations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="105" column="17" bodyfile="include/storage/transaction_retry_manager.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_retry_statistics_1ac3d7dd552256bfe6d05d1f218e1cac4f" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::storage::RetryStatistics::total_retry_attempts</definition>
+        <argsstring></argsstring>
+        <name>total_retry_attempts</name>
+        <qualifiedname>themisdb::storage::RetryStatistics::total_retry_attempts</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="106" column="17" bodyfile="include/storage/transaction_retry_manager.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_retry_statistics_1af6e0c0267fee6de3cbc629afb0dd5eb6" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::storage::RetryStatistics::circuit_breaker_blocks</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker_blocks</name>
+        <qualifiedname>themisdb::storage::RetryStatistics::circuit_breaker_blocks</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="107" column="17" bodyfile="include/storage/transaction_retry_manager.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_retry_statistics_1a084d57481b28b25f41ff1c36ed6c04ad" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::storage::RetryStatistics::total_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>total_latency_ms</name>
+        <qualifiedname>themisdb::storage::RetryStatistics::total_latency_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="108" column="17" bodyfile="include/storage/transaction_retry_manager.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_retry_statistics_1aa32814a4253cef2ab6bcbec3613a987a" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemisdb_1_1storage_1aa92e93c3a8d202e21cf212c18020cf7e" kindref="member">ErrorType</ref>, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;ErrorType, uint64_t&gt; themisdb::storage::RetryStatistics::errors_by_type</definition>
+        <argsstring></argsstring>
+        <name>errors_by_type</name>
+        <qualifiedname>themisdb::storage::RetryStatistics::errors_by_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="136" column="24" bodyfile="include/storage/transaction_retry_manager.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1storage_1_1_retry_statistics_1aa391bad6ccce4da3138e9db7a97da420" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::storage::RetryStatistics::RetryStatistics</definition>
+        <argsstring>()=default</argsstring>
+        <name>RetryStatistics</name>
+        <qualifiedname>themisdb::storage::RetryStatistics::RetryStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="110" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1storage_1_1_retry_statistics_1abbc7ee3b73f6f2a882c5485deeab63ad" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::storage::RetryStatistics::RetryStatistics</definition>
+        <argsstring>(const RetryStatistics &amp;o)</argsstring>
+        <name>RetryStatistics</name>
+        <qualifiedname>themisdb::storage::RetryStatistics::RetryStatistics</qualifiedname>
+        <param>
+          <type>const RetryStatistics &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="111" column="5" bodyfile="include/storage/transaction_retry_manager.h" bodystart="111" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1storage_1_1_retry_statistics_1a29bc6347d2a87f37eb013a50bda2610f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1storage_1_1_retry_statistics_1aa391bad6ccce4da3138e9db7a97da420" kindref="member">RetryStatistics</ref> &amp;</type>
+        <definition>RetryStatistics &amp; themisdb::storage::RetryStatistics::operator=</definition>
+        <argsstring>(const RetryStatistics &amp;o)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::storage::RetryStatistics::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1storage_1_1_retry_statistics_1aa391bad6ccce4da3138e9db7a97da420" kindref="member">RetryStatistics</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="120" column="21" bodyfile="include/storage/transaction_retry_manager.h" bodystart="120" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1storage_1_1_retry_statistics_1acff29d7a794b337c1abf6d07eb0ec0bf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::storage::RetryStatistics::getSuccessRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getSuccessRate</name>
+        <qualifiedname>themisdb::storage::RetryStatistics::getSuccessRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="138" column="12" bodyfile="include/storage/transaction_retry_manager.h" bodystart="138" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1storage_1_1_retry_statistics_1a847020f5b04b19ef67254b71b1a76c9e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::storage::RetryStatistics::getAverageLatencyMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getAverageLatencyMs</name>
+        <qualifiedname>themisdb::storage::RetryStatistics::getAverageLatencyMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="146" column="12" bodyfile="include/storage/transaction_retry_manager.h" bodystart="146" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1storage_1_1_retry_statistics_1afdc71ab2b4826fa1c34567748e787bcc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::storage::RetryStatistics::getRetryRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getRetryRate</name>
+        <qualifiedname>themisdb::storage::RetryStatistics::getRetryRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="154" column="12" bodyfile="include/storage/transaction_retry_manager.h" bodystart="154" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics for retry operations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/transaction_retry_manager.h" line="101" column="1" bodyfile="include/storage/transaction_retry_manager.h" bodystart="101" bodyend="161"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1storage_1_1_retry_statistics_1af6e0c0267fee6de3cbc629afb0dd5eb6" prot="public" virt="non-virtual"><scope>themisdb::storage::RetryStatistics</scope><name>circuit_breaker_blocks</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_retry_statistics_1aa32814a4253cef2ab6bcbec3613a987a" prot="public" virt="non-virtual"><scope>themisdb::storage::RetryStatistics</scope><name>errors_by_type</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_retry_statistics_1a4b807919e9e2a49d2ef2f0ff4ea9161a" prot="public" virt="non-virtual"><scope>themisdb::storage::RetryStatistics</scope><name>failed_operations</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_retry_statistics_1a847020f5b04b19ef67254b71b1a76c9e" prot="public" virt="non-virtual"><scope>themisdb::storage::RetryStatistics</scope><name>getAverageLatencyMs</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_retry_statistics_1afdc71ab2b4826fa1c34567748e787bcc" prot="public" virt="non-virtual"><scope>themisdb::storage::RetryStatistics</scope><name>getRetryRate</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_retry_statistics_1acff29d7a794b337c1abf6d07eb0ec0bf" prot="public" virt="non-virtual"><scope>themisdb::storage::RetryStatistics</scope><name>getSuccessRate</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_retry_statistics_1a29bc6347d2a87f37eb013a50bda2610f" prot="public" virt="non-virtual"><scope>themisdb::storage::RetryStatistics</scope><name>operator=</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_retry_statistics_1a3fb06c372f9f5017728e4f400c0714cf" prot="public" virt="non-virtual"><scope>themisdb::storage::RetryStatistics</scope><name>retried_operations</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_retry_statistics_1aa391bad6ccce4da3138e9db7a97da420" prot="public" virt="non-virtual"><scope>themisdb::storage::RetryStatistics</scope><name>RetryStatistics</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_retry_statistics_1abbc7ee3b73f6f2a882c5485deeab63ad" prot="public" virt="non-virtual"><scope>themisdb::storage::RetryStatistics</scope><name>RetryStatistics</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_retry_statistics_1a23d19f7c1dfe31c4b2eae74726f5f989" prot="public" virt="non-virtual"><scope>themisdb::storage::RetryStatistics</scope><name>successful_operations</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_retry_statistics_1a084d57481b28b25f41ff1c36ed6c04ad" prot="public" virt="non-virtual"><scope>themisdb::storage::RetryStatistics</scope><name>total_latency_ms</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_retry_statistics_1a28f984a3153515a3ed925931acb7ff2f" prot="public" virt="non-virtual"><scope>themisdb::storage::RetryStatistics</scope><name>total_operations</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_retry_statistics_1ac3d7dd552256bfe6d05d1f218e1cac4f" prot="public" virt="non-virtual"><scope>themisdb::storage::RetryStatistics</scope><name>total_retry_attempts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

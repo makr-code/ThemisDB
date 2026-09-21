@@ -1,0 +1,665 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::DistributedLockManager</compoundname>
+    <includes refid="distributed__lock__manager_8h" local="no">distributed_lock_manager.h</includes>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats" prot="public">themis::distributed_tensor::DistributedLockManager::LockStats</innerclass>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a0a83273cd2f972d6ae7e4efcdc26d49a" prot="protected" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::distributed_tensor::DistributedLockManager::locks_mutex_</definition>
+        <argsstring></argsstring>
+        <name>locks_mutex_</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::locks_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="149" column="22" bodyfile="src/distributed_tensor/include/distributed_lock_manager.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a8b5f2ee67207021410506025973b05ea" prot="protected" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock" kindref="compound">DistributedLock</ref> &gt;</type>
+        <definition>std::map&lt;std::string, DistributedLock&gt; themis::distributed_tensor::DistributedLockManager::locks_</definition>
+        <argsstring></argsstring>
+        <name>locks_</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::locks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="150" column="12" bodyfile="src/distributed_tensor/include/distributed_lock_manager.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1aca74c5507e9246d9e096dc8c3177bdd0" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats" kindref="compound">LockStats</ref></type>
+        <definition>LockStats themis::distributed_tensor::DistributedLockManager::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="153" column="13" bodyfile="src/distributed_tensor/include/distributed_lock_manager.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a9273574865dcc9d733e676f340788dc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::DistributedLockManager::DistributedLockManager</definition>
+        <argsstring>()</argsstring>
+        <name>DistributedLockManager</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::DistributedLockManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="72" column="3" bodyfile="src/distributed_tensor/src/distributed_lock_manager.cc" bodystart="13" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1af8ed47f28fb8f36713462106d2328aba" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::distributed_tensor::DistributedLockManager::~DistributedLockManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DistributedLockManager</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::~DistributedLockManager</qualifiedname>
+        <briefdescription>
+<para>Distributed Lock Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="78" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a80a04fa736a4d1b89e6c02a4532ed866" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::DistributedLockManager::DistributedLockManager</definition>
+        <argsstring>(const DistributedLockManager &amp;)=delete</argsstring>
+        <name>DistributedLockManager</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::DistributedLockManager</qualifiedname>
+        <param>
+          <type>const DistributedLockManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="81" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a1520c58393c5ca450d4a67eb0e53f2e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a9273574865dcc9d733e676f340788dc5" kindref="member">DistributedLockManager</ref> &amp;</type>
+        <definition>DistributedLockManager &amp; themis::distributed_tensor::DistributedLockManager::operator=</definition>
+        <argsstring>(const DistributedLockManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a9273574865dcc9d733e676f340788dc5" kindref="member">DistributedLockManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="82" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a7dd2ce6636999b63a25a0ae22df6d5c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::DistributedLockManager::DistributedLockManager</definition>
+        <argsstring>(DistributedLockManager &amp;&amp;)=delete</argsstring>
+        <name>DistributedLockManager</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::DistributedLockManager</qualifiedname>
+        <param>
+          <type>DistributedLockManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="83" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a7447cc7e94c05abf8bded6f941bbbe08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a9273574865dcc9d733e676f340788dc5" kindref="member">DistributedLockManager</ref> &amp;</type>
+        <definition>DistributedLockManager &amp; themis::distributed_tensor::DistributedLockManager::operator=</definition>
+        <argsstring>(DistributedLockManager &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a9273574865dcc9d733e676f340788dc5" kindref="member">DistributedLockManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="84" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a42c3df353c4be10185106137f6a3f48a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8a" kindref="member">LockStatus</ref></type>
+        <definition>LockStatus themis::distributed_tensor::DistributedLockManager::acquireLock</definition>
+        <argsstring>(const std::string &amp;artifact_id, const std::string &amp;holder_id, int64_t ttl_seconds=3600, const std::string &amp;lock_reason=&quot;&quot;)</argsstring>
+        <name>acquireLock</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::acquireLock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>holder_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>ttl_seconds</declname>
+          <defval>3600</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lock_reason</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Acquire Lock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">holder_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the holder. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lock_reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), lock(), find(), end(), <ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a0b3b3180ef459cfdfa73950f14e52d84" kindref="member">isExpired()</ref>, erase(), <ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1ab486f7f678224753ec2c5c1798b5fe38" kindref="member">getCurrentTimeUnixSec()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="86" column="22" bodyfile="src/distributed_tensor/src/distributed_lock_manager.cc" bodystart="49" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1ac80ea399846a14404adad32618757d02" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8a" kindref="member">LockStatus</ref></type>
+        <definition>LockStatus themis::distributed_tensor::DistributedLockManager::releaseLock</definition>
+        <argsstring>(const std::string &amp;artifact_id, const std::string &amp;holder_id)</argsstring>
+        <name>releaseLock</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::releaseLock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>holder_id</declname>
+        </param>
+        <briefdescription>
+<para>Release Lock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">holder_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the holder. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">holder_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the holder. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), lock(), find(), end(), <ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1ab486f7f678224753ec2c5c1798b5fe38" kindref="member">getCurrentTimeUnixSec()</ref>, erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="97" column="22" bodyfile="src/distributed_tensor/src/distributed_lock_manager.cc" bodystart="97" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1ad70e59905e33eed45a765f0395b1b2b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8a" kindref="member">LockStatus</ref></type>
+        <definition>LockStatus themis::distributed_tensor::DistributedLockManager::renewLock</definition>
+        <argsstring>(const std::string &amp;artifact_id, const std::string &amp;holder_id, int64_t ttl_seconds=3600)</argsstring>
+        <name>renewLock</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::renewLock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>holder_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>ttl_seconds</declname>
+          <defval>3600</defval>
+        </param>
+        <briefdescription>
+<para>Renew Lock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">holder_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the holder. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), lock(), find(), end(), <ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1ab486f7f678224753ec2c5c1798b5fe38" kindref="member">getCurrentTimeUnixSec()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="99" column="22" bodyfile="src/distributed_tensor/src/distributed_lock_manager.cc" bodystart="135" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a9f7e56b59c8fd9fdd08347f4a008512f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::DistributedLockManager::isLocked</definition>
+        <argsstring>(const std::string &amp;artifact_id)</argsstring>
+        <name>isLocked</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::isLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <briefdescription>
+<para>Is Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), lock(), find(), end(), <ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a0b3b3180ef459cfdfa73950f14e52d84" kindref="member">isExpired()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="108" column="16" bodyfile="src/distributed_tensor/src/distributed_lock_manager.cc" bodystart="168" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a8550e49219d5853ebfe7902b6db52a40" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock" kindref="compound">DistributedLock</ref> &gt;</type>
+        <definition>std::optional&lt; DistributedLock &gt; themis::distributed_tensor::DistributedLockManager::getLockInfo</definition>
+        <argsstring>(const std::string &amp;artifact_id)</argsstring>
+        <name>getLockInfo</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::getLockInfo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Lock Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), lock(), find(), end(), <ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a0b3b3180ef459cfdfa73950f14e52d84" kindref="member">isExpired()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="115" column="25" bodyfile="src/distributed_tensor/src/distributed_lock_manager.cc" bodystart="189" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a862b46837d4836be7db8b4267e4632f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8a" kindref="member">LockStatus</ref></type>
+        <definition>LockStatus themis::distributed_tensor::DistributedLockManager::forcefullyAcquireLock</definition>
+        <argsstring>(const std::string &amp;artifact_id, const std::string &amp;holder_id, int64_t ttl_seconds=3600)</argsstring>
+        <name>forcefullyAcquireLock</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::forcefullyAcquireLock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>holder_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>ttl_seconds</declname>
+          <defval>3600</defval>
+        </param>
+        <briefdescription>
+<para>Forcefully Acquire Lock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">holder_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the holder. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), lock(), find(), end(), <ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a0b3b3180ef459cfdfa73950f14e52d84" kindref="member">isExpired()</ref>, <ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1ab486f7f678224753ec2c5c1798b5fe38" kindref="member">getCurrentTimeUnixSec()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="117" column="22" bodyfile="src/distributed_tensor/src/distributed_lock_manager.cc" bodystart="216" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a29d55d41a74a738f811e0354ad37ac2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::DistributedLockManager::cleanupExpiredLocks</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupExpiredLocks</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::cleanupExpiredLocks</qualifiedname>
+        <briefdescription>
+<para>Cleanup Expired Locks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), begin(), end(), <ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a0b3b3180ef459cfdfa73950f14e52d84" kindref="member">isExpired()</ref>, erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="125" column="20" bodyfile="src/distributed_tensor/src/distributed_lock_manager.cc" bodystart="257" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1abbded0d4287ffb9bd8c95f3bc28c81b9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats" kindref="compound">LockStats</ref></type>
+        <definition>DistributedLockManager::LockStats themis::distributed_tensor::DistributedLockManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">locks_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="143" column="21" bodyfile="src/distributed_tensor/src/distributed_lock_manager.cc" bodystart="279" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1ac2a0c4a55aa5fc3aaaaffee82b337b23" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::DistributedLockManager::clearAllLocks</definition>
+        <argsstring>(bool force=false)</argsstring>
+        <name>clearAllLocks</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::clearAllLocks</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>force</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Clear All Locks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">force</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), clear(), begin(), end(), <ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a0b3b3180ef459cfdfa73950f14e52d84" kindref="member">isExpired()</ref>, erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="145" column="16" bodyfile="src/distributed_tensor/src/distributed_lock_manager.cc" bodystart="294" bodyend="314"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a0b3b3180ef459cfdfa73950f14e52d84" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::DistributedLockManager::isExpired</definition>
+        <argsstring>(const DistributedLock &amp;lock)</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::isExpired</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_distributed_lock" kindref="compound">DistributedLock</ref> &amp;</type>
+          <declname>lock</declname>
+        </param>
+        <briefdescription>
+<para>Is Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1ab486f7f678224753ec2c5c1798b5fe38" kindref="member">getCurrentTimeUnixSec()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="160" column="8" bodyfile="src/distributed_tensor/src/distributed_lock_manager.cc" bodystart="31" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1ab486f7f678224753ec2c5c1798b5fe38" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::DistributedLockManager::getCurrentTimeUnixSec</definition>
+        <argsstring>()</argsstring>
+        <name>getCurrentTimeUnixSec</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::getCurrentTimeUnixSec</qualifiedname>
+        <briefdescription>
+<para>Get Current Time Unix Sec. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="166" column="11" bodyfile="src/distributed_tensor/src/distributed_lock_manager.cc" bodystart="20" bodyend="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::distributed_tensor::DistributedLockManager</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>stats_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::distributed_tensor::DistributedLockManager::LockStats</label>
+        <link refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="70" column="1" bodyfile="src/distributed_tensor/include/distributed_lock_manager.h" bodystart="70" bodyend="167"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a42c3df353c4be10185106137f6a3f48a" prot="public" virt="virtual"><scope>themis::distributed_tensor::DistributedLockManager</scope><name>acquireLock</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a29d55d41a74a738f811e0354ad37ac2b" prot="public" virt="virtual"><scope>themis::distributed_tensor::DistributedLockManager</scope><name>cleanupExpiredLocks</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1ac2a0c4a55aa5fc3aaaaffee82b337b23" prot="public" virt="virtual"><scope>themis::distributed_tensor::DistributedLockManager</scope><name>clearAllLocks</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a9273574865dcc9d733e676f340788dc5" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedLockManager</scope><name>DistributedLockManager</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a80a04fa736a4d1b89e6c02a4532ed866" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedLockManager</scope><name>DistributedLockManager</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a7dd2ce6636999b63a25a0ae22df6d5c4" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedLockManager</scope><name>DistributedLockManager</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a862b46837d4836be7db8b4267e4632f7" prot="public" virt="virtual"><scope>themis::distributed_tensor::DistributedLockManager</scope><name>forcefullyAcquireLock</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1ab486f7f678224753ec2c5c1798b5fe38" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::DistributedLockManager</scope><name>getCurrentTimeUnixSec</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a8550e49219d5853ebfe7902b6db52a40" prot="public" virt="virtual"><scope>themis::distributed_tensor::DistributedLockManager</scope><name>getLockInfo</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1abbded0d4287ffb9bd8c95f3bc28c81b9" prot="public" virt="virtual"><scope>themis::distributed_tensor::DistributedLockManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a0b3b3180ef459cfdfa73950f14e52d84" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::DistributedLockManager</scope><name>isExpired</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a9f7e56b59c8fd9fdd08347f4a008512f" prot="public" virt="virtual"><scope>themis::distributed_tensor::DistributedLockManager</scope><name>isLocked</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a8b5f2ee67207021410506025973b05ea" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::DistributedLockManager</scope><name>locks_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a0a83273cd2f972d6ae7e4efcdc26d49a" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::DistributedLockManager</scope><name>locks_mutex_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a1520c58393c5ca450d4a67eb0e53f2e2" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedLockManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1a7447cc7e94c05abf8bded6f941bbbe08" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedLockManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1ac80ea399846a14404adad32618757d02" prot="public" virt="virtual"><scope>themis::distributed_tensor::DistributedLockManager</scope><name>releaseLock</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1ad70e59905e33eed45a765f0395b1b2b5" prot="public" virt="virtual"><scope>themis::distributed_tensor::DistributedLockManager</scope><name>renewLock</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1aca74c5507e9246d9e096dc8c3177bdd0" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::DistributedLockManager</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1af8ed47f28fb8f36713462106d2328aba" prot="public" virt="virtual"><scope>themis::distributed_tensor::DistributedLockManager</scope><name>~DistributedLockManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_hyperedge" kind="struct" language="C++" prot="public">
+    <compoundname>themis::Hyperedge</compoundname>
+    <includes refid="process__graph_8h" local="no">process_graph.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1_hyperedge_1aaa21921ebbd979381139c850f90ea353" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SyncType</name>
+        <qualifiedname>themis::Hyperedge::SyncType</qualifiedname>
+        <enumvalue id="structthemis_1_1_hyperedge_1aaa21921ebbd979381139c850f90ea353a80afd820cf553465f6cb57ffe8a2c748" prot="public">
+          <name>AND_JOIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_hyperedge_1aaa21921ebbd979381139c850f90ea353a7bd58c69de836ec92e7af2f226f89f07" prot="public">
+          <name>AND_SPLIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_hyperedge_1aaa21921ebbd979381139c850f90ea353ad61f72037000947e7a1f52654ea83f0f" prot="public">
+          <name>OR_JOIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_hyperedge_1aaa21921ebbd979381139c850f90ea353ac6f158a2648bbf58f635feb971519795" prot="public">
+          <name>N_OF_M_JOIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1_hyperedge_1aaa21921ebbd979381139c850f90ea353ab979c8c510959989ae87a8c0ed9d6eae" prot="public">
+          <name>DISCRIMINATOR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="389" column="5" bodyfile="include/index/process_graph.h" bodystart="389" bodyend="395"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_hyperedge_1a6d3e813cbc612bfdf68fc0965a60f64a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::Hyperedge::hyperedge_id</definition>
+        <argsstring></argsstring>
+        <name>hyperedge_id</name>
+        <qualifiedname>themis::Hyperedge::hyperedge_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="381" column="17" bodyfile="include/index/process_graph.h" bodystart="381" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hyperedge_1a415d1e4f46904f7bc935cfd370b702ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::Hyperedge::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::Hyperedge::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="382" column="17" bodyfile="include/index/process_graph.h" bodystart="382" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hyperedge_1a144ef1dc5b055fd6022e4f293962aaaf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::Hyperedge::source_nodes</definition>
+        <argsstring></argsstring>
+        <name>source_nodes</name>
+        <qualifiedname>themis::Hyperedge::source_nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="385" column="17" bodyfile="include/index/process_graph.h" bodystart="385" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hyperedge_1a398a2b1f58057a1ad36dff571612aeb1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::Hyperedge::target_nodes</definition>
+        <argsstring></argsstring>
+        <name>target_nodes</name>
+        <qualifiedname>themis::Hyperedge::target_nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="386" column="17" bodyfile="include/index/process_graph.h" bodystart="386" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hyperedge_1ac6288bba8fe6df126042cf2f9a908215" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_hyperedge_1aaa21921ebbd979381139c850f90ea353" kindref="member">SyncType</ref></type>
+        <definition>SyncType themis::Hyperedge::sync_type</definition>
+        <argsstring></argsstring>
+        <name>sync_type</name>
+        <qualifiedname>themis::Hyperedge::sync_type</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_hyperedge_1aaa21921ebbd979381139c850f90ea353a80afd820cf553465f6cb57ffe8a2c748" kindref="member">SyncType::AND_JOIN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="396" column="14" bodyfile="include/index/process_graph.h" bodystart="396" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hyperedge_1aadbe83d16e2540a7cacc910828a0f179" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>std::optional&lt;int&gt; themis::Hyperedge::required_count</definition>
+        <argsstring></argsstring>
+        <name>required_count</name>
+        <qualifiedname>themis::Hyperedge::required_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="399" column="19" bodyfile="include/index/process_graph.h" bodystart="399" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hyperedge_1acec3e7c0d97ed77cbff7e097a518a220" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::Hyperedge::activated_sources</definition>
+        <argsstring></argsstring>
+        <name>activated_sources</name>
+        <qualifiedname>themis::Hyperedge::activated_sources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="402" column="24" bodyfile="include/index/process_graph.h" bodystart="402" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hyperedge_1a14f3e55a43717a3edb7739cdc715304d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::Hyperedge::is_complete</definition>
+        <argsstring></argsstring>
+        <name>is_complete</name>
+        <qualifiedname>themis::Hyperedge::is_complete</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="403" column="10" bodyfile="include/index/process_graph.h" bodystart="403" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1_hyperedge" kindref="compound">Hyperedge</ref>: Connects multiple nodes simultaneously. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used for:<itemizedlist>
+<listitem><para>AND-joins (wait for all incoming paths)</para>
+</listitem><listitem><para>AND-splits (activate all outgoing paths)</para>
+</listitem><listitem><para>Complex synchronization patterns</para>
+</listitem></itemizedlist>
+</para>
+<para>Unlike regular edges (1:1), hyperedges are (N:M):<itemizedlist>
+<listitem><para>Multiple source nodes</para>
+</listitem><listitem><para>Multiple target nodes</para>
+</listitem><listitem><para>Single synchronization point </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/index/process_graph.h" line="380" column="1" bodyfile="include/index/process_graph.h" bodystart="380" bodyend="404"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_hyperedge_1acec3e7c0d97ed77cbff7e097a518a220" prot="public" virt="non-virtual"><scope>themis::Hyperedge</scope><name>activated_sources</name></member>
+      <member refid="structthemis_1_1_hyperedge_1a6d3e813cbc612bfdf68fc0965a60f64a" prot="public" virt="non-virtual"><scope>themis::Hyperedge</scope><name>hyperedge_id</name></member>
+      <member refid="structthemis_1_1_hyperedge_1a14f3e55a43717a3edb7739cdc715304d" prot="public" virt="non-virtual"><scope>themis::Hyperedge</scope><name>is_complete</name></member>
+      <member refid="structthemis_1_1_hyperedge_1a415d1e4f46904f7bc935cfd370b702ec" prot="public" virt="non-virtual"><scope>themis::Hyperedge</scope><name>name</name></member>
+      <member refid="structthemis_1_1_hyperedge_1aadbe83d16e2540a7cacc910828a0f179" prot="public" virt="non-virtual"><scope>themis::Hyperedge</scope><name>required_count</name></member>
+      <member refid="structthemis_1_1_hyperedge_1a144ef1dc5b055fd6022e4f293962aaaf" prot="public" virt="non-virtual"><scope>themis::Hyperedge</scope><name>source_nodes</name></member>
+      <member refid="structthemis_1_1_hyperedge_1ac6288bba8fe6df126042cf2f9a908215" prot="public" virt="non-virtual"><scope>themis::Hyperedge</scope><name>sync_type</name></member>
+      <member refid="structthemis_1_1_hyperedge_1aaa21921ebbd979381139c850f90ea353" prot="public" virt="non-virtual"><scope>themis::Hyperedge</scope><name>SyncType</name></member>
+      <member refid="structthemis_1_1_hyperedge_1a398a2b1f58057a1ad36dff571612aeb1" prot="public" virt="non-virtual"><scope>themis::Hyperedge</scope><name>target_nodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

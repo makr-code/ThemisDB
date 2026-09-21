@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1tests_1_1_mock_history_compressor" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::tests::MockHistoryCompressor</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IHistoryCompressor</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1tests_1_1_mock_history_compressor_1a2039e5410c624abc39cefa9aab50b844" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::tests::MockHistoryCompressor::available_</definition>
+        <argsstring></argsstring>
+        <name>available_</name>
+        <qualifiedname>themis::aql::tests::MockHistoryCompressor::available_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="73" column="10" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1tests_1_1_mock_history_compressor_1a63f0dc243c2378a463c49a978ed71406" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::tests::MockHistoryCompressor::compression_count_</definition>
+        <argsstring></argsstring>
+        <name>compression_count_</name>
+        <qualifiedname>themis::aql::tests::MockHistoryCompressor::compression_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="74" column="9" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1tests_1_1_mock_history_compressor_1a2d1054de4a08f84e519ded4a431b6db7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::tests::MockHistoryCompressor::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::aql::tests::MockHistoryCompressor::isAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="24" column="10" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="24" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1tests_1_1_mock_history_compressor_1ac6f5115078ccf637dec9c006a9043c64" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::unique_ptr&lt; CompressionResult &gt;</type>
+        <definition>std::unique_ptr&lt; CompressionResult &gt; themis::aql::tests::MockHistoryCompressor::compressHistory</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;history, int32_t max_tokens, float min_similarity=0.85f) override</argsstring>
+        <name>compressHistory</name>
+        <qualifiedname>themis::aql::tests::MockHistoryCompressor::compressHistory</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>history</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>min_similarity</declname>
+          <defval>0.85f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="26" column="21" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="26" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1tests_1_1_mock_history_compressor_1a9b26d2fdfac9e35c4ec5d93fa6c89d7d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::tests::MockHistoryCompressor::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::aql::tests::MockHistoryCompressor::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="65" column="17" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="65" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1tests_1_1_mock_history_compressor_1a60eebcbf701ae5d5b986192fdbd26970" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::tests::MockHistoryCompressor::setAvailable</definition>
+        <argsstring>(bool available)</argsstring>
+        <name>setAvailable</name>
+        <qualifiedname>themis::aql::tests::MockHistoryCompressor::setAvailable</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>available</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="69" column="10" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1tests_1_1_mock_history_compressor_1a1b9e439b08a923f20bba57c34a0432f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::aql::tests::MockHistoryCompressor::getCompressionCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getCompressionCount</name>
+        <qualifiedname>themis::aql::tests::MockHistoryCompressor::getCompressionCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="70" column="9" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="70" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IHistoryCompressor</label>
+      </node>
+      <node id="1">
+        <label>themis::aql::tests::MockHistoryCompressor</label>
+        <link refid="classthemis_1_1aql_1_1tests_1_1_mock_history_compressor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IHistoryCompressor</label>
+      </node>
+      <node id="1">
+        <label>themis::aql::tests::MockHistoryCompressor</label>
+        <link refid="classthemis_1_1aql_1_1tests_1_1_mock_history_compressor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_p2_d05_runtime_integration.cpp" line="22" column="1" bodyfile="tests/aql/test_p2_d05_runtime_integration.cpp" bodystart="22" bodyend="75"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_mock_history_compressor_1a2039e5410c624abc39cefa9aab50b844" prot="private" virt="non-virtual"><scope>themis::aql::tests::MockHistoryCompressor</scope><name>available_</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_mock_history_compressor_1ac6f5115078ccf637dec9c006a9043c64" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockHistoryCompressor</scope><name>compressHistory</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_mock_history_compressor_1a63f0dc243c2378a463c49a978ed71406" prot="private" virt="non-virtual"><scope>themis::aql::tests::MockHistoryCompressor</scope><name>compression_count_</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_mock_history_compressor_1a1b9e439b08a923f20bba57c34a0432f2" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockHistoryCompressor</scope><name>getCompressionCount</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_mock_history_compressor_1a9b26d2fdfac9e35c4ec5d93fa6c89d7d" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockHistoryCompressor</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_mock_history_compressor_1a2d1054de4a08f84e519ded4a431b6db7" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockHistoryCompressor</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1aql_1_1tests_1_1_mock_history_compressor_1a60eebcbf701ae5d5b986192fdbd26970" prot="public" virt="non-virtual"><scope>themis::aql::tests::MockHistoryCompressor</scope><name>setAvailable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

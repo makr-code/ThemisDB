@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_security_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::SecurityContext</compoundname>
+    <includes refid="access__control__manager_8h" local="no">access_control_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_security_context_1aac621c85d9d7f09b376acc86f2170664" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::SecurityContext::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::security::SecurityContext::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="33" column="17" bodyfile="include/security/access_control_manager.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_security_context_1af7bbf54e5ec2ab5b7269b5f5011880ed" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::SecurityContext::roles</definition>
+        <argsstring></argsstring>
+        <name>roles</name>
+        <qualifiedname>themis::security::SecurityContext::roles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="34" column="17" bodyfile="include/security/access_control_manager.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_security_context_1ab9df057927518ea8cdd6238d2c04ce7b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::SecurityContext::groups</definition>
+        <argsstring></argsstring>
+        <name>groups</name>
+        <qualifiedname>themis::security::SecurityContext::groups</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="35" column="17" bodyfile="include/security/access_control_manager.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_security_context_1a39b662fa86c7acdb7f237d0cac92ccaa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::SecurityContext::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::security::SecurityContext::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="36" column="17" bodyfile="include/security/access_control_manager.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_security_context_1ab1c94f99d0b2c57e8f99374b7cb5c073" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::SecurityContext::source_ip</definition>
+        <argsstring></argsstring>
+        <name>source_ip</name>
+        <qualifiedname>themis::security::SecurityContext::source_ip</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="37" column="17" bodyfile="include/security/access_control_manager.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_security_context_1adf56868e698a58cdf79dec3c32d9f4a8" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::security::SecurityContext::user_agent</definition>
+        <argsstring></argsstring>
+        <name>user_agent</name>
+        <qualifiedname>themis::security::SecurityContext::user_agent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="38" column="19" bodyfile="include/security/access_control_manager.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_security_context_1a7138895229ead24457fdba07c93ea37b" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::security::SecurityContext::attributes</definition>
+        <argsstring></argsstring>
+        <name>attributes</name>
+        <qualifiedname>themis::security::SecurityContext::attributes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="39" column="24" bodyfile="include/security/access_control_manager.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_security_context_1af119c0946fc4c800a91c35c26ce0bd28" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::SecurityContext::hasRole</definition>
+        <argsstring>(const std::string &amp;role) const</argsstring>
+        <name>hasRole</name>
+        <qualifiedname>themis::security::SecurityContext::hasRole</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>role</declname>
+        </param>
+        <briefdescription>
+<para>Has <ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="46" column="10" bodyfile="src/security/access_control_manager.cpp" bodystart="28" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1_security_context_1aec80e8c8d00280f8fb8ddf041a927d6b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::SecurityContext::hasGroup</definition>
+        <argsstring>(const std::string &amp;group) const</argsstring>
+        <name>hasGroup</name>
+        <qualifiedname>themis::security::SecurityContext::hasGroup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group</declname>
+        </param>
+        <briefdescription>
+<para>Has Group. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/access_control_manager.h" line="53" column="10" bodyfile="src/security/access_control_manager.cpp" bodystart="32" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/access_control_manager.h" line="32" column="1" bodyfile="include/security/access_control_manager.h" bodystart="32" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_security_context_1a7138895229ead24457fdba07c93ea37b" prot="public" virt="non-virtual"><scope>themis::security::SecurityContext</scope><name>attributes</name></member>
+      <member refid="structthemis_1_1security_1_1_security_context_1ab9df057927518ea8cdd6238d2c04ce7b" prot="public" virt="non-virtual"><scope>themis::security::SecurityContext</scope><name>groups</name></member>
+      <member refid="structthemis_1_1security_1_1_security_context_1aec80e8c8d00280f8fb8ddf041a927d6b" prot="public" virt="non-virtual"><scope>themis::security::SecurityContext</scope><name>hasGroup</name></member>
+      <member refid="structthemis_1_1security_1_1_security_context_1af119c0946fc4c800a91c35c26ce0bd28" prot="public" virt="non-virtual"><scope>themis::security::SecurityContext</scope><name>hasRole</name></member>
+      <member refid="structthemis_1_1security_1_1_security_context_1af7bbf54e5ec2ab5b7269b5f5011880ed" prot="public" virt="non-virtual"><scope>themis::security::SecurityContext</scope><name>roles</name></member>
+      <member refid="structthemis_1_1security_1_1_security_context_1a39b662fa86c7acdb7f237d0cac92ccaa" prot="public" virt="non-virtual"><scope>themis::security::SecurityContext</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1security_1_1_security_context_1ab1c94f99d0b2c57e8f99374b7cb5c073" prot="public" virt="non-virtual"><scope>themis::security::SecurityContext</scope><name>source_ip</name></member>
+      <member refid="structthemis_1_1security_1_1_security_context_1adf56868e698a58cdf79dec3c32d9f4a8" prot="public" virt="non-virtual"><scope>themis::security::SecurityContext</scope><name>user_agent</name></member>
+      <member refid="structthemis_1_1security_1_1_security_context_1aac621c85d9d7f09b376acc86f2170664" prot="public" virt="non-virtual"><scope>themis::security::SecurityContext</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

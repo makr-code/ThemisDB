@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_failover_execution_diagnostic" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::FailoverExecutionDiagnostic</compoundname>
+    <includes refid="replication__failover__diagnostics_8h" local="no">replication_failover_diagnostics.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1_1_event" prot="public">themisdb::replication::FailoverExecutionDiagnostic::Event</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a237590d250530bd057b896a950423b4b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Outcome</name>
+        <qualifiedname>themisdb::replication::FailoverExecutionDiagnostic::Outcome</qualifiedname>
+        <enumvalue id="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a237590d250530bd057b896a950423b4bac69f06e1a9b016d133907b4e5f5864d2" prot="public">
+          <name>PENDING</name>
+          <briefdescription>
+<para>Failover in progress. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a237590d250530bd057b896a950423b4bad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <briefdescription>
+<para>Promotion completed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a237590d250530bd057b896a950423b4bab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+<para>Promotion failed (see failure_reason). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a237590d250530bd057b896a950423b4ba9f935beb31030ad0d4d26126c0f39bf2" prot="public">
+          <name>CANCELLED</name>
+          <briefdescription>
+<para>Failover was cancelled (see cancellation_reason). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para><ref refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a237590d250530bd057b896a950423b4b" kindref="member">Outcome</ref> of the failover attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="122" column="5" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="122" bodyend="127"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a821fa00ed2b2e8a88a38436ae4059a08" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::FailoverExecutionDiagnostic::failover_id</definition>
+        <argsstring></argsstring>
+        <name>failover_id</name>
+        <qualifiedname>themisdb::replication::FailoverExecutionDiagnostic::failover_id</qualifiedname>
+        <briefdescription>
+<para>Unique failover operation ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="110" column="17" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a7c0e145f203d4a6eb1b28f4460dc3bac" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::replication::FailoverExecutionDiagnostic::initiated_at</definition>
+        <argsstring></argsstring>
+        <name>initiated_at</name>
+        <qualifiedname>themisdb::replication::FailoverExecutionDiagnostic::initiated_at</qualifiedname>
+        <briefdescription>
+<para>Timestamp when failover was initiated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="113" column="43" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1aec8d3a13698a2b934219c35db30154c6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::FailoverExecutionDiagnostic::failed_leader_id</definition>
+        <argsstring></argsstring>
+        <name>failed_leader_id</name>
+        <qualifiedname>themisdb::replication::FailoverExecutionDiagnostic::failed_leader_id</qualifiedname>
+        <briefdescription>
+<para>Node ID of the failed leader. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="116" column="17" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a9736517aba7065b202022ae17718c059" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::FailoverExecutionDiagnostic::promoted_replica_id</definition>
+        <argsstring></argsstring>
+        <name>promoted_replica_id</name>
+        <qualifiedname>themisdb::replication::FailoverExecutionDiagnostic::promoted_replica_id</qualifiedname>
+        <briefdescription>
+<para>Replica ID selected for promotion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="119" column="17" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a47f2c8ae9a79532591d5b0aef6ea6c0d" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a237590d250530bd057b896a950423b4b" kindref="member">Outcome</ref></type>
+        <definition>Outcome themisdb::replication::FailoverExecutionDiagnostic::outcome</definition>
+        <argsstring></argsstring>
+        <name>outcome</name>
+        <qualifiedname>themisdb::replication::FailoverExecutionDiagnostic::outcome</qualifiedname>
+        <initializer>{<ref refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a237590d250530bd057b896a950423b4bac69f06e1a9b016d133907b4e5f5864d2" kindref="member">Outcome::PENDING</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="128" column="13" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a8a25a1f55df192297a492fd9d1d8eb48" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::FailoverExecutionDiagnostic::failure_reason</definition>
+        <argsstring></argsstring>
+        <name>failure_reason</name>
+        <qualifiedname>themisdb::replication::FailoverExecutionDiagnostic::failure_reason</qualifiedname>
+        <briefdescription>
+<para>If outcome == FAILED, reason for the failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="131" column="17" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a9ddda06a30836ffa167f64b6c9103859" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::FailoverExecutionDiagnostic::cancellation_reason</definition>
+        <argsstring></argsstring>
+        <name>cancellation_reason</name>
+        <qualifiedname>themisdb::replication::FailoverExecutionDiagnostic::cancellation_reason</qualifiedname>
+        <briefdescription>
+<para>If outcome == CANCELLED, reason for cancellation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="134" column="17" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1affa56856f6ad5d0b475aac2ee09cf134" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::chrono::milliseconds &gt;</type>
+        <definition>std::optional&lt;std::chrono::milliseconds&gt; themisdb::replication::FailoverExecutionDiagnostic::duration_ms</definition>
+        <argsstring></argsstring>
+        <name>duration_ms</name>
+        <qualifiedname>themisdb::replication::FailoverExecutionDiagnostic::duration_ms</qualifiedname>
+        <briefdescription>
+<para>Duration of failover operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="137" column="19" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a03655e2678660e4cd6e05ae44f6a2736" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1_1_event" kindref="compound">Event</ref> &gt;</type>
+        <definition>std::vector&lt;Event&gt; themisdb::replication::FailoverExecutionDiagnostic::event_log</definition>
+        <argsstring></argsstring>
+        <name>event_log</name>
+        <qualifiedname>themisdb::replication::FailoverExecutionDiagnostic::event_log</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="144" column="17" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a84e7f3f251cc6484f21c43d2c939e810" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::FailoverExecutionDiagnostic::replica_lag_before_promotion_ms</definition>
+        <argsstring></argsstring>
+        <name>replica_lag_before_promotion_ms</name>
+        <qualifiedname>themisdb::replication::FailoverExecutionDiagnostic::replica_lag_before_promotion_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Pre-failover replication lag of the promoted replica. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="147" column="13" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="147" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a66eedb00328252d38eaadce14b509d15" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::replication::FailoverExecutionDiagnostic::lag_advancement_rate</definition>
+        <argsstring></argsstring>
+        <name>lag_advancement_rate</name>
+        <qualifiedname>themisdb::replication::FailoverExecutionDiagnostic::lag_advancement_rate</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Post-failover lag advancement rate (entries/sec). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="150" column="12" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="150" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Diagnostic information about a failover operation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures the history and outcomes of failover attempts, enabling root-cause analysis of failover failures or delays. </para>
+    </detaileddescription>
+    <location file="include/replication/replication_failover_diagnostics.h" line="108" column="1" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="108" bodyend="151"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a9ddda06a30836ffa167f64b6c9103859" prot="public" virt="non-virtual"><scope>themisdb::replication::FailoverExecutionDiagnostic</scope><name>cancellation_reason</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1affa56856f6ad5d0b475aac2ee09cf134" prot="public" virt="non-virtual"><scope>themisdb::replication::FailoverExecutionDiagnostic</scope><name>duration_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a03655e2678660e4cd6e05ae44f6a2736" prot="public" virt="non-virtual"><scope>themisdb::replication::FailoverExecutionDiagnostic</scope><name>event_log</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1aec8d3a13698a2b934219c35db30154c6" prot="public" virt="non-virtual"><scope>themisdb::replication::FailoverExecutionDiagnostic</scope><name>failed_leader_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a821fa00ed2b2e8a88a38436ae4059a08" prot="public" virt="non-virtual"><scope>themisdb::replication::FailoverExecutionDiagnostic</scope><name>failover_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a8a25a1f55df192297a492fd9d1d8eb48" prot="public" virt="non-virtual"><scope>themisdb::replication::FailoverExecutionDiagnostic</scope><name>failure_reason</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a7c0e145f203d4a6eb1b28f4460dc3bac" prot="public" virt="non-virtual"><scope>themisdb::replication::FailoverExecutionDiagnostic</scope><name>initiated_at</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a66eedb00328252d38eaadce14b509d15" prot="public" virt="non-virtual"><scope>themisdb::replication::FailoverExecutionDiagnostic</scope><name>lag_advancement_rate</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a237590d250530bd057b896a950423b4b" prot="public" virt="non-virtual"><scope>themisdb::replication::FailoverExecutionDiagnostic</scope><name>Outcome</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a47f2c8ae9a79532591d5b0aef6ea6c0d" prot="public" virt="non-virtual"><scope>themisdb::replication::FailoverExecutionDiagnostic</scope><name>outcome</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a9736517aba7065b202022ae17718c059" prot="public" virt="non-virtual"><scope>themisdb::replication::FailoverExecutionDiagnostic</scope><name>promoted_replica_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic_1a84e7f3f251cc6484f21c43d2c939e810" prot="public" virt="non-virtual"><scope>themisdb::replication::FailoverExecutionDiagnostic</scope><name>replica_lag_before_promotion_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

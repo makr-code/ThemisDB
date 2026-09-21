@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_error_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::ErrorContext</compoundname>
+    <includes refid="tensor__error__handling_8h" local="no">tensor_error_handling.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_error_context_1a9ae0b8eb8acd7698ec0e6798d83e7b24" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::ErrorContext::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themis::tensor::ErrorContext::operation</qualifiedname>
+        <briefdescription>
+<para>Operation that failed (e.g., &quot;COMPRESSION&quot;, &quot;ROUTING&quot;, &quot;DEDUPLICATION&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="38" column="17" bodyfile="include/tensor/tensor_error_handling.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_error_context_1aeea649de69714df18e691cbc5425a874" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::tensor::ErrorContext::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::tensor::ErrorContext::error_code</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Error code (follows THEMIS error convention). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="41" column="9" bodyfile="include/tensor/tensor_error_handling.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_error_context_1a49608ec5fe743d82f577fa672bb3141e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::ErrorContext::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::tensor::ErrorContext::error_message</qualifiedname>
+        <briefdescription>
+<para>Human-readable error message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="44" column="17" bodyfile="include/tensor/tensor_error_handling.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_error_context_1a67aca6b346a9ac36e7228e76a08eae4b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::ErrorContext::technical_details</definition>
+        <argsstring></argsstring>
+        <name>technical_details</name>
+        <qualifiedname>themis::tensor::ErrorContext::technical_details</qualifiedname>
+        <briefdescription>
+<para>Technical details (stack trace, system error, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="47" column="17" bodyfile="include/tensor/tensor_error_handling.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_error_context_1ab2f20e701d463c2480ff8c0e4fc784e5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::ErrorContext::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::tensor::ErrorContext::timestamp</qualifiedname>
+        <briefdescription>
+<para>Timestamp when error occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="50" column="17" bodyfile="include/tensor/tensor_error_handling.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_error_context_1afd1f194d5788132f29bb53990cee7962" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::ErrorContext::recovery_action</definition>
+        <argsstring></argsstring>
+        <name>recovery_action</name>
+        <qualifiedname>themis::tensor::ErrorContext::recovery_action</qualifiedname>
+        <briefdescription>
+<para>Recovery action that will be attempted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="53" column="17" bodyfile="include/tensor/tensor_error_handling.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_error_context_1a719bac50d0f1e7cef5da1ed216e9f003" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::ErrorContext::is_recoverable</definition>
+        <argsstring></argsstring>
+        <name>is_recoverable</name>
+        <qualifiedname>themis::tensor::ErrorContext::is_recoverable</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether this error is recoverable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="56" column="10" bodyfile="include/tensor/tensor_error_handling.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_error_context_1ab4c9ca1ce3df7c8f08b2d5ee9dd0071c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::tensor::ErrorContext::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themis::tensor::ErrorContext::retry_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of retry attempts made so far. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="59" column="9" bodyfile="include/tensor/tensor_error_handling.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_error_context_1a8537c9bce5badbe9e9e0ae5c34ae705f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::tensor::ErrorContext::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::tensor::ErrorContext::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Maximum allowed retry attempts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_error_handling.h" line="62" column="9" bodyfile="include/tensor/tensor_error_handling.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Detailed error context for tensor operations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_error_handling.h" line="36" column="1" bodyfile="include/tensor/tensor_error_handling.h" bodystart="36" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_error_context_1aeea649de69714df18e691cbc5425a874" prot="public" virt="non-virtual"><scope>themis::tensor::ErrorContext</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1tensor_1_1_error_context_1a49608ec5fe743d82f577fa672bb3141e" prot="public" virt="non-virtual"><scope>themis::tensor::ErrorContext</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1tensor_1_1_error_context_1a719bac50d0f1e7cef5da1ed216e9f003" prot="public" virt="non-virtual"><scope>themis::tensor::ErrorContext</scope><name>is_recoverable</name></member>
+      <member refid="structthemis_1_1tensor_1_1_error_context_1a8537c9bce5badbe9e9e0ae5c34ae705f" prot="public" virt="non-virtual"><scope>themis::tensor::ErrorContext</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1tensor_1_1_error_context_1a9ae0b8eb8acd7698ec0e6798d83e7b24" prot="public" virt="non-virtual"><scope>themis::tensor::ErrorContext</scope><name>operation</name></member>
+      <member refid="structthemis_1_1tensor_1_1_error_context_1afd1f194d5788132f29bb53990cee7962" prot="public" virt="non-virtual"><scope>themis::tensor::ErrorContext</scope><name>recovery_action</name></member>
+      <member refid="structthemis_1_1tensor_1_1_error_context_1ab4c9ca1ce3df7c8f08b2d5ee9dd0071c" prot="public" virt="non-virtual"><scope>themis::tensor::ErrorContext</scope><name>retry_count</name></member>
+      <member refid="structthemis_1_1tensor_1_1_error_context_1a67aca6b346a9ac36e7228e76a08eae4b" prot="public" virt="non-virtual"><scope>themis::tensor::ErrorContext</scope><name>technical_details</name></member>
+      <member refid="structthemis_1_1tensor_1_1_error_context_1ab2f20e701d463c2480ff8c0e4fc784e5" prot="public" virt="non-virtual"><scope>themis::tensor::ErrorContext</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

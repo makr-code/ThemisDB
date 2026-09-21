@@ -1,0 +1,319 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_content_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ContentPolicy</compoundname>
+    <includes refid="content__policy_8h" local="no">content_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_policy_1aa0f41890aba5267f7872e4621ebde4e7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentPolicy::default_max_size</definition>
+        <argsstring></argsstring>
+        <name>default_max_size</name>
+        <qualifiedname>themis::content::ContentPolicy::default_max_size</qualifiedname>
+        <initializer>= 104857600</initializer>
+        <briefdescription>
+<para>100 MB default </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="38" column="14" bodyfile="include/content/content_policy.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_policy_1ad6cecdb2e6b55e84ff768ef6a3acf10a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentPolicy::default_action</definition>
+        <argsstring></argsstring>
+        <name>default_action</name>
+        <qualifiedname>themis::content::ContentPolicy::default_action</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>true = allow, false = deny </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="39" column="10" bodyfile="include/content/content_policy.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_policy_1a5c7d73775526396492e1bb28d660499c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_mime_policy" kindref="compound">MimePolicy</ref> &gt;</type>
+        <definition>std::vector&lt;MimePolicy&gt; themis::content::ContentPolicy::allowed</definition>
+        <argsstring></argsstring>
+        <name>allowed</name>
+        <qualifiedname>themis::content::ContentPolicy::allowed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="41" column="17" bodyfile="include/content/content_policy.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_policy_1a404df2cc77b281edfd6e050b018ed430" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_mime_policy" kindref="compound">MimePolicy</ref> &gt;</type>
+        <definition>std::vector&lt;MimePolicy&gt; themis::content::ContentPolicy::denied</definition>
+        <argsstring></argsstring>
+        <name>denied</name>
+        <qualifiedname>themis::content::ContentPolicy::denied</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="42" column="17" bodyfile="include/content/content_policy.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_policy_1afde300b29e7e71307b613779ef7b1e00" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1content_1_1_category_policy" kindref="compound">CategoryPolicy</ref> &gt;</type>
+        <definition>std::map&lt;std::string, CategoryPolicy&gt; themis::content::ContentPolicy::category_rules</definition>
+        <argsstring></argsstring>
+        <name>category_rules</name>
+        <qualifiedname>themis::content::ContentPolicy::category_rules</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="43" column="14" bodyfile="include/content/content_policy.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_policy_1aad2a057fa166395a371fd5786ba708da" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentPolicy::embedding_model</definition>
+        <argsstring></argsstring>
+        <name>embedding_model</name>
+        <qualifiedname>themis::content::ContentPolicy::embedding_model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="45" column="17" bodyfile="include/content/content_policy.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_policy_1ad2285f81465a4f300c544dee94897f51" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentPolicy::enable_deduplication</definition>
+        <argsstring></argsstring>
+        <name>enable_deduplication</name>
+        <qualifiedname>themis::content::ContentPolicy::enable_deduplication</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="47" column="10" bodyfile="include/content/content_policy.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_content_policy_1a4cf6c05cd329f3b4e07e0460a05d3386" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ContentPolicy::ocr_enabled</definition>
+        <argsstring></argsstring>
+        <name>ocr_enabled</name>
+        <qualifiedname>themis::content::ContentPolicy::ocr_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="49" column="10" bodyfile="include/content/content_policy.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_policy_1ab2f79a4636f120e5d5851c99904dff1f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::ContentPolicy::ocrEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>ocrEnabled</name>
+        <qualifiedname>themis::content::ContentPolicy::ocrEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="51" column="10" bodyfile="include/content/content_policy.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_policy_1a3046ca018795d704c5811f9ab68c6794" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::ContentPolicy::isAllowed</definition>
+        <argsstring>(const std::string &amp;mime_type) const</argsstring>
+        <name>isAllowed</name>
+        <qualifiedname>themis::content::ContentPolicy::isAllowed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <briefdescription>
+<para>Is Allowed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="58" column="10" bodyfile="src/content/content_policy.cpp" bodystart="16" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_policy_1ab9eccf440140628e12e2108cc1eaca90" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::ContentPolicy::isDenied</definition>
+        <argsstring>(const std::string &amp;mime_type) const</argsstring>
+        <name>isDenied</name>
+        <qualifiedname>themis::content::ContentPolicy::isDenied</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <briefdescription>
+<para>Is Denied. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="65" column="10" bodyfile="src/content/content_policy.cpp" bodystart="21" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_policy_1a2e8ce5f6d7274ee48f58ed7b12fb8fe9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentPolicy::getMaxSize</definition>
+        <argsstring>(const std::string &amp;mime_type) const</argsstring>
+        <name>getMaxSize</name>
+        <qualifiedname>themis::content::ContentPolicy::getMaxSize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <briefdescription>
+<para>Get Max Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="72" column="14" bodyfile="src/content/content_policy.cpp" bodystart="26" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_policy_1a7c3e0fb0be63299f2b5cf3208fb9aabb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::content::ContentPolicy::getCategoryMaxSize</definition>
+        <argsstring>(const std::string &amp;category) const</argsstring>
+        <name>getCategoryMaxSize</name>
+        <qualifiedname>themis::content::ContentPolicy::getCategoryMaxSize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+<para>Get Category Max Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="79" column="14" bodyfile="src/content/content_policy.cpp" bodystart="39" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1content_1_1_content_policy_1a5004eaa5a3e1f00289320c934837cec1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::ContentPolicy::getDenialReason</definition>
+        <argsstring>(const std::string &amp;mime_type) const</argsstring>
+        <name>getDenialReason</name>
+        <qualifiedname>themis::content::ContentPolicy::getDenialReason</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <briefdescription>
+<para>Get Denial Reason. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_policy.h" line="86" column="17" bodyfile="src/content/content_policy.cpp" bodystart="47" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_policy.h" line="37" column="1" bodyfile="include/content/content_policy.h" bodystart="37" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_content_policy_1a5c7d73775526396492e1bb28d660499c" prot="public" virt="non-virtual"><scope>themis::content::ContentPolicy</scope><name>allowed</name></member>
+      <member refid="structthemis_1_1content_1_1_content_policy_1afde300b29e7e71307b613779ef7b1e00" prot="public" virt="non-virtual"><scope>themis::content::ContentPolicy</scope><name>category_rules</name></member>
+      <member refid="structthemis_1_1content_1_1_content_policy_1ad6cecdb2e6b55e84ff768ef6a3acf10a" prot="public" virt="non-virtual"><scope>themis::content::ContentPolicy</scope><name>default_action</name></member>
+      <member refid="structthemis_1_1content_1_1_content_policy_1aa0f41890aba5267f7872e4621ebde4e7" prot="public" virt="non-virtual"><scope>themis::content::ContentPolicy</scope><name>default_max_size</name></member>
+      <member refid="structthemis_1_1content_1_1_content_policy_1a404df2cc77b281edfd6e050b018ed430" prot="public" virt="non-virtual"><scope>themis::content::ContentPolicy</scope><name>denied</name></member>
+      <member refid="structthemis_1_1content_1_1_content_policy_1aad2a057fa166395a371fd5786ba708da" prot="public" virt="non-virtual"><scope>themis::content::ContentPolicy</scope><name>embedding_model</name></member>
+      <member refid="structthemis_1_1content_1_1_content_policy_1ad2285f81465a4f300c544dee94897f51" prot="public" virt="non-virtual"><scope>themis::content::ContentPolicy</scope><name>enable_deduplication</name></member>
+      <member refid="structthemis_1_1content_1_1_content_policy_1a7c3e0fb0be63299f2b5cf3208fb9aabb" prot="public" virt="non-virtual"><scope>themis::content::ContentPolicy</scope><name>getCategoryMaxSize</name></member>
+      <member refid="structthemis_1_1content_1_1_content_policy_1a5004eaa5a3e1f00289320c934837cec1" prot="public" virt="non-virtual"><scope>themis::content::ContentPolicy</scope><name>getDenialReason</name></member>
+      <member refid="structthemis_1_1content_1_1_content_policy_1a2e8ce5f6d7274ee48f58ed7b12fb8fe9" prot="public" virt="non-virtual"><scope>themis::content::ContentPolicy</scope><name>getMaxSize</name></member>
+      <member refid="structthemis_1_1content_1_1_content_policy_1a3046ca018795d704c5811f9ab68c6794" prot="public" virt="non-virtual"><scope>themis::content::ContentPolicy</scope><name>isAllowed</name></member>
+      <member refid="structthemis_1_1content_1_1_content_policy_1ab9eccf440140628e12e2108cc1eaca90" prot="public" virt="non-virtual"><scope>themis::content::ContentPolicy</scope><name>isDenied</name></member>
+      <member refid="structthemis_1_1content_1_1_content_policy_1a4cf6c05cd329f3b4e07e0460a05d3386" prot="public" virt="non-virtual"><scope>themis::content::ContentPolicy</scope><name>ocr_enabled</name></member>
+      <member refid="structthemis_1_1content_1_1_content_policy_1ab2f79a4636f120e5d5851c99904dff1f" prot="public" virt="non-virtual"><scope>themis::content::ContentPolicy</scope><name>ocrEnabled</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_retrieved_document" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::RetrievedDocument</compoundname>
+    <includes refid="learning__metrics_8h" local="no">learning_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_retrieved_document_1a95a0f7f48c5099cdeda37bab8e31564b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::RetrievedDocument::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::rag::learning::RetrievedDocument::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="41" column="17" bodyfile="include/rag/learning_metrics.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_retrieved_document_1a975221a26b24272a77a6cb7ed295d603" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::RetrievedDocument::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::rag::learning::RetrievedDocument::content</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="42" column="17" bodyfile="include/rag/learning_metrics.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_retrieved_document_1a9586b6bc2d0d43bcbf1243e82cd7e9e5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::RetrievedDocument::similarity_score</definition>
+        <argsstring></argsstring>
+        <name>similarity_score</name>
+        <qualifiedname>themis::rag::learning::RetrievedDocument::similarity_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="43" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_retrieved_document_1aa0979752b8e1d7bc7df46330b1e0e008" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::rag::learning::RetrievedDocument::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::rag::learning::RetrievedDocument::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="44" column="24" bodyfile="include/rag/learning_metrics.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Retrieved document information for learning. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/learning_metrics.h" line="40" column="1" bodyfile="include/rag/learning_metrics.h" bodystart="40" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_retrieved_document_1a975221a26b24272a77a6cb7ed295d603" prot="public" virt="non-virtual"><scope>themis::rag::learning::RetrievedDocument</scope><name>content</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_retrieved_document_1a95a0f7f48c5099cdeda37bab8e31564b" prot="public" virt="non-virtual"><scope>themis::rag::learning::RetrievedDocument</scope><name>id</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_retrieved_document_1aa0979752b8e1d7bc7df46330b1e0e008" prot="public" virt="non-virtual"><scope>themis::rag::learning::RetrievedDocument</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_retrieved_document_1a9586b6bc2d0d43bcbf1243e82cd7e9e5" prot="public" virt="non-virtual"><scope>themis::rag::learning::RetrievedDocument</scope><name>similarity_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

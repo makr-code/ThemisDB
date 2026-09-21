@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1metadata_1_1_metadata_snapshot_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::metadata::MetadataSnapshotException</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="metadata__snapshot_8h" local="no">metadata_snapshot.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_metadata_snapshot_exception_1abfb62292a61c0a8cc14887195bbcddd5" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::MetadataSnapshotException::snapshot_id_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_id_</name>
+        <qualifiedname>themis::metadata::MetadataSnapshotException::snapshot_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="54" column="17" bodyfile="include/metadata/metadata_snapshot.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_metadata_snapshot_exception_1aa08cf12fc26c8b8610de1883936cddd5" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::MetadataSnapshotException::reason_</definition>
+        <argsstring></argsstring>
+        <name>reason_</name>
+        <qualifiedname>themis::metadata::MetadataSnapshotException::reason_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="55" column="17" bodyfile="include/metadata/metadata_snapshot.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_metadata_snapshot_exception_1abe2a68aedb3ea58dd03c60cac4a13b84" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::metadata::MetadataSnapshotException::MetadataSnapshotException</definition>
+        <argsstring>(std::string_view snapshot_id, std::string_view reason)</argsstring>
+        <name>MetadataSnapshotException</name>
+        <qualifiedname>themis::metadata::MetadataSnapshotException::MetadataSnapshotException</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>snapshot_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="38" column="5" bodyfile="include/metadata/metadata_snapshot.h" bodystart="38" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_metadata_snapshot_exception_1aac01784245f395955a5e6d182b9a5b94" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::metadata::MetadataSnapshotException::snapshotId</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>snapshotId</name>
+        <qualifiedname>themis::metadata::MetadataSnapshotException::snapshotId</qualifiedname>
+        <briefdescription>
+<para>The snapshot ID involved in the failed operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="48" column="23" bodyfile="include/metadata/metadata_snapshot.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_metadata_snapshot_exception_1a1ba44cb37b16321bc266f527ea6df9b9" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::metadata::MetadataSnapshotException::reason</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::metadata::MetadataSnapshotException::reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable description of the failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="51" column="23" bodyfile="include/metadata/metadata_snapshot.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Exception thrown when a snapshot operation fails. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Carries the affected snapshot ID and a human-readable reason so callers can distinguish &quot;not found&quot; from &quot;corrupt data&quot; or &quot;store full&quot;. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::metadata::MetadataSnapshotException</label>
+        <link refid="classthemis_1_1metadata_1_1_metadata_snapshot_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::metadata::MetadataSnapshotException</label>
+        <link refid="classthemis_1_1metadata_1_1_metadata_snapshot_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/metadata/metadata_snapshot.h" line="36" column="1" bodyfile="include/metadata/metadata_snapshot.h" bodystart="36" bodyend="56"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1metadata_1_1_metadata_snapshot_exception_1abe2a68aedb3ea58dd03c60cac4a13b84" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataSnapshotException</scope><name>MetadataSnapshotException</name></member>
+      <member refid="classthemis_1_1metadata_1_1_metadata_snapshot_exception_1a1ba44cb37b16321bc266f527ea6df9b9" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataSnapshotException</scope><name>reason</name></member>
+      <member refid="classthemis_1_1metadata_1_1_metadata_snapshot_exception_1aa08cf12fc26c8b8610de1883936cddd5" prot="private" virt="non-virtual"><scope>themis::metadata::MetadataSnapshotException</scope><name>reason_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_metadata_snapshot_exception_1abfb62292a61c0a8cc14887195bbcddd5" prot="private" virt="non-virtual"><scope>themis::metadata::MetadataSnapshotException</scope><name>snapshot_id_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_metadata_snapshot_exception_1aac01784245f395955a5e6d182b9a5b94" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataSnapshotException</scope><name>snapshotId</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

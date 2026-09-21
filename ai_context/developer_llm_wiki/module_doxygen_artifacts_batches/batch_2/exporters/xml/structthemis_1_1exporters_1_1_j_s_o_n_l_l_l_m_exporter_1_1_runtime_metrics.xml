@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1_1_runtime_metrics" kind="struct" language="C++" prot="private">
+    <compoundname>themis::exporters::JSONLLLMExporter::RuntimeMetrics</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1_1_runtime_metrics_1a1ccbe9702530760444cb2c35778444cb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::JSONLLLMExporter::RuntimeMetrics::total_validated</definition>
+        <argsstring></argsstring>
+        <name>total_validated</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::RuntimeMetrics::total_validated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="313" column="16" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1_1_runtime_metrics_1a03d3b1d563ca4e1aee891810c40bacc6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::JSONLLLMExporter::RuntimeMetrics::schema_compliant</definition>
+        <argsstring></argsstring>
+        <name>schema_compliant</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::RuntimeMetrics::schema_compliant</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="314" column="16" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1_1_runtime_metrics_1a496c86cc5db093dd420eea4582419ca2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::JSONLLLMExporter::RuntimeMetrics::schema_violations</definition>
+        <argsstring></argsstring>
+        <name>schema_violations</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::RuntimeMetrics::schema_violations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="315" column="16" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1_1_runtime_metrics_1af54bb97771ca3e9c34cac9ef060b8da4" prot="public" static="no" mutable="no">
+        <type>std::map&lt; size_t, size_t &gt;</type>
+        <definition>std::map&lt;size_t, size_t&gt; themis::exporters::JSONLLLMExporter::RuntimeMetrics::length_distribution</definition>
+        <argsstring></argsstring>
+        <name>length_distribution</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::RuntimeMetrics::length_distribution</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="316" column="18" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1_1_runtime_metrics_1a35a99e41098b6aab9f02ad27a6d7614d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::exporters::JSONLLLMExporter::RuntimeMetrics::diversity_score</definition>
+        <argsstring></argsstring>
+        <name>diversity_score</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::RuntimeMetrics::diversity_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="317" column="16" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1_1_runtime_metrics_1a0d40b3fbd36385935eecc00c94d3d3ea" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::exporters::JSONLLLMExporter::RuntimeMetrics::validation_errors</definition>
+        <argsstring></argsstring>
+        <name>validation_errors</name>
+        <qualifiedname>themis::exporters::JSONLLLMExporter::RuntimeMetrics::validation_errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="318" column="21" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/jsonl_llm_exporter.h" line="312" column="13" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="312" bodyend="319"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1_1_runtime_metrics_1a35a99e41098b6aab9f02ad27a6d7614d" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter::RuntimeMetrics</scope><name>diversity_score</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1_1_runtime_metrics_1af54bb97771ca3e9c34cac9ef060b8da4" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter::RuntimeMetrics</scope><name>length_distribution</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1_1_runtime_metrics_1a03d3b1d563ca4e1aee891810c40bacc6" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter::RuntimeMetrics</scope><name>schema_compliant</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1_1_runtime_metrics_1a496c86cc5db093dd420eea4582419ca2" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter::RuntimeMetrics</scope><name>schema_violations</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1_1_runtime_metrics_1a1ccbe9702530760444cb2c35778444cb" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter::RuntimeMetrics</scope><name>total_validated</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_exporter_1_1_runtime_metrics_1a0d40b3fbd36385935eecc00c94d3d3ea" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMExporter::RuntimeMetrics</scope><name>validation_errors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

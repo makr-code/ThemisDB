@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_router_candidate" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::RouterCandidate</compoundname>
+    <includes refid="ethics__selection__router_8h" local="no">ethics_selection_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a53ed4713aebf1e494f2003f441548993" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::RouterCandidate::school_id</definition>
+        <argsstring></argsstring>
+        <name>school_id</name>
+        <qualifiedname>themis::plugins::ethics::RouterCandidate::school_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="84" column="17" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a2186e05145bc78060091c2d14b643786" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::RouterCandidate::taxonomy_score</definition>
+        <argsstring></argsstring>
+        <name>taxonomy_score</name>
+        <qualifiedname>themis::plugins::ethics::RouterCandidate::taxonomy_score</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>1.0 = direct class match, 0.5 = domain mapping </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="85" column="12" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a0f31bbb16d841c3f5ffb3f5e9c17e9ba" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::RouterCandidate::semantic_score</definition>
+        <argsstring></argsstring>
+        <name>semantic_score</name>
+        <qualifiedname>themis::plugins::ethics::RouterCandidate::semantic_score</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Term-overlap similarity in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="86" column="12" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a00994dbc1152c92525f7a9e422b0831f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::RouterCandidate::precedent_dc</definition>
+        <argsstring></argsstring>
+        <name>precedent_dc</name>
+        <qualifiedname>themis::plugins::ethics::RouterCandidate::precedent_dc</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Historical DC score from precedent store. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="87" column="12" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a25cfba55ec8fc4d230627d3a15b23cb5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::RouterCandidate::final_score</definition>
+        <argsstring></argsstring>
+        <name>final_score</name>
+        <qualifiedname>themis::plugins::ethics::RouterCandidate::final_score</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_selection_router.h" line="88" column="12" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_selection_router.h" line="83" column="1" bodyfile="include/ethics_ai/ethics_selection_router.h" bodystart="83" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a25cfba55ec8fc4d230627d3a15b23cb5" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterCandidate</scope><name>final_score</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a00994dbc1152c92525f7a9e422b0831f" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterCandidate</scope><name>precedent_dc</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a53ed4713aebf1e494f2003f441548993" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterCandidate</scope><name>school_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a0f31bbb16d841c3f5ffb3f5e9c17e9ba" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterCandidate</scope><name>semantic_score</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a2186e05145bc78060091c2d14b643786" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RouterCandidate</scope><name>taxonomy_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

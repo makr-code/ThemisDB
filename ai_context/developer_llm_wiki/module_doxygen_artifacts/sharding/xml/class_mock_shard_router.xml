@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_shard_router" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>MockShardRouter</compoundname>
+    <basecompoundref refid="classthemis_1_1sharding_1_1_i_shard_router" prot="public" virt="non-virtual">themis::sharding::IShardRouter</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_shard_router_1ab15c4ef4ca3fae75f81bd25658cbc4a3" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t MockShardRouter::shard_count_</definition>
+        <argsstring></argsstring>
+        <name>shard_count_</name>
+        <qualifiedname>MockShardRouter::shard_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="46" column="12" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_shard_router_1a2b79f704a3c344f6adf62759a213227c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MockShardRouter::MockShardRouter</definition>
+        <argsstring>(size_t shard_count=3)</argsstring>
+        <name>MockShardRouter</name>
+        <qualifiedname>MockShardRouter::MockShardRouter</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>shard_count</declname>
+          <defval>3</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="27" column="14" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="27" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_shard_router_1a885993acc9a1d86e023684190307b40f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1a35c80457093816c3957f6b67e6705eb5" kindref="member">NodeId</ref></type>
+        <definition>NodeId MockShardRouter::route</definition>
+        <argsstring>(const ShardKey &amp;key) const override</argsstring>
+        <name>route</name>
+        <qualifiedname>MockShardRouter::route</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_shard_router_1ab6932d4aa50cd0e795f2240f7d58390e">route</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1a4127b14f8cdd82002b8da96320a7537f" kindref="member">ShardKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Route a single partition key to the owning shard. <simplesect kind="return"><para>The <ref refid="namespacethemis_1_1sharding_1a35c80457093816c3957f6b67e6705eb5" kindref="member">NodeId</ref> of the shard responsible for <computeroutput>key</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="30" column="12" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="30" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_shard_router_1aa895a79d2e37c36260c1b7cde0d07d72" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1sharding_1a35c80457093816c3957f6b67e6705eb5" kindref="member">NodeId</ref> &gt;</type>
+        <definition>std::vector&lt; NodeId &gt; MockShardRouter::routeAll</definition>
+        <argsstring>(std::span&lt; const ShardKey &gt; keys) const override</argsstring>
+        <name>routeAll</name>
+        <qualifiedname>MockShardRouter::routeAll</qualifiedname>
+        <reimplements refid="classthemis_1_1sharding_1_1_i_shard_router_1a5fa3f0431c6b6eb2e3a7fb0be3ddb342">routeAll</reimplements>
+        <param>
+          <type>std::span&lt; const <ref refid="namespacethemis_1_1sharding_1a4127b14f8cdd82002b8da96320a7537f" kindref="member">ShardKey</ref> &gt;</type>
+          <declname>keys</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Route a batch of partition keys to their respective owning shards. The result vector is 1-to-1 with the input span. <simplesect kind="return"><para>Vector of NodeIds, one per key in <computeroutput>keys</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_interfaces.cpp" line="35" column="17" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="35" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockShardRouter</label>
+        <link refid="class_mock_shard_router"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::IShardRouter</label>
+        <link refid="classthemis_1_1sharding_1_1_i_shard_router"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockShardRouter</label>
+        <link refid="class_mock_shard_router"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::IShardRouter</label>
+        <link refid="classthemis_1_1sharding_1_1_i_shard_router"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/sharding/test_sharding_interfaces.cpp" line="24" column="1" bodyfile="tests/sharding/test_sharding_interfaces.cpp" bodystart="24" bodyend="47"/>
+    <listofallmembers>
+      <member refid="class_mock_shard_router_1a2b79f704a3c344f6adf62759a213227c" prot="public" virt="non-virtual"><scope>MockShardRouter</scope><name>MockShardRouter</name></member>
+      <member refid="class_mock_shard_router_1a885993acc9a1d86e023684190307b40f" prot="public" virt="virtual"><scope>MockShardRouter</scope><name>route</name></member>
+      <member refid="class_mock_shard_router_1aa895a79d2e37c36260c1b7cde0d07d72" prot="public" virt="virtual"><scope>MockShardRouter</scope><name>routeAll</name></member>
+      <member refid="class_mock_shard_router_1ab15c4ef4ca3fae75f81bd25658cbc4a3" prot="private" virt="non-virtual"><scope>MockShardRouter</scope><name>shard_count_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_shard_router_1a4ebe9358d70c9cd984e1bd1cb7642f83" prot="public" virt="virtual"><scope>MockShardRouter</scope><name>~IShardRouter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

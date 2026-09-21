@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_l_l_m_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::LLMRequest</compoundname>
+    <includes refid="llm__process__analyzer_8h" local="no">llm_process_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_request_1a2e653090e93eae2e2d4ec2b12b1e9432" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1a9e438139a3e8867a7736ee076fddc7af" kindref="member">TaskType</ref></type>
+        <definition>TaskType themis::LLMRequest::task_type</definition>
+        <argsstring></argsstring>
+        <name>task_type</name>
+        <qualifiedname>themis::LLMRequest::task_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="72" column="14" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_request_1a834297ce57a6317b73caff3be0f97419" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::LLMRequest::domain</definition>
+        <argsstring></argsstring>
+        <name>domain</name>
+        <qualifiedname>themis::LLMRequest::domain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="73" column="17" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_request_1aea94cd175d6a1095c2d62287be035555" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::LLMRequest::process_trace</definition>
+        <argsstring></argsstring>
+        <name>process_trace</name>
+        <qualifiedname>themis::LLMRequest::process_trace</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="76" column="20" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_request_1ab3a76051dc33e3b9c5e250f6d87555ac" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::LLMRequest::ideal_model</definition>
+        <argsstring></argsstring>
+        <name>ideal_model</name>
+        <qualifiedname>themis::LLMRequest::ideal_model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="77" column="20" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_request_1a2e5609ce63a9ebc9fbe2e5c616ca380a" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::LLMRequest::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>themis::LLMRequest::context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="78" column="20" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_request_1a136995f9cdd9508817b6c39c3ad03aa0" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::LLMRequest::parameters</definition>
+        <argsstring></argsstring>
+        <name>parameters</name>
+        <qualifiedname>themis::LLMRequest::parameters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="81" column="14" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_request_1a88ea7b59d53e2dad7e5ca62e3373d1f7" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::LLMRequest::process_data</definition>
+        <argsstring></argsstring>
+        <name>process_data</name>
+        <qualifiedname>themis::LLMRequest::process_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="84" column="20" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/llm_process_analyzer.h" line="71" column="1" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="71" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_l_l_m_request_1a2e5609ce63a9ebc9fbe2e5c616ca380a" prot="public" virt="non-virtual"><scope>themis::LLMRequest</scope><name>context</name></member>
+      <member refid="structthemis_1_1_l_l_m_request_1a834297ce57a6317b73caff3be0f97419" prot="public" virt="non-virtual"><scope>themis::LLMRequest</scope><name>domain</name></member>
+      <member refid="structthemis_1_1_l_l_m_request_1ab3a76051dc33e3b9c5e250f6d87555ac" prot="public" virt="non-virtual"><scope>themis::LLMRequest</scope><name>ideal_model</name></member>
+      <member refid="structthemis_1_1_l_l_m_request_1a136995f9cdd9508817b6c39c3ad03aa0" prot="public" virt="non-virtual"><scope>themis::LLMRequest</scope><name>parameters</name></member>
+      <member refid="structthemis_1_1_l_l_m_request_1a88ea7b59d53e2dad7e5ca62e3373d1f7" prot="public" virt="non-virtual"><scope>themis::LLMRequest</scope><name>process_data</name></member>
+      <member refid="structthemis_1_1_l_l_m_request_1aea94cd175d6a1095c2d62287be035555" prot="public" virt="non-virtual"><scope>themis::LLMRequest</scope><name>process_trace</name></member>
+      <member refid="structthemis_1_1_l_l_m_request_1a2e653090e93eae2e2d4ec2b12b1e9432" prot="public" virt="non-virtual"><scope>themis::LLMRequest</scope><name>task_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

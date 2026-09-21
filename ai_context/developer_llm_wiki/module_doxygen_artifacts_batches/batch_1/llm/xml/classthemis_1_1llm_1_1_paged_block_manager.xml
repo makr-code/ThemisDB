@@ -1,0 +1,561 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_paged_block_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::PagedBlockManager</compoundname>
+    <includes refid="paged__block__manager_8h" local="no">paged_block_manager.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_block" prot="public">themis::llm::PagedBlockManager::Block</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_config" prot="public">themis::llm::PagedBlockManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_stats" prot="public">themis::llm::PagedBlockManager::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_block_manager_1a24888bb55822560d56cf8ff3b757c75f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::PagedBlockManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::PagedBlockManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="121" column="12" bodyfile="include/llm/paged_block_manager.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_block_manager_1a1bae55ed46f38b78a6714cca3fac34fa" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, std::shared_ptr&lt; <ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_block" kindref="compound">Block</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;int, std::shared_ptr&lt;Block&gt; &gt; themis::llm::PagedBlockManager::block_store_</definition>
+        <argsstring></argsstring>
+        <name>block_store_</name>
+        <qualifiedname>themis::llm::PagedBlockManager::block_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="125" column="24" bodyfile="include/llm/paged_block_manager.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_block_manager_1ad05a7543e1372b8f6cb6b8f51f880a68" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::PagedBlockManager::block_store_mutex_</definition>
+        <argsstring></argsstring>
+        <name>block_store_mutex_</name>
+        <qualifiedname>themis::llm::PagedBlockManager::block_store_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="126" column="24" bodyfile="include/llm/paged_block_manager.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_block_manager_1a5150bfd3bb5356d8d1b19248bd82a280" prot="private" static="no" mutable="no">
+        <type>ConcurrentCache&lt; int, <ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_block" kindref="compound">Block</ref> &gt;</type>
+        <definition>ConcurrentCache&lt;int, Block&gt; themis::llm::PagedBlockManager::blocks_</definition>
+        <argsstring></argsstring>
+        <name>blocks_</name>
+        <qualifiedname>themis::llm::PagedBlockManager::blocks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="129" column="21" bodyfile="include/llm/paged_block_manager.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_block_manager_1ad197167cf5c6667b97e04138827daf52" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; int &gt;</type>
+        <definition>std::queue&lt;int&gt; themis::llm::PagedBlockManager::free_list_</definition>
+        <argsstring></argsstring>
+        <name>free_list_</name>
+        <qualifiedname>themis::llm::PagedBlockManager::free_list_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="132" column="16" bodyfile="include/llm/paged_block_manager.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_block_manager_1ad2141b4061918b8c8ce1db0d550077c1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::PagedBlockManager::free_list_mutex_</definition>
+        <argsstring></argsstring>
+        <name>free_list_mutex_</name>
+        <qualifiedname>themis::llm::PagedBlockManager::free_list_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="133" column="24" bodyfile="include/llm/paged_block_manager.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_block_manager_1a0e748cf9a1517fa21860982714f6f988" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PagedBlockManager::PagedBlockManager</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>PagedBlockManager</name>
+        <qualifiedname>themis::llm::PagedBlockManager::PagedBlockManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Paged <ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_block" kindref="compound">Block</ref> Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="58" column="14" bodyfile="src/llm/paged_block_manager.cpp" bodystart="20" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_block_manager_1ad2b18adf3306e85d7167792f9ef776cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PagedBlockManager::~PagedBlockManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PagedBlockManager</name>
+        <qualifiedname>themis::llm::PagedBlockManager::~PagedBlockManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="59" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_block_manager_1aa142f6dc40f39ca6fdedc4996ad2b373" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PagedBlockManager::PagedBlockManager</definition>
+        <argsstring>(const PagedBlockManager &amp;)=delete</argsstring>
+        <name>PagedBlockManager</name>
+        <qualifiedname>themis::llm::PagedBlockManager::PagedBlockManager</qualifiedname>
+        <param>
+          <type>const PagedBlockManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="62" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_block_manager_1afad77db0d359ae5fd32356957ec5e0c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_paged_block_manager_1a0e748cf9a1517fa21860982714f6f988" kindref="member">PagedBlockManager</ref> &amp;</type>
+        <definition>PagedBlockManager &amp; themis::llm::PagedBlockManager::operator=</definition>
+        <argsstring>(const PagedBlockManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::PagedBlockManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_paged_block_manager_1a0e748cf9a1517fa21860982714f6f988" kindref="member">PagedBlockManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="63" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_block_manager_1a25e46077c778ee96d9e4d0a6a754aef3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PagedBlockManager::PagedBlockManager</definition>
+        <argsstring>(PagedBlockManager &amp;&amp;) noexcept=default</argsstring>
+        <name>PagedBlockManager</name>
+        <qualifiedname>themis::llm::PagedBlockManager::PagedBlockManager</qualifiedname>
+        <param>
+          <type>PagedBlockManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="64" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_block_manager_1a2f950d45479f5aa97b485c8d28275a14" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_paged_block_manager_1a0e748cf9a1517fa21860982714f6f988" kindref="member">PagedBlockManager</ref> &amp;</type>
+        <definition>PagedBlockManager &amp; themis::llm::PagedBlockManager::operator=</definition>
+        <argsstring>(PagedBlockManager &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::PagedBlockManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_paged_block_manager_1a0e748cf9a1517fa21860982714f6f988" kindref="member">PagedBlockManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="65" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_block_manager_1a223a30e45ba62b00948ced2db0e0d787" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::llm::PagedBlockManager::allocateBlocks</definition>
+        <argsstring>(int num_blocks)</argsstring>
+        <name>allocateBlocks</name>
+        <qualifiedname>themis::llm::PagedBlockManager::allocateBlocks</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num_blocks</declname>
+        </param>
+        <briefdescription>
+<para>Allocate Blocks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_blocks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_blocks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), lock(), size(), front(), pop(), push_back(), store_lock(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="72" column="17" bodyfile="src/llm/paged_block_manager.cpp" bodystart="75" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_block_manager_1ae220102d275b7983ed8133ba841cc3e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::PagedBlockManager::allocate</definition>
+        <argsstring>()</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::llm::PagedBlockManager::allocate</qualifiedname>
+        <briefdescription>
+<para>Convenience single-block allocate (v1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Allocate.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+3.0 callers)</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_paged_block_manager_1a223a30e45ba62b00948ced2db0e0d787" kindref="member">allocateBlocks()</ref>, empty(), front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="79" column="9" bodyfile="src/llm/paged_block_manager.cpp" bodystart="111" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_block_manager_1a8144d6ffe84c0d9691b56a5d233ad346" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::PagedBlockManager::freeBlocks</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;block_ids)</argsstring>
+        <name>freeBlocks</name>
+        <qualifiedname>themis::llm::PagedBlockManager::freeBlocks</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>block_ids</declname>
+        </param>
+        <briefdescription>
+<para>Free Blocks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">block_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">block_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), store_lock(), find(), end(), clear(), insert(), push(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="85" column="10" bodyfile="src/llm/paged_block_manager.cpp" bodystart="121" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_block_manager_1a9ef22310e4f85d33d07b53c091c8719e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::PagedBlockManager::deallocate</definition>
+        <argsstring>(int block_id)</argsstring>
+        <name>deallocate</name>
+        <qualifiedname>themis::llm::PagedBlockManager::deallocate</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>block_id</declname>
+        </param>
+        <briefdescription>
+<para>Convenience single-block free (v1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deallocate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the block.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+3.0 callers)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the block.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1_paged_block_manager_1a8144d6ffe84c0d9691b56a5d233ad346" kindref="member">freeBlocks()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="92" column="10" bodyfile="src/llm/paged_block_manager.cpp" bodystart="145" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_block_manager_1a262f99e89d18e529e1d3685c734ef38a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::PagedBlockManager::withBlock</definition>
+        <argsstring>(int block_id, std::function&lt; void(const Block &amp;)&gt; callback) const</argsstring>
+        <name>withBlock</name>
+        <qualifiedname>themis::llm::PagedBlockManager::withBlock</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>block_id</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_block" kindref="compound">Block</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">block_store_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="94" column="10" bodyfile="src/llm/paged_block_manager.cpp" bodystart="149" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_block_manager_1a93d8cdc96033a2e12f71fee54bf7cc38" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::reference_wrapper&lt; const <ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_block" kindref="compound">Block</ref> &gt; &gt;</type>
+        <definition>std::optional&lt; std::reference_wrapper&lt; const PagedBlockManager::Block &gt; &gt; themis::llm::PagedBlockManager::getBlockRef</definition>
+        <argsstring>(int block_id) const</argsstring>
+        <name>getBlockRef</name>
+        <qualifiedname>themis::llm::PagedBlockManager::getBlockRef</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>block_id</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_block" kindref="compound">Block</ref> Ref. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">block_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the block. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">block_store_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="101" column="19" bodyfile="src/llm/paged_block_manager.cpp" bodystart="163" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_block_manager_1ae30283fa89dacbf53b67a836860f0603" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>PagedBlockManager::Stats themis::llm::PagedBlockManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::PagedBlockManager::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1llm_1_1_paged_block_manager_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">free_list_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="107" column="11" bodyfile="src/llm/paged_block_manager.cpp" bodystart="177" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_block_manager_1a5f7552c133220441e5fe6fc2671793a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::PagedBlockManager::getNumFreeBlocks</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumFreeBlocks</name>
+        <qualifiedname>themis::llm::PagedBlockManager::getNumFreeBlocks</qualifiedname>
+        <briefdescription>
+<para>Get Num Free Blocks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">free_list_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="113" column="9" bodyfile="src/llm/paged_block_manager.cpp" bodystart="211" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_block_manager_1aadd91c1fabd6eef61e3d50c8da1342a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::PagedBlockManager::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::llm::PagedBlockManager::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store_lock(), clear(), lock(), empty(), pop(), initializeFreeList(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="118" column="10" bodyfile="src/llm/paged_block_manager.cpp" bodystart="225" bodyend="240"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_block_manager_1a5082c81d7697c01d879bad709f92c516" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::PagedBlockManager::initializeFreeList</definition>
+        <argsstring>()</argsstring>
+        <name>initializeFreeList</name>
+        <qualifiedname>themis::llm::PagedBlockManager::initializeFreeList</qualifiedname>
+        <briefdescription>
+<para>Initialize Free List. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::overflow_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: free_lock(), store_lock(), clear(), empty(), pop(), max(), insert(), push(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_block_manager.h" line="138" column="10" bodyfile="src/llm/paged_block_manager.cpp" bodystart="30" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/paged_block_manager.h" line="25" column="1" bodyfile="include/llm/paged_block_manager.h" bodystart="25" bodyend="139"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1ae220102d275b7983ed8133ba841cc3e7" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>allocate</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1a223a30e45ba62b00948ced2db0e0d787" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>allocateBlocks</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1a1bae55ed46f38b78a6714cca3fac34fa" prot="private" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>block_store_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1ad05a7543e1372b8f6cb6b8f51f880a68" prot="private" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>block_store_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1a5150bfd3bb5356d8d1b19248bd82a280" prot="private" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>blocks_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1a24888bb55822560d56cf8ff3b757c75f" prot="private" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1a9ef22310e4f85d33d07b53c091c8719e" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>deallocate</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1ad197167cf5c6667b97e04138827daf52" prot="private" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>free_list_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1ad2141b4061918b8c8ce1db0d550077c1" prot="private" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>free_list_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1a8144d6ffe84c0d9691b56a5d233ad346" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>freeBlocks</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1a93d8cdc96033a2e12f71fee54bf7cc38" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>getBlockRef</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1a5f7552c133220441e5fe6fc2671793a9" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>getNumFreeBlocks</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1ae30283fa89dacbf53b67a836860f0603" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1a5082c81d7697c01d879bad709f92c516" prot="private" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>initializeFreeList</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1afad77db0d359ae5fd32356957ec5e0c2" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1a2f950d45479f5aa97b485c8d28275a14" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1a0e748cf9a1517fa21860982714f6f988" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>PagedBlockManager</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1aa142f6dc40f39ca6fdedc4996ad2b373" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>PagedBlockManager</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1a25e46077c778ee96d9e4d0a6a754aef3" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>PagedBlockManager</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1aadd91c1fabd6eef61e3d50c8da1342a2" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>reset</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1a262f99e89d18e529e1d3685c734ef38a" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>withBlock</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_block_manager_1ad2b18adf3306e85d7167792f9ef776cc" prot="public" virt="non-virtual"><scope>themis::llm::PagedBlockManager</scope><name>~PagedBlockManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

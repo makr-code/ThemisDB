@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_transcript_record" kind="struct" language="C++" prot="public">
+    <compoundname>TranscriptRecord</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_transcript_record_1a6470d4cd11afeac0153377f10eb5710f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string TranscriptRecord::audio_id</definition>
+        <argsstring></argsstring>
+        <name>audio_id</name>
+        <qualifiedname>TranscriptRecord::audio_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/whisper/test_whisper_highcardinality_stress.cpp" line="44" column="17" bodyfile="tests/whisper/test_whisper_highcardinality_stress.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_transcript_record_1a06aeb46d510a5d8afaefc98cceceb446" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool TranscriptRecord::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>TranscriptRecord::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/whisper/test_whisper_highcardinality_stress.cpp" line="45" column="17" bodyfile="tests/whisper/test_whisper_highcardinality_stress.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_transcript_record_1af61e5a489be43db5bde8207cbb6cb78f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t TranscriptRecord::token_count</definition>
+        <argsstring></argsstring>
+        <name>token_count</name>
+        <qualifiedname>TranscriptRecord::token_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/whisper/test_whisper_highcardinality_stress.cpp" line="46" column="17" bodyfile="tests/whisper/test_whisper_highcardinality_stress.cpp" bodystart="46" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/whisper/test_whisper_highcardinality_stress.cpp" line="43" column="1" bodyfile="tests/whisper/test_whisper_highcardinality_stress.cpp" bodystart="43" bodyend="47"/>
+    <listofallmembers>
+      <member refid="struct_transcript_record_1a6470d4cd11afeac0153377f10eb5710f" prot="public" virt="non-virtual"><scope>TranscriptRecord</scope><name>audio_id</name></member>
+      <member refid="struct_transcript_record_1a06aeb46d510a5d8afaefc98cceceb446" prot="public" virt="non-virtual"><scope>TranscriptRecord</scope><name>success</name></member>
+      <member refid="struct_transcript_record_1af61e5a489be43db5bde8207cbb6cb78f" prot="public" virt="non-virtual"><scope>TranscriptRecord</scope><name>token_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

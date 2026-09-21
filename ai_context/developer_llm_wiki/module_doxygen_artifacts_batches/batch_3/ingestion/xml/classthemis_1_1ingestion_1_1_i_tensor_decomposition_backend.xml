@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::ingestion::ITensorDecompositionBackend</compoundname>
+    <derivedcompoundref refid="classthemis_1_1ingestion_1_1_null_tensor_decomposition_backend" prot="public" virt="non-virtual">themis::ingestion::NullTensorDecompositionBackend</derivedcompoundref>
+    <includes refid="inference__backend_8h" local="no">inference_backend.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend_1a00644dd8352d50e338b6fd70c6f9fa3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::ingestion::ITensorDecompositionBackend::~ITensorDecompositionBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ITensorDecompositionBackend</name>
+        <qualifiedname>themis::ingestion::ITensorDecompositionBackend::~ITensorDecompositionBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="398" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend_1a0d6f20002b6d7cca1053d1eaa68f2283" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record" kindref="compound">TensorCoreRecord</ref></type>
+        <definition>virtual TensorCoreRecord themis::ingestion::ITensorDecompositionBackend::decompose</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;embedding, const std::string &amp;chunk_id, const std::string &amp;source_file_id, double epsilon=0.01, std::size_t max_rank=0)=0</argsstring>
+        <name>decompose</name>
+        <qualifiedname>themis::ingestion::ITensorDecompositionBackend::decompose</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_null_tensor_decomposition_backend_1ab63b8e2ab34df07a13b3f832c24229e2">decompose</reimplementedby>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_file_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>epsilon</declname>
+          <defval>0.01</defval>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_rank</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Decompose a dense embedding vector into TT-format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dense float32 embedding from a prior <computeroutput>chunk_embed</computeroutput> step. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>chunk_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier linking result to the originating chunk. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source_file_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SHA-256 digest of the originating file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>epsilon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Relative reconstruction error tolerance ε ∈ (0, 1]. Passed directly to <computeroutput>TensorTrainDecomposer</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Hard bond-dimension cap (0 = no cap). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <computeroutput><ref refid="structthemis_1_1ingestion_1_1_tensor_core_record" kindref="compound">TensorCoreRecord</ref></computeroutput>. On error, returns a record with empty <computeroutput>serialized_train</computeroutput> so callers can degrade gracefully. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="412" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend_1a3fe3e3af0971a731765fef429e0b0b39" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::ingestion::ITensorDecompositionBackend::shouldDecompose</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;embedding, double min_kappa=1.3) const =0</argsstring>
+        <name>shouldDecompose</name>
+        <qualifiedname>themis::ingestion::ITensorDecompositionBackend::shouldDecompose</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_null_tensor_decomposition_backend_1a2295cd1d54ee6528aa28c9638322239d">shouldDecompose</reimplementedby>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_kappa</declname>
+          <defval>1.3</defval>
+        </param>
+        <briefdescription>
+<para>κ-gate: estimate whether decomposition is worthwhile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns <computeroutput>true</computeroutput> when the pilot compressibility estimate κ ≥ <computeroutput>min_kappa</computeroutput>. Implementations are permitted to use a randomised approximation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The dense vector to probe. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_kappa</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum compression ratio to justify decomposition. Default: 1.3 (boundary from TT boundary analysis). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="429" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend_1abbc416bf5adf31ad6047f8f78da803ad" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::ingestion::ITensorDecompositionBackend::isAvailable</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::ingestion::ITensorDecompositionBackend::isAvailable</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_null_tensor_decomposition_backend_1af9968e5d580b3968f51fff22f2ef3709">isAvailable</reimplementedby>
+        <briefdescription>
+<para>Return true when the backend is configured and operational. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="436" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend_1a5e5aea009e4457047ca7677ec40f1bc6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::ingestion::ITensorDecompositionBackend::description</definition>
+        <argsstring>() const =0</argsstring>
+        <name>description</name>
+        <qualifiedname>themis::ingestion::ITensorDecompositionBackend::description</qualifiedname>
+        <reimplementedby refid="classthemis_1_1ingestion_1_1_null_tensor_decomposition_backend_1afe8d3afe532ded7d19f398b23830f40e">description</reimplementedby>
+        <briefdescription>
+<para>Human-readable description of the backend for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example: &quot;TensorIngestionBridge → TensorTrainDecomposer (ε=0.01)&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/inference_backend.h" line="443" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>I tensor decomposition backend implementation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::ingestion::ITensorDecompositionBackend</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::NullTensorDecompositionBackend</label>
+        <link refid="classthemis_1_1ingestion_1_1_null_tensor_decomposition_backend"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/ingestion/inference_backend.h" line="396" column="1" bodyfile="include/ingestion/inference_backend.h" bodystart="396" bodyend="444"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend_1a0d6f20002b6d7cca1053d1eaa68f2283" prot="public" virt="pure-virtual"><scope>themis::ingestion::ITensorDecompositionBackend</scope><name>decompose</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend_1a5e5aea009e4457047ca7677ec40f1bc6" prot="public" virt="pure-virtual"><scope>themis::ingestion::ITensorDecompositionBackend</scope><name>description</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend_1abbc416bf5adf31ad6047f8f78da803ad" prot="public" virt="pure-virtual"><scope>themis::ingestion::ITensorDecompositionBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend_1a3fe3e3af0971a731765fef429e0b0b39" prot="public" virt="pure-virtual"><scope>themis::ingestion::ITensorDecompositionBackend</scope><name>shouldDecompose</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_tensor_decomposition_backend_1a00644dd8352d50e338b6fd70c6f9fa3e" prot="public" virt="virtual"><scope>themis::ingestion::ITensorDecompositionBackend</scope><name>~ITensorDecompositionBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

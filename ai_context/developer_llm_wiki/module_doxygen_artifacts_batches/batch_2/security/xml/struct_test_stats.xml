@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_test_stats" kind="struct" language="C++" prot="public">
+    <compoundname>TestStats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_test_stats_1ae43e5875793219d7dbddefbcc8c93011" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; TestStats::export_count</definition>
+        <argsstring></argsstring>
+        <name>export_count</name>
+        <qualifiedname>TestStats::export_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_audit_export_stress_focused.cpp" line="82" column="17" bodyfile="tests/security/test_audit_export_stress_focused.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_test_stats_1ab7dbba125735adf702921ac2c780617a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; TestStats::total_events</definition>
+        <argsstring></argsstring>
+        <name>total_events</name>
+        <qualifiedname>TestStats::total_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_audit_export_stress_focused.cpp" line="83" column="17" bodyfile="tests/security/test_audit_export_stress_focused.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_test_stats_1a36e3bca4020712b3ed7eb602a4a33ae9" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; TestStats::events_lost</definition>
+        <argsstring></argsstring>
+        <name>events_lost</name>
+        <qualifiedname>TestStats::events_lost</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_audit_export_stress_focused.cpp" line="84" column="17" bodyfile="tests/security/test_audit_export_stress_focused.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_test_stats_1a08e03c48b72d67a20ff9b62fd1946f95" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; TestStats::total_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>total_latency_ms</name>
+        <qualifiedname>TestStats::total_latency_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_audit_export_stress_focused.cpp" line="85" column="17" bodyfile="tests/security/test_audit_export_stress_focused.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_test_stats_1ab65ae38db55d6bbf86f9e01b902842dd" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; TestStats::p95_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p95_latency_ms</name>
+        <qualifiedname>TestStats::p95_latency_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_audit_export_stress_focused.cpp" line="86" column="17" bodyfile="tests/security/test_audit_export_stress_focused.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_test_stats_1a8aab3252aa6f4b710f0f7058fdb489a8" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; TestStats::p99_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p99_latency_ms</name>
+        <qualifiedname>TestStats::p99_latency_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_audit_export_stress_focused.cpp" line="87" column="17" bodyfile="tests/security/test_audit_export_stress_focused.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_test_stats_1aa6531f93f5a189116b99bd37885c064b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt;uint64_t&gt; TestStats::latencies</definition>
+        <argsstring></argsstring>
+        <name>latencies</name>
+        <qualifiedname>TestStats::latencies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_audit_export_stress_focused.cpp" line="88" column="17" bodyfile="tests/security/test_audit_export_stress_focused.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_test_stats_1a407dd86d4f10c19a307b7626dbac1512" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex TestStats::latencies_mu</definition>
+        <argsstring></argsstring>
+        <name>latencies_mu</name>
+        <qualifiedname>TestStats::latencies_mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_audit_export_stress_focused.cpp" line="89" column="16" bodyfile="tests/security/test_audit_export_stress_focused.cpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_audit_export_stress_focused.cpp" line="81" column="1" bodyfile="tests/security/test_audit_export_stress_focused.cpp" bodystart="81" bodyend="90"/>
+    <listofallmembers>
+      <member refid="struct_test_stats_1a36e3bca4020712b3ed7eb602a4a33ae9" prot="public" virt="non-virtual"><scope>TestStats</scope><name>events_lost</name></member>
+      <member refid="struct_test_stats_1ae43e5875793219d7dbddefbcc8c93011" prot="public" virt="non-virtual"><scope>TestStats</scope><name>export_count</name></member>
+      <member refid="struct_test_stats_1aa6531f93f5a189116b99bd37885c064b" prot="public" virt="non-virtual"><scope>TestStats</scope><name>latencies</name></member>
+      <member refid="struct_test_stats_1a407dd86d4f10c19a307b7626dbac1512" prot="public" virt="non-virtual"><scope>TestStats</scope><name>latencies_mu</name></member>
+      <member refid="struct_test_stats_1ab65ae38db55d6bbf86f9e01b902842dd" prot="public" virt="non-virtual"><scope>TestStats</scope><name>p95_latency_ms</name></member>
+      <member refid="struct_test_stats_1a8aab3252aa6f4b710f0f7058fdb489a8" prot="public" virt="non-virtual"><scope>TestStats</scope><name>p99_latency_ms</name></member>
+      <member refid="struct_test_stats_1ab7dbba125735adf702921ac2c780617a" prot="public" virt="non-virtual"><scope>TestStats</scope><name>total_events</name></member>
+      <member refid="struct_test_stats_1a08e03c48b72d67a20ff9b62fd1946f95" prot="public" virt="non-virtual"><scope>TestStats</scope><name>total_latency_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

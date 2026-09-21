@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_time_window_report_test" kind="class" language="C++" prot="public">
+    <compoundname>TimeWindowReportTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_time_window_report_test_1ac3769f671abd2b85ed37954d2fdf3f35" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_policy_manager" kindref="compound">PolicyManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PolicyManager&gt; TimeWindowReportTest::pm</definition>
+        <argsstring></argsstring>
+        <name>pm</name>
+        <qualifiedname>TimeWindowReportTest::pm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_compliance_time_window.cpp" line="104" column="23" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_time_window_report_test_1aa32c09891d0e1c2a324148c1541d767f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1governance_1_1_compliance_reporter" kindref="compound">ComplianceReporter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ComplianceReporter&gt; TimeWindowReportTest::reporter</definition>
+        <argsstring></argsstring>
+        <name>reporter</name>
+        <qualifiedname>TimeWindowReportTest::reporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_compliance_time_window.cpp" line="105" column="21" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_time_window_report_test_1aac8f1dbcc3c584b424104b9a2d50e3d1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TimeWindowReportTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TimeWindowReportTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_compliance_time_window.cpp" line="85" column="10" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="85" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TimeWindowReportTest</label>
+        <link refid="class_time_window_report_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TimeWindowReportTest</label>
+        <link refid="class_time_window_report_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/governance/test_governance_compliance_time_window.cpp" line="83" column="1" bodyfile="tests/governance/test_governance_compliance_time_window.cpp" bodystart="83" bodyend="106"/>
+    <listofallmembers>
+      <member refid="class_time_window_report_test_1ac3769f671abd2b85ed37954d2fdf3f35" prot="protected" virt="non-virtual"><scope>TimeWindowReportTest</scope><name>pm</name></member>
+      <member refid="class_time_window_report_test_1aa32c09891d0e1c2a324148c1541d767f" prot="protected" virt="non-virtual"><scope>TimeWindowReportTest</scope><name>reporter</name></member>
+      <member refid="class_time_window_report_test_1aac8f1dbcc3c584b424104b9a2d50e3d1" prot="protected" virt="non-virtual"><scope>TimeWindowReportTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

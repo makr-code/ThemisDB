@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_1859bdb9025c02a18d0298e5e335fed1" kind="dir">
+    <compoundname>benchmarks/ethics_ai</compoundname>
+    <innerfile refid="bench__ethics__ai__plugin_8cpp">bench_ethics_ai_plugin.cpp</innerfile>
+    <innerfile refid="bench__ldm_8cpp">bench_ldm.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/ethics_ai/"/>
+  </compounddef>
+</doxygen>

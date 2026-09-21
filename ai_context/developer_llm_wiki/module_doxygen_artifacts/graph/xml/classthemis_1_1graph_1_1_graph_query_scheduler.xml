@@ -1,0 +1,427 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_graph_query_scheduler" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::GraphQueryScheduler</compoundname>
+    <includes refid="graph__load__balancer_8h" local="no">graph_load_balancer.h</includes>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_scheduler_1_1_query_task" prot="public">themis::graph::GraphQueryScheduler::QueryTask</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_query_scheduler_1_1_task_compare" prot="private">themis::graph::GraphQueryScheduler::TaskCompare</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626ce" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>Priority</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::Priority</qualifiedname>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626cea41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626cea1e23852820b9154316c7c06e2b7ba051" prot="public">
+          <name>NORMAL</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626ceab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626ceae395eb26ae42d923ae1bdc51933984dc" prot="public">
+          <name>URGENT</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="43" column="5" bodyfile="include/graph/graph_load_balancer.h" bodystart="43" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_scheduler_1a214687fc0741e61f0f5125a383386c39" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::graph::GraphQueryScheduler::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="171" column="24" bodyfile="include/graph/graph_load_balancer.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_scheduler_1a9e8f25750ca49e20f09794fd304a8507" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::graph::GraphQueryScheduler::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="172" column="29" bodyfile="include/graph/graph_load_balancer.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_scheduler_1a386a72250d4483e7dccae2be1b1b087b" prot="private" static="no" mutable="no">
+        <type>std::priority_queue&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_scheduler_1_1_query_task" kindref="compound">QueryTask</ref>, std::vector&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_scheduler_1_1_query_task" kindref="compound">QueryTask</ref> &gt;, TaskCompare &gt;</type>
+        <definition>std::priority_queue&lt;QueryTask, std::vector&lt;QueryTask&gt;, TaskCompare&gt; themis::graph::GraphQueryScheduler::queue_</definition>
+        <argsstring></argsstring>
+        <name>queue_</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="173" column="25" bodyfile="include/graph/graph_load_balancer.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_scheduler_1a80f58befef873e29a55b1dc1c64b1fa1" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphQueryScheduler::next_id_</definition>
+        <argsstring></argsstring>
+        <name>next_id_</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::next_id_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="174" column="15" bodyfile="include/graph/graph_load_balancer.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_scheduler_1ae146a7abe0789fa30d9144334ec5abd1" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryScheduler::stopped_</definition>
+        <argsstring></argsstring>
+        <name>stopped_</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::stopped_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="175" column="15" bodyfile="include/graph/graph_load_balancer.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_scheduler_1acc28f08dc0ad907afbf9766eb0b23582" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryScheduler::max_queue_depth_</definition>
+        <argsstring></argsstring>
+        <name>max_queue_depth_</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::max_queue_depth_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="176" column="15" bodyfile="include/graph/graph_load_balancer.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_scheduler_1a5aec2fdced922ed1f82fc1a15b8d3c8d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::graph::GraphQueryScheduler::submitted_count_</definition>
+        <argsstring></argsstring>
+        <name>submitted_count_</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::submitted_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="177" column="17" bodyfile="include/graph/graph_load_balancer.h" bodystart="177" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_scheduler_1a3cd3d5170f07fdbb169771acf5d93f1e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::graph::GraphQueryScheduler::dispatched_count_</definition>
+        <argsstring></argsstring>
+        <name>dispatched_count_</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::dispatched_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="178" column="17" bodyfile="include/graph/graph_load_balancer.h" bodystart="178" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_query_scheduler_1a8b1d8be22603c6099b8344bc9e1da4d9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::graph::GraphQueryScheduler::completed_count_</definition>
+        <argsstring></argsstring>
+        <name>completed_count_</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::completed_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="179" column="17" bodyfile="include/graph/graph_load_balancer.h" bodystart="179" bodyend="179"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_scheduler_1a2fe157b2dd2efdd9f9a5c51e44bdb35e" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphQueryScheduler::GraphQueryScheduler</definition>
+        <argsstring>(size_t max_queue_depth=0)</argsstring>
+        <name>GraphQueryScheduler</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::GraphQueryScheduler</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_queue_depth</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="58" column="14" bodyfile="include/graph/graph_load_balancer.h" bodystart="58" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_scheduler_1ae64fad3762f7881a6e279395aadf97f3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphQueryScheduler::submit</definition>
+        <argsstring>(std::string label, Priority priority, std::function&lt; void()&gt; work)</argsstring>
+        <name>submit</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::submit</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>label</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626ce" kindref="member">Priority</ref></type>
+          <declname>priority</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void()&gt;</type>
+          <declname>work</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="61" column="14" bodyfile="include/graph/graph_load_balancer.h" bodystart="61" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_scheduler_1a24ddfb4d27d31281025472a6a5d0d97e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_scheduler_1_1_query_task" kindref="compound">QueryTask</ref> &gt;</type>
+        <definition>std::optional&lt; QueryTask &gt; themis::graph::GraphQueryScheduler::next</definition>
+        <argsstring>(bool block=false)</argsstring>
+        <name>next</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::next</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>block</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="82" column="19" bodyfile="include/graph/graph_load_balancer.h" bodystart="82" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_scheduler_1a5d79d0d15c005099bcf1e75f7f5f6d57" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryScheduler::executeNext</definition>
+        <argsstring>(bool block=false)</argsstring>
+        <name>executeNext</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::executeNext</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>block</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="101" column="10" bodyfile="include/graph/graph_load_balancer.h" bodystart="101" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_scheduler_1a42e35b0deb725d6777bc696bb42c3e25" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryScheduler::pending</definition>
+        <argsstring>() const</argsstring>
+        <name>pending</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::pending</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="113" column="12" bodyfile="include/graph/graph_load_balancer.h" bodystart="113" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_scheduler_1ae4ab1243b01420e813d6b059afaf4185" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphQueryScheduler::submittedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>submittedCount</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::submittedCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="123" column="14" bodyfile="include/graph/graph_load_balancer.h" bodystart="123" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_scheduler_1a9d1850e0d52a028177b30cb7ed190280" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphQueryScheduler::dispatchedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>dispatchedCount</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::dispatchedCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="127" column="14" bodyfile="include/graph/graph_load_balancer.h" bodystart="127" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_scheduler_1ac6d218c18e2ffc9bb745ceede7a65800" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphQueryScheduler::completedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>completedCount</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::completedCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="131" column="14" bodyfile="include/graph/graph_load_balancer.h" bodystart="131" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_scheduler_1a7d353c0ea153f388a31a0b243a95a785" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryScheduler::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), notify_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="139" column="10" bodyfile="include/graph/graph_load_balancer.h" bodystart="139" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_query_scheduler_1aa865f995187a35e98fc1a771d6d6355c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryScheduler::clearPending</definition>
+        <argsstring>()</argsstring>
+        <name>clearPending</name>
+        <qualifiedname>themis::graph::GraphQueryScheduler::clearPending</qualifiedname>
+        <briefdescription>
+<para>Clear Pending. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), size(), empty(), pop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_load_balancer.h" line="152" column="12" bodyfile="include/graph/graph_load_balancer.h" bodystart="152" bodyend="159"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_load_balancer.h" line="41" column="1" bodyfile="include/graph/graph_load_balancer.h" bodystart="41" bodyend="180"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_graph_query_scheduler_1aa865f995187a35e98fc1a771d6d6355c" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler</scope><name>clearPending</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a8b1d8be22603c6099b8344bc9e1da4d9" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler</scope><name>completed_count_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ac6d218c18e2ffc9bb745ceede7a65800" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler</scope><name>completedCount</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a9e8f25750ca49e20f09794fd304a8507" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a3cd3d5170f07fdbb169771acf5d93f1e" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler</scope><name>dispatched_count_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a9d1850e0d52a028177b30cb7ed190280" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler</scope><name>dispatchedCount</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a5d79d0d15c005099bcf1e75f7f5f6d57" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler</scope><name>executeNext</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a2fe157b2dd2efdd9f9a5c51e44bdb35e" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler</scope><name>GraphQueryScheduler</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_scheduler_1acc28f08dc0ad907afbf9766eb0b23582" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler</scope><name>max_queue_depth_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a214687fc0741e61f0f5125a383386c39" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a24ddfb4d27d31281025472a6a5d0d97e" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler</scope><name>next</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a80f58befef873e29a55b1dc1c64b1fa1" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler</scope><name>next_id_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a42e35b0deb725d6777bc696bb42c3e25" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler</scope><name>pending</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a511ee2932593fc3155f4ec26e1c626ce" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler</scope><name>Priority</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a386a72250d4483e7dccae2be1b1b087b" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler</scope><name>queue_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a7d353c0ea153f388a31a0b243a95a785" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler</scope><name>stop</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ae146a7abe0789fa30d9144334ec5abd1" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler</scope><name>stopped_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ae64fad3762f7881a6e279395aadf97f3" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler</scope><name>submit</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_scheduler_1a5aec2fdced922ed1f82fc1a15b8d3c8d" prot="private" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler</scope><name>submitted_count_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_query_scheduler_1ae4ab1243b01420e813d6b059afaf4185" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryScheduler</scope><name>submittedCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespaceutils" kind="namespace" language="C++">
+    <compoundname>utils</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceutils_1a1bac68510825f4128c02eb7a79fd24c6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string utils::generate_uuid_v4</definition>
+        <argsstring>()</argsstring>
+        <name>generate_uuid_v4</name>
+        <qualifiedname>utils::generate_uuid_v4</qualifiedname>
+        <briefdescription>
+<para>Generate a random UUID v4 string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses a thread-local Mersenne-Twister seeded from std::random_device so that IDs are unique across threads without lock contention.</para>
+<para><simplesect kind="return"><para>Lowercase UUID v4 string of the form &quot;xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx&quot;. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/uuid.h" line="30" column="20" bodyfile="include/utils/uuid.h" bodystart="30" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceutils_1a3b7ce3bb0f4ad8c679ddbf31a568823f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string utils::generate_uuid_v7</definition>
+        <argsstring>()</argsstring>
+        <name>generate_uuid_v7</name>
+        <qualifiedname>utils::generate_uuid_v7</qualifiedname>
+        <briefdescription>
+<para>Generate a time-ordered UUID v7 string (RFC 9562). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The UUID encodes the current Unix timestamp in milliseconds in the most-significant 48 bits, followed by the version nibble (7), 12 random bits, the 2-bit variant (0b10), and 62 random bits.</para>
+<para>UUID v7 values generated within the same process are monotonically increasing: two calls within the same millisecond yield the same timestamp portion, with the random suffix providing uniqueness.</para>
+<para>Format: &quot;xxxxxxxx-xxxx-7xxx-yxxx-xxxxxxxxxxxx&quot; where the first 48 bits encode unix_ts_ms and y ∈ {8,9,a,b}.</para>
+<para><simplesect kind="return"><para>Lowercase UUID v7 string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/uuid.h" line="85" column="20" bodyfile="include/utils/uuid.h" bodystart="85" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/uuid.h" line="19" column="1"/>
+  </compounddef>
+</doxygen>

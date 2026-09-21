@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_shader_integrity_test" kind="class" language="C++" prot="public">
+    <compoundname>ShaderIntegrityTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_shader_integrity_test_1ac49f28355ea5fc2357d22125327179de" prot="protected" static="no" mutable="no">
+        <type>SecurityAuditLog</type>
+        <definition>SecurityAuditLog ShaderIntegrityTest::audit_log</definition>
+        <argsstring></argsstring>
+        <name>audit_log</name>
+        <qualifiedname>ShaderIntegrityTest::audit_log</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" line="171" column="22" bodyfile="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" bodystart="171" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_shader_integrity_test_1a97a87f596144ab05f4a41d992db11871" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ShaderIntegrityTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ShaderIntegrityTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" line="173" column="10" bodyfile="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" bodystart="173" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="class_shader_integrity_test_1a14c794e2036db262f6eed650b3462854" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ShaderIntegrityTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ShaderIntegrityTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" line="177" column="10" bodyfile="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" bodystart="177" bodyend="179"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ShaderIntegrityTest</label>
+        <link refid="class_shader_integrity_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ShaderIntegrityTest</label>
+        <link refid="class_shader_integrity_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>audit_log</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>anonymous:audit_log</label>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" line="169" column="1" bodyfile="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" bodystart="169" bodyend="180"/>
+    <listofallmembers>
+      <member refid="class_shader_integrity_test_1ac49f28355ea5fc2357d22125327179de" prot="protected" virt="non-virtual"><scope>ShaderIntegrityTest</scope><name>audit_log</name></member>
+      <member refid="class_shader_integrity_test_1a97a87f596144ab05f4a41d992db11871" prot="protected" virt="non-virtual"><scope>ShaderIntegrityTest</scope><name>SetUp</name></member>
+      <member refid="class_shader_integrity_test_1a14c794e2036db262f6eed650b3462854" prot="protected" virt="non-virtual"><scope>ShaderIntegrityTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

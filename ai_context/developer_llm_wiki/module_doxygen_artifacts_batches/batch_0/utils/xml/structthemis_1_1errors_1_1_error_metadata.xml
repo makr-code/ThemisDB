@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1errors_1_1_error_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::errors::ErrorMetadata</compoundname>
+    <includes refid="error__registry_8h" local="no">error_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1errors_1_1_error_metadata_1a4e6ef36ca2f783b66b4519905c400840" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279d" kindref="member">ErrorCode</ref></type>
+        <definition>ErrorCode themis::errors::ErrorMetadata::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::errors::ErrorMetadata::code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="388" column="15" bodyfile="include/utils/error_registry.h" bodystart="388" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1errors_1_1_error_metadata_1a1e12615d2f17e8515069eb72a33d320b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::errors::ErrorMetadata::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::errors::ErrorMetadata::category</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="389" column="17" bodyfile="include/utils/error_registry.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1errors_1_1_error_metadata_1a7ccf54e1e85e732ef996b73d8a00728c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::errors::ErrorMetadata::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::errors::ErrorMetadata::severity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="390" column="17" bodyfile="include/utils/error_registry.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1errors_1_1_error_metadata_1a29061ed46b4ff854fbae39c9453cfc22" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::errors::ErrorMetadata::message_template</definition>
+        <argsstring></argsstring>
+        <name>message_template</name>
+        <qualifiedname>themis::errors::ErrorMetadata::message_template</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="391" column="17" bodyfile="include/utils/error_registry.h" bodystart="391" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1errors_1_1_error_metadata_1ace3233f45199c7bc39d204ed8df09f36" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::errors::ErrorMetadata::cause</definition>
+        <argsstring></argsstring>
+        <name>cause</name>
+        <qualifiedname>themis::errors::ErrorMetadata::cause</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="392" column="17" bodyfile="include/utils/error_registry.h" bodystart="392" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1errors_1_1_error_metadata_1a0cbf5ca92a934f4ed2544db1d50d76ed" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::errors::ErrorMetadata::solution</definition>
+        <argsstring></argsstring>
+        <name>solution</name>
+        <qualifiedname>themis::errors::ErrorMetadata::solution</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="393" column="17" bodyfile="include/utils/error_registry.h" bodystart="393" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1errors_1_1_error_metadata_1a442e15d078cf5b1a449af6dcae021291" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::errors::ErrorMetadata::related_docs</definition>
+        <argsstring></argsstring>
+        <name>related_docs</name>
+        <qualifiedname>themis::errors::ErrorMetadata::related_docs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="394" column="17" bodyfile="include/utils/error_registry.h" bodystart="394" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1errors_1_1_error_metadata_1af2d37acdca37b6e35a168b2db0241390" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::errors::ErrorMetadata::keywords</definition>
+        <argsstring></argsstring>
+        <name>keywords</name>
+        <qualifiedname>themis::errors::ErrorMetadata::keywords</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="395" column="17" bodyfile="include/utils/error_registry.h" bodystart="395" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1errors_1_1_error_metadata_1a0f5620a998e365f5a7e70351b13d54ef" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1errors_1ab9b1f3c9f9656bcfa6440ba87bfddf2f" kindref="member">json</ref></type>
+        <definition>json themis::errors::ErrorMetadata::operator_hint</definition>
+        <argsstring></argsstring>
+        <name>operator_hint</name>
+        <qualifiedname>themis::errors::ErrorMetadata::operator_hint</qualifiedname>
+        <initializer>= json::object()</initializer>
+        <briefdescription>
+<para>Machine-readable operator hint for structured tooling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional structured JSON object that complements the <computeroutput>solution</computeroutput> field with fields consumable by alerting and runbook systems:<itemizedlist>
+<listitem><para><computeroutput>"check"</computeroutput> (array of strings): ordered diagnostic steps.</para>
+</listitem><listitem><para><computeroutput>"classification"</computeroutput> (string): one of <computeroutput>"authentication"</computeroutput>, <computeroutput>"policy"</computeroutput>, <computeroutput>"revocation"</computeroutput>, <computeroutput>"federation"</computeroutput>, <computeroutput>"async"</computeroutput>, <computeroutput>"general"</computeroutput>.</para>
+</listitem><listitem><para><computeroutput>"escalation"</computeroutput> (string): free-form escalation guidance.</para>
+</listitem></itemizedlist>
+</para>
+<para>Defaults to an empty JSON object when not set. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="408" column="10" bodyfile="include/utils/error_registry.h" bodystart="408" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1errors_1_1_error_metadata_1a81bc134009966777d28cbf924b6b3bee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1errors_1ab9b1f3c9f9656bcfa6440ba87bfddf2f" kindref="member">json</ref></type>
+        <definition>json themis::errors::ErrorMetadata::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::errors::ErrorMetadata::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="410" column="10" bodyfile="src/utils/error_registry.cpp" bodystart="22" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/error_registry.h" line="387" column="1" bodyfile="include/utils/error_registry.h" bodystart="387" bodyend="411"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1errors_1_1_error_metadata_1a1e12615d2f17e8515069eb72a33d320b" prot="public" virt="non-virtual"><scope>themis::errors::ErrorMetadata</scope><name>category</name></member>
+      <member refid="structthemis_1_1errors_1_1_error_metadata_1ace3233f45199c7bc39d204ed8df09f36" prot="public" virt="non-virtual"><scope>themis::errors::ErrorMetadata</scope><name>cause</name></member>
+      <member refid="structthemis_1_1errors_1_1_error_metadata_1a4e6ef36ca2f783b66b4519905c400840" prot="public" virt="non-virtual"><scope>themis::errors::ErrorMetadata</scope><name>code</name></member>
+      <member refid="structthemis_1_1errors_1_1_error_metadata_1af2d37acdca37b6e35a168b2db0241390" prot="public" virt="non-virtual"><scope>themis::errors::ErrorMetadata</scope><name>keywords</name></member>
+      <member refid="structthemis_1_1errors_1_1_error_metadata_1a29061ed46b4ff854fbae39c9453cfc22" prot="public" virt="non-virtual"><scope>themis::errors::ErrorMetadata</scope><name>message_template</name></member>
+      <member refid="structthemis_1_1errors_1_1_error_metadata_1a0f5620a998e365f5a7e70351b13d54ef" prot="public" virt="non-virtual"><scope>themis::errors::ErrorMetadata</scope><name>operator_hint</name></member>
+      <member refid="structthemis_1_1errors_1_1_error_metadata_1a442e15d078cf5b1a449af6dcae021291" prot="public" virt="non-virtual"><scope>themis::errors::ErrorMetadata</scope><name>related_docs</name></member>
+      <member refid="structthemis_1_1errors_1_1_error_metadata_1a7ccf54e1e85e732ef996b73d8a00728c" prot="public" virt="non-virtual"><scope>themis::errors::ErrorMetadata</scope><name>severity</name></member>
+      <member refid="structthemis_1_1errors_1_1_error_metadata_1a0cbf5ca92a934f4ed2544db1d50d76ed" prot="public" virt="non-virtual"><scope>themis::errors::ErrorMetadata</scope><name>solution</name></member>
+      <member refid="structthemis_1_1errors_1_1_error_metadata_1a81bc134009966777d28cbf924b6b3bee" prot="public" virt="non-virtual"><scope>themis::errors::ErrorMetadata</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

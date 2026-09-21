@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1svr_1_1_stub_jwt_validator" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::svr::StubJwtValidator</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1bench_1_1svr_1_1_stub_jwt_validator_1adbb5a0ff4aa97da370ed88471df9cbe0" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::bench::svr::StubJwtValidator::validate</definition>
+        <argsstring>(const std::string &amp;token) const noexcept</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::bench::svr::StubJwtValidator::validate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_hotpaths.cpp" line="127" column="10" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="127" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub JWT validator: structural check only (no crypto). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/server/bench_server_hotpaths.cpp" line="126" column="1" bodyfile="benchmarks/server/bench_server_hotpaths.cpp" bodystart="126" bodyend="135"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1svr_1_1_stub_jwt_validator_1adbb5a0ff4aa97da370ed88471df9cbe0" prot="public" virt="non-virtual"><scope>themis::bench::svr::StubJwtValidator</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

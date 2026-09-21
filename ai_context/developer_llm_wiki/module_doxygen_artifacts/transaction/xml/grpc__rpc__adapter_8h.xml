@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="grpc__rpc__adapter_8h" kind="file" language="C++">
+    <compoundname>grpc_rpc_adapter.h</compoundname>
+    <includes refid="distributed__transaction__manager_8h" local="yes">transaction/distributed_transaction_manager.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includedby refid="grpc__rpc__adapter_8cpp" local="yes">src/transaction/grpc_rpc_adapter.cpp</includedby>
+    <includedby refid="test__grpc__rpc__adapter_8cpp" local="yes">tests/transaction/test_grpc_rpc_adapter.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>transaction/distributed_transaction_manager.h</label>
+        <link refid="distributed__transaction__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/transaction/grpc_rpc_adapter.h</label>
+        <link refid="grpc__rpc__adapter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>transaction/in_doubt_recovery_coordinator.h</label>
+        <link refid="in__doubt__recovery__coordinator_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>transaction/recoverable_two_phase_coordinator.h</label>
+        <link refid="recoverable__two__phase__coordinator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>atomic</label>
+      </node>
+      <node id="11">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>condition_variable</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="14">
+        <label>future</label>
+      </node>
+      <node id="15">
+        <label>map</label>
+      </node>
+      <node id="16">
+        <label>memory</label>
+      </node>
+      <node id="17">
+        <label>mutex</label>
+      </node>
+      <node id="18">
+        <label>optional</label>
+      </node>
+      <node id="19">
+        <label>queue</label>
+      </node>
+      <node id="20">
+        <label>set</label>
+      </node>
+      <node id="8">
+        <label>sharding/wal_manager.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="21">
+        <label>thread</label>
+      </node>
+      <node id="22">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>utils/retry_contract.h</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/transaction/grpc_rpc_adapter.h</label>
+        <link refid="grpc__rpc__adapter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/transaction/grpc_rpc_adapter.cpp</label>
+        <link refid="grpc__rpc__adapter_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/transaction/test_grpc_rpc_adapter.cpp</label>
+        <link refid="test__grpc__rpc__adapter_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1transaction_1_1_mtls_config" prot="public">themis::transaction::MtlsConfig</innerclass>
+    <innerclass refid="classthemis_1_1transaction_1_1_grpc_rpc_phase1_adapter" prot="public">themis::transaction::GrpcRpcPhase1Adapter</innerclass>
+    <innerclass refid="classthemis_1_1transaction_1_1_grpc_rpc_phase2_adapter" prot="public">themis::transaction::GrpcRpcPhase2Adapter</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1transaction">themis::transaction</innernamespace>
+    <briefdescription>
+<para>gRPC transport adapters for the distributed 2PC/3PC RPC bridges. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides <computeroutput>GrpcRpcPhase1Adapter</computeroutput> and <computeroutput>GrpcRpcPhase2Adapter</computeroutput>, which produce <computeroutput>DistributedTransactionManager::RpcPhase1Fn</computeroutput> / <computeroutput>RpcPhase2Fn</computeroutput> callables that drive Phase-1 PREPARE and Phase-2 COMMIT/ABORT over a real gRPC channel.</para>
+<sect1 id="grpc__rpc__adapter_8h_1autotoc_md0_1s1"><sect2 id="grpc__rpc__adapter_8h_1autotoc_md0">
+<title>Architecture note — W9 Block 2 (W9-7..W9-9)</title><para>The <computeroutput>DistributedTransactionManager</computeroutput> exposes two static injection points:<itemizedlist>
+<listitem><para><computeroutput>setRpcPhase1Fn(fn)</computeroutput> — called per remote participant during Phase-1</para>
+</listitem><listitem><para><computeroutput>setRpcPhase2Fn(fn)</computeroutput> — called per remote participant during Phase-2</para>
+</listitem></itemizedlist>
+</para>
+<para>These adapters fulfil those injection points with real gRPC calls instead of the in-process simulation fallback. All gRPC code is conditionally compiled behind <computeroutput>THEMIS_HAS_CORE_GRPC</computeroutput> so the translation unit compiles cleanly in test/headless builds that do not link gRPC.</para>
+</sect2></sect1>
+<sect1 id="grpc__rpc__adapter_8h_1autotoc_md1_1s1"><sect2 id="grpc__rpc__adapter_8h_1autotoc_md1">
+<title>Proto service used</title><para><computeroutput>ThemisCoreService</computeroutput> (proto/themis_core.proto) is the only distributed service currently proto-compiled in this repository. Because no transaction-specific <computeroutput>Prepare</computeroutput> RPC exists yet, Phase-1 PREPARE is proxied via <computeroutput>BeginTransaction</computeroutput> (isolation=SERIALIZABLE, timeout=prepare_timeout_ms, options[&quot;2pc_prepare&quot;]=&quot;1&quot;). A <computeroutput>success=true</computeroutput> response → COMMIT vote; any failure, timeout, or <computeroutput>success=false</computeroutput> → ABORT vote. This is documented as a bridge architecture that a dedicated <computeroutput>Prepare</computeroutput> RPC should replace when the service schema is extended.</para>
+<para>Phase-2 maps directly to <computeroutput>CommitTransaction</computeroutput> / <computeroutput>RollbackTransaction</computeroutput>.</para>
+<para><simplesect kind="version"><para>0.0.2 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟡 BETA — wired, tested in-process; pending real gRPC CI lane </para>
+</simplesect>
+<simplesect kind="note"><para>Wave: Wave 9 Block 2 (W9-7..W9-9); mTLS added Wave 10 (W10-A) </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__transaction__manager_8h" kindref="compound">transaction/distributed_transaction_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1transaction" kindref="compound">themis::transaction</ref><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W10-A<sp/>—<sp/>mTLS<sp/>credential<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1transaction_1_1_mtls_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_mtls_config" kindref="compound">MtlsConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1transaction_1_1_mtls_config_1a1d05cb4f42e991c78fbe9fc6a2ee50da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_mtls_config_1a1d05cb4f42e991c78fbe9fc6a2ee50da" kindref="member">ca_cert_pem</ref>;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1transaction_1_1_mtls_config_1a7395949df9fd60560ffe3cd2ea0e809e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_mtls_config_1a7395949df9fd60560ffe3cd2ea0e809e" kindref="member">client_cert_pem</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1transaction_1_1_mtls_config_1a52a011bdce6d3db822a5e804a391a1e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_mtls_config_1a52a011bdce6d3db822a5e804a391a1e0" kindref="member">client_key_pem</ref>;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1transaction_1_1_mtls_config_1ad9be7b98b957164311ae58ee07bb804e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_mtls_config_1ad9be7b98b957164311ae58ee07bb804e" kindref="member">target_name_override</ref>;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1transaction_1_1_mtls_config_1a526388edc334be92d87bc392dd603369" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_mtls_config_1a526388edc334be92d87bc392dd603369" kindref="member">allow_insecure</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W9-7<sp/>—<sp/>Phase-1<sp/>PREPARE<sp/>gRPC<sp/>adapter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1transaction_1_1_grpc_rpc_phase1_adapter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1transaction_1_1_grpc_rpc_phase1_adapter" kindref="compound">GrpcRpcPhase1Adapter</ref><sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a92aa1963812e16cd85ca4fd9279c3236" kindref="member">DistributedTransactionManager::RpcPhase1Fn</ref><sp/><ref refid="classthemis_1_1transaction_1_1_grpc_rpc_phase1_adapter_1a2f716e6a8509f6f1847b1e2852d5a59b" kindref="member">make</ref>(</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>node_addresses,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>timeout,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;MtlsConfig&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mtls<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W9-8<sp/>—<sp/>Phase-2<sp/>COMMIT/ABORT<sp/>gRPC<sp/>adapter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1transaction_1_1_grpc_rpc_phase2_adapter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1transaction_1_1_grpc_rpc_phase2_adapter" kindref="compound">GrpcRpcPhase2Adapter</ref><sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a97bf8dc0da7c049c87ae8db6974b49fc" kindref="member">DistributedTransactionManager::RpcPhase2Fn</ref><sp/><ref refid="classthemis_1_1transaction_1_1_grpc_rpc_phase2_adapter_1a48bf7a579a356c72fb55b64c191fc9b2" kindref="member">make</ref>(</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>node_addresses,</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>timeout,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;MtlsConfig&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mtls<sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::transaction</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/transaction/grpc_rpc_adapter.h"/>
+  </compounddef>
+</doxygen>

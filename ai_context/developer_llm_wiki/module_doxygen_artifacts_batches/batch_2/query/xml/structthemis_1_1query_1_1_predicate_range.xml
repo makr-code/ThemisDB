@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_predicate_range" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::PredicateRange</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_predicate_range_1a31e1b056c4e7231f34848cbcc2463469" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::PredicateRange::column</definition>
+        <argsstring></argsstring>
+        <name>column</name>
+        <qualifiedname>themis::query::PredicateRange::column</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="208" column="17" bodyfile="include/query/query_engine.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_predicate_range_1a9a9cadfa8599fc54e4dd8e03224a6d5b" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::query::PredicateRange::lower</definition>
+        <argsstring></argsstring>
+        <name>lower</name>
+        <qualifiedname>themis::query::PredicateRange::lower</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="209" column="19" bodyfile="include/query/query_engine.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_predicate_range_1a56d80e83d1ff5e3502aa043684148f03" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::query::PredicateRange::upper</definition>
+        <argsstring></argsstring>
+        <name>upper</name>
+        <qualifiedname>themis::query::PredicateRange::upper</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="210" column="19" bodyfile="include/query/query_engine.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_predicate_range_1a5b23e286039b42f1b76d3b627de06324" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::PredicateRange::includeLower</definition>
+        <argsstring></argsstring>
+        <name>includeLower</name>
+        <qualifiedname>themis::query::PredicateRange::includeLower</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="211" column="10" bodyfile="include/query/query_engine.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_predicate_range_1a089b072d7dc69270037370f2d2046581" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::PredicateRange::includeUpper</definition>
+        <argsstring></argsstring>
+        <name>includeUpper</name>
+        <qualifiedname>themis::query::PredicateRange::includeUpper</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="212" column="10" bodyfile="include/query/query_engine.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="207" column="1" bodyfile="include/query/query_engine.h" bodystart="207" bodyend="213"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_predicate_range_1a31e1b056c4e7231f34848cbcc2463469" prot="public" virt="non-virtual"><scope>themis::query::PredicateRange</scope><name>column</name></member>
+      <member refid="structthemis_1_1query_1_1_predicate_range_1a5b23e286039b42f1b76d3b627de06324" prot="public" virt="non-virtual"><scope>themis::query::PredicateRange</scope><name>includeLower</name></member>
+      <member refid="structthemis_1_1query_1_1_predicate_range_1a089b072d7dc69270037370f2d2046581" prot="public" virt="non-virtual"><scope>themis::query::PredicateRange</scope><name>includeUpper</name></member>
+      <member refid="structthemis_1_1query_1_1_predicate_range_1a9a9cadfa8599fc54e4dd8e03224a6d5b" prot="public" virt="non-virtual"><scope>themis::query::PredicateRange</scope><name>lower</name></member>
+      <member refid="structthemis_1_1query_1_1_predicate_range_1a56d80e83d1ff5e3502aa043684148f03" prot="public" virt="non-virtual"><scope>themis::query::PredicateRange</scope><name>upper</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

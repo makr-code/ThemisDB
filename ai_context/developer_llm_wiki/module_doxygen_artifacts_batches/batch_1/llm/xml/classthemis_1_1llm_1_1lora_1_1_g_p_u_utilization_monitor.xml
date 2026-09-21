@@ -1,0 +1,530 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::GPUUtilizationMonitor</compoundname>
+    <includes refid="gpu__utilization__monitor_8h" local="no">gpu_utilization_monitor.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics" prot="public">themis::llm::lora::GPUUtilizationMonitor::Metrics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a62cda8a0c48f0293a9de3967716ffcca" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref></type>
+        <definition>Device themis::llm::lora::GPUUtilizationMonitor::device_</definition>
+        <argsstring></argsstring>
+        <name>device_</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::device_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="71" column="12" bodyfile="include/llm/lora_framework/gpu_utilization_monitor.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1ad6f792d41745e6ee1efeeb51255a9c48" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUUtilizationMonitor::is_available_</definition>
+        <argsstring></argsstring>
+        <name>is_available_</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::is_available_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="72" column="10" bodyfile="include/llm/lora_framework/gpu_utilization_monitor.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a2f7d45f29068dd1df06f0ed3d002fad6" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics" kindref="compound">Metrics</ref> &gt;</type>
+        <definition>std::vector&lt;Metrics&gt; themis::llm::lora::GPUUtilizationMonitor::metrics_history_</definition>
+        <argsstring></argsstring>
+        <name>metrics_history_</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::metrics_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="75" column="17" bodyfile="include/llm/lora_framework/gpu_utilization_monitor.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a0aca861d8d1879f9c40a2268d2199445" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>Metrics themis::llm::lora::GPUUtilizationMonitor::last_metrics_</definition>
+        <argsstring></argsstring>
+        <name>last_metrics_</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::last_metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="76" column="21" bodyfile="include/llm/lora_framework/gpu_utilization_monitor.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a508a5d14e8505b23b6980900c0377686" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::lora::GPUUtilizationMonitor::nvml_device_</definition>
+        <argsstring></argsstring>
+        <name>nvml_device_</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::nvml_device_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="82" column="10" bodyfile="include/llm/lora_framework/gpu_utilization_monitor.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a409725e94e7093a197dcf9ec39e94046" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::llm::lora::GPUUtilizationMonitor::rocm_device_</definition>
+        <argsstring></argsstring>
+        <name>rocm_device_</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::rocm_device_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="87" column="10" bodyfile="include/llm/lora_framework/gpu_utilization_monitor.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a3d7b3ae7f760c53c13849f3540aa68a5" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUUtilizationMonitor::GPUUtilizationMonitor</definition>
+        <argsstring>(const Device &amp;device)</argsstring>
+        <name>GPUUtilizationMonitor</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::GPUUtilizationMonitor</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>device</declname>
+        </param>
+        <briefdescription>
+<para>GPUUtilization Monitor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="42" column="14" bodyfile="src/llm/lora_framework/gpu_utilization_monitor.cpp" bodystart="45" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a3eb959de2ba5d5f38248e5d407dfaf1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::GPUUtilizationMonitor::~GPUUtilizationMonitor</definition>
+        <argsstring>()</argsstring>
+        <name>~GPUUtilizationMonitor</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::~GPUUtilizationMonitor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="44" column="5" bodyfile="src/llm/lora_framework/gpu_utilization_monitor.cpp" bodystart="72" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1af03c0b3ad001fe02bf43a2ff14f13da5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>GPUUtilizationMonitor::Metrics themis::llm::lora::GPUUtilizationMonitor::queryMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>queryMetrics</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::queryMetrics</qualifiedname>
+        <briefdescription>
+<para>Query <ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics" kindref="compound">Metrics</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getFallbackMetrics(), queryNVML(), queryROCm(), queryVulkan(), queryDirectX(), std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="50" column="13" bodyfile="src/llm/lora_framework/gpu_utilization_monitor.cpp" bodystart="89" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a44dfcdc5d02feb7fd87c48c5c9117d1b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUUtilizationMonitor::isUnderutilized</definition>
+        <argsstring>(float threshold=0.8f) const</argsstring>
+        <name>isUnderutilized</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::isUnderutilized</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+          <defval>0.8f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="52" column="10" bodyfile="src/llm/lora_framework/gpu_utilization_monitor.cpp" bodystart="127" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a8eb3092d8a99a86738797d5cc24d1dce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::lora::GPUUtilizationMonitor::getOptimizationRecommendations</definition>
+        <argsstring>() const</argsstring>
+        <name>getOptimizationRecommendations</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::getOptimizationRecommendations</qualifiedname>
+        <briefdescription>
+<para>Get Optimization Recommendations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="58" column="17" bodyfile="src/llm/lora_framework/gpu_utilization_monitor.cpp" bodystart="131" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a068743bd6a8acdae394b16840a4e6628" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>GPUUtilizationMonitor::Metrics themis::llm::lora::GPUUtilizationMonitor::getAverageMetrics</definition>
+        <argsstring>(size_t num_samples=10) const</argsstring>
+        <name>getAverageMetrics</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::getAverageMetrics</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_samples</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="60" column="13" bodyfile="src/llm/lora_framework/gpu_utilization_monitor.cpp" bodystart="167" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1aec0fab5b531b40e8480a73db6c42ca0b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUUtilizationMonitor::isAvailable</definition>
+        <argsstring>() const</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::isAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="62" column="10" bodyfile="include/llm/lora_framework/gpu_utilization_monitor.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a5fd662c3b42d877e4bcfecbc7405e148" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::GPUUtilizationMonitor::getDeviceInfo</definition>
+        <argsstring>() const</argsstring>
+        <name>getDeviceInfo</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::getDeviceInfo</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="68" column="17" bodyfile="src/llm/lora_framework/gpu_utilization_monitor.cpp" bodystart="201" bodyend="204"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1af41510878764441108f467b9afc59513" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUUtilizationMonitor::initializeNVML</definition>
+        <argsstring>()</argsstring>
+        <name>initializeNVML</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::initializeNVML</qualifiedname>
+        <briefdescription>
+<para>Initialize NVML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: nvmlInit(), spdlog::warn(), nvmlErrorString(), nvmlDeviceGetHandleByIndex(), nvmlShutdown(), spdlog::info(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="95" column="10" bodyfile="src/llm/lora_framework/gpu_utilization_monitor.cpp" bodystart="212" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1aa90b080e60fee148d898d9d42d6c81a1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUUtilizationMonitor::initializeROCm</definition>
+        <argsstring>()</argsstring>
+        <name>initializeROCm</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::initializeROCm</qualifiedname>
+        <briefdescription>
+<para>Initialize ROCm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: rsmi_init(), spdlog::warn(), spdlog::info(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="100" column="10" bodyfile="src/llm/lora_framework/gpu_utilization_monitor.cpp" bodystart="293" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a36a2654d6dd603f5725fdcf44880b30b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUUtilizationMonitor::initializeVulkan</definition>
+        <argsstring>()</argsstring>
+        <name>initializeVulkan</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::initializeVulkan</qualifiedname>
+        <briefdescription>
+<para>Initialize Vulkan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="105" column="10" bodyfile="src/llm/lora_framework/gpu_utilization_monitor.cpp" bodystart="361" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1afd4716eaf4c602f41fc27937b4296079" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::GPUUtilizationMonitor::initializeDirectX</definition>
+        <argsstring>()</argsstring>
+        <name>initializeDirectX</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::initializeDirectX</qualifiedname>
+        <briefdescription>
+<para>Initialize Direct X. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="110" column="10" bodyfile="src/llm/lora_framework/gpu_utilization_monitor.cpp" bodystart="416" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1ace067673175e3a80fda460e7e97c17a2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUUtilizationMonitor::shutdownNVML</definition>
+        <argsstring>()</argsstring>
+        <name>shutdownNVML</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::shutdownNVML</qualifiedname>
+        <briefdescription>
+<para>Shutdown NVML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: nvmlShutdown(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="116" column="10" bodyfile="src/llm/lora_framework/gpu_utilization_monitor.cpp" bodystart="241" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a3ddbd0735fe54445f3290e38e018fc8d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUUtilizationMonitor::shutdownROCm</definition>
+        <argsstring>()</argsstring>
+        <name>shutdownROCm</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::shutdownROCm</qualifiedname>
+        <briefdescription>
+<para>Shutdown ROCm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: rsmi_shut_down(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="120" column="10" bodyfile="src/llm/lora_framework/gpu_utilization_monitor.cpp" bodystart="314" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a71d3f6c3f0c0647e805ea9fa0b4e11cf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUUtilizationMonitor::shutdownVulkan</definition>
+        <argsstring>()</argsstring>
+        <name>shutdownVulkan</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::shutdownVulkan</qualifiedname>
+        <briefdescription>
+<para>Shutdown Vulkan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements shutdownVulkan without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="124" column="10" bodyfile="src/llm/lora_framework/gpu_utilization_monitor.cpp" bodystart="378" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a2d1d76dd216a9bd7a126bb24e390e5e8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::GPUUtilizationMonitor::shutdownDirectX</definition>
+        <argsstring>()</argsstring>
+        <name>shutdownDirectX</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::shutdownDirectX</qualifiedname>
+        <briefdescription>
+<para>Shutdown Direct X. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements shutdownDirectX without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="128" column="10" bodyfile="src/llm/lora_framework/gpu_utilization_monitor.cpp" bodystart="432" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1afa512ed8c259154e3c5dca9bb0fbaaf4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>GPUUtilizationMonitor::Metrics themis::llm::lora::GPUUtilizationMonitor::queryNVML</definition>
+        <argsstring>()</argsstring>
+        <name>queryNVML</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::queryNVML</qualifiedname>
+        <briefdescription>
+<para>Query NVML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nvmlDeviceGetUtilizationRates(), nvmlDeviceGetMemoryInfo(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="135" column="13" bodyfile="src/llm/lora_framework/gpu_utilization_monitor.cpp" bodystart="255" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1aba64bdb3e9c3869741905f096d2437e2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>GPUUtilizationMonitor::Metrics themis::llm::lora::GPUUtilizationMonitor::queryROCm</definition>
+        <argsstring>()</argsstring>
+        <name>queryROCm</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::queryROCm</qualifiedname>
+        <briefdescription>
+<para>Query ROCm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: rsmi_dev_busy_percent_get(), rsmi_dev_memory_usage_get(), rsmi_dev_memory_total_get(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="140" column="13" bodyfile="src/llm/lora_framework/gpu_utilization_monitor.cpp" bodystart="325" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1ae11c45bb8fb470fc1576c4478c8ae1dc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>GPUUtilizationMonitor::Metrics themis::llm::lora::GPUUtilizationMonitor::queryVulkan</definition>
+        <argsstring>()</argsstring>
+        <name>queryVulkan</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::queryVulkan</qualifiedname>
+        <briefdescription>
+<para>Query Vulkan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="145" column="13" bodyfile="src/llm/lora_framework/gpu_utilization_monitor.cpp" bodystart="387" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a24ba1a1d115868464f788a7ffa1da998" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>GPUUtilizationMonitor::Metrics themis::llm::lora::GPUUtilizationMonitor::queryDirectX</definition>
+        <argsstring>()</argsstring>
+        <name>queryDirectX</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::queryDirectX</qualifiedname>
+        <briefdescription>
+<para>Query Direct X. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="150" column="13" bodyfile="src/llm/lora_framework/gpu_utilization_monitor.cpp" bodystart="441" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1abfaa8a5aefbbc7fe54522c791b5ba371" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>GPUUtilizationMonitor::Metrics themis::llm::lora::GPUUtilizationMonitor::getFallbackMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getFallbackMetrics</name>
+        <qualifiedname>themis::llm::lora::GPUUtilizationMonitor::getFallbackMetrics</qualifiedname>
+        <briefdescription>
+<para>Fallback when monitoring not available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="156" column="13" bodyfile="src/llm/lora_framework/gpu_utilization_monitor.cpp" bodystart="464" bodyend="470"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gpu_utilization_monitor.h" line="23" column="1" bodyfile="include/llm/lora_framework/gpu_utilization_monitor.h" bodystart="23" bodyend="157"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a62cda8a0c48f0293a9de3967716ffcca" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>device_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a068743bd6a8acdae394b16840a4e6628" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>getAverageMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a5fd662c3b42d877e4bcfecbc7405e148" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>getDeviceInfo</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1abfaa8a5aefbbc7fe54522c791b5ba371" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>getFallbackMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a8eb3092d8a99a86738797d5cc24d1dce" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>getOptimizationRecommendations</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a3d7b3ae7f760c53c13849f3540aa68a5" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>GPUUtilizationMonitor</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1afd4716eaf4c602f41fc27937b4296079" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>initializeDirectX</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1af41510878764441108f467b9afc59513" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>initializeNVML</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1aa90b080e60fee148d898d9d42d6c81a1" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>initializeROCm</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a36a2654d6dd603f5725fdcf44880b30b" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>initializeVulkan</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1ad6f792d41745e6ee1efeeb51255a9c48" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>is_available_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1aec0fab5b531b40e8480a73db6c42ca0b" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a44dfcdc5d02feb7fd87c48c5c9117d1b" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>isUnderutilized</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a0aca861d8d1879f9c40a2268d2199445" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>last_metrics_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a2f7d45f29068dd1df06f0ed3d002fad6" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>metrics_history_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a508a5d14e8505b23b6980900c0377686" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>nvml_device_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a24ba1a1d115868464f788a7ffa1da998" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>queryDirectX</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1af03c0b3ad001fe02bf43a2ff14f13da5" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>queryMetrics</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1afa512ed8c259154e3c5dca9bb0fbaaf4" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>queryNVML</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1aba64bdb3e9c3869741905f096d2437e2" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>queryROCm</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1ae11c45bb8fb470fc1576c4478c8ae1dc" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>queryVulkan</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a409725e94e7093a197dcf9ec39e94046" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>rocm_device_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a2d1d76dd216a9bd7a126bb24e390e5e8" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>shutdownDirectX</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1ace067673175e3a80fda460e7e97c17a2" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>shutdownNVML</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a3ddbd0735fe54445f3290e38e018fc8d" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>shutdownROCm</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a71d3f6c3f0c0647e805ea9fa0b4e11cf" prot="private" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>shutdownVulkan</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_utilization_monitor_1a3eb959de2ba5d5f38248e5d407dfaf1f" prot="public" virt="non-virtual"><scope>themis::llm::lora::GPUUtilizationMonitor</scope><name>~GPUUtilizationMonitor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

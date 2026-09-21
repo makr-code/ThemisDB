@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_rewritten_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::RewrittenQuery</compoundname>
+    <includes refid="llm__query__rewriter_8h" local="no">llm_query_rewriter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_rewritten_query_1a3a735e4deadf1b477468cc414a2c74f1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::RewrittenQuery::original</definition>
+        <argsstring></argsstring>
+        <name>original</name>
+        <qualifiedname>themis::RewrittenQuery::original</qualifiedname>
+        <briefdescription>
+<para>Original input query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="31" column="17" bodyfile="include/search/llm_query_rewriter.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rewritten_query_1a55ad7d49e60c5898758ef330bd3d5df5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::RewrittenQuery::rewrites</definition>
+        <argsstring></argsstring>
+        <name>rewrites</name>
+        <qualifiedname>themis::RewrittenQuery::rewrites</qualifiedname>
+        <briefdescription>
+<para>LLM-generated alternative queries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="32" column="17" bodyfile="include/search/llm_query_rewriter.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rewritten_query_1af987a4868d94c939b8105a72122a551a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RewrittenQuery::llm_used</definition>
+        <argsstring></argsstring>
+        <name>llm_used</name>
+        <qualifiedname>themis::RewrittenQuery::llm_used</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Whether the LLM backend was actually invoked </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="33" column="10" bodyfile="include/search/llm_query_rewriter.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_rewritten_query_1a1e8518146797f758ec0d56a95915e0db" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1a04c672cfc338b5fb98f1a59cb77950f4" kindref="member">RewriteQuality</ref></type>
+        <definition>RewriteQuality themis::RewrittenQuery::quality</definition>
+        <argsstring></argsstring>
+        <name>quality</name>
+        <qualifiedname>themis::RewrittenQuery::quality</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1a04c672cfc338b5fb98f1a59cb77950f4ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">RewriteQuality::OK</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Quality classification of the returned rewrites. FALLBACK means all LLM outputs were discarded and the original query was substituted. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="36" column="20" bodyfile="include/search/llm_query_rewriter.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/llm_query_rewriter.h" line="30" column="1" bodyfile="include/search/llm_query_rewriter.h" bodystart="30" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_rewritten_query_1af987a4868d94c939b8105a72122a551a" prot="public" virt="non-virtual"><scope>themis::RewrittenQuery</scope><name>llm_used</name></member>
+      <member refid="structthemis_1_1_rewritten_query_1a3a735e4deadf1b477468cc414a2c74f1" prot="public" virt="non-virtual"><scope>themis::RewrittenQuery</scope><name>original</name></member>
+      <member refid="structthemis_1_1_rewritten_query_1a1e8518146797f758ec0d56a95915e0db" prot="public" virt="non-virtual"><scope>themis::RewrittenQuery</scope><name>quality</name></member>
+      <member refid="structthemis_1_1_rewritten_query_1a55ad7d49e60c5898758ef330bd3d5df5" prot="public" virt="non-virtual"><scope>themis::RewrittenQuery</scope><name>rewrites</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

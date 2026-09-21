@@ -1,0 +1,402 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_in_memory_filter_pipeline" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::InMemoryFilterPipeline</compoundname>
+    <basecompoundref refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline" prot="public" virt="non-virtual">themis::cdc::ICDCFilterPipeline</basecompoundref>
+    <includes refid="icdc__filter__pipeline_8h" local="no">icdc_filter_pipeline.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a47ab52be52cd451adb2415b8e140818e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cdc::InMemoryFilterPipeline::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::cdc::InMemoryFilterPipeline::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="331" column="49" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1aa45a671fd732a6c7974c800b9dc6c941" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_i_event_filter" kindref="compound">IEventFilter</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;IEventFilter&gt; &gt; themis::cdc::InMemoryFilterPipeline::stages_</definition>
+        <argsstring></argsstring>
+        <name>stages_</name>
+        <qualifiedname>themis::cdc::InMemoryFilterPipeline::stages_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="332" column="18" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1abd9cfe819911bf2336d5e0749db4972b" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; themis::cdc::InMemoryFilterPipeline::passed_</definition>
+        <argsstring></argsstring>
+        <name>passed_</name>
+        <qualifiedname>themis::cdc::InMemoryFilterPipeline::passed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="333" column="36" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="333" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a1e42e7cdb308226d8ab6bc680038a210" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; themis::cdc::InMemoryFilterPipeline::dropped_</definition>
+        <argsstring></argsstring>
+        <name>dropped_</name>
+        <qualifiedname>themis::cdc::InMemoryFilterPipeline::dropped_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="334" column="36" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="334" bodyend="334"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a3680ac335d4eb66b5e608fe3ffea0188" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::InMemoryFilterPipeline::InMemoryFilterPipeline</definition>
+        <argsstring>()=default</argsstring>
+        <name>InMemoryFilterPipeline</name>
+        <qualifiedname>themis::cdc::InMemoryFilterPipeline::InMemoryFilterPipeline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="190" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1ac779ad44c1a4dfc22630f52a0601e05a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::InMemoryFilterPipeline::addFilter</definition>
+        <argsstring>(std::unique_ptr&lt; IEventFilter &gt; filter) override</argsstring>
+        <name>addFilter</name>
+        <qualifiedname>themis::cdc::InMemoryFilterPipeline::addFilter</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a05e00d17bd10850eb441ef8d90b2f336">addFilter</reimplements>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_i_event_filter" kindref="compound">IEventFilter</ref> &gt;</type>
+          <declname>filter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="192" column="10" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="192" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1af7d3b284e73b932d33d4cf49603fb053" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::InMemoryFilterPipeline::removeFilter</definition>
+        <argsstring>(const std::string &amp;name) override</argsstring>
+        <name>removeFilter</name>
+        <qualifiedname>themis::cdc::InMemoryFilterPipeline::removeFilter</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a61beaa48d8e41080fbc0ffdf299ebab3">removeFilter</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="212" column="10" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="212" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1af7ebc4533e89e0a3e612fa6190dd5a1c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::InMemoryFilterPipeline::hasFilter</definition>
+        <argsstring>(const std::string &amp;name) const override</argsstring>
+        <name>hasFilter</name>
+        <qualifiedname>themis::cdc::InMemoryFilterPipeline::hasFilter</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1aa61dc3b805d575b461c79aeb99aaea1f">hasFilter</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="228" column="10" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="228" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a13923901cc3ec26c67a189a56a7df9ad" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::InMemoryFilterPipeline::size</definition>
+        <argsstring>() const override</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::cdc::InMemoryFilterPipeline::size</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a678a3601b07e29c5ec73d239ee0e658a">size</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="243" column="17" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="243" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a12174d7062c5fcac2a99bb8b029696d6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::InMemoryFilterPipeline::empty</definition>
+        <argsstring>() const override</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::cdc::InMemoryFilterPipeline::empty</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a1f85c95fe52782138dd46904a2c66221">empty</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="253" column="10" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="253" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a970a5919b1471ae03720faf29a4247e9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1cdc_1abdbe05b7728a134e52ccf6eba10d2a39" kindref="member">FilterResult</ref></type>
+        <definition>FilterResult themis::cdc::InMemoryFilterPipeline::apply</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;event) const override</argsstring>
+        <name>apply</name>
+        <qualifiedname>themis::cdc::InMemoryFilterPipeline::apply</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1abc135598dae7cece54232af916b07deb">apply</reimplements>
+        <param>
+          <type>const <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="263" column="18" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="263" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1af50fbeda78c336ae9fca7d1823132c81" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &gt;</type>
+        <definition>std::vector&lt; Changefeed::ChangeEvent &gt; themis::cdc::InMemoryFilterPipeline::applyBatch</definition>
+        <argsstring>(const std::vector&lt; Changefeed::ChangeEvent &gt; &amp;events) const override</argsstring>
+        <name>applyBatch</name>
+        <qualifiedname>themis::cdc::InMemoryFilterPipeline::applyBatch</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1ac6e6a8351a1d9ae98b2a69593484cb10">applyBatch</reimplements>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &gt; &amp;</type>
+          <declname>events</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="287" column="17" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="287" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a2e5fb9221e5e831a2215ccfcf5779a1d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::cdc::InMemoryFilterPipeline::filterNames</definition>
+        <argsstring>() const override</argsstring>
+        <name>filterNames</name>
+        <qualifiedname>themis::cdc::InMemoryFilterPipeline::filterNames</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a3c5e74e6a04e163980844a4db2c6a642">filterNames</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="301" column="17" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="301" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1ae2426625c697e2f141616ae8e3fbaa63" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::InMemoryFilterPipeline::totalPassed</definition>
+        <argsstring>() const override</argsstring>
+        <name>totalPassed</name>
+        <qualifiedname>themis::cdc::InMemoryFilterPipeline::totalPassed</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1aa3049ad9134fe662b0220c6a9644f417">totalPassed</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="317" column="17" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="317" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1ade3ebf64382913b6f260fddb7bdc14c9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::InMemoryFilterPipeline::totalDropped</definition>
+        <argsstring>() const override</argsstring>
+        <name>totalDropped</name>
+        <qualifiedname>themis::cdc::InMemoryFilterPipeline::totalDropped</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a08e6389ac930daba8a030dcb56162f21">totalDropped</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="321" column="17" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="321" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a4b9146b4b9fec32b43899a40aa965bbf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cdc::InMemoryFilterPipeline::resetCounters</definition>
+        <argsstring>() override</argsstring>
+        <name>resetCounters</name>
+        <qualifiedname>themis::cdc::InMemoryFilterPipeline::resetCounters</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1a1243a4194c413dd648ec4310f76b2ce1">resetCounters</reimplements>
+        <briefdescription>
+<para>Reset Counters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_filter_pipeline.h" line="325" column="10" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="325" bodyend="328"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::cdc::ICDCFilterPipeline</label>
+        <link refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::InMemoryFilterPipeline</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::cdc::ICDCFilterPipeline</label>
+        <link refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::InMemoryFilterPipeline</label>
+        <link refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/icdc_filter_pipeline.h" line="188" column="1" bodyfile="include/cdc/icdc_filter_pipeline.h" bodystart="188" bodyend="335"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1ac779ad44c1a4dfc22630f52a0601e05a" prot="public" virt="virtual"><scope>themis::cdc::InMemoryFilterPipeline</scope><name>addFilter</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a970a5919b1471ae03720faf29a4247e9" prot="public" virt="virtual"><scope>themis::cdc::InMemoryFilterPipeline</scope><name>apply</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1af50fbeda78c336ae9fca7d1823132c81" prot="public" virt="virtual"><scope>themis::cdc::InMemoryFilterPipeline</scope><name>applyBatch</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a1e42e7cdb308226d8ab6bc680038a210" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryFilterPipeline</scope><name>dropped_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a12174d7062c5fcac2a99bb8b029696d6" prot="public" virt="virtual"><scope>themis::cdc::InMemoryFilterPipeline</scope><name>empty</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a2e5fb9221e5e831a2215ccfcf5779a1d" prot="public" virt="virtual"><scope>themis::cdc::InMemoryFilterPipeline</scope><name>filterNames</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1af7ebc4533e89e0a3e612fa6190dd5a1c" prot="public" virt="virtual"><scope>themis::cdc::InMemoryFilterPipeline</scope><name>hasFilter</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a3680ac335d4eb66b5e608fe3ffea0188" prot="public" virt="non-virtual"><scope>themis::cdc::InMemoryFilterPipeline</scope><name>InMemoryFilterPipeline</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a47ab52be52cd451adb2415b8e140818e" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryFilterPipeline</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1abd9cfe819911bf2336d5e0749db4972b" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryFilterPipeline</scope><name>passed_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1af7d3b284e73b932d33d4cf49603fb053" prot="public" virt="virtual"><scope>themis::cdc::InMemoryFilterPipeline</scope><name>removeFilter</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a4b9146b4b9fec32b43899a40aa965bbf" prot="public" virt="virtual"><scope>themis::cdc::InMemoryFilterPipeline</scope><name>resetCounters</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1a13923901cc3ec26c67a189a56a7df9ad" prot="public" virt="virtual"><scope>themis::cdc::InMemoryFilterPipeline</scope><name>size</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1aa45a671fd732a6c7974c800b9dc6c941" prot="private" virt="non-virtual"><scope>themis::cdc::InMemoryFilterPipeline</scope><name>stages_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1ade3ebf64382913b6f260fddb7bdc14c9" prot="public" virt="virtual"><scope>themis::cdc::InMemoryFilterPipeline</scope><name>totalDropped</name></member>
+      <member refid="classthemis_1_1cdc_1_1_in_memory_filter_pipeline_1ae2426625c697e2f141616ae8e3fbaa63" prot="public" virt="virtual"><scope>themis::cdc::InMemoryFilterPipeline</scope><name>totalPassed</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_filter_pipeline_1ac5c75edaf5c8b313517c41d7cfbaaeb1" prot="public" virt="virtual"><scope>themis::cdc::InMemoryFilterPipeline</scope><name>~ICDCFilterPipeline</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

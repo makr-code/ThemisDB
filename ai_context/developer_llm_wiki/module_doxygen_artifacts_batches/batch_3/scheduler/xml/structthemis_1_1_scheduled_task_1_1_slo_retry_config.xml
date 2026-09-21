@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_scheduled_task_1_1_slo_retry_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ScheduledTask::SloRetryConfig</compoundname>
+    <includes refid="task__scheduler_8h" local="no">task_scheduler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1_1_slo_retry_config_1ac01502b89b7292041e443b7457e9d1d6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ScheduledTask::SloRetryConfig::slo_aware</definition>
+        <argsstring></argsstring>
+        <name>slo_aware</name>
+        <qualifiedname>themis::ScheduledTask::SloRetryConfig::slo_aware</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable SLO-based retry adaptation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="220" column="14" bodyfile="include/scheduler/task_scheduler.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1_1_slo_retry_config_1a5c05ee2245185dc480d058f2ba170765" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ScheduledTask::SloRetryConfig::slo_budget_fraction</definition>
+        <argsstring></argsstring>
+        <name>slo_budget_fraction</name>
+        <qualifiedname>themis::ScheduledTask::SloRetryConfig::slo_budget_fraction</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum fraction of <computeroutput>sla_deadline</computeroutput> that may be consumed by retry delays. E.g. 0.5 means retries can use at most 50 % of the SLA budget, leaving the rest for actual task execution. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="225" column="16" bodyfile="include/scheduler/task_scheduler.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1_1_slo_retry_config_1a877e0fc44926fa3b1698b30223c7a799" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ScheduledTask::SloRetryConfig::slo_compliance_threshold</definition>
+        <argsstring></argsstring>
+        <name>slo_compliance_threshold</name>
+        <qualifiedname>themis::ScheduledTask::SloRetryConfig::slo_compliance_threshold</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When the rolling SLO compliance rate drops below this threshold, max_retries is clamped to <computeroutput>min_retries_under_pressure</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="229" column="16" bodyfile="include/scheduler/task_scheduler.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1_1_slo_retry_config_1a068f557aa4a1def91bbb6a229ea00ddb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ScheduledTask::SloRetryConfig::min_retries_under_pressure</definition>
+        <argsstring></argsstring>
+        <name>min_retries_under_pressure</name>
+        <qualifiedname>themis::ScheduledTask::SloRetryConfig::min_retries_under_pressure</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Minimum number of retries always allowed, even under SLO pressure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="232" column="16" bodyfile="include/scheduler/task_scheduler.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_scheduled_task_1_1_slo_retry_config_1a8250c5dde93929137deae3e5e4ff1aa3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ScheduledTask::SloRetryConfig::slo_history_window</definition>
+        <argsstring></argsstring>
+        <name>slo_history_window</name>
+        <qualifiedname>themis::ScheduledTask::SloRetryConfig::slo_history_window</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Rolling window size (number of recent executions) used for compliance tracking. Set to 0 to disable history-based retry reduction. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_scheduler.h" line="236" column="16" bodyfile="include/scheduler/task_scheduler.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>SLO-based adaptive retry configuration (Phase 5, v1.9.0). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When set together with <computeroutput>sla_deadline</computeroutput>, the scheduler adapts retry behaviour to avoid spending the full SLA budget on retries and prevent cascading SLO violations.</para>
+<para>Adaptive rules applied before each retry delay:<orderedlist>
+<listitem><para>If elapsed task time + computed retry delay &gt; sla_deadline * slo_budget_fraction, the retry delay is clamped to the remaining SLA budget fraction (minimum 0 ms — i.e. retry immediately).</para>
+</listitem><listitem><para>If the remaining SLA budget (sla_deadline − elapsed) ≤ 0, all further retries are skipped immediately — the task has already exceeded its SLO.</para>
+</listitem><listitem><para>When the rolling SLO compliance rate (over the last <computeroutput>slo_history_window</computeroutput> executions) drops below <computeroutput>slo_compliance_threshold</computeroutput>, the effective max_retries is clamped to <computeroutput>min_retries_under_pressure</computeroutput>.</para>
+</listitem></orderedlist>
+</para>
+<para>Requires <computeroutput>sla_deadline</computeroutput> to be set; ignored (no-op) otherwise. </para>
+    </detaileddescription>
+    <location file="include/scheduler/task_scheduler.h" line="218" column="5" bodyfile="include/scheduler/task_scheduler.h" bodystart="218" bodyend="237"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_scheduled_task_1_1_slo_retry_config_1a068f557aa4a1def91bbb6a229ea00ddb" prot="public" virt="non-virtual"><scope>themis::ScheduledTask::SloRetryConfig</scope><name>min_retries_under_pressure</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1_1_slo_retry_config_1ac01502b89b7292041e443b7457e9d1d6" prot="public" virt="non-virtual"><scope>themis::ScheduledTask::SloRetryConfig</scope><name>slo_aware</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1_1_slo_retry_config_1a5c05ee2245185dc480d058f2ba170765" prot="public" virt="non-virtual"><scope>themis::ScheduledTask::SloRetryConfig</scope><name>slo_budget_fraction</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1_1_slo_retry_config_1a877e0fc44926fa3b1698b30223c7a799" prot="public" virt="non-virtual"><scope>themis::ScheduledTask::SloRetryConfig</scope><name>slo_compliance_threshold</name></member>
+      <member refid="structthemis_1_1_scheduled_task_1_1_slo_retry_config_1a8250c5dde93929137deae3e5e4ff1aa3" prot="public" virt="non-virtual"><scope>themis::ScheduledTask::SloRetryConfig</scope><name>slo_history_window</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

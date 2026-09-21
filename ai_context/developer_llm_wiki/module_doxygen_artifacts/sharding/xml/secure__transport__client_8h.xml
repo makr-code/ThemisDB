@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="secure__transport__client_8h" kind="file" language="C++">
+    <compoundname>secure_transport_client.h</compoundname>
+    <includes refid="mtls__client_8h" local="yes">sharding/mtls_client.h</includes>
+    <includes local="yes">utils/zstd_codec.h</includes>
+    <includes local="yes">utils/lz4_codec.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="secure__transport__client_8cpp" local="yes">src/sharding/secure_transport_client.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>sharding/mtls_client.h</label>
+        <link refid="mtls__client_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/secure_transport_client.h</label>
+        <link refid="secure__transport__client_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>utils/lz4_codec.h</label>
+      </node>
+      <node id="8">
+        <label>utils/zstd_codec.h</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/sharding/secure_transport_client.h</label>
+        <link refid="secure__transport__client_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/sharding/secure_transport_client.cpp</label>
+        <link refid="secure__transport__client_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1sharding_1_1_secure_transport_client" prot="public">themis::sharding::SecureTransportClient</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config" prot="public">themis::sharding::SecureTransportClient::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload" prot="public">themis::sharding::SecureTransportClient::Payload</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result" prot="public">themis::sharding::SecureTransportClient::TransferResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="mtls__client_8h" kindref="compound">sharding/mtls_client.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/zstd_codec.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/lz4_codec.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">SecureTransportClientTestAccess;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1sharding_1_1_secure_transport_client" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_secure_transport_client_1a3b85c3a109080cde3797e996a59c864d" kindref="member">SecureTransportClient</ref><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compression<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a27b459401ad7c3482fa0d94fe2df4496" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a27b459401ad7c3482fa0d94fe2df4496" kindref="member">CompressionType</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a27b459401ad7c3482fa0d94fe2df4496a6adf97f83acf6453d4a6a4b1070f3754" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a27b459401ad7c3482fa0d94fe2df4496a6adf97f83acf6453d4a6a4b1070f3754" kindref="member">None</ref>,</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a27b459401ad7c3482fa0d94fe2df4496aca0c64c0de8f56bc573828ea6d764594" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a27b459401ad7c3482fa0d94fe2df4496aca0c64c0de8f56bc573828ea6d764594" kindref="member">LZ4</ref>,</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a27b459401ad7c3482fa0d94fe2df4496a0c8468c9ff2f38e853335e1e40ade4c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a27b459401ad7c3482fa0d94fe2df4496a0c8468c9ff2f38e853335e1e40ade4c3" kindref="member">Zstd</ref></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a52cfa30d06108e5545a8b1525e45c823" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a27b459401ad7c3482fa0d94fe2df4496" kindref="member">CompressionType</ref><sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a52cfa30d06108e5545a8b1525e45c823" kindref="member">compression</ref><sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a27b459401ad7c3482fa0d94fe2df4496a0c8468c9ff2f38e853335e1e40ade4c3" kindref="member">CompressionType::Zstd</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1aed41bd013f276a239993a9072e283f5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1aed41bd013f276a239993a9072e283f5c" kindref="member">compression_level</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a5aabf0d05eefb9c9f84afeb1d79e48cf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a5aabf0d05eefb9c9f84afeb1d79e48cf" kindref="member">compression_threshold</ref><sp/>=<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>compress<sp/>if<sp/>&gt;<sp/>1KB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retry<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a0de87bc8e777507075ee34c5da7e4d16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a0de87bc8e777507075ee34c5da7e4d16" kindref="member">max_retries</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1aad6b258ecb24482fdff7d1fb009f73e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1aad6b258ecb24482fdff7d1fb009f73e1" kindref="member">retry_delay_ms</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1aafb791e9ab88708a498fbb812cb95480" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1aafb791e9ab88708a498fbb812cb95480" kindref="member">max_retry_delay_ms</ref><sp/>=<sp/>60000;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>mTLS<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a2ddd6a8deb83e118ba2967d64169120e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a2ddd6a8deb83e118ba2967d64169120e" kindref="member">cert_path</ref>;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a03f2417eb903ca2a7e4aec492b71a4b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a03f2417eb903ca2a7e4aec492b71a4b2" kindref="member">key_path</ref>;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a99d1a0a87622dd0f46e6bc1e020f23f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a99d1a0a87622dd0f46e6bc1e020f23f5" kindref="member">ca_cert_path</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a3240d73ac83561abb40cbc4bc9ec7d04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config_1a3240d73ac83561abb40cbc4bc9ec7d04" kindref="member">request_timeout_ms</ref><sp/>=<sp/>30000;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload" kindref="compound">Payload</ref><sp/>{</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1a3346b7cde4cc7c5775d2c240992482f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1a3346b7cde4cc7c5775d2c240992482f0" kindref="member">data</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Binary<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1aa7c280c8385c45b63700212fceb366e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1aa7c280c8385c45b63700212fceb366e4" kindref="member">content_type</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/octet-stream&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1a322209a1fb69fcffbbbd4dbe40286ba4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1a322209a1fb69fcffbbbd4dbe40286ba4" kindref="member">checksum</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional:<sp/>SHA-256<sp/>checksum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1acbd7c397d8ae016b5c6ae5cd59553513" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1acbd7c397d8ae016b5c6ae5cd59553513" kindref="member">signature</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional:<sp/>Digital<sp/>signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1a6dc6453d6c68868805fd3c75f0e3369b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1a6dc6453d6c68868805fd3c75f0e3369b" kindref="member">metadata</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional:<sp/>Metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1a4c8c217df61f170ff05166720bd72d70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload_1a4c8c217df61f170ff05166720bd72d70" kindref="member">authorization_token</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional:<sp/>JWT<sp/>token<sp/>for<sp/>Authorization<sp/>header</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result" kindref="compound">TransferResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1a5c53ae1b823b8590abc8c776ac53b30a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1a5c53ae1b823b8590abc8c776ac53b30a" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1a4bb92f23d0bf2a14f0d41c5fa15c3581" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1a4bb92f23d0bf2a14f0d41c5fa15c3581" kindref="member">status_code</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1a2f9d07c9332aac65e645c99fb9271f24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1a2f9d07c9332aac65e645c99fb9271f24" kindref="member">error</ref>;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1a638fd88dec9a2e053669b79c048acef6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1a638fd88dec9a2e053669b79c048acef6" kindref="member">bytes_sent</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1afa3c5b0ee22d4aa47febfccb19fb19bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1afa3c5b0ee22d4aa47febfccb19fb19bc" kindref="member">bytes_compressed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1ad98dcb2015ffb2bd7f9effe298923432" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1ad98dcb2015ffb2bd7f9effe298923432" kindref="member">compression_ratio</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1aa257650f347105309c6184756a7f645b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result_1aa257650f347105309c6184756a7f645b" kindref="member">retry_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_secure_transport_client_1a3b85c3a109080cde3797e996a59c864d" kindref="member">SecureTransportClient</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1sharding_1_1_secure_transport_client_1ae95d59381acb08b88146112708417347" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_secure_transport_client_1ae95d59381acb08b88146112708417347" kindref="member">~SecureTransportClient</ref>();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result" kindref="compound">TransferResult</ref><sp/><ref refid="classthemis_1_1sharding_1_1_secure_transport_client_1a1511b427c1e2a32fea538808d34c6285" kindref="member">transfer</ref>(</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload" kindref="compound">Payload</ref>&amp;<sp/>payload</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_secure_transport_client_1ac1506271c51d958f11fe0026a53cf62b" kindref="member">isReady</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;MTLSClient&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_secure_transport_client_1a8c493b9d10ff6e9b5ae4794577dd0a88" kindref="member">getMTLSClient</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="129" refid="classthemis_1_1sharding_1_1_secure_transport_client_1ac9759f56822ce68eeba3031d8e44f625" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_secure_transport_client_1ac9759f56822ce68eeba3031d8e44f625" kindref="member">SecureTransportClientTestAccess</ref>;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;MTLSClient&gt;<sp/>mtls_client_;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>LZ4<sp/>bridges<sp/>(stub<sp/>#295)<sp/>──────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">Lz4CompressFn<sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>input,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>output)&gt;;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">Lz4DecompressFn<sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>input,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>output,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>original_size)&gt;;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setLz4CompressFn(Lz4CompressFn<sp/>fn);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>clearLz4CompressFn();</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setLz4DecompressFn(Lz4DecompressFn<sp/>fn);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>clearLz4DecompressFn();</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>Lz4CompressFn<sp/><sp/><sp/>lz4CompressFn_;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>Lz4DecompressFn<sp/>lz4DecompressFn_;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>compressData(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string&amp;<sp/>compressed,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string*<sp/>compression_codec<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_transfer_result" kindref="compound">TransferResult</ref><sp/>transferWithRetry(</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_secure_transport_client_1_1_payload" kindref="compound">Payload</ref>&amp;<sp/>payload,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>retry_count</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::sharding</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/secure_transport_client.h"/>
+  </compounddef>
+</doxygen>

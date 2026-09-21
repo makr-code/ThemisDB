@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1audio_1_1_transcription_token" kind="struct" language="C++" prot="public">
+    <compoundname>themis::audio::TranscriptionToken</compoundname>
+    <includes refid="audio__backend__interface_8h" local="no">audio_backend_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1audio_1_1_transcription_token_1a9e414a3b4b58672586d9db595c04e842" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::audio::TranscriptionToken::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::audio::TranscriptionToken::text</qualifiedname>
+        <briefdescription>
+<para>Token text (word, segment, or punctuation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/audio_backend_interface.h" line="34" column="17" bodyfile="include/plugins/audio_backend_interface.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1audio_1_1_transcription_token_1abc84e88230271bdc3dc89ac4a288f13c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::audio::TranscriptionToken::start_ms</definition>
+        <argsstring></argsstring>
+        <name>start_ms</name>
+        <qualifiedname>themis::audio::TranscriptionToken::start_ms</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Token start offset in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/audio_backend_interface.h" line="35" column="17" bodyfile="include/plugins/audio_backend_interface.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1audio_1_1_transcription_token_1aa5c6329bd162e067d0ab32814d373927" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::audio::TranscriptionToken::end_ms</definition>
+        <argsstring></argsstring>
+        <name>end_ms</name>
+        <qualifiedname>themis::audio::TranscriptionToken::end_ms</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Token end offset in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/audio_backend_interface.h" line="36" column="17" bodyfile="include/plugins/audio_backend_interface.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1audio_1_1_transcription_token_1a23884da8450a67a3cd13d2f3f4ab8e85" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::audio::TranscriptionToken::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::audio::TranscriptionToken::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Per-token confidence [0..1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/audio_backend_interface.h" line="37" column="17" bodyfile="include/plugins/audio_backend_interface.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1audio_1_1_transcription_token_1a1e202ce7c373c4829bdb1c1a9a00eb30" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::audio::TranscriptionToken::token_index</definition>
+        <argsstring></argsstring>
+        <name>token_index</name>
+        <qualifiedname>themis::audio::TranscriptionToken::token_index</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Sequential index within the current stream. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/audio_backend_interface.h" line="38" column="17" bodyfile="include/plugins/audio_backend_interface.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single streamed transcription token emitted during streaming transcription. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each token represents one word or segment produced during incremental inference. The callback registered with transcribeStream() is invoked once per token. </para>
+    </detaileddescription>
+    <location file="include/plugins/audio_backend_interface.h" line="33" column="1" bodyfile="include/plugins/audio_backend_interface.h" bodystart="33" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1audio_1_1_transcription_token_1a23884da8450a67a3cd13d2f3f4ab8e85" prot="public" virt="non-virtual"><scope>themis::audio::TranscriptionToken</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1audio_1_1_transcription_token_1aa5c6329bd162e067d0ab32814d373927" prot="public" virt="non-virtual"><scope>themis::audio::TranscriptionToken</scope><name>end_ms</name></member>
+      <member refid="structthemis_1_1audio_1_1_transcription_token_1abc84e88230271bdc3dc89ac4a288f13c" prot="public" virt="non-virtual"><scope>themis::audio::TranscriptionToken</scope><name>start_ms</name></member>
+      <member refid="structthemis_1_1audio_1_1_transcription_token_1a9e414a3b4b58672586d9db595c04e842" prot="public" virt="non-virtual"><scope>themis::audio::TranscriptionToken</scope><name>text</name></member>
+      <member refid="structthemis_1_1audio_1_1_transcription_token_1a1e202ce7c373c4829bdb1c1a9a00eb30" prot="public" virt="non-virtual"><scope>themis::audio::TranscriptionToken</scope><name>token_index</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

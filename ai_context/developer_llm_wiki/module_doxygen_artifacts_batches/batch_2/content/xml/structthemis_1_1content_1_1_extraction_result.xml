@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_extraction_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ExtractionResult</compoundname>
+    <includes refid="content__processor_8h" local="no">content_processor.h</includes>
+    <innerclass refid="structthemis_1_1content_1_1_extraction_result_1_1_geo_data" prot="public">themis::content::ExtractionResult::GeoData</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_extraction_result_1_1_media_data" prot="public">themis::content::ExtractionResult::MediaData</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_extraction_result_1_1_c_a_d_data" prot="public">themis::content::ExtractionResult::CADData</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1ab0bf1b200f8803792d1ea4952152a634" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ExtractionResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::content::ExtractionResult::ok</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="28" column="10" bodyfile="include/content/content_processor.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1aae41d3e0c2c9af92c367d884b5534e7f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ExtractionResult::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::content::ExtractionResult::text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="29" column="17" bodyfile="include/content/content_processor.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1a7b935be9c75767913cebcdb57731987c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ExtractionResult::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::content::ExtractionResult::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="30" column="10" bodyfile="include/content/content_processor.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1aa209082e4b5b76c6b1a6699f93e83aa4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::content::ExtractionResult::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::content::ExtractionResult::embedding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="31" column="17" bodyfile="include/content/content_processor.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1a10df3d359374c2ac63848c12be29e754" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ExtractionResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::content::ExtractionResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="32" column="17" bodyfile="include/content/content_processor.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1ad16a0ebbbc330a5ec2017f942390e1a2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ExtractionResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::content::ExtractionResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="35" column="10" bodyfile="include/content/content_processor.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1a1449041b6cc9432f6521c6cbbc313e74" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::content::ExtractionResult::extracted_files</definition>
+        <argsstring></argsstring>
+        <name>extracted_files</name>
+        <qualifiedname>themis::content::ExtractionResult::extracted_files</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="36" column="17" bodyfile="include/content/content_processor.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1a0d94d1669ff675b8a493781cf68f3f8d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ExtractionResult::temp_directory</definition>
+        <argsstring></argsstring>
+        <name>temp_directory</name>
+        <qualifiedname>themis::content::ExtractionResult::temp_directory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="37" column="17" bodyfile="include/content/content_processor.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1afbda16b38598a360a7ae3f57e6263d30" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1content_1_1_extraction_result_1_1_geo_data" kindref="compound">GeoData</ref> &gt;</type>
+        <definition>std::optional&lt;GeoData&gt; themis::content::ExtractionResult::geo_data</definition>
+        <argsstring></argsstring>
+        <name>geo_data</name>
+        <qualifiedname>themis::content::ExtractionResult::geo_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="45" column="19" bodyfile="include/content/content_processor.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1acb562bad4b9257abe09256525eb0aa1e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1content_1_1_extraction_result_1_1_media_data" kindref="compound">MediaData</ref> &gt;</type>
+        <definition>std::optional&lt;MediaData&gt; themis::content::ExtractionResult::media_data</definition>
+        <argsstring></argsstring>
+        <name>media_data</name>
+        <qualifiedname>themis::content::ExtractionResult::media_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="54" column="19" bodyfile="include/content/content_processor.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1aa57dfbb65755778da44f7ec42330d941" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1content_1_1_extraction_result_1_1_c_a_d_data" kindref="compound">CADData</ref> &gt;</type>
+        <definition>std::optional&lt;CADData&gt; themis::content::ExtractionResult::cad_data</definition>
+        <argsstring></argsstring>
+        <name>cad_data</name>
+        <qualifiedname>themis::content::ExtractionResult::cad_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="61" column="19" bodyfile="include/content/content_processor.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_processor.h" line="27" column="1" bodyfile="include/content/content_processor.h" bodystart="27" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1aa57dfbb65755778da44f7ec42330d941" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult</scope><name>cad_data</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1aa209082e4b5b76c6b1a6699f93e83aa4" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1a10df3d359374c2ac63848c12be29e754" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1a1449041b6cc9432f6521c6cbbc313e74" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult</scope><name>extracted_files</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1afbda16b38598a360a7ae3f57e6263d30" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult</scope><name>geo_data</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1acb562bad4b9257abe09256525eb0aa1e" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult</scope><name>media_data</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1a7b935be9c75767913cebcdb57731987c" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1ab0bf1b200f8803792d1ea4952152a634" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1ad16a0ebbbc330a5ec2017f942390e1a2" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1a0d94d1669ff675b8a493781cf68f3f8d" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult</scope><name>temp_directory</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1aae41d3e0c2c9af92c367d884b5534e7f" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

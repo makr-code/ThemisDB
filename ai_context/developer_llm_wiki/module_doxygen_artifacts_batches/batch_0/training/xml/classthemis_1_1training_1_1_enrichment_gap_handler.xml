@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_enrichment_gap_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::EnrichmentGapHandler</compoundname>
+    <includes refid="training__failsafe_8h" local="no">training_failsafe.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_enrichment_gap_handler_1acdb8b135ec9965eb63ee8e383e81f202" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_enrichment_gap_summary" kindref="compound">EnrichmentGapSummary</ref></type>
+        <definition>EnrichmentGapSummary themis::training::EnrichmentGapHandler::evaluate</definition>
+        <argsstring>(const EnrichmentGapContext &amp;ctx, TrainingIncidentEmitter *emitter) const noexcept</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::training::EnrichmentGapHandler::evaluate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_enrichment_gap_context" kindref="compound">EnrichmentGapContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1training_1_1_training_incident_emitter" kindref="compound">TrainingIncidentEmitter</ref> *</type>
+          <declname>emitter</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate enrichment gap coverage and emit diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Enrichment gap context (counts + threshold). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>emitter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional incident emitter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1training_1_1_enrichment_gap_summary" kindref="compound">EnrichmentGapSummary</ref> with coverage ratio and threshold flag. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="299" column="27" bodyfile="include/training/training_failsafe.h" bodystart="439" bodyend="488"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Graceful-degradation handler for enrichment gaps. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Policy:<itemizedlist>
+<listitem><para>Always returns a <ref refid="structthemis_1_1training_1_1_enrichment_gap_summary" kindref="compound">EnrichmentGapSummary</ref> with the computed coverage ratio.</para>
+</listitem><listitem><para>Emits a DATASET incident when coverage_ratio &lt; minimum_coverage_threshold.</para>
+</listitem><listitem><para>Does NOT raise exceptions — callers decide whether to proceed with partial enrichment based on meets_threshold.</para>
+</listitem><listitem><para>A total_items == 0 input is treated as coverage_ratio = 1.0 (no gap). </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/training/training_failsafe.h" line="290" column="1" bodyfile="include/training/training_failsafe.h" bodystart="290" bodyend="302"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_enrichment_gap_handler_1acdb8b135ec9965eb63ee8e383e81f202" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentGapHandler</scope><name>evaluate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

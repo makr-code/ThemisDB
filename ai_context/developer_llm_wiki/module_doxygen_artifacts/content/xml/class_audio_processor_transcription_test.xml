@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_audio_processor_transcription_test" kind="class" language="C++" prot="public">
+    <compoundname>AudioProcessorTranscriptionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_audio_processor_transcription_test_1ae445b1122835919e656198e9f11ce985" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1content_1_1_audio_processor" kindref="compound">AudioProcessor</ref></type>
+        <definition>AudioProcessor AudioProcessorTranscriptionTest::processor</definition>
+        <argsstring></argsstring>
+        <name>processor</name>
+        <qualifiedname>AudioProcessorTranscriptionTest::processor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="555" column="20" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="555" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_audio_processor_transcription_test_1a508e9bd29a03fbe4da1136c5b8401dab" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AudioProcessorTranscriptionTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AudioProcessorTranscriptionTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_audio_processor.cpp" line="557" column="10" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="557" bodyend="564"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test fixture for <ref refid="classthemis_1_1content_1_1_audio_processor" kindref="compound">AudioProcessor</ref> with transcription enabled. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Initializes the processor with &quot;transcription.enabled&quot;: true. <ref refid="classthemis_1_1content_1_1_s_t_t_processor" kindref="compound">STTProcessor</ref> will initialise in fallback mode when THEMIS_ENABLE_WHISPER is not defined (no model file required). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AudioProcessorTranscriptionTest</label>
+        <link refid="class_audio_processor_transcription_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AudioProcessorTranscriptionTest</label>
+        <link refid="class_audio_processor_transcription_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>processor</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::content::AudioProcessor</label>
+        <link refid="classthemis_1_1content_1_1_audio_processor"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::content::IContentProcessorPlugin</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/content/test_content_audio_processor.cpp" line="553" column="1" bodyfile="tests/content/test_content_audio_processor.cpp" bodystart="553" bodyend="565"/>
+    <listofallmembers>
+      <member refid="class_audio_processor_transcription_test_1ae445b1122835919e656198e9f11ce985" prot="protected" virt="non-virtual"><scope>AudioProcessorTranscriptionTest</scope><name>processor</name></member>
+      <member refid="class_audio_processor_transcription_test_1a508e9bd29a03fbe4da1136c5b8401dab" prot="protected" virt="non-virtual"><scope>AudioProcessorTranscriptionTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

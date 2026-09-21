@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_2c70137f202dcd386aebb6abace314be" kind="dir">
+    <compoundname>include/themis/base</compoundname>
+    <innerdir refid="dir_9be04aabaafde4e3ff7df8fdee06928a">include/themis/base/interfaces</innerdir>
+    <innerfile refid="ab__test__manager_8h">ab_test_manager.h</innerfile>
+    <innerfile refid="base__error__taxonomy_8h">base_error_taxonomy.h</innerfile>
+    <innerfile refid="base_2export_8h">export.h</innerfile>
+    <innerfile refid="hot__reload__manager_8h">hot_reload_manager.h</innerfile>
+    <innerfile refid="module__loader_8h">module_loader.h</innerfile>
+    <innerfile refid="module__sandbox_8h">module_sandbox.h</innerfile>
+    <innerfile refid="plugin__dependency__graph_8h">plugin_dependency_graph.h</innerfile>
+    <innerfile refid="remote__registry__client_8h">remote_registry_client.h</innerfile>
+    <innerfile refid="trace__context_8h">trace_context.h</innerfile>
+    <innerfile refid="wasm__plugin__sandbox_8h">wasm_plugin_sandbox.h</innerfile>
+    <innerfile refid="wasm__runtime__injector_8h">wasm_runtime_injector.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/"/>
+  </compounddef>
+</doxygen>

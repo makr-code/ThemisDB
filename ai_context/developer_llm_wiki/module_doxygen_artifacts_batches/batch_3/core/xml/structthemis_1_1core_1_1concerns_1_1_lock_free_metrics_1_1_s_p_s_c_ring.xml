@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_s_p_s_c_ring" kind="struct" language="C++" prot="private">
+    <compoundname>themis::core::concerns::LockFreeMetrics::SPSCRing</compoundname>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+      <param>
+        <type>size_t</type>
+        <declname>Cap</declname>
+        <defname>Cap</defname>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_s_p_s_c_ring_1a094b741bb9a9f306177a49fe1294f22e" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::core::concerns::LockFreeMetrics::SPSCRing&lt; T, Cap &gt;::write_idx</definition>
+        <argsstring></argsstring>
+        <name>write_idx</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::SPSCRing::write_idx</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="204" column="30" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="204" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_s_p_s_c_ring_1a1b6581fcae0a383f59ef847a09d342c2" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::core::concerns::LockFreeMetrics::SPSCRing&lt; T, Cap &gt;::read_idx</definition>
+        <argsstring></argsstring>
+        <name>read_idx</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::SPSCRing::read_idx</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="205" column="30" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="205" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_s_p_s_c_ring_1a0b9c06f05cec1f7c6bbd1429b90bbc3b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::core::concerns::LockFreeMetrics::SPSCRing&lt; T, Cap &gt;::dropped</definition>
+        <argsstring></argsstring>
+        <name>dropped</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::SPSCRing::dropped</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="206" column="29" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="206" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_s_p_s_c_ring_1a62a56fc4e55c75811b9c3c71ce2f25b3" prot="public" static="no" mutable="no">
+        <type>std::array&lt; T, Cap &gt;</type>
+        <definition>std::array&lt;T, Cap&gt; themis::core::concerns::LockFreeMetrics::SPSCRing&lt; T, Cap &gt;::buf</definition>
+        <argsstring></argsstring>
+        <name>buf</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::SPSCRing::buf</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="207" column="30" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="207" bodyend="207"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_s_p_s_c_ring_1adfc3bbbc359c2f17f6fe893b6064a875" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::LockFreeMetrics::SPSCRing&lt; T, Cap &gt;::tryPush</definition>
+        <argsstring>(T item) noexcept</argsstring>
+        <name>tryPush</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::SPSCRing::tryPush</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="209" column="14" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="209" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_s_p_s_c_ring_1a812fa5122cbee95bca077b9e3142c207" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::LockFreeMetrics::SPSCRing&lt; T, Cap &gt;::tryPop</definition>
+        <argsstring>(T &amp;out) noexcept</argsstring>
+        <name>tryPop</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::SPSCRing::tryPop</qualifiedname>
+        <param>
+          <type>T &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="221" column="14" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="221" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_s_p_s_c_ring_1a4788f1d433e029b767d446518a7f8ae3" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::LockFreeMetrics::SPSCRing&lt; T, Cap &gt;::empty</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::SPSCRing::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="231" column="14" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="231" bodyend="234"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/lockfree_metrics.h" line="200" column="5" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="200" bodyend="235"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_s_p_s_c_ring_1a62a56fc4e55c75811b9c3c71ce2f25b3" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics::SPSCRing</scope><name>buf</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_s_p_s_c_ring_1a0b9c06f05cec1f7c6bbd1429b90bbc3b" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics::SPSCRing</scope><name>dropped</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_s_p_s_c_ring_1a4788f1d433e029b767d446518a7f8ae3" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics::SPSCRing</scope><name>empty</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_s_p_s_c_ring_1a1b6581fcae0a383f59ef847a09d342c2" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics::SPSCRing</scope><name>read_idx</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_s_p_s_c_ring_1a812fa5122cbee95bca077b9e3142c207" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics::SPSCRing</scope><name>tryPop</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_s_p_s_c_ring_1adfc3bbbc359c2f17f6fe893b6064a875" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics::SPSCRing</scope><name>tryPush</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_s_p_s_c_ring_1a094b741bb9a9f306177a49fe1294f22e" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics::SPSCRing</scope><name>write_idx</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

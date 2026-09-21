@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_selectivity_analyzer" kind="class" language="C++" prot="public">
+    <compoundname>themis::SelectivityAnalyzer</compoundname>
+    <includes refid="adaptive__index_8h" local="no">adaptive_index.h</includes>
+    <innerclass refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats" prot="public">themis::SelectivityAnalyzer::SelectivityStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_selectivity_analyzer_1a7bd17e6b7db108c670e932f47cd7f9e7" prot="private" static="no" mutable="no">
+        <type>rocksdb::TransactionDB *</type>
+        <definition>rocksdb::TransactionDB* themis::SelectivityAnalyzer::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::SelectivityAnalyzer::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="158" column="28" bodyfile="include/index/adaptive_index.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_selectivity_analyzer_1a9c7006d38a49a18d8bfd6f31b1b8911e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SelectivityAnalyzer::SelectivityAnalyzer</definition>
+        <argsstring>(rocksdb::TransactionDB *db)</argsstring>
+        <name>SelectivityAnalyzer</name>
+        <qualifiedname>themis::SelectivityAnalyzer::SelectivityAnalyzer</qualifiedname>
+        <param>
+          <type>rocksdb::TransactionDB *</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+<para>Selectivity Analyzer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="140" column="14" bodyfile="src/index/adaptive_index.cpp" bodystart="168" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_selectivity_analyzer_1afafd9db471de09c7d45c617169cbd2d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SelectivityAnalyzer::~SelectivityAnalyzer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SelectivityAnalyzer</name>
+        <qualifiedname>themis::SelectivityAnalyzer::~SelectivityAnalyzer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="141" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_selectivity_analyzer_1a79f41a8307ea539ea7de337f72995625" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats" kindref="compound">SelectivityStats</ref></type>
+        <definition>SelectivityAnalyzer::SelectivityStats themis::SelectivityAnalyzer::analyze</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;field, size_t sample_size=1000)</argsstring>
+        <name>analyze</name>
+        <qualifiedname>themis::SelectivityAnalyzer::analyze</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>sample_size</declname>
+          <defval>1000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="143" column="22" bodyfile="src/index/adaptive_index.cpp" bodystart="176" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_selectivity_analyzer_1a4a1fb4cb00383bb0dedbb8442b242380" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::SelectivityAnalyzer::calculateIndexBenefit</definition>
+        <argsstring>(const SelectivityStats &amp;stats) const</argsstring>
+        <name>calculateIndexBenefit</name>
+        <qualifiedname>themis::SelectivityAnalyzer::calculateIndexBenefit</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats" kindref="compound">SelectivityStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Index Benefit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="152" column="12" bodyfile="src/index/adaptive_index.cpp" bodystart="244" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_selectivity_analyzer_1a0909ffc3e7a67f4ebc9e835a74dfc0c5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats" kindref="compound">SelectivityStats</ref></type>
+        <definition>SelectivityAnalyzer::SelectivityStats themis::SelectivityAnalyzer::analyzeCacheAware</definition>
+        <argsstring>(const SelectivityStats &amp;stats, size_t l3_cache_size_mb=20) const</argsstring>
+        <name>analyzeCacheAware</name>
+        <qualifiedname>themis::SelectivityAnalyzer::analyzeCacheAware</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_selectivity_analyzer_1_1_selectivity_stats" kindref="compound">SelectivityStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>l3_cache_size_mb</declname>
+          <defval>20</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="154" column="22" bodyfile="src/index/adaptive_index.cpp" bodystart="338" bodyend="370"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_selectivity_analyzer_1a932fe5024d597ecd232f18b351a0e54f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::SelectivityAnalyzer::determineDistribution</definition>
+        <argsstring>(const std::map&lt; std::string, int &gt; &amp;value_counts, int64_t total) const</argsstring>
+        <name>determineDistribution</name>
+        <qualifiedname>themis::SelectivityAnalyzer::determineDistribution</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, int &gt; &amp;</type>
+          <declname>value_counts</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>total</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="160" column="17" bodyfile="src/index/adaptive_index.cpp" bodystart="276" bodyend="305"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/adaptive_index.h" line="107" column="1" bodyfile="include/index/adaptive_index.h" bodystart="107" bodyend="162"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_selectivity_analyzer_1a79f41a8307ea539ea7de337f72995625" prot="public" virt="non-virtual"><scope>themis::SelectivityAnalyzer</scope><name>analyze</name></member>
+      <member refid="classthemis_1_1_selectivity_analyzer_1a0909ffc3e7a67f4ebc9e835a74dfc0c5" prot="public" virt="non-virtual"><scope>themis::SelectivityAnalyzer</scope><name>analyzeCacheAware</name></member>
+      <member refid="classthemis_1_1_selectivity_analyzer_1a4a1fb4cb00383bb0dedbb8442b242380" prot="public" virt="non-virtual"><scope>themis::SelectivityAnalyzer</scope><name>calculateIndexBenefit</name></member>
+      <member refid="classthemis_1_1_selectivity_analyzer_1a7bd17e6b7db108c670e932f47cd7f9e7" prot="private" virt="non-virtual"><scope>themis::SelectivityAnalyzer</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_selectivity_analyzer_1a932fe5024d597ecd232f18b351a0e54f" prot="private" virt="non-virtual"><scope>themis::SelectivityAnalyzer</scope><name>determineDistribution</name></member>
+      <member refid="classthemis_1_1_selectivity_analyzer_1a9c7006d38a49a18d8bfd6f31b1b8911e" prot="public" virt="non-virtual"><scope>themis::SelectivityAnalyzer</scope><name>SelectivityAnalyzer</name></member>
+      <member refid="classthemis_1_1_selectivity_analyzer_1afafd9db471de09c7d45c617169cbd2d4" prot="public" virt="non-virtual"><scope>themis::SelectivityAnalyzer</scope><name>~SelectivityAnalyzer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

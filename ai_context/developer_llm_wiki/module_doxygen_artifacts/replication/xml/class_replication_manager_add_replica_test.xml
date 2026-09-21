@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_replication_manager_add_replica_test" kind="class" language="C++" prot="public">
+    <compoundname>ReplicationManagerAddReplicaTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_replication_manager_add_replica_test_1aaa57f72fd0924188818ee749079747fc" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_replication_manager" kindref="compound">ReplicationManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ReplicationManager&gt; ReplicationManagerAddReplicaTest::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>ReplicationManagerAddReplicaTest::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_manager_addReplica_simple.cpp" line="19" column="21" bodyfile="tests/replication/test_replication_manager_addReplica_simple.cpp" bodystart="19" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_replication_manager_add_replica_test_1aad63a8f6190e92d7198883d3aeba1a4e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ReplicationManagerAddReplicaTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ReplicationManagerAddReplicaTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_manager_addReplica_simple.cpp" line="21" column="10" bodyfile="tests/replication/test_replication_manager_addReplica_simple.cpp" bodystart="21" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_replication_manager_add_replica_test_1a70d7d1659e148a961ce490f43f70d072" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ReplicationManagerAddReplicaTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ReplicationManagerAddReplicaTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_manager_addReplica_simple.cpp" line="28" column="10" bodyfile="tests/replication/test_replication_manager_addReplica_simple.cpp" bodystart="28" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ReplicationManagerAddReplicaTest</label>
+        <link refid="class_replication_manager_add_replica_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ReplicationManagerAddReplicaTest</label>
+        <link refid="class_replication_manager_add_replica_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/replication/test_replication_manager_addReplica_simple.cpp" line="17" column="1" bodyfile="tests/replication/test_replication_manager_addReplica_simple.cpp" bodystart="17" bodyend="33"/>
+    <listofallmembers>
+      <member refid="class_replication_manager_add_replica_test_1aaa57f72fd0924188818ee749079747fc" prot="protected" virt="non-virtual"><scope>ReplicationManagerAddReplicaTest</scope><name>manager_</name></member>
+      <member refid="class_replication_manager_add_replica_test_1aad63a8f6190e92d7198883d3aeba1a4e" prot="protected" virt="non-virtual"><scope>ReplicationManagerAddReplicaTest</scope><name>SetUp</name></member>
+      <member refid="class_replication_manager_add_replica_test_1a70d7d1659e148a961ce490f43f70d072" prot="protected" virt="non-virtual"><scope>ReplicationManagerAddReplicaTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

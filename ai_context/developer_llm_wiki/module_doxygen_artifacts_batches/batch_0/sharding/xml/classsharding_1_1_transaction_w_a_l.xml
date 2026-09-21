@@ -1,0 +1,913 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classsharding_1_1_transaction_w_a_l" kind="class" language="C++" prot="public">
+    <compoundname>sharding::TransactionWAL</compoundname>
+    <includes refid="transaction__wal_8h" local="no">transaction_wal.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classsharding_1_1_transaction_w_a_l_1ab1ffe38d1f68d4c3994449f6b48a066a" prot="private" static="no" mutable="no">
+        <type><ref refid="structsharding_1_1_transaction_w_a_l_config" kindref="compound">TransactionWALConfig</ref></type>
+        <definition>TransactionWALConfig sharding::TransactionWAL::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>sharding::TransactionWAL::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="214" column="26" bodyfile="include/sharding/transaction_wal.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsharding_1_1_transaction_w_a_l_1ae3f9d90498ff9091394b0aed119d1112" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="namespacesharding_1a7cd46b2790e904be2ca81b4b55bf65bd" kindref="member">WALManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;WALManager&gt; sharding::TransactionWAL::wal_manager_</definition>
+        <argsstring></argsstring>
+        <name>wal_manager_</name>
+        <qualifiedname>sharding::TransactionWAL::wal_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="215" column="21" bodyfile="include/sharding/transaction_wal.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsharding_1_1_transaction_w_a_l_1a91faf26980c24a221e7f22d42b41963e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex sharding::TransactionWAL::lsn_mutex_</definition>
+        <argsstring></argsstring>
+        <name>lsn_mutex_</name>
+        <qualifiedname>sharding::TransactionWAL::lsn_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="217" column="24" bodyfile="include/sharding/transaction_wal.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsharding_1_1_transaction_w_a_l_1a77d67fb4046b528d01d4e4289cca1cc4" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref></type>
+        <definition>LSN sharding::TransactionWAL::current_lsn_</definition>
+        <argsstring></argsstring>
+        <name>current_lsn_</name>
+        <qualifiedname>sharding::TransactionWAL::current_lsn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="218" column="9" bodyfile="include/sharding/transaction_wal.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsharding_1_1_transaction_w_a_l_1aca5f83c9f35c5ca213dd9bcda32c0990" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>sharding::TransactionWAL::TransactionWAL</definition>
+        <argsstring>(const TransactionWALConfig &amp;config)</argsstring>
+        <name>TransactionWAL</name>
+        <qualifiedname>sharding::TransactionWAL::TransactionWAL</qualifiedname>
+        <param>
+          <type>const <ref refid="structsharding_1_1_transaction_w_a_l_config" kindref="compound">TransactionWALConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct transaction WAL facade with immutable configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="102" column="14" bodyfile="src/sharding/transaction_wal.cpp" bodystart="39" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_w_a_l_1ad593e6bdcfac468111c4b1c65cfded68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>sharding::TransactionWAL::~TransactionWAL</definition>
+        <argsstring>()</argsstring>
+        <name>~TransactionWAL</name>
+        <qualifiedname>sharding::TransactionWAL::~TransactionWAL</qualifiedname>
+        <briefdescription>
+<para>Destroy transaction WAL facade and owned WAL manager. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="104" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_w_a_l_1a1ecce82f8adc20db55e75e1b4f24ad70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool sharding::TransactionWAL::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>sharding::TransactionWAL::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize directories and underlying WAL manager instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::filesystem::exists(), std::filesystem::create_directories(), spdlog::info(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="107" column="10" bodyfile="src/sharding/transaction_wal.cpp" bodystart="49" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_w_a_l_1a7a63065a48ba963e46bc64bd0023f37c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref></type>
+        <definition>LSN sharding::TransactionWAL::logBegin</definition>
+        <argsstring>(const std::string &amp;transaction_id, TransactionProtocol protocol, const std::vector&lt; std::string &gt; &amp;participants)</argsstring>
+        <name>logBegin</name>
+        <qualifiedname>sharding::TransactionWAL::logBegin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacesharding_1a52dab72ab076f10f582422ce080e3afe" kindref="member">TransactionProtocol</ref></type>
+          <declname>protocol</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>participants</declname>
+        </param>
+        <briefdescription>
+<para>Log Begin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log transaction begin</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique transaction identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>protocol</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction protocol (2PC, 3PC, SAGA, PERCOLATOR) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>participants</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of participant shard IDs </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref> of the logged entry</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">protocol</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">participants</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), toWALEntry(), append(), lsn_guard(), <ref refid="classsharding_1_1_transaction_w_a_l_1a898e32383f1f1da41148082483ad7e91" kindref="member">getCurrentLSN()</ref>, spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="117" column="9" bodyfile="src/sharding/transaction_wal.cpp" bodystart="87" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_w_a_l_1acefeffa3c65242419c1bd16218b4a52d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref></type>
+        <definition>LSN sharding::TransactionWAL::logPrepare</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::string &amp;participant_id, const nlohmann::json &amp;data)</argsstring>
+        <name>logPrepare</name>
+        <qualifiedname>sharding::TransactionWAL::logPrepare</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>participant_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Log Prepare. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log prepare request sent to participant</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>participant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Participant shard ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Protocol-specific prepare data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref> of the logged entry</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">participant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the participant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), toWALEntry(), append(), lsn_guard(), <ref refid="classsharding_1_1_transaction_w_a_l_1a898e32383f1f1da41148082483ad7e91" kindref="member">getCurrentLSN()</ref>, spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="129" column="9" bodyfile="src/sharding/transaction_wal.cpp" bodystart="121" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_w_a_l_1a524b903161fefcdf627f82309ddc6aef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref></type>
+        <definition>LSN sharding::TransactionWAL::logPrepared</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::string &amp;participant_id, bool vote, const std::string &amp;response)</argsstring>
+        <name>logPrepared</name>
+        <qualifiedname>sharding::TransactionWAL::logPrepared</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>participant_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>vote</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Log Prepared. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log participant prepare response (vote)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>participant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Participant shard ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true=prepared/yes, false=aborted/no </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Response data from participant </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref> of the logged entry</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">participant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the participant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), toWALEntry(), append(), lsn_guard(), <ref refid="classsharding_1_1_transaction_w_a_l_1a898e32383f1f1da41148082483ad7e91" kindref="member">getCurrentLSN()</ref>, spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="142" column="9" bodyfile="src/sharding/transaction_wal.cpp" bodystart="151" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_w_a_l_1a1019dfc7062624db1ffb9e0cfb990d40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref></type>
+        <definition>LSN sharding::TransactionWAL::logCommit</definition>
+        <argsstring>(const std::string &amp;transaction_id, const nlohmann::json &amp;data)</argsstring>
+        <name>logCommit</name>
+        <qualifiedname>sharding::TransactionWAL::logCommit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Log Commit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log coordinator commit decision</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Commit data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref> of the logged entry</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), toWALEntry(), append(), lsn_guard(), <ref refid="classsharding_1_1_transaction_w_a_l_1a898e32383f1f1da41148082483ad7e91" kindref="member">getCurrentLSN()</ref>, spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="154" column="9" bodyfile="src/sharding/transaction_wal.cpp" bodystart="186" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_w_a_l_1ab621200dd55cfc8e66b8447b4097ded2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref></type>
+        <definition>LSN sharding::TransactionWAL::logCommitted</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::string &amp;participant_id)</argsstring>
+        <name>logCommitted</name>
+        <qualifiedname>sharding::TransactionWAL::logCommitted</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>participant_id</declname>
+        </param>
+        <briefdescription>
+<para>Log Committed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log participant commit confirmation</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>participant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Participant shard ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref> of the logged entry</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">participant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the participant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), toWALEntry(), append(), lsn_guard(), <ref refid="classsharding_1_1_transaction_w_a_l_1a898e32383f1f1da41148082483ad7e91" kindref="member">getCurrentLSN()</ref>, spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="164" column="9" bodyfile="src/sharding/transaction_wal.cpp" bodystart="211" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_w_a_l_1a779bdfaee0b755d2111dfafd4877b672" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref></type>
+        <definition>LSN sharding::TransactionWAL::logAbort</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::string &amp;reason)</argsstring>
+        <name>logAbort</name>
+        <qualifiedname>sharding::TransactionWAL::logAbort</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Log Abort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log coordinator abort decision</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reason for abort </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref> of the logged entry</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), toWALEntry(), append(), lsn_guard(), <ref refid="classsharding_1_1_transaction_w_a_l_1a898e32383f1f1da41148082483ad7e91" kindref="member">getCurrentLSN()</ref>, spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="174" column="9" bodyfile="src/sharding/transaction_wal.cpp" bodystart="237" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_w_a_l_1a0fb806d7bff92e336e76439f5f30c94f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref></type>
+        <definition>LSN sharding::TransactionWAL::logAborted</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::string &amp;participant_id)</argsstring>
+        <name>logAborted</name>
+        <qualifiedname>sharding::TransactionWAL::logAborted</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>participant_id</declname>
+        </param>
+        <briefdescription>
+<para>Log Aborted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log participant abort confirmation</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>participant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Participant shard ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref> of the logged entry</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">participant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the participant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), toWALEntry(), append(), lsn_guard(), <ref refid="classsharding_1_1_transaction_w_a_l_1a898e32383f1f1da41148082483ad7e91" kindref="member">getCurrentLSN()</ref>, spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="184" column="9" bodyfile="src/sharding/transaction_wal.cpp" bodystart="267" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_w_a_l_1a3373932104ba5157c7b76acf39c20ecf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref></type>
+        <definition>LSN sharding::TransactionWAL::logCompensate</definition>
+        <argsstring>(const std::string &amp;transaction_id, const std::string &amp;step_id, const nlohmann::json &amp;compensation_data)</argsstring>
+        <name>logCompensate</name>
+        <qualifiedname>sharding::TransactionWAL::logCompensate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>transaction_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>step_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>compensation_data</declname>
+        </param>
+        <briefdescription>
+<para>Log Compensate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log SAGA compensation step</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transaction identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>step_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Step identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>compensation_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compensation data </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref> of the logged entry</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">transaction_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the transaction. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">step_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the step. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">compensation_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), toWALEntry(), append(), lsn_guard(), <ref refid="classsharding_1_1_transaction_w_a_l_1a898e32383f1f1da41148082483ad7e91" kindref="member">getCurrentLSN()</ref>, spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="195" column="9" bodyfile="src/sharding/transaction_wal.cpp" bodystart="294" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_w_a_l_1aa2709f329d43be929bdc6c9c9bf5af4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structsharding_1_1_transaction_w_a_l_entry" kindref="compound">TransactionWALEntry</ref> &gt;</type>
+        <definition>std::vector&lt; TransactionWALEntry &gt; sharding::TransactionWAL::readEntries</definition>
+        <argsstring>(LSN start_lsn=LSN(0, 0))</argsstring>
+        <name>readEntries</name>
+        <qualifiedname>sharding::TransactionWAL::readEntries</qualifiedname>
+        <param>
+          <type><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref></type>
+          <declname>start_lsn</declname>
+          <defval><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref>(0, 0)</defval>
+        </param>
+        <briefdescription>
+<para>Read Entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Read WAL entries starting from a given <ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start_lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Starting <ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref> (0 = from beginning) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of WAL entries</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: readRange(), fromWALEntry(), has_value(), push_back(), value(), spdlog::debug(), size(), toString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="205" column="17" bodyfile="src/sharding/transaction_wal.cpp" bodystart="321" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_w_a_l_1a1d2e37f62a93668ac55908e24a0e8aeb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool sharding::TransactionWAL::shouldCreateSnapshot</definition>
+        <argsstring>(uint64_t operations_count) const</argsstring>
+        <name>shouldCreateSnapshot</name>
+        <qualifiedname>sharding::TransactionWAL::shouldCreateSnapshot</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>operations_count</declname>
+        </param>
+        <briefdescription>
+<para>Return whether operation count reached configured snapshot interval. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="208" column="10" bodyfile="src/sharding/transaction_wal.cpp" bodystart="351" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_w_a_l_1a898e32383f1f1da41148082483ad7e91" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref></type>
+        <definition>LSN sharding::TransactionWAL::getCurrentLSN</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentLSN</name>
+        <qualifiedname>sharding::TransactionWAL::getCurrentLSN</qualifiedname>
+        <briefdescription>
+<para>Return latest known WAL <ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref> from manager (or cached fallback). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lsn guard. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lsn_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="211" column="9" bodyfile="src/sharding/transaction_wal.cpp" bodystart="355" bodyend="366"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classsharding_1_1_transaction_w_a_l_1a1718a76db0026be9acadeafd90f259ec" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacesharding_1aefb1a44401392c9de9bd7e03f4c45633" kindref="member">WALEntry</ref></type>
+        <definition>WALEntry sharding::TransactionWAL::toWALEntry</definition>
+        <argsstring>(const TransactionWALEntry &amp;txn_entry)</argsstring>
+        <name>toWALEntry</name>
+        <qualifiedname>sharding::TransactionWAL::toWALEntry</qualifiedname>
+        <param>
+          <type>const <ref refid="structsharding_1_1_transaction_w_a_l_entry" kindref="compound">TransactionWALEntry</ref> &amp;</type>
+          <declname>txn_entry</declname>
+        </param>
+        <briefdescription>
+<para>Convert transaction WAL payload into generic WAL entry wire shape. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>To <ref refid="namespacesharding_1aefb1a44401392c9de9bd7e03f4c45633" kindref="member">WALEntry</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), is_null(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="221" column="14" bodyfile="src/sharding/transaction_wal.cpp" bodystart="374" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classsharding_1_1_transaction_w_a_l_1ad5dafd002fa1e33fff8aaedd803136bd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structsharding_1_1_transaction_w_a_l_entry" kindref="compound">TransactionWALEntry</ref> &gt;</type>
+        <definition>std::optional&lt; TransactionWALEntry &gt; sharding::TransactionWAL::fromWALEntry</definition>
+        <argsstring>(const WALEntry &amp;wal_entry)</argsstring>
+        <name>fromWALEntry</name>
+        <qualifiedname>sharding::TransactionWAL::fromWALEntry</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacesharding_1aefb1a44401392c9de9bd7e03f4c45633" kindref="member">WALEntry</ref> &amp;</type>
+          <declname>wal_entry</declname>
+        </param>
+        <briefdescription>
+<para>Decode generic WAL entry into transaction WAL payload if compatible. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From <ref refid="namespacesharding_1aefb1a44401392c9de9bd7e03f4c45633" kindref="member">WALEntry</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wal_entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), contains(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="224" column="19" bodyfile="src/sharding/transaction_wal.cpp" bodystart="415" bodyend="455"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Transaction Write-Ahead Log</para>
+<para>Provides durable logging for distributed transaction coordinator state. Supports 2PC, 3PC, SAGA, and Percolator protocols.</para>
+<para>Usage: <ref refid="structsharding_1_1_transaction_w_a_l_config" kindref="compound">TransactionWALConfig</ref> config; config.wal_directory = &quot;./data/transactions/wal&quot;;</para>
+<para><ref refid="classsharding_1_1_transaction_w_a_l" kindref="compound">TransactionWAL</ref> wal(config); wal.initialize();</para>
+<para>// Log transaction lifecycle <ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref> lsn1 = wal.logBegin(txn_id, protocol, participants); <ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref> lsn2 = wal.logPrepare(txn_id, participant, data); <ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref> lsn3 = wal.logPrepared(txn_id, participant, true, response); <ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref> lsn4 = wal.logCommit(txn_id, data); <ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref> lsn5 = wal.logCommitted(txn_id, participant);</para>
+<para>// For recovery auto entries = wal.readEntries(start_lsn); </para>
+    </detaileddescription>
+    <location file="include/sharding/transaction_wal.h" line="99" column="1" bodyfile="include/sharding/transaction_wal.h" bodystart="99" bodyend="225"/>
+    <listofallmembers>
+      <member refid="classsharding_1_1_transaction_w_a_l_1ab1ffe38d1f68d4c3994449f6b48a066a" prot="private" virt="non-virtual"><scope>sharding::TransactionWAL</scope><name>config_</name></member>
+      <member refid="classsharding_1_1_transaction_w_a_l_1a77d67fb4046b528d01d4e4289cca1cc4" prot="private" virt="non-virtual"><scope>sharding::TransactionWAL</scope><name>current_lsn_</name></member>
+      <member refid="classsharding_1_1_transaction_w_a_l_1ad5dafd002fa1e33fff8aaedd803136bd" prot="private" virt="non-virtual"><scope>sharding::TransactionWAL</scope><name>fromWALEntry</name></member>
+      <member refid="classsharding_1_1_transaction_w_a_l_1a898e32383f1f1da41148082483ad7e91" prot="public" virt="non-virtual"><scope>sharding::TransactionWAL</scope><name>getCurrentLSN</name></member>
+      <member refid="classsharding_1_1_transaction_w_a_l_1a1ecce82f8adc20db55e75e1b4f24ad70" prot="public" virt="non-virtual"><scope>sharding::TransactionWAL</scope><name>initialize</name></member>
+      <member refid="classsharding_1_1_transaction_w_a_l_1a779bdfaee0b755d2111dfafd4877b672" prot="public" virt="non-virtual"><scope>sharding::TransactionWAL</scope><name>logAbort</name></member>
+      <member refid="classsharding_1_1_transaction_w_a_l_1a0fb806d7bff92e336e76439f5f30c94f" prot="public" virt="non-virtual"><scope>sharding::TransactionWAL</scope><name>logAborted</name></member>
+      <member refid="classsharding_1_1_transaction_w_a_l_1a7a63065a48ba963e46bc64bd0023f37c" prot="public" virt="non-virtual"><scope>sharding::TransactionWAL</scope><name>logBegin</name></member>
+      <member refid="classsharding_1_1_transaction_w_a_l_1a1019dfc7062624db1ffb9e0cfb990d40" prot="public" virt="non-virtual"><scope>sharding::TransactionWAL</scope><name>logCommit</name></member>
+      <member refid="classsharding_1_1_transaction_w_a_l_1ab621200dd55cfc8e66b8447b4097ded2" prot="public" virt="non-virtual"><scope>sharding::TransactionWAL</scope><name>logCommitted</name></member>
+      <member refid="classsharding_1_1_transaction_w_a_l_1a3373932104ba5157c7b76acf39c20ecf" prot="public" virt="non-virtual"><scope>sharding::TransactionWAL</scope><name>logCompensate</name></member>
+      <member refid="classsharding_1_1_transaction_w_a_l_1acefeffa3c65242419c1bd16218b4a52d" prot="public" virt="non-virtual"><scope>sharding::TransactionWAL</scope><name>logPrepare</name></member>
+      <member refid="classsharding_1_1_transaction_w_a_l_1a524b903161fefcdf627f82309ddc6aef" prot="public" virt="non-virtual"><scope>sharding::TransactionWAL</scope><name>logPrepared</name></member>
+      <member refid="classsharding_1_1_transaction_w_a_l_1a91faf26980c24a221e7f22d42b41963e" prot="private" virt="non-virtual"><scope>sharding::TransactionWAL</scope><name>lsn_mutex_</name></member>
+      <member refid="classsharding_1_1_transaction_w_a_l_1aa2709f329d43be929bdc6c9c9bf5af4f" prot="public" virt="non-virtual"><scope>sharding::TransactionWAL</scope><name>readEntries</name></member>
+      <member refid="classsharding_1_1_transaction_w_a_l_1a1d2e37f62a93668ac55908e24a0e8aeb" prot="public" virt="non-virtual"><scope>sharding::TransactionWAL</scope><name>shouldCreateSnapshot</name></member>
+      <member refid="classsharding_1_1_transaction_w_a_l_1a1718a76db0026be9acadeafd90f259ec" prot="private" virt="non-virtual"><scope>sharding::TransactionWAL</scope><name>toWALEntry</name></member>
+      <member refid="classsharding_1_1_transaction_w_a_l_1aca5f83c9f35c5ca213dd9bcda32c0990" prot="public" virt="non-virtual"><scope>sharding::TransactionWAL</scope><name>TransactionWAL</name></member>
+      <member refid="classsharding_1_1_transaction_w_a_l_1ae3f9d90498ff9091394b0aed119d1112" prot="private" virt="non-virtual"><scope>sharding::TransactionWAL</scope><name>wal_manager_</name></member>
+      <member refid="classsharding_1_1_transaction_w_a_l_1ad593e6bdcfac468111c4b1c65cfded68" prot="public" virt="non-virtual"><scope>sharding::TransactionWAL</scope><name>~TransactionWAL</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

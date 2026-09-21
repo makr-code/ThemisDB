@@ -1,0 +1,867 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innerclass refid="classthemis_1_1_adaptive_index_manager" prot="public">themis::AdaptiveIndexManager</innerclass>
+    <innerclass refid="classthemis_1_1_advanced_vector_index" prot="public">themis::AdvancedVectorIndex</innerclass>
+    <innerclass refid="classthemis_1_1_binary_quantizer" prot="public">themis::BinaryQuantizer</innerclass>
+    <innerclass refid="structthemis_1_1_cuda_hnsw_config" prot="public">themis::CudaHnswConfig</innerclass>
+    <innerclass refid="classthemis_1_1_cuda_hnsw_traversal_engine" prot="public">themis::CudaHnswTraversalEngine</innerclass>
+    <innerclass refid="structthemis_1_1_document_model_info" prot="public">themis::DocumentModelInfo</innerclass>
+    <innerclass refid="structthemis_1_1_edge_type_info" prot="public">themis::EdgeTypeInfo</innerclass>
+    <innerclass refid="classthemis_1_1_edge_type_registry" prot="public">themis::EdgeTypeRegistry</innerclass>
+    <innerclass refid="classthemis_1_1_g_n_n_embedding_manager" prot="public">themis::GNNEmbeddingManager</innerclass>
+    <innerclass refid="classthemis_1_1_graph_analytics" prot="public">themis::GraphAnalytics</innerclass>
+    <innerclass refid="classthemis_1_1_graph_auto_buffer" prot="public">themis::GraphAutoBuffer</innerclass>
+    <innerclass refid="structthemis_1_1_graph_auto_buffer_config" prot="public">themis::GraphAutoBufferConfig</innerclass>
+    <innerclass refid="structthemis_1_1_graph_auto_buffer_stats" prot="public">themis::GraphAutoBufferStats</innerclass>
+    <innerclass refid="classthemis_1_1_graph_index_manager" prot="public">themis::GraphIndexManager</innerclass>
+    <innerclass refid="structthemis_1_1_hnsw_layer_graph" prot="public">themis::HnswLayerGraph</innerclass>
+    <innerclass refid="classthemis_1_1_hnsw_layer_optimizer" prot="public">themis::HnswLayerOptimizer</innerclass>
+    <innerclass refid="structthemis_1_1_hnsw_optimization_config" prot="public">themis::HnswOptimizationConfig</innerclass>
+    <innerclass refid="structthemis_1_1_hnsw_traversal_result" prot="public">themis::HnswTraversalResult</innerclass>
+    <innerclass refid="structthemis_1_1_hyperedge" prot="public">themis::Hyperedge</innerclass>
+    <innerclass refid="classthemis_1_1_index_manager" prot="public">themis::IndexManager</innerclass>
+    <innerclass refid="classthemis_1_1_index_suggestion_engine" prot="public">themis::IndexSuggestionEngine</innerclass>
+    <innerclass refid="classthemis_1_1_inverted_index" prot="public">themis::InvertedIndex</innerclass>
+    <innerclass refid="classthemis_1_1_learnable_rotary_embedding" prot="public">themis::LearnableRotaryEmbedding</innerclass>
+    <innerclass refid="classthemis_1_1_learned_quantizer" prot="public">themis::LearnedQuantizer</innerclass>
+    <innerclass refid="structthemis_1_1_lo_r_a_rope_adapter" prot="public">themis::LoRARopeAdapter</innerclass>
+    <innerclass refid="classthemis_1_1_lo_r_a_rope_adapter_registry" prot="public">themis::LoRARopeAdapterRegistry</innerclass>
+    <innerclass refid="classthemis_1_1_lo_r_a_rotary_embedding" prot="public">themis::LoRARotaryEmbedding</innerclass>
+    <innerclass refid="structthemis_1_1_multi_model_aspects" prot="public">themis::MultiModelAspects</innerclass>
+    <innerclass refid="classthemis_1_1_partition_data" prot="public">themis::PartitionData</innerclass>
+    <innerclass refid="classthemis_1_1_partition_guard" prot="public">themis::PartitionGuard</innerclass>
+    <innerclass refid="classthemis_1_1_partition_handle" prot="public">themis::PartitionHandle</innerclass>
+    <innerclass refid="classthemis_1_1_partition_manager" prot="public">themis::PartitionManager</innerclass>
+    <innerclass refid="structthemis_1_1_process_edge_info" prot="public">themis::ProcessEdgeInfo</innerclass>
+    <innerclass refid="classthemis_1_1_process_graph_manager" prot="public">themis::ProcessGraphManager</innerclass>
+    <innerclass refid="structthemis_1_1_process_instance" prot="public">themis::ProcessInstance</innerclass>
+    <innerclass refid="structthemis_1_1_process_node_info" prot="public">themis::ProcessNodeInfo</innerclass>
+    <innerclass refid="structthemis_1_1_process_token" prot="public">themis::ProcessToken</innerclass>
+    <innerclass refid="classthemis_1_1_product_quantizer" prot="public">themis::ProductQuantizer</innerclass>
+    <innerclass refid="classthemis_1_1_property_graph_manager" prot="public">themis::PropertyGraphManager</innerclass>
+    <innerclass refid="classthemis_1_1_query_pattern_tracker" prot="public">themis::QueryPatternTracker</innerclass>
+    <innerclass refid="classthemis_1_1_residual_quantizer" prot="public">themis::ResidualQuantizer</innerclass>
+    <innerclass refid="classthemis_1_1_rotary_embedding" prot="public">themis::RotaryEmbedding</innerclass>
+    <innerclass refid="classthemis_1_1_rotary_embedding_g_p_u" prot="public">themis::RotaryEmbeddingGPU</innerclass>
+    <innerclass refid="structthemis_1_1_rotation_config" prot="public">themis::RotationConfig</innerclass>
+    <innerclass refid="classthemis_1_1_secondary_index_manager" prot="public">themis::SecondaryIndexManager</innerclass>
+    <innerclass refid="classthemis_1_1_secondary_index_metadata_cache" prot="public">themis::SecondaryIndexMetadataCache</innerclass>
+    <innerclass refid="classthemis_1_1_selectivity_analyzer" prot="public">themis::SelectivityAnalyzer</innerclass>
+    <innerclass refid="structthemis_1_1_temporal_filter" prot="public">themis::TemporalFilter</innerclass>
+    <innerclass refid="structthemis_1_1_temporal_stats" prot="public">themis::TemporalStats</innerclass>
+    <innerclass refid="structthemis_1_1_time_range_filter" prot="public">themis::TimeRangeFilter</innerclass>
+    <innerclass refid="structthemis_1_1_training_config" prot="public">themis::TrainingConfig</innerclass>
+    <innerclass refid="structthemis_1_1_training_sample" prot="public">themis::TrainingSample</innerclass>
+    <innerclass refid="classthemis_1_1_vector_auto_buffer" prot="public">themis::VectorAutoBuffer</innerclass>
+    <innerclass refid="structthemis_1_1_vector_auto_buffer_config" prot="public">themis::VectorAutoBufferConfig</innerclass>
+    <innerclass refid="structthemis_1_1_vector_auto_buffer_stats" prot="public">themis::VectorAutoBufferStats</innerclass>
+    <innerclass refid="classthemis_1_1_vector_index_data" prot="public">themis::VectorIndexData</innerclass>
+    <innerclass refid="classthemis_1_1_vector_index_guard" prot="public">themis::VectorIndexGuard</innerclass>
+    <innerclass refid="classthemis_1_1_vector_index_handle" prot="public">themis::VectorIndexHandle</innerclass>
+    <innerclass refid="classthemis_1_1_vector_index_manager" prot="public">themis::VectorIndexManager</innerclass>
+    <innerclass refid="classthemis_1_1_vector_index_manager_safety" prot="public">themis::VectorIndexManagerSafety</innerclass>
+    <innerclass refid="classthemis_1_1_workload_capture" prot="public">themis::WorkloadCapture</innerclass>
+    <innerclass refid="structthemis_1_1_workload_event" prot="public">themis::WorkloadEvent</innerclass>
+    <innerclass refid="classthemis_1_1_workload_replayer" prot="public">themis::WorkloadReplayer</innerclass>
+    <innernamespace refid="namespacethemis_1_1index">themis::index</innernamespace>
+    <innernamespace refid="namespacethemis_1_1_reserved_fields">themis::ReservedFields</innernamespace>
+    <innernamespace refid="namespacethemis_1_1_system_collections">themis::SystemCollections</innernamespace>
+    <innernamespace refid="namespacethemis_1_1testing">themis::testing</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <innernamespace refid="namespacethemis_1_1vector">themis::vector</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1a80082a88a22a4d6b4fd484f7455f5cad" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>HnswDistanceMetric</name>
+        <qualifiedname>themis::HnswDistanceMetric</qualifiedname>
+        <enumvalue id="namespacethemis_1a80082a88a22a4d6b4fd484f7455f5cada7e6aa2d53f6ee2b1a34b017fa403cb76" prot="public">
+          <name>L2</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Squared Euclidean distance. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a80082a88a22a4d6b4fd484f7455f5cada46ff06ae696616afdf3a695efd3db84c" prot="public">
+          <name>Cosine</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Cosine distance (1 − cosine similarity). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a80082a88a22a4d6b4fd484f7455f5cadaaf6c6cf7a454b4ef4a850ac4d960a2cc" prot="public">
+          <name>Dot</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Negative dot product (maximise dot product). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/cuda_hnsw_graph_traversal.h" line="26" column="1" bodyfile="include/index/cuda_hnsw_graph_traversal.h" bodystart="26" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1a2c28054804de81e270b1be226f2dc787" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EdgeCategory</name>
+        <qualifiedname>themis::EdgeCategory</qualifiedname>
+        <enumvalue id="namespacethemis_1a2c28054804de81e270b1be226f2dc787a2b6a3029b4490bb4c70c62b23427d0ad" prot="public">
+          <name>STRUCTURAL</name>
+          <briefdescription>
+<para>Core structural relationships (hierarchies, containment). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a2c28054804de81e270b1be226f2dc787adcd320d017d7f3c317bc8b234287bc9f" prot="public">
+          <name>REFERENCE</name>
+          <briefdescription>
+<para>Reference/linking relationships. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a2c28054804de81e270b1be226f2dc787a59e56344cdb2d3e17705f7a75e7f1b9d" prot="public">
+          <name>TEMPORAL</name>
+          <briefdescription>
+<para>Time-aware relationships with validity periods. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a2c28054804de81e270b1be226f2dc787a0dfb69ba8b5b824dfb9c6a2f63532707" prot="public">
+          <name>SEMANTIC</name>
+          <briefdescription>
+<para>Semantic/meaning-based relationships. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a2c28054804de81e270b1be226f2dc787a7337e0594a0b1b28cf52eecf2ac24932" prot="public">
+          <name>WORKFLOW</name>
+          <briefdescription>
+<para>Process and workflow relationships. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a2c28054804de81e270b1be226f2dc787a0a3f43b00ddd148f64178deb155a9f45" prot="public">
+          <name>ACCESS</name>
+          <briefdescription>
+<para>Access control and permission relationships. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a2c28054804de81e270b1be226f2dc787a72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+<para>User-defined edge types. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="26" column="1" bodyfile="include/index/edge_types.h" bodystart="26" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1afbf2fd53cde1020120c43866481a52b7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BPMNNodeType</name>
+        <qualifiedname>themis::BPMNNodeType</qualifiedname>
+        <enumvalue id="namespacethemis_1afbf2fd53cde1020120c43866481a52b7ac7c1e39b17e296c68a45f07026ba9881" prot="public">
+          <name>START_EVENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1afbf2fd53cde1020120c43866481a52b7a2058f3da143179058d1098f52b13e1ad" prot="public">
+          <name>END_EVENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1afbf2fd53cde1020120c43866481a52b7a08baad0bd7bb9bfa8b4e65a3788450ce" prot="public">
+          <name>INTERMEDIATE_EVENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1afbf2fd53cde1020120c43866481a52b7a282bf256be01050f061ad156355f073c" prot="public">
+          <name>BOUNDARY_EVENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1afbf2fd53cde1020120c43866481a52b7a0ed9b001ca1cd2667302a9be876ede9d" prot="public">
+          <name>TASK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1afbf2fd53cde1020120c43866481a52b7a0a37c987cb5f7e81fd36ba991f991a7f" prot="public">
+          <name>SUBPROCESS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1afbf2fd53cde1020120c43866481a52b7a93bc5148ca800f801632fe9831874031" prot="public">
+          <name>CALL_ACTIVITY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1afbf2fd53cde1020120c43866481a52b7a7340795ffb801b6f636f7be33ac860ee" prot="public">
+          <name>EXCLUSIVE_GATEWAY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1afbf2fd53cde1020120c43866481a52b7a61f67681c38dd6fdb37ea8d5bfc97a22" prot="public">
+          <name>PARALLEL_GATEWAY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1afbf2fd53cde1020120c43866481a52b7a82b5cf3feabad8a236c66809d881b1bc" prot="public">
+          <name>INCLUSIVE_GATEWAY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1afbf2fd53cde1020120c43866481a52b7a83b6f04c277a58dfca614ab548a9b40c" prot="public">
+          <name>EVENT_BASED_GATEWAY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1afbf2fd53cde1020120c43866481a52b7ada03b864f3fb34ae5f9b5a38c06ff0d0" prot="public">
+          <name>COMPLEX_GATEWAY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1afbf2fd53cde1020120c43866481a52b7a3225d08271bdcb752dd48b2a836c8998" prot="public">
+          <name>POOL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1afbf2fd53cde1020120c43866481a52b7a8fa7fe786724b2340a8ed6d7fc21439c" prot="public">
+          <name>LANE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1afbf2fd53cde1020120c43866481a52b7a81ce4004730bf559ebc79fcd64a81e5d" prot="public">
+          <name>DATA_OBJECT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1afbf2fd53cde1020120c43866481a52b7aa88632dc5e03ca71a290e8ef7b16cb1e" prot="public">
+          <name>DATA_STORE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1afbf2fd53cde1020120c43866481a52b7a720909a4b948fc9e33633b61960d6b3c" prot="public">
+          <name>GROUP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1afbf2fd53cde1020120c43866481a52b7ad2b7fe93e0af4342d2aa893c28f32f1f" prot="public">
+          <name>ANNOTATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>BPMN Node Types. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="180" column="1" bodyfile="include/index/process_graph.h" bodystart="180" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1aae573882122023f67358852e62a3fea4" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EPKNodeType</name>
+        <qualifiedname>themis::EPKNodeType</qualifiedname>
+        <enumvalue id="namespacethemis_1aae573882122023f67358852e62a3fea4a030d962d0faa148f02848881a3b4fdb6" prot="public">
+          <name>EVENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1aae573882122023f67358852e62a3fea4a6a72a6a776662a244f82d31e9274a07b" prot="public">
+          <name>FUNCTION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1aae573882122023f67358852e62a3fea4a57275a624b6377234dbca53988302306" prot="public">
+          <name>AND_CONNECTOR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1aae573882122023f67358852e62a3fea4a89e187ffd5529200145875fd7c8f2333" prot="public">
+          <name>OR_CONNECTOR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1aae573882122023f67358852e62a3fea4a40689e4e081902ba6a4b316369903a7e" prot="public">
+          <name>XOR_CONNECTOR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1aae573882122023f67358852e62a3fea4a4a020d44b4e6a9a75340db14c11d5097" prot="public">
+          <name>ORGANIZATIONAL_UNIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1aae573882122023f67358852e62a3fea4a9f6b52cfade32370f8b0c2cacfa69060" prot="public">
+          <name>INFORMATION_OBJECT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1aae573882122023f67358852e62a3fea4a75c16f30c6191d587a4b0d030e2d07e0" prot="public">
+          <name>APPLICATION_SYSTEM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1aae573882122023f67358852e62a3fea4a4ad11c940d78aca2ac1fcdc44f3f5a3d" prot="public">
+          <name>PROCESS_PATH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>EPK (Event-driven Process Chain) Node Types. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="219" column="1" bodyfile="include/index/process_graph.h" bodystart="219" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1aae7ed1a3194c909b65628dc21b7dac20" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ProcessEdgeType</name>
+        <qualifiedname>themis::ProcessEdgeType</qualifiedname>
+        <enumvalue id="namespacethemis_1aae7ed1a3194c909b65628dc21b7dac20a66008d556d50ecef7dcf4f71de4f6a41" prot="public">
+          <name>SEQUENCE_FLOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1aae7ed1a3194c909b65628dc21b7dac20ac92f1afefec5eac576f99fa48a3e6717" prot="public">
+          <name>MESSAGE_FLOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1aae7ed1a3194c909b65628dc21b7dac20ad0c17a690bf072ab29d286509e48c0af" prot="public">
+          <name>ASSOCIATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1aae7ed1a3194c909b65628dc21b7dac20a6f6e5169d3c624244d252fd142e2131c" prot="public">
+          <name>DATA_ASSOCIATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1aae7ed1a3194c909b65628dc21b7dac20a2946b73af1b900fad2aa3a12178ee5fd" prot="public">
+          <name>CONTROL_FLOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1aae7ed1a3194c909b65628dc21b7dac20a9fa8cb3f1b1cd7a1d865950bb2882d2e" prot="public">
+          <name>INFORMATION_FLOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1aae7ed1a3194c909b65628dc21b7dac20a8b3f399c49d5ca3e6932183cca1810ba" prot="public">
+          <name>ORGANIZATION_FLOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1aae7ed1a3194c909b65628dc21b7dac20af6004feb70888f74a4296e600e058ef9" prot="public">
+          <name>DEFAULT_FLOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1aae7ed1a3194c909b65628dc21b7dac20a4c76ec0fdcc13e781ab734df74fe616f" prot="public">
+          <name>CONDITIONAL_FLOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1aae7ed1a3194c909b65628dc21b7dac20abf7c57e74074d8006f29bc46018f05a7" prot="public">
+          <name>EXCEPTION_FLOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Process Edge Types (Flow connections). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="239" column="1" bodyfile="include/index/process_graph.h" bodystart="239" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1a117065299b0764b0adcf80b85542bb9c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>GPUBackend</name>
+        <qualifiedname>themis::GPUBackend</qualifiedname>
+        <enumvalue id="namespacethemis_1a117065299b0764b0adcf80b85542bb9caa33b7755e5f9b504d2d038eaca4ff28d" prot="public">
+          <name>CUDA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a117065299b0764b0adcf80b85542bb9ca5e4576beae2ab86d6ad1b8b1700d2e11" prot="public">
+          <name>HIP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a117065299b0764b0adcf80b85542bb9ca2b55387dd066c5bac646ac61543d152d" prot="public">
+          <name>CPU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>GPU Backend selection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/rotary_embeddings_gpu.h" line="21" column="1" bodyfile="include/index/rotary_embeddings_gpu.h" bodystart="21" bodyend="25"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1a89bcb0d78739124e07ad5fbd80808d48" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, std::chrono::system_clock::time_point &gt;</type>
+        <definition>using themis::ProcessGraphVisitLog = std::unordered_map&lt;std::string, std::chrono::system_clock::time_point&gt;</definition>
+        <argsstring></argsstring>
+        <name>ProcessGraphVisitLog</name>
+        <qualifiedname>themis::ProcessGraphVisitLog</qualifiedname>
+        <briefdescription>
+<para><ref refid="namespacethemis_1a89bcb0d78739124e07ad5fbd80808d48" kindref="member">ProcessGraphVisitLog</ref>: Maps a node ID to its most recent visit timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used to record when a process token visited each node during traversal, enabling temporal ordering of multi-hop graph paths. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="416" column="1" bodyfile="include/index/process_graph.h" bodystart="416" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/workload_replay.h" line="28" column="1" bodyfile="include/index/workload_replay.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1aa82396236f1bf4f9ff6750804e6a4f24" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::kDefaultRangeScanLimit</definition>
+        <argsstring></argsstring>
+        <name>kDefaultRangeScanLimit</name>
+        <qualifiedname>themis::kDefaultRangeScanLimit</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/index_manager.cpp" line="28" column="25" bodyfile="src/index/index_manager.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1a2ff9b8c9f1ebcda1d102b5325ee36d7f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::LORA_INIT_STD_DEV</definition>
+        <argsstring></argsstring>
+        <name>LORA_INIT_STD_DEV</name>
+        <qualifiedname>themis::LORA_INIT_STD_DEV</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/lora_rope.cpp" line="26" column="18" bodyfile="src/index/lora_rope.cpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1adcc1cbd5647b4dfbd97bd5c6a07a994f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::requiresTemporalValidity</definition>
+        <argsstring>(std::string_view type_name)</argsstring>
+        <name>requiresTemporalValidity</name>
+        <qualifiedname>themis::requiresTemporalValidity</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>type_name</declname>
+        </param>
+        <briefdescription>
+<para>Requires Temporal Validity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the type. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_edge_type_registry_1a74124b0cc1a4fb950db9713da34894a1" kindref="member">EdgeTypeRegistry::instance()</ref>, getTypeInfo(), has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="182" column="13" bodyfile="include/index/edge_types.h" bodystart="182" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a7282e48c494c397f88576aa5b83237a1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::isWeightedEdgeType</definition>
+        <argsstring>(std::string_view type_name)</argsstring>
+        <name>isWeightedEdgeType</name>
+        <qualifiedname>themis::isWeightedEdgeType</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>type_name</declname>
+        </param>
+        <briefdescription>
+<para>Is Weighted Edge Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the type. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_edge_type_registry_1a74124b0cc1a4fb950db9713da34894a1" kindref="member">EdgeTypeRegistry::instance()</ref>, getTypeInfo(), has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="193" column="13" bodyfile="include/index/edge_types.h" bodystart="193" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a040d65bbf3664727e8839a4cccc0c8e6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::isBidirectionalEdgeType</definition>
+        <argsstring>(std::string_view type_name)</argsstring>
+        <name>isBidirectionalEdgeType</name>
+        <qualifiedname>themis::isBidirectionalEdgeType</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>type_name</declname>
+        </param>
+        <briefdescription>
+<para>Is Bidirectional Edge Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the type. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_edge_type_registry_1a74124b0cc1a4fb950db9713da34894a1" kindref="member">EdgeTypeRegistry::instance()</ref>, getTypeInfo(), has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/edge_types.h" line="204" column="13" bodyfile="include/index/edge_types.h" bodystart="204" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a917ce53e4a5595e2446ab62fb083c374" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::registerProcessEdgeTypes</definition>
+        <argsstring>()</argsstring>
+        <name>registerProcessEdgeTypes</name>
+        <qualifiedname>themis::registerProcessEdgeTypes</qualifiedname>
+        <briefdescription>
+<para>Register BPMN/EPK edge types with the <ref refid="classthemis_1_1_edge_type_registry" kindref="compound">EdgeTypeRegistry</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Process Edge Types.</para>
+<para>Call this at application startup to enable process-aware edge validation.</para>
+<para>Calls: THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/process_graph.cpp" line="3831" column="6" bodyfile="src/index/process_graph.cpp" bodystart="3831" bodyend="3833" declfile="include/index/process_graph.h" declline="965" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a0926948ec8e6d79baed68e754a4899aa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::scanProcessTokens</definition>
+        <argsstring>(RocksDBWrapper &amp;db, const std::string &amp;pid, const std::function&lt; bool(const std::string &amp;, const std::string &amp;, const BaseEntity &amp;)&gt; &amp;cb, const std::function&lt; std::string(std::string_view)&gt; &amp;makeInstanceKey)</argsstring>
+        <name>scanProcessTokens</name>
+        <qualifiedname>themis::scanProcessTokens</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pid</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; bool(const std::string &amp;, const std::string &amp;, const BaseEntity &amp;)&gt; &amp;</type>
+          <declname>cb</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; std::string(std::string_view)&gt; &amp;</type>
+          <declname>makeInstanceKey</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Key Str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/index/process_graph.cpp" line="3207" column="13" bodyfile="src/index/process_graph.cpp" bodystart="3207" bodyend="3240"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1af6e421da33c3b3e36077364afb70a192" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>__global__ void</type>
+        <definition>__global__ void themis::rotateKernelHIP</definition>
+        <argsstring>(const float *embeddings, const size_t *positions, const double *theta_cache, float *output, size_t batch_size, size_t hidden_dim, size_t num_pairs)</argsstring>
+        <name>rotateKernelHIP</name>
+        <qualifiedname>themis::rotateKernelHIP</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>embeddings</declname>
+        </param>
+        <param>
+          <type>const size_t *</type>
+          <declname>positions</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>theta_cache</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>hidden_dim</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_pairs</declname>
+        </param>
+        <briefdescription>
+<para>Rotate Kernel HIP. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">embeddings</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">positions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">theta_cache</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hidden_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_pairs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: cosf(), sinf(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/rotary_embeddings_hip.cpp" line="69" column="17" bodyfile="src/index/rotary_embeddings_hip.cpp" bodystart="69" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB Property Graph Auto-Batching Buffer</para>
+<para>Automatic buffering of property graph operations (nodes/edges) for batch processing. Analogous to TSAutoBuffer and <ref refid="classthemis_1_1_vector_auto_buffer" kindref="compound">VectorAutoBuffer</ref>.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Configurable buffer size and flush intervals</para>
+</listitem><listitem><para>Separate buffering for nodes and edges</para>
+</listitem><listitem><para>Thread-safe operation</para>
+</listitem><listitem><para>Automatic flush on size/time thresholds</para>
+</listitem><listitem><para>Optional Zstd compression for property data</para>
+</listitem><listitem><para>Integration with <ref refid="classthemis_1_1_property_graph_manager" kindref="compound">PropertyGraphManager</ref></para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Vector Index Auto-Batching Buffer</para>
+<para>Automatic buffering of single vector inserts for batch processing. Analogous to TSAutoBuffer for time series data.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Configurable buffer size and flush intervals</para>
+</listitem><listitem><para>Per-namespace buffering</para>
+</listitem><listitem><para>Thread-safe operation</para>
+</listitem><listitem><para>Automatic flush on size/time thresholds</para>
+</listitem><listitem><para>Optional vector quantization for compression</para>
+</listitem><listitem><para>Integration with existing <ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref></para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <location file="include/index/adaptive_index.h" line="25" column="1"/>
+  </compounddef>
+</doxygen>

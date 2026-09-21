@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUTensorBuffer::Shape</compoundname>
+    <includes refid="tensor__buffer_8h" local="no">tensor_buffer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape_1a6ef1091f4a6b956d89d228fcc18afbd0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; themis::gpu::GPUTensorBuffer::Shape::dims</definition>
+        <argsstring></argsstring>
+        <name>dims</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::Shape::dims</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="60" column="21" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape_1a1a1558cfdac50bf74f913231f7909b32" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTensorBuffer::Shape::numElements</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>numElements</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::Shape::numElements</qualifiedname>
+        <briefdescription>
+<para>Total number of elements (product of all dims). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="63" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape_1aef90d5c086735a33cdb124f0f607a97d" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTensorBuffer::Shape::totalBytes</definition>
+        <argsstring>(DType dtype) const noexcept</argsstring>
+        <name>totalBytes</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::Shape::totalBytes</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1gpu_1ad01dd2a248e87e7ae6439fa7f5e81395" kindref="member">DType</ref></type>
+          <declname>dtype</declname>
+        </param>
+        <briefdescription>
+<para>Total bytes required for this shape and dtype. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="69" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape_1a4f5c8c429a293ad7254faef10feb6fde" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUTensorBuffer::Shape::operator==</definition>
+        <argsstring>(const Shape &amp;other) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::Shape::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape" kindref="compound">Shape</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="71" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape_1afbc53743115a94dd0d1c6bd08c76c785" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUTensorBuffer::Shape::operator!=</definition>
+        <argsstring>(const Shape &amp;other) const noexcept</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::Shape::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape" kindref="compound">Shape</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="72" column="14"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape_1a20bd473d84943d0398182381961a6530" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::gpu::GPUTensorBuffer::Shape::elementBytes</definition>
+        <argsstring>(DType dtype) noexcept</argsstring>
+        <name>elementBytes</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::Shape::elementBytes</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1gpu_1ad01dd2a248e87e7ae6439fa7f5e81395" kindref="member">DType</ref></type>
+          <declname>dtype</declname>
+        </param>
+        <briefdescription>
+<para>Size in bytes of a single element of <computeroutput>dtype</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="66" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/tensor_buffer.h" line="59" column="5" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="59" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape_1a6ef1091f4a6b956d89d228fcc18afbd0" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer::Shape</scope><name>dims</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape_1a20bd473d84943d0398182381961a6530" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer::Shape</scope><name>elementBytes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape_1a1a1558cfdac50bf74f913231f7909b32" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer::Shape</scope><name>numElements</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape_1afbc53743115a94dd0d1c6bd08c76c785" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer::Shape</scope><name>operator!=</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape_1a4f5c8c429a293ad7254faef10feb6fde" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer::Shape</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape_1aef90d5c086735a33cdb124f0f607a97d" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer::Shape</scope><name>totalBytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

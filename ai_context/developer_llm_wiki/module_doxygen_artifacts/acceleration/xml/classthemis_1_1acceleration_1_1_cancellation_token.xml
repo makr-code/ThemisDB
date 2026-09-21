@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_cancellation_token" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::CancellationToken</compoundname>
+    <includes refid="compute__future_8h" local="no">compute_future.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_cancellation_token_1ae2d19da6471ca61f14d130a284d80bf3" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; std::atomic&lt; bool &gt; &gt;</type>
+        <definition>std::shared_ptr&lt;std::atomic&lt;bool&gt; &gt; themis::acceleration::CancellationToken::flag_</definition>
+        <argsstring></argsstring>
+        <name>flag_</name>
+        <qualifiedname>themis::acceleration::CancellationToken::flag_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_future.h" line="51" column="21" bodyfile="include/acceleration/compute_future.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_cancellation_token_1a8054aca166861ebdb3d15ff5aa78778d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::CancellationToken::CancellationToken</definition>
+        <argsstring>()</argsstring>
+        <name>CancellationToken</name>
+        <qualifiedname>themis::acceleration::CancellationToken::CancellationToken</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_future.h" line="29" column="5" bodyfile="include/acceleration/compute_future.h" bodystart="29" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_cancellation_token_1aedaf19c0aa4db8d9bbfe3eb0d8dbe600" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::CancellationToken::CancellationToken</definition>
+        <argsstring>(const CancellationToken &amp;)=default</argsstring>
+        <name>CancellationToken</name>
+        <qualifiedname>themis::acceleration::CancellationToken::CancellationToken</qualifiedname>
+        <param>
+          <type>const CancellationToken &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_future.h" line="33" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_cancellation_token_1a30139d638f10dc05201e25a8aca7a8b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_cancellation_token_1a8054aca166861ebdb3d15ff5aa78778d" kindref="member">CancellationToken</ref> &amp;</type>
+        <definition>CancellationToken &amp; themis::acceleration::CancellationToken::operator=</definition>
+        <argsstring>(const CancellationToken &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::acceleration::CancellationToken::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1acceleration_1_1_cancellation_token_1a8054aca166861ebdb3d15ff5aa78778d" kindref="member">CancellationToken</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_future.h" line="34" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_cancellation_token_1aa07985c767955ca59d4bba5a3b854958" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::CancellationToken::CancellationToken</definition>
+        <argsstring>(CancellationToken &amp;&amp;) noexcept=default</argsstring>
+        <name>CancellationToken</name>
+        <qualifiedname>themis::acceleration::CancellationToken::CancellationToken</qualifiedname>
+        <param>
+          <type>CancellationToken &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_future.h" line="35" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_cancellation_token_1a65238621a8da89661890982217dfa445" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1acceleration_1_1_cancellation_token_1a8054aca166861ebdb3d15ff5aa78778d" kindref="member">CancellationToken</ref> &amp;</type>
+        <definition>CancellationToken &amp; themis::acceleration::CancellationToken::operator=</definition>
+        <argsstring>(CancellationToken &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::acceleration::CancellationToken::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_cancellation_token_1a8054aca166861ebdb3d15ff5aa78778d" kindref="member">CancellationToken</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_future.h" line="36" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_cancellation_token_1a0c0e19c0e7022d7704d285ea58c63c47" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::CancellationToken::cancel</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::acceleration::CancellationToken::cancel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_future.h" line="38" column="10" bodyfile="include/acceleration/compute_future.h" bodystart="38" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_cancellation_token_1a2bd7f3f87dbf032151bff5b6a0d1400f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::CancellationToken::is_cancelled</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_cancelled</name>
+        <qualifiedname>themis::acceleration::CancellationToken::is_cancelled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_future.h" line="44" column="10" bodyfile="include/acceleration/compute_future.h" bodystart="44" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_cancellation_token_1ad1f0fe8bc180f0fb1f7dc0d58af234fb" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::CancellationToken::valid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::acceleration::CancellationToken::valid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_future.h" line="48" column="10" bodyfile="include/acceleration/compute_future.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_future.h" line="27" column="1" bodyfile="include/acceleration/compute_future.h" bodystart="27" bodyend="52"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_cancellation_token_1a0c0e19c0e7022d7704d285ea58c63c47" prot="public" virt="non-virtual"><scope>themis::acceleration::CancellationToken</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_cancellation_token_1a8054aca166861ebdb3d15ff5aa78778d" prot="public" virt="non-virtual"><scope>themis::acceleration::CancellationToken</scope><name>CancellationToken</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_cancellation_token_1aedaf19c0aa4db8d9bbfe3eb0d8dbe600" prot="public" virt="non-virtual"><scope>themis::acceleration::CancellationToken</scope><name>CancellationToken</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_cancellation_token_1aa07985c767955ca59d4bba5a3b854958" prot="public" virt="non-virtual"><scope>themis::acceleration::CancellationToken</scope><name>CancellationToken</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_cancellation_token_1ae2d19da6471ca61f14d130a284d80bf3" prot="private" virt="non-virtual"><scope>themis::acceleration::CancellationToken</scope><name>flag_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_cancellation_token_1a2bd7f3f87dbf032151bff5b6a0d1400f" prot="public" virt="non-virtual"><scope>themis::acceleration::CancellationToken</scope><name>is_cancelled</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_cancellation_token_1a30139d638f10dc05201e25a8aca7a8b2" prot="public" virt="non-virtual"><scope>themis::acceleration::CancellationToken</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_cancellation_token_1a65238621a8da89661890982217dfa445" prot="public" virt="non-virtual"><scope>themis::acceleration::CancellationToken</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_cancellation_token_1ad1f0fe8bc180f0fb1f7dc0d58af234fb" prot="public" virt="non-virtual"><scope>themis::acceleration::CancellationToken</scope><name>valid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

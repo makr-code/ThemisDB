@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1test_1_1_trivial_with_vector" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::test::TrivialWithVector</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1test_1_1_trivial_with_vector_1a9dc260943d484aebbbbcb0f3978bbcaf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themisdb::analytics::test::TrivialWithVector::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themisdb::analytics::test::TrivialWithVector::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="530" column="17" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="530" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1test_1_1_trivial_with_vector_1a80ac61dd5d4fb25326f56e1004f1c86d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::test::TrivialWithVector::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themisdb::analytics::test::TrivialWithVector::value</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="531" column="9" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="531" bodyend="531"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1test_1_1_trivial_with_vector_1a5a5bc3cbff7acdd718cb8a916d3377bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::test::TrivialWithVector::~TrivialWithVector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TrivialWithVector</name>
+        <qualifiedname>themisdb::analytics::test::TrivialWithVector::~TrivialWithVector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="534" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" line="529" column="1" bodyfile="tests/analytics/test_analytics_phase2_a2_connection_safety.cpp" bodystart="529" bodyend="535"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1test_1_1_trivial_with_vector_1a9dc260943d484aebbbbcb0f3978bbcaf" prot="public" virt="non-virtual"><scope>themisdb::analytics::test::TrivialWithVector</scope><name>data</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1test_1_1_trivial_with_vector_1a80ac61dd5d4fb25326f56e1004f1c86d" prot="public" virt="non-virtual"><scope>themisdb::analytics::test::TrivialWithVector</scope><name>value</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1test_1_1_trivial_with_vector_1a5a5bc3cbff7acdd718cb8a916d3377bd" prot="public" virt="non-virtual"><scope>themisdb::analytics::test::TrivialWithVector</scope><name>~TrivialWithVector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

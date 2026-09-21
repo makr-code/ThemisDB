@@ -1,0 +1,892 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__content__language__detector_8cpp" kind="file" language="C++">
+    <compoundname>test_content_language_detector.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="language__detector_8h" local="yes">content/language_detector.h</includes>
+    <includes refid="content__processor_8h" local="yes">content/content_processor.h</includes>
+    <includes refid="content__type_8h" local="yes">content/content_type.h</includes>
+    <incdepgraph>
+      <node id="8">
+        <label>content/content_processor.h</label>
+        <link refid="content__processor_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>content/content_type.h</label>
+        <link refid="content__type_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>content/language_detector.h</label>
+        <link refid="language__detector_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/content/test_content_language_detector.cpp</label>
+        <link refid="test__content__language__detector_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, EmptyTextReturnsUndetermined)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>EmptyTextReturnsUndetermined</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="40" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="40" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1a364723613d84e453da35b608696ccd8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, EnglishTextDetected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>EnglishTextDetected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="48" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="48" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1a16d81dfceddeda0f88bd4454e624fe11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, GermanTextDetected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>GermanTextDetected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="61" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="61" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1a028d70a4e51533cd064daea6903327e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, FrenchTextDetected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>FrenchTextDetected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="73" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="73" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1a56297ad1a5511e0843b26425d4da22d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, SpanishTextDetected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>SpanishTextDetected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="85" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="85" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1a3d23f0f76a2e108740e28892b5b5f474" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, ItalianTextDetected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>ItalianTextDetected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="97" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="97" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1aee47cd4072e072aa53d8bb388fe36c4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, DutchTextDetected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>DutchTextDetected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="109" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="109" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1afcad836414e62234a44ef506af6bf917" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, RussianCyrillicDetected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>RussianCyrillicDetected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="125" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="125" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1a9939db8104c568f23b69c5ad406bdb60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, JapaneseHiraganaDetected)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>JapaneseHiraganaDetected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="140" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="140" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1a219a00c5c63386f2d8abb1a27f56b14e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, DetectCodeReturnsCorrectCode)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>DetectCodeReturnsCorrectCode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="157" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="157" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1abaf1f27484cfeb8623ef0925d4a71f3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, DetectCodeUndeterminedForEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>DetectCodeUndeterminedForEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="164" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="164" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1aa6bcfce6408fa3a6ad74e8afe92adb6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, RoutingHintEnglish)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>RoutingHintEnglish</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="173" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="173" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1affdcf6bfadb1ad8bd5bb00e40c3af813" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, RoutingHintGerman)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>RoutingHintGerman</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="177" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="177" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1a1237dae6b4d2b05768e7af317a4b20ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, RoutingHintFrench)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>RoutingHintFrench</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="181" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="181" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1a13fa50933738df77b5e100222e998bf8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, RoutingHintSpanish)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>RoutingHintSpanish</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="185" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="185" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1ac4f3d3e6b0304bddf720fb22ae8c5051" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, RoutingHintItalian)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>RoutingHintItalian</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="189" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="189" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1a7da3d302a74ccdcdb6ec65b818027151" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, RoutingHintDutch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>RoutingHintDutch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="193" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="193" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1add416dccfabbf6dcff88730e1efeb4cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, RoutingHintPortuguese)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>RoutingHintPortuguese</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="197" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="197" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1ad306bf62a93230549700d9eae4e0202f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, RoutingHintRussian)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>RoutingHintRussian</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="201" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="201" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1a7d45d5ebc77e94b40f9b0184293c5331" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, RoutingHintArabic)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>RoutingHintArabic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="205" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="205" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1a786046df150b6193daab95d07f399702" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, RoutingHintJapanese)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>RoutingHintJapanese</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="209" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="209" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1afc823615415c482eceb560a373947e91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, RoutingHintChinese)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>RoutingHintChinese</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="213" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="213" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1a325869eeb2318713127dfb96cb1e132f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, RoutingHintUndetermined)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>RoutingHintUndetermined</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="217" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="217" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1afe6a8194b490d6c4620c12565d62fbbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LanguageDetector, RoutingHintUnknownCode)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref></type>
+        </param>
+        <param>
+          <type>RoutingHintUnknownCode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="221" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="221" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1a9d86d545cad57e797ae6304b52c78b16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TextProcessorLanguageIntegration, ExtractPopulatesLanguageMetadata)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TextProcessorLanguageIntegration</type>
+        </param>
+        <param>
+          <type>ExtractPopulatesLanguageMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="229" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="229" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1a12ef85e04269c4b44ec08e151138e723" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TextProcessorLanguageIntegration, ExtractDetectsGermanText)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TextProcessorLanguageIntegration</type>
+        </param>
+        <param>
+          <type>ExtractDetectsGermanText</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="253" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="253" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__language__detector_8cpp_1a5b86f228a2a238676d23abcef838b3b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TextProcessorLanguageIntegration, ExtractEmptyTextHasUndetermined)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TextProcessorLanguageIntegration</type>
+        </param>
+        <param>
+          <type>ExtractEmptyTextHasUndetermined</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_language_detector.cpp" line="267" column="1" bodyfile="tests/content/test_content_language_detector.cpp" bodystart="267" bodyend="275"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref> — multi-language text detection and routing for the content ingestion pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1content_1_1_language_detector_1a9d8fdbbd27bc508ae05ce19672b1a5b9" kindref="member">LanguageDetector::detect()</ref> — code, name, confidence, indicator hits</para>
+</listitem><listitem><para><ref refid="classthemis_1_1content_1_1_language_detector_1a198514fc0be1d0146489ed29c99db4c1" kindref="member">LanguageDetector::detectCode()</ref> — convenience wrapper</para>
+</listitem><listitem><para><ref refid="classthemis_1_1content_1_1_language_detector_1ad80cfc3de0dce0c81384a23fbab3843c" kindref="member">LanguageDetector::routingHint()</ref> — static routing hint mapping</para>
+</listitem><listitem><para>Script-based detection (Cyrillic, Arabic, Japanese, Chinese)</para>
+</listitem><listitem><para>Integration: <ref refid="classthemis_1_1content_1_1_text_processor_1a43bfb212a3faaed23375e1eb33261d72" kindref="member">TextProcessor::extract()</ref> populates language metadata fields </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="language__detector_8h" kindref="compound">content/language_detector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="content__processor_8h" kindref="compound">content/content_processor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="content__type_8h" kindref="compound">content/content_type.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">themis::content</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref><sp/>makePlainTextType()<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref><sp/>ct;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>ct.<ref refid="structthemis_1_1content_1_1_content_type_1ae18d2d3e78edc0d366db09e231df930a" kindref="member">mime_type</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>ct.<ref refid="structthemis_1_1content_1_1_content_type_1a2fc801ba8a7841438c084812915b4a1c" kindref="member">category</ref><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">ContentCategory::TEXT</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ct;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LanguageDetector::detect<sp/>—<sp/>basic<sp/>language<sp/>identification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>EmptyTextReturnsUndetermined)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref><sp/>det;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>det.<ref refid="classthemis_1_1content_1_1_language_detector_1a9d8fdbbd27bc508ae05ce19672b1a5b9" kindref="member">detect</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.code,<sp/></highlight><highlight class="stringliteral">&quot;und&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.indicator_hits,<sp/>0u);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(result.confidence,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>EnglishTextDetected)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref><sp/>det;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>text<sp/>=</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;The<sp/>quick<sp/>brown<sp/>fox<sp/>jumps<sp/>over<sp/>the<sp/>lazy<sp/>dog.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;This<sp/>is<sp/>a<sp/>sample<sp/>text<sp/>that<sp/>should<sp/>be<sp/>identified<sp/>as<sp/>English.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;It<sp/>contains<sp/>many<sp/>common<sp/>English<sp/>words<sp/>and<sp/>phrases<sp/>with<sp/>the<sp/>article<sp/>the.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>det.<ref refid="classthemis_1_1content_1_1_language_detector_1a9d8fdbbd27bc508ae05ce19672b1a5b9" kindref="member">detect</ref>(text);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.code,<sp/></highlight><highlight class="stringliteral">&quot;en&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.name,<sp/></highlight><highlight class="stringliteral">&quot;English&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.confidence,<sp/>0.2f);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.indicator_hits,<sp/>1u);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>GermanTextDetected)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref><sp/>det;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>text<sp/>=</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Der<sp/>schnelle<sp/>braune<sp/>Fuchs<sp/>springt<sp/>über<sp/>den<sp/>faulen<sp/>Hund.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Das<sp/>ist<sp/>ein<sp/>Beispieltext,<sp/>der<sp/>auf<sp/>Deutsch<sp/>erkannt<sp/>werden<sp/>soll.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Er<sp/>enthält<sp/>viele<sp/>gebräuchliche<sp/>deutsche<sp/>Wörter<sp/>und<sp/>Ausdrücke<sp/>wie<sp/>die<sp/>und<sp/>das.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>det.<ref refid="classthemis_1_1content_1_1_language_detector_1a9d8fdbbd27bc508ae05ce19672b1a5b9" kindref="member">detect</ref>(text);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.code,<sp/></highlight><highlight class="stringliteral">&quot;de&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.name,<sp/></highlight><highlight class="stringliteral">&quot;German&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.confidence,<sp/>0.2f);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>FrenchTextDetected)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref><sp/>det;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>text<sp/>=</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Le<sp/>renard<sp/>brun<sp/>rapide<sp/>saute<sp/>par-dessus<sp/>le<sp/>chien<sp/>paresseux.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;C&apos;est<sp/>un<sp/>exemple<sp/>de<sp/>texte<sp/>en<sp/>français<sp/>avec<sp/>les<sp/>mots<sp/>courants.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Il<sp/>contient<sp/>aussi<sp/>des<sp/>expressions<sp/>françaises<sp/>comme<sp/>le<sp/>mot<sp/>pour<sp/>dire<sp/>que.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>det.<ref refid="classthemis_1_1content_1_1_language_detector_1a9d8fdbbd27bc508ae05ce19672b1a5b9" kindref="member">detect</ref>(text);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.code,<sp/></highlight><highlight class="stringliteral">&quot;fr&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.name,<sp/></highlight><highlight class="stringliteral">&quot;French&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.confidence,<sp/>0.2f);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>SpanishTextDetected)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref><sp/>det;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>text<sp/>=</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;El<sp/>zorro<sp/>marrón<sp/>rápido<sp/>salta<sp/>sobre<sp/>el<sp/>perro<sp/>perezoso.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Este<sp/>es<sp/>un<sp/>texto<sp/>de<sp/>ejemplo<sp/>en<sp/>español<sp/>con<sp/>los<sp/>artículos<sp/>el<sp/>y<sp/>las.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Contiene<sp/>muchas<sp/>palabras<sp/>y<sp/>frases<sp/>que<sp/>son<sp/>comunes<sp/>del<sp/>español.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>det.<ref refid="classthemis_1_1content_1_1_language_detector_1a9d8fdbbd27bc508ae05ce19672b1a5b9" kindref="member">detect</ref>(text);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.code,<sp/></highlight><highlight class="stringliteral">&quot;es&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.name,<sp/></highlight><highlight class="stringliteral">&quot;Spanish&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.confidence,<sp/>0.2f);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>ItalianTextDetected)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref><sp/>det;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>text<sp/>=</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Gli<sp/>studenti<sp/>sono<sp/>nel<sp/>laboratorio<sp/>e<sp/>fanno<sp/>una<sp/>ricerca.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Questo<sp/>è<sp/>un<sp/>testo<sp/>di<sp/>esempio<sp/>in<sp/>italiano<sp/>che<sp/>non<sp/>hanno<sp/>mai<sp/>fatto.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;La<sp/>natura<sp/>della<sp/>materia<sp/>viene<sp/>studiata<sp/>e<sp/>anche<sp/>molte<sp/>cose<sp/>del<sp/>libro.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>det.<ref refid="classthemis_1_1content_1_1_language_detector_1a9d8fdbbd27bc508ae05ce19672b1a5b9" kindref="member">detect</ref>(text);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.code,<sp/></highlight><highlight class="stringliteral">&quot;it&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.name,<sp/></highlight><highlight class="stringliteral">&quot;Italian&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.confidence,<sp/>0.2f);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>DutchTextDetected)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref><sp/>det;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>text<sp/>=</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;De<sp/>snelle<sp/>bruine<sp/>vos<sp/>springt<sp/>over<sp/>de<sp/>luie<sp/>hond.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Dit<sp/>is<sp/>een<sp/>voorbeeldtekst<sp/>die<sp/>als<sp/>Nederlands<sp/>herkend<sp/>moet<sp/>worden.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Het<sp/>bevat<sp/>veel<sp/>gebruikelijke<sp/>Nederlandse<sp/>woorden<sp/>en<sp/>uitdrukkingen<sp/>van<sp/>het<sp/>dagelijks<sp/>leven.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>det.<ref refid="classthemis_1_1content_1_1_language_detector_1a9d8fdbbd27bc508ae05ce19672b1a5b9" kindref="member">detect</ref>(text);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.code,<sp/></highlight><highlight class="stringliteral">&quot;nl&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.name,<sp/></highlight><highlight class="stringliteral">&quot;Dutch&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.confidence,<sp/>0.2f);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Script-based<sp/>detection<sp/>(non-Latin<sp/>scripts)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>RussianCyrillicDetected)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref><sp/>det;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>UTF-8<sp/>encoded<sp/>Russian<sp/>text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>text<sp/>=</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;\xD0\x91\xD1\x8B\xD1\x81\xD1\x82\xD1\x80\xD0\xB0\xD1\x8F<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;\xD0\xBA\xD0\xBE\xD1\x80\xD0\xB8\xD1\x87\xD0\xBD\xD0\xB5\xD0\xB2\xD0\xB0\xD1\x8F<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;\xD0\xBB\xD0\xB8\xD1\x81\xD0\xB8\xD1\x86\xD0\xB0<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;\xD0\xBF\xD0\xB5\xD1\x80\xD0\xB5\xD0\xBF\xD1\x80\xD1\x8B\xD0\xB3\xD0\xB8\xD0\xB2\xD0\xB0\xD0\xB5\xD1\x82<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;\xD1\x87\xD0\xB5\xD1\x80\xD0\xB5\xD0\xB7&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>det.<ref refid="classthemis_1_1content_1_1_language_detector_1a9d8fdbbd27bc508ae05ce19672b1a5b9" kindref="member">detect</ref>(text);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.code,<sp/></highlight><highlight class="stringliteral">&quot;ru&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.name,<sp/></highlight><highlight class="stringliteral">&quot;Russian&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.confidence,<sp/>0.3f);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>JapaneseHiraganaDetected)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref><sp/>det;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>UTF-8<sp/>encoded<sp/>Japanese<sp/>hiragana<sp/>text<sp/>(はやいきつね<sp/>—<sp/>&quot;fast<sp/>fox&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>text<sp/>=</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;\xE3\x81\xAF\xE3\x82\x84\xE3\x81\x84<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;\xE3\x81\x8D\xE3\x81\xA4\xE3\x81\xAD\xE3\x81\x8C<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;\xE3\x81\xAB\xE3\x82\x93\xE3\x81\x92\xE3\x82\x93\xE3\x81\x94&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>det.<ref refid="classthemis_1_1content_1_1_language_detector_1a9d8fdbbd27bc508ae05ce19672b1a5b9" kindref="member">detect</ref>(text);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.code,<sp/></highlight><highlight class="stringliteral">&quot;ja&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.name,<sp/></highlight><highlight class="stringliteral">&quot;Japanese&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.confidence,<sp/>0.3f);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LanguageDetector::detectCode<sp/>—<sp/>convenience<sp/>wrapper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>DetectCodeReturnsCorrectCode)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref><sp/>det;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>en_text<sp/>=</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;The<sp/>database<sp/>stores<sp/>documents<sp/>efficiently<sp/>with<sp/>vector<sp/>indexing.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(det.<ref refid="classthemis_1_1content_1_1_language_detector_1a198514fc0be1d0146489ed29c99db4c1" kindref="member">detectCode</ref>(en_text),<sp/></highlight><highlight class="stringliteral">&quot;en&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>DetectCodeUndeterminedForEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref><sp/>det;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(det.<ref refid="classthemis_1_1content_1_1_language_detector_1a198514fc0be1d0146489ed29c99db4c1" kindref="member">detectCode</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;und&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LanguageDetector::routingHint<sp/>—<sp/>static<sp/>mapping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>RoutingHintEnglish)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1content_1_1_language_detector_1ad80cfc3de0dce0c81384a23fbab3843c" kindref="member">LanguageDetector::routingHint</ref>(</highlight><highlight class="stringliteral">&quot;en&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;latin-en&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>RoutingHintGerman)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1content_1_1_language_detector_1ad80cfc3de0dce0c81384a23fbab3843c" kindref="member">LanguageDetector::routingHint</ref>(</highlight><highlight class="stringliteral">&quot;de&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;latin-de&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>RoutingHintFrench)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1content_1_1_language_detector_1ad80cfc3de0dce0c81384a23fbab3843c" kindref="member">LanguageDetector::routingHint</ref>(</highlight><highlight class="stringliteral">&quot;fr&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;latin-fr&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>RoutingHintSpanish)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1content_1_1_language_detector_1ad80cfc3de0dce0c81384a23fbab3843c" kindref="member">LanguageDetector::routingHint</ref>(</highlight><highlight class="stringliteral">&quot;es&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;latin-es&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>RoutingHintItalian)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1content_1_1_language_detector_1ad80cfc3de0dce0c81384a23fbab3843c" kindref="member">LanguageDetector::routingHint</ref>(</highlight><highlight class="stringliteral">&quot;it&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;latin-it&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>RoutingHintDutch)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1content_1_1_language_detector_1ad80cfc3de0dce0c81384a23fbab3843c" kindref="member">LanguageDetector::routingHint</ref>(</highlight><highlight class="stringliteral">&quot;nl&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;latin-other&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>RoutingHintPortuguese)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1content_1_1_language_detector_1ad80cfc3de0dce0c81384a23fbab3843c" kindref="member">LanguageDetector::routingHint</ref>(</highlight><highlight class="stringliteral">&quot;pt&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;latin-other&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>RoutingHintRussian)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1content_1_1_language_detector_1ad80cfc3de0dce0c81384a23fbab3843c" kindref="member">LanguageDetector::routingHint</ref>(</highlight><highlight class="stringliteral">&quot;ru&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;cyrillic&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>RoutingHintArabic)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1content_1_1_language_detector_1ad80cfc3de0dce0c81384a23fbab3843c" kindref="member">LanguageDetector::routingHint</ref>(</highlight><highlight class="stringliteral">&quot;ar&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;arabic&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>RoutingHintJapanese)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1content_1_1_language_detector_1ad80cfc3de0dce0c81384a23fbab3843c" kindref="member">LanguageDetector::routingHint</ref>(</highlight><highlight class="stringliteral">&quot;ja&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;japanese&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>RoutingHintChinese)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1content_1_1_language_detector_1ad80cfc3de0dce0c81384a23fbab3843c" kindref="member">LanguageDetector::routingHint</ref>(</highlight><highlight class="stringliteral">&quot;zh&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;chinese&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>RoutingHintUndetermined)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1content_1_1_language_detector_1ad80cfc3de0dce0c81384a23fbab3843c" kindref="member">LanguageDetector::routingHint</ref>(</highlight><highlight class="stringliteral">&quot;und&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;unknown&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(<ref refid="classthemis_1_1content_1_1_language_detector" kindref="compound">LanguageDetector</ref>,<sp/>RoutingHintUnknownCode)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1content_1_1_language_detector_1ad80cfc3de0dce0c81384a23fbab3843c" kindref="member">LanguageDetector::routingHint</ref>(</highlight><highlight class="stringliteral">&quot;xx&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;unknown&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Integration:<sp/>TextProcessor::extract()<sp/>populates<sp/>language<sp/>metadata<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(TextProcessorLanguageIntegration,<sp/>ExtractPopulatesLanguageMetadata)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_text_processor" kindref="compound">TextProcessor</ref><sp/>proc;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>en_text<sp/>=</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;The<sp/>quick<sp/>brown<sp/>fox<sp/>jumps<sp/>over<sp/>the<sp/>lazy<sp/>dog.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;This<sp/>document<sp/>is<sp/>written<sp/>in<sp/>English<sp/>and<sp/>contains<sp/>common<sp/>English<sp/>words.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref><sp/>ct<sp/>=<sp/>makePlainTextType();</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>proc.<ref refid="classthemis_1_1content_1_1_text_processor_1a43bfb212a3faaed23375e1eb33261d72" kindref="member">extract</ref>(en_text,<sp/>ct);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.ok);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.metadata.contains(</highlight><highlight class="stringliteral">&quot;detected_language&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;metadata<sp/>must<sp/>contain<sp/>&apos;detected_language&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.metadata.contains(</highlight><highlight class="stringliteral">&quot;language_name&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;metadata<sp/>must<sp/>contain<sp/>&apos;language_name&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.metadata.contains(</highlight><highlight class="stringliteral">&quot;language_confidence&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;metadata<sp/>must<sp/>contain<sp/>&apos;language_confidence&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.metadata.contains(</highlight><highlight class="stringliteral">&quot;language_routing_hint&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;metadata<sp/>must<sp/>contain<sp/>&apos;language_routing_hint&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.metadata[</highlight><highlight class="stringliteral">&quot;detected_language&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;en&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.metadata[</highlight><highlight class="stringliteral">&quot;language_name&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;English&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(result.metadata[</highlight><highlight class="stringliteral">&quot;language_confidence&quot;</highlight><highlight class="normal">].get&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&gt;(),<sp/>0.0f);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.metadata[</highlight><highlight class="stringliteral">&quot;language_routing_hint&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;latin-en&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(TextProcessorLanguageIntegration,<sp/>ExtractDetectsGermanText)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_text_processor" kindref="compound">TextProcessor</ref><sp/>proc;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>de_text<sp/>=</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Der<sp/>schnelle<sp/>braune<sp/>Fuchs<sp/>springt<sp/>über<sp/>den<sp/>faulen<sp/>Hund.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Dieses<sp/>Dokument<sp/>ist<sp/>auf<sp/>Deutsch<sp/>geschrieben<sp/>und<sp/>enthält<sp/>viele<sp/>typische<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;deutsche<sp/>Wörter<sp/>wie<sp/>der,<sp/>die,<sp/>das<sp/>und<sp/>nicht.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref><sp/>ct<sp/>=<sp/>makePlainTextType();</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>proc.<ref refid="classthemis_1_1content_1_1_text_processor_1a43bfb212a3faaed23375e1eb33261d72" kindref="member">extract</ref>(de_text,<sp/>ct);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.ok);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.metadata[</highlight><highlight class="stringliteral">&quot;detected_language&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;de&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.metadata[</highlight><highlight class="stringliteral">&quot;language_routing_hint&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;latin-de&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><ref refid="test__content__language__detector_8cpp_1a2dbff72e782b5fed77b82d50ecbf8497" kindref="member">TEST</ref>(TextProcessorLanguageIntegration,<sp/>ExtractEmptyTextHasUndetermined)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_text_processor" kindref="compound">TextProcessor</ref><sp/>proc;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref><sp/>ct<sp/>=<sp/>makePlainTextType();</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>proc.<ref refid="classthemis_1_1content_1_1_text_processor_1a43bfb212a3faaed23375e1eb33261d72" kindref="member">extract</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>ct);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.ok);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.metadata[</highlight><highlight class="stringliteral">&quot;detected_language&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;und&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.metadata[</highlight><highlight class="stringliteral">&quot;language_routing_hint&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;unknown&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/content/test_content_language_detector.cpp"/>
+  </compounddef>
+</doxygen>

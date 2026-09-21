@@ -1,0 +1,396 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1attention" kind="namespace" language="C++">
+    <compoundname>themis::llm::attention</compoundname>
+    <innerclass refid="structthemis_1_1llm_1_1attention_1_1_attention_memory_stats" prot="public">themis::llm::attention::AttentionMemoryStats</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1attention_1_1_block" prot="public">themis::llm::attention::Block</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1attention_1_1_block_table" prot="public">themis::llm::attention::BlockTable</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1attention_1_1_flash_attention" prot="public">themis::llm::attention::FlashAttention</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1attention_1_1_flash_attention_config" prot="public">themis::llm::attention::FlashAttentionConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1attention_1_1_flash_attention_c_p_u" prot="public">themis::llm::attention::FlashAttentionCPU</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1attention_1_1_i_flash_attention" prot="public">themis::llm::attention::IFlashAttention</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_config" prot="public">themis::llm::attention::InfiniAttentionConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u" prot="public">themis::llm::attention::InfiniAttentionCPU</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a" prot="public">themis::llm::attention::InfiniAttentionCUDA</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1attention_1_1_k_v_cache_manager" prot="public">themis::llm::attention::KVCacheManager</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1attention_1_1_k_v_tensor" prot="public">themis::llm::attention::KVTensor</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1attention_1_1_tensor" prot="public">themis::llm::attention::Tensor</innerclass>
+    <innernamespace refid="namespacethemis_1_1llm_1_1attention_1_1cuda">themis::llm::attention::cuda</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1attention_1_1hip">themis::llm::attention::hip</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1attention_1_1test">themis::llm::attention::test</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1attention_1_1vulkan">themis::llm::attention::vulkan</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Status</name>
+        <qualifiedname>themis::llm::attention::Status</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388ad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388ac762622087deb4bb842e148f07ca3f8a" prot="public">
+          <name>ERROR_INVALID_CONFIG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388acb8bd57f40724de6fd73d0a0015f02b8" prot="public">
+          <name>ERROR_BACKEND_NOT_AVAILABLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388a3947c05430cd76b8a6919afa2a97e4bc" prot="public">
+          <name>ERROR_OUT_OF_MEMORY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388a449c39107fa4f8f345815198ecbc17c5" prot="public">
+          <name>ERROR_INVALID_TENSOR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388a739ea3631bdf48d0413fd87c313bc7f3" prot="public">
+          <name>ERROR_CUDA_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388afba72bd2476bee995604b74014f68023" prot="public">
+          <name>ERROR_VULKAN_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388afabbd76477e2baf65da7d6f0c416f02e" prot="public">
+          <name>ERROR_HIP_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388a43635ada56deb90523ab728ae29c1aa9" prot="public">
+          <name>ERROR_NOT_IMPLEMENTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="24" column="1" bodyfile="include/llm/attention/flash_attention.h" bodystart="24" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Backend</name>
+        <qualifiedname>themis::llm::attention::Backend</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326bae1f2d5134ed2543d38a0de9751cf75d9" prot="public">
+          <name>AUTO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326ba2e61076986baaa58dbe5c04958b3896e" prot="public">
+          <name>CUDA_SM90</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326ba524d62ace679f6cd3a1f629f22022433" prot="public">
+          <name>CUDA_SM86</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326bad02c78fa7802153d337461c699df1fd8" prot="public">
+          <name>CUDA_SM80</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326bac60cacb57b9e78f018a9d973bee2f801" prot="public">
+          <name>VULKAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326bafbee0afc834278735d395adc7c6199d8" prot="public">
+          <name>HIP_MI300</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326baec82982c7f56ffb382c78208b5e06944" prot="public">
+          <name>HIP_RDNA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326ba2b55387dd066c5bac646ac61543d152d" prot="public">
+          <name>CPU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/flash_attention.h" line="67" column="1" bodyfile="include/llm/attention/flash_attention.h" bodystart="67" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1llm_1_1attention_1a8e20addbc337f9298c9630c0a0f52151" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ExtendedBackend</name>
+        <qualifiedname>themis::llm::attention::ExtendedBackend</qualifiedname>
+        <enumvalue id="namespacethemis_1_1llm_1_1attention_1a8e20addbc337f9298c9630c0a0f52151a65c04e48d9fbb75eb7e2547d96ac3c91" prot="public">
+          <name>FLASH_ATTENTION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1llm_1_1attention_1a8e20addbc337f9298c9630c0a0f52151a748ce2abcfd9959df6771ac3861d9a40" prot="public">
+          <name>INFINI_COMPRESSIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/attention/cuda/infini_attention_cuda.h" line="33" column="1" bodyfile="include/llm/attention/cuda/infini_attention_cuda.h" bodystart="33" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1attention_1a5ac1ed37cc8bcf8ad7fe7d773e82bb66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::llm::attention::getBackendName</definition>
+        <argsstring>(Backend backend)</argsstring>
+        <name>getBackendName</name>
+        <qualifiedname>themis::llm::attention::getBackendName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref></type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="namespacethemis_1_1llm_1_1attention_1a9d4d35122a13b1eea62ee3c1bcfd326b" kindref="member">Backend</ref> Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements getBackendName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/attention/flash_attention.cpp" line="44" column="12" bodyfile="src/llm/attention/flash_attention.cpp" bodystart="44" bodyend="56" declfile="include/llm/attention/flash_attention.h" declline="220" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1attention_1acc816811871f2a11645d7ea11056ec50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::llm::attention::getStatusMessage</definition>
+        <argsstring>(Status status)</argsstring>
+        <name>getStatusMessage</name>
+        <qualifiedname>themis::llm::attention::getStatusMessage</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref></type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="namespacethemis_1_1llm_1_1attention_1ac1ac80040df90878fc11676b5cf09388" kindref="member">Status</ref> Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements getStatusMessage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/attention/flash_attention.cpp" line="65" column="12" bodyfile="src/llm/attention/flash_attention.cpp" bodystart="65" bodyend="78" declfile="include/llm/attention/flash_attention.h" declline="227" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1attention_1a52c06c0e4c3c3b5fc4cafd3d76566a05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1attention_1_1_infini_attention_c_u_d_a" kindref="compound">InfiniAttentionCUDA</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; InfiniAttentionCUDA &gt; themis::llm::attention::createInfiniAttentionCUDA</definition>
+        <argsstring>(const InfiniAttentionConfig &amp;config)</argsstring>
+        <name>createInfiniAttentionCUDA</name>
+        <qualifiedname>themis::llm::attention::createInfiniAttentionCUDA</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_config" kindref="compound">InfiniAttentionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create Infini Attention CUDA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/infini_attention_cuda_fallback.cpp" line="79" column="17" bodyfile="tests/llm/infini_attention_cuda_fallback.cpp" bodystart="79" bodyend="81" declfile="include/llm/attention/cuda/infini_attention_cuda.h" declline="202" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1attention_1aeafbe4a2abf9bacfd7de7769767f8bec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::attention::validateNumericConsistency</definition>
+        <argsstring>(const Tensor &amp;Q, const Tensor &amp;K, const Tensor &amp;V, const std::vector&lt; float &gt; &amp;cpu_output, const std::vector&lt; float &gt; &amp;cuda_output)</argsstring>
+        <name>validateNumericConsistency</name>
+        <qualifiedname>themis::llm::attention::validateNumericConsistency</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>Q</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>K</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1attention_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>V</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>cpu_output</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>cuda_output</declname>
+        </param>
+        <briefdescription>
+<para>Validate Numeric Consistency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">Q</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cpu_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cuda_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), max(), std::abs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/attention/cuda/infini_attention_cpu.cpp" line="258" column="7" bodyfile="src/llm/attention/cuda/infini_attention_cpu.cpp" bodystart="258" bodyend="284"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/infini_attention_cpu.h" line="17" column="1"/>
+  </compounddef>
+</doxygen>

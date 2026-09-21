@@ -1,0 +1,252 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_document_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::DocumentEntry</compoundname>
+    <includes refid="docs__assistant_8h" local="no">docs_assistant.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_document_entry_1a10a9b436083b8dbea1ec8d5c9be19ae5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DocumentEntry::file_path</definition>
+        <argsstring></argsstring>
+        <name>file_path</name>
+        <qualifiedname>themis::llm::DocumentEntry::file_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="32" column="17" bodyfile="include/llm/docs_assistant.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_document_entry_1a4859b9951304f2da6bdf0054ff2f64fa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DocumentEntry::file_hash</definition>
+        <argsstring></argsstring>
+        <name>file_hash</name>
+        <qualifiedname>themis::llm::DocumentEntry::file_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="33" column="17" bodyfile="include/llm/docs_assistant.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_document_entry_1abf24c45cc4d089f9c791dce14a11deef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DocumentEntry::file_name</definition>
+        <argsstring></argsstring>
+        <name>file_name</name>
+        <qualifiedname>themis::llm::DocumentEntry::file_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="34" column="17" bodyfile="include/llm/docs_assistant.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_document_entry_1a66dccfa0e47b777856958f6ef933699e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DocumentEntry::content_type</definition>
+        <argsstring></argsstring>
+        <name>content_type</name>
+        <qualifiedname>themis::llm::DocumentEntry::content_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="35" column="17" bodyfile="include/llm/docs_assistant.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_document_entry_1aa5828a3b337f8bb1220fba44e7052908" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::DocumentEntry::text_content</definition>
+        <argsstring></argsstring>
+        <name>text_content</name>
+        <qualifiedname>themis::llm::DocumentEntry::text_content</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="36" column="17" bodyfile="include/llm/docs_assistant.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_document_entry_1a7b12142e0d63f1b5074678052f4f01ff" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::DocumentEntry::content_length</definition>
+        <argsstring></argsstring>
+        <name>content_length</name>
+        <qualifiedname>themis::llm::DocumentEntry::content_length</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="37" column="9" bodyfile="include/llm/docs_assistant.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_document_entry_1aba75f719bc2cb763fc1a3e019308347b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::DocumentEntry::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::llm::DocumentEntry::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="38" column="10" bodyfile="include/llm/docs_assistant.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_document_entry_1a2ad6cc2b735f8e55faec255d1127750e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::DocumentEntry::themis_metadata</definition>
+        <argsstring></argsstring>
+        <name>themis_metadata</name>
+        <qualifiedname>themis::llm::DocumentEntry::themis_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="39" column="10" bodyfile="include/llm/docs_assistant.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_document_entry_1a0208a8e6fc43cf425a601ee20c0b044e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::DocumentEntry::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::llm::DocumentEntry::embedding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="42" column="17" bodyfile="include/llm/docs_assistant.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_document_entry_1a6be4f3d9c1820b4b76c67a3db770de9e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int16_t &gt;</type>
+        <definition>std::vector&lt;int16_t&gt; themis::llm::DocumentEntry::embedding_q</definition>
+        <argsstring></argsstring>
+        <name>embedding_q</name>
+        <qualifiedname>themis::llm::DocumentEntry::embedding_q</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="43" column="17" bodyfile="include/llm/docs_assistant.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_document_entry_1a5af8f2246677e623d1d1d22ebf74723e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::DocumentEntry::embedding_scale</definition>
+        <argsstring></argsstring>
+        <name>embedding_scale</name>
+        <qualifiedname>themis::llm::DocumentEntry::embedding_scale</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="44" column="11" bodyfile="include/llm/docs_assistant.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_document_entry_1abafcd6cd7bb7e432f6fc189375012b02" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DocumentEntry::has_embedding</definition>
+        <argsstring></argsstring>
+        <name>has_embedding</name>
+        <qualifiedname>themis::llm::DocumentEntry::has_embedding</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="45" column="10" bodyfile="include/llm/docs_assistant.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_document_entry_1a29d2773803a0bad319cbc27cc6352028" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::DocumentEntry::is_quantized_embedding</definition>
+        <argsstring></argsstring>
+        <name>is_quantized_embedding</name>
+        <qualifiedname>themis::llm::DocumentEntry::is_quantized_embedding</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="46" column="10" bodyfile="include/llm/docs_assistant.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_document_entry_1a245551a7ed2fb7aba33f9b1ebd0cf1c0" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::DocumentEntry::relevance_score</definition>
+        <argsstring></argsstring>
+        <name>relevance_score</name>
+        <qualifiedname>themis::llm::DocumentEntry::relevance_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="49" column="11" bodyfile="include/llm/docs_assistant.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_document_entry_1a9ac80aea09c22dd3d578cdb1b94cd72c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::DocumentEntry::~DocumentEntry</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DocumentEntry</name>
+        <qualifiedname>themis::llm::DocumentEntry::~DocumentEntry</qualifiedname>
+        <briefdescription>
+<para>Document Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/docs_assistant.h" line="31" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/docs_assistant.h" line="26" column="1" bodyfile="include/llm/docs_assistant.h" bodystart="26" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_document_entry_1a7b12142e0d63f1b5074678052f4f01ff" prot="public" virt="non-virtual"><scope>themis::llm::DocumentEntry</scope><name>content_length</name></member>
+      <member refid="structthemis_1_1llm_1_1_document_entry_1a66dccfa0e47b777856958f6ef933699e" prot="public" virt="non-virtual"><scope>themis::llm::DocumentEntry</scope><name>content_type</name></member>
+      <member refid="structthemis_1_1llm_1_1_document_entry_1a0208a8e6fc43cf425a601ee20c0b044e" prot="public" virt="non-virtual"><scope>themis::llm::DocumentEntry</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1llm_1_1_document_entry_1a6be4f3d9c1820b4b76c67a3db770de9e" prot="public" virt="non-virtual"><scope>themis::llm::DocumentEntry</scope><name>embedding_q</name></member>
+      <member refid="structthemis_1_1llm_1_1_document_entry_1a5af8f2246677e623d1d1d22ebf74723e" prot="public" virt="non-virtual"><scope>themis::llm::DocumentEntry</scope><name>embedding_scale</name></member>
+      <member refid="structthemis_1_1llm_1_1_document_entry_1a4859b9951304f2da6bdf0054ff2f64fa" prot="public" virt="non-virtual"><scope>themis::llm::DocumentEntry</scope><name>file_hash</name></member>
+      <member refid="structthemis_1_1llm_1_1_document_entry_1abf24c45cc4d089f9c791dce14a11deef" prot="public" virt="non-virtual"><scope>themis::llm::DocumentEntry</scope><name>file_name</name></member>
+      <member refid="structthemis_1_1llm_1_1_document_entry_1a10a9b436083b8dbea1ec8d5c9be19ae5" prot="public" virt="non-virtual"><scope>themis::llm::DocumentEntry</scope><name>file_path</name></member>
+      <member refid="structthemis_1_1llm_1_1_document_entry_1abafcd6cd7bb7e432f6fc189375012b02" prot="public" virt="non-virtual"><scope>themis::llm::DocumentEntry</scope><name>has_embedding</name></member>
+      <member refid="structthemis_1_1llm_1_1_document_entry_1a29d2773803a0bad319cbc27cc6352028" prot="public" virt="non-virtual"><scope>themis::llm::DocumentEntry</scope><name>is_quantized_embedding</name></member>
+      <member refid="structthemis_1_1llm_1_1_document_entry_1aba75f719bc2cb763fc1a3e019308347b" prot="public" virt="non-virtual"><scope>themis::llm::DocumentEntry</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1_document_entry_1a245551a7ed2fb7aba33f9b1ebd0cf1c0" prot="public" virt="non-virtual"><scope>themis::llm::DocumentEntry</scope><name>relevance_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_document_entry_1aa5828a3b337f8bb1220fba44e7052908" prot="public" virt="non-virtual"><scope>themis::llm::DocumentEntry</scope><name>text_content</name></member>
+      <member refid="structthemis_1_1llm_1_1_document_entry_1a2ad6cc2b735f8e55faec255d1127750e" prot="public" virt="non-virtual"><scope>themis::llm::DocumentEntry</scope><name>themis_metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1_document_entry_1a9ac80aea09c22dd3d578cdb1b94cd72c" prot="public" virt="virtual"><scope>themis::llm::DocumentEntry</scope><name>~DocumentEntry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

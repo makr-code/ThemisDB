@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::ComplianceReporter::RiskAssessmentReport::RiskItem</compoundname>
+    <includes refid="compliance__reporting_8h" local="no">compliance_reporting.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item_1a724ee7f2f4e7fc1d40a6f153f174d243" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceReporter::RiskAssessmentReport::RiskItem::risk_id</definition>
+        <argsstring></argsstring>
+        <name>risk_id</name>
+        <qualifiedname>themis::governance::ComplianceReporter::RiskAssessmentReport::RiskItem::risk_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="301" column="25" bodyfile="include/governance/compliance_reporting.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item_1a36a1fb8a77bf51b11bdb5dce2c22afbe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceReporter::RiskAssessmentReport::RiskItem::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::governance::ComplianceReporter::RiskAssessmentReport::RiskItem::severity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="302" column="25" bodyfile="include/governance/compliance_reporting.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item_1a91985c8f9b135e658a5ca2818d2ed091" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceReporter::RiskAssessmentReport::RiskItem::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::ComplianceReporter::RiskAssessmentReport::RiskItem::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="303" column="25" bodyfile="include/governance/compliance_reporting.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item_1a973cd06b8f7bc2b4312e6a64b2fe0b86" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::ComplianceReporter::RiskAssessmentReport::RiskItem::affected_resources</definition>
+        <argsstring></argsstring>
+        <name>affected_resources</name>
+        <qualifiedname>themis::governance::ComplianceReporter::RiskAssessmentReport::RiskItem::affected_resources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="304" column="25" bodyfile="include/governance/compliance_reporting.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item_1ae2150fc51f367b795e320286a54b93d3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceReporter::RiskAssessmentReport::RiskItem::mitigation</definition>
+        <argsstring></argsstring>
+        <name>mitigation</name>
+        <qualifiedname>themis::governance::ComplianceReporter::RiskAssessmentReport::RiskItem::mitigation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="305" column="25" bodyfile="include/governance/compliance_reporting.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_reporting.h" line="300" column="9" bodyfile="include/governance/compliance_reporting.h" bodystart="300" bodyend="306"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item_1a973cd06b8f7bc2b4312e6a64b2fe0b86" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::RiskAssessmentReport::RiskItem</scope><name>affected_resources</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item_1a91985c8f9b135e658a5ca2818d2ed091" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::RiskAssessmentReport::RiskItem</scope><name>description</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item_1ae2150fc51f367b795e320286a54b93d3" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::RiskAssessmentReport::RiskItem</scope><name>mitigation</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item_1a724ee7f2f4e7fc1d40a6f153f174d243" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::RiskAssessmentReport::RiskItem</scope><name>risk_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_risk_assessment_report_1_1_risk_item_1a36a1fb8a77bf51b11bdb5dce2c22afbe" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::RiskAssessmentReport::RiskItem</scope><name>severity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

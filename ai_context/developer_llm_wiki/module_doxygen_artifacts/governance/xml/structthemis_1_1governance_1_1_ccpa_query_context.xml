@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_ccpa_query_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::CcpaQueryContext</compoundname>
+    <includes refid="ccpa__rules_8h" local="no">ccpa_rules.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_ccpa_query_context_1ab1734951d5953d0082f504a1d67450ea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::CcpaQueryContext::subject_id</definition>
+        <argsstring></argsstring>
+        <name>subject_id</name>
+        <qualifiedname>themis::governance::CcpaQueryContext::subject_id</qualifiedname>
+        <briefdescription>
+<para>Data subject / user ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="58" column="17" bodyfile="include/governance/ccpa_rules.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_ccpa_query_context_1ad5004ff303665a8507667e5fbe80321f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::CcpaQueryContext::opted_out_of_sale</definition>
+        <argsstring></argsstring>
+        <name>opted_out_of_sale</name>
+        <qualifiedname>themis::governance::CcpaQueryContext::opted_out_of_sale</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Subject has opted out of data sale. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="59" column="10" bodyfile="include/governance/ccpa_rules.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_ccpa_query_context_1a5653f4f0776ae4b668540b44435694b8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::CcpaQueryContext::data_categories</definition>
+        <argsstring></argsstring>
+        <name>data_categories</name>
+        <qualifiedname>themis::governance::CcpaQueryContext::data_categories</qualifiedname>
+        <briefdescription>
+<para>Categories of personal data involved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="60" column="17" bodyfile="include/governance/ccpa_rules.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_ccpa_query_context_1a44c45c4725df9346b3805943737b0896" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::CcpaQueryContext::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::governance::CcpaQueryContext::action</qualifiedname>
+        <briefdescription>
+<para>Query action: &quot;read&quot;, &quot;write&quot;, &quot;export&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/ccpa_rules.h" line="61" column="17" bodyfile="include/governance/ccpa_rules.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/ccpa_rules.h" line="57" column="1" bodyfile="include/governance/ccpa_rules.h" bodystart="57" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_ccpa_query_context_1a44c45c4725df9346b3805943737b0896" prot="public" virt="non-virtual"><scope>themis::governance::CcpaQueryContext</scope><name>action</name></member>
+      <member refid="structthemis_1_1governance_1_1_ccpa_query_context_1a5653f4f0776ae4b668540b44435694b8" prot="public" virt="non-virtual"><scope>themis::governance::CcpaQueryContext</scope><name>data_categories</name></member>
+      <member refid="structthemis_1_1governance_1_1_ccpa_query_context_1ad5004ff303665a8507667e5fbe80321f" prot="public" virt="non-virtual"><scope>themis::governance::CcpaQueryContext</scope><name>opted_out_of_sale</name></member>
+      <member refid="structthemis_1_1governance_1_1_ccpa_query_context_1ab1734951d5953d0082f504a1d67450ea" prot="public" virt="non-virtual"><scope>themis::governance::CcpaQueryContext</scope><name>subject_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

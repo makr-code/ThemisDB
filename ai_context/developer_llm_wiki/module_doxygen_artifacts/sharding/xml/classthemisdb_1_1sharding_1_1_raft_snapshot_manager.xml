@@ -1,0 +1,589 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_raft_snapshot_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::RaftSnapshotManager</compoundname>
+    <includes refid="raft__log_8h" local="no">raft_log.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_raft_snapshot_manager_1_1_config" prot="public">themisdb::sharding::RaftSnapshotManager::Config</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a3ef69e30a8553edbe02b7a80c2154d03" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::RaftSnapshotManager::kDefaultChunkSizeBytes</definition>
+        <argsstring></argsstring>
+        <name>kDefaultChunkSizeBytes</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotManager::kDefaultChunkSizeBytes</qualifiedname>
+        <initializer>= 4 * 1024 * 1024</initializer>
+        <briefdescription>
+<para>Default chunk size for snapshot transfer (4 MB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="292" column="29" bodyfile="include/sharding/raft_log.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a62fde9eaec8a5ada0fae22b7fb80fa86" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themisdb::sharding::RaftSnapshotManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="379" column="12" bodyfile="include/sharding/raft_log.h" bodystart="379" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a623e32e89c5420c2fbfca52a810b3996" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::RaftSnapshotManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="380" column="24" bodyfile="include/sharding/raft_log.h" bodystart="380" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a448a3747151fcd60c1a9409efd68a17c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::RaftSnapshotManager::RaftSnapshotManager</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>RaftSnapshotManager</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotManager::RaftSnapshotManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="303" column="14" bodyfile="src/sharding/raft_log.cpp" bodystart="429" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a954bfe0a2246b6cffdedd267e80bcee3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::RaftSnapshotManager::~RaftSnapshotManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RaftSnapshotManager</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotManager::~RaftSnapshotManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="304" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a96e62a6748a9b657cde27432591140a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::RaftSnapshotManager::RaftSnapshotManager</definition>
+        <argsstring>(const RaftSnapshotManager &amp;)=delete</argsstring>
+        <name>RaftSnapshotManager</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotManager::RaftSnapshotManager</qualifiedname>
+        <param>
+          <type>const RaftSnapshotManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="307" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a6c02f768071f3eda8a533586d4dafa11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a448a3747151fcd60c1a9409efd68a17c" kindref="member">RaftSnapshotManager</ref> &amp;</type>
+        <definition>RaftSnapshotManager &amp; themisdb::sharding::RaftSnapshotManager::operator=</definition>
+        <argsstring>(const RaftSnapshotManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a448a3747151fcd60c1a9409efd68a17c" kindref="member">RaftSnapshotManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="308" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1accbd5db858d22d675c8f9bd8aeb089bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftSnapshotManager::createAndInstall</definition>
+        <argsstring>(RaftLog &amp;log, uint64_t snapshot_index, uint64_t snapshot_term, const std::vector&lt; uint8_t &gt; &amp;state_data)</argsstring>
+        <name>createAndInstall</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotManager::createAndInstall</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_raft_log" kindref="compound">RaftLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>snapshot_index</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>snapshot_term</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>state_data</declname>
+        </param>
+        <briefdescription>
+<para>Create and persist a snapshot then compact the Raft log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create And Install.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The Raft log to compact </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>snapshot_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The last log index to include in the snapshot </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>snapshot_term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The term of the entry at snapshot_index </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>state_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw (uncompressed) state-machine data to snapshot </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">state_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), spdlog::error(), getCommitIndex(), getEntry(), getSnapshotIndex(), getSnapshotTerm(), empty(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="319" column="10" bodyfile="src/sharding/raft_log.cpp" bodystart="461" bodyend="623"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a31330070436c603508fdd1c2690196c0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot" kindref="compound">RaftSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt; RaftSnapshot &gt; themisdb::sharding::RaftSnapshotManager::loadLatestSnapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>loadLatestSnapshot</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotManager::loadLatestSnapshot</qualifiedname>
+        <briefdescription>
+<para>Load the most recently persisted snapshot from disk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The snapshot, or std::nullopt if none exists </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="328" column="19" bodyfile="src/sharding/raft_log.cpp" bodystart="773" bodyend="779"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a7f216263225b556dc3dcc0d1f519c3c4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot" kindref="compound">RaftSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt; RaftSnapshot &gt; themisdb::sharding::RaftSnapshotManager::loadSnapshot</definition>
+        <argsstring>(uint64_t snapshot_index) const</argsstring>
+        <name>loadSnapshot</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotManager::loadSnapshot</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>snapshot_index</declname>
+        </param>
+        <briefdescription>
+<para>Load a specific snapshot by its index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>snapshot_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The snapshot index to load </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The snapshot, or std::nullopt if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">binary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="335" column="19" bodyfile="src/sharding/raft_log.cpp" bodystart="625" bodyend="771"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1ad6a6d5b3ff1e2cc2ee171f4765dbd2ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftSnapshotManager::shouldCompact</definition>
+        <argsstring>(const RaftLog &amp;log) const</argsstring>
+        <name>shouldCompact</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotManager::shouldCompact</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1_raft_log" kindref="compound">RaftLog</ref> &amp;</type>
+          <declname>log</declname>
+        </param>
+        <briefdescription>
+<para>Decide whether the log is large enough to warrant compaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The Raft log to evaluate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if compaction should be triggered </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="342" column="10" bodyfile="src/sharding/raft_log.cpp" bodystart="448" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a129f59c5efe071c125b6739097637271" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::RaftSnapshotManager::getChunkCount</definition>
+        <argsstring>(uint64_t snapshot_index) const</argsstring>
+        <name>getChunkCount</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotManager::getChunkCount</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>snapshot_index</declname>
+        </param>
+        <briefdescription>
+<para>Return the total number of transfer chunks for a snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>snapshot_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Snapshot to query </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Chunk count, or 0 if the snapshot does not exist </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="349" column="12" bodyfile="src/sharding/raft_log.cpp" bodystart="812" bodyend="829"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a96ce59d882a431187e859b45563f4175" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_raft_snapshot_chunk" kindref="compound">RaftSnapshotChunk</ref> &gt;</type>
+        <definition>std::optional&lt; RaftSnapshotChunk &gt; themisdb::sharding::RaftSnapshotManager::getChunk</definition>
+        <argsstring>(uint64_t snapshot_index, uint64_t chunk_index) const</argsstring>
+        <name>getChunk</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotManager::getChunk</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>snapshot_index</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>chunk_index</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a single transfer chunk of a snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The chunk contains a slice of the on-disk compressed snapshot data plus a SHA-256 checksum of that slice. The receiver must verify the checksum before accumulating data; if any chunk fails verification the transfer should be restarted from that chunk index.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>snapshot_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Snapshot to read from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>chunk_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>0-based chunk index </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The chunk, or std::nullopt if the snapshot or chunk is not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">binary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="363" column="19" bodyfile="src/sharding/raft_log.cpp" bodystart="831" bodyend="896"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a7193603b20fb0727743c65654235fbc4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt; uint64_t &gt; themisdb::sharding::RaftSnapshotManager::listSnapshots</definition>
+        <argsstring>() const</argsstring>
+        <name>listSnapshots</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotManager::listSnapshots</qualifiedname>
+        <briefdescription>
+<para>List all persisted snapshot indices (newest first). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Snapshot indices sorted descending by index. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="370" column="17" bodyfile="src/sharding/raft_log.cpp" bodystart="781" bodyend="810"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a51d61cc40e43fa023d7e1405b14b6019" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themisdb::sharding::RaftSnapshotManager::getSnapshotDirectory</definition>
+        <argsstring>() const</argsstring>
+        <name>getSnapshotDirectory</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotManager::getSnapshotDirectory</qualifiedname>
+        <briefdescription>
+<para>Get the snapshot directory path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Filesystem path used for snapshot storage. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="376" column="23" bodyfile="include/sharding/raft_log.h" bodystart="376" bodyend="376"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1aecc0485d642c3b3b5104e30738602a4a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::RaftSnapshotManager::snapshotPath</definition>
+        <argsstring>(uint64_t snapshot_index) const</argsstring>
+        <name>snapshotPath</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotManager::snapshotPath</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>snapshot_index</declname>
+        </param>
+        <briefdescription>
+<para>Build file path for a snapshot index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="383" column="17" bodyfile="src/sharding/raft_log.cpp" bodystart="443" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1adefdda0ac6ddd3f4609d15d84194ff67" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftSnapshotManager::cleanupOldSnapshots</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupOldSnapshots</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotManager::cleanupOldSnapshots</qualifiedname>
+        <briefdescription>
+<para>Remove snapshots beyond configured retention. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cleanup Old Snapshots.</para>
+<para>Calls: std::filesystem::exists(), std::filesystem::directory_iterator(), is_regular_file(), path(), filename(), string(), rfind(), ends_with(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="386" column="10" bodyfile="src/sharding/raft_log.cpp" bodystart="902" bodyend="936"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1addecc726200411657407e0571258a407" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::RaftSnapshotManager::computeChecksum</definition>
+        <argsstring>(const uint8_t *data, size_t size)</argsstring>
+        <name>computeChecksum</name>
+        <qualifiedname>themisdb::sharding::RaftSnapshotManager::computeChecksum</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Compute lowercase SHA-256 checksum for input bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="389" column="24" bodyfile="src/sharding/raft_log.cpp" bodystart="439" bodyend="441"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages Raft snapshot lifecycle: creation, persistence, compaction, and chunked transfer to lagging replicas. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Design notes<itemizedlist>
+<listitem><para>Snapshots are compressed with ZSTD level 3 (&gt;3× ratio for typical JSON metadata payloads).</para>
+</listitem><listitem><para>Compaction is triggered automatically when the estimated in-memory log size exceeds <computeroutput>compaction_threshold_bytes</computeroutput> (default 512 MB).</para>
+</listitem><listitem><para>Snapshot files are named <computeroutput>raft_snapshot_&lt;snapshot_index&gt;.bin</computeroutput>.</para>
+</listitem><listitem><para>At most <computeroutput>max_snapshots</computeroutput> snapshot files are retained on disk; older ones are deleted after a new snapshot is successfully written.</para>
+</listitem><listitem><para>The chunked-transfer API (<computeroutput><ref refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a96ce59d882a431187e859b45563f4175" kindref="member">getChunk</ref></computeroutput>) exposes fixed-size pieces of the on-disk compressed data together with per-chunk SHA-256 checksums so that the receiver can verify each piece independently (tolerating network interruptions during lagging-replica catch-up). </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/raft_log.h" line="289" column="1" bodyfile="include/sharding/raft_log.h" bodystart="289" bodyend="390"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1adefdda0ac6ddd3f4609d15d84194ff67" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotManager</scope><name>cleanupOldSnapshots</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1addecc726200411657407e0571258a407" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotManager</scope><name>computeChecksum</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a62fde9eaec8a5ada0fae22b7fb80fa86" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotManager</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1accbd5db858d22d675c8f9bd8aeb089bd" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotManager</scope><name>createAndInstall</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a96ce59d882a431187e859b45563f4175" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotManager</scope><name>getChunk</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a129f59c5efe071c125b6739097637271" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotManager</scope><name>getChunkCount</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a51d61cc40e43fa023d7e1405b14b6019" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotManager</scope><name>getSnapshotDirectory</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a3ef69e30a8553edbe02b7a80c2154d03" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotManager</scope><name>kDefaultChunkSizeBytes</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a7193603b20fb0727743c65654235fbc4" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotManager</scope><name>listSnapshots</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a31330070436c603508fdd1c2690196c0" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotManager</scope><name>loadLatestSnapshot</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a7f216263225b556dc3dcc0d1f519c3c4" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotManager</scope><name>loadSnapshot</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a623e32e89c5420c2fbfca52a810b3996" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotManager</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a6c02f768071f3eda8a533586d4dafa11" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotManager</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a448a3747151fcd60c1a9409efd68a17c" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotManager</scope><name>RaftSnapshotManager</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a96e62a6748a9b657cde27432591140a4" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotManager</scope><name>RaftSnapshotManager</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1ad6a6d5b3ff1e2cc2ee171f4765dbd2ed" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotManager</scope><name>shouldCompact</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1aecc0485d642c3b3b5104e30738602a4a" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotManager</scope><name>snapshotPath</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_snapshot_manager_1a954bfe0a2246b6cffdedd267e80bcee3" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftSnapshotManager</scope><name>~RaftSnapshotManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

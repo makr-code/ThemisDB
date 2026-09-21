@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="in__place__schema__migrator_8h" kind="file" language="C++">
+    <compoundname>in_place_schema_migrator.h</compoundname>
+    <includes local="yes">metadata/schema_manager.h</includes>
+    <includes local="yes">metadata/schema_version_manager.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__updates__schema__diversity_8cpp" local="yes">benchmarks/updates/bench_updates_schema_diversity.cpp</includedby>
+    <includedby refid="in__place__schema__migrator_8cpp" local="yes">src/updates/in_place_schema_migrator.cpp</includedby>
+    <includedby refid="test__updates__performance__batch4_8cpp" local="yes">tests/updates/test_updates_performance_batch4.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/updates/in_place_schema_migrator.h</label>
+        <link refid="in__place__schema__migrator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>metadata/schema_manager.h</label>
+      </node>
+      <node id="3">
+        <label>metadata/schema_version_manager.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/updates/bench_updates_schema_diversity.cpp</label>
+        <link refid="bench__updates__schema__diversity_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/updates/in_place_schema_migrator.h</label>
+        <link refid="in__place__schema__migrator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/updates/in_place_schema_migrator.cpp</label>
+        <link refid="in__place__schema__migrator_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/updates/test_updates_performance_batch4.cpp</label>
+        <link refid="test__updates__performance__batch4_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1updates_1_1_in_place_migration_result" prot="public">themis::updates::InPlaceMigrationResult</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_column_modification" prot="public">themis::updates::ColumnModification</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_migration_change_preview" prot="public">themis::updates::MigrationChangePreview</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_in_place_schema_migrator" prot="public">themis::updates::InPlaceSchemaMigrator</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_in_place_schema_migrator_1_1_config" prot="public">themis::updates::InPlaceSchemaMigrator::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1updates">themis::updates</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;metadata/schema_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;metadata/schema_version_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates" kindref="compound">updates</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1updates_1_1_in_place_migration_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_in_place_migration_result" kindref="compound">InPlaceMigrationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1updates_1_1_in_place_migration_result_1a00ca640c9e959e6d50e71cb3ec53e123" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_in_place_migration_result_1a00ca640c9e959e6d50e71cb3ec53e123" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1updates_1_1_in_place_migration_result_1a811825a3e778538ebc29f5616f0cad8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_in_place_migration_result_1a811825a3e778538ebc29f5616f0cad8a" kindref="member">error_message</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1updates_1_1_in_place_migration_result_1a955564fcc3d267355bff8abdfa61217b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1updates_1_1_in_place_migration_result_1a955564fcc3d267355bff8abdfa61217b" kindref="member">added_columns</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1updates_1_1_in_place_migration_result_1abf72f867dd0a6112b629d78e713dba4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1updates_1_1_in_place_migration_result_1abf72f867dd0a6112b629d78e713dba4d" kindref="member">schema_version</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1updates_1_1_column_modification" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_column_modification" kindref="compound">ColumnModification</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1updates_1_1_column_modification_1aab45d598b93b297e0fbc22d94a87f235" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_column_modification_1aab45d598b93b297e0fbc22d94a87f235" kindref="member">column_name</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1updates_1_1_column_modification_1aa4076a90d89c4300f8bb582f1fb67649" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_column_modification_1aa4076a90d89c4300f8bb582f1fb67649" kindref="member">old_type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1updates_1_1_column_modification_1af0594e3009ae1c5f4b560d585ecc9218" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_column_modification_1af0594e3009ae1c5f4b560d585ecc9218" kindref="member">new_type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1updates_1_1_column_modification_1ab09cebbda0d7039df4d424687580ebcc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_column_modification_1ab09cebbda0d7039df4d424687580ebcc" kindref="member">old_nullable</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1updates_1_1_column_modification_1ae69c21cf117689a7327ab92595f2a253" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_column_modification_1ae69c21cf117689a7327ab92595f2a253" kindref="member">new_nullable</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1updates_1_1_migration_change_preview" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_migration_change_preview" kindref="compound">MigrationChangePreview</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1updates_1_1_migration_change_preview_1affe8f0c185c036c30427b5d3df7fd64a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_migration_change_preview_1affe8f0c185c036c30427b5d3df7fd64a" kindref="member">is_valid</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1updates_1_1_migration_change_preview_1a6d15364ecc9878ad150ac3ff48c71ad1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_migration_change_preview_1a6d15364ecc9878ad150ac3ff48c71ad1" kindref="member">is_additive</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1updates_1_1_migration_change_preview_1a187ee49d1e77c7d27aedbd84ba56cc44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_migration_change_preview_1a187ee49d1e77c7d27aedbd84ba56cc44" kindref="member">error_message</ref>;<sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1updates_1_1_migration_change_preview_1aaf27f2096d602a479a9866c9ca42432e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SchemaManager::PropertyInfo&gt;<sp/><ref refid="structthemis_1_1updates_1_1_migration_change_preview_1aaf27f2096d602a479a9866c9ca42432e" kindref="member">added_columns</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1updates_1_1_migration_change_preview_1a2baaba255b9b869a3edec78cf1acd712" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SchemaManager::PropertyInfo&gt;<sp/><ref refid="structthemis_1_1updates_1_1_migration_change_preview_1a2baaba255b9b869a3edec78cf1acd712" kindref="member">removed_columns</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1updates_1_1_migration_change_preview_1aed69f9326c6afd7855073cdf2107765c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ColumnModification&gt;<sp/><ref refid="structthemis_1_1updates_1_1_migration_change_preview_1aed69f9326c6afd7855073cdf2107765c" kindref="member">modified_columns</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1updates_1_1_migration_change_preview_1a6d2e663d754e5072ca93f91d52f3df7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1updates_1_1_migration_change_preview_1a6d2e663d754e5072ca93f91d52f3df7a" kindref="member">changeCount</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_migration_change_preview_1aaf27f2096d602a479a9866c9ca42432e" kindref="member">added_columns</ref>.size()<sp/>+<sp/><ref refid="structthemis_1_1updates_1_1_migration_change_preview_1a2baaba255b9b869a3edec78cf1acd712" kindref="member">removed_columns</ref>.size()<sp/>+<sp/><ref refid="structthemis_1_1updates_1_1_migration_change_preview_1aed69f9326c6afd7855073cdf2107765c" kindref="member">modified_columns</ref>.size();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1updates_1_1_in_place_schema_migrator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a1fc37f49e2fa181aa5acac941592d0b4" kindref="member">InPlaceSchemaMigrator</ref><sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1updates_1_1_in_place_schema_migrator_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_in_place_schema_migrator_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1updates_1_1_in_place_schema_migrator_1_1_config_1a0bdd515e3344788bcd6f51a72f677c60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_in_place_schema_migrator_1_1_config_1a0bdd515e3344788bcd6f51a72f677c60" kindref="member">strict_additive</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a1fc37f49e2fa181aa5acac941592d0b4" kindref="member">InPlaceSchemaMigrator</ref>();</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a1fc37f49e2fa181aa5acac941592d0b4" kindref="member">InPlaceSchemaMigrator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_in_place_schema_migrator_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="132" refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a6d49a65b9f7fa06cbf814d0afd716cd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a6d49a65b9f7fa06cbf814d0afd716cd6" kindref="member">~InPlaceSchemaMigrator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a5b5e708297282068947c4d06502d041f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a5b5e708297282068947c4d06502d041f" kindref="member">InPlaceSchemaMigrator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a1fc37f49e2fa181aa5acac941592d0b4" kindref="member">InPlaceSchemaMigrator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1ab91cb6d1ae00531de29fa66e2975ba98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a1fc37f49e2fa181aa5acac941592d0b4" kindref="member">InPlaceSchemaMigrator</ref>&amp;<sp/><ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1ab91cb6d1ae00531de29fa66e2975ba98" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a1fc37f49e2fa181aa5acac941592d0b4" kindref="member">InPlaceSchemaMigrator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1af9b6cdeb8a973f28e05352c5d15a1787" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1af9b6cdeb8a973f28e05352c5d15a1787" kindref="member">InPlaceSchemaMigrator</ref>(<ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a1fc37f49e2fa181aa5acac941592d0b4" kindref="member">InPlaceSchemaMigrator</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1ad2e48213525f8b311128afab9c9a1ad9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a1fc37f49e2fa181aa5acac941592d0b4" kindref="member">InPlaceSchemaMigrator</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a1fc37f49e2fa181aa5acac941592d0b4" kindref="member">InPlaceSchemaMigrator</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a42fb86fe1acc1080c58cf133a0e21973" kindref="member">isAdditiveMigration</ref>(</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>SchemaManager::TableSchema&amp;<sp/>from_schema,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>SchemaManager::TableSchema&amp;<sp/>to_schema</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/><ref refid="structthemis_1_1updates_1_1_migration_change_preview" kindref="compound">MigrationChangePreview</ref><sp/><ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a7c965553b29b8a9052c2f0fdb3f8d733" kindref="member">preview</ref>(</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>SchemaManager::TableSchema&amp;<sp/>from_schema,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>SchemaManager::TableSchema&amp;<sp/>to_schema</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_in_place_migration_result" kindref="compound">InPlaceMigrationResult</ref><sp/><ref refid="classthemis_1_1updates_1_1_in_place_schema_migrator_1a76ed86919131e7f4343c7406a286689a" kindref="member">apply</ref>(</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>table_name,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>SchemaManager::TableSchema&amp;<sp/>from_schema,</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>SchemaManager::TableSchema&amp;<sp/>to_schema,</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SchemaManager&amp;<sp/>schema_mgr,</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SchemaVersionManager&amp;<sp/>version_mgr,</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>author<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1updates_1_1_in_place_schema_migrator_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/>findAddedColumns(</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>SchemaManager::TableSchema&amp;<sp/>from_schema,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>SchemaManager::TableSchema&amp;<sp/>to_schema</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>updates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/updates/in_place_schema_migrator.h"/>
+  </compounddef>
+</doxygen>

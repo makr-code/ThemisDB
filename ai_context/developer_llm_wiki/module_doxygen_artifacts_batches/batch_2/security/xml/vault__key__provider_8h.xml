@@ -1,0 +1,277 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="vault__key__provider_8h" kind="file" language="C++">
+    <compoundname>vault_key_provider.h</compoundname>
+    <includes refid="include_2security_2key__provider_8h" local="yes">key_provider.h</includes>
+    <includes refid="signing__provider_8h" local="yes">security/signing_provider.h</includes>
+    <includes local="no">curl/curl.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="vault__key__provider_8cpp" local="yes">src/security/vault_key_provider.cpp</includedby>
+    <includedby refid="test__security__negative__integration_8cpp" local="yes">tests/security/test_security_negative_integration.cpp</includedby>
+    <includedby refid="test__security__wavec__production__validation__focused_8cpp" local="yes">tests/security/test_security_wavec_production_validation_focused.cpp</includedby>
+    <includedby refid="test__transport__security__hardening_8cpp" local="yes">tests/security/test_transport_security_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>key_provider.h</label>
+        <link refid="include_2security_2key__provider_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>security/signing.h</label>
+        <link refid="signing_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>security/signing_provider.h</label>
+        <link refid="signing__provider_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/security/vault_key_provider.h</label>
+        <link refid="vault__key__provider_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="15">
+        <label>curl/curl.h</label>
+      </node>
+      <node id="17">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>security/key_provider.h</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>themis/base/interfaces/security_interface.h</label>
+      </node>
+      <node id="9">
+        <label>tuple</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/security/vault_key_provider.h</label>
+        <link refid="vault__key__provider_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/security/vault_key_provider.cpp</label>
+        <link refid="vault__key__provider_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/security/test_security_negative_integration.cpp</label>
+        <link refid="test__security__negative__integration_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/security/test_security_wavec_production_validation_focused.cpp</label>
+        <link refid="test__security__wavec__production__validation__focused_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/security/test_transport_security_hardening.cpp</label>
+        <link refid="test__transport__security__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_vault_key_provider" prot="public">themis::VaultKeyProvider</innerclass>
+    <innerclass refid="structthemis_1_1_vault_key_provider_1_1_config" prot="public">themis::VaultKeyProvider::Config</innerclass>
+    <innerclass refid="structthemis_1_1_vault_key_provider_1_1_cache_stats" prot="public">themis::VaultKeyProvider::CacheStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="include_2security_2key__provider_8h" kindref="compound">key_provider.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="signing__provider_8h" kindref="compound">security/signing_provider.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;curl/curl.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="classthemis_1_1_vault_key_provider" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_vault_key_provider_1ac5ed857dba9d73ad3a3af2dd0e97001b" kindref="member">VaultKeyProvider</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_signing_provider" kindref="compound">SigningProvider</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1_vault_key_provider_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a5ee1d567068e196ed963db725f7a1939" kindref="member">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1_vault_key_provider_1_1_config_1a98d699d29b6f69c82cb0afaea75cd8d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a98d699d29b6f69c82cb0afaea75cd8d5" kindref="member">vault_addr</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Production:<sp/>&quot;https://vault.example.com:8200&quot;;<sp/>loopback-only<sp/>dev<sp/>HTTP<sp/>is<sp/>allowed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1_vault_key_provider_1_1_config_1a79937b968615e0ad629cd91f9bdfbc63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a79937b968615e0ad629cd91f9bdfbc63" kindref="member">vault_token</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Authentication<sp/>token</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1_vault_key_provider_1_1_config_1acab93e6fca228afbf743e0abb0ccfbc3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1acab93e6fca228afbf743e0abb0ccfbc3" kindref="member">kv_mount_path</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>KV<sp/>secrets<sp/>engine<sp/>mount<sp/>(default:<sp/>&quot;themis&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1_vault_key_provider_1_1_config_1a101c9782331060b9f784ed0f3f5d7993" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a101c9782331060b9f784ed0f3f5d7993" kindref="member">transit_mount</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Transit<sp/>mount<sp/>path<sp/>(default:<sp/>&quot;transit&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1_vault_key_provider_1_1_config_1aa13f3ce3e8f4166646db7b9e123fe917" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1aa13f3ce3e8f4166646db7b9e123fe917" kindref="member">kv_version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;v1&quot;<sp/>or<sp/>&quot;v2&quot;<sp/>(default:<sp/>&quot;v2&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1_vault_key_provider_1_1_config_1a1d54b88615958eec4f4dfaa9aa152aeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a1d54b88615958eec4f4dfaa9aa152aeb" kindref="member">cache_ttl_seconds</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>TTL<sp/>(default:<sp/>3600)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1_vault_key_provider_1_1_config_1ae85dc41a02cfabd16a99b87c83a18550" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1ae85dc41a02cfabd16a99b87c83a18550" kindref="member">cache_capacity</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>cached<sp/>keys<sp/>(default:<sp/>1000)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1_vault_key_provider_1_1_config_1a681744665f24f30d0041a726485706c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a681744665f24f30d0041a726485706c2" kindref="member">request_timeout_ms</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HTTP<sp/>timeout<sp/>(default:<sp/>5000)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1_vault_key_provider_1_1_config_1a5d88c1abf2f912335d79b27da8302eb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a5d88c1abf2f912335d79b27da8302eb5" kindref="member">verify_ssl</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SSL<sp/>verification<sp/>(default:<sp/>true)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1_vault_key_provider_1_1_config_1a71ff0178b3802dcf01439115017e4977" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a71ff0178b3802dcf01439115017e4977" kindref="member">transit_max_retries</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>retry<sp/>settings<sp/>for<sp/>transit<sp/>calls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1_vault_key_provider_1_1_config_1a3ffd23bf2b67bb41997a08d01e95e3f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a3ffd23bf2b67bb41997a08d01e95e3f3" kindref="member">transit_backoff_ms</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backoff<sp/>between<sp/>retry<sp/>attempts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1_vault_key_provider_1_1_config_1a5ee1d567068e196ed963db725f7a1939" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a5ee1d567068e196ed963db725f7a1939" kindref="member">Config</ref>()</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a98d699d29b6f69c82cb0afaea75cd8d5" kindref="member">vault_addr</ref>(),</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a79937b968615e0ad629cd91f9bdfbc63" kindref="member">vault_token</ref>(),</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1acab93e6fca228afbf743e0abb0ccfbc3" kindref="member">kv_mount_path</ref>(</highlight><highlight class="stringliteral">&quot;themis&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a101c9782331060b9f784ed0f3f5d7993" kindref="member">transit_mount</ref>(</highlight><highlight class="stringliteral">&quot;transit&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1aa13f3ce3e8f4166646db7b9e123fe917" kindref="member">kv_version</ref>(</highlight><highlight class="stringliteral">&quot;v2&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a1d54b88615958eec4f4dfaa9aa152aeb" kindref="member">cache_ttl_seconds</ref>(3600),</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1ae85dc41a02cfabd16a99b87c83a18550" kindref="member">cache_capacity</ref>(1000),</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a681744665f24f30d0041a726485706c2" kindref="member">request_timeout_ms</ref>(5000),</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a5d88c1abf2f912335d79b27da8302eb5" kindref="member">verify_ssl</ref>(true),</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a71ff0178b3802dcf01439115017e4977" kindref="member">transit_max_retries</ref>(3),</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_config_1a3ffd23bf2b67bb41997a08d01e95e3f3" kindref="member">transit_backoff_ms</ref>(200)</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_vault_key_provider_1ac5ed857dba9d73ad3a3af2dd0e97001b" kindref="member">VaultKeyProvider</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="test__tls__hot__reload_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_vault_key_provider_1ac5ed857dba9d73ad3a3af2dd0e97001b" kindref="member">VaultKeyProvider</ref>(</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>vault_addr,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>vault_token,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>kv_mount_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1_vault_key_provider_1a62d14376a60f06060a248eb508c45189" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_vault_key_provider_1a62d14376a60f06060a248eb508c45189" kindref="member">~VaultKeyProvider</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>KeyProvider<sp/>interface<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1_vault_key_provider_1a416bf6b899372a54338abc014c93b83d" kindref="member">getKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1_vault_key_provider_1a416bf6b899372a54338abc014c93b83d" kindref="member">getKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id,<sp/>uint32_t<sp/>version)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1_vault_key_provider_1ae74aa2adbd6c33aa4d82aec1140c6567" kindref="member">rotateKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;KeyMetadata&gt;<sp/><ref refid="classthemis_1_1_vault_key_provider_1ac8d245fe4d27ae367e9a6b01eba200c0" kindref="member">listKeys</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref><sp/><ref refid="classthemis_1_1_vault_key_provider_1a50c9ef2f9e359a47f4004d59e3f6ab69" kindref="member">getKeyMetadata</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id,<sp/>uint32_t<sp/>version<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_vault_key_provider_1a67140dbdc27c8448629b5a10ef9faf20" kindref="member">deleteKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id,<sp/>uint32_t<sp/>version)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_vault_key_provider_1a50d1cbe8b8b45dd6fb1df86d75baecc8" kindref="member">hasKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id,<sp/>uint32_t<sp/>version<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1_vault_key_provider_1aca7f6e5863ebc5aaaee92d748880b5cd" kindref="member">createKeyFromBytes</ref>(</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>key_bytes,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref>&amp;<sp/>metadata<sp/>=<sp/><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref>())<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SigningProvider<sp/>interface:<sp/>perform<sp/>a<sp/>sign<sp/>operation<sp/>via<sp/>Vault<sp/>Transit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_signing_result" kindref="compound">SigningResult</ref><sp/><ref refid="classthemis_1_1_vault_key_provider_1a0ec2ca98f351774c5da4e2cd1f1d57cd" kindref="member">sign</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_vault_key_provider_1afbcadb11c4d1404136f4a5cdffb07017" kindref="member">clearCache</ref>();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1_vault_key_provider_1_1_cache_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_vault_key_provider_1_1_cache_stats" kindref="compound">CacheStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1_vault_key_provider_1_1_cache_stats_1a44f64f71ad7418e70b297ec2b108e981" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_cache_stats_1a44f64f71ad7418e70b297ec2b108e981" kindref="member">hit_rate</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1_vault_key_provider_1_1_cache_stats_1a1f1ef24614a4577948acf36860e59445" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_cache_stats_1a1f1ef24614a4577948acf36860e59445" kindref="member">total_requests</ref>;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1_vault_key_provider_1_1_cache_stats_1ae2f56ee9cd20f549784794aa9da08241" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_cache_stats_1ae2f56ee9cd20f549784794aa9da08241" kindref="member">cache_hits</ref>;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1_vault_key_provider_1_1_cache_stats_1a18268465934c9f06bd845433c3872a6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_cache_stats_1a18268465934c9f06bd845433c3872a6a" kindref="member">cache_size</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_vault_key_provider_1_1_cache_stats" kindref="compound">CacheStats</ref><sp/><ref refid="classthemis_1_1_vault_key_provider_1a0572160e444d0de6dc90de6d8bb7dcf4" kindref="member">getCacheStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_vault_key_provider_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1_vault_key_provider_1a6207b6b8b9016f6c5f2852d598c2e5bf" kindref="member">httpGet</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1_vault_key_provider_1a4a6e4a0700b51eee74460a635d93f10a" kindref="member">httpPost</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1_vault_key_provider_1ab00467767f33ec790a02d116d5e41260" kindref="member">httpList</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Vault<sp/>API<sp/>wrappers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1_vault_key_provider_1a22d9166a49ced71483d9956122aac233" kindref="member">readSecret</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id,<sp/>uint32_t<sp/>version<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1_vault_key_provider_1a8b8722936f4ae933ed43baa730c5ec3e" kindref="member">readSecretMetadata</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_vault_key_provider_1ac760724d1934373bee42ce98cdff0c26" kindref="member">writeSecret</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_b64,<sp/>uint32_t<sp/>version);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1_vault_key_provider_1a8a7caee0ed96aa1dd5b8b6027c29ba79" kindref="member">listSecrets</ref>();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1_vault_key_provider_1ae0e9da0fa498febf42ad2152a416648a" kindref="member">parseKeyFromVaultResponse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>json_response);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref><sp/><ref refid="classthemis_1_1_vault_key_provider_1a5f077dfe654986abdc1aa0582013093f" kindref="member">parseMetadataFromVaultResponse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>json_response);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1_vault_key_provider_1a90927ea047a8cd97c360c115ebc0d771" kindref="member">makeCacheKey</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id,<sp/>uint32_t<sp/>version)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Testing:<sp/>override<sp/>HTTP<sp/>behavior<sp/>(url,<sp/>method,<sp/>body)<sp/>-&gt;<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tests<sp/>need<sp/>to<sp/>override<sp/>HTTP<sp/>behavior;<sp/>expose<sp/>this<sp/>as<sp/>public<sp/>for<sp/>test<sp/>harnesses.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_vault_key_provider_1ad9a4c781625c028798c6d0f4e1ce00c4" kindref="member">setTestRequestOverride</ref>(std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>fn);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/security/vault_key_provider.h"/>
+  </compounddef>
+</doxygen>

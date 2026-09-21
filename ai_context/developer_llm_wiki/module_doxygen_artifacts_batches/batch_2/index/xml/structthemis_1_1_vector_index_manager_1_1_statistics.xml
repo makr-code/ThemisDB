@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_vector_index_manager_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::VectorIndexManager::Statistics</compoundname>
+    <includes refid="vector__index_8h" local="no">vector_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_statistics_1ab17805da180137bebf53036c00820884" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VectorIndexManager::Statistics::vector_count</definition>
+        <argsstring></argsstring>
+        <name>vector_count</name>
+        <qualifiedname>themis::VectorIndexManager::Statistics::vector_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="422" column="16" bodyfile="include/index/vector_index.h" bodystart="422" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_statistics_1aa5e88fa9443b6892263fe67e74397ad0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::VectorIndexManager::Statistics::dimension</definition>
+        <argsstring></argsstring>
+        <name>dimension</name>
+        <qualifiedname>themis::VectorIndexManager::Statistics::dimension</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="423" column="13" bodyfile="include/index/vector_index.h" bodystart="423" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_statistics_1a81724ebebae159a31b292970d11bf614" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::VectorIndexManager::Statistics::min_distance</definition>
+        <argsstring></argsstring>
+        <name>min_distance</name>
+        <qualifiedname>themis::VectorIndexManager::Statistics::min_distance</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="424" column="15" bodyfile="include/index/vector_index.h" bodystart="424" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_statistics_1aefade21ac7fc439b34aa6ba7359f3ed6" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::VectorIndexManager::Statistics::max_distance</definition>
+        <argsstring></argsstring>
+        <name>max_distance</name>
+        <qualifiedname>themis::VectorIndexManager::Statistics::max_distance</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="425" column="15" bodyfile="include/index/vector_index.h" bodystart="425" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_statistics_1a9d3e087aaf34c8f6f8c0f190e2e88de5" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::VectorIndexManager::Statistics::mean_distance</definition>
+        <argsstring></argsstring>
+        <name>mean_distance</name>
+        <qualifiedname>themis::VectorIndexManager::Statistics::mean_distance</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="426" column="15" bodyfile="include/index/vector_index.h" bodystart="426" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_statistics_1a5d67fd07dd4159fcf75d3184f7c73db1" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::VectorIndexManager::Statistics::std_dev_distance</definition>
+        <argsstring></argsstring>
+        <name>std_dev_distance</name>
+        <qualifiedname>themis::VectorIndexManager::Statistics::std_dev_distance</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="427" column="15" bodyfile="include/index/vector_index.h" bodystart="427" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_statistics_1a42145da2227bb0c113d32641adde49a9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::VectorIndexManager::Statistics::metric_name</definition>
+        <argsstring></argsstring>
+        <name>metric_name</name>
+        <qualifiedname>themis::VectorIndexManager::Statistics::metric_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="428" column="21" bodyfile="include/index/vector_index.h" bodystart="428" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Distance distribution and count statistics for the index. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/vector_index.h" line="421" column="5" bodyfile="include/index/vector_index.h" bodystart="421" bodyend="429"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_statistics_1aa5e88fa9443b6892263fe67e74397ad0" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::Statistics</scope><name>dimension</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_statistics_1aefade21ac7fc439b34aa6ba7359f3ed6" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::Statistics</scope><name>max_distance</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_statistics_1a9d3e087aaf34c8f6f8c0f190e2e88de5" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::Statistics</scope><name>mean_distance</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_statistics_1a42145da2227bb0c113d32641adde49a9" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::Statistics</scope><name>metric_name</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_statistics_1a81724ebebae159a31b292970d11bf614" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::Statistics</scope><name>min_distance</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_statistics_1a5d67fd07dd4159fcf75d3184f7c73db1" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::Statistics</scope><name>std_dev_distance</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_statistics_1ab17805da180137bebf53036c00820884" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::Statistics</scope><name>vector_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

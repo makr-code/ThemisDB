@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::prompt_engineering::SimplePromptABFramework</compoundname>
+    <basecompoundref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework" prot="public" virt="non-virtual">themis::prompt_engineering::IPromptABFramework</basecompoundref>
+    <includes refid="prompt__ab__experiment_8h" local="no">prompt_ab_experiment.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1a7b4956536b9d425e0ca01f36d198911a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::prompt_engineering::SimplePromptABFramework::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptABFramework::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="491" column="48" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="491" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1ab914fe9fbe079c51de2308a2643fa03f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_experiment_descriptor" kindref="compound">ExperimentDescriptor</ref> &gt;</type>
+        <definition>std::vector&lt;ExperimentDescriptor&gt; themis::prompt_engineering::SimplePromptABFramework::experiments_</definition>
+        <argsstring></argsstring>
+        <name>experiments_</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptABFramework::experiments_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="492" column="26" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="492" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1adcc5b730bbe3153185d9e23d9d0e34c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::SimplePromptABFramework::registerExperiment</definition>
+        <argsstring>(ExperimentDescriptor descriptor)</argsstring>
+        <name>registerExperiment</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptABFramework::registerExperiment</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1prompt__engineering_1_1_experiment_descriptor" kindref="compound">ExperimentDescriptor</ref></type>
+          <declname>descriptor</declname>
+        </param>
+        <briefdescription>
+<para>Register an experiment with the framework. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Experiment.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>descriptor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Experiment to register (must have a unique <computeroutput>key</computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an experiment with the same key already exists.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">descriptor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="470" column="10" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="701" bodyend="711"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1a31ab664e07546701bee80bd223f2e8ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::SimplePromptABFramework::deactivate</definition>
+        <argsstring>(const ExperimentKey &amp;key)</argsstring>
+        <name>deactivate</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptABFramework::deactivate</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1prompt__engineering_1a8100da3471ca30599a8ced050f560329" kindref="member">ExperimentKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Deactivate a running experiment (does not remove it from the list). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deactivate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Experiment key to deactivate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> if the experiment was found and deactivated; <computeroutput>false</computeroutput> otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="478" column="10" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="719" bodyend="728"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1ac454270e9693c870e49034f78517fc7c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_a_b_variant" kindref="compound">ABVariant</ref></type>
+        <definition>ABVariant themis::prompt_engineering::SimplePromptABFramework::assignVariant</definition>
+        <argsstring>(const UserId &amp;user_id, const ExperimentKey &amp;key) const override</argsstring>
+        <name>assignVariant</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptABFramework::assignVariant</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1a361fad34b1459956da345230d52f55bf">assignVariant</reimplements>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1prompt__engineering_1a13905e792b57113a931df5aad2af6267" kindref="member">UserId</ref> &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1prompt__engineering_1a8100da3471ca30599a8ced050f560329" kindref="member">ExperimentKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Deterministically assign a variant to the given user/experiment pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Opaque user identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Experiment key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The assigned <computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_a_b_variant" kindref="compound">ABVariant</ref></computeroutput>. If the experiment does not exist or is inactive, the &quot;control&quot; variant is returned. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="481" column="15" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="730" bodyend="759"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1a50f27a26df372f6d91debddfbc1fee5d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_experiment_descriptor" kindref="compound">ExperimentDescriptor</ref> &gt;</type>
+        <definition>std::vector&lt; ExperimentDescriptor &gt; themis::prompt_engineering::SimplePromptABFramework::listExperiments</definition>
+        <argsstring>() const override</argsstring>
+        <name>listExperiments</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptABFramework::listExperiments</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1a7b8661616b7cced0af15b3619a0840ea">listExperiments</reimplements>
+        <briefdescription>
+<para>Return all registered experiment descriptors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="484" column="17" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="761" bodyend="769"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1a8a0cb99cdcadb3960a42dd1c6c0935f4" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::prompt_engineering::SimplePromptABFramework::fnv1a32</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;key) noexcept</argsstring>
+        <name>fnv1a32</name>
+        <qualifiedname>themis::prompt_engineering::SimplePromptABFramework::fnv1a32</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>FNV-1a-32 hash over <computeroutput>user_id + &apos;\0&apos; + key</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_ab_experiment.h" line="488" column="21" bodyfile="src/prompt_engineering/prompt_ab_experiment.cpp" bodystart="676" bodyend="693"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simple deterministic <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework" kindref="compound">IPromptABFramework</ref></computeroutput> backed by an in-memory experiment registry. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Variant assignment uses FNV-1a-32 over <computeroutput>user_id + &apos;\0&apos; + key</computeroutput> modulo 100 to decide traffic split, matching the behaviour of <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_a_b_experiment_framework" kindref="compound">PromptABExperimentFramework</ref></computeroutput>.</para>
+<para>Thread-safe: <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1ac454270e9693c870e49034f78517fc7c" kindref="member">assignVariant()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1a50f27a26df372f6d91debddfbc1fee5d" kindref="member">listExperiments()</ref></computeroutput> are safe for concurrent read access. <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1adcc5b730bbe3153185d9e23d9d0e34c2" kindref="member">registerExperiment()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1a31ab664e07546701bee80bd223f2e8ce" kindref="member">deactivate()</ref></computeroutput> are serialised with a shared mutex. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::prompt_engineering::IPromptABFramework</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework"/>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::SimplePromptABFramework</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::prompt_engineering::IPromptABFramework</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework"/>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::SimplePromptABFramework</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/prompt_ab_experiment.h" line="461" column="1" bodyfile="include/prompt_engineering/prompt_ab_experiment.h" bodystart="461" bodyend="493"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1ac454270e9693c870e49034f78517fc7c" prot="public" virt="virtual"><scope>themis::prompt_engineering::SimplePromptABFramework</scope><name>assignVariant</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1a31ab664e07546701bee80bd223f2e8ce" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SimplePromptABFramework</scope><name>deactivate</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1ab914fe9fbe079c51de2308a2643fa03f" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SimplePromptABFramework</scope><name>experiments_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1a8a0cb99cdcadb3960a42dd1c6c0935f4" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SimplePromptABFramework</scope><name>fnv1a32</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1a50f27a26df372f6d91debddfbc1fee5d" prot="public" virt="virtual"><scope>themis::prompt_engineering::SimplePromptABFramework</scope><name>listExperiments</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1a7b4956536b9d425e0ca01f36d198911a" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::SimplePromptABFramework</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_simple_prompt_a_b_framework_1adcc5b730bbe3153185d9e23d9d0e34c2" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SimplePromptABFramework</scope><name>registerExperiment</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_prompt_a_b_framework_1a8ea10bb748dcd2a02d8c536c63c97ab3" prot="public" virt="virtual"><scope>themis::prompt_engineering::SimplePromptABFramework</scope><name>~IPromptABFramework</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

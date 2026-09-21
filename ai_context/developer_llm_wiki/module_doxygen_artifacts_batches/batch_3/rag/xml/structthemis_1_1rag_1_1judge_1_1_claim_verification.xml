@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_claim_verification" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::ClaimVerification</compoundname>
+    <includes refid="nli__faithfulness__verifier_8h" local="no">nli_faithfulness_verifier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_claim_verification_1aea260e5385a06bab0530e9892d783bdc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::ClaimVerification::claim</definition>
+        <argsstring></argsstring>
+        <name>claim</name>
+        <qualifiedname>themis::rag::judge::ClaimVerification::claim</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="49" column="17" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_claim_verification_1a71daa8f75f9004579ee562d27dc13eab" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376b" kindref="member">SupportLevel</ref></type>
+        <definition>SupportLevel themis::rag::judge::ClaimVerification::support_level</definition>
+        <argsstring></argsstring>
+        <name>support_level</name>
+        <qualifiedname>themis::rag::judge::ClaimVerification::support_level</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="50" column="18" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_claim_verification_1a1a8c5a4e020062c6f637f6f10d3c8891" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::ClaimVerification::supporting_doc_ids</definition>
+        <argsstring></argsstring>
+        <name>supporting_doc_ids</name>
+        <qualifiedname>themis::rag::judge::ClaimVerification::supporting_doc_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="51" column="17" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_claim_verification_1a21c250b4a9081e3f73b4bdaa911dd8df" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_result" kindref="compound">NLIResult</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, NLIResult&gt; themis::rag::judge::ClaimVerification::nli_scores</definition>
+        <argsstring></argsstring>
+        <name>nli_scores</name>
+        <qualifiedname>themis::rag::judge::ClaimVerification::nli_scores</qualifiedname>
+        <briefdescription>
+<para>Per-document NLI scores. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="52" column="24" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_claim_verification_1a9213709fbf591bdf92e6c2333f44dd69" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::ClaimVerification::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::rag::judge::ClaimVerification::confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="53" column="12" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Verification result for a single claim. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/nli_faithfulness_verifier.h" line="48" column="1" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="48" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_claim_verification_1aea260e5385a06bab0530e9892d783bdc" prot="public" virt="non-virtual"><scope>themis::rag::judge::ClaimVerification</scope><name>claim</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_claim_verification_1a9213709fbf591bdf92e6c2333f44dd69" prot="public" virt="non-virtual"><scope>themis::rag::judge::ClaimVerification</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_claim_verification_1a21c250b4a9081e3f73b4bdaa911dd8df" prot="public" virt="non-virtual"><scope>themis::rag::judge::ClaimVerification</scope><name>nli_scores</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_claim_verification_1a71daa8f75f9004579ee562d27dc13eab" prot="public" virt="non-virtual"><scope>themis::rag::judge::ClaimVerification</scope><name>support_level</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_claim_verification_1a1a8c5a4e020062c6f637f6f10d3c8891" prot="public" virt="non-virtual"><scope>themis::rag::judge::ClaimVerification</scope><name>supporting_doc_ids</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

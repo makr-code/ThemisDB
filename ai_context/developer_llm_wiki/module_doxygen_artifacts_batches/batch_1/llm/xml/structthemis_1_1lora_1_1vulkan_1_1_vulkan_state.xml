@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1lora_1_1vulkan_1_1_vulkan_state" kind="struct" language="C++" prot="public">
+    <compoundname>themis::lora::vulkan::VulkanState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_vulkan_state_1aaf6cee4b44c4e23fea36bf900dac98df" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::lora::vulkan::VulkanState::initialized</definition>
+        <argsstring></argsstring>
+        <name>initialized</name>
+        <qualifiedname>themis::lora::vulkan::VulkanState::initialized</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="36" column="10" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_vulkan_state_1a2dd0bd85b84a4b8e9d3394d675ec778b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::lora::vulkan::VulkanState::device_id</definition>
+        <argsstring></argsstring>
+        <name>device_id</name>
+        <qualifiedname>themis::lora::vulkan::VulkanState::device_id</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="37" column="9" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_vulkan_state_1a0469c65e9dd362c44e2fb5c3e2135f9b" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_context" kindref="compound">VulkanContext</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;VulkanContext&gt; themis::lora::vulkan::VulkanState::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>themis::lora::vulkan::VulkanState::context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="40" column="21" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_vulkan_state_1af67786c836f39b6588b7888d49fe6d28" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unique_ptr&lt; <ref refid="classthemis_1_1lora_1_1vulkan_1_1_vulkan_compute_pipeline" kindref="compound">VulkanComputePipeline</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unique_ptr&lt;VulkanComputePipeline&gt; &gt; themis::lora::vulkan::VulkanState::pipelines</definition>
+        <argsstring></argsstring>
+        <name>pipelines</name>
+        <qualifiedname>themis::lora::vulkan::VulkanState::pipelines</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="43" column="24" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1lora_1_1vulkan_1_1_vulkan_state_1ac6f6d6d318d22167cd2080d07ce7f8af" prot="public" static="no" mutable="no">
+        <type>std::recursive_timed_mutex</type>
+        <definition>std::recursive_timed_mutex themis::lora::vulkan::VulkanState::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::lora::vulkan::VulkanState::mutex</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="46" column="32" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="46" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/lora_framework/kernels/vulkan_kernels.cpp" line="35" column="1" bodyfile="src/llm/lora_framework/kernels/vulkan_kernels.cpp" bodystart="35" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_vulkan_state_1a0469c65e9dd362c44e2fb5c3e2135f9b" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanState</scope><name>context</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_vulkan_state_1a2dd0bd85b84a4b8e9d3394d675ec778b" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanState</scope><name>device_id</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_vulkan_state_1aaf6cee4b44c4e23fea36bf900dac98df" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanState</scope><name>initialized</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_vulkan_state_1ac6f6d6d318d22167cd2080d07ce7f8af" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanState</scope><name>mutex</name></member>
+      <member refid="structthemis_1_1lora_1_1vulkan_1_1_vulkan_state_1af67786c836f39b6588b7888d49fe6d28" prot="public" virt="non-virtual"><scope>themis::lora::vulkan::VulkanState</scope><name>pipelines</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

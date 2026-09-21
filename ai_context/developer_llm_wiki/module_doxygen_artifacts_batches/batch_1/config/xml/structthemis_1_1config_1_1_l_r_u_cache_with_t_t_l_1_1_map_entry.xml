@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_map_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::config::LRUCacheWithTTL::MapEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_map_entry_1a1076a58aeae4968251515b9daa2f2cf0" prot="public" static="no" mutable="no">
+        <type>Value</type>
+        <definition>Value themis::config::LRUCacheWithTTL&lt; Key, Value &gt;::MapEntry::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::config::LRUCacheWithTTL::MapEntry::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/lru_cache.h" line="211" column="15" bodyfile="include/config/lru_cache.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_map_entry_1af0b9b6771da61c3d1b1fe47858d243bd" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1a48723d7e4665710f70031cba61ef85ec" kindref="member">TimePoint</ref></type>
+        <definition>TimePoint themis::config::LRUCacheWithTTL&lt; Key, Value &gt;::MapEntry::expires_at</definition>
+        <argsstring></argsstring>
+        <name>expires_at</name>
+        <qualifiedname>themis::config::LRUCacheWithTTL::MapEntry::expires_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/lru_cache.h" line="212" column="19" bodyfile="include/config/lru_cache.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_map_entry_1a1472b2dec3a732b862bd2e80d204ba23" prot="public" static="no" mutable="no">
+        <type>std::list&lt; ListEntry &gt;::iterator</type>
+        <definition>std::list&lt;ListEntry&gt;::iterator themis::config::LRUCacheWithTTL&lt; Key, Value &gt;::MapEntry::list_it</definition>
+        <argsstring></argsstring>
+        <name>list_it</name>
+        <qualifiedname>themis::config::LRUCacheWithTTL::MapEntry::list_it</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/lru_cache.h" line="213" column="39" bodyfile="include/config/lru_cache.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/config/lru_cache.h" line="210" column="5" bodyfile="include/config/lru_cache.h" bodystart="210" bodyend="214"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_map_entry_1af0b9b6771da61c3d1b1fe47858d243bd" prot="public" virt="non-virtual"><scope>themis::config::LRUCacheWithTTL::MapEntry</scope><name>expires_at</name></member>
+      <member refid="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_map_entry_1a1472b2dec3a732b862bd2e80d204ba23" prot="public" virt="non-virtual"><scope>themis::config::LRUCacheWithTTL::MapEntry</scope><name>list_it</name></member>
+      <member refid="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_map_entry_1a1076a58aeae4968251515b9daa2f2cf0" prot="public" virt="non-virtual"><scope>themis::config::LRUCacheWithTTL::MapEntry</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

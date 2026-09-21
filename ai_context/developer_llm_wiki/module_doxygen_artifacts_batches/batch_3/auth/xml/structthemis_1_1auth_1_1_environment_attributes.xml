@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_environment_attributes" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::EnvironmentAttributes</compoundname>
+    <includes refid="authorization__policy_8h" local="no">authorization_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_environment_attributes_1a9c425acb6d55fe005382cd56e87d5cd9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::EnvironmentAttributes::client_ip</definition>
+        <argsstring></argsstring>
+        <name>client_ip</name>
+        <qualifiedname>themis::auth::EnvironmentAttributes::client_ip</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="55" column="17" bodyfile="include/auth/authorization_policy.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_environment_attributes_1a44bc5339c6fe5ffcbd8458c602beffb4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::EnvironmentAttributes::geo_region</definition>
+        <argsstring></argsstring>
+        <name>geo_region</name>
+        <qualifiedname>themis::auth::EnvironmentAttributes::geo_region</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="56" column="17" bodyfile="include/auth/authorization_policy.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_environment_attributes_1a9769f8aaaadc6150cfb023aa26344a2c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::EnvironmentAttributes::request_time</definition>
+        <argsstring></argsstring>
+        <name>request_time</name>
+        <qualifiedname>themis::auth::EnvironmentAttributes::request_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="57" column="43" bodyfile="include/auth/authorization_policy.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_environment_attributes_1a48a63949a5537472c9caef26b7eda45b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::EnvironmentAttributes::is_mfa_verified</definition>
+        <argsstring></argsstring>
+        <name>is_mfa_verified</name>
+        <qualifiedname>themis::auth::EnvironmentAttributes::is_mfa_verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="58" column="17" bodyfile="include/auth/authorization_policy.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_environment_attributes_1aa319c6330f84eaad79f9bbeb37d85989" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::EnvironmentAttributes::device_trust_level</definition>
+        <argsstring></argsstring>
+        <name>device_trust_level</name>
+        <qualifiedname>themis::auth::EnvironmentAttributes::device_trust_level</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;managed&quot;, &quot;personal&quot;, &quot;unknown&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="59" column="17" bodyfile="include/auth/authorization_policy.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/authorization_policy.h" line="54" column="1" bodyfile="include/auth/authorization_policy.h" bodystart="54" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_environment_attributes_1a9c425acb6d55fe005382cd56e87d5cd9" prot="public" virt="non-virtual"><scope>themis::auth::EnvironmentAttributes</scope><name>client_ip</name></member>
+      <member refid="structthemis_1_1auth_1_1_environment_attributes_1aa319c6330f84eaad79f9bbeb37d85989" prot="public" virt="non-virtual"><scope>themis::auth::EnvironmentAttributes</scope><name>device_trust_level</name></member>
+      <member refid="structthemis_1_1auth_1_1_environment_attributes_1a44bc5339c6fe5ffcbd8458c602beffb4" prot="public" virt="non-virtual"><scope>themis::auth::EnvironmentAttributes</scope><name>geo_region</name></member>
+      <member refid="structthemis_1_1auth_1_1_environment_attributes_1a48a63949a5537472c9caef26b7eda45b" prot="public" virt="non-virtual"><scope>themis::auth::EnvironmentAttributes</scope><name>is_mfa_verified</name></member>
+      <member refid="structthemis_1_1auth_1_1_environment_attributes_1a9769f8aaaadc6150cfb023aa26344a2c" prot="public" virt="non-virtual"><scope>themis::auth::EnvironmentAttributes</scope><name>request_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

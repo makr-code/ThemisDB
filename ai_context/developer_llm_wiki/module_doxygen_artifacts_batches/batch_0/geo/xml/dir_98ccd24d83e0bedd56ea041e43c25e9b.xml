@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_98ccd24d83e0bedd56ea041e43c25e9b" kind="dir">
+    <compoundname>tests/geo</compoundname>
+    <innerfile refid="test__aql__st__functions_8cpp">test_aql_st_functions.cpp</innerfile>
+    <innerfile refid="test__aql__st__queryengine_8cpp">test_aql_st_queryengine.cpp</innerfile>
+    <innerfile refid="test__category__b__parity__geo_8cpp">test_category_b_parity_geo.cpp</innerfile>
+    <innerfile refid="test__cuda__geo__kernels_8cpp">test_cuda_geo_kernels.cpp</innerfile>
+    <innerfile refid="test__geo__3d__functions_8cpp">test_geo_3d_functions.cpp</innerfile>
+    <innerfile refid="test__geo__clustering_8cpp">test_geo_clustering.cpp</innerfile>
+    <innerfile refid="test__geo__contract__hardening__focused_8cpp">test_geo_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__geo__cuda__kernel__gating__focused_8cpp">test_geo_cuda_kernel_gating_focused.cpp</innerfile>
+    <innerfile refid="test__geo__device__detector_8cpp">test_geo_device_detector.cpp</innerfile>
+    <innerfile refid="test__geo__ewkb_8cpp">test_geo_ewkb.cpp</innerfile>
+    <innerfile refid="test__geo__gpu__backend_8cpp">test_geo_gpu_backend.cpp</innerfile>
+    <innerfile refid="test__geo__hardening__focused_8cpp">test_geo_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__geo__highcardinality__stress_8cpp">test_geo_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__geo__index__integration_8cpp">test_geo_index_integration.cpp</innerfile>
+    <innerfile refid="test__geo__json__geometry_8cpp">test_geo_json_geometry.cpp</innerfile>
+    <innerfile refid="test__geo__phase2__phase3__focused_8cpp">test_geo_phase2_phase3_focused.cpp</innerfile>
+    <innerfile refid="test__geo__precision__mode_8cpp">test_geo_precision_mode.cpp</innerfile>
+    <innerfile refid="test__geo__processor__gdal_8cpp">test_geo_processor_gdal.cpp</innerfile>
+    <innerfile refid="test__geo__q4__hardening__focused_8cpp">test_geo_q4_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__geo__raster_8cpp">test_geo_raster.cpp</innerfile>
+    <innerfile refid="test__geo__replication__consistency_8cpp">test_geo_replication_consistency.cpp</innerfile>
+    <innerfile refid="test__geo__rtree_8cpp">test_geo_rtree.cpp</innerfile>
+    <innerfile refid="test__geo__spatial__join_8cpp">test_geo_spatial_join.cpp</innerfile>
+    <innerfile refid="test__geo__st__buffer_8cpp">test_geo_st_buffer.cpp</innerfile>
+    <innerfile refid="test__geo__st__union__difference_8cpp">test_geo_st_union_difference.cpp</innerfile>
+    <innerfile refid="test__geo__tile__server_8cpp">test_geo_tile_server.cpp</innerfile>
+    <innerfile refid="test__geo__topology__api__handler_8cpp">test_geo_topology_api_handler.cpp</innerfile>
+    <innerfile refid="test__geo__topology__router_8cpp">test_geo_topology_router.cpp</innerfile>
+    <innerfile refid="test__geo__validator_8cpp">test_geo_validator.cpp</innerfile>
+    <innerfile refid="test__geo__wgs84__spherical_8cpp">test_geo_wgs84_spherical.cpp</innerfile>
+    <innerfile refid="test__gpu__backend__production_8cpp">test_gpu_backend_production.cpp</innerfile>
+    <innerfile refid="test__gpu__kernel__dispatcher_8cpp">test_gpu_kernel_dispatcher.cpp</innerfile>
+    <innerfile refid="test__hip__geo__kernels_8cpp">test_hip_geo_kernels.cpp</innerfile>
+    <innerfile refid="test__raster__query__interface_8cpp">test_raster_query_interface.cpp</innerfile>
+    <innerfile refid="test__rtree__cpu__integration_8cpp">test_rtree_cpu_integration.cpp</innerfile>
+    <innerfile refid="test__rtree__cursor_8cpp">test_rtree_cursor.cpp</innerfile>
+    <innerfile refid="test__spatial__index_8cpp">test_spatial_index.cpp</innerfile>
+    <innerfile refid="test__spatial__join__filter_8cpp">test_spatial_join_filter.cpp</innerfile>
+    <innerfile refid="test__temporal__spatial__query_8cpp">test_temporal_spatial_query.cpp</innerfile>
+    <innerfile refid="test__temporal__spatial__query__builder_8cpp">test_temporal_spatial_query_builder.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/geo/"/>
+  </compounddef>
+</doxygen>

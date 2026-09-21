@@ -1,0 +1,878 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::retrieval::LoRAManifestStore</compoundname>
+    <includes refid="lora__package_8h" local="no">lora_package.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a8df5ca606f8cb3dd53d98c5dd88d9aa6" prot="public" static="no">
+        <type>std::function&lt; bool( const std::string &amp;manifest_hash, const std::string &amp;signature, const std::string &amp;signer_id)&gt;</type>
+        <definition>using themis::retrieval::LoRAManifestStore::SignatureVerifier = std::function&lt;bool(
+       const std::string&amp; manifest_hash,
+       const std::string&amp; signature,
+       const std::string&amp; signer_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SignatureVerifier</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::SignatureVerifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="297" column="5" bodyfile="src/retrieval/include/lora_package.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a64f176a316cd9b29e3ea7d35ccb3feb4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::retrieval::LoRAManifestStore::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="400" column="24" bodyfile="src/retrieval/include/lora_package.h" bodystart="400" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1aba9630eeb55a2cd3434633cf461519ea" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1retrieval_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, LoRAPackage&gt; themis::retrieval::LoRAManifestStore::packages_</definition>
+        <argsstring></argsstring>
+        <name>packages_</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::packages_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="402" column="34" bodyfile="src/retrieval/include/lora_package.h" bodystart="402" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a2836414306700dea46fe2d86d598e7dc" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1retrieval_1_1_portable_adapter_product" kindref="compound">PortableAdapterProduct</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, PortableAdapterProduct&gt; themis::retrieval::LoRAManifestStore::products_</definition>
+        <argsstring></argsstring>
+        <name>products_</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::products_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="403" column="24" bodyfile="src/retrieval/include/lora_package.h" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a9925825b3830e9c41d59441023c43c7a" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a8df5ca606f8cb3dd53d98c5dd88d9aa6" kindref="member">SignatureVerifier</ref></type>
+        <definition>SignatureVerifier themis::retrieval::LoRAManifestStore::signature_verifier_</definition>
+        <argsstring></argsstring>
+        <name>signature_verifier_</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::signature_verifier_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="405" column="23" bodyfile="src/retrieval/include/lora_package.h" bodystart="405" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a2d7779306075a7ffcd32b39a1d605f83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::retrieval::LoRAManifestStore::LoRAManifestStore</definition>
+        <argsstring>()=default</argsstring>
+        <name>LoRAManifestStore</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::LoRAManifestStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="302" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1abfff9aa355483a09c50382c706a8e09e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::retrieval::LoRAManifestStore::~LoRAManifestStore</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LoRAManifestStore</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::~LoRAManifestStore</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="303" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a747a014173604d2fea7b6e4a392402b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::retrieval::LoRAManifestStore::LoRAManifestStore</definition>
+        <argsstring>(const LoRAManifestStore &amp;)=delete</argsstring>
+        <name>LoRAManifestStore</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::LoRAManifestStore</qualifiedname>
+        <param>
+          <type>const LoRAManifestStore &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="306" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a011ca8122be25c88921695ba5f982531" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a2d7779306075a7ffcd32b39a1d605f83" kindref="member">LoRAManifestStore</ref> &amp;</type>
+        <definition>LoRAManifestStore &amp; themis::retrieval::LoRAManifestStore::operator=</definition>
+        <argsstring>(const LoRAManifestStore &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a2d7779306075a7ffcd32b39a1d605f83" kindref="member">LoRAManifestStore</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="307" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a531b065b0e3e1ad9faefd377d32a06bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::retrieval::LoRAManifestStore::LoRAManifestStore</definition>
+        <argsstring>(LoRAManifestStore &amp;&amp;)=default</argsstring>
+        <name>LoRAManifestStore</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::LoRAManifestStore</qualifiedname>
+        <param>
+          <type>LoRAManifestStore &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="308" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a27bcb866bd97139037f47f4a6ceae732" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a2d7779306075a7ffcd32b39a1d605f83" kindref="member">LoRAManifestStore</ref> &amp;</type>
+        <definition>LoRAManifestStore &amp; themis::retrieval::LoRAManifestStore::operator=</definition>
+        <argsstring>(LoRAManifestStore &amp;&amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a2d7779306075a7ffcd32b39a1d605f83" kindref="member">LoRAManifestStore</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="309" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ae0fa7eb26e7b9a51e7cd7dc7ab51bce8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::retrieval::LoRAManifestStore::setSignatureVerifier</definition>
+        <argsstring>(SignatureVerifier verifier)</argsstring>
+        <name>setSignatureVerifier</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::setSignatureVerifier</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a8df5ca606f8cb3dd53d98c5dd88d9aa6" kindref="member">SignatureVerifier</ref></type>
+          <declname>verifier</declname>
+        </param>
+        <briefdescription>
+<para>── Configuration ───────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Signature Verifier.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">verifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">verifier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="316" column="10" bodyfile="src/retrieval/src/lora_package.cc" bodystart="665" bodyend="668"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a84c00b47da19b21fa87edac2b5e4a777" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::retrieval::LoRAManifestStore::storePackage</definition>
+        <argsstring>(const LoRAPackage &amp;pkg)</argsstring>
+        <name>storePackage</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::storePackage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1retrieval_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref> &amp;</type>
+          <declname>pkg</declname>
+        </param>
+        <briefdescription>
+<para>── <ref refid="structthemis_1_1retrieval_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref> CRUD ────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── <ref refid="structthemis_1_1retrieval_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref> CRUD ──────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pkg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pkg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="324" column="10" bodyfile="src/retrieval/src/lora_package.cc" bodystart="677" bodyend="684"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ab26932fd4f83d5e769e9e156260c6cbe" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1retrieval_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref> &gt;</type>
+        <definition>std::optional&lt; LoRAPackage &gt; themis::retrieval::LoRAManifestStore::loadPackage</definition>
+        <argsstring>(const std::string &amp;package_id) const</argsstring>
+        <name>loadPackage</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::loadPackage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>package_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="326" column="20" bodyfile="src/retrieval/src/lora_package.cc" bodystart="686" bodyend="699"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a57d41d876962ea776cb735bc707239f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::retrieval::LoRAManifestStore::deletePackage</definition>
+        <argsstring>(const std::string &amp;package_id)</argsstring>
+        <name>deletePackage</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::deletePackage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>package_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete Package. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">package_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the package. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">package_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the package. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="334" column="10" bodyfile="src/retrieval/src/lora_package.cc" bodystart="707" bodyend="710"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ad307805c60c32ebf640aae3c843b4009" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::retrieval::LoRAManifestStore::listPackageIds</definition>
+        <argsstring>() const</argsstring>
+        <name>listPackageIds</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::listPackageIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="336" column="18" bodyfile="src/retrieval/src/lora_package.cc" bodystart="712" bodyend="726"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1adbc387d896fb94b940606accc0c07f1d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1retrieval_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref> &gt;</type>
+        <definition>std::vector&lt; LoRAPackage &gt; themis::retrieval::LoRAManifestStore::listPackagesByStatus</definition>
+        <argsstring>(LoRAPackageStatus status) const</argsstring>
+        <name>listPackagesByStatus</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::listPackagesByStatus</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1retrieval_1ae7f13c6fb213f64c1effed8985a469fd" kindref="member">LoRAPackageStatus</ref></type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="338" column="18" bodyfile="src/retrieval/src/lora_package.cc" bodystart="728" bodyend="744"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1acf508f18f40133a3f428907aabb08a87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::retrieval::LoRAManifestStore::storeProduct</definition>
+        <argsstring>(const PortableAdapterProduct &amp;product)</argsstring>
+        <name>storeProduct</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::storeProduct</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1retrieval_1_1_portable_adapter_product" kindref="compound">PortableAdapterProduct</ref> &amp;</type>
+          <declname>product</declname>
+        </param>
+        <briefdescription>
+<para>── <ref refid="structthemis_1_1retrieval_1_1_portable_adapter_product" kindref="compound">PortableAdapterProduct</ref> CRUD ─────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── <ref refid="structthemis_1_1retrieval_1_1_portable_adapter_product" kindref="compound">PortableAdapterProduct</ref> CRUD ───────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">product</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">product</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="347" column="10" bodyfile="src/retrieval/src/lora_package.cc" bodystart="753" bodyend="760"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a6fb96a10ba32f2e3688003dd71a51d8c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1retrieval_1_1_portable_adapter_product" kindref="compound">PortableAdapterProduct</ref> &gt;</type>
+        <definition>std::optional&lt; PortableAdapterProduct &gt; themis::retrieval::LoRAManifestStore::loadProduct</definition>
+        <argsstring>(const std::string &amp;product_id) const</argsstring>
+        <name>loadProduct</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::loadProduct</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>product_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="349" column="20" bodyfile="src/retrieval/src/lora_package.cc" bodystart="762" bodyend="775"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a6b5f0e2ec1a07e9275b44524a3bcb203" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::retrieval::LoRAManifestStore::deleteProduct</definition>
+        <argsstring>(const std::string &amp;product_id)</argsstring>
+        <name>deleteProduct</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::deleteProduct</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>product_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete Product. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">product_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the product. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">product_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the product. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="357" column="10" bodyfile="src/retrieval/src/lora_package.cc" bodystart="783" bodyend="786"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a0e333d926bfb9fc3dac32f4c2ea97335" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::retrieval::LoRAManifestStore::listProductIds</definition>
+        <argsstring>() const</argsstring>
+        <name>listProductIds</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::listProductIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="359" column="18" bodyfile="src/retrieval/src/lora_package.cc" bodystart="788" bodyend="802"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a369a511821a29d1308f51129e33a85fb" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1retrieval_1_1_portable_adapter_product" kindref="compound">PortableAdapterProduct</ref> &gt;</type>
+        <definition>std::vector&lt; PortableAdapterProduct &gt; themis::retrieval::LoRAManifestStore::listProductsByPackage</definition>
+        <argsstring>(const std::string &amp;package_id) const</argsstring>
+        <name>listProductsByPackage</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::listProductsByPackage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>package_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="361" column="18" bodyfile="src/retrieval/src/lora_package.cc" bodystart="804" bodyend="820"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a1a7fc425c089c5e90f5d7a76406b58ab" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1retrieval_1_1_portable_adapter_product" kindref="compound">PortableAdapterProduct</ref> &gt;</type>
+        <definition>std::vector&lt; PortableAdapterProduct &gt; themis::retrieval::LoRAManifestStore::listProductsByStatus</definition>
+        <argsstring>(AdapterProductStatus status) const</argsstring>
+        <name>listProductsByStatus</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::listProductsByStatus</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1retrieval_1a0fcfe20fbe790dca6f0174f05b7ba551" kindref="member">AdapterProductStatus</ref></type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="364" column="18" bodyfile="src/retrieval/src/lora_package.cc" bodystart="822" bodyend="838"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ad701f033ef218692dc1f5f7e455a7b2c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::retrieval::LoRAManifestStore::verifyPackageIntegrity</definition>
+        <argsstring>(const std::string &amp;package_id) const</argsstring>
+        <name>verifyPackageIntegrity</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::verifyPackageIntegrity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>package_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="369" column="11" bodyfile="src/retrieval/src/lora_package.cc" bodystart="842" bodyend="885"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ae3b644f7b1a99fe139109247c6ba3255" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::retrieval::LoRAManifestStore::verifyProductIntegrity</definition>
+        <argsstring>(const std::string &amp;product_id) const</argsstring>
+        <name>verifyProductIntegrity</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::verifyProductIntegrity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>product_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="371" column="11" bodyfile="src/retrieval/src/lora_package.cc" bodystart="887" bodyend="930"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a6a0bcee089b39148e621e22e8cdff9ee" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1retrieval_1a767e8c8e3db26f14bd28a768739b00a3" kindref="member">json</ref></type>
+        <definition>json themis::retrieval::LoRAManifestStore::exportPackages</definition>
+        <argsstring>() const</argsstring>
+        <name>exportPackages</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::exportPackages</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="375" column="11" bodyfile="src/retrieval/src/lora_package.cc" bodystart="934" bodyend="954"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ad30d747e13e7c5873b2fbd370f55d911" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::retrieval::LoRAManifestStore::importPackages</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>importPackages</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::importPackages</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1retrieval_1a767e8c8e3db26f14bd28a768739b00a3" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Import Packages. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_array(), <ref refid="structthemis_1_1retrieval_1_1_lo_r_a_package_1a7cd1e571bebec286b747b24a4c5aebdf" kindref="member">LoRAPackage::from_json()</ref>, lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="382" column="12" bodyfile="src/retrieval/src/lora_package.cc" bodystart="962" bodyend="978"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a5f4037f30a7d7878039bf6b980164eaf" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1retrieval_1a767e8c8e3db26f14bd28a768739b00a3" kindref="member">json</ref></type>
+        <definition>json themis::retrieval::LoRAManifestStore::exportProducts</definition>
+        <argsstring>() const</argsstring>
+        <name>exportProducts</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::exportProducts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="384" column="11" bodyfile="src/retrieval/src/lora_package.cc" bodystart="980" bodyend="1000"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a2a77c7a9995ef90074e5ba7e2dc3d3f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::retrieval::LoRAManifestStore::importProducts</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>importProducts</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::importProducts</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1retrieval_1a767e8c8e3db26f14bd28a768739b00a3" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Import Products. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_array(), <ref refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a581549733386729baf6d9c63b2bb4716" kindref="member">PortableAdapterProduct::from_json()</ref>, lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="391" column="12" bodyfile="src/retrieval/src/lora_package.cc" bodystart="1008" bodyend="1023"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a540d8b354023460a1c4a01e1908796c7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::retrieval::LoRAManifestStore::packageCount</definition>
+        <argsstring>() const</argsstring>
+        <name>packageCount</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::packageCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="395" column="13" bodyfile="src/retrieval/src/lora_package.cc" bodystart="1027" bodyend="1035"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ab5faa74a45e2dceee09b28e9b52fc9c5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::retrieval::LoRAManifestStore::productCount</definition>
+        <argsstring>() const</argsstring>
+        <name>productCount</name>
+        <qualifiedname>themis::retrieval::LoRAManifestStore::productCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="397" column="13" bodyfile="src/retrieval/src/lora_package.cc" bodystart="1037" bodyend="1045"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/retrieval/include/lora_package.h" line="295" column="1" bodyfile="src/retrieval/include/lora_package.h" bodystart="295" bodyend="406"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a57d41d876962ea776cb735bc707239f4" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>deletePackage</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a6b5f0e2ec1a07e9275b44524a3bcb203" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>deleteProduct</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a6a0bcee089b39148e621e22e8cdff9ee" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>exportPackages</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a5f4037f30a7d7878039bf6b980164eaf" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>exportProducts</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ad30d747e13e7c5873b2fbd370f55d911" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>importPackages</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a2a77c7a9995ef90074e5ba7e2dc3d3f4" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>importProducts</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ad307805c60c32ebf640aae3c843b4009" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>listPackageIds</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1adbc387d896fb94b940606accc0c07f1d" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>listPackagesByStatus</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a0e333d926bfb9fc3dac32f4c2ea97335" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>listProductIds</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a369a511821a29d1308f51129e33a85fb" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>listProductsByPackage</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a1a7fc425c089c5e90f5d7a76406b58ab" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>listProductsByStatus</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ab26932fd4f83d5e769e9e156260c6cbe" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>loadPackage</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a6fb96a10ba32f2e3688003dd71a51d8c" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>loadProduct</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a2d7779306075a7ffcd32b39a1d605f83" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>LoRAManifestStore</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a747a014173604d2fea7b6e4a392402b8" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>LoRAManifestStore</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a531b065b0e3e1ad9faefd377d32a06bb" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>LoRAManifestStore</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a64f176a316cd9b29e3ea7d35ccb3feb4" prot="private" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a011ca8122be25c88921695ba5f982531" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a27bcb866bd97139037f47f4a6ceae732" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a540d8b354023460a1c4a01e1908796c7" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>packageCount</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1aba9630eeb55a2cd3434633cf461519ea" prot="private" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>packages_</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ab5faa74a45e2dceee09b28e9b52fc9c5" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>productCount</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a2836414306700dea46fe2d86d598e7dc" prot="private" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>products_</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ae0fa7eb26e7b9a51e7cd7dc7ab51bce8" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>setSignatureVerifier</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a9925825b3830e9c41d59441023c43c7a" prot="private" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>signature_verifier_</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a8df5ca606f8cb3dd53d98c5dd88d9aa6" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>SignatureVerifier</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1a84c00b47da19b21fa87edac2b5e4a777" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>storePackage</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1acf508f18f40133a3f428907aabb08a87" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>storeProduct</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ad701f033ef218692dc1f5f7e455a7b2c" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>verifyPackageIntegrity</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1ae3b644f7b1a99fe139109247c6ba3255" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>verifyProductIntegrity</name></member>
+      <member refid="classthemis_1_1retrieval_1_1_lo_r_a_manifest_store_1abfff9aa355483a09c50382c706a8e09e" prot="public" virt="non-virtual"><scope>themis::retrieval::LoRAManifestStore</scope><name>~LoRAManifestStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

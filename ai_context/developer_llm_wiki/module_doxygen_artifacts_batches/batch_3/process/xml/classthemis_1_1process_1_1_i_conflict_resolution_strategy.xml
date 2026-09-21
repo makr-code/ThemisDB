@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_i_conflict_resolution_strategy" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::process::IConflictResolutionStrategy</compoundname>
+    <derivedcompoundref refid="classthemis_1_1process_1_1_application_custom_strategy" prot="public" virt="non-virtual">themis::process::ApplicationCustomStrategy</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1process_1_1_first_write_wins_strategy" prot="public" virt="non-virtual">themis::process::FirstWriteWinsStrategy</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1process_1_1_last_write_wins_strategy" prot="public" virt="non-virtual">themis::process::LastWriteWinsStrategy</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_conflict_resolution_strategy_1a8def31542ed44b6f6c8506c3d69fd36b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::process::IConflictResolutionStrategy::~IConflictResolutionStrategy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IConflictResolutionStrategy</name>
+        <qualifiedname>themis::process::IConflictResolutionStrategy::~IConflictResolutionStrategy</qualifiedname>
+        <briefdescription>
+<para>IConflict Resolution Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_conflict_resolver.cpp" line="70" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_conflict_resolution_strategy_1aad4de2bbb5e06603e59d682dfb831678" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::process::IConflictResolutionStrategy::ResolveConflict</definition>
+        <argsstring>(const ConflictMetadata &amp;metadata)=0</argsstring>
+        <name>ResolveConflict</name>
+        <qualifiedname>themis::process::IConflictResolutionStrategy::ResolveConflict</qualifiedname>
+        <reimplementedby refid="classthemis_1_1process_1_1_application_custom_strategy_1a6e6f823167e200d672f2b3299cb66c4d">ResolveConflict</reimplementedby>
+        <reimplementedby refid="classthemis_1_1process_1_1_first_write_wins_strategy_1a892328cfc1dc2ba9ec502c9606cad664">ResolveConflict</reimplementedby>
+        <reimplementedby refid="classthemis_1_1process_1_1_last_write_wins_strategy_1a32c4a2dc7b0547db0f8884bae81529b4">ResolveConflict</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_conflict_metadata" kindref="compound">ConflictMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/process/process_conflict_resolver.cpp" line="77" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::process::ApplicationCustomStrategy</label>
+        <link refid="classthemis_1_1process_1_1_application_custom_strategy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::process::FirstWriteWinsStrategy</label>
+        <link refid="classthemis_1_1process_1_1_first_write_wins_strategy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::process::IConflictResolutionStrategy</label>
+        <link refid="classthemis_1_1process_1_1_i_conflict_resolution_strategy"/>
+      </node>
+      <node id="4">
+        <label>themis::process::LastWriteWinsStrategy</label>
+        <link refid="classthemis_1_1process_1_1_last_write_wins_strategy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="src/process/process_conflict_resolver.cpp" line="64" column="1" bodyfile="src/process/process_conflict_resolver.cpp" bodystart="64" bodyend="79"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_i_conflict_resolution_strategy_1aad4de2bbb5e06603e59d682dfb831678" prot="public" virt="pure-virtual"><scope>themis::process::IConflictResolutionStrategy</scope><name>ResolveConflict</name></member>
+      <member refid="classthemis_1_1process_1_1_i_conflict_resolution_strategy_1a8def31542ed44b6f6c8506c3d69fd36b" prot="public" virt="virtual"><scope>themis::process::IConflictResolutionStrategy</scope><name>~IConflictResolutionStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

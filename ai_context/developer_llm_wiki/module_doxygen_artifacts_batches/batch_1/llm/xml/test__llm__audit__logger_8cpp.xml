@@ -1,0 +1,693 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__audit__logger_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_audit_logger.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="llm__model__audit__logger_8h" local="yes">llm/llm_model_audit_logger.h</includes>
+    <includes local="yes">utils/audit_logger.h</includes>
+    <includes local="no">sstream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>llm/llm_model_audit_logger.h</label>
+        <link refid="llm__model__audit__logger_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_llm_audit_logger.cpp</label>
+        <link refid="test__llm__audit__logger_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>ostream</label>
+      </node>
+      <node id="12">
+        <label>sstream</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>utils/audit_logger.h</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__audit__logger_8cpp_1a797ff21361a18f04c0c0c510edaa5800" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger" kindref="compound">LLMModelAuditLogger</ref></type>
+        <definition>static LLMModelAuditLogger makeLogger</definition>
+        <argsstring>()</argsstring>
+        <name>makeLogger</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_audit_logger.cpp" line="33" column="28" bodyfile="tests/llm/test_llm_audit_logger.cpp" bodystart="33" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__audit__logger_8cpp_1a8a371961edae8df4dfc96cac32906cea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAuditLoggerTest, LogEvent_AppendedToInMemoryStore)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAuditLoggerTest</type>
+        </param>
+        <param>
+          <type>LogEvent_AppendedToInMemoryStore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_audit_logger.cpp" line="43" column="1" bodyfile="tests/llm/test_llm_audit_logger.cpp" bodystart="43" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__audit__logger_8cpp_1a965113913467618a320ce3bde68325cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAuditLoggerTest, QueryLogs_FiltersByModelId)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAuditLoggerTest</type>
+        </param>
+        <param>
+          <type>QueryLogs_FiltersByModelId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_audit_logger.cpp" line="50" column="1" bodyfile="tests/llm/test_llm_audit_logger.cpp" bodystart="50" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__audit__logger_8cpp_1a15b5950e8229e9ba06af0f80877d9878" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAuditLoggerTest, QueryLogs_EmptyModelId_ReturnsAll)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAuditLoggerTest</type>
+        </param>
+        <param>
+          <type>QueryLogs_EmptyModelId_ReturnsAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_audit_logger.cpp" line="60" column="1" bodyfile="tests/llm/test_llm_audit_logger.cpp" bodystart="60" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__audit__logger_8cpp_1abca4d0326b2f43217960e7a49ca561e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAuditLoggerTest, QueryLogs_RecordContainsEventType)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAuditLoggerTest</type>
+        </param>
+        <param>
+          <type>QueryLogs_RecordContainsEventType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_audit_logger.cpp" line="68" column="1" bodyfile="tests/llm/test_llm_audit_logger.cpp" bodystart="68" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__audit__logger_8cpp_1a8f1984ebf7ff8ad23512c9659eef0589" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAuditLoggerTest, PolicyViolation_BlockedEventType)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAuditLoggerTest</type>
+        </param>
+        <param>
+          <type>PolicyViolation_BlockedEventType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_audit_logger.cpp" line="80" column="1" bodyfile="tests/llm/test_llm_audit_logger.cpp" bodystart="80" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__audit__logger_8cpp_1ab38cf09be9c3835bfe0ca6c2472ea5e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAuditLoggerTest, PolicyViolation_RedactedEventType)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAuditLoggerTest</type>
+        </param>
+        <param>
+          <type>PolicyViolation_RedactedEventType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_audit_logger.cpp" line="88" column="1" bodyfile="tests/llm/test_llm_audit_logger.cpp" bodystart="88" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__audit__logger_8cpp_1ad8b0a2473fc066dbb870bb5be0de60e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAuditLoggerTest, PolicyViolation_DetailsContainRuleName)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAuditLoggerTest</type>
+        </param>
+        <param>
+          <type>PolicyViolation_DetailsContainRuleName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_audit_logger.cpp" line="96" column="1" bodyfile="tests/llm/test_llm_audit_logger.cpp" bodystart="96" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__audit__logger_8cpp_1a16f56d35fb3738790052cbd407f220f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAuditLoggerTest, LogInference_Success_RecordedAsCompleted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAuditLoggerTest</type>
+        </param>
+        <param>
+          <type>LogInference_Success_RecordedAsCompleted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_audit_logger.cpp" line="109" column="1" bodyfile="tests/llm/test_llm_audit_logger.cpp" bodystart="109" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__audit__logger_8cpp_1a0ec19ebcdfe2d19ed70ac8b83bf9d180" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAuditLoggerTest, LogInference_Failure_RecordedAsFailed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAuditLoggerTest</type>
+        </param>
+        <param>
+          <type>LogInference_Failure_RecordedAsFailed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_audit_logger.cpp" line="121" column="1" bodyfile="tests/llm/test_llm_audit_logger.cpp" bodystart="121" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__audit__logger_8cpp_1a7148fcc512aec310c4dc5cef1a57a0c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAuditLoggerTest, ExportAnalytics_WritesValidJsonLines)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAuditLoggerTest</type>
+        </param>
+        <param>
+          <type>ExportAnalytics_WritesValidJsonLines</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_audit_logger.cpp" line="137" column="1" bodyfile="tests/llm/test_llm_audit_logger.cpp" bodystart="137" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__audit__logger_8cpp_1aa6b15b7b020bb4634e037e594aef8f76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAuditLoggerTest, ExportAnalytics_ContainsRequiredFields)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAuditLoggerTest</type>
+        </param>
+        <param>
+          <type>ExportAnalytics_ContainsRequiredFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_audit_logger.cpp" line="164" column="1" bodyfile="tests/llm/test_llm_audit_logger.cpp" bodystart="164" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__audit__logger_8cpp_1af73694a80c78f7c045101f0f16cf8ff0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAuditLoggerTest, ExportAnalytics_FiltersByModelId)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAuditLoggerTest</type>
+        </param>
+        <param>
+          <type>ExportAnalytics_FiltersByModelId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_audit_logger.cpp" line="178" column="1" bodyfile="tests/llm/test_llm_audit_logger.cpp" bodystart="178" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__audit__logger_8cpp_1a1af464186c103818880c0a3075519cf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAuditLoggerTest, ExportAnalytics_EmptyFilter_ReturnsAll)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAuditLoggerTest</type>
+        </param>
+        <param>
+          <type>ExportAnalytics_EmptyFilter_ReturnsAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_audit_logger.cpp" line="191" column="1" bodyfile="tests/llm/test_llm_audit_logger.cpp" bodystart="191" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__audit__logger_8cpp_1a625e8a0feaafcd0057736d49e66f79d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAuditLoggerTest, ExportAnalytics_TimestampIsISO8601)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAuditLoggerTest</type>
+        </param>
+        <param>
+          <type>ExportAnalytics_TimestampIsISO8601</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_audit_logger.cpp" line="202" column="1" bodyfile="tests/llm/test_llm_audit_logger.cpp" bodystart="202" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__audit__logger_8cpp_1af92dba7fb975703f2a58ab15d915db47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAuditLoggerTest, GetModelStats_AggregatesCorrectly)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAuditLoggerTest</type>
+        </param>
+        <param>
+          <type>GetModelStats_AggregatesCorrectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_audit_logger.cpp" line="229" column="1" bodyfile="tests/llm/test_llm_audit_logger.cpp" bodystart="229" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__audit__logger_8cpp_1a5f21f73fb8da8476a782db4b05091812" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAuditLoggerTest, SetEnabled_False_SuppressesWrites)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAuditLoggerTest</type>
+        </param>
+        <param>
+          <type>SetEnabled_False_SuppressesWrites</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_audit_logger.cpp" line="250" column="1" bodyfile="tests/llm/test_llm_audit_logger.cpp" bodystart="250" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__audit__logger_8cpp_1acc12f7c085330528be50a44de5d53c62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMAuditLoggerTest, SetEnabled_ReEnabled_ResumesWrites)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMAuditLoggerTest</type>
+        </param>
+        <param>
+          <type>SetEnabled_ReEnabled_ResumesWrites</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_audit_logger.cpp" line="259" column="1" bodyfile="tests/llm/test_llm_audit_logger.cpp" bodystart="259" bodyend="268"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger" kindref="compound">LLMModelAuditLogger</ref> — JSON-lines analytics export. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests cover:<itemizedlist>
+<listitem><para>logEvent() writes a record to the in-memory store</para>
+</listitem><listitem><para>logPolicyViolation() writes PROMPT_BLOCKED / PROMPT_REDACTED records</para>
+</listitem><listitem><para>logInference() stores success and failure records</para>
+</listitem><listitem><para>queryLogs() filters by model_id</para>
+</listitem><listitem><para>exportAnalytics() writes valid JSON-lines to a stream</para>
+</listitem><listitem><para>exportAnalytics() filters by model_id</para>
+</listitem><listitem><para>getModelStats() aggregates correctly</para>
+</listitem><listitem><para>setEnabled(false) suppresses all writes</para>
+</listitem><listitem><para>Multiple events accumulate correctly</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para>docs/llm_roadmap.md — Q4 Audit/Analytics checklist </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__model__audit__logger_8h" kindref="compound">llm/llm_model_audit_logger.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/audit_logger.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>build<sp/>an<sp/>LLMModelAuditLogger<sp/>with<sp/>no<sp/>file<sp/>output<sp/>(empty<sp/>log_path)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger" kindref="compound">LLMModelAuditLogger</ref><sp/>makeLogger()<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::utils::AuditLoggerConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.log_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>file<sp/>—<sp/>in-memory<sp/>only<sp/>for<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_model_audit_logger" kindref="compound">LLMModelAuditLogger</ref>(cfg);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>logEvent<sp/>/<sp/>queryLogs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMAuditLoggerTest,<sp/>LogEvent_AppendedToInMemoryStore)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>makeLogger();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logEvent(<ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1a1abfaa060fc9c3c0e37a85d65500d3c5" kindref="member">LLMModelAuditEventType::MODEL_LOADED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;mistral-7b&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logs<sp/>=<sp/>logger.queryLogs(</highlight><highlight class="stringliteral">&quot;mistral-7b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(logs.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMAuditLoggerTest,<sp/>QueryLogs_FiltersByModelId)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>makeLogger();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logEvent(<ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1a1abfaa060fc9c3c0e37a85d65500d3c5" kindref="member">LLMModelAuditEventType::MODEL_LOADED</ref>,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;model-a&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logEvent(<ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1ab8b01d8b59441115145a6a74722d603e" kindref="member">LLMModelAuditEventType::MODEL_UNLOADED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;model-b&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>a<sp/>=<sp/>logger.queryLogs(</highlight><highlight class="stringliteral">&quot;model-a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>logger.queryLogs(</highlight><highlight class="stringliteral">&quot;model-b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(a.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(b.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMAuditLoggerTest,<sp/>QueryLogs_EmptyModelId_ReturnsAll)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>makeLogger();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logEvent(<ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1a1abfaa060fc9c3c0e37a85d65500d3c5" kindref="member">LLMModelAuditEventType::MODEL_LOADED</ref>,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logEvent(<ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1ab8b01d8b59441115145a6a74722d603e" kindref="member">LLMModelAuditEventType::MODEL_UNLOADED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;m2&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>all<sp/>=<sp/>logger.queryLogs(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>empty<sp/>=<sp/>no<sp/>model<sp/>filter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(all.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMAuditLoggerTest,<sp/>QueryLogs_RecordContainsEventType)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>makeLogger();</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logEvent(<ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1a1abfaa060fc9c3c0e37a85d65500d3c5" kindref="member">LLMModelAuditEventType::MODEL_LOADED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;val&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logs<sp/>=<sp/>logger.queryLogs(</highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(logs.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(logs[0].at(</highlight><highlight class="stringliteral">&quot;event_type&quot;</highlight><highlight class="normal">).get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;MODEL_LOADED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>logPolicyViolation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMAuditLoggerTest,<sp/>PolicyViolation_BlockedEventType)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>makeLogger();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logPolicyViolation(</highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;req-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;no_jailbreak&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;pattern<sp/>matched&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logs<sp/>=<sp/>logger.queryLogs(</highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(logs.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(logs[0].at(</highlight><highlight class="stringliteral">&quot;event_type&quot;</highlight><highlight class="normal">).get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;PROMPT_BLOCKED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMAuditLoggerTest,<sp/>PolicyViolation_RedactedEventType)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>makeLogger();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logPolicyViolation(</highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;req-2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;phone_number&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PII<sp/>redacted&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logs<sp/>=<sp/>logger.queryLogs(</highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(logs.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(logs[0].at(</highlight><highlight class="stringliteral">&quot;event_type&quot;</highlight><highlight class="normal">).get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;PROMPT_REDACTED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMAuditLoggerTest,<sp/>PolicyViolation_DetailsContainRuleName)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>makeLogger();</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logPolicyViolation(</highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;req-3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;injection_rule&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;reason<sp/>text&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logs<sp/>=<sp/>logger.queryLogs(</highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(logs.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(logs[0].contains(</highlight><highlight class="stringliteral">&quot;rule_name&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(logs[0].at(</highlight><highlight class="stringliteral">&quot;rule_name&quot;</highlight><highlight class="normal">).get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;injection_rule&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>logInference</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMAuditLoggerTest,<sp/>LogInference_Success_RecordedAsCompleted)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>makeLogger();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit" kindref="compound">LLMModelInferenceAudit</ref><sp/>audit;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a38c3312a9d47ec75fd08c7d42239dae9" kindref="member">model_id</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;llama-3&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1ad1d14344da0cd9db2e1fc9af285c08ed" kindref="member">request_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;r1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1aa7c5b037998ad79dff834184aef94428" kindref="member">success</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logInference(audit);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logs<sp/>=<sp/>logger.queryLogs(</highlight><highlight class="stringliteral">&quot;llama-3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(logs.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(logs[0].at(</highlight><highlight class="stringliteral">&quot;event_type&quot;</highlight><highlight class="normal">).get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;INFERENCE_COMPLETED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMAuditLoggerTest,<sp/>LogInference_Failure_RecordedAsFailed)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>makeLogger();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit" kindref="compound">LLMModelInferenceAudit</ref><sp/>audit;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a38c3312a9d47ec75fd08c7d42239dae9" kindref="member">model_id</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;llama-3&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1ad1d14344da0cd9db2e1fc9af285c08ed" kindref="member">request_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;r2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1aa7c5b037998ad79dff834184aef94428" kindref="member">success</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logInference(audit);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logs<sp/>=<sp/>logger.queryLogs(</highlight><highlight class="stringliteral">&quot;llama-3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(logs.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(logs[0].at(</highlight><highlight class="stringliteral">&quot;event_type&quot;</highlight><highlight class="normal">).get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;INFERENCE_FAILED&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>exportAnalytics<sp/>—<sp/>JSON-lines<sp/>output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMAuditLoggerTest,<sp/>ExportAnalytics_WritesValidJsonLines)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>makeLogger();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logEvent(<ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1a1abfaa060fc9c3c0e37a85d65500d3c5" kindref="member">LLMModelAuditEventType::MODEL_LOADED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logEvent(<ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1a1abfaa060fc9c3c0e37a85d65500d3c5" kindref="member">LLMModelAuditEventType::MODEL_LOADED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;m2&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>oss<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>logger.exportAnalytics(oss);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count,<sp/>2u);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>line<sp/>must<sp/>be<sp/>valid<sp/>JSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>std::istringstream<sp/>iss(oss.str());</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>line<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>line_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(std::getline(iss,<sp/>line))<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(line.empty())<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parsed<sp/>=<sp/>json::parse(line);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(parsed);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Invalid<sp/>JSON<sp/>line:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>line;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++line_count;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(line_count,<sp/>2u);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMAuditLoggerTest,<sp/>ExportAnalytics_ContainsRequiredFields)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>makeLogger();</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logEvent(<ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1a1abfaa060fc9c3c0e37a85d65500d3c5" kindref="member">LLMModelAuditEventType::MODEL_LOADED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;extra&quot;</highlight><highlight class="normal">,<sp/>42}});</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>oss<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.exportAnalytics(oss);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>obj<sp/>=<sp/>json::parse(oss.str());</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(obj.contains(</highlight><highlight class="stringliteral">&quot;timestamp_iso8601&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(obj.contains(</highlight><highlight class="stringliteral">&quot;event_type&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(obj.contains(</highlight><highlight class="stringliteral">&quot;model_id&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(obj.contains(</highlight><highlight class="stringliteral">&quot;details&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMAuditLoggerTest,<sp/>ExportAnalytics_FiltersByModelId)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>makeLogger();</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logEvent(<ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1a1abfaa060fc9c3c0e37a85d65500d3c5" kindref="member">LLMModelAuditEventType::MODEL_LOADED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logEvent(<ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1a1abfaa060fc9c3c0e37a85d65500d3c5" kindref="member">LLMModelAuditEventType::MODEL_LOADED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;beta&quot;</highlight><highlight class="normal">,<sp/><sp/>{});</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>oss<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>logger.exportAnalytics(oss,<sp/></highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count,<sp/>1u);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>obj<sp/>=<sp/>json::parse(oss.str());</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(obj.at(</highlight><highlight class="stringliteral">&quot;model_id&quot;</highlight><highlight class="normal">).get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMAuditLoggerTest,<sp/>ExportAnalytics_EmptyFilter_ReturnsAll)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>makeLogger();</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logEvent(<ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1a1abfaa060fc9c3c0e37a85d65500d3c5" kindref="member">LLMModelAuditEventType::MODEL_LOADED</ref>,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logEvent(<ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1ab8b01d8b59441115145a6a74722d603e" kindref="member">LLMModelAuditEventType::MODEL_UNLOADED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;m2&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logEvent(<ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1aba645c120c5a5cad9131516c37c935e3" kindref="member">LLMModelAuditEventType::INFERENCE_COMPLETED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>oss<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>logger.exportAnalytics(oss);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count,<sp/>3u);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMAuditLoggerTest,<sp/>ExportAnalytics_TimestampIsISO8601)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>makeLogger();</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logEvent(<ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1a1abfaa060fc9c3c0e37a85d65500d3c5" kindref="member">LLMModelAuditEventType::MODEL_LOADED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>oss<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.exportAnalytics(oss);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>obj<sp/>=<sp/>json::parse(oss.str());</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>ts<sp/>=<sp/>obj.at(</highlight><highlight class="stringliteral">&quot;timestamp_iso8601&quot;</highlight><highlight class="normal">).get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ISO-8601<sp/>UTC:<sp/>&quot;YYYY-MM-DDTHH:MM:SSZ&quot;<sp/>—<sp/>validate<sp/>structural<sp/>characters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>rather<sp/>than<sp/>exact<sp/>length<sp/>so<sp/>variant<sp/>formats<sp/>don&apos;t<sp/>fail<sp/>the<sp/>check.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(ts.size(),<sp/>20u);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ts.back(),<sp/></highlight><highlight class="charliteral">&apos;Z&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Year-month<sp/>separator<sp/>at<sp/>position<sp/>4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ts[4],<sp/><sp/></highlight><highlight class="charliteral">&apos;-&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Month-day<sp/>separator<sp/>at<sp/>position<sp/>7</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ts[7],<sp/><sp/></highlight><highlight class="charliteral">&apos;-&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Date-time<sp/>separator<sp/>at<sp/>position<sp/>10</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ts[10],<sp/></highlight><highlight class="charliteral">&apos;T&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hour-minute<sp/>separator<sp/>at<sp/>position<sp/>13</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ts[13],<sp/></highlight><highlight class="charliteral">&apos;:&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>getModelStats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMAuditLoggerTest,<sp/>GetModelStats_AggregatesCorrectly)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>makeLogger();</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit" kindref="compound">LLMModelInferenceAudit</ref><sp/>ok;<sp/>ok.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a38c3312a9d47ec75fd08c7d42239dae9" kindref="member">model_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">;<sp/>ok.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1aa7c5b037998ad79dff834184aef94428" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit" kindref="compound">LLMModelInferenceAudit</ref><sp/>fail;<sp/>fail.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1a38c3312a9d47ec75fd08c7d42239dae9" kindref="member">model_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">;<sp/>fail.<ref refid="structthemis_1_1llm_1_1_l_l_m_model_inference_audit_1aa7c5b037998ad79dff834184aef94428" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logInference(ok);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logInference(ok);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logInference(fail);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logPolicyViolation(</highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rule&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;reason&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>logger.getModelStats(</highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.at(</highlight><highlight class="stringliteral">&quot;inferences&quot;</highlight><highlight class="normal">).get&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&gt;(),<sp/><sp/><sp/><sp/>2);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.at(</highlight><highlight class="stringliteral">&quot;failures&quot;</highlight><highlight class="normal">).get&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&gt;(),<sp/><sp/><sp/><sp/><sp/><sp/>1);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.at(</highlight><highlight class="stringliteral">&quot;policy_blocks&quot;</highlight><highlight class="normal">).get&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&gt;(),<sp/>1);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.at(</highlight><highlight class="stringliteral">&quot;total_events&quot;</highlight><highlight class="normal">).get&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&gt;(),<sp/><sp/>4);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>setEnabled<sp/>suppresses<sp/>writes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMAuditLoggerTest,<sp/>SetEnabled_False_SuppressesWrites)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>makeLogger();</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.setEnabled(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logEvent(<ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1a1abfaa060fc9c3c0e37a85d65500d3c5" kindref="member">LLMModelAuditEventType::MODEL_LOADED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logs<sp/>=<sp/>logger.queryLogs(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(logs.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMAuditLoggerTest,<sp/>SetEnabled_ReEnabled_ResumesWrites)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>makeLogger();</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.setEnabled(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logEvent(<ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1a1abfaa060fc9c3c0e37a85d65500d3c5" kindref="member">LLMModelAuditEventType::MODEL_LOADED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.setEnabled(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>logger.logEvent(<ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1ab8b01d8b59441115145a6a74722d603e" kindref="member">LLMModelAuditEventType::MODEL_UNLOADED</ref>,<sp/></highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logs<sp/>=<sp/>logger.queryLogs(</highlight><highlight class="stringliteral">&quot;m1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(logs.size(),<sp/>1u);<sp/></highlight><highlight class="comment">//<sp/>only<sp/>the<sp/>second<sp/>event</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_llm_audit_logger.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_raft_mvcc_bridge_1_1_linearizable_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::RaftMvccBridge::LinearizableResult</compoundname>
+    <includes refid="raft__mvcc__bridge_8h" local="no">raft_mvcc_bridge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_raft_mvcc_bridge_1_1_linearizable_result_1a0150faf60698af937dcacc255fad7560" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RaftMvccBridge::LinearizableResult::is_leader</definition>
+        <argsstring></argsstring>
+        <name>is_leader</name>
+        <qualifiedname>themis::RaftMvccBridge::LinearizableResult::is_leader</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/raft_mvcc_bridge.h" line="95" column="43" bodyfile="include/storage/raft_mvcc_bridge.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_raft_mvcc_bridge_1_1_linearizable_result_1afdb488743aecc998e5c2900d398480a4" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt;std::vector&lt;uint8_t&gt; &gt; themis::RaftMvccBridge::LinearizableResult::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::RaftMvccBridge::LinearizableResult::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/raft_mvcc_bridge.h" line="96" column="23" bodyfile="include/storage/raft_mvcc_bridge.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a linearizable read. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>If <computeroutput><ref refid="structthemis_1_1_raft_mvcc_bridge_1_1_linearizable_result_1a0150faf60698af937dcacc255fad7560" kindref="member">is_leader</ref></computeroutput> is false the read cannot be served here and must be redirected to the current Raft leader. </para>
+    </detaileddescription>
+    <location file="include/storage/raft_mvcc_bridge.h" line="94" column="5" bodyfile="include/storage/raft_mvcc_bridge.h" bodystart="94" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_raft_mvcc_bridge_1_1_linearizable_result_1a0150faf60698af937dcacc255fad7560" prot="public" virt="non-virtual"><scope>themis::RaftMvccBridge::LinearizableResult</scope><name>is_leader</name></member>
+      <member refid="structthemis_1_1_raft_mvcc_bridge_1_1_linearizable_result_1afdb488743aecc998e5c2900d398480a4" prot="public" virt="non-virtual"><scope>themis::RaftMvccBridge::LinearizableResult</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_model_switch_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ModelSwitchResult</compoundname>
+    <includes refid="model__switch__workflow_8h" local="no">model_switch_workflow.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_switch_result_1af84496661679c0ce5a107c9797c75756" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae81c114800944a6a7438cf439ffd7011" kindref="member">ModelSwitchOutcome</ref></type>
+        <definition>ModelSwitchOutcome themis::llm::ModelSwitchResult::outcome</definition>
+        <argsstring></argsstring>
+        <name>outcome</name>
+        <qualifiedname>themis::llm::ModelSwitchResult::outcome</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1ae81c114800944a6a7438cf439ffd7011a424d6b8018e601e0f5e1532db1741b91" kindref="member">ModelSwitchOutcome::INCOMPATIBLE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="186" column="24" bodyfile="include/llm/model_switch_workflow.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_switch_result_1a09447e8582eaf713891f3b0047e56047" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_model_switch_check_result" kindref="compound">ModelSwitchCheckResult</ref> &gt;</type>
+        <definition>std::vector&lt;ModelSwitchCheckResult&gt; themis::llm::ModelSwitchResult::checks</definition>
+        <argsstring></argsstring>
+        <name>checks</name>
+        <qualifiedname>themis::llm::ModelSwitchResult::checks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="188" column="17" bodyfile="include/llm/model_switch_workflow.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_switch_result_1ab1868e434ca13907dfca253f0624f33a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::ModelSwitchResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::llm::ModelSwitchResult::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="190" column="17" bodyfile="include/llm/model_switch_workflow.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_switch_result_1a88e5d74d3fe05d85ee985d7c33b69a86" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::ModelSwitchResult::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::llm::ModelSwitchResult::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="192" column="17" bodyfile="include/llm/model_switch_workflow.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_switch_result_1a777c63b5cad1bfd29707bb605c789ce8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1llm_1a28e30e5010f714c2c0378f2ed1a092df" kindref="member">RebuildTrigger</ref> &gt;</type>
+        <definition>std::vector&lt;RebuildTrigger&gt; themis::llm::ModelSwitchResult::active_rebuild_triggers</definition>
+        <argsstring></argsstring>
+        <name>active_rebuild_triggers</name>
+        <qualifiedname>themis::llm::ModelSwitchResult::active_rebuild_triggers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="194" column="17" bodyfile="include/llm/model_switch_workflow.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_model_switch_result_1a46ba5dc4f876dd064eae556c2c0765a1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModelSwitchResult::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::llm::ModelSwitchResult::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="196" column="17" bodyfile="include/llm/model_switch_workflow.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_model_switch_result_1a83ddd07628289898ada0791359e46e4f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelSwitchResult::canServe</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>canServe</name>
+        <qualifiedname>themis::llm::ModelSwitchResult::canServe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="198" column="11" bodyfile="include/llm/model_switch_workflow.h" bodystart="198" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_model_switch_result_1aee4f6f38e50522f723aced73dd1542e1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ModelSwitchResult::needsRebuild</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>needsRebuild</name>
+        <qualifiedname>themis::llm::ModelSwitchResult::needsRebuild</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="202" column="11" bodyfile="include/llm/model_switch_workflow.h" bodystart="202" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_model_switch_result_1aa45df4f02720b06245e66f501df875c9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::ModelSwitchResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::llm::ModelSwitchResult::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_switch_workflow.h" line="207" column="21" bodyfile="src/llm/model_switch_workflow.cpp" bodystart="354" bodyend="378"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_switch_workflow.h" line="185" column="1" bodyfile="include/llm/model_switch_workflow.h" bodystart="185" bodyend="208"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_model_switch_result_1a777c63b5cad1bfd29707bb605c789ce8" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchResult</scope><name>active_rebuild_triggers</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_switch_result_1a83ddd07628289898ada0791359e46e4f" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchResult</scope><name>canServe</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_switch_result_1a09447e8582eaf713891f3b0047e56047" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchResult</scope><name>checks</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_switch_result_1a46ba5dc4f876dd064eae556c2c0765a1" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchResult</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_switch_result_1ab1868e434ca13907dfca253f0624f33a" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_switch_result_1aee4f6f38e50522f723aced73dd1542e1" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchResult</scope><name>needsRebuild</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_switch_result_1af84496661679c0ce5a107c9797c75756" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchResult</scope><name>outcome</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_switch_result_1aa45df4f02720b06245e66f501df875c9" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchResult</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_model_switch_result_1a88e5d74d3fe05d85ee985d7c33b69a86" prot="public" virt="non-virtual"><scope>themis::llm::ModelSwitchResult</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

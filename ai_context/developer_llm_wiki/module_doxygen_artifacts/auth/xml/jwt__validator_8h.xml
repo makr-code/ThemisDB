@@ -1,0 +1,545 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="jwt__validator_8h" kind="file" language="C++">
+    <compoundname>jwt_validator.h</compoundname>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">future</includes>
+    <includes refid="token__blacklist_8h" local="yes">auth/token_blacklist.h</includes>
+    <includes refid="auth__worker__thread__pool_8h" local="yes">auth/auth_worker_thread_pool.h</includes>
+    <includedby refid="federated__identity__manager_8h" local="yes">include/auth/federated_identity_manager.h</includedby>
+    <includedby refid="jwt__key__rotation__manager_8h" local="yes">include/auth/jwt_key_rotation_manager.h</includedby>
+    <includedby refid="oauth__device__flow_8h" local="yes">include/auth/oauth_device_flow.h</includedby>
+    <includedby refid="oauth__pkce__flow_8h" local="yes">include/auth/oauth_pkce_flow.h</includedby>
+    <includedby refid="oidc__provider_8h" local="yes">include/auth/oidc_provider.h</includedby>
+    <includedby refid="jwt__validator_8cpp" local="yes">src/auth/jwt_validator.cpp</includedby>
+    <includedby refid="oauth__device__flow_8cpp" local="yes">src/auth/oauth_device_flow.cpp</includedby>
+    <includedby refid="oauth__pkce__flow_8cpp" local="yes">src/auth/oauth_pkce_flow.cpp</includedby>
+    <includedby refid="test__auth__audit__logger_8cpp" local="yes">tests/auth/test_auth_audit_logger.cpp</includedby>
+    <includedby refid="test__auth__input__validation_8cpp" local="yes">tests/auth/test_auth_input_validation.cpp</includedby>
+    <includedby refid="test__auth__middleware_8cpp" local="yes">tests/auth/test_auth_middleware.cpp</includedby>
+    <includedby refid="test__auth__protocol__matrix__regression_8cpp" local="yes">tests/auth/test_auth_protocol_matrix_regression.cpp</includedby>
+    <includedby refid="test__auth__soak_8cpp" local="yes">tests/auth/test_auth_soak.cpp</includedby>
+    <includedby refid="test__auth__wavec__authentication__methods_8cpp" local="yes">tests/auth/test_auth_wavec_authentication_methods.cpp</includedby>
+    <includedby refid="test__jwt__validator__focused_8cpp" local="yes">tests/auth/test_jwt_validator_focused.cpp</includedby>
+    <includedby refid="test__wave4b__auth__hardening_8cpp" local="yes">tests/auth/test_wave4b_auth_hardening.cpp</includedby>
+    <includedby refid="test__wave4b__auth__hardening2_8cpp" local="yes">tests/auth/test_wave4b_auth_hardening2.cpp</includedby>
+    <includedby refid="test__wave8__auth__hardening_8cpp" local="yes">tests/auth/test_wave8_auth_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="19">
+        <label>auth/auth_worker_thread_pool.h</label>
+        <link refid="auth__worker__thread__pool_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/auth/jwt_validator.h</label>
+        <link refid="jwt__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>auth/token_blacklist.h</label>
+        <link refid="token__blacklist_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>algorithm</label>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>condition_variable</label>
+      </node>
+      <node id="16">
+        <label>cstdint</label>
+      </node>
+      <node id="17">
+        <label>functional</label>
+      </node>
+      <node id="12">
+        <label>future</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="21">
+        <label>queue</label>
+      </node>
+      <node id="8">
+        <label>shared_mutex</label>
+      </node>
+      <node id="22">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="23">
+        <label>thread</label>
+      </node>
+      <node id="24">
+        <label>tuple</label>
+      </node>
+      <node id="25">
+        <label>type_traits</label>
+      </node>
+      <node id="15">
+        <label>unordered_map</label>
+      </node>
+      <node id="14">
+        <label>unordered_set</label>
+      </node>
+      <node id="18">
+        <label>utility</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/auth/bench_auth_hotpaths.cpp</label>
+        <link refid="bench__auth__hotpaths_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/auth/federated_identity_manager.h</label>
+        <link refid="federated__identity__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/auth/jwt_key_rotation_manager.h</label>
+        <link refid="jwt__key__rotation__manager_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/auth/jwt_validator.h</label>
+        <link refid="jwt__validator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/auth/oauth_device_flow.h</label>
+        <link refid="oauth__device__flow_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>include/auth/oauth_pkce_flow.h</label>
+        <link refid="oauth__pkce__flow_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/auth/oidc_provider.h</label>
+        <link refid="oidc__provider_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/auth/federated_identity_manager.cpp</label>
+        <link refid="federated__identity__manager_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/auth/jwt_key_rotation_manager.cpp</label>
+        <link refid="jwt__key__rotation__manager_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/auth/jwt_validator.cpp</label>
+        <link refid="jwt__validator_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/auth/oauth_device_flow.cpp</label>
+        <link refid="oauth__device__flow_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/auth/oauth_pkce_flow.cpp</label>
+        <link refid="oauth__pkce__flow_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/auth/oidc_provider.cpp</label>
+        <link refid="oidc__provider_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/auth/test_auth_audit_logger.cpp</label>
+        <link refid="test__auth__audit__logger_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/auth/test_auth_hardening_revocation_federation.cpp</label>
+        <link refid="test__auth__hardening__revocation__federation_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/auth/test_auth_input_validation.cpp</label>
+        <link refid="test__auth__input__validation_8cpp"/>
+      </node>
+      <node id="24">
+        <label>tests/auth/test_auth_middleware.cpp</label>
+        <link refid="test__auth__middleware_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/auth/test_auth_protocol_matrix_regression.cpp</label>
+        <link refid="test__auth__protocol__matrix__regression_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/auth/test_auth_soak.cpp</label>
+        <link refid="test__auth__soak_8cpp"/>
+      </node>
+      <node id="25">
+        <label>tests/auth/test_auth_wavec_authentication_methods.cpp</label>
+        <link refid="test__auth__wavec__authentication__methods_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/auth/test_auth_wavec_federation_providers.cpp</label>
+        <link refid="test__auth__wavec__federation__providers_8cpp"/>
+      </node>
+      <node id="26">
+        <label>tests/auth/test_jwt_validator_focused.cpp</label>
+        <link refid="test__jwt__validator__focused_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/auth/test_wave4b_auth_hardening.cpp</label>
+        <link refid="test__wave4b__auth__hardening_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/auth/test_wave4b_auth_hardening2.cpp</label>
+        <link refid="test__wave4b__auth__hardening2_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/auth/test_wave7_auth_ldap_federated.cpp</label>
+        <link refid="test__wave7__auth__ldap__federated_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/auth/test_wave8_auth_hardening.cpp</label>
+        <link refid="test__wave8__auth__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1auth_1_1_j_w_t_claims" prot="public">themis::auth::JWTClaims</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_j_w_t_validator_config" prot="public">themis::auth::JWTValidatorConfig</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_j_w_t_validator" prot="public">themis::auth::JWTValidator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="token__blacklist_8h" kindref="compound">auth/token_blacklist.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="auth__worker__thread__pool_8h" kindref="compound">auth/auth_worker_thread_pool.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AuditLogger;<sp/>}<sp/>}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1auth_1_1_j_w_t_claims" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1auth_1_1_j_w_t_claims_1ac8f1e1788fb47a1fc3211c863b11f484" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1ac8f1e1788fb47a1fc3211c863b11f484" kindref="member">sub</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Subject<sp/>(user<sp/>ID)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1auth_1_1_j_w_t_claims_1a0564bedb61db22c0f429e44025b709af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1a0564bedb61db22c0f429e44025b709af" kindref="member">jti</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>JWT<sp/>ID<sp/>–<sp/>used<sp/>for<sp/>per-token<sp/>revocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1auth_1_1_j_w_t_claims_1a301fe2fe87021c1ceb2d6e400084f3fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1a301fe2fe87021c1ceb2d6e400084f3fe" kindref="member">email</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1auth_1_1_j_w_t_claims_1a2d146f3aad791c8e966d2df5a189e34a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1a2d146f3aad791c8e966d2df5a189e34a" kindref="member">tenant_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tenant<sp/>ID<sp/>from<sp/>JWT<sp/>claim</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1auth_1_1_j_w_t_claims_1aebc8b8ba8385fea402de0c031c125ac5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1aebc8b8ba8385fea402de0c031c125ac5" kindref="member">groups</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1auth_1_1_j_w_t_claims_1a7ea8dbd6ccdfc4204f9d3c43ae14c6d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1a7ea8dbd6ccdfc4204f9d3c43ae14c6d8" kindref="member">roles</ref>;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1auth_1_1_j_w_t_claims_1ac0c5015413026c490923f685df19d8f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1ac0c5015413026c490923f685df19d8f5" kindref="member">scopes</ref>;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1auth_1_1_j_w_t_claims_1a835832623e6a4412bafaa0ec98c8bb43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1a835832623e6a4412bafaa0ec98c8bb43" kindref="member">issuer</ref>;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1auth_1_1_j_w_t_claims_1a39ac68e74e5acc17d435b8581285f77d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1a39ac68e74e5acc17d435b8581285f77d" kindref="member">expiration</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1auth_1_1_j_w_t_claims_1ae20212ab0668409892813e070a990082" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::chrono::system_clock::time_point&gt;<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1ae20212ab0668409892813e070a990082" kindref="member">not_before</ref>;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1auth_1_1_j_w_t_claims_1ac5a89dbdbf303ed55f210f5869b7c15e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::chrono::system_clock::time_point&gt;<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1ac5a89dbdbf303ed55f210f5869b7c15e" kindref="member">issued_at</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1auth_1_1_j_w_t_claims_1a72ca98d1dbf7b6c8fe87a365232bc1fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1a72ca98d1dbf7b6c8fe87a365232bc1fc" kindref="member">audience</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1auth_1_1_j_w_t_claims_1abd0b0d075fd2f1bc9cbaade88bd88406" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1abd0b0d075fd2f1bc9cbaade88bd88406" kindref="member">isExpired</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::system_clock::now()<sp/>&gt;<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims_1a39ac68e74e5acc17d435b8581285f77d" kindref="member">expiration</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Input<sp/>validation<sp/>limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1auth_1aa748999c8c5cf29436eb0ab10b356da1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1auth_1aa748999c8c5cf29436eb0ab10b356da1" kindref="member">MAX_JWT_TOKEN_SIZE</ref><sp/>=<sp/>16<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>16KB<sp/>max<sp/>token<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1auth_1a087bd4807c5ad42ce19d37377cc55f12" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1auth_1a087bd4807c5ad42ce19d37377cc55f12" kindref="member">MAX_PRINCIPAL_NAME_LENGTH</ref><sp/>=<sp/>256;<sp/></highlight><highlight class="comment">//<sp/>256<sp/>chars<sp/>max<sp/>for<sp/>principal<sp/>names</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1auth_1a331373c23a91e0c74ff8139c41b1dc56" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1auth_1a331373c23a91e0c74ff8139c41b1dc56" kindref="member">DEFAULT_JWKS_TIMEOUT_SECONDS</ref><sp/>=<sp/>5;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>second<sp/>timeout<sp/>for<sp/>JWKS<sp/>fetch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1auth_1ac99a77fa1b1b0081dc02bbc4960784ab" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1auth_1ac99a77fa1b1b0081dc02bbc4960784ab" kindref="member">MAX_JWKS_RETRY_ATTEMPTS</ref><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>3<sp/>retry<sp/>attempts<sp/>for<sp/>JWKS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1auth_1_1_j_w_t_validator_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1aa40c5ea424e4bd25eeea1704615b6c06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1aa40c5ea424e4bd25eeea1704615b6c06" kindref="member">jwks_url</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Keycloak<sp/>JWKS<sp/>endpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a938217746fb36f44a33ce55dbc2ea68e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a938217746fb36f44a33ce55dbc2ea68e" kindref="member">expected_issuer</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>must<sp/>be<sp/>set<sp/>when<sp/>require_issuer_validation=true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1ac9fa0ecd608decf1b9249ddb232c2904" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1ac9fa0ecd608decf1b9249ddb232c2904" kindref="member">expected_audience</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>must<sp/>be<sp/>set<sp/>when<sp/>require_audience_validation=true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a6da430779c9f4bf4536a4d9df13e5297" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a6da430779c9f4bf4536a4d9df13e5297" kindref="member">cache_ttl</ref>{600000};</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1aeb555dd4bb2a8de1c48f72408937093a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1aeb555dd4bb2a8de1c48f72408937093a" kindref="member">clock_skew</ref>{60000};</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a2b7303bedc869223122f1d0311fb7042" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a2b7303bedc869223122f1d0311fb7042" kindref="member">revoked_kids</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Kid<sp/>denylist<sp/>for<sp/>revoked<sp/>keys</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a60eb5dbf2e0b093ed3eab7dc3b4fe07f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a60eb5dbf2e0b093ed3eab7dc3b4fe07f" kindref="member">jwks_timeout_seconds</ref>{<ref refid="namespacethemis_1_1auth_1a331373c23a91e0c74ff8139c41b1dc56" kindref="member">DEFAULT_JWKS_TIMEOUT_SECONDS</ref>};<sp/><sp/></highlight><highlight class="comment">//<sp/>JWKS<sp/>fetch<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a64f1b046941b2e934597a4beaf06b8a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a64f1b046941b2e934597a4beaf06b8a8" kindref="member">jwks_max_retries</ref>{<ref refid="namespacethemis_1_1auth_1ac99a77fa1b1b0081dc02bbc4960784ab" kindref="member">MAX_JWKS_RETRY_ATTEMPTS</ref>};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>JWKS<sp/>fetch<sp/>max<sp/>retries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1aa8671c6f17d19060a8d54033e6020235" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1aa8671c6f17d19060a8d54033e6020235" kindref="member">require_issuer_validation</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>throw<sp/>at<sp/>construction<sp/>if<sp/>expected_issuer<sp/>is<sp/>unset</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a30c832c40701252f7b57d3c0d4a9b6fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a30c832c40701252f7b57d3c0d4a9b6fe" kindref="member">require_audience_validation</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>throw<sp/>at<sp/>construction<sp/>if<sp/>expected_audience<sp/>is<sp/>unset</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1aca6522c2564124aff627faa82fbcae4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1aca6522c2564124aff627faa82fbcae4d" kindref="member">require_jti</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>when<sp/>true,<sp/>reject<sp/>tokens<sp/>that<sp/>are<sp/>missing<sp/>the<sp/>jti<sp/>claim</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a34d34230eae91876e72b04dee84317df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config_1a34d34230eae91876e72b04dee84317df" kindref="member">refresh_wait_timeout</ref>{15&apos;000};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1auth_1_1_j_w_t_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_j_w_t_validator_1aaf5fafd2e7ae8adc2584042b114504a3" kindref="member">JWTValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator_1aaf5fafd2e7ae8adc2584042b114504a3" kindref="member">JWTValidator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>jwks_url);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator_1aaf5fafd2e7ae8adc2584042b114504a3" kindref="member">JWTValidator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref>&amp;<sp/>cfg);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator_1aa0e704fbcdb4afaf9a806c1778715d0b" kindref="member">parseAndValidate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>token);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::future&lt;JWTClaims&gt;<sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator_1aefd730b0d0a24ed4e1f56507bd548e24" kindref="member">validateAsync</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>token);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator_1a4a3ee8df29b95aed4b0114b577577538" kindref="member">deriveUserKey</ref>(</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>dek,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref>&amp;<sp/>claims,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field_name</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator_1a78ff7d6ccff48d32de978683be8ec8bb" kindref="member">hasAccess</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref>&amp;<sp/>claims,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>encryption_context);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator_1a76ed9453a63cc86c5b2890622dfc5b33" kindref="member">setTokenBlacklist</ref>(<ref refid="classthemis_1_1auth_1_1_token_blacklist" kindref="compound">TokenBlacklist</ref>*<sp/>bl);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1auth_1_1_j_w_t_validator_1a7d4173ee9dba70ccc71ca0c82173ddd2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator_1a7d4173ee9dba70ccc71ca0c82173ddd2" kindref="member">setAuditLogger</ref>(utils::AuditLogger*<sp/>logger)<sp/>{<sp/>audit_logger_<sp/>=<sp/>logger;<sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator_1a2e6f1805863f224b5ef447baca1ec0dd" kindref="member">revokeKid</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>kid);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator_1a695ed93deebe067326e73ec2d3a43034" kindref="member">isKidRevoked</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>kid)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>decodeBase64Url(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>input);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>decodeBase64UrlToString(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>input);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>fetchJWKS();</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json*<sp/>findJwkForKid(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>jwks,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>kid)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>verifySignatureRS256(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>header_payload,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>signature,</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>jwk);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>verifySignatureRSA(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>header_payload,</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>signature,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>jwk,</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>alg);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>verifySignatureES256(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>header_payload,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>signature,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>jwk);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>verifySignatureEC(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>header_payload,</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>signature,</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>jwk,</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>alg);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>verifySignatureEdDSA(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>header_payload,</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>signature,</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>jwk);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkAudience(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>payload)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>testing<sp/>helper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator_1a9724ddf40de6944eb4d5671f77f0829c" kindref="member">setJWKSForTesting</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>jwks,</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>t<sp/>=<sp/>std::chrono::system_clock::now());</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref><sp/>cfg_;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>jwks_url_;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>jwks_cache_mutex_;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>jwks_cache_;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>jwks_cache_time_;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>revoked_kids_runtime_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Runtime<sp/>revocation<sp/>list</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_token_blacklist" kindref="compound">TokenBlacklist</ref>*<sp/>token_blacklist_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>JTI-based<sp/>revocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>utils::AuditLogger*<sp/>audit_logger_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>audit<sp/>logger<sp/>(non-owning)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;bool&gt;<sp/>warned_blacklist_no_jti_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/></highlight><highlight class="comment">//<sp/>Warn<sp/>once<sp/>when<sp/>blacklist<sp/>set<sp/>but<sp/>token<sp/>has<sp/>no<sp/>jti</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>jwks_refresh_mutex_;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::condition_variable<sp/>jwks_refresh_cv_;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>jwks_refreshing_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;AuthWorkerThreadPool&gt;<sp/>worker_pool_;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>auth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/auth/jwt_validator.h"/>
+  </compounddef>
+</doxygen>

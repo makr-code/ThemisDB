@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_sample_ref" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::SampleRef</compoundname>
+    <includes refid="training__interfaces_8h" local="no">training_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_sample_ref_1a63262bc9b964ff13f5cce6ae2b7ebea6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::SampleRef::sample_id</definition>
+        <argsstring></argsstring>
+        <name>sample_id</name>
+        <qualifiedname>themis::training::SampleRef::sample_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="195" column="17" bodyfile="include/training/training_interfaces.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_sample_ref_1aa088d0718acbf3b9e492746a119a587f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::SampleRef::source_uri</definition>
+        <argsstring></argsstring>
+        <name>source_uri</name>
+        <qualifiedname>themis::training::SampleRef::source_uri</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="196" column="17" bodyfile="include/training/training_interfaces.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_sample_ref_1aaa2f4092f24cb1c9b3e03e38d613ac34" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::SampleRef::dataset_version</definition>
+        <argsstring></argsstring>
+        <name>dataset_version</name>
+        <qualifiedname>themis::training::SampleRef::dataset_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="197" column="17" bodyfile="include/training/training_interfaces.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_sample_ref_1ab892a7eb1b7ae93e1c9313e5d49cbcc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::SampleRef::SampleRef</definition>
+        <argsstring>()=default</argsstring>
+        <name>SampleRef</name>
+        <qualifiedname>themis::training::SampleRef::SampleRef</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="199" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Reference to a training sample used in lineage queries. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_interfaces.h" line="194" column="1" bodyfile="include/training/training_interfaces.h" bodystart="194" bodyend="200"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_sample_ref_1aaa2f4092f24cb1c9b3e03e38d613ac34" prot="public" virt="non-virtual"><scope>themis::training::SampleRef</scope><name>dataset_version</name></member>
+      <member refid="structthemis_1_1training_1_1_sample_ref_1a63262bc9b964ff13f5cce6ae2b7ebea6" prot="public" virt="non-virtual"><scope>themis::training::SampleRef</scope><name>sample_id</name></member>
+      <member refid="structthemis_1_1training_1_1_sample_ref_1ab892a7eb1b7ae93e1c9313e5d49cbcc8" prot="public" virt="non-virtual"><scope>themis::training::SampleRef</scope><name>SampleRef</name></member>
+      <member refid="structthemis_1_1training_1_1_sample_ref_1aa088d0718acbf3b9e492746a119a587f" prot="public" virt="non-virtual"><scope>themis::training::SampleRef</scope><name>source_uri</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

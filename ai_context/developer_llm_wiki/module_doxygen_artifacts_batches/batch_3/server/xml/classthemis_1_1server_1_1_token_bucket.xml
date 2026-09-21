@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_token_bucket" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::TokenBucket</compoundname>
+    <includes refid="rate__limiter_8h" local="no">rate_limiter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_token_bucket_1a933fce68a3fd1b1eea160c3c38c64d70" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::TokenBucket::capacity_</definition>
+        <argsstring></argsstring>
+        <name>capacity_</name>
+        <qualifiedname>themis::server::TokenBucket::capacity_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="90" column="12" bodyfile="include/server/rate_limiter.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_token_bucket_1a74e65056e7dff00998e324eaf183cad5" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::TokenBucket::tokens_</definition>
+        <argsstring></argsstring>
+        <name>tokens_</name>
+        <qualifiedname>themis::server::TokenBucket::tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="91" column="12" bodyfile="include/server/rate_limiter.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_token_bucket_1aaa04f48df1fc7f37a3a1aabbdebcb706" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::TokenBucket::refill_rate_</definition>
+        <argsstring></argsstring>
+        <name>refill_rate_</name>
+        <qualifiedname>themis::server::TokenBucket::refill_rate_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="92" column="12" bodyfile="include/server/rate_limiter.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_token_bucket_1acda0e4f9d3b8144cff482370bebbed6a" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::server::TokenBucket::last_refill_</definition>
+        <argsstring></argsstring>
+        <name>last_refill_</name>
+        <qualifiedname>themis::server::TokenBucket::last_refill_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="93" column="43" bodyfile="include/server/rate_limiter.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_token_bucket_1a79a4b882f20822dd28b978077f61df1c" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::server::TokenBucket::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::server::TokenBucket::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="94" column="31" bodyfile="include/server/rate_limiter.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_token_bucket_1ab150fad679f14e7b8d64309b9065160e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::TokenBucket::TokenBucket</definition>
+        <argsstring>(size_t capacity, double refill_rate)</argsstring>
+        <name>TokenBucket</name>
+        <qualifiedname>themis::server::TokenBucket::TokenBucket</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>refill_rate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="63" column="5" bodyfile="src/server/rate_limiter.cpp" bodystart="23" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_token_bucket_1ae6e5d1f4e309f6ac296f5c05ae1ae330" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::TokenBucket::tryConsume</definition>
+        <argsstring>(size_t tokens=1)</argsstring>
+        <name>tryConsume</name>
+        <qualifiedname>themis::server::TokenBucket::tryConsume</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>tokens</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Try Consume. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), refill(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="65" column="10" bodyfile="src/server/rate_limiter.cpp" bodystart="51" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_token_bucket_1a12d55398eb4300d0cf9bf8ccec09fb45" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::server::TokenBucket::getTokens</definition>
+        <argsstring>() const</argsstring>
+        <name>getTokens</name>
+        <qualifiedname>themis::server::TokenBucket::getTokens</qualifiedname>
+        <briefdescription>
+<para>Get Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="71" column="12" bodyfile="src/server/rate_limiter.cpp" bodystart="62" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_token_bucket_1a5285957c850cd9271f91b98a96731985" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::TokenBucket::getRetryAfterMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getRetryAfterMs</name>
+        <qualifiedname>themis::server::TokenBucket::getRetryAfterMs</qualifiedname>
+        <briefdescription>
+<para>Get Retry After Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="77" column="14" bodyfile="src/server/rate_limiter.cpp" bodystart="72" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_token_bucket_1a80d9d3a0c388e43fde288b208da8291a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::TokenBucket::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::server::TokenBucket::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="82" column="10" bodyfile="src/server/rate_limiter.cpp" bodystart="94" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_token_bucket_1a9407995b0eaeaaa5d86368f9967bcb22" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::TokenBucket::refill</definition>
+        <argsstring>()</argsstring>
+        <name>refill</name>
+        <qualifiedname>themis::server::TokenBucket::refill</qualifiedname>
+        <briefdescription>
+<para>Refill. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::steady_clock::now(), count(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="88" column="10" bodyfile="src/server/rate_limiter.cpp" bodystart="34" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rate_limiter.h" line="61" column="1" bodyfile="include/server/rate_limiter.h" bodystart="61" bodyend="95"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_token_bucket_1a933fce68a3fd1b1eea160c3c38c64d70" prot="private" virt="non-virtual"><scope>themis::server::TokenBucket</scope><name>capacity_</name></member>
+      <member refid="classthemis_1_1server_1_1_token_bucket_1a5285957c850cd9271f91b98a96731985" prot="public" virt="non-virtual"><scope>themis::server::TokenBucket</scope><name>getRetryAfterMs</name></member>
+      <member refid="classthemis_1_1server_1_1_token_bucket_1a12d55398eb4300d0cf9bf8ccec09fb45" prot="public" virt="non-virtual"><scope>themis::server::TokenBucket</scope><name>getTokens</name></member>
+      <member refid="classthemis_1_1server_1_1_token_bucket_1acda0e4f9d3b8144cff482370bebbed6a" prot="private" virt="non-virtual"><scope>themis::server::TokenBucket</scope><name>last_refill_</name></member>
+      <member refid="classthemis_1_1server_1_1_token_bucket_1a79a4b882f20822dd28b978077f61df1c" prot="private" virt="non-virtual"><scope>themis::server::TokenBucket</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_token_bucket_1a9407995b0eaeaaa5d86368f9967bcb22" prot="private" virt="non-virtual"><scope>themis::server::TokenBucket</scope><name>refill</name></member>
+      <member refid="classthemis_1_1server_1_1_token_bucket_1aaa04f48df1fc7f37a3a1aabbdebcb706" prot="private" virt="non-virtual"><scope>themis::server::TokenBucket</scope><name>refill_rate_</name></member>
+      <member refid="classthemis_1_1server_1_1_token_bucket_1a80d9d3a0c388e43fde288b208da8291a" prot="public" virt="non-virtual"><scope>themis::server::TokenBucket</scope><name>reset</name></member>
+      <member refid="classthemis_1_1server_1_1_token_bucket_1ab150fad679f14e7b8d64309b9065160e" prot="public" virt="non-virtual"><scope>themis::server::TokenBucket</scope><name>TokenBucket</name></member>
+      <member refid="classthemis_1_1server_1_1_token_bucket_1a74e65056e7dff00998e324eaf183cad5" prot="private" virt="non-virtual"><scope>themis::server::TokenBucket</scope><name>tokens_</name></member>
+      <member refid="classthemis_1_1server_1_1_token_bucket_1ae6e5d1f4e309f6ac296f5c05ae1ae330" prot="public" virt="non-virtual"><scope>themis::server::TokenBucket</scope><name>tryConsume</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

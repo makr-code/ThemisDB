@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUP2PTransferManager::TransferRequest</compoundname>
+    <includes refid="p2p__transfer_8h" local="no">p2p_transfer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request_1ae66576dbac4a8b1419db54035eb7c943" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::GPUP2PTransferManager::TransferRequest::src_device</definition>
+        <argsstring></argsstring>
+        <name>src_device</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::TransferRequest::src_device</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Source GPU device index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="82" column="21" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request_1aef51b451f0a61f75861696767f4e0691" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::GPUP2PTransferManager::TransferRequest::dst_device</definition>
+        <argsstring></argsstring>
+        <name>dst_device</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::TransferRequest::dst_device</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Destination GPU device index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="83" column="21" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request_1a2afe902bb4b69a4ab9850bee60c20cb2" prot="public" static="no" mutable="no">
+        <type>const void *</type>
+        <definition>const void* themis::gpu::GPUP2PTransferManager::TransferRequest::src_ptr</definition>
+        <argsstring></argsstring>
+        <name>src_ptr</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::TransferRequest::src_ptr</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Source device pointer (host ptr on CPU fallback). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="84" column="20" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request_1a8b723bede3c98289e7e4f7f814f80988" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::gpu::GPUP2PTransferManager::TransferRequest::dst_ptr</definition>
+        <argsstring></argsstring>
+        <name>dst_ptr</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::TransferRequest::dst_ptr</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Destination device pointer (host ptr on CPU fallback). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="85" column="20" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request_1a3a4d1eb4ff670225fe00ab94b22760c5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUP2PTransferManager::TransferRequest::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::gpu::GPUP2PTransferManager::TransferRequest::size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of bytes to transfer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/p2p_transfer.h" line="86" column="21" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/p2p_transfer.h" line="81" column="5" bodyfile="include/themis/gpu/p2p_transfer.h" bodystart="81" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request_1aef51b451f0a61f75861696767f4e0691" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager::TransferRequest</scope><name>dst_device</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request_1a8b723bede3c98289e7e4f7f814f80988" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager::TransferRequest</scope><name>dst_ptr</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request_1a3a4d1eb4ff670225fe00ab94b22760c5" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager::TransferRequest</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request_1ae66576dbac4a8b1419db54035eb7c943" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager::TransferRequest</scope><name>src_device</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_p2_p_transfer_manager_1_1_transfer_request_1a2afe902bb4b69a4ab9850bee60c20cb2" prot="public" virt="non-virtual"><scope>themis::gpu::GPUP2PTransferManager::TransferRequest</scope><name>src_ptr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_voice_profile_matcher" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceProfileMatcher</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_profile_matcher_1a8a20895befb2d48c772074f8ed12dfda" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceProfileMatcher::profileMatches</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio, const std::string &amp;profile_id)</argsstring>
+        <name>profileMatches</name>
+        <qualifiedname>themis::voice::VoiceProfileMatcher::profileMatches</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>profile_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="126" column="10" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="126" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_profile_matcher_1aa024e0c8328fc246298e2851164903f5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::voice::VoiceProfileMatcher::getSimilarityScore</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio, const std::string &amp;profile_id)</argsstring>
+        <name>getSimilarityScore</name>
+        <qualifiedname>themis::voice::VoiceProfileMatcher::getSimilarityScore</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>profile_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="135" column="11" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="135" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_profile_matcher_1af93073e4fcc435c2dab631e3cdb260d0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceProfileMatcher::isVoiceProfileMismatch</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio, const std::string &amp;profile_id, float threshold=0.7f)</argsstring>
+        <name>isVoiceProfileMismatch</name>
+        <qualifiedname>themis::voice::VoiceProfileMatcher::isVoiceProfileMismatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>profile_id</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+          <defval>0.7f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="146" column="10" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="146" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_profile_matcher_1a5eab992e57e97105525f47dd8f4b76de" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceProfileMatcher::isVoiceChangeDetected</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;prev_audio, const std::vector&lt; uint8_t &gt; &amp;curr_audio, float change_threshold=0.5f)</argsstring>
+        <name>isVoiceChangeDetected</name>
+        <qualifiedname>themis::voice::VoiceProfileMatcher::isVoiceChangeDetected</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>prev_audio</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>curr_audio</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>change_threshold</declname>
+          <defval>0.5f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="154" column="10" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="154" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="124" column="1" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="124" bodyend="171"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_voice_profile_matcher_1aa024e0c8328fc246298e2851164903f5" prot="public" virt="non-virtual"><scope>themis::voice::VoiceProfileMatcher</scope><name>getSimilarityScore</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_profile_matcher_1a5eab992e57e97105525f47dd8f4b76de" prot="public" virt="non-virtual"><scope>themis::voice::VoiceProfileMatcher</scope><name>isVoiceChangeDetected</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_profile_matcher_1af93073e4fcc435c2dab631e3cdb260d0" prot="public" virt="non-virtual"><scope>themis::voice::VoiceProfileMatcher</scope><name>isVoiceProfileMismatch</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_profile_matcher_1a8a20895befb2d48c772074f8ed12dfda" prot="public" virt="non-virtual"><scope>themis::voice::VoiceProfileMatcher</scope><name>profileMatches</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

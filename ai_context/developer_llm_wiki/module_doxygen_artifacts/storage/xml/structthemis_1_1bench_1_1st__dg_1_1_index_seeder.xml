@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1st__dg_1_1_index_seeder" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::st_dg::IndexSeeder</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1bench_1_1st__dg_1_1_index_seeder_1a8763fe5e2143a4dff0637d1e338a336d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::st_dg::IndexSeeder::IndexSeeder</definition>
+        <argsstring>()</argsstring>
+        <name>IndexSeeder</name>
+        <qualifiedname>themis::bench::st_dg::IndexSeeder::IndexSeeder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="142" column="5" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="142" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="141" column="1" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="141" bodyend="146"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1st__dg_1_1_index_seeder_1a8763fe5e2143a4dff0637d1e338a336d" prot="public" virt="non-virtual"><scope>themis::bench::st_dg::IndexSeeder</scope><name>IndexSeeder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

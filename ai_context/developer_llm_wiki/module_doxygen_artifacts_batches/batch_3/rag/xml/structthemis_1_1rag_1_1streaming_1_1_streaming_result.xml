@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1streaming_1_1_streaming_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::streaming::StreamingResult</compoundname>
+    <includes refid="streaming__retriever_8h" local="no">streaming_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1a956b7e3c707bc2a312ebea66b0bcd03c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;StreamedDocument&gt; themis::rag::streaming::StreamingResult::selected_documents</definition>
+        <argsstring></argsstring>
+        <name>selected_documents</name>
+        <qualifiedname>themis::rag::streaming::StreamingResult::selected_documents</qualifiedname>
+        <briefdescription>
+<para>Documents that fit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="51" column="17" bodyfile="include/rag/streaming_retriever.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1a528e4cfec67c046e1291e74ce167e93a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;StreamedDocument&gt; themis::rag::streaming::StreamingResult::skipped_documents</definition>
+        <argsstring></argsstring>
+        <name>skipped_documents</name>
+        <qualifiedname>themis::rag::streaming::StreamingResult::skipped_documents</qualifiedname>
+        <briefdescription>
+<para>Docs that did not fit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="52" column="17" bodyfile="include/rag/streaming_retriever.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1ae193a447d384f7a054541865edd92d68" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::streaming::StreamingResult::total_tokens_used</definition>
+        <argsstring></argsstring>
+        <name>total_tokens_used</name>
+        <qualifiedname>themis::rag::streaming::StreamingResult::total_tokens_used</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="53" column="12" bodyfile="include/rag/streaming_retriever.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1a1b218e7c9f18c04f740d478f7dc07992" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::streaming::StreamingResult::documents_considered</definition>
+        <argsstring></argsstring>
+        <name>documents_considered</name>
+        <qualifiedname>themis::rag::streaming::StreamingResult::documents_considered</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="54" column="12" bodyfile="include/rag/streaming_retriever.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1af3f67887b1b8a76c34bace942ddacd23" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::streaming::StreamingResult::documents_added</definition>
+        <argsstring></argsstring>
+        <name>documents_added</name>
+        <qualifiedname>themis::rag::streaming::StreamingResult::documents_added</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="55" column="12" bodyfile="include/rag/streaming_retriever.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1ad24702e1d95680239c04c2bf2cd053a6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::streaming::StreamingResult::elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>elapsed_ms</name>
+        <qualifiedname>themis::rag::streaming::StreamingResult::elapsed_ms</qualifiedname>
+        <briefdescription>
+<para>Wall-clock time for the streaming pass. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="56" column="12" bodyfile="include/rag/streaming_retriever.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1a17867441da2adb09d30a05609bcc5e4d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::streaming::StreamingResult::cancelled</definition>
+        <argsstring></argsstring>
+        <name>cancelled</name>
+        <qualifiedname>themis::rag::streaming::StreamingResult::cancelled</qualifiedname>
+        <briefdescription>
+<para>True if streaming was cancelled early. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="57" column="12" bodyfile="include/rag/streaming_retriever.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result returned after streaming completes. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/streaming_retriever.h" line="50" column="1" bodyfile="include/rag/streaming_retriever.h" bodystart="50" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1a17867441da2adb09d30a05609bcc5e4d" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingResult</scope><name>cancelled</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1af3f67887b1b8a76c34bace942ddacd23" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingResult</scope><name>documents_added</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1a1b218e7c9f18c04f740d478f7dc07992" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingResult</scope><name>documents_considered</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1ad24702e1d95680239c04c2bf2cd053a6" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingResult</scope><name>elapsed_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1a956b7e3c707bc2a312ebea66b0bcd03c" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingResult</scope><name>selected_documents</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1a528e4cfec67c046e1291e74ce167e93a" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingResult</scope><name>skipped_documents</name></member>
+      <member refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result_1ae193a447d384f7a054541865edd92d68" prot="public" virt="non-virtual"><scope>themis::rag::streaming::StreamingResult</scope><name>total_tokens_used</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

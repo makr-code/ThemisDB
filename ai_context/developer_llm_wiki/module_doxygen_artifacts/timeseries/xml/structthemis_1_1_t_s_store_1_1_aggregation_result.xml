@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_t_s_store_1_1_aggregation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TSStore::AggregationResult</compoundname>
+    <includes refid="tsstore_8h" local="no">tsstore.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_aggregation_result_1a1f22bf589d2b32563f1dd581e4d6dcb4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TSStore::AggregationResult::min</definition>
+        <argsstring></argsstring>
+        <name>min</name>
+        <qualifiedname>themis::TSStore::AggregationResult::min</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="181" column="16" bodyfile="include/timeseries/tsstore.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_aggregation_result_1ac4f6ea6f9b3b0b31402c68260a02ccd0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TSStore::AggregationResult::max</definition>
+        <argsstring></argsstring>
+        <name>max</name>
+        <qualifiedname>themis::TSStore::AggregationResult::max</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="182" column="16" bodyfile="include/timeseries/tsstore.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_aggregation_result_1a70e433a57adefac1b37df09691a87811" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TSStore::AggregationResult::avg</definition>
+        <argsstring></argsstring>
+        <name>avg</name>
+        <qualifiedname>themis::TSStore::AggregationResult::avg</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="183" column="16" bodyfile="include/timeseries/tsstore.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_aggregation_result_1ab7fe571e27ea62edf7f6eba4e32eb205" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TSStore::AggregationResult::sum</definition>
+        <argsstring></argsstring>
+        <name>sum</name>
+        <qualifiedname>themis::TSStore::AggregationResult::sum</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="184" column="16" bodyfile="include/timeseries/tsstore.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_aggregation_result_1a99ed5402d1352bef2b4679ff9f721103" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSStore::AggregationResult::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::TSStore::AggregationResult::count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="185" column="16" bodyfile="include/timeseries/tsstore.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_aggregation_result_1a4378adef934f107a91abec6022c85d44" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::TSStore::AggregationResult::first_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>first_timestamp_ms</name>
+        <qualifiedname>themis::TSStore::AggregationResult::first_timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="186" column="17" bodyfile="include/timeseries/tsstore.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_aggregation_result_1a7ef1e5b5b8fd331e684c6b9ff746beee" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::TSStore::AggregationResult::last_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>last_timestamp_ms</name>
+        <qualifiedname>themis::TSStore::AggregationResult::last_timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="187" column="17" bodyfile="include/timeseries/tsstore.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/tsstore.h" line="180" column="5" bodyfile="include/timeseries/tsstore.h" bodystart="180" bodyend="188"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1a70e433a57adefac1b37df09691a87811" prot="public" virt="non-virtual"><scope>themis::TSStore::AggregationResult</scope><name>avg</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1a99ed5402d1352bef2b4679ff9f721103" prot="public" virt="non-virtual"><scope>themis::TSStore::AggregationResult</scope><name>count</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1a4378adef934f107a91abec6022c85d44" prot="public" virt="non-virtual"><scope>themis::TSStore::AggregationResult</scope><name>first_timestamp_ms</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1a7ef1e5b5b8fd331e684c6b9ff746beee" prot="public" virt="non-virtual"><scope>themis::TSStore::AggregationResult</scope><name>last_timestamp_ms</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1ac4f6ea6f9b3b0b31402c68260a02ccd0" prot="public" virt="non-virtual"><scope>themis::TSStore::AggregationResult</scope><name>max</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1a1f22bf589d2b32563f1dd581e4d6dcb4" prot="public" virt="non-virtual"><scope>themis::TSStore::AggregationResult</scope><name>min</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_aggregation_result_1ab7fe571e27ea62edf7f6eba4e32eb205" prot="public" virt="non-virtual"><scope>themis::TSStore::AggregationResult</scope><name>sum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

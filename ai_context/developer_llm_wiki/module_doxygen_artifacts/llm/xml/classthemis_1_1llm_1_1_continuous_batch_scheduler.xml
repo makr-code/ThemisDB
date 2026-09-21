@@ -1,0 +1,1190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_continuous_batch_scheduler" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ContinuousBatchScheduler</compoundname>
+    <includes refid="continuous__batch__scheduler_8h" local="no">continuous_batch_scheduler.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config" prot="public">themis::llm::ContinuousBatchScheduler::SchedulerConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" prot="public">themis::llm::ContinuousBatchScheduler::ScheduledRequest</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats" prot="public">themis::llm::ContinuousBatchScheduler::Stats</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_l_l_m_stats" prot="public">themis::llm::ContinuousBatchScheduler::LLMStats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RequestPriority</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::RequestPriority</qualifiedname>
+        <enumvalue id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18a41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18a1e23852820b9154316c7c06e2b7ba051" prot="public">
+          <name>NORMAL</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18ab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <initializer>= 10</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <initializer>= 15</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="63" column="5" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="63" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="enum" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RequestState</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::RequestState</qualifiedname>
+        <enumvalue id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062a1869d56535e8b1449a6da54ff5e11f50" prot="public">
+          <name>WAITING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062af792bcd85a91f6eef6b621509b2c4e51" prot="public">
+          <name>PREFILL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062a31b1c3e891cbbcff9f9433a5dc99cb7d" prot="public">
+          <name>DECODE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062a389073a144bcaffca8cfbfc6f5418ef1" prot="public">
+          <name>PREEMPTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062a8f7afecbc8fbc4cd0f50a57d1172482e" prot="public">
+          <name>COMPLETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="70" column="5" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="70" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a774bf91e4b715b7420f0fc2271381746" prot="public" static="no">
+        <type><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config" kindref="compound">SchedulerConfig</ref></type>
+        <definition>using themis::llm::ContinuousBatchScheduler::Config = SchedulerConfig</definition>
+        <argsstring></argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="61" column="5" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a017b06e4838d8a7e9b89bf517be65b9d" prot="public" static="no">
+        <type>std::function&lt; void(size_t pending, double avg_queue_ms)&gt;</type>
+        <definition>using themis::llm::ContinuousBatchScheduler::ShardLoadCallback = std::function&lt;void(size_t pending, double avg_queue_ms)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ShardLoadCallback</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::ShardLoadCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="142" column="5" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a64ebb95f624d3fc7194f3a7364a4f441" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config" kindref="compound">SchedulerConfig</ref></type>
+        <definition>SchedulerConfig themis::llm::ContinuousBatchScheduler::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="261" column="21" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a33bdff7b88bf51ecb66b1049cb8c3bc2" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache" kindref="compound">PagedKVCache</ref> *</type>
+        <definition>PagedKVCache* themis::llm::ContinuousBatchScheduler::kv_cache_</definition>
+        <argsstring></argsstring>
+        <name>kv_cache_</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::kv_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="262" column="18" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1acb7e4a7feebdfe4369dfb0caac131009" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector" kindref="compound">monitoring::LLMMetricsCollector</ref> *</type>
+        <definition>monitoring::LLMMetricsCollector* themis::llm::ContinuousBatchScheduler::metrics_collector_</definition>
+        <argsstring></argsstring>
+        <name>metrics_collector_</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::metrics_collector_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="264" column="37" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3e2c67cc8824930acb4e1623ed6249da" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_token_quota_manager" kindref="compound">TokenQuotaManager</ref> *</type>
+        <definition>TokenQuotaManager* themis::llm::ContinuousBatchScheduler::quota_manager_</definition>
+        <argsstring></argsstring>
+        <name>quota_manager_</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::quota_manager_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="266" column="23" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a63f4fb595a1ae7d8b5f5ca5727143d9f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a017b06e4838d8a7e9b89bf517be65b9d" kindref="member">ShardLoadCallback</ref></type>
+        <definition>ShardLoadCallback themis::llm::ContinuousBatchScheduler::shard_load_cb_</definition>
+        <argsstring></argsstring>
+        <name>shard_load_cb_</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::shard_load_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="268" column="23" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a84f312a8b08fb5d95cc01c1f901eca02" prot="private" static="no" mutable="no">
+        <type>std::priority_queue&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" kindref="compound">ScheduledRequest</ref> &gt;, std::vector&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" kindref="compound">ScheduledRequest</ref> &gt; &gt;, std::function&lt; bool(const std::shared_ptr&lt; <ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" kindref="compound">ScheduledRequest</ref> &gt; &amp;, const std::shared_ptr&lt; <ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" kindref="compound">ScheduledRequest</ref> &gt; &amp;)&gt; &gt;</type>
+        <definition>std::priority_queue&lt; std::shared_ptr&lt;ScheduledRequest&gt;, std::vector&lt;std::shared_ptr&lt;ScheduledRequest&gt; &gt;, std::function&lt;bool(const std::shared_ptr&lt;ScheduledRequest&gt;&amp;, const std::shared_ptr&lt;ScheduledRequest&gt;&amp;)&gt; &gt; themis::llm::ContinuousBatchScheduler::waiting_queue_</definition>
+        <argsstring></argsstring>
+        <name>waiting_queue_</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::waiting_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="276" column="2" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1aac779d8dbe037feecc38ba184e72318e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" kindref="compound">ScheduledRequest</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;ScheduledRequest&gt; &gt; themis::llm::ContinuousBatchScheduler::active_requests_</definition>
+        <argsstring></argsstring>
+        <name>active_requests_</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::active_requests_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="279" column="17" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ad0be2c9ccc3bc12e0ad23fb70e8e1194" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" kindref="compound">ScheduledRequest</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;ScheduledRequest&gt; &gt; themis::llm::ContinuousBatchScheduler::preempted_requests_</definition>
+        <argsstring></argsstring>
+        <name>preempted_requests_</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::preempted_requests_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="282" column="17" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9e9017a39b8631bf035df70297deb83d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" kindref="compound">ScheduledRequest</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;ScheduledRequest&gt; &gt; themis::llm::ContinuousBatchScheduler::completed_requests_</definition>
+        <argsstring></argsstring>
+        <name>completed_requests_</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::completed_requests_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="285" column="17" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3bd2f8598028e047800b4b10ce6eb137" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; <ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" kindref="compound">ScheduledRequest</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;ScheduledRequest&gt; &gt; themis::llm::ContinuousBatchScheduler::all_requests_</definition>
+        <argsstring></argsstring>
+        <name>all_requests_</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::all_requests_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="288" column="24" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a21ae121f51ff1b3db581545e9a5d2c2d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::ContinuousBatchScheduler::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="296" column="24" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a4cd4250fed80ec9b8aa906662a9005cd" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::llm::ContinuousBatchScheduler::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="298" column="29" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1aca94f34adc2cb295a3bf725d53ef351c" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ContinuousBatchScheduler::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::running_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="300" column="10" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ab38e7e4bf2841550a772dc23f5054893" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::llm::ContinuousBatchScheduler::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="303" column="11" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a53e50839a87075687c13368152544759" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::ContinuousBatchScheduler::last_schedule_time_</definition>
+        <argsstring></argsstring>
+        <name>last_schedule_time_</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::last_schedule_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="304" column="43" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a8ea076d5a3782341f20a26ac281e042c" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::effective_prefill_chunk_size_</definition>
+        <argsstring></argsstring>
+        <name>effective_prefill_chunk_size_</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::effective_prefill_chunk_size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="307" column="12" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ad02a304f43a46890c1158ad4fd038c6a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::llm::ContinuousBatchScheduler::next_request_id_</definition>
+        <argsstring></argsstring>
+        <name>next_request_id_</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::next_request_id_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="344" column="17" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="344" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a029df014fa616f2dae52a84f24deab57" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::llm::ContinuousBatchScheduler::next_sequence_id_</definition>
+        <argsstring></argsstring>
+        <name>next_sequence_id_</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::next_sequence_id_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="345" column="17" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="345" bodyend="345"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a98834b14d611b76d1177e629dfd7adf2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ContinuousBatchScheduler::ContinuousBatchScheduler</definition>
+        <argsstring>(const SchedulerConfig &amp;config, PagedKVCache *kv_cache)</argsstring>
+        <name>ContinuousBatchScheduler</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::ContinuousBatchScheduler</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config" kindref="compound">SchedulerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache" kindref="compound">PagedKVCache</ref> *</type>
+          <declname>kv_cache</declname>
+        </param>
+        <briefdescription>
+<para>Continuous Batch Scheduler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">kv_cache</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="115" column="14" bodyfile="src/llm/continuous_batch_scheduler.cpp" bodystart="38" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a1c9ba81b514dddbd7234f2da229b18d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ContinuousBatchScheduler::~ContinuousBatchScheduler</definition>
+        <argsstring>()</argsstring>
+        <name>~ContinuousBatchScheduler</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::~ContinuousBatchScheduler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="120" column="5" bodyfile="src/llm/continuous_batch_scheduler.cpp" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a0046c2073d9bffcf651e17bcb7c75e19" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ContinuousBatchScheduler::setMetricsCollector</definition>
+        <argsstring>(monitoring::LLMMetricsCollector *collector)</argsstring>
+        <name>setMetricsCollector</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::setMetricsCollector</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector" kindref="compound">monitoring::LLMMetricsCollector</ref> *</type>
+          <declname>collector</declname>
+        </param>
+        <briefdescription>
+<para>Attach a metrics collector for queue-length and backpressure-drop instrumentation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">collector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+May be called at any time after construction; safe to call nullptr to detach. Ownership is NOT transferred. Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="127" column="10" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="127" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ac33b52ca728046f666fd94b6f7383c9f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ContinuousBatchScheduler::setQuotaManager</definition>
+        <argsstring>(TokenQuotaManager *quota)</argsstring>
+        <name>setQuotaManager</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::setQuotaManager</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_token_quota_manager" kindref="compound">TokenQuotaManager</ref> *</type>
+          <declname>quota</declname>
+        </param>
+        <briefdescription>
+<para>Attach a <ref refid="classthemis_1_1llm_1_1_token_quota_manager" kindref="compound">TokenQuotaManager</ref> for per-user/per-model token-per-minute enforcement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">quota</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a7e54b7eeca14fd1b87c3174f7746e464" kindref="member">submitRequest()</ref> will call check() and, on success, consume() on the manager. Pass nullptr to disable quota checks. Ownership is NOT transferred. Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="137" column="10" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="137" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a62b664477608b3d0fe2627395f2c1562" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ContinuousBatchScheduler::setShardLoadCallback</definition>
+        <argsstring>(ShardLoadCallback cb)</argsstring>
+        <name>setShardLoadCallback</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::setShardLoadCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a017b06e4838d8a7e9b89bf517be65b9d" kindref="member">ShardLoadCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Set Shard Load Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="149" column="10" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="149" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a7e54b7eeca14fd1b87c3174f7746e464" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ContinuousBatchScheduler::submitRequest</definition>
+        <argsstring>(const InferenceRequest &amp;request, RequestPriority priority=RequestPriority::NORMAL, std::function&lt; void(const InferenceResponse &amp;)&gt; callback=nullptr)</argsstring>
+        <name>submitRequest</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::submitRequest</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18" kindref="member">RequestPriority</ref></type>
+          <declname>priority</declname>
+          <defval>RequestPriority::NORMAL</defval>
+        </param>
+        <param>
+          <type>std::function&lt; void(const <ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="155" column="17" bodyfile="src/llm/continuous_batch_scheduler.cpp" bodystart="79" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ae3fa29c88f189d63f9625dc3d4355bab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ContinuousBatchScheduler::cancelRequest</definition>
+        <argsstring>(const std::string &amp;request_id)</argsstring>
+        <name>cancelRequest</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::cancelRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel Request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), empty(), freeKVCacheBlocks(), get(), erase(), std::remove_if(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="167" column="10" bodyfile="src/llm/continuous_batch_scheduler.cpp" bodystart="167" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a7d42d2f28bf69fc80ec0f14e75983c08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ContinuousBatchScheduler::reprioritizeRequest</definition>
+        <argsstring>(const std::string &amp;request_id, RequestPriority new_priority)</argsstring>
+        <name>reprioritizeRequest</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::reprioritizeRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18" kindref="member">RequestPriority</ref></type>
+          <declname>new_priority</declname>
+        </param>
+        <briefdescription>
+<para>Reprioritize Request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_priority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="174" column="10" bodyfile="src/llm/continuous_batch_scheduler.cpp" bodystart="205" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a2274c2d9e4ac5ac0546d96e5e450a4e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ContinuousBatchScheduler::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="180" column="10" bodyfile="src/llm/continuous_batch_scheduler.cpp" bodystart="228" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ad3267ac61f6e8bcbedeece5d2cebaad6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ContinuousBatchScheduler::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), notify_all(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="184" column="10" bodyfile="src/llm/continuous_batch_scheduler.cpp" bodystart="243" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a240af73d71312cc581d97aa417496a18" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ContinuousBatchScheduler::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::isRunning</qualifiedname>
+        <briefdescription>
+<para>Is Running. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="189" column="10" bodyfile="src/llm/continuous_batch_scheduler.cpp" bodystart="256" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ad783fdaeb9f2ff9ebed98c4ffedfea55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" kindref="compound">ScheduledRequest</ref> * &gt;</type>
+        <definition>std::vector&lt; ContinuousBatchScheduler::ScheduledRequest * &gt; themis::llm::ContinuousBatchScheduler::scheduleNextBatch</definition>
+        <argsstring>()</argsstring>
+        <name>scheduleNextBatch</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::scheduleNextBatch</qualifiedname>
+        <briefdescription>
+<para>Batch scheduling (main loop). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="195" column="17" bodyfile="src/llm/continuous_batch_scheduler.cpp" bodystart="267" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ab38e8fd37d3d9726b4d466b25e92cd4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ContinuousBatchScheduler::processBatchResults</definition>
+        <argsstring>(const std::vector&lt; ScheduledRequest * &gt; &amp;batch, const std::vector&lt; InferenceResponse &gt; &amp;responses)</argsstring>
+        <name>processBatchResults</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::processBatchResults</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" kindref="compound">ScheduledRequest</ref> * &gt; &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref> &gt; &amp;</type>
+          <declname>responses</declname>
+        </param>
+        <briefdescription>
+<para>Process Batch Results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">responses</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">responses</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(), spdlog::error(), empty(), freeKVCacheBlocks(), push_back(), erase(), std::remove_if(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="203" column="10" bodyfile="src/llm/continuous_batch_scheduler.cpp" bodystart="369" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a6cb971ac0c090cc12fc77094c022971f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ContinuousBatchScheduler::preemptRequests</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;request_ids)</argsstring>
+        <name>preemptRequests</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::preemptRequests</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>request_ids</declname>
+        </param>
+        <briefdescription>
+<para>Preempt Requests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), erase(), std::remove_if(), begin(), push_back(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="213" column="10" bodyfile="src/llm/continuous_batch_scheduler.cpp" bodystart="505" bodyend="539"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a916338f1f77797d370b5b64ae32f8c71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ContinuousBatchScheduler::resumeRequests</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;request_ids)</argsstring>
+        <name>resumeRequests</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::resumeRequests</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>request_ids</declname>
+        </param>
+        <briefdescription>
+<para>Resume Requests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::find_if(), begin(), end(), erase(), push(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="218" column="10" bodyfile="src/llm/continuous_batch_scheduler.cpp" bodystart="546" bodyend="571"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a82dcb575c7b343a8d288046213aafb53" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>ContinuousBatchScheduler::Stats themis::llm::ContinuousBatchScheduler::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="247" column="11" bodyfile="src/llm/continuous_batch_scheduler.cpp" bodystart="573" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a81aabb9b46014bc89d8602f998a21243" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_l_l_m_stats" kindref="compound">LLMStats</ref></type>
+        <definition>ContinuousBatchScheduler::LLMStats themis::llm::ContinuousBatchScheduler::getLLMStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getLLMStats</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::getLLMStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_l_l_m_stats" kindref="compound">LLMStats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="258" column="14" bodyfile="src/llm/continuous_batch_scheduler.cpp" bodystart="583" bodyend="606"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1af2b98818f25f00dc2d54e77347b1df6b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::ContinuousBatchScheduler::canAddToBatch</definition>
+        <argsstring>(const ScheduledRequest *request, size_t current_batch_tokens, size_t reserved_blocks) const</argsstring>
+        <name>canAddToBatch</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::canAddToBatch</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" kindref="compound">ScheduledRequest</ref> *</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>current_batch_tokens</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>reserved_blocks</declname>
+        </param>
+        <briefdescription>
+<para>Can Add To Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_batch_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reserved_blocks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="317" column="10" bodyfile="src/llm/continuous_batch_scheduler.cpp" bodystart="608" bodyend="645"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a81360e2f92a91b74ef6c98b32e807e72" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ContinuousBatchScheduler::allocateKVCacheBlocks</definition>
+        <argsstring>(ScheduledRequest *request)</argsstring>
+        <name>allocateKVCacheBlocks</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::allocateKVCacheBlocks</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" kindref="compound">ScheduledRequest</ref> *</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Allocate KVCache Blocks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), getBlockTable(), store(), spdlog::warn(), spdlog::debug(), allocateBlocks(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="324" column="10" bodyfile="src/llm/continuous_batch_scheduler.cpp" bodystart="652" bodyend="694"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ace68d194a91eac2b4528936fb29b5853" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ContinuousBatchScheduler::freeKVCacheBlocks</definition>
+        <argsstring>(ScheduledRequest *request)</argsstring>
+        <name>freeKVCacheBlocks</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::freeKVCacheBlocks</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduled_request" kindref="compound">ScheduledRequest</ref> *</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Free KVCache Blocks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), removeSequence(), spdlog::debug(), size(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="329" column="10" bodyfile="src/llm/continuous_batch_scheduler.cpp" bodystart="701" bodyend="714"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a7ac990d5aa702b9dfc05bc712ff7aa01" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ContinuousBatchScheduler::updateStats</definition>
+        <argsstring>()</argsstring>
+        <name>updateStats</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::updateStats</qualifiedname>
+        <briefdescription>
+<para>Update <ref refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: count(), total_generation_time(), <ref refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a82dcb575c7b343a8d288046213aafb53" kindref="member">getStats()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="333" column="10" bodyfile="src/llm/continuous_batch_scheduler.cpp" bodystart="720" bodyend="771"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a23b8f826c91878b24b7ba948438b1bbd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ContinuousBatchScheduler::generateRequestId</definition>
+        <argsstring>()</argsstring>
+        <name>generateRequestId</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::generateRequestId</qualifiedname>
+        <briefdescription>
+<para>Generate Request Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="339" column="17" bodyfile="src/llm/continuous_batch_scheduler.cpp" bodystart="778" bodyend="780"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/continuous_batch_scheduler.h" line="28" column="1" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="28" bodyend="346"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1aac779d8dbe037feecc38ba184e72318e" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>active_requests_</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3bd2f8598028e047800b4b10ce6eb137" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>all_requests_</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a81360e2f92a91b74ef6c98b32e807e72" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>allocateKVCacheBlocks</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1af2b98818f25f00dc2d54e77347b1df6b" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>canAddToBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ae3fa29c88f189d63f9625dc3d4355bab" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>cancelRequest</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9e9017a39b8631bf035df70297deb83d" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>completed_requests_</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a774bf91e4b715b7420f0fc2271381746" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>Config</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a64ebb95f624d3fc7194f3a7364a4f441" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a98834b14d611b76d1177e629dfd7adf2" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>ContinuousBatchScheduler</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a4cd4250fed80ec9b8aa906662a9005cd" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a8ea076d5a3782341f20a26ac281e042c" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>effective_prefill_chunk_size_</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ace68d194a91eac2b4528936fb29b5853" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>freeKVCacheBlocks</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a23b8f826c91878b24b7ba948438b1bbd" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>generateRequestId</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a81aabb9b46014bc89d8602f998a21243" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>getLLMStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a82dcb575c7b343a8d288046213aafb53" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a240af73d71312cc581d97aa417496a18" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a33bdff7b88bf51ecb66b1049cb8c3bc2" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>kv_cache_</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a53e50839a87075687c13368152544759" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>last_schedule_time_</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1acb7e4a7feebdfe4369dfb0caac131009" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>metrics_collector_</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a21ae121f51ff1b3db581545e9a5d2c2d" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ad02a304f43a46890c1158ad4fd038c6a" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>next_request_id_</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a029df014fa616f2dae52a84f24deab57" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>next_sequence_id_</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ad0be2c9ccc3bc12e0ad23fb70e8e1194" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>preempted_requests_</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a6cb971ac0c090cc12fc77094c022971f" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>preemptRequests</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ab38e8fd37d3d9726b4d466b25e92cd4c" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>processBatchResults</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3e2c67cc8824930acb4e1623ed6249da" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>quota_manager_</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a7d42d2f28bf69fc80ec0f14e75983c08" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>reprioritizeRequest</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a3d9c56e3d4771ed86a9e23ca03c96e18" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>RequestPriority</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a9780e9491c25fa424ab3c4c4c60ba062" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>RequestState</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a916338f1f77797d370b5b64ae32f8c71" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>resumeRequests</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1aca94f34adc2cb295a3bf725d53ef351c" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>running_</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ad783fdaeb9f2ff9ebed98c4ffedfea55" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>scheduleNextBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a0046c2073d9bffcf651e17bcb7c75e19" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>setMetricsCollector</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ac33b52ca728046f666fd94b6f7383c9f" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>setQuotaManager</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a62b664477608b3d0fe2627395f2c1562" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>setShardLoadCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a63f4fb595a1ae7d8b5f5ca5727143d9f" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>shard_load_cb_</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a017b06e4838d8a7e9b89bf517be65b9d" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>ShardLoadCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a2274c2d9e4ac5ac0546d96e5e450a4e0" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>start</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ab38e7e4bf2841550a772dc23f5054893" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1ad3267ac61f6e8bcbedeece5d2cebaad6" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>stop</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a7e54b7eeca14fd1b87c3174f7746e464" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>submitRequest</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a7ac990d5aa702b9dfc05bc712ff7aa01" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>updateStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a84f312a8b08fb5d95cc01c1f901eca02" prot="private" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>waiting_queue_</name></member>
+      <member refid="classthemis_1_1llm_1_1_continuous_batch_scheduler_1a1c9ba81b514dddbd7234f2da229b18d9" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler</scope><name>~ContinuousBatchScheduler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

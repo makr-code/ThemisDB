@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::LocalityAwareRouter::ShardAffinity</compoundname>
+    <includes refid="locality__aware__router_8h" local="no">locality_aware_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a5341aed52e22018d0d224bae63f1de3a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::LocalityAwareRouter::ShardAffinity::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::ShardAffinity::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="37" column="21" bodyfile="include/sharding/locality_aware_router.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a5075a761eac47845ff4887a96e0b6e44" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::sharding::LocalityAwareRouter::ShardAffinity::locality_score</definition>
+        <argsstring></argsstring>
+        <name>locality_score</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::ShardAffinity::locality_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="38" column="15" bodyfile="include/sharding/locality_aware_router.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a76bba8773b6b1e4f0b1f9609fdf5eb11" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::sharding::LocalityAwareRouter::ShardAffinity::load_score</definition>
+        <argsstring></argsstring>
+        <name>load_score</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::ShardAffinity::load_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="39" column="15" bodyfile="include/sharding/locality_aware_router.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a37e77046ccdbbc3b506d7e34f534cc70" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::sharding::LocalityAwareRouter::ShardAffinity::network_score</definition>
+        <argsstring></argsstring>
+        <name>network_score</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::ShardAffinity::network_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="40" column="15" bodyfile="include/sharding/locality_aware_router.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a5d84b5a27772988cea7037d37d55bd5b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::sharding::LocalityAwareRouter::ShardAffinity::combined_score</definition>
+        <argsstring></argsstring>
+        <name>combined_score</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::ShardAffinity::combined_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="41" column="15" bodyfile="include/sharding/locality_aware_router.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a99fd3c3ee600b83926c9309822d820a0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::LocalityAwareRouter::ShardAffinity::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::sharding::LocalityAwareRouter::ShardAffinity::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/locality_aware_router.h" line="43" column="24" bodyfile="src/sharding/locality_aware_router.cpp" bodystart="30" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/locality_aware_router.h" line="36" column="5" bodyfile="include/sharding/locality_aware_router.h" bodystart="36" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a5d84b5a27772988cea7037d37d55bd5b" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::ShardAffinity</scope><name>combined_score</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a76bba8773b6b1e4f0b1f9609fdf5eb11" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::ShardAffinity</scope><name>load_score</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a5075a761eac47845ff4887a96e0b6e44" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::ShardAffinity</scope><name>locality_score</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a37e77046ccdbbc3b506d7e34f534cc70" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::ShardAffinity</scope><name>network_score</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a5341aed52e22018d0d224bae63f1de3a" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::ShardAffinity</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_locality_aware_router_1_1_shard_affinity_1a99fd3c3ee600b83926c9309822d820a0" prot="public" virt="non-virtual"><scope>themis::sharding::LocalityAwareRouter::ShardAffinity</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

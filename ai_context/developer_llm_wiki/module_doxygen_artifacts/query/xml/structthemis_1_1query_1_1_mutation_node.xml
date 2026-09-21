@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_mutation_node" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::query::MutationNode</compoundname>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_insert_node" prot="public" virt="non-virtual">themis::query::InsertNode</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_remove_node" prot="public" virt="non-virtual">themis::query::RemoveNode</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_replace_node" prot="public" virt="non-virtual">themis::query::ReplaceNode</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_update_node" prot="public" virt="non-virtual">themis::query::UpdateNode</derivedcompoundref>
+    <derivedcompoundref refid="structthemis_1_1query_1_1_upsert_node" prot="public" virt="non-virtual">themis::query::UpsertNode</derivedcompoundref>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_mutation_node_1a7913ed037b1bd83a2ce5c87f4985acd9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::query::MutationNode::~MutationNode</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MutationNode</name>
+        <qualifiedname>themis::query::MutationNode::~MutationNode</qualifiedname>
+        <briefdescription>
+<para>Mutation Node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="374" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_mutation_node_1a9b4bff2190784e1368f6b31a64cf102c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8f" kindref="member">ASTNodeType</ref></type>
+        <definition>virtual ASTNodeType themis::query::MutationNode::getType</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::query::MutationNode::getType</qualifiedname>
+        <reimplementedby refid="structthemis_1_1query_1_1_insert_node_1a518a08d1928ffa9074537f186af5334c">getType</reimplementedby>
+        <reimplementedby refid="structthemis_1_1query_1_1_remove_node_1a39424c2f27e42d73f97ca762e4d5cdfe">getType</reimplementedby>
+        <reimplementedby refid="structthemis_1_1query_1_1_replace_node_1a42de998eb89afc208ea6d21581d2aaaf">getType</reimplementedby>
+        <reimplementedby refid="structthemis_1_1query_1_1_update_node_1a019c61240f4d0aedd99a1c9b3389a29a">getType</reimplementedby>
+        <reimplementedby refid="structthemis_1_1query_1_1_upsert_node_1ae20f3173e298a5a42e72eccf6ec72f0e">getType</reimplementedby>
+        <briefdescription>
+<para>Get Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="380" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_mutation_node_1a9d3378cb4d267be61a7849f3674d42d4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>nlohmann::json</type>
+        <definition>virtual nlohmann::json themis::query::MutationNode::toJSON</definition>
+        <argsstring>() const =0</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::MutationNode::toJSON</qualifiedname>
+        <reimplementedby refid="structthemis_1_1query_1_1_insert_node_1af4ed307d8446df29a0721897c62bf8c6">toJSON</reimplementedby>
+        <reimplementedby refid="structthemis_1_1query_1_1_remove_node_1a7b41e4cf23d13e888aaae58426939876">toJSON</reimplementedby>
+        <reimplementedby refid="structthemis_1_1query_1_1_replace_node_1a8f748a91a69c2945f54f1859e8935f5c">toJSON</reimplementedby>
+        <reimplementedby refid="structthemis_1_1query_1_1_update_node_1abdd75ad46762ad400c51cd64b9e411b4">toJSON</reimplementedby>
+        <reimplementedby refid="structthemis_1_1query_1_1_upsert_node_1a514aeaef7ae21f86632e85091e5e9f07">toJSON</reimplementedby>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="386" column="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::InsertNode</label>
+        <link refid="structthemis_1_1query_1_1_insert_node"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::query::MutationNode</label>
+        <link refid="structthemis_1_1query_1_1_mutation_node"/>
+      </node>
+      <node id="3">
+        <label>themis::query::RemoveNode</label>
+        <link refid="structthemis_1_1query_1_1_remove_node"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::query::ReplaceNode</label>
+        <link refid="structthemis_1_1query_1_1_replace_node"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::query::UpdateNode</label>
+        <link refid="structthemis_1_1query_1_1_update_node"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::query::UpsertNode</label>
+        <link refid="structthemis_1_1query_1_1_upsert_node"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/query/aql_parser.h" line="369" column="1" bodyfile="include/query/aql_parser.h" bodystart="369" bodyend="387"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_mutation_node_1a9b4bff2190784e1368f6b31a64cf102c" prot="public" virt="pure-virtual"><scope>themis::query::MutationNode</scope><name>getType</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_node_1a9d3378cb4d267be61a7849f3674d42d4" prot="public" virt="pure-virtual"><scope>themis::query::MutationNode</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_node_1a7913ed037b1bd83a2ce5c87f4985acd9" prot="public" virt="virtual"><scope>themis::query::MutationNode</scope><name>~MutationNode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

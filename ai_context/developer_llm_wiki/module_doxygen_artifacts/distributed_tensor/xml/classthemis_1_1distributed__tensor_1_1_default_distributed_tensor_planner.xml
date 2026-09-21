@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_default_distributed_tensor_planner" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::DefaultDistributedTensorPlanner</compoundname>
+    <includes refid="include_2distributed__tensor_2distributed__planner_8h" local="no">distributed_planner.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_default_distributed_tensor_planner_1ab915a816129a94e8f5d9389bfaead427" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::DefaultDistributedTensorPlanner::DefaultDistributedTensorPlanner</definition>
+        <argsstring>()=default</argsstring>
+        <name>DefaultDistributedTensorPlanner</name>
+        <qualifiedname>themis::distributed_tensor::DefaultDistributedTensorPlanner::DefaultDistributedTensorPlanner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="75" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_default_distributed_tensor_planner_1a90f11c473297a6f1cf5e4acd736a251c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::DefaultDistributedTensorPlanner::~DefaultDistributedTensorPlanner</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DefaultDistributedTensorPlanner</name>
+        <qualifiedname>themis::distributed_tensor::DefaultDistributedTensorPlanner::~DefaultDistributedTensorPlanner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="76" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_default_distributed_tensor_planner_1a351798d02d950730eaeeb1a1942ed66e" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan" kindref="compound">DistributedRetrievalPlan</ref></type>
+        <definition>DistributedRetrievalPlan themis::distributed_tensor::DefaultDistributedTensorPlanner::plan_tensor_retrieval</definition>
+        <argsstring>(const ArtifactManifest &amp;manifest, const std::vector&lt; TensorDependency &gt; &amp;dependencies, RetrievalLocation preferred_location=RetrievalLocation::ANY_TIER) const noexcept</argsstring>
+        <name>plan_tensor_retrieval</name>
+        <qualifiedname>themis::distributed_tensor::DefaultDistributedTensorPlanner::plan_tensor_retrieval</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_tensor_dependency" kindref="compound">TensorDependency</ref> &gt; &amp;</type>
+          <declname>dependencies</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1aea70cef149cbc8830bbb2a0c910d3809" kindref="member">RetrievalLocation</ref></type>
+          <declname>preferred_location</declname>
+          <defval><ref refid="namespacethemis_1_1distributed__tensor_1aea70cef149cbc8830bbb2a0c910d3809ad417aec8c6eeaf8227dcdbae378fd2a9" kindref="member">RetrievalLocation::ANY_TIER</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="78" column="28" bodyfile="src/distributed_tensor/distributed_planner.cc" bodystart="56" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_default_distributed_tensor_planner_1a9d391aa67580fb5dec7652e91b910a7f" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan" kindref="compound">DistributedRetrievalPlan</ref></type>
+        <definition>DistributedRetrievalPlan themis::distributed_tensor::DefaultDistributedTensorPlanner::optimize_retrieval_plan</definition>
+        <argsstring>(const DistributedRetrievalPlan &amp;plan) const noexcept</argsstring>
+        <name>optimize_retrieval_plan</name>
+        <qualifiedname>themis::distributed_tensor::DefaultDistributedTensorPlanner::optimize_retrieval_plan</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan" kindref="compound">DistributedRetrievalPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <briefdescription>
+<para>Optimize retrieval plan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="89" column="28" bodyfile="src/distributed_tensor/distributed_planner.cc" bodystart="141" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_default_distributed_tensor_planner_1abb7ada90b11d2d32c7053294568b59f6" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::DefaultDistributedTensorPlanner::is_tensor_available</definition>
+        <argsstring>(const ArtifactManifest &amp;manifest, ArtifactLifecycleStage required_stage=ArtifactLifecycleStage::ACTIVE) const noexcept</argsstring>
+        <name>is_tensor_available</name>
+        <qualifiedname>themis::distributed_tensor::DefaultDistributedTensorPlanner::is_tensor_available</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1ab492cfc211f04c65d837586da2971397" kindref="member">ArtifactLifecycleStage</ref></type>
+          <declname>required_stage</declname>
+          <defval><ref refid="namespacethemis_1_1distributed__tensor_1ab492cfc211f04c65d837586da2971397a18ff74f43da410c5529f7d6fca84f115" kindref="member">ArtifactLifecycleStage::ACTIVE</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="91" column="8" bodyfile="src/distributed_tensor/distributed_planner.cc" bodystart="164" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_default_distributed_tensor_planner_1a67faec116520948086e73b088d900d23" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::DefaultDistributedTensorPlanner::estimate_retrieval_cost</definition>
+        <argsstring>(const ArtifactManifest &amp;manifest, RetrievalStrategy strategy, RetrievalLocation location) const noexcept</argsstring>
+        <name>estimate_retrieval_cost</name>
+        <qualifiedname>themis::distributed_tensor::DefaultDistributedTensorPlanner::estimate_retrieval_cost</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1a4761712de85777b9ba08e83681a65d8f" kindref="member">RetrievalStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1aea70cef149cbc8830bbb2a0c910d3809" kindref="member">RetrievalLocation</ref></type>
+          <declname>location</declname>
+        </param>
+        <briefdescription>
+<para>Estimate retrieval cost. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">location</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="102" column="12" bodyfile="src/distributed_tensor/distributed_planner.cc" bodystart="178" bodyend="229"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_default_distributed_tensor_planner_1afdc37ceb25e24f4d6278e07dc8387b06" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a4761712de85777b9ba08e83681a65d8f" kindref="member">RetrievalStrategy</ref></type>
+        <definition>RetrievalStrategy themis::distributed_tensor::DefaultDistributedTensorPlanner::select_retrieval_strategy</definition>
+        <argsstring>(const ArtifactManifest &amp;manifest, const std::vector&lt; TensorDependency &gt; &amp;dependencies) const noexcept</argsstring>
+        <name>select_retrieval_strategy</name>
+        <qualifiedname>themis::distributed_tensor::DefaultDistributedTensorPlanner::select_retrieval_strategy</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_tensor_dependency" kindref="compound">TensorDependency</ref> &gt; &amp;</type>
+          <declname>dependencies</declname>
+        </param>
+        <briefdescription>
+<para>Select retrieval strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dependencies</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="114" column="21" bodyfile="src/distributed_tensor/distributed_planner.cc" bodystart="231" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_default_distributed_tensor_planner_1a0a7b446ca3a54193794724e9d3e65e8a" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::DefaultDistributedTensorPlanner::calculate_retrieval_time</definition>
+        <argsstring>(uint64_t data_size, float bandwidth_mbps, uint32_t parallel_streams) const noexcept</argsstring>
+        <name>calculate_retrieval_time</name>
+        <qualifiedname>themis::distributed_tensor::DefaultDistributedTensorPlanner::calculate_retrieval_time</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>data_size</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>bandwidth_mbps</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>parallel_streams</declname>
+        </param>
+        <briefdescription>
+<para>Calculate retrieval time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bandwidth_mbps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parallel_streams</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="125" column="12" bodyfile="src/distributed_tensor/distributed_planner.cc" bodystart="257" bodyend="277"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/distributed_planner.h" line="73" column="1" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="73" bodyend="128"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_default_distributed_tensor_planner_1a0a7b446ca3a54193794724e9d3e65e8a" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::DefaultDistributedTensorPlanner</scope><name>calculate_retrieval_time</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_default_distributed_tensor_planner_1ab915a816129a94e8f5d9389bfaead427" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DefaultDistributedTensorPlanner</scope><name>DefaultDistributedTensorPlanner</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_default_distributed_tensor_planner_1a67faec116520948086e73b088d900d23" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DefaultDistributedTensorPlanner</scope><name>estimate_retrieval_cost</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_default_distributed_tensor_planner_1abb7ada90b11d2d32c7053294568b59f6" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DefaultDistributedTensorPlanner</scope><name>is_tensor_available</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_default_distributed_tensor_planner_1a9d391aa67580fb5dec7652e91b910a7f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DefaultDistributedTensorPlanner</scope><name>optimize_retrieval_plan</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_default_distributed_tensor_planner_1a351798d02d950730eaeeb1a1942ed66e" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DefaultDistributedTensorPlanner</scope><name>plan_tensor_retrieval</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_default_distributed_tensor_planner_1afdc37ceb25e24f4d6278e07dc8387b06" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::DefaultDistributedTensorPlanner</scope><name>select_retrieval_strategy</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_default_distributed_tensor_planner_1a90f11c473297a6f1cf5e4acd736a251c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DefaultDistributedTensorPlanner</scope><name>~DefaultDistributedTensorPlanner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

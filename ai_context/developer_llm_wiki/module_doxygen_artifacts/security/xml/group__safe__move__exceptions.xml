@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="group__safe__move__exceptions" kind="group">
+    <compoundname>safe_move_exceptions</compoundname>
+    <title>SafeMove Exceptions</title>
+    <innerclass refid="classthemis_1_1security_1_1_move_violation_exception" prot="public">themis::security::MoveViolationException</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_use_after_move_exception" prot="public">themis::security::UseAfterMoveException</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_move_source_not_cleared" prot="public">themis::security::MoveSourceNotCleared</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+  </compounddef>
+</doxygen>

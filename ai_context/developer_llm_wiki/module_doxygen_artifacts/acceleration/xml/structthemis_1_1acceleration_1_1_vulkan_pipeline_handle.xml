@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_vulkan_pipeline_handle" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::VulkanPipelineHandle</compoundname>
+    <includes refid="vulkan__backend_8h" local="no">vulkan_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vulkan_pipeline_handle_1add27b9cb9418c61b4ef3c143f3bf24b9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::acceleration::VulkanPipelineHandle::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::acceleration::VulkanPipelineHandle::id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Opaque backend-assigned pipeline identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vulkan_backend.h" line="35" column="14" bodyfile="include/acceleration/vulkan_backend.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_vulkan_pipeline_handle_1a742882563dbc175a7a2d49912852abb4" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::VulkanPipelineHandle::valid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::acceleration::VulkanPipelineHandle::valid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vulkan_backend.h" line="37" column="10" bodyfile="include/acceleration/vulkan_backend.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_vulkan_pipeline_handle_1ae2b70eea76ab8a58c294da7fba63bb65" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::VulkanPipelineHandle::operator==</definition>
+        <argsstring>(const VulkanPipelineHandle &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::acceleration::VulkanPipelineHandle::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_vulkan_pipeline_handle" kindref="compound">VulkanPipelineHandle</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vulkan_backend.h" line="39" column="10" bodyfile="include/acceleration/vulkan_backend.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_vulkan_pipeline_handle_1ace10d7eed7ffba3d42507db03929b6ee" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::VulkanPipelineHandle::operator!=</definition>
+        <argsstring>(const VulkanPipelineHandle &amp;o) const noexcept</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>themis::acceleration::VulkanPipelineHandle::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_vulkan_pipeline_handle" kindref="compound">VulkanPipelineHandle</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vulkan_backend.h" line="40" column="10" bodyfile="include/acceleration/vulkan_backend.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/vulkan_backend.h" line="34" column="1" bodyfile="include/acceleration/vulkan_backend.h" bodystart="34" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_vulkan_pipeline_handle_1add27b9cb9418c61b4ef3c143f3bf24b9" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanPipelineHandle</scope><name>id</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vulkan_pipeline_handle_1ace10d7eed7ffba3d42507db03929b6ee" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanPipelineHandle</scope><name>operator!=</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vulkan_pipeline_handle_1ae2b70eea76ab8a58c294da7fba63bb65" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanPipelineHandle</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vulkan_pipeline_handle_1a742882563dbc175a7a2d49912852abb4" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanPipelineHandle</scope><name>valid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

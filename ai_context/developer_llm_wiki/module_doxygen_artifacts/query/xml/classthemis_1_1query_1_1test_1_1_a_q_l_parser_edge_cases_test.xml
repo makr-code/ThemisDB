@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::test::AQLParserEdgeCasesTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test_1aa9a978e172f4a579dc767b18d17e997f" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_a_q_l_parser" kindref="compound">AQLParser</ref></type>
+        <definition>AQLParser themis::query::test::AQLParserEdgeCasesTest::parser_</definition>
+        <argsstring></argsstring>
+        <name>parser_</name>
+        <qualifiedname>themis::query::test::AQLParserEdgeCasesTest::parser_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="32" column="15" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test_1a3c29f05984419b482f733fa9cdf6b668" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_aql_safety_validator" kindref="compound">AqlSafetyValidator</ref></type>
+        <definition>AqlSafetyValidator themis::query::test::AQLParserEdgeCasesTest::safety_validator_</definition>
+        <argsstring></argsstring>
+        <name>safety_validator_</name>
+        <qualifiedname>themis::query::test::AQLParserEdgeCasesTest::safety_validator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="33" column="24" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test_1aa038b49623860f21a20bda904e672402" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::AQLParserEdgeCasesTest::AQLParserEdgeCasesTest</definition>
+        <argsstring>()</argsstring>
+        <name>AQLParserEdgeCasesTest</name>
+        <qualifiedname>themis::query::test::AQLParserEdgeCasesTest::AQLParserEdgeCasesTest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_parser_edge_cases.cpp" line="35" column="5" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="35" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::query::test::AQLParserEdgeCasesTest</label>
+        <link refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::query::AQLParser</label>
+        <link refid="classthemis_1_1query_1_1_a_q_l_parser"/>
+      </node>
+      <node id="4">
+        <label>themis::query::AqlSafetyValidator</label>
+        <link refid="classthemis_1_1query_1_1_aql_safety_validator"/>
+      </node>
+      <node id="1">
+        <label>themis::query::test::AQLParserEdgeCasesTest</label>
+        <link refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>parser_</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>safety_validator_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_parser_edge_cases.cpp" line="30" column="1" bodyfile="tests/query/test_query_parser_edge_cases.cpp" bodystart="30" bodyend="36"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test_1aa038b49623860f21a20bda904e672402" prot="protected" virt="non-virtual"><scope>themis::query::test::AQLParserEdgeCasesTest</scope><name>AQLParserEdgeCasesTest</name></member>
+      <member refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test_1aa9a978e172f4a579dc767b18d17e997f" prot="protected" virt="non-virtual"><scope>themis::query::test::AQLParserEdgeCasesTest</scope><name>parser_</name></member>
+      <member refid="classthemis_1_1query_1_1test_1_1_a_q_l_parser_edge_cases_test_1a3c29f05984419b482f733fa9cdf6b668" prot="protected" virt="non-virtual"><scope>themis::query::test::AQLParserEdgeCasesTest</scope><name>safety_validator_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

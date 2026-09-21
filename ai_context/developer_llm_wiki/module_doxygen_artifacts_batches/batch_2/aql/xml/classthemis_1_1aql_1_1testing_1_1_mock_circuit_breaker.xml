@@ -1,0 +1,297 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::testing::MockCircuitBreaker</compoundname>
+    <innerclass refid="structthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1_1_config" prot="public">themis::aql::testing::MockCircuitBreaker::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1ab9df4d11f4aac8b49c00041c395524eb" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>State</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreaker::State</qualifiedname>
+        <enumvalue id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1ab9df4d11f4aac8b49c00041c395524eba110ccf2f5d2ff4eda1fd1a494293467d" prot="public">
+          <name>CLOSED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1ab9df4d11f4aac8b49c00041c395524eba5c1c0fca237f238d3c656d55a4db3ca4" prot="public">
+          <name>HALF_OPEN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1ab9df4d11f4aac8b49c00041c395524ebaa38bd5138bf35514df41a1795ebbf5c3" prot="public">
+          <name>OPEN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="37" column="5" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="37" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a55b72fb51dd195c46682da699957b632" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::aql::testing::MockCircuitBreaker::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreaker::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="124" column="24" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a6fc8a030161a322c3cfcb2b7d2427eab" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::aql::testing::MockCircuitBreaker::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreaker::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="125" column="12" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a8f46fa2e0df50cf927aedfa7fa277dbd" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1ab9df4d11f4aac8b49c00041c395524eb" kindref="member">State</ref></type>
+        <definition>State themis::aql::testing::MockCircuitBreaker::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreaker::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="126" column="12" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a742b4dcd652786b8ef849fa902354540" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::testing::MockCircuitBreaker::failures_</definition>
+        <argsstring></argsstring>
+        <name>failures_</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreaker::failures_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="127" column="12" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1ac22aedb1689b5b4526f3bd164e31b182" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::testing::MockCircuitBreaker::half_open_calls_</definition>
+        <argsstring></argsstring>
+        <name>half_open_calls_</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreaker::half_open_calls_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="128" column="12" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a79e92ac4b34aee3f84f6eb5412a12953" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::MockCircuitBreaker::MockCircuitBreaker</definition>
+        <argsstring>(const Config &amp;cfg=Config{})</argsstring>
+        <name>MockCircuitBreaker</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreaker::MockCircuitBreaker</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+          <defval><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1_1_config" kindref="compound">Config</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="44" column="14" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="44" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1aa6a54152497f3952f43b15cde2c8b592" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::testing::MockCircuitBreaker::allowRequest</definition>
+        <argsstring>()</argsstring>
+        <name>allowRequest</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreaker::allowRequest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if the request is allowed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="48" column="10" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="48" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1aee4442ad896a8638538d851efe5828e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::testing::MockCircuitBreaker::onSuccess</definition>
+        <argsstring>()</argsstring>
+        <name>onSuccess</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreaker::onSuccess</qualifiedname>
+        <briefdescription>
+<para>Record a successful request. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="66" column="10" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="66" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a5822efce6798cd46d8429bbee77ad978" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::testing::MockCircuitBreaker::onFailure</definition>
+        <argsstring>()</argsstring>
+        <name>onFailure</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreaker::onFailure</qualifiedname>
+        <briefdescription>
+<para>Record a failed request. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="81" column="10" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="81" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a386995d2fc379f1a97a5e5514ae3b0f4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::testing::MockCircuitBreaker::transitionToHalfOpen</definition>
+        <argsstring>()</argsstring>
+        <name>transitionToHalfOpen</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreaker::transitionToHalfOpen</qualifiedname>
+        <briefdescription>
+<para>Manually transition OPEN → HALF_OPEN (simulates timeout expiry). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="94" column="10" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="94" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a8daf5443a3697303f2c1cd4d33b2140f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::testing::MockCircuitBreaker::forceReset</definition>
+        <argsstring>()</argsstring>
+        <name>forceReset</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreaker::forceReset</qualifiedname>
+        <briefdescription>
+<para>Force reset to CLOSED state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="103" column="10" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="103" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1ad793254462551bd7ac3b83a2d56c0d3a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1ab9df4d11f4aac8b49c00041c395524eb" kindref="member">State</ref></type>
+        <definition>State themis::aql::testing::MockCircuitBreaker::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreaker::getState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="110" column="12" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a71d4e202dc5ca94463f7465abd42847c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::aql::testing::MockCircuitBreaker::failures</definition>
+        <argsstring>() const</argsstring>
+        <name>failures</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreaker::failures</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="111" column="12" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a5f37cbe16bdc8ef9991a8996fe024b25" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::aql::testing::MockCircuitBreaker::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreaker::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="112" column="12" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="112" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a15f5719276be81fdf96c85a85716b37a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>static const char * themis::aql::testing::MockCircuitBreaker::stateName</definition>
+        <argsstring>(State s)</argsstring>
+        <name>stateName</name>
+        <qualifiedname>themis::aql::testing::MockCircuitBreaker::stateName</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1ab9df4d11f4aac8b49c00041c395524eb" kindref="member">State</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="114" column="23" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="114" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_circuit_breaker_policy.cpp" line="35" column="1" bodyfile="tests/aql/test_aql_circuit_breaker_policy.cpp" bodystart="35" bodyend="129"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1aa6a54152497f3952f43b15cde2c8b592" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreaker</scope><name>allowRequest</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a6fc8a030161a322c3cfcb2b7d2427eab" prot="private" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreaker</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a71d4e202dc5ca94463f7465abd42847c" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreaker</scope><name>failures</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a742b4dcd652786b8ef849fa902354540" prot="private" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreaker</scope><name>failures_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a8daf5443a3697303f2c1cd4d33b2140f" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreaker</scope><name>forceReset</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a5f37cbe16bdc8ef9991a8996fe024b25" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreaker</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1ad793254462551bd7ac3b83a2d56c0d3a" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreaker</scope><name>getState</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1ac22aedb1689b5b4526f3bd164e31b182" prot="private" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreaker</scope><name>half_open_calls_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a79e92ac4b34aee3f84f6eb5412a12953" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreaker</scope><name>MockCircuitBreaker</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a55b72fb51dd195c46682da699957b632" prot="private" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreaker</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a5822efce6798cd46d8429bbee77ad978" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreaker</scope><name>onFailure</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1aee4442ad896a8638538d851efe5828e8" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreaker</scope><name>onSuccess</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1ab9df4d11f4aac8b49c00041c395524eb" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreaker</scope><name>State</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a8f46fa2e0df50cf927aedfa7fa277dbd" prot="private" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreaker</scope><name>state_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a15f5719276be81fdf96c85a85716b37a" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreaker</scope><name>stateName</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_mock_circuit_breaker_1a386995d2fc379f1a97a5e5514ae3b0f4" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockCircuitBreaker</scope><name>transitionToHalfOpen</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

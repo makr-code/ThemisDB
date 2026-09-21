@@ -1,0 +1,657 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1test_1_1_shard_failure_injector" kind="class" language="C++" prot="public">
+    <compoundname>themis::test::ShardFailureInjector</compoundname>
+    <includes refid="shard__failure__injector_8h" local="no">shard_failure_injector.h</includes>
+    <innerclass refid="structthemis_1_1test_1_1_shard_failure_injector_1_1_failure_scenario" prot="public">themis::test::ShardFailureInjector::FailureScenario</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dc" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FailureType</name>
+        <qualifiedname>themis::test::ShardFailureInjector::FailureType</qualifiedname>
+        <enumvalue id="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dca18a0316e7c30cc56acf083d96de6c386" prot="public">
+          <name>TRANSIENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dca54bcf9b291726b4cf8343f61681a5cfd" prot="public">
+          <name>PERMANENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dca0e3066cbbd284dce8b76e7c4620d6d75" prot="public">
+          <name>SLOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dcafad2f4d832184f8b063e736cac40012b" prot="public">
+          <name>CORRUPT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Failure type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="26" column="5" bodyfile="tests/utils/shard_failure_injector.h" bodystart="26" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1test_1_1_shard_failure_injector_1a53e27e03c4a43f29962eaa8be3df1ec9" prot="public" static="no">
+        <type>std::function&lt; void(int shard_id, <ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dc" kindref="member">FailureType</ref> type)&gt;</type>
+        <definition>using themis::test::ShardFailureInjector::FailureCallback = std::function&lt;void(int shard_id, FailureType type)&gt;</definition>
+        <argsstring></argsstring>
+        <name>FailureCallback</name>
+        <qualifiedname>themis::test::ShardFailureInjector::FailureCallback</qualifiedname>
+        <briefdescription>
+<para>Callback for failure events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="48" column="5" bodyfile="tests/utils/shard_failure_injector.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1test_1_1_shard_failure_injector_1ad5f099e935d6b5230f432bd02f7f53b8" prot="public" static="no">
+        <type>std::function&lt; void(int shard_id)&gt;</type>
+        <definition>using themis::test::ShardFailureInjector::RecoveryCallback = std::function&lt;void(int shard_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RecoveryCallback</name>
+        <qualifiedname>themis::test::ShardFailureInjector::RecoveryCallback</qualifiedname>
+        <briefdescription>
+<para>Callback for recovery events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="53" column="5" bodyfile="tests/utils/shard_failure_injector.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_shard_failure_injector_1a6e0c6ede857f114ef21d923a22935f51" prot="private" static="no" mutable="no">
+        <type>std::map&lt; int, <ref refid="structthemis_1_1test_1_1_shard_failure_injector_1_1_failure_scenario" kindref="compound">FailureScenario</ref> &gt;</type>
+        <definition>std::map&lt;int, FailureScenario&gt; themis::test::ShardFailureInjector::scenarios_</definition>
+        <argsstring></argsstring>
+        <name>scenarios_</name>
+        <qualifiedname>themis::test::ShardFailureInjector::scenarios_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="181" column="14" bodyfile="tests/utils/shard_failure_injector.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_shard_failure_injector_1a87b8abf2ef6098251e7100b2347134bb" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::test::ShardFailureInjector::next_scenario_id_</definition>
+        <argsstring></argsstring>
+        <name>next_scenario_id_</name>
+        <qualifiedname>themis::test::ShardFailureInjector::next_scenario_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="182" column="9" bodyfile="tests/utils/shard_failure_injector.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_shard_failure_injector_1a0fe552880de0fa1e204ad16f713bcff7" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a53e27e03c4a43f29962eaa8be3df1ec9" kindref="member">FailureCallback</ref></type>
+        <definition>FailureCallback themis::test::ShardFailureInjector::failure_callback_</definition>
+        <argsstring></argsstring>
+        <name>failure_callback_</name>
+        <qualifiedname>themis::test::ShardFailureInjector::failure_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="183" column="21" bodyfile="tests/utils/shard_failure_injector.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_shard_failure_injector_1a6ee9b01af49f2e8960446078b97f2c78" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1ad5f099e935d6b5230f432bd02f7f53b8" kindref="member">RecoveryCallback</ref></type>
+        <definition>RecoveryCallback themis::test::ShardFailureInjector::recovery_callback_</definition>
+        <argsstring></argsstring>
+        <name>recovery_callback_</name>
+        <qualifiedname>themis::test::ShardFailureInjector::recovery_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="184" column="22" bodyfile="tests/utils/shard_failure_injector.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_shard_failure_injector_1a4e889d994cde53ea885f3165a0174907" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::ShardFailureInjector::ShardFailureInjector</definition>
+        <argsstring>()</argsstring>
+        <name>ShardFailureInjector</name>
+        <qualifiedname>themis::test::ShardFailureInjector::ShardFailureInjector</qualifiedname>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="58" column="5" bodyfile="tests/utils/shard_failure_injector.cpp" bodystart="8" bodyend="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_shard_failure_injector_1a0c72467aed40bdd8f08a9d071b491710" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::ShardFailureInjector::~ShardFailureInjector</definition>
+        <argsstring>()</argsstring>
+        <name>~ShardFailureInjector</name>
+        <qualifiedname>themis::test::ShardFailureInjector::~ShardFailureInjector</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="63" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_shard_failure_injector_1a7af15e132e203c633b5561aa146630a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::ShardFailureInjector::injectFailure</definition>
+        <argsstring>(int shard_id, FailureType type, std::chrono::milliseconds duration=std::chrono::milliseconds{0})</argsstring>
+        <name>injectFailure</name>
+        <qualifiedname>themis::test::ShardFailureInjector::injectFailure</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dc" kindref="member">FailureType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>duration</declname>
+          <defval>std::chrono::milliseconds{0}</defval>
+        </param>
+        <briefdescription>
+<para>Inject shard failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard to fail </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of failure </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Duration (0 for permanent) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Scenario ID </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="76" column="9" bodyfile="tests/utils/shard_failure_injector.cpp" bodystart="12" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_shard_failure_injector_1a73c4dedf90a8a9b4fe24285db8c55496" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::test::ShardFailureInjector::injectRandomFailures</definition>
+        <argsstring>(int num_failures, int max_shard_id, bool transient=true, std::chrono::milliseconds max_duration=std::chrono::seconds{30})</argsstring>
+        <name>injectRandomFailures</name>
+        <qualifiedname>themis::test::ShardFailureInjector::injectRandomFailures</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num_failures</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_shard_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>transient</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>max_duration</declname>
+          <defval>std::chrono::seconds{30}</defval>
+        </param>
+        <briefdescription>
+<para>Inject random failures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>num_failures</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of failures to inject </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum shard ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>transient</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, failures auto-recover </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum failure duration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of scenario IDs </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="87" column="17" bodyfile="tests/utils/shard_failure_injector.cpp" bodystart="33" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_shard_failure_injector_1a87519c43b13632eccba6f0452a22d4ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::test::ShardFailureInjector::injectCascadingFailures</definition>
+        <argsstring>(int initial_shard, int cascade_count, std::chrono::milliseconds cascade_delay)</argsstring>
+        <name>injectCascadingFailures</name>
+        <qualifiedname>themis::test::ShardFailureInjector::injectCascadingFailures</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>initial_shard</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>cascade_count</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>cascade_delay</declname>
+        </param>
+        <briefdescription>
+<para>Inject cascading failures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>initial_shard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial shard to fail </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cascade_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of additional shards to fail </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cascade_delay</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Delay between cascading failures </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of scenario IDs </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="100" column="17" bodyfile="tests/utils/shard_failure_injector.cpp" bodystart="56" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_shard_failure_injector_1a53934c8b7d5a56dfad495c5a46b1d95d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::ShardFailureInjector::clearAllFailures</definition>
+        <argsstring>()</argsstring>
+        <name>clearAllFailures</name>
+        <qualifiedname>themis::test::ShardFailureInjector::clearAllFailures</qualifiedname>
+        <briefdescription>
+<para>Clear all failures. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="108" column="10" bodyfile="tests/utils/shard_failure_injector.cpp" bodystart="76" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_shard_failure_injector_1a6ef8eda3ac0693812e40880255f71b0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::ShardFailureInjector::recoverScenario</definition>
+        <argsstring>(int scenario_id)</argsstring>
+        <name>recoverScenario</name>
+        <qualifiedname>themis::test::ShardFailureInjector::recoverScenario</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>scenario_id</declname>
+        </param>
+        <briefdescription>
+<para>Recover specific scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scenario_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scenario to recover </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if recovered </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="115" column="10" bodyfile="tests/utils/shard_failure_injector.cpp" bodystart="89" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_shard_failure_injector_1a9772f199c70f4328ad5641781a41997f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::ShardFailureInjector::isShardFailed</definition>
+        <argsstring>(int shard_id) const</argsstring>
+        <name>isShardFailed</name>
+        <qualifiedname>themis::test::ShardFailureInjector::isShardFailed</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Check if shard has active failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if failed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="126" column="10" bodyfile="tests/utils/shard_failure_injector.cpp" bodystart="104" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_shard_failure_injector_1a6e35383f062487254467380a22416a1e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dc" kindref="member">FailureType</ref> &gt;</type>
+        <definition>std::vector&lt; ShardFailureInjector::FailureType &gt; themis::test::ShardFailureInjector::getActiveFailures</definition>
+        <argsstring>(int shard_id) const</argsstring>
+        <name>getActiveFailures</name>
+        <qualifiedname>themis::test::ShardFailureInjector::getActiveFailures</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Get active failures for shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of active failure types </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="133" column="17" bodyfile="tests/utils/shard_failure_injector.cpp" bodystart="113" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_shard_failure_injector_1ae722db8bc33a3587f2365d10808c2b78" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::test::ShardFailureInjector::getActiveScenarios</definition>
+        <argsstring>() const</argsstring>
+        <name>getActiveScenarios</name>
+        <qualifiedname>themis::test::ShardFailureInjector::getActiveScenarios</qualifiedname>
+        <briefdescription>
+<para>Get all active scenarios. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of active scenario IDs </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="139" column="17" bodyfile="tests/utils/shard_failure_injector.cpp" bodystart="126" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_shard_failure_injector_1a68293ab7044915b1116fe4321efdd1fb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1test_1_1_shard_failure_injector_1_1_failure_scenario" kindref="compound">FailureScenario</ref> *</type>
+        <definition>const ShardFailureInjector::FailureScenario * themis::test::ShardFailureInjector::getScenario</definition>
+        <argsstring>(int scenario_id) const</argsstring>
+        <name>getScenario</name>
+        <qualifiedname>themis::test::ShardFailureInjector::getScenario</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>scenario_id</declname>
+        </param>
+        <briefdescription>
+<para>Get scenario details. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scenario_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scenario ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Scenario or nullptr if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="146" column="27" bodyfile="tests/utils/shard_failure_injector.cpp" bodystart="138" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_shard_failure_injector_1a911964c595caa29a4a26944bb02fc07c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::ShardFailureInjector::setFailureCallback</definition>
+        <argsstring>(FailureCallback callback)</argsstring>
+        <name>setFailureCallback</name>
+        <qualifiedname>themis::test::ShardFailureInjector::setFailureCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1a53e27e03c4a43f29962eaa8be3df1ec9" kindref="member">FailureCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set failure callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback function </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="156" column="10" bodyfile="tests/utils/shard_failure_injector.cpp" bodystart="147" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_shard_failure_injector_1a25b0e4d0652fc7ef0cfe91771a6a5790" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::ShardFailureInjector::setRecoveryCallback</definition>
+        <argsstring>(RecoveryCallback callback)</argsstring>
+        <name>setRecoveryCallback</name>
+        <qualifiedname>themis::test::ShardFailureInjector::setRecoveryCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_shard_failure_injector_1ad5f099e935d6b5230f432bd02f7f53b8" kindref="member">RecoveryCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set recovery callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback function </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="162" column="10" bodyfile="tests/utils/shard_failure_injector.cpp" bodystart="151" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_shard_failure_injector_1a6d96e469837fca9aa28dbdb464cb82cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::ShardFailureInjector::update</definition>
+        <argsstring>()</argsstring>
+        <name>update</name>
+        <qualifiedname>themis::test::ShardFailureInjector::update</qualifiedname>
+        <briefdescription>
+<para>Update failure states (handle auto-recovery) Should be called periodically. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="172" column="10" bodyfile="tests/utils/shard_failure_injector.cpp" bodystart="155" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_shard_failure_injector_1aaa7d2367fd41f3451eb7ba4d5d8071ef" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, int &gt;</type>
+        <definition>std::map&lt; std::string, int &gt; themis::test::ShardFailureInjector::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::test::ShardFailureInjector::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Get failure statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON with statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="178" column="14" bodyfile="tests/utils/shard_failure_injector.cpp" bodystart="182" bodyend="214"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_shard_failure_injector_1a433221dbba87f4c6bb6d621b8749e1cb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::ShardFailureInjector::generateScenarioId</definition>
+        <argsstring>()</argsstring>
+        <name>generateScenarioId</name>
+        <qualifiedname>themis::test::ShardFailureInjector::generateScenarioId</qualifiedname>
+        <briefdescription>
+<para>Generate unique scenario ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>New scenario ID </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/shard_failure_injector.h" line="190" column="9" bodyfile="tests/utils/shard_failure_injector.cpp" bodystart="216" bodyend="218"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Shard failure injector for chaos testing. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides controlled and random failure injection for testing:<itemizedlist>
+<listitem><para>Transient failures (temporary)</para>
+</listitem><listitem><para>Permanent failures</para>
+</listitem><listitem><para>Cascading failures</para>
+</listitem><listitem><para>Random failure scenarios </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="tests/utils/shard_failure_injector.h" line="21" column="1" bodyfile="tests/utils/shard_failure_injector.h" bodystart="21" bodyend="191"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1a53934c8b7d5a56dfad495c5a46b1d95d" prot="public" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>clearAllFailures</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1a0fe552880de0fa1e204ad16f713bcff7" prot="private" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>failure_callback_</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1a53e27e03c4a43f29962eaa8be3df1ec9" prot="public" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>FailureCallback</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1a11f805c4fb835fd7c2db521bf06fe5dc" prot="public" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>FailureType</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1a433221dbba87f4c6bb6d621b8749e1cb" prot="private" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>generateScenarioId</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1a6e35383f062487254467380a22416a1e" prot="public" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>getActiveFailures</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1ae722db8bc33a3587f2365d10808c2b78" prot="public" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>getActiveScenarios</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1a68293ab7044915b1116fe4321efdd1fb" prot="public" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>getScenario</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1aaa7d2367fd41f3451eb7ba4d5d8071ef" prot="public" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1a87519c43b13632eccba6f0452a22d4ec" prot="public" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>injectCascadingFailures</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1a7af15e132e203c633b5561aa146630a9" prot="public" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>injectFailure</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1a73c4dedf90a8a9b4fe24285db8c55496" prot="public" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>injectRandomFailures</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1a9772f199c70f4328ad5641781a41997f" prot="public" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>isShardFailed</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1a87b8abf2ef6098251e7100b2347134bb" prot="private" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>next_scenario_id_</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1a6ef8eda3ac0693812e40880255f71b0f" prot="public" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>recoverScenario</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1a6ee9b01af49f2e8960446078b97f2c78" prot="private" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>recovery_callback_</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1ad5f099e935d6b5230f432bd02f7f53b8" prot="public" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>RecoveryCallback</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1a6e0c6ede857f114ef21d923a22935f51" prot="private" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>scenarios_</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1a911964c595caa29a4a26944bb02fc07c" prot="public" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>setFailureCallback</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1a25b0e4d0652fc7ef0cfe91771a6a5790" prot="public" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>setRecoveryCallback</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1a4e889d994cde53ea885f3165a0174907" prot="public" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>ShardFailureInjector</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1a6d96e469837fca9aa28dbdb464cb82cc" prot="public" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>update</name></member>
+      <member refid="classthemis_1_1test_1_1_shard_failure_injector_1a0c72467aed40bdd8f08a9d071b491710" prot="public" virt="non-virtual"><scope>themis::test::ShardFailureInjector</scope><name>~ShardFailureInjector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

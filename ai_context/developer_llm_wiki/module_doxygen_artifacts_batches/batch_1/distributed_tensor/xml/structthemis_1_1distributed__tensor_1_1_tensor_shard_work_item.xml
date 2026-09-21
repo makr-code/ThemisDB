@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_tensor_shard_work_item" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::TensorShardWorkItem</compoundname>
+    <includes refid="tensor__training__coordinator_8h" local="no">tensor_training_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_shard_work_item_1af65d6e42376c991d001cd23f29795e19" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::TensorShardWorkItem::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::distributed_tensor::TensorShardWorkItem::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="32" column="17" bodyfile="include/distributed_tensor/tensor_training_coordinator.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_shard_work_item_1a665da23611d558000423acdc0348d669" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::distributed_tensor::TensorShardWorkItem::tensor_values</definition>
+        <argsstring></argsstring>
+        <name>tensor_values</name>
+        <qualifiedname>themis::distributed_tensor::TensorShardWorkItem::tensor_values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="33" column="17" bodyfile="include/distributed_tensor/tensor_training_coordinator.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/tensor_training_coordinator.h" line="31" column="1" bodyfile="include/distributed_tensor/tensor_training_coordinator.h" bodystart="31" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_shard_work_item_1af65d6e42376c991d001cd23f29795e19" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorShardWorkItem</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_shard_work_item_1a665da23611d558000423acdc0348d669" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorShardWorkItem</scope><name>tensor_values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

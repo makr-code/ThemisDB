@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structchimera_1_1_stream_config" kind="struct" language="C++" prot="public">
+    <compoundname>chimera::StreamConfig</compoundname>
+    <includes refid="database__adapter_8hpp" local="no">database_adapter.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structchimera_1_1_stream_config_1a5a8bc95260335716d6d2c10d6e570730" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t chimera::StreamConfig::default_batch_size</definition>
+        <argsstring></argsstring>
+        <name>default_batch_size</name>
+        <qualifiedname>chimera::StreamConfig::default_batch_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Rows fetched per network round-trip. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="142" column="12" bodyfile="include/chimera/database_adapter.hpp" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_stream_config_1a786b1d263655425fb4fa8be0b5cafaf2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t chimera::StreamConfig::prefetch</definition>
+        <argsstring></argsstring>
+        <name>prefetch</name>
+        <qualifiedname>chimera::StreamConfig::prefetch</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Number of batches to prefetch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="143" column="12" bodyfile="include/chimera/database_adapter.hpp" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_stream_config_1a291c5c2ad9a5403e600094fdd6ecaf08" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t chimera::StreamConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>chimera::StreamConfig::timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+<para>Per-batch fetch timeout (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="144" column="14" bodyfile="include/chimera/database_adapter.hpp" bodystart="144" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/chimera/database_adapter.hpp" line="141" column="1" bodyfile="include/chimera/database_adapter.hpp" bodystart="141" bodyend="145"/>
+    <listofallmembers>
+      <member refid="structchimera_1_1_stream_config_1a5a8bc95260335716d6d2c10d6e570730" prot="public" virt="non-virtual"><scope>chimera::StreamConfig</scope><name>default_batch_size</name></member>
+      <member refid="structchimera_1_1_stream_config_1a786b1d263655425fb4fa8be0b5cafaf2" prot="public" virt="non-virtual"><scope>chimera::StreamConfig</scope><name>prefetch</name></member>
+      <member refid="structchimera_1_1_stream_config_1a291c5c2ad9a5403e600094fdd6ecaf08" prot="public" virt="non-virtual"><scope>chimera::StreamConfig</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,678 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__schema__audit__log_8cpp" kind="file" language="C++">
+    <compoundname>test_schema_audit_log.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">set</includes>
+    <includes local="no">thread</includes>
+    <includes refid="schema__audit__log_8h" local="yes">metadata/schema_audit_log.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <incdepgraph>
+      <node id="7">
+        <label>metadata/schema_audit_log.h</label>
+        <link refid="schema__audit__log_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/metadata/test_schema_audit_log.cpp</label>
+        <link refid="test__schema__audit__log_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>filesystem</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>set</label>
+      </node>
+      <node id="12">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>string_view</label>
+      </node>
+      <node id="6">
+        <label>thread</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_schema_audit_log_test" prot="public">SchemaAuditLogTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__schema__audit__log_8cpp_1a942f7b571908ca77e273c4163f1044e0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string makeTempDbPath</definition>
+        <argsstring>(const std::string &amp;prefix)</argsstring>
+        <name>makeTempDbPath</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="17" column="20" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="17" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__audit__log_8cpp_1a29636fcd7c65fd219fb290337887c4a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaAuditLogTest, ConstructAndDestruct)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref></type>
+        </param>
+        <param>
+          <type>ConstructAndDestruct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="47" column="1" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="47" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__audit__log_8cpp_1a621b7d33235654dc6bf7f41e9c6d1a32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaAuditLogTest, RecordReturnsTrueOnSuccess)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref></type>
+        </param>
+        <param>
+          <type>RecordReturnsTrueOnSuccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="56" column="1" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="56" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__audit__log_8cpp_1a253d471924870cfc4b336b842fe44379" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaAuditLogTest, RecordWithMinimalArgs)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref></type>
+        </param>
+        <param>
+          <type>RecordWithMinimalArgs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="62" column="1" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="62" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__audit__log_8cpp_1aa56d841eb6338a19c6daa3a69d601d86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaAuditLogTest, RecordWithExtraMetadata)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref></type>
+        </param>
+        <param>
+          <type>RecordWithExtraMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="68" column="1" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="68" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__audit__log_8cpp_1a06b539f8f1d103fe547c8e796a6c7d12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaAuditLogTest, EmptyHistoryOnFreshDb)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyHistoryOnFreshDb</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="79" column="1" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="79" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__audit__log_8cpp_1a8a08640fe41226d2c949aae04e4a67c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaAuditLogTest, HistoryContainsRecordedEntry)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref></type>
+        </param>
+        <param>
+          <type>HistoryContainsRecordedEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="85" column="1" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="85" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__audit__log_8cpp_1afdff94f652f2fb3ca48e511a5367fbbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaAuditLogTest, HistoryContainsMultipleEntriesInOrder)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref></type>
+        </param>
+        <param>
+          <type>HistoryContainsMultipleEntriesInOrder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="98" column="1" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="98" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__audit__log_8cpp_1a7b1b87a993063ca2bd0c8daa7e417c62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaAuditLogTest, HistoryIsScopedToTable)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref></type>
+        </param>
+        <param>
+          <type>HistoryIsScopedToTable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="115" column="1" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="115" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__audit__log_8cpp_1ad378d079932481d3f258964b471ebc1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaAuditLogTest, FullHistorySpansAllTables)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref></type>
+        </param>
+        <param>
+          <type>FullHistorySpansAllTables</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="133" column="1" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="133" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__audit__log_8cpp_1adc87cb53e5ec400f1273f6b747365ecb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaAuditLogTest, FullHistoryEmptyOnFreshDb)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref></type>
+        </param>
+        <param>
+          <type>FullHistoryEmptyOnFreshDb</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="152" column="1" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="152" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__audit__log_8cpp_1a6a7ae02a3c1184e433266c74af4beefd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaAuditLogTest, RecentHistoryReturnsAllWhenUnderLimit)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref></type>
+        </param>
+        <param>
+          <type>RecentHistoryReturnsAllWhenUnderLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="161" column="1" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="161" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__audit__log_8cpp_1a1f8007ba10dc8a364f9645eff11bfec1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaAuditLogTest, RecentHistoryRespectsLimit)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref></type>
+        </param>
+        <param>
+          <type>RecentHistoryRespectsLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="170" column="1" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="170" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__audit__log_8cpp_1a16666c4e81bb8d4e446540a80e534eb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaAuditLogTest, HistoryToJSONIsArray)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref></type>
+        </param>
+        <param>
+          <type>HistoryToJSONIsArray</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="187" column="1" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="187" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__audit__log_8cpp_1a8d9e57de8e9f08f5851cd224c924317f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaAuditLogTest, FullHistoryToJSONIsArray)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref></type>
+        </param>
+        <param>
+          <type>FullHistoryToJSONIsArray</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="200" column="1" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="200" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__audit__log_8cpp_1a141fd88db3dc14e1c2009309d8bb98cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaAuditLogTest, HistoryToJSONContainsTimestampField)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref></type>
+        </param>
+        <param>
+          <type>HistoryToJSONContainsTimestampField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="210" column="1" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="210" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__audit__log_8cpp_1a5044a69b0b6fd788e5980558f3758bf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaAuditLogTest, HistoryToJSONContainsExtraMetadata)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref></type>
+        </param>
+        <param>
+          <type>HistoryToJSONContainsExtraMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="221" column="1" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="221" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="test__schema__audit__log_8cpp_1a915d4376b7c88ef39914b3f5b9c35de0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SchemaAuditLogTest, EntryToFromJSONRoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref></type>
+        </param>
+        <param>
+          <type>EntryToFromJSONRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_schema_audit_log.cpp" line="236" column="1" bodyfile="tests/metadata/test_schema_audit_log.cpp" bodystart="236" bodyend="251"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>for<sp/>SchemaAuditLog</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="schema__audit__log_8h" kindref="compound">metadata/schema_audit_log.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>makeTempDbPath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prefix)<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::high_resolution_clock::now().time_since_epoch().count();</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(fs::temp_directory_path()<sp/>/<sp/>(prefix<sp/>+<sp/>std::to_string(now))).string();</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="class_schema_audit_log_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_schema_audit_log_test_1a6681ec07f22ec7b08546fd5950844fc4" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>makeTempDbPath(</highlight><highlight class="stringliteral">&quot;test_audit_log_&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.enable_blobdb<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_schema_audit_log_test_1ac3a59cd7e675cf75de26a9a5a3faf076" kindref="member">db_</ref><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_schema_audit_log_test_1ac3a59cd7e675cf75de26a9a5a3faf076" kindref="member">db_</ref>-&gt;open())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>open<sp/>test<sp/>database&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_schema_audit_log_test_1ac83b8f574e24f050bb20c743b899ecf2" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_schema_audit_log_test_1ac3a59cd7e675cf75de26a9a5a3faf076" kindref="member">db_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_schema_audit_log_test_1ac3a59cd7e675cf75de26a9a5a3faf076" kindref="member">db_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><ref refid="class_schema_audit_log_test_1ac3a59cd7e675cf75de26a9a5a3faf076" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="test__schema__audit__log_8cpp_1a29636fcd7c65fd219fb290337887c4a4" kindref="member">TEST_F</ref>(<ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref>,<sp/>ConstructAndDestruct)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref><sp/>log(*db_);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>record()<sp/>–<sp/>basic<sp/>write</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__schema__audit__log_8cpp_1a29636fcd7c65fd219fb290337887c4a4" kindref="member">TEST_F</ref>(<ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref>,<sp/>RecordReturnsTrueOnSuccess)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref><sp/>log(*db_);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>log.record(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;create&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;initial<sp/>schema&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__schema__audit__log_8cpp_1a29636fcd7c65fd219fb290337887c4a4" kindref="member">TEST_F</ref>(<ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref>,<sp/>RecordWithMinimalArgs)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref><sp/>log(*db_);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>log.record(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;update&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__schema__audit__log_8cpp_1a29636fcd7c65fd219fb290337887c4a4" kindref="member">TEST_F</ref>(<ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref>,<sp/>RecordWithExtraMetadata)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref><sp/>log(*db_);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>extra<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;migrated_from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;applied_by&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ci&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>log.record(</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;import&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;system&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v1<sp/>to<sp/>v2<sp/>migration&quot;</highlight><highlight class="normal">,<sp/>5,<sp/>extra);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>getHistory()<sp/>–<sp/>read<sp/>back<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__schema__audit__log_8cpp_1a29636fcd7c65fd219fb290337887c4a4" kindref="member">TEST_F</ref>(<ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref>,<sp/>EmptyHistoryOnFreshDb)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref><sp/>log(*db_);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>history<sp/>=<sp/>log.getHistory(</highlight><highlight class="stringliteral">&quot;nonexistent_table&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(history.empty());</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__schema__audit__log_8cpp_1a29636fcd7c65fd219fb290337887c4a4" kindref="member">TEST_F</ref>(<ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref>,<sp/>HistoryContainsRecordedEntry)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref><sp/>log(*db_);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.record(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;create&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;initial&quot;</highlight><highlight class="normal">,<sp/>1));</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>history<sp/>=<sp/>log.getHistory(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(history.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history[0].table_name,<sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history[0].operation,<sp/></highlight><highlight class="stringliteral">&quot;create&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history[0].author,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history[0].description,<sp/></highlight><highlight class="stringliteral">&quot;initial&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history[0].version,<sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="test__schema__audit__log_8cpp_1a29636fcd7c65fd219fb290337887c4a4" kindref="member">TEST_F</ref>(<ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref>,<sp/>HistoryContainsMultipleEntriesInOrder)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref><sp/>log(*db_);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.record(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;create&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;created&quot;</highlight><highlight class="normal">,<sp/><sp/>1));</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(2));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.record(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;update&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;added<sp/>col&quot;</highlight><highlight class="normal">,<sp/>2));</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(2));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.record(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;update&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;carol&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;renamed&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>3));</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>history<sp/>=<sp/>log.getHistory(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(history.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Entries<sp/>must<sp/>be<sp/>in<sp/>ascending<sp/>timestamp<sp/>order<sp/>(id-sorted)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history[0].operation,<sp/></highlight><highlight class="stringliteral">&quot;create&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history[1].operation,<sp/></highlight><highlight class="stringliteral">&quot;update&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history[2].operation,<sp/></highlight><highlight class="stringliteral">&quot;update&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history[2].author,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;carol&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="test__schema__audit__log_8cpp_1a29636fcd7c65fd219fb290337887c4a4" kindref="member">TEST_F</ref>(<ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref>,<sp/>HistoryIsScopedToTable)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref><sp/>log(*db_);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.record(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;create&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;users<sp/>table&quot;</highlight><highlight class="normal">,<sp/>1));</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.record(</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;create&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>1));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>users_history<sp/>=<sp/>log.getHistory(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(users_history.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(users_history[0].table_name,<sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>products_history<sp/>=<sp/>log.getHistory(</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(products_history.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(products_history[0].table_name,<sp/></highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>getFullHistory()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__schema__audit__log_8cpp_1a29636fcd7c65fd219fb290337887c4a4" kindref="member">TEST_F</ref>(<ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref>,<sp/>FullHistorySpansAllTables)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref><sp/>log(*db_);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.record(</highlight><highlight class="stringliteral">&quot;tableA&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;create&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;u1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>1));</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.record(</highlight><highlight class="stringliteral">&quot;tableB&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;create&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;u2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>1));</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.record(</highlight><highlight class="stringliteral">&quot;tableC&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;create&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;u3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>1));</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>full<sp/>=<sp/>log.getFullHistory();</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(full.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>tables<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>full)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>tables.insert(e.table_name);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tables.count(</highlight><highlight class="stringliteral">&quot;tableA&quot;</highlight><highlight class="normal">),<sp/>1u);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tables.count(</highlight><highlight class="stringliteral">&quot;tableB&quot;</highlight><highlight class="normal">),<sp/>1u);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tables.count(</highlight><highlight class="stringliteral">&quot;tableC&quot;</highlight><highlight class="normal">),<sp/>1u);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__schema__audit__log_8cpp_1a29636fcd7c65fd219fb290337887c4a4" kindref="member">TEST_F</ref>(<ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref>,<sp/>FullHistoryEmptyOnFreshDb)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref><sp/>log(*db_);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(log.getFullHistory().empty());</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>getRecentHistory()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="test__schema__audit__log_8cpp_1a29636fcd7c65fd219fb290337887c4a4" kindref="member">TEST_F</ref>(<ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref>,<sp/>RecentHistoryReturnsAllWhenUnderLimit)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref><sp/>log(*db_);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.record(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;create&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.record(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;update&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recent<sp/>=<sp/>log.getRecentHistory(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/>10);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(recent.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__schema__audit__log_8cpp_1a29636fcd7c65fd219fb290337887c4a4" kindref="member">TEST_F</ref>(<ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref>,<sp/>RecentHistoryRespectsLimit)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref><sp/>log(*db_);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(2));</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.record(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;update&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;u&quot;</highlight><highlight class="normal">,<sp/>std::to_string(i),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)));</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recent<sp/>=<sp/>log.getRecentHistory(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(recent.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Most<sp/>recent<sp/>entries<sp/>should<sp/>be<sp/>versions<sp/>2,<sp/>3,<sp/>4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(recent[2].version,<sp/>4u);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>JSON<sp/>export</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="test__schema__audit__log_8cpp_1a29636fcd7c65fd219fb290337887c4a4" kindref="member">TEST_F</ref>(<ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref>,<sp/>HistoryToJSONIsArray)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref><sp/>log(*db_);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.record(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;create&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;initial&quot;</highlight><highlight class="normal">,<sp/>1));</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>log.historyToJSON(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.is_array());</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(j.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[0][</highlight><highlight class="stringliteral">&quot;table_name&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[0][</highlight><highlight class="stringliteral">&quot;operation&quot;</highlight><highlight class="normal">],<sp/><sp/></highlight><highlight class="stringliteral">&quot;create&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[0][</highlight><highlight class="stringliteral">&quot;author&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[0][</highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><ref refid="test__schema__audit__log_8cpp_1a29636fcd7c65fd219fb290337887c4a4" kindref="member">TEST_F</ref>(<ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref>,<sp/>FullHistoryToJSONIsArray)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref><sp/>log(*db_);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.record(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;create&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.record(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;create&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>log.fullHistoryToJSON();</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.is_array());</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="test__schema__audit__log_8cpp_1a29636fcd7c65fd219fb290337887c4a4" kindref="member">TEST_F</ref>(<ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref>,<sp/>HistoryToJSONContainsTimestampField)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref><sp/>log(*db_);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.record(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;delete&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;carol&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;cleanup&quot;</highlight><highlight class="normal">,<sp/>3));</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>log.historyToJSON(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(j.empty());</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j[0].contains(</highlight><highlight class="stringliteral">&quot;timestamp&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timestamp<sp/>must<sp/>be<sp/>a<sp/>non-empty<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(j[0][</highlight><highlight class="stringliteral">&quot;timestamp&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;().empty());</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><ref refid="test__schema__audit__log_8cpp_1a29636fcd7c65fd219fb290337887c4a4" kindref="member">TEST_F</ref>(<ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref>,<sp/>HistoryToJSONContainsExtraMetadata)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref><sp/>log(*db_);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>extra<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;migration&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;batch&quot;</highlight><highlight class="normal">,<sp/>42}};</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.record(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;import&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;system&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;batch<sp/>import&quot;</highlight><highlight class="normal">,<sp/>7,<sp/>extra));</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>log.historyToJSON(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(j.empty());</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[0][</highlight><highlight class="stringliteral">&quot;metadata&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;migration&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[0][</highlight><highlight class="stringliteral">&quot;metadata&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;batch&quot;</highlight><highlight class="normal">],<sp/><sp/>42);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SchemaAuditEntry<sp/>serialization<sp/>round-trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><ref refid="test__schema__audit__log_8cpp_1a29636fcd7c65fd219fb290337887c4a4" kindref="member">TEST_F</ref>(<ref refid="class_schema_audit_log_test" kindref="compound">SchemaAuditLogTest</ref>,<sp/>EntryToFromJSONRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_schema_audit_log" kindref="compound">SchemaAuditLog</ref><sp/>log(*db_);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(log.record(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rollback&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;emergency<sp/>rollback&quot;</highlight><highlight class="normal">,<sp/>5));</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>history<sp/>=<sp/>log.getHistory(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(history.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/><sp/><sp/><sp/>=<sp/>history[0].toJSON();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>copy<sp/>=<sp/><ref refid="structthemis_1_1_schema_audit_entry_1ac6ef3fe698bd6e9b879b9d0727415a35" kindref="member">SchemaAuditEntry::fromJSON</ref>(j);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(copy.table_name,<sp/><sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(copy.operation,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;rollback&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(copy.author,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(copy.description,<sp/></highlight><highlight class="stringliteral">&quot;emergency<sp/>rollback&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(copy.version,<sp/><sp/><sp/><sp/><sp/>5u);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/metadata/test_schema_audit_log.cpp"/>
+  </compounddef>
+</doxygen>

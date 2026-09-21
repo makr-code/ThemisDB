@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_revocation_hardening_test" kind="class" language="C++" prot="public">
+    <compoundname>RevocationHardeningTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_revocation_hardening_test_1aa86c5c290d47589bb3652f046a937b02" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path RevocationHardeningTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>RevocationHardeningTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="99" column="14" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_revocation_hardening_test_1ab683df5fe469163efc2beb92edefb14e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RevocationHardeningTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>RevocationHardeningTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="100" column="10" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="class_revocation_hardening_test_1a2133b43baff148b4fde71f3c731af723" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RevocationHardeningTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>RevocationHardeningTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="101" column="10" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="101" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RevocationHardeningTest</label>
+        <link refid="class_revocation_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RevocationHardeningTest</label>
+        <link refid="class_revocation_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="97" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="97" bodyend="102"/>
+    <listofallmembers>
+      <member refid="class_revocation_hardening_test_1aa86c5c290d47589bb3652f046a937b02" prot="protected" virt="non-virtual"><scope>RevocationHardeningTest</scope><name>db_path_</name></member>
+      <member refid="class_revocation_hardening_test_1ab683df5fe469163efc2beb92edefb14e" prot="protected" virt="non-virtual"><scope>RevocationHardeningTest</scope><name>SetUp</name></member>
+      <member refid="class_revocation_hardening_test_1a2133b43baff148b4fde71f3c731af723" prot="protected" virt="non-virtual"><scope>RevocationHardeningTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

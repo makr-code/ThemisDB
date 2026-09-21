@@ -1,0 +1,1059 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__ingestion__errors_8cpp" kind="file" language="C++">
+    <compoundname>test_ingestion_errors.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="ingestion__manager_8h" local="yes">ingestion/ingestion_manager.h</includes>
+    <includes refid="filesystem__ingester_8h" local="yes">ingestion/filesystem_ingester.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <incdepgraph>
+      <node id="21">
+        <label>ingestion/base_entity.h</label>
+        <link refid="base__entity_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>ingestion/deontic_extractor.h</label>
+        <link refid="deontic__extractor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>ingestion/extraction_context.h</label>
+        <link refid="extraction__context_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>ingestion/file_format.h</label>
+        <link refid="file__format_8h"/>
+      </node>
+      <node id="18">
+        <label>ingestion/file_manifest.h</label>
+        <link refid="file__manifest_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>ingestion/filesystem_ingester.h</label>
+        <link refid="filesystem__ingester_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>ingestion/inference_backend.h</label>
+        <link refid="inference__backend_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ingestion/ingestion_manager.h</label>
+        <link refid="ingestion__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>ingestion/ingestion_quality_judge.h</label>
+        <link refid="ingestion__quality__judge_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>ingestion/ingestion_step.h</label>
+        <link refid="ingestion__step_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>ingestion/semantic_validator.h</label>
+        <link refid="semantic__validator_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>ingestion/workflow_engine.h</label>
+        <link refid="workflow__engine_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/ingestion/test_ingestion_errors.cpp</label>
+        <link refid="test__ingestion__errors_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="10">
+        <label>chrono</label>
+      </node>
+      <node id="20">
+        <label>cstdint</label>
+      </node>
+      <node id="29">
+        <label>filesystem</label>
+      </node>
+      <node id="30">
+        <label>fstream</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="26">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="23">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>utility</label>
+      </node>
+      <node id="25">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="24">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionErrorTest, OkDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionErrorTest</type>
+        </param>
+        <param>
+          <type>OkDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="27" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="27" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1a54dd41874a0fdb314166b1fc6e0c89a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionErrorTest, FatalError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionErrorTest</type>
+        </param>
+        <param>
+          <type>FatalError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="35" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="35" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1aacf0ac2438df7196cf79c8c225635d08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionErrorTest, WarningNotFatal)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionErrorTest</type>
+        </param>
+        <param>
+          <type>WarningNotFatal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="44" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="44" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1a843411596e093f940920af2341450685" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionErrorTest, RetryableOnTimeout)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionErrorTest</type>
+        </param>
+        <param>
+          <type>RetryableOnTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="53" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="53" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1a62ceff9e8dc23d01a8dc09a10915eca0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionErrorTest, RetryableOnServerError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionErrorTest</type>
+        </param>
+        <param>
+          <type>RetryableOnServerError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="60" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="60" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1a38770366aa68477cf38aae099cce4867" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionErrorTest, RetryableOnRateLimit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionErrorTest</type>
+        </param>
+        <param>
+          <type>RetryableOnRateLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="67" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="67" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1a150a316c63e947907d398ee609902348" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionErrorTest, NotRetryableOnNotFound)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionErrorTest</type>
+        </param>
+        <param>
+          <type>NotRetryableOnNotFound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="74" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="74" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1a44c493ee417d57a91877849efb5c439a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionErrorTest, NotRetryableOnUnauthorized)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionErrorTest</type>
+        </param>
+        <param>
+          <type>NotRetryableOnUnauthorized</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="81" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="81" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1a21c25ed94f48848d1fa67c636a132201" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionStatsTest, AddErrorAccumulates)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionStatsTest</type>
+        </param>
+        <param>
+          <type>AddErrorAccumulates</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="92" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="92" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1af38e182d6b19596813228d7aea40e850" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionStatsTest, AddMultipleErrors)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionStatsTest</type>
+        </param>
+        <param>
+          <type>AddMultipleErrors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="109" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="109" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1a05ded8330b4021c82ab0091f6c668e36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionStatsTest, ErrorMessageSetOnFirstSevereError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionStatsTest</type>
+        </param>
+        <param>
+          <type>ErrorMessageSetOnFirstSevereError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="122" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="122" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1a4b42a12c983035fa3005ac0fe64aad04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RetryConfigTest, Defaults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RetryConfigTest</type>
+        </param>
+        <param>
+          <type>Defaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="143" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="143" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1a9ba53d59663c510bda8134a2b27d9b8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RetryConfigTest, CustomValues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RetryConfigTest</type>
+        </param>
+        <param>
+          <type>CustomValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="152" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="152" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1ad7c1ae3bffaa7c9fc33ad71baa5ccfab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionMetricsTest, DefaultZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionMetricsTest</type>
+        </param>
+        <param>
+          <type>DefaultZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="171" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="171" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1aa34a4bdb368f3e5fb68ce845ec505365" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionManagerErrorsTest, IngestSourceNotFound)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionManagerErrorsTest</type>
+        </param>
+        <param>
+          <type>IngestSourceNotFound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="183" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="183" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1aee32bc4a33478b6646add5a7ce34e37a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionManagerErrorsTest, IngestSourceDisabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionManagerErrorsTest</type>
+        </param>
+        <param>
+          <type>IngestSourceDisabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="193" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="193" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1a39a0d316daca1e304b65af3d8e73cbdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionManagerErrorsTest, IngestSourceUnsupportedType)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionManagerErrorsTest</type>
+        </param>
+        <param>
+          <type>IngestSourceUnsupportedType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="211" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="211" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1adfadab54e190b36d91bd18ec4eb85035" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionManagerParallelTest, IngestAllParallelNoSources)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionManagerParallelTest</type>
+        </param>
+        <param>
+          <type>IngestAllParallelNoSources</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="235" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="235" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1a0c477e39db10fd66c893e53762bad2f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionManagerParallelTest, IngestAllParallelWithDisabledSources)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionManagerParallelTest</type>
+        </param>
+        <param>
+          <type>IngestAllParallelWithDisabledSources</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="244" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="244" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1a037db8cb833671c8b34c936f07cfc2d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FileSystemIngesterErrorsTest, MissingPathReturnsError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FileSystemIngesterErrorsTest</type>
+        </param>
+        <param>
+          <type>MissingPathReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="270" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="270" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1a148471a9c787a2d62fe91c92f8d8ea62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FileSystemIngesterErrorsTest, IngestMissingPathHasFatalError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FileSystemIngesterErrorsTest</type>
+        </param>
+        <param>
+          <type>IngestMissingPathHasFatalError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="282" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="282" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1a68dcf1f9a1af8e019c6cddc38bd26e92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FileSystemIngesterErrorsTest, IngestTextFile)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FileSystemIngesterErrorsTest</type>
+        </param>
+        <param>
+          <type>IngestTextFile</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="301" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="301" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__errors_8cpp_1a09de3f67da3e9548d96135789153f4fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(IngestionManagerRetryTest, SetRetryConfigNoThrow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>IngestionManagerRetryTest</type>
+        </param>
+        <param>
+          <type>SetRetryConfigNoThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_errors.cpp" line="332" column="1" bodyfile="tests/ingestion/test_ingestion_errors.cpp" bodystart="332" bodyend="341"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for structured ingestion error handling, retry config, observability metrics, and parallel ingestion in <ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests validate:<itemizedlist>
+<listitem><para><ref refid="structthemis_1_1ingestion_1_1_ingestion_error" kindref="compound">IngestionError</ref> construction and predicates (isOk, isFatal, isRetryable)</para>
+</listitem><listitem><para><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a773ac766744f74ba09601b1057c84d18" kindref="member">IngestionStats::addError</ref> accumulation</para>
+</listitem><listitem><para><ref refid="structthemis_1_1ingestion_1_1_retry_config" kindref="compound">RetryConfig</ref> defaults and custom values</para>
+</listitem><listitem><para><ref refid="structthemis_1_1ingestion_1_1_ingestion_metrics" kindref="compound">IngestionMetrics</ref> fields</para>
+</listitem><listitem><para><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref> structured errors for missing/disabled sources</para>
+</listitem><listitem><para><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref> parallel vs sequential ingestAll </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ingestion__manager_8h" kindref="compound">ingestion/ingestion_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="filesystem__ingester_8h" kindref="compound">ingestion/filesystem_ingester.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">themis::ingestion</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IngestionError<sp/>–<sp/>predicate<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(IngestionErrorTest,<sp/>OkDefault)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_ingestion_error" kindref="compound">IngestionError</ref><sp/>err;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err.<ref refid="structthemis_1_1ingestion_1_1_ingestion_error_1a6f188c154978d1f95187359133df62c7" kindref="member">isOk</ref>());</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.<ref refid="structthemis_1_1ingestion_1_1_ingestion_error_1a974c9200b7f84b070b429214c80f6876" kindref="member">isFatal</ref>());</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.<ref refid="structthemis_1_1ingestion_1_1_ingestion_error_1aadfd2f6c0a4f84532025e2d6f5409ad4" kindref="member">isWarning</ref>());</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.<ref refid="structthemis_1_1ingestion_1_1_ingestion_error_1ab2718a68ee30dfaa380f0ff5390547a5" kindref="member">isRetryable</ref>());</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(IngestionErrorTest,<sp/>FatalError)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_ingestion_error" kindref="compound">IngestionError</ref><sp/>err{<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ae8c0c70879b5895c615677261d64a1ee" kindref="member">IngestionErrorCode::INTERNAL_ERROR</ref>,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1ac919b1733b6d3ba4c32ea5a5cd816e65a19da7170bea36556dde582519795f3fc" kindref="member">IngestionErrorSeverity::FATAL</ref>,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;internal<sp/>failure&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.<ref refid="structthemis_1_1ingestion_1_1_ingestion_error_1a6f188c154978d1f95187359133df62c7" kindref="member">isOk</ref>());</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err.<ref refid="structthemis_1_1ingestion_1_1_ingestion_error_1a974c9200b7f84b070b429214c80f6876" kindref="member">isFatal</ref>());</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.<ref refid="structthemis_1_1ingestion_1_1_ingestion_error_1aadfd2f6c0a4f84532025e2d6f5409ad4" kindref="member">isWarning</ref>());</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(IngestionErrorTest,<sp/>WarningNotFatal)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_ingestion_error" kindref="compound">IngestionError</ref><sp/>err{<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a58e1a7acbf052df008c5f6020eaa43b2" kindref="member">IngestionErrorCode::SOURCE_DISABLED</ref>,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1ac919b1733b6d3ba4c32ea5a5cd816e65a059e9861e0400dfbe05c98a841f3f96b" kindref="member">IngestionErrorSeverity::WARNING</ref>,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;source<sp/>disabled&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.<ref refid="structthemis_1_1ingestion_1_1_ingestion_error_1a6f188c154978d1f95187359133df62c7" kindref="member">isOk</ref>());</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.<ref refid="structthemis_1_1ingestion_1_1_ingestion_error_1a974c9200b7f84b070b429214c80f6876" kindref="member">isFatal</ref>());</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err.<ref refid="structthemis_1_1ingestion_1_1_ingestion_error_1aadfd2f6c0a4f84532025e2d6f5409ad4" kindref="member">isWarning</ref>());</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(IngestionErrorTest,<sp/>RetryableOnTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_ingestion_error" kindref="compound">IngestionError</ref><sp/>err{<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a74c4e3b28b26580a737258eeb2c1d417" kindref="member">IngestionErrorCode::HTTP_TIMEOUT</ref>,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1ac919b1733b6d3ba4c32ea5a5cd816e65abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">IngestionErrorSeverity::ERROR</ref>,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;timeout&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err.<ref refid="structthemis_1_1ingestion_1_1_ingestion_error_1ab2718a68ee30dfaa380f0ff5390547a5" kindref="member">isRetryable</ref>());</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(IngestionErrorTest,<sp/>RetryableOnServerError)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_ingestion_error" kindref="compound">IngestionError</ref><sp/>err{<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a2af3520436681b237692d247f151afc5" kindref="member">IngestionErrorCode::HTTP_SERVER_ERROR</ref>,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1ac919b1733b6d3ba4c32ea5a5cd816e65abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">IngestionErrorSeverity::ERROR</ref>,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;server<sp/>error&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err.<ref refid="structthemis_1_1ingestion_1_1_ingestion_error_1ab2718a68ee30dfaa380f0ff5390547a5" kindref="member">isRetryable</ref>());</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(IngestionErrorTest,<sp/>RetryableOnRateLimit)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_ingestion_error" kindref="compound">IngestionError</ref><sp/>err{<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a67888fe44329bfa0f565299b8bf1c269" kindref="member">IngestionErrorCode::HTTP_RATE_LIMITED</ref>,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1ac919b1733b6d3ba4c32ea5a5cd816e65abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">IngestionErrorSeverity::ERROR</ref>,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;rate<sp/>limited&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(err.<ref refid="structthemis_1_1ingestion_1_1_ingestion_error_1ab2718a68ee30dfaa380f0ff5390547a5" kindref="member">isRetryable</ref>());</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(IngestionErrorTest,<sp/>NotRetryableOnNotFound)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_ingestion_error" kindref="compound">IngestionError</ref><sp/>err{<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a53351d32676d458d6f2f1347a8c42919" kindref="member">IngestionErrorCode::SOURCE_NOT_FOUND</ref>,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1ac919b1733b6d3ba4c32ea5a5cd816e65abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">IngestionErrorSeverity::ERROR</ref>,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;not<sp/>found&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.<ref refid="structthemis_1_1ingestion_1_1_ingestion_error_1ab2718a68ee30dfaa380f0ff5390547a5" kindref="member">isRetryable</ref>());</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(IngestionErrorTest,<sp/>NotRetryableOnUnauthorized)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_ingestion_error" kindref="compound">IngestionError</ref><sp/>err{<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a84413f7f6cfa7ef4ae157c84e21b30f8" kindref="member">IngestionErrorCode::HTTP_UNAUTHORIZED</ref>,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1ac919b1733b6d3ba4c32ea5a5cd816e65abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">IngestionErrorSeverity::ERROR</ref>,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;unauthorized&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.<ref refid="structthemis_1_1ingestion_1_1_ingestion_error_1ab2718a68ee30dfaa380f0ff5390547a5" kindref="member">isRetryable</ref>());</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IngestionStats<sp/>–<sp/>addError<sp/>accumulation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(IngestionStatsTest,<sp/>AddErrorAccumulates)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref><sp/>stats;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" kindref="member">errors</ref>.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a4f7f0a9219ca66aed976dbd23d4802d7" kindref="member">metrics</ref>.<ref refid="structthemis_1_1ingestion_1_1_ingestion_metrics_1a9a1807b5c3d888a0783c703b9beceb99" kindref="member">error_count</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a67311929d40dbc06103eb329866dd455" kindref="member">error_message</ref>.empty());</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a773ac766744f74ba09601b1057c84d18" kindref="member">addError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564acd54d99c8efb3c2db794197045f5b83c" kindref="member">IngestionErrorCode::FILE_NOT_FOUND</ref>,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1ac919b1733b6d3ba4c32ea5a5cd816e65abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">IngestionErrorSeverity::ERROR</ref>,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;file<sp/>not<sp/>found&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;src1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;details&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" kindref="member">errors</ref>.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a4f7f0a9219ca66aed976dbd23d4802d7" kindref="member">metrics</ref>.<ref refid="structthemis_1_1ingestion_1_1_ingestion_metrics_1a9a1807b5c3d888a0783c703b9beceb99" kindref="member">error_count</ref>,<sp/>1u);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" kindref="member">errors</ref>[0].code,<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564acd54d99c8efb3c2db794197045f5b83c" kindref="member">IngestionErrorCode::FILE_NOT_FOUND</ref>);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" kindref="member">errors</ref>[0].source_id,<sp/></highlight><highlight class="stringliteral">&quot;src1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a67311929d40dbc06103eb329866dd455" kindref="member">error_message</ref>.empty());</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(IngestionStatsTest,<sp/>AddMultipleErrors)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref><sp/>stats;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a773ac766744f74ba09601b1057c84d18" kindref="member">addError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a8ec790aee7766cf46bedfccfd36f5ab5" kindref="member">IngestionErrorCode::PROCESSING_FAILED</ref>,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1ac919b1733b6d3ba4c32ea5a5cd816e65a059e9861e0400dfbe05c98a841f3f96b" kindref="member">IngestionErrorSeverity::WARNING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;warn1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a773ac766744f74ba09601b1057c84d18" kindref="member">addError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a8ec790aee7766cf46bedfccfd36f5ab5" kindref="member">IngestionErrorCode::PROCESSING_FAILED</ref>,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1ac919b1733b6d3ba4c32ea5a5cd816e65a059e9861e0400dfbe05c98a841f3f96b" kindref="member">IngestionErrorSeverity::WARNING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;warn2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a773ac766744f74ba09601b1057c84d18" kindref="member">addError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ae8c0c70879b5895c615677261d64a1ee" kindref="member">IngestionErrorCode::INTERNAL_ERROR</ref>,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1ac919b1733b6d3ba4c32ea5a5cd816e65abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">IngestionErrorSeverity::ERROR</ref>,<sp/></highlight><highlight class="stringliteral">&quot;err1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" kindref="member">errors</ref>.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a4f7f0a9219ca66aed976dbd23d4802d7" kindref="member">metrics</ref>.<ref refid="structthemis_1_1ingestion_1_1_ingestion_metrics_1a9a1807b5c3d888a0783c703b9beceb99" kindref="member">error_count</ref>,<sp/>3u);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(IngestionStatsTest,<sp/>ErrorMessageSetOnFirstSevereError)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref><sp/>stats;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Warnings<sp/>should<sp/>not<sp/>set<sp/>error_message</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a773ac766744f74ba09601b1057c84d18" kindref="member">addError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a58e1a7acbf052df008c5f6020eaa43b2" kindref="member">IngestionErrorCode::SOURCE_DISABLED</ref>,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1ac919b1733b6d3ba4c32ea5a5cd816e65a059e9861e0400dfbe05c98a841f3f96b" kindref="member">IngestionErrorSeverity::WARNING</ref>,<sp/></highlight><highlight class="stringliteral">&quot;just<sp/>a<sp/>warning&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a67311929d40dbc06103eb329866dd455" kindref="member">error_message</ref>.empty());</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a773ac766744f74ba09601b1057c84d18" kindref="member">addError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a53351d32676d458d6f2f1347a8c42919" kindref="member">IngestionErrorCode::SOURCE_NOT_FOUND</ref>,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1ac919b1733b6d3ba4c32ea5a5cd816e65abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">IngestionErrorSeverity::ERROR</ref>,<sp/></highlight><highlight class="stringliteral">&quot;real<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a67311929d40dbc06103eb329866dd455" kindref="member">error_message</ref>,<sp/></highlight><highlight class="stringliteral">&quot;real<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>ERROR<sp/>should<sp/>not<sp/>overwrite</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a773ac766744f74ba09601b1057c84d18" kindref="member">addError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ae8c0c70879b5895c615677261d64a1ee" kindref="member">IngestionErrorCode::INTERNAL_ERROR</ref>,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1ac919b1733b6d3ba4c32ea5a5cd816e65abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">IngestionErrorSeverity::ERROR</ref>,<sp/></highlight><highlight class="stringliteral">&quot;second<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a67311929d40dbc06103eb329866dd455" kindref="member">error_message</ref>,<sp/></highlight><highlight class="stringliteral">&quot;real<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RetryConfig<sp/>–<sp/>defaults<sp/>and<sp/>field<sp/>access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(RetryConfigTest,<sp/>Defaults)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_retry_config" kindref="compound">RetryConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1ingestion_1_1_retry_config_1a5dc3a06cb4db4a568f777fd4e3f0e39c" kindref="member">max_attempts</ref>,<sp/>3);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1ingestion_1_1_retry_config_1a6ad35e8a4ad21588fe68c6b8e3c18ec9" kindref="member">initial_delay_ms</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1ingestion_1_1_retry_config_1aef034121fd5ada802ec875f87ec4bf91" kindref="member">backoff_factor</ref>,<sp/>1.0);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1ingestion_1_1_retry_config_1a986a17d8762431ea89dd1f9b2e412c91" kindref="member">max_delay_ms</ref>,<sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_retry_config_1a6ad35e8a4ad21588fe68c6b8e3c18ec9" kindref="member">initial_delay_ms</ref>);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1ingestion_1_1_retry_config_1a2dabfeb1bdc6fcba2123fe1f07bd2640" kindref="member">timeout_ms</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(RetryConfigTest,<sp/>CustomValues)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_retry_config" kindref="compound">RetryConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_retry_config_1a5dc3a06cb4db4a568f777fd4e3f0e39c" kindref="member">max_attempts</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_retry_config_1a6ad35e8a4ad21588fe68c6b8e3c18ec9" kindref="member">initial_delay_ms</ref><sp/>=<sp/>100.0;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_retry_config_1aef034121fd5ada802ec875f87ec4bf91" kindref="member">backoff_factor</ref><sp/><sp/><sp/>=<sp/>3.0;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_retry_config_1a986a17d8762431ea89dd1f9b2e412c91" kindref="member">max_delay_ms</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>5000.0;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_retry_config_1a2dabfeb1bdc6fcba2123fe1f07bd2640" kindref="member">timeout_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1ingestion_1_1_retry_config_1a5dc3a06cb4db4a568f777fd4e3f0e39c" kindref="member">max_attempts</ref>,<sp/>5);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cfg.<ref refid="structthemis_1_1ingestion_1_1_retry_config_1a6ad35e8a4ad21588fe68c6b8e3c18ec9" kindref="member">initial_delay_ms</ref>,<sp/>100.0);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cfg.<ref refid="structthemis_1_1ingestion_1_1_retry_config_1aef034121fd5ada802ec875f87ec4bf91" kindref="member">backoff_factor</ref>,<sp/>3.0);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cfg.<ref refid="structthemis_1_1ingestion_1_1_retry_config_1a986a17d8762431ea89dd1f9b2e412c91" kindref="member">max_delay_ms</ref>,<sp/>5000.0);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1ingestion_1_1_retry_config_1a2dabfeb1bdc6fcba2123fe1f07bd2640" kindref="member">timeout_ms</ref>,<sp/>10000);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IngestionMetrics<sp/>–<sp/>default<sp/>zero<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(IngestionMetricsTest,<sp/>DefaultZero)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_ingestion_metrics" kindref="compound">IngestionMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1ingestion_1_1_ingestion_metrics_1a94d146b5c6d96888c7262c77557c93f8" kindref="member">retry_count</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1ingestion_1_1_ingestion_metrics_1aa526faa9fca5697e5902defc11a3cae6" kindref="member">timeout_count</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1ingestion_1_1_ingestion_metrics_1a9a1807b5c3d888a0783c703b9beceb99" kindref="member">error_count</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(m.<ref refid="structthemis_1_1ingestion_1_1_ingestion_metrics_1a8c703278e0bdd5da1b6c18ed07c54cce" kindref="member">throughput_docs_per_sec</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IngestionManager<sp/>–<sp/>structured<sp/>error<sp/>for<sp/>missing<sp/>/<sp/>disabled<sp/>source</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(IngestionManagerErrorsTest,<sp/>IngestSourceNotFound)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>mgr.ingestSource(</highlight><highlight class="stringliteral">&quot;nonexistent_source&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a67311929d40dbc06103eb329866dd455" kindref="member">error_message</ref>.empty());</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" kindref="member">errors</ref>.empty());</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" kindref="member">errors</ref>[0].code,<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a53351d32676d458d6f2f1347a8c42919" kindref="member">IngestionErrorCode::SOURCE_NOT_FOUND</ref>);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" kindref="member">errors</ref>[0].severity,<sp/><ref refid="namespacethemis_1_1ingestion_1ac919b1733b6d3ba4c32ea5a5cd816e65abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">IngestionErrorSeverity::ERROR</ref>);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(IngestionManagerErrorsTest,<sp/>IngestSourceDisabled)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" kindref="member">source_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;disabled_src&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a19c05050ec7b38fec33e4e250f65b09c" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa8c4bad9563596861cd35a1829152b866" kindref="member">SourceType::FILESYSTEM</ref>;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/does_not_matter&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a2eb30f692aeb93d571d2f44eb95017ac" kindref="member">enabled</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.registerSource(cfg));</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>mgr.ingestSource(</highlight><highlight class="stringliteral">&quot;disabled_src&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" kindref="member">errors</ref>.empty());</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" kindref="member">errors</ref>[0].code,<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a58e1a7acbf052df008c5f6020eaa43b2" kindref="member">IngestionErrorCode::SOURCE_DISABLED</ref>);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" kindref="member">errors</ref>[0].severity,<sp/><ref refid="namespacethemis_1_1ingestion_1ac919b1733b6d3ba4c32ea5a5cd816e65a059e9861e0400dfbe05c98a841f3f96b" kindref="member">IngestionErrorSeverity::WARNING</ref>);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(IngestionManagerErrorsTest,<sp/>IngestSourceUnsupportedType)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" kindref="member">source_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;db_src&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a19c05050ec7b38fec33e4e250f65b09c" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fab1379b4ce097a8afd5d99abab0875a8e" kindref="member">SourceType::DATABASE</ref>;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;postgres://localhost/themis&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a2eb30f692aeb93d571d2f44eb95017ac" kindref="member">enabled</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.registerSource(cfg));</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>mgr.ingestSource(</highlight><highlight class="stringliteral">&quot;db_src&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" kindref="member">errors</ref>.empty());</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" kindref="member">errors</ref>[0].code<sp/>==<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a43b7c64cbe571cfba6c96d3b240dba85" kindref="member">IngestionErrorCode::CONNECTOR_NOT_SUPPORTED</ref><sp/>||</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" kindref="member">errors</ref>[0].code<sp/>==<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a2ba99fa9dc92b26fe62839d0a423cc02" kindref="member">IngestionErrorCode::CONNECTOR_INIT_FAILED</ref></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IngestionManager<sp/>–<sp/>parallel<sp/>ingestAll<sp/>runs<sp/>without<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(IngestionManagerParallelTest,<sp/>IngestAllParallelNoSources)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.setParallelProcessing(</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>4);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>mgr.ingestAll();</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(report.source_stats.empty());</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(report.total_documents,<sp/>0u);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(IngestionManagerParallelTest,<sp/>IngestAllParallelWithDisabledSources)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.setParallelProcessing(</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" kindref="member">source_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;par_src_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a19c05050ec7b38fec33e4e250f65b09c" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa8c4bad9563596861cd35a1829152b866" kindref="member">SourceType::FILESYSTEM</ref>;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/no_such_path&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a2eb30f692aeb93d571d2f44eb95017ac" kindref="member">enabled</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.registerSource(cfg);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>mgr.ingestAll();</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>sources<sp/>are<sp/>disabled<sp/>–<sp/>each<sp/>should<sp/>produce<sp/>a<sp/>WARNING<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(report.source_stats.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[sid,<sp/>stats]<sp/>:<sp/>report.source_stats)<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_FALSE(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" kindref="member">errors</ref>.empty());</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" kindref="member">errors</ref>[0].code,<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a58e1a7acbf052df008c5f6020eaa43b2" kindref="member">IngestionErrorCode::SOURCE_DISABLED</ref>);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FileSystemIngester<sp/>–<sp/>structured<sp/>error<sp/>for<sp/>missing<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(FileSystemIngesterErrorsTest,<sp/>MissingPathReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_file_system_ingester" kindref="compound">FileSystemIngester</ref><sp/>ingester;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" kindref="member">source_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;fs_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a19c05050ec7b38fec33e4e250f65b09c" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa8c4bad9563596861cd35a1829152b866" kindref="member">SourceType::FILESYSTEM</ref>;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/themis_does_not_exist_xyz123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>returns<sp/>false<sp/>because<sp/>path<sp/>does<sp/>not<sp/>exist</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ingester.<ref refid="classthemis_1_1ingestion_1_1_file_system_ingester_1aefcb324c5a8ccc1f274561d83003ce7d" kindref="member">initialize</ref>(cfg));</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(FileSystemIngesterErrorsTest,<sp/>IngestMissingPathHasFatalError)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>ingester<sp/>manually<sp/>using<sp/>an<sp/>existing<sp/>path<sp/>first,<sp/>then<sp/>test<sp/>ingest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>with<sp/>a<sp/>nonexistent<sp/>path<sp/>by<sp/>verifying<sp/>error<sp/>codes<sp/>from<sp/>the<sp/>manager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" kindref="member">source_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;missing_fs&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a19c05050ec7b38fec33e4e250f65b09c" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa8c4bad9563596861cd35a1829152b866" kindref="member">SourceType::FILESYSTEM</ref>;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/themis_does_not_exist_xyz123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a2eb30f692aeb93d571d2f44eb95017ac" kindref="member">enabled</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(mgr.registerSource(cfg));</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>mgr.ingestSource(</highlight><highlight class="stringliteral">&quot;missing_fs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Connector<sp/>init<sp/>should<sp/>fail<sp/>(path<sp/>doesn&apos;t<sp/>exist)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" kindref="member">errors</ref>.empty());</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" kindref="member">errors</ref>[0].code,<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a2ba99fa9dc92b26fe62839d0a423cc02" kindref="member">IngestionErrorCode::CONNECTOR_INIT_FAILED</ref>);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(FileSystemIngesterErrorsTest,<sp/>IngestTextFile)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>temp<sp/>text<sp/>file<sp/>and<sp/>verify<sp/>successful<sp/>ingestion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tmp_dir<sp/>=<sp/>std::filesystem::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themis_ingest_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::create_directories(tmp_dir);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>txt_path<sp/>=<sp/>tmp_dir<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;sample.txt&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>f(txt_path);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Hello<sp/>ThemisDB<sp/>ingestion<sp/>test.\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_file_system_ingester" kindref="compound">FileSystemIngester</ref><sp/>ingester;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1acec29f2498513bcad40389a17734885d" kindref="member">source_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;txt_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a19c05050ec7b38fec33e4e250f65b09c" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1ac26ea3ec62832c4278b31929df0e755fa8c4bad9563596861cd35a1829152b866" kindref="member">SourceType::FILESYSTEM</ref>;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_source_config_1a28200acb1dcd3210a5aee144aaebea8c" kindref="member">location</ref><sp/><sp/>=<sp/>txt_path.string();</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(ingester.<ref refid="classthemis_1_1ingestion_1_1_file_system_ingester_1aefcb324c5a8ccc1f274561d83003ce7d" kindref="member">initialize</ref>(cfg));</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>ingester.<ref refid="classthemis_1_1ingestion_1_1_file_system_ingester_1a34c293d840b60c844fc798960c1de3f4" kindref="member">ingest</ref>(</highlight><highlight class="stringliteral">&quot;test_collection&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a0fdb873dcc8055a4e41c2a688ee8e607" kindref="member">documents_processed</ref>,<sp/>1u);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a8062b35a12fdf464b2d0bbe7f9812fa9" kindref="member">documents_failed</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1a0439a4a9418b789138465992409b24dd" kindref="member">bytes_processed</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.<ref refid="structthemis_1_1ingestion_1_1_ingestion_stats_1aee54618dbf125b6da01631264c4f7234" kindref="member">errors</ref>.empty());</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::remove_all(tmp_dir);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IngestionManager<sp/>–<sp/>setRetryConfig<sp/>propagation<sp/>(smoke<sp/>test)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><ref refid="test__ingestion__errors_8cpp_1a925effb23acba37159fb10994fd1f11f" kindref="member">TEST</ref>(IngestionManagerRetryTest,<sp/>SetRetryConfigNoThrow)<sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref><sp/>mgr(</highlight><highlight class="stringliteral">&quot;test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_retry_config" kindref="compound">RetryConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_retry_config_1a5dc3a06cb4db4a568f777fd4e3f0e39c" kindref="member">max_attempts</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_retry_config_1a6ad35e8a4ad21588fe68c6b8e3c18ec9" kindref="member">initial_delay_ms</ref><sp/>=<sp/>100.0;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1ingestion_1_1_retry_config_1aef034121fd5ada802ec875f87ec4bf91" kindref="member">backoff_factor</ref><sp/><sp/><sp/>=<sp/>1.5;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(mgr.setRetryConfig(cfg));</highlight></codeline>
+<codeline lineno="341"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/ingestion/test_ingestion_errors.cpp"/>
+  </compounddef>
+</doxygen>

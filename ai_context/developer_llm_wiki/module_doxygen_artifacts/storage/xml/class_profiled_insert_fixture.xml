@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_profiled_insert_fixture" kind="class" language="C++" prot="public">
+    <compoundname>ProfiledInsertFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_profiled_insert_fixture_1a851a0281617355bac41cb380c3a8cbb1" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ProfiledInsertFixture::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>ProfiledInsertFixture::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_insert_profiling.cpp" line="104" column="17" bodyfile="benchmarks/storage/bench_insert_profiling.cpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_profiled_insert_fixture_1afd5c8f9f60ab7853fe89a97ba870fce6" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">themis::RocksDBWrapper</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; ProfiledInsertFixture::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>ProfiledInsertFixture::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_insert_profiling.cpp" line="105" column="21" bodyfile="benchmarks/storage/bench_insert_profiling.cpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_profiled_insert_fixture_1a0c6bddb664802f1c7c4ddf8cc893d29d" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;themis::SecondaryIndexManager&gt; ProfiledInsertFixture::secondary_</definition>
+        <argsstring></argsstring>
+        <name>secondary_</name>
+        <qualifiedname>ProfiledInsertFixture::secondary_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_insert_profiling.cpp" line="106" column="21" bodyfile="benchmarks/storage/bench_insert_profiling.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_profiled_insert_fixture_1a46347aafb5a99c2f62ab508e29bb4856" prot="protected" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ProfiledInsertFixture::counter_</definition>
+        <argsstring></argsstring>
+        <name>counter_</name>
+        <qualifiedname>ProfiledInsertFixture::counter_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_insert_profiling.cpp" line="107" column="12" bodyfile="benchmarks/storage/bench_insert_profiling.cpp" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_profiled_insert_fixture_1a907d3fd5812298b0fd3cbfe4b4e0df30" prot="protected" static="no" mutable="no">
+        <type>double</type>
+        <definition>double ProfiledInsertFixture::total_time_us_</definition>
+        <argsstring></argsstring>
+        <name>total_time_us_</name>
+        <qualifiedname>ProfiledInsertFixture::total_time_us_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_insert_profiling.cpp" line="108" column="12" bodyfile="benchmarks/storage/bench_insert_profiling.cpp" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_profiled_insert_fixture_1aa3433cc5e9b649efd89bf4246c56638e" prot="protected" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ProfiledInsertFixture::call_count_</definition>
+        <argsstring></argsstring>
+        <name>call_count_</name>
+        <qualifiedname>ProfiledInsertFixture::call_count_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_insert_profiling.cpp" line="109" column="12" bodyfile="benchmarks/storage/bench_insert_profiling.cpp" bodystart="109" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_profiled_insert_fixture_1a30c6679ff09734ea118a86bd37295c2a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ProfiledInsertFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ProfiledInsertFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_insert_profiling.cpp" line="41" column="10" bodyfile="benchmarks/storage/bench_insert_profiling.cpp" bodystart="41" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="class_profiled_insert_fixture_1a7333d1ac1f09b0bfb74990bed69401bd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ProfiledInsertFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ProfiledInsertFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_insert_profiling.cpp" line="86" column="10" bodyfile="benchmarks/storage/bench_insert_profiling.cpp" bodystart="86" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ProfiledInsertFixture</label>
+        <link refid="class_profiled_insert_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ProfiledInsertFixture</label>
+        <link refid="class_profiled_insert_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/storage/bench_insert_profiling.cpp" line="39" column="1" bodyfile="benchmarks/storage/bench_insert_profiling.cpp" bodystart="39" bodyend="110"/>
+    <listofallmembers>
+      <member refid="class_profiled_insert_fixture_1aa3433cc5e9b649efd89bf4246c56638e" prot="protected" virt="non-virtual"><scope>ProfiledInsertFixture</scope><name>call_count_</name></member>
+      <member refid="class_profiled_insert_fixture_1a46347aafb5a99c2f62ab508e29bb4856" prot="protected" virt="non-virtual"><scope>ProfiledInsertFixture</scope><name>counter_</name></member>
+      <member refid="class_profiled_insert_fixture_1afd5c8f9f60ab7853fe89a97ba870fce6" prot="protected" virt="non-virtual"><scope>ProfiledInsertFixture</scope><name>db_</name></member>
+      <member refid="class_profiled_insert_fixture_1a851a0281617355bac41cb380c3a8cbb1" prot="protected" virt="non-virtual"><scope>ProfiledInsertFixture</scope><name>db_path_</name></member>
+      <member refid="class_profiled_insert_fixture_1a0c6bddb664802f1c7c4ddf8cc893d29d" prot="protected" virt="non-virtual"><scope>ProfiledInsertFixture</scope><name>secondary_</name></member>
+      <member refid="class_profiled_insert_fixture_1a30c6679ff09734ea118a86bd37295c2a" prot="public" virt="non-virtual"><scope>ProfiledInsertFixture</scope><name>SetUp</name></member>
+      <member refid="class_profiled_insert_fixture_1a7333d1ac1f09b0bfb74990bed69401bd" prot="public" virt="non-virtual"><scope>ProfiledInsertFixture</scope><name>TearDown</name></member>
+      <member refid="class_profiled_insert_fixture_1a907d3fd5812298b0fd3cbfe4b4e0df30" prot="protected" virt="non-virtual"><scope>ProfiledInsertFixture</scope><name>total_time_us_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

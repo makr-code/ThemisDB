@@ -1,0 +1,289 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="voice__intent__detector_8h" kind="file" language="C++">
+    <compoundname>voice_intent_detector.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="voice__intent__detector_8cpp" local="yes">src/voice/voice_intent_detector.cpp</includedby>
+    <includedby refid="test__phase3__error__handling_8cpp" local="yes">tests/voice/test_phase3_error_handling.cpp</includedby>
+    <includedby refid="test__voice__coverage_8cpp" local="yes">tests/voice/test_voice_coverage.cpp</includedby>
+    <includedby refid="test__voice__production_8cpp" local="yes">tests/voice/test_voice_production.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/voice/voice_intent_detector.h</label>
+        <link refid="voice__intent__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/voice/voice_intent_detector.h</label>
+        <link refid="voice__intent__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/voice/voice_intent_detector.cpp</label>
+        <link refid="voice__intent__detector_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/voice/test_phase3_error_handling.cpp</label>
+        <link refid="test__phase3__error__handling_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/voice/test_voice_coverage.cpp</label>
+        <link refid="test__voice__coverage_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/voice/test_voice_production.cpp</label>
+        <link refid="test__voice__production_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1voice_1_1_named_entity" prot="public">themis::voice::NamedEntity</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_intent_result" prot="public">themis::voice::IntentResult</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_conversation_context" prot="public">themis::voice::ConversationContext</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_intent_detector_config" prot="public">themis::voice::IntentDetectorConfig</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_voice_intent_detector" prot="public">themis::voice::VoiceIntentDetector</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice">themis::voice</innernamespace>
+    <briefdescription>
+<para>Voice Intent Detection — Frozen API Contract for Phase 1. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>v1.0 frozen as of 2026-08-08</para>
+</simplesect>
+Canonical Doxygen file header for ThemisDB-generated maturity metadata. <simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Design/API Contract Frozen (Phase 1)</para>
+</simplesect>
+</para>
+<sect1 id="voice__intent__detector_8h_1autotoc_md19_1s1"><sect2 id="voice__intent__detector_8h_1autotoc_md19">
+<title>Intent Detection Contract (Frozen)</title><para><bold>Confidence Thresholds:</bold><itemizedlist>
+<listitem><para>Minimum confidence for acceptance: 0.50 (frozen)</para>
+</listitem><listitem><para>Entity confidence threshold: 0.40 (frozen)</para>
+</listitem><listitem><para>High confidence: &gt;= 0.75</para>
+</listitem><listitem><para>Medium confidence: 0.50-0.75</para>
+</listitem><listitem><para>Low confidence: &lt; 0.50</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Intent Categories (Frozen Enumeration):</bold><itemizedlist>
+<listitem><para>QUERY: Information retrieval (e.g., &quot;show me the data&quot;)</para>
+</listitem><listitem><para>COMMAND: Data modification (e.g., &quot;delete the record&quot;)</para>
+</listitem><listitem><para>QUESTION: Help/explanation (e.g., &quot;how do I...&quot;)</para>
+</listitem><listitem><para>CONVERSATION: Small talk / greetings</para>
+</listitem><listitem><para>UNKNOWN: Unable to classify</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Named Entity Types (Frozen):</bold><itemizedlist>
+<listitem><para>DATE, PERSON, ORGANIZATION, NUMBER, METRIC, OBJECT, TIME_RANGE</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="voice__intent__detector_8h_1autotoc_md20_1s1"><sect2 id="voice__intent__detector_8h_1autotoc_md20">
+<title>Error Codes (Voice Module — Command/Intent)</title><para><itemizedlist>
+<listitem><para>6800: Intent detection failed</para>
+</listitem><listitem><para>6801: Confidence below minimum threshold</para>
+</listitem><listitem><para>6802: Unknown/unclassified intent</para>
+</listitem><listitem><para>6803: Ambiguous intent (multiple candidates above threshold)</para>
+</listitem><listitem><para>6804: NER (named entity recognition) error</para>
+</listitem><listitem><para>6805: Context resolution failed</para>
+</listitem><listitem><para>6806-6899: Reserved for future command-related errors</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="voice__intent__detector_8h_1autotoc_md21_1s1"><sect2 id="voice__intent__detector_8h_1autotoc_md21">
+<title>Thread Safety</title><para>VoiceIntentDetector is thread-safe (internal mutex on ConversationContext). However, it&apos;s preferred to use one instance per conversation stream. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Intent<sp/>detection<sp/>and<sp/>NER<sp/>for<sp/>Phase<sp/>3<sp/>LLM<sp/>Integration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PHASE<sp/>1<sp/>CONTRACT<sp/>FREEZE:<sp/>This<sp/>file<sp/>documents<sp/>the<sp/>immutable<sp/>intent<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>and<sp/>named<sp/>entity<sp/>recognition<sp/>(NER)<sp/>contract.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice" kindref="compound">voice</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Intent<sp/>categories</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4b" kindref="member">IntentCategory</ref><sp/>{</highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4ba5662080872eece1e1ceeec5750198283" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4ba5662080872eece1e1ceeec5750198283" kindref="member">QUERY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4ba26097a57f572fe88a7cdf80543422cb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4ba26097a57f572fe88a7cdf80543422cb1" kindref="member">COMMAND</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4ba2799482497469e61e6ce62588cc7b71f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4ba2799482497469e61e6ce62588cc7b71f" kindref="member">QUESTION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4bafd1eeff21543293576b9febcee854115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4bafd1eeff21543293576b9febcee854115" kindref="member">CONVERSATION</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4ba696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a12df9265b79368d5b81b950e55bbc6f7a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1voice_1aeaf52569412f32240113b3aad3e7d7e5" kindref="member">intentToString</ref>(<ref refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4b" kindref="member">IntentCategory</ref><sp/>cat);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4b" kindref="member">IntentCategory</ref><sp/><ref refid="namespacethemis_1_1voice_1a677a98a4d893fc7c692ac7b7d5f285b4" kindref="member">stringToIntent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Named<sp/>entity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1voice_1_1_named_entity" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_named_entity" kindref="compound">NamedEntity</ref><sp/>{</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1voice_1_1_named_entity_1a618caab81c7aa231155c78cffb6d6d30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_named_entity_1a618caab81c7aa231155c78cffb6d6d30" kindref="member">text</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1voice_1_1_named_entity_1ab91997dabab94f76a899165f8ed07798" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_named_entity_1ab91997dabab94f76a899165f8ed07798" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1voice_1_1_named_entity_1a0a55628400d35a0ed5d57f6aa8473f16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_named_entity_1a0a55628400d35a0ed5d57f6aa8473f16" kindref="member">confidence</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1voice_1_1_named_entity_1adb36c3cd45a3e551a6a658de45d7468e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_named_entity_1adb36c3cd45a3e551a6a658de45d7468e" kindref="member">start_offset</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1voice_1_1_named_entity_1a4f0fdd7ba7e54774f40f3bb83d3aab0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_named_entity_1a4f0fdd7ba7e54774f40f3bb83d3aab0d" kindref="member">end_offset</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Intent<sp/>detection<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1voice_1_1_intent_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_intent_result" kindref="compound">IntentResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1voice_1_1_intent_result_1acc60914ba18fa795bcc672ad87ca098f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4b" kindref="member">IntentCategory</ref><sp/><ref refid="structthemis_1_1voice_1_1_intent_result_1acc60914ba18fa795bcc672ad87ca098f" kindref="member">intent</ref><sp/>=<sp/><ref refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4ba696b031073e74bf2cb98e5ef201d4aa3" kindref="member">IntentCategory::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1voice_1_1_intent_result_1abd4a2fb371967e083706f922c39ba967" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_intent_result_1abd4a2fb371967e083706f922c39ba967" kindref="member">confidence</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1voice_1_1_intent_result_1a5418e8736e57bbbdaccf0e1c702b7f9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;NamedEntity&gt;<sp/><ref refid="structthemis_1_1voice_1_1_intent_result_1a5418e8736e57bbbdaccf0e1c702b7f9b" kindref="member">entities</ref>;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1voice_1_1_intent_result_1a45c5ab9025aa7e6a8c97167cde3ebbec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_intent_result_1a45c5ab9025aa7e6a8c97167cde3ebbec" kindref="member">normalized_query</ref>;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1voice_1_1_intent_result_1ad3b812f59ec0915c1d001e97a5ec7d73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="structthemis_1_1voice_1_1_intent_result_1ad3b812f59ec0915c1d001e97a5ec7d73" kindref="member">context_hints</ref>;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1voice_1_1_intent_result_1a34e6afde4ddd2ace35de8a1d2039242a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_intent_result_1a34e6afde4ddd2ace35de8a1d2039242a" kindref="member">requires_context</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Context<sp/>manager<sp/>for<sp/>multi-turn<sp/>conversations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1voice_1_1_conversation_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_conversation_context_1ac51b439c6c4dad944e4653d0e0d5e7f1" kindref="member">ConversationContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="127" refid="classthemis_1_1voice_1_1_conversation_context_1ac51b439c6c4dad944e4653d0e0d5e7f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_conversation_context_1ac51b439c6c4dad944e4653d0e0d5e7f1" kindref="member">ConversationContext</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_conversation_context_1ac51b439c6c4dad944e4653d0e0d5e7f1" kindref="member">ConversationContext</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_history);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_conversation_context_1ad125fa0b78cfb2c9a659335cec237ece" kindref="member">addTurn</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_input,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>assistant_response);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_conversation_context_1aed70aa979d817160467607ac92f1ae2b" kindref="member">setEntity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1voice_1_1_conversation_context_1a2cf177cc580d221abf9576e52589a02c" kindref="member">getEntity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_conversation_context_1a86e9ea1cfdc9ad8dadf93577578d2c58" kindref="member">clearEntities</ref>();</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;&amp;<sp/><ref refid="classthemis_1_1voice_1_1_conversation_context_1a270c1a1860826e0a1767cd3d9afb3c3d" kindref="member">getHistory</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1voice_1_1_conversation_context_1ac2021c61c2b492c9237b84f638658317" kindref="member">buildContextString</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_turns<sp/>=<sp/>5)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_conversation_context_1a1ef19b91816e059b4b7bdcae8c079bff" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_conversation_context_1ac988e24173a72a6b0016e24fadb3ee45" kindref="member">turnCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_conversation_context_1a97871b46e2c3ca5b2c4cd0e0f0e0038d" kindref="member">hasEntity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/>history_;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/>entities_;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_history_<sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1voice_1_1_intent_detector_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_intent_detector_config" kindref="compound">IntentDetectorConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1voice_1_1_intent_detector_config_1af16b8ed44cc0b20406534580b7d29e63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_intent_detector_config_1af16b8ed44cc0b20406534580b7d29e63" kindref="member">min_confidence_threshold</ref><sp/>=<sp/>0.5f;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1voice_1_1_intent_detector_config_1a140ba2f0de080498d344b80338c270ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_intent_detector_config_1a140ba2f0de080498d344b80338c270ae" kindref="member">entity_confidence_threshold</ref><sp/>=<sp/>0.4f;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1voice_1_1_intent_detector_config_1a2025a416301c951e423273c02fd684f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_intent_detector_config_1a2025a416301c951e423273c02fd684f2" kindref="member">use_llm_for_ambiguous</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="structthemis_1_1voice_1_1_intent_detector_config_1a24d15008076a49b5d32e661d51e89f28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_intent_detector_config_1a24d15008076a49b5d32e661d51e89f28" kindref="member">max_context_turns</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="structthemis_1_1voice_1_1_intent_detector_config_1a07153b7785ad8e93e436a506f27526fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1voice_1_1_intent_detector_config_1a07153b7785ad8e93e436a506f27526fa" kindref="member">custom_entity_patterns</ref>;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192" refid="structthemis_1_1voice_1_1_intent_detector_config_1abb0cf9a0346eb5af7f29b30d865c2dc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_intent_detector_config_1abb0cf9a0346eb5af7f29b30d865c2dc7" kindref="member">ask_clarification_on_low_confidence</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1voice_1_1_intent_detector_config_1a35172d68e327ecaf6ad45dad6d11bec3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_intent_detector_config_1a35172d68e327ecaf6ad45dad6d11bec3" kindref="member">use_timeout_protection</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1voice_1_1_intent_detector_config_1aa5ff7c93b7c91c64a93c9f9f7a6d9c43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_intent_detector_config_1aa5ff7c93b7c91c64a93c9f9f7a6d9c43" kindref="member">detection_timeout_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VoiceIntentDetector:<sp/>Phase<sp/>1<sp/>frozen<sp/>API<sp/>(Phase<sp/>3<sp/>extensions)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219" refid="classthemis_1_1voice_1_1_voice_intent_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_voice_intent_detector_1ae20eb0208214f77c64313d43ac688823" kindref="member">VoiceIntentDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_intent_detector_1ae20eb0208214f77c64313d43ac688823" kindref="member">VoiceIntentDetector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_intent_detector_config" kindref="compound">IntentDetectorConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="223" refid="classthemis_1_1voice_1_1_voice_intent_detector_1ac8822169e205b9611cb651dddd13b988" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_intent_detector_1ac8822169e205b9611cb651dddd13b988" kindref="member">~VoiceIntentDetector</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_intent_result" kindref="compound">IntentResult</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_intent_detector_1a8b43dd6a6a415749214a66bffcd60654" kindref="member">detect</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_conversation_context" kindref="compound">ConversationContext</ref>*<sp/>context<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;NamedEntity&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_intent_detector_1acc9d6d6742631ba84133394e1697f25e" kindref="member">extractEntities</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4b" kindref="member">IntentCategory</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_intent_detector_1a7da4676bb3caa1bd9075119c4d7c056e" kindref="member">classifyIntent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_intent_detector_1ac35150e442520abd6d597e8afd628d87" kindref="member">meetsThreshold</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>confidence)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1voice_1_1_voice_intent_detector_1ac1beb789a66c7c09ef7395f54661e835" kindref="member">normalizeQuery</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_conversation_context" kindref="compound">ConversationContext</ref>*<sp/>context<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_intent_detector_1a1928201a7b22a25cb2fc6fd48884d8d3" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_intent_detector_1ab487e3ae87ae32b93a05511819a222bd" kindref="member">isConfidenceTooLow</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>confidence)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_intent_result" kindref="compound">IntentResult</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_intent_detector_1a599ee482e880402acc4769650422b57d" kindref="member">getTimeoutDefault</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_intent_detector_1a83241a1718220403f492bcbeb2fa3d89" kindref="member">isTimeoutDetected</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_intent_detector_config" kindref="compound">IntentDetectorConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>detections_total_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>high_confidence_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>low_confidence_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>timeout_fallbacks_<sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>last_detection_start_ms_<sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>timeout_detected_<sp/>=<sp/>false;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1voice_1_1_named_entity" kindref="compound">NamedEntity</ref>&gt;<sp/>extractDateEntities(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>text)<sp/>const;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1voice_1_1_named_entity" kindref="compound">NamedEntity</ref>&gt;<sp/>extractNumberEntities(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>text)<sp/>const;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1voice_1_1_named_entity" kindref="compound">NamedEntity</ref>&gt;<sp/>extractMetricEntities(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>text)<sp/>const;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>computeIntentConfidence(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>text,<sp/><ref refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4b" kindref="member">IntentCategory</ref><sp/>cat)<sp/>const;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>nowMs()<sp/>const;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal">}}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::voice</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/voice/voice_intent_detector.h"/>
+  </compounddef>
+</doxygen>

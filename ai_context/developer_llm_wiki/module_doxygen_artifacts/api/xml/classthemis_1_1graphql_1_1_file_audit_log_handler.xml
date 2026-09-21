@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graphql_1_1_file_audit_log_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::graphql::FileAuditLogHandler</compoundname>
+    <includes refid="graphql__audit__logger_8h" local="no">graphql_audit_logger.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_file_audit_log_handler_1a7a7757ac54506ea8ec9b7d7a80de6b71" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::FileAuditLogHandler::path_</definition>
+        <argsstring></argsstring>
+        <name>path_</name>
+        <qualifiedname>themis::graphql::FileAuditLogHandler::path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="378" column="17" bodyfile="include/api/graphql_audit_logger.h" bodystart="378" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_file_audit_log_handler_1a82df3b59f551d1f191350ce3238ce740" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::graphql::FileAuditLogHandler::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::graphql::FileAuditLogHandler::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="379" column="24" bodyfile="include/api/graphql_audit_logger.h" bodystart="379" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_file_audit_log_handler_1a355183247b92e33b56c9032938dac126" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graphql::FileAuditLogHandler::FileAuditLogHandler</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>FileAuditLogHandler</name>
+        <qualifiedname>themis::graphql::FileAuditLogHandler::FileAuditLogHandler</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>File Audit Log Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="353" column="14" bodyfile="include/api/graphql_audit_logger.h" bodystart="353" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_file_audit_log_handler_1a77e2e93189fb4a02a33e52975dcbe076" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::FileAuditLogHandler::operator()</definition>
+        <argsstring>(const AuditLogEntry &amp;entry)</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::graphql::FileAuditLogHandler::operator()</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graphql_1_1_audit_log_entry" kindref="compound">AuditLogEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Ofs. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">app</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="356" column="10" bodyfile="include/api/graphql_audit_logger.h" bodystart="356" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_file_audit_log_handler_1a80e717f631aef915fd7641687cbfdc35" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::graphql::FileAuditLogHandler::path</definition>
+        <argsstring>() const</argsstring>
+        <name>path</name>
+        <qualifiedname>themis::graphql::FileAuditLogHandler::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_audit_logger.h" line="375" column="23" bodyfile="include/api/graphql_audit_logger.h" bodystart="375" bodyend="375"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql_audit_logger.h" line="346" column="1" bodyfile="include/api/graphql_audit_logger.h" bodystart="346" bodyend="380"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graphql_1_1_file_audit_log_handler_1a355183247b92e33b56c9032938dac126" prot="public" virt="non-virtual"><scope>themis::graphql::FileAuditLogHandler</scope><name>FileAuditLogHandler</name></member>
+      <member refid="classthemis_1_1graphql_1_1_file_audit_log_handler_1a82df3b59f551d1f191350ce3238ce740" prot="private" virt="non-virtual"><scope>themis::graphql::FileAuditLogHandler</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_file_audit_log_handler_1a77e2e93189fb4a02a33e52975dcbe076" prot="public" virt="non-virtual"><scope>themis::graphql::FileAuditLogHandler</scope><name>operator()</name></member>
+      <member refid="classthemis_1_1graphql_1_1_file_audit_log_handler_1a80e717f631aef915fd7641687cbfdc35" prot="public" virt="non-virtual"><scope>themis::graphql::FileAuditLogHandler</scope><name>path</name></member>
+      <member refid="classthemis_1_1graphql_1_1_file_audit_log_handler_1a7a7757ac54506ea8ec9b7d7a80de6b71" prot="private" virt="non-virtual"><scope>themis::graphql::FileAuditLogHandler</scope><name>path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

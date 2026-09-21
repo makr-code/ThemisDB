@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_geo_edge_case_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::GeoEdgeCaseResult</compoundname>
+    <includes refid="geo__edge__case__handler_8h" local="no">geo_edge_case_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_edge_case_result_1a3e4895f74a145cb436464dc96093b597" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317d" kindref="member">GeoErrorCode</ref></type>
+        <definition>GeoErrorCode themis::geo::GeoEdgeCaseResult::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseResult::code</qualifiedname>
+        <briefdescription>
+<para><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317dae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">GeoErrorCode::OK</ref> on success, error code otherwise. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="84" column="18" bodyfile="include/geo/geo_edge_case_handler.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_edge_case_result_1a28fa6687d411f82b3490b2fc8a360ce2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::GeoEdgeCaseResult::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseResult::value</qualifiedname>
+        <briefdescription>
+<para>Computed result; valid only when code == OK. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="85" column="18" bodyfile="include/geo/geo_edge_case_handler.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geo_edge_case_result_1aae3935221ba4b5986bbd0929f2a897f0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::GeoEdgeCaseResult::ok</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseResult::ok</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="87" column="11" bodyfile="include/geo/geo_edge_case_handler.h" bodystart="87" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/geo_edge_case_handler.h" line="83" column="1" bodyfile="include/geo/geo_edge_case_handler.h" bodystart="83" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_geo_edge_case_result_1a3e4895f74a145cb436464dc96093b597" prot="public" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseResult</scope><name>code</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_edge_case_result_1aae3935221ba4b5986bbd0929f2a897f0" prot="public" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_edge_case_result_1a28fa6687d411f82b3490b2fc8a360ce2" prot="public" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseResult</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

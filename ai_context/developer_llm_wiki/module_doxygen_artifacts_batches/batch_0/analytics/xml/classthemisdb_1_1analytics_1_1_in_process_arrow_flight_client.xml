@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themisdb::analytics::InProcessArrowFlightClient</compoundname>
+    <basecompoundref refid="classthemisdb_1_1analytics_1_1_arrow_flight_client" prot="public" virt="non-virtual">themisdb::analytics::ArrowFlightClient</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1a211ffa37d3ac948e288e6339bee130a7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_flight_client_options" kindref="compound">FlightClientOptions</ref></type>
+        <definition>FlightClientOptions themisdb::analytics::InProcessArrowFlightClient::opts_</definition>
+        <argsstring></argsstring>
+        <name>opts_</name>
+        <qualifiedname>themisdb::analytics::InProcessArrowFlightClient::opts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/arrow_flight.cpp" line="834" column="25" bodyfile="src/analytics/arrow_flight.cpp" bodystart="834" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1aa47a10007f5c1614f61f557037579d6e" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::InProcessArrowFlightClient::endpoint_</definition>
+        <argsstring></argsstring>
+        <name>endpoint_</name>
+        <qualifiedname>themisdb::analytics::InProcessArrowFlightClient::endpoint_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/arrow_flight.cpp" line="835" column="17" bodyfile="src/analytics/arrow_flight.cpp" bodystart="835" bodyend="835"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1a3b983bb074e7725b0d2bc0c2aebc9953" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::analytics::InProcessArrowFlightClient::connected_</definition>
+        <argsstring></argsstring>
+        <name>connected_</name>
+        <qualifiedname>themisdb::analytics::InProcessArrowFlightClient::connected_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/arrow_flight.cpp" line="836" column="17" bodyfile="src/analytics/arrow_flight.cpp" bodystart="836" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1a05f22f575e8937970ed3f5ed2db6341a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::InProcessArrowFlightClient::InProcessArrowFlightClient</definition>
+        <argsstring>(FlightClientOptions opts)</argsstring>
+        <name>InProcessArrowFlightClient</name>
+        <qualifiedname>themisdb::analytics::InProcessArrowFlightClient::InProcessArrowFlightClient</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1analytics_1_1_flight_client_options" kindref="compound">FlightClientOptions</ref></type>
+          <declname>opts</declname>
+        </param>
+        <briefdescription>
+<para>In Process Arrow Flight Client. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">opts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/arrow_flight.cpp" line="768" column="14" bodyfile="src/analytics/arrow_flight.cpp" bodystart="768" bodyend="782"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1af461bcdd3e4fad98c1ea73efeeae657b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::InProcessArrowFlightClient::~InProcessArrowFlightClient</definition>
+        <argsstring>() override</argsstring>
+        <name>~InProcessArrowFlightClient</name>
+        <qualifiedname>themisdb::analytics::InProcessArrowFlightClient::~InProcessArrowFlightClient</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/arrow_flight.cpp" line="784" column="5" bodyfile="src/analytics/arrow_flight.cpp" bodystart="784" bodyend="786"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1afb27782dcaa7023d68c9b6b8a16236b4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_flight_info" kindref="compound">FlightInfo</ref> &gt;</type>
+        <definition>std::vector&lt; FlightInfo &gt; themisdb::analytics::InProcessArrowFlightClient::listFlights</definition>
+        <argsstring>(const FlightCallOptions &amp;) override</argsstring>
+        <name>listFlights</name>
+        <qualifiedname>themisdb::analytics::InProcessArrowFlightClient::listFlights</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1a766dc3249cbe5172fa915aee5ca31769">listFlights</reimplements>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_flight_call_options" kindref="compound">FlightCallOptions</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/arrow_flight.cpp" line="789" column="17" bodyfile="src/analytics/arrow_flight.cpp" bodystart="789" bodyend="797"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1a6c8a56fe556c060c712fb7e518bafe4e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="test__arrow__flight_8cpp_1a70c192ed4cd7aa31f33deb5909cbf90f" kindref="member">RecordBatch</ref></type>
+        <definition>RecordBatch themisdb::analytics::InProcessArrowFlightClient::doGet</definition>
+        <argsstring>(const FlightDescriptor &amp;descriptor, const FlightCallOptions &amp;) override</argsstring>
+        <name>doGet</name>
+        <qualifiedname>themisdb::analytics::InProcessArrowFlightClient::doGet</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1aec220d5cccfd934d078bf8106ccdf56f">doGet</reimplements>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor" kindref="compound">FlightDescriptor</ref> &amp;</type>
+          <declname>descriptor</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_flight_call_options" kindref="compound">FlightCallOptions</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/arrow_flight.cpp" line="799" column="17" bodyfile="src/analytics/arrow_flight.cpp" bodystart="799" bodyend="807"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1a80fe442150ffca3419ba44658e943f7d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_flight_put_result" kindref="compound">FlightPutResult</ref></type>
+        <definition>FlightPutResult themisdb::analytics::InProcessArrowFlightClient::doPut</definition>
+        <argsstring>(const RecordBatch &amp;batch, const FlightDescriptor &amp;descriptor, const FlightCallOptions &amp;) override</argsstring>
+        <name>doPut</name>
+        <qualifiedname>themisdb::analytics::InProcessArrowFlightClient::doPut</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1a6c9e6768666f8b08aa2b8e786686bd42">doPut</reimplements>
+        <param>
+          <type>const <ref refid="test__arrow__flight_8cpp_1a70c192ed4cd7aa31f33deb5909cbf90f" kindref="member">RecordBatch</ref> &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor" kindref="compound">FlightDescriptor</ref> &amp;</type>
+          <declname>descriptor</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_flight_call_options" kindref="compound">FlightCallOptions</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/arrow_flight.cpp" line="809" column="21" bodyfile="src/analytics/arrow_flight.cpp" bodystart="809" bodyend="820"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1a4587b9d215eb0c482cd1e2ee18f18063" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::InProcessArrowFlightClient::close</definition>
+        <argsstring>() override</argsstring>
+        <name>close</name>
+        <qualifiedname>themisdb::analytics::InProcessArrowFlightClient::close</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1a7ee922df9c5d12a45049a78f75ccc7a4">close</reimplements>
+        <briefdescription>
+<para>Close. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/arrow_flight.cpp" line="822" column="10" bodyfile="src/analytics/arrow_flight.cpp" bodystart="822" bodyend="827"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1a58a50f142ee4add32f1bd627018bfbe1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::InProcessArrowFlightClient::isConnected</definition>
+        <argsstring>() const override</argsstring>
+        <name>isConnected</name>
+        <qualifiedname>themisdb::analytics::InProcessArrowFlightClient::isConnected</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1af0a30b705928d11944d19f48b8e05ba2">isConnected</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/arrow_flight.cpp" line="829" column="10" bodyfile="src/analytics/arrow_flight.cpp" bodystart="829" bodyend="831"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1abb4f1b9a918bca59db5f34003886ee3e" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::InProcessArrowFlightClient::ensureConnected</definition>
+        <argsstring>() const</argsstring>
+        <name>ensureConnected</name>
+        <qualifiedname>themisdb::analytics::InProcessArrowFlightClient::ensureConnected</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/arrow_flight.cpp" line="838" column="10" bodyfile="src/analytics/arrow_flight.cpp" bodystart="838" bodyend="842"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themisdb::analytics::ArrowFlightClient</label>
+        <link refid="classthemisdb_1_1analytics_1_1_arrow_flight_client"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::InProcessArrowFlightClient</label>
+        <link refid="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::analytics::ArrowFlightClient</label>
+        <link refid="classthemisdb_1_1analytics_1_1_arrow_flight_client"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::InProcessArrowFlightClient</label>
+        <link refid="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/analytics/arrow_flight.cpp" line="761" column="1" bodyfile="src/analytics/arrow_flight.cpp" bodystart="761" bodyend="1029"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1ab0606fc2326fffa25ea3413b9a63814c" prot="public" virt="non-virtual"><scope>themisdb::analytics::InProcessArrowFlightClient</scope><name>ArrowFlightClient</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1a0246000f279559d39f9ce02dfabddcdb" prot="public" virt="non-virtual"><scope>themisdb::analytics::InProcessArrowFlightClient</scope><name>ArrowFlightClient</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1aba9b50e14d9605ea603d2b93dedfacae" prot="protected" virt="non-virtual"><scope>themisdb::analytics::InProcessArrowFlightClient</scope><name>ArrowFlightClient</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1a4587b9d215eb0c482cd1e2ee18f18063" prot="public" virt="virtual"><scope>themisdb::analytics::InProcessArrowFlightClient</scope><name>close</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1a8e2123e35078f338b16bdbf16825a9c1" prot="public" virt="non-virtual"><scope>themisdb::analytics::InProcessArrowFlightClient</scope><name>connect</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1a3b983bb074e7725b0d2bc0c2aebc9953" prot="private" virt="non-virtual"><scope>themisdb::analytics::InProcessArrowFlightClient</scope><name>connected_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1a6c8a56fe556c060c712fb7e518bafe4e" prot="public" virt="virtual"><scope>themisdb::analytics::InProcessArrowFlightClient</scope><name>doGet</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1a80fe442150ffca3419ba44658e943f7d" prot="public" virt="virtual"><scope>themisdb::analytics::InProcessArrowFlightClient</scope><name>doPut</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1aa47a10007f5c1614f61f557037579d6e" prot="private" virt="non-virtual"><scope>themisdb::analytics::InProcessArrowFlightClient</scope><name>endpoint_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1abb4f1b9a918bca59db5f34003886ee3e" prot="private" virt="non-virtual"><scope>themisdb::analytics::InProcessArrowFlightClient</scope><name>ensureConnected</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1a05f22f575e8937970ed3f5ed2db6341a" prot="public" virt="non-virtual"><scope>themisdb::analytics::InProcessArrowFlightClient</scope><name>InProcessArrowFlightClient</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1a58a50f142ee4add32f1bd627018bfbe1" prot="public" virt="virtual"><scope>themisdb::analytics::InProcessArrowFlightClient</scope><name>isConnected</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1afb27782dcaa7023d68c9b6b8a16236b4" prot="public" virt="virtual"><scope>themisdb::analytics::InProcessArrowFlightClient</scope><name>listFlights</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1ac537f4a96784495f4bd3ace447408f1e" prot="public" virt="non-virtual"><scope>themisdb::analytics::InProcessArrowFlightClient</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1a062e55fa4d65b6b7ecf5391c52f50363" prot="public" virt="non-virtual"><scope>themisdb::analytics::InProcessArrowFlightClient</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1a211ffa37d3ac948e288e6339bee130a7" prot="private" virt="non-virtual"><scope>themisdb::analytics::InProcessArrowFlightClient</scope><name>opts_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1a0500872950dbb45fe5e0974c2168a5af" prot="public" virt="virtual"><scope>themisdb::analytics::InProcessArrowFlightClient</scope><name>~ArrowFlightClient</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_in_process_arrow_flight_client_1af461bcdd3e4fad98c1ea73efeeae657b" prot="public" virt="non-virtual"><scope>themisdb::analytics::InProcessArrowFlightClient</scope><name>~InProcessArrowFlightClient</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

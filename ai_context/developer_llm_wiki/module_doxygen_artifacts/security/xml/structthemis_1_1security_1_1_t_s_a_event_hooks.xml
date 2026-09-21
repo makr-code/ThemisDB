@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_t_s_a_event_hooks" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::TSAEventHooks</compoundname>
+    <includes refid="tsa__api_8h" local="no">tsa_api.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_t_s_a_event_hooks_1ad7a8c5acdd9361fc7ab7ed7d99751a4e" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1security_1_1_t_s_a_request" kindref="compound">TSARequest</ref> &amp;, const <ref refid="structthemis_1_1security_1_1_t_s_a_response" kindref="compound">TSAResponse</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;void(const TSARequest&amp;, const TSAResponse&amp;)&gt; themis::security::TSAEventHooks::on_timestamp_issued</definition>
+        <argsstring></argsstring>
+        <name>on_timestamp_issued</name>
+        <qualifiedname>themis::security::TSAEventHooks::on_timestamp_issued</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Fired after a successful or failed timestamp request. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The original request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The response (check resp.success for outcome). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="247" column="19" bodyfile="include/security/tsa_api.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_t_s_a_event_hooks_1a3d7ed2ead9b2b919476a842977f85c3a" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1security_1_1_t_s_a_verify_request" kindref="compound">TSAVerifyRequest</ref> &amp;, bool valid)&gt;</type>
+        <definition>std::function&lt;void(const TSAVerifyRequest&amp;, bool valid)&gt; themis::security::TSAEventHooks::on_token_verified</definition>
+        <argsstring></argsstring>
+        <name>on_token_verified</name>
+        <qualifiedname>themis::security::TSAEventHooks::on_token_verified</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Fired after a token verification attempt. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The original verify request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True when the token matches the data. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="254" column="19" bodyfile="include/security/tsa_api.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_t_s_a_event_hooks_1a8f7ea89a3894e4cf81f96419786499cb" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(const std::string &amp;error)&gt;</type>
+        <definition>std::function&lt;void(const std::string&amp; error)&gt; themis::security::TSAEventHooks::on_error</definition>
+        <argsstring></argsstring>
+        <name>on_error</name>
+        <qualifiedname>themis::security::TSAEventHooks::on_error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Fired whenever an internal error occurs (network failure, parse error, …). <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable error description. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/tsa_api.h" line="260" column="19" bodyfile="include/security/tsa_api.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="structthemis_1_1security_1_1_t_s_a_event_hooks" kindref="compound">TSAEventHooks</ref> — optional callbacks fired by <ref refid="classthemis_1_1security_1_1_t_s_a_client_wrapper" kindref="compound">TSAClientWrapper</ref>.</para>
+<para>All callbacks are invoked synchronously on the calling thread. Leave any field as nullptr to suppress that callback.</para>
+<para>Typical use: wire these to the audit-log subsystem or Prometheus counters without creating a compile-time dependency between the TSA module and those subsystems. </para>
+    </detaileddescription>
+    <location file="include/security/tsa_api.h" line="241" column="1" bodyfile="include/security/tsa_api.h" bodystart="241" bodyend="261"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_t_s_a_event_hooks_1a8f7ea89a3894e4cf81f96419786499cb" prot="public" virt="non-virtual"><scope>themis::security::TSAEventHooks</scope><name>on_error</name></member>
+      <member refid="structthemis_1_1security_1_1_t_s_a_event_hooks_1ad7a8c5acdd9361fc7ab7ed7d99751a4e" prot="public" virt="non-virtual"><scope>themis::security::TSAEventHooks</scope><name>on_timestamp_issued</name></member>
+      <member refid="structthemis_1_1security_1_1_t_s_a_event_hooks_1a3d7ed2ead9b2b919476a842977f85c3a" prot="public" virt="non-virtual"><scope>themis::security::TSAEventHooks</scope><name>on_token_verified</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

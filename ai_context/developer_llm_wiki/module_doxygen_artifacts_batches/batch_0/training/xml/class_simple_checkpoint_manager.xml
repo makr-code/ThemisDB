@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_simple_checkpoint_manager" kind="class" language="C++" prot="public">
+    <compoundname>SimpleCheckpointManager</compoundname>
+    <innerclass refid="struct_simple_checkpoint_manager_1_1_checkpoint_data" prot="public">SimpleCheckpointManager::CheckpointData</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_simple_checkpoint_manager_1ae2ecd84839b24228c8966259d41b46cb" prot="private" static="no" mutable="no">
+        <type>std::map&lt; int, <ref refid="struct_simple_checkpoint_manager_1_1_checkpoint_data" kindref="compound">CheckpointData</ref> &gt;</type>
+        <definition>std::map&lt;int, CheckpointData&gt; SimpleCheckpointManager::checkpoints_</definition>
+        <argsstring></argsstring>
+        <name>checkpoints_</name>
+        <qualifiedname>SimpleCheckpointManager::checkpoints_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="104" column="14" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simple_checkpoint_manager_1aed266418dc6a7b6919e5ce22fcf5e1b7" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int SimpleCheckpointManager::current_id_</definition>
+        <argsstring></argsstring>
+        <name>current_id_</name>
+        <qualifiedname>SimpleCheckpointManager::current_id_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="105" column="9" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_simple_checkpoint_manager_1a185ad156226cd6dde35f9f1c1db96881" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int SimpleCheckpointManager::latest_checkpoint_id_</definition>
+        <argsstring></argsstring>
+        <name>latest_checkpoint_id_</name>
+        <qualifiedname>SimpleCheckpointManager::latest_checkpoint_id_</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="106" column="9" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_simple_checkpoint_manager_1a56fe6890a7c9a70f08ace050b482a578" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SimpleCheckpointManager::saveCheckpoint</definition>
+        <argsstring>(const LoRAAdapter &amp;adapter, size_t epoch, size_t step, double loss)</argsstring>
+        <name>saveCheckpoint</name>
+        <qualifiedname>SimpleCheckpointManager::saveCheckpoint</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref> &amp;</type>
+          <declname>adapter</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>epoch</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>step</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>loss</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="47" column="10" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="47" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simple_checkpoint_manager_1a0982a3b8aa29028452dd11c77f80d632" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool SimpleCheckpointManager::resumeCheckpoint</definition>
+        <argsstring>(LoRAAdapter &amp;adapter)</argsstring>
+        <name>resumeCheckpoint</name>
+        <qualifiedname>SimpleCheckpointManager::resumeCheckpoint</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref> &amp;</type>
+          <declname>adapter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="58" column="10" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="58" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simple_checkpoint_manager_1af76ee50374cc12ee7b176c81d6f1646b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t SimpleCheckpointManager::getLastEpoch</definition>
+        <argsstring>() const</argsstring>
+        <name>getLastEpoch</name>
+        <qualifiedname>SimpleCheckpointManager::getLastEpoch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="68" column="12" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="68" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simple_checkpoint_manager_1aef59e4d713279eebd218f46d8c992070" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t SimpleCheckpointManager::getLastStep</definition>
+        <argsstring>() const</argsstring>
+        <name>getLastStep</name>
+        <qualifiedname>SimpleCheckpointManager::getLastStep</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="75" column="12" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="75" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simple_checkpoint_manager_1aad942448b11acd22c769249bd2e09574" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double SimpleCheckpointManager::getLastLoss</definition>
+        <argsstring>() const</argsstring>
+        <name>getLastLoss</name>
+        <qualifiedname>SimpleCheckpointManager::getLastLoss</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="82" column="12" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="82" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simple_checkpoint_manager_1aeb5aaa752e255a55dce4543989bd62d6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool SimpleCheckpointManager::hasCheckpoint</definition>
+        <argsstring>() const</argsstring>
+        <name>hasCheckpoint</name>
+        <qualifiedname>SimpleCheckpointManager::hasCheckpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="89" column="10" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="89" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simple_checkpoint_manager_1ab191dabea04e78ca8065eb6316256a3b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t SimpleCheckpointManager::getCheckpointCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getCheckpointCount</name>
+        <qualifiedname>SimpleCheckpointManager::getCheckpointCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="93" column="12" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="93" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="class_simple_checkpoint_manager_1a9bc9706b7629e89af7ada5a664fbbb4b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SimpleCheckpointManager::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>SimpleCheckpointManager::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="97" column="10" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="97" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/training/test_checkpoint_resume_stress.cpp" line="38" column="1" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="38" bodyend="107"/>
+    <listofallmembers>
+      <member refid="class_simple_checkpoint_manager_1ae2ecd84839b24228c8966259d41b46cb" prot="private" virt="non-virtual"><scope>SimpleCheckpointManager</scope><name>checkpoints_</name></member>
+      <member refid="class_simple_checkpoint_manager_1a9bc9706b7629e89af7ada5a664fbbb4b" prot="public" virt="non-virtual"><scope>SimpleCheckpointManager</scope><name>clear</name></member>
+      <member refid="class_simple_checkpoint_manager_1aed266418dc6a7b6919e5ce22fcf5e1b7" prot="private" virt="non-virtual"><scope>SimpleCheckpointManager</scope><name>current_id_</name></member>
+      <member refid="class_simple_checkpoint_manager_1ab191dabea04e78ca8065eb6316256a3b" prot="public" virt="non-virtual"><scope>SimpleCheckpointManager</scope><name>getCheckpointCount</name></member>
+      <member refid="class_simple_checkpoint_manager_1af76ee50374cc12ee7b176c81d6f1646b" prot="public" virt="non-virtual"><scope>SimpleCheckpointManager</scope><name>getLastEpoch</name></member>
+      <member refid="class_simple_checkpoint_manager_1aad942448b11acd22c769249bd2e09574" prot="public" virt="non-virtual"><scope>SimpleCheckpointManager</scope><name>getLastLoss</name></member>
+      <member refid="class_simple_checkpoint_manager_1aef59e4d713279eebd218f46d8c992070" prot="public" virt="non-virtual"><scope>SimpleCheckpointManager</scope><name>getLastStep</name></member>
+      <member refid="class_simple_checkpoint_manager_1aeb5aaa752e255a55dce4543989bd62d6" prot="public" virt="non-virtual"><scope>SimpleCheckpointManager</scope><name>hasCheckpoint</name></member>
+      <member refid="class_simple_checkpoint_manager_1a185ad156226cd6dde35f9f1c1db96881" prot="private" virt="non-virtual"><scope>SimpleCheckpointManager</scope><name>latest_checkpoint_id_</name></member>
+      <member refid="class_simple_checkpoint_manager_1a0982a3b8aa29028452dd11c77f80d632" prot="public" virt="non-virtual"><scope>SimpleCheckpointManager</scope><name>resumeCheckpoint</name></member>
+      <member refid="class_simple_checkpoint_manager_1a56fe6890a7c9a70f08ace050b482a578" prot="public" virt="non-virtual"><scope>SimpleCheckpointManager</scope><name>saveCheckpoint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

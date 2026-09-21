@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1_network_injector_1_1_network_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::NetworkInjector::NetworkConfig</compoundname>
+    <basecompoundref refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config" prot="public" virt="non-virtual">themis::test::FaultInjector::InjectionConfig</basecompoundref>
+    <includes refid="fault__injector_8h" local="no">fault_injector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_network_injector_1_1_network_config_1af85f0ee38547cc34ab103ac6cf8df49b" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1test_1_1_network_injector_1aa3cc4a446546ddeb6a76b8766b3eed60" kindref="member">NetworkFaultType</ref></type>
+        <definition>NetworkFaultType themis::test::NetworkInjector::NetworkConfig::network_type</definition>
+        <argsstring></argsstring>
+        <name>network_type</name>
+        <qualifiedname>themis::test::NetworkInjector::NetworkConfig::network_type</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1test_1_1_network_injector_1aa3cc4a446546ddeb6a76b8766b3eed60a85144455b78d4b11ee8c715122a66694" kindref="member">NetworkFaultType::PARTITION</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="310" column="26" bodyfile="tests/utils/fault_injector.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_network_injector_1_1_network_config_1a30a30d41edb47c57408d565fc8542c2d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::test::NetworkInjector::NetworkConfig::target_node</definition>
+        <argsstring></argsstring>
+        <name>target_node</name>
+        <qualifiedname>themis::test::NetworkInjector::NetworkConfig::target_node</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="311" column="21" bodyfile="tests/utils/fault_injector.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_network_injector_1_1_network_config_1a5c607d138a07c9b7fa0013dba278c760" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::test::NetworkInjector::NetworkConfig::latency</definition>
+        <argsstring></argsstring>
+        <name>latency</name>
+        <qualifiedname>themis::test::NetworkInjector::NetworkConfig::latency</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="312" column="35" bodyfile="tests/utils/fault_injector.h" bodystart="312" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_network_injector_1_1_network_config_1a264d0a9625685681a839e181836883f6" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::test::NetworkInjector::NetworkConfig::packet_loss_rate</definition>
+        <argsstring></argsstring>
+        <name>packet_loss_rate</name>
+        <qualifiedname>themis::test::NetworkInjector::NetworkConfig::packet_loss_rate</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="313" column="15" bodyfile="tests/utils/fault_injector.h" bodystart="313" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1_network_injector_1_1_network_config_1a92307f2aa6f32e45cc90df09139601d2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::test::NetworkInjector::NetworkConfig::partition_members</definition>
+        <argsstring></argsstring>
+        <name>partition_members</name>
+        <qualifiedname>themis::test::NetworkInjector::NetworkConfig::partition_members</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="314" column="21" bodyfile="tests/utils/fault_injector.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::test::FaultInjector::InjectionConfig</label>
+        <link refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config"/>
+      </node>
+      <node id="1">
+        <label>themis::test::NetworkInjector::NetworkConfig</label>
+        <link refid="structthemis_1_1test_1_1_network_injector_1_1_network_config"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::test::FaultInjector::InjectionConfig</label>
+        <link refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config"/>
+      </node>
+      <node id="1">
+        <label>themis::test::NetworkInjector::NetworkConfig</label>
+        <link refid="structthemis_1_1test_1_1_network_injector_1_1_network_config"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/utils/fault_injector.h" line="309" column="5" bodyfile="tests/utils/fault_injector.h" bodystart="309" bodyend="315"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1a6c02ff42238b1deab7d7c1a0183d5b15" prot="public" virt="non-virtual"><scope>themis::test::NetworkInjector::NetworkConfig</scope><name>auto_recover</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1a58f9575692c545492473abaa8650a2da" prot="public" virt="non-virtual"><scope>themis::test::NetworkInjector::NetworkConfig</scope><name>description</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1ac3a0e223056675dc4ed0feea780bdd24" prot="public" virt="non-virtual"><scope>themis::test::NetworkInjector::NetworkConfig</scope><name>duration</name></member>
+      <member refid="structthemis_1_1test_1_1_network_injector_1_1_network_config_1a5c607d138a07c9b7fa0013dba278c760" prot="public" virt="non-virtual"><scope>themis::test::NetworkInjector::NetworkConfig</scope><name>latency</name></member>
+      <member refid="structthemis_1_1test_1_1_network_injector_1_1_network_config_1af85f0ee38547cc34ab103ac6cf8df49b" prot="public" virt="non-virtual"><scope>themis::test::NetworkInjector::NetworkConfig</scope><name>network_type</name></member>
+      <member refid="structthemis_1_1test_1_1_network_injector_1_1_network_config_1a264d0a9625685681a839e181836883f6" prot="public" virt="non-virtual"><scope>themis::test::NetworkInjector::NetworkConfig</scope><name>packet_loss_rate</name></member>
+      <member refid="structthemis_1_1test_1_1_network_injector_1_1_network_config_1a92307f2aa6f32e45cc90df09139601d2" prot="public" virt="non-virtual"><scope>themis::test::NetworkInjector::NetworkConfig</scope><name>partition_members</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1a30c2850dcd882ee4ab10bd0a292c5f42" prot="public" virt="non-virtual"><scope>themis::test::NetworkInjector::NetworkConfig</scope><name>probability</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1a06b6f7bce1eebd47f3eb2647fad8c1c4" prot="public" virt="non-virtual"><scope>themis::test::NetworkInjector::NetworkConfig</scope><name>rng_seed</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1ae5203201f0679ba59703f063e36598e9" prot="public" virt="non-virtual"><scope>themis::test::NetworkInjector::NetworkConfig</scope><name>target_component</name></member>
+      <member refid="structthemis_1_1test_1_1_network_injector_1_1_network_config_1a30a30d41edb47c57408d565fc8542c2d" prot="public" virt="non-virtual"><scope>themis::test::NetworkInjector::NetworkConfig</scope><name>target_node</name></member>
+      <member refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config_1a38d8130f04a57247923de7ce01e540de" prot="public" virt="non-virtual"><scope>themis::test::NetworkInjector::NetworkConfig</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

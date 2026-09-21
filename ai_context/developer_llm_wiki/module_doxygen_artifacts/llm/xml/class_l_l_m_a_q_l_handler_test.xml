@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_l_l_m_a_q_l_handler_test" kind="class" language="C++" prot="public">
+    <compoundname>LLMAQLHandlerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_l_l_m_a_q_l_handler_test_1a8f2329a914d4c0e8c15f05a50f049b2b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; LLMAQLHandler &gt;</type>
+        <definition>std::unique_ptr&lt;LLMAQLHandler&gt; LLMAQLHandlerTest::handler</definition>
+        <argsstring></argsstring>
+        <name>handler</name>
+        <qualifiedname>LLMAQLHandlerTest::handler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_aql_handler.cpp" line="36" column="21" bodyfile="tests/llm/test_llm_aql_handler.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_l_l_m_a_q_l_handler_test_1a2ca15f908151e6907a33b5eef4025f82" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMAQLHandlerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LLMAQLHandlerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_aql_handler.cpp" line="28" column="10" bodyfile="tests/llm/test_llm_aql_handler.cpp" bodystart="28" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_a_q_l_handler_test_1a83baf87ce09f8becf2d07ddf6d6de12b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMAQLHandlerTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>LLMAQLHandlerTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_aql_handler.cpp" line="32" column="10" bodyfile="tests/llm/test_llm_aql_handler.cpp" bodystart="32" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LLMAQLHandlerTest</label>
+        <link refid="class_l_l_m_a_q_l_handler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LLMAQLHandlerTest</label>
+        <link refid="class_l_l_m_a_q_l_handler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_aql_handler.cpp" line="26" column="1" bodyfile="tests/llm/test_llm_aql_handler.cpp" bodystart="26" bodyend="37"/>
+    <listofallmembers>
+      <member refid="class_l_l_m_a_q_l_handler_test_1a8f2329a914d4c0e8c15f05a50f049b2b" prot="protected" virt="non-virtual"><scope>LLMAQLHandlerTest</scope><name>handler</name></member>
+      <member refid="class_l_l_m_a_q_l_handler_test_1a2ca15f908151e6907a33b5eef4025f82" prot="protected" virt="non-virtual"><scope>LLMAQLHandlerTest</scope><name>SetUp</name></member>
+      <member refid="class_l_l_m_a_q_l_handler_test_1a83baf87ce09f8becf2d07ddf6d6de12b" prot="protected" virt="non-virtual"><scope>LLMAQLHandlerTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

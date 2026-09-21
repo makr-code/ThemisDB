@@ -1,0 +1,1149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__geo__replication__consistency_8cpp" kind="file" language="C++">
+    <compoundname>test_geo_replication_consistency.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">replication/replication_manager.h</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">limits</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/geo/test_geo_replication_consistency.cpp</label>
+        <link refid="test__geo__replication__consistency_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>limits</label>
+      </node>
+      <node id="3">
+        <label>replication/replication_manager.h</label>
+      </node>
+      <node id="4">
+        <label>thread</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemisdb_1_1replication">themisdb::replication</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a09a0ec2c5b5ee6c6737405cb87b39fbe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GeoReplicationManager::GeoConfig</type>
+        <definition>static GeoReplicationManager::GeoConfig makeGeoConfig</definition>
+        <argsstring>(const std::string &amp;local=&quot;us-east-1&quot;, uint32_t max_staleness_ms=5000)</argsstring>
+        <name>makeGeoConfig</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local</declname>
+          <defval>&quot;us-east-1&quot;</defval>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_staleness_ms</declname>
+          <defval>5000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="35" column="41" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="35" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, ConstructionSucceeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>ConstructionSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="55" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="55" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a2ff7c5b527a8bcaf857452c8d06588ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, LocalRegionStartsFresh)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>LocalRegionStartsFresh</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="60" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1abc5631234e2888a75d3bcdcffd681db8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, PeerRegionStartsWithHighStaleness)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>PeerRegionStartsWithHighStaleness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="65" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="65" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1ad9ce6c62be0b7b7d6eaa1d259a184511" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, UnknownRegionReturnsMaxStaleness)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>UnknownRegionReturnsMaxStaleness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="72" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="72" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a9f532e6b88e0b286b756c655cdf445c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, UpdateRegionStalenessRefreshesLag)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>UpdateRegionStalenessRefreshesLag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="82" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="82" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1af0cd60c4b43d365a3149a6001c3a3c98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, UpdateRegionStalenessAddsNewRegion)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>UpdateRegionStalenessAddsNewRegion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="88" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="88" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1aea11c081d39dfab76e071acb8f2d0650" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, UpdateLocalRegionStaleness)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>UpdateLocalRegionStaleness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="94" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="94" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1afc7e411d5ea4a3659a610977c331d16c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, GetSessionTokenReturnsNonEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>GetSessionTokenReturnsNonEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="104" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="104" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1ad7edfffa1972272a4af8959dcf308e10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, SessionTokenContainsSeqAndRegion)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>SessionTokenContainsSeqAndRegion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="110" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="110" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1afa73d4a1d772159bf372d40fdf77061b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, SessionTokenParsesZeroAtStart)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>SessionTokenParsesZeroAtStart</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="117" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="117" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a12e2255ec52fd2bc77d5ab5e689266b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, SessionTokenAdvancesAfterWrite)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>SessionTokenAdvancesAfterWrite</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="124" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="124" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1abce3b48452d5d88cd11ca1b749f33f17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, ParseInvalidTokenReturnsZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>ParseInvalidTokenReturnsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="132" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="132" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a327c50971d0da8d9f8c50d18d48cb8c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, RoutingStrongEligibleWhenFresh)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>RoutingStrongEligibleWhenFresh</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="142" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="142" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a3e8b3e1f331167605f2abbf771998be5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, RoutingStrongRejectWhenStale)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>RoutingStrongRejectWhenStale</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="149" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="149" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1acc30c117944d033a8e727d20dfa1fa00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, RoutingBoundedStalenessEligibleWithinBound)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>RoutingBoundedStalenessEligibleWithinBound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="156" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="156" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1aba9bfcf16e72f1261c13ddce01f826a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, RoutingBoundedStalenessRejectWhenExceeded)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>RoutingBoundedStalenessRejectWhenExceeded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="163" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="163" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a92a84bbc3a3f3235294c51de73a09d29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, RoutingSessionEligibleWhenSequenceMet)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>RoutingSessionEligibleWhenSequenceMet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="170" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="170" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a49472c65edacd2feccbc56f27db2ea7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, RoutingEventualAlwaysSucceeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>RoutingEventualAlwaysSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="179" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="179" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a4b604bfc787d86933aa5863fd384ce3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, RoutingSessionGarbageTokenTreatedAsNoToken)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>RoutingSessionGarbageTokenTreatedAsNoToken</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="189" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="189" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a65ef29daca3754015624cbca42fe4b6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, RoutingSessionNoTokenAlwaysSucceeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>RoutingSessionNoTokenAlwaysSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="196" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="196" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a4eb13fc5a06f16d025f8e9db0fa2c790" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, WritesCounterNotIncrementedOnStrongRejection)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>WritesCounterNotIncrementedOnStrongRejection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="203" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="203" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1aeb250bc60059fb73b0c88a1873bd72f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, WriteStrongSucceedsWhenFresh)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>WriteStrongSucceedsWhenFresh</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="215" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="215" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a18e858e0fa0ed4b1226d5e8def94d9a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, WriteStrongFailsWhenStale)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>WriteStrongFailsWhenStale</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="220" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="220" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1af82ffa1cfce0281ecb124392a7be30d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, WriteSessionAlwaysSucceeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>WriteSessionAlwaysSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="226" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="226" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a98419fc0b7b36121ac775eeb44f5cfc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, WriteEventualAlwaysSucceeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>WriteEventualAlwaysSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="232" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="232" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a86b029081e859183940650e0e827e6b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, WriteBoundedStalenessAlwaysSucceeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>WriteBoundedStalenessAlwaysSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="237" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="237" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a5fab345e5503c8f60edf1e80f5ebe9b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, ReadEventualAlwaysSucceeds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>ReadEventualAlwaysSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="246" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="246" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a8a9208645f8a3c68bdf531e12bd89ef7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, ReadStrongSucceedsWhenFresh)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>ReadStrongSucceedsWhenFresh</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="252" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="252" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a59e2128f93b2375a95b646797d48f64b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, ReadStrongFailsWhenStale)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>ReadStrongFailsWhenStale</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="259" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="259" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a1089497855dfa4c975de4e92e523516f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, ReadBoundedStalenessWithinBound)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>ReadBoundedStalenessWithinBound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="266" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="266" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1acf7cb88438b6ae9621db0e1495d418d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, ReadBoundedStalenessExceedsBound)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>ReadBoundedStalenessExceedsBound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="273" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="273" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1aab3c08e61376b2cf270d65a76006e95f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, ReadSessionReadYourWrites)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>ReadSessionReadYourWrites</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="281" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="281" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a7ef5ea6675711c396fff085bb9f6ded2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, PrometheusMetricsContainsExpectedKeys)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>PrometheusMetricsContainsExpectedKeys</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="293" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="293" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a40269cce185205da748f9c5f1fe3a6fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, PrometheusCountersAccurate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>PrometheusCountersAccurate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="305" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="305" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1aa932de270fe8e65d1829e5be44b106cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, ConcurrentWritesDoNotRace)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>ConcurrentWritesDoNotRace</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="322" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="322" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1a60e4d956122753e8ef2b530329a2e071" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, ConcurrentReadsDoNotRace)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>ConcurrentReadsDoNotRace</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="340" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="340" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__replication__consistency_8cpp_1aeb3a6338a45260bf2d9ff8d79f7546f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoReplicationConsistencyTest, ConcurrentStalenessUpdateAndReadDoNotRace)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoReplicationConsistencyTest</type>
+        </param>
+        <param>
+          <type>ConcurrentStalenessUpdateAndReadDoNotRace</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_replication_consistency.cpp" line="356" column="1" bodyfile="tests/geo/test_geo_replication_consistency.cpp" bodystart="356" bodyend="375"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;replication/replication_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;limits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themisdb::replication;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>GeoReplicationManager::GeoConfig<sp/>makeGeoConfig(</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>local<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>max_staleness_ms<sp/>=<sp/>5000)</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager::GeoConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.local_region<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>local;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.regions<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{local,<sp/></highlight><highlight class="stringliteral">&quot;eu-west-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ap-south-1&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.replication_factor<sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.local_replicas<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.global_replicas<sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.default_consistency<sp/>=<sp/>ConsistencyLevel::SESSION;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_staleness_ms<sp/><sp/><sp/><sp/>=<sp/>max_staleness_ms;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.session_token_ttl_ms<sp/>=<sp/>30000;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>1.<sp/>Construction<sp/>&amp;<sp/>initial<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>ConstructionSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>not<sp/>throw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>LocalRegionStartsFresh)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>5000));</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.getStaleness(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">).count(),<sp/>0);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>PeerRegionStartsWithHighStaleness)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig());</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Peer<sp/>regions<sp/>start<sp/>with<sp/>unknown<sp/>(very<sp/>high)<sp/>staleness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(mgr.getStaleness(</highlight><highlight class="stringliteral">&quot;eu-west-1&quot;</highlight><highlight class="normal">).count(),</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(1e12));</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>UnknownRegionReturnsMaxStaleness)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig());</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>mgr.getStaleness(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.count(),<sp/>std::numeric_limits&lt;int64_t&gt;::max());</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>2.<sp/>Staleness<sp/>updates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>UpdateRegionStalenessRefreshesLag)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig());</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateRegionStaleness(</highlight><highlight class="stringliteral">&quot;eu-west-1&quot;</highlight><highlight class="normal">,<sp/>200,<sp/>5);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.getStaleness(</highlight><highlight class="stringliteral">&quot;eu-west-1&quot;</highlight><highlight class="normal">).count(),<sp/>200);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>UpdateRegionStalenessAddsNewRegion)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig());</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateRegionStaleness(</highlight><highlight class="stringliteral">&quot;sa-east-1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>3);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.getStaleness(</highlight><highlight class="stringliteral">&quot;sa-east-1&quot;</highlight><highlight class="normal">).count(),<sp/>100);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>UpdateLocalRegionStaleness)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>5000));</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateRegionStaleness(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>50,<sp/>2);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.getStaleness(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">).count(),<sp/>50);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>3.<sp/>Session<sp/>tokens<sp/><sp/>(AC-4,<sp/>AC-7)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>GetSessionTokenReturnsNonEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig());</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>tok<sp/>=<sp/>mgr.getSessionToken();</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(tok.empty());</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>SessionTokenContainsSeqAndRegion)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>tok<sp/>=<sp/>mgr.getSessionToken();</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(tok.find(</highlight><highlight class="stringliteral">&quot;seq=&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(tok.find(</highlight><highlight class="stringliteral">&quot;region=us-east-1&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>SessionTokenParsesZeroAtStart)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig());</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>tok<sp/>=<sp/>mgr.getSessionToken();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>seq<sp/>=<sp/>mgr.parseSessionToken(tok);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(seq,<sp/>0u);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>SessionTokenAdvancesAfterWrite)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig());</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.write(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/>ConsistencyLevel::SESSION);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>tok<sp/>=<sp/>mgr.getSessionToken();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>seq<sp/>=<sp/>mgr.parseSessionToken(tok);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(seq,<sp/>1u);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>ParseInvalidTokenReturnsZero)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig());</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.parseSessionToken(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/>0u);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.parseSessionToken(</highlight><highlight class="stringliteral">&quot;garbage&quot;</highlight><highlight class="normal">),<sp/>0u);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>4.<sp/>Automatic<sp/>routing<sp/><sp/>(AC-3)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>RoutingStrongEligibleWhenFresh)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>5000));</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Local<sp/>region<sp/>is<sp/>fresh<sp/>(staleness<sp/>==<sp/>0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>region<sp/>=<sp/>mgr.selectReadRegion(ConsistencyLevel::STRONG);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(region,<sp/></highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>RoutingStrongRejectWhenStale)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>5000));</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateRegionStaleness(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>0);<sp/><sp/></highlight><highlight class="comment">//<sp/>introduce<sp/>lag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>region<sp/>=<sp/>mgr.selectReadRegion(ConsistencyLevel::STRONG);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(region.empty());</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>RoutingBoundedStalenessEligibleWithinBound)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>5000));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateRegionStaleness(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>3000,<sp/>1);<sp/><sp/></highlight><highlight class="comment">//<sp/>within<sp/>5000ms<sp/>bound</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>region<sp/>=<sp/>mgr.selectReadRegion(ConsistencyLevel::BOUNDED_STALENESS);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(region,<sp/></highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>RoutingBoundedStalenessRejectWhenExceeded)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>5000));</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateRegionStaleness(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>6000,<sp/>0);<sp/><sp/></highlight><highlight class="comment">//<sp/>exceeds<sp/>5000ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>region<sp/>=<sp/>mgr.selectReadRegion(ConsistencyLevel::BOUNDED_STALENESS);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(region.empty());</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>RoutingSessionEligibleWhenSequenceMet)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>5000));</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>to<sp/>advance<sp/>local<sp/>sequence<sp/>to<sp/>1,<sp/>then<sp/>get<sp/>token</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.write(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/>ConsistencyLevel::SESSION);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>tok<sp/>=<sp/>mgr.getSessionToken();</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>region<sp/>=<sp/>mgr.selectReadRegion(ConsistencyLevel::SESSION,<sp/>tok);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(region,<sp/></highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>RoutingEventualAlwaysSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>5000));</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Even<sp/>with<sp/>high<sp/>local<sp/>staleness,<sp/>EVENTUAL<sp/>always<sp/>routes<sp/>to<sp/>local</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateRegionStaleness(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>100000,<sp/>0);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>region<sp/>=<sp/>mgr.selectReadRegion(ConsistencyLevel::EVENTUAL);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(region,<sp/></highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SESSION<sp/>with<sp/>a<sp/>garbage<sp/>token:<sp/>parseSessionToken<sp/>returns<sp/>0<sp/>→<sp/>required_seq=0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>→<sp/>always<sp/>satisfies<sp/>local_applied_sequence<sp/>&gt;=<sp/>0<sp/>→<sp/>routes<sp/>to<sp/>local<sp/>region</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>RoutingSessionGarbageTokenTreatedAsNoToken)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>5000));</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>region<sp/>=<sp/>mgr.selectReadRegion(ConsistencyLevel::SESSION,<sp/></highlight><highlight class="stringliteral">&quot;not_a_valid_token&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(region,<sp/></highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SESSION<sp/>without<sp/>a<sp/>token<sp/>at<sp/>all:<sp/>required_seq=0,<sp/>always<sp/>succeeds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>RoutingSessionNoTokenAlwaysSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>5000));</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>region<sp/>=<sp/>mgr.selectReadRegion(ConsistencyLevel::SESSION,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(region,<sp/></highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>STRONG<sp/>write<sp/>rejection<sp/>does<sp/>NOT<sp/>increment<sp/>writes_total_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>WritesCounterNotIncrementedOnStrongRejection)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>5000));</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateRegionStaleness(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>100,<sp/>0);<sp/><sp/></highlight><highlight class="comment">//<sp/>make<sp/>local<sp/>stale</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>mgr.write(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;val&quot;</highlight><highlight class="normal">,<sp/>ConsistencyLevel::STRONG);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ok);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rejected<sp/>write<sp/>should<sp/>NOT<sp/>appear<sp/>in<sp/>Prometheus<sp/>writes_total</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>m<sp/>=<sp/>mgr.exportPrometheusMetrics();</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(m.find(</highlight><highlight class="stringliteral">&quot;themisdb_geo_repl_writes_total{region=\&quot;us-east-1\&quot;}<sp/>0&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>WriteStrongSucceedsWhenFresh)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig());</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.write(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;val&quot;</highlight><highlight class="normal">,<sp/>ConsistencyLevel::STRONG));</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>WriteStrongFailsWhenStale)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>5000));</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateRegionStaleness(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>200,<sp/>0);<sp/><sp/></highlight><highlight class="comment">//<sp/>introduce<sp/>lag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mgr.write(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;val&quot;</highlight><highlight class="normal">,<sp/>ConsistencyLevel::STRONG));</highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>WriteSessionAlwaysSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig());</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateRegionStaleness(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>9999,<sp/>0);<sp/><sp/></highlight><highlight class="comment">//<sp/>high<sp/>lag</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.write(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/>ConsistencyLevel::SESSION));</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>WriteEventualAlwaysSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig());</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.write(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/>ConsistencyLevel::EVENTUAL));</highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>WriteBoundedStalenessAlwaysSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig());</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.write(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/>ConsistencyLevel::BOUNDED_STALENESS));</highlight></codeline>
+<codeline lineno="240"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>6.<sp/>Read<sp/>behaviour<sp/><sp/>(AC-1,<sp/>AC-2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>ReadEventualAlwaysSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig());</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.read(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/>ConsistencyLevel::EVENTUAL);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>ReadStrongSucceedsWhenFresh)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>5000));</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Local<sp/>starts<sp/>at<sp/>staleness<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.read(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/>ConsistencyLevel::STRONG);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>ReadStrongFailsWhenStale)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>5000));</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateRegionStaleness(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>10,<sp/>0);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.read(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/>ConsistencyLevel::STRONG);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>ReadBoundedStalenessWithinBound)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>5000));</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateRegionStaleness(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>2000,<sp/>1);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.read(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/>ConsistencyLevel::BOUNDED_STALENESS);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>ReadBoundedStalenessExceedsBound)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>5000));</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.updateRegionStaleness(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>8000,<sp/>0);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.read(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/>ConsistencyLevel::BOUNDED_STALENESS);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="278"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AC-7:<sp/>SESSION<sp/>read-your-writes<sp/>guarantee</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>ReadSessionReadYourWrites)<sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig());</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.write(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;val&quot;</highlight><highlight class="normal">,<sp/>ConsistencyLevel::SESSION);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>tok<sp/>=<sp/>mgr.getSessionToken();</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.read(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/>ConsistencyLevel::SESSION,<sp/>tok);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="287"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="comment">//<sp/>7.<sp/>Prometheus<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>PrometheusMetricsContainsExpectedKeys)<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig());</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.write(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.read(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/>ConsistencyLevel::EVENTUAL);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>m<sp/>=<sp/>mgr.exportPrometheusMetrics();</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(m.find(</highlight><highlight class="stringliteral">&quot;themisdb_geo_repl_writes_total&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(m.find(</highlight><highlight class="stringliteral">&quot;themisdb_geo_repl_reads_total&quot;</highlight><highlight class="normal">),<sp/><sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(m.find(</highlight><highlight class="stringliteral">&quot;themisdb_geo_repl_reads_rejected_total&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(m.find(</highlight><highlight class="stringliteral">&quot;themisdb_geo_repl_region_staleness_ms&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>PrometheusCountersAccurate)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>5000));</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.write(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.write(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.read(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>ConsistencyLevel::EVENTUAL);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>m<sp/>=<sp/>mgr.exportPrometheusMetrics();</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(m.find(</highlight><highlight class="stringliteral">&quot;themisdb_geo_repl_writes_total{region=\&quot;us-east-1\&quot;}<sp/>2&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(m.find(</highlight><highlight class="stringliteral">&quot;themisdb_geo_repl_reads_total{region=\&quot;us-east-1\&quot;}<sp/>1&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight><highlight class="comment">//<sp/>8.<sp/>Thread<sp/>safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>ConcurrentWritesDoNotRace)<sp/>{</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig());</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>N<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>successes{0};</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>N;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;mgr,<sp/>&amp;successes]<sp/>{</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(mgr.write(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/>ConsistencyLevel::EVENTUAL))<sp/>{</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++successes;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(successes.load(),<sp/>N);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>ConcurrentReadsDoNotRace)<sp/>{</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig());</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>N<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>N;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;mgr]<sp/>{</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.read(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/>ConsistencyLevel::EVENTUAL);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>not<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><ref refid="test__geo__replication__consistency_8cpp_1af8c8e6b534196dad99c1c89c616f6c83" kindref="member">TEST</ref>(GeoReplicationConsistencyTest,<sp/>ConcurrentStalenessUpdateAndReadDoNotRace)<sp/>{</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoReplicationManager<sp/>mgr(makeGeoConfig(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,<sp/>5000));</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>stop{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>updater([&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>200<sp/>&amp;&amp;<sp/>!stop.load();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.updateRegionStaleness(</highlight><highlight class="stringliteral">&quot;us-east-1&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>*<sp/>10),</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i));</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stop.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>reader([&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!stop.load())<sp/>{</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.read(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/>ConsistencyLevel::BOUNDED_STALENESS);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>updater.join();</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>reader.join();</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>not<sp/>crash<sp/>or<sp/>deadlock</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/geo/test_geo_replication_consistency.cpp"/>
+  </compounddef>
+</doxygen>

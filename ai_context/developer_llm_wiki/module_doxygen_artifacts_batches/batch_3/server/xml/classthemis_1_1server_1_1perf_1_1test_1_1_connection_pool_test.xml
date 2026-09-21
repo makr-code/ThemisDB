@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1perf_1_1test_1_1_connection_pool_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::perf::test::ConnectionPoolTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-type">
+      <memberdef kind="typedef" id="classthemis_1_1server_1_1perf_1_1test_1_1_connection_pool_test_1ab2cdab365b76973776e6bde508c36814" prot="protected" static="no">
+        <type><ref refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool" kindref="compound">GenericConnectionPool</ref>&lt; <ref refid="classthemis_1_1server_1_1perf_1_1test_1_1_mock_connection" kindref="compound">MockConnection</ref> &gt;</type>
+        <definition>using themis::server::perf::test::ConnectionPoolTest::Pool = GenericConnectionPool&lt;MockConnection&gt;</definition>
+        <argsstring></argsstring>
+        <name>Pool</name>
+        <qualifiedname>themis::server::perf::test::ConnectionPoolTest::Pool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="66" column="5" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::server::perf::test::ConnectionPoolTest</label>
+        <link refid="classthemis_1_1server_1_1perf_1_1test_1_1_connection_pool_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::server::perf::test::ConnectionPoolTest</label>
+        <link refid="classthemis_1_1server_1_1perf_1_1test_1_1_connection_pool_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/server/test_server_phase2_focused.cpp" line="64" column="1" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="64" bodyend="67"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1perf_1_1test_1_1_connection_pool_test_1ab2cdab365b76973776e6bde508c36814" prot="protected" virt="non-virtual"><scope>themis::server::perf::test::ConnectionPoolTest</scope><name>Pool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

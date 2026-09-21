@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_03763ed6ac796e7834e5e4f868445a4d" kind="dir">
+    <compoundname>src/llm/attention/cuda</compoundname>
+    <innerfile refid="attention_2cuda_2infini__attention__cpu_8cpp">infini_attention_cpu.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/attention/cuda/"/>
+  </compounddef>
+</doxygen>

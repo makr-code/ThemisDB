@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::RaftLoadBalancer::Backend</compoundname>
+    <includes refid="raft__load__balancer_8h" local="no">raft_load_balancer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a95a50a7816ad32103670efdeb86dd130" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::RaftLoadBalancer::Backend::address</definition>
+        <argsstring></argsstring>
+        <name>address</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Backend::address</qualifiedname>
+        <briefdescription>
+<para>&quot;host:port&quot; string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="119" column="21" bodyfile="include/network/raft_load_balancer.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a08d464ac2e48aba6e059d3497c3a3c2b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::RaftLoadBalancer::Backend::weight</definition>
+        <argsstring></argsstring>
+        <name>weight</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Backend::weight</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Relative capacity weight (&gt;=0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="120" column="21" bodyfile="include/network/raft_load_balancer.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a3d4d2d1b9ee342dd3a827b5e4e27ad13" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::RaftLoadBalancer::Backend::healthy</definition>
+        <argsstring></argsstring>
+        <name>healthy</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Backend::healthy</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>False when the backend fails health checks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="121" column="21" bodyfile="include/network/raft_load_balancer.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a32f97b0e2844eec54e4f3a431557692d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::RaftLoadBalancer::Backend::datacenter</definition>
+        <argsstring></argsstring>
+        <name>datacenter</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Backend::datacenter</qualifiedname>
+        <briefdescription>
+<para>Datacenter/region label (empty = default). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="122" column="21" bodyfile="include/network/raft_load_balancer.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a85d3817cca2814bf474686e23250d82c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::RaftLoadBalancer::Backend::active_connections</definition>
+        <argsstring></argsstring>
+        <name>active_connections</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Backend::active_connections</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="125" column="21" bodyfile="include/network/raft_load_balancer.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1aa693cd6712af4effc1f0741112b10089" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::RaftLoadBalancer::Backend::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Backend::total_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="126" column="21" bodyfile="include/network/raft_load_balancer.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a331d891fa0392ae1891a0a7a038603ab" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::RaftLoadBalancer::Backend::failed_requests</definition>
+        <argsstring></argsstring>
+        <name>failed_requests</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Backend::failed_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="127" column="21" bodyfile="include/network/raft_load_balancer.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a0cb68e77e4793ffe92bb33bacad28933" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themis::network::RaftLoadBalancer::Backend::consecutive_failures</definition>
+        <argsstring></argsstring>
+        <name>consecutive_failures</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Backend::consecutive_failures</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="128" column="21" bodyfile="include/network/raft_load_balancer.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a7a5d43379b0fc27a4fced7b4892b7354" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themis::network::RaftLoadBalancer::Backend::consecutive_successes</definition>
+        <argsstring></argsstring>
+        <name>consecutive_successes</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Backend::consecutive_successes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="129" column="21" bodyfile="include/network/raft_load_balancer.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a9ee473b539ad0536b65415454490cee8" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::network::RaftLoadBalancer::Backend::last_health_check</definition>
+        <argsstring></argsstring>
+        <name>last_health_check</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Backend::last_health_check</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="130" column="47" bodyfile="include/network/raft_load_balancer.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1aee6bc61855769c6f225e2b4cf476fec1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::RaftLoadBalancer::Backend::Backend</definition>
+        <argsstring>()=default</argsstring>
+        <name>Backend</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Backend::Backend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="133" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a680d94784bbf6e66385575a4d9716e78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::RaftLoadBalancer::Backend::Backend</definition>
+        <argsstring>(const Backend &amp;)=delete</argsstring>
+        <name>Backend</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Backend::Backend</qualifiedname>
+        <param>
+          <type>const Backend &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="134" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a3e81fd3e8c15d6b92a6745577d2b7457" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1aee6bc61855769c6f225e2b4cf476fec1" kindref="member">Backend</ref> &amp;</type>
+        <definition>Backend &amp; themis::network::RaftLoadBalancer::Backend::operator=</definition>
+        <argsstring>(const Backend &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Backend::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1aee6bc61855769c6f225e2b4cf476fec1" kindref="member">Backend</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="135" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a13077eba8f14770f0638afcbd6a8bf9d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::RaftLoadBalancer::Backend::Backend</definition>
+        <argsstring>(Backend &amp;&amp;o) noexcept</argsstring>
+        <name>Backend</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Backend::Backend</qualifiedname>
+        <param>
+          <type>Backend &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="136" column="9" bodyfile="src/network/raft_load_balancer.cpp" bodystart="71" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1ab47dd89635e9ed76a0d2f36686184d90" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1aee6bc61855769c6f225e2b4cf476fec1" kindref="member">Backend</ref> &amp;</type>
+        <definition>RaftLoadBalancer::Backend &amp; themis::network::RaftLoadBalancer::Backend::operator=</definition>
+        <argsstring>(Backend &amp;&amp;o) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::Backend::operator=</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1aee6bc61855769c6f225e2b4cf476fec1" kindref="member">Backend</ref> &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="137" column="17" bodyfile="src/network/raft_load_balancer.cpp" bodystart="81" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Represents a single backend server managed by the load balancer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/raft_load_balancer.h" line="118" column="5" bodyfile="include/network/raft_load_balancer.h" bodystart="118" bodyend="138"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a85d3817cca2814bf474686e23250d82c" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Backend</scope><name>active_connections</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a95a50a7816ad32103670efdeb86dd130" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Backend</scope><name>address</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1aee6bc61855769c6f225e2b4cf476fec1" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Backend</scope><name>Backend</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a680d94784bbf6e66385575a4d9716e78" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Backend</scope><name>Backend</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a13077eba8f14770f0638afcbd6a8bf9d" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Backend</scope><name>Backend</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a0cb68e77e4793ffe92bb33bacad28933" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Backend</scope><name>consecutive_failures</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a7a5d43379b0fc27a4fced7b4892b7354" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Backend</scope><name>consecutive_successes</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a32f97b0e2844eec54e4f3a431557692d" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Backend</scope><name>datacenter</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a331d891fa0392ae1891a0a7a038603ab" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Backend</scope><name>failed_requests</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a3d4d2d1b9ee342dd3a827b5e4e27ad13" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Backend</scope><name>healthy</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a9ee473b539ad0536b65415454490cee8" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Backend</scope><name>last_health_check</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a3e81fd3e8c15d6b92a6745577d2b7457" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Backend</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1ab47dd89635e9ed76a0d2f36686184d90" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Backend</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1aa693cd6712af4effc1f0741112b10089" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Backend</scope><name>total_requests</name></member>
+      <member refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend_1a08d464ac2e48aba6e059d3497c3a3c2b" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::Backend</scope><name>weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

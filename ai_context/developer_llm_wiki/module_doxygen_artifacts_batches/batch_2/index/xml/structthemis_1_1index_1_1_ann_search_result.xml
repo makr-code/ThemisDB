@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_ann_search_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::AnnSearchResult</compoundname>
+    <includes refid="ann__index_8h" local="no">ann_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_search_result_1a40802eeddee4b33cb431c224e9b3eaf9" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::index::AnnSearchResult::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::index::AnnSearchResult::id</qualifiedname>
+        <briefdescription>
+<para>User-visible vector ID (label). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="50" column="13" bodyfile="include/index/ann_index.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_ann_search_result_1ae8c1f1693d93aab75d8e554ac0fa33c7" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::index::AnnSearchResult::distance</definition>
+        <argsstring></argsstring>
+        <name>distance</name>
+        <qualifiedname>themis::index::AnnSearchResult::distance</qualifiedname>
+        <briefdescription>
+<para>Distance from query (smaller = closer). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/ann_index.h" line="51" column="13" bodyfile="include/index/ann_index.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/ann_index.h" line="49" column="1" bodyfile="include/index/ann_index.h" bodystart="49" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_ann_search_result_1ae8c1f1693d93aab75d8e554ac0fa33c7" prot="public" virt="non-virtual"><scope>themis::index::AnnSearchResult</scope><name>distance</name></member>
+      <member refid="structthemis_1_1index_1_1_ann_search_result_1a40802eeddee4b33cb431c224e9b3eaf9" prot="public" virt="non-virtual"><scope>themis::index::AnnSearchResult</scope><name>id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

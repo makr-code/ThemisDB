@@ -1,0 +1,282 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="multi__hop__reasoner_8h" kind="file" language="C++">
+    <compoundname>multi_hop_reasoner.h</compoundname>
+    <includes refid="rag__judge_8h" local="yes">rag/rag_judge.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="multi__hop__reasoner_8cpp" local="yes">src/rag/multi_hop_reasoner.cpp</includedby>
+    <includedby refid="test__rag__multi__hop__reasoner_8cpp" local="yes">tests/rag/test_rag_multi_hop_reasoner.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/multi_hop_reasoner.h</label>
+        <link refid="multi__hop__reasoner_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cmath</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/multi_hop_reasoner.h</label>
+        <link refid="multi__hop__reasoner_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rag/multi_hop_reasoner.cpp</label>
+        <link refid="multi__hop__reasoner_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/rag/test_rag_multi_hop_reasoner.cpp</label>
+        <link refid="test__rag__multi__hop__reasoner_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config" prot="public">themis::rag::multi_hop::MultiHopConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1multi__hop_1_1_hop_record" prot="public">themis::rag::multi_hop::HopRecord</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result" prot="public">themis::rag::multi_hop::MultiHopResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner" prot="public">themis::rag::multi_hop::MultiHopReasoner</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_factory" prot="public">themis::rag::multi_hop::MultiHopReasonerFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1multi__hop">themis::rag::multi_hop</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.10 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rag__judge_8h" kindref="compound">rag/rag_judge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="namespacethemis_1_1rag_1_1multi__hop" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1multi__hop" kindref="compound">themis::rag::multi_hop</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Callback<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1rag_1_1multi__hop_1af1e918a1ab9df5d841a48943c302d56d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1multi__hop_1af1e918a1ab9df5d841a48943c302d56d" kindref="member">RetrievalFn</ref><sp/>=<sp/>std::function&lt;std::vector&lt;judge::RetrievedDocument&gt;(</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sub_query,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>top_k)&gt;;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1rag_1_1multi__hop_1a9924dcec7cef3cfb9c700463c35205b3" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1multi__hop_1a9924dcec7cef3cfb9c700463c35205b3" kindref="member">InferenceFn</ref><sp/>=<sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_tokens)&gt;;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QueryComplexityHint<sp/>—<sp/>optional<sp/>hint<sp/>for<sp/>hop<sp/>count<sp/>selection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1rag_1_1multi__hop_1a46e431229b73bb344698838dd30e20e5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1multi__hop_1a46e431229b73bb344698838dd30e20e5" kindref="member">QueryComplexityHint</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1rag_1_1multi__hop_1a46e431229b73bb344698838dd30e20e5ae5564829e2f85f6a6873a9d5c4f26d09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1multi__hop_1a46e431229b73bb344698838dd30e20e5ae5564829e2f85f6a6873a9d5c4f26d09" kindref="member">SIMPLE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1rag_1_1multi__hop_1a46e431229b73bb344698838dd30e20e5a5137485eff3ff278d233d993c8539599" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1multi__hop_1a46e431229b73bb344698838dd30e20e5a5137485eff3ff278d233d993c8539599" kindref="member">MODERATE</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1rag_1_1multi__hop_1a46e431229b73bb344698838dd30e20e5a921a0157a6e61eebbaa0f713fdfbb0f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1multi__hop_1a46e431229b73bb344698838dd30e20e5a921a0157a6e61eebbaa0f713fdfbb0f7" kindref="member">COMPLEX</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1rag_1_1multi__hop_1a46e431229b73bb344698838dd30e20e5a696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1multi__hop_1a46e431229b73bb344698838dd30e20e5a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MultiHopConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config" kindref="compound">MultiHopConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a5ca70174212102c34459145dd696c385" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a5ca70174212102c34459145dd696c385" kindref="member">max_hops</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1ae24a5b752b433e350493369a2247d24b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1ae24a5b752b433e350493369a2247d24b" kindref="member">top_k_per_hop</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1af9f9b2e1253c814f6c2b8e9fbfe150a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1af9f9b2e1253c814f6c2b8e9fbfe150a7" kindref="member">max_tokens_per_hop</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a1cb542a374609eda1ade56518d353fe7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a1cb542a374609eda1ade56518d353fe7" kindref="member">max_tokens_final</ref><sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a2b350bb1bcd6a7f2b591cd08f213008f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a2b350bb1bcd6a7f2b591cd08f213008f" kindref="member">early_stopping</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1abd64a67c243209856d0b089f7e7022a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1abd64a67c243209856d0b089f7e7022a5" kindref="member">context_prefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Given<sp/>the<sp/>following<sp/>context:\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a16b60025897505d5e41bf16069364676" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a16b60025897505d5e41bf16069364676" kindref="member">answer_separator</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;\n\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a2ac56c3c2662ff8667d16d864963bb16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a2ac56c3c2662ff8667d16d864963bb16" kindref="member">decomposition_prompt_template</ref><sp/>=</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Break<sp/>the<sp/>following<sp/>question<sp/>into<sp/>simpler<sp/>sub-questions<sp/>that<sp/>can<sp/>be<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;answered<sp/>independently.<sp/>Output<sp/>each<sp/>sub-question<sp/>on<sp/>a<sp/>separate<sp/>line.<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;If<sp/>the<sp/>question<sp/>is<sp/>already<sp/>simple,<sp/>output<sp/>it<sp/>unchanged.\n\nQuestion:<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;{query}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1ab3ce3df738109fa3c6778ea7b3e90adc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1ab3ce3df738109fa3c6778ea7b3e90adc" kindref="member">composition_prompt_template</ref><sp/>=</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Given<sp/>the<sp/>following<sp/>partial<sp/>answers:\n{partial_answers}\n\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Compose<sp/>a<sp/>single,<sp/>concise<sp/>final<sp/>answer<sp/>to<sp/>the<sp/>original<sp/>question:<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;{query}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a822812338d1a208fbccf5edef3483cda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1multi__hop_1a46e431229b73bb344698838dd30e20e5" kindref="member">QueryComplexityHint</ref><sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config_1a822812338d1a208fbccf5edef3483cda" kindref="member">complexity_hint</ref><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1multi__hop_1a46e431229b73bb344698838dd30e20e5a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">QueryComplexityHint::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HopRecord<sp/>—<sp/>snapshot<sp/>of<sp/>a<sp/>single<sp/>reasoning<sp/>hop</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1rag_1_1multi__hop_1_1_hop_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_hop_record" kindref="compound">HopRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1rag_1_1multi__hop_1_1_hop_record_1a7dd916c582175cb7e2ef94eda2d8e33d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_hop_record_1a7dd916c582175cb7e2ef94eda2d8e33d" kindref="member">hop_index</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1rag_1_1multi__hop_1_1_hop_record_1a8ecc092acd5b64d0953917ab69df0567" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_hop_record_1a8ecc092acd5b64d0953917ab69df0567" kindref="member">sub_query</ref>;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1rag_1_1multi__hop_1_1_hop_record_1a99dc804f9dcf161decde44fe4c9be7b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;judge::RetrievedDocument&gt;<sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_hop_record_1a99dc804f9dcf161decde44fe4c9be7b3" kindref="member">documents</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1rag_1_1multi__hop_1_1_hop_record_1a915306a1c8de76d8642118d0fcaa94dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_hop_record_1a915306a1c8de76d8642118d0fcaa94dc" kindref="member">intermediate_answer</ref>;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1rag_1_1multi__hop_1_1_hop_record_1aac650b05c9601d1369dbe5f1e547cc98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_hop_record_1aac650b05c9601d1369dbe5f1e547cc98" kindref="member">succeeded</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1rag_1_1multi__hop_1_1_hop_record_1a8abc280c981c771d0025676f60135fe7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_hop_record_1a8abc280c981c771d0025676f60135fe7" kindref="member">elapsed_ms</ref>{0};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MultiHopResult<sp/>—<sp/>output<sp/>of<sp/>the<sp/>full<sp/>reasoning<sp/>chain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result" kindref="compound">MultiHopResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1a38e0cb777d9914b25ab34fb6d0c21d25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1a38e0cb777d9914b25ab34fb6d0c21d25" kindref="member">final_answer</ref>;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1a69561cb9662bb4d163142d79236d2bf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;HopRecord&gt;<sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1a69561cb9662bb4d163142d79236d2bf2" kindref="member">hop_records</ref>;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1a43711ec655a519fefe7cf00e7a5a69ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;judge::RetrievedDocument&gt;<sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1a43711ec655a519fefe7cf00e7a5a69ff" kindref="member">all_documents</ref>;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1a2c7e9c2a145251b5d1fcbe1c670c5582" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1a2c7e9c2a145251b5d1fcbe1c670c5582" kindref="member">hops_executed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1ac96e9e482a9067964579d9445a12e409" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1ac96e9e482a9067964579d9445a12e409" kindref="member">early_stopped</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1ab587fdcce3314656ca6066133539a671" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1ab587fdcce3314656ca6066133539a671" kindref="member">hit_hop_limit</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1adb0bc03673cd6415c5056ec245857ab4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result_1adb0bc03673cd6415c5056ec245857ab4" kindref="member">total_elapsed_ms</ref>{0};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MultiHopReasoner</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a3b7e2cc88d5b29131d5d596b4338eeb5" kindref="member">MultiHopReasoner</ref><sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="196" refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a3b7e2cc88d5b29131d5d596b4338eeb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a3b7e2cc88d5b29131d5d596b4338eeb5" kindref="member">MultiHopReasoner</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a3b7e2cc88d5b29131d5d596b4338eeb5" kindref="member">MultiHopReasoner</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config" kindref="compound">MultiHopConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result" kindref="compound">MultiHopResult</ref><sp/><ref refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1ab89d72f3ea61eb7851136e3fa3888998" kindref="member">reason</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1multi__hop_1af1e918a1ab9df5d841a48943c302d56d" kindref="member">RetrievalFn</ref><sp/>retrieval_fn,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1multi__hop_1a9924dcec7cef3cfb9c700463c35205b3" kindref="member">InferenceFn</ref><sp/>inference_fn)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1ad5424dbc8978986c8b9a190033dcdb89" kindref="member">decomposeQuery</ref>(</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1multi__hop_1a9924dcec7cef3cfb9c700463c35205b3" kindref="member">InferenceFn</ref><sp/>inference_fn<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a17f2095c337257a3be96613175099c8a" kindref="member">buildHopPrompt</ref>(</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sub_query,</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;judge::RetrievedDocument&gt;&amp;<sp/>documents,</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>previous_answers)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config" kindref="compound">MultiHopConfig</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a3b36ac7fa63f241f2f7a92ac4398222f" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_1a630511fec36128068eeaaed61ff0c861" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config" kindref="compound">MultiHopConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config" kindref="compound">MultiHopConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>heuristicDecompose(</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>parseDecompositionResponse(</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>composeAnswer(</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>original_query,</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;HopRecord&gt;&amp;<sp/>hop_records,</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1multi__hop_1a9924dcec7cef3cfb9c700463c35205b3" kindref="member">InferenceFn</ref><sp/>inference_fn)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MultiHopReasonerFactory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285" refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_factory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_factory" kindref="compound">MultiHopReasonerFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;MultiHopReasoner&gt;<sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_factory_1a4037e11d557d46fc2b8c43d80ed0142a" kindref="member">createSingleHop</ref>();</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;MultiHopReasoner&gt;<sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_factory_1ac2ae17c455820ebdcc10f0c53abf85e0" kindref="member">createBalanced</ref>();</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;MultiHopReasoner&gt;<sp/><ref refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_factory_1a02f8f21564a8292c726d2946e770323c" kindref="member">createDeepReasoning</ref>();</highlight></codeline>
+<codeline lineno="300"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag::multi_hop</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/multi_hop_reasoner.h"/>
+  </compounddef>
+</doxygen>

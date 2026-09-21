@@ -1,0 +1,402 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span" prot="public" virt="non-virtual">themis::core::concerns::ITracer::ISpan</basecompoundref>
+    <includes refid="zipkin__tracer__adapter_8h" local="no">zipkin_tracer_adapter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a09ce9bedc06e118faf6153dde3b1822b" prot="private" static="no" mutable="no">
+        <type>themis::Tracer::Span</type>
+        <definition>themis::Tracer::Span themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::span_</definition>
+        <argsstring></argsstring>
+        <name>span_</name>
+        <qualifiedname>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::span_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/zipkin_tracer_adapter.h" line="104" column="30" bodyfile="include/core/concerns/zipkin_tracer_adapter.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a2c4720f404f8e4d0652d871ba44067c4" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::ZipkinSpanAdapter</definition>
+        <argsstring>(themis::Tracer::Span span)</argsstring>
+        <name>ZipkinSpanAdapter</name>
+        <qualifiedname>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::ZipkinSpanAdapter</qualifiedname>
+        <param>
+          <type>themis::Tracer::Span</type>
+          <declname>span</declname>
+        </param>
+        <briefdescription>
+<para>Zipkin Span Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">span</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/zipkin_tracer_adapter.h" line="65" column="18" bodyfile="include/core/concerns/zipkin_tracer_adapter.h" bodystart="65" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a09bbed49b80b2d8b0c0cd8f474a269ee" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value) override</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::setAttribute</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span_1a96acd6638cedaec546b157aebf5f32f5">setAttribute</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/zipkin_tracer_adapter.h" line="68" column="14" bodyfile="include/core/concerns/zipkin_tracer_adapter.h" bodystart="68" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a60420883c8ae919355265094a8e201ce" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, int64_t value) override</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::setAttribute</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span_1a6d11fb42cf9cca6f5b3adc9095157226">setAttribute</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/zipkin_tracer_adapter.h" line="71" column="14" bodyfile="include/core/concerns/zipkin_tracer_adapter.h" bodystart="71" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a382485d731f5fbbac02c56adbc5ede9d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, double value) override</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::setAttribute</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span_1aa7277333f2cbc8db7432fcfd09ed2cbf">setAttribute</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/zipkin_tracer_adapter.h" line="74" column="14" bodyfile="include/core/concerns/zipkin_tracer_adapter.h" bodystart="74" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1ac5fd2f296120b1fccb31b7e17d4cda65" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, bool value) override</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::setAttribute</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span_1a8a8de5bef02666ba8c68110978df6277">setAttribute</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/zipkin_tracer_adapter.h" line="77" column="14" bodyfile="include/core/concerns/zipkin_tracer_adapter.h" bodystart="77" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a7e6b713732991bfb51f676b9d9cc963d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::recordError</definition>
+        <argsstring>(const std::string &amp;errorMessage) override</argsstring>
+        <name>recordError</name>
+        <qualifiedname>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::recordError</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span_1a69238391988b9586a0d2a1fe2e476b22">recordError</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>errorMessage</declname>
+        </param>
+        <briefdescription>
+<para>Record Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">errorMessage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/zipkin_tracer_adapter.h" line="80" column="14" bodyfile="include/core/concerns/zipkin_tracer_adapter.h" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a05b0427d53a59c0d3ced4080d76df854" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::setStatus</definition>
+        <argsstring>(bool ok, const std::string &amp;description=&quot;&quot;) override</argsstring>
+        <name>setStatus</name>
+        <qualifiedname>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::setStatus</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span_1aebc2feea9611b1816502e49e2dfd7f8a">setStatus</reimplements>
+        <param>
+          <type>bool</type>
+          <declname>ok</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/zipkin_tracer_adapter.h" line="83" column="14" bodyfile="include/core/concerns/zipkin_tracer_adapter.h" bodystart="83" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a175b62129c70de89484a27d0c8b5ecd1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::end</definition>
+        <argsstring>() override</argsstring>
+        <name>end</name>
+        <qualifiedname>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::end</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span_1a77772aeef6a0451b2fd17f1df66f15d9">end</reimplements>
+        <briefdescription>
+<para>End. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/zipkin_tracer_adapter.h" line="86" column="14" bodyfile="include/core/concerns/zipkin_tracer_adapter.h" bodystart="86" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1ad43fc40b84e139ef26b82f711930bd92" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::isValid</definition>
+        <argsstring>() const override</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::isValid</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span_1ad9d3eb82995df9ff0e99de4ce2bd772b">isValid</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/zipkin_tracer_adapter.h" line="89" column="14" bodyfile="include/core/concerns/zipkin_tracer_adapter.h" bodystart="89" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a1dd8793cb8028d576dd312674e11deb8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::~ZipkinSpanAdapter</definition>
+        <argsstring>() override</argsstring>
+        <name>~ZipkinSpanAdapter</name>
+        <qualifiedname>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::~ZipkinSpanAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/zipkin_tracer_adapter.h" line="93" column="9" bodyfile="include/core/concerns/zipkin_tracer_adapter.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a7e11542d4dbaf21b000d93e7dfc72c13" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>themis::Tracer::Span &amp;</type>
+        <definition>themis::Tracer::Span &amp; themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::getSpan</definition>
+        <argsstring>()</argsstring>
+        <name>getSpan</name>
+        <qualifiedname>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::getSpan</qualifiedname>
+        <briefdescription>
+<para>Get Span. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getSpan without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/zipkin_tracer_adapter.h" line="100" column="30" bodyfile="include/core/concerns/zipkin_tracer_adapter.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a02c1a35c3f80e9d8c8216865fa893ae6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const themis::Tracer::Span &amp;</type>
+        <definition>const themis::Tracer::Span &amp; themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::getSpan</definition>
+        <argsstring>() const</argsstring>
+        <name>getSpan</name>
+        <qualifiedname>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter::getSpan</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/zipkin_tracer_adapter.h" line="101" column="36" bodyfile="include/core/concerns/zipkin_tracer_adapter.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::core::concerns::ITracer::ISpan</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::core::concerns::ITracer::ISpan</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/zipkin_tracer_adapter.h" line="58" column="5" bodyfile="include/core/concerns/zipkin_tracer_adapter.h" bodystart="58" bodyend="105"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a175b62129c70de89484a27d0c8b5ecd1" prot="public" virt="virtual"><scope>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter</scope><name>end</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a7e11542d4dbaf21b000d93e7dfc72c13" prot="public" virt="non-virtual"><scope>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter</scope><name>getSpan</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a02c1a35c3f80e9d8c8216865fa893ae6" prot="public" virt="non-virtual"><scope>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter</scope><name>getSpan</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1ad43fc40b84e139ef26b82f711930bd92" prot="public" virt="virtual"><scope>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter</scope><name>isValid</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a7e6b713732991bfb51f676b9d9cc963d" prot="public" virt="virtual"><scope>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter</scope><name>recordError</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a09bbed49b80b2d8b0c0cd8f474a269ee" prot="public" virt="virtual"><scope>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a60420883c8ae919355265094a8e201ce" prot="public" virt="virtual"><scope>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a382485d731f5fbbac02c56adbc5ede9d" prot="public" virt="virtual"><scope>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1ac5fd2f296120b1fccb31b7e17d4cda65" prot="public" virt="virtual"><scope>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span_1a559cf3e3447ba350ad9baa41b38dbcac" prot="public" virt="non-virtual" ambiguityscope="themis::core::concerns::ITracer::ISpan::"><scope>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a05b0427d53a59c0d3ced4080d76df854" prot="public" virt="virtual"><scope>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter</scope><name>setStatus</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a09ce9bedc06e118faf6153dde3b1822b" prot="private" virt="non-virtual"><scope>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter</scope><name>span_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a2c4720f404f8e4d0652d871ba44067c4" prot="public" virt="non-virtual"><scope>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter</scope><name>ZipkinSpanAdapter</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span_1a23caa738013a02c2f55e54f45017e3b5" prot="public" virt="virtual"><scope>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter</scope><name>~ISpan</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_zipkin_tracer_adapter_1_1_zipkin_span_adapter_1a1dd8793cb8028d576dd312674e11deb8" prot="public" virt="non-virtual"><scope>themis::core::concerns::ZipkinTracerAdapter::ZipkinSpanAdapter</scope><name>~ZipkinSpanAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,557 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::PagedMemoryManager</compoundname>
+    <includes refid="paged__memory__manager_8h" local="no">paged_memory_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a54d54c182a038672ea9d3ad51ec7ed72" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" kindref="compound">VRAMAllocator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;VRAMAllocator&gt; themis::llm::lora::PagedMemoryManager::cpu_allocator_</definition>
+        <argsstring></argsstring>
+        <name>cpu_allocator_</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::cpu_allocator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="203" column="21" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1ab476e2eb4a9acbf5e5aa6e3bdb61b6e1" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" kindref="compound">VRAMAllocator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;VRAMAllocator&gt; themis::llm::lora::PagedMemoryManager::gpu_allocator_</definition>
+        <argsstring></argsstring>
+        <name>gpu_allocator_</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::gpu_allocator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="204" column="21" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1ae7bd2ad4683cf30cf18c745c609affa6" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager" kindref="compound">GPUMemoryManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GPUMemoryManager&gt; themis::llm::lora::PagedMemoryManager::owned_gpu_manager_</definition>
+        <argsstring></argsstring>
+        <name>owned_gpu_manager_</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::owned_gpu_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="207" column="21" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1aef1efdbd534f8dfddc71c5ac0617796b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager" kindref="compound">GPUMemoryManager</ref> *</type>
+        <definition>GPUMemoryManager* themis::llm::lora::PagedMemoryManager::gpu_manager_</definition>
+        <argsstring></argsstring>
+        <name>gpu_manager_</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::gpu_manager_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="208" column="22" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a6e70f2e14a06f57c23ca18b41ddd6125" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref></type>
+        <definition>Device themis::llm::lora::PagedMemoryManager::gpu_device_</definition>
+        <argsstring></argsstring>
+        <name>gpu_device_</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::gpu_device_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="211" column="12" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a49ca73d75d7288f90b3bbfeb26684034" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_l_r_u_cache" kindref="compound">LRUCache</ref>&lt; <ref refid="namespacethemis_1_1llm_1_1lora_1ac10a4be8a17d8eff7d9c4d46ac8c1d54" kindref="member">PageID</ref>, <ref refid="structthemis_1_1llm_1_1lora_1_1_page_info" kindref="compound">PageInfo</ref> &gt;</type>
+        <definition>LRUCache&lt;PageID, PageInfo&gt; themis::llm::lora::PagedMemoryManager::page_cache_</definition>
+        <argsstring></argsstring>
+        <name>page_cache_</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::page_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="214" column="14" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a3e58fcd2f1a370c2f98400875e1c4efd" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1llm_1_1lora_1ac10a4be8a17d8eff7d9c4d46ac8c1d54" kindref="member">PageID</ref>, <ref refid="structthemis_1_1llm_1_1lora_1_1_paged_buffer" kindref="compound">PagedBuffer</ref> &gt;</type>
+        <definition>std::unordered_map&lt;PageID, PagedBuffer&gt; themis::llm::lora::PagedMemoryManager::pages_</definition>
+        <argsstring></argsstring>
+        <name>pages_</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::pages_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="217" column="24" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a3b2e21cfd4b78d5518e83064bcc10273" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ac10a4be8a17d8eff7d9c4d46ac8c1d54" kindref="member">PageID</ref></type>
+        <definition>PageID themis::llm::lora::PagedMemoryManager::next_page_id_</definition>
+        <argsstring></argsstring>
+        <name>next_page_id_</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::next_page_id_</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="220" column="12" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a87f67ba4e3e4a14fc832e73b1c3da249" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::PagedMemoryManager::active_set_size_</definition>
+        <argsstring></argsstring>
+        <name>active_set_size_</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::active_set_size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="223" column="12" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a1385cd40fd0f63e022e60234b401f8bd" prot="private" static="no" mutable="yes">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::lora::PagedMemoryManager::access_counter_</definition>
+        <argsstring></argsstring>
+        <name>access_counter_</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::access_counter_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="226" column="22" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a82e91b93efd25afcbc4af85f1bdf2311" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::PagedMemoryManager::PagedMemoryManager</definition>
+        <argsstring>(size_t active_set_size=1024, GPUMemoryManager *gpu_manager=nullptr)</argsstring>
+        <name>PagedMemoryManager</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::PagedMemoryManager</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>active_set_size</declname>
+          <defval>1024</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager" kindref="compound">GPUMemoryManager</ref> *</type>
+          <declname>gpu_manager</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="166" column="14" bodyfile="src/llm/lora_framework/paged_memory_manager.cpp" bodystart="23" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1ab9ea0a14ceb7f87fd0c11cb670221d41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::PagedMemoryManager::~PagedMemoryManager</definition>
+        <argsstring>()</argsstring>
+        <name>~PagedMemoryManager</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::~PagedMemoryManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="169" column="5" bodyfile="src/llm/lora_framework/paged_memory_manager.cpp" bodystart="51" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1ac6e62827bf58360c9f73709d147b99f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_buffer" kindref="compound">PagedBuffer</ref></type>
+        <definition>PagedBuffer themis::llm::lora::PagedMemoryManager::allocate</definition>
+        <argsstring>(size_t size, const Device &amp;device=Device::cpu())</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::allocate</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> &amp;</type>
+          <declname>device</declname>
+          <defval><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Allocate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getCurrentTimestamp(), std::memset(), is_available(), upload(), <ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu()</ref>, put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="171" column="17" bodyfile="src/llm/lora_framework/paged_memory_manager.cpp" bodystart="94" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a27f8d98d2963b840a6007a6d1deba3f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::PagedMemoryManager::deallocate</definition>
+        <argsstring>(PagedBuffer &amp;buffer)</argsstring>
+        <name>deallocate</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::deallocate</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_buffer" kindref="compound">PagedBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Deallocate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: remove(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="177" column="10" bodyfile="src/llm/lora_framework/paged_memory_manager.cpp" bodystart="144" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a4f394cc6d39255e2f6149a869cf07b9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::PagedMemoryManager::pageIn</definition>
+        <argsstring>(PagedBuffer &amp;buffer, void *stream=nullptr)</argsstring>
+        <name>pageIn</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::pageIn</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_buffer" kindref="compound">PagedBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>stream</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Page In. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getCurrentTimestamp(), get(), put(), is_available(), <ref refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1ac6e62827bf58360c9f73709d147b99f2" kindref="member">allocate()</ref>, <ref refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a1916c63a8fd374be662b14ddc9a22ce6" kindref="member">evictLRU()</ref>, upload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="179" column="10" bodyfile="src/llm/lora_framework/paged_memory_manager.cpp" bodystart="178" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a56130f31620819daf03fb26409b436b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::PagedMemoryManager::pageOut</definition>
+        <argsstring>(PagedBuffer &amp;buffer, void *stream=nullptr)</argsstring>
+        <name>pageOut</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::pageOut</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_paged_buffer" kindref="compound">PagedBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>stream</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Page Out. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: download(), <ref refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a27f8d98d2963b840a6007a6d1deba3f5" kindref="member">deallocate()</ref>, <ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu()</ref>, get(), put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="181" column="10" bodyfile="src/llm/lora_framework/paged_memory_manager.cpp" bodystart="250" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1acd275ac04ce906c2ec041c5c4f90c539" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::PagedMemoryManager::isOnGPU</definition>
+        <argsstring>(const PagedBuffer &amp;buffer) const</argsstring>
+        <name>isOnGPU</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::isOnGPU</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_paged_buffer" kindref="compound">PagedBuffer</ref> &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="183" column="10" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="183" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a1916c63a8fd374be662b14ddc9a22ce6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::PagedMemoryManager::evictLRU</definition>
+        <argsstring>(size_t num_pages, void *stream=nullptr)</argsstring>
+        <name>evictLRU</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::evictLRU</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_pages</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>stream</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Evict LRU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_pages</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getLRUKeys(), find(), end(), <ref refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a56130f31620819daf03fb26409b436b0" kindref="member">pageOut()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="187" column="12" bodyfile="src/llm/lora_framework/paged_memory_manager.cpp" bodystart="291" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1aa0324beda5074424cf8ac7beeeb05a15" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::PagedMemoryManager::gpu_memory_used</definition>
+        <argsstring>() const</argsstring>
+        <name>gpu_memory_used</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::gpu_memory_used</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="189" column="12" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="189" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1aba1b5d7c3a590789b80cef207f890f10" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::PagedMemoryManager::cpu_memory_used</definition>
+        <argsstring>() const</argsstring>
+        <name>cpu_memory_used</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::cpu_memory_used</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="193" column="12" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="193" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a718ad7a19ea668fe936826bb0220889f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::PagedMemoryManager::is_cuda_available</definition>
+        <argsstring>() const</argsstring>
+        <name>is_cuda_available</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::is_cuda_available</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="197" column="10" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="197" bodyend="199"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a3f57704a1f7deb14d995e327fb87cc83" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::lora::PagedMemoryManager::getCurrentTimestamp</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentTimestamp</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::getCurrentTimestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="229" column="14" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="229" bodyend="231"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1acfc43fc3bae314b401513d6bf16d337a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>acceleration::BackendType</type>
+        <definition>acceleration::BackendType themis::llm::lora::PagedMemoryManager::device_to_backend</definition>
+        <argsstring>(DeviceType type)</argsstring>
+        <name>device_to_backend</name>
+        <qualifiedname>themis::llm::lora::PagedMemoryManager::device_to_backend</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13" kindref="member">DeviceType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Helper to convert <ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> to backend type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref> to backend.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements device_to_backend without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/paged_memory_manager.h" line="238" column="38" bodyfile="src/llm/lora_framework/paged_memory_manager.cpp" bodystart="72" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/paged_memory_manager.h" line="164" column="1" bodyfile="include/llm/lora_framework/paged_memory_manager.h" bodystart="164" bodyend="239"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a1385cd40fd0f63e022e60234b401f8bd" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>access_counter_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a87f67ba4e3e4a14fc832e73b1c3da249" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>active_set_size_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1ac6e62827bf58360c9f73709d147b99f2" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>allocate</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a54d54c182a038672ea9d3ad51ec7ed72" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>cpu_allocator_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1aba1b5d7c3a590789b80cef207f890f10" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>cpu_memory_used</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a27f8d98d2963b840a6007a6d1deba3f5" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>deallocate</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1acfc43fc3bae314b401513d6bf16d337a" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>device_to_backend</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a1916c63a8fd374be662b14ddc9a22ce6" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>evictLRU</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a3f57704a1f7deb14d995e327fb87cc83" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>getCurrentTimestamp</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1ab476e2eb4a9acbf5e5aa6e3bdb61b6e1" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>gpu_allocator_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a6e70f2e14a06f57c23ca18b41ddd6125" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>gpu_device_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1aef1efdbd534f8dfddc71c5ac0617796b" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>gpu_manager_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1aa0324beda5074424cf8ac7beeeb05a15" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>gpu_memory_used</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a718ad7a19ea668fe936826bb0220889f" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>is_cuda_available</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1acd275ac04ce906c2ec041c5c4f90c539" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>isOnGPU</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a3b2e21cfd4b78d5518e83064bcc10273" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>next_page_id_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1ae7bd2ad4683cf30cf18c745c609affa6" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>owned_gpu_manager_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a49ca73d75d7288f90b3bbfeb26684034" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>page_cache_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a82e91b93efd25afcbc4af85f1bdf2311" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>PagedMemoryManager</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a4f394cc6d39255e2f6149a869cf07b9d" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>pageIn</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a56130f31620819daf03fb26409b436b0" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>pageOut</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1a3e58fcd2f1a370c2f98400875e1c4efd" prot="private" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>pages_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_paged_memory_manager_1ab9ea0a14ceb7f87fd0c11cb670221d41" prot="public" virt="non-virtual"><scope>themis::llm::lora::PagedMemoryManager</scope><name>~PagedMemoryManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

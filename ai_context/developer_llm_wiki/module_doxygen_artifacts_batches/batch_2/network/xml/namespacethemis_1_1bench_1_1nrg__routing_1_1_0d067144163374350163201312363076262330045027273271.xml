@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1nrg__routing_1_1_0d067144163374350163201312363076262330045027273271" kind="namespace" language="C++">
+    <compoundname>themis::bench::nrg_routing::@067144163374350163201312363076262330045027273271</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1bench_1_1nrg__routing_1_1_0d067144163374350163201312363076262330045027273271_1ae39c7b59d901bc1755398bfa4f82c468" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BackendHealth</name>
+        <qualifiedname>themis::bench::nrg_routing::@067144163374350163201312363076262330045027273271::BackendHealth</qualifiedname>
+        <enumvalue id="namespacethemis_1_1bench_1_1nrg__routing_1_1_0d067144163374350163201312363076262330045027273271_1ae39c7b59d901bc1755398bfa4f82c468af068ebe4133e3e6563080836268ea979" prot="public">
+          <name>HEALTHY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1bench_1_1nrg__routing_1_1_0d067144163374350163201312363076262330045027273271_1ae39c7b59d901bc1755398bfa4f82c468ac4e0e4e3118472beeb2ae75827450f1f" prot="public">
+          <name>DOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/network/bench_network_routing_gates.cpp" line="77" column="1" bodyfile="benchmarks/network/bench_network_routing_gates.cpp" bodystart="77" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/network/bench_network_routing_gates.cpp" line="72" column="1"/>
+  </compounddef>
+</doxygen>

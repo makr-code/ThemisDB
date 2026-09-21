@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_view" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUTensorBuffer::View</compoundname>
+    <includes refid="tensor__buffer_8h" local="no">tensor_buffer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_view_1ab9a62b321e984f41cea2b6854da9dca4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUTensorBuffer::View::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::View::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="79" column="21" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_view_1a567ea0ee79453bb5f62940f8fb203a98" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTensorBuffer::View::offset_bytes</definition>
+        <argsstring></argsstring>
+        <name>offset_bytes</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::View::offset_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Byte offset within the parent buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="80" column="21" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_view_1a8250222b98824bfbe679b221699303a8" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape" kindref="compound">Shape</ref></type>
+        <definition>Shape themis::gpu::GPUTensorBuffer::View::shape</definition>
+        <argsstring></argsstring>
+        <name>shape</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::View::shape</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="81" column="21" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_view_1a846a6a20206b14d8b39fa26baa0c0a99" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1gpu_1ad01dd2a248e87e7ae6439fa7f5e81395" kindref="member">DType</ref></type>
+        <definition>DType themis::gpu::GPUTensorBuffer::View::dtype</definition>
+        <argsstring></argsstring>
+        <name>dtype</name>
+        <qualifiedname>themis::gpu::GPUTensorBuffer::View::dtype</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1gpu_1ad01dd2a248e87e7ae6439fa7f5e81395a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/tensor_buffer.h" line="82" column="21" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::gpu::GPUTensorBuffer::Shape</label>
+        <link refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_shape"/>
+      </node>
+      <node id="1">
+        <label>themis::gpu::GPUTensorBuffer::View</label>
+        <link refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_view"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>shape</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/themis/gpu/tensor_buffer.h" line="78" column="5" bodyfile="include/themis/gpu/tensor_buffer.h" bodystart="78" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_view_1a846a6a20206b14d8b39fa26baa0c0a99" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer::View</scope><name>dtype</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_view_1ab9a62b321e984f41cea2b6854da9dca4" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer::View</scope><name>name</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_view_1a567ea0ee79453bb5f62940f8fb203a98" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer::View</scope><name>offset_bytes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_tensor_buffer_1_1_view_1a8250222b98824bfbe679b221699303a8" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTensorBuffer::View</scope><name>shape</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

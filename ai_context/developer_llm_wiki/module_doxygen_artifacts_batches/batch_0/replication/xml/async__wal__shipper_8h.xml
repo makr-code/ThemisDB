@@ -1,0 +1,330 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="async__wal__shipper_8h" kind="file" language="C++">
+    <compoundname>async_wal_shipper.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">queue</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__geo__placement__wal__shipping_8cpp" local="yes">benchmarks/replication/bench_geo_placement_wal_shipping.cpp</includedby>
+    <includedby refid="bench__replication__multi__dc__multi__writer_8cpp" local="yes">benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp</includedby>
+    <includedby refid="async__wal__shipper_8cpp" local="yes">src/replication/async_wal_shipper.cpp</includedby>
+    <includedby refid="bench__replication__geo__wal__baselines_8cpp" local="yes">tests/replication/bench_replication_geo_wal_baselines.cpp</includedby>
+    <includedby refid="test__replication__async__wal__lag__alerts_8cpp" local="yes">tests/replication/test_replication_async_wal_lag_alerts.cpp</includedby>
+    <includedby refid="test__replication__geo__placement__wal__shipping__focused_8cpp" local="yes">tests/replication/test_replication_geo_placement_wal_shipping_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/replication/async_wal_shipper.h</label>
+        <link refid="async__wal__shipper_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>condition_variable</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>queue</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/replication/bench_geo_placement_wal_shipping.cpp</label>
+        <link refid="bench__geo__placement__wal__shipping_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/replication/bench_replication_multi_dc_multi_writer.cpp</label>
+        <link refid="bench__replication__multi__dc__multi__writer_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/replication/async_wal_shipper.h</label>
+        <link refid="async__wal__shipper_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/replication/async_wal_shipper.cpp</label>
+        <link refid="async__wal__shipper_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/replication/bench_replication_geo_wal_baselines.cpp</label>
+        <link refid="bench__replication__geo__wal__baselines_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/replication/test_replication_async_wal_lag_alerts.cpp</label>
+        <link refid="test__replication__async__wal__lag__alerts_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/replication/test_replication_geo_placement_wal_shipping_focused.cpp</label>
+        <link refid="test__replication__geo__placement__wal__shipping__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1replication_1_1_wal_segment" prot="public">themisdb::replication::WalSegment</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_wal_shipping_config" prot="public">themisdb::replication::WalShippingConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_wal_shipping_stats" prot="public">themisdb::replication::WalShippingStats</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_async_wal_shipper" prot="public">themisdb::replication::AsyncWalShipper</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1replication">themisdb::replication</innernamespace>
+    <briefdescription>
+<para>Async Cross-Region WAL Shipping API for ThemisDB replication. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements asynchronous WAL segment shipping to remote datacenters with:<itemizedlist>
+<listitem><para>Configurable lag limits (default 1 000 ms) per <computeroutput>WalShippingConfig</computeroutput>.</para>
+</listitem><listitem><para>Alert callback fired when the shipping lag exceeds the configured limit.</para>
+</listitem><listitem><para>Prometheus-format histogram export (<computeroutput>replication_wal_lag_ms</computeroutput>).</para>
+</listitem><listitem><para>Background worker thread; all public methods are thread-safe.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Acceptance criteria (ROADMAP §3.1)</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>WAL ship throughput ≥ 80 MB/s on a GbE link (measured end-to-end by caller; internal queue + dispatch overhead is benchmarked separately).</para>
+</listitem><listitem><para>Lag alert fires within 2× the configured lag window.</para>
+</listitem><listitem><para><computeroutput>replication_wal_lag_ms</computeroutput> Prometheus histogram is wired.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="geo__placement_8h" kindref="compound">include/replication/geo_placement.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/replication/ROADMAP.md — §3.1 Async cross-region WAL shipping </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;queue&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="namespacethemisdb" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="namespacethemisdb_1_1replication" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1replication" kindref="compound">replication</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WalSegment<sp/>—<sp/>the<sp/>unit<sp/>of<sp/>WAL<sp/>work</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemisdb_1_1replication_1_1_wal_segment" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_wal_segment" kindref="compound">WalSegment</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structthemisdb_1_1replication_1_1_wal_segment_1a8dd290d4009b2d2c4409043301b459ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_segment_1a8dd290d4009b2d2c4409043301b459ce" kindref="member">sequence_number</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="55" refid="structthemisdb_1_1replication_1_1_wal_segment_1a939571702b028842909921ab2867ad4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_segment_1a939571702b028842909921ab2867ad4d" kindref="member">data</ref>;</highlight></codeline>
+<codeline lineno="56" refid="structthemisdb_1_1replication_1_1_wal_segment_1a5a06f06c66afa31e39380a3ad501c3af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_segment_1a5a06f06c66afa31e39380a3ad501c3af" kindref="member">enqueue_time</ref>{};</highlight></codeline>
+<codeline lineno="57" refid="structthemisdb_1_1replication_1_1_wal_segment_1afd6824264f4039d6de23c3c781df548b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_segment_1afd6824264f4039d6de23c3c781df548b" kindref="member">target_dc</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WalShippingConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemisdb_1_1replication_1_1_wal_shipping_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config" kindref="compound">WalShippingConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="71" refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1a5e6ef5fc70a41a1b25399db27aa165f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1a5e6ef5fc70a41a1b25399db27aa165f6" kindref="member">remote_dc_endpoint</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1ab0b8a0c46398854e5182f9922002bf4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1ab0b8a0c46398854e5182f9922002bf4a" kindref="member">local_dc_id</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1a7a34969df00c23fcbc2540188713568c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1a7a34969df00c23fcbc2540188713568c" kindref="member">max_lag_ms</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1ad9fc5ecfa77ea1f915825d90172c89bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1ad9fc5ecfa77ea1f915825d90172c89bd" kindref="member">max_queue_depth</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1a6dbbb05241d1c42ad0d0acd2cca002ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1a6dbbb05241d1c42ad0d0acd2cca002ad" kindref="member">histogram_buckets</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WalShippingStats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemisdb_1_1replication_1_1_wal_shipping_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_stats" kindref="compound">WalShippingStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="105" refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1a105a72c091dc9a1a24f7b5286b45eb35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1a105a72c091dc9a1a24f7b5286b45eb35" kindref="member">segments_enqueued</ref><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="106" refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1a2ddd725c1ec9e768b26e0f179ad8747e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1a2ddd725c1ec9e768b26e0f179ad8747e" kindref="member">segments_shipped</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="107" refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1aa1fa1e486ec21ad8c3d07d14f24b28c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1aa1fa1e486ec21ad8c3d07d14f24b28c8" kindref="member">segments_dropped</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="108" refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1a4732b8ecc81ae4d781c80478e997e5c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1a4732b8ecc81ae4d781c80478e997e5c0" kindref="member">lag_alerts_fired</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="109" refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1a2d641fc9762876abdfc14f6aeb993161" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1a2d641fc9762876abdfc14f6aeb993161" kindref="member">current_lag_ms</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="110" refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1ac1caa16b58c60dc1aac508118e01daad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1ac1caa16b58c60dc1aac508118e01daad" kindref="member">max_observed_lag_ms</ref>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="111" refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1ab7d4f269e9c74781613cfe30391e0275" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1ab7d4f269e9c74781613cfe30391e0275" kindref="member">bytes_enqueued</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="112" refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1ab930cb6dca5ecabfabe258c9454943b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1ab930cb6dca5ecabfabe258c9454943b1" kindref="member">bytes_shipped</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AsyncWalShipper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="classthemisdb_1_1replication_1_1_async_wal_shipper" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a53191d7154098b111a779705c109dcfe" kindref="member">AsyncWalShipper</ref><sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="166" refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a8d2e5ef96a80fb6421a9a5d5b6c2d99b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a8d2e5ef96a80fb6421a9a5d5b6c2d99b" kindref="member">AlertCallback</ref><sp/>=<sp/>std::function&lt;void(uint64_t<sp/>lag_ms)&gt;;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a949c79d1b7720eeb5fca0b01b488fd07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a949c79d1b7720eeb5fca0b01b488fd07" kindref="member">ShipHandler</ref><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_segment" kindref="compound">WalSegment</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction<sp/>/<sp/>destruction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a53191d7154098b111a779705c109dcfe" kindref="member">AsyncWalShipper</ref>(<ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config" kindref="compound">WalShippingConfig</ref><sp/>config);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1aa98ae3be109700154a136f1bde3c5132" kindref="member">~AsyncWalShipper</ref>();</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable;<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1aacec1b1920f79ceab776bcc55220fa29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1aacec1b1920f79ceab776bcc55220fa29" kindref="member">AsyncWalShipper</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a53191d7154098b111a779705c109dcfe" kindref="member">AsyncWalShipper</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203" refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a8ce31063a7f2e854b20b7181caac5630" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a53191d7154098b111a779705c109dcfe" kindref="member">AsyncWalShipper</ref>&amp;<sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a8ce31063a7f2e854b20b7181caac5630" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a53191d7154098b111a779705c109dcfe" kindref="member">AsyncWalShipper</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204" refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a304279df6d7a46c3ec36700c61008905" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a304279df6d7a46c3ec36700c61008905" kindref="member">AsyncWalShipper</ref>(<ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a53191d7154098b111a779705c109dcfe" kindref="member">AsyncWalShipper</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205" refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a80f8c4cc753200f9868dfc963cfd32cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a53191d7154098b111a779705c109dcfe" kindref="member">AsyncWalShipper</ref>&amp;<sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a80f8c4cc753200f9868dfc963cfd32cd" kindref="member">operator=</ref>(<ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a53191d7154098b111a779705c109dcfe" kindref="member">AsyncWalShipper</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a6d782eeaabaa22440a14a08f88cef64e" kindref="member">setAlertCallback</ref>(<ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a8d2e5ef96a80fb6421a9a5d5b6c2d99b" kindref="member">AlertCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1afb79c567b518f7a1afa2f9faf3086c11" kindref="member">setShipHandler</ref>(<ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a949c79d1b7720eeb5fca0b01b488fd07" kindref="member">ShipHandler</ref><sp/>handler);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Segment<sp/>ingestion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a3a7041ef32439bdcbbd835179ece15b1" kindref="member">enqueueSegment</ref>(<ref refid="structthemisdb_1_1replication_1_1_wal_segment" kindref="compound">WalSegment</ref><sp/>segment);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_stats" kindref="compound">WalShippingStats</ref><sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a9a730d2489a5c9f56da40fa977ae131c" kindref="member">stats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a76bda6ad0faa22edb57546ca63b0ba41" kindref="member">currentLagMs</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a5fc30c485fc2f611a4fdd64c067151d6" kindref="member">exportPrometheusMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1aa75eec081e0b1dbdb84476386aa2c7ef" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config" kindref="compound">WalShippingConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Synchronization<sp/>primitives<sp/>and<sp/>lock<sp/>hierarchy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LOCK<sp/>HIERARCHY<sp/>(to<sp/>prevent<sp/>deadlock):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>queue_mutex_<sp/><sp/><sp/><sp/><sp/><sp/><sp/>(outermost:<sp/>queue<sp/>and<sp/>stop<sp/>flag)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>callback_mutex_<sp/><sp/><sp/><sp/>(callbacks<sp/>and<sp/>handler)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>stats_mutex_<sp/><sp/><sp/><sp/><sp/><sp/><sp/>(statistics)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>histogram_mutex_<sp/><sp/><sp/>(lag<sp/>histogram<sp/>buckets)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rules:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Never<sp/>acquire<sp/>a<sp/>lower-numbered<sp/>lock<sp/>while<sp/>holding<sp/>a<sp/>higher-numbered<sp/>lock.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>When<sp/>acquiring<sp/>multiple<sp/>locks,<sp/>always<sp/>acquire<sp/>in<sp/>order:<sp/>1<sp/>→<sp/>2<sp/>→<sp/>3<sp/>→<sp/>4.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Operations<sp/>in<sp/>dispatchSegment<sp/>acquire<sp/>locks<sp/>in<sp/>order:<sp/>histogram<sp/>(4)<sp/>→<sp/>stats<sp/>(3).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Operations<sp/>in<sp/>enqueueSegment<sp/>acquire:<sp/>queue<sp/>(1)<sp/>→<sp/>stats<sp/>(3)<sp/>[OK:<sp/>1<sp/>&lt;<sp/>3].</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-<sp/>Alert<sp/>callback<sp/>execution<sp/>unlocks<sp/>state_mutex<sp/>in<sp/>callback<sp/>to<sp/>prevent<sp/>deadlock.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Queue<sp/>and<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>queue_mutex_;</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>queue_cv_;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>std::queue&lt;WalSegment&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>segment_queue_;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stop_requested_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Callbacks<sp/>(protected<sp/>by<sp/>callback_mutex_)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/>callback_mutex_;</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1aff4564559c8a49b1c83bafadb7b4ec06" kindref="member">AlertCallback</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>alert_cb_;</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a949c79d1b7720eeb5fca0b01b488fd07" kindref="member">ShipHandler</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ship_handler_;</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/>stats_mutex_;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_stats" kindref="compound">WalShippingStats</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stats_;</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Histogram<sp/>for<sp/>replication_wal_lag_ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>histogram_bounds_;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>histogram_mutex_;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint64_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>histogram_counts_;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>histogram_sum_ms_<sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Background<sp/>worker</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>worker_;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>workerLoop();</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>dispatchSegment(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_wal_segment" kindref="compound">WalSegment</ref>&amp;<sp/>seg);</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"></highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>recordLagSample(int64_t<sp/>lag_ms);</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"></highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;<sp/>buildHistogramBounds(</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>max_lag_ms,</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>buckets);</highlight></codeline>
+<codeline lineno="442"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>replication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/replication/async_wal_shipper.h"/>
+  </compounddef>
+</doxygen>

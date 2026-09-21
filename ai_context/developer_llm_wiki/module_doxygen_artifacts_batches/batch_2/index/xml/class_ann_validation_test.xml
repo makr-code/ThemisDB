@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_ann_validation_test" kind="class" language="C++" prot="public">
+    <compoundname>AnnValidationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_ann_validation_test_1aae7380f3aaa930bdd5ae1f5594b2ad99" prot="protected" static="no" mutable="no">
+        <type>const float</type>
+        <definition>const float AnnValidationTest::kQuery</definition>
+        <argsstring></argsstring>
+        <name>kQuery</name>
+        <qualifiedname>AnnValidationTest::kQuery</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+<para>Minimal query vector (1-dim, value=0.5). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor_validation_focused.cpp" line="108" column="17" bodyfile="tests/index/test_ann_frontdoor_validation_focused.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_ann_validation_test_1ac2caa9d762fe562a6fefda895e718428" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1index_1_1_ann_frontdoor" kindref="compound">AnnFrontdoor</ref></type>
+        <definition>AnnFrontdoor AnnValidationTest::makeFrontdoor</definition>
+        <argsstring>(std::vector&lt; ValidationStubIndex::Entry &gt; data, int default_k=5)</argsstring>
+        <name>makeFrontdoor</name>
+        <qualifiedname>AnnValidationTest::makeFrontdoor</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="struct_validation_stub_index_1_1_entry" kindref="compound">ValidationStubIndex::Entry</ref> &gt;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>default_k</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+<para>Build an <ref refid="classthemis_1_1index_1_1_ann_frontdoor" kindref="compound">AnnFrontdoor</ref> in HNSW mode with a single backend stub. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor_validation_focused.cpp" line="93" column="18" bodyfile="tests/index/test_ann_frontdoor_validation_focused.cpp" bodystart="93" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_ann_validation_test_1a24caf001bf11c6917535f259d08dcb25" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_ann_query_context" kindref="compound">AnnQueryContext</ref></type>
+        <definition>static AnnQueryContext AnnValidationTest::makeContext</definition>
+        <argsstring>()</argsstring>
+        <name>makeContext</name>
+        <qualifiedname>AnnValidationTest::makeContext</qualifiedname>
+        <briefdescription>
+<para>Build a simple <ref refid="structthemis_1_1index_1_1_ann_query_context" kindref="compound">AnnQueryContext</ref> that forces HNSW selection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor_validation_focused.cpp" line="111" column="28" bodyfile="tests/index/test_ann_frontdoor_validation_focused.cpp" bodystart="111" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AnnValidationTest</label>
+        <link refid="class_ann_validation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AnnValidationTest</label>
+        <link refid="class_ann_validation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/index/test_ann_frontdoor_validation_focused.cpp" line="90" column="1" bodyfile="tests/index/test_ann_frontdoor_validation_focused.cpp" bodystart="90" bodyend="118"/>
+    <listofallmembers>
+      <member refid="class_ann_validation_test_1aae7380f3aaa930bdd5ae1f5594b2ad99" prot="protected" virt="non-virtual"><scope>AnnValidationTest</scope><name>kQuery</name></member>
+      <member refid="class_ann_validation_test_1a24caf001bf11c6917535f259d08dcb25" prot="protected" virt="non-virtual"><scope>AnnValidationTest</scope><name>makeContext</name></member>
+      <member refid="class_ann_validation_test_1ac2caa9d762fe562a6fefda895e718428" prot="protected" virt="non-virtual"><scope>AnnValidationTest</scope><name>makeFrontdoor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

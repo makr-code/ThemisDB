@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_cross_document_linker" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::CrossDocumentLinker</compoundname>
+    <includes refid="legal__domain_8h" local="no">legal_domain.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_cross_document_linker_1ac96e54c35b8d8f5b5a0fa7addc66ba38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::CrossDocumentLinker::CrossDocumentLinker</definition>
+        <argsstring>()=default</argsstring>
+        <name>CrossDocumentLinker</name>
+        <qualifiedname>themis::ingestion::CrossDocumentLinker::CrossDocumentLinker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="288" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_cross_document_linker_1a9b5af7653f181dc7ad38a6eefb5cd9a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_entity_relation" kindref="compound">EntityRelation</ref> &gt;</type>
+        <definition>std::vector&lt; EntityRelation &gt; themis::ingestion::CrossDocumentLinker::linkDocuments</definition>
+        <argsstring>(const ExtractionContext &amp;ctx1, const ExtractionContext &amp;ctx2) const</argsstring>
+        <name>linkDocuments</name>
+        <qualifiedname>themis::ingestion::CrossDocumentLinker::linkDocuments</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx1</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx2</declname>
+        </param>
+        <briefdescription>
+<para>Generate cross-document relation edges. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source context (contains referencing entities). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ctx2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target context (contains referenced entities). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of <computeroutput>CITES</computeroutput> / <computeroutput>AMENDS</computeroutput> edges. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="297" column="17" bodyfile="src/ingestion/legal_domain.cpp" bodystart="744" bodyend="805"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_cross_document_linker_1a386435735b3aa8102c9bab8e260355ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_entity_relation" kindref="compound">EntityRelation</ref> &gt;</type>
+        <definition>std::vector&lt; EntityRelation &gt; themis::ingestion::CrossDocumentLinker::linkDocumentBatch</definition>
+        <argsstring>(const ExtractionContext &amp;source, const std::vector&lt; ExtractionContext &gt; &amp;targets) const</argsstring>
+        <name>linkDocumentBatch</name>
+        <qualifiedname>themis::ingestion::CrossDocumentLinker::linkDocumentBatch</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &gt; &amp;</type>
+          <declname>targets</declname>
+        </param>
+        <briefdescription>
+<para>Batch overload: link one source context against many targets. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Context that references others. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>targets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Contexts to search for matching entity IDs. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>All cross-document edges found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="307" column="17" bodyfile="src/ingestion/legal_domain.cpp" bodystart="807" bodyend="820"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Creates <computeroutput><ref refid="structthemis_1_1ingestion_1_1_entity_relation" kindref="compound">EntityRelation</ref></computeroutput> edges across two <computeroutput><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref></computeroutput>s. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Scans the entities of both contexts for matching canonical IDs. A match is created when a reference entity in ctx1 (<computeroutput>type == "norm_reference"</computeroutput>) has an ID that equals an entity ID in ctx2, producing a <computeroutput>CITES</computeroutput> edge.</para>
+<para>Also matches cross-§ references of the form:<itemizedlist>
+<listitem><para>entity label &quot;§ 3 BImSchG&quot; in ctx1 → entity id &quot;law:bimschg:§3&quot; in ctx2</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safety: <computeroutput><ref refid="classthemis_1_1ingestion_1_1_cross_document_linker_1a9b5af7653f181dc7ad38a6eefb5cd9a2" kindref="member">linkDocuments()</ref></computeroutput> is thread-safe (stateless). </para>
+    </detaileddescription>
+    <location file="include/ingestion/legal_domain.h" line="286" column="1" bodyfile="include/ingestion/legal_domain.h" bodystart="286" bodyend="310"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_cross_document_linker_1ac96e54c35b8d8f5b5a0fa7addc66ba38" prot="public" virt="non-virtual"><scope>themis::ingestion::CrossDocumentLinker</scope><name>CrossDocumentLinker</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_cross_document_linker_1a386435735b3aa8102c9bab8e260355ab" prot="public" virt="non-virtual"><scope>themis::ingestion::CrossDocumentLinker</scope><name>linkDocumentBatch</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_cross_document_linker_1a9b5af7653f181dc7ad38a6eefb5cd9a2" prot="public" virt="non-virtual"><scope>themis::ingestion::CrossDocumentLinker</scope><name>linkDocuments</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

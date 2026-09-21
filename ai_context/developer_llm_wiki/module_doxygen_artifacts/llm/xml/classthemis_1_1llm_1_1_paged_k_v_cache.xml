@@ -1,0 +1,1124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_paged_k_v_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::PagedKVCache</compoundname>
+    <includes refid="paged__kv__cache_8h" local="no">paged_kv_cache.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config" prot="public">themis::llm::PagedKVCache::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_stats" prot="public">themis::llm::PagedKVCache::Stats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fb" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>KVQuantizationType</name>
+        <qualifiedname>themis::llm::PagedKVCache::KVQuantizationType</qualifiedname>
+        <enumvalue id="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbaa4bf99d6945c25077fd6660d536af8a0" prot="public">
+          <name>FP16</name>
+          <briefdescription>
+<para>Baseline half-precision KV cache mode. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbaee9d73311ff0658494edfff14c3ec1e3" prot="public">
+          <name>INT8</name>
+          <briefdescription>
+<para>8-bit KV quantization mode. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbabb03c21bff5b42f26e7a0cd4437089aa" prot="public">
+          <name>NVFP4</name>
+          <briefdescription>
+<para>NVIDIA FP4 KV quantization mode. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="28" column="5" bodyfile="include/llm/paged_kv_cache.h" bodystart="28" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_1a285e05d9a20941c1ee12aeaad72554c3" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::PagedKVCache::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::PagedKVCache::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="147" column="12" bodyfile="include/llm/paged_kv_cache.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_1a4c8862e78db0547f86c53ae5d59e379e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_paged_block_manager" kindref="compound">PagedBlockManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PagedBlockManager&gt; themis::llm::PagedKVCache::block_manager_</definition>
+        <argsstring></argsstring>
+        <name>block_manager_</name>
+        <qualifiedname>themis::llm::PagedKVCache::block_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="148" column="21" bodyfile="include/llm/paged_kv_cache.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_1a02c0722dc092e397921ba406b4aa697f" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_block_table" kindref="compound">BlockTable</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, std::shared_ptr&lt;BlockTable&gt; &gt; themis::llm::PagedKVCache::block_tables_</definition>
+        <argsstring></argsstring>
+        <name>block_tables_</name>
+        <qualifiedname>themis::llm::PagedKVCache::block_tables_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="151" column="24" bodyfile="include/llm/paged_kv_cache.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_1ab7ed222b0f1aa44f2749ccd4d6cdb3fb" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, std::unordered_map&lt; size_t, std::vector&lt; uint8_t &gt; &gt; &gt;</type>
+        <definition>std::unordered_map&lt;int, std::unordered_map&lt;size_t, std::vector&lt;uint8_t&gt; &gt; &gt; themis::llm::PagedKVCache::kv_storage_quantized_</definition>
+        <argsstring></argsstring>
+        <name>kv_storage_quantized_</name>
+        <qualifiedname>themis::llm::PagedKVCache::kv_storage_quantized_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="154" column="24" bodyfile="include/llm/paged_kv_cache.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_1af411e4ba9ba0dcb945ee1dbb050fb519" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, std::unordered_map&lt; size_t, std::vector&lt; float &gt; &gt; &gt;</type>
+        <definition>std::unordered_map&lt;int, std::unordered_map&lt;size_t, std::vector&lt;float&gt; &gt; &gt; themis::llm::PagedKVCache::kv_storage_</definition>
+        <argsstring></argsstring>
+        <name>kv_storage_</name>
+        <qualifiedname>themis::llm::PagedKVCache::kv_storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="158" column="24" bodyfile="include/llm/paged_kv_cache.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_1aad968d58f270e016581402ed4e3396d9" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, std::unordered_map&lt; size_t, <ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fb" kindref="member">KVQuantizationType</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;int, std::unordered_map&lt;size_t, KVQuantizationType&gt; &gt; themis::llm::PagedKVCache::quantization_metadata_</definition>
+        <argsstring></argsstring>
+        <name>quantization_metadata_</name>
+        <qualifiedname>themis::llm::PagedKVCache::quantization_metadata_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="161" column="24" bodyfile="include/llm/paged_kv_cache.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_1a209b65d93c1c87c2cbcdaeb178eec8c3" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::PagedKVCache::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::PagedKVCache::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="163" column="24" bodyfile="include/llm/paged_kv_cache.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_1a9bff3358c4d2d97ee71446e894a35f1e" prot="private" static="no" mutable="yes">
+        <type>std::list&lt; uint64_t &gt;</type>
+        <definition>std::list&lt;uint64_t&gt; themis::llm::PagedKVCache::lru_order_</definition>
+        <argsstring></argsstring>
+        <name>lru_order_</name>
+        <qualifiedname>themis::llm::PagedKVCache::lru_order_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="167" column="23" bodyfile="include/llm/paged_kv_cache.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_1af7171323ae5eb84e2a41bfe4e85d1c25" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; uint64_t, std::list&lt; uint64_t &gt;::iterator &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, std::list&lt;uint64_t&gt;::iterator&gt; themis::llm::PagedKVCache::lru_map_</definition>
+        <argsstring></argsstring>
+        <name>lru_map_</name>
+        <qualifiedname>themis::llm::PagedKVCache::lru_map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="168" column="33" bodyfile="include/llm/paged_kv_cache.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_paged_k_v_cache_1acbe51bc7cbd98aef7889012925765b06" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::llm::PagedKVCache::eviction_count_</definition>
+        <argsstring></argsstring>
+        <name>eviction_count_</name>
+        <qualifiedname>themis::llm::PagedKVCache::eviction_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="171" column="17" bodyfile="include/llm/paged_kv_cache.h" bodystart="171" bodyend="171"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_1a85a54ae976a63a9e9b2111652ea4e6cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PagedKVCache::PagedKVCache</definition>
+        <argsstring>(const Config &amp;config, std::shared_ptr&lt; PagedBlockManager &gt; block_manager)</argsstring>
+        <name>PagedKVCache</name>
+        <qualifiedname>themis::llm::PagedKVCache::PagedKVCache</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_paged_block_manager" kindref="compound">PagedBlockManager</ref> &gt;</type>
+          <declname>block_manager</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="46" column="5" bodyfile="src/llm/paged_kv_cache.cpp" bodystart="22" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_1ac1f723c43280fbd62ea61917dcde090c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PagedKVCache::~PagedKVCache</definition>
+        <argsstring>()</argsstring>
+        <name>~PagedKVCache</name>
+        <qualifiedname>themis::llm::PagedKVCache::~PagedKVCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Clean up all sequences <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="48" column="5" bodyfile="src/llm/paged_kv_cache.cpp" bodystart="27" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_1abccf8aace878329c01902ca64ea4763d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::PagedKVCache::store</definition>
+        <argsstring>(uint64_t sequence_id, size_t layer_id, const std::vector&lt; float &gt; &amp;kv_data)</argsstring>
+        <name>store</name>
+        <qualifiedname>themis::llm::PagedKVCache::store</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>sequence_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>layer_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>kv_data</declname>
+        </param>
+        <briefdescription>
+<para>Store KV cache for a sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Store.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the sequence. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the layer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kv_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Returns true on success, false if blocks could not be allocated even after LRU eviction.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the sequence. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the layer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kv_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), calculateKVSize(), size(), getBlockMapping(), allocateBlocks(), evictLRU(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="58" column="10" bodyfile="src/llm/paged_kv_cache.cpp" bodystart="48" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_1a0da537b69f4c40b37f48fc52b3be5c85" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::PagedKVCache::retrieve</definition>
+        <argsstring>(uint64_t sequence_id, size_t layer_id) const</argsstring>
+        <name>retrieve</name>
+        <qualifiedname>themis::llm::PagedKVCache::retrieve</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>sequence_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>layer_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve KV cache for a sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the sequence. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">layer_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the layer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="66" column="17" bodyfile="src/llm/paged_kv_cache.cpp" bodystart="127" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_1a7f01fc0a1589c19ff996ffc7d80dea47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::PagedKVCache::sharePrefix</definition>
+        <argsstring>(uint64_t new_sequence_id, uint64_t parent_sequence_id, size_t prefix_length)</argsstring>
+        <name>sharePrefix</name>
+        <qualifiedname>themis::llm::PagedKVCache::sharePrefix</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>new_sequence_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>parent_sequence_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>prefix_length</declname>
+        </param>
+        <briefdescription>
+<para>Share prefix between sequences (Copy-on-Write). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Share Prefix.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_sequence_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the new sequence. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parent_sequence_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the parent sequence. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_sequence_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the new sequence. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parent_sequence_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the parent sequence. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix_length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="74" column="10" bodyfile="src/llm/paged_kv_cache.cpp" bodystart="175" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_1af71a4c774f7eb05b632f8680630085c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_block_table" kindref="compound">BlockTable</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; BlockTable &gt; themis::llm::PagedKVCache::getBlockTable</definition>
+        <argsstring>(uint64_t sequence_id)</argsstring>
+        <name>getBlockTable</name>
+        <qualifiedname>themis::llm::PagedKVCache::getBlockTable</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>sequence_id</declname>
+        </param>
+        <briefdescription>
+<para>Get block table for sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Block Table.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the sequence. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the sequence. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="81" column="21" bodyfile="src/llm/paged_kv_cache.cpp" bodystart="207" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_1a94ef5cca59e34b269094f6cc41d6476b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::PagedKVCache::removeSequence</definition>
+        <argsstring>(uint64_t sequence_id)</argsstring>
+        <name>removeSequence</name>
+        <qualifiedname>themis::llm::PagedKVCache::removeSequence</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>sequence_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove sequence and free blocks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Sequence.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the sequence.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the sequence.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="87" column="10" bodyfile="src/llm/paged_kv_cache.cpp" bodystart="223" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_1a01c3d2622e4eca9c4ee1245e53c57624" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>PagedKVCache::Stats themis::llm::PagedKVCache::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::PagedKVCache::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="101" column="11" bodyfile="src/llm/paged_kv_cache.cpp" bodystart="278" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_1a6e1b11c6e10240bb1a61dae6598ce8bb" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::PagedKVCache::evictionCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>evictionCount</name>
+        <qualifiedname>themis::llm::PagedKVCache::evictionCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="103" column="14" bodyfile="include/llm/paged_kv_cache.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_1ad9774515dbdba4d2f1ee0519c44dc6b0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::llm::PagedKVCache::quantizeKVData</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;kv_data, KVQuantizationType target_type) const</argsstring>
+        <name>quantizeKVData</name>
+        <qualifiedname>themis::llm::PagedKVCache::quantizeKVData</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>kv_data</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fb" kindref="member">KVQuantizationType</ref></type>
+          <declname>target_type</declname>
+        </param>
+        <briefdescription>
+<para>Quantize KVData. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kv_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="111" column="17" bodyfile="src/llm/paged_kv_cache.cpp" bodystart="313" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_1a529e4b5a47606fb82baad49c174dc28e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::PagedKVCache::dequantizeKVData</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;quantized_data, KVQuantizationType source_type) const</argsstring>
+        <name>dequantizeKVData</name>
+        <qualifiedname>themis::llm::PagedKVCache::dequantizeKVData</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>quantized_data</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fb" kindref="member">KVQuantizationType</ref></type>
+          <declname>source_type</declname>
+        </param>
+        <briefdescription>
+<para>Dequantize KVData. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">quantized_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="121" column="17" bodyfile="src/llm/paged_kv_cache.cpp" bodystart="397" bodyend="467"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_1a409e2c7f05fc3bd1a285255136054e43" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::PagedKVCache::getCompressionFactor</definition>
+        <argsstring>(KVQuantizationType type)</argsstring>
+        <name>getCompressionFactor</name>
+        <qualifiedname>themis::llm::PagedKVCache::getCompressionFactor</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fb" kindref="member">KVQuantizationType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Get Compression Factor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getCompressionFactor without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="130" column="18" bodyfile="src/llm/paged_kv_cache.cpp" bodystart="475" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_1a6bfdfa4bc069b78405071d41ecce339f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::PagedKVCache::getExpectedAccuracy</definition>
+        <argsstring>(KVQuantizationType type)</argsstring>
+        <name>getExpectedAccuracy</name>
+        <qualifiedname>themis::llm::PagedKVCache::getExpectedAccuracy</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fb" kindref="member">KVQuantizationType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Get Expected Accuracy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getExpectedAccuracy without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="137" column="18" bodyfile="src/llm/paged_kv_cache.cpp" bodystart="494" bodyend="505"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_1a9a44b4024f721a8e7b005a2f5b6841ad" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::PagedKVCache::getBitWidthForQuantizationType</definition>
+        <argsstring>(KVQuantizationType type)</argsstring>
+        <name>getBitWidthForQuantizationType</name>
+        <qualifiedname>themis::llm::PagedKVCache::getBitWidthForQuantizationType</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fb" kindref="member">KVQuantizationType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Get Bit Width For Quantization Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getBitWidthForQuantizationType without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="144" column="16" bodyfile="src/llm/paged_kv_cache.cpp" bodystart="513" bodyend="524"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_1ab9fe2ac9972196be3ea56d1f4381693b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCache::calculateKVSize</definition>
+        <argsstring>() const</argsstring>
+        <name>calculateKVSize</name>
+        <qualifiedname>themis::llm::PagedKVCache::calculateKVSize</qualifiedname>
+        <briefdescription>
+<para>Calculate KVSize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="177" column="12" bodyfile="src/llm/paged_kv_cache.cpp" bodystart="308" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_1a53517ce7333a81b78ec9f570a5c80940" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::PagedKVCache::evictLRU</definition>
+        <argsstring>()</argsstring>
+        <name>evictLRU</name>
+        <qualifiedname>themis::llm::PagedKVCache::evictLRU</qualifiedname>
+        <briefdescription>
+<para>Evict LRU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), back(), pop_back(), erase(), find(), end(), getBlockMapping(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="183" column="10" bodyfile="src/llm/paged_kv_cache.cpp" bodystart="245" bodyend="276"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_1a4e17dfd4ead5aa739e189a39b0c8be6a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::llm::PagedKVCache::quantizeToNVFP4</definition>
+        <argsstring>(float value)</argsstring>
+        <name>quantizeToNVFP4</name>
+        <qualifiedname>themis::llm::PagedKVCache::quantizeToNVFP4</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Quantize To NVFP4. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="190" column="20" bodyfile="src/llm/paged_kv_cache.cpp" bodystart="532" bodyend="552"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_1a19e8da07e00d2fd24683c93dbbf8999c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::PagedKVCache::dequantizeFromNVFP4</definition>
+        <argsstring>(uint8_t packed)</argsstring>
+        <name>dequantizeFromNVFP4</name>
+        <qualifiedname>themis::llm::PagedKVCache::dequantizeFromNVFP4</qualifiedname>
+        <param>
+          <type>uint8_t</type>
+          <declname>packed</declname>
+        </param>
+        <briefdescription>
+<para>Dequantize From NVFP4. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">packed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">packed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements dequantizeFromNVFP4 without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="197" column="18" bodyfile="src/llm/paged_kv_cache.cpp" bodystart="560" bodyend="579"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_1aa4beae358a25c70f1477806c72af3a85" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int8_t &gt;</type>
+        <definition>std::vector&lt; int8_t &gt; themis::llm::PagedKVCache::quantizeToINT8</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;values, float &amp;scale, int8_t &amp;zero_point)</argsstring>
+        <name>quantizeToINT8</name>
+        <qualifiedname>themis::llm::PagedKVCache::quantizeToINT8</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>float &amp;</type>
+          <declname>scale</declname>
+        </param>
+        <param>
+          <type>int8_t &amp;</type>
+          <declname>zero_point</declname>
+        </param>
+        <briefdescription>
+<para>Quantize To INT8. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">zero_point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">zero_point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::min(), std::max(), std::round(), reserve(), size(), int8_t(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="206" column="24" bodyfile="src/llm/paged_kv_cache.cpp" bodystart="589" bodyend="624"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_paged_k_v_cache_1abc380338c6d948600c19681cb53142c5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::PagedKVCache::dequantizeFromINT8</definition>
+        <argsstring>(const std::vector&lt; int8_t &gt; &amp;quantized, float scale, int8_t zero_point)</argsstring>
+        <name>dequantizeFromINT8</name>
+        <qualifiedname>themis::llm::PagedKVCache::dequantizeFromINT8</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int8_t &gt; &amp;</type>
+          <declname>quantized</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scale</declname>
+        </param>
+        <param>
+          <type>int8_t</type>
+          <declname>zero_point</declname>
+        </param>
+        <briefdescription>
+<para>Dequantize From INT8. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">quantized</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">zero_point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">quantized</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">zero_point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache.h" line="218" column="24" bodyfile="src/llm/paged_kv_cache.cpp" bodystart="634" bodyend="648"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/paged_kv_cache.h" line="26" column="1" bodyfile="include/llm/paged_kv_cache.h" bodystart="26" bodyend="222"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a4c8862e78db0547f86c53ae5d59e379e" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>block_manager_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a02c0722dc092e397921ba406b4aa697f" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>block_tables_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1ab9fe2ac9972196be3ea56d1f4381693b" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>calculateKVSize</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a285e05d9a20941c1ee12aeaad72554c3" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1abc380338c6d948600c19681cb53142c5" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>dequantizeFromINT8</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a19e8da07e00d2fd24683c93dbbf8999c" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>dequantizeFromNVFP4</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a529e4b5a47606fb82baad49c174dc28e" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>dequantizeKVData</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1acbe51bc7cbd98aef7889012925765b06" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>eviction_count_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a6e1b11c6e10240bb1a61dae6598ce8bb" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>evictionCount</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a53517ce7333a81b78ec9f570a5c80940" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>evictLRU</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a9a44b4024f721a8e7b005a2f5b6841ad" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>getBitWidthForQuantizationType</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1af71a4c774f7eb05b632f8680630085c3" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>getBlockTable</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a409e2c7f05fc3bd1a285255136054e43" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>getCompressionFactor</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a6bfdfa4bc069b78405071d41ecce339f" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>getExpectedAccuracy</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a01c3d2622e4eca9c4ee1245e53c57624" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1af411e4ba9ba0dcb945ee1dbb050fb519" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>kv_storage_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1ab7ed222b0f1aa44f2749ccd4d6cdb3fb" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>kv_storage_quantized_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fb" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>KVQuantizationType</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1af7171323ae5eb84e2a41bfe4e85d1c25" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>lru_map_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a9bff3358c4d2d97ee71446e894a35f1e" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>lru_order_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a209b65d93c1c87c2cbcdaeb178eec8c3" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a85a54ae976a63a9e9b2111652ea4e6cd" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>PagedKVCache</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1aad968d58f270e016581402ed4e3396d9" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>quantization_metadata_</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1ad9774515dbdba4d2f1ee0519c44dc6b0" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>quantizeKVData</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1aa4beae358a25c70f1477806c72af3a85" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>quantizeToINT8</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a4e17dfd4ead5aa739e189a39b0c8be6a" prot="private" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>quantizeToNVFP4</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a94ef5cca59e34b269094f6cc41d6476b" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>removeSequence</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a0da537b69f4c40b37f48fc52b3be5c85" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>retrieve</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a7f01fc0a1589c19ff996ffc7d80dea47" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>sharePrefix</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1abccf8aace878329c01902ca64ea4763d" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>store</name></member>
+      <member refid="classthemis_1_1llm_1_1_paged_k_v_cache_1ac1f723c43280fbd62ea61917dcde090c" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCache</scope><name>~PagedKVCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

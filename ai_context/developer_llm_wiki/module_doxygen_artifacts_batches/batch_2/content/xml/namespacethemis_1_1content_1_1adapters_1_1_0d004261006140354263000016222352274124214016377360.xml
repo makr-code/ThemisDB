@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1content_1_1adapters_1_1_0d004261006140354263000016222352274124214016377360" kind="namespace" language="C++">
+    <compoundname>themis::content::adapters::@004261006140354263000016222352274124214016377360</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/content/adapters/pdf_extractor_adapter.cpp" line="23" column="1"/>
+  </compounddef>
+</doxygen>

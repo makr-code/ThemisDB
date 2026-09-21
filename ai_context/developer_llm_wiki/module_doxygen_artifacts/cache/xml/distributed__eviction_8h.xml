@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="distributed__eviction_8h" kind="file" language="C++">
+    <compoundname>distributed_eviction.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="test__cache__phase6__interfaces_8cpp" local="yes">tests/cache/test_cache_phase6_interfaces.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/cache/distributed_eviction.h</label>
+        <link refid="distributed__eviction_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/cache/distributed_eviction.h</label>
+        <link refid="distributed__eviction_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>tests/cache/test_cache_phase6_interfaces.cpp</label>
+        <link refid="test__cache__phase6__interfaces_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1cache_1_1_distributed_eviction_event" prot="public">themis::cache::DistributedEvictionEvent</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_distributed_eviction_stats" prot="public">themis::cache::DistributedEvictionStats</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_i_distributed_eviction" prot="public">themis::cache::IDistributedEviction</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1cache">themis::cache</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.10 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DistributedEvictionEvent<sp/>—<sp/>payload<sp/>for<sp/>eviction<sp/>notifications</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929" kindref="member">DistributedEvictionReason</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929ae069607ebd993cd70f61c9b2ecb1b0ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929ae069607ebd993cd70f61c9b2ecb1b0ec" kindref="member">CAPACITY_PRESSURE</ref>,<sp/></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929a6719f326972268407121fe93dbe8a033" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929a6719f326972268407121fe93dbe8a033" kindref="member">TTL_EXPIRED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929ad37798d559220d8f99cc63a651eb3e4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929ad37798d559220d8f99cc63a651eb3e4f" kindref="member">EXPLICIT_EVICT</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929a1018edd407007b6d058570bf95749e38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929a1018edd407007b6d058570bf95749e38" kindref="member">PATTERN_EVICT</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929a9c49b11eda069857d3a6f1f8e505f661" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929a9c49b11eda069857d3a6f1f8e505f661" kindref="member">TENANT_EVICT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929a26eed7f078fc015c5252f817059a6f9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929a26eed7f078fc015c5252f817059a6f9f" kindref="member">FLUSH</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1cache_1_1_distributed_eviction_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_distributed_eviction_event" kindref="compound">DistributedEvictionEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1cache_1_1_distributed_eviction_event_1a89c4a078e805260fb7383427a972c608" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cache_1_1_distributed_eviction_event_1a89c4a078e805260fb7383427a972c608" kindref="member">key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1cache_1_1_distributed_eviction_event_1ac25a5d828116eb14def708bb18b9e95f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cache_1_1_distributed_eviction_event_1ac25a5d828116eb14def708bb18b9e95f" kindref="member">tenant_id</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1cache_1_1_distributed_eviction_event_1abbf1f29f5219366f32f950a40ef1a117" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cache_1_1_distributed_eviction_event_1abbf1f29f5219366f32f950a40ef1a117" kindref="member">pattern</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1cache_1_1_distributed_eviction_event_1a0780c66ff8a0b0db32ca8052a224488d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929" kindref="member">DistributedEvictionReason</ref><sp/><ref refid="structthemis_1_1cache_1_1_distributed_eviction_event_1a0780c66ff8a0b0db32ca8052a224488d" kindref="member">reason</ref><sp/>=<sp/><ref refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929ae069607ebd993cd70f61c9b2ecb1b0ec" kindref="member">DistributedEvictionReason::CAPACITY_PRESSURE</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1cache_1_1_distributed_eviction_event_1a3389e7b6813a374977a80de08f45092b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_distributed_eviction_event_1a3389e7b6813a374977a80de08f45092b" kindref="member">timestamp_utc_ms</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1cache_1_1_distributed_eviction_event_1acbe4bc07e167a0d2758b611fc8943041" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cache_1_1_distributed_eviction_event_1acbe4bc07e167a0d2758b611fc8943041" kindref="member">origin_node_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DistributedEvictionStats<sp/>—<sp/>observable<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1cache_1_1_distributed_eviction_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_distributed_eviction_stats" kindref="compound">DistributedEvictionStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1cache_1_1_distributed_eviction_stats_1ad087013ded74b4385059d3abaf2538a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_distributed_eviction_stats_1ad087013ded74b4385059d3abaf2538a3" kindref="member">evictions_sent</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1cache_1_1_distributed_eviction_stats_1a358d45985ead9a687f76beadcb1addd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_distributed_eviction_stats_1a358d45985ead9a687f76beadcb1addd0" kindref="member">evictions_received</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1cache_1_1_distributed_eviction_stats_1ac4bb7a17ad8e833541f1598d7ccea18c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_distributed_eviction_stats_1ac4bb7a17ad8e833541f1598d7ccea18c" kindref="member">evictions_dropped</ref><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1cache_1_1_distributed_eviction_stats_1aa40028a52ece4bd4e314ac76ffbe6f53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_distributed_eviction_stats_1aa40028a52ece4bd4e314ac76ffbe6f53" kindref="member">peer_count</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1cache_1_1_distributed_eviction_stats_1aa2e5192498072ed88aa90dbf0a0598cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_distributed_eviction_stats_1aa2e5192498072ed88aa90dbf0a0598cd" kindref="member">healthy_peer_count</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IDistributedEviction<sp/>—<sp/>cross-node<sp/>coordinated<sp/>eviction<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1cache_1a8ccf6d50f436cfecacaa417d735628e4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache_1a8ccf6d50f436cfecacaa417d735628e4" kindref="member">DistributedEvictionListener</ref><sp/>=</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_distributed_eviction_event" kindref="compound">DistributedEvictionEvent</ref>&amp;<sp/>event)&gt;;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1cache_1_1_i_distributed_eviction" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_i_distributed_eviction" kindref="compound">IDistributedEviction</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a0284ec035f1008ef4f03b0fec9c7768a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a0284ec035f1008ef4f03b0fec9c7768a" kindref="member">~IDistributedEviction</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Eviction<sp/>broadcast<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1cache_1_1_i_distributed_eviction_1af6172f91579c9eddcecd07c2611f0820" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_distributed_eviction_1af6172f91579c9eddcecd07c2611f0820" kindref="member">evict</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929" kindref="member">DistributedEvictionReason</ref><sp/>reason<sp/>=</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a0514b4eb2d20d6b219834b91eed82929ae069607ebd993cd70f61c9b2ecb1b0ec" kindref="member">DistributedEvictionReason::CAPACITY_PRESSURE</ref>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a0526c8697665da894309e4fb350b73c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a0526c8697665da894309e4fb350b73c0" kindref="member">evictByPattern</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>pattern,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1cache_1_1_i_distributed_eviction_1ae8e575d1a8ba67266084d7b4d6000181" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_distributed_eviction_1ae8e575d1a8ba67266084d7b4d6000181" kindref="member">evictByTenant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a3ee7fe4bd99197d0ec521bce8760fe81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a3ee7fe4bd99197d0ec521bce8760fe81" kindref="member">flush</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Listener<sp/>registration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a0ae0891cf332880e998949d417dbb9e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a0ae0891cf332880e998949d417dbb9e3" kindref="member">registerEvictionListener</ref>(<ref refid="namespacethemis_1_1cache_1a8ccf6d50f436cfecacaa417d735628e4" kindref="member">DistributedEvictionListener</ref><sp/>listener)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a05e10babf42a9ae1e4f3f3f59bb8fb42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a05e10babf42a9ae1e4f3f3f59bb8fb42" kindref="member">unregisterEvictionListener</ref>(uint64_t<sp/>handle)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a0b40509052ca09b047d76a51c845f961" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_distributed_eviction_stats" kindref="compound">DistributedEvictionStats</ref><sp/><ref refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a0b40509052ca09b047d76a51c845f961" kindref="member">stats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a0b5d1773cc54e951870a80a2aded4f5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a0b5d1773cc54e951870a80a2aded4f5c" kindref="member">peerCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a38208e684627b75d1dff93b6f81e51ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_distributed_eviction_1a38208e684627b75d1dff93b6f81e51ad" kindref="member">isHealthy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/cache/distributed_eviction.h"/>
+  </compounddef>
+</doxygen>

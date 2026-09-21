@@ -1,0 +1,814 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1acceleration_1_1testing" kind="namespace" language="C++">
+    <compoundname>themis::acceleration::testing</compoundname>
+    <innerclass refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" prot="public">themis::acceleration::testing::BreakEvenValidatorTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1abc897e66f46ce441f5772b50a47de1c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, L2Distance_SmallInput_CPUPreferred)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>L2Distance_SmallInput_CPUPreferred</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="61" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="61" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a5489bf1ae8e1eb073108e81a1a7f1085" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, L2Distance_MediumInput_MaybeGPU)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>L2Distance_MediumInput_MaybeGPU</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="69" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="69" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a568c754036fa8e156e5a0cb936aabd81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, L2Distance_LargeInput_GPUPreferred)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>L2Distance_LargeInput_GPUPreferred</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="76" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="76" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1ac63c8176ecdf5d4259520f6323013fdd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, L2Distance_VeryLargeInput_GPUBeneficial)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>L2Distance_VeryLargeInput_GPUBeneficial</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="87" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="87" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1aa2217a6256b635604b62ebb5152c0059" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, TopK_SmallInput_CPUPreferred)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>TopK_SmallInput_CPUPreferred</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="101" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="101" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1ae8f84bd6b99b4c810e6c220f66368ec7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, TopK_LargeInput_HighSelectivity_MaybeGPU)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>TopK_LargeInput_HighSelectivity_MaybeGPU</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="107" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="107" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1ac9a999af13e86fea54c64299e1172723" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, TopK_LargeInput_LowSelectivity_CPUPreferred)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>TopK_LargeInput_LowSelectivity_CPUPreferred</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="114" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="114" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a20b601942e72938a3705361338080622" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, BFS_SmallGraph_CPUPreferred)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>BFS_SmallGraph_CPUPreferred</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="126" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="126" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1abbdcd33da9b3038cb7af00fc12284f50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, BFS_MediumGraph_MaybeGPU)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>BFS_MediumGraph_MaybeGPU</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="132" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="132" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a5bedf852eed4e2453240a19ae7b3139d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, BFS_LargeGraph_GPUBeneficial)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>BFS_LargeGraph_GPUBeneficial</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="138" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="138" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1ade152a57af885249ac479973b5841999" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Dijkstra_SmallGraph_CPUPreferred)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Dijkstra_SmallGraph_CPUPreferred</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="151" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="151" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a883915d91de7d3f80c14ff1cc8224bf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Dijkstra_LargeGraph_GPUBeneficial)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Dijkstra_LargeGraph_GPUBeneficial</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="157" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="157" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1ac06439a56fc99b69381f3bfebcf3511b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, GeoDistance_LargeInput_MaybeGPU)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>GeoDistance_LargeInput_MaybeGPU</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="169" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="169" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a8f82029faf61c47e386ac1e38e07fdba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, GeoContainment_VeryLargeInput_GPUBeneficial)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>GeoContainment_VeryLargeInput_GPUBeneficial</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="175" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="175" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a780fcdcc3098c6f63f8ab35b2f09d2de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Cache_FirstCall_Miss)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Cache_FirstCall_Miss</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="187" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="187" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1ae2d445a5445bc58e4fefc78c5fce9ea2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Cache_SecondCall_Hit)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Cache_SecondCall_Hit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="197" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="197" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1ab23bd0d0d1f619eac4b868065d66f90a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Cache_DifferentInput_Miss)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Cache_DifferentInput_Miss</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="215" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="215" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1ac2e729558fe5ac1e83f747d5b1fa5469" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Cache_DifferentKernel_Miss)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Cache_DifferentKernel_Miss</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="228" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="228" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a0a9fea253745becfa0eae96c6c3f7ef6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Cache_Clear_EmptiesCache)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Cache_Clear_EmptiesCache</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="241" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="241" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a8f15942d300c5b1784d4c6d09a2491ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Cache_Statistics)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Cache_Statistics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="250" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="250" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1aab6ad051b101714c806dd662dc2ed7ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Threshold_DefaultValuesCategoryA)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Threshold_DefaultValuesCategoryA</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="272" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="272" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a74581a4da663fe3c0fe2bd6c625cc0ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Threshold_DefaultValuesCategoryB)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Threshold_DefaultValuesCategoryB</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="277" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="277" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a43b7ad35dfa0a7dad6e528c61e339329" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Threshold_Customize)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Threshold_Customize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="282" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="282" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a471a9614c54ad7ba8f1f850a2e6686eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Threshold_MinimumValue)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Threshold_MinimumValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="290" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="290" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a9414e9873e5b3b940cee45a09142362a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Override_ForceGPU)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Override_ForceGPU</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="300" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="300" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a36cd3824adad4525d588861d38631a60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Override_PreferCPU)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Override_PreferCPU</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="311" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="311" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a87a04f1c35fef005668a5aac9808ef09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Override_ForceGPU_Takes_Precedence)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Override_ForceGPU_Takes_Precedence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="322" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="322" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a8dbdd8abf77165314bdd9e40d1023462" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, DeviceType_NVIDIA_RTX)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>DeviceType_NVIDIA_RTX</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="337" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="337" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1aafc548f714571636058baca3f29ac90d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, DeviceType_NVIDIA_T4)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>DeviceType_NVIDIA_T4</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="344" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="344" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a9757f031d3e2b1104e18c7924e16ed49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, DeviceType_AMD_MI210)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>DeviceType_AMD_MI210</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="351" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="351" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a907ed9bac166ca4ca17fda54a2a85924" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, DeviceType_CPU)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>DeviceType_CPU</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="358" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="358" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a3d445d3ebdc374c186f14cfcc3c2820c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Metrics_LatestSpeedupRatio)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Metrics_LatestSpeedupRatio</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="371" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="371" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1afc1fea28e4def0e973d01ec7c96b0a40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Hooks_InjectedProfilersDriveDecisionAndMetrics)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Hooks_InjectedProfilersDriveDecisionAndMetrics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="385" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="385" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a53026e4696266ed69fad2794876e3624" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, InvalidDistanceProfileFailsClosed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>InvalidDistanceProfileFailsClosed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="413" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="413" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a8e560aae7ea38b850eb6936ef6ba67e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, StringConversion_KernelType)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>StringConversion_KernelType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="427" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="427" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a369db2ed42eda590f0807f9d18ff761e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, StringConversion_DeviceType)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>StringConversion_DeviceType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="434" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="434" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a1a8f2f5f4b06d4a2d3ccac8ebc5e00ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Concurrency_MultipleThreads_ShouldUseGPU)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Concurrency_MultipleThreads_ShouldUseGPU</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="444" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="444" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a8a9f28ca51601682fcbe7e91e1c4b898" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Concurrency_Profile_WithMultipleThreads)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Concurrency_Profile_WithMultipleThreads</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="473" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="473" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1a390877264168b4b0aa3fcf703814ca86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Integration_RealisticWorkload_Distance)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Integration_RealisticWorkload_Distance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="496" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="496" bodyend="513"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1testing_1ab3863297e7408fc8db0bd8826df78161" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::testing::TEST_F</definition>
+        <argsstring>(BreakEvenValidatorTest, Integration_RealisticWorkload_BFS)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::acceleration::testing::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kindref="compound">BreakEvenValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>Integration_RealisticWorkload_BFS</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="515" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="515" bodyend="528"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/gpu/test_break_even_validation.cpp" line="24" column="1"/>
+  </compounddef>
+</doxygen>

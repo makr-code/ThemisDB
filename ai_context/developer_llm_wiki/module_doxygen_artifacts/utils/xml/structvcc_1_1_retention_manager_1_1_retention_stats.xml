@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structvcc_1_1_retention_manager_1_1_retention_stats" kind="struct" language="C++" prot="public">
+    <compoundname>vcc::RetentionManager::RetentionStats</compoundname>
+    <includes refid="retention__manager_8h" local="no">retention_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structvcc_1_1_retention_manager_1_1_retention_stats_1a62fddd8c53319b4be43ca429746d1b8b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t vcc::RetentionManager::RetentionStats::total_entities_scanned</definition>
+        <argsstring></argsstring>
+        <name>total_entities_scanned</name>
+        <qualifiedname>vcc::RetentionManager::RetentionStats::total_entities_scanned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="66" column="16" bodyfile="include/utils/retention_manager.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvcc_1_1_retention_manager_1_1_retention_stats_1a5e288aedb22ff2ccd701e7c505dfc7f4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t vcc::RetentionManager::RetentionStats::archived_count</definition>
+        <argsstring></argsstring>
+        <name>archived_count</name>
+        <qualifiedname>vcc::RetentionManager::RetentionStats::archived_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="67" column="16" bodyfile="include/utils/retention_manager.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvcc_1_1_retention_manager_1_1_retention_stats_1a8fbb06f0cc47792de11e66ff975afbe5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t vcc::RetentionManager::RetentionStats::purged_count</definition>
+        <argsstring></argsstring>
+        <name>purged_count</name>
+        <qualifiedname>vcc::RetentionManager::RetentionStats::purged_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="68" column="16" bodyfile="include/utils/retention_manager.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvcc_1_1_retention_manager_1_1_retention_stats_1a08f3438bbfba7400a0fc4d0d19d3cbdb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t vcc::RetentionManager::RetentionStats::retained_count</definition>
+        <argsstring></argsstring>
+        <name>retained_count</name>
+        <qualifiedname>vcc::RetentionManager::RetentionStats::retained_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="69" column="16" bodyfile="include/utils/retention_manager.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvcc_1_1_retention_manager_1_1_retention_stats_1acb91f9cb80a1ad3b4da9b8ab0ad70927" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t vcc::RetentionManager::RetentionStats::error_count</definition>
+        <argsstring></argsstring>
+        <name>error_count</name>
+        <qualifiedname>vcc::RetentionManager::RetentionStats::error_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="70" column="16" bodyfile="include/utils/retention_manager.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structvcc_1_1_retention_manager_1_1_retention_stats_1af8058bb35f65df75fee1b1ab7e4e78bf" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds vcc::RetentionManager::RetentionStats::duration</definition>
+        <argsstring></argsstring>
+        <name>duration</name>
+        <qualifiedname>vcc::RetentionManager::RetentionStats::duration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retention_manager.h" line="71" column="35" bodyfile="include/utils/retention_manager.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics for retention operations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/retention_manager.h" line="65" column="5" bodyfile="include/utils/retention_manager.h" bodystart="65" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structvcc_1_1_retention_manager_1_1_retention_stats_1a5e288aedb22ff2ccd701e7c505dfc7f4" prot="public" virt="non-virtual"><scope>vcc::RetentionManager::RetentionStats</scope><name>archived_count</name></member>
+      <member refid="structvcc_1_1_retention_manager_1_1_retention_stats_1af8058bb35f65df75fee1b1ab7e4e78bf" prot="public" virt="non-virtual"><scope>vcc::RetentionManager::RetentionStats</scope><name>duration</name></member>
+      <member refid="structvcc_1_1_retention_manager_1_1_retention_stats_1acb91f9cb80a1ad3b4da9b8ab0ad70927" prot="public" virt="non-virtual"><scope>vcc::RetentionManager::RetentionStats</scope><name>error_count</name></member>
+      <member refid="structvcc_1_1_retention_manager_1_1_retention_stats_1a8fbb06f0cc47792de11e66ff975afbe5" prot="public" virt="non-virtual"><scope>vcc::RetentionManager::RetentionStats</scope><name>purged_count</name></member>
+      <member refid="structvcc_1_1_retention_manager_1_1_retention_stats_1a08f3438bbfba7400a0fc4d0d19d3cbdb" prot="public" virt="non-virtual"><scope>vcc::RetentionManager::RetentionStats</scope><name>retained_count</name></member>
+      <member refid="structvcc_1_1_retention_manager_1_1_retention_stats_1a62fddd8c53319b4be43ca429746d1b8b" prot="public" virt="non-virtual"><scope>vcc::RetentionManager::RetentionStats</scope><name>total_entities_scanned</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

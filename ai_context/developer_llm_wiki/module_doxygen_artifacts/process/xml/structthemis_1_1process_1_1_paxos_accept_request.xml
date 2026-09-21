@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_paxos_accept_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::PaxosAcceptRequest</compoundname>
+    <includes refid="federated__consensus__contract_8h" local="no">federated_consensus_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_paxos_accept_request_1a12244c1395e2a44be506386782c13453" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::PaxosAcceptRequest::proposal_number</definition>
+        <argsstring></argsstring>
+        <name>proposal_number</name>
+        <qualifiedname>themis::process::PaxosAcceptRequest::proposal_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Proposal number (must match or exceed promised number). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="388" column="14" bodyfile="include/process/federated_consensus_contract.h" bodystart="388" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_paxos_accept_request_1a482838f3aadb9b946163c86d3fc93152" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::PaxosAcceptRequest::proposer_id</definition>
+        <argsstring></argsstring>
+        <name>proposer_id</name>
+        <qualifiedname>themis::process::PaxosAcceptRequest::proposer_id</qualifiedname>
+        <briefdescription>
+<para>Shard ID of proposer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="391" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="391" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_paxos_accept_request_1a57938fede5bea47e555af6d83d3939ad" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1process_1_1_consensus_log_entry" kindref="compound">ConsensusLogEntry</ref></type>
+        <definition>ConsensusLogEntry themis::process::PaxosAcceptRequest::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::process::PaxosAcceptRequest::value</qualifiedname>
+        <briefdescription>
+<para>Log entry value to accept. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="394" column="23" bodyfile="include/process/federated_consensus_contract.h" bodystart="394" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_paxos_accept_request_1a08fc6d327d65af18e46cea4bb47cc683" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::PaxosAcceptRequest::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::process::PaxosAcceptRequest::trace_id</qualifiedname>
+        <briefdescription>
+<para>Correlation ID for tracing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="397" column="17" bodyfile="include/process/federated_consensus_contract.h" bodystart="397" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Paxos Accept request (Phase 2: proposer sends value to acceptors). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::process::ConsensusLogEntry</label>
+        <link refid="structthemis_1_1process_1_1_consensus_log_entry"/>
+      </node>
+      <node id="1">
+        <label>themis::process::PaxosAcceptRequest</label>
+        <link refid="structthemis_1_1process_1_1_paxos_accept_request"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>value</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/process/federated_consensus_contract.h" line="386" column="1" bodyfile="include/process/federated_consensus_contract.h" bodystart="386" bodyend="398"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_paxos_accept_request_1a12244c1395e2a44be506386782c13453" prot="public" virt="non-virtual"><scope>themis::process::PaxosAcceptRequest</scope><name>proposal_number</name></member>
+      <member refid="structthemis_1_1process_1_1_paxos_accept_request_1a482838f3aadb9b946163c86d3fc93152" prot="public" virt="non-virtual"><scope>themis::process::PaxosAcceptRequest</scope><name>proposer_id</name></member>
+      <member refid="structthemis_1_1process_1_1_paxos_accept_request_1a08fc6d327d65af18e46cea4bb47cc683" prot="public" virt="non-virtual"><scope>themis::process::PaxosAcceptRequest</scope><name>trace_id</name></member>
+      <member refid="structthemis_1_1process_1_1_paxos_accept_request_1a57938fede5bea47e555af6d83d3939ad" prot="public" virt="non-virtual"><scope>themis::process::PaxosAcceptRequest</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_600a099f0550a94ce3d4ba1f8caba966" kind="dir">
+    <compoundname>benchmarks/toolbox</compoundname>
+    <innerfile refid="bench__toolbox__dedicated__gates_8cpp">bench_toolbox_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__toolbox__native__workloads_8cpp">bench_toolbox_native_workloads.cpp</innerfile>
+    <innerfile refid="bench__toolbox__release__gates_8cpp">bench_toolbox_release_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/toolbox/"/>
+  </compounddef>
+</doxygen>

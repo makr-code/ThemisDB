@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_s_q_l_list_expr" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SQLListExpr</compoundname>
+    <basecompoundref refid="structthemis_1_1query_1_1_s_q_l_expr" prot="public" virt="non-virtual">themis::query::SQLExpr</basecompoundref>
+    <includes refid="sql__parser_8h" local="no">sql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_list_expr_1a179c60e5d4f23ae8110d002bb2984687" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_s_q_l_expr" kindref="compound">SQLExpr</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;SQLExpr&gt; &gt; themis::query::SQLListExpr::elements</definition>
+        <argsstring></argsstring>
+        <name>elements</name>
+        <qualifiedname>themis::query::SQLListExpr::elements</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="105" column="17" bodyfile="include/query/sql_parser.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_s_q_l_list_expr_1a7c47a3b25b807eaacdaa1602ca1693c5" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::SQLListExpr::SQLListExpr</definition>
+        <argsstring>(std::vector&lt; std::shared_ptr&lt; SQLExpr &gt; &gt; elems)</argsstring>
+        <name>SQLListExpr</name>
+        <qualifiedname>themis::query::SQLListExpr::SQLListExpr</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_s_q_l_expr" kindref="compound">SQLExpr</ref> &gt; &gt;</type>
+          <declname>elems</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="106" column="14" bodyfile="include/query/sql_parser.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_s_q_l_list_expr_1a41f1e9a3dcaa80f836c7deb29066b9b1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1query_1a499465f866fd144b44b45b4c1bc39d86" kindref="member">SQLExprType</ref></type>
+        <definition>SQLExprType themis::query::SQLListExpr::type</definition>
+        <argsstring>() const override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::SQLListExpr::type</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_s_q_l_expr_1a2fe6810ef4d8a8219f266ce073e16fc6">type</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="107" column="17" bodyfile="include/query/sql_parser.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_s_q_l_list_expr_1a859c3a273416c2a1e4411da77be6b573" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::SQLListExpr::toAQL</definition>
+        <argsstring>(const std::string &amp;var) const override</argsstring>
+        <name>toAQL</name>
+        <qualifiedname>themis::query::SQLListExpr::toAQL</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_s_q_l_expr_1af20858045228af595128fb418c6584cb">toAQL</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>var</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="108" column="17" bodyfile="src/query/sql_parser.cpp" bodystart="120" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::SQLExpr</label>
+        <link refid="structthemis_1_1query_1_1_s_q_l_expr"/>
+      </node>
+      <node id="1">
+        <label>themis::query::SQLListExpr</label>
+        <link refid="structthemis_1_1query_1_1_s_q_l_list_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::SQLExpr</label>
+        <link refid="structthemis_1_1query_1_1_s_q_l_expr"/>
+      </node>
+      <node id="1">
+        <label>themis::query::SQLListExpr</label>
+        <link refid="structthemis_1_1query_1_1_s_q_l_list_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/sql_parser.h" line="104" column="1" bodyfile="include/query/sql_parser.h" bodystart="104" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_s_q_l_list_expr_1a179c60e5d4f23ae8110d002bb2984687" prot="public" virt="non-virtual"><scope>themis::query::SQLListExpr</scope><name>elements</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_list_expr_1a7c47a3b25b807eaacdaa1602ca1693c5" prot="public" virt="non-virtual"><scope>themis::query::SQLListExpr</scope><name>SQLListExpr</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_list_expr_1a859c3a273416c2a1e4411da77be6b573" prot="public" virt="virtual"><scope>themis::query::SQLListExpr</scope><name>toAQL</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_list_expr_1a41f1e9a3dcaa80f836c7deb29066b9b1" prot="public" virt="virtual"><scope>themis::query::SQLListExpr</scope><name>type</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_expr_1a92962f465a26cee5a1a0884ffb0f3a3f" prot="public" virt="virtual"><scope>themis::query::SQLListExpr</scope><name>~SQLExpr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

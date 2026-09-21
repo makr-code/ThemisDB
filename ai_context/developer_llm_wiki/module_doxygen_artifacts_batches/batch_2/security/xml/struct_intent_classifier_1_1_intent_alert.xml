@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_intent_classifier_1_1_intent_alert" kind="struct" language="C++" prot="public">
+    <compoundname>IntentClassifier::IntentAlert</compoundname>
+    <includes refid="intent__classifier_8h" local="no">intent_classifier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_intent_classifier_1_1_intent_alert_1aefa7f06f3c0c0f2e659a416290f18d45" prot="public" static="no" mutable="no">
+        <type><ref refid="class_intent_classifier_1a259bb1443efade8691752a82e79ea8c9" kindref="member">IntentType</ref></type>
+        <definition>IntentType themis::security::IntentClassifier::IntentAlert::intent</definition>
+        <argsstring></argsstring>
+        <name>intent</name>
+        <qualifiedname>IntentClassifier::IntentAlert::intent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="49" column="21" bodyfile="include/security/intent_classifier.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_intent_classifier_1_1_intent_alert_1a58d80cb16e2da996a2d2b094b97cc0e2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::security::IntentClassifier::IntentAlert::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>IntentClassifier::IntentAlert::confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="50" column="21" bodyfile="include/security/intent_classifier.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_intent_classifier_1_1_intent_alert_1ae5c7fa39916acab4eeea9146faf56cbb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::IntentClassifier::IntentAlert::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>IntentClassifier::IntentAlert::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="51" column="21" bodyfile="include/security/intent_classifier.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_intent_classifier_1_1_intent_alert_1a5f7c0921ab0a6223e4ef5bf8a7dbaefb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::IntentClassifier::IntentAlert::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>IntentClassifier::IntentAlert::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="52" column="21" bodyfile="include/security/intent_classifier.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_intent_classifier_1_1_intent_alert_1a78e7bb1eceb3fb261df9245dd475cb93" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::security::IntentClassifier::IntentAlert::evidence_embedding</definition>
+        <argsstring></argsstring>
+        <name>evidence_embedding</name>
+        <qualifiedname>IntentClassifier::IntentAlert::evidence_embedding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="53" column="21" bodyfile="include/security/intent_classifier.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_intent_classifier_1_1_intent_alert_1a2fe23c209f3fcb14edaa3e2b85ea2b75" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::security::IntentClassifier::IntentAlert::risk_delta</definition>
+        <argsstring></argsstring>
+        <name>risk_delta</name>
+        <qualifiedname>IntentClassifier::IntentAlert::risk_delta</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/intent_classifier.h" line="54" column="16" bodyfile="include/security/intent_classifier.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/intent_classifier.h" line="48" column="5" bodyfile="include/security/intent_classifier.h" bodystart="48" bodyend="55"/>
+    <listofallmembers>
+      <member refid="struct_intent_classifier_1_1_intent_alert_1a58d80cb16e2da996a2d2b094b97cc0e2" prot="public" virt="non-virtual"><scope>IntentClassifier::IntentAlert</scope><name>confidence</name></member>
+      <member refid="struct_intent_classifier_1_1_intent_alert_1a78e7bb1eceb3fb261df9245dd475cb93" prot="public" virt="non-virtual"><scope>IntentClassifier::IntentAlert</scope><name>evidence_embedding</name></member>
+      <member refid="struct_intent_classifier_1_1_intent_alert_1aefa7f06f3c0c0f2e659a416290f18d45" prot="public" virt="non-virtual"><scope>IntentClassifier::IntentAlert</scope><name>intent</name></member>
+      <member refid="struct_intent_classifier_1_1_intent_alert_1a2fe23c209f3fcb14edaa3e2b85ea2b75" prot="public" virt="non-virtual"><scope>IntentClassifier::IntentAlert</scope><name>risk_delta</name></member>
+      <member refid="struct_intent_classifier_1_1_intent_alert_1ae5c7fa39916acab4eeea9146faf56cbb" prot="public" virt="non-virtual"><scope>IntentClassifier::IntentAlert</scope><name>session_id</name></member>
+      <member refid="struct_intent_classifier_1_1_intent_alert_1a5f7c0921ab0a6223e4ef5bf8a7dbaefb" prot="public" virt="non-virtual"><scope>IntentClassifier::IntentAlert</scope><name>shard_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_llama_wrapper_1_1_speculative_decoding_stats" kind="struct" language="C++" prot="public">
+    <compoundname>LlamaWrapper::SpeculativeDecodingStats</compoundname>
+    <includes refid="llama__wrapper_8h" local="no">llama_wrapper.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_speculative_decoding_stats_1ad8c67af9587920c24ae8a02934f66eb8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LlamaWrapper::SpeculativeDecodingStats::total_speculations</definition>
+        <argsstring></argsstring>
+        <name>total_speculations</name>
+        <qualifiedname>LlamaWrapper::SpeculativeDecodingStats::total_speculations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="402" column="16" bodyfile="include/llm/llama_wrapper.h" bodystart="402" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_speculative_decoding_stats_1af95610d9f6c0093b1047e024560c2c31" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LlamaWrapper::SpeculativeDecodingStats::total_accepted</definition>
+        <argsstring></argsstring>
+        <name>total_accepted</name>
+        <qualifiedname>LlamaWrapper::SpeculativeDecodingStats::total_accepted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="403" column="16" bodyfile="include/llm/llama_wrapper.h" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_speculative_decoding_stats_1aabc0e5cd56227922bb5484e9937cdd40" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::LlamaWrapper::SpeculativeDecodingStats::total_rejected</definition>
+        <argsstring></argsstring>
+        <name>total_rejected</name>
+        <qualifiedname>LlamaWrapper::SpeculativeDecodingStats::total_rejected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="404" column="16" bodyfile="include/llm/llama_wrapper.h" bodystart="404" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_speculative_decoding_stats_1a7a2656523fd3ab9cc860942eefc9de1f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::LlamaWrapper::SpeculativeDecodingStats::avg_acceptance_rate</definition>
+        <argsstring></argsstring>
+        <name>avg_acceptance_rate</name>
+        <qualifiedname>LlamaWrapper::SpeculativeDecodingStats::avg_acceptance_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="405" column="16" bodyfile="include/llm/llama_wrapper.h" bodystart="405" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_llama_wrapper_1_1_speculative_decoding_stats_1a78675fbb34edddd5934edd7624c60576" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::LlamaWrapper::SpeculativeDecodingStats::avg_speedup</definition>
+        <argsstring></argsstring>
+        <name>avg_speedup</name>
+        <qualifiedname>LlamaWrapper::SpeculativeDecodingStats::avg_speedup</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_wrapper.h" line="406" column="16" bodyfile="include/llm/llama_wrapper.h" bodystart="406" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llama_wrapper.h" line="401" column="5" bodyfile="include/llm/llama_wrapper.h" bodystart="401" bodyend="407"/>
+    <listofallmembers>
+      <member refid="struct_llama_wrapper_1_1_speculative_decoding_stats_1a7a2656523fd3ab9cc860942eefc9de1f" prot="public" virt="non-virtual"><scope>LlamaWrapper::SpeculativeDecodingStats</scope><name>avg_acceptance_rate</name></member>
+      <member refid="struct_llama_wrapper_1_1_speculative_decoding_stats_1a78675fbb34edddd5934edd7624c60576" prot="public" virt="non-virtual"><scope>LlamaWrapper::SpeculativeDecodingStats</scope><name>avg_speedup</name></member>
+      <member refid="struct_llama_wrapper_1_1_speculative_decoding_stats_1af95610d9f6c0093b1047e024560c2c31" prot="public" virt="non-virtual"><scope>LlamaWrapper::SpeculativeDecodingStats</scope><name>total_accepted</name></member>
+      <member refid="struct_llama_wrapper_1_1_speculative_decoding_stats_1aabc0e5cd56227922bb5484e9937cdd40" prot="public" virt="non-virtual"><scope>LlamaWrapper::SpeculativeDecodingStats</scope><name>total_rejected</name></member>
+      <member refid="struct_llama_wrapper_1_1_speculative_decoding_stats_1ad8c67af9587920c24ae8a02934f66eb8" prot="public" virt="non-virtual"><scope>LlamaWrapper::SpeculativeDecodingStats</scope><name>total_speculations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

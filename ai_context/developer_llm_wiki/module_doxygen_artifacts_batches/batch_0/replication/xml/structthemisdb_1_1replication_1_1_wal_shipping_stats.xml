@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_wal_shipping_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::WalShippingStats</compoundname>
+    <includes refid="async__wal__shipper_8h" local="no">async_wal_shipper.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_wal_shipping_stats_1a105a72c091dc9a1a24f7b5286b45eb35" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::WalShippingStats::segments_enqueued</definition>
+        <argsstring></argsstring>
+        <name>segments_enqueued</name>
+        <qualifiedname>themisdb::replication::WalShippingStats::segments_enqueued</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total segments accepted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="105" column="14" bodyfile="include/replication/async_wal_shipper.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_wal_shipping_stats_1a2ddd725c1ec9e768b26e0f179ad8747e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::WalShippingStats::segments_shipped</definition>
+        <argsstring></argsstring>
+        <name>segments_shipped</name>
+        <qualifiedname>themisdb::replication::WalShippingStats::segments_shipped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total segments dispatched. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="106" column="14" bodyfile="include/replication/async_wal_shipper.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_wal_shipping_stats_1aa1fa1e486ec21ad8c3d07d14f24b28c8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::WalShippingStats::segments_dropped</definition>
+        <argsstring></argsstring>
+        <name>segments_dropped</name>
+        <qualifiedname>themisdb::replication::WalShippingStats::segments_dropped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Segments dropped (queue full). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="107" column="14" bodyfile="include/replication/async_wal_shipper.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_wal_shipping_stats_1a4732b8ecc81ae4d781c80478e997e5c0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::WalShippingStats::lag_alerts_fired</definition>
+        <argsstring></argsstring>
+        <name>lag_alerts_fired</name>
+        <qualifiedname>themisdb::replication::WalShippingStats::lag_alerts_fired</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Times lag exceeded max_lag_ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="108" column="14" bodyfile="include/replication/async_wal_shipper.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_wal_shipping_stats_1a2d641fc9762876abdfc14f6aeb993161" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::WalShippingStats::current_lag_ms</definition>
+        <argsstring></argsstring>
+        <name>current_lag_ms</name>
+        <qualifiedname>themisdb::replication::WalShippingStats::current_lag_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Most recently measured lag (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="109" column="14" bodyfile="include/replication/async_wal_shipper.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_wal_shipping_stats_1ac1caa16b58c60dc1aac508118e01daad" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::WalShippingStats::max_observed_lag_ms</definition>
+        <argsstring></argsstring>
+        <name>max_observed_lag_ms</name>
+        <qualifiedname>themisdb::replication::WalShippingStats::max_observed_lag_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Peak observed lag since start. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="110" column="14" bodyfile="include/replication/async_wal_shipper.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_wal_shipping_stats_1ab7d4f269e9c74781613cfe30391e0275" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::WalShippingStats::bytes_enqueued</definition>
+        <argsstring></argsstring>
+        <name>bytes_enqueued</name>
+        <qualifiedname>themisdb::replication::WalShippingStats::bytes_enqueued</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total bytes enqueued. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="111" column="14" bodyfile="include/replication/async_wal_shipper.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_wal_shipping_stats_1ab930cb6dca5ecabfabe258c9454943b1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::WalShippingStats::bytes_shipped</definition>
+        <argsstring></argsstring>
+        <name>bytes_shipped</name>
+        <qualifiedname>themisdb::replication::WalShippingStats::bytes_shipped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total bytes dispatched. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="112" column="14" bodyfile="include/replication/async_wal_shipper.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Snapshot of <ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper" kindref="compound">AsyncWalShipper</ref> runtime statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/async_wal_shipper.h" line="104" column="1" bodyfile="include/replication/async_wal_shipper.h" bodystart="104" bodyend="113"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1ab7d4f269e9c74781613cfe30391e0275" prot="public" virt="non-virtual"><scope>themisdb::replication::WalShippingStats</scope><name>bytes_enqueued</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1ab930cb6dca5ecabfabe258c9454943b1" prot="public" virt="non-virtual"><scope>themisdb::replication::WalShippingStats</scope><name>bytes_shipped</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1a2d641fc9762876abdfc14f6aeb993161" prot="public" virt="non-virtual"><scope>themisdb::replication::WalShippingStats</scope><name>current_lag_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1a4732b8ecc81ae4d781c80478e997e5c0" prot="public" virt="non-virtual"><scope>themisdb::replication::WalShippingStats</scope><name>lag_alerts_fired</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1ac1caa16b58c60dc1aac508118e01daad" prot="public" virt="non-virtual"><scope>themisdb::replication::WalShippingStats</scope><name>max_observed_lag_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1aa1fa1e486ec21ad8c3d07d14f24b28c8" prot="public" virt="non-virtual"><scope>themisdb::replication::WalShippingStats</scope><name>segments_dropped</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1a105a72c091dc9a1a24f7b5286b45eb35" prot="public" virt="non-virtual"><scope>themisdb::replication::WalShippingStats</scope><name>segments_enqueued</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_wal_shipping_stats_1a2ddd725c1ec9e768b26e0f179ad8747e" prot="public" virt="non-virtual"><scope>themisdb::replication::WalShippingStats</scope><name>segments_shipped</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

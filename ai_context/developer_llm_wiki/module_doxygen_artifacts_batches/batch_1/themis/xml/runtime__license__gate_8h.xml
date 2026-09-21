@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="runtime__license__gate_8h" kind="file" language="C++">
+    <compoundname>runtime_license_gate.h</compoundname>
+    <includes refid="export_8h" local="yes">themis/export.h</includes>
+    <includes refid="license__info_8h" local="yes">themis/license_info.h</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includedby refid="edition__manager_8cpp" local="yes">src/themis/edition_manager.cpp</includedby>
+    <includedby refid="test__themis__integration_8cpp" local="yes">tests/themis/test_themis_integration.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>themis/export.h</label>
+        <link refid="export_8h"/>
+      </node>
+      <node id="3">
+        <label>themis/license_info.h</label>
+        <link refid="license__info_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/themis/runtime_license_gate.h</label>
+        <link refid="runtime__license__gate_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/themis/runtime_license_gate.h</label>
+        <link refid="runtime__license__gate_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/themis/edition_manager.cpp</label>
+        <link refid="edition__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/themis/test_themis_integration.cpp</label>
+        <link refid="test__themis__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1license_1_1_gate_result" prot="public">themis::license::GateResult</innerclass>
+    <innerclass refid="classthemis_1_1license_1_1_runtime_license_gate" prot="public">themis::license::RuntimeLicenseGate</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1license">themis::license</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.41 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>Runtime<sp/>License<sp/>Gate</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>==============================</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>Bridges<sp/>the<sp/>gap<sp/>between<sp/>compile-time<sp/>edition<sp/>feature<sp/>flags<sp/>and<sp/>the<sp/>runtime</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/>license<sp/>validity<sp/>returned<sp/>by<sp/>LicenseClient.</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*<sp/>Usage<sp/>(in<sp/>any<sp/>Enterprise/Hyperscaler<sp/>code-path):</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/>*<sp/><sp/><sp/>#include<sp/>&quot;themis/runtime_license_gate.h&quot;</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="22"><highlight class="comment"><sp/>*<sp/><sp/><sp/>//<sp/>At<sp/>server<sp/>startup<sp/>(once,<sp/>after<sp/>license<sp/>validation):</highlight></codeline>
+<codeline lineno="23"><highlight class="comment"><sp/>*<sp/><sp/><sp/>themis::license::RuntimeLicenseGate::instance().initialize(</highlight></codeline>
+<codeline lineno="24"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>activationResult,<sp/>licenseData);</highlight></codeline>
+<codeline lineno="25"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="26"><highlight class="comment"><sp/>*<sp/><sp/><sp/>//<sp/>At<sp/>any<sp/>feature<sp/>call-site:</highlight></codeline>
+<codeline lineno="27"><highlight class="comment"><sp/>*<sp/><sp/><sp/>if<sp/>(!themis::license::RuntimeLicenseGate::instance()</highlight></codeline>
+<codeline lineno="28"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.isFeatureAllowed(&quot;field_encryption&quot;))<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>{Error::LicenseRequired,<sp/>&quot;Field-level<sp/>encryption<sp/>requires...&quot;};</highlight></codeline>
+<codeline lineno="30"><highlight class="comment"><sp/>*<sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="export_8h" kindref="compound">themis/export.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="license__info_8h" kindref="compound">themis/license_info.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1license" kindref="compound">license</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LicenseDenialReason<sp/>—<sp/>structured<sp/>reason<sp/>code<sp/>for<sp/>feature<sp/>gate<sp/>denials</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1license_1a28874202dd23332cc708cebab9b2ee11" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1license_1a28874202dd23332cc708cebab9b2ee11" kindref="member">LicenseDenialReason</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1license_1a28874202dd23332cc708cebab9b2ee11ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1license_1a28874202dd23332cc708cebab9b2ee11ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1license_1a28874202dd23332cc708cebab9b2ee11acd4070460c74970a50071fba832439db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1license_1a28874202dd23332cc708cebab9b2ee11acd4070460c74970a50071fba832439db" kindref="member">TIER_TOO_LOW</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1license_1a28874202dd23332cc708cebab9b2ee11afe020f7e6118c2f0a0a1ca16a1445df9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1license_1a28874202dd23332cc708cebab9b2ee11afe020f7e6118c2f0a0a1ca16a1445df9" kindref="member">LICENSE_EXPIRED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1license_1a28874202dd23332cc708cebab9b2ee11acb0d32e13b44ed1d49df0654f9e9428c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1license_1a28874202dd23332cc708cebab9b2ee11acb0d32e13b44ed1d49df0654f9e9428c" kindref="member">SIGNATURE_MISMATCH</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1license_1a28874202dd23332cc708cebab9b2ee11a40033ae584e82ad104bdfe0fb89122aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1license_1a28874202dd23332cc708cebab9b2ee11a40033ae584e82ad104bdfe0fb89122aa" kindref="member">NODE_LIMIT_EXCEEDED</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1license_1a28874202dd23332cc708cebab9b2ee11a09e2d5bea80de7c1d30690c37b0f0e7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1license_1a28874202dd23332cc708cebab9b2ee11a09e2d5bea80de7c1d30690c37b0f0e7e" kindref="member">STORAGE_LIMIT_EXCEEDED</ref><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GateResult<sp/>—<sp/>result<sp/>of<sp/>a<sp/>RuntimeLicenseGate::checkFeature()<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1license_1_1_gate_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="export_8h_1a40367e08fc588bd01a6b059a512eea0c" kindref="member">THEMIS_BASE_API</ref><sp/><ref refid="structthemis_1_1license_1_1_gate_result" kindref="compound">GateResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1license_1_1_gate_result_1abba18c9bb20aef2db0346566f30e3f4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1license_1_1_gate_result_1abba18c9bb20aef2db0346566f30e3f4b" kindref="member">allowed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1license_1_1_gate_result_1a41dd581fe8895e9008c1e1bfa4239f58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1license_1a28874202dd23332cc708cebab9b2ee11" kindref="member">LicenseDenialReason</ref><sp/><ref refid="structthemis_1_1license_1_1_gate_result_1a41dd581fe8895e9008c1e1bfa4239f58" kindref="member">denial_reason</ref><sp/>=<sp/><ref refid="namespacethemis_1_1license_1a28874202dd23332cc708cebab9b2ee11ab50339a10e1de285ac99d4c3990b8693" kindref="member">LicenseDenialReason::NONE</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1license_1_1_gate_result_1a2c0d1d48e160387b413a5857f4efaad1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1license_1_1_gate_result_1a2c0d1d48e160387b413a5857f4efaad1" kindref="member">message</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1license_1_1_gate_result_1a08e0be6cd9d7513848081e91340e18ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1license_1_1_gate_result_1abba18c9bb20aef2db0346566f30e3f4b" kindref="member">allowed</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RuntimeLicenseGate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="classthemis_1_1license_1_1_runtime_license_gate" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1af5b83cc1a8b7020b0e6eff45c075b6f1" kindref="member">RuntimeLicenseGate</ref><sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="132" refid="classthemis_1_1license_1_1_runtime_license_gate_1a27774dfffa5cfdd44d73a95349871173" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1af5b83cc1a8b7020b0e6eff45c075b6f1" kindref="member">RuntimeLicenseGate</ref>&amp;<sp/><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1a27774dfffa5cfdd44d73a95349871173" kindref="member">instance</ref>();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable<sp/>/<sp/>non-movable<sp/>(singleton)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1license_1_1_runtime_license_gate_1af5b83cc1a8b7020b0e6eff45c075b6f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1af5b83cc1a8b7020b0e6eff45c075b6f1" kindref="member">RuntimeLicenseGate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1af5b83cc1a8b7020b0e6eff45c075b6f1" kindref="member">RuntimeLicenseGate</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1license_1_1_runtime_license_gate_1a91fb480f72bede626312d976acc62955" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1af5b83cc1a8b7020b0e6eff45c075b6f1" kindref="member">RuntimeLicenseGate</ref>&amp;<sp/><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1a91fb480f72bede626312d976acc62955" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1af5b83cc1a8b7020b0e6eff45c075b6f1" kindref="member">RuntimeLicenseGate</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1license_1_1_runtime_license_gate_1ab35d38c02441acdf20f7569c39ef0397" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1ab35d38c02441acdf20f7569c39ef0397" kindref="member">initialize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1license_1_1_license_activation_result" kindref="compound">LicenseActivationResult</ref>&amp;<sp/>activation,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;LicenseData&gt;&amp;<sp/><ref refid="namespacethemis_1_1license" kindref="compound">license</ref><sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1license_1_1_runtime_license_gate_1a8382119fd8c1d06027951645394666ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1a8382119fd8c1d06027951645394666ad" kindref="member">update</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1license_1_1_license_activation_result" kindref="compound">LicenseActivationResult</ref>&amp;<sp/>activation,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;LicenseData&gt;&amp;<sp/><ref refid="namespacethemis_1_1license" kindref="compound">license</ref><sp/>=<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Feature<sp/>checking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="classthemis_1_1license_1_1_runtime_license_gate_1a14be166a9012dbc598cf9932f40c2718" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1a14be166a9012dbc598cf9932f40c2718" kindref="member">isFeatureAllowed</ref>(std::string_view<sp/>feature_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="classthemis_1_1license_1_1_runtime_license_gate_1abd68cb273c4a2a95a3ebfeacdbda4499" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1abd68cb273c4a2a95a3ebfeacdbda4499" kindref="member">isFeatureAllowed</ref>(std::string_view<sp/>feature_name,</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string&amp;<sp/>error_out)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1license_1_1_runtime_license_gate_1aa09ba002672b984d8b8a5b4bb5792bbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1license_1_1_gate_result" kindref="compound">GateResult</ref><sp/><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1aa09ba002672b984d8b8a5b4bb5792bbb" kindref="member">checkFeature</ref>(std::string_view<sp/>feature_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Diagnostics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="classthemis_1_1license_1_1_runtime_license_gate_1a1f1b188334daee2b9a18a8e8775a5d27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1a1f1b188334daee2b9a18a8e8775a5d27" kindref="member">isInitialized</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="classthemis_1_1license_1_1_runtime_license_gate_1a982e4b168ba9f05685d5b106026613a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1a982e4b168ba9f05685d5b106026613a7" kindref="member">licenseStatus</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221" refid="classthemis_1_1license_1_1_runtime_license_gate_1ad72a27f7dcea317b8ec959871f220679" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1ad72a27f7dcea317b8ec959871f220679" kindref="member">graceDaysRemaining</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224" refid="classthemis_1_1license_1_1_runtime_license_gate_1a6dda1b04b8c322a8ceb1346894c0b95a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;LicenseData&gt;<sp/><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1a6dda1b04b8c322a8ceb1346894c0b95a" kindref="member">currentLicense</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1af5b83cc1a8b7020b0e6eff45c075b6f1" kindref="member">RuntimeLicenseGate</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1license_1_1_runtime_license_gate_1af5b83cc1a8b7020b0e6eff45c075b6f1" kindref="member">~RuntimeLicenseGate</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>buildDenialMessage(std::string_view<sp/>feature_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mutex_;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>initialized_<sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1license_1_1_license_activation_result" kindref="compound">LicenseActivationResult</ref><sp/><sp/><sp/><sp/><sp/><sp/>activation_;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;LicenseData&gt;<sp/><sp/><sp/>license_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>license</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/runtime_license_gate.h"/>
+  </compounddef>
+</doxygen>

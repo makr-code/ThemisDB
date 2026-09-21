@@ -1,0 +1,384 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_epk_serializer" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::EpkSerializer</compoundname>
+    <includes refid="epk__serializer_8h" local="no">epk_serializer.h</includes>
+    <innerclass refid="structthemis_1_1process_1_1_epk_serializer_1_1_import_result" prot="public">themis::process::EpkSerializer::ImportResult</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_epk_serializer_1a79b29b942974aedb6f1a8f6d7bf1021b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_epk_serializer_1_1_import_result" kindref="compound">ImportResult</ref></type>
+        <definition>EpkSerializer::ImportResult themis::process::EpkSerializer::importText</definition>
+        <argsstring>(std::string_view epk_text, std::string_view process_id=&quot;&quot;, std::string_view process_name=&quot;&quot;)</argsstring>
+        <name>importText</name>
+        <qualifiedname>themis::process::EpkSerializer::importText</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>epk_text</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_name</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Parse an EPK text definition into ProcessNodeInfo / ProcessEdgeInfo. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Import Text.</para>
+<para>Accepts both the simple line-based text notation and a JSON array format.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>epk_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>EPK definition string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>process_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional override for process ID. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>process_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional override for process name.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">epk_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">process_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the process. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">process_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the process. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/epk_serializer.h" line="82" column="25" bodyfile="src/process/epk_serializer.cpp" bodystart="114" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_epk_serializer_1a8fafd5c20ef9aebf6218061e86ecdadf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_epk_serializer_1_1_import_result" kindref="compound">ImportResult</ref></type>
+        <definition>EpkSerializer::ImportResult themis::process::EpkSerializer::importJson</definition>
+        <argsstring>(const nlohmann::json &amp;epk_json)</argsstring>
+        <name>importJson</name>
+        <qualifiedname>themis::process::EpkSerializer::importJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>epk_json</declname>
+        </param>
+        <briefdescription>
+<para>Parse an EPK JSON array (nodes + edges format). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Import Json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">epk_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_null(), empty(), <ref refid="classthemis_1_1process_1_1_process_diagnostics_1a2641048c9e84c72558ec739009c6b433" kindref="member">ProcessDiagnostics::createMalformedInputIncident()</ref>, SPDLOG_WARN(), toFormattedMessage(), is_array(), is_object(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/epk_serializer.h" line="91" column="25" bodyfile="src/process/epk_serializer.cpp" bodystart="253" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_epk_serializer_1aa56434202601638fae58f94830e17a5e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::EpkSerializer::exportText</definition>
+        <argsstring>(std::string_view process_name, const std::vector&lt; ProcessNodeInfo &gt; &amp;nodes, const std::vector&lt; ProcessEdgeInfo &gt; &amp;edges)</argsstring>
+        <name>exportText</name>
+        <qualifiedname>themis::process::EpkSerializer::exportText</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; ProcessNodeInfo &gt; &amp;</type>
+          <declname>nodes</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; ProcessEdgeInfo &gt; &amp;</type>
+          <declname>edges</declname>
+        </param>
+        <briefdescription>
+<para>Export EPK nodes and edges to the simple text notation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Export Text.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">process_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the process. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">edges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/epk_serializer.h" line="100" column="24" bodyfile="src/process/epk_serializer.cpp" bodystart="327" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_epk_serializer_1a740e4a510920e01565a2d5eba84b7450" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::EpkSerializer::exportJson</definition>
+        <argsstring>(std::string_view process_id, std::string_view process_name, const std::vector&lt; ProcessNodeInfo &gt; &amp;nodes, const std::vector&lt; ProcessEdgeInfo &gt; &amp;edges)</argsstring>
+        <name>exportJson</name>
+        <qualifiedname>themis::process::EpkSerializer::exportJson</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>process_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; ProcessNodeInfo &gt; &amp;</type>
+          <declname>nodes</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; ProcessEdgeInfo &gt; &amp;</type>
+          <declname>edges</declname>
+        </param>
+        <briefdescription>
+<para>Export EPK to a structured JSON representation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Export Json.</para>
+<para>Useful for programmatic processing and LLM context generation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">process_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the process. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">process_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the process. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">edges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/epk_serializer.h" line="111" column="27" bodyfile="src/process/epk_serializer.cpp" bodystart="422" bodyend="460"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_epk_serializer_1a6d4d944fdc0e0603753d6f30056cc02c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::EpkSerializer::epkNodeTypeToLabel_</definition>
+        <argsstring>(EPKNodeType t)</argsstring>
+        <name>epkNodeTypeToLabel_</name>
+        <qualifiedname>themis::process::EpkSerializer::epkNodeTypeToLabel_</qualifiedname>
+        <param>
+          <type>EPKNodeType</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+<para>Epk Node Type To Label. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements epkNodeTypeToLabel_ without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/epk_serializer.h" line="119" column="24" bodyfile="src/process/epk_serializer.cpp" bodystart="55" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_epk_serializer_1a8ff0e2ba889ef437cb21d9c46cb1f5ab" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>EPKNodeType</type>
+        <definition>EPKNodeType themis::process::EpkSerializer::labelToEpkNodeType_</definition>
+        <argsstring>(std::string_view label)</argsstring>
+        <name>labelToEpkNodeType_</name>
+        <qualifiedname>themis::process::EpkSerializer::labelToEpkNodeType_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>label</declname>
+        </param>
+        <briefdescription>
+<para>Label To Epk Node Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements labelToEpkNodeType_ without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/epk_serializer.h" line="120" column="24" bodyfile="src/process/epk_serializer.cpp" bodystart="76" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>EPK (Ereignisgesteuerte Prozesskette) serializer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>EPK (Event-driven Process Chain) is the process notation used in the ARIS methodology and is widely employed in German public administration and enterprise modelling (VCC-VPB).</para>
+<sect1 id="classthemis_1_1process_1_1_epk_serializer_1autotoc_md5_1s1"><sect2 id="classthemis_1_1process_1_1_epk_serializer_1autotoc_md5">
+<title>EPK element mapping to ThemisDB types</title><para><table rows="10" cols="2"><row>
+<entry thead="yes"><para>EPK Element  </para>
+</entry><entry thead="yes"><para>ThemisDB EPKNodeType  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Ereignis  </para>
+</entry><entry thead="no"><para>EPKNodeType::EVENT  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Funktion  </para>
+</entry><entry thead="no"><para>EPKNodeType::FUNCTION  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>AND-Verknüpfung  </para>
+</entry><entry thead="no"><para>EPKNodeType::AND_CONNECTOR  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>OR-Verknüpfung  </para>
+</entry><entry thead="no"><para>EPKNodeType::OR_CONNECTOR  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>XOR-Verknüpfung  </para>
+</entry><entry thead="no"><para>EPKNodeType::XOR_CONNECTOR  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Organisationseinheit  </para>
+</entry><entry thead="no"><para>EPKNodeType::ORGANIZATIONAL_UNIT  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Informationsobjekt  </para>
+</entry><entry thead="no"><para>EPKNodeType::INFORMATION_OBJECT  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Anwendungssystem  </para>
+</entry><entry thead="no"><para>EPKNodeType::APPLICATION_SYSTEM  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Prozesswegweiser  </para>
+</entry><entry thead="no"><para>EPKNodeType::PROCESS_PATH  </para>
+</entry></row>
+</table>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1process_1_1_epk_serializer_1autotoc_md6_1s1"><sect2 id="classthemis_1_1process_1_1_epk_serializer_1autotoc_md6">
+<title>Supported text format</title><para><programlisting><codeline><highlight class="normal">EVENT:<sp/></highlight><highlight class="stringliteral">&quot;Antrag<sp/>eingegangen&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">FUNCTION:<sp/></highlight><highlight class="stringliteral">&quot;Vollständigkeit<sp/>prüfen&quot;</highlight><highlight class="normal"><sp/>[role=</highlight><highlight class="stringliteral">&quot;Sachbearbeiter&quot;</highlight><highlight class="normal">,<sp/>sla=48h]</highlight></codeline>
+<codeline><highlight class="normal">XOR:<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>-&gt;<sp/>EVENT:<sp/></highlight><highlight class="stringliteral">&quot;Vollständig&quot;</highlight><highlight class="normal"><sp/>-&gt;<sp/>FUNCTION:<sp/></highlight><highlight class="stringliteral">&quot;Fachlich<sp/>prüfen&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>-&gt;<sp/>FUNCTION:<sp/></highlight><highlight class="stringliteral">&quot;Nachfordern&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">EVENT:<sp/></highlight><highlight class="stringliteral">&quot;Entscheidung<sp/>getroffen&quot;</highlight></codeline>
+</programlisting></para>
+<para>A JSON format is also accepted as input (array of node/edge objects). </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/process/epk_serializer.h" line="58" column="1" bodyfile="include/process/epk_serializer.h" bodystart="58" bodyend="121"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_epk_serializer_1a6d4d944fdc0e0603753d6f30056cc02c" prot="private" virt="non-virtual"><scope>themis::process::EpkSerializer</scope><name>epkNodeTypeToLabel_</name></member>
+      <member refid="classthemis_1_1process_1_1_epk_serializer_1a740e4a510920e01565a2d5eba84b7450" prot="public" virt="non-virtual"><scope>themis::process::EpkSerializer</scope><name>exportJson</name></member>
+      <member refid="classthemis_1_1process_1_1_epk_serializer_1aa56434202601638fae58f94830e17a5e" prot="public" virt="non-virtual"><scope>themis::process::EpkSerializer</scope><name>exportText</name></member>
+      <member refid="classthemis_1_1process_1_1_epk_serializer_1a8fafd5c20ef9aebf6218061e86ecdadf" prot="public" virt="non-virtual"><scope>themis::process::EpkSerializer</scope><name>importJson</name></member>
+      <member refid="classthemis_1_1process_1_1_epk_serializer_1a79b29b942974aedb6f1a8f6d7bf1021b" prot="public" virt="non-virtual"><scope>themis::process::EpkSerializer</scope><name>importText</name></member>
+      <member refid="classthemis_1_1process_1_1_epk_serializer_1a8ff0e2ba889ef437cb21d9c46cb1f5ab" prot="private" virt="non-virtual"><scope>themis::process::EpkSerializer</scope><name>labelToEpkNodeType_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

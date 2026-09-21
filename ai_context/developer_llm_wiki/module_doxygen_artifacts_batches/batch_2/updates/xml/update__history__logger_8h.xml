@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="update__history__logger_8h" kind="file" language="C++">
+    <compoundname>update_history_logger.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="hot__reload__engine_8h" local="yes">include/updates/hot_reload_engine.h</includedby>
+    <includedby refid="update__history__logger_8cpp" local="yes">src/updates/update_history_logger.cpp</includedby>
+    <includedby refid="update__state__machine_8cpp" local="yes">src/updates/update_state_machine.cpp</includedby>
+    <includedby refid="test__updates__production_8cpp" local="yes">tests/updates/test_updates_production.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/updates/update_history_logger.h</label>
+        <link refid="update__history__logger_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="4">
+        <label>benchmarks/updates/bench_updates_canary_resilience.cpp</label>
+        <link refid="bench__updates__canary__resilience_8cpp"/>
+      </node>
+      <node id="12">
+        <label>benchmarks/updates/bench_updates_coordinated_hardening.cpp</label>
+        <link refid="bench__updates__coordinated__hardening_8cpp"/>
+      </node>
+      <node id="17">
+        <label>benchmarks/updates/bench_updates_long_run_stability.cpp</label>
+        <link refid="bench__updates__long__run__stability_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/updates/blue_green_deployment.h</label>
+        <link refid="blue__green__deployment_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/updates/canary_rollout.h</label>
+        <link refid="canary__rollout_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/updates/coordinated_update_manager.h</label>
+        <link refid="coordinated__update__manager_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/updates/hot_reload_engine.h</label>
+        <link refid="hot__reload__engine_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/updates/tenant_update_scheduler.h</label>
+        <link refid="tenant__update__scheduler_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/updates/update_history_logger.h</label>
+        <link refid="update__history__logger_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/updates/blue_green_deployment.cpp</label>
+        <link refid="blue__green__deployment_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/updates/canary_rollout.cpp</label>
+        <link refid="canary__rollout_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/updates/coordinated_update_manager.cpp</label>
+        <link refid="coordinated__update__manager_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/updates/hot_reload_engine.cpp</label>
+        <link refid="hot__reload__engine_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/updates/tenant_update_scheduler.cpp</label>
+        <link refid="tenant__update__scheduler_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/updates/update_history_logger.cpp</label>
+        <link refid="update__history__logger_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/updates/update_state_machine.cpp</label>
+        <link refid="update__state__machine_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/updates/updates_config.cpp</label>
+        <link refid="updates__config_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/updates/test_updates_batch5_finalization.cpp</label>
+        <link refid="test__updates__batch5__finalization_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/updates/test_updates_cluster_scheduling_stress_focused.cpp</label>
+        <link refid="test__updates__cluster__scheduling__stress__focused_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/updates/test_updates_performance_batch4.cpp</label>
+        <link refid="test__updates__performance__batch4_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/updates/test_updates_production.cpp</label>
+        <link refid="test__updates__production_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/updates/test_updates_rollback_hardening_focused.cpp</label>
+        <link refid="test__updates__rollback__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1updates_1_1_update_history_entry" prot="public">themis::updates::UpdateHistoryEntry</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_update_history_logger" prot="public">themis::updates::UpdateHistoryLogger</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1updates">themis::updates</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates" kindref="compound">updates</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1updates_1_1_update_history_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1updates_1_1_update_history_entry" kindref="compound">UpdateHistoryEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1updates_1_1_update_history_entry_1a2469b62b2bfdc3250e7d304378e2eac0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_update_history_entry_1a2469b62b2bfdc3250e7d304378e2eac0" kindref="member">who</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1updates_1_1_update_history_entry_1a8ae50e2995f9d7b5d0aa3f9734ed557f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1updates_1_1_update_history_entry_1a8ae50e2995f9d7b5d0aa3f9734ed557f" kindref="member">timestamp_ms</ref>{0};</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1updates_1_1_update_history_entry_1aaaedcff9726d5f38701bc2dcdc8399a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_update_history_entry_1aaaedcff9726d5f38701bc2dcdc8399a0" kindref="member">from_version</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1updates_1_1_update_history_entry_1a88b015361769812d373a04cf531d6803" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_update_history_entry_1a88b015361769812d373a04cf531d6803" kindref="member">to_version</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1updates_1_1_update_history_entry_1a99330cc057c1628ca950d4326b66f4b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_update_history_entry_1a99330cc057c1628ca950d4326b66f4b1" kindref="member">event_type</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1updates_1_1_update_history_entry_1ae3b76e45c5d97b3efa14a3878514f4ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_update_history_entry_1ae3b76e45c5d97b3efa14a3878514f4ed" kindref="member">success</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1updates_1_1_update_history_entry_1a243e3137bbd6d9c5da9bf0801404e973" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1updates_1_1_update_history_entry_1a243e3137bbd6d9c5da9bf0801404e973" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref><sp/><ref refid="structthemis_1_1updates_1_1_update_history_entry_1a904b2b5aa8ba48f79b0b0284412c63c6" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_update_history_entry" kindref="compound">UpdateHistoryEntry</ref><sp/><ref refid="structthemis_1_1updates_1_1_update_history_entry_1a932ddc679a5fa397bb2b5809daeda91b" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1updates_1_1_update_history_logger" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_update_history_logger_1ae06805b3fb731cd5ab9f639097296807" kindref="member">UpdateHistoryLogger</ref><sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_update_history_logger_1ae06805b3fb731cd5ab9f639097296807" kindref="member">UpdateHistoryLogger</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>log_file_path);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_update_history_logger_1ae5e504df12be3bbe97c5d4f45cd30325" kindref="member">record</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1updates_1_1_update_history_entry" kindref="compound">UpdateHistoryEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;UpdateHistoryEntry&gt;<sp/><ref refid="classthemis_1_1updates_1_1_update_history_logger_1af50bcd71618f64e94a9229d62e1dd75e" kindref="member">getHistory</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1updates_1_1_update_history_logger_1ab5382fb961644d6067d17a1ac5d36fab" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1updates_1_1_update_history_logger_1a72e725c6d7a1a898f7df247665f998c1" kindref="member">logFilePath</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>log_file_path_;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;UpdateHistoryEntry&gt;<sp/>loadEntries()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>saveEntries(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;UpdateHistoryEntry&gt;&amp;<sp/>entries)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>updates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/updates/update_history_logger.h"/>
+  </compounddef>
+</doxygen>

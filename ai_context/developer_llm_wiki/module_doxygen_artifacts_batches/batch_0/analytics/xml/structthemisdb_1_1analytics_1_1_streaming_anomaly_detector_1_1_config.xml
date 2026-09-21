@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::StreamingAnomalyDetector::Config</compoundname>
+    <includes refid="anomaly__detection_8h" local="no">anomaly_detection.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1a32db7223044930206e4e50c1529f7327" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666e" kindref="member">AnomalyMethod</ref></type>
+        <definition>AnomalyMethod themisdb::analytics::StreamingAnomalyDetector::Config::method</definition>
+        <argsstring></argsstring>
+        <name>method</name>
+        <qualifiedname>themisdb::analytics::StreamingAnomalyDetector::Config::method</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea385bf2814f51e82d2c134ff90a2d76b3" kindref="member">AnomalyMethod::Z_SCORE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="306" column="23" bodyfile="include/analytics/anomaly_detection.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1a867b7372fd8fc57ee4171175a6ca327d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::StreamingAnomalyDetector::Config::threshold</definition>
+        <argsstring></argsstring>
+        <name>threshold</name>
+        <qualifiedname>themisdb::analytics::StreamingAnomalyDetector::Config::threshold</qualifiedname>
+        <initializer>= 0.6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="307" column="23" bodyfile="include/analytics/anomaly_detection.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1a2fb7e97929a406987b93c3e271b6f0b2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::StreamingAnomalyDetector::Config::window_size</definition>
+        <argsstring></argsstring>
+        <name>window_size</name>
+        <qualifiedname>themisdb::analytics::StreamingAnomalyDetector::Config::window_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>max training window size </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="308" column="23" bodyfile="include/analytics/anomaly_detection.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1a7c20e9557d40387e2260a2d9cfe0eef1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::StreamingAnomalyDetector::Config::auto_train</definition>
+        <argsstring></argsstring>
+        <name>auto_train</name>
+        <qualifiedname>themisdb::analytics::StreamingAnomalyDetector::Config::auto_train</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="309" column="23" bodyfile="include/analytics/anomaly_detection.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1ae0a7c96f3cb4741720665aa944a061e1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::StreamingAnomalyDetector::Config::auto_train_after</definition>
+        <argsstring></argsstring>
+        <name>auto_train_after</name>
+        <qualifiedname>themisdb::analytics::StreamingAnomalyDetector::Config::auto_train_after</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>start detecting after this many points </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="310" column="23" bodyfile="include/analytics/anomaly_detection.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1a68173d835b912feb4aef96004518f7d5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::StreamingAnomalyDetector::Config::retrain_on_window</definition>
+        <argsstring></argsstring>
+        <name>retrain_on_window</name>
+        <qualifiedname>themisdb::analytics::StreamingAnomalyDetector::Config::retrain_on_window</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>retrain when window fills up </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="311" column="23" bodyfile="include/analytics/anomaly_detection.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/anomaly_detection.h" line="305" column="5" bodyfile="include/analytics/anomaly_detection.h" bodystart="305" bodyend="312"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1a7c20e9557d40387e2260a2d9cfe0eef1" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamingAnomalyDetector::Config</scope><name>auto_train</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1ae0a7c96f3cb4741720665aa944a061e1" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamingAnomalyDetector::Config</scope><name>auto_train_after</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1a32db7223044930206e4e50c1529f7327" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamingAnomalyDetector::Config</scope><name>method</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1a68173d835b912feb4aef96004518f7d5" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamingAnomalyDetector::Config</scope><name>retrain_on_window</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1a867b7372fd8fc57ee4171175a6ca327d" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamingAnomalyDetector::Config</scope><name>threshold</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_streaming_anomaly_detector_1_1_config_1a2fb7e97929a406987b93c3e271b6f0b2" prot="public" virt="non-virtual"><scope>themisdb::analytics::StreamingAnomalyDetector::Config</scope><name>window_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain" kind="struct"><name>themis::plugins::ethics::ArgumentChain</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1aec6f0a341688e8f50e078a2b2393556a" kind="variable"><name>id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1a003864449c87ea9a16d848a016986031" kind="variable"><name>dilemma_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1a2b858dbd157c91ac06c51a37106f5524" kind="variable"><name>argument_ids</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1a8091618a53dd2ecf32a0ea23e3842b95" kind="variable"><name>chain_type</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1ac86a3a1cac663aba65940b3f1f219613" kind="variable"><name>coherence_score</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1a16befce7a20812bbcff15d7395700c46" kind="variable"><name>created_at</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain_1a47085b188debf6e0df4e8b1b4f707a0b" kind="function"><name>ArgumentChain</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store" kind="class"><name>themis::plugins::ethics::ArgumentStore</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a21b266bcabd2d8fb53427414e5a7a4d5" kind="typedef"><name>VectorStoreFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a05080b6c4e43470f2a819cc63ac7c851" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a4f88764df81595743bee2db41042bf4b" kind="variable"><name>initialized_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a8b5da52e6e1fb41ff23b9024b07779b7" kind="variable"><name>storage_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a066e4fa5e6c9f5b0217cd022a170a557" kind="variable"><name>query_engine_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a8286e77760681ef8611a2c7704d4605d" kind="variable"><name>vector_store_fn_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a553ee9f49e23b70c5ca0b350d8c79a52" kind="variable"><name>standalone_mode_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a9f429ef758724f70891564ea84f6833c" kind="variable"><name>arguments_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a938dfeb97b8f1faaa2ac2315091bc8f7" kind="variable"><name>decisions_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a7460a151cdc43df1bdc9a7b6508be909" kind="variable"><name>profiles_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a54e092a20bafd7ced745d655f45d68bd" kind="variable"><name>chains_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1aa5bb7b12c3307d3231845581bfd5f9e8" kind="variable"><name>debate_rounds_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1ad23b703ee5d2906789d6de0bb147b789" kind="variable"><name>vector_writer_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a50902298cd42d42a564867760c4ce291" kind="variable"><name>embedding_fn_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a10329fcc8254325d34f1d29eccadb8ee" kind="function"><name>ArgumentStore</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a7606f1d7905b862aaa607f0fbcc59ae8" kind="function"><name>~ArgumentStore</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a6577751fd935dea92367e4cd8071c6f2" kind="function"><name>setVectorStoreFunction</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a32065ed4520eaa4d388d35367c267705" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a6b9031b4555752d9be96c309fbe99440" kind="function"><name>storeArgument</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a114eb2ce9d966b8be479811242628502" kind="function"><name>getArgument</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a611ba305c9ddab8aeb98e239f9f61697" kind="function"><name>getArgumentsByPhilosophy</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a83c495de18f70d9dff9469f9b69d7baf" kind="function"><name>storeDecision</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a8e7f8169bac1c65b2fddc2601f132d96" kind="function"><name>getDecision</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a36cb7710d081e4ee4299aa59d9bdfdab" kind="function"><name>storePhilosophyProfile</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a19fb210ed494dbf0893f4ae0ca1953bb" kind="function"><name>getPhilosophyProfile</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a65c8277c3c1cac8a7fb33e0fe3972638" kind="function"><name>storeChain</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1aae38d49f43c4e6c9e8ede82d93027690" kind="function"><name>getChain</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1ad649b4e29be257cc4e274a2d4d733bab" kind="function"><name>storeDebateRound</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1ac15625e5b68ed56ae318e5e594b639c1" kind="function"><name>getDebateTranscript</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a33e98251d3055e1b72283f7ce6e96899" kind="function"><name>shutdown</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store_1a1d714c02e1e0bb1fedcca076f1c1937e" kind="function"><name>setVectorWriter</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config" kind="struct"><name>themis::plugins::ethics::CascadeRoutingConfig</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config_1a05e694611fb97317908ca4044c812761" kind="variable"><name>round_to_tier</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config_1a2d76414bf915d63810869ffac0fdd621" kind="variable"><name>tier_to_model</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config_1a5e1fbd3f084fc6567783b069c2e5706a" kind="variable"><name>tier_to_context_k</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config_1aa92ad3566cc9e01c783ba4aeaafd6aeb" kind="variable"><name>fallback_policy</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config_1ab273aff46c98ab938491e363e04b47bb" kind="variable"><name>enabled</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_config_1a2565e4b7a8821f62814a003f55ff5df2" kind="function"><name>defaultConfig</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_decision" kind="struct"><name>themis::plugins::ethics::CascadeRoutingDecision</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_decision_1a949873b45733fbf5ef1d7089aca43229" kind="variable"><name>model_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_decision_1a4b02dd1f813897cba1c71cdfbc48d068" kind="variable"><name>tier</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_decision_1ae00922be856773a3ceca77d3f8b44f9c" kind="variable"><name>budget</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cascade_routing_decision_1a4e03eb0be67830b9aa7d9fc89a64b6aa" kind="variable"><name>was_escalated</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer" kind="class"><name>themis::plugins::ethics::ChainVisualizer</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1a68ed23282093750e5af00774e52dd3d5" kind="function"><name>exportDot</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1a66907d33588a0138abf534c30cb8c119" kind="function"><name>exportMermaid</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1a0ff44ba226774849de4be37ca2c030ab" kind="function"><name>chainToDot</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1a5326e5ab73d226449e615b85fce520a8" kind="function"><name>chainToMermaid</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1a408ade6713ba641f468f64b5ac0338bf" kind="function"><name>dotFillColor</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1ae803ec99878cccce54957fbccd626475" kind="function"><name>makeLabel</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1aeefd1d6c8e86a328b567dc00c66d6794" kind="function"><name>dotEscape</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_chain_visualizer_1af4345ea6b35c559df4721f36c39b98b7" kind="function"><name>mermaidEscape</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_assignment" kind="struct"><name>themis::plugins::ethics::ClusterAssignment</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_assignment_1a06af01b4c329341fa354a9de660366c5" kind="variable"><name>school_to_cluster</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_assignment_1ac668620fbebbcbad35a4c76978cc6ad8" kind="variable"><name>cluster_count</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_assignment_1a96bae30801adcc41dbc5190034f024b9" kind="function"><name>schoolsInCluster</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_position" kind="struct"><name>themis::plugins::ethics::ClusterPosition</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_position_1aae2a69cba77a6e9e74f21108f9f77803" kind="variable"><name>cluster_name</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_position_1ab6232172716364897a77cb88e536cd9e" kind="variable"><name>school_ids</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_position_1ae2e0c94f28ffc59ddd68ffbbc1cf5be1" kind="variable"><name>verdict</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_position_1aa294b40eb5e35226962f5c9bd6d8f61c" kind="variable"><name>confidence</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_position_1aed04832c17b0c0b7d8ab7aeaaa07a33e" kind="variable"><name>thesis_ids</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_compression_config" kind="struct"><name>themis::plugins::ethics::CompressionConfig</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_compression_config_1a44d78143c74a73655a4513fc29137631" kind="variable"><name>mode</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_compression_config_1a00128f85491fcd03997fe3e5312f2473" kind="variable"><name>trigger_round</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_compression_config_1ad2544f469f30d7578df9732cf3f0a6a4" kind="variable"><name>max_tokens_per_round</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_compression_config_1a2fe910754904db1fee644d7a263bfa67" kind="variable"><name>keep_thesis_id_anchors</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_compression_config_1a5f5de47c537478f6df4fa53af1ca108a" kind="variable"><name>keep_verdict</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_compression_config_1a85718f54ccaaa5d6b27ebaf93b7c2899" kind="variable"><name>coherence_anchor_field</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_compression_result" kind="struct"><name>themis::plugins::ethics::CompressionResult</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_compression_result_1a0a0bc2cc5caa6c00e2b4ddd39d51a8b9" kind="variable"><name>compressed_text</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_compression_result_1a4e227148042230b5f5e8378b9906d5cf" kind="variable"><name>original_tokens</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_compression_result_1aca7f9dc6d6d44dbfbbdd5a95eb23c5d1" kind="variable"><name>compressed_tokens</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_compression_result_1af832585da44486a3075d2d844d519eb6" kind="variable"><name>compression_ratio</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_compression_result_1a944fbf966aac2cdd8214fe01bfa0be2b" kind="variable"><name>estimated_dc_loss</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_compression_result_1a0d86e3bc23d597f5fb6287455329d79d" kind="variable"><name>coherence_anchors_intact</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1_1_config" kind="struct"><name>themis::plugins::ethics::EthicsEvaluator::Config</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1_1_config_1a2982834c8203775fc08161a909aa8c2b" kind="variable"><name>weight_decision_quality</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1_1_config_1ac77e796636d7fd479115143873c25f41" kind="variable"><name>weight_consistency</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1_1_config_1a46682b23612317bfd66b07e0cf783053" kind="variable"><name>weight_fairness</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1_1_config_1ac0a1bf841816f353ab923d98ceee6e36" kind="variable"><name>weight_alignment</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1_1_config_1a5845cf02b505e27faf6f5250d632fa7c" kind="variable"><name>weight_transparency</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker" kind="struct"><name>themis::plugins::ethics::ConvergenceMarker</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1a543d7bc472c8fdf3ce9c8a51765034c3" kind="variable"><name>school_a_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1afcd2fc7351a85d12242a8730a78dcb77" kind="variable"><name>thesis_a_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1ab17602a5fb91aadd31afe76dd36cee9e" kind="variable"><name>school_b_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1a531a22e328dbc608fd8f989d7bb414e5" kind="variable"><name>thesis_b_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1aa4b5b97ccc7f263b960afca9d54ab92a" kind="variable"><name>type</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1a22fe398379aa6018e5ddaf3e22fcdfc2" kind="variable"><name>condition</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1a1195069298d386a9aed76b79d57be9b3" kind="variable"><name>split_reason</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_convergence_marker_1aa46e6a253df6fb06db4b4c40a7e9b0d9" kind="variable"><name>confidence</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_convergence_marker_engine" kind="class"><name>themis::plugins::ethics::ConvergenceMarkerEngine</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_convergence_marker_engine_1a7940524318d9a3d61fbd66475d60af2f" kind="function"><name>ConvergenceMarkerEngine</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_convergence_marker_engine_1aa9f69fc8739e24c6d1e4e218b7d704d7" kind="function"><name>detectConvergences</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_convergence_marker_engine_1a8215937ea1c7a59d7aead272261d54c1" kind="function"><name>buildConvergencePreamble</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_convergence_marker_engine_1a4033c81e69d468cfa311f9189a4e5c64" kind="function"><name>convergenceTypeLabel</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_convergence_marker_engine_1a936b8b36b0b294dc4881fbfae5bb3ed0" kind="function"><name>countTokens</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_edge" kind="struct"><name>themis::plugins::ethics::CrossSchoolTensionEdge</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_edge_1a4140e0b97d4a7f3771b6fd23b89cd5a7" kind="variable"><name>school_a</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_edge_1a9acca582a5237285c173ec0bbc14dda0" kind="variable"><name>school_b</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_edge_1a5145a719e69e8699118de1e967e92bcb" kind="variable"><name>tension_score</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_graph" kind="struct"><name>themis::plugins::ethics::CrossSchoolTensionGraph</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_graph_1addc3cee2ecd1de022be93afaf3c401c8" kind="variable"><name>schools</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_graph_1ae3ea6d59a782f1b982be78a216ce0b63" kind="variable"><name>edges</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_graph_1af94c2425489b96899a4b47cf1b9f683a" kind="function"><name>tensionBetween</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_resolver" kind="class"><name>themis::plugins::ethics::CrossSchoolTensionResolver</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_resolver_1ad1d1b97c11047449ac40eb14b6d939a8" kind="function"><name>CrossSchoolTensionResolver</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_resolver_1a766aa6575fa6b6d0bc1c8efb22a2e2c0" kind="function"><name>resolveOpponentInjections</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_resolver_1a7397132589ded1895196971513060a8c" kind="function"><name>loadTensions</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor" kind="struct"><name>themis::plugins::ethics::CulturalEthicsSchoolDescriptor</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a62d013b656a47d4a744d5d840d88b609" kind="variable"><name>school_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a02ee8f22e8609f6b20b3ad9ebb330cbb" kind="variable"><name>display_name</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a2d47284f69a7a1943eb6c0532f13fb91" kind="variable"><name>cultural_context</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a79133c48a42278e3d43c013cead52c5c" kind="variable"><name>primary_norm_sources</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_cultural_ethics_school_descriptor_1a6725e28ad8cb8c058ad7bf42666335c4" kind="variable"><name>bias_correction_factor</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization" kind="struct"><name>themis::plugins::ethics::DebateInitialization</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1ad30b55179e6237013ccaeec355d39b1f" kind="variable"><name>debate_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1a04a304ca783a3c32e88f4ab5f3270062" kind="variable"><name>dilemma_description</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1adf0dc6107eea8fd439941331aa8a0959" kind="variable"><name>philosophy_schools</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1a4dbdcbbca694342bd1940b101bed159c" kind="variable"><name>category</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1ac98c8239ba591be0248963ec647f3de9" kind="variable"><name>context</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1ab8677cf5600f8bf16866a619f4b1c08c" kind="variable"><name>created_at</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization_1a08ef82be91ae53ed7188d98c97cf9ce3" kind="function"><name>DebateInitialization</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_debate_round" kind="struct"><name>themis::plugins::ethics::DebateRound</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_round_1a64697ca219c7ce7871cb24dfc42a6b2d" kind="variable"><name>debate_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_round_1af6870ccda727104a4d17ad53d02e32ac" kind="variable"><name>round_number</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_round_1a4f07e49999b923b21d4084d45f9cf290" kind="variable"><name>arguments</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_round_1a4c4f6c93a9cd260b3556f64ed4250742" kind="variable"><name>created_at</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_debate_round_1a8cd21276f78d5659dd8c61c50ce7a10a" kind="function"><name>DebateRound</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_memory_config" kind="struct"><name>themis::plugins::ethics::DiscourseMemoryConfig</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_memory_config_1a877386891cac03b14129807f7f5b8295" kind="variable"><name>max_episodes_per_school</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_memory_config_1a86083a118cba8b1f5f9b057a2c7b2e4b" kind="variable"><name>max_tokens_per_episode</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_memory_config_1a8834cdc1b1d29d6acc4ed7681cff6b46" kind="variable"><name>min_dc_score_to_store</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store" kind="class"><name>themis::plugins::ethics::DiscourseMemoryStore</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a3d32eb6814d44cc2be284cd6f18137c9" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a421b4c55ec691e0121d3f4519a03fef2" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1aae5be9eb561b843f7a0ec5b8be7238e9" kind="variable"><name>episodes_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a8384004978b28a4ed25abdbe57d08b41" kind="function"><name>DiscourseMemoryStore</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a142452510194500663a7ff62ce9eee49" kind="function"><name>storeEpisode</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a9b33e3c8daace60cde9579e5ba12f0a1" kind="function"><name>storeEpisode</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1aa086bb3d7a97eb969d28ae8a3f837caa" kind="function"><name>getEpisodesForSchool</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a1587959813c8e12bf766f622c0595acc" kind="function"><name>buildEpisodicContext</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a020a6dac7472969eeb77144f8815e563" kind="function"><name>buildAllEpisodicContexts</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1af482172ba920a2f537af388a33021b42" kind="function"><name>clear</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a2651c13af62e66557505452cd1d3544d" kind="function"><name>episodeCount</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1ab737312198989605c978f4c7bf711def" kind="function"><name>config</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a7d1621777d5891b420b9b1dfdb18fed3" kind="function"><name>countTokens</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_memory_store_1a598b39698dae26f21669f664470f0372" kind="function"><name>compressPosition</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator" kind="class"><name>themis::plugins::ethics::DiscourseOrchestrator</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a32c92ca4aca7b63ec118cdea915b920b" kind="typedef"><name>LLMInferenceFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a54eeaf5bc01adb4390ee24a120975132" kind="variable"><name>impl_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a3d0b5cf3405792339a27bbac4538dc11" kind="function"><name>DiscourseOrchestrator</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1af729c631eee7a895831c6b22a74b6fc4" kind="function"><name>~DiscourseOrchestrator</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1acc37016bdb9a822799ae9c1ab19a6b3e" kind="function"><name>DiscourseOrchestrator</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a6e9a35590ff553f81318c052dae852af" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a3377f47119aadec5337eb3ee3e7bfce8" kind="function"><name>DiscourseOrchestrator</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a6d19124a70182edcb886feae60fcc393" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1af42cabe80641e7296282b12a0710b51b" kind="function"><name>setLLMInferenceFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1aea3bfef24996389fe0164b6657d1e018" kind="function"><name>setSchoolTimeoutMs</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1a46d7fd6d4992a31c5906997857e36df5" kind="function"><name>runEbene1</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1aac455c621c9234c14d034bdaffeff657" kind="function"><name>runEbene2</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1acaeed308ab6f67e69d6d66b0a0d0ea02" kind="function"><name>runMirrorSchools</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan" kind="struct"><name>themis::plugins::ethics::DiscourseOrchestratorPlan</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1abe503f234f57354a68126db2835a9f27" kind="variable"><name>mode</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1adaf42d0dea9318ae4dab98aca49a4193" kind="variable"><name>ebene1_school_ids</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1a40f3c8ffb5d00838f970600655db21d9" kind="variable"><name>initial_weight</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1ad73ba3ea8779587bf941c865d389fe28" kind="variable"><name>cluster_map</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1ac120576d1cde556632f1963101179b01" kind="variable"><name>tension_axes</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_plan_1ab239a4592d53494675698ef521abf0e9" kind="function"><name>empty</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output" kind="struct"><name>themis::plugins::ethics::DiscourseRoundOutput</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1ae7e3a945a75cd7a49a37bf21afe39f5b" kind="variable"><name>school_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a0560d0ca20029d49662e01d39633f80b" kind="variable"><name>round_number</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a4b07d847106ccb1eeea7c502cd5ba690" kind="variable"><name>content</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a43b3a92181a10cb9dabe8bbdfa47482c" kind="variable"><name>verdict</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a522aafb6ff4b0234af9848e4f1e3da1b" kind="variable"><name>confidence</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a52d8bb04d27b811514b5a25faccadab1" kind="variable"><name>core_thesis_ids</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a6b367557e5dfb40f01f5fb4d964ad3b5" kind="variable"><name>primary_rebuttal_of</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1ab42442aa714bbd2d5192a8d0870619d0" kind="variable"><name>position_abstract</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1abfc581341e10818a6fe73a85c0b6b216" kind="variable"><name>schema_valid</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a6fa9e9151819c62341a9133f233ea4da" kind="variable"><name>ldm_verdict</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1a98c2cb3d6e682c77cf15053d4a48c9c3" kind="variable"><name>initial_weight</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_round_output_1aea42094e3ef7de47ed28f40dd43d7fc5" kind="variable"><name>timed_out</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_dynamic_clustering_engine" kind="class"><name>themis::plugins::ethics::DynamicClusteringEngine</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_dynamic_clustering_engine_1af04c51a040ce658fba80448beb36f068" kind="variable"><name>target_cluster_count_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_dynamic_clustering_engine_1af507fc5a472590bf1cde181645e8a67a" kind="function"><name>DynamicClusteringEngine</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_dynamic_clustering_engine_1a62cfe7828aea45e9f0ec7deccef91a04" kind="function"><name>cluster</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry" kind="struct"><name>themis::plugins::ethics::EpisodicMemoryEntry</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1a080383b67d382e2fc0b07e8146b58fd8" kind="variable"><name>school_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1a70a596b6c789cc20eeed776fa50e7299" kind="variable"><name>from_round</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1a2fb29f7d51855523b440633cf3fe53f7" kind="variable"><name>compressed_position</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1ab75b72612667da07adea44c35dd01c1a" kind="variable"><name>dc_score</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1a8e94ba4cb3d82ef439ad5b093f9e58e7" kind="variable"><name>strongest_tension</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1aad85a11d72c34d088b74f127fe665ed9" kind="variable"><name>cluster_a</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1ad18024166224f21738ddd019c4fed8c7" kind="variable"><name>cluster_b</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1a419debfd39eeadd0f951ab383d28917d" kind="variable"><name>tension_axis</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1a3d3f497e353e23cd1fb6961eca667e71" kind="variable"><name>outcome_summary</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1ad77db41c41514f0ca71d95b456fc5eba" kind="variable"><name>round_number</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kind="struct"><name>themis::plugins::ethics::EthicalArgument</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1a4b1eeeefca441a7f2580bdc125ad59ea" kind="variable"><name>id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1ae3e9147bb038815962f172c0850ae093" kind="variable"><name>philosophy_school</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1a99a612467a2f33fd3a7cdd2764414e79" kind="variable"><name>argument_type</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1abf696a0f14e05b3baa1168bd11c2fb70" kind="variable"><name>content</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1abacce38fccca9da07324fdc5a09e4420" kind="variable"><name>principle_basis</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1a23565ceb7cf5150a7b7b57580a7cce77" kind="variable"><name>strength</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1a4d3672b09a1c90bd1491f171582f59b4" kind="variable"><name>counterarguments</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1ae973a0c9dd1f48ee65f586c031f63f1e" kind="variable"><name>supports</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1a754d8b4d9c88dc77cf87d81e6adbfb20" kind="variable"><name>created_at</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1a1dbaf9ff9cab4ae5d8315295b6090413" kind="variable"><name>metadata</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument_1aa669ef3bd1f68c8507173f0d0d636560" kind="function"><name>EthicalArgument</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" kind="struct"><name>themis::plugins::ethics::EthicalDecision</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a5d9cf1e72978381289f0c47c8b01c553" kind="variable"><name>decision_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a4ed8ae21f98dba50b44ed823b5d1a765" kind="variable"><name>dilemma_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a47895e7f901d9153672ab6bd5aee442b" kind="variable"><name>decision_text</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a48f1a2b53c98c69ae1bbc4c0dbd693f1" kind="variable"><name>primary_philosophy</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1ad93c7b95924ded3106beb4293c87dffa" kind="variable"><name>supporting_philosophies</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a03e1172b7649953a34800b4e67cfc840" kind="variable"><name>argument_chain_ids</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1ab819070fd7400a5418dfe0525778357c" kind="variable"><name>confidence</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a089fefd581e5e8e4d05531c29d109421" kind="variable"><name>consensus_level</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a9b756dbf965d002928ba78a435b1c27c" kind="variable"><name>created_at</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a8123174be0040f564e7c1eaa7e9cc3e8" kind="variable"><name>metadata</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision_1a9e3e9e08ddf2168410bf486e4bfc9fdf" kind="function"><name>EthicalDecision</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine" kind="class"><name>themis::plugins::ethics::EthicalDiscourseEngine</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a0736bfe89a2017ee3dba983e86bab00a" kind="variable"><name>philosophy_loader_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a39e76193f041106a15a5528f80a8ec83" kind="variable"><name>store_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a75a5dd68d7be395a04488bb57f7bcf29" kind="variable"><name>rag_engine_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1afaea3cef10ea0e61375055cab65520a5" kind="variable"><name>chain_visualizer_output_path_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1ac03fbb47b5ce5292ab673220596fd28c" kind="variable"><name>debates_mutex_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1aea389f659ae3cbe0c1337f106e0cb1d2" kind="variable"><name>active_debates_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a3dbf15f82fd3cbaf36aad8e1f209b23c" kind="variable"><name>debate_arguments_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a50f4c98d4455c12aec514f004e6cb2ed" kind="function"><name>EthicalDiscourseEngine</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1abc389f7da42929b11953245b17abf729" kind="function"><name>~EthicalDiscourseEngine</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a33b69805bd81df42b509b12b2a2a2b6d" kind="function"><name>initializeDebate</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1ad3ac0796dbac9ab81214a7d87b2e70e4" kind="function"><name>makeDecision</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1a71880bed12fdde7ea9f8b3c0473528f3" kind="function"><name>setChainVisualizerOutputPath</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1ad0d5eec2ada9dd0536db0a2260d547c2" kind="function"><name>continueDebate</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1ac4cd986a141bf4086b8c02ef70ce1a0f" kind="function"><name>generateArgument</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine_1ad2d31ebcb7b2caf7c72f21b2c6ecab99" kind="function"><name>synthesizeDecision</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin" kind="class"><name>themis::plugins::ethics::EthicsAIPlugin</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1ae001ff60feba17ce565fccf19d30f270" kind="variable"><name>philosophy_loader_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a7834362ebd033061cbb5f84a3b96d649" kind="variable"><name>argument_store_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1afdb79f6b4091ffcdc9907176b8e99c26" kind="variable"><name>rag_engine_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a52b1f7230a534867af02a43825d84b7b" kind="variable"><name>discourse_engine_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a6c10e82380c91fd7790c4492482260a3" kind="variable"><name>evaluator_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a0f9c0a38499c6a0de47684a7ca5fbbae" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1aff253ebb0b4480948cc3b9c3dbe85d2c" kind="variable"><name>initialized_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a4e036294439c14df00365257ffe5f900" kind="variable"><name>ethical_guidelines_manager_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1aad8ac03236f091cecea3e53a72638074" kind="variable"><name>metrics_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1ab027a33a0725bbbfac849ed3a2b4942d" kind="variable"><name>metrics_mutex_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1af10ea27f5e45a3b27b9fe3cb36bc7a36" kind="function"><name>EthicsAIPlugin</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1aedf8c48f9587446dc52ca8e688487e48" kind="function"><name>~EthicsAIPlugin</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a49e345486688fcd438380e40adbe334f" kind="function"><name>getName</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a5fcb8166ec82bf9b64deeffd64ab1754" kind="function"><name>getVersion</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a46ef0f1476206f30466189bb94aa3ca9" kind="function"><name>getType</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a8a9101264034ff0267cbc2ae071543ab" kind="function"><name>getCapabilities</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a59fc5bdd93e2015a98b7f8a619dc0202" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a1c2fbaa79958dfec709c23b007f5d3df" kind="function"><name>shutdown</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a7f5ad54c842b3b996c88ec77cb7e802d" kind="function"><name>getInstance</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a384c6401639664cb4c9edf1394f821eb" kind="function"><name>initializeDebate</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a55c62ee7b6e67306273462e74ba99220" kind="function"><name>storeArgument</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a58ce30d2c84d811f887458fb192cc1e9" kind="function"><name>getArgumentsByPhilosophy</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a51dff4c7171c5d832e456ac27ce5af39" kind="function"><name>getArgumentById</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1afdfce6833bef358fdf410dfb26354d9f" kind="function"><name>storeArgumentChain</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a7247793c2742ab663527a0ba77f3bc9d" kind="function"><name>getArgumentChain</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a078573af276082aadeffe9213da10e89" kind="function"><name>buildRAGContext</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a25fd5f72f6a229cb788601ca6ae1a62d" kind="function"><name>findSimilarDilemmas</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1ab3c344a2b989aaac3ff111e408bc7919" kind="function"><name>getBestPractices</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1ab95f1776d4264a44ba326f74f5b0b6c6" kind="function"><name>vectorSemanticSearch</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1ab8a9b089cc4a4e6c609bc84b90fa48fd" kind="function"><name>traverseArgumentChain</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1ab4eea0e1219d6b4a960fdb9e01974ab6" kind="function"><name>makeDecision</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a8ec1f97d726e802181f88bff6978da36" kind="function"><name>storeDecision</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a32cd53c1597cb2d2d6bb20c59b0299b8" kind="function"><name>getDecision</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1adf1d889ea03667ff692eca7b668cde28" kind="function"><name>evaluateDecision</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1aeaee13d7a76e586d5c3312a060df6bdc" kind="function"><name>loadPhilosophyProfiles</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1aed7f178a7afbbbdcb6c5b073b8e61986" kind="function"><name>getPhilosophyProfile</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a080f806841da6537c19c06e546c904a9" kind="function"><name>listPhilosophySchools</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a300ffda8b49920825f25a5738c51430e" kind="function"><name>getPrometheusMetrics</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a65f6f912fc65b9af0e95cee38e2fd740" kind="function"><name>getDashboardJSON</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1af277156a44644d151446ddb18c82babf" kind="function"><name>getStatistics</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a96ac9c501e223c21736966e41a3c9d1b" kind="function"><name>setConfig</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a0b5cbe4937da369d0ff128e0a068653f" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1aea72180eda87d965646ce01013534566" kind="function"><name>setEthicalGuidelinesManager</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_q_l_queries" kind="class"><name>themis::plugins::ethics::EthicsAQLQueries</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_q_l_queries_1a37257eb79b073a574093b12cb5c8d2ae" kind="function"><name>getArgumentById</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_q_l_queries_1a0a7404266c184c5223327e4ee1f84ff3" kind="function"><name>getArgumentsByPhilosophy</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_q_l_queries_1a76d3343a3008f64a3e60590d701c30cf" kind="function"><name>getArgumentsByPhilosophyAndType</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_q_l_queries_1aeaaa9047e11883d10ecc0e066942de91" kind="function"><name>findSimilarDilemmas</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_q_l_queries_1acb910fe970ec7a1828b9938e89ed552d" kind="function"><name>searchArgumentsByContent</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_q_l_queries_1a94547998fd47381eaffcffa17df18b6f" kind="function"><name>traverseArgumentChain</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_q_l_queries_1a71e6c441ef8b656b05dc65dc510b3d6a" kind="function"><name>getSupportingArguments</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_q_l_queries_1a17c2396e19f01c996aa007a411a4453a" kind="function"><name>getCounteringArguments</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_q_l_queries_1aec3e5744e8915fa37a94a03e3e754be9" kind="function"><name>findShortestPath</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_q_l_queries_1a9f9da4cb735941ec7f3d5beeaf57e952" kind="function"><name>getDecisionById</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_q_l_queries_1a24d67140a02aae8ca1c223512cf37ed0" kind="function"><name>getDecisionsByCategory</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_q_l_queries_1aebba19899d86ac1211cca7044715abe2" kind="function"><name>getRecentDebates</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_q_l_queries_1a5c63e0aa839c5cc4caa4210fc63a1abc" kind="function"><name>findConsensusDecisions</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_q_l_queries_1a8a32b4907e4c8c98f643a51cd4c87e49" kind="function"><name>getBestPractices</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_q_l_queries_1a991fad922f4f6ca208973ce02192f1ed" kind="function"><name>getPhilosophyStatistics</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_q_l_queries_1aff674f17b63f34aa873ad11eed17a639" kind="function"><name>getPhilosophyProfile</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_q_l_queries_1a3f5be912a4d9fff93d3128daf4f1e054" kind="function"><name>listPhilosophySchools</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_q_l_queries_1af87ec01943557a14b0cf423397ea7c45" kind="function"><name>buildRAGContext</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log" kind="class"><name>themis::plugins::ethics::EthicsAuditLog</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a0bd73825e2825f83e2d826f46912f27b" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a9a94f769e2437693adc299d5bf5c77ed" kind="variable"><name>entries_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a43b6c6075c43b7ee7089640fe88e05c7" kind="function"><name>EthicsAuditLog</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1ab8f8f5dba9152e9081cb0d355a797122" kind="function"><name>EthicsAuditLog</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1aae83a09713dc9a578a28a89a10936b17" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a96201085e9cc9907db58f7943aae0d38" kind="function"><name>EthicsAuditLog</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a40a1cf83409a7069600ead70dba9f974" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a04199f399a25c9d553bf1bd5c7b64802" kind="function"><name>append</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1af9867d1a579ed7f61c9a38be9290f858" kind="function"><name>tryOverwrite</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a3f4728271b2d4e9523547535abb9e023" kind="function"><name>tryErase</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a9c44f2b9577c96976282c509b9fd39d0" kind="function"><name>exportAuditLog</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a0f3ee6550fff8869861ffeacccfd368b" kind="function"><name>size</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_audit_log_1a54717dbaaca4d14e093ef095c5699e23" kind="function"><name>empty</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter" kind="class"><name>themis::plugins::ethics::EthicsBaseEntityAdapter</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a0ec834bdf259ce95d7b2e2a0e57f712a" kind="function"><name>toBaseEntity</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a996072fc5fc0f3086f9a375ebd2988b0" kind="function"><name>fromBaseEntity</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1ab1f1ea5567f1ab6bbdcbe2809c474853" kind="function"><name>makeArgumentKey</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a243e37f3234fd05a4e21c8f664f4f451" kind="function"><name>toBaseEntity</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a96a4556322c826d3e1d2c3ce3bec99db" kind="function"><name>fromBaseEntity</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a895fc31ed4df3c806676f54f17ddd645" kind="function"><name>makeDecisionKey</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1ae623fc464e05cc103f2b9c3c482a1f96" kind="function"><name>toBaseEntity</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1aeafb6acc93e6d971f7e41267639f0b37" kind="function"><name>fromBaseEntityToProfile</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a4c877f0a1b5eb3fff4e0fd65921b6c21" kind="function"><name>makeProfileKey</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1a356428e2822df014be82a2423bf6bc38" kind="function"><name>toBaseEntity</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_base_entity_adapter_1abdef3a6fb7fdfb2b5e960055cd29e7aa" kind="function"><name>makeDebateKey</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_error" kind="struct"><name>themis::plugins::ethics::EthicsError</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_error_1a065eae6c8e9ac98f7b84f2ec6ff7c195" kind="variable"><name>code</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_error_1a8a5e40a13fe72907452f043731eea690" kind="variable"><name>message</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_error_1af2cec75ddce7e27d85f4c17cf5d48f37" kind="function"><name>ok</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_error_1ac225e29c34458524c2996f08eb6c4fef" kind="function"><name>isOk</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_error_1a1c75ded4e1f48719c3c96de7009b6a67" kind="function"><name>operator bool</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result" kind="struct"><name>themis::plugins::ethics::EthicsEvaluationResult</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1ab3c409f003ad5a912503c677ab4e094b" kind="variable"><name>overall_score</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1ae29a3d99d4859ca86892489ec15e6103" kind="variable"><name>decision_quality_score</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1aff8ce6533a03e7d4e1e3b91bdc0a2461" kind="variable"><name>consistency_score</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1af643de37de42e4e250cbb9f8ff51633e" kind="variable"><name>fairness_score</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1abd39632a1ea3faef2066e03a3d353237" kind="variable"><name>alignment_score</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1a8091b65b76a1ab8d79ef23abba89016e" kind="variable"><name>transparency_score</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1af37174a1bb2b07d1a19c355ee226733d" kind="variable"><name>detailed_metrics</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result_1aac8ae3d7dec22a294937f437794809a5" kind="function"><name>EthicsEvaluationResult</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator" kind="class"><name>themis::plugins::ethics::EthicsEvaluator</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a275c0c251bc6a0045109a81ebe2e5fb9" kind="variable"><name>decisions_total_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1aa095419cdcaf33af9f87c97ccd8b3adf" kind="variable"><name>rag_hits_total_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1af42a2294e1b0c5781bc80895d8b64215" kind="variable"><name>latency_ms_total_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1add1c9f076b7a2076059be788c26732c8" kind="variable"><name>argument_store_size_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a61dafd9ba4e13bbb7b74a78728229f43" kind="variable"><name>confidence_sum_micro_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1acae3cf89013cf2460de9e1f2cefdbb7a" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a5d38cd95a17f9203011b8c5d77f10a24" kind="function"><name>EthicsEvaluator</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1af1d76c64f83a89e415f76d75f58f7b9a" kind="function"><name>EthicsEvaluator</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a7b441880a91531cdba74601d81976736" kind="function"><name>~EthicsEvaluator</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1ac9d0b77a6079ba8a22af545a1e37b896" kind="function"><name>evaluateDecision</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1adc560269ac71871ae52f3d5234b0d7e4" kind="function"><name>recordDecision</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1aba58858ae413ca6312a55f3c7c42f4ba" kind="function"><name>setArgumentStoreSize</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1af73b0120bd788bcf510f93d728d43091" kind="function"><name>getMetricsText</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a57ad4af81190566e8be3437ddf43a31d" kind="function"><name>computeConfidence</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1adc5ce93841a29f37fcb2a075c235f7fb" kind="function"><name>computeConsensus</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a4ad69bfa4301cd9c1c6ed4b09cc1d049" kind="function"><name>evaluateDecisionQuality</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a4101ff92340377163c1e1e1f795b83a8" kind="function"><name>evaluateConsistency</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a742e031c11aa7502aa3c6155317705b5" kind="function"><name>evaluateFairness</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1ae0c7c83649dce8543e67e9b481438900" kind="function"><name>evaluateAlignment</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator_1a01b1d1f89db73008973893652b9ea0a8" kind="function"><name>evaluateTransparency</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_index_query" kind="struct"><name>themis::plugins::ethics::EthicsIndexQuery</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_index_query_1a1edfa4c0f61ddd013dac2bce8744c9c1" kind="variable"><name>taxonomy_class</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_index_query_1adc6c92400a6e7c624c5b56593aff6b62" kind="variable"><name>tags</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_index_query_1a278ee81bca606ddcf7c5cc4642444d91" kind="variable"><name>domains</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_index_query_1a4e5bb0718da7f6a18c38f8de79c89174" kind="variable"><name>max_results</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta" kind="struct"><name>themis::plugins::ethics::EthicsProfileMeta</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1a3ffd25662a0ba7fd80b33966068f23e6" kind="variable"><name>school_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1ada01cd01b5eea462b4b30b19bf78b64d" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1aa5bd8adde4d123a600b2693d8d390def" kind="variable"><name>taxonomy_class</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1a9324022790404e59e8976ebffaaf5ff7" kind="variable"><name>tags</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1a78fb0b0c42b31d5cf34b9ff8e98b368b" kind="variable"><name>applicable_domains</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1a9404055b209e7902ca878c60f7e3c534" kind="variable"><name>yaml_path</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1a187d039f0ec79b58fffe906ca6e42cb8" kind="variable"><name>description_snippet</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1a2694ea4c399be632b0c312bdffd01175" kind="function"><name>EthicsProfileMeta</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry" kind="class"><name>themis::plugins::ethics::EthicsProfileRegistry</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1ab54c97c42c52c2452e7d09a7f107ba90" kind="typedef"><name>LruList</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1a783991ac8ffe14fed50a8d718f3d325e" kind="typedef"><name>LruMap</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1ac7766b957e650c19172ddc37c19538b9" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1a89fb13901009a036a70fa292e8dc758e" kind="variable"><name>index_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1a8aa0fe3b7001cfa2ac95b28bcecbf3eb" kind="variable"><name>lru_list_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1aa0c59deab3df9fa66e2f96f05e0b10ba" kind="variable"><name>lru_map_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1a7d53dfa4b7ba1b1fa97253945af6bfbf" kind="variable"><name>lru_capacity_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1a03a2fb66938c9c2475695b64b4f7431a" kind="variable"><name>loader_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1a03ff679968be80596bef38dee7df2db9" kind="function"><name>EthicsProfileRegistry</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1acb08584ebb5fc07875787ad398c43548" kind="function"><name>~EthicsProfileRegistry</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1a144ff06045f58d563cc6652841c6c8d0" kind="function"><name>queryIndex</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1adb81c11b383e5c3e80273b55ff38c6c9" kind="function"><name>getProfile</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1ad29ff47a71d1ef3b2c3c339b8704bce7" kind="function"><name>rebuildIndex</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1adc224d8fbcace29ac5578c71b7ef4c45" kind="function"><name>indexSize</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1a72e80285f2f641e8ec77a90a620fc0ec" kind="function"><name>hasProfile</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1a7d7ed21848f696fa5612486f6c3abcc9" kind="function"><name>lruPut</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1a4ab494d3ad914ea15723c2325fa4f5db" kind="function"><name>lruGet</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1a6043dd976b84566224f4844ae8da2712" kind="function"><name>lruEvict</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_profile_registry_1a320757fd6453a6e6ddbcffb9fd717a7b" kind="function"><name>scanHeader</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router" kind="class"><name>themis::plugins::ethics::EthicsSelectionRouter</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1add64b1aa29bac8f15fcbb5f0e05e47d1" kind="typedef"><name>EmbeddingFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1aec39e7e454ec842d80507c7f5a53b222" kind="typedef"><name>PrecedentQueryFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a9dfd0b902408ecffff70f756ba1025b8" kind="variable"><name>impl_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a9b7c8bb046aa5020c8f24be4fe871ad3" kind="function"><name>EthicsSelectionRouter</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a1dbb9dfba6d19147ee2e8c7297a4055d" kind="function"><name>~EthicsSelectionRouter</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1abfa2d58adce0da00b3bf05be8771f97c" kind="function"><name>EthicsSelectionRouter</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1af947338eac3c3b8f1390e4dccd454469" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a3fe7bbc8ecbfa373c08e40fbe87b06b8" kind="function"><name>EthicsSelectionRouter</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a6d5a9eb38213b9f701de7ac853d101bf" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a66dde838780e8fc70f632eb49d42102a" kind="function"><name>planDiscourse</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a7d51a12db365d2b87727acfcecb872db" kind="function"><name>route</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a4f84b5a0f50a18511dc3e7006d94f0b0" kind="function"><name>recordDecisionOutcome</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a4a2ec514fa8e719ca82b22f00548cf5b" kind="function"><name>config</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a5c489a14788f5674446ee1130a0c95ac" kind="function"><name>setEmbeddingFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1a376453397f70f34fee8f7cf45b3686f8" kind="function"><name>setPrecedentQueryFn</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_i_ada_lo_r_a_bias_corrector" kind="class"><name>themis::plugins::ethics::IAdaLoRABiasCorrector</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ada_lo_r_a_bias_corrector_1a36a60bb9b945eae4fc2f5d58642d07b9" kind="function"><name>~IAdaLoRABiasCorrector</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ada_lo_r_a_bias_corrector_1ac37f1cda9acedd1b76473094f66b8ee1" kind="function"><name>applyBiasCorrection</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ada_lo_r_a_bias_corrector_1adb532b20982e2e78ac875044358cc8d9" kind="function"><name>hasAdapter</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector" kind="class"><name>themis::plugins::ethics::IdentityAdaLoRABiasCorrector</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector_1a9887b25e0097e6a4a89351d0258e1ef7" kind="function"><name>applyBiasCorrection</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_identity_ada_lo_r_a_bias_corrector_1a1828b6137cd1fa48ac1086fe1d133d1a" kind="function"><name>hasAdapter</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin" kind="class"><name>themis::plugins::ethics::IEthicsAIPlugin</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1ae7180b5e597d44af5948a4853c2a1cc5" kind="function"><name>~IEthicsAIPlugin</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1ad64f794651aff0f25daaf625387dba3b" kind="function"><name>initializeDebate</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1add139141afefe6e8e3f2820421f973d3" kind="function"><name>storeArgument</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1af228c1139d61f742484b4923ba26d4d5" kind="function"><name>getArgumentsByPhilosophy</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a0dc96f010ddf6d5fd12950bb55c860fb" kind="function"><name>getArgumentById</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1aacbf27e8f077af653525263abf021539" kind="function"><name>storeArgumentChain</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a65ce5e869662d22de7d4679584803a05" kind="function"><name>getArgumentChain</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a45c71d77235952f8e51afaaed8b800f4" kind="function"><name>buildRAGContext</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a83ea81c80b22cca14faf6d14e13e2087" kind="function"><name>findSimilarDilemmas</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a014437f1c7f536231dc5e3454e2539c9" kind="function"><name>getBestPractices</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1af5dd875568030d09cb4298170e057d02" kind="function"><name>vectorSemanticSearch</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a9c7953210a2b16d280845feeae3c0a9a" kind="function"><name>traverseArgumentChain</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a19ac9d4a89dbd4c2ce54656509554f01" kind="function"><name>makeDecision</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a74bc3971a00c7e7edaf77a998cd131e1" kind="function"><name>storeDecision</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a3942c6642fc964b958734aac2dd1ec94" kind="function"><name>getDecision</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a95574cd40355a629d2dd8f8a8233ddd7" kind="function"><name>evaluateDecision</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a33cde317d500e5656ac1f55e170746a4" kind="function"><name>loadPhilosophyProfiles</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a5e100cfaf8c36b48c0510b073e2e749a" kind="function"><name>getPhilosophyProfile</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1abdea9105b4b8b6f389c4dca621e043f9" kind="function"><name>listPhilosophySchools</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1ab81b8fcfcafd2f98fa056ecab44e2714" kind="function"><name>getPrometheusMetrics</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a9cf41a22e41eec34138e8705b60987f1" kind="function"><name>getDashboardJSON</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a214fbb0ec668bee5e281325b22faf8b4" kind="function"><name>getStatistics</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a218121ae0d01874dfe22279fa0ddae12" kind="function"><name>setConfig</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a94b9a5265fd1f9e5f36cff8d34d7851c" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1ae5c531f3b1f9050a58b224e9d6c787fb" kind="function"><name>setEthicalGuidelinesManager</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry" kind="class"><name>themis::plugins::ethics::IEthicsProfileRegistry</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry_1a986fd23ec0a2b9f606b6faaae23bae50" kind="function"><name>~IEthicsProfileRegistry</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry_1a64223b979b538d27b24ba2d220bd034e" kind="function"><name>queryIndex</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry_1a793ccf2f777eebd495cbce1f86649b9d" kind="function"><name>getProfile</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry_1a58378792cb8d0334269a52ff0f752fef" kind="function"><name>rebuildIndex</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry_1ab8c49c94dc415d1cdc0965959ae08912" kind="function"><name>indexSize</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_profile_registry_1ad15204295463e54a3708f280d53aba8d" kind="function"><name>hasProfile</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_i_llm_cascade_router" kind="class"><name>themis::plugins::ethics::ILlmCascadeRouter</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_llm_cascade_router_1a86a32a3e3381e7b4229514434f8e3d01" kind="function"><name>~ILlmCascadeRouter</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_llm_cascade_router_1a6ea4a83a7a06bac1b14f2af794f82b38" kind="function"><name>routeForRound</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_llm_cascade_router_1a47a72d651cea894053b43916f8640cd6" kind="function"><name>budgetForRound</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_llm_cascade_router_1af5a874f4a5fd11291322af092e5dc8ff" kind="function"><name>tierForRound</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl" kind="struct"><name>themis::plugins::ethics::DiscourseOrchestrator::Impl</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl_1a98e8dc0c2b1f7c0d8ecce489f537764e" kind="variable"><name>registry</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl_1aa806e4c6d7cf9e5defe966ee04c7c6c7" kind="variable"><name>config</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl_1a1ed9945678cc52643155f661e3bc3bdf" kind="variable"><name>inference_fn</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl_1a6aaca5434b89005386e09c30d2a94b1c" kind="variable"><name>timeout_ms</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl_1a98a5ca1345e58f5292e700a687f93a43" kind="function"><name>Impl</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_discourse_orchestrator_1_1_impl_1a464255941c0ab5e15b264fdeb7171fd3" kind="function"><name>effectiveInferenceFn</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl" kind="struct"><name>themis::plugins::ethics::EthicsSelectionRouter::Impl</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a8f0d7d12419eae855cbf4d624b32456b" kind="variable"><name>registry</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a6bb24f90f24e9decc6289943499f69dd" kind="variable"><name>config</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a327da822dffd76f73c53fd276d36cb08" kind="variable"><name>taxonomy_map</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a9c40f54d41b786eeff5a656c7e70e0fd" kind="variable"><name>domain_class_map</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a37f02679fb5dd85de64091eaa3a0895f" kind="variable"><name>always_compliance_on_regulatory</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a630dd991cf58292e44418a124a228a11" kind="variable"><name>always_regulatory_auth_on_public</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1af0654f969673735f572efc376cb16171" kind="variable"><name>always_academic_on_academic</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a79afe7aa531c5c25666d75e0f0c6bc94" kind="variable"><name>precedent_mutex</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1aa9544e4769694f2a5b20d4a8325eff82" kind="variable"><name>precedent_store</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1ac87e8a89b468ac6e776d3799cd62023d" kind="variable"><name>embedding_fn</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a96f2f9bc9964e810e8644943318b3ccb" kind="variable"><name>precedent_query_fn</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1ab4e8933d2219017b9e2b81cee091c32e" kind="function"><name>loadTaxonomy</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1acd2d4bbc7751e356609f6dda0330e744" kind="function"><name>stage1</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1ad2677d8276a3f64cbe64e06c28272ab6" kind="function"><name>stage2</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1a3a59bd4096f66bc7aa7549d570b1dd03" kind="function"><name>stage3</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision" kind="struct"><name>themis::plugins::ethics::InjectionDecision</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a204455e04d0de8e61b3d166b3b15dcd1" kind="variable"><name>school_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a2664cb1ef5cbf38e967add357436e8a7" kind="variable"><name>argument_content</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a4792f53567eeb68d4fc9c7942cb44772" kind="variable"><name>headline</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a1bd1768d20b2473f2a35604a8781650f" kind="variable"><name>inject_full</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_injection_decision_1a51f97ea7a1d2291c971dbf3a2eae4020" kind="variable"><name>relevance_score</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding" kind="struct"><name>themis::plugins::ethics::LegalGrounding</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1ab4c04336fc0d3d280e26d11b4f788281" kind="variable"><name>citation_ids</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1ad08abfa307442aa219ec900acbbb2690" kind="variable"><name>norm_refs</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1ac9a9d401e1c8790e350044cdebaf3042" kind="variable"><name>retrieval_timestamp_utc</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1af88b366684df57155ee409de3a10f1f4" kind="variable"><name>override_permitted</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1a18182b110e5e96ba3f5d2b54620ca842" kind="variable"><name>grounding_available</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_legal_grounding_1a877908bb67aade7e0458a50ae76ffb4e" kind="variable"><name>legal_db_unavailable</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_llm_cascade_router" kind="class"><name>themis::plugins::ethics::LlmCascadeRouter</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_llm_cascade_router_1a3b2cbef3edc6f4dbe3dad4b4940c3d95" kind="typedef"><name>LlmInvokeFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_llm_cascade_router_1a7395cd53af9c57180b2b40717a4a5939" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_llm_cascade_router_1a5b4d7b9e6e895c0e001d86a612331169" kind="variable"><name>llm_invoke_fn_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_llm_cascade_router_1adca0ea20a777f71e0404cc2e7d2a1db5" kind="function"><name>LlmCascadeRouter</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_llm_cascade_router_1a8ced0a3f21c4fc5646b1c93654c8e75a" kind="function"><name>routeForRound</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_llm_cascade_router_1a34a5bf9fb625cc332b8c346d102b04fc" kind="function"><name>budgetForRound</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_llm_cascade_router_1a2c75bb15a3442e8ab51489db1ab7f4dd" kind="function"><name>tierForRound</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_llm_cascade_router_1a62fb0122116dcb818fe2eb70f190ea60" kind="function"><name>config</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_llm_cascade_router_1a2a5abac1d085d1a29f9297bd25c8ef94" kind="function"><name>setLlmInvokeFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_llm_cascade_router_1a5d2d2daf0be93491e3737c2738cfd803" kind="function"><name>invoke</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_llm_cascade_router_1af63c67c4f2861643e6a7491a83885582" kind="function"><name>resolveTier</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_llm_cascade_router_1a31f6d6940ce5471c27da43045f0c8061" kind="function"><name>budgetForTier</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict" kind="struct"><name>themis::plugins::ethics::MetaVerdict</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a0fa366818196d59203aaeff2a2151a6b" kind="enum"><name>ConvergenceVerdict</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a0fa366818196d59203aaeff2a2151a6ba3ecc0491ccb53bbed853e9b5580556a5" kind="enumvalue"><name>CLEAR_CONSENSUS</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a0fa366818196d59203aaeff2a2151a6ba5d8e613338daa5898de012d9801257a4" kind="enumvalue"><name>TENDENCY</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a0fa366818196d59203aaeff2a2151a6ba88b484a0c3c2776618e1178ff90a1b35" kind="enumvalue"><name>CONTESTED</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a0fa366818196d59203aaeff2a2151a6ba2afabad12fb856249fd19dd680f0affe" kind="enumvalue"><name>DISSENT</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1af241fadf1c4bb8bbf2be774bca7da9ae" kind="variable"><name>convergence_verdict</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1aecff473ffe0bb38cb3e23d2aa7a84e68" kind="variable"><name>convergence_score</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1aa6b5c2558105be57b1d25e4a69a06e2b" kind="variable"><name>participating_schools</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a05392c37918793e4d0dc74f50ec08942" kind="variable"><name>dissenting_schools</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a651605dfdfc5c3050ddfb9be27a7577d" kind="variable"><name>cross_cultural_flag</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1ab1532d6b2c6460ea6923f031288cb74e" kind="variable"><name>minority_dissent</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a57ff9ac20e62c571c31f55d59751db12" kind="variable"><name>participating_school_votes</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1afde164b8a76b4474a591ef65740c8d81" kind="variable"><name>norm_evidence</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1ae1e4d9d4b61eda0717e0a0ea4060491a" kind="variable"><name>legal_grounding</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a9e175edfd724181f9b35e466085a5695" kind="variable"><name>discourse_mode</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_1a305fa3115b0cd65df0bf79db99f623e4" kind="variable"><name>dominant_verdict</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder" kind="class"><name>themis::plugins::ethics::MetaVerdictBuilder</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1a7902d66d24d41c272ae4808a3afeee9d" kind="variable"><name>grounding_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1af29200c24a3768c6dd5892c750ff12c7" kind="function"><name>MetaVerdictBuilder</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1a193345faa237fccb745717b78d90f04f" kind="function"><name>~MetaVerdictBuilder</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1a5266bdc6cfee8390d040c4d9cda1fe6e" kind="function"><name>MetaVerdictBuilder</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1adf46e6939cd80abc663748a7a77a5846" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1aee6dc78560065f475fcc36872727c262" kind="function"><name>MetaVerdictBuilder</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1aee759e3d6e7a74d0034e3257b5c98f68" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1a4f734c3c82fd8a5b0ac60d3f472e12d2" kind="function"><name>setLegalGrounding</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1ad83b4e01134da9bbe29788e50d351d36" kind="function"><name>buildMetaVerdict</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_meta_verdict_builder_1ab4d9ea7382865c60903b2a3f1bdde11e" kind="function"><name>culturalRegion</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_school_vote" kind="struct"><name>themis::plugins::ethics::MetaVerdictSchoolVote</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_school_vote_1a0b035d52f8566f0c8b6b5555c228c230" kind="variable"><name>school_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_school_vote_1aa2a9f4d9078d1f869d2ae4c603a3373b" kind="variable"><name>vote</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_meta_verdict_school_vote_1ae8e5d4b50be3a018edc560adc011216a" kind="variable"><name>reason</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1_1_metrics" kind="struct"><name>themis::plugins::ethics::EthicsAIPlugin::Metrics</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1_1_metrics_1a77bdaed4c54fcca9d055f41b39876411" kind="variable"><name>total_debates</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1_1_metrics_1ac5b8e262a133f03b70908d58508f7590" kind="variable"><name>total_decisions</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1_1_metrics_1ac78dbe149635d831b17a2e2f3601769b" kind="variable"><name>total_arguments</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1_1_metrics_1a4d55e23a5de0c9ee119ede7d4e03c07e" kind="variable"><name>total_evaluations</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1_1_metrics_1a88860b460e0dc8802bc7470a9f5e3d8f" kind="variable"><name>avg_decision_quality</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler" kind="class"><name>themis::plugins::ethics::MirrorSchoolHandler</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a9ecbffb16228ee2d179a2775243ccb18" kind="typedef"><name>LLMInferenceFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1ae99f0c8d94887f0558a745a8aa125c99" kind="variable"><name>inference_fn_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a46591cdbc1ff83f5d98c7021d23c4655" kind="variable"><name>timeout_ms_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a64c795780e02098e882a0236a4bbcc13" kind="function"><name>MirrorSchoolHandler</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a02451698dee1216c544d48a5fad8abd1" kind="function"><name>~MirrorSchoolHandler</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1aacdc8bf4f62a0b4ac273d4cbaea1e26b" kind="function"><name>MirrorSchoolHandler</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1ad8b7dfe5e39e967c7198f3f2e5b62755" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1abe31530ad511ec1fe8cc6f23d184d1d1" kind="function"><name>MirrorSchoolHandler</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a6568067c55324b13d8d1622070d73207" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1aa8cd36618257d0b604eef189c0937790" kind="function"><name>setLLMInferenceFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1abb1a6520a2c04c19dcde0604613ed762" kind="function"><name>setSchoolTimeoutMs</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_mirror_school_handler_1a6607ea27ed297cda838fd32b67541c69" kind="function"><name>runMirror</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_mirror_school_policy" kind="struct"><name>themis::plugins::ethics::MirrorSchoolPolicy</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_mirror_school_policy_1a7ffb623b681cb69f33a8f785a43627b3" kind="variable"><name>cross_cultural_sensitivity</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_mirror_school_policy_1a55b7d78e20589960c62915a1d3459f04" kind="variable"><name>mirror_school_ids</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_mirror_school_policy_1a4aef3343916ecbd0d65778209649c328" kind="variable"><name>domain_overrides</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_mirror_school_policy_1a95baa489e42a9d2386240f7f47b17a2f" kind="function"><name>isActiveFor</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_model_token_budget" kind="struct"><name>themis::plugins::ethics::ModelTokenBudget</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_model_token_budget_1af18b34a4aea24adb676a6c4b400d4e7a" kind="variable"><name>max_tokens</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_model_token_budget_1a169ae6409acf148a7bddcace7e3b01fb" kind="variable"><name>max_output_tokens</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_model_token_budget_1aabd13cfd5755544b7f20697f112710f8" kind="variable"><name>context_k</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_norm_citation" kind="struct"><name>themis::plugins::ethics::NormCitation</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_norm_citation_1aa1faf07cb12b768df8ca1a19ec61296f" kind="variable"><name>citation_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_norm_citation_1a2ab88afa9084f4315e7278d8b666a371" kind="variable"><name>article_ref</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_norm_citation_1a039876381e9ba1e4e48745613b759937" kind="variable"><name>citation_source</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_norm_citation_1aa4fc2cbc21dbbee1f0031ad624b2bb4d" kind="variable"><name>retrieved_at_utc</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_norm_evidence" kind="struct"><name>themis::plugins::ethics::NormEvidence</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_norm_evidence_1ac44ec1f0b59225383fd145e132e0e679" kind="variable"><name>citations</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_norm_evidence_1ae46073b39aff42e58fd066865b56b0c5" kind="variable"><name>legal_db_unavailable</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader" kind="class"><name>themis::plugins::ethics::PhilosophyLoader</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1af70f71e32c77c6c41157b09b3495f6fb" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1abd148bac99e6911248c8143b8bc3739f" kind="variable"><name>profiles_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a8f109a2236eb0c904470b3d0fc02bbf5" kind="function"><name>PhilosophyLoader</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a4ab2420f6cee698bc4f0691722cb1a4a" kind="function"><name>~PhilosophyLoader</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1aa548c849fde25c03b03fca4d817f7cca" kind="function"><name>loadFromDirectory</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a4044b3753034e40aade1c97b7800015d" kind="function"><name>loadFromFile</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1ad82881582f305b2d39a39c6fa25ec928" kind="function"><name>getProfile</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a88e981b1a968c8fe3fe3010776742f33" kind="function"><name>hasProfile</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a32b384990b54571cad0faf768b8a90c5" kind="function"><name>getSchoolIds</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1ace071fc7ae4c354b5956a0047d0ad694" kind="function"><name>clear</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a03645fa5305cfe6028ae2b113d122307" kind="function"><name>reloadProfiles</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a03171c8bb8cc7a52fda27e27f34a6fbc" kind="function"><name>addProfile</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1ab5ec2a9f78db23b395055d807cca2ec5" kind="function"><name>count</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1a28d86a8af3a7b96d115a4d3658bf771b" kind="function"><name>getAllProfiles</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader_1aa5c9396723089659f3be7744908d62a6" kind="function"><name>parseYAML</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile" kind="struct"><name>themis::plugins::ethics::PhilosophyProfile</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a5b224d641cc4902d3b33695905994dcf" kind="variable"><name>school_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a08eaaeed392de429d7ff4c4ea61c3dd1" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a99bcd5a5d6fd09de99724db1ddf0df5c" kind="variable"><name>main_theses</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1ac6caff7df8b73f13f38864bbc83bffc3" kind="variable"><name>secondary_theses</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1aba885160e701ea1170c1bb0b68fe2781" kind="variable"><name>typed_theses</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a6f2acc3de03733e584e859b09e96574a" kind="variable"><name>decision_framework</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a02845f00ba18ee8d815d368a6873f38e" kind="variable"><name>strengths</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a5dd8be93e30433ae1777d0735938a87a" kind="variable"><name>weaknesses</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a68628136fccd97e2ee920d56559a748e" kind="variable"><name>internal_debate</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile_1a2ed3c045f2d3311b1c89b9a144d2cdee" kind="variable"><name>philosophical_positioning</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_thesis" kind="struct"><name>themis::plugins::ethics::PhilosophyThesis</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_thesis_1a151cde5c9e953619a0de58629a841c58" kind="variable"><name>thesis_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_thesis_1a8d61ac26258a63cf117081918d74911d" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_thesis_1a0edcc48e99f90952e08d4446d4e9cf63" kind="variable"><name>description</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_thesis_1a0c1fe713046fa1e5d51386aa923094a0" kind="variable"><name>token_budget</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_thesis_1a7828fe3bc39c551eadeb77e3677f6ca6" kind="variable"><name>activation_rounds</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_thesis_1a200a64f7eb9819b2949d81edce716d96" kind="variable"><name>round_role_weights</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_config" kind="struct"><name>themis::plugins::ethics::PositionAbstractConfig</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_config_1a29f848fc6becc4d1819d171ca08846d6" kind="variable"><name>require_verdict</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_config_1a15c4195a8cfb90a0a7a79b5d7ed3f956" kind="variable"><name>require_position_abstract</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_config_1ae3c2e30bf9e680c99894544a0448d7a5" kind="variable"><name>require_core_thesis_ids</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_config_1acbc763475150428eb20ae561fbfa7510" kind="variable"><name>max_abstract_tokens</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_config_1a37e00546dc674787bb01f540fa1d7c77" kind="variable"><name>max_core_thesis_ids</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_schema_error" kind="struct"><name>themis::plugins::ethics::PositionAbstractSchemaError</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_schema_error_1a2ac520da9378134faa02be6017e5970b" kind="variable"><name>school_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_schema_error_1a739780cd73ceae14089dd13d51665549" kind="variable"><name>round_number</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_position_abstract_schema_error_1a82eb85a62080e199f2c10924d6a183a4" kind="function"><name>PositionAbstractSchemaError</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_position_abstract_validator" kind="class"><name>themis::plugins::ethics::PositionAbstractValidator</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_position_abstract_validator_1acad772bf62ede347a8a7710311fa9334" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_position_abstract_validator_1a30e3e3a73d5d9fea0aa20910f295208d" kind="function"><name>PositionAbstractValidator</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_position_abstract_validator_1a27da28936746012fce1c652c7a88e264" kind="function"><name>validate</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_position_abstract_validator_1a7310e896e2d34e9452238080dfd01658" kind="function"><name>validateBatch</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_position_abstract_validator_1ac03c2a07649649bf18a5fe34e15f86e5" kind="function"><name>autoRepair</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_position_abstract_validator_1a6d74d9846160ce0d023b9ec82df0bf0f" kind="function"><name>buildSchemaInstruction</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_position_abstract_validator_1af756568d4be81a70992ff8e5e4a78354" kind="function"><name>config</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_position_abstract_validator_1a6d653e8481c42c86f22335988ce222e6" kind="function"><name>isValidVerdict</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_position_abstract_validator_1aae32f73bc2aedd51ec2c0d2485a2df30" kind="function"><name>countTokens</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_position_abstract_validator_1a2d0fe6108c3f72c84b39956781ee3c8e" kind="function"><name>extractVerdictFromContent</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_position_abstract_validator_1a76ad53fd3d386da820429182906fd724" kind="function"><name>buildDefaultAbstract</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1_1_precedent_entry" kind="struct"><name>themis::plugins::ethics::EthicsSelectionRouter::Impl::PrecedentEntry</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1_1_precedent_entry_1a273bbce3ab650e29bf535933677225c8" kind="variable"><name>dc_sum</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_selection_router_1_1_impl_1_1_precedent_entry_1ad8428684414e9fa1d67d41b76283ba87" kind="variable"><name>count</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor" kind="class"><name>themis::plugins::ethics::PriorRoundCompressor</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1ab1e2543c7d477849e8e231c76561453f" kind="typedef"><name>LlmSummaryFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1ad690cd9ee30ef34b59d1bc9817a334cd" kind="variable"><name>llm_summary_fn_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1adf8d6265a2a6c361e2e86259e08b452c" kind="variable"><name>llm_fn_mutex_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1af8c012ae531296b59e2d5c24b6a5cd01" kind="function"><name>PriorRoundCompressor</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1a3f345d073391274d806bd94e27818839" kind="function"><name>compressPriorRound</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1ab6388ed37d41c775218ba2c8ed44180d" kind="function"><name>buildPriorContext</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1a8c9d053d80c1037c27871e342fabf81f" kind="function"><name>measureDcLoss</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1acc398c8261d66eaa02cd9a9ed99b3361" kind="function"><name>setLlmSummaryFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1a512977d825de5cd79f153db300b7f94f" kind="function"><name>countTokens</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1ae7d2d0d334c2ec8554604ae7c0a83697" kind="function"><name>extractPrincipleCitations</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1a3c9291697745777f396b3b27b001ebae" kind="function"><name>extractVerdict</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1aa390284713cc1abd73af13bc569c8ea9" kind="function"><name>compressPrincipleCitationsOnly</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1ad37a2ffef2b63a5791339f5fe1acab7c" kind="function"><name>compressHeadline</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_prior_round_compressor_1aa257f174309c9514d4e05e8c8a57675a" kind="function"><name>compressStructuredSummary</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context" kind="struct"><name>themis::plugins::ethics::RAGContext</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_1a0d629b640a2fcb999ef8604f7f1373aa" kind="variable"><name>similar_dilemmas</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_1a43c558afd752283765819e7eefa40582" kind="variable"><name>philosophy_arguments</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_1a2378e964a1f06234d71c7a0e47071782" kind="variable"><name>best_practices</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_1a638836450492961b0275bcbf866b8729" kind="variable"><name>recent_debates</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_1a766c8c5d20f98805bd0dc08ecc7bdaa3" kind="variable"><name>consensus_decisions</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_1ad9511c9117665f4e0bd2a309d7118346" kind="variable"><name>relevance_scores</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine" kind="class"><name>themis::plugins::ethics::RAGContextEngine</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a06a9c1ccbcda454b6e605c54894c1244" kind="variable"><name>store_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a0450a202939390d0388fdd768cd16ede" kind="variable"><name>legal_db_available_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1acd3a4571b647c5eb117daa5284c1196f" kind="variable"><name>store_access_mutex_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1ad6b19e478b8c4b5cc20e23ed82595811" kind="function"><name>RAGContextEngine</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a3fb1bb4a8ac7ad871916197a5bc315ff" kind="function"><name>~RAGContextEngine</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1ad33dcf848f844e6894e6bd86696a8ea3" kind="function"><name>buildContext</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a00510196bc12f4f689d1bbd55ace2079" kind="function"><name>findSimilarDilemmas</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a80fcacff093e5f755196ad682dfebd6a" kind="function"><name>getBestPractices</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a1d21acb79ba0973c8fddda8c1e417da6" kind="function"><name>vectorSemanticSearch</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a9ae280cef8f48da670c87c56b6451fb0" kind="function"><name>traverseArgumentChain</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a4cbd09f1b97bdcccfbe550471d21405b" kind="function"><name>retrieveLegalGrounding</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1affd8d8fc0e84ea1816dfcea0b5ff2165" kind="function"><name>setLegalDbAvailable</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a8d291024c0cb08fb8d1880e7544cdd5b" kind="function"><name>calculateTextSimilarity</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine_1a707f10a48a929a12c6b40f0c54ecdb08" kind="function"><name>generateEmbedding</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry" kind="struct"><name>themis::plugins::ethics::RoundAuditEntry</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1afe78d9f5d2014076c816c2f8042d2008" kind="variable"><name>round_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1a233d2ef5aa89e7f0b42e8a1ac17a827a" kind="variable"><name>timestamp_utc</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1aa2d376bfff6400e2fd24616da1ccf91d" kind="variable"><name>dilemma_hash</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1a64b0df3a2635d2d03f8b1a8fd8b17eae" kind="variable"><name>participating_schools</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1a28b3936e6bba83280a1e2bb73f4632ef" kind="variable"><name>verdict</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1ad2c6ad9aa1d01a8270de62c9a3eaeb89" kind="variable"><name>convergence_score</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1a0337ddcebe7cb870b7d61a4c6d4875ea" kind="variable"><name>norm_citations</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_round_audit_entry_1a98ea0117c82601ce9c17426d2edfa5c4" kind="variable"><name>round_index</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate" kind="struct"><name>themis::plugins::ethics::RouterCandidate</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a53ed4713aebf1e494f2003f441548993" kind="variable"><name>school_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a2186e05145bc78060091c2d14b643786" kind="variable"><name>taxonomy_score</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a0f31bbb16d841c3f5ffb3f5e9c17e9ba" kind="variable"><name>semantic_score</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a00994dbc1152c92525f7a9e422b0831f" kind="variable"><name>precedent_dc</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_candidate_1a25cfba55ec8fc4d230627d3a15b23cb5" kind="variable"><name>final_score</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_router_config" kind="struct"><name>themis::plugins::ethics::RouterConfig</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1aa81d26f1791c32723f82398211cf5fb2" kind="variable"><name>taxonomy_yaml_path</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a9bd5967899748c93e59bb920bdfab357" kind="variable"><name>top_n</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a2b691b35592c7fc0b45f055b966b72f4" kind="variable"><name>stage2_top_k</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a3f9632ec6c3bb9f19cd9d30d54512e6e" kind="variable"><name>weight_semantic</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1addf1d8262e76c8c5b4caab2aa2b08e27" kind="variable"><name>weight_precedent</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1aecc57958978efba473f95b141b5d91a4" kind="variable"><name>weight_taxonomy</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a29adce80e3f648c910ff1f0166894e9a" kind="variable"><name>deployment_context</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1ce2979af390385176deb95cf22b2af4" kind="variable"><name>discourse_mode</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a4c5f5bfb8fc08dfb3dc57870f3fbab59" kind="variable"><name>school_bias</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a196c7caa400e3af5b7e9d59a9d7c82ac" kind="variable"><name>chain_visualizer_output_path</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a1a33a12fbb0e380b0a1e195f3ff6c1f8" kind="variable"><name>conflict_threshold_ratio</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_config_1a05834fc597e9632774af574aeb10f95b" kind="variable"><name>snapshot_profile_on_round_start</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_router_result" kind="struct"><name>themis::plugins::ethics::RouterResult</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_result_1a1cf0340e8f25237c1fc85ccb23df5ac1" kind="variable"><name>selected</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_result_1a8f5aab9bbba232889675d8c1c077fc2f" kind="variable"><name>stage1_count</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_result_1ac5868c597ad073d211d581fd5b17f4cc" kind="variable"><name>stage2_count</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_router_result_1a485f755768c15db350c8a10ef48702d7" kind="variable"><name>stage3_count</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector" kind="class"><name>themis::plugins::ethics::ScalarAdaLoRABiasCorrector</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1a85426cff60a8ed93ed10a23af24f70ae" kind="variable"><name>mutex_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1a224e90c4aa60383744702c2d8e498151" kind="variable"><name>adapters_</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1a01a69827a5372557d035d2047b7de776" kind="function"><name>registerAdapter</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1aeed4d608cd8c90f213e76fae13c6ef20" kind="function"><name>applyBiasCorrection</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_scalar_ada_lo_r_a_bias_corrector_1a53c34707f7abf0ab75fb07fe819bc0e2" kind="function"><name>hasAdapter</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_schema_validation_error" kind="struct"><name>themis::plugins::ethics::SchemaValidationError</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_schema_validation_error_1a9425cf17b969fc6f58e0881622f316fc" kind="function"><name>SchemaValidationError</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_school_position_summary" kind="struct"><name>themis::plugins::ethics::SchoolPositionSummary</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_school_position_summary_1ac8e53818b242afab0870569106d8a33a" kind="variable"><name>school_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_school_position_summary_1a15266410260c675c9e4dfdf1a0886e80" kind="variable"><name>verdict</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_school_position_summary_1a2bffc830ebc596e77b588fb2ca6f56f5" kind="variable"><name>confidence</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_school_position_summary_1a737da5887314af7a809f48927cec4a2a" kind="variable"><name>core_thesis_ids</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension" kind="struct"><name>themis::plugins::ethics::SchoolTension</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1a8c97a4a3279df720e4a5388d206aed4a" kind="variable"><name>own_thesis_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1ac5305f5f9533df761f1176bed360c562" kind="variable"><name>opposing_school_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1a3698cc363dd030a4b478a457e3196878" kind="variable"><name>opposing_thesis_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1ad17474d71bbcff1946d466b92b05bb4e" kind="variable"><name>tension_type</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1af0e4a20cd0d089189a4b8a8802771d15" kind="variable"><name>rebuttal_cite_weight</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_status" kind="struct"><name>themis::plugins::ethics::Status</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_status_1a71cf45dc678f072c08ede4a1c624e63b" kind="variable"><name>ok</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_status_1a2a1aef377273f797fca074477d6cab4e" kind="variable"><name>message</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_status_1a15ab60d06613a861bc0340f8abeb1e76" kind="variable"><name>code</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_status_1a59782bc01d8f7a6c954b431db73bed15" kind="function"><name>Status</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_status_1af0eaf893362595d6990fda33cecd83b9" kind="function"><name>Status</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_status_1afd4df6537e66c53957242a5dd53f57bc" kind="function"><name>isOK</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_status_1ad8d7d41a2794c55c6219dc076d984d4e" kind="function"><name>operator bool</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_status_1a59ce9a86ec536bc694f70f68a41fa114" kind="function"><name>OK</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_status_1ae5a60049fab1c1d00c077485f78adc5d" kind="function"><name>Error</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_synthesis_matrix_builder" kind="class"><name>themis::plugins::ethics::SynthesisMatrixBuilder</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_synthesis_matrix_builder_1a21c130f5cd2d715034004bfdd376fd4b" kind="function"><name>SynthesisMatrixBuilder</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_synthesis_matrix_builder_1ad192639614dcc743e9dc207ae7b1283a" kind="function"><name>buildMatrix</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_synthesis_matrix_builder_1a37013d942132605df9175cc2bc730478" kind="function"><name>extractSummary</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_synthesis_matrix_builder_1a1d69283e3440c961e4ab90b1c08f933f" kind="function"><name>validateSummary</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_synthesis_matrix_builder_1a2c8268b7e4c3cb0afd80e02154b947fc" kind="function"><name>countTokens</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_synthesis_matrix_builder_1a6332b1f332d010a2fe3fba4547bce2b1" kind="function"><name>isValidVerdict</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_config" kind="struct"><name>themis::plugins::ethics::TournamentConfig</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_config_1ab7caa8a56c8dca1d6120f16818ca2a6d" kind="variable"><name>primary_opponent_count</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_config_1af6ca6d3adc398dca2b9be14f5f74006a" kind="variable"><name>selection_criterion</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_config_1a038792a2f5cbadcba06b9a99f2d7b984" kind="variable"><name>secondary_injection</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_config_1a3c56366a625ec13dea71ecb9b1c83c96" kind="variable"><name>mode</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1ethics_1_1_tournament_mode_selector" kind="class"><name>themis::plugins::ethics::TournamentModeSelector</name>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_tournament_mode_selector_1aac08e16b2edf4a8c0fc4faba7b4148cb" kind="function"><name>TournamentModeSelector</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_tournament_mode_selector_1aff966624ff3f15c1d2402724b4edc3b5" kind="function"><name>selectOpponents</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_tournament_mode_selector_1aa4fa59c1536ae1a001d2fe9808bc9442" kind="function"><name>buildTournamentContext</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_tournament_mode_selector_1a49b91897647ce7c9d5067f4977fe6fb4" kind="function"><name>countTokens</name></member>
+    <member refid="classthemis_1_1plugins_1_1ethics_1_1_tournament_mode_selector_1af7c3bccebbd6189bb34d0dad7f3a3604" kind="function"><name>buildHeadline</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_selection_result" kind="struct"><name>themis::plugins::ethics::TournamentSelectionResult</name>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_selection_result_1aea1176ef4dca9fc3200b7b25cbd4e76d" kind="variable"><name>own_school_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_selection_result_1ada3528229a2237eddd499a65d9658ba1" kind="variable"><name>primary_opponents</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_selection_result_1a6bf73cc415bf4a7231605245d44bde60" kind="variable"><name>secondary_opponents</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_selection_result_1ac29b36680d975f7a52fc25da97478335" kind="variable"><name>assembled_context</name></member>
+    <member refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_selection_result_1a86e930e70777925df0eebacc6f9d1eca" kind="variable"><name>total_tokens_estimated</name></member>
+  </compound>
+  <compound refid="namespace_0d147136314125312125006222003163313037060141041256" kind="namespace"><name>@147136314125312125006222003163313037060141041256</name>
+  </compound>
+  <compound refid="namespace_0d311203113052065240120300012173265236014131234252" kind="namespace"><name>@311203113052065240120300012173265236014131234252</name>
+  </compound>
+  <compound refid="namespace_0d351237257370334275070146252300136200335012070214" kind="namespace"><name>@351237257370334275070146252300136200335012070214</name>
+  </compound>
+  <compound refid="namespacestd" kind="namespace"><name>std</name>
+  </compound>
+  <compound refid="namespacethemis" kind="namespace"><name>themis</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins" kind="namespace"><name>themis::plugins</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1ethics" kind="namespace"><name>themis::plugins::ethics</name>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a36de962ef4228fa81732e033d14f92e4" kind="enum"><name>ConvergenceType</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a36de962ef4228fa81732e033d14f92e4af1fea01f32fee9ca44d0e8d05753429f" kind="enumvalue"><name>CO_PROHIBITIVE</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a36de962ef4228fa81732e033d14f92e4a4287c8973b7a8caaaf730dc39c1e2268" kind="enumvalue"><name>CO_PERMISSIVE</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a36de962ef4228fa81732e033d14f92e4ac9b76dd6985315bcf3c93716e2502590" kind="enumvalue"><name>CONDITIONAL_CONVERGENT</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a36de962ef4228fa81732e033d14f92e4a52fefeb07f3f8036f9d3a8e37784a12a" kind="enumvalue"><name>IRREDUCIBLE_SPLIT</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a36de962ef4228fa81732e033d14f92e4ad6a2e0d82d42c8d42bde6c49809f5d61" kind="enumvalue"><name>PARTIAL_OVERLAP</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a36de962ef4228fa81732e033d14f92e4a696b031073e74bf2cb98e5ef201d4aa3" kind="enumvalue"><name>UNKNOWN</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cb" kind="enum"><name>ArgumentType</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cba9e3360ac711fcd82ceea74c8eb69bda9" kind="enumvalue"><name>PRO</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cba16407b37450d32114d765a45a0813d24" kind="enumvalue"><name>CONTRA</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cba449d0fbe0a05ead90fc77eb77e18ada0" kind="enumvalue"><name>REBUTTAL</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cbaab4655732542d0279f180acc77104330" kind="enumvalue"><name>SYNTHESIS</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cba2799482497469e61e6ce62588cc7b71f" kind="enumvalue"><name>QUESTION</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cbaa06d41dae56fde874f68a6739a39698a" kind="enumvalue"><name>CLARIFICATION</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a350a0fb1ec3e636426a3a859779bed48" kind="enum"><name>ArgumentStrength</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a350a0fb1ec3e636426a3a859779bed48a32c7d8943bec86a6d7d5e03598670ca8" kind="enumvalue"><name>WEAK</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a350a0fb1ec3e636426a3a859779bed48a5137485eff3ff278d233d993c8539599" kind="enumvalue"><name>MODERATE</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a350a0fb1ec3e636426a3a859779bed48a3dfb3ae3cdaa322f0388f1a531c39520" kind="enumvalue"><name>STRONG</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a350a0fb1ec3e636426a3a859779bed48a992e3448623cac3c7d21de828be4ed5e" kind="enumvalue"><name>DECISIVE</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602e" kind="enum"><name>DiscourseVerdict</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602eabb1096c7b0ccea0a98e61a492dc58e1b" kind="enumvalue"><name>PROHIBIT</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602ea695fb83069aa8ac43c138b05ccaa206d" kind="enumvalue"><name>PERMIT</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602ea6685384d880fca387e09391a6e53e3a8" kind="enumvalue"><name>CONDITIONAL</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a3d83c9a0dc30ab1de8b1c2d2727e602eaf4d833a3465758569accea637f9fc592" kind="enumvalue"><name>ABSTAIN</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637" kind="enum"><name>EthicsErrorCode</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637ae0aa021e21dddbd6d8cecec71e9cf564" kind="enumvalue"><name>OK</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637aa1f10cbd76830e20464ef4c00db4ae9d" kind="enumvalue"><name>PROFILE_NOT_FOUND</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637a2b929ab9fc1688595c637f0770038177" kind="enumvalue"><name>PROFILE_VALIDATION_FAILED</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637a64b8b3797f81a6f23e995f222aed66bb" kind="enumvalue"><name>PROFILE_SCHEMA_INVALID</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637a36b8ed1d1a70b0d0741cdf423b345f7d" kind="enumvalue"><name>LIFECYCLE_UNINITIALIZED</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637a07f9935a79d598aa800a0406f34d2e6d" kind="enumvalue"><name>LIFECYCLE_DOUBLE_INIT</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637a01ee2ab83cef15e9a28833120df289f1" kind="enumvalue"><name>CONTEXT_RETRIEVAL_FAILED</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637a4ddc5a8441f5fb7d9e0195d3818ab957" kind="enumvalue"><name>CONTEXT_SCHEMA_INVALID</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637adf115b2aca3581be10203d0f07bd87a1" kind="enumvalue"><name>ROUTING_NO_SCHOOLS</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637af9926e74288efcf52bb9db065f8573c6" kind="enumvalue"><name>ROUTING_EMPTY_PLAN</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637abf9ceda1d2ed10948816ea182f30aa22" kind="enumvalue"><name>EVALUATOR_SCORE_OUT_OF_RANGE</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637a6a76c9302430a103fa51a7333ffe1001" kind="enumvalue"><name>LDM_LLM_TIMEOUT</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637ab4a4cb35c9d02234663e61315a4ffaa8" kind="enumvalue"><name>LDM_ALL_ABSTAINED</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637afc95565f22cf4a639a36d99f6a8f9f6a" kind="enumvalue"><name>LDM_LEGAL_DB_UNAVAILABLE</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637a29ff47ecd6bfd642ebfe782688c9fd16" kind="enumvalue"><name>LDM_CLUSTER_EMPTY</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aa83c0ea1bfa1c8bfcdb50dd62f5f1637ae9c16f58690dac124c169e5a5290e10d" kind="enumvalue"><name>LDM_EQUAL_WEIGHT_VIOLATION</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1af1affda47d56f8a727ed6b2f533d91de" kind="enum"><name>CrossCulturalSensitivity</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1af1affda47d56f8a727ed6b2f533d91dea88559a0cfd8250c9d65970cc145c92d4" kind="enumvalue"><name>OFF</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1af1affda47d56f8a727ed6b2f533d91dea41bc94cbd8eebea13ce0491b2ac11b88" kind="enumvalue"><name>LOW</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1af1affda47d56f8a727ed6b2f533d91deac87f3be66ffc3c0d4249f1c2cc5f3cce" kind="enumvalue"><name>MEDIUM</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1af1affda47d56f8a727ed6b2f533d91deab89de3b4b81c4facfac906edf29aec8c" kind="enumvalue"><name>HIGH</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a0c8b0dfffb5e76be8cc06c7e293eb99b" kind="enum"><name>AuditError</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a0c8b0dfffb5e76be8cc06c7e293eb99bae0aa021e21dddbd6d8cecec71e9cf564" kind="enumvalue"><name>OK</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a0c8b0dfffb5e76be8cc06c7e293eb99bad526ee1a4ba852300d1f174c4ad1d923" kind="enumvalue"><name>IMMUTABLE_VIOLATION</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a0c8b0dfffb5e76be8cc06c7e293eb99ba577cf42cc2eae1cffef0f749c6c08787" kind="enumvalue"><name>INDEX_OUT_OF_RANGE</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1" kind="enum"><name>DiscourseMode</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1a0282fee2140132ea4e4dfa14f6998688" kind="enumvalue"><name>SELECTION_ONLY</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1a55d96dc755ff8b17fe7f1890aaf41c99" kind="enumvalue"><name>LAYERED_FAST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a68dc9ecd8a3b7e4dc570002cc5527de1aebdb3aa847ab672c277e9005782de104" kind="enumvalue"><name>LAYERED_FULL</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a893683e2fd8f8952d6c1b437674d4b18" kind="enum"><name>CascadeModelTier</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a893683e2fd8f8952d6c1b437674d4b18a9b9c17e13f0e3dc9860a26e08b59b2a7" kind="enumvalue"><name>SMALL</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a893683e2fd8f8952d6c1b437674d4b18ac87f3be66ffc3c0d4249f1c2cc5f3cce" kind="enumvalue"><name>MEDIUM</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a893683e2fd8f8952d6c1b437674d4b18a71726adf0ff60cd03eaf3c515883eeb8" kind="enumvalue"><name>LARGE</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a5685020d9dac66903b5b585a8f1270a8" kind="enum"><name>CompressionMode</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a5685020d9dac66903b5b585a8f1270a8a54bd62fcf17c9c65054bbabb9ebedc8c" kind="enumvalue"><name>PRINCIPLE_CITATIONS_ONLY</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a5685020d9dac66903b5b585a8f1270a8a8a6d1f34edd3863541b18a800c459c4b" kind="enumvalue"><name>STRUCTURED_SUMMARY</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a5685020d9dac66903b5b585a8f1270a8a4e92121a6944503bbf50fba4b6790989" kind="enumvalue"><name>HEADLINE</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aecbc9b8b2fb5fd0930b6a3490e6ed4ef" kind="enum"><name>OpponentInjectionMode</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aecbc9b8b2fb5fd0930b6a3490e6ed4efaba7de5bc6888294e5884b024a4c894f1" kind="enumvalue"><name>FULL</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aecbc9b8b2fb5fd0930b6a3490e6ed4efa46ba89eb960127fef8af5df131a5212a" kind="enumvalue"><name>TOURNAMENT</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aecbc9b8b2fb5fd0930b6a3490e6ed4efa463280bb1425f632cfd94c1b9f763490" kind="enumvalue"><name>HEADLINE_ONLY</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1ab1197367a032b15923bb8393b960cbba" kind="variable"><name>kDescriptionSnippetMaxLength</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a38d2de2f1069d8fba4a07ffb5762f187" kind="function"><name>argumentTypeToString</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a82b8d42188cd0749cb3a801eda438d96" kind="function"><name>stringToArgumentType</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a50d8a74b3d728784317577ccad997b97" kind="function"><name>argumentStrengthToString</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1ac16c552b2968943f30f3f956f79879b1" kind="function"><name>stringToArgumentStrength</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a0856d2f5d6a72f3434f3a7725fe1c5db" kind="function"><name>MetaVerdictThreshold</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a5555a2cd03176c246f0af3351113253f" kind="function"><name>computeSHA256</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1ac705774473f23d1a6c7e4232d7f3ad19" kind="function"><name>makeIntegrityKey</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1a2db17d29f02f82caad43d14dde859709" kind="function"><name>verifyModelIntegrity</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1aaec099cfdad0d5648a8e7a2d3cc69ecf" kind="function"><name>strengthToScore</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1ethics_1_1_0d021330254147016311153210336045124176057014133351" kind="namespace"><name>themis::plugins::ethics::@021330254147016311153210336045124176057014133351</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1ethics_1_1_0d201037302134030316304077100234153050033211134142" kind="namespace"><name>themis::plugins::ethics::@201037302134030316304077100234153050033211134142</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1ethics_1_1_0d234004037025165274356166154134041021052211044264" kind="namespace"><name>themis::plugins::ethics::@234004037025165274356166154134041021052211044264</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1ethics_1_1_0d262313363104051226064104026164164351062126303172" kind="namespace"><name>themis::plugins::ethics::@262313363104051226064104026164164351062126303172</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1ethics_1_1_0d345307354332311024274044151003150335145004214252" kind="namespace"><name>themis::plugins::ethics::@345307354332311024274044151003150335145004214252</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1ethics_1_1_l_d_m7_schools" kind="namespace"><name>themis::plugins::ethics::LDM7Schools</name>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1_1_l_d_m7_schools_1a909fe9e8f69365d1b92a10f205e29afc" kind="variable"><name>MAORI_ETHICS</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1ethics_1_1_l_d_m7_schools_1a90874016b254da3425524695689f4734" kind="variable"><name>LATIN_LIBERATION_THEOLOGY</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1query" kind="namespace"><name>themis::query</name>
+  </compound>
+  <compound refid="bench__ethics__ai__plugin_8cpp" kind="file"><name>bench_ethics_ai_plugin.cpp</name>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a2cda7f55823965bd28f29564aca66666" kind="function"><name>generateRandomId</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1ad4019c0ff2ebfa5494c44f0f2f291e65" kind="function"><name>createBenchmarkArgument</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1ad2b9b8a2da4b2052357adbe9fcd0407e" kind="function"><name>createBenchmarkDecision</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a4217e83950378f8cca1915c6ed5e27f4" kind="function"><name>createBenchmarkDebateRound</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1ae57c2dfff4ac5eaa385d6847bb8d5cc7" kind="function"><name>benchmarkTwoSchools</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a12c67b6f9f6fedebd9c2c7e29fae4f9d" kind="function"><name>benchmarkFiveSchools</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a672307235e208ac077a18c08b17447d7" kind="function"><name>resolveBenchmarkPhilosophyDirectory</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a1cf3c8dde4b9005946b04aa83a8466d6" kind="function"><name>getBenchmarkPhilosophyDirectory</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a884b0c00f6da21788ef738c102ee0cc7" kind="function"><name>initializeStore</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a67172d7ba1be4eb6dacbc4f3cfe8de2e" kind="function"><name>loadBenchmarkProfiles</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1ab3b6f0f3d933ffc5c4510983983b3926" kind="function"><name>populateStoreWithArguments</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a970928b4f1b19515216edf2d5e7e415e" kind="function"><name>createQueryEmbedding</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1ac9c61cea181ab95a490a61b19eba651e" kind="function"><name>BM_PhilosophyLoader_LoadSingleProfile</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a12caaf14fccb96301c2b3a9692ec67c0" kind="function"><name>BM_PhilosophyLoader_GetProfile</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1aeee2e8addb98ac7262f53f1b36180a80" kind="function"><name>BM_PhilosophyLoader_HasProfile</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a5cb626e7d6154a09dc3148924fab3653" kind="function"><name>BM_PhilosophyLoader_ListSchools</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a5917ca3a6ebdc71b222216f458de4b03" kind="function"><name>BM_ArgumentStore_StoreArgument</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a6891f3b7b1befe6f5d8cfcbec267662f" kind="function"><name>BM_ArgumentStore_GetArgument</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a9234289581ae5ce526dd8184b6fc2897" kind="function"><name>BM_ArgumentStore_GetArgumentsByPhilosophy</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1ad2f16ce585ee8c8ed999fe068c95a685" kind="function"><name>BM_ArgumentStore_StoreDecision</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1ae5187e98cf0dd9c65ad39c4101d690c2" kind="function"><name>BM_RAGContextEngine_BuildContext</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1ad366b033f4037c3026b7f9db5794b623" kind="function"><name>BM_RAGContextEngine_FindSimilarDilemmas</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a97b1609e6cb14e3f6d08908f4228147f" kind="function"><name>BM_RAGContextEngine_TraverseArgumentChain</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a9187adeca0817543cbdc076b7873d106" kind="function"><name>BM_RAGContextEngine_VectorSemanticSearch512</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a0f6a5351abf7b300c770220aec42e08f" kind="function"><name>BM_RAGContextEngine_BuildContextBatch10</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a6ac8425dc96bcd81e29f28da98b54314" kind="function"><name>BM_DiscourseEngine_InitializeDebate</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1add2262c77e27d118f4a2f44cf665773c" kind="function"><name>BM_DiscourseEngine_MakeDecisionSingleSchool</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1acd8d28ba5cb9ea9c9d0be2e97671a93d" kind="function"><name>BM_DiscourseEngine_MakeDecisionFiveSchools</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a3771d95f22742d54ec5eb1a4d9979fd3" kind="function"><name>BM_DiscourseEngine_MakeDecisionWithRAG</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a3bd2784aa91431c291f1c12f20314cb2" kind="function"><name>BM_DiscourseEngine_ContinueDebateRound</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a0938832c0da8ee4b1423b4019fea5e0a" kind="function"><name>BM_ArgumentStore_StoreDebateRound</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a5bdcc83dfb398977fa9fec3278f70224" kind="function"><name>BM_ArgumentStore_GetDebateTranscript</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1ae5f7b5d24ea611a1b0aba964de3ef3c9" kind="function"><name>BM_EthicsEvaluator_EvaluateDecision</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a0ad000bb78e8cba7bed3d26e1064bfdd" kind="function"><name>BM_EthicsEvaluator_EvaluateDecisionNoArgs</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a598cc384e32d2430702378974e84df99" kind="function"><name>BM_EthicsEvaluator_EvaluateDecisionManyArgs</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1aa3935bcc2440a50c0b648942f149cb78" kind="function"><name>BM_EthicsEvaluator_RecordDecision</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1ad5d20ecf5849b0c5c584f07795b61911" kind="function"><name>BM_EthicsEvaluator_GetMetricsText</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a9f83746e0210da4a1fc9abc6555fd7bf" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1aa974173041984b10293ededf707a0f9a" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a6e2cf6cafe4e7acea4d9f45bb6c27ad4" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1aa3324bee5c0c2b2f26fe3a39487da2e9" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1aae8e7e0638198bac4ac0811edcf3b57d" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1aa71d8eeaa8002f426c976da67552b243" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a4d2ee07e1a183f682c6f6b3395bb9bb2" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a3695fcaf93da5a6f96c39a389dbcd2ca" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a5aeae3bd98e301e288b9e9a059f85f6f" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a4ee08c5a616686d21403b3d553187f0f" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1ab5850cf8cad39d0f9a46dea32e338c63" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1ae13f3017875f6abae18683fd0235a076" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a08647cbcebed636210dd1a5ae1d70822" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a614e97e71378679bbfddee49e4ebb2fe" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1ad926ae52a65604dede3f3f424b7430d2" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a01e25056bbc4e94011104b0d9b17a987" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a78837e0ca43a2f5b3ea10e5cef3d7e71" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a3818138aa23e90022abd821da1853260" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1ae6570e68825bd9f42494c643ff3c8311" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a594d7299fee792de7a51854a2d0fec3f" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1aa5062e6dea2f497acd4d0c02548a2ae8" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a782f10cbde6a9b6a288fd07b98801fb2" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a06108650c4dea3ffa582969baa6df5fd" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a300b3ec5b8431ae5ec394dc7fc8fbfcb" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1ab40384f3c9a5db017a6b619cd67fda04" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__ethics__ai__plugin_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__ldm_8cpp" kind="file"><name>bench_ldm.cpp</name>
+    <member refid="bench__ldm_8cpp_1abcd8fdfbfcfca8d58a8d176dacd15543" kind="variable"><name>kCanonicalRngSeed</name></member>
+    <member refid="bench__ldm_8cpp_1a54c7c9e882bceafe05a89c80112917e7" kind="function"><name>BM_LDM_PlanGeneration</name></member>
+    <member refid="bench__ldm_8cpp_1a968d2a5f157f9f3e08938c665ea2d637" kind="function"><name>Unit</name></member>
+    <member refid="bench__ldm_8cpp_1a0a65f90f7f2cbf66a78ffb5c20c50aef" kind="function"><name>BM_LDM_Ebene1_22Schools</name></member>
+    <member refid="bench__ldm_8cpp_1a251f62fd135f03ce43a9a785b847d317" kind="function"><name>BM_LDM_Ebene1_TimeoutFailsafe</name></member>
+    <member refid="bench__ldm_8cpp_1a70bce16129a6d34b815d4f8ca8f58d9d" kind="function"><name>BM_LDM_MetaVerdictAssembly</name></member>
+    <member refid="bench__ldm_8cpp_1a23d3ea57603ffbd169ea2e44d2ae7d0b" kind="function"><name>BM_LDM_MirrorSchool_Parallel4</name></member>
+    <member refid="bench__ldm_8cpp_1ac4714f1c6c98fc775f9222fa5ae765c7" kind="function"><name>BM_LDM_EndToEnd_LAYERED_FAST</name></member>
+    <member refid="bench__ldm_8cpp_1a1be916eaadeb92f05c887b8cc0fae04c" kind="function"><name>BM_LDM_AuditLog_Append</name></member>
+    <member refid="bench__ldm_8cpp_1a2e963cc9a5ef328bf3debc5c4904cc0e" kind="function"><name>Arg</name></member>
+    <member refid="bench__ldm_8cpp_1a99f4919899e49af8ccf33d3b31398168" kind="function"><name>BM_LDM_AuditLog_ExportOnly</name></member>
+    <member refid="bench__ldm_8cpp_1a00d4a55466e85fd7b881056f39737263" kind="function"><name>Arg</name></member>
+    <member refid="bench__ldm_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="convergence__marker__engine_8h" kind="file"><name>convergence_marker_engine.h</name>
+  </compound>
+  <compound refid="cross__school__tension__resolver_8h" kind="file"><name>cross_school_tension_resolver.h</name>
+  </compound>
+  <compound refid="discourse__memory__store_8h" kind="file"><name>discourse_memory_store.h</name>
+  </compound>
+  <compound refid="discourse__orchestrator_8h" kind="file"><name>discourse_orchestrator.h</name>
+  </compound>
+  <compound refid="ethics__ai__plugin__interface_8h" kind="file"><name>ethics_ai_plugin_interface.h</name>
+  </compound>
+  <compound refid="ethics__ai__types_8h" kind="file"><name>ethics_ai_types.h</name>
+  </compound>
+  <compound refid="include_2ethics__ai_2ethics__profile__registry_8h" kind="file"><name>ethics_profile_registry.h</name>
+  </compound>
+  <compound refid="src_2ethics__ai_2ethics__profile__registry_8h" kind="file"><name>ethics_profile_registry.h</name>
+  </compound>
+  <compound refid="ethics__selection__router_8h" kind="file"><name>ethics_selection_router.h</name>
+  </compound>
+  <compound refid="llm__cascade__router_8h" kind="file"><name>llm_cascade_router.h</name>
+  </compound>
+  <compound refid="meta__verdict__builder_8h" kind="file"><name>meta_verdict_builder.h</name>
+  </compound>
+  <compound refid="mirror__school__handler_8h" kind="file"><name>mirror_school_handler.h</name>
+  </compound>
+  <compound refid="position__abstract__validator_8h" kind="file"><name>position_abstract_validator.h</name>
+  </compound>
+  <compound refid="prior__round__compressor_8h" kind="file"><name>prior_round_compressor.h</name>
+  </compound>
+  <compound refid="synthesis__matrix__builder_8h" kind="file"><name>synthesis_matrix_builder.h</name>
+  </compound>
+  <compound refid="tournament__mode__selector_8h" kind="file"><name>tournament_mode_selector.h</name>
+  </compound>
+  <compound refid="argument__store_8cpp" kind="file"><name>argument_store.cpp</name>
+  </compound>
+  <compound refid="argument__store_8h" kind="file"><name>argument_store.h</name>
+  </compound>
+  <compound refid="chain__visualizer_8cpp" kind="file"><name>chain_visualizer.cpp</name>
+  </compound>
+  <compound refid="chain__visualizer_8h" kind="file"><name>chain_visualizer.h</name>
+  </compound>
+  <compound refid="convergence__marker__engine_8cpp" kind="file"><name>convergence_marker_engine.cpp</name>
+  </compound>
+  <compound refid="cross__school__tension__resolver_8cpp" kind="file"><name>cross_school_tension_resolver.cpp</name>
+  </compound>
+  <compound refid="discourse__engine_8cpp" kind="file"><name>discourse_engine.cpp</name>
+  </compound>
+  <compound refid="discourse__engine_8h" kind="file"><name>discourse_engine.h</name>
+  </compound>
+  <compound refid="discourse__memory__store_8cpp" kind="file"><name>discourse_memory_store.cpp</name>
+  </compound>
+  <compound refid="discourse__orchestrator_8cpp" kind="file"><name>discourse_orchestrator.cpp</name>
+  </compound>
+  <compound refid="ethics__ai__plugin_8cpp" kind="file"><name>ethics_ai_plugin.cpp</name>
+    <member refid="ethics__ai__plugin_8cpp_1ae90756a78b2e85be70271d242b096a1c" kind="define"><name>THEMIS_PLUGIN_EXPORTS</name></member>
+    <member refid="ethics__ai__plugin_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kind="typedef"><name>json</name></member>
+    <member refid="ethics__ai__plugin_8cpp_1ae91d8546c341753f57f3e89335b9937d" kind="function"><name>createPlugin</name></member>
+    <member refid="ethics__ai__plugin_8cpp_1af9ff1e5b5e8e772307412321c1dc1da8" kind="function"><name>destroyPlugin</name></member>
+  </compound>
+  <compound refid="ethics__ai__types_8cpp" kind="file"><name>ethics_ai_types.cpp</name>
+  </compound>
+  <compound refid="ethics__aql__queries_8h" kind="file"><name>ethics_aql_queries.h</name>
+  </compound>
+  <compound refid="ethics__base__entity__adapter_8h" kind="file"><name>ethics_base_entity_adapter.h</name>
+  </compound>
+  <compound refid="ethics__evaluator_8cpp" kind="file"><name>ethics_evaluator.cpp</name>
+  </compound>
+  <compound refid="ethics__evaluator_8h" kind="file"><name>ethics_evaluator.h</name>
+  </compound>
+  <compound refid="ethics__profile__registry_8cpp" kind="file"><name>ethics_profile_registry.cpp</name>
+  </compound>
+  <compound refid="ethics__selection__router_8cpp" kind="file"><name>ethics_selection_router.cpp</name>
+  </compound>
+  <compound refid="llm__cascade__router_8cpp" kind="file"><name>llm_cascade_router.cpp</name>
+  </compound>
+  <compound refid="meta__verdict__builder_8cpp" kind="file"><name>meta_verdict_builder.cpp</name>
+  </compound>
+  <compound refid="mirror__school__handler_8cpp" kind="file"><name>mirror_school_handler.cpp</name>
+  </compound>
+  <compound refid="philosophy__loader_8cpp" kind="file"><name>philosophy_loader.cpp</name>
+  </compound>
+  <compound refid="philosophy__loader_8h" kind="file"><name>philosophy_loader.h</name>
+  </compound>
+  <compound refid="position__abstract__validator_8cpp" kind="file"><name>position_abstract_validator.cpp</name>
+  </compound>
+  <compound refid="prior__round__compressor_8cpp" kind="file"><name>prior_round_compressor.cpp</name>
+  </compound>
+  <compound refid="rag__context__engine_8cpp" kind="file"><name>rag_context_engine.cpp</name>
+  </compound>
+  <compound refid="rag__context__engine_8h" kind="file"><name>rag_context_engine.h</name>
+  </compound>
+  <compound refid="synthesis__matrix__builder_8cpp" kind="file"><name>synthesis_matrix_builder.cpp</name>
+  </compound>
+  <compound refid="tournament__mode__selector_8cpp" kind="file"><name>tournament_mode_selector.cpp</name>
+  </compound>
+  <compound refid="test__ethics__ai__community__separability_8cpp" kind="file"><name>test_ethics_ai_community_separability.cpp</name>
+    <member refid="test__ethics__ai__community__separability_8cpp_1a1b48143ca8e8243b1496b42b008135f9" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__community__separability_8cpp_1ad4e24558da27005ffdac683c156a75b9" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__community__separability_8cpp_1a6481e1dff0ce12f3f04d0c8256fe83c3" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__community__separability_8cpp_1ac7a841fda446821f0daf983b8f42205c" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__community__separability_8cpp_1a34218b2c11635c526aee20c080a868b9" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__community__separability_8cpp_1a127f299d251e85b28ed4e1e0155e77fd" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__ethics__ai__discourse__hardening__focused_8cpp" kind="file"><name>test_ethics_ai_discourse_hardening_focused.cpp</name>
+    <member refid="test__ethics__ai__discourse__hardening__focused_8cpp_1afa23b1ef95b6713d91f3e41b02f8d72b" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__discourse__hardening__focused_8cpp_1abf78f3fc5cefd2e452a2f270a1bbbe7e" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__discourse__hardening__focused_8cpp_1a475062725e6f327e5ab702e594afedfb" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__discourse__hardening__focused_8cpp_1add1820b383f540fa92eb6463d933df9d" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__discourse__hardening__focused_8cpp_1a5df7e47f4aed420d78f61885acecefb3" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__discourse__hardening__focused_8cpp_1a7dc9136f2f45d4d63ef025ca580c43af" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__discourse__hardening__focused_8cpp_1aab38da406d939c30a09946e7f9984c72" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__discourse__hardening__focused_8cpp_1ae0b6e9107a228ee6513b86ab326a56b2" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__ethics__ai__eu__artifact__norms__focused_8cpp" kind="file"><name>test_ethics_ai_eu_artifact_norms_focused.cpp</name>
+    <member refid="test__ethics__ai__eu__artifact__norms__focused_8cpp_1ac43cf483c2f2dd8b884cd93c86e30527" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__ethics__ai__eu__compliance_8cpp" kind="file"><name>test_ethics_ai_eu_compliance.cpp</name>
+    <member refid="test__ethics__ai__eu__compliance_8cpp_1a6ef7050f59034283ed0e63fb4c0ee15c" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__ethics__ai__euai__compliance__focused_8cpp" kind="file"><name>test_ethics_ai_euai_compliance_focused.cpp</name>
+    <member refid="test__ethics__ai__euai__compliance__focused_8cpp_1ab502e3494141d2e0bd5381e68adbdbeb" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__ethics__ai__ldm6__clustering__focused_8cpp" kind="file"><name>test_ethics_ai_ldm6_clustering_focused.cpp</name>
+    <member refid="test__ethics__ai__ldm6__clustering__focused_8cpp_1ab66a6d3212cd52172a08114bafab3089" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__ldm6__clustering__focused_8cpp_1a8dd63e540cbfca6ae254a308192d0458" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__ldm6__clustering__focused_8cpp_1a88b6ff284025247c700c7b71e145fa0f" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__ldm6__clustering__focused_8cpp_1a0416bd6e7f8e24ac0482e95fd44b4ce3" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__ldm6__clustering__focused_8cpp_1a9093bd332e9a65bf03ba7a1cad55f6e9" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__ldm6__clustering__focused_8cpp_1a9411b7f56f11ebdef84b5792d6a705d9" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__ethics__ai__ldm7__focused_8cpp" kind="file"><name>test_ethics_ai_ldm7_focused.cpp</name>
+    <member refid="test__ethics__ai__ldm7__focused_8cpp_1ab234da7bdf532d7ebda42c4106eae726" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__ldm7__focused_8cpp_1ab32f8ff1332b813e7ca9fadb94360a18" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__ldm7__focused_8cpp_1a34972344048265e7ec1d97dd2f0d7c17" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__ldm7__focused_8cpp_1a1536b38fb3d9c545030cb666494ab0ec" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__ethics__ai__ldm8__focused_8cpp" kind="file"><name>test_ethics_ai_ldm8_focused.cpp</name>
+    <member refid="test__ethics__ai__ldm8__focused_8cpp_1a977a6c4740383d35324a5bee7a2f5241" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__ldm8__focused_8cpp_1a617dc43493832e1aaf403f8d6caf9247" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__ldm8__focused_8cpp_1a01eff5c783fe02c6615d60c26e21ff7b" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__ldm8__focused_8cpp_1a1c50384677dd8a9675db56f52c90c193" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__ldm8__focused_8cpp_1a5473fe14274b735959c8b8c7da36cdfb" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__ethics__ai__ldm__contract__focused_8cpp" kind="file"><name>test_ethics_ai_ldm_contract_focused.cpp</name>
+    <member refid="test__ethics__ai__ldm__contract__focused_8cpp_1a7d25cc89e585e8be8eaba97bf7126e49" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__ldm__contract__focused_8cpp_1ac69923265e4e33e33e406c6355ff0dd5" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__ldm__contract__focused_8cpp_1abf82ced9b1f834df6f4aa41f24cfd291" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__ldm__contract__focused_8cpp_1a1a61dc49a83cb95b9a5675fd31358112" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__ldm__contract__focused_8cpp_1a73cea1b8e7bd0c4f8d8afaca0a5ce1d3" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__ldm__contract__focused_8cpp_1a9e70738c7837cc76472f821df47b2a1a" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__ldm__contract__focused_8cpp_1a889c2bce153f830d3e99d70abfbc1c21" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__ldm__contract__focused_8cpp_1ab82fcd34b94cacbc1e84aa06c4a0334c" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__ethics__ai__profile__reload__focused_8cpp" kind="file"><name>test_ethics_ai_profile_reload_focused.cpp</name>
+    <member refid="test__ethics__ai__profile__reload__focused_8cpp_1accd840f13b71d9498bc5ded50983a621" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__profile__reload__focused_8cpp_1a28a46b78d4497df69581c93e0a443351" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__profile__reload__focused_8cpp_1a1c95b30923268a55fc6968243f9ff153" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__profile__reload__focused_8cpp_1aaa12d87b995626cf47a8ec8ed3c8e781" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__profile__reload__focused_8cpp_1ad6601b84572d7c5db2d9bd9c6d21289f" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__profile__reload__focused_8cpp_1a7d8493a4a271d08f307c1c927a8e7f08" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__profile__reload__focused_8cpp_1ab9b8a78614406ad7cebcbf01f6c02cd0" kind="function"><name>TEST</name></member>
+    <member refid="test__ethics__ai__profile__reload__focused_8cpp_1af8fa5d6d77f333d0e4d45133de632e2c" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test" kind="page"><name>test</name>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_1859bdb9025c02a18d0298e5e335fed1" kind="dir"><name>benchmarks/ethics_ai</name>
+  </compound>
+  <compound refid="dir_e0323a894996d242c6bd81a8ea60f9f6" kind="dir"><name>include/ethics_ai</name>
+  </compound>
+  <compound refid="dir_00e710390ea70720bf2f6ea6c62be072" kind="dir"><name>src/ethics_ai</name>
+  </compound>
+  <compound refid="dir_737ff2edd14a2e04487d5a6f42b3e029" kind="dir"><name>tests/ethics_ai</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+</doxygenindex>

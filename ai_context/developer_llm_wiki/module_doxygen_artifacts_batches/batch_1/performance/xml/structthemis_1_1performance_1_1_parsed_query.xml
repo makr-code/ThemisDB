@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_parsed_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::ParsedQuery</compoundname>
+    <includes refid="adaptive__query__compiler_8h" local="no">adaptive_query_compiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_parsed_query_1ac0c566196dfa55d42de3fbe7dca431dc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::ParsedQuery::query_text</definition>
+        <argsstring></argsstring>
+        <name>query_text</name>
+        <qualifiedname>themis::performance::ParsedQuery::query_text</qualifiedname>
+        <briefdescription>
+<para>Original query string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="163" column="19" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_parsed_query_1a82be01d763a04483a2810657c15431c7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::ParsedQuery::fingerprint</definition>
+        <argsstring></argsstring>
+        <name>fingerprint</name>
+        <qualifiedname>themis::performance::ParsedQuery::fingerprint</qualifiedname>
+        <briefdescription>
+<para>Structural fingerprint (no literals). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="164" column="19" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_parsed_query_1a00f87cbf3eca9afde87a1b1a20c653f7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::ParsedQuery::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>themis::performance::ParsedQuery::table</qualifiedname>
+        <briefdescription>
+<para>Primary source table. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="165" column="19" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_parsed_query_1a78ac71ed832a849255a1f49bd332a4f8" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1performance_1ad25ff7098173e704b1a4674d7159f3f8" kindref="member">QueryOpType</ref></type>
+        <definition>QueryOpType themis::performance::ParsedQuery::op_type</definition>
+        <argsstring></argsstring>
+        <name>op_type</name>
+        <qualifiedname>themis::performance::ParsedQuery::op_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1performance_1ad25ff7098173e704b1a4674d7159f3f8a88183b946cc5f0e8c96b2e66e1c74a7e" kindref="member">QueryOpType::Unknown</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="166" column="19" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_parsed_query_1ac0c96ee27627c82351732395523b967f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1performance_1_1_predicate" kindref="compound">Predicate</ref> &gt;</type>
+        <definition>std::vector&lt;Predicate&gt; themis::performance::ParsedQuery::predicates</definition>
+        <argsstring></argsstring>
+        <name>predicates</name>
+        <qualifiedname>themis::performance::ParsedQuery::predicates</qualifiedname>
+        <briefdescription>
+<para>WHERE clause predicates (AND-ed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="169" column="17" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_parsed_query_1a61240dc385d3d1217558472928199456" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::performance::ParsedQuery::select_columns</definition>
+        <argsstring></argsstring>
+        <name>select_columns</name>
+        <qualifiedname>themis::performance::ParsedQuery::select_columns</qualifiedname>
+        <briefdescription>
+<para>Empty = SELECT *. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="172" column="17" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_parsed_query_1a0a3b0f5c0141def8a62e47d961d37115" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::ParsedQuery::group_by_column</definition>
+        <argsstring></argsstring>
+        <name>group_by_column</name>
+        <qualifiedname>themis::performance::ParsedQuery::group_by_column</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="175" column="30" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_parsed_query_1a5be7ec857f5706bc94b0951fdabe7713" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::ParsedQuery::agg_function</definition>
+        <argsstring></argsstring>
+        <name>agg_function</name>
+        <qualifiedname>themis::performance::ParsedQuery::agg_function</qualifiedname>
+        <briefdescription>
+<para>&quot;COUNT&quot;,&quot;SUM&quot;,&quot;AVG&quot;,&quot;MIN&quot;,&quot;MAX&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="176" column="30" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_parsed_query_1a9163cd8ea074234e4501bba9c6f5ddca" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::ParsedQuery::agg_column</definition>
+        <argsstring></argsstring>
+        <name>agg_column</name>
+        <qualifiedname>themis::performance::ParsedQuery::agg_column</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="177" column="30" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_parsed_query_1aa3f9afa0b3416c8eb734606213d25b5b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::ParsedQuery::join_table</definition>
+        <argsstring></argsstring>
+        <name>join_table</name>
+        <qualifiedname>themis::performance::ParsedQuery::join_table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="180" column="30" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_parsed_query_1ac3855f6d88517b7ad63f69c7b2f73242" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::ParsedQuery::join_key_left</definition>
+        <argsstring></argsstring>
+        <name>join_key_left</name>
+        <qualifiedname>themis::performance::ParsedQuery::join_key_left</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="181" column="30" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_parsed_query_1a42fda1f2060ab0dc59525ba7fbe2362f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::ParsedQuery::join_key_right</definition>
+        <argsstring></argsstring>
+        <name>join_key_right</name>
+        <qualifiedname>themis::performance::ParsedQuery::join_key_right</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="182" column="30" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_parsed_query_1ad3550d4572394905d038eeb1fd0771e6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::ParsedQuery::order_by_column</definition>
+        <argsstring></argsstring>
+        <name>order_by_column</name>
+        <qualifiedname>themis::performance::ParsedQuery::order_by_column</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="185" column="30" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_parsed_query_1a57bc138dacba7e4a2761518593ddc02c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::ParsedQuery::order_asc</definition>
+        <argsstring></argsstring>
+        <name>order_asc</name>
+        <qualifiedname>themis::performance::ParsedQuery::order_asc</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="186" column="30" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_parsed_query_1a3b5f73be26dd93e18fc0965345aef8d3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::ParsedQuery::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::performance::ParsedQuery::limit</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0 = no limit </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="189" column="30" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_parsed_query_1a77d14679498041b795825d6b2a1cb287" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::ParsedQuery::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::performance::ParsedQuery::offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="190" column="30" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight representation of a parsed query. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/adaptive_query_compiler.h" line="162" column="1" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="162" bodyend="191"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_parsed_query_1a9163cd8ea074234e4501bba9c6f5ddca" prot="public" virt="non-virtual"><scope>themis::performance::ParsedQuery</scope><name>agg_column</name></member>
+      <member refid="structthemis_1_1performance_1_1_parsed_query_1a5be7ec857f5706bc94b0951fdabe7713" prot="public" virt="non-virtual"><scope>themis::performance::ParsedQuery</scope><name>agg_function</name></member>
+      <member refid="structthemis_1_1performance_1_1_parsed_query_1a82be01d763a04483a2810657c15431c7" prot="public" virt="non-virtual"><scope>themis::performance::ParsedQuery</scope><name>fingerprint</name></member>
+      <member refid="structthemis_1_1performance_1_1_parsed_query_1a0a3b0f5c0141def8a62e47d961d37115" prot="public" virt="non-virtual"><scope>themis::performance::ParsedQuery</scope><name>group_by_column</name></member>
+      <member refid="structthemis_1_1performance_1_1_parsed_query_1ac3855f6d88517b7ad63f69c7b2f73242" prot="public" virt="non-virtual"><scope>themis::performance::ParsedQuery</scope><name>join_key_left</name></member>
+      <member refid="structthemis_1_1performance_1_1_parsed_query_1a42fda1f2060ab0dc59525ba7fbe2362f" prot="public" virt="non-virtual"><scope>themis::performance::ParsedQuery</scope><name>join_key_right</name></member>
+      <member refid="structthemis_1_1performance_1_1_parsed_query_1aa3f9afa0b3416c8eb734606213d25b5b" prot="public" virt="non-virtual"><scope>themis::performance::ParsedQuery</scope><name>join_table</name></member>
+      <member refid="structthemis_1_1performance_1_1_parsed_query_1a3b5f73be26dd93e18fc0965345aef8d3" prot="public" virt="non-virtual"><scope>themis::performance::ParsedQuery</scope><name>limit</name></member>
+      <member refid="structthemis_1_1performance_1_1_parsed_query_1a77d14679498041b795825d6b2a1cb287" prot="public" virt="non-virtual"><scope>themis::performance::ParsedQuery</scope><name>offset</name></member>
+      <member refid="structthemis_1_1performance_1_1_parsed_query_1a78ac71ed832a849255a1f49bd332a4f8" prot="public" virt="non-virtual"><scope>themis::performance::ParsedQuery</scope><name>op_type</name></member>
+      <member refid="structthemis_1_1performance_1_1_parsed_query_1a57bc138dacba7e4a2761518593ddc02c" prot="public" virt="non-virtual"><scope>themis::performance::ParsedQuery</scope><name>order_asc</name></member>
+      <member refid="structthemis_1_1performance_1_1_parsed_query_1ad3550d4572394905d038eeb1fd0771e6" prot="public" virt="non-virtual"><scope>themis::performance::ParsedQuery</scope><name>order_by_column</name></member>
+      <member refid="structthemis_1_1performance_1_1_parsed_query_1ac0c96ee27627c82351732395523b967f" prot="public" virt="non-virtual"><scope>themis::performance::ParsedQuery</scope><name>predicates</name></member>
+      <member refid="structthemis_1_1performance_1_1_parsed_query_1ac0c566196dfa55d42de3fbe7dca431dc" prot="public" virt="non-virtual"><scope>themis::performance::ParsedQuery</scope><name>query_text</name></member>
+      <member refid="structthemis_1_1performance_1_1_parsed_query_1a61240dc385d3d1217558472928199456" prot="public" virt="non-virtual"><scope>themis::performance::ParsedQuery</scope><name>select_columns</name></member>
+      <member refid="structthemis_1_1performance_1_1_parsed_query_1a00f87cbf3eca9afde87a1b1a20c653f7" prot="public" virt="non-virtual"><scope>themis::performance::ParsedQuery</scope><name>table</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

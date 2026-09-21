@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_d_b_connection_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::DBConnectionGuard</compoundname>
+    <includes refid="llm__memory__safety__utils_8h" local="no">llm_memory_safety_utils.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_d_b_connection_guard_1ad9e8f74e7e5bb073904d0efafc3e8ebb" prot="public" static="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>using themis::llm::DBConnectionGuard::Releaser = std::function&lt;void()&gt;</definition>
+        <argsstring></argsstring>
+        <name>Releaser</name>
+        <qualifiedname>themis::llm::DBConnectionGuard::Releaser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="119" column="3" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_d_b_connection_guard_1a4fc48031b7b73b2841c6af2e4e155c54" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::DBConnectionGuard::connection_id_</definition>
+        <argsstring></argsstring>
+        <name>connection_id_</name>
+        <qualifiedname>themis::llm::DBConnectionGuard::connection_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="185" column="7" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_d_b_connection_guard_1a9cc7302554a707be9915ba0e51ded178" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_d_b_connection_guard_1ad9e8f74e7e5bb073904d0efafc3e8ebb" kindref="member">Releaser</ref></type>
+        <definition>Releaser themis::llm::DBConnectionGuard::releaser_</definition>
+        <argsstring></argsstring>
+        <name>releaser_</name>
+        <qualifiedname>themis::llm::DBConnectionGuard::releaser_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="186" column="12" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_d_b_connection_guard_1aa07e20e798bc561aea9f1501e8c026da" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::DBConnectionGuard::is_released_</definition>
+        <argsstring></argsstring>
+        <name>is_released_</name>
+        <qualifiedname>themis::llm::DBConnectionGuard::is_released_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="187" column="15" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_d_b_connection_guard_1aab7fc4939f001f4938d17abbbd32de87" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::DBConnectionGuard::DBConnectionGuard</definition>
+        <argsstring>(int connection_id, Releaser releaser)</argsstring>
+        <name>DBConnectionGuard</name>
+        <qualifiedname>themis::llm::DBConnectionGuard::DBConnectionGuard</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>connection_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_d_b_connection_guard_1ad9e8f74e7e5bb073904d0efafc3e8ebb" kindref="member">Releaser</ref></type>
+          <declname>releaser</declname>
+        </param>
+        <briefdescription>
+<para>DBConnection Guard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">connection_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the connection. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">releaser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="127" column="12" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="127" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_d_b_connection_guard_1a7411e0616b716329727150de4ab647a9" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::DBConnectionGuard::DBConnectionGuard</definition>
+        <argsstring>(DBConnectionGuard &amp;&amp;other) noexcept</argsstring>
+        <name>DBConnectionGuard</name>
+        <qualifiedname>themis::llm::DBConnectionGuard::DBConnectionGuard</qualifiedname>
+        <param>
+          <type>DBConnectionGuard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="133" column="3" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="133" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_d_b_connection_guard_1ad0edc45bb00c245d70c0d461632c3d2b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_d_b_connection_guard_1aab7fc4939f001f4938d17abbbd32de87" kindref="member">DBConnectionGuard</ref> &amp;</type>
+        <definition>DBConnectionGuard &amp; themis::llm::DBConnectionGuard::operator=</definition>
+        <argsstring>(DBConnectionGuard &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::DBConnectionGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_d_b_connection_guard_1aab7fc4939f001f4938d17abbbd32de87" kindref="member">DBConnectionGuard</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="142" column="21" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="142" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_d_b_connection_guard_1a33e6a7c614ab2ba58ed652504a63a87e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::DBConnectionGuard::DBConnectionGuard</definition>
+        <argsstring>(const DBConnectionGuard &amp;)=delete</argsstring>
+        <name>DBConnectionGuard</name>
+        <qualifiedname>themis::llm::DBConnectionGuard::DBConnectionGuard</qualifiedname>
+        <param>
+          <type>const DBConnectionGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="157" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_d_b_connection_guard_1aa61efd85b1efd1c79834b37aa06cf371" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_d_b_connection_guard_1aab7fc4939f001f4938d17abbbd32de87" kindref="member">DBConnectionGuard</ref> &amp;</type>
+        <definition>DBConnectionGuard &amp; themis::llm::DBConnectionGuard::operator=</definition>
+        <argsstring>(const DBConnectionGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::DBConnectionGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_d_b_connection_guard_1aab7fc4939f001f4938d17abbbd32de87" kindref="member">DBConnectionGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="158" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_d_b_connection_guard_1af37a5fa04c53db6bfc491f82b1f7d7af" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::DBConnectionGuard::~DBConnectionGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~DBConnectionGuard</name>
+        <qualifiedname>themis::llm::DBConnectionGuard::~DBConnectionGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="161" column="3" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="161" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_d_b_connection_guard_1ae6ef37d8a94537cac6830fe98a35b740" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::DBConnectionGuard::getId</definition>
+        <argsstring>() const</argsstring>
+        <name>getId</name>
+        <qualifiedname>themis::llm::DBConnectionGuard::getId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="166" column="7" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="166" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_d_b_connection_guard_1a10ce84358477591a3862d311b994f340" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::DBConnectionGuard::release</definition>
+        <argsstring>()</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::llm::DBConnectionGuard::release</qualifiedname>
+        <briefdescription>
+<para>Release. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: releaser_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="173" column="8" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="173" bodyend="182"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_memory_safety_utils.h" line="117" column="1" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="117" bodyend="188"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_d_b_connection_guard_1a4fc48031b7b73b2841c6af2e4e155c54" prot="private" virt="non-virtual"><scope>themis::llm::DBConnectionGuard</scope><name>connection_id_</name></member>
+      <member refid="classthemis_1_1llm_1_1_d_b_connection_guard_1aab7fc4939f001f4938d17abbbd32de87" prot="public" virt="non-virtual"><scope>themis::llm::DBConnectionGuard</scope><name>DBConnectionGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_d_b_connection_guard_1a7411e0616b716329727150de4ab647a9" prot="public" virt="non-virtual"><scope>themis::llm::DBConnectionGuard</scope><name>DBConnectionGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_d_b_connection_guard_1a33e6a7c614ab2ba58ed652504a63a87e" prot="public" virt="non-virtual"><scope>themis::llm::DBConnectionGuard</scope><name>DBConnectionGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_d_b_connection_guard_1ae6ef37d8a94537cac6830fe98a35b740" prot="public" virt="non-virtual"><scope>themis::llm::DBConnectionGuard</scope><name>getId</name></member>
+      <member refid="classthemis_1_1llm_1_1_d_b_connection_guard_1aa07e20e798bc561aea9f1501e8c026da" prot="private" virt="non-virtual"><scope>themis::llm::DBConnectionGuard</scope><name>is_released_</name></member>
+      <member refid="classthemis_1_1llm_1_1_d_b_connection_guard_1ad0edc45bb00c245d70c0d461632c3d2b" prot="public" virt="non-virtual"><scope>themis::llm::DBConnectionGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_d_b_connection_guard_1aa61efd85b1efd1c79834b37aa06cf371" prot="public" virt="non-virtual"><scope>themis::llm::DBConnectionGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_d_b_connection_guard_1a10ce84358477591a3862d311b994f340" prot="public" virt="non-virtual"><scope>themis::llm::DBConnectionGuard</scope><name>release</name></member>
+      <member refid="classthemis_1_1llm_1_1_d_b_connection_guard_1ad9e8f74e7e5bb073904d0efafc3e8ebb" prot="public" virt="non-virtual"><scope>themis::llm::DBConnectionGuard</scope><name>Releaser</name></member>
+      <member refid="classthemis_1_1llm_1_1_d_b_connection_guard_1a9cc7302554a707be9915ba0e51ded178" prot="private" virt="non-virtual"><scope>themis::llm::DBConnectionGuard</scope><name>releaser_</name></member>
+      <member refid="classthemis_1_1llm_1_1_d_b_connection_guard_1af37a5fa04c53db6bfc491f82b1f7d7af" prot="public" virt="non-virtual"><scope>themis::llm::DBConnectionGuard</scope><name>~DBConnectionGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

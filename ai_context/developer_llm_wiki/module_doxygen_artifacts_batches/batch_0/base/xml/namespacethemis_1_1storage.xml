@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1storage" kind="namespace" language="C++">
+    <compoundname>themis::storage</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a2f545a61bfeabc03c7b371659e95dfbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TEST</definition>
+        <argsstring>(BaseEntitySetFieldTest, SetFieldFailsClosedForEmptyFieldName)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::TEST</qualifiedname>
+        <param>
+          <type>BaseEntitySetFieldTest</type>
+        </param>
+        <param>
+          <type>SetFieldFailsClosedForEmptyFieldName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity_focused.cpp" line="8" column="1" bodyfile="tests/base/test_base_entity_focused.cpp" bodystart="8" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1af691c185ab4841b65f17193f87601987" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TEST</definition>
+        <argsstring>(BaseEntitySetFieldTest, SetFieldAcceptsValidFieldName)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::TEST</qualifiedname>
+        <param>
+          <type>BaseEntitySetFieldTest</type>
+        </param>
+        <param>
+          <type>SetFieldAcceptsValidFieldName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity_focused.cpp" line="25" column="1" bodyfile="tests/base/test_base_entity_focused.cpp" bodystart="25" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1aa87679b48149fb96fbf291e874f34fa4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TEST</definition>
+        <argsstring>(BaseEntitySetFieldTest, MultipleFieldsCanBeSetCorrectly)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::TEST</qualifiedname>
+        <param>
+          <type>BaseEntitySetFieldTest</type>
+        </param>
+        <param>
+          <type>MultipleFieldsCanBeSetCorrectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity_focused.cpp" line="38" column="1" bodyfile="tests/base/test_base_entity_focused.cpp" bodystart="38" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1a077058024605bfdaa111abbe6f13f4f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TEST</definition>
+        <argsstring>(BaseEntitySetFieldTest, FailClosedGuardsAreIndependent)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::TEST</qualifiedname>
+        <param>
+          <type>BaseEntitySetFieldTest</type>
+        </param>
+        <param>
+          <type>FailClosedGuardsAreIndependent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity_focused.cpp" line="57" column="1" bodyfile="tests/base/test_base_entity_focused.cpp" bodystart="57" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1storage_1ac654680bba1961bd2096792d1c975523" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TEST</definition>
+        <argsstring>(BaseEntitySetFieldTest, FieldMapCorruptionPrevented)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::storage::TEST</qualifiedname>
+        <param>
+          <type>BaseEntitySetFieldTest</type>
+        </param>
+        <param>
+          <type>FieldMapCorruptionPrevented</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_entity_focused.cpp" line="81" column="1" bodyfile="tests/base/test_base_entity_focused.cpp" bodystart="81" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/base/test_base_entity_focused.cpp" line="5" column="16"/>
+  </compounddef>
+</doxygen>

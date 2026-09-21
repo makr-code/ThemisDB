@@ -1,0 +1,262 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_adaptive_routing" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::AdaptiveRouting</compoundname>
+    <basecompoundref refid="classthemis_1_1tensor_1_1_i_routing_strategy" prot="public" virt="non-virtual">themis::tensor::IRoutingStrategy</basecompoundref>
+    <includes refid="tensor__routing__strategy_8h" local="no">tensor_routing_strategy.h</includes>
+    <innerclass refid="structthemis_1_1tensor_1_1_adaptive_routing_1_1_route_metrics" prot="private">themis::tensor::AdaptiveRouting::RouteMetrics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_adaptive_routing_1a3f50e1dbf488d41b092584cf622b0225" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; std::string, RouteMetrics &gt;</type>
+        <definition>std::unordered_map&lt;std::string, RouteMetrics&gt; themis::tensor::AdaptiveRouting::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::tensor::AdaptiveRouting::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="350" column="32" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adaptive_routing_1a0636279648afc34262364978c4b5a563" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::AdaptiveRouting::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::tensor::AdaptiveRouting::name</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_routing_strategy_1ae07d5ac8344484ea0e4d85d77c4a4480">name</reimplements>
+        <briefdescription>
+<para>Get the name of this routing strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable strategy name. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="318" column="17" bodyfile="src/tensor/tensor_routing_strategy.cpp" bodystart="277" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adaptive_routing_1a8094396fc205f9b57fec1098e15eecb6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_routing_decision" kindref="compound">RoutingDecision</ref></type>
+        <definition>RoutingDecision themis::tensor::AdaptiveRouting::route</definition>
+        <argsstring>(const std::vector&lt; BaseTensorSummary &gt; &amp;summaries, std::size_t candidate_count, float compression_ratio, const index::AnnQueryContext &amp;query_context) const override</argsstring>
+        <name>route</name>
+        <qualifiedname>themis::tensor::AdaptiveRouting::route</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_routing_strategy_1a4acfd3d094925721f69dfb41f0b2669e">route</reimplements>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>candidate_count</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>compression_ratio</declname>
+        </param>
+        <param>
+          <type>const index::AnnQueryContext &amp;</type>
+          <declname>query_context</declname>
+        </param>
+        <briefdescription>
+<para>Make a routing decision for tensor-layer results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>summaries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tensor summaries produced by compression. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidate_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total candidates before compression. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>compression_ratio</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Achieved compression ratio. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original ANN query context. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Routing decision specifying where to forward results. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="320" column="21" bodyfile="src/tensor/tensor_routing_strategy.cpp" bodystart="281" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adaptive_routing_1a48451dce36e5f3edc752b27cb61aba18" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::AdaptiveRouting::shouldRetryOnFailure</definition>
+        <argsstring>(const std::string &amp;reason, int attempt_count, int max_attempts) const noexcept override</argsstring>
+        <name>shouldRetryOnFailure</name>
+        <qualifiedname>themis::tensor::AdaptiveRouting::shouldRetryOnFailure</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_routing_strategy_1ab7c3f15ff0659c25544328688ec3c671">shouldRetryOnFailure</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>attempt_count</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_attempts</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate whether to retry on routing failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Failure reason from primary path. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>attempt_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of retry attempts so far. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_attempts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum allowed retry attempts. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if should retry with fallback strategy. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="326" column="10" bodyfile="src/tensor/tensor_routing_strategy.cpp" bodystart="302" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_adaptive_routing_1a9a92fa374bd07d6f597e0e042fb3ce2e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::AdaptiveRouting::recordOutcome</definition>
+        <argsstring>(const RoutingDecision &amp;decision, bool success, float latency_ms) noexcept</argsstring>
+        <name>recordOutcome</name>
+        <qualifiedname>themis::tensor::AdaptiveRouting::recordOutcome</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_routing_decision" kindref="compound">RoutingDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record the outcome of a routing decision for learning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The routing decision made. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the downstream processing succeeded. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Observed latency in milliseconds. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_routing_strategy.h" line="338" column="10" bodyfile="src/tensor/tensor_routing_strategy.cpp" bodystart="310" bodyend="328"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Routing strategy that adapts based on observed performance metrics. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Learns from past routing decisions and their outcomes to optimize future routing in similar query scenarios. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::tensor::AdaptiveRouting</label>
+        <link refid="classthemis_1_1tensor_1_1_adaptive_routing"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::tensor::IRoutingStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_i_routing_strategy"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::tensor::AdaptiveRouting</label>
+        <link refid="classthemis_1_1tensor_1_1_adaptive_routing"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::tensor::IRoutingStrategy</label>
+        <link refid="classthemis_1_1tensor_1_1_i_routing_strategy"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/tensor_routing_strategy.h" line="316" column="1" bodyfile="include/tensor/tensor_routing_strategy.h" bodystart="316" bodyend="351"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_adaptive_routing_1a3f50e1dbf488d41b092584cf622b0225" prot="private" virt="non-virtual"><scope>themis::tensor::AdaptiveRouting</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adaptive_routing_1a0636279648afc34262364978c4b5a563" prot="public" virt="virtual"><scope>themis::tensor::AdaptiveRouting</scope><name>name</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adaptive_routing_1a9a92fa374bd07d6f597e0e042fb3ce2e" prot="public" virt="non-virtual"><scope>themis::tensor::AdaptiveRouting</scope><name>recordOutcome</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adaptive_routing_1a8094396fc205f9b57fec1098e15eecb6" prot="public" virt="virtual"><scope>themis::tensor::AdaptiveRouting</scope><name>route</name></member>
+      <member refid="classthemis_1_1tensor_1_1_adaptive_routing_1a48451dce36e5f3edc752b27cb61aba18" prot="public" virt="virtual"><scope>themis::tensor::AdaptiveRouting</scope><name>shouldRetryOnFailure</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_routing_strategy_1a9b1482d4c6307d526debca572c637a5c" prot="public" virt="virtual"><scope>themis::tensor::AdaptiveRouting</scope><name>~IRoutingStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

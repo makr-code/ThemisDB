@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_backend_capabilities" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::BackendCapabilities</compoundname>
+    <includes refid="compute__backend_8h" local="no">compute_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_capabilities_1a1e7cc6915a0171289762caf1ed9c00f7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::BackendCapabilities::supportsVectorOps</definition>
+        <argsstring></argsstring>
+        <name>supportsVectorOps</name>
+        <qualifiedname>themis::acceleration::BackendCapabilities::supportsVectorOps</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Backend supports vector similarity (ANN) operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="141" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_capabilities_1a20c5e951b14786ae0c857bf0e5cab80a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::BackendCapabilities::supportsGraphOps</definition>
+        <argsstring></argsstring>
+        <name>supportsGraphOps</name>
+        <qualifiedname>themis::acceleration::BackendCapabilities::supportsGraphOps</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Backend supports graph traversal (BFS, shortest-path). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="142" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_capabilities_1a6fe653f7c34812c0405b0b8ff700dfe9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::BackendCapabilities::supportsGeoOps</definition>
+        <argsstring></argsstring>
+        <name>supportsGeoOps</name>
+        <qualifiedname>themis::acceleration::BackendCapabilities::supportsGeoOps</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Backend supports geospatial operations (distance, containment). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="143" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_capabilities_1a4ecd2879944425d5aea4f8b5a38c05ce" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::BackendCapabilities::supportsMatrixOps</definition>
+        <argsstring></argsstring>
+        <name>supportsMatrixOps</name>
+        <qualifiedname>themis::acceleration::BackendCapabilities::supportsMatrixOps</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Backend supports FP16/BF16 matrix multiply via Tensor Core. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="144" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_capabilities_1a92f82e968491cb2b8b21fe9262611cf0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::BackendCapabilities::supportsBatchProcessing</definition>
+        <argsstring></argsstring>
+        <name>supportsBatchProcessing</name>
+        <qualifiedname>themis::acceleration::BackendCapabilities::supportsBatchProcessing</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Backend can process multiple independent queries in parallel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="145" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_capabilities_1a364aa19acf29f22a818c09b307b2e193" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::BackendCapabilities::supportsAsync</definition>
+        <argsstring></argsstring>
+        <name>supportsAsync</name>
+        <qualifiedname>themis::acceleration::BackendCapabilities::supportsAsync</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Backend supports asynchronous (non-blocking) execution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="146" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_capabilities_1a10405fe421d7fc073ceca61c4de720e5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::BackendCapabilities::supportsAiInference</definition>
+        <argsstring></argsstring>
+        <name>supportsAiInference</name>
+        <qualifiedname>themis::acceleration::BackendCapabilities::supportsAiInference</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Backend supports dedicated AI inference (NPU/ONNX Runtime). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="147" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_capabilities_1a67a5cecee357fac47e13d992eae672ac" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1aef777e7dd3ac6c6539d74768aba452b4" kindref="member">PrecisionMode</ref></type>
+        <definition>PrecisionMode themis::acceleration::BackendCapabilities::supportedPrecisions</definition>
+        <argsstring></argsstring>
+        <name>supportedPrecisions</name>
+        <qualifiedname>themis::acceleration::BackendCapabilities::supportedPrecisions</qualifiedname>
+        <initializer>= PrecisionMode::NONE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="149" column="19" bodyfile="include/acceleration/compute_backend.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_capabilities_1aad45ccd0d17fe90a1d100bd9d6ae115d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::BackendCapabilities::supportedMetrics</definition>
+        <argsstring></argsstring>
+        <name>supportedMetrics</name>
+        <qualifiedname>themis::acceleration::BackendCapabilities::supportedMetrics</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="151" column="14" bodyfile="include/acceleration/compute_backend.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_capabilities_1a05fd5e16924ead9051c113c899d98782" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::BackendCapabilities::maxMemoryBytes</definition>
+        <argsstring></argsstring>
+        <name>maxMemoryBytes</name>
+        <qualifiedname>themis::acceleration::BackendCapabilities::maxMemoryBytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Available VRAM/host memory in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="153" column="12" bodyfile="include/acceleration/compute_backend.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_capabilities_1a328bc1be700ab85753a2aa6b6a127f8c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::acceleration::BackendCapabilities::computeUnits</definition>
+        <argsstring></argsstring>
+        <name>computeUnits</name>
+        <qualifiedname>themis::acceleration::BackendCapabilities::computeUnits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of compute units/SMs (0 for CPU). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="154" column="9" bodyfile="include/acceleration/compute_backend.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_capabilities_1a10f8225716a8dab6b1198778c7511568" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::BackendCapabilities::deviceName</definition>
+        <argsstring></argsstring>
+        <name>deviceName</name>
+        <qualifiedname>themis::acceleration::BackendCapabilities::deviceName</qualifiedname>
+        <briefdescription>
+<para>Human-readable device name (e.g. &quot;RTX 4090&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="155" column="17" bodyfile="include/acceleration/compute_backend.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_capabilities_1a92c8700d3ca7ecbb574484979994e60a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::BackendCapabilities::vendorName</definition>
+        <argsstring></argsstring>
+        <name>vendorName</name>
+        <qualifiedname>themis::acceleration::BackendCapabilities::vendorName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="156" column="17" bodyfile="include/acceleration/compute_backend.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_capabilities_1ac74f207e24f85f958baaa682985871b1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::BackendCapabilities::npuTops</definition>
+        <argsstring></argsstring>
+        <name>npuTops</name>
+        <qualifiedname>themis::acceleration::BackendCapabilities::npuTops</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Reported peak throughput in TOPS (0 = unknown or CPU). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="158" column="17" bodyfile="include/acceleration/compute_backend.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_backend_capabilities_1a4c24035ece74fae94c323e628847281f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::BackendCapabilities::preferredOnnxEP</definition>
+        <argsstring></argsstring>
+        <name>preferredOnnxEP</name>
+        <qualifiedname>themis::acceleration::BackendCapabilities::preferredOnnxEP</qualifiedname>
+        <briefdescription>
+<para>ONNX Runtime execution provider (empty = CPU fallback). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="159" column="17" bodyfile="include/acceleration/compute_backend.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_backend.h" line="140" column="1" bodyfile="include/acceleration/compute_backend.h" bodystart="140" bodyend="160"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a328bc1be700ab85753a2aa6b6a127f8c" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendCapabilities</scope><name>computeUnits</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a10f8225716a8dab6b1198778c7511568" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendCapabilities</scope><name>deviceName</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a05fd5e16924ead9051c113c899d98782" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendCapabilities</scope><name>maxMemoryBytes</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_capabilities_1ac74f207e24f85f958baaa682985871b1" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendCapabilities</scope><name>npuTops</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a4c24035ece74fae94c323e628847281f" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendCapabilities</scope><name>preferredOnnxEP</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_capabilities_1aad45ccd0d17fe90a1d100bd9d6ae115d" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendCapabilities</scope><name>supportedMetrics</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a67a5cecee357fac47e13d992eae672ac" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendCapabilities</scope><name>supportedPrecisions</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a10405fe421d7fc073ceca61c4de720e5" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendCapabilities</scope><name>supportsAiInference</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a364aa19acf29f22a818c09b307b2e193" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendCapabilities</scope><name>supportsAsync</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a92f82e968491cb2b8b21fe9262611cf0" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendCapabilities</scope><name>supportsBatchProcessing</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a6fe653f7c34812c0405b0b8ff700dfe9" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendCapabilities</scope><name>supportsGeoOps</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a20c5e951b14786ae0c857bf0e5cab80a" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendCapabilities</scope><name>supportsGraphOps</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a4ecd2879944425d5aea4f8b5a38c05ce" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendCapabilities</scope><name>supportsMatrixOps</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a1e7cc6915a0171289762caf1ed9c00f7" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendCapabilities</scope><name>supportsVectorOps</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_backend_capabilities_1a92c8700d3ca7ecbb574484979994e60a" prot="public" virt="non-virtual"><scope>themis::acceleration::BackendCapabilities</scope><name>vendorName</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

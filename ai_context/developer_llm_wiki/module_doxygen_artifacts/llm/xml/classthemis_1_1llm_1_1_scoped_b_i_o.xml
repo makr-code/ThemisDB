@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_scoped_b_i_o" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ScopedBIO</compoundname>
+    <includes refid="raii__wrappers_8h" local="no">raii_wrappers.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_scoped_b_i_o_1a17854d502531772ebbd0901404a1c9d5" prot="private" static="no" mutable="no">
+        <type><ref refid="raii__wrappers_8h_1af3fabae1c9af50b9312cdff41e11d1dd" kindref="member">BIO</ref> *</type>
+        <definition>BIO* themis::llm::ScopedBIO::bio_</definition>
+        <argsstring></argsstring>
+        <name>bio_</name>
+        <qualifiedname>themis::llm::ScopedBIO::bio_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="190" column="9" bodyfile="include/llm/raii_wrappers.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_b_i_o_1abc60b540768b2939fab349b0fce4be4b" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedBIO::ScopedBIO</definition>
+        <argsstring>(BIO *bio=nullptr) noexcept</argsstring>
+        <name>ScopedBIO</name>
+        <qualifiedname>themis::llm::ScopedBIO::ScopedBIO</qualifiedname>
+        <param>
+          <type><ref refid="raii__wrappers_8h_1af3fabae1c9af50b9312cdff41e11d1dd" kindref="member">BIO</ref> *</type>
+          <declname>bio</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct from BIO* (takes ownership). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="145" column="14" bodyfile="include/llm/raii_wrappers.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_b_i_o_1acc07530d049b086af69a6f1f2522c92b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedBIO::~ScopedBIO</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ScopedBIO</name>
+        <qualifiedname>themis::llm::ScopedBIO::~ScopedBIO</qualifiedname>
+        <briefdescription>
+<para>Destructor: frees <ref refid="raii__wrappers_8h_1af3fabae1c9af50b9312cdff41e11d1dd" kindref="member">BIO</ref> if not null. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="148" column="5" bodyfile="include/llm/raii_wrappers.h" bodystart="148" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_b_i_o_1a403f4a5a4ec9e646682ced3b8f93ac74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedBIO::ScopedBIO</definition>
+        <argsstring>(const ScopedBIO &amp;)=delete</argsstring>
+        <name>ScopedBIO</name>
+        <qualifiedname>themis::llm::ScopedBIO::ScopedBIO</qualifiedname>
+        <param>
+          <type>const ScopedBIO &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="156" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_b_i_o_1acfe89010445974550e4a496fcb7eef01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1abc60b540768b2939fab349b0fce4be4b" kindref="member">ScopedBIO</ref> &amp;</type>
+        <definition>ScopedBIO &amp; themis::llm::ScopedBIO::operator=</definition>
+        <argsstring>(const ScopedBIO &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::ScopedBIO::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1abc60b540768b2939fab349b0fce4be4b" kindref="member">ScopedBIO</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="157" column="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_b_i_o_1a3c81986f2d2b37358494ec9c18c05308" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedBIO::ScopedBIO</definition>
+        <argsstring>(ScopedBIO &amp;&amp;other) noexcept</argsstring>
+        <name>ScopedBIO</name>
+        <qualifiedname>themis::llm::ScopedBIO::ScopedBIO</qualifiedname>
+        <param>
+          <type>ScopedBIO &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="160" column="5" bodyfile="include/llm/raii_wrappers.h" bodystart="160" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_b_i_o_1abe5e1517ca6e778129f06e743551efe1" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1abc60b540768b2939fab349b0fce4be4b" kindref="member">ScopedBIO</ref> &amp;</type>
+        <definition>ScopedBIO &amp; themis::llm::ScopedBIO::operator=</definition>
+        <argsstring>(ScopedBIO &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::ScopedBIO::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1abc60b540768b2939fab349b0fce4be4b" kindref="member">ScopedBIO</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move assignment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="163" column="15" bodyfile="include/llm/raii_wrappers.h" bodystart="163" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_b_i_o_1afd67619d185d79af45c6176a3c3cb7f2" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="raii__wrappers_8h_1af3fabae1c9af50b9312cdff41e11d1dd" kindref="member">BIO</ref> *</type>
+        <definition>BIO * themis::llm::ScopedBIO::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::llm::ScopedBIO::get</qualifiedname>
+        <briefdescription>
+<para>Get the underlying BIO*. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="169" column="9" bodyfile="include/llm/raii_wrappers.h" bodystart="169" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_b_i_o_1a7f4abe55373a31fb0a2bd8fa8dcef0d9" prot="public" static="no" const="yes" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedBIO::operator bool</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::llm::ScopedBIO::operator bool</qualifiedname>
+        <briefdescription>
+<para>Explicit conversion to bool. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="172" column="14" bodyfile="include/llm/raii_wrappers.h" bodystart="172" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_b_i_o_1aeee7e24759fcdf5524e80af63edd1708" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="raii__wrappers_8h_1af3fabae1c9af50b9312cdff41e11d1dd" kindref="member">BIO</ref> *</type>
+        <definition>BIO * themis::llm::ScopedBIO::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::llm::ScopedBIO::release</qualifiedname>
+        <briefdescription>
+<para>Release ownership without freeing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="175" column="9" bodyfile="include/llm/raii_wrappers.h" bodystart="175" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_b_i_o_1af9a48f04d245a923357d291498b29ca3" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ScopedBIO::reset</definition>
+        <argsstring>(BIO *bio=nullptr) noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::llm::ScopedBIO::reset</qualifiedname>
+        <param>
+          <type><ref refid="raii__wrappers_8h_1af3fabae1c9af50b9312cdff41e11d1dd" kindref="member">BIO</ref> *</type>
+          <declname>bio</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Free and reset to nullptr. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="182" column="10" bodyfile="include/llm/raii_wrappers.h" bodystart="182" bodyend="187"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII wrapper for OpenSSL <ref refid="raii__wrappers_8h_1af3fabae1c9af50b9312cdff41e11d1dd" kindref="member">BIO</ref> (Bio Input/Output). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Automatically frees the <ref refid="raii__wrappers_8h_1af3fabae1c9af50b9312cdff41e11d1dd" kindref="member">BIO</ref> on destruction via BIO_free. Supports move semantics for exception-safe code.</para>
+<para>Exception-safe: destructor is noexcept.</para>
+<para>Example: <programlisting><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_b_i_o_1abc60b540768b2939fab349b0fce4be4b" kindref="member">ScopedBIO</ref><sp/>bio(BIO_new_mem_buf(data,<sp/>size));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!bio)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>create<sp/>BIO&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>bio.get()<sp/>to<sp/>access<sp/>BIO*</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>BIO_free()<sp/>automatically<sp/>called<sp/>here</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/llm/raii_wrappers.h" line="142" column="1" bodyfile="include/llm/raii_wrappers.h" bodystart="142" bodyend="191"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_scoped_b_i_o_1a17854d502531772ebbd0901404a1c9d5" prot="private" virt="non-virtual"><scope>themis::llm::ScopedBIO</scope><name>bio_</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_b_i_o_1afd67619d185d79af45c6176a3c3cb7f2" prot="public" virt="non-virtual"><scope>themis::llm::ScopedBIO</scope><name>get</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_b_i_o_1a7f4abe55373a31fb0a2bd8fa8dcef0d9" prot="public" virt="non-virtual"><scope>themis::llm::ScopedBIO</scope><name>operator bool</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_b_i_o_1acfe89010445974550e4a496fcb7eef01" prot="public" virt="non-virtual"><scope>themis::llm::ScopedBIO</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_b_i_o_1abe5e1517ca6e778129f06e743551efe1" prot="public" virt="non-virtual"><scope>themis::llm::ScopedBIO</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_b_i_o_1aeee7e24759fcdf5524e80af63edd1708" prot="public" virt="non-virtual"><scope>themis::llm::ScopedBIO</scope><name>release</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_b_i_o_1af9a48f04d245a923357d291498b29ca3" prot="public" virt="non-virtual"><scope>themis::llm::ScopedBIO</scope><name>reset</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_b_i_o_1abc60b540768b2939fab349b0fce4be4b" prot="public" virt="non-virtual"><scope>themis::llm::ScopedBIO</scope><name>ScopedBIO</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_b_i_o_1a403f4a5a4ec9e646682ced3b8f93ac74" prot="public" virt="non-virtual"><scope>themis::llm::ScopedBIO</scope><name>ScopedBIO</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_b_i_o_1a3c81986f2d2b37358494ec9c18c05308" prot="public" virt="non-virtual"><scope>themis::llm::ScopedBIO</scope><name>ScopedBIO</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_b_i_o_1acc07530d049b086af69a6f1f2522c92b" prot="public" virt="non-virtual"><scope>themis::llm::ScopedBIO</scope><name>~ScopedBIO</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

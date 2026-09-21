@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_routing_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::RoutingDecision</compoundname>
+    <includes refid="shard__summary__coordinator_8h" local="no">shard_summary_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_routing_decision_1a2f68cdc2dd78b826dcfc4c7ca10cc910" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::RoutingDecision::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::distributed_tensor::RoutingDecision::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="117" column="17" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_routing_decision_1a4677346bb6b6df7e6af3c69caf3e42c9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::RoutingDecision::include_shard</definition>
+        <argsstring></argsstring>
+        <name>include_shard</name>
+        <qualifiedname>themis::distributed_tensor::RoutingDecision::include_shard</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="119" column="10" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_routing_decision_1aaf440b88bf3ba6dedef7d9632305e501" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::RoutingDecision::escalate_to_exact</definition>
+        <argsstring></argsstring>
+        <name>escalate_to_exact</name>
+        <qualifiedname>themis::distributed_tensor::RoutingDecision::escalate_to_exact</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="121" column="10" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_routing_decision_1a617efed089cd2206da8f05ce9b6e9f0a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::RoutingDecision::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::distributed_tensor::RoutingDecision::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="123" column="17" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_routing_decision_1a9043271f9b2a5986a6431ad5bf739672" prot="public" static="no" mutable="no">
+        <type>tensor::SummaryFreshnessState</type>
+        <definition>tensor::SummaryFreshnessState themis::distributed_tensor::RoutingDecision::summary_freshness</definition>
+        <argsstring></argsstring>
+        <name>summary_freshness</name>
+        <qualifiedname>themis::distributed_tensor::RoutingDecision::summary_freshness</qualifiedname>
+        <initializer>= tensor::SummaryFreshnessState::STALE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="125" column="35" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_routing_decision_1ad3ae01935c40253e45de4f85ab8d7d23" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::distributed_tensor::RoutingDecision::advisory_score</definition>
+        <argsstring></argsstring>
+        <name>advisory_score</name>
+        <qualifiedname>themis::distributed_tensor::RoutingDecision::advisory_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="127" column="11" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="116" column="1" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="116" bodyend="128"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_routing_decision_1ad3ae01935c40253e45de4f85ab8d7d23" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RoutingDecision</scope><name>advisory_score</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_routing_decision_1aaf440b88bf3ba6dedef7d9632305e501" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RoutingDecision</scope><name>escalate_to_exact</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_routing_decision_1a4677346bb6b6df7e6af3c69caf3e42c9" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RoutingDecision</scope><name>include_shard</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_routing_decision_1a617efed089cd2206da8f05ce9b6e9f0a" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RoutingDecision</scope><name>reason</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_routing_decision_1a2f68cdc2dd78b826dcfc4c7ca10cc910" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RoutingDecision</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_routing_decision_1a9043271f9b2a5986a6431ad5bf739672" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RoutingDecision</scope><name>summary_freshness</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

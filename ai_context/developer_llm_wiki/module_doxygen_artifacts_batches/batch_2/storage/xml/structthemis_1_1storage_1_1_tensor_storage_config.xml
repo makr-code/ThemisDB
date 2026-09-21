@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_tensor_storage_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::TensorStorageConfig</compoundname>
+    <includes refid="tensor__network__storage__engine_8h" local="no">tensor_network_storage_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_storage_config_1af0b6b221318a0c9b76b4a2776f384688" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_tensor_train_config" kindref="compound">TensorTrainConfig</ref></type>
+        <definition>TensorTrainConfig themis::storage::TensorStorageConfig::tt_config</definition>
+        <argsstring></argsstring>
+        <name>tt_config</name>
+        <qualifiedname>themis::storage::TensorStorageConfig::tt_config</qualifiedname>
+        <briefdescription>
+<para>TT-decomposition parameters applied on <computeroutput>put()</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="63" column="23" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_storage_config_1a42e26577f70b26e5d0a1059aa38716fe" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96db" kindref="member">QuantizationType</ref></type>
+        <definition>QuantizationType themis::storage::TensorStorageConfig::quant_type</definition>
+        <argsstring></argsstring>
+        <name>quant_type</name>
+        <qualifiedname>themis::storage::TensorStorageConfig::quant_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dbaee9d73311ff0658494edfff14c3ec1e3" kindref="member">QuantizationType::INT8</ref></initializer>
+        <briefdescription>
+<para>Quantisation type applied after TT-decomposition. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="66" column="22" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_storage_config_1ae144d976a3b6c7415be35eb961a1602e" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::TensorStorageConfig::version_retention</definition>
+        <argsstring></argsstring>
+        <name>version_retention</name>
+        <qualifiedname>themis::storage::TensorStorageConfig::version_retention</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Number of old versions to retain per field (0 = keep all). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="69" column="17" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_storage_config_1aa6de8d043c6843bc348b0fa425341532" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::TensorStorageConfig::min_compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>min_compression_ratio</name>
+        <qualifiedname>themis::storage::TensorStorageConfig::min_compression_ratio</qualifiedname>
+        <initializer>= 2.0</initializer>
+        <briefdescription>
+<para>Minimum compression ratio to actually store in TT format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When the achieved ratio &lt; min_compression_ratio the engine falls back to storing the raw float32 data (<ref refid="namespacethemis_1_1storage_1aea884c3f11f6a88c16f51083710c96dbab50339a10e1de285ac99d4c3990b8693" kindref="member">QuantizationType::NONE</ref>, rank = full).</para>
+<para>Default: 2.0 (must compress at least 2×). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="79" column="12" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1storage_1_1_tensor_network_storage_engine" kindref="compound">TensorNetworkStorageEngine</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::storage::TensorStorageConfig</label>
+        <link refid="structthemis_1_1storage_1_1_tensor_storage_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>tt_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::storage::TensorTrainConfig</label>
+        <link refid="structthemis_1_1storage_1_1_tensor_train_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/tensor_network_storage_engine.h" line="61" column="1" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="61" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_tensor_storage_config_1aa6de8d043c6843bc348b0fa425341532" prot="public" virt="non-virtual"><scope>themis::storage::TensorStorageConfig</scope><name>min_compression_ratio</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_storage_config_1a42e26577f70b26e5d0a1059aa38716fe" prot="public" virt="non-virtual"><scope>themis::storage::TensorStorageConfig</scope><name>quant_type</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_storage_config_1af0b6b221318a0c9b76b4a2776f384688" prot="public" virt="non-virtual"><scope>themis::storage::TensorStorageConfig</scope><name>tt_config</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_storage_config_1ae144d976a3b6c7415be35eb961a1602e" prot="public" virt="non-virtual"><scope>themis::storage::TensorStorageConfig</scope><name>version_retention</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

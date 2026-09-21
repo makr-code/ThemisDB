@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CTECache::Stats</compoundname>
+    <includes refid="cte__cache_8h" local="no">cte_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1a71d3a87f477646a3b20c3bd918a82c8d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::CTECache::Stats::total_ctes</definition>
+        <argsstring></argsstring>
+        <name>total_ctes</name>
+        <qualifiedname>themis::query::CTECache::Stats::total_ctes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="101" column="16" bodyfile="include/query/cte_cache.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1a382db3a3424b1e54a486cda939e7ae40" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::CTECache::Stats::in_memory_ctes</definition>
+        <argsstring></argsstring>
+        <name>in_memory_ctes</name>
+        <qualifiedname>themis::query::CTECache::Stats::in_memory_ctes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="102" column="16" bodyfile="include/query/cte_cache.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1ad92b187644878280ce2f27daa17f5ed4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::CTECache::Stats::spilled_ctes</definition>
+        <argsstring></argsstring>
+        <name>spilled_ctes</name>
+        <qualifiedname>themis::query::CTECache::Stats::spilled_ctes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="103" column="16" bodyfile="include/query/cte_cache.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1ac0561e9177480d2b7ab439d403155717" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::CTECache::Stats::memory_usage_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_usage_bytes</name>
+        <qualifiedname>themis::query::CTECache::Stats::memory_usage_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="104" column="16" bodyfile="include/query/cte_cache.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1a54c9697552ff37adbcfbd7af31814bfc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::CTECache::Stats::total_results</definition>
+        <argsstring></argsstring>
+        <name>total_results</name>
+        <qualifiedname>themis::query::CTECache::Stats::total_results</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="105" column="16" bodyfile="include/query/cte_cache.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1ad7ffdd8b51a393ef509b79ebbc0bf17c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::CTECache::Stats::spill_operations</definition>
+        <argsstring></argsstring>
+        <name>spill_operations</name>
+        <qualifiedname>themis::query::CTECache::Stats::spill_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="106" column="16" bodyfile="include/query/cte_cache.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1adfe4ec1e19151b4dc6f7f2a43bcb9c21" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::CTECache::Stats::disk_reads</definition>
+        <argsstring></argsstring>
+        <name>disk_reads</name>
+        <qualifiedname>themis::query::CTECache::Stats::disk_reads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cte_cache.h" line="107" column="16" bodyfile="include/query/cte_cache.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/cte_cache.h" line="100" column="5" bodyfile="include/query/cte_cache.h" bodystart="100" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1adfe4ec1e19151b4dc6f7f2a43bcb9c21" prot="public" virt="non-virtual"><scope>themis::query::CTECache::Stats</scope><name>disk_reads</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1a382db3a3424b1e54a486cda939e7ae40" prot="public" virt="non-virtual"><scope>themis::query::CTECache::Stats</scope><name>in_memory_ctes</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1ac0561e9177480d2b7ab439d403155717" prot="public" virt="non-virtual"><scope>themis::query::CTECache::Stats</scope><name>memory_usage_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1ad7ffdd8b51a393ef509b79ebbc0bf17c" prot="public" virt="non-virtual"><scope>themis::query::CTECache::Stats</scope><name>spill_operations</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1ad92b187644878280ce2f27daa17f5ed4" prot="public" virt="non-virtual"><scope>themis::query::CTECache::Stats</scope><name>spilled_ctes</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1a71d3a87f477646a3b20c3bd918a82c8d" prot="public" virt="non-virtual"><scope>themis::query::CTECache::Stats</scope><name>total_ctes</name></member>
+      <member refid="structthemis_1_1query_1_1_c_t_e_cache_1_1_stats_1a54c9697552ff37adbcfbd7af31814bfc" prot="public" virt="non-virtual"><scope>themis::query::CTECache::Stats</scope><name>total_results</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

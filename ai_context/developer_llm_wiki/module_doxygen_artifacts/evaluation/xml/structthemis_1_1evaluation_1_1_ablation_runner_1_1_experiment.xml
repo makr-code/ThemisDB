@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_ablation_runner_1_1_experiment" kind="struct" language="C++" prot="private">
+    <compoundname>themis::evaluation::AblationRunner::Experiment</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_runner_1_1_experiment_1aee9643baabfc462e9914ec1b2c82fd68" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::AblationRunner::Experiment::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::evaluation::AblationRunner::Experiment::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="219" column="24" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_runner_1_1_experiment_1a72a83f75ccdcfe5caa4e1306a0b9b45f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1evaluation_1_1_ablation_config" kindref="compound">AblationConfig</ref></type>
+        <definition>AblationConfig themis::evaluation::AblationRunner::Experiment::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::evaluation::AblationRunner::Experiment::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="220" column="24" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::evaluation::AblationConfig</label>
+        <link refid="structthemis_1_1evaluation_1_1_ablation_config"/>
+      </node>
+      <node id="1">
+        <label>themis::evaluation::AblationRunner::Experiment</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/evaluation/include/ablation_framework.h" line="218" column="5" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="218" bodyend="221"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_runner_1_1_experiment_1a72a83f75ccdcfe5caa4e1306a0b9b45f" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationRunner::Experiment</scope><name>config</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_runner_1_1_experiment_1aee9643baabfc462e9914ec1b2c82fd68" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationRunner::Experiment</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

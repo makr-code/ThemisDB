@@ -8,7 +8,7 @@
 # ============================================================================
 # Stage 1: base - Shared foundation with build tools
 # ============================================================================
-FROM ubuntu:latest AS base
+FROM ubuntu:24.04 AS base
 
 ARG TARGETARCH
 ARG EXTRA_CA_CERT_B64=""
@@ -322,7 +322,7 @@ RUN set -eux; \
 # ============================================================================
 # Stage 5: runtime - Production image
 # ============================================================================
-FROM ubuntu:latest AS runtime
+FROM ubuntu:24.04 AS runtime
 
 ARG THEMIS_EDITION=COMMUNITY
 ARG TARGETARCH
@@ -360,7 +360,7 @@ ENTRYPOINT ["/app/themis_server"]
 # ============================================================================
 # Stage 6: debug - Development/debugging image
 # ============================================================================
-FROM ubuntu:latest AS debug
+FROM ubuntu:24.04 AS debug
 
 ARG THEMIS_EDITION=COMMUNITY
 ARG TARGETARCH

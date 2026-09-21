@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_content_hash_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::ContentHashDetector</compoundname>
+    <basecompoundref refid="classthemis_1_1tensor_1_1_i_redundancy_detector" prot="public" virt="non-virtual">themis::tensor::IRedundancyDetector</basecompoundref>
+    <includes refid="tensor__redundancy__detection_8h" local="no">tensor_redundancy_detection.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_content_hash_detector_1a5af0235b9c95c1609474f08eab87626b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::ContentHashDetector::hash_function</definition>
+        <argsstring></argsstring>
+        <name>hash_function</name>
+        <qualifiedname>themis::tensor::ContentHashDetector::hash_function</qualifiedname>
+        <initializer>= &quot;XXHASH64&quot;</initializer>
+        <briefdescription>
+<para>Hash function to use (e.g., &quot;SHA256&quot;, &quot;XXHASH64&quot;, &quot;BLAKE3&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_redundancy_detection.h" line="147" column="17" bodyfile="include/tensor/tensor_redundancy_detection.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_content_hash_detector_1aa55c7cf0b0f963b4a47d7d4be7ac83b0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::ContentHashDetector::approximate_matching</definition>
+        <argsstring></argsstring>
+        <name>approximate_matching</name>
+        <qualifiedname>themis::tensor::ContentHashDetector::approximate_matching</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether to use approximate hashing for near-duplicates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_redundancy_detection.h" line="150" column="10" bodyfile="include/tensor/tensor_redundancy_detection.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_content_hash_detector_1aa8445055424d1452ca465f3a0632041d" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::ContentHashDetector::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::tensor::ContentHashDetector::name</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_redundancy_detector_1a2c16ef5e4efb6d3810fd995df41b640e">name</reimplements>
+        <briefdescription>
+<para>Get the name of this detector strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable strategy name. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_redundancy_detection.h" line="152" column="17" bodyfile="src/tensor/tensor_redundancy_detection.cpp" bodystart="160" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_content_hash_detector_1a40a2b2a7a553bd51fb04c62c494c2c2b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_redundancy_metrics" kindref="compound">RedundancyMetrics</ref></type>
+        <definition>RedundancyMetrics themis::tensor::ContentHashDetector::detect</definition>
+        <argsstring>(const std::vector&lt; const BaseTensorSummary * &gt; &amp;summaries, float threshold) const override</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::tensor::ContentHashDetector::detect</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_redundancy_detector_1ab1e76b2bfc7f7d5e88b5d1be1739c913">detect</reimplements>
+        <param>
+          <type>const std::vector&lt; const <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> * &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Detect redundant candidates in a summary list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>summaries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of tensor summaries to analyze. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Similarity threshold for redundancy (0.0-1.0). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Redundancy metrics and indices of redundant items. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_redundancy_detection.h" line="154" column="23" bodyfile="src/tensor/tensor_redundancy_detection.cpp" bodystart="164" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_content_hash_detector_1a159d1a68820ebd81302b8a0eb769726f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt; std::size_t &gt; themis::tensor::ContentHashDetector::deduplicate</definition>
+        <argsstring>(std::vector&lt; BaseTensorSummary &gt; &amp;summaries, float threshold) override</argsstring>
+        <name>deduplicate</name>
+        <qualifiedname>themis::tensor::ContentHashDetector::deduplicate</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_redundancy_detector_1a550458709de27722e6111d5881bb71a9">deduplicate</reimplements>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Deduplicate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">summaries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), hashSummary(), count(), push_back(), insert(), std::sort(), rbegin(), rend(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_redundancy_detection.h" line="158" column="17" bodyfile="src/tensor/tensor_redundancy_detection.cpp" bodystart="205" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_content_hash_detector_1aab8d5525d41264192d387768e6f54645" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::ContentHashDetector::areRedundant</definition>
+        <argsstring>(const BaseTensorSummary &amp;a, const BaseTensorSummary &amp;b, float threshold) const noexcept override</argsstring>
+        <name>areRedundant</name>
+        <qualifiedname>themis::tensor::ContentHashDetector::areRedundant</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_redundancy_detector_1ac1dd71862a79332654face92b59e6efb">areRedundant</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Check if two summaries are redundant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First summary. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second summary. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Similarity threshold. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if a and b are considered redundant. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_redundancy_detection.h" line="162" column="10" bodyfile="src/tensor/tensor_redundancy_detection.cpp" bodystart="232" bodyend="238"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_content_hash_detector_1a047dabd3e0298da4aa9bce7da345fe70" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::ContentHashDetector::hashSummary</definition>
+        <argsstring>(const BaseTensorSummary &amp;s) const noexcept</argsstring>
+        <name>hashSummary</name>
+        <qualifiedname>themis::tensor::ContentHashDetector::hashSummary</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Compute hash of a summary&apos;s content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_redundancy_detection.h" line="169" column="18" bodyfile="src/tensor/tensor_redundancy_detection.cpp" bodystart="240" bodyend="253"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Redundancy detection based on content hashing. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Computes cryptographic or LSH hashes of candidate content and identifies exact or near-duplicate items. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::tensor::ContentHashDetector</label>
+        <link refid="classthemis_1_1tensor_1_1_content_hash_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::tensor::IRedundancyDetector</label>
+        <link refid="classthemis_1_1tensor_1_1_i_redundancy_detector"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::tensor::ContentHashDetector</label>
+        <link refid="classthemis_1_1tensor_1_1_content_hash_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::tensor::IRedundancyDetector</label>
+        <link refid="classthemis_1_1tensor_1_1_i_redundancy_detector"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/tensor_redundancy_detection.h" line="144" column="1" bodyfile="include/tensor/tensor_redundancy_detection.h" bodystart="144" bodyend="170"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_content_hash_detector_1aa55c7cf0b0f963b4a47d7d4be7ac83b0" prot="public" virt="non-virtual"><scope>themis::tensor::ContentHashDetector</scope><name>approximate_matching</name></member>
+      <member refid="classthemis_1_1tensor_1_1_content_hash_detector_1aab8d5525d41264192d387768e6f54645" prot="public" virt="virtual"><scope>themis::tensor::ContentHashDetector</scope><name>areRedundant</name></member>
+      <member refid="classthemis_1_1tensor_1_1_content_hash_detector_1a159d1a68820ebd81302b8a0eb769726f" prot="public" virt="virtual"><scope>themis::tensor::ContentHashDetector</scope><name>deduplicate</name></member>
+      <member refid="classthemis_1_1tensor_1_1_content_hash_detector_1a40a2b2a7a553bd51fb04c62c494c2c2b" prot="public" virt="virtual"><scope>themis::tensor::ContentHashDetector</scope><name>detect</name></member>
+      <member refid="classthemis_1_1tensor_1_1_content_hash_detector_1a5af0235b9c95c1609474f08eab87626b" prot="public" virt="non-virtual"><scope>themis::tensor::ContentHashDetector</scope><name>hash_function</name></member>
+      <member refid="classthemis_1_1tensor_1_1_content_hash_detector_1a047dabd3e0298da4aa9bce7da345fe70" prot="private" virt="non-virtual"><scope>themis::tensor::ContentHashDetector</scope><name>hashSummary</name></member>
+      <member refid="classthemis_1_1tensor_1_1_content_hash_detector_1aa8445055424d1452ca465f3a0632041d" prot="public" virt="virtual"><scope>themis::tensor::ContentHashDetector</scope><name>name</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_redundancy_detector_1ac32144a119b014f91b5b9078b540c63a" prot="public" virt="virtual"><scope>themis::tensor::ContentHashDetector</scope><name>~IRedundancyDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

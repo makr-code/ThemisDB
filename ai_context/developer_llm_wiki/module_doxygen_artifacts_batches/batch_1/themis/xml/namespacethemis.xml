@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innerclass refid="structthemis_1_1_graph_edge" prot="public">themis::GraphEdge</innerclass>
+    <innerclass refid="classthemis_1_1_i_expression_evaluator" prot="public">themis::IExpressionEvaluator</innerclass>
+    <innerclass refid="classthemis_1_1_i_field_encryption" prot="public">themis::IFieldEncryption</innerclass>
+    <innerclass refid="classthemis_1_1_i_field_encryption_factory" prot="public">themis::IFieldEncryptionFactory</innerclass>
+    <innerclass refid="classthemis_1_1_i_graph_index" prot="public">themis::IGraphIndex</innerclass>
+    <innerclass refid="classthemis_1_1_i_index_manager" prot="public">themis::IIndexManager</innerclass>
+    <innerclass refid="classthemis_1_1_i_key_provider" prot="public">themis::IKeyProvider</innerclass>
+    <innerclass refid="classthemis_1_1_i_key_provider_factory" prot="public">themis::IKeyProviderFactory</innerclass>
+    <innerclass refid="classthemis_1_1_i_llm_reranker" prot="public">themis::ILlmReranker</innerclass>
+    <innerclass refid="classthemis_1_1_i_query_engine" prot="public">themis::IQueryEngine</innerclass>
+    <innerclass refid="classthemis_1_1_i_query_engine_factory" prot="public">themis::IQueryEngineFactory</innerclass>
+    <innerclass refid="classthemis_1_1_i_secondary_index" prot="public">themis::ISecondaryIndex</innerclass>
+    <innerclass refid="classthemis_1_1_i_storage_engine" prot="public">themis::IStorageEngine</innerclass>
+    <innerclass refid="classthemis_1_1_i_storage_engine_factory" prot="public">themis::IStorageEngineFactory</innerclass>
+    <innerclass refid="classthemis_1_1_i_vector_index" prot="public">themis::IVectorIndex</innerclass>
+    <innerclass refid="structthemis_1_1_llm_rerank_candidate" prot="public">themis::LlmRerankCandidate</innerclass>
+    <innerclass refid="structthemis_1_1_llm_rerank_result" prot="public">themis::LlmRerankResult</innerclass>
+    <innerclass refid="structthemis_1_1_query_result" prot="public">themis::QueryResult</innerclass>
+    <innerclass refid="structthemis_1_1_vector_search_result" prot="public">themis::VectorSearchResult</innerclass>
+    <innernamespace refid="namespacethemis_1_1bench">themis::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1build__info">themis::build_info</innernamespace>
+    <innernamespace refid="namespacethemis_1_1edition">themis::edition</innernamespace>
+    <innernamespace refid="namespacethemis_1_1engine">themis::engine</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <innernamespace refid="namespacethemis_1_1index">themis::index</innernamespace>
+    <innernamespace refid="namespacethemis_1_1license">themis::license</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1modules">themis::modules</innernamespace>
+    <innernamespace refid="namespacethemis_1_1network">themis::network</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1ratelimit">themis::ratelimit</innernamespace>
+    <innernamespace refid="namespacethemis_1_1search">themis::search</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <innernamespace refid="namespacethemis_1_1storage">themis::storage</innernamespace>
+    <innernamespace refid="namespacethemis_1_1tenant">themis::tenant</innernamespace>
+    <innernamespace refid="namespacethemis_1_1wire">themis::wire</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1a013eace978e222f4050cb047a0fad5fc" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>IndexType</name>
+        <qualifiedname>themis::IndexType</qualifiedname>
+        <enumvalue id="namespacethemis_1a013eace978e222f4050cb047a0fad5fca371b09d93ca01e09a42fbd5a2a423f8e" prot="public">
+          <name>SECONDARY</name>
+          <briefdescription>
+<para>B-tree or hash secondary index. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a013eace978e222f4050cb047a0fad5fca87752381b583740610f1dfeb07fdad7e" prot="public">
+          <name>VECTOR</name>
+          <briefdescription>
+<para>Vector similarity index (HNSW, IVF). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a013eace978e222f4050cb047a0fad5fcae27e2917b6444fcd3452d2d87046a487" prot="public">
+          <name>GRAPH</name>
+          <briefdescription>
+<para>Graph adjacency index. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a013eace978e222f4050cb047a0fad5fcace55d2310a16b80d5444c790ab6a32ac" prot="public">
+          <name>FULLTEXT</name>
+          <briefdescription>
+<para>Full-text search index. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a013eace978e222f4050cb047a0fad5fcaca98f17b29f296b28e71520a0aceb506" prot="public">
+          <name>SPATIAL</name>
+          <briefdescription>
+<para>Spatial/geospatial index. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a013eace978e222f4050cb047a0fad5fca817e60c93ea667a3b1f99f516a56fa62" prot="public">
+          <name>COMPOSITE</name>
+          <briefdescription>
+<para>Composite multi-field index. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Index type enumeration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="46" column="1" bodyfile="include/themis/base/interfaces/index_interface.h" bodystart="46" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1aac0f30bcb6a9044e4c5f855fbd6d3116" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ScanOrder</name>
+        <qualifiedname>themis::ScanOrder</qualifiedname>
+        <enumvalue id="namespacethemis_1aac0f30bcb6a9044e4c5f855fbd6d3116a83ec681a20197326c163ea3b39ef7c32" prot="public">
+          <name>ASCENDING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1aac0f30bcb6a9044e4c5f855fbd6d3116acff818f0ae4cef845577e39283886a53" prot="public">
+          <name>DESCENDING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1aac0f30bcb6a9044e4c5f855fbd6d3116a6caf8ac543ee5994b1ab98021bba1173" prot="public">
+          <name>UNORDERED</name>
+          <briefdescription>
+<para>No particular order (fastest for hash indexes). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Index scan order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/index_interface.h" line="56" column="1" bodyfile="include/themis/base/interfaces/index_interface.h" bodystart="56" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1ab7d758bcf46639a37ed07150a36d2849" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_i_expression_evaluator" kindref="compound">IExpressionEvaluator</ref> &gt;</type>
+        <definition>using themis::IExpressionEvaluatorPtr = std::shared_ptr&lt;IExpressionEvaluator&gt;</definition>
+        <argsstring></argsstring>
+        <name>IExpressionEvaluatorPtr</name>
+        <qualifiedname>themis::IExpressionEvaluatorPtr</qualifiedname>
+        <briefdescription>
+<para>Shared pointer type for <ref refid="classthemis_1_1_i_expression_evaluator" kindref="compound">IExpressionEvaluator</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/query_interface.h" line="64" column="1" bodyfile="include/themis/base/interfaces/query_interface.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a4495a00daed741d574aacee334acfb7e" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_i_query_engine" kindref="compound">IQueryEngine</ref> &gt;</type>
+        <definition>using themis::IQueryEnginePtr = std::shared_ptr&lt;IQueryEngine&gt;</definition>
+        <argsstring></argsstring>
+        <name>IQueryEnginePtr</name>
+        <qualifiedname>themis::IQueryEnginePtr</qualifiedname>
+        <briefdescription>
+<para>Shared pointer type for <ref refid="classthemis_1_1_i_query_engine" kindref="compound">IQueryEngine</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/query_interface.h" line="138" column="1" bodyfile="include/themis/base/interfaces/query_interface.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a4d9a6cffb75160033c94bb786247675e" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_i_field_encryption" kindref="compound">IFieldEncryption</ref> &gt;</type>
+        <definition>using themis::IFieldEncryptionPtr = std::shared_ptr&lt;IFieldEncryption&gt;</definition>
+        <argsstring></argsstring>
+        <name>IFieldEncryptionPtr</name>
+        <qualifiedname>themis::IFieldEncryptionPtr</qualifiedname>
+        <briefdescription>
+<para>Shared pointer type for <ref refid="classthemis_1_1_i_field_encryption" kindref="compound">IFieldEncryption</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/security_interface.h" line="63" column="1" bodyfile="include/themis/base/interfaces/security_interface.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a881be642a4a274fb00595863eedce0b1" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_i_key_provider" kindref="compound">IKeyProvider</ref> &gt;</type>
+        <definition>using themis::IKeyProviderPtr = std::shared_ptr&lt;IKeyProvider&gt;</definition>
+        <argsstring></argsstring>
+        <name>IKeyProviderPtr</name>
+        <qualifiedname>themis::IKeyProviderPtr</qualifiedname>
+        <briefdescription>
+<para>Shared pointer type for <ref refid="classthemis_1_1_i_key_provider" kindref="compound">IKeyProvider</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/security_interface.h" line="93" column="1" bodyfile="include/themis/base/interfaces/security_interface.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a7bad16b70e96a62bff6cc3e54e592de0" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_i_index_manager" kindref="compound">IIndexManager</ref> &gt;</type>
+        <definition>using themis::IIndexManagerPtr = std::shared_ptr&lt;IIndexManager&gt;</definition>
+        <argsstring></argsstring>
+        <name>IIndexManagerPtr</name>
+        <qualifiedname>themis::IIndexManagerPtr</qualifiedname>
+        <briefdescription>
+<para>Shared pointer type for <ref refid="classthemis_1_1_i_index_manager" kindref="compound">IIndexManager</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/storage_interface.h" line="28" column="1" bodyfile="include/themis/base/interfaces/storage_interface.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1ae5c523644c20a9d51aba718f2290ac62" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_i_storage_engine" kindref="compound">IStorageEngine</ref> &gt;</type>
+        <definition>using themis::IStorageEnginePtr = std::shared_ptr&lt;IStorageEngine&gt;</definition>
+        <argsstring></argsstring>
+        <name>IStorageEnginePtr</name>
+        <qualifiedname>themis::IStorageEnginePtr</qualifiedname>
+        <briefdescription>
+<para>Shared pointer type for <ref refid="classthemis_1_1_i_storage_engine" kindref="compound">IStorageEngine</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/interfaces/storage_interface.h" line="168" column="1" bodyfile="include/themis/base/interfaces/storage_interface.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/build_info.h" line="29" column="1"/>
+  </compounddef>
+</doxygen>

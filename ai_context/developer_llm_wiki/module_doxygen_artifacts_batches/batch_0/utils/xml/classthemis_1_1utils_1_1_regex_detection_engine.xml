@@ -1,0 +1,1092 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_regex_detection_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::RegexDetectionEngine</compoundname>
+    <basecompoundref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine" prot="public" virt="non-virtual">themis::utils::IPIIDetectionEngine</basecompoundref>
+    <includes refid="regex__detection__engine_8h" local="no">regex_detection_engine.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_regex_detection_engine_1a6135d1f7ba5c1e39d94f6d050eaf6a2d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::RegexDetectionEngine::DEFAULT_MAX_INPUT_SIZE</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_MAX_INPUT_SIZE</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::DEFAULT_MAX_INPUT_SIZE</qualifiedname>
+        <initializer>= 10 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="84" column="29" bodyfile="include/utils/regex_detection_engine.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_regex_detection_engine_1ab8b4eb2c4752c91925fbf6d25dda66a3" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::RegexDetectionEngine::DEFAULT_MAX_REGEX_LENGTH</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_MAX_REGEX_LENGTH</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::DEFAULT_MAX_REGEX_LENGTH</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="85" column="29" bodyfile="include/utils/regex_detection_engine.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_regex_detection_engine_1aef85bccf3a868ba6b4dfc49b7086f2ec" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::utils::RegexDetectionEngine::DEFAULT_PATTERN_TIMEOUT_MS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_PATTERN_TIMEOUT_MS</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::DEFAULT_PATTERN_TIMEOUT_MS</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="86" column="31" bodyfile="include/utils/regex_detection_engine.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_regex_detection_engine_1a8d5e5adc816e45337bbc8cc600c05a90" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::RegexDetectionEngine::enabled_</definition>
+        <argsstring></argsstring>
+        <name>enabled_</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::enabled_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="141" column="10" bodyfile="include/utils/regex_detection_engine.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_regex_detection_engine_1a7af7aa4d8c7e12e0c10f846793ffb493" prot="private" static="no" mutable="yes">
+        <type>std::string</type>
+        <definition>std::string themis::utils::RegexDetectionEngine::last_error_</definition>
+        <argsstring></argsstring>
+        <name>last_error_</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::last_error_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="142" column="25" bodyfile="include/utils/regex_detection_engine.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_regex_detection_engine_1aad5ce718a0bb7b4d9124b151de856a8e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_plugin_signature" kindref="compound">PluginSignature</ref></type>
+        <definition>PluginSignature themis::utils::RegexDetectionEngine::signature_</definition>
+        <argsstring></argsstring>
+        <name>signature_</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::signature_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="143" column="21" bodyfile="include/utils/regex_detection_engine.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_regex_detection_engine_1afd251a18875c8a4b19ad8c5ffde44516" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::RegexDetectionEngine::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="146" column="24" bodyfile="include/utils/regex_detection_engine.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_regex_detection_engine_1ab9b1ccb58fbf8fd2c2f96c2b9e3c292c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1utils_1_1_regex_pattern" kindref="compound">RegexPattern</ref> &gt;</type>
+        <definition>std::vector&lt;RegexPattern&gt; themis::utils::RegexDetectionEngine::patterns_</definition>
+        <argsstring></argsstring>
+        <name>patterns_</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::patterns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="149" column="17" bodyfile="include/utils/regex_detection_engine.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_regex_detection_engine_1afa54f6e86149b24e98d140c4f9e68c93" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, PIIType&gt; themis::utils::RegexDetectionEngine::field_name_hints_</definition>
+        <argsstring></argsstring>
+        <name>field_name_hints_</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::field_name_hints_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="152" column="24" bodyfile="include/utils/regex_detection_engine.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_regex_detection_engine_1ae4cbfacec6edb8c301af2f3e0f6eb196" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref>, std::string &gt;</type>
+        <definition>std::unordered_map&lt;PIIType, std::string&gt; themis::utils::RegexDetectionEngine::redaction_modes_</definition>
+        <argsstring></argsstring>
+        <name>redaction_modes_</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::redaction_modes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="155" column="24" bodyfile="include/utils/regex_detection_engine.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_regex_detection_engine_1aa0b754f3982eebaea2258cd8d4ce1ba4" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::RegexDetectionEngine::min_confidence_</definition>
+        <argsstring></argsstring>
+        <name>min_confidence_</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::min_confidence_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="158" column="12" bodyfile="include/utils/regex_detection_engine.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_regex_detection_engine_1a8bb53079081f16b1089bd111b96c4c9b" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::RegexDetectionEngine::enable_field_hints_</definition>
+        <argsstring></argsstring>
+        <name>enable_field_hints_</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::enable_field_hints_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="159" column="10" bodyfile="include/utils/regex_detection_engine.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_regex_detection_engine_1a5c4e21346a0b1c41216782c901c5ac69" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::RegexDetectionEngine::default_redaction_mode_</definition>
+        <argsstring></argsstring>
+        <name>default_redaction_mode_</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::default_redaction_mode_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="160" column="17" bodyfile="include/utils/regex_detection_engine.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_regex_detection_engine_1a674c51e81bcc02db91ab066dd6cef9e4" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::RegexDetectionEngine::max_regex_length_</definition>
+        <argsstring></argsstring>
+        <name>max_regex_length_</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::max_regex_length_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="161" column="12" bodyfile="include/utils/regex_detection_engine.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_regex_detection_engine_1a66f0ec5f40dae4a72db27af30d55fd90" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::utils::RegexDetectionEngine::pattern_timeout_ms_</definition>
+        <argsstring></argsstring>
+        <name>pattern_timeout_ms_</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::pattern_timeout_ms_</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1utils_1_1_regex_detection_engine_1aef85bccf3a868ba6b4dfc49b7086f2ec" kindref="member">DEFAULT_PATTERN_TIMEOUT_MS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="162" column="14" bodyfile="include/utils/regex_detection_engine.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_regex_detection_engine_1ae5a3146db712552d560e4ee4f77e1c11" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::RegexDetectionEngine::max_input_size_</definition>
+        <argsstring></argsstring>
+        <name>max_input_size_</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::max_input_size_</qualifiedname>
+        <initializer>{10 * 1024 * 1024}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="204" column="12" bodyfile="include/utils/regex_detection_engine.h" bodystart="204" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_regex_detection_engine_1a89678dab2755340504fde7526ea2d865" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::RegexDetectionEngine::detect_redos_patterns_</definition>
+        <argsstring></argsstring>
+        <name>detect_redos_patterns_</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::detect_redos_patterns_</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="205" column="10" bodyfile="include/utils/regex_detection_engine.h" bodystart="205" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_regex_detection_engine_1a48b98a15a860a113879921f62bcf8dab" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::RegexDetectionEngine::validate_utf8_</definition>
+        <argsstring></argsstring>
+        <name>validate_utf8_</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::validate_utf8_</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="206" column="10" bodyfile="include/utils/regex_detection_engine.h" bodystart="206" bodyend="206"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1afc72a37588a6f530d5f9429f96daa688" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::RegexDetectionEngine::RegexDetectionEngine</definition>
+        <argsstring>()</argsstring>
+        <name>RegexDetectionEngine</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::RegexDetectionEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="88" column="5" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="21" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1a92b06d5aa82c23186b3e47e65c271f48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::RegexDetectionEngine::~RegexDetectionEngine</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~RegexDetectionEngine</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::~RegexDetectionEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="89" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1ac7e04b116613ceba20c9dbd6691b794e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::RegexDetectionEngine::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1aba1468a3b221ee881c456281c90de284">getName</reimplements>
+        <briefdescription>
+<para>Get engine name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Engine identifier (e.g., &quot;regex&quot;, &quot;ner&quot;, &quot;embedding&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="92" column="17" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="37" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1acbe684247f21ac2701b87de64cc37204" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::RegexDetectionEngine::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::getVersion</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1afab9397e34d52f26b22a9817f162bc85">getVersion</reimplements>
+        <briefdescription>
+<para>Get engine version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Semantic version string (e.g., &quot;1.0.0&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="93" column="17" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="41" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1a4cbf83cab40c162fe06dda8934b63935" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::RegexDetectionEngine::isEnabled</definition>
+        <argsstring>() const override</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::isEnabled</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a65c5ebd21056e1fadcc9205d55eab38c">isEnabled</reimplements>
+        <briefdescription>
+<para>Check if engine is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if engine is active </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="94" column="10" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="45" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1a2d2f6f01dd6394d480687afd18e65fad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_plugin_signature" kindref="compound">PluginSignature</ref></type>
+        <definition>PluginSignature themis::utils::RegexDetectionEngine::getSignature</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSignature</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::getSignature</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a25c15b7d10a9f91c34b70028d626c3d5">getSignature</reimplements>
+        <briefdescription>
+<para>Get engine&apos;s signature metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Plugin signature for PKI verification </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="95" column="21" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="55" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1a472af44a4209694083141e957c250c8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::RegexDetectionEngine::initialize</definition>
+        <argsstring>(const nlohmann::json &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a49e533d40856a5a1b410a73a0e44c777">initialize</reimplements>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), clear(), value(), contains(), loadPatternsFromConfig(), spdlog::warn(), loadEmbeddedDefaults(), rebuildFieldHints(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="96" column="10" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="71" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1a4e95985697f0c7cf76cfdcd0d639f59e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::RegexDetectionEngine::reload</definition>
+        <argsstring>(const nlohmann::json &amp;config) override</argsstring>
+        <name>reload</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::reload</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1af5275b010649816fa13049ebb568eb19">reload</reimplements>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Reload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), clear(), loadPatternsFromConfig(), spdlog::error(), rebuildFieldHints(), spdlog::info(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="97" column="10" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="128" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1a05f73ffd8f538ca0eebada732d4c95e5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1utils_1_1_p_i_i_finding" kindref="compound">PIIFinding</ref> &gt;</type>
+        <definition>std::vector&lt; PIIFinding &gt; themis::utils::RegexDetectionEngine::detectInText</definition>
+        <argsstring>(const std::string &amp;text) const override</argsstring>
+        <name>detectInText</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::detectInText</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a1acee6e2fc58487211c005027d27e7f7">detectInText</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Detects PII in input text using compiled regex patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text to scan (must be valid UTF-8 if validation enabled). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of <ref refid="structthemis_1_1utils_1_1_p_i_i_finding" kindref="compound">PIIFinding</ref> objects with detected matches.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If UTF-8 validation is enabled and text is not valid UTF-8. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::length_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If text exceeds configured maximum size. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::regex_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If regex matching fails (malformed pattern or catastrophic backtracking).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread-safe: Uses mutex for pattern read access. </para>
+</simplesect>
+<simplesect kind="note"><para>Timeout: Regex matching is bounded by PATTERN_TIMEOUT_MS per pattern batch. If exceeded, remaining patterns are skipped; partial results are returned. </para>
+</simplesect>
+<simplesect kind="note"><para>Fail-Closed: Invalid input throws exception rather than returning empty (prevents silent bypass). </para>
+</simplesect>
+<simplesect kind="note"><para>Backtracking Detection: Malformed patterns with known ReDoS vulnerabilities are pre-filtered. </para>
+</simplesect>
+<simplesect kind="note"><para>Input Bounds: Text is checked against max_input_size limit (default 10MB).</para>
+</simplesect>
+@error PRIVACY_DETECTION_TIMEOUT Regex matching exceeded time budget (partial results returned) @error PRIVACY_PATTERN_OVERFLOW Regex pattern complexity or backtracking limit exceeded @error PRIVACY_INVALID_INPUT UTF-8 validation failed or input oversized @error PRIVACY_ENGINE_FAILED Regex engine threw unexpected exception</para>
+<para><simplesect kind="post"><para>If timeout occurs, spdlog warning is emitted and detection stops; findings detected so far are returned. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="123" column="17" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="154" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1a32ae81b447c7078eba942c21204b6b19" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref></type>
+        <definition>PIIType themis::utils::RegexDetectionEngine::classifyFieldName</definition>
+        <argsstring>(const std::string &amp;field_name) const override</argsstring>
+        <name>classifyFieldName</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::classifyFieldName</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1af3ba446653e7b2ab99a7a06c09346a18">classifyFieldName</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Classify field name for PII type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses engine-specific heuristics (e.g., regex uses field hints, NER uses embeddings).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Field name to classify </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref> if field suggests PII, <ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0baea696b031073e74bf2cb98e5ef201d4aa3" kindref="member">PIIType::UNKNOWN</ref> otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="125" column="13" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="265" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1a764c15ad20c8cfb02aff12b838629492" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::RegexDetectionEngine::getRedactionRecommendation</definition>
+        <argsstring>(PIIType type) const override</argsstring>
+        <name>getRedactionRecommendation</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::getRedactionRecommendation</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a7ed6458bc59c839db088a8ced8fadb8b">getRedactionRecommendation</reimplements>
+        <param>
+          <type><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Get recommended redaction mode for PII type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PII type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>&quot;strict&quot;, &quot;partial&quot;, or &quot;none&quot; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="126" column="17" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="296" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1a0c3de393f1d5b4086bd619391d203870" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::RegexDetectionEngine::getLastError</definition>
+        <argsstring>() const override</argsstring>
+        <name>getLastError</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::getLastError</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a98faa15356d71eee761f734a662b27c8">getLastError</reimplements>
+        <briefdescription>
+<para>Get last error message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="classthemis_1_1_error" kindref="compound">Error</ref> message from last failed operation </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="127" column="17" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="312" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1a5523ad1e8e1d53f2a7f8074002661432" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::utils::RegexDetectionEngine::getMetadata</definition>
+        <argsstring>() const override</argsstring>
+        <name>getMetadata</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::getMetadata</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a749aab70f6baef4f92ba1cf151ac1fdd">getMetadata</reimplements>
+        <briefdescription>
+<para>Get engine-specific metadata (pattern count, model info, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object with engine metadata </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="128" column="20" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="322" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1ac2c852694e43cca211fd8e0be66c40dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::utils::RegexDetectionEngine::maxPatternLength</definition>
+        <argsstring>() const override</argsstring>
+        <name>maxPatternLength</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::maxPatternLength</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1ade98ce1b95dea64affb40210a167e249">maxPatternLength</reimplements>
+        <briefdescription>
+<para>Returns the longest regex string length across all enabled patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner" kindref="compound">PIIStreamScanner</ref> uses this value to set the cross-chunk lookahead buffer so that patterns whose match spans straddle a chunk boundary are still detected. A sliding-window overlap equal to <ref refid="classthemis_1_1utils_1_1_regex_detection_engine_1ac2c852694e43cca211fd8e0be66c40dd" kindref="member">maxPatternLength()</ref> is applied. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="137" column="12" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="344" bodyend="363"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1a75be6445ee25a7228727861d9db36a50" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::RegexDetectionEngine::loadEmbeddedDefaults</definition>
+        <argsstring>()</argsstring>
+        <name>loadEmbeddedDefaults</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::loadEmbeddedDefaults</qualifiedname>
+        <briefdescription>
+<para>Load Embedded Defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(), validateAndCompilePattern(), push_back(), spdlog::info(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="165" column="10" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="369" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1a36c267e1de517ee37d0d4727f88363a5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::RegexDetectionEngine::loadPatternsFromConfig</definition>
+        <argsstring>(const nlohmann::json &amp;config)</argsstring>
+        <name>loadPatternsFromConfig</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::loadPatternsFromConfig</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Load Patterns From Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: contains(), clear(), value(), is_array(), push_back(), parseRegexFlags(), spdlog::warn(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="166" column="10" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="494" bodyend="564"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1aa968521d761e293a818ea71d98e64ff6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::RegexDetectionEngine::validateAndCompilePattern</definition>
+        <argsstring>(RegexPattern &amp;pattern)</argsstring>
+        <name>validateAndCompilePattern</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::validateAndCompilePattern</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1utils_1_1_regex_pattern" kindref="compound">RegexPattern</ref> &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+<para>Validate And Compile Pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::regex(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="167" column="10" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="572" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1ae6e4b2d8249262c02136f39ed9799adc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::RegexDetectionEngine::rebuildFieldHints</definition>
+        <argsstring>()</argsstring>
+        <name>rebuildFieldHints</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::rebuildFieldHints</qualifiedname>
+        <briefdescription>
+<para>Rebuild Field Hints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(), <ref refid="classthemis_1_1utils_1_1_p_i_i_type_utils_1ad66a1c639421393e42dbe56d39abbc15" kindref="member">PIITypeUtils::fromString()</ref>, std::transform(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="168" column="10" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="587" bodyend="610"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1a6675b510ec8ffdc7c444ae2df1ab4f57" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::RegexDetectionEngine::validateRegexComplexity</definition>
+        <argsstring>(const std::string &amp;regex_str) const</argsstring>
+        <name>validateRegexComplexity</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::validateRegexComplexity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>regex_str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="171" column="10" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="612" bodyend="614"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1a2a450467d5adb64fefec34d4951bebef" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::regex::flag_type</type>
+        <definition>std::regex::flag_type themis::utils::RegexDetectionEngine::parseRegexFlags</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;flag_strings) const</argsstring>
+        <name>parseRegexFlags</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::parseRegexFlags</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>flag_strings</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="172" column="27" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="616" bodyend="632"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1a4e57f4bc9cb9dc81843482a87a990939" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::RegexDetectionEngine::luhnCheck</definition>
+        <argsstring>(const std::string &amp;number) const</argsstring>
+        <name>luhnCheck</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::luhnCheck</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>number</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="175" column="10" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="634" bodyend="664"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1a81586df206f09bccd6a63ed014de1c6d" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::RegexDetectionEngine::validateUTF8Input</definition>
+        <argsstring>(std::string_view text) const</argsstring>
+        <name>validateUTF8Input</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::validateUTF8Input</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Validate UTF-8 input for malformed sequences and excessive size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text to validate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if valid, false if malformed or oversized </para>
+</simplesect>
+<simplesect kind="note"><para>Handles combining characters, BOM, emoji, and invalid UTF-8 </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="184" column="11" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="668" bodyend="744"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1a7b6e29e1954ecef31678bf9b2af13a69" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::RegexDetectionEngine::detectReDoSPattern</definition>
+        <argsstring>(const std::string &amp;pattern) const</argsstring>
+        <name>detectReDoSPattern</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::detectReDoSPattern</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+<para>Detect known ReDoS (Regular Expression Denial of Service) patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Regex pattern string to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if pattern is known to be dangerous, false otherwise </para>
+</simplesect>
+<simplesect kind="note"><para>Detects nested quantifiers: (a+)+, (a*)* </para>
+</simplesect>
+<simplesect kind="note"><para>Detects alternation with overlap: (a|a)*, (x|x|x)* </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="193" column="11" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="746" bodyend="797"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_1a45419e9dc264d6ca66c1c0ffbe4ddc81" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::RegexDetectionEngine::checkInputBounds</definition>
+        <argsstring>(std::string_view text) const</argsstring>
+        <name>checkInputBounds</name>
+        <qualifiedname>themis::utils::RegexDetectionEngine::checkInputBounds</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Enforce maximum input size limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if within bounds, false if exceeds limit </para>
+</simplesect>
+<simplesect kind="note"><para>Default limit: 10MB; configurable via max_input_size_ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/regex_detection_engine.h" line="201" column="11" bodyfile="src/utils/regex_detection_engine.cpp" bodystart="799" bodyend="808"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Regex-based PII detection engine. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Fast pattern-based detection for structured PII:<itemizedlist>
+<listitem><para>Email addresses (RFC 5322 simplified)</para>
+</listitem><listitem><para>Phone numbers (international formats)</para>
+</listitem><listitem><para>Social Security Numbers (US format)</para>
+</listitem><listitem><para>Credit card numbers (with Luhn validation)</para>
+</listitem><listitem><para>IBAN (European bank accounts)</para>
+</listitem><listitem><para>IP addresses</para>
+</listitem><listitem><para>URLs</para>
+</listitem></itemizedlist>
+</para>
+<para>Features:<itemizedlist>
+<listitem><para>YAML-based pattern configuration</para>
+</listitem><listitem><para>Runtime reload with validation</para>
+</listitem><listitem><para>Safe fallback to embedded defaults</para>
+</listitem><listitem><para>Configurable confidence levels and redaction modes</para>
+</listitem><listitem><para>Field name heuristics for JSON scanning</para>
+</listitem><listitem><para>Luhn algorithm for credit card validation</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Resource Limits (Phase 2.2c Hardening):</bold><itemizedlist>
+<listitem><para>Maximum pattern match timeout: 5000 ms per pattern batch</para>
+</listitem><listitem><para>Maximum regex pattern length: 500 characters (configurable)</para>
+</listitem><listitem><para>Maximum input text size: 10 MB (configurable)</para>
+</listitem><listitem><para>Regex backtracking detection: Prevents ReDoS (Regular Expression Denial of Service)</para>
+</listitem><listitem><para>UTF-8 validation: Detects malformed sequences, combining marks, BOM, emoji</para>
+</listitem></itemizedlist>
+</para>
+<para>Example YAML configuration: <programlisting filename=".yaml"><codeline><highlight class="normal">patterns:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>-<sp/>name:<sp/>EMAIL</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>regex:<sp/>&apos;[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}&apos;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>flags:<sp/>[&quot;icase&quot;]</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>confidence:<sp/>0.95</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>redaction_mode:<sp/>&quot;partial&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>field_hints:<sp/>[&quot;email&quot;,<sp/>&quot;mail&quot;,<sp/>&quot;email_address&quot;]</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>enabled:<sp/>true</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para><bold>Degradation Contract (2.8d):</bold> On pattern match timeout, spdlog warning is emitted, and partial results are returned. Invalid regex patterns are caught during compilation and logged as errors; malformed patterns are disabled. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::utils::IPIIDetectionEngine</label>
+        <link refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine"/>
+      </node>
+      <node id="1">
+        <label>themis::utils::RegexDetectionEngine</label>
+        <link refid="classthemis_1_1utils_1_1_regex_detection_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::utils::IPIIDetectionEngine</label>
+        <link refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine"/>
+      </node>
+      <node id="1">
+        <label>themis::utils::RegexDetectionEngine</label>
+        <link refid="classthemis_1_1utils_1_1_regex_detection_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/utils/regex_detection_engine.h" line="81" column="1" bodyfile="include/utils/regex_detection_engine.h" bodystart="81" bodyend="207"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a45419e9dc264d6ca66c1c0ffbe4ddc81" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>checkInputBounds</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a32ae81b447c7078eba942c21204b6b19" prot="public" virt="virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>classifyFieldName</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a6135d1f7ba5c1e39d94f6d050eaf6a2d" prot="public" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>DEFAULT_MAX_INPUT_SIZE</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1ab8b4eb2c4752c91925fbf6d25dda66a3" prot="public" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>DEFAULT_MAX_REGEX_LENGTH</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1aef85bccf3a868ba6b4dfc49b7086f2ec" prot="public" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>DEFAULT_PATTERN_TIMEOUT_MS</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a5c4e21346a0b1c41216782c901c5ac69" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>default_redaction_mode_</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a89678dab2755340504fde7526ea2d865" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>detect_redos_patterns_</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a05f73ffd8f538ca0eebada732d4c95e5" prot="public" virt="virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>detectInText</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a7b6e29e1954ecef31678bf9b2af13a69" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>detectReDoSPattern</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a8bb53079081f16b1089bd111b96c4c9b" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>enable_field_hints_</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a8d5e5adc816e45337bbc8cc600c05a90" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>enabled_</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1afa54f6e86149b24e98d140c4f9e68c93" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>field_name_hints_</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a0c3de393f1d5b4086bd619391d203870" prot="public" virt="virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a5523ad1e8e1d53f2a7f8074002661432" prot="public" virt="virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>getMetadata</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1ac7e04b116613ceba20c9dbd6691b794e" prot="public" virt="virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>getName</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a764c15ad20c8cfb02aff12b838629492" prot="public" virt="virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>getRedactionRecommendation</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a2d2f6f01dd6394d480687afd18e65fad" prot="public" virt="virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>getSignature</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1acbe684247f21ac2701b87de64cc37204" prot="public" virt="virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a472af44a4209694083141e957c250c8a" prot="public" virt="virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a4cbf83cab40c162fe06dda8934b63935" prot="public" virt="virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a7af7aa4d8c7e12e0c10f846793ffb493" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>last_error_</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a75be6445ee25a7228727861d9db36a50" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>loadEmbeddedDefaults</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a36c267e1de517ee37d0d4727f88363a5" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>loadPatternsFromConfig</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a4e57f4bc9cb9dc81843482a87a990939" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>luhnCheck</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1ae5a3146db712552d560e4ee4f77e1c11" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>max_input_size_</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a674c51e81bcc02db91ab066dd6cef9e4" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>max_regex_length_</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1ac2c852694e43cca211fd8e0be66c40dd" prot="public" virt="virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>maxPatternLength</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1aa0b754f3982eebaea2258cd8d4ce1ba4" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>min_confidence_</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1afd251a18875c8a4b19ad8c5ffde44516" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a2a450467d5adb64fefec34d4951bebef" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>parseRegexFlags</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a66f0ec5f40dae4a72db27af30d55fd90" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>pattern_timeout_ms_</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1ab9b1ccb58fbf8fd2c2f96c2b9e3c292c" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>patterns_</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1ae6e4b2d8249262c02136f39ed9799adc" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>rebuildFieldHints</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1ae4cbfacec6edb8c301af2f3e0f6eb196" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>redaction_modes_</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1afc72a37588a6f530d5f9429f96daa688" prot="public" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>RegexDetectionEngine</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a4e95985697f0c7cf76cfdcd0d639f59e" prot="public" virt="virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>reload</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1aad5ce718a0bb7b4d9124b151de856a8e" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>signature_</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a48b98a15a860a113879921f62bcf8dab" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>validate_utf8_</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1aa968521d761e293a818ea71d98e64ff6" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>validateAndCompilePattern</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a6675b510ec8ffdc7c444ae2df1ab4f57" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>validateRegexComplexity</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a81586df206f09bccd6a63ed014de1c6d" prot="private" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>validateUTF8Input</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a487a9425fb15d7696e0d01737e5775c0" prot="public" virt="virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>~IPIIDetectionEngine</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_1a92b06d5aa82c23186b3e47e65c271f48" prot="public" virt="non-virtual"><scope>themis::utils::RegexDetectionEngine</scope><name>~RegexDetectionEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

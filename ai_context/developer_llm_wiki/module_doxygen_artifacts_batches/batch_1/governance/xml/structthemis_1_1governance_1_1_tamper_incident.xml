@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_tamper_incident" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::TamperIncident</compoundname>
+    <includes refid="governance__audit__integrity_8h" local="no">governance_audit_integrity.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7fec" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TamperType</name>
+        <qualifiedname>themis::governance::TamperIncident::TamperType</qualifiedname>
+        <enumvalue id="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7fecad0eb6b378baae0b4b64c2933674e61fc" prot="public">
+          <name>INVALID_SIGNATURE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7feca1076a45b2f5fe760fdddb4038f5fda10" prot="public">
+          <name>BROKEN_CHAIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7fecaf16391370c3f8ee7b594c94f22924c8a" prot="public">
+          <name>MISSING_ENTRY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7feca1cfb76a7e18d0bb84884e46ea067ef60" prot="public">
+          <name>REORDERED_ENTRY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7fecaeaedd764f88f3e0fe323b903b431ef08" prot="public">
+          <name>ALTERED_ENTRY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7feca0d66a0be739637348589c95077cde692" prot="public">
+          <name>CLOCK_SKEW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7feca9552e19e11361ca637f444c195885dc6" prot="public">
+          <name>KEY_ROTATION_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="194" column="5" bodyfile="include/governance/governance_audit_integrity.h" bodystart="194" bodyend="202"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_tamper_incident_1ad915fa69d809902939aeb08eec547f85" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::TamperIncident::incident_id</definition>
+        <argsstring></argsstring>
+        <name>incident_id</name>
+        <qualifiedname>themis::governance::TamperIncident::incident_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="204" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_tamper_incident_1afa0f6165250949ae48c34192b9a1f05f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7fec" kindref="member">TamperType</ref></type>
+        <definition>TamperType themis::governance::TamperIncident::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::governance::TamperIncident::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="205" column="16" bodyfile="include/governance/governance_audit_integrity.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_tamper_incident_1ae45d17fcdb9021aaec1ccafc1c620e49" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::TamperIncident::detected_at_ms</definition>
+        <argsstring></argsstring>
+        <name>detected_at_ms</name>
+        <qualifiedname>themis::governance::TamperIncident::detected_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="206" column="13" bodyfile="include/governance/governance_audit_integrity.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_tamper_incident_1a2c34cc16e4ce3c9e87dc8f832551eba3" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::TamperIncident::tamper_entry_sequence</definition>
+        <argsstring></argsstring>
+        <name>tamper_entry_sequence</name>
+        <qualifiedname>themis::governance::TamperIncident::tamper_entry_sequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="207" column="13" bodyfile="include/governance/governance_audit_integrity.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_tamper_incident_1ad8ee3e562b796438f510c54bb9c574f5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::TamperIncident::tamper_entry_id</definition>
+        <argsstring></argsstring>
+        <name>tamper_entry_id</name>
+        <qualifiedname>themis::governance::TamperIncident::tamper_entry_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="208" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_tamper_incident_1ad4427ca459c8c23a9f54923905e4af59" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::TamperIncident::evidence</definition>
+        <argsstring></argsstring>
+        <name>evidence</name>
+        <qualifiedname>themis::governance::TamperIncident::evidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="209" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_tamper_incident_1aeb33d9c430690382a2abf950af99ed3a" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::TamperIncident::affected_entry_count</definition>
+        <argsstring></argsstring>
+        <name>affected_entry_count</name>
+        <qualifiedname>themis::governance::TamperIncident::affected_entry_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="210" column="13" bodyfile="include/governance/governance_audit_integrity.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_tamper_incident_1ac653e50ce3e6234a5d196dfaa19351eb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::TamperIncident::is_critical</definition>
+        <argsstring></argsstring>
+        <name>is_critical</name>
+        <qualifiedname>themis::governance::TamperIncident::is_critical</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="211" column="10" bodyfile="include/governance/governance_audit_integrity.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_tamper_incident_1aeb7816186795685622a956e2898b757e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::TamperIncident::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::TamperIncident::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="217" column="20" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="365" bodyend="376"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_tamper_incident_1a21f3fec49231b4fb33ef6cd173c8d824" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_tamper_incident" kindref="compound">TamperIncident</ref></type>
+        <definition>TamperIncident themis::governance::TamperIncident::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::governance::TamperIncident::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="223" column="27" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="384" bodyend="411"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/governance_audit_integrity.h" line="193" column="1" bodyfile="include/governance/governance_audit_integrity.h" bodystart="193" bodyend="224"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_tamper_incident_1aeb33d9c430690382a2abf950af99ed3a" prot="public" virt="non-virtual"><scope>themis::governance::TamperIncident</scope><name>affected_entry_count</name></member>
+      <member refid="structthemis_1_1governance_1_1_tamper_incident_1ae45d17fcdb9021aaec1ccafc1c620e49" prot="public" virt="non-virtual"><scope>themis::governance::TamperIncident</scope><name>detected_at_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_tamper_incident_1ad4427ca459c8c23a9f54923905e4af59" prot="public" virt="non-virtual"><scope>themis::governance::TamperIncident</scope><name>evidence</name></member>
+      <member refid="structthemis_1_1governance_1_1_tamper_incident_1a21f3fec49231b4fb33ef6cd173c8d824" prot="public" virt="non-virtual"><scope>themis::governance::TamperIncident</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_tamper_incident_1ad915fa69d809902939aeb08eec547f85" prot="public" virt="non-virtual"><scope>themis::governance::TamperIncident</scope><name>incident_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_tamper_incident_1ac653e50ce3e6234a5d196dfaa19351eb" prot="public" virt="non-virtual"><scope>themis::governance::TamperIncident</scope><name>is_critical</name></member>
+      <member refid="structthemis_1_1governance_1_1_tamper_incident_1ad8ee3e562b796438f510c54bb9c574f5" prot="public" virt="non-virtual"><scope>themis::governance::TamperIncident</scope><name>tamper_entry_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_tamper_incident_1a2c34cc16e4ce3c9e87dc8f832551eba3" prot="public" virt="non-virtual"><scope>themis::governance::TamperIncident</scope><name>tamper_entry_sequence</name></member>
+      <member refid="structthemis_1_1governance_1_1_tamper_incident_1ace4d37d25ce709b896b50e3280da7fec" prot="public" virt="non-virtual"><scope>themis::governance::TamperIncident</scope><name>TamperType</name></member>
+      <member refid="structthemis_1_1governance_1_1_tamper_incident_1aeb7816186795685622a956e2898b757e" prot="public" virt="non-virtual"><scope>themis::governance::TamperIncident</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_tamper_incident_1afa0f6165250949ae48c34192b9a1f05f" prot="public" virt="non-virtual"><scope>themis::governance::TamperIncident</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

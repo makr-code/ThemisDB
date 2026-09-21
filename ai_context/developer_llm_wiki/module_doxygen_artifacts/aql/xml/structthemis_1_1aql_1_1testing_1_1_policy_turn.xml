@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1testing_1_1_policy_turn" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::testing::PolicyTurn</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_policy_turn_1a98c78480134313ee85b1369d6f7f6400" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::PolicyTurn::nl_query</definition>
+        <argsstring></argsstring>
+        <name>nl_query</name>
+        <qualifiedname>themis::aql::testing::PolicyTurn::nl_query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_policy.cpp" line="35" column="17" bodyfile="tests/aql/test_aql_token_policy.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_policy_turn_1ac579de8456c87fed1f72f5475b49522b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::PolicyTurn::aql_result</definition>
+        <argsstring></argsstring>
+        <name>aql_result</name>
+        <qualifiedname>themis::aql::testing::PolicyTurn::aql_result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_policy.cpp" line="36" column="17" bodyfile="tests/aql/test_aql_token_policy.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_policy_turn_1a91c6331dbf48bf7b2412ef248096f7d2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::testing::PolicyTurn::token_count</definition>
+        <argsstring></argsstring>
+        <name>token_count</name>
+        <qualifiedname>themis::aql::testing::PolicyTurn::token_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_token_policy.cpp" line="37" column="17" bodyfile="tests/aql/test_aql_token_policy.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_token_policy.cpp" line="34" column="1" bodyfile="tests/aql/test_aql_token_policy.cpp" bodystart="34" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_policy_turn_1ac579de8456c87fed1f72f5475b49522b" prot="public" virt="non-virtual"><scope>themis::aql::testing::PolicyTurn</scope><name>aql_result</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_policy_turn_1a98c78480134313ee85b1369d6f7f6400" prot="public" virt="non-virtual"><scope>themis::aql::testing::PolicyTurn</scope><name>nl_query</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_policy_turn_1a91c6331dbf48bf7b2412ef248096f7d2" prot="public" virt="non-virtual"><scope>themis::aql::testing::PolicyTurn</scope><name>token_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

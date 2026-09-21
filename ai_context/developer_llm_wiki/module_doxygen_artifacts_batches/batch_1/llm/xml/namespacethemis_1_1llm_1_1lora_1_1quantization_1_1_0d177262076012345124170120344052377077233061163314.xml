@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1lora_1_1quantization_1_1_0d177262076012345124170120344052377077233061163314" kind="namespace" language="C++">
+    <compoundname>themis::llm::lora::quantization::@177262076012345124170120344052377077233061163314</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/lora_framework/quantization.cpp" line="94" column="1"/>
+  </compounddef>
+</doxygen>

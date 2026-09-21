@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_path_constraints_1_1_path_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::PathConstraints::PathResult</compoundname>
+    <includes refid="path__constraints_8h" local="no">path_constraints.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1a8f13528cfc7371b565e7946a4bb09a2d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::PathConstraints::PathResult::nodes</definition>
+        <argsstring></argsstring>
+        <name>nodes</name>
+        <qualifiedname>themis::graph::PathConstraints::PathResult::nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="66" column="21" bodyfile="include/graph/path_constraints.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1a5fed123e6a3b40915e67fa8630eef211" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::PathConstraints::PathResult::edges</definition>
+        <argsstring></argsstring>
+        <name>edges</name>
+        <qualifiedname>themis::graph::PathConstraints::PathResult::edges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="67" column="21" bodyfile="include/graph/path_constraints.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1aa49426cca23b9771086d16089b4a71e1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::PathConstraints::PathResult::cost</definition>
+        <argsstring></argsstring>
+        <name>cost</name>
+        <qualifiedname>themis::graph::PathConstraints::PathResult::cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="68" column="16" bodyfile="include/graph/path_constraints.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1a6cfd562dc06b04f82f8e6e042c613da8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::PathConstraints::PathResult::satisfies_all_constraints</definition>
+        <argsstring></argsstring>
+        <name>satisfies_all_constraints</name>
+        <qualifiedname>themis::graph::PathConstraints::PathResult::satisfies_all_constraints</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="69" column="14" bodyfile="include/graph/path_constraints.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1a3fc9a6bc8a741faad98123a9a1f8e2e6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::PathConstraints::PathResult::violated_constraints</definition>
+        <argsstring></argsstring>
+        <name>violated_constraints</name>
+        <qualifiedname>themis::graph::PathConstraints::PathResult::violated_constraints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="70" column="21" bodyfile="include/graph/path_constraints.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/path_constraints.h" line="65" column="5" bodyfile="include/graph/path_constraints.h" bodystart="65" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1aa49426cca23b9771086d16089b4a71e1" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::PathResult</scope><name>cost</name></member>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1a5fed123e6a3b40915e67fa8630eef211" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::PathResult</scope><name>edges</name></member>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1a8f13528cfc7371b565e7946a4bb09a2d" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::PathResult</scope><name>nodes</name></member>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1a6cfd562dc06b04f82f8e6e042c613da8" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::PathResult</scope><name>satisfies_all_constraints</name></member>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_path_result_1a3fc9a6bc8a741faad98123a9a1f8e2e6" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::PathResult</scope><name>violated_constraints</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

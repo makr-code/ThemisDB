@@ -1,0 +1,312 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacechimera" kind="namespace" language="C++">
+    <compoundname>chimera</compoundname>
+    <innerclass refid="structchimera_1_1_batch_config" prot="public">chimera::BatchConfig</innerclass>
+    <innerclass refid="structchimera_1_1_batch_statistics" prot="public">chimera::BatchStatistics</innerclass>
+    <innerclass refid="classchimera_1_1_i_batch_adapter" prot="public">chimera::IBatchAdapter</innerclass>
+    <innerclass refid="classchimera_1_1_i_prepared_statement" prot="public">chimera::IPreparedStatement</innerclass>
+    <innerclass refid="classchimera_1_1_i_prepared_statement_adapter" prot="public">chimera::IPreparedStatementAdapter</innerclass>
+    <innerclass refid="classchimera_1_1_i_result_stream" prot="public">chimera::IResultStream</innerclass>
+    <innerclass refid="classchimera_1_1_i_streaming_adapter" prot="public">chimera::IStreamingAdapter</innerclass>
+    <innerclass refid="classchimera_1_1_mongo_d_b_adapter" prot="public">chimera::MongoDBAdapter</innerclass>
+    <innerclass refid="classchimera_1_1_neo4j_adapter" prot="public">chimera::Neo4jAdapter</innerclass>
+    <innerclass refid="structchimera_1_1_operation" prot="public">chimera::Operation</innerclass>
+    <innerclass refid="classchimera_1_1_qdrant_adapter" prot="public">chimera::QdrantAdapter</innerclass>
+    <innerclass refid="structchimera_1_1_query_statistics" prot="public">chimera::QueryStatistics</innerclass>
+    <innerclass refid="structchimera_1_1_relational_row" prot="public">chimera::RelationalRow</innerclass>
+    <innerclass refid="structchimera_1_1_relational_table" prot="public">chimera::RelationalTable</innerclass>
+    <innerclass refid="structchimera_1_1_result" prot="public">chimera::Result</innerclass>
+    <innerclass refid="classchimera_1_1_retry_executor" prot="public">chimera::RetryExecutor</innerclass>
+    <innerclass refid="structchimera_1_1_retry_policy" prot="public">chimera::RetryPolicy</innerclass>
+    <innerclass refid="structchimera_1_1_stream_config" prot="public">chimera::StreamConfig</innerclass>
+    <innerclass refid="classchimera_1_1_themis_d_b_adapter" prot="public">chimera::ThemisDBAdapter</innerclass>
+    <innerclass refid="classchimera_1_1_themis_d_b_prepared_statement" prot="public">chimera::ThemisDBPreparedStatement</innerclass>
+    <innerclass refid="classchimera_1_1_themis_d_b_result_stream" prot="public">chimera::ThemisDBResultStream</innerclass>
+    <innerclass refid="classchimera_1_1_transaction_context" prot="public">chimera::TransactionContext</innerclass>
+    <innerclass refid="classchimera_1_1_transaction_handle" prot="public">chimera::TransactionHandle</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ErrorCode</name>
+        <qualifiedname>chimera::ErrorCode</qualifiedname>
+        <enumvalue id="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39ad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a3e860a081575fc82cc7b6ed2ca602947" prot="public">
+          <name>NOT_IMPLEMENTED</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39af295a0c3e37c94f078e1c5476479132d" prot="public">
+          <name>INVALID_ARGUMENT</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a8c02547a8a3b02382bac3557bcb2280d" prot="public">
+          <name>NOT_FOUND</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a08e6da8e58b2bcd070be3b5274d51eed" prot="public">
+          <name>ALREADY_EXISTS</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a255df50c140519133f1489ab44a389d9" prot="public">
+          <name>PERMISSION_DENIED</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39ac77f1f09dab2c0c9980fca7cfae02518" prot="public">
+          <name>CONNECTION_ERROR</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a070a0fb40f6c308ab544b227660aadff" prot="public">
+          <name>TIMEOUT</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a4a739fa42dcdbdb8dfe5a5e4d9c5a627" prot="public">
+          <name>RESOURCE_EXHAUSTED</name>
+          <initializer>= 8</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39ae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 9</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a40aa75f8e8cfdf7b660c5620e953229f" prot="public">
+          <name>UNSUPPORTED</name>
+          <initializer>= 10</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39acbc105d7c0998520bf5abeccbe52f761" prot="public">
+          <name>TRANSACTION_ABORTED</name>
+          <initializer>= 11</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a1d67a525f6cada988939ffdd393cae45" prot="public">
+          <name>CONSTRAINT_VIOLATION</name>
+          <initializer>= 12</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a8f35b656de87c54e18710fc94d73a614" prot="public">
+          <name>DEADLOCK</name>
+          <initializer>= 13</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39af084bb2f347532778764a8206854e27f" prot="public">
+          <name>DISPATCH_FAILED</name>
+          <initializer>= 14</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a45933607bbffda9d4daf71f4a2c314ed" prot="public">
+          <name>CAPABILITY_MISMATCH</name>
+          <initializer>= 15</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="60" column="1" bodyfile="include/chimera/database_adapter.hpp" bodystart="60" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacechimera_1af60dde6e35ebe61bfef457662321dc81" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>IsolationLevel</name>
+        <qualifiedname>chimera::IsolationLevel</qualifiedname>
+        <enumvalue id="namespacechimera_1af60dde6e35ebe61bfef457662321dc81a7b5722b7d02a9d8ff3a8bdfcb7d278c3" prot="public">
+          <name>READ_UNCOMMITTED</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Lowest isolation; allows dirty reads. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1af60dde6e35ebe61bfef457662321dc81a1671fb17b5ce9bd0af0cf47f3f4ea337" prot="public">
+          <name>READ_COMMITTED</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Default; prevents dirty reads. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1af60dde6e35ebe61bfef457662321dc81aa4b37efaa1a6b533614ed81660dbf912" prot="public">
+          <name>REPEATABLE_READ</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Prevents non-repeatable reads. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1af60dde6e35ebe61bfef457662321dc81aadfafde622c8622bb72e4ff73e295cdb" prot="public">
+          <name>SERIALIZABLE</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Highest isolation; acts as if transactions ran serially. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="22" column="1" bodyfile="include/chimera/transaction.hpp" bodystart="22" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacechimera_1a049810d1c4a4924e492bc235cff6f16c" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>TransactionState</name>
+        <qualifiedname>chimera::TransactionState</qualifiedname>
+        <enumvalue id="namespacechimera_1a049810d1c4a4924e492bc235cff6f16ca17130e6c806885e23770df1519b18eb7" prot="public">
+          <name>STARTED</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Transaction created but not yet active. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1a049810d1c4a4924e492bc235cff6f16ca18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Actively executing operations. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1a049810d1c4a4924e492bc235cff6f16ca1c372d13f50af5ca9a935ebc78006e82" prot="public">
+          <name>COMMITTED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Successfully committed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1a049810d1c4a4924e492bc235cff6f16ca4e6c860e5da10e31c5fd9cb76ddc2025" prot="public">
+          <name>ABORTED</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Rolled back or aborted due to error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacechimera_1a049810d1c4a4924e492bc235cff6f16cab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Failed during commit/rollback (unrecoverable state). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/transaction.hpp" line="29" column="1" bodyfile="include/chimera/transaction.hpp" bodystart="29" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacechimera_1ad6242315598fd088735827495e1d8e4e" prot="public" static="no">
+        <type>std::variant&lt; std::monostate, bool, int64_t, double, std::string, std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>using chimera::Scalar =  std::variant&lt;
+    std::monostate,
+    bool,
+    int64_t,
+    double,
+    std::string,
+    std::vector&lt;uint8_t&gt;
+&gt;</definition>
+        <argsstring></argsstring>
+        <name>Scalar</name>
+        <qualifiedname>chimera::Scalar</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/database_adapter.hpp" line="110" column="1" bodyfile="include/chimera/database_adapter.hpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="namespacechimera_1autotoc_md2">
+<title>STUB/SHIM: ThemisDBAdapter fallback implementation</title><para>Purpose: Minimal, non-production fallback used only by focused unit tests when the full CHIMERA adapter implementation is not linked.</para>
+<para>Activation: Included into focused test targets via <computeroutput>tests/chimera/CMakeLists.txt</computeroutput> through <computeroutput>target_sources()</computeroutput>.</para>
+<para>Production Delta: This file MUST NOT be used in production builds. It intentionally returns <computeroutput><ref refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a3e860a081575fc82cc7b6ed2ca602947" kindref="member">ErrorCode::NOT_IMPLEMENTED</ref></computeroutput> for most operations and provides no real persistence or engine integration.</para>
+<para>Removal Plan: Replace with the real <computeroutput><ref refid="classchimera_1_1_themis_d_b_adapter" kindref="compound">ThemisDBAdapter</ref></computeroutput> implementation or link the upstream CHIMERA adapter sources before merging into release branches. Track removal in <computeroutput>src/STUB_INVENTORY.md</computeroutput>.</para>
+<para>Approval: Any change adding production logic here requires explicit human approval and a documented justification in the PR body.</para>
+<para>Marker: &quot;CHIMERA_FALLBACK_STUB&quot; compile-definition is set by the focused-test CMake to help tooling detect stub usage. </para>
+</sect1>
+    </detaileddescription>
+    <location file="include/chimera/batch_executor.hpp" line="19" column="1"/>
+  </compounddef>
+</doxygen>

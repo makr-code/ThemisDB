@@ -1,0 +1,1064 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_async_wal_shipper" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::AsyncWalShipper</compoundname>
+    <includes refid="async__wal__shipper_8h" local="no">async_wal_shipper.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a8d2e5ef96a80fb6421a9a5d5b6c2d99b" prot="public" static="no">
+        <type>std::function&lt; void(uint64_t lag_ms)&gt;</type>
+        <definition>using themisdb::replication::AsyncWalShipper::AlertCallback = std::function&lt;void(uint64_t lag_ms)&gt;</definition>
+        <argsstring></argsstring>
+        <name>AlertCallback</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::AlertCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback type for lag-limit alerts. Receives current lag in ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="166" column="5" bodyfile="include/replication/async_wal_shipper.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a949c79d1b7720eeb5fca0b01b488fd07" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="structthemisdb_1_1replication_1_1_wal_segment" kindref="compound">WalSegment</ref> &amp;)&gt;</type>
+        <definition>using themisdb::replication::AsyncWalShipper::ShipHandler = std::function&lt;bool(const WalSegment&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ShipHandler</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::ShipHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Transport handler type. Receives the segment to send. Returns true on success, false on transient failure. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="170" column="5" bodyfile="include/replication/async_wal_shipper.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a9c6645d8b3681b2d6e37d358411b4d65" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config" kindref="compound">WalShippingConfig</ref></type>
+        <definition>WalShippingConfig themisdb::replication::AsyncWalShipper::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="349" column="23" bodyfile="include/replication/async_wal_shipper.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a7e990ae831ebcfb8e3e8977f68a4abdd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::AsyncWalShipper::queue_mutex_</definition>
+        <argsstring></argsstring>
+        <name>queue_mutex_</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::queue_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="368" column="37" bodyfile="include/replication/async_wal_shipper.h" bodystart="368" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a53a4b894a9ac2e3bae471eb9b1d3064c" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::replication::AsyncWalShipper::queue_cv_</definition>
+        <argsstring></argsstring>
+        <name>queue_cv_</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::queue_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="369" column="37" bodyfile="include/replication/async_wal_shipper.h" bodystart="369" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a919c1d3a3268a302db36f43d609f93a0" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; <ref refid="structthemisdb_1_1replication_1_1_wal_segment" kindref="compound">WalSegment</ref> &gt;</type>
+        <definition>std::queue&lt;WalSegment&gt; themisdb::replication::AsyncWalShipper::segment_queue_</definition>
+        <argsstring></argsstring>
+        <name>segment_queue_</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::segment_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="370" column="25" bodyfile="include/replication/async_wal_shipper.h" bodystart="370" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a8c03f97887d50d96a7003f60eb9bcb84" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::replication::AsyncWalShipper::stop_requested_</definition>
+        <argsstring></argsstring>
+        <name>stop_requested_</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::stop_requested_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="371" column="31" bodyfile="include/replication/async_wal_shipper.h" bodystart="371" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1ab83dfdc7b9f2e68eaa6b81d4e9c31f1d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::AsyncWalShipper::callback_mutex_</definition>
+        <argsstring></argsstring>
+        <name>callback_mutex_</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::callback_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="374" column="25" bodyfile="include/replication/async_wal_shipper.h" bodystart="374" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a15ca47aa8523a421f4bd6eebe86e6cf2" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a8d2e5ef96a80fb6421a9a5d5b6c2d99b" kindref="member">AlertCallback</ref></type>
+        <definition>AlertCallback themisdb::replication::AsyncWalShipper::alert_cb_</definition>
+        <argsstring></argsstring>
+        <name>alert_cb_</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::alert_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="375" column="25" bodyfile="include/replication/async_wal_shipper.h" bodystart="375" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a1f013b6cbc7a5b6601c896aebceea78e" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a949c79d1b7720eeb5fca0b01b488fd07" kindref="member">ShipHandler</ref></type>
+        <definition>ShipHandler themisdb::replication::AsyncWalShipper::ship_handler_</definition>
+        <argsstring></argsstring>
+        <name>ship_handler_</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::ship_handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="376" column="25" bodyfile="include/replication/async_wal_shipper.h" bodystart="376" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a1c2ee5af87dec51bf4a22fc5eacd19af" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::AsyncWalShipper::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="379" column="29" bodyfile="include/replication/async_wal_shipper.h" bodystart="379" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a55acb719044c21d6dae3fded11786a4d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_stats" kindref="compound">WalShippingStats</ref></type>
+        <definition>WalShippingStats themisdb::replication::AsyncWalShipper::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="380" column="29" bodyfile="include/replication/async_wal_shipper.h" bodystart="380" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1aa53ef4fee536d0281a252366250dbce5" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themisdb::replication::AsyncWalShipper::histogram_bounds_</definition>
+        <argsstring></argsstring>
+        <name>histogram_bounds_</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::histogram_bounds_</qualifiedname>
+        <briefdescription>
+<para>Bucket upper-bounds (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="383" column="25" bodyfile="include/replication/async_wal_shipper.h" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1aab8672e2d617747a19bfe35b730f8d8c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::AsyncWalShipper::histogram_mutex_</definition>
+        <argsstring></argsstring>
+        <name>histogram_mutex_</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::histogram_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="384" column="33" bodyfile="include/replication/async_wal_shipper.h" bodystart="384" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1adbc7b2d4763f057a2adcbe66184991c4" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt;uint64_t&gt; themisdb::replication::AsyncWalShipper::histogram_counts_</definition>
+        <argsstring></argsstring>
+        <name>histogram_counts_</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::histogram_counts_</qualifiedname>
+        <briefdescription>
+<para>Per-bucket counts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="385" column="23" bodyfile="include/replication/async_wal_shipper.h" bodystart="385" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a868ccc8de8c84c4dfc29f991d3d8005b" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::AsyncWalShipper::histogram_sum_ms_</definition>
+        <argsstring></argsstring>
+        <name>histogram_sum_ms_</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::histogram_sum_ms_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Sum of all lag samples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="386" column="33" bodyfile="include/replication/async_wal_shipper.h" bodystart="386" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a025578f7f5ef204ae43f36da07a97d54" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::replication::AsyncWalShipper::worker_</definition>
+        <argsstring></argsstring>
+        <name>worker_</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::worker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="389" column="17" bodyfile="include/replication/async_wal_shipper.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a53191d7154098b111a779705c109dcfe" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::AsyncWalShipper::AsyncWalShipper</definition>
+        <argsstring>(WalShippingConfig config)</argsstring>
+        <name>AsyncWalShipper</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::AsyncWalShipper</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config" kindref="compound">WalShippingConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct and start the background shipping thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config" kindref="compound">WalShippingConfig</ref>; copied on construction.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread safety: Construction is not thread-safe; ensure no concurrent access to this object until construction completes.</para>
+</simplesect>
+<simplesect kind="note"><para>The background worker thread is started immediately and will begin processing queued segments. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="186" column="14" bodyfile="src/replication/async_wal_shipper.cpp" bodystart="98" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1aa98ae3be109700154a136f1bde3c5132" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::AsyncWalShipper::~AsyncWalShipper</definition>
+        <argsstring>()</argsstring>
+        <name>~AsyncWalShipper</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::~AsyncWalShipper</qualifiedname>
+        <briefdescription>
+<para>Stop the background thread and release resources. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Blocks until the background thread has exited gracefully (best-effort). Attempts to drain remaining queue segments before stopping.</para>
+<para><simplesect kind="note"><para>Thread safety: This method acquires queue_mutex_ and may be called from any thread.</para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: Noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="199" column="5" bodyfile="src/replication/async_wal_shipper.cpp" bodystart="121" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1aacec1b1920f79ceab776bcc55220fa29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::AsyncWalShipper::AsyncWalShipper</definition>
+        <argsstring>(const AsyncWalShipper &amp;)=delete</argsstring>
+        <name>AsyncWalShipper</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::AsyncWalShipper</qualifiedname>
+        <param>
+          <type>const AsyncWalShipper &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="202" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a8ce31063a7f2e854b20b7181caac5630" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a53191d7154098b111a779705c109dcfe" kindref="member">AsyncWalShipper</ref> &amp;</type>
+        <definition>AsyncWalShipper &amp; themisdb::replication::AsyncWalShipper::operator=</definition>
+        <argsstring>(const AsyncWalShipper &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a53191d7154098b111a779705c109dcfe" kindref="member">AsyncWalShipper</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="203" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a304279df6d7a46c3ec36700c61008905" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::AsyncWalShipper::AsyncWalShipper</definition>
+        <argsstring>(AsyncWalShipper &amp;&amp;)=delete</argsstring>
+        <name>AsyncWalShipper</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::AsyncWalShipper</qualifiedname>
+        <param>
+          <type>AsyncWalShipper &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="204" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a80f8c4cc753200f9868dfc963cfd32cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a53191d7154098b111a779705c109dcfe" kindref="member">AsyncWalShipper</ref> &amp;</type>
+        <definition>AsyncWalShipper &amp; themisdb::replication::AsyncWalShipper::operator=</definition>
+        <argsstring>(AsyncWalShipper &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a53191d7154098b111a779705c109dcfe" kindref="member">AsyncWalShipper</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="205" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a6d782eeaabaa22440a14a08f88cef64e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::AsyncWalShipper::setAlertCallback</definition>
+        <argsstring>(AlertCallback cb)</argsstring>
+        <name>setAlertCallback</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::setAlertCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a8d2e5ef96a80fb6421a9a5d5b6c2d99b" kindref="member">AlertCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Set the alert callback invoked when lag exceeds max_lag_ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Alert Callback.</para>
+<para>Thread-safe; replaces any previously registered callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback function; nullptr to unregister. Callback receives lag in milliseconds. Callback exceptions are caught and suppressed.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread safety: Acquires callback_mutex_; safe to call concurrently.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="222" column="10" bodyfile="src/replication/async_wal_shipper.cpp" bodystart="134" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1afb79c567b518f7a1afa2f9faf3086c11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::AsyncWalShipper::setShipHandler</definition>
+        <argsstring>(ShipHandler handler)</argsstring>
+        <name>setShipHandler</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::setShipHandler</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a949c79d1b7720eeb5fca0b01b488fd07" kindref="member">ShipHandler</ref></type>
+          <declname>handler</declname>
+        </param>
+        <briefdescription>
+<para>Set the transport handler for WAL segment shipping. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Ship Handler.</para>
+<para>Must be called before the first <ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a3a7041ef32439bdcbbd835179ece15b1" kindref="member">enqueueSegment()</ref> call if a real transport is required (default is no-op counting handler).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Transport handler function. Receives <ref refid="structthemisdb_1_1replication_1_1_wal_segment" kindref="compound">WalSegment</ref> by const ref. Returns true on success, false on transient failure. Exceptions from handler are NOT caught; handler must be exception-safe.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread safety: Acquires callback_mutex_; safe to call concurrently.</para>
+</simplesect>
+<simplesect kind="note"><para>Lifetime: Handler is copied; caller retains ownership of any captured state.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="240" column="10" bodyfile="src/replication/async_wal_shipper.cpp" bodystart="149" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a3a7041ef32439bdcbbd835179ece15b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::AsyncWalShipper::enqueueSegment</definition>
+        <argsstring>(WalSegment segment)</argsstring>
+        <name>enqueueSegment</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::enqueueSegment</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1replication_1_1_wal_segment" kindref="compound">WalSegment</ref></type>
+          <declname>segment</declname>
+        </param>
+        <briefdescription>
+<para>Enqueue a WAL segment for async shipping. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enqueue Segment.</para>
+<para>Implements backpressure control: when the queue reaches max_queue_depth, this returns false to signal the caller to back off (drop segment, wait, or retry).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>segment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Segment to ship; moved into the internal queue. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when the segment was accepted; false when the queue is at capacity (back-pressure signal to the caller).</para>
+</simplesect>
+<simplesect kind="note"><para>Thread safety: Acquires queue_mutex_; safe to call concurrently. Condition variable is notified after enqueue.</para>
+</simplesect>
+<simplesect kind="note"><para>Backpressure: When false is returned, caller must implement backpressure strategy (e.g., wait, retry, or drop).</para>
+</simplesect>
+<simplesect kind="note"><para>Segment ownership: Moved into queue; original segment object left in moved-from state (safe to destroy).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">segment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Queue full: drop and account <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Sl. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="266" column="10" bodyfile="src/replication/async_wal_shipper.cpp" bodystart="169" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a9a730d2489a5c9f56da40fa977ae131c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_stats" kindref="compound">WalShippingStats</ref></type>
+        <definition>WalShippingStats themisdb::replication::AsyncWalShipper::stats</definition>
+        <argsstring>() const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::stats</qualifiedname>
+        <briefdescription>
+<para>Return current stats snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread-safe; returns a consistent snapshot of current statistics.</para>
+<para><simplesect kind="return"><para><ref refid="structthemisdb_1_1replication_1_1_wal_shipping_stats" kindref="compound">WalShippingStats</ref> containing segments_enqueued, segments_shipped, segments_dropped, lag_alerts_fired, current and max lag, and bytes counters.</para>
+</simplesect>
+<simplesect kind="note"><para>Thread safety: Acquires stats_mutex_; safe to call concurrently. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="283" column="22" bodyfile="src/replication/async_wal_shipper.cpp" bodystart="212" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a76bda6ad0faa22edb57546ca63b0ba41" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::replication::AsyncWalShipper::currentLagMs</definition>
+        <argsstring>() const</argsstring>
+        <name>currentLagMs</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::currentLagMs</qualifiedname>
+        <briefdescription>
+<para>Return the current shipping lag in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Defined as the wall-clock time between the moment the oldest segment was enqueued (<ref refid="structthemisdb_1_1replication_1_1_wal_segment_1a5a06f06c66afa31e39380a3ad501c3af" kindref="member">WalSegment::enqueue_time</ref>) and now. When the queue is empty, returns 0. This is the primary lag value monitored against max_lag_ms.</para>
+<para><simplesect kind="return"><para>Current lag in milliseconds (0 if queue is empty).</para>
+</simplesect>
+<simplesect kind="note"><para>Thread safety: Acquires queue_mutex_; safe to call concurrently.</para>
+</simplesect>
+<simplesect kind="note"><para>Timing: Lag is calculated using std::chrono::steady_clock for monotonic timing (immune to system clock adjustments). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="299" column="13" bodyfile="src/replication/async_wal_shipper.cpp" bodystart="223" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a5fc30c485fc2f611a4fdd64c067151d6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::AsyncWalShipper::exportPrometheusMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>exportPrometheusMetrics</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::exportPrometheusMetrics</qualifiedname>
+        <briefdescription>
+<para>Export Prometheus-format metrics text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Exposes all WAL shipping metrics as Prometheus 0.0.4 format text. Includes histogram (replication_wal_lag_ms), counters, and gauge metrics.</para>
+<para>Metrics exported:<itemizedlist>
+<listitem><para><computeroutput>replication_wal_lag_ms</computeroutput> histogram (buckets at geometric intervals)</para>
+</listitem><listitem><para><computeroutput>replication_wal_segments_enqueued_total</computeroutput> counter</para>
+</listitem><listitem><para><computeroutput>replication_wal_segments_shipped_total</computeroutput> counter</para>
+</listitem><listitem><para><computeroutput>replication_wal_segments_dropped_total</computeroutput> counter</para>
+</listitem><listitem><para><computeroutput>replication_wal_lag_alerts_total</computeroutput> counter</para>
+</listitem><listitem><para><computeroutput>replication_wal_bytes_shipped_total</computeroutput> counter</para>
+</listitem></itemizedlist>
+</para>
+<para>Labels per metric:<itemizedlist>
+<listitem><para><computeroutput>local_dc</computeroutput>: local datacenter identifier</para>
+</listitem><listitem><para><computeroutput>remote_dc</computeroutput>: remote datacenter endpoint</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para>Prometheus-format string (valid metric text).</para>
+</simplesect>
+<simplesect kind="note"><para>Thread safety: Acquires stats_mutex_ and histogram_mutex_; safe to call concurrently.</para>
+</simplesect>
+<simplesect kind="note"><para>Format: Follows Prometheus v0.0.4 text exposition format. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">histogram_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="326" column="17" bodyfile="src/replication/async_wal_shipper.cpp" bodystart="241" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1aa75eec081e0b1dbdb84476386aa2c7ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::AsyncWalShipper::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::stop</qualifiedname>
+        <briefdescription>
+<para>Gracefully stop the background thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Sets stop_requested flag and notifies the worker thread. Drains the remaining queue before stopping (best-effort; does not block indefinitely). Safe to call multiple times.</para>
+<para><simplesect kind="note"><para>Thread safety: Acquires queue_mutex_; safe to call concurrently.</para>
+</simplesect>
+<simplesect kind="note"><para>Graceful shutdown: Worker thread will process all remaining queued segments before exiting (no forced termination).</para>
+</simplesect>
+<simplesect kind="note"><para>Blocking: May block briefly while joining worker thread. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="346" column="10" bodyfile="src/replication/async_wal_shipper.cpp" bodystart="320" bodyend="336"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1ac6c82704a9c3626fcbcd3cc3d5f4a882" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::AsyncWalShipper::workerLoop</definition>
+        <argsstring>()</argsstring>
+        <name>workerLoop</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::workerLoop</qualifiedname>
+        <briefdescription>
+<para>Background thread main loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Worker Loop.</para>
+<para>Runs in dedicated thread; dequeues segments and calls dispatchSegment(). Exits when stop_requested is true and queue is empty. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="401" column="10" bodyfile="src/replication/async_wal_shipper.cpp" bodystart="345" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a389ed32cd6116bb482364caef4596ed2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::AsyncWalShipper::dispatchSegment</definition>
+        <argsstring>(const WalSegment &amp;seg)</argsstring>
+        <name>dispatchSegment</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::dispatchSegment</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_wal_segment" kindref="compound">WalSegment</ref> &amp;</type>
+          <declname>seg</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch a single segment: invoke ship handler, update stats/histogram. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Dispatch Segment.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>seg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Segment to dispatch (const ref; not modified).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: Strong (no state corruption on exception from callback; callback exceptions are caught and suppressed).</para>
+</simplesect>
+<simplesect kind="note"><para>Lock order: histogram (4) → stats (3) (respects lock hierarchy).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+No handler installed: account as dropped segment. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="413" column="10" bodyfile="src/replication/async_wal_shipper.cpp" bodystart="386" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a1b87e002921ccd1dfbc1436a7b19771a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::AsyncWalShipper::recordLagSample</definition>
+        <argsstring>(int64_t lag_ms)</argsstring>
+        <name>recordLagSample</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::recordLagSample</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>lag_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record one lag sample into the histogram. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Lag Sample.</para>
+<para>Updates histogram buckets and sum. Negative lags are clamped to 0.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lag_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lag in milliseconds.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Thread safety: Acquires histogram_mutex_; safe to call concurrently.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lag_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">histogram_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="424" column="10" bodyfile="src/replication/async_wal_shipper.cpp" bodystart="470" bodyend="493"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_async_wal_shipper_1a96788f49f92ee62e78c4f2dfb0b275a5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themisdb::replication::AsyncWalShipper::buildHistogramBounds</definition>
+        <argsstring>(uint32_t max_lag_ms, uint32_t buckets)</argsstring>
+        <name>buildHistogramBounds</name>
+        <qualifiedname>themisdb::replication::AsyncWalShipper::buildHistogramBounds</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_lag_ms</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>buckets</declname>
+        </param>
+        <briefdescription>
+<para>Build histogram bucket bounds for the given config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para>Generates a geometric series of bucket upper bounds from 1 ms to 10× max_lag_ms, divided into <computeroutput>buckets</computeroutput> intervals.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_lag_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration maximum lag in milliseconds. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buckets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of histogram buckets to generate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of bucket upper bounds (size == buckets).</para>
+</simplesect>
+<simplesect kind="note"><para>Bucket +Inf is implicit (not stored); samples above the highest bucket are placed in the last bucket.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">max_lag_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">buckets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="439" column="24" bodyfile="src/replication/async_wal_shipper.cpp" bodystart="70" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Asynchronous cross-region WAL segment shipper. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Accepts WAL segments via <ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a3a7041ef32439bdcbbd835179ece15b1" kindref="member">enqueueSegment()</ref> and dispatches them to the configured remote datacenter from a dedicated background thread.</para>
+<para><heading level="3">Lag monitoring</heading>
+</para>
+<para>The lag is defined as the wall-clock time between the moment a segment is enqueued (<ref refid="structthemisdb_1_1replication_1_1_wal_segment_1a5a06f06c66afa31e39380a3ad501c3af" kindref="member">WalSegment::enqueue_time</ref>) and the moment it is dispatched. When that delta exceeds <ref refid="structthemisdb_1_1replication_1_1_wal_shipping_config_1a7a34969df00c23fcbc2540188713568c" kindref="member">WalShippingConfig::max_lag_ms</ref> the alert callback (if set) is invoked once per offending segment.</para>
+<para><heading level="3">Transport contract</heading>
+</para>
+<para>The actual byte-level transport is injected via <ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1afb79c567b518f7a1afa2f9faf3086c11" kindref="member">setShipHandler()</ref>. The default handler is a no-op that counts bytes without sending them (useful for unit tests and benchmarks). Production deployments must inject a real transport handler (e.g. gRPC, TCP socket, or cloud-storage PUT).</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para>All public methods are thread-safe. The background thread is started on construction and stopped gracefully on destruction (or via <ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1aa75eec081e0b1dbdb84476386aa2c7ef" kindref="member">stop()</ref>).</para>
+<para><heading level="3">Usage example</heading>
+</para>
+<para><programlisting><codeline><highlight class="normal">WalShippingConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.remote_dc_endpoint<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc-eu-west:9876&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.local_dc_id<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc-us-east&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_lag_ms<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>500;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a53191d7154098b111a779705c109dcfe" kindref="member">AsyncWalShipper</ref><sp/>shipper(cfg);</highlight></codeline>
+<codeline><highlight class="normal">shipper.setAlertCallback([](uint64_t<sp/>lag_ms)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;WAL<sp/>lag<sp/>alert:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>lag_ms<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>ms\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">WalSegment<sp/>seg;</highlight></codeline>
+<codeline><highlight class="normal">seg.sequence_number<sp/>=<sp/>1;</highlight></codeline>
+<codeline><highlight class="normal">seg.data<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>wal_bytes;</highlight></codeline>
+<codeline><highlight class="normal">seg.enqueue_time<sp/><sp/><sp/><sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline><highlight class="normal">seg.target_dc<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dc-eu-west&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">shipper.enqueueSegment(std::move(seg));</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>shipper.exportPrometheusMetrics();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/replication/async_wal_shipper.h" line="163" column="1" bodyfile="include/replication/async_wal_shipper.h" bodystart="163" bodyend="442"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a15ca47aa8523a421f4bd6eebe86e6cf2" prot="private" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>alert_cb_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a8d2e5ef96a80fb6421a9a5d5b6c2d99b" prot="public" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>AlertCallback</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a53191d7154098b111a779705c109dcfe" prot="public" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>AsyncWalShipper</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1aacec1b1920f79ceab776bcc55220fa29" prot="public" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>AsyncWalShipper</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a304279df6d7a46c3ec36700c61008905" prot="public" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>AsyncWalShipper</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a96788f49f92ee62e78c4f2dfb0b275a5" prot="private" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>buildHistogramBounds</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1ab83dfdc7b9f2e68eaa6b81d4e9c31f1d" prot="private" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>callback_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a9c6645d8b3681b2d6e37d358411b4d65" prot="private" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a76bda6ad0faa22edb57546ca63b0ba41" prot="public" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>currentLagMs</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a389ed32cd6116bb482364caef4596ed2" prot="private" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>dispatchSegment</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a3a7041ef32439bdcbbd835179ece15b1" prot="public" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>enqueueSegment</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a5fc30c485fc2f611a4fdd64c067151d6" prot="public" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>exportPrometheusMetrics</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1aa53ef4fee536d0281a252366250dbce5" prot="private" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>histogram_bounds_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1adbc7b2d4763f057a2adcbe66184991c4" prot="private" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>histogram_counts_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1aab8672e2d617747a19bfe35b730f8d8c" prot="private" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>histogram_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a868ccc8de8c84c4dfc29f991d3d8005b" prot="private" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>histogram_sum_ms_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a8ce31063a7f2e854b20b7181caac5630" prot="public" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a80f8c4cc753200f9868dfc963cfd32cd" prot="public" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a53a4b894a9ac2e3bae471eb9b1d3064c" prot="private" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>queue_cv_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a7e990ae831ebcfb8e3e8977f68a4abdd" prot="private" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>queue_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a1b87e002921ccd1dfbc1436a7b19771a" prot="private" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>recordLagSample</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a919c1d3a3268a302db36f43d609f93a0" prot="private" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>segment_queue_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a6d782eeaabaa22440a14a08f88cef64e" prot="public" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>setAlertCallback</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1afb79c567b518f7a1afa2f9faf3086c11" prot="public" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>setShipHandler</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a1f013b6cbc7a5b6601c896aebceea78e" prot="private" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>ship_handler_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a949c79d1b7720eeb5fca0b01b488fd07" prot="public" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>ShipHandler</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a9a730d2489a5c9f56da40fa977ae131c" prot="public" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>stats</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a55acb719044c21d6dae3fded11786a4d" prot="private" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a1c2ee5af87dec51bf4a22fc5eacd19af" prot="private" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>stats_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1aa75eec081e0b1dbdb84476386aa2c7ef" prot="public" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>stop</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a8c03f97887d50d96a7003f60eb9bcb84" prot="private" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>stop_requested_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1a025578f7f5ef204ae43f36da07a97d54" prot="private" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>worker_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1ac6c82704a9c3626fcbcd3cc3d5f4a882" prot="private" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>workerLoop</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_async_wal_shipper_1aa98ae3be109700154a136f1bde3c5132" prot="public" virt="non-virtual"><scope>themisdb::replication::AsyncWalShipper</scope><name>~AsyncWalShipper</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

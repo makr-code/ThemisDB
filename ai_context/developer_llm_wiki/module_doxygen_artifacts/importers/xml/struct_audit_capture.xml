@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_audit_capture" kind="struct" language="C++" prot="public">
+    <compoundname>AuditCapture</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_audit_capture_1a1e6dd3a454133e72f2cc29d84ec47aa5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; json &gt;</type>
+        <definition>std::vector&lt;json&gt; AuditCapture::events</definition>
+        <argsstring></argsstring>
+        <name>events</name>
+        <qualifiedname>AuditCapture::events</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="204" column="17" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_audit_capture_1ac8f3180469f847bd77a2630a85b47726" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AuditCapture::emit</definition>
+        <argsstring>(const std::string &amp;event_type, std::initializer_list&lt; std::pair&lt; std::string, std::string &gt; &gt; fields)</argsstring>
+        <name>emit</name>
+        <qualifiedname>AuditCapture::emit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event_type</declname>
+        </param>
+        <param>
+          <type>std::initializer_list&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+          <declname>fields</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="206" column="10" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="206" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_audit_capture_1add310dff60a6fc2c7687dbd9dc352aed" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AuditCapture::hasEvent</definition>
+        <argsstring>(const std::string &amp;event_type) const</argsstring>
+        <name>hasEvent</name>
+        <qualifiedname>AuditCapture::hasEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="219" column="10" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="219" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_audit_capture_1a45c1201782e6a91f36bb1800ea4dc711" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const json *</type>
+        <definition>const json * AuditCapture::findEvent</definition>
+        <argsstring>(const std::string &amp;event_type) const</argsstring>
+        <name>findEvent</name>
+        <qualifiedname>AuditCapture::findEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="224" column="16" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="224" bodyend="231"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight audit sink that captures emitted events for assertion. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>In production the events are emitted via THEMIS_WARN; in tests we invoke the same JSON-building logic through this callable adapter. </para>
+    </detaileddescription>
+    <location file="tests/importers/test_phase4_importer_hardening.cpp" line="203" column="1" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="203" bodyend="232"/>
+    <listofallmembers>
+      <member refid="struct_audit_capture_1ac8f3180469f847bd77a2630a85b47726" prot="public" virt="non-virtual"><scope>AuditCapture</scope><name>emit</name></member>
+      <member refid="struct_audit_capture_1a1e6dd3a454133e72f2cc29d84ec47aa5" prot="public" virt="non-virtual"><scope>AuditCapture</scope><name>events</name></member>
+      <member refid="struct_audit_capture_1a45c1201782e6a91f36bb1800ea4dc711" prot="public" virt="non-virtual"><scope>AuditCapture</scope><name>findEvent</name></member>
+      <member refid="struct_audit_capture_1add310dff60a6fc2c7687dbd9dc352aed" prot="public" virt="non-virtual"><scope>AuditCapture</scope><name>hasEvent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_dtmf_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::DtmfEvent</compoundname>
+    <includes refid="voice__telephony_8h" local="no">voice_telephony.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_dtmf_event_1ab276cf7b69fe8fd4fa0cecc31382be65" prot="public" static="no" mutable="no">
+        <type>char</type>
+        <definition>char themis::voice::DtmfEvent::digit</definition>
+        <argsstring></argsstring>
+        <name>digit</name>
+        <qualifiedname>themis::voice::DtmfEvent::digit</qualifiedname>
+        <briefdescription>
+<para>&apos;0&apos;-&apos;9&apos;, &apos;*&apos;, &apos;#&apos;, &apos;A&apos;-&apos;D&apos; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="64" column="13" bodyfile="include/voice/voice_telephony.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_dtmf_event_1a1b6e7e44cae34e6f8108e69a869f3953" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::DtmfEvent::duration_ms</definition>
+        <argsstring></argsstring>
+        <name>duration_ms</name>
+        <qualifiedname>themis::voice::DtmfEvent::duration_ms</qualifiedname>
+        <briefdescription>
+<para>Tone duration in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="65" column="13" bodyfile="include/voice/voice_telephony.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_dtmf_event_1a82d24e4fa49a17548e334cc9d3c66b56" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::DtmfEvent::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::voice::DtmfEvent::timestamp_ms</qualifiedname>
+        <briefdescription>
+<para>Wall-clock time of event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="66" column="13" bodyfile="include/voice/voice_telephony.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Decoded DTMF event (RFC 4733). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_telephony.h" line="63" column="1" bodyfile="include/voice/voice_telephony.h" bodystart="63" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_dtmf_event_1ab276cf7b69fe8fd4fa0cecc31382be65" prot="public" virt="non-virtual"><scope>themis::voice::DtmfEvent</scope><name>digit</name></member>
+      <member refid="structthemis_1_1voice_1_1_dtmf_event_1a1b6e7e44cae34e6f8108e69a869f3953" prot="public" virt="non-virtual"><scope>themis::voice::DtmfEvent</scope><name>duration_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_dtmf_event_1a82d24e4fa49a17548e334cc9d3c66b56" prot="public" virt="non-virtual"><scope>themis::voice::DtmfEvent</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

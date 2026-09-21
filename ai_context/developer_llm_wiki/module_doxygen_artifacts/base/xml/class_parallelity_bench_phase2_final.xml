@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_parallelity_bench_phase2_final" kind="class" language="C++" prot="public">
+    <compoundname>ParallelityBenchPhase2Final</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_parallelity_bench_phase2_final_1ae0626aac9403f75322019cb915b79bb7" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; ParallelityBenchPhase2Final::fixture_phase2_</definition>
+        <argsstring></argsstring>
+        <name>fixture_phase2_</name>
+        <qualifiedname>ParallelityBenchPhase2Final::fixture_phase2_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="312" column="21" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallelity_bench_phase2_final_1a14333c11367fd99c479d27567d454939" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; ParallelityBenchPhase2Final::sim_</definition>
+        <argsstring></argsstring>
+        <name>sim_</name>
+        <qualifiedname>ParallelityBenchPhase2Final::sim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="313" column="21" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="313" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_parallelity_bench_phase2_final_1a373a205c9438db53c3ae9710889b6d34" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelityBenchPhase2Final::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ParallelityBenchPhase2Final::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="315" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="315" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parallelity_bench_phase2_final_1a5e00bb2c2da55fcfe58c343e72072aec" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelityBenchPhase2Final::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ParallelityBenchPhase2Final::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="340" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="340" bodyend="343"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ParallelityBenchPhase2Final</label>
+        <link refid="class_parallelity_bench_phase2_final"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ParallelityBenchPhase2Final</label>
+        <link refid="class_parallelity_bench_phase2_final"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/base/bench_advanced_patterns.cpp" line="310" column="1" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="310" bodyend="344"/>
+    <listofallmembers>
+      <member refid="class_parallelity_bench_phase2_final_1ae0626aac9403f75322019cb915b79bb7" prot="protected" virt="non-virtual"><scope>ParallelityBenchPhase2Final</scope><name>fixture_phase2_</name></member>
+      <member refid="class_parallelity_bench_phase2_final_1a373a205c9438db53c3ae9710889b6d34" prot="protected" virt="non-virtual"><scope>ParallelityBenchPhase2Final</scope><name>SetUp</name></member>
+      <member refid="class_parallelity_bench_phase2_final_1a14333c11367fd99c479d27567d454939" prot="protected" virt="non-virtual"><scope>ParallelityBenchPhase2Final</scope><name>sim_</name></member>
+      <member refid="class_parallelity_bench_phase2_final_1a5e00bb2c2da55fcfe58c343e72072aec" prot="protected" virt="non-virtual"><scope>ParallelityBenchPhase2Final</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

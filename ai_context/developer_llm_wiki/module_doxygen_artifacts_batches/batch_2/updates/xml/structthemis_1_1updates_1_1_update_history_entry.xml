@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_update_history_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::UpdateHistoryEntry</compoundname>
+    <includes refid="update__history__logger_8h" local="no">update_history_logger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_history_entry_1a2469b62b2bfdc3250e7d304378e2eac0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdateHistoryEntry::who</definition>
+        <argsstring></argsstring>
+        <name>who</name>
+        <qualifiedname>themis::updates::UpdateHistoryEntry::who</qualifiedname>
+        <briefdescription>
+<para>Actor that triggered the update (username, service account, or &quot;system&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_history_logger.h" line="36" column="17" bodyfile="include/updates/update_history_logger.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_history_entry_1a8ae50e2995f9d7b5d0aa3f9734ed557f" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::updates::UpdateHistoryEntry::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::updates::UpdateHistoryEntry::timestamp_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>UTC timestamp in milliseconds since epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_history_logger.h" line="38" column="13" bodyfile="include/updates/update_history_logger.h" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_history_entry_1aaaedcff9726d5f38701bc2dcdc8399a0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdateHistoryEntry::from_version</definition>
+        <argsstring></argsstring>
+        <name>from_version</name>
+        <qualifiedname>themis::updates::UpdateHistoryEntry::from_version</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Version before the operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_history_logger.h" line="40" column="17" bodyfile="include/updates/update_history_logger.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_history_entry_1a88b015361769812d373a04cf531d6803" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdateHistoryEntry::to_version</definition>
+        <argsstring></argsstring>
+        <name>to_version</name>
+        <qualifiedname>themis::updates::UpdateHistoryEntry::to_version</qualifiedname>
+        <briefdescription>
+<para>Version after the operation (same as from_version for failed attempts). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_history_logger.h" line="42" column="17" bodyfile="include/updates/update_history_logger.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_history_entry_1a99330cc057c1628ca950d4326b66f4b1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdateHistoryEntry::event_type</definition>
+        <argsstring></argsstring>
+        <name>event_type</name>
+        <qualifiedname>themis::updates::UpdateHistoryEntry::event_type</qualifiedname>
+        <briefdescription>
+<para>&quot;update&quot; or &quot;rollback&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_history_logger.h" line="44" column="17" bodyfile="include/updates/update_history_logger.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_history_entry_1ae3b76e45c5d97b3efa14a3878514f4ed" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::UpdateHistoryEntry::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::updates::UpdateHistoryEntry::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>true if the operation completed successfully. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_history_logger.h" line="46" column="10" bodyfile="include/updates/update_history_logger.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_history_entry_1a243e3137bbd6d9c5da9bf0801404e973" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdateHistoryEntry::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::updates::UpdateHistoryEntry::error_message</qualifiedname>
+        <briefdescription>
+<para>Non-empty when success == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_history_logger.h" line="48" column="17" bodyfile="include/updates/update_history_logger.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_update_history_entry_1a904b2b5aa8ba48f79b0b0284412c63c6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref></type>
+        <definition>json themis::updates::UpdateHistoryEntry::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::updates::UpdateHistoryEntry::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_history_logger.h" line="50" column="10" bodyfile="src/updates/update_history_logger.cpp" bodystart="36" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_update_history_entry_1a932ddc679a5fa397bb2b5809daeda91b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_update_history_entry" kindref="compound">UpdateHistoryEntry</ref></type>
+        <definition>UpdateHistoryEntry themis::updates::UpdateHistoryEntry::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::updates::UpdateHistoryEntry::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_history_logger.h" line="51" column="31" bodyfile="src/updates/update_history_logger.cpp" bodystart="54" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single entry in the update history log. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Records who performed an update, when it happened, and what changed (from_version → to_version), together with success/failure state. </para>
+    </detaileddescription>
+    <location file="include/updates/update_history_logger.h" line="34" column="1" bodyfile="include/updates/update_history_logger.h" bodystart="34" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_update_history_entry_1a243e3137bbd6d9c5da9bf0801404e973" prot="public" virt="non-virtual"><scope>themis::updates::UpdateHistoryEntry</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_history_entry_1a99330cc057c1628ca950d4326b66f4b1" prot="public" virt="non-virtual"><scope>themis::updates::UpdateHistoryEntry</scope><name>event_type</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_history_entry_1aaaedcff9726d5f38701bc2dcdc8399a0" prot="public" virt="non-virtual"><scope>themis::updates::UpdateHistoryEntry</scope><name>from_version</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_history_entry_1a932ddc679a5fa397bb2b5809daeda91b" prot="public" virt="non-virtual"><scope>themis::updates::UpdateHistoryEntry</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_history_entry_1ae3b76e45c5d97b3efa14a3878514f4ed" prot="public" virt="non-virtual"><scope>themis::updates::UpdateHistoryEntry</scope><name>success</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_history_entry_1a8ae50e2995f9d7b5d0aa3f9734ed557f" prot="public" virt="non-virtual"><scope>themis::updates::UpdateHistoryEntry</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_history_entry_1a88b015361769812d373a04cf531d6803" prot="public" virt="non-virtual"><scope>themis::updates::UpdateHistoryEntry</scope><name>to_version</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_history_entry_1a904b2b5aa8ba48f79b0b0284412c63c6" prot="public" virt="non-virtual"><scope>themis::updates::UpdateHistoryEntry</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_history_entry_1a2469b62b2bfdc3250e7d304378e2eac0" prot="public" virt="non-virtual"><scope>themis::updates::UpdateHistoryEntry</scope><name>who</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

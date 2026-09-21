@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_9025936aaea863812e3175c29bd0f6ef" kind="dir">
+    <compoundname>tests/vector_search</compoundname>
+    <innerfile refid="test__vector__search__highcardinality__stress_8cpp">test_vector_search_highcardinality_stress.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/vector_search/"/>
+  </compounddef>
+</doxygen>

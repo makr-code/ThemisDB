@@ -1,0 +1,561 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::test::SimParticipant</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a0ab1f5041a2c1ef455997d1b4c32d0ac" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::test::SimParticipant::id_</definition>
+        <argsstring></argsstring>
+        <name>id_</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="302" column="39" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a302477de69a98a685d725b759a35a029" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> *</type>
+        <definition>SimWAL* themisdb::sharding::test::SimParticipant::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::wal_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="303" column="38" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="303" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a113d0f345b7cce83038cae5a259853ea" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::test::SimParticipant::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="304" column="39" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a700cc9df5670cd795b4f15a57c192f35" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1_1test_1a8b9605012c220e554d3995b3334ba7cd" kindref="member">SimParticipantState</ref></type>
+        <definition>SimParticipantState themisdb::sharding::test::SimParticipant::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::state_</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1sharding_1_1test_1a8b9605012c220e554d3995b3334ba7cdaa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">SimParticipantState::IDLE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="305" column="39" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="305" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a43bd2bd9fff601efe407fc1ae3bb0d72" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::sharding::test::SimParticipant::vote_yes_</definition>
+        <argsstring></argsstring>
+        <name>vote_yes_</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::vote_yes_</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="306" column="33" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="306" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a8e35413eb26d1ef69b324b63d3813365" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::sharding::test::SimParticipant::precommit_ok_</definition>
+        <argsstring></argsstring>
+        <name>precommit_ok_</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::precommit_ok_</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="307" column="33" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="307" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a924c3190b9bee82a4308d9e12f3ef6a6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::sharding::test::SimParticipant::partitioned_</definition>
+        <argsstring></argsstring>
+        <name>partitioned_</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::partitioned_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="308" column="33" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="308" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a623eb49153556ffceb4be3ce11e1fb56" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::test::SimParticipant::delay_</definition>
+        <argsstring></argsstring>
+        <name>delay_</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::delay_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="309" column="39" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="309" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a79203bab9791b70fcf616d94690c808c" prot="private" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themisdb::sharding::test::SimParticipant::locks_</definition>
+        <argsstring></argsstring>
+        <name>locks_</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::locks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="310" column="26" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1ac2601c07074c8a03b83fa35dd6cfbfc2" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string,std::string&gt; themisdb::sharding::test::SimParticipant::staged_</definition>
+        <argsstring></argsstring>
+        <name>staged_</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::staged_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="311" column="24" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a7b5fb3a3407a7000a144fc8bd83ceecd" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string,std::string&gt; themisdb::sharding::test::SimParticipant::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="312" column="24" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="312" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1aba9abd9e80fe8d0e474c8eb1aaebe04d" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::SimParticipant::SimParticipant</definition>
+        <argsstring>(std::string id, SimWAL *wal=nullptr)</argsstring>
+        <name>SimParticipant</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::SimParticipant</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> *</type>
+          <declname>wal</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="144" column="14" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="144" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1ae015c5aae19809d5115c0828a9949a43" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::test::SimParticipant::setVoteYes</definition>
+        <argsstring>(bool v)</argsstring>
+        <name>setVoteYes</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::setVoteYes</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="148" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="148" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a8c9dc35d109443774fb5cec77f5dd746" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::test::SimParticipant::setPreCommitOk</definition>
+        <argsstring>(bool v)</argsstring>
+        <name>setPreCommitOk</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::setPreCommitOk</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="149" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a8fbba0110dd2b7bb01f5d48a4d10fc38" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::test::SimParticipant::setPartitioned</definition>
+        <argsstring>(bool p)</argsstring>
+        <name>setPartitioned</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::setPartitioned</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="150" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="150" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a1b05ecdef93350c237c146287ad6f341" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::test::SimParticipant::setDelay</definition>
+        <argsstring>(std::chrono::milliseconds d)</argsstring>
+        <name>setDelay</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::setDelay</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="151" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="151" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a7e88cb51f2cf4a544f69ca8a100985c9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1sharding_1_1test_1a8b9605012c220e554d3995b3334ba7cd" kindref="member">SimParticipantState</ref></type>
+        <definition>SimParticipantState themisdb::sharding::test::SimParticipant::state</definition>
+        <argsstring>() const</argsstring>
+        <name>state</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="153" column="25" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="153" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1ae6e44f7bd6e0f5b54bd20260a28569c4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::test::SimParticipant::isCommitted</definition>
+        <argsstring>() const</argsstring>
+        <name>isCommitted</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::isCommitted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="158" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="158" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a0e83b84b24fa1154fdcff09cd5a02e4b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::test::SimParticipant::isAborted</definition>
+        <argsstring>() const</argsstring>
+        <name>isAborted</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::isAborted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="159" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="159" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a7efdb205ad9cf814187431774ed77b16" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::test::SimParticipant::prepare</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>prepare</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::prepare</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Phase-1 prepare (idempotent). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="162" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="162" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1aad3a2a22933bdd9c512886d0e574b387" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::test::SimParticipant::precommit</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>precommit</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::precommit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>3PC Phase-2 pre-commit (idempotent). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="189" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="189" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a05bc91ed38683be3c5151c1370a85953" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::test::SimParticipant::commit</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>commit</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::commit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Receive COMMIT decision (idempotent). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="217" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="217" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a89670071c11f4083dc547cb205d98ef0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::test::SimParticipant::abort</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>abort</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::abort</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Receive ABORT decision (idempotent). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="235" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="235" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a883db70082139a357cd7320b518f194a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::test::SimParticipant::read</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>read</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::read</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Expose data value (simulates dirty-read protection). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="250" column="17" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="250" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a809bff9f5d9f9721b23233bbdc7fa737" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::test::SimParticipant::stage</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>stage</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::stage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="259" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="259" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a3dd5f887a63036a0366c2cc9644ab622" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::test::SimParticipant::acquireLock</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>acquireLock</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::acquireLock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="264" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="264" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1aad2f9e0a5fdc43298bb1e5129aee91e5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::test::SimParticipant::lockCount</definition>
+        <argsstring>() const</argsstring>
+        <name>lockCount</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::lockCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="269" column="12" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="269" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a1099dd9f2d400a257c4e37b04884ca75" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::test::SimParticipant::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="274" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="274" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a2d42a15353a6a0ad0b2072b068dd4264" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themisdb::sharding::test::SimParticipant::id</definition>
+        <argsstring>() const</argsstring>
+        <name>id</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="282" column="23" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="282" bodyend="282"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a2f03dfa6f7b9d90e65003a96843fe645" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::test::SimParticipant::applyDelay</definition>
+        <argsstring>() const</argsstring>
+        <name>applyDelay</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::applyDelay</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="285" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="285" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a2bb7810d63bcbcff82606ff5abb0dfec" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::test::SimParticipant::releaseLockImpl</definition>
+        <argsstring>()</argsstring>
+        <name>releaseLockImpl</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipant::releaseLockImpl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="292" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="292" bodyend="300"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simulated shard participant with configurable fault injection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Supports:<itemizedlist>
+<listitem><para>vote override (vote_yes)</para>
+</listitem><listitem><para>pre-commit override (precommit_ok)</para>
+</listitem><listitem><para>artificial network delay</para>
+</listitem><listitem><para>partition flag (causes every request to fail)</para>
+</listitem><listitem><para>lock table for orphan-detection tests </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="142" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="142" bodyend="313"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a89670071c11f4083dc547cb205d98ef0" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>abort</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a3dd5f887a63036a0366c2cc9644ab622" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>acquireLock</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a2f03dfa6f7b9d90e65003a96843fe645" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>applyDelay</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a05bc91ed38683be3c5151c1370a85953" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>commit</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a7b5fb3a3407a7000a144fc8bd83ceecd" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>data_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a623eb49153556ffceb4be3ce11e1fb56" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>delay_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a2d42a15353a6a0ad0b2072b068dd4264" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>id</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a0ab1f5041a2c1ef455997d1b4c32d0ac" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>id_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a0e83b84b24fa1154fdcff09cd5a02e4b" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>isAborted</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1ae6e44f7bd6e0f5b54bd20260a28569c4" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>isCommitted</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1aad2f9e0a5fdc43298bb1e5129aee91e5" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>lockCount</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a79203bab9791b70fcf616d94690c808c" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>locks_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a113d0f345b7cce83038cae5a259853ea" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>mu_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a924c3190b9bee82a4308d9e12f3ef6a6" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>partitioned_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1aad3a2a22933bdd9c512886d0e574b387" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>precommit</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a8e35413eb26d1ef69b324b63d3813365" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>precommit_ok_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a7efdb205ad9cf814187431774ed77b16" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>prepare</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a883db70082139a357cd7320b518f194a" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>read</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a2bb7810d63bcbcff82606ff5abb0dfec" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>releaseLockImpl</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a1099dd9f2d400a257c4e37b04884ca75" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>reset</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a1b05ecdef93350c237c146287ad6f341" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>setDelay</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a8fbba0110dd2b7bb01f5d48a4d10fc38" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>setPartitioned</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a8c9dc35d109443774fb5cec77f5dd746" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>setPreCommitOk</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1ae015c5aae19809d5115c0828a9949a43" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>setVoteYes</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1aba9abd9e80fe8d0e474c8eb1aaebe04d" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>SimParticipant</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a809bff9f5d9f9721b23233bbdc7fa737" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>stage</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1ac2601c07074c8a03b83fa35dd6cfbfc2" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>staged_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a7e88cb51f2cf4a544f69ca8a100985c9" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>state</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a700cc9df5670cd795b4f15a57c192f35" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>state_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a43bd2bd9fff601efe407fc1ae3bb0d72" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>vote_yes_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant_1a302477de69a98a685d725b759a35a029" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::SimParticipant</scope><name>wal_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

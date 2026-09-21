@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_checkpoint_resume_stress_test" kind="class" language="C++" prot="public">
+    <compoundname>CheckpointResumeStressTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_checkpoint_resume_stress_test_1aa0427735de42744bfd6cab969103a238" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int CheckpointResumeStressTest::RANK</definition>
+        <argsstring></argsstring>
+        <name>RANK</name>
+        <qualifiedname>CheckpointResumeStressTest::RANK</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="115" column="26" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_checkpoint_resume_stress_test_1a615a32445c00fffa3ea7edd09d3d848b" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>float</type>
+        <definition>float CheckpointResumeStressTest::ALPHA</definition>
+        <argsstring></argsstring>
+        <name>ALPHA</name>
+        <qualifiedname>CheckpointResumeStressTest::ALPHA</qualifiedname>
+        <initializer>= 8.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="116" column="28" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_checkpoint_resume_stress_test_1a6a10fff71edbea9e6b45981cd6d5c08d" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int CheckpointResumeStressTest::IN_DIM</definition>
+        <argsstring></argsstring>
+        <name>IN_DIM</name>
+        <qualifiedname>CheckpointResumeStressTest::IN_DIM</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="117" column="26" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_checkpoint_resume_stress_test_1ab4995e198c27ef93f13109d2158e677e" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int CheckpointResumeStressTest::OUT_DIM</definition>
+        <argsstring></argsstring>
+        <name>OUT_DIM</name>
+        <qualifiedname>CheckpointResumeStressTest::OUT_DIM</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="118" column="26" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_checkpoint_resume_stress_test_1aabae0aea6caab112275588d7519cf229" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int CheckpointResumeStressTest::SEED</definition>
+        <argsstring></argsstring>
+        <name>SEED</name>
+        <qualifiedname>CheckpointResumeStressTest::SEED</qualifiedname>
+        <initializer>= 12345</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="119" column="35" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_checkpoint_resume_stress_test_1a361d4c8fe9afc2f0fdaa026d6c21af08" prot="protected" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 CheckpointResumeStressTest::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>CheckpointResumeStressTest::rng_</qualifiedname>
+        <initializer>{<ref refid="class_checkpoint_resume_stress_test_1aabae0aea6caab112275588d7519cf229" kindref="member">SEED</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="121" column="18" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="121" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_checkpoint_resume_stress_test_1a36a3c36ca9405d8fcff11c39276eb7b9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; CheckpointResumeStressTest::generateRandomDelta</definition>
+        <argsstring>(float scale=0.01f)</argsstring>
+        <name>generateRandomDelta</name>
+        <qualifiedname>CheckpointResumeStressTest::generateRandomDelta</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>scale</declname>
+          <defval>0.01f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="123" column="17" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="123" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="class_checkpoint_resume_stress_test_1a6f8fc90e79b8b3bd40ffb9b08405f8b5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CheckpointResumeStressTest::trainAdapter</definition>
+        <argsstring>(LoRAAdapter &amp;adapter, int steps, const std::string &amp;layer_name)</argsstring>
+        <name>trainAdapter</name>
+        <qualifiedname>CheckpointResumeStressTest::trainAdapter</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref> &amp;</type>
+          <declname>adapter</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>steps</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>layer_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="132" column="10" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="132" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CheckpointResumeStressTest</label>
+        <link refid="class_checkpoint_resume_stress_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CheckpointResumeStressTest</label>
+        <link refid="class_checkpoint_resume_stress_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/training/test_checkpoint_resume_stress.cpp" line="113" column="1" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="113" bodyend="139"/>
+    <listofallmembers>
+      <member refid="class_checkpoint_resume_stress_test_1a615a32445c00fffa3ea7edd09d3d848b" prot="protected" virt="non-virtual"><scope>CheckpointResumeStressTest</scope><name>ALPHA</name></member>
+      <member refid="class_checkpoint_resume_stress_test_1a36a3c36ca9405d8fcff11c39276eb7b9" prot="protected" virt="non-virtual"><scope>CheckpointResumeStressTest</scope><name>generateRandomDelta</name></member>
+      <member refid="class_checkpoint_resume_stress_test_1a6a10fff71edbea9e6b45981cd6d5c08d" prot="protected" virt="non-virtual"><scope>CheckpointResumeStressTest</scope><name>IN_DIM</name></member>
+      <member refid="class_checkpoint_resume_stress_test_1ab4995e198c27ef93f13109d2158e677e" prot="protected" virt="non-virtual"><scope>CheckpointResumeStressTest</scope><name>OUT_DIM</name></member>
+      <member refid="class_checkpoint_resume_stress_test_1aa0427735de42744bfd6cab969103a238" prot="protected" virt="non-virtual"><scope>CheckpointResumeStressTest</scope><name>RANK</name></member>
+      <member refid="class_checkpoint_resume_stress_test_1a361d4c8fe9afc2f0fdaa026d6c21af08" prot="protected" virt="non-virtual"><scope>CheckpointResumeStressTest</scope><name>rng_</name></member>
+      <member refid="class_checkpoint_resume_stress_test_1aabae0aea6caab112275588d7519cf229" prot="protected" virt="non-virtual"><scope>CheckpointResumeStressTest</scope><name>SEED</name></member>
+      <member refid="class_checkpoint_resume_stress_test_1a6f8fc90e79b8b3bd40ffb9b08405f8b5" prot="protected" virt="non-virtual"><scope>CheckpointResumeStressTest</scope><name>trainAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

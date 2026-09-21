@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_threat_score" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::ThreatScore</compoundname>
+    <includes refid="behavioral__anomaly__detector_8h" local="no">behavioral_anomaly_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_threat_score_1a5e8820af0c0a66bc7cceed773e606acb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384" kindref="member">ThreatLevel</ref></type>
+        <definition>ThreatLevel themis::security::ThreatScore::level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <qualifiedname>themis::security::ThreatScore::level</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384a41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">ThreatLevel::LOW</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="46" column="17" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_threat_score_1aba2b6505e887a850b816f6231d77e3b3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::security::ThreatScore::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::security::ThreatScore::score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Numeric score [0.0, 1.0]; higher = more suspicious. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="47" column="12" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_threat_score_1a55564527f46d8e8dc2774d5ae797f219" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ThreatScore::explanation</definition>
+        <argsstring></argsstring>
+        <name>explanation</name>
+        <qualifiedname>themis::security::ThreatScore::explanation</qualifiedname>
+        <briefdescription>
+<para>Human-readable reason(s). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/behavioral_anomaly_detector.h" line="48" column="17" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/behavioral_anomaly_detector.h" line="45" column="1" bodyfile="include/security/behavioral_anomaly_detector.h" bodystart="45" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_threat_score_1a55564527f46d8e8dc2774d5ae797f219" prot="public" virt="non-virtual"><scope>themis::security::ThreatScore</scope><name>explanation</name></member>
+      <member refid="structthemis_1_1security_1_1_threat_score_1a5e8820af0c0a66bc7cceed773e606acb" prot="public" virt="non-virtual"><scope>themis::security::ThreatScore</scope><name>level</name></member>
+      <member refid="structthemis_1_1security_1_1_threat_score_1aba2b6505e887a850b816f6231d77e3b3" prot="public" virt="non-virtual"><scope>themis::security::ThreatScore</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,289 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1document_1_1_document_diagnostic_sink" kind="class" language="C++" prot="public">
+    <compoundname>themis::document::DocumentDiagnosticSink</compoundname>
+    <includes refid="document__diagnostics_8h" local="no">document_diagnostics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1document_1_1_document_diagnostic_sink_1a6164283cb1337fb1ee6cd6a3ac4367d6" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::document::DocumentDiagnosticSink::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::document::DocumentDiagnosticSink::mu_</qualifiedname>
+        <briefdescription>
+<para>Guards all mutable members. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diagnostics.h" line="319" column="24" bodyfile="include/document/document_diagnostics.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1document_1_1_document_diagnostic_sink_1a99e7ace2682a796b4b7fc191bb680376" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7" kindref="member">DocumentErrorClass</ref>, std::size_t &gt;</type>
+        <definition>std::unordered_map&lt;DocumentErrorClass, std::size_t&gt; themis::document::DocumentDiagnosticSink::counts_</definition>
+        <argsstring></argsstring>
+        <name>counts_</name>
+        <qualifiedname>themis::document::DocumentDiagnosticSink::counts_</qualifiedname>
+        <briefdescription>
+<para>Per-class error counts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diagnostics.h" line="320" column="24" bodyfile="include/document/document_diagnostics.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1document_1_1_document_diagnostic_sink_1a9275caa638805e313b6b028e200e104e" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::document::DocumentDiagnosticSink::total_</definition>
+        <argsstring></argsstring>
+        <name>total_</name>
+        <qualifiedname>themis::document::DocumentDiagnosticSink::total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Aggregate error count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diagnostics.h" line="321" column="17" bodyfile="include/document/document_diagnostics.h" bodystart="321" bodyend="321"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1document_1_1_document_diagnostic_sink_1a5362b365680567ae0c5c02d846660b71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::document::DocumentDiagnosticSink::DocumentDiagnosticSink</definition>
+        <argsstring>()=default</argsstring>
+        <name>DocumentDiagnosticSink</name>
+        <qualifiedname>themis::document::DocumentDiagnosticSink::DocumentDiagnosticSink</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diagnostics.h" line="255" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_document_diagnostic_sink_1a0c04b4b0d4b00f89b8ac061ecfc8dd42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::document::DocumentDiagnosticSink::DocumentDiagnosticSink</definition>
+        <argsstring>(const DocumentDiagnosticSink &amp;)=delete</argsstring>
+        <name>DocumentDiagnosticSink</name>
+        <qualifiedname>themis::document::DocumentDiagnosticSink::DocumentDiagnosticSink</qualifiedname>
+        <param>
+          <type>const DocumentDiagnosticSink &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diagnostics.h" line="257" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_document_diagnostic_sink_1a7924e874949b9e43147e5f6204feae96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a5362b365680567ae0c5c02d846660b71" kindref="member">DocumentDiagnosticSink</ref> &amp;</type>
+        <definition>DocumentDiagnosticSink &amp; themis::document::DocumentDiagnosticSink::operator=</definition>
+        <argsstring>(const DocumentDiagnosticSink &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::document::DocumentDiagnosticSink::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a5362b365680567ae0c5c02d846660b71" kindref="member">DocumentDiagnosticSink</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diagnostics.h" line="258" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_document_diagnostic_sink_1a8ae7cd23e577aaad02a1feffc7d43cb4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::document::DocumentDiagnosticSink::DocumentDiagnosticSink</definition>
+        <argsstring>(DocumentDiagnosticSink &amp;&amp;) noexcept=default</argsstring>
+        <name>DocumentDiagnosticSink</name>
+        <qualifiedname>themis::document::DocumentDiagnosticSink::DocumentDiagnosticSink</qualifiedname>
+        <param>
+          <type>DocumentDiagnosticSink &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diagnostics.h" line="260" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_document_diagnostic_sink_1a2191a150d88341b41b550429e2f6c3b9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a5362b365680567ae0c5c02d846660b71" kindref="member">DocumentDiagnosticSink</ref> &amp;</type>
+        <definition>DocumentDiagnosticSink &amp; themis::document::DocumentDiagnosticSink::operator=</definition>
+        <argsstring>(DocumentDiagnosticSink &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::document::DocumentDiagnosticSink::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a5362b365680567ae0c5c02d846660b71" kindref="member">DocumentDiagnosticSink</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diagnostics.h" line="261" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_document_diagnostic_sink_1ac29de8f83dcebbd6f4d8cb83e2ec9225" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::document::DocumentDiagnosticSink::~DocumentDiagnosticSink</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DocumentDiagnosticSink</name>
+        <qualifiedname>themis::document::DocumentDiagnosticSink::~DocumentDiagnosticSink</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diagnostics.h" line="263" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_document_diagnostic_sink_1ab3cc670bfacb9f58bbeb7d1814ca1ffc" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::document::DocumentDiagnosticSink::record</definition>
+        <argsstring>(errors::ErrorCode code, std::string_view context) noexcept</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::document::DocumentDiagnosticSink::record</qualifiedname>
+        <param>
+          <type>errors::ErrorCode</type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/document/document_diagnostics.h" line="267" column="10" bodyfile="include/document/document_diagnostics.h" bodystart="267" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_document_diagnostic_sink_1aafe145fdaaa0be75c052b477c32e7b65" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::document::DocumentDiagnosticSink::count</definition>
+        <argsstring>(DocumentErrorClass cls) const noexcept</argsstring>
+        <name>count</name>
+        <qualifiedname>themis::document::DocumentDiagnosticSink::count</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7" kindref="member">DocumentErrorClass</ref></type>
+          <declname>cls</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/document/document_diagnostics.h" line="283" column="18" bodyfile="include/document/document_diagnostics.h" bodystart="283" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_document_diagnostic_sink_1a59f57c5cb8a4002e7901d9bf72a8d666" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::document::DocumentDiagnosticSink::totalCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalCount</name>
+        <qualifiedname>themis::document::DocumentDiagnosticSink::totalCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/document/document_diagnostics.h" line="295" column="18" bodyfile="include/document/document_diagnostics.h" bodystart="295" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1document_1_1_document_diagnostic_sink_1a0e79a19f1a33e3e97c375529d56529c8" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::document::DocumentDiagnosticSink::clear</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::document::DocumentDiagnosticSink::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/document/document_diagnostics.h" line="306" column="10" bodyfile="include/document/document_diagnostics.h" bodystart="306" bodyend="316"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/document/document_diagnostics.h" line="253" column="1" bodyfile="include/document/document_diagnostics.h" bodystart="253" bodyend="322"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a0e79a19f1a33e3e97c375529d56529c8" prot="public" virt="non-virtual"><scope>themis::document::DocumentDiagnosticSink</scope><name>clear</name></member>
+      <member refid="classthemis_1_1document_1_1_document_diagnostic_sink_1aafe145fdaaa0be75c052b477c32e7b65" prot="public" virt="non-virtual"><scope>themis::document::DocumentDiagnosticSink</scope><name>count</name></member>
+      <member refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a99e7ace2682a796b4b7fc191bb680376" prot="private" virt="non-virtual"><scope>themis::document::DocumentDiagnosticSink</scope><name>counts_</name></member>
+      <member refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a5362b365680567ae0c5c02d846660b71" prot="public" virt="non-virtual"><scope>themis::document::DocumentDiagnosticSink</scope><name>DocumentDiagnosticSink</name></member>
+      <member refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a0c04b4b0d4b00f89b8ac061ecfc8dd42" prot="public" virt="non-virtual"><scope>themis::document::DocumentDiagnosticSink</scope><name>DocumentDiagnosticSink</name></member>
+      <member refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a8ae7cd23e577aaad02a1feffc7d43cb4" prot="public" virt="non-virtual"><scope>themis::document::DocumentDiagnosticSink</scope><name>DocumentDiagnosticSink</name></member>
+      <member refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a6164283cb1337fb1ee6cd6a3ac4367d6" prot="private" virt="non-virtual"><scope>themis::document::DocumentDiagnosticSink</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a7924e874949b9e43147e5f6204feae96" prot="public" virt="non-virtual"><scope>themis::document::DocumentDiagnosticSink</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a2191a150d88341b41b550429e2f6c3b9" prot="public" virt="non-virtual"><scope>themis::document::DocumentDiagnosticSink</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1document_1_1_document_diagnostic_sink_1ab3cc670bfacb9f58bbeb7d1814ca1ffc" prot="public" virt="non-virtual"><scope>themis::document::DocumentDiagnosticSink</scope><name>record</name></member>
+      <member refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a9275caa638805e313b6b028e200e104e" prot="private" virt="non-virtual"><scope>themis::document::DocumentDiagnosticSink</scope><name>total_</name></member>
+      <member refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a59f57c5cb8a4002e7901d9bf72a8d666" prot="public" virt="non-virtual"><scope>themis::document::DocumentDiagnosticSink</scope><name>totalCount</name></member>
+      <member refid="classthemis_1_1document_1_1_document_diagnostic_sink_1ac29de8f83dcebbd6f4d8cb83e2ec9225" prot="public" virt="non-virtual"><scope>themis::document::DocumentDiagnosticSink</scope><name>~DocumentDiagnosticSink</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

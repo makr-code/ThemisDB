@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_fusion_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::FusionMetrics</compoundname>
+    <includes refid="multi__lora__manager_8h" local="no">multi_lora_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fusion_metrics_1a72e2afdc4e85c814cdefe5ba270534a4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FusionMetrics::fusion_id</definition>
+        <argsstring></argsstring>
+        <name>fusion_id</name>
+        <qualifiedname>themis::llm::FusionMetrics::fusion_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="208" column="17" bodyfile="include/llm/multi_lora_manager.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fusion_metrics_1ab17c733265afe62ae3b5442f092079bd" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a58fcc03a1ca91ebad70704f1247ac427" kindref="member">FusionStrategy</ref></type>
+        <definition>FusionStrategy themis::llm::FusionMetrics::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::llm::FusionMetrics::strategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="209" column="20" bodyfile="include/llm/multi_lora_manager.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fusion_metrics_1af3f295173776319c652f2f472fa6ab3a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::FusionMetrics::total_fusions</definition>
+        <argsstring></argsstring>
+        <name>total_fusions</name>
+        <qualifiedname>themis::llm::FusionMetrics::total_fusions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="211" column="12" bodyfile="include/llm/multi_lora_manager.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fusion_metrics_1afa20b84bd4d43f845e8d069401127410" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::FusionMetrics::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::llm::FusionMetrics::cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="212" column="12" bodyfile="include/llm/multi_lora_manager.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fusion_metrics_1ab67d9f6bba7620ebe3fd792579411d26" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::FusionMetrics::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themis::llm::FusionMetrics::cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="213" column="12" bodyfile="include/llm/multi_lora_manager.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fusion_metrics_1afbbb435e24fbb474c4d0f7a4edf68765" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::FusionMetrics::invalidations</definition>
+        <argsstring></argsstring>
+        <name>invalidations</name>
+        <qualifiedname>themis::llm::FusionMetrics::invalidations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="214" column="12" bodyfile="include/llm/multi_lora_manager.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fusion_metrics_1a9277b57046aab38456dbf2264642b908" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::FusionMetrics::avg_fusion_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_fusion_time_ms</name>
+        <qualifiedname>themis::llm::FusionMetrics::avg_fusion_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="216" column="12" bodyfile="include/llm/multi_lora_manager.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fusion_metrics_1a6bf1076d3bfda859148867e06bc9d446" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::FusionMetrics::avg_inference_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_inference_time_ms</name>
+        <qualifiedname>themis::llm::FusionMetrics::avg_inference_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="217" column="12" bodyfile="include/llm/multi_lora_manager.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fusion_metrics_1a618bf6cf2b1f0317186242fb94191ad0" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemis_1_1llm_1a58fcc03a1ca91ebad70704f1247ac427" kindref="member">FusionStrategy</ref>, size_t &gt;</type>
+        <definition>std::map&lt;FusionStrategy, size_t&gt; themis::llm::FusionMetrics::fusions_by_strategy</definition>
+        <argsstring></argsstring>
+        <name>fusions_by_strategy</name>
+        <qualifiedname>themis::llm::FusionMetrics::fusions_by_strategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="220" column="14" bodyfile="include/llm/multi_lora_manager.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fusion_metrics_1a04c1fad01a0b7a53f5f31d6fe72d167e" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemis_1_1llm_1a58fcc03a1ca91ebad70704f1247ac427" kindref="member">FusionStrategy</ref>, double &gt;</type>
+        <definition>std::map&lt;FusionStrategy, double&gt; themis::llm::FusionMetrics::avg_time_by_strategy</definition>
+        <argsstring></argsstring>
+        <name>avg_time_by_strategy</name>
+        <qualifiedname>themis::llm::FusionMetrics::avg_time_by_strategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="221" column="14" bodyfile="include/llm/multi_lora_manager.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_fusion_metrics_1af2092aaa8be2a9e6392960f87f37d9ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::FusionMetrics::~FusionMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>~FusionMetrics</name>
+        <qualifiedname>themis::llm::FusionMetrics::~FusionMetrics</qualifiedname>
+        <briefdescription>
+<para>Fusion Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="207" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/multi_lora_manager.h" line="202" column="1" bodyfile="include/llm/multi_lora_manager.h" bodystart="202" bodyend="222"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_fusion_metrics_1a9277b57046aab38456dbf2264642b908" prot="public" virt="non-virtual"><scope>themis::llm::FusionMetrics</scope><name>avg_fusion_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_fusion_metrics_1a6bf1076d3bfda859148867e06bc9d446" prot="public" virt="non-virtual"><scope>themis::llm::FusionMetrics</scope><name>avg_inference_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_fusion_metrics_1a04c1fad01a0b7a53f5f31d6fe72d167e" prot="public" virt="non-virtual"><scope>themis::llm::FusionMetrics</scope><name>avg_time_by_strategy</name></member>
+      <member refid="structthemis_1_1llm_1_1_fusion_metrics_1afa20b84bd4d43f845e8d069401127410" prot="public" virt="non-virtual"><scope>themis::llm::FusionMetrics</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1llm_1_1_fusion_metrics_1ab67d9f6bba7620ebe3fd792579411d26" prot="public" virt="non-virtual"><scope>themis::llm::FusionMetrics</scope><name>cache_misses</name></member>
+      <member refid="structthemis_1_1llm_1_1_fusion_metrics_1a72e2afdc4e85c814cdefe5ba270534a4" prot="public" virt="non-virtual"><scope>themis::llm::FusionMetrics</scope><name>fusion_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_fusion_metrics_1a618bf6cf2b1f0317186242fb94191ad0" prot="public" virt="non-virtual"><scope>themis::llm::FusionMetrics</scope><name>fusions_by_strategy</name></member>
+      <member refid="structthemis_1_1llm_1_1_fusion_metrics_1afbbb435e24fbb474c4d0f7a4edf68765" prot="public" virt="non-virtual"><scope>themis::llm::FusionMetrics</scope><name>invalidations</name></member>
+      <member refid="structthemis_1_1llm_1_1_fusion_metrics_1ab17c733265afe62ae3b5442f092079bd" prot="public" virt="non-virtual"><scope>themis::llm::FusionMetrics</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1llm_1_1_fusion_metrics_1af3f295173776319c652f2f472fa6ab3a" prot="public" virt="non-virtual"><scope>themis::llm::FusionMetrics</scope><name>total_fusions</name></member>
+      <member refid="structthemis_1_1llm_1_1_fusion_metrics_1af2092aaa8be2a9e6392960f87f37d9ec" prot="public" virt="virtual"><scope>themis::llm::FusionMetrics</scope><name>~FusionMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

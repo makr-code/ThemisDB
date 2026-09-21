@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_w3_c_trace_context_propagator" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::W3CTraceContextPropagator</compoundname>
+    <includes refid="w3c__trace__context__propagator_8h" local="no">w3c_trace_context_propagator.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_w3_c_trace_context_propagator_1ae4e6348231eeaa75fb5ed0286518d16d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1core_1_1concerns_1a831cdd39cc5d78686339175934e5c26a" kindref="member">IContextPtr</ref></type>
+        <definition>static IContextPtr themis::core::concerns::W3CTraceContextPropagator::extract</definition>
+        <argsstring>(const std::map&lt; std::string, std::string &gt; &amp;headers, IContextPtr parent=nullptr)</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::core::concerns::W3CTraceContextPropagator::extract</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1core_1_1concerns_1a831cdd39cc5d78686339175934e5c26a" kindref="member">IContextPtr</ref></type>
+          <declname>parent</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/w3c_trace_context_propagator.h" line="26" column="24" bodyfile="include/core/concerns/w3c_trace_context_propagator.h" bodystart="26" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_w3_c_trace_context_propagator_1aaaf19e444362541d0d8e3bd437cfccbb" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::core::concerns::W3CTraceContextPropagator::inject</definition>
+        <argsstring>(const IContext &amp;ctx, std::map&lt; std::string, std::string &gt; &amp;headers)</argsstring>
+        <name>inject</name>
+        <qualifiedname>themis::core::concerns::W3CTraceContextPropagator::inject</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_context" kindref="compound">IContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/w3c_trace_context_propagator.h" line="49" column="17" bodyfile="include/core/concerns/w3c_trace_context_propagator.h" bodystart="49" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_w3_c_trace_context_propagator_1a08e54b854b450bfca8a0a2be7ffe7276" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::core::concerns::W3CTraceContextPropagator::headerValueCI</definition>
+        <argsstring>(const std::map&lt; std::string, std::string &gt; &amp;headers, std::string_view name)</argsstring>
+        <name>headerValueCI</name>
+        <qualifiedname>themis::core::concerns::W3CTraceContextPropagator::headerValueCI</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/w3c_trace_context_propagator.h" line="71" column="24" bodyfile="include/core/concerns/w3c_trace_context_propagator.h" bodystart="71" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_w3_c_trace_context_propagator_1a287fc88c6d08723b56ccd58d3a6cb62e" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::core::concerns::W3CTraceContextPropagator::isValidHex</definition>
+        <argsstring>(const std::string &amp;s, std::size_t expected_len)</argsstring>
+        <name>isValidHex</name>
+        <qualifiedname>themis::core::concerns::W3CTraceContextPropagator::isValidHex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>expected_len</declname>
+        </param>
+        <briefdescription>
+<para>Is Valid Hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), std::isxdigit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/w3c_trace_context_propagator.h" line="101" column="17" bodyfile="include/core/concerns/w3c_trace_context_propagator.h" bodystart="101" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_w3_c_trace_context_propagator_1a5fe3bbb353f7d1b6a238887b69bbee88" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::core::concerns::W3CTraceContextPropagator::parseTraceparent</definition>
+        <argsstring>(const std::string &amp;value, std::string &amp;trace_id, std::string &amp;parent_id)</argsstring>
+        <name>parseTraceparent</name>
+        <qualifiedname>themis::core::concerns::W3CTraceContextPropagator::parseTraceparent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>trace_id</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>parent_id</declname>
+        </param>
+        <briefdescription>
+<para>Parse Traceparent. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">trace_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the trace. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">parent_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the parent. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), fromHexDigit(), substr(), isValidHex(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/w3c_trace_context_propagator.h" line="125" column="17" bodyfile="include/core/concerns/w3c_trace_context_propagator.h" bodystart="125" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_w3_c_trace_context_propagator_1aa35c8016ff0c4214e919a8f55dbceb49" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::core::concerns::W3CTraceContextPropagator::fromHexDigit</definition>
+        <argsstring>(char c, uint8_t &amp;out)</argsstring>
+        <name>fromHexDigit</name>
+        <qualifiedname>themis::core::concerns::W3CTraceContextPropagator::fromHexDigit</qualifiedname>
+        <param>
+          <type>char</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>uint8_t &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>From Hex Digit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements fromHexDigit without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/w3c_trace_context_propagator.h" line="169" column="17" bodyfile="include/core/concerns/w3c_trace_context_propagator.h" bodystart="169" bodyend="174"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_w3_c_trace_context_propagator_1a6324f9d000880a3f5f848168d00b43aa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::W3CTraceContextPropagator::W3CTraceContextPropagator</definition>
+        <argsstring>()=delete</argsstring>
+        <name>W3CTraceContextPropagator</name>
+        <qualifiedname>themis::core::concerns::W3CTraceContextPropagator::W3CTraceContextPropagator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/w3c_trace_context_propagator.h" line="177" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/w3c_trace_context_propagator.h" line="24" column="1" bodyfile="include/core/concerns/w3c_trace_context_propagator.h" bodystart="24" bodyend="178"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_w3_c_trace_context_propagator_1ae4e6348231eeaa75fb5ed0286518d16d" prot="public" virt="non-virtual"><scope>themis::core::concerns::W3CTraceContextPropagator</scope><name>extract</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_w3_c_trace_context_propagator_1aa35c8016ff0c4214e919a8f55dbceb49" prot="private" virt="non-virtual"><scope>themis::core::concerns::W3CTraceContextPropagator</scope><name>fromHexDigit</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_w3_c_trace_context_propagator_1a08e54b854b450bfca8a0a2be7ffe7276" prot="private" virt="non-virtual"><scope>themis::core::concerns::W3CTraceContextPropagator</scope><name>headerValueCI</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_w3_c_trace_context_propagator_1aaaf19e444362541d0d8e3bd437cfccbb" prot="public" virt="non-virtual"><scope>themis::core::concerns::W3CTraceContextPropagator</scope><name>inject</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_w3_c_trace_context_propagator_1a287fc88c6d08723b56ccd58d3a6cb62e" prot="private" virt="non-virtual"><scope>themis::core::concerns::W3CTraceContextPropagator</scope><name>isValidHex</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_w3_c_trace_context_propagator_1a5fe3bbb353f7d1b6a238887b69bbee88" prot="private" virt="non-virtual"><scope>themis::core::concerns::W3CTraceContextPropagator</scope><name>parseTraceparent</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_w3_c_trace_context_propagator_1a6324f9d000880a3f5f848168d00b43aa" prot="private" virt="non-virtual"><scope>themis::core::concerns::W3CTraceContextPropagator</scope><name>W3CTraceContextPropagator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

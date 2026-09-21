@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1test_1_1_audit_log_direct_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::test::AuditLogDirectTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1config_1_1test_1_1_audit_log_direct_test_1aa50ce0e66eda6795a0d92037eba10c31" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1config_1_1_config_audit_log" kindref="compound">ConfigAuditLog</ref></type>
+        <definition>ConfigAuditLog themis::config::test::AuditLogDirectTest::log_</definition>
+        <argsstring></argsstring>
+        <name>log_</name>
+        <qualifiedname>themis::config::test::AuditLogDirectTest::log_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_coverage.cpp" line="197" column="20" bodyfile="tests/config/test_config_coverage.cpp" bodystart="197" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::config::test::AuditLogDirectTest</label>
+        <link refid="classthemis_1_1config_1_1test_1_1_audit_log_direct_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::config::ConfigAuditLog</label>
+        <link refid="classthemis_1_1config_1_1_config_audit_log"/>
+      </node>
+      <node id="1">
+        <label>themis::config::test::AuditLogDirectTest</label>
+        <link refid="classthemis_1_1config_1_1test_1_1_audit_log_direct_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>log_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/config/test_config_coverage.cpp" line="195" column="1" bodyfile="tests/config/test_config_coverage.cpp" bodystart="195" bodyend="198"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1test_1_1_audit_log_direct_test_1aa50ce0e66eda6795a0d92037eba10c31" prot="protected" virt="non-virtual"><scope>themis::config::test::AuditLogDirectTest</scope><name>log_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

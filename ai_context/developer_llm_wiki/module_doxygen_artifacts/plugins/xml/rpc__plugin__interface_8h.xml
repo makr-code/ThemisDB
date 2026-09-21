@@ -1,0 +1,398 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="rpc__plugin__interface_8h" kind="file" language="C++">
+    <compoundname>rpc_plugin_interface.h</compoundname>
+    <includes refid="plugin__interface_8h" local="yes">plugins/plugin_interface.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="rpc__service__registry_8cpp" local="yes">src/plugins/rpc_service_registry.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>plugins/plugin_interface.h</label>
+        <link refid="plugin__interface_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/plugins/rpc_plugin_interface.h</label>
+        <link refid="rpc__plugin__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>algorithm</label>
+      </node>
+      <node id="12">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>cstdio</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="13">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>tuple</label>
+      </node>
+      <node id="14">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/plugins/rpc_plugin_interface.h</label>
+        <link refid="rpc__plugin__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/plugins/rpc_service_registry.cpp</label>
+        <link refid="rpc__service__registry_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config" prot="public">themis::plugins::rpc::RPCServerConfig</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats" prot="public">themis::plugins::rpc::RPCServerStats</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server" prot="public">themis::plugins::rpc::IRPCServer</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin" prot="public">themis::plugins::rpc::IRPCPlugin</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_method_handler" prot="public">themis::plugins::rpc::IRPCMethodHandler</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry" prot="public">themis::plugins::rpc::RPCServiceRegistry</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context" prot="public">themis::plugins::rpc::RPCRequestContext</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1rpc">themis::plugins::rpc</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="rpc__plugin__interface_8h_1a0a6f2e6bb0ded9872ebcb572eeeb108a" prot="public" static="no">
+        <name>THEMIS_RPC_PLUGIN_IMPL</name>
+        <param><defname>PluginClass</defname></param>
+        <initializer>extern &quot;C&quot; { \
+    <ref refid="plugin__interface_8h_1aad7af0582bd588a6d9a88a5d38eceea8" kindref="member">THEMIS_PLUGIN_EXPORT</ref> <ref refid="classthemis_1_1plugins_1_1_i_themis_plugin" kindref="compound">themis::plugins::IThemisPlugin</ref>* createPlugin() { \
+        return new PluginClass(); \
+    } \
+    <ref refid="plugin__interface_8h_1aad7af0582bd588a6d9a88a5d38eceea8" kindref="member">THEMIS_PLUGIN_EXPORT</ref> void destroyPlugin(<ref refid="classthemis_1_1plugins_1_1_i_themis_plugin" kindref="compound">themis::plugins::IThemisPlugin</ref>* plugin) { \
+        delete plugin; \
+    } \
+}</initializer>
+        <briefdescription>
+<para>Helper macro for defining RPC plugin entry points. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Usage: <programlisting filename=".cpp"><codeline><highlight class="keyword">class<sp/></highlight><highlight class="normal">MyRPCPlugin<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>IRPCPlugin<sp/>{<sp/>...<sp/>};</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="rpc__plugin__interface_8h_1a0a6f2e6bb0ded9872ebcb572eeeb108a" kindref="member">THEMIS_RPC_PLUGIN_IMPL</ref>(MyRPCPlugin)</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="301" column="9" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="301" bodyend="309"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="plugin__interface_8h" kindref="compound">plugins/plugin_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1plugins_1_1rpc" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1rpc" kindref="compound">rpc</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940" kindref="member">RPCProtocol</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940a2c1276969f5525ad4cf2dbd0e8676f96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940a2c1276969f5525ad4cf2dbd0e8676f96" kindref="member">GRPC</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940ab050fafa2c27f6810d055a4933d7e3d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940ab050fafa2c27f6810d055a4933d7e3d0" kindref="member">THRIFT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940a42d8d55a84e8ecfd215e207de7e04e8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940a42d8d55a84e8ecfd215e207de7e04e8b" kindref="member">JSON_RPC</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940a175c12c41c12306bc47d287fa54d6a9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940a175c12c41c12306bc47d287fa54d6a9e" kindref="member">MSGPACK_RPC</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940aba06b0898013d3676c6da33ff078f505" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940aba06b0898013d3676c6da33ff078f505" kindref="member">WIRE_PROTOCOL</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940a72baef04098f035e8a320b03ad197818" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940a72baef04098f035e8a320b03ad197818" kindref="member">CUSTOM</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1plugins_1_1rpc_1a7c8735814fb58a89bc4d11bd34a09fa9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a7c8735814fb58a89bc4d11bd34a09fa9" kindref="member">rpcProtocolToString</ref>(<ref refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940" kindref="member">RPCProtocol</ref><sp/>protocol)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(protocol)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940a2c1276969f5525ad4cf2dbd0e8676f96" kindref="member">RPCProtocol::GRPC</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;gRPC&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940ab050fafa2c27f6810d055a4933d7e3d0" kindref="member">RPCProtocol::THRIFT</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Thrift&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940a42d8d55a84e8ecfd215e207de7e04e8b" kindref="member">RPCProtocol::JSON_RPC</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;JSON-RPC&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940a175c12c41c12306bc47d287fa54d6a9e" kindref="member">RPCProtocol::MSGPACK_RPC</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;MessagePack-RPC&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940aba06b0898013d3676c6da33ff078f505" kindref="member">RPCProtocol::WIRE_PROTOCOL</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Wire<sp/>Protocol&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940a72baef04098f035e8a320b03ad197818" kindref="member">RPCProtocol::CUSTOM</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Custom&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Unknown&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config" kindref="compound">RPCServerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a251eda308ec6531f1a64f0195115dd69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a251eda308ec6531f1a64f0195115dd69" kindref="member">host</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;0.0.0.0&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a13c42a1fb78a6c089b4a4968a12333e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a13c42a1fb78a6c089b4a4968a12333e5" kindref="member">port</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TLS<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a2b466ff41f2cced8420d834907222f27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a2b466ff41f2cced8420d834907222f27" kindref="member">tls_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a0e8b22672fbac4cd56b1219890d4e07a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a0e8b22672fbac4cd56b1219890d4e07a" kindref="member">tls_cert_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1aeb18d36dc4a5718b6c9b9fda89a6738f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1aeb18d36dc4a5718b6c9b9fda89a6738f" kindref="member">tls_key_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a134b8e28e126e49a9828649f5da5f9b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a134b8e28e126e49a9828649f5da5f9b1" kindref="member">tls_ca_cert_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Authentication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1aee4060157f9bc125ea47bc5b4dfc97b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1aee4060157f9bc125ea47bc5b4dfc97b3" kindref="member">auth_required</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Connection<sp/>limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1aab1b2578932c284a71b3caed5b0e19f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1aab1b2578932c284a71b3caed5b0e19f4" kindref="member">max_connections</ref><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a05998b132e846c9e7b10c75420fce965" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a05998b132e846c9e7b10c75420fce965" kindref="member">thread_pool_size</ref><sp/>=<sp/>8;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timeouts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1ac34e201cb797e425cff73dcf6836a393" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1ac34e201cb797e425cff73dcf6836a393" kindref="member">connection_timeout_ms</ref><sp/>=<sp/>30000;<sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a2eb4eff5ac44f84d425cb282f266f90b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a2eb4eff5ac44f84d425cb282f266f90b" kindref="member">request_timeout_ms</ref><sp/>=<sp/>60000;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a563b5516e71e138aaa6cbcb73edc3e8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a563b5516e71e138aaa6cbcb73edc3e8e" kindref="member">namespace_default</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rate<sp/>limiting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a01dc5dee3d79c742edea561be13b3fac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a01dc5dee3d79c742edea561be13b3fac" kindref="member">rate_limit_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a1b81223afd8d928339160401052c8bba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a1b81223afd8d928339160401052c8bba" kindref="member">rate_limit_requests_per_sec</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a56a8aa018f29e3ff5216962b7f30db33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a56a8aa018f29e3ff5216962b7f30db33" kindref="member">rate_limit_burst_size</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compression</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a43b81532838371bbd1b2bd4ed826f8ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a43b81532838371bbd1b2bd4ed826f8ae" kindref="member">compression_enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>configuration<sp/>(protocol-specific)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a102f8af43377d3e419711ed5b7f2dd77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config_1a102f8af43377d3e419711ed5b7f2dd77" kindref="member">extra_config</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats" kindref="compound">RPCServerStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a347599348c957735defbff51ece1f766" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a347599348c957735defbff51ece1f766" kindref="member">total_requests</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a5e0b2aea27966ef78ee88d5aa0e223f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a5e0b2aea27966ef78ee88d5aa0e223f5" kindref="member">successful_requests</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1af7617124afed2ea797c1037d4eb94a9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1af7617124afed2ea797c1037d4eb94a9d" kindref="member">failed_requests</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a9edd600c59ac56219e28562c42b86050" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a9edd600c59ac56219e28562c42b86050" kindref="member">active_connections</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Latency<sp/>statistics<sp/>(in<sp/>milliseconds)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a6d89e8bd389554c04f76c4ba190271a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a6d89e8bd389554c04f76c4ba190271a6" kindref="member">avg_latency_ms</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1aaa6f61eda3908c51df52defba4e90c49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1aaa6f61eda3908c51df52defba4e90c49" kindref="member">p50_latency_ms</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a4e6c6866f97bc6ea1941ed9d558ce738" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a4e6c6866f97bc6ea1941ed9d558ce738" kindref="member">p95_latency_ms</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a0bdc792ec9580ee77b61f4229c933cf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a0bdc792ec9580ee77b61f4229c933cf2" kindref="member">p99_latency_ms</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>transfer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1aba5edce289641ec3d8344463357883ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1aba5edce289641ec3d8344463357883ec" kindref="member">bytes_sent</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a30f6f7b6b23664e3b1b11cc781fde833" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a30f6f7b6b23664e3b1b11cc781fde833" kindref="member">bytes_received</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1aae55db3e52ea4e2dfed42a02e30e3e62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1aae55db3e52ea4e2dfed42a02e30e3e62" kindref="member">auth_failures</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a8953e562771f993e835b2f4d821c5a90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a8953e562771f993e835b2f4d821c5a90" kindref="member">timeout_errors</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a95524c8fc404f41ccfa86eae93a55575" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1a95524c8fc404f41ccfa86eae93a55575" kindref="member">connection_errors</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Uptime</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1aeb0be73225c8ce5202f51f92e7a4abce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats_1aeb0be73225c8ce5202f51f92e7a4abce" kindref="member">uptime_seconds</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server" kindref="compound">IRPCServer</ref><sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="129" refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1adc6b4a2ea81a3964e22b02fea3d7093e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1adc6b4a2ea81a3964e22b02fea3d7093e" kindref="member">~IRPCServer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a015a430bc7a5d54b72f76d32a3a432ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940" kindref="member">RPCProtocol</ref><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a015a430bc7a5d54b72f76d32a3a432ce" kindref="member">getProtocol</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a96e2c53c701eddc3a0715f45490f5702" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a96e2c53c701eddc3a0715f45490f5702" kindref="member">initialize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config" kindref="compound">RPCServerConfig</ref>&amp;<sp/>config)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a9e123b16c51b9021164f97bfb93bb82d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a9e123b16c51b9021164f97bfb93bb82d" kindref="member">start</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a06186f8307577457c31fbf7fe19476d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a06186f8307577457c31fbf7fe19476d0" kindref="member">stop</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166" refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1ae3658105bee75ced3caccc6e178ec4dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1ae3658105bee75ced3caccc6e178ec4dd" kindref="member">isRunning</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172" refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a44be68453ee366e5f38885e9780232a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats" kindref="compound">RPCServerStats</ref><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a44be68453ee366e5f38885e9780232a3" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183" refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a802f3afd5272a89b6f57a5359e01b475" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a802f3afd5272a89b6f57a5359e01b475" kindref="member">registerService</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>service_impl)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189" refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1ad84f476a3fcbf2be0143366255e01107" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1ad84f476a3fcbf2be0143366255e01107" kindref="member">getAddress</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194" refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a8d55e35316eaf02e3904007527bd3250" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server_1a8d55e35316eaf02e3904007527bd3250" kindref="member">resetStats</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin" kindref="compound">IRPCPlugin</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_i_themis_plugin" kindref="compound">IThemisPlugin</ref><sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="209" refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin_1ab4ead268ef028053418bab047532cb97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;IRPCServer&gt;<sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin_1ab4ead268ef028053418bab047532cb97" kindref="member">createServer</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="215" refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin_1a2e4439dabc7b70722dc4d380c93ff955" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940" kindref="member">RPCProtocol</ref><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin_1a2e4439dabc7b70722dc4d380c93ff955" kindref="member">getProtocol</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="221" refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin_1a9922e83acbf7166d8c5f325ba2a5c68a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint16_t<sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin_1a9922e83acbf7166d8c5f325ba2a5c68a" kindref="member">getDefaultPort</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227" refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin_1a16a7b97cf928f7f6386e0dbf3bd34410" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin_1a16a7b97cf928f7f6386e0dbf3bd34410" kindref="member">getProtocolDescription</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236" refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_method_handler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_method_handler" kindref="compound">IRPCMethodHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="238" refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_method_handler_1aacfde9af1d777bf63624db1a1f8e6d2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_method_handler_1aacfde9af1d777bf63624db1a1f8e6d2e" kindref="member">~IRPCMethodHandler</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="247" refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_method_handler_1ad6cef5457eed486f2808ae216544bb91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_method_handler_1ad6cef5457eed486f2808ae216544bb91" kindref="member">handleMethod</ref>(</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>method,</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>params,</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>response</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261" refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry" kindref="compound">RPCServiceRegistry</ref><sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_1aeb50c2f1142d8331fca3b0bca814d73c" kindref="member">registerService</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>impl);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_1a721fab5c72dc7a6c7d9d0386d5203a44" kindref="member">getService</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_1a6cf3b1847c778f31b0e9d1112dcb1aa4" kindref="member">unregisterService</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry" kindref="compound">RPCServiceRegistry</ref>&amp;<sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_1a0ab7f5c8f485d159db475089824e750c" kindref="member">instance</ref>();</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>void*&gt;<sp/>services_;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301" refid="rpc__plugin__interface_8h_1a0a6f2e6bb0ded9872ebcb572eeeb108a" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_RPC_PLUGIN_IMPL(PluginClass)<sp/>\</highlight></codeline>
+<codeline lineno="302"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>extern<sp/>&quot;C&quot;<sp/>{<sp/>\</highlight></codeline>
+<codeline lineno="303"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>THEMIS_PLUGIN_EXPORT<sp/>themis::plugins::IThemisPlugin*<sp/>createPlugin()<sp/>{<sp/>\</highlight></codeline>
+<codeline lineno="304"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>new<sp/>PluginClass();<sp/>\</highlight></codeline>
+<codeline lineno="305"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/>\</highlight></codeline>
+<codeline lineno="306"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>THEMIS_PLUGIN_EXPORT<sp/>void<sp/>destroyPlugin(themis::plugins::IThemisPlugin*<sp/>plugin)<sp/>{<sp/>\</highlight></codeline>
+<codeline lineno="307"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>delete<sp/>plugin;<sp/>\</highlight></codeline>
+<codeline lineno="308"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/>\</highlight></codeline>
+<codeline lineno="309"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context" kindref="compound">RPCRequestContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="318" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1af042478a3bc1c39d944b996b867bc69e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1af042478a3bc1c39d944b996b867bc69e" kindref="member">client_address</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="319" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1aa59b54f157f4a2677009d8e8a86dfdbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1aa59b54f157f4a2677009d8e8a86dfdbd" kindref="member">username</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="320" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1a86b69b619e97d9309fe47986b186dbac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1a86b69b619e97d9309fe47986b186dbac" kindref="member">namespace_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="321" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1a980c269a8c6e1a4615a330d206cbc2ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1a980c269a8c6e1a4615a330d206cbc2ac" kindref="member">metadata</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="322" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1a80fa2e4abdf564db9e481953fc5373ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1a80fa2e4abdf564db9e481953fc5373ca" kindref="member">request_id</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="323" refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1ad6c426d76a66d0f094e432a819270876" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context_1ad6c426d76a66d0f094e432a819270876" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="324"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062" kindref="member">RPCErrorCode</ref><sp/>{</highlight></codeline>
+<codeline lineno="333" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Authentication<sp/>errors<sp/>(1000-1099)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a589b1e3a3d0a06a04b8167f1593d5c17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a589b1e3a3d0a06a04b8167f1593d5c17" kindref="member">AUTHENTICATION_FAILED</ref><sp/>=<sp/>1000,</highlight></codeline>
+<codeline lineno="337" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062adce1442cd971edf5002db43b36fffa35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062adce1442cd971edf5002db43b36fffa35" kindref="member">AUTHORIZATION_FAILED</ref><sp/>=<sp/>1001,</highlight></codeline>
+<codeline lineno="338" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a506556a229186f5b45f364032625ff5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a506556a229186f5b45f364032625ff5b" kindref="member">INVALID_TOKEN</ref><sp/>=<sp/>1002,</highlight></codeline>
+<codeline lineno="339" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062af176f376303fb90181de7f63f2b11a28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062af176f376303fb90181de7f63f2b11a28" kindref="member">TOKEN_EXPIRED</ref><sp/>=<sp/>1003,</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Entity<sp/>errors<sp/>(2000-2099)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a1ab4e637edc3b093ebbf6544441e5759" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a1ab4e637edc3b093ebbf6544441e5759" kindref="member">ENTITY_NOT_FOUND</ref><sp/>=<sp/>2000,</highlight></codeline>
+<codeline lineno="343" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a89d6b2618f7cdf68ed61b457fb67e1cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a89d6b2618f7cdf68ed61b457fb67e1cb" kindref="member">ENTITY_ALREADY_EXISTS</ref><sp/>=<sp/>2001,</highlight></codeline>
+<codeline lineno="344" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a66fbe5a405526eed54ab691091b77e1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a66fbe5a405526eed54ab691091b77e1e" kindref="member">VERSION_CONFLICT</ref><sp/>=<sp/>2002,</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>errors<sp/>(3000-3099)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ae0b28d557287434a37397e4c5050142d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ae0b28d557287434a37397e4c5050142d" kindref="member">INVALID_QUERY</ref><sp/>=<sp/>3000,</highlight></codeline>
+<codeline lineno="348" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a0e37b0e1d53bd8ff19b39d596c3c428f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a0e37b0e1d53bd8ff19b39d596c3c428f" kindref="member">QUERY_TIMEOUT</ref><sp/>=<sp/>3001,</highlight></codeline>
+<codeline lineno="349" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a457f6695d27b7258d272b6d1e56b1006" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a457f6695d27b7258d272b6d1e56b1006" kindref="member">INVALID_PARAMETERS</ref><sp/>=<sp/>3002,</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Transaction<sp/>errors<sp/>(4000-4099)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ad8b5ed74e48bb7fa6430b97d0801380d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ad8b5ed74e48bb7fa6430b97d0801380d" kindref="member">TRANSACTION_CONFLICT</ref><sp/>=<sp/>4000,</highlight></codeline>
+<codeline lineno="353" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062acbc105d7c0998520bf5abeccbe52f761" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062acbc105d7c0998520bf5abeccbe52f761" kindref="member">TRANSACTION_ABORTED</ref><sp/>=<sp/>4001,</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Server<sp/>errors<sp/>(5000-5099)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/>=<sp/>5000,</highlight></codeline>
+<codeline lineno="357" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a4a739fa42dcdbdb8dfe5a5e4d9c5a627" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a4a739fa42dcdbdb8dfe5a5e4d9c5a627" kindref="member">RESOURCE_EXHAUSTED</ref><sp/>=<sp/>5001,</highlight></codeline>
+<codeline lineno="358" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a321504743197244f08c01a4fd2df88b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a321504743197244f08c01a4fd2df88b5" kindref="member">SERVICE_UNAVAILABLE</ref><sp/>=<sp/>5002,</highlight></codeline>
+<codeline lineno="359" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a3e860a081575fc82cc7b6ed2ca602947" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a3e860a081575fc82cc7b6ed2ca602947" kindref="member">NOT_IMPLEMENTED</ref><sp/>=<sp/>5003,</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RPC<sp/>protocol<sp/>errors<sp/>(6000-6099)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ab8c9d7ce4c399c56136475f36309020f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ab8c9d7ce4c399c56136475f36309020f" kindref="member">INVALID_REQUEST</ref><sp/>=<sp/>6000,</highlight></codeline>
+<codeline lineno="363" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062aa20fa2fa305b9cce6dc017f008da36c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062aa20fa2fa305b9cce6dc017f008da36c8" kindref="member">METHOD_NOT_FOUND</ref><sp/>=<sp/>6001,</highlight></codeline>
+<codeline lineno="364" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a551530ec1af53eaa77c1bde0ca457b4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a551530ec1af53eaa77c1bde0ca457b4b" kindref="member">PARSE_ERROR</ref><sp/>=<sp/>6002,</highlight></codeline>
+<codeline lineno="365" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a6b03470e24be0d9a73494f9491575db3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a6b03470e24be0d9a73494f9491575db3" kindref="member">SERIALIZATION_ERROR</ref><sp/>=<sp/>6003,</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rate<sp/>limiting<sp/>(7000-7099)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ad5396b5bf47321267f6db180394b4582" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ad5396b5bf47321267f6db180394b4582" kindref="member">RATE_LIMIT_EXCEEDED</ref><sp/>=<sp/>7000,</highlight></codeline>
+<codeline lineno="369" refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062acdc10d343f42477661cf7fd3e475fee9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062acdc10d343f42477661cf7fd3e475fee9" kindref="member">CONNECTION_LIMIT_EXCEEDED</ref><sp/>=<sp/>7001</highlight></codeline>
+<codeline lineno="370"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375" refid="namespacethemis_1_1plugins_1_1rpc_1a22b38508c246292f92d6f831a46d9741" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a22b38508c246292f92d6f831a46d9741" kindref="member">rpcErrorCodeToString</ref>(<ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062" kindref="member">RPCErrorCode</ref><sp/>code)<sp/>{</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(code)<sp/>{</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">RPCErrorCode::OK</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;OK&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a589b1e3a3d0a06a04b8167f1593d5c17" kindref="member">RPCErrorCode::AUTHENTICATION_FAILED</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Authentication<sp/>failed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062adce1442cd971edf5002db43b36fffa35" kindref="member">RPCErrorCode::AUTHORIZATION_FAILED</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Authorization<sp/>failed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a1ab4e637edc3b093ebbf6544441e5759" kindref="member">RPCErrorCode::ENTITY_NOT_FOUND</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Entity<sp/>not<sp/>found&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a89d6b2618f7cdf68ed61b457fb67e1cb" kindref="member">RPCErrorCode::ENTITY_ALREADY_EXISTS</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Entity<sp/>already<sp/>exists&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ae0b28d557287434a37397e4c5050142d" kindref="member">RPCErrorCode::INVALID_QUERY</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Invalid<sp/>query&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ae8c0c70879b5895c615677261d64a1ee" kindref="member">RPCErrorCode::INTERNAL_ERROR</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Internal<sp/>error&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a321504743197244f08c01a4fd2df88b5" kindref="member">RPCErrorCode::SERVICE_UNAVAILABLE</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Service<sp/>unavailable&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ab8c9d7ce4c399c56136475f36309020f" kindref="member">RPCErrorCode::INVALID_REQUEST</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Invalid<sp/>request&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062aa20fa2fa305b9cce6dc017f008da36c8" kindref="member">RPCErrorCode::METHOD_NOT_FOUND</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Method<sp/>not<sp/>found&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ad5396b5bf47321267f6db180394b4582" kindref="member">RPCErrorCode::RATE_LIMIT_EXCEEDED</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Rate<sp/>limit<sp/>exceeded&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Unknown<sp/>error&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="390"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>rpc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/plugins/rpc_plugin_interface.h"/>
+  </compounddef>
+</doxygen>

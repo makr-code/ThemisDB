@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_lease_manager_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::LeaseManager::Metrics</compoundname>
+    <includes refid="epoch__fencing_8h" local="no">epoch_fencing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_manager_1_1_metrics_1a176d705dcd6c340dcdb72edc9762b366" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::LeaseManager::Metrics::acquires</definition>
+        <argsstring></argsstring>
+        <name>acquires</name>
+        <qualifiedname>themis::sharding::LeaseManager::Metrics::acquires</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="502" column="18" bodyfile="include/sharding/epoch_fencing.h" bodystart="502" bodyend="502"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_manager_1_1_metrics_1ae069d4c1280a19f6e0aefc4038dd6a85" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::LeaseManager::Metrics::acquire_failures</definition>
+        <argsstring></argsstring>
+        <name>acquire_failures</name>
+        <qualifiedname>themis::sharding::LeaseManager::Metrics::acquire_failures</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="503" column="18" bodyfile="include/sharding/epoch_fencing.h" bodystart="503" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_manager_1_1_metrics_1aeca60c39b6f330c6b2f75611801c2664" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::LeaseManager::Metrics::renewals</definition>
+        <argsstring></argsstring>
+        <name>renewals</name>
+        <qualifiedname>themis::sharding::LeaseManager::Metrics::renewals</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="504" column="18" bodyfile="include/sharding/epoch_fencing.h" bodystart="504" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_manager_1_1_metrics_1aa7297b84934aac13aa3496934e0d623c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::LeaseManager::Metrics::renewal_failures</definition>
+        <argsstring></argsstring>
+        <name>renewal_failures</name>
+        <qualifiedname>themis::sharding::LeaseManager::Metrics::renewal_failures</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="505" column="18" bodyfile="include/sharding/epoch_fencing.h" bodystart="505" bodyend="505"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_manager_1_1_metrics_1a550c9a6dd34b2f0e3d32ad4a0013355e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::LeaseManager::Metrics::releases</definition>
+        <argsstring></argsstring>
+        <name>releases</name>
+        <qualifiedname>themis::sharding::LeaseManager::Metrics::releases</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="506" column="18" bodyfile="include/sharding/epoch_fencing.h" bodystart="506" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_manager_1_1_metrics_1a02b5308e11e7f7ed1e005a9e84060d75" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::LeaseManager::Metrics::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::sharding::LeaseManager::Metrics::evictions</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="507" column="18" bodyfile="include/sharding/epoch_fencing.h" bodystart="507" bodyend="507"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_manager_1_1_metrics_1ab4569c223961cd907b9ced3d02532d58" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::LeaseManager::Metrics::stonith_triggered</definition>
+        <argsstring></argsstring>
+        <name>stonith_triggered</name>
+        <qualifiedname>themis::sharding::LeaseManager::Metrics::stonith_triggered</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="508" column="18" bodyfile="include/sharding/epoch_fencing.h" bodystart="508" bodyend="508"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/epoch_fencing.h" line="501" column="5" bodyfile="include/sharding/epoch_fencing.h" bodystart="501" bodyend="509"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_lease_manager_1_1_metrics_1ae069d4c1280a19f6e0aefc4038dd6a85" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseManager::Metrics</scope><name>acquire_failures</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lease_manager_1_1_metrics_1a176d705dcd6c340dcdb72edc9762b366" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseManager::Metrics</scope><name>acquires</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lease_manager_1_1_metrics_1a02b5308e11e7f7ed1e005a9e84060d75" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseManager::Metrics</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lease_manager_1_1_metrics_1a550c9a6dd34b2f0e3d32ad4a0013355e" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseManager::Metrics</scope><name>releases</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lease_manager_1_1_metrics_1aa7297b84934aac13aa3496934e0d623c" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseManager::Metrics</scope><name>renewal_failures</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lease_manager_1_1_metrics_1aeca60c39b6f330c6b2f75611801c2664" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseManager::Metrics</scope><name>renewals</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lease_manager_1_1_metrics_1ab4569c223961cd907b9ced3d02532d58" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseManager::Metrics</scope><name>stonith_triggered</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_work_steal_pool" kind="class" language="C++" prot="public">
+    <compoundname>StubWorkStealPool</compoundname>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="class_stub_work_steal_pool_1a60966593f75439e72406b4eff0629ccd" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned StubWorkStealPool::kMaxW</definition>
+        <argsstring></argsstring>
+        <name>kMaxW</name>
+        <qualifiedname>StubWorkStealPool::kMaxW</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="119" column="31" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_work_steal_pool_1a89f98f2220f7d7d49afcc56517bdcc57" prot="private" static="no" mutable="no">
+        <type>unsigned</type>
+        <definition>unsigned StubWorkStealPool::workers_</definition>
+        <argsstring></argsstring>
+        <name>workers_</name>
+        <qualifiedname>StubWorkStealPool::workers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="120" column="14" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_work_steal_pool_1af7cc41b4028dfef030a7cfe1ea22bdb4" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::deque&lt; uint64_t &gt; &gt;</type>
+        <definition>std::vector&lt;std::deque&lt;uint64_t&gt; &gt; StubWorkStealPool::queues_</definition>
+        <argsstring></argsstring>
+        <name>queues_</name>
+        <qualifiedname>StubWorkStealPool::queues_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="121" column="17" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_work_steal_pool_1a2ef71aeff675472b494c0e6543d716b9" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex StubWorkStealPool::mu_[kMaxW]</definition>
+        <argsstring>[kMaxW]</argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubWorkStealPool::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="122" column="24" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_work_steal_pool_1a2f74a17625f052efb3cee2316d0c0157" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubWorkStealPool::submitted_</definition>
+        <argsstring></argsstring>
+        <name>submitted_</name>
+        <qualifiedname>StubWorkStealPool::submitted_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="123" column="17" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="123" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_work_steal_pool_1a1d51f0ea8996e08cf129fe5b07b28e98" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubWorkStealPool::processed_</definition>
+        <argsstring></argsstring>
+        <name>processed_</name>
+        <qualifiedname>StubWorkStealPool::processed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="124" column="17" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="124" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_work_steal_pool_1aa2ac898bd1b5a6b9f1239bd05f028df5" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubWorkStealPool::StubWorkStealPool</definition>
+        <argsstring>(unsigned workers)</argsstring>
+        <name>StubWorkStealPool</name>
+        <qualifiedname>StubWorkStealPool::StubWorkStealPool</qualifiedname>
+        <param>
+          <type>unsigned</type>
+          <declname>workers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="85" column="14" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="85" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_work_steal_pool_1acd5fa50bd3b13276a76e8dac58c60bb7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubWorkStealPool::submit</definition>
+        <argsstring>(uint64_t task_id)</argsstring>
+        <name>submit</name>
+        <qualifiedname>StubWorkStealPool::submit</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="88" column="10" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="88" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_work_steal_pool_1af1e8b7f4c5fd4d842a8f6694cbf28ebe" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubWorkStealPool::drainStep</definition>
+        <argsstring>()</argsstring>
+        <name>drainStep</name>
+        <qualifiedname>StubWorkStealPool::drainStep</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="96" column="10" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="96" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_work_steal_pool_1ae29234432b03af83966cb6cf9b64ebe8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubWorkStealPool::submitted</definition>
+        <argsstring>() const</argsstring>
+        <name>submitted</name>
+        <qualifiedname>StubWorkStealPool::submitted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="106" column="14" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_work_steal_pool_1aae57c1c3716dfb49d991db8d42944f61" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubWorkStealPool::processed</definition>
+        <argsstring>() const</argsstring>
+        <name>processed</name>
+        <qualifiedname>StubWorkStealPool::processed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="107" column="14" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_work_steal_pool_1a07e0f640bdf9606263e67c7620aa77d9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubWorkStealPool::remaining</definition>
+        <argsstring>() const</argsstring>
+        <name>remaining</name>
+        <qualifiedname>StubWorkStealPool::remaining</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="109" column="14" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="109" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/execution/test_execution_highcardinality_stress.cpp" line="83" column="1" bodyfile="tests/execution/test_execution_highcardinality_stress.cpp" bodystart="83" bodyend="125"/>
+    <listofallmembers>
+      <member refid="class_stub_work_steal_pool_1af1e8b7f4c5fd4d842a8f6694cbf28ebe" prot="public" virt="non-virtual"><scope>StubWorkStealPool</scope><name>drainStep</name></member>
+      <member refid="class_stub_work_steal_pool_1a60966593f75439e72406b4eff0629ccd" prot="private" virt="non-virtual"><scope>StubWorkStealPool</scope><name>kMaxW</name></member>
+      <member refid="class_stub_work_steal_pool_1a2ef71aeff675472b494c0e6543d716b9" prot="private" virt="non-virtual"><scope>StubWorkStealPool</scope><name>mu_</name></member>
+      <member refid="class_stub_work_steal_pool_1aae57c1c3716dfb49d991db8d42944f61" prot="public" virt="non-virtual"><scope>StubWorkStealPool</scope><name>processed</name></member>
+      <member refid="class_stub_work_steal_pool_1a1d51f0ea8996e08cf129fe5b07b28e98" prot="private" virt="non-virtual"><scope>StubWorkStealPool</scope><name>processed_</name></member>
+      <member refid="class_stub_work_steal_pool_1af7cc41b4028dfef030a7cfe1ea22bdb4" prot="private" virt="non-virtual"><scope>StubWorkStealPool</scope><name>queues_</name></member>
+      <member refid="class_stub_work_steal_pool_1a07e0f640bdf9606263e67c7620aa77d9" prot="public" virt="non-virtual"><scope>StubWorkStealPool</scope><name>remaining</name></member>
+      <member refid="class_stub_work_steal_pool_1aa2ac898bd1b5a6b9f1239bd05f028df5" prot="public" virt="non-virtual"><scope>StubWorkStealPool</scope><name>StubWorkStealPool</name></member>
+      <member refid="class_stub_work_steal_pool_1acd5fa50bd3b13276a76e8dac58c60bb7" prot="public" virt="non-virtual"><scope>StubWorkStealPool</scope><name>submit</name></member>
+      <member refid="class_stub_work_steal_pool_1ae29234432b03af83966cb6cf9b64ebe8" prot="public" virt="non-virtual"><scope>StubWorkStealPool</scope><name>submitted</name></member>
+      <member refid="class_stub_work_steal_pool_1a2f74a17625f052efb3cee2316d0c0157" prot="private" virt="non-virtual"><scope>StubWorkStealPool</scope><name>submitted_</name></member>
+      <member refid="class_stub_work_steal_pool_1a89f98f2220f7d7d49afcc56517bdcc57" prot="private" virt="non-virtual"><scope>StubWorkStealPool</scope><name>workers_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

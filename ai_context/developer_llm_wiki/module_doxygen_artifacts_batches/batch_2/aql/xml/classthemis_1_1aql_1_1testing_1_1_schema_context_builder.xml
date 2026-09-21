@@ -1,0 +1,334 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1testing_1_1_schema_context_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::testing::SchemaContextBuilder</compoundname>
+    <includes refid="schema__context__builder_8h" local="no">schema_context_builder.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1ad671e66ea0fda0e354df467b55300989" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::SchemaContextBuilder::collection_name_</definition>
+        <argsstring></argsstring>
+        <name>collection_name_</name>
+        <qualifiedname>themis::aql::testing::SchemaContextBuilder::collection_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="201" column="29" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1ae7546f6dce6807755680381f93eab4cd" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1testing_1_1_schema_field" kindref="compound">SchemaField</ref> &gt;</type>
+        <definition>std::vector&lt;SchemaField&gt; themis::aql::testing::SchemaContextBuilder::fields_</definition>
+        <argsstring></argsstring>
+        <name>fields_</name>
+        <qualifiedname>themis::aql::testing::SchemaContextBuilder::fields_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="202" column="17" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a2ad9942b364b205965b70d5f780f7467" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::testing::SchemaContextBuilder::SchemaContextBuilder</definition>
+        <argsstring>()=default</argsstring>
+        <name>SchemaContextBuilder</name>
+        <qualifiedname>themis::aql::testing::SchemaContextBuilder::SchemaContextBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="56" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a5016c4f7c62055cb622d204cf99ee961" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a2ad9942b364b205965b70d5f780f7467" kindref="member">SchemaContextBuilder</ref> &amp;</type>
+        <definition>SchemaContextBuilder &amp; themis::aql::testing::SchemaContextBuilder::collection</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::aql::testing::SchemaContextBuilder::collection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Set the collection name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="59" column="26" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="59" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1ad66aab5268361606a5eb224f8ebd1f90" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a2ad9942b364b205965b70d5f780f7467" kindref="member">SchemaContextBuilder</ref> &amp;</type>
+        <definition>SchemaContextBuilder &amp; themis::aql::testing::SchemaContextBuilder::field</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;type, bool required=false, const std::string &amp;desc=&quot;&quot;)</argsstring>
+        <name>field</name>
+        <qualifiedname>themis::aql::testing::SchemaContextBuilder::field</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>required</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>desc</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Add a field to the schema. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="65" column="26" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="65" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a566cc0faedb8d3cbb5861f8759b8675c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::SchemaContextBuilder::buildContextString</definition>
+        <argsstring>() const</argsstring>
+        <name>buildContextString</name>
+        <qualifiedname>themis::aql::testing::SchemaContextBuilder::buildContextString</qualifiedname>
+        <briefdescription>
+<para>Build a schema context string in the format used by ThemisDB validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="72" column="17" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="72" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1ab176bf5bce3bb3c81d18624d7e3c1f15" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::SchemaContextBuilder::buildJSONContextString</definition>
+        <argsstring>() const</argsstring>
+        <name>buildJSONContextString</name>
+        <qualifiedname>themis::aql::testing::SchemaContextBuilder::buildJSONContextString</qualifiedname>
+        <briefdescription>
+<para>Build a JSON-like schema context string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="86" column="17" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="86" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1aa1709ff4af79231643db5612554482b1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::aql::testing::SchemaContextBuilder::getCollectionName</definition>
+        <argsstring>() const</argsstring>
+        <name>getCollectionName</name>
+        <qualifiedname>themis::aql::testing::SchemaContextBuilder::getCollectionName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="99" column="23" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a10a61f6b86839b0df22dcac2f4e7d2ea" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1aql_1_1testing_1_1_schema_field" kindref="compound">SchemaField</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; SchemaField &gt; &amp; themis::aql::testing::SchemaContextBuilder::getFields</definition>
+        <argsstring>() const</argsstring>
+        <name>getFields</name>
+        <qualifiedname>themis::aql::testing::SchemaContextBuilder::getFields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="100" column="23" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a4ae476500f3fe11962f35c0dec4a8f40" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a2ad9942b364b205965b70d5f780f7467" kindref="member">SchemaContextBuilder</ref></type>
+        <definition>static SchemaContextBuilder themis::aql::testing::SchemaContextBuilder::preset_users</definition>
+        <argsstring>()</argsstring>
+        <name>preset_users</name>
+        <qualifiedname>themis::aql::testing::SchemaContextBuilder::preset_users</qualifiedname>
+        <briefdescription>
+<para>Preset: users collection (id, name, email, age, created_at). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="107" column="33" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="107" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a6abba6145a93d2d644a787dfcfcd54ef" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a2ad9942b364b205965b70d5f780f7467" kindref="member">SchemaContextBuilder</ref></type>
+        <definition>static SchemaContextBuilder themis::aql::testing::SchemaContextBuilder::preset_products</definition>
+        <argsstring>()</argsstring>
+        <name>preset_products</name>
+        <qualifiedname>themis::aql::testing::SchemaContextBuilder::preset_products</qualifiedname>
+        <briefdescription>
+<para>Preset: products collection (id, name, price, category, stock). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="118" column="33" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="118" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a73f3b1565a106bb392c0ddc254f31aa5" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a2ad9942b364b205965b70d5f780f7467" kindref="member">SchemaContextBuilder</ref></type>
+        <definition>static SchemaContextBuilder themis::aql::testing::SchemaContextBuilder::preset_orders</definition>
+        <argsstring>()</argsstring>
+        <name>preset_orders</name>
+        <qualifiedname>themis::aql::testing::SchemaContextBuilder::preset_orders</qualifiedname>
+        <briefdescription>
+<para>Preset: orders collection (id, user_id, items, total, status). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="129" column="33" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="129" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a7b278d434ed54b789dd2ee66b476e44d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::aql::testing::SchemaContextBuilder::invalid_empty_collection</definition>
+        <argsstring>()</argsstring>
+        <name>invalid_empty_collection</name>
+        <qualifiedname>themis::aql::testing::SchemaContextBuilder::invalid_empty_collection</qualifiedname>
+        <briefdescription>
+<para>Invalid: empty collection name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="144" column="24" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="144" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1ab8dcbfe73df8848866468d7a29659612" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::aql::testing::SchemaContextBuilder::invalid_no_fields</definition>
+        <argsstring>()</argsstring>
+        <name>invalid_no_fields</name>
+        <qualifiedname>themis::aql::testing::SchemaContextBuilder::invalid_no_fields</qualifiedname>
+        <briefdescription>
+<para>Invalid: no fields registered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="152" column="24" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="152" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1ac7a292e9b32ca0d7c9978e9898c9fc4b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a2ad9942b364b205965b70d5f780f7467" kindref="member">SchemaContextBuilder</ref></type>
+        <definition>static SchemaContextBuilder themis::aql::testing::SchemaContextBuilder::invalid_type_mismatch</definition>
+        <argsstring>()</argsstring>
+        <name>invalid_type_mismatch</name>
+        <qualifiedname>themis::aql::testing::SchemaContextBuilder::invalid_type_mismatch</qualifiedname>
+        <briefdescription>
+<para>Invalid: field with unknown type (triggers TypeMismatch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="159" column="33" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="159" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a5c5e5216fe4b6c1d204bffc7e4d84914" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a2ad9942b364b205965b70d5f780f7467" kindref="member">SchemaContextBuilder</ref></type>
+        <definition>static SchemaContextBuilder themis::aql::testing::SchemaContextBuilder::invalid_missing_required</definition>
+        <argsstring>()</argsstring>
+        <name>invalid_missing_required</name>
+        <qualifiedname>themis::aql::testing::SchemaContextBuilder::invalid_missing_required</qualifiedname>
+        <briefdescription>
+<para>Invalid: required fields missing (partial schema). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="166" column="33" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="166" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1ab6a9ae7749750cb5f82fd8757a5667d9" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a2ad9942b364b205965b70d5f780f7467" kindref="member">SchemaContextBuilder</ref></type>
+        <definition>static SchemaContextBuilder themis::aql::testing::SchemaContextBuilder::large_schema</definition>
+        <argsstring>(int field_count=200)</argsstring>
+        <name>large_schema</name>
+        <qualifiedname>themis::aql::testing::SchemaContextBuilder::large_schema</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>field_count</declname>
+          <defval>200</defval>
+        </param>
+        <briefdescription>
+<para>Large schema: collection with N fields (configurable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="174" column="33" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="174" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1af42fec48faa85b0e1301abbd5c60a01a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::aql::testing::SchemaContextBuilder::multi_collection_context</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;collection_names)</argsstring>
+        <name>multi_collection_context</name>
+        <qualifiedname>themis::aql::testing::SchemaContextBuilder::multi_collection_context</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>collection_names</declname>
+        </param>
+        <briefdescription>
+<para>Multi-collection context string (simulates join-like queries). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/schema_context_builder.h" line="189" column="24" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="189" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/fixtures/schema_context_builder.h" line="54" column="1" bodyfile="tests/aql/fixtures/schema_context_builder.h" bodystart="54" bodyend="203"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a566cc0faedb8d3cbb5861f8759b8675c" prot="public" virt="non-virtual"><scope>themis::aql::testing::SchemaContextBuilder</scope><name>buildContextString</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1ab176bf5bce3bb3c81d18624d7e3c1f15" prot="public" virt="non-virtual"><scope>themis::aql::testing::SchemaContextBuilder</scope><name>buildJSONContextString</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a5016c4f7c62055cb622d204cf99ee961" prot="public" virt="non-virtual"><scope>themis::aql::testing::SchemaContextBuilder</scope><name>collection</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1ad671e66ea0fda0e354df467b55300989" prot="private" virt="non-virtual"><scope>themis::aql::testing::SchemaContextBuilder</scope><name>collection_name_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1ad66aab5268361606a5eb224f8ebd1f90" prot="public" virt="non-virtual"><scope>themis::aql::testing::SchemaContextBuilder</scope><name>field</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1ae7546f6dce6807755680381f93eab4cd" prot="private" virt="non-virtual"><scope>themis::aql::testing::SchemaContextBuilder</scope><name>fields_</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1aa1709ff4af79231643db5612554482b1" prot="public" virt="non-virtual"><scope>themis::aql::testing::SchemaContextBuilder</scope><name>getCollectionName</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a10a61f6b86839b0df22dcac2f4e7d2ea" prot="public" virt="non-virtual"><scope>themis::aql::testing::SchemaContextBuilder</scope><name>getFields</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a7b278d434ed54b789dd2ee66b476e44d" prot="public" virt="non-virtual"><scope>themis::aql::testing::SchemaContextBuilder</scope><name>invalid_empty_collection</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a5c5e5216fe4b6c1d204bffc7e4d84914" prot="public" virt="non-virtual"><scope>themis::aql::testing::SchemaContextBuilder</scope><name>invalid_missing_required</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1ab8dcbfe73df8848866468d7a29659612" prot="public" virt="non-virtual"><scope>themis::aql::testing::SchemaContextBuilder</scope><name>invalid_no_fields</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1ac7a292e9b32ca0d7c9978e9898c9fc4b" prot="public" virt="non-virtual"><scope>themis::aql::testing::SchemaContextBuilder</scope><name>invalid_type_mismatch</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1ab6a9ae7749750cb5f82fd8757a5667d9" prot="public" virt="non-virtual"><scope>themis::aql::testing::SchemaContextBuilder</scope><name>large_schema</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1af42fec48faa85b0e1301abbd5c60a01a" prot="public" virt="non-virtual"><scope>themis::aql::testing::SchemaContextBuilder</scope><name>multi_collection_context</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a73f3b1565a106bb392c0ddc254f31aa5" prot="public" virt="non-virtual"><scope>themis::aql::testing::SchemaContextBuilder</scope><name>preset_orders</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a6abba6145a93d2d644a787dfcfcd54ef" prot="public" virt="non-virtual"><scope>themis::aql::testing::SchemaContextBuilder</scope><name>preset_products</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a4ae476500f3fe11962f35c0dec4a8f40" prot="public" virt="non-virtual"><scope>themis::aql::testing::SchemaContextBuilder</scope><name>preset_users</name></member>
+      <member refid="classthemis_1_1aql_1_1testing_1_1_schema_context_builder_1a2ad9942b364b205965b70d5f780f7467" prot="public" virt="non-virtual"><scope>themis::aql::testing::SchemaContextBuilder</scope><name>SchemaContextBuilder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

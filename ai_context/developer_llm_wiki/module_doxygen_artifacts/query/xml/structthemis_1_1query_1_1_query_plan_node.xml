@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_plan_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryPlanNode</compoundname>
+    <includes refid="query__plan__visualizer_8h" local="no">query_plan_visualizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_plan_node_1a903f5170e525fddcb7cdc545efabb38a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21c" kindref="member">PlanNodeType</ref></type>
+        <definition>PlanNodeType themis::query::QueryPlanNode::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::QueryPlanNode::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21ca88183b946cc5f0e8c96b2e66e1c74a7e" kindref="member">PlanNodeType::Unknown</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_plan_visualizer.h" line="52" column="18" bodyfile="include/query/query_plan_visualizer.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_plan_node_1a8b6d7c4d51a9eb3c6aeb80757b76847c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryPlanNode::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::query::QueryPlanNode::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable operator label. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_plan_visualizer.h" line="53" column="17" bodyfile="include/query/query_plan_visualizer.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_plan_node_1a012de1e81e5c135e0636b79cb0296def" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::QueryPlanNode::estimated_cost</definition>
+        <argsstring></argsstring>
+        <name>estimated_cost</name>
+        <qualifiedname>themis::query::QueryPlanNode::estimated_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_plan_visualizer.h" line="56" column="12" bodyfile="include/query/query_plan_visualizer.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_plan_node_1a52971bd81dd0151b750f07f78d461f91" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryPlanNode::estimated_rows</definition>
+        <argsstring></argsstring>
+        <name>estimated_rows</name>
+        <qualifiedname>themis::query::QueryPlanNode::estimated_rows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_plan_visualizer.h" line="57" column="12" bodyfile="include/query/query_plan_visualizer.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_plan_node_1a4bc1b631dcdeffb2e6e81d834fc01f60" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::QueryPlanNode::actual_time_ms</definition>
+        <argsstring></argsstring>
+        <name>actual_time_ms</name>
+        <qualifiedname>themis::query::QueryPlanNode::actual_time_ms</qualifiedname>
+        <initializer>= -1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_plan_visualizer.h" line="60" column="12" bodyfile="include/query/query_plan_visualizer.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_plan_node_1affe45cb3be8a3011b9604934a6978510" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryPlanNode::actual_rows</definition>
+        <argsstring></argsstring>
+        <name>actual_rows</name>
+        <qualifiedname>themis::query::QueryPlanNode::actual_rows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_plan_visualizer.h" line="61" column="12" bodyfile="include/query/query_plan_visualizer.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_plan_node_1a2fd33694526c79bf919c40fde60dd408" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::query::QueryPlanNode::index_name</definition>
+        <argsstring></argsstring>
+        <name>index_name</name>
+        <qualifiedname>themis::query::QueryPlanNode::index_name</qualifiedname>
+        <briefdescription>
+<para>Index used by IndexScan. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_plan_visualizer.h" line="64" column="19" bodyfile="include/query/query_plan_visualizer.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_plan_node_1a5b58edec860c2da79943a1811065d608" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::QueryPlanNode::selectivity</definition>
+        <argsstring></argsstring>
+        <name>selectivity</name>
+        <qualifiedname>themis::query::QueryPlanNode::selectivity</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Filter selectivity estimate [0,1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_plan_visualizer.h" line="65" column="12" bodyfile="include/query/query_plan_visualizer.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_plan_node_1a7cdec385cac97c9aae386df4dd73df60" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::QueryPlanNode::attributes</definition>
+        <argsstring></argsstring>
+        <name>attributes</name>
+        <qualifiedname>themis::query::QueryPlanNode::attributes</qualifiedname>
+        <briefdescription>
+<para>E.g. predicate columns, sort keys. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_plan_visualizer.h" line="66" column="17" bodyfile="include/query/query_plan_visualizer.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_plan_node_1ac82904a31b0c87be547881aaca23ff75" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;QueryPlanNode&gt; &gt; themis::query::QueryPlanNode::children</definition>
+        <argsstring></argsstring>
+        <name>children</name>
+        <qualifiedname>themis::query::QueryPlanNode::children</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_plan_visualizer.h" line="68" column="17" bodyfile="include/query/query_plan_visualizer.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_plan_visualizer.h" line="51" column="1" bodyfile="include/query/query_plan_visualizer.h" bodystart="51" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_plan_node_1affe45cb3be8a3011b9604934a6978510" prot="public" virt="non-virtual"><scope>themis::query::QueryPlanNode</scope><name>actual_rows</name></member>
+      <member refid="structthemis_1_1query_1_1_query_plan_node_1a4bc1b631dcdeffb2e6e81d834fc01f60" prot="public" virt="non-virtual"><scope>themis::query::QueryPlanNode</scope><name>actual_time_ms</name></member>
+      <member refid="structthemis_1_1query_1_1_query_plan_node_1a7cdec385cac97c9aae386df4dd73df60" prot="public" virt="non-virtual"><scope>themis::query::QueryPlanNode</scope><name>attributes</name></member>
+      <member refid="structthemis_1_1query_1_1_query_plan_node_1ac82904a31b0c87be547881aaca23ff75" prot="public" virt="non-virtual"><scope>themis::query::QueryPlanNode</scope><name>children</name></member>
+      <member refid="structthemis_1_1query_1_1_query_plan_node_1a8b6d7c4d51a9eb3c6aeb80757b76847c" prot="public" virt="non-virtual"><scope>themis::query::QueryPlanNode</scope><name>description</name></member>
+      <member refid="structthemis_1_1query_1_1_query_plan_node_1a012de1e81e5c135e0636b79cb0296def" prot="public" virt="non-virtual"><scope>themis::query::QueryPlanNode</scope><name>estimated_cost</name></member>
+      <member refid="structthemis_1_1query_1_1_query_plan_node_1a52971bd81dd0151b750f07f78d461f91" prot="public" virt="non-virtual"><scope>themis::query::QueryPlanNode</scope><name>estimated_rows</name></member>
+      <member refid="structthemis_1_1query_1_1_query_plan_node_1a2fd33694526c79bf919c40fde60dd408" prot="public" virt="non-virtual"><scope>themis::query::QueryPlanNode</scope><name>index_name</name></member>
+      <member refid="structthemis_1_1query_1_1_query_plan_node_1a5b58edec860c2da79943a1811065d608" prot="public" virt="non-virtual"><scope>themis::query::QueryPlanNode</scope><name>selectivity</name></member>
+      <member refid="structthemis_1_1query_1_1_query_plan_node_1a903f5170e525fddcb7cdc545efabb38a" prot="public" virt="non-virtual"><scope>themis::query::QueryPlanNode</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

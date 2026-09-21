@@ -1,0 +1,409 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1tensor_1_1bench" kind="namespace" language="C++">
+    <compoundname>themis::tensor::bench</compoundname>
+    <innerclass refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture" prot="public">themis::tensor::bench::TensorPipelineFixture</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1a407d19a01429a7f93aa3a1355fbd418c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::bench::BENCHMARK_F</definition>
+        <argsstring>(TensorPipelineFixture, MidLayerPlanning_AdapterScope)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::tensor::bench::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture" kindref="compound">TensorPipelineFixture</ref></type>
+        </param>
+        <param>
+          <type>MidLayerPlanning_AdapterScope</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="87" column="1" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="87" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1aed56f7085b822a22603d419f9900cf63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::bench::BENCHMARK_F</definition>
+        <argsstring>(TensorPipelineFixture, MidLayerPlanning_PackageScope)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::tensor::bench::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture" kindref="compound">TensorPipelineFixture</ref></type>
+        </param>
+        <param>
+          <type>MidLayerPlanning_PackageScope</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="101" column="1" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="101" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1a751e038e7a0b4f77ece0cfe0b3a44bb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::bench::BENCHMARK_F</definition>
+        <argsstring>(TensorPipelineFixture, MidLayerPlanning_ShardScope)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::tensor::bench::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture" kindref="compound">TensorPipelineFixture</ref></type>
+        </param>
+        <param>
+          <type>MidLayerPlanning_ShardScope</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="113" column="1" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="113" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1a82a74ec98929999c31eecfb01558f420" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::bench::BENCHMARK_F</definition>
+        <argsstring>(TensorPipelineFixture, MidLayerSummarization_SingleScope)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::tensor::bench::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture" kindref="compound">TensorPipelineFixture</ref></type>
+        </param>
+        <param>
+          <type>MidLayerSummarization_SingleScope</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="130" column="1" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="130" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1abb79d6c17bd1ea50caa998f5f9a3c4aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::bench::BENCHMARK_F</definition>
+        <argsstring>(TensorPipelineFixture, FingerprintGraphFindSimilar_Top10)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::tensor::bench::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture" kindref="compound">TensorPipelineFixture</ref></type>
+        </param>
+        <param>
+          <type>FingerprintGraphFindSimilar_Top10</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="148" column="1" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="148" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1a989eacbdc6620de974a7d50fd91cee48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::bench::BENCHMARK_F</definition>
+        <argsstring>(TensorPipelineFixture, FingerprintGraphFindSimilar_Top100)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::tensor::bench::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture" kindref="compound">TensorPipelineFixture</ref></type>
+        </param>
+        <param>
+          <type>FingerprintGraphFindSimilar_Top100</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="159" column="1" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="159" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1abf6c369e1bcd81b01a4efd9c19299e8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::bench::BENCHMARK_F</definition>
+        <argsstring>(TensorPipelineFixture, FingerprintGraphAddAdapter)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::tensor::bench::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture" kindref="compound">TensorPipelineFixture</ref></type>
+        </param>
+        <param>
+          <type>FingerprintGraphAddAdapter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="170" column="1" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="170" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1a2e9d7054aae96bcdda1c3069c5978b90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::bench::BENCHMARK_F</definition>
+        <argsstring>(TensorPipelineFixture, AdapterRepositoryStore)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::tensor::bench::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture" kindref="compound">TensorPipelineFixture</ref></type>
+        </param>
+        <param>
+          <type>AdapterRepositoryStore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="184" column="1" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="184" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1a72c56e9120304b6ed3014dc0316185b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::bench::BENCHMARK_F</definition>
+        <argsstring>(TensorPipelineFixture, AdapterRepositoryFindSimilar)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::tensor::bench::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture" kindref="compound">TensorPipelineFixture</ref></type>
+        </param>
+        <param>
+          <type>AdapterRepositoryFindSimilar</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="194" column="1" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="194" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1a38b3846025f14a1b0f58723c3a58c166" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::bench::BENCHMARK_F</definition>
+        <argsstring>(TensorPipelineFixture, FederatedShardSummarization_3Shards)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::tensor::bench::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture" kindref="compound">TensorPipelineFixture</ref></type>
+        </param>
+        <param>
+          <type>FederatedShardSummarization_3Shards</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="205" column="1" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="205" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1a6144bc7fc0715b7723cb13ddd719e470" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::bench::BENCHMARK_F</definition>
+        <argsstring>(TensorPipelineFixture, FederatedShardSummarization_10Shards)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <qualifiedname>themis::tensor::bench::BENCHMARK_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1bench_1_1_tensor_pipeline_fixture" kindref="compound">TensorPipelineFixture</ref></type>
+        </param>
+        <param>
+          <type>FederatedShardSummarization_10Shards</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="220" column="1" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="220" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1accc74ed0a1a680dfb878876ba8bc1e28" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::tensor::bench::BM_CompressionStrategy_TTSVDDecomposition</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_CompressionStrategy_TTSVDDecomposition</name>
+        <qualifiedname>themis::tensor::bench::BM_CompressionStrategy_TTSVDDecomposition</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="245" column="13" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="245" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1a357f16256dd9d1bd780045fc81c811fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::bench::BENCHMARK</definition>
+        <argsstring>(BM_CompressionStrategy_TTSVDDecomposition) -&gt; Unit(benchmark::kMicrosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::tensor::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_CompressionStrategy_TTSVDDecomposition</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="260" column="1" declfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" declline="260" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1a00adacd6fd03f6dfe2ad53a9cef5707b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::tensor::bench::BM_CompressionStrategy_Quantization</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_CompressionStrategy_Quantization</name>
+        <qualifiedname>themis::tensor::bench::BM_CompressionStrategy_Quantization</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="262" column="13" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="262" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1ad05d2246e1af8a4420c33f707f5c2b15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::bench::BENCHMARK</definition>
+        <argsstring>(BM_CompressionStrategy_Quantization) -&gt; Unit(benchmark::kMicrosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::tensor::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_CompressionStrategy_Quantization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="275" column="1" declfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" declline="275" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1a1ecd3c733a161f33c2b74ff0b0454ed1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::tensor::bench::BM_RoutingStrategy_QualityBased</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RoutingStrategy_QualityBased</name>
+        <qualifiedname>themis::tensor::bench::BM_RoutingStrategy_QualityBased</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="281" column="13" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="281" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1abda51fba00d9e7506c01e2a22452145c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::bench::BENCHMARK</definition>
+        <argsstring>(BM_RoutingStrategy_QualityBased) -&gt; Unit(benchmark::kMicrosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::tensor::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_RoutingStrategy_QualityBased</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="302" column="1" declfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" declline="302" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1adcdf42f7191b958a32594a21c1930655" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::tensor::bench::BM_RoutingStrategy_ShardAware</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RoutingStrategy_ShardAware</name>
+        <qualifiedname>themis::tensor::bench::BM_RoutingStrategy_ShardAware</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="304" column="13" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="304" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1ab003cdd92b478318a8168b16ad17ed6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::bench::BENCHMARK</definition>
+        <argsstring>(BM_RoutingStrategy_ShardAware) -&gt; Unit(benchmark::kMicrosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::tensor::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_RoutingStrategy_ShardAware</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="325" column="1" declfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" declline="325" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1a0c31168c6d627f51ccefb95f8e4baf89" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::tensor::bench::BM_RedundancyDetection_SimilarityBased</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_RedundancyDetection_SimilarityBased</name>
+        <qualifiedname>themis::tensor::bench::BM_RedundancyDetection_SimilarityBased</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="331" column="13" bodyfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" bodystart="331" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1bench_1ade862eeaadc50fe18d28e3810fe4c701" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::bench::BENCHMARK</definition>
+        <argsstring>(BM_RedundancyDetection_SimilarityBased) -&gt; Unit(benchmark::kMicrosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::tensor::bench::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_RedundancyDetection_SimilarityBased</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="354" column="1" declfile="benchmarks/tensor/bench_tensor_integration_baseline.cpp" declline="354" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/tensor/bench_tensor_integration_baseline.cpp" line="15" column="1"/>
+  </compounddef>
+</doxygen>

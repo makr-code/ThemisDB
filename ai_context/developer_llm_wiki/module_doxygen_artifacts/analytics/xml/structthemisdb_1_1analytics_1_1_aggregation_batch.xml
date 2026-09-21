@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_aggregation_batch" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::AggregationBatch</compoundname>
+    <includes refid="analytics__engine_8h" local="no">analytics_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_aggregation_batch_1a4fe0bd278094f4c42218218f75f40620" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::AggregationBatch::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themisdb::analytics::AggregationBatch::query</qualifiedname>
+        <briefdescription>
+<para>Aggregation query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="51" column="17" bodyfile="include/analytics/analytics_engine.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_aggregation_batch_1a7bb76f955bae970d920c972266751dbe" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::analytics::AggregationBatch::group_keys</definition>
+        <argsstring></argsstring>
+        <name>group_keys</name>
+        <qualifiedname>themisdb::analytics::AggregationBatch::group_keys</qualifiedname>
+        <briefdescription>
+<para>Grouping columns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="52" column="17" bodyfile="include/analytics/analytics_engine.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_aggregation_batch_1af25234ca2406d5a3eafc6d0dd12455f5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::analytics::AggregationBatch::agg_columns</definition>
+        <argsstring></argsstring>
+        <name>agg_columns</name>
+        <qualifiedname>themisdb::analytics::AggregationBatch::agg_columns</qualifiedname>
+        <briefdescription>
+<para>Aggregation columns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="53" column="17" bodyfile="include/analytics/analytics_engine.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_aggregation_batch_1ac062e91b9774ac152220a911f2857c5e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::AggregationBatch::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themisdb::analytics::AggregationBatch::batch_size</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+<para>Batch processing size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_engine.h" line="54" column="9" bodyfile="include/analytics/analytics_engine.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/analytics_engine.h" line="50" column="1" bodyfile="include/analytics/analytics_engine.h" bodystart="50" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_aggregation_batch_1af25234ca2406d5a3eafc6d0dd12455f5" prot="public" virt="non-virtual"><scope>themisdb::analytics::AggregationBatch</scope><name>agg_columns</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_aggregation_batch_1ac062e91b9774ac152220a911f2857c5e" prot="public" virt="non-virtual"><scope>themisdb::analytics::AggregationBatch</scope><name>batch_size</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_aggregation_batch_1a7bb76f955bae970d920c972266751dbe" prot="public" virt="non-virtual"><scope>themisdb::analytics::AggregationBatch</scope><name>group_keys</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_aggregation_batch_1a4fe0bd278094f4c42218218f75f40620" prot="public" virt="non-virtual"><scope>themisdb::analytics::AggregationBatch</scope><name>query</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

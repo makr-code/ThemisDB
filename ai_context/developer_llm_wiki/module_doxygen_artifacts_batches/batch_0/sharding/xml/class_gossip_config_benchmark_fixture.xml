@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_gossip_config_benchmark_fixture" kind="class" language="C++" prot="public">
+    <compoundname>GossipConfigBenchmarkFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_gossip_config_benchmark_fixture_1a4b8e1d32369a88b2ee219ad126962c1b" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int GossipConfigBenchmarkFixture::num_shards_</definition>
+        <argsstring></argsstring>
+        <name>num_shards_</name>
+        <qualifiedname>GossipConfigBenchmarkFixture::num_shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_gossip_config.cpp" line="55" column="9" bodyfile="benchmarks/sharding/bench_gossip_config.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_gossip_config_benchmark_fixture_1a8550382a4542ae67be6edc97076907bc" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardTopology&gt; GossipConfigBenchmarkFixture::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>GossipConfigBenchmarkFixture::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_gossip_config.cpp" line="56" column="21" bodyfile="benchmarks/sharding/bench_gossip_config.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_gossip_config_benchmark_fixture_1a78a75439113003358e9b562067f3f266" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_gossip_config_manager" kindref="compound">GossipConfigManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GossipConfigManager&gt; GossipConfigBenchmarkFixture::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>GossipConfigBenchmarkFixture::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_gossip_config.cpp" line="57" column="21" bodyfile="benchmarks/sharding/bench_gossip_config.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_gossip_config_benchmark_fixture_1abfad30e9d270b89f3e19f4a16a0413f6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GossipConfigBenchmarkFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GossipConfigBenchmarkFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_gossip_config.cpp" line="22" column="10" bodyfile="benchmarks/sharding/bench_gossip_config.cpp" bodystart="22" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_gossip_config_benchmark_fixture_1a4df5c03b119083925caecb1b9e8e4571" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GossipConfigBenchmarkFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GossipConfigBenchmarkFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_gossip_config.cpp" line="48" column="10" bodyfile="benchmarks/sharding/bench_gossip_config.cpp" bodystart="48" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GossipConfigBenchmarkFixture</label>
+        <link refid="class_gossip_config_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GossipConfigBenchmarkFixture</label>
+        <link refid="class_gossip_config_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/sharding/bench_gossip_config.cpp" line="20" column="1" bodyfile="benchmarks/sharding/bench_gossip_config.cpp" bodystart="20" bodyend="58"/>
+    <listofallmembers>
+      <member refid="class_gossip_config_benchmark_fixture_1a78a75439113003358e9b562067f3f266" prot="protected" virt="non-virtual"><scope>GossipConfigBenchmarkFixture</scope><name>manager_</name></member>
+      <member refid="class_gossip_config_benchmark_fixture_1a4b8e1d32369a88b2ee219ad126962c1b" prot="protected" virt="non-virtual"><scope>GossipConfigBenchmarkFixture</scope><name>num_shards_</name></member>
+      <member refid="class_gossip_config_benchmark_fixture_1abfad30e9d270b89f3e19f4a16a0413f6" prot="public" virt="non-virtual"><scope>GossipConfigBenchmarkFixture</scope><name>SetUp</name></member>
+      <member refid="class_gossip_config_benchmark_fixture_1a4df5c03b119083925caecb1b9e8e4571" prot="public" virt="non-virtual"><scope>GossipConfigBenchmarkFixture</scope><name>TearDown</name></member>
+      <member refid="class_gossip_config_benchmark_fixture_1a8550382a4542ae67be6edc97076907bc" prot="protected" virt="non-virtual"><scope>GossipConfigBenchmarkFixture</scope><name>topology_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

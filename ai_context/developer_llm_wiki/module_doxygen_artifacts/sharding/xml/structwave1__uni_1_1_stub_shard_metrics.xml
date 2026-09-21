@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structwave1__uni_1_1_stub_shard_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>wave1_uni::StubShardMetrics</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structwave1__uni_1_1_stub_shard_metrics_1a4aeb9da08e2e5a479b06eb836e13d765" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; wave1_uni::StubShardMetrics::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>wave1_uni::StubShardMetrics::total_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="550" column="17" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="550" bodyend="550"/>
+      </memberdef>
+      <memberdef kind="variable" id="structwave1__uni_1_1_stub_shard_metrics_1a9fcec4efe3fa6ca9a211655128c7963a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; wave1_uni::StubShardMetrics::failed_requests</definition>
+        <argsstring></argsstring>
+        <name>failed_requests</name>
+        <qualifiedname>wave1_uni::StubShardMetrics::failed_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="551" column="17" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="551" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="variable" id="structwave1__uni_1_1_stub_shard_metrics_1a68982736820364d1e64fa5e7efdfebbd" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; wave1_uni::StubShardMetrics::min_latency_us</definition>
+        <argsstring></argsstring>
+        <name>min_latency_us</name>
+        <qualifiedname>wave1_uni::StubShardMetrics::min_latency_us</qualifiedname>
+        <initializer>{std::numeric_limits&lt;uint64_t&gt;::max()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="552" column="17" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="552" bodyend="552"/>
+      </memberdef>
+      <memberdef kind="variable" id="structwave1__uni_1_1_stub_shard_metrics_1a57f52e047551b4166183b7e7fa0d250c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; wave1_uni::StubShardMetrics::max_latency_us</definition>
+        <argsstring></argsstring>
+        <name>max_latency_us</name>
+        <qualifiedname>wave1_uni::StubShardMetrics::max_latency_us</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="553" column="17" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="553" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="variable" id="structwave1__uni_1_1_stub_shard_metrics_1a9cc090ab571dcfb13a33a9e1396a9629" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; wave1_uni::StubShardMetrics::health_status</definition>
+        <argsstring></argsstring>
+        <name>health_status</name>
+        <qualifiedname>wave1_uni::StubShardMetrics::health_status</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="554" column="22" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="554" bodyend="554"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structwave1__uni_1_1_stub_shard_metrics_1a65d09c9a7ba086960dc847c58e99124a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void wave1_uni::StubShardMetrics::reset</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>wave1_uni::StubShardMetrics::reset</qualifiedname>
+        <briefdescription>
+<para>Reset to baseline — mirrors production <ref refid="structwave1__uni_1_1_stub_shard_metrics_1a65d09c9a7ba086960dc847c58e99124a" kindref="member">reset()</ref> implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="557" column="10" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="557" bodyend="564"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Models the ShardMetrics <ref refid="structwave1__uni_1_1_stub_shard_metrics_1a65d09c9a7ba086960dc847c58e99124a" kindref="member">reset()</ref> pattern from <ref refid="operational__metrics_8cpp" kindref="compound">operational_metrics.cpp</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="548" column="1" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="548" bodyend="565"/>
+    <listofallmembers>
+      <member refid="structwave1__uni_1_1_stub_shard_metrics_1a9fcec4efe3fa6ca9a211655128c7963a" prot="public" virt="non-virtual"><scope>wave1_uni::StubShardMetrics</scope><name>failed_requests</name></member>
+      <member refid="structwave1__uni_1_1_stub_shard_metrics_1a9cc090ab571dcfb13a33a9e1396a9629" prot="public" virt="non-virtual"><scope>wave1_uni::StubShardMetrics</scope><name>health_status</name></member>
+      <member refid="structwave1__uni_1_1_stub_shard_metrics_1a57f52e047551b4166183b7e7fa0d250c" prot="public" virt="non-virtual"><scope>wave1_uni::StubShardMetrics</scope><name>max_latency_us</name></member>
+      <member refid="structwave1__uni_1_1_stub_shard_metrics_1a68982736820364d1e64fa5e7efdfebbd" prot="public" virt="non-virtual"><scope>wave1_uni::StubShardMetrics</scope><name>min_latency_us</name></member>
+      <member refid="structwave1__uni_1_1_stub_shard_metrics_1a65d09c9a7ba086960dc847c58e99124a" prot="public" virt="non-virtual"><scope>wave1_uni::StubShardMetrics</scope><name>reset</name></member>
+      <member refid="structwave1__uni_1_1_stub_shard_metrics_1a4aeb9da08e2e5a479b06eb836e13d765" prot="public" virt="non-virtual"><scope>wave1_uni::StubShardMetrics</scope><name>total_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

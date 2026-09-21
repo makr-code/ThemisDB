@@ -1,0 +1,424 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::TensorTrainingCoordinator</compoundname>
+    <includes refid="tensor__training__coordinator_8h" local="no">tensor_training_coordinator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1a4d57346b1cb44edba480170b0cdbcb34" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; std::string &gt;</type>
+        <definition>std::deque&lt;std::string&gt; themis::distributed_tensor::TensorTrainingCoordinator::job_queue_</definition>
+        <argsstring></argsstring>
+        <name>job_queue_</name>
+        <qualifiedname>themis::distributed_tensor::TensorTrainingCoordinator::job_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="122" column="16" bodyfile="include/distributed_tensor/tensor_training_coordinator.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1a5669d05c63883e9ae23266dce45aa5c5" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec" kindref="compound">TensorTrainingJobSpec</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, TensorTrainingJobSpec&gt; themis::distributed_tensor::TensorTrainingCoordinator::jobs_</definition>
+        <argsstring></argsstring>
+        <name>jobs_</name>
+        <qualifiedname>themis::distributed_tensor::TensorTrainingCoordinator::jobs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="123" column="24" bodyfile="include/distributed_tensor/tensor_training_coordinator.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1ad2ef576f3ea0da4e494bb4ee05708d95" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result" kindref="compound">TensorTrainingJobResult</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, TensorTrainingJobResult&gt; themis::distributed_tensor::TensorTrainingCoordinator::results_</definition>
+        <argsstring></argsstring>
+        <name>results_</name>
+        <qualifiedname>themis::distributed_tensor::TensorTrainingCoordinator::results_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="124" column="24" bodyfile="include/distributed_tensor/tensor_training_coordinator.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1aef54d874b8a46ace5ff3f08f033fa65a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; <ref refid="classthemis_1_1distributed__tensor_1_1_i_tensor_training_worker" kindref="compound">ITensorTrainingWorker</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;ITensorTrainingWorker&gt; &gt; themis::distributed_tensor::TensorTrainingCoordinator::workers_</definition>
+        <argsstring></argsstring>
+        <name>workers_</name>
+        <qualifiedname>themis::distributed_tensor::TensorTrainingCoordinator::workers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="125" column="24" bodyfile="include/distributed_tensor/tensor_training_coordinator.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1af8b70d3f111e33e93098ceef9ad737c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::TensorTrainingCoordinator::registerWorker</definition>
+        <argsstring>(const std::string &amp;node_id, std::shared_ptr&lt; ITensorTrainingWorker &gt; worker)</argsstring>
+        <name>registerWorker</name>
+        <qualifiedname>themis::distributed_tensor::TensorTrainingCoordinator::registerWorker</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1distributed__tensor_1_1_i_tensor_training_worker" kindref="compound">ITensorTrainingWorker</ref> &gt;</type>
+          <declname>worker</declname>
+        </param>
+        <briefdescription>
+<para>Register Worker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">worker</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">worker</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="85" column="10" bodyfile="src/distributed_tensor/tensor_training_coordinator.cc" bodystart="37" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1a411a60f8f31c05dc1acd240e85d97db5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::TensorTrainingCoordinator::submitJob</definition>
+        <argsstring>(const TensorTrainingJobSpec &amp;spec)</argsstring>
+        <name>submitJob</name>
+        <qualifiedname>themis::distributed_tensor::TensorTrainingCoordinator::submitJob</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec" kindref="compound">TensorTrainingJobSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+<para>Submit Job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), count(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="87" column="11" bodyfile="src/distributed_tensor/tensor_training_coordinator.cc" bodystart="51" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1a31cf941da35081a4788f36c9ca1825b0" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::TensorTrainingCoordinator::cancelJob</definition>
+        <argsstring>(const std::string &amp;job_id)</argsstring>
+        <name>cancelJob</name>
+        <qualifiedname>themis::distributed_tensor::TensorTrainingCoordinator::cancelJob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel Job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="88" column="11" bodyfile="src/distributed_tensor/tensor_training_coordinator.cc" bodystart="72" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1ab9f8688dc492a24261038c6894b1dacb" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::TensorTrainingCoordinator::runNextJob</definition>
+        <argsstring>()</argsstring>
+        <name>runNextJob</name>
+        <qualifiedname>themis::distributed_tensor::TensorTrainingCoordinator::runNextJob</qualifiedname>
+        <briefdescription>
+<para>Run Next Job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), front(), pop_front(), find(), end(), reserve(), size(), runShardWithRetry(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="89" column="11" bodyfile="src/distributed_tensor/tensor_training_coordinator.cc" bodystart="87" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1ad1b0e8e5be881850d1cd62a16c5e78fc" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result" kindref="compound">TensorTrainingJobResult</ref> &gt;</type>
+        <definition>std::optional&lt; TensorTrainingJobResult &gt; themis::distributed_tensor::TensorTrainingCoordinator::result</definition>
+        <argsstring>(const std::string &amp;job_id) const</argsstring>
+        <name>result</name>
+        <qualifiedname>themis::distributed_tensor::TensorTrainingCoordinator::result</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="91" column="20" bodyfile="src/distributed_tensor/tensor_training_coordinator.cc" bodystart="150" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1a30577053ea00f15b04bed5ea2ab8931a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; float &gt; &gt; themis::distributed_tensor::TensorTrainingCoordinator::runShardWithRetry</definition>
+        <argsstring>(const TensorTrainingJobSpec &amp;spec, const TensorShardWorkItem &amp;shard, TensorTrainingJobResult &amp;result)</argsstring>
+        <name>runShardWithRetry</name>
+        <qualifiedname>themis::distributed_tensor::TensorTrainingCoordinator::runShardWithRetry</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec" kindref="compound">TensorTrainingJobSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_tensor_shard_work_item" kindref="compound">TensorShardWorkItem</ref> &amp;</type>
+          <declname>shard</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result" kindref="compound">TensorTrainingJobResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Run Shard With Retry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="101" column="19" bodyfile="src/distributed_tensor/tensor_training_coordinator.cc" bodystart="159" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1ae3648e8622f2a2b062bca1f0d25128cd" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::distributed_tensor::TensorTrainingCoordinator::aggregateShardResults</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;shard_results)</argsstring>
+        <name>aggregateShardResults</name>
+        <qualifiedname>themis::distributed_tensor::TensorTrainingCoordinator::aggregateShardResults</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>shard_results</declname>
+        </param>
+        <briefdescription>
+<para>Aggregate Shard Results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), front(), size(), aggregate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="110" column="24" bodyfile="src/distributed_tensor/tensor_training_coordinator.cc" bodystart="200" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1a0d2b18bf8240b6f417174c96400c3697" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::TensorTrainingCoordinator::hasConverged</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;prev, const std::vector&lt; float &gt; &amp;next, double epsilon)</argsstring>
+        <name>hasConverged</name>
+        <qualifiedname>themis::distributed_tensor::TensorTrainingCoordinator::hasConverged</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>prev</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>next</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>epsilon</declname>
+        </param>
+        <briefdescription>
+<para>Has Converged. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prev</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">next</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">epsilon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prev</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">next</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">epsilon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), std::max(), std::fabs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="118" column="17" bodyfile="src/distributed_tensor/tensor_training_coordinator.cc" bodystart="233" bodyend="245"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/tensor_training_coordinator.h" line="78" column="1" bodyfile="include/distributed_tensor/tensor_training_coordinator.h" bodystart="78" bodyend="126"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1ae3648e8622f2a2b062bca1f0d25128cd" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::TensorTrainingCoordinator</scope><name>aggregateShardResults</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1a31cf941da35081a4788f36c9ca1825b0" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorTrainingCoordinator</scope><name>cancelJob</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1a0d2b18bf8240b6f417174c96400c3697" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::TensorTrainingCoordinator</scope><name>hasConverged</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1a4d57346b1cb44edba480170b0cdbcb34" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::TensorTrainingCoordinator</scope><name>job_queue_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1a5669d05c63883e9ae23266dce45aa5c5" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::TensorTrainingCoordinator</scope><name>jobs_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1af8b70d3f111e33e93098ceef9ad737c8" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorTrainingCoordinator</scope><name>registerWorker</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1ad1b0e8e5be881850d1cd62a16c5e78fc" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorTrainingCoordinator</scope><name>result</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1ad2ef576f3ea0da4e494bb4ee05708d95" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::TensorTrainingCoordinator</scope><name>results_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1ab9f8688dc492a24261038c6894b1dacb" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorTrainingCoordinator</scope><name>runNextJob</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1a30577053ea00f15b04bed5ea2ab8931a" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::TensorTrainingCoordinator</scope><name>runShardWithRetry</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1a411a60f8f31c05dc1acd240e85d97db5" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorTrainingCoordinator</scope><name>submitJob</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator_1aef54d874b8a46ace5ff3f08f033fa65a" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::TensorTrainingCoordinator</scope><name>workers_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

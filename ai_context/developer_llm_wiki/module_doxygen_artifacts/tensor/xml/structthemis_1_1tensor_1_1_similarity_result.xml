@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_similarity_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::SimilarityResult</compoundname>
+    <includes refid="tensor__fingerprint__graph_8h" local="no">tensor_fingerprint_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_similarity_result_1adb681f64ab448ae63f328b1679220216" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::SimilarityResult::adapter_key</definition>
+        <argsstring></argsstring>
+        <name>adapter_key</name>
+        <qualifiedname>themis::tensor::SimilarityResult::adapter_key</qualifiedname>
+        <briefdescription>
+<para>Adapter key of the similar adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="60" column="17" bodyfile="include/tensor/tensor_fingerprint_graph.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_similarity_result_1ad3240c5a83629f13f75a7737534da9ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::SimilarityResult::domain</definition>
+        <argsstring></argsstring>
+        <name>domain</name>
+        <qualifiedname>themis::tensor::SimilarityResult::domain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="61" column="17" bodyfile="include/tensor/tensor_fingerprint_graph.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_similarity_result_1aee08bf858794d408e1c4d3eef2ea68a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::SimilarityResult::base_model_id</definition>
+        <argsstring></argsstring>
+        <name>base_model_id</name>
+        <qualifiedname>themis::tensor::SimilarityResult::base_model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="62" column="17" bodyfile="include/tensor/tensor_fingerprint_graph.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_similarity_result_1a3029295442c959c537a23e16a8b063ef" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::SimilarityResult::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::tensor::SimilarityResult::score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Cosine similarity ∈ [−1, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="63" column="17" bodyfile="include/tensor/tensor_fingerprint_graph.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_fingerprint_graph.h" line="59" column="1" bodyfile="include/tensor/tensor_fingerprint_graph.h" bodystart="59" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_similarity_result_1adb681f64ab448ae63f328b1679220216" prot="public" virt="non-virtual"><scope>themis::tensor::SimilarityResult</scope><name>adapter_key</name></member>
+      <member refid="structthemis_1_1tensor_1_1_similarity_result_1aee08bf858794d408e1c4d3eef2ea68a7" prot="public" virt="non-virtual"><scope>themis::tensor::SimilarityResult</scope><name>base_model_id</name></member>
+      <member refid="structthemis_1_1tensor_1_1_similarity_result_1ad3240c5a83629f13f75a7737534da9ec" prot="public" virt="non-virtual"><scope>themis::tensor::SimilarityResult</scope><name>domain</name></member>
+      <member refid="structthemis_1_1tensor_1_1_similarity_result_1a3029295442c959c537a23e16a8b063ef" prot="public" virt="non-virtual"><scope>themis::tensor::SimilarityResult</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

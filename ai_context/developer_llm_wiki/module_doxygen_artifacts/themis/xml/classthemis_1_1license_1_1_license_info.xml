@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1license_1_1_license_info" kind="class" language="C++" prot="public">
+    <compoundname>themis::license::LicenseInfo</compoundname>
+    <includes refid="license__info_8h" local="no">license_info.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1license_1_1_license_info_1a723a672ec7c9f00cdabe27c0a9b268a5" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::license::LicenseInfo::kDefaultGracePeriodDays</definition>
+        <argsstring></argsstring>
+        <name>kDefaultGracePeriodDays</name>
+        <qualifiedname>themis::license::LicenseInfo::kDefaultGracePeriodDays</qualifiedname>
+        <initializer>= 7</initializer>
+        <briefdescription>
+<para>Default grace period used when none is specified. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="220" column="26" bodyfile="include/themis/license_info.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1license_1_1_license_info_1a69f49f46d28400713006b18f71a1fc0b" prot="private" static="no" mutable="no">
+        <type>const <ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref> &amp;</type>
+        <definition>const LicenseData&amp; themis::license::LicenseInfo::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>themis::license::LicenseInfo::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="252" column="23" bodyfile="include/themis/license_info.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1license_1_1_license_info_1a1b5ed5803376215a539bf2689c7393a3" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::license::LicenseInfo::grace_period_days_</definition>
+        <argsstring></argsstring>
+        <name>grace_period_days_</name>
+        <qualifiedname>themis::license::LicenseInfo::grace_period_days_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="253" column="9" bodyfile="include/themis/license_info.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1license_1_1_license_info_1a58e5a929f56a8d735222cee7f40ee478" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::license::LicenseInfo::LicenseInfo</definition>
+        <argsstring>(const LicenseData &amp;data, int grace_period_days=kDefaultGracePeriodDays)</argsstring>
+        <name>LicenseInfo</name>
+        <qualifiedname>themis::license::LicenseInfo::LicenseInfo</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>grace_period_days</declname>
+          <defval><ref refid="classthemis_1_1license_1_1_license_info_1a723a672ec7c9f00cdabe27c0a9b268a5" kindref="member">kDefaultGracePeriodDays</ref></defval>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1license_1_1_license_info" kindref="compound">LicenseInfo</ref> view over <computeroutput>data</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The license data to inspect. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>grace_period_days</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The configured grace period (days). Defaults to kDefaultGracePeriodDays. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="229" column="14" bodyfile="src/themis/license_info.cpp" bodystart="931" bodyend="932"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1license_1_1_license_info_1abe63ace2afb1645651ff047377b1db7b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::license::LicenseInfo::remaining_grace_days</definition>
+        <argsstring>() const</argsstring>
+        <name>remaining_grace_days</name>
+        <qualifiedname>themis::license::LicenseInfo::remaining_grace_days</qualifiedname>
+        <briefdescription>
+<para>Returns the number of days remaining in the grace window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Interpretation:<itemizedlist>
+<listitem><para>If the license has <bold>not yet expired</bold>, returns <computeroutput>grace_period_days</computeroutput> (the full grace window is available after expiry).</para>
+</listitem><listitem><para>If the license <bold>has expired</bold> and the expiry occurred within the grace window, returns the remaining days in that window.</para>
+</listitem><listitem><para>If the license has <bold>fully expired</bold> (beyond the grace window), returns 0.</para>
+</listitem><listitem><para>If <computeroutput>expiry_date</computeroutput> is empty or unparseable, returns 0.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para>Non-negative integer days remaining in grace period. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="246" column="9" bodyfile="src/themis/license_info.cpp" bodystart="934" bodyend="978"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1license_1_1_license_info_1a28b8728a8263cdf4418bf7c33b60bb24" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref> &amp;</type>
+        <definition>const LicenseData &amp; themis::license::LicenseInfo::data</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::license::LicenseInfo::data</qualifiedname>
+        <briefdescription>
+<para>Accessor for the underlying data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/license_info.h" line="249" column="23" bodyfile="include/themis/license_info.h" bodystart="249" bodyend="249"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Helper view over <ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref> providing computed runtime properties. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wraps a <ref refid="structthemis_1_1license_1_1_license_data" kindref="compound">LicenseData</ref> reference to expose properties that are computed from the raw data, such as the remaining grace period after expiry.</para>
+<para>Example: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>lic<sp/>=<sp/><ref refid="namespacethemis_1_1license_1ab8fe53fe64a9f428f396975e824be913" kindref="member">getEmbeddedLicense</ref>();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(lic)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1license_1_1_license_info_1a58e5a929f56a8d735222cee7f40ee478" kindref="member">LicenseInfo</ref><sp/>info(*lic);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>days<sp/>=<sp/>info.remaining_grace_days();</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/themis/license_info.h" line="217" column="1" bodyfile="include/themis/license_info.h" bodystart="217" bodyend="254"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1license_1_1_license_info_1a28b8728a8263cdf4418bf7c33b60bb24" prot="public" virt="non-virtual"><scope>themis::license::LicenseInfo</scope><name>data</name></member>
+      <member refid="classthemis_1_1license_1_1_license_info_1a69f49f46d28400713006b18f71a1fc0b" prot="private" virt="non-virtual"><scope>themis::license::LicenseInfo</scope><name>data_</name></member>
+      <member refid="classthemis_1_1license_1_1_license_info_1a1b5ed5803376215a539bf2689c7393a3" prot="private" virt="non-virtual"><scope>themis::license::LicenseInfo</scope><name>grace_period_days_</name></member>
+      <member refid="classthemis_1_1license_1_1_license_info_1a723a672ec7c9f00cdabe27c0a9b268a5" prot="public" virt="non-virtual"><scope>themis::license::LicenseInfo</scope><name>kDefaultGracePeriodDays</name></member>
+      <member refid="classthemis_1_1license_1_1_license_info_1a58e5a929f56a8d735222cee7f40ee478" prot="public" virt="non-virtual"><scope>themis::license::LicenseInfo</scope><name>LicenseInfo</name></member>
+      <member refid="classthemis_1_1license_1_1_license_info_1abe63ace2afb1645651ff047377b1db7b" prot="public" virt="non-virtual"><scope>themis::license::LicenseInfo</scope><name>remaining_grace_days</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

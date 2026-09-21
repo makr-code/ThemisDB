@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_i_eviction_policy" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cache::IEvictionPolicy</compoundname>
+    <derivedcompoundref refid="class_mock_eviction_policy" prot="public" virt="non-virtual">MockEvictionPolicy</derivedcompoundref>
+    <includes refid="cache__interfaces_8h" local="no">cache_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_eviction_policy_1a5a4669640f538c43964b8728975a3d85" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cache::IEvictionPolicy::~IEvictionPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IEvictionPolicy</name>
+        <qualifiedname>themis::cache::IEvictionPolicy::~IEvictionPolicy</qualifiedname>
+        <briefdescription>
+<para>IEviction Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="46" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_eviction_policy_1a05dde49b956a0567ed3d969612a32ae7" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::IEvictionPolicy::onAccess</definition>
+        <argsstring>(const std::string &amp;key)=0</argsstring>
+        <name>onAccess</name>
+        <qualifiedname>themis::cache::IEvictionPolicy::onAccess</qualifiedname>
+        <reimplementedby refid="class_mock_eviction_policy_1a5f05b6adf179be1b4a5ffae4f505ce68">onAccess</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>On Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="52" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_eviction_policy_1a0d224a2de57cbbf8602979be9b1624db" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::IEvictionPolicy::onInsert</definition>
+        <argsstring>(const std::string &amp;key)=0</argsstring>
+        <name>onInsert</name>
+        <qualifiedname>themis::cache::IEvictionPolicy::onInsert</qualifiedname>
+        <reimplementedby refid="class_mock_eviction_policy_1a212bd3fca8aa59cf4abdd2fba4f23e2c">onInsert</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>On Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="58" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_eviction_policy_1a7a17679ea89f3a76b7ef5c640e248bf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::cache::IEvictionPolicy::onRemove</definition>
+        <argsstring>(const std::string &amp;key)=0</argsstring>
+        <name>onRemove</name>
+        <qualifiedname>themis::cache::IEvictionPolicy::onRemove</qualifiedname>
+        <reimplementedby refid="class_mock_eviction_policy_1a62be2270cedd6c006261be837f9291c5">onRemove</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>On Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="64" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_eviction_policy_1adec449889a0c1b2baba7c659a6137055" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::cache::IEvictionPolicy::evict</definition>
+        <argsstring>()=0</argsstring>
+        <name>evict</name>
+        <qualifiedname>themis::cache::IEvictionPolicy::evict</qualifiedname>
+        <reimplementedby refid="class_mock_eviction_policy_1a2048bdab73283718a790101b665f0b77">evict</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="66" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_i_eviction_policy_1a6e2ac59abe561f3835aa21f598362d24" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::string_view</type>
+        <definition>virtual std::string_view themis::cache::IEvictionPolicy::name</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::cache::IEvictionPolicy::name</qualifiedname>
+        <reimplementedby refid="class_mock_eviction_policy_1a5bc8995c99905a390026f4c6c92e7357">name</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_interfaces.h" line="68" column="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>MockEvictionPolicy</label>
+        <link refid="class_mock_eviction_policy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::cache::IEvictionPolicy</label>
+        <link refid="structthemis_1_1cache_1_1_i_eviction_policy"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/cache/cache_interfaces.h" line="41" column="1" bodyfile="include/cache/cache_interfaces.h" bodystart="41" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_i_eviction_policy_1adec449889a0c1b2baba7c659a6137055" prot="public" virt="pure-virtual"><scope>themis::cache::IEvictionPolicy</scope><name>evict</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_eviction_policy_1a6e2ac59abe561f3835aa21f598362d24" prot="public" virt="pure-virtual"><scope>themis::cache::IEvictionPolicy</scope><name>name</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_eviction_policy_1a05dde49b956a0567ed3d969612a32ae7" prot="public" virt="pure-virtual"><scope>themis::cache::IEvictionPolicy</scope><name>onAccess</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_eviction_policy_1a0d224a2de57cbbf8602979be9b1624db" prot="public" virt="pure-virtual"><scope>themis::cache::IEvictionPolicy</scope><name>onInsert</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_eviction_policy_1a7a17679ea89f3a76b7ef5c640e248bf9" prot="public" virt="pure-virtual"><scope>themis::cache::IEvictionPolicy</scope><name>onRemove</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_eviction_policy_1a5a4669640f538c43964b8728975a3d85" prot="public" virt="virtual"><scope>themis::cache::IEvictionPolicy</scope><name>~IEvictionPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

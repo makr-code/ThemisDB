@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_school_tension" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::SchoolTension</compoundname>
+    <includes refid="cross__school__tension__resolver_8h" local="no">cross_school_tension_resolver.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1a8c97a4a3279df720e4a5388d206aed4a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::SchoolTension::own_thesis_id</definition>
+        <argsstring></argsstring>
+        <name>own_thesis_id</name>
+        <qualifiedname>themis::plugins::ethics::SchoolTension::own_thesis_id</qualifiedname>
+        <briefdescription>
+<para>Thesis ID in own school. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/cross_school_tension_resolver.h" line="23" column="17" bodyfile="include/ethics_ai/cross_school_tension_resolver.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1ac5305f5f9533df761f1176bed360c562" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::SchoolTension::opposing_school_id</definition>
+        <argsstring></argsstring>
+        <name>opposing_school_id</name>
+        <qualifiedname>themis::plugins::ethics::SchoolTension::opposing_school_id</qualifiedname>
+        <briefdescription>
+<para>Opposing school ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/cross_school_tension_resolver.h" line="24" column="17" bodyfile="include/ethics_ai/cross_school_tension_resolver.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1a3698cc363dd030a4b478a457e3196878" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::SchoolTension::opposing_thesis_id</definition>
+        <argsstring></argsstring>
+        <name>opposing_thesis_id</name>
+        <qualifiedname>themis::plugins::ethics::SchoolTension::opposing_thesis_id</qualifiedname>
+        <briefdescription>
+<para>Thesis ID in opposing school. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/cross_school_tension_resolver.h" line="25" column="17" bodyfile="include/ethics_ai/cross_school_tension_resolver.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1ad17474d71bbcff1946d466b92b05bb4e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::SchoolTension::tension_type</definition>
+        <argsstring></argsstring>
+        <name>tension_type</name>
+        <qualifiedname>themis::plugins::ethics::SchoolTension::tension_type</qualifiedname>
+        <briefdescription>
+<para>E.g. &quot;categorical_vs_aggregate&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/cross_school_tension_resolver.h" line="26" column="17" bodyfile="include/ethics_ai/cross_school_tension_resolver.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1af0e4a20cd0d089189a4b8a8802771d15" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::ethics::SchoolTension::rebuttal_cite_weight</definition>
+        <argsstring></argsstring>
+        <name>rebuttal_cite_weight</name>
+        <qualifiedname>themis::plugins::ethics::SchoolTension::rebuttal_cite_weight</qualifiedname>
+        <initializer>{0.5f}</initializer>
+        <briefdescription>
+<para>[0.0–1.0]; ≥ 0.6 → full injection </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/cross_school_tension_resolver.h" line="27" column="17" bodyfile="include/ethics_ai/cross_school_tension_resolver.h" bodystart="27" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/cross_school_tension_resolver.h" line="22" column="1" bodyfile="include/ethics_ai/cross_school_tension_resolver.h" bodystart="22" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1ac5305f5f9533df761f1176bed360c562" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::SchoolTension</scope><name>opposing_school_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1a3698cc363dd030a4b478a457e3196878" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::SchoolTension</scope><name>opposing_thesis_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1a8c97a4a3279df720e4a5388d206aed4a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::SchoolTension</scope><name>own_thesis_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1af0e4a20cd0d089189a4b8a8802771d15" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::SchoolTension</scope><name>rebuttal_cite_weight</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_school_tension_1ad17474d71bbcff1946d466b92b05bb4e" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::SchoolTension</scope><name>tension_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

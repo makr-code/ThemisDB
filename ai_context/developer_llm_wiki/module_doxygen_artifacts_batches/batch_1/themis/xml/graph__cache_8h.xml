@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="graph__cache_8h" kind="file" language="C++">
+    <compoundname>graph_cache.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includedby refid="query__accelerator_8h" local="yes">include/themis/gpu/query_accelerator.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/themis/gpu/graph_cache.h</label>
+        <link refid="graph__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/themis/gpu/graph_cache.h</label>
+        <link refid="graph__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/themis/gpu/query_accelerator.h</label>
+        <link refid="query__accelerator_8h"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1gpu_1_1_query_shape" prot="public">themis::gpu::QueryShape</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_query_shape_hash" prot="public">themis::gpu::QueryShapeHash</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_graph_entry" prot="public">themis::gpu::GraphEntry</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache" prot="public">themis::gpu::GPUGraphCache</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_graph_cache_1_1_stats" prot="public">themis::gpu::GPUGraphCache::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">gpu</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QueryShape<sp/>—<sp/>identifies<sp/>a<sp/>recurring<sp/>GPU<sp/>query<sp/>execution<sp/>pattern.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Queries<sp/>that<sp/>share<sp/>the<sp/>same<sp/>OpType,<sp/>row<sp/>count,<sp/>and<sp/>parameter<sp/>hash<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>considered<sp/>structurally<sp/>identical<sp/>and<sp/>can<sp/>share<sp/>a<sp/>captured<sp/>CUDA<sp/>graph.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1gpu_1_1_query_shape" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_query_shape" kindref="compound">QueryShape</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954" kindref="member">OpType</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954ae0740abfbc61bc2be0bfa78af61106ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954ae0740abfbc61bc2be0bfa78af61106ae" kindref="member">SCAN</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954aa7bdfbfac6ba2252b889996b1430abb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954aa7bdfbfac6ba2252b889996b1430abb4" kindref="member">SORT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954a361d91ce0f028b6708f607b76b12a318" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954a361d91ce0f028b6708f607b76b12a318" kindref="member">AGGREGATE</ref><sp/><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954aa6fa1cdf9c1a71978751b35b88763f8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954aa6fa1cdf9c1a71978751b35b88763f8f" kindref="member">JOIN</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954a819d971172865473d18fc414d1c43989" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954a819d971172865473d18fc414d1c43989" kindref="member">ANN_SEARCH</ref><sp/>=<sp/>4,<sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954a5373c6323c8ba94dc7ab6908ca173769" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954a5373c6323c8ba94dc7ab6908ca173769" kindref="member">TOPK</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5,<sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1gpu_1_1_query_shape_1ae7bd79dde77cca7b3194e451b9b36036" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954" kindref="member">OpType</ref><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_query_shape_1ae7bd79dde77cca7b3194e451b9b36036" kindref="member">op</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1gpu_1_1_query_shape_1a50a93251a7353259d7280133b97e7954ae0740abfbc61bc2be0bfa78af61106ae" kindref="member">OpType::SCAN</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1gpu_1_1_query_shape_1aceb654a1081590f7c75fc203e13af887" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_query_shape_1aceb654a1081590f7c75fc203e13af887" kindref="member">row_count</ref><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1gpu_1_1_query_shape_1a1687430e14ee91bf57c31254a9149201" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1gpu_1_1_query_shape_1a1687430e14ee91bf57c31254a9149201" kindref="member">param_hash</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1gpu_1_1_query_shape_1aba091a4f24bf736d7707f35210aeca3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_query_shape_1aba091a4f24bf736d7707f35210aeca3c" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_query_shape" kindref="compound">QueryShape</ref>&amp;<sp/>o)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_query_shape_1ae7bd79dde77cca7b3194e451b9b36036" kindref="member">op</ref><sp/>==<sp/>o.op<sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1gpu_1_1_query_shape_1aceb654a1081590f7c75fc203e13af887" kindref="member">row_count</ref><sp/>==<sp/>o.row_count<sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1gpu_1_1_query_shape_1a1687430e14ee91bf57c31254a9149201" kindref="member">param_hash</ref><sp/>==<sp/>o.param_hash;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1gpu_1_1_query_shape_hash" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_query_shape_hash" kindref="compound">QueryShapeHash</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1gpu_1_1_query_shape_hash_1ad81a6b4f0f08f6cf46bcb3395a033bba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_query_shape_hash_1ad81a6b4f0f08f6cf46bcb3395a033bba" kindref="member">operator()</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_query_shape" kindref="compound">QueryShape</ref>&amp;<sp/>s)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>FNV-1a<sp/>64-bit<sp/>basis<sp/>and<sp/>prime</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kBasis<sp/>=<sp/>14695981039346656037ULL;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kPrime<sp/>=<sp/>1099511628211ULL;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>h<sp/>=<sp/>kBasis;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>h<sp/>^=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s.op);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>h<sp/>*=<sp/>kPrime;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>h<sp/>^=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s.row_count);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>h<sp/>*=<sp/>kPrime;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>h<sp/>^=<sp/>s.param_hash;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>h<sp/>*=<sp/>kPrime;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(h);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GraphEntry<sp/>—<sp/>one<sp/>captured<sp/>execution<sp/>graph<sp/>for<sp/>a<sp/>specific<sp/>QueryShape.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>In<sp/>a<sp/>production<sp/>CUDA<sp/>build<sp/>this<sp/>struct<sp/>would<sp/>own<sp/>a<sp/>cudaGraph_t<sp/>and<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>cudaGraphExec_t.<sp/><sp/>In<sp/>this<sp/>CPU-simulation<sp/>build<sp/>it<sp/>holds<sp/>only<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>bookkeeping<sp/>counters<sp/>needed<sp/>for<sp/>cache<sp/>hit/miss<sp/>tracking<sp/>and<sp/>LRU<sp/>eviction.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1gpu_1_1_graph_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_graph_entry" kindref="compound">GraphEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1gpu_1_1_graph_entry_1a168fd4b2939cd0ca469124f76376540a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_query_shape" kindref="compound">QueryShape</ref><sp/><ref refid="structthemis_1_1gpu_1_1_graph_entry_1a168fd4b2939cd0ca469124f76376540a" kindref="member">shape</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1gpu_1_1_graph_entry_1a7913d07c9062989a110fc9428181f511" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1gpu_1_1_graph_entry_1a7913d07c9062989a110fc9428181f511" kindref="member">capture_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1gpu_1_1_graph_entry_1a5b6eaff3d70cf9de4c83ca25e5b10a14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1gpu_1_1_graph_entry_1a5b6eaff3d70cf9de4c83ca25e5b10a14" kindref="member">replay_count</ref><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1gpu_1_1_graph_entry_1a5026133621d6c8ee32d54a220832255e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1gpu_1_1_graph_entry_1a5026133621d6c8ee32d54a220832255e" kindref="member">last_access</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Production<sp/>CUDA<sp/>members<sp/>(populated<sp/>when<sp/>THEMIS_ENABLE_CUDA<sp/>is<sp/>defined):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>cudaGraph_t<sp/><sp/><sp/><sp/><sp/>graph<sp/>=<sp/>nullptr;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>cudaGraphExec_t<sp/>exec<sp/><sp/>=<sp/>nullptr;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>void*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d_input_buf<sp/><sp/>=<sp/>nullptr;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>void*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d_output_buf<sp/>=<sp/>nullptr;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GPUGraphCache<sp/>—<sp/>CUDA<sp/>graph<sp/>capture<sp/>cache<sp/>for<sp/>recurring<sp/>query<sp/>execution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>patterns.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>On<sp/>the<sp/>first<sp/>call<sp/>for<sp/>a<sp/>given<sp/>QueryShape<sp/>the<sp/>cache<sp/>records<sp/>(&quot;captures&quot;)<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>shape.<sp/><sp/>Subsequent<sp/>lookups<sp/>for<sp/>the<sp/>same<sp/>shape<sp/>return<sp/>the<sp/>existing<sp/>entry<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>increment<sp/>its<sp/>replay<sp/>counter.<sp/><sp/>When<sp/>the<sp/>number<sp/>of<sp/>entries<sp/>exceeds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>kMaxEntries<sp/>the<sp/>least-recently-used<sp/>entry<sp/>is<sp/>evicted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread<sp/>safety:<sp/>all<sp/>public<sp/>methods<sp/>are<sp/>mutex-protected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache" kindref="compound">GPUGraphCache</ref><sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1af47d48e03fa3066b7a03a948a7fe8050" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1af47d48e03fa3066b7a03a948a7fe8050" kindref="member">kMaxEntries</ref><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1gpu_1_1_g_p_u_graph_cache_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_g_p_u_graph_cache_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1gpu_1_1_g_p_u_graph_cache_1_1_stats_1a70e251b07113cdead949618f88ba5cad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_graph_cache_1_1_stats_1a70e251b07113cdead949618f88ba5cad" kindref="member">entries</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1gpu_1_1_g_p_u_graph_cache_1_1_stats_1a3b38b825886b7d2c7d1f19a46bb6311d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_graph_cache_1_1_stats_1a3b38b825886b7d2c7d1f19a46bb6311d" kindref="member">hits</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1gpu_1_1_g_p_u_graph_cache_1_1_stats_1a9f410b21b7230abb868672d0533e626f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_graph_cache_1_1_stats_1a9f410b21b7230abb868672d0533e626f" kindref="member">misses</ref><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1gpu_1_1_g_p_u_graph_cache_1_1_stats_1ad1303f7e223d4dfb96bc6626d090418a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_graph_cache_1_1_stats_1ad1303f7e223d4dfb96bc6626d090418a" kindref="member">evictions</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1ad21014f8626a91bfa8cfe8a26383a04e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_graph_entry" kindref="compound">GraphEntry</ref>*<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1ad21014f8626a91bfa8cfe8a26383a04e" kindref="member">lookup</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_query_shape" kindref="compound">QueryShape</ref>&amp;<sp/>shape);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a95478bb89e10eae24346c13ff81fb926" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a95478bb89e10eae24346c13ff81fb926" kindref="member">capture</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_query_shape" kindref="compound">QueryShape</ref>&amp;<sp/>shape);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a9db4fd1897166520bcf5d4a3cdca86d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a9db4fd1897166520bcf5d4a3cdca86d1" kindref="member">invalidate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_query_shape" kindref="compound">QueryShape</ref>&amp;<sp/>shape);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a9fbf02d3ac49292a10f2ed16ca21b72b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a9fbf02d3ac49292a10f2ed16ca21b72b" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a6606ebc4065567721d8fd2033c8f43e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1a6606ebc4065567721d8fd2033c8f43e7" kindref="member">size</ref>()<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1af50758af0085e827c8d6585093b4ca7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_graph_cache_1_1_stats" kindref="compound">Stats</ref><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_graph_cache_1af50758af0085e827c8d6585093b4ca7a" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>evictLRU();<sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;QueryShape,<sp/>GraphEntry,<sp/>QueryShapeHash&gt;<sp/>entries_;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>access_counter_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_graph_cache_1_1_stats" kindref="compound">Stats</ref><sp/><sp/><sp/><sp/>stats_;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gpu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/gpu/graph_cache.h"/>
+  </compounddef>
+</doxygen>

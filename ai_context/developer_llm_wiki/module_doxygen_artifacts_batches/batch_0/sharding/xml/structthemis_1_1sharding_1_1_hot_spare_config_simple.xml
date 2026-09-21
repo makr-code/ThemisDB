@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_hot_spare_config_simple" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::HotSpareConfigSimple</compoundname>
+    <includes refid="redundancy__strategy_8h" local="no">redundancy_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_config_simple_1aae9dda65bac2cae8fd8a24c74b21e64f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::HotSpareConfigSimple::enable</definition>
+        <argsstring></argsstring>
+        <name>enable</name>
+        <qualifiedname>themis::sharding::HotSpareConfigSimple::enable</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="181" column="10" bodyfile="include/sharding/redundancy_strategy.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_config_simple_1ac9ded846e20e5ba2c81ce6d0a90fde9a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::HotSpareConfigSimple::spare_shards</definition>
+        <argsstring></argsstring>
+        <name>spare_shards</name>
+        <qualifiedname>themis::sharding::HotSpareConfigSimple::spare_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="182" column="17" bodyfile="include/sharding/redundancy_strategy.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_config_simple_1a80aa24d7e632c5598b2ee3c234ac684c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::HotSpareConfigSimple::auto_rebuild</definition>
+        <argsstring></argsstring>
+        <name>auto_rebuild</name>
+        <qualifiedname>themis::sharding::HotSpareConfigSimple::auto_rebuild</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="183" column="10" bodyfile="include/sharding/redundancy_strategy.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_config_simple_1a04d3a01808b0d6dd4076379abe4cb868" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::HotSpareConfigSimple::rebuild_throttle_mbps</definition>
+        <argsstring></argsstring>
+        <name>rebuild_throttle_mbps</name>
+        <qualifiedname>themis::sharding::HotSpareConfigSimple::rebuild_throttle_mbps</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="184" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_config_simple_1aecaf08bc203d83ffd703b0a361f52748" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::sharding::HotSpareConfigSimple::health_check_interval</definition>
+        <argsstring></argsstring>
+        <name>health_check_interval</name>
+        <qualifiedname>themis::sharding::HotSpareConfigSimple::health_check_interval</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="185" column="26" bodyfile="include/sharding/redundancy_strategy.h" bodystart="185" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Hot-spare failover and rebuild tuning parameters. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/redundancy_strategy.h" line="180" column="1" bodyfile="include/sharding/redundancy_strategy.h" bodystart="180" bodyend="186"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_config_simple_1a80aa24d7e632c5598b2ee3c234ac684c" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareConfigSimple</scope><name>auto_rebuild</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_config_simple_1aae9dda65bac2cae8fd8a24c74b21e64f" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareConfigSimple</scope><name>enable</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_config_simple_1aecaf08bc203d83ffd703b0a361f52748" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareConfigSimple</scope><name>health_check_interval</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_config_simple_1a04d3a01808b0d6dd4076379abe4cb868" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareConfigSimple</scope><name>rebuild_throttle_mbps</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_config_simple_1ac9ded846e20e5ba2c81ce6d0a90fde9a" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareConfigSimple</scope><name>spare_shards</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

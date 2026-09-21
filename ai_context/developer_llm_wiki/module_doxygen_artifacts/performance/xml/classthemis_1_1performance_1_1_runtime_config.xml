@@ -1,0 +1,380 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_runtime_config" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::RuntimeConfig</compoundname>
+    <includes refid="runtime__config_8h" local="no">runtime_config.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_runtime_config_1a849b2e79b2d9dc1489bbaf36ca07359f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themis::performance::RuntimeConfig::sampling_rate_</definition>
+        <argsstring></argsstring>
+        <name>sampling_rate_</name>
+        <qualifiedname>themis::performance::RuntimeConfig::sampling_rate_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/runtime_config.h" line="141" column="17" bodyfile="include/performance/runtime_config.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_runtime_config_1a3d0f24abbc10bb62b1e249a0473a0f36" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::performance::RuntimeConfig::operation_counter_</definition>
+        <argsstring></argsstring>
+        <name>operation_counter_</name>
+        <qualifiedname>themis::performance::RuntimeConfig::operation_counter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/runtime_config.h" line="142" column="17" bodyfile="include/performance/runtime_config.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_runtime_config_1a4b85fad6fd134254657aa10038c9d7e8" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::performance::RuntimeConfig::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::performance::RuntimeConfig::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/runtime_config.h" line="144" column="31" bodyfile="include/performance/runtime_config.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_runtime_config_1a24b739be3166e8637c39a46bde47c4cd" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::performance::RuntimeConfig::enabled_operations_</definition>
+        <argsstring></argsstring>
+        <name>enabled_operations_</name>
+        <qualifiedname>themis::performance::RuntimeConfig::enabled_operations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/runtime_config.h" line="145" column="24" bodyfile="include/performance/runtime_config.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_runtime_config_1ad88e7978b65d8d346789bc2e84b273d5" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>RuntimeConfig &amp;</type>
+        <definition>static RuntimeConfig &amp; themis::performance::RuntimeConfig::instance</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::performance::RuntimeConfig::instance</qualifiedname>
+        <briefdescription>
+<para>Get singleton instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="classthemis_1_1performance_1_1_runtime_config" kindref="compound">RuntimeConfig</ref> instance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/runtime_config.h" line="36" column="26" bodyfile="include/performance/runtime_config.h" bodystart="36" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_runtime_config_1a3d7f7d2916482925c7271a750c0a4651" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::RuntimeConfig::setSamplingRate</definition>
+        <argsstring>(uint32_t rate) noexcept</argsstring>
+        <name>setSamplingRate</name>
+        <qualifiedname>themis::performance::RuntimeConfig::setSamplingRate</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>rate</declname>
+        </param>
+        <briefdescription>
+<para>Set sampling rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Measure every Nth operation (1 = measure all, 100 = measure 1%) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/runtime_config.h" line="45" column="10" bodyfile="include/performance/runtime_config.h" bodystart="45" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_runtime_config_1a94f20d0175e607695a6405816c9b576f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::performance::RuntimeConfig::getSamplingRate</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getSamplingRate</name>
+        <qualifiedname>themis::performance::RuntimeConfig::getSamplingRate</qualifiedname>
+        <briefdescription>
+<para>Get current sampling rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Sampling rate </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/runtime_config.h" line="53" column="14" bodyfile="include/performance/runtime_config.h" bodystart="53" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_runtime_config_1a1aeef55fbd1ef273bda821449ff16042" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::RuntimeConfig::shouldMeasure</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>shouldMeasure</name>
+        <qualifiedname>themis::performance::RuntimeConfig::shouldMeasure</qualifiedname>
+        <briefdescription>
+<para>Check if current operation should be measured. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if should measure</para>
+</simplesect>
+Uses atomic counter for lock-free sampling. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/runtime_config.h" line="63" column="10" bodyfile="include/performance/runtime_config.h" bodystart="63" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_runtime_config_1acedf281bfcade1500b24d2d7fc7dc4b3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::RuntimeConfig::enableOperation</definition>
+        <argsstring>(const std::string &amp;operation_name)</argsstring>
+        <name>enableOperation</name>
+        <qualifiedname>themis::performance::RuntimeConfig::enableOperation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_name</declname>
+        </param>
+        <briefdescription>
+<para>Enable measurement for specific operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/runtime_config.h" line="80" column="10" bodyfile="include/performance/runtime_config.h" bodystart="80" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_runtime_config_1a46db58ad199ab552b91ba26584bc443f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::RuntimeConfig::disableOperation</definition>
+        <argsstring>(const std::string &amp;operation_name)</argsstring>
+        <name>disableOperation</name>
+        <qualifiedname>themis::performance::RuntimeConfig::disableOperation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_name</declname>
+        </param>
+        <briefdescription>
+<para>Disable measurement for specific operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/runtime_config.h" line="89" column="10" bodyfile="include/performance/runtime_config.h" bodystart="89" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_runtime_config_1a9fe4a6feaed04092aca5a6e5a52b6570" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::RuntimeConfig::isOperationEnabled</definition>
+        <argsstring>(const std::string &amp;operation_name) const</argsstring>
+        <name>isOperationEnabled</name>
+        <qualifiedname>themis::performance::RuntimeConfig::isOperationEnabled</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_name</declname>
+        </param>
+        <briefdescription>
+<para>Check if operation is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if enabled </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/runtime_config.h" line="99" column="10" bodyfile="include/performance/runtime_config.h" bodystart="99" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_runtime_config_1aa332aeb9a3cf91ced11ff02cc6afc4fd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::RuntimeConfig::clearOperationFilters</definition>
+        <argsstring>()</argsstring>
+        <name>clearOperationFilters</name>
+        <qualifiedname>themis::performance::RuntimeConfig::clearOperationFilters</qualifiedname>
+        <briefdescription>
+<para>Clear all operation filters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/runtime_config.h" line="111" column="10" bodyfile="include/performance/runtime_config.h" bodystart="111" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_runtime_config_1aad214d3ac0440f2c0a6015baedc6e022" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::RuntimeConfig::resetCounter</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>resetCounter</name>
+        <qualifiedname>themis::performance::RuntimeConfig::resetCounter</qualifiedname>
+        <briefdescription>
+<para>Reset operation counter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/runtime_config.h" line="119" column="10" bodyfile="include/performance/runtime_config.h" bodystart="119" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_runtime_config_1a1e89fe3b8063ba878cb993b755ed08e9" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::RuntimeConfig::getOperationCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getOperationCount</name>
+        <qualifiedname>themis::performance::RuntimeConfig::getOperationCount</qualifiedname>
+        <briefdescription>
+<para>Get total operation count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Total operations counted </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/runtime_config.h" line="127" column="14" bodyfile="include/performance/runtime_config.h" bodystart="127" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_runtime_config_1a95bfecb70f1614db22519e914cb95e44" prot="private" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::RuntimeConfig::RuntimeConfig</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>RuntimeConfig</name>
+        <qualifiedname>themis::performance::RuntimeConfig::RuntimeConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/runtime_config.h" line="132" column="5" bodyfile="include/performance/runtime_config.h" bodystart="132" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_runtime_config_1a88a9b508093e12d4c526fd56bfa4e09c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::RuntimeConfig::~RuntimeConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RuntimeConfig</name>
+        <qualifiedname>themis::performance::RuntimeConfig::~RuntimeConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/runtime_config.h" line="135" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_runtime_config_1a5b26bb3231e6c3282500b1ccca796959" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::RuntimeConfig::RuntimeConfig</definition>
+        <argsstring>(const RuntimeConfig &amp;)=delete</argsstring>
+        <name>RuntimeConfig</name>
+        <qualifiedname>themis::performance::RuntimeConfig::RuntimeConfig</qualifiedname>
+        <param>
+          <type>const RuntimeConfig &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/runtime_config.h" line="138" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_runtime_config_1acb143aacf02a47ec2aa6baacb0cd3ca5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>RuntimeConfig &amp;</type>
+        <definition>RuntimeConfig &amp; themis::performance::RuntimeConfig::operator=</definition>
+        <argsstring>(const RuntimeConfig &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::RuntimeConfig::operator=</qualifiedname>
+        <param>
+          <type>const RuntimeConfig &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/runtime_config.h" line="139" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime configuration for cycle metrics. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Singleton class for controlling metrics collection at runtime. Thread-safe for concurrent access. </para>
+    </detaileddescription>
+    <location file="include/performance/runtime_config.h" line="30" column="1" bodyfile="include/performance/runtime_config.h" bodystart="30" bodyend="146"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_runtime_config_1aa332aeb9a3cf91ced11ff02cc6afc4fd" prot="public" virt="non-virtual"><scope>themis::performance::RuntimeConfig</scope><name>clearOperationFilters</name></member>
+      <member refid="classthemis_1_1performance_1_1_runtime_config_1a46db58ad199ab552b91ba26584bc443f" prot="public" virt="non-virtual"><scope>themis::performance::RuntimeConfig</scope><name>disableOperation</name></member>
+      <member refid="classthemis_1_1performance_1_1_runtime_config_1a24b739be3166e8637c39a46bde47c4cd" prot="private" virt="non-virtual"><scope>themis::performance::RuntimeConfig</scope><name>enabled_operations_</name></member>
+      <member refid="classthemis_1_1performance_1_1_runtime_config_1acedf281bfcade1500b24d2d7fc7dc4b3" prot="public" virt="non-virtual"><scope>themis::performance::RuntimeConfig</scope><name>enableOperation</name></member>
+      <member refid="classthemis_1_1performance_1_1_runtime_config_1a1e89fe3b8063ba878cb993b755ed08e9" prot="public" virt="non-virtual"><scope>themis::performance::RuntimeConfig</scope><name>getOperationCount</name></member>
+      <member refid="classthemis_1_1performance_1_1_runtime_config_1a94f20d0175e607695a6405816c9b576f" prot="public" virt="non-virtual"><scope>themis::performance::RuntimeConfig</scope><name>getSamplingRate</name></member>
+      <member refid="classthemis_1_1performance_1_1_runtime_config_1ad88e7978b65d8d346789bc2e84b273d5" prot="public" virt="non-virtual"><scope>themis::performance::RuntimeConfig</scope><name>instance</name></member>
+      <member refid="classthemis_1_1performance_1_1_runtime_config_1a9fe4a6feaed04092aca5a6e5a52b6570" prot="public" virt="non-virtual"><scope>themis::performance::RuntimeConfig</scope><name>isOperationEnabled</name></member>
+      <member refid="classthemis_1_1performance_1_1_runtime_config_1a4b85fad6fd134254657aa10038c9d7e8" prot="private" virt="non-virtual"><scope>themis::performance::RuntimeConfig</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1performance_1_1_runtime_config_1a3d0f24abbc10bb62b1e249a0473a0f36" prot="private" virt="non-virtual"><scope>themis::performance::RuntimeConfig</scope><name>operation_counter_</name></member>
+      <member refid="classthemis_1_1performance_1_1_runtime_config_1acb143aacf02a47ec2aa6baacb0cd3ca5" prot="private" virt="non-virtual"><scope>themis::performance::RuntimeConfig</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1_runtime_config_1aad214d3ac0440f2c0a6015baedc6e022" prot="public" virt="non-virtual"><scope>themis::performance::RuntimeConfig</scope><name>resetCounter</name></member>
+      <member refid="classthemis_1_1performance_1_1_runtime_config_1a95bfecb70f1614db22519e914cb95e44" prot="private" virt="non-virtual"><scope>themis::performance::RuntimeConfig</scope><name>RuntimeConfig</name></member>
+      <member refid="classthemis_1_1performance_1_1_runtime_config_1a5b26bb3231e6c3282500b1ccca796959" prot="private" virt="non-virtual"><scope>themis::performance::RuntimeConfig</scope><name>RuntimeConfig</name></member>
+      <member refid="classthemis_1_1performance_1_1_runtime_config_1a849b2e79b2d9dc1489bbaf36ca07359f" prot="private" virt="non-virtual"><scope>themis::performance::RuntimeConfig</scope><name>sampling_rate_</name></member>
+      <member refid="classthemis_1_1performance_1_1_runtime_config_1a3d7f7d2916482925c7271a750c0a4651" prot="public" virt="non-virtual"><scope>themis::performance::RuntimeConfig</scope><name>setSamplingRate</name></member>
+      <member refid="classthemis_1_1performance_1_1_runtime_config_1a1aeef55fbd1ef273bda821449ff16042" prot="public" virt="non-virtual"><scope>themis::performance::RuntimeConfig</scope><name>shouldMeasure</name></member>
+      <member refid="classthemis_1_1performance_1_1_runtime_config_1a88a9b508093e12d4c526fd56bfa4e09c" prot="private" virt="non-virtual"><scope>themis::performance::RuntimeConfig</scope><name>~RuntimeConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

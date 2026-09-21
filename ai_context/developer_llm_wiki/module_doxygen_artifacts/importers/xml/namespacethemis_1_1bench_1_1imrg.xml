@@ -1,0 +1,387 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1imrg" kind="namespace" language="C++">
+    <compoundname>themis::bench::imrg</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1imrg_1_1_parsed_row" prot="public">themis::bench::imrg::ParsedRow</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1imrg_1_1_raw_row" prot="public">themis::bench::imrg::RawRow</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1imrg_1_1_row_buffer" prot="public">themis::bench::imrg::RowBuffer</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1imrg_1_1_import_quota" prot="public">themis::bench::imrg::ImportQuota</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1imrg_1_1_col_def" prot="public">themis::bench::imrg::ColDef</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1bench_1_1imrg_1a8a5b6ab2a4b0a58df58fcd8a32e8060c" prot="public" static="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>using themis::bench::imrg::KeySet = std::unordered_set&lt;std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>KeySet</name>
+        <qualifiedname>themis::bench::imrg::KeySet</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="127" column="1" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1imrg_1ab10b66a549861aa085aa52db0aa2681c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::imrg::kImportersCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kImportersCanonicalSeed</name>
+        <qualifiedname>themis::bench::imrg::kImportersCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="70" column="27" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1imrg_1a4b09ffa41feba6782396d35e2206365c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::imrg::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::imrg::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="71" column="27" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1imrg_1a536b19bdfe600096228962c43af88e2d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::imrg::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::imrg::kWarmupIterations</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="72" column="27" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1imrg_1af59c37b3aa42e68780758f6d4a538a5e" prot="public" static="yes" mutable="no">
+        <type>const <ref refid="structthemis_1_1bench_1_1imrg_1_1_col_def" kindref="compound">ColDef</ref></type>
+        <definition>const ColDef themis::bench::imrg::kExistingSchema[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kExistingSchema</name>
+        <qualifiedname>themis::bench::imrg::kExistingSchema</qualifiedname>
+        <initializer>                                    = {
+    {&quot;id&quot;,    0, true}, {&quot;name&quot;, 1, true}, {&quot;ts&quot;,   0, true},
+    {&quot;val_a&quot;, 2, false}, {&quot;val_b&quot;, 2, false}
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="184" column="21" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="184" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1imrg_1a64fc43e6e7abed3637d376702dabdd3e" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::imrg::kExistingCols</definition>
+        <argsstring></argsstring>
+        <name>kExistingCols</name>
+        <qualifiedname>themis::bench::imrg::kExistingCols</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="188" column="22" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="188" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1imrg_1a0b0b1a9d0e1f8a2869bfffad37e8e20f" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1bench_1_1imrg_1_1_parsed_row" kindref="compound">ParsedRow</ref></type>
+        <definition>static ParsedRow themis::bench::imrg::parseCsvRow</definition>
+        <argsstring>(const char *src, int len) noexcept</argsstring>
+        <name>parseCsvRow</name>
+        <qualifiedname>themis::bench::imrg::parseCsvRow</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="83" column="18" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="83" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1imrg_1a9e1e1ef7b1b98158e56af95ec4ca3ab0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::bench::imrg::makeCsvLine</definition>
+        <argsstring>(int idx)</argsstring>
+        <name>makeCsvLine</name>
+        <qualifiedname>themis::bench::imrg::makeCsvLine</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="98" column="20" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="98" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1imrg_1af56e6577719f4de50a3a5253249552d7" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::imrg::validateRow</definition>
+        <argsstring>(const RawRow &amp;row) noexcept</argsstring>
+        <name>validateRow</name>
+        <qualifiedname>themis::bench::imrg::validateRow</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1bench_1_1imrg_1_1_raw_row" kindref="compound">RawRow</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="119" column="13" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="119" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1imrg_1ad0e8f21b4144e654350cf05a85b64e30" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1bench_1_1imrg_1a8a5b6ab2a4b0a58df58fcd8a32e8060c" kindref="member">KeySet</ref></type>
+        <definition>static KeySet themis::bench::imrg::makeKeySet</definition>
+        <argsstring>(int n)</argsstring>
+        <name>makeKeySet</name>
+        <qualifiedname>themis::bench::imrg::makeKeySet</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="129" column="15" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="129" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1imrg_1a8d7256c0c9cce70d306baef63d1b9481" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::bench::imrg::isDuplicateKey</definition>
+        <argsstring>(const KeySet &amp;ks, const std::string &amp;key)</argsstring>
+        <name>isDuplicateKey</name>
+        <qualifiedname>themis::bench::imrg::isDuplicateKey</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1bench_1_1imrg_1a8a5b6ab2a4b0a58df58fcd8a32e8060c" kindref="member">KeySet</ref> &amp;</type>
+          <declname>ks</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="138" column="13" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="138" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1imrg_1aa70ddb35f338e2e9c518af240eb6dfff" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a7e2ec99329cdfbf07a3d3128787b1c1a" kindref="member">SchemaChangeKind</ref></type>
+        <definition>static SchemaChangeKind themis::bench::imrg::checkSchemaEvolution</definition>
+        <argsstring>(int incoming_cols, const ColDef *incoming, int existing_cols, const ColDef *existing) noexcept</argsstring>
+        <name>checkSchemaEvolution</name>
+        <qualifiedname>themis::bench::imrg::checkSchemaEvolution</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>incoming_cols</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1bench_1_1imrg_1_1_col_def" kindref="compound">ColDef</ref> *</type>
+          <declname>incoming</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>existing_cols</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1bench_1_1imrg_1_1_col_def" kindref="compound">ColDef</ref> *</type>
+          <declname>existing</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="190" column="25" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="190" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1imrg_1aa9f540b58f5436f74e5cada7dafd6ffe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::imrg::BM_IMRG01_CsvRowParse</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_IMRG01_CsvRowParse</name>
+        <qualifiedname>themis::bench::imrg::BM_IMRG01_CsvRowParse</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>IMRG-01: parseCsvRow() for a 10-column CSV line. GATE-IMRG-01: ≥ 5M rows/s. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="234" column="13" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="234" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1imrg_1a6de830166ca3c6b9b29e98cdda0dcc69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::imrg::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::imrg::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="248" column="5" declfile="benchmarks/importers/bench_importers_release_gates.cpp" declline="248" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1imrg_1a6030e78faa968f41d4ef97c7c3d51b96" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::imrg::BM_IMRG02_PerRowSchemaValidation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_IMRG02_PerRowSchemaValidation</name>
+        <qualifiedname>themis::bench::imrg::BM_IMRG02_PerRowSchemaValidation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>IMRG-02: validateRow() per-row schema check. GATE-IMRG-02: p99 ≤ 50 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="259" column="13" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="259" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1imrg_1a4a55183dbacc8109b41b81628ef07e45" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::imrg::BM_IMRG03_DuplicateKeyCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_IMRG03_DuplicateKeyCheck</name>
+        <qualifiedname>themis::bench::imrg::BM_IMRG03_DuplicateKeyCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>IMRG-03: isDuplicateKey() against a pre-loaded 10k-key hash set. GATE-IMRG-03: p99 ≤ 100 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="286" column="13" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="286" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1imrg_1a9998d3d3afa6e635f7fbae2b91a3ca3c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::imrg::BM_IMRG04_RowBufferCommit</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_IMRG04_RowBufferCommit</name>
+        <qualifiedname>themis::bench::imrg::BM_IMRG04_RowBufferCommit</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>IMRG-04: <ref refid="structthemis_1_1bench_1_1imrg_1_1_row_buffer_1a221e14642f2f8089fcc9a3d7039f0cd6" kindref="member">RowBuffer::commit()</ref> for 100 rows. <ref refid="namespacethemis_1_1bench_1_1imrg_1ad31ac46c26f1e30ea834d6293e6ccca8" kindref="member">UseRealTime()</ref> because this involves heap allocation. GATE-IMRG-04: p99 ≤ 5 ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="312" column="13" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="312" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1imrg_1ad31ac46c26f1e30ea834d6293e6ccca8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::imrg::UseRealTime</definition>
+        <argsstring>() -&gt; Repetitions(kRepetitions) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>UseRealTime</name>
+        <qualifiedname>themis::bench::imrg::UseRealTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="337" column="5" declfile="benchmarks/importers/bench_importers_release_gates.cpp" declline="337" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1imrg_1ac2d85d46301bf9281582f34b6d1f3170" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::imrg::BM_IMRG05_ImportQuotaCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_IMRG05_ImportQuotaCheck</name>
+        <qualifiedname>themis::bench::imrg::BM_IMRG05_ImportQuotaCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>IMRG-05: <ref refid="structthemis_1_1bench_1_1imrg_1_1_import_quota_1a96499781b196718f9b73809d9415f4b3" kindref="member">ImportQuota::check()</ref> — atomic load + compare. GATE-IMRG-05: p99 ≤ 50 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="349" column="13" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="349" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1imrg_1af7e95b7ec3615b95c46ab075b742acdb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::imrg::BM_IMRG06_SchemaEvolutionCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_IMRG06_SchemaEvolutionCheck</name>
+        <qualifiedname>themis::bench::imrg::BM_IMRG06_SchemaEvolutionCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>IMRG-06: checkSchemaEvolution() comparing 5-column existing vs 6-column incoming. GATE-IMRG-06: p99 ≤ 200 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="372" column="13" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="372" bodyend="390"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="64" column="1"/>
+  </compounddef>
+</doxygen>

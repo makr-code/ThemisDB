@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1replication_1_1_kafka_change_stream_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::replication::KafkaChangeStreamConfig</compoundname>
+    <includes refid="kafka__change__stream_8h" local="no">kafka_change_stream.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_change_stream_config_1a576fc2da1ad79d13aca134c184fec7db" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1replication_1_1_kafka_producer_config" kindref="compound">KafkaProducerConfig</ref></type>
+        <definition>KafkaProducerConfig themis::replication::KafkaChangeStreamConfig::producer</definition>
+        <argsstring></argsstring>
+        <name>producer</name>
+        <qualifiedname>themis::replication::KafkaChangeStreamConfig::producer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="44" column="25" bodyfile="include/replication/kafka_change_stream.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_change_stream_config_1aca5ce5448bba6e22bfda0e4a3dec5a1b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1replication_1aef881c9d4de4a9789b71c226a36f9abb" kindref="member">ChangeEventFormat</ref></type>
+        <definition>ChangeEventFormat themis::replication::KafkaChangeStreamConfig::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::replication::KafkaChangeStreamConfig::format</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1replication_1aef881c9d4de4a9789b71c226a36f9abbab8f30bc1199f55b09953e34c6d1fde8a" kindref="member">ChangeEventFormat::DEBEZIUM_JSON</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="45" column="23" bodyfile="include/replication/kafka_change_stream.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_change_stream_config_1a3a52ed70d8356a2eaecca05b9786e7d7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::replication::KafkaChangeStreamConfig::collections_to_stream</definition>
+        <argsstring></argsstring>
+        <name>collections_to_stream</name>
+        <qualifiedname>themis::replication::KafkaChangeStreamConfig::collections_to_stream</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="46" column="17" bodyfile="include/replication/kafka_change_stream.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_change_stream_config_1ace3463b0c88e1c3643290d7c9563b7a6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::replication::KafkaChangeStreamConfig::include_before_image</definition>
+        <argsstring></argsstring>
+        <name>include_before_image</name>
+        <qualifiedname>themis::replication::KafkaChangeStreamConfig::include_before_image</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="47" column="10" bodyfile="include/replication/kafka_change_stream.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_change_stream_config_1adb82b867574ecd93b8bdd19be74972e8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::replication::KafkaChangeStreamConfig::include_after_image</definition>
+        <argsstring></argsstring>
+        <name>include_after_image</name>
+        <qualifiedname>themis::replication::KafkaChangeStreamConfig::include_after_image</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="48" column="10" bodyfile="include/replication/kafka_change_stream.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1replication_1_1_kafka_change_stream_config_1a0687920748679d75de5c5f3d9ac6f5bc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::replication::KafkaChangeStreamConfig::schema_registry_url</definition>
+        <argsstring></argsstring>
+        <name>schema_registry_url</name>
+        <qualifiedname>themis::replication::KafkaChangeStreamConfig::schema_registry_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/kafka_change_stream.h" line="49" column="17" bodyfile="include/replication/kafka_change_stream.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::replication::KafkaChangeStreamConfig</label>
+        <link refid="structthemis_1_1replication_1_1_kafka_change_stream_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>producer</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::replication::KafkaProducerConfig</label>
+        <link refid="structthemis_1_1replication_1_1_kafka_producer_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/replication/kafka_change_stream.h" line="43" column="1" bodyfile="include/replication/kafka_change_stream.h" bodystart="43" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1replication_1_1_kafka_change_stream_config_1a3a52ed70d8356a2eaecca05b9786e7d7" prot="public" virt="non-virtual"><scope>themis::replication::KafkaChangeStreamConfig</scope><name>collections_to_stream</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_change_stream_config_1aca5ce5448bba6e22bfda0e4a3dec5a1b" prot="public" virt="non-virtual"><scope>themis::replication::KafkaChangeStreamConfig</scope><name>format</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_change_stream_config_1adb82b867574ecd93b8bdd19be74972e8" prot="public" virt="non-virtual"><scope>themis::replication::KafkaChangeStreamConfig</scope><name>include_after_image</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_change_stream_config_1ace3463b0c88e1c3643290d7c9563b7a6" prot="public" virt="non-virtual"><scope>themis::replication::KafkaChangeStreamConfig</scope><name>include_before_image</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_change_stream_config_1a576fc2da1ad79d13aca134c184fec7db" prot="public" virt="non-virtual"><scope>themis::replication::KafkaChangeStreamConfig</scope><name>producer</name></member>
+      <member refid="structthemis_1_1replication_1_1_kafka_change_stream_config_1a0687920748679d75de5c5f3d9ac6f5bc" prot="public" virt="non-virtual"><scope>themis::replication::KafkaChangeStreamConfig</scope><name>schema_registry_url</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_estimate_validation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::EstimateValidation</compoundname>
+    <includes refid="optimizer__cost__model__enhancements_8h" local="no">optimizer_cost_model_enhancements.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample" prot="public">themis::query::EstimateValidation::Sample</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_estimate_validation_1a96aaaf6e28fcbd62bcf6ca55001ba5e2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_estimate_validation_1_1_sample" kindref="compound">Sample</ref> &gt;</type>
+        <definition>std::vector&lt;Sample&gt; themis::query::EstimateValidation::samples</definition>
+        <argsstring></argsstring>
+        <name>samples</name>
+        <qualifiedname>themis::query::EstimateValidation::samples</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="79" column="17" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_estimate_validation_1a8351e7d30b2b8091af3b41bcebf3f74b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::EstimateValidation::computeMAPE</definition>
+        <argsstring>() const</argsstring>
+        <name>computeMAPE</name>
+        <qualifiedname>themis::query::EstimateValidation::computeMAPE</qualifiedname>
+        <briefdescription>
+<para>Compute MAPE. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="85" column="12" bodyfile="src/query/optimizer_cost_model_enhancements.cpp" bodystart="128" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_estimate_validation_1aa23a5aed91f599ffdae552c6b2e3b4c3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::EstimateValidation::computeP95Error</definition>
+        <argsstring>() const</argsstring>
+        <name>computeP95Error</name>
+        <qualifiedname>themis::query::EstimateValidation::computeP95Error</qualifiedname>
+        <briefdescription>
+<para>Compute P95 Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="91" column="12" bodyfile="src/query/optimizer_cost_model_enhancements.cpp" bodystart="140" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_estimate_validation_1aa1cf242d44fdfa4e2298160d0ab6050c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::EstimateValidation::hasSystematicUnderestimation</definition>
+        <argsstring>() const</argsstring>
+        <name>hasSystematicUnderestimation</name>
+        <qualifiedname>themis::query::EstimateValidation::hasSystematicUnderestimation</qualifiedname>
+        <briefdescription>
+<para>Has Systematic Underestimation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="97" column="10" bodyfile="src/query/optimizer_cost_model_enhancements.cpp" bodystart="159" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_estimate_validation_1a8432641b8d3aafeeac7ee4dc4dd9615f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::EstimateValidation::hasSystematicOverestimation</definition>
+        <argsstring>() const</argsstring>
+        <name>hasSystematicOverestimation</name>
+        <qualifiedname>themis::query::EstimateValidation::hasSystematicOverestimation</qualifiedname>
+        <briefdescription>
+<para>Has Systematic Overestimation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="103" column="10" bodyfile="src/query/optimizer_cost_model_enhancements.cpp" bodystart="181" bodyend="201"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/optimizer_cost_model_enhancements.h" line="62" column="1" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="62" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_estimate_validation_1a8351e7d30b2b8091af3b41bcebf3f74b" prot="public" virt="non-virtual"><scope>themis::query::EstimateValidation</scope><name>computeMAPE</name></member>
+      <member refid="structthemis_1_1query_1_1_estimate_validation_1aa23a5aed91f599ffdae552c6b2e3b4c3" prot="public" virt="non-virtual"><scope>themis::query::EstimateValidation</scope><name>computeP95Error</name></member>
+      <member refid="structthemis_1_1query_1_1_estimate_validation_1a8432641b8d3aafeeac7ee4dc4dd9615f" prot="public" virt="non-virtual"><scope>themis::query::EstimateValidation</scope><name>hasSystematicOverestimation</name></member>
+      <member refid="structthemis_1_1query_1_1_estimate_validation_1aa1cf242d44fdfa4e2298160d0ab6050c" prot="public" virt="non-virtual"><scope>themis::query::EstimateValidation</scope><name>hasSystematicUnderestimation</name></member>
+      <member refid="structthemis_1_1query_1_1_estimate_validation_1a96aaaf6e28fcbd62bcf6ca55001ba5e2" prot="public" virt="non-virtual"><scope>themis::query::EstimateValidation</scope><name>samples</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

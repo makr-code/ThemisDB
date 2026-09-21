@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_enhanced_query_cache_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::EnhancedQueryCache::Config</compoundname>
+    <includes refid="enhanced__query__cache_8h" local="no">enhanced_query_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_enhanced_query_cache_1_1_config_1ad272a3e1f2e6a2a1c103c7b9ce4270f9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::EnhancedQueryCache&lt; KeyType, ValueType &gt;::Config::max_entries</definition>
+        <argsstring></argsstring>
+        <name>max_entries</name>
+        <qualifiedname>themis::cache::EnhancedQueryCache::Config::max_entries</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Maximum cache entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/enhanced_query_cache.h" line="30" column="16" bodyfile="include/cache/enhanced_query_cache.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_enhanced_query_cache_1_1_config_1ae2987822b4b2145613036e2f6c86ab02" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::cache::EnhancedQueryCache&lt; KeyType, ValueType &gt;::Config::default_ttl</definition>
+        <argsstring></argsstring>
+        <name>default_ttl</name>
+        <qualifiedname>themis::cache::EnhancedQueryCache::Config::default_ttl</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+<para>Default TTL (5 minutes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/enhanced_query_cache.h" line="31" column="30" bodyfile="include/cache/enhanced_query_cache.h" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_enhanced_query_cache_1_1_config_1af55e9b5015f91a5111056a836c4d2789" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cache::EnhancedQueryCache&lt; KeyType, ValueType &gt;::Config::enable_metrics</definition>
+        <argsstring></argsstring>
+        <name>enable_metrics</name>
+        <qualifiedname>themis::cache::EnhancedQueryCache::Config::enable_metrics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable detailed metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/enhanced_query_cache.h" line="32" column="14" bodyfile="include/cache/enhanced_query_cache.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_enhanced_query_cache_1_1_config_1a7ac301e7b67a0110f03f322fb5315683" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cache::EnhancedQueryCache&lt; KeyType, ValueType &gt;::Config::enable_warming</definition>
+        <argsstring></argsstring>
+        <name>enable_warming</name>
+        <qualifiedname>themis::cache::EnhancedQueryCache::Config::enable_warming</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable cache warming. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/enhanced_query_cache.h" line="33" column="14" bodyfile="include/cache/enhanced_query_cache.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_enhanced_query_cache_1_1_config_1a797565800efe82f3eb85c58b7575f63e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cache::EnhancedQueryCache&lt; KeyType, ValueType &gt;::Config::max_memory_mb</definition>
+        <argsstring></argsstring>
+        <name>max_memory_mb</name>
+        <qualifiedname>themis::cache::EnhancedQueryCache::Config::max_memory_mb</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Max memory usage (MB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/enhanced_query_cache.h" line="34" column="16" bodyfile="include/cache/enhanced_query_cache.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/enhanced_query_cache.h" line="29" column="5" bodyfile="include/cache/enhanced_query_cache.h" bodystart="29" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_enhanced_query_cache_1_1_config_1ae2987822b4b2145613036e2f6c86ab02" prot="public" virt="non-virtual"><scope>themis::cache::EnhancedQueryCache::Config</scope><name>default_ttl</name></member>
+      <member refid="structthemis_1_1cache_1_1_enhanced_query_cache_1_1_config_1af55e9b5015f91a5111056a836c4d2789" prot="public" virt="non-virtual"><scope>themis::cache::EnhancedQueryCache::Config</scope><name>enable_metrics</name></member>
+      <member refid="structthemis_1_1cache_1_1_enhanced_query_cache_1_1_config_1a7ac301e7b67a0110f03f322fb5315683" prot="public" virt="non-virtual"><scope>themis::cache::EnhancedQueryCache::Config</scope><name>enable_warming</name></member>
+      <member refid="structthemis_1_1cache_1_1_enhanced_query_cache_1_1_config_1ad272a3e1f2e6a2a1c103c7b9ce4270f9" prot="public" virt="non-virtual"><scope>themis::cache::EnhancedQueryCache::Config</scope><name>max_entries</name></member>
+      <member refid="structthemis_1_1cache_1_1_enhanced_query_cache_1_1_config_1a797565800efe82f3eb85c58b7575f63e" prot="public" virt="non-virtual"><scope>themis::cache::EnhancedQueryCache::Config</scope><name>max_memory_mb</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

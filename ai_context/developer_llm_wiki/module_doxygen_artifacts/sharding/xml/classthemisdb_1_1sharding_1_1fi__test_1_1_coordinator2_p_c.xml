@@ -1,0 +1,284 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::fi_test::Coordinator2PC</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1a6b522bd9ca67b33dd2e1afcbd6ada412" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> *</type>
+        <definition>SimWAL* themisdb::sharding::fi_test::Coordinator2PC::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator2PC::wal_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="570" column="33" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="570" bodyend="570"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1aa403f36427f66d3b9fc0919cb91ee72a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::fi_test::Coordinator2PC::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator2PC::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="571" column="34" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="571" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1aa5bb75819368c9ebbd06c6fc207c9939" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_participant" kindref="compound">SimParticipant</ref> * &gt;</type>
+        <definition>std::vector&lt;SimParticipant*&gt; themisdb::sharding::fi_test::Coordinator2PC::participants_</definition>
+        <argsstring></argsstring>
+        <name>participants_</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator2PC::participants_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="572" column="17" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="572" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1ae050fcd080ed76b03b6a1adf7fde4682" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a02e6c2128c2434cd3a77436c6eb551b5" kindref="member">Coord2PCState</ref></type>
+        <definition>Coord2PCState themisdb::sharding::fi_test::Coordinator2PC::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator2PC::state_</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a02e6c2128c2434cd3a77436c6eb551b5afaee4ca3c30ee18148ce3ada37466498" kindref="member">Coord2PCState::INIT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="573" column="34" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="573" bodyend="573"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1a86de49123022175a8b7bc759607f0a32" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::fi_test::Coordinator2PC::Coordinator2PC</definition>
+        <argsstring>(SimWAL *wal)</argsstring>
+        <name>Coordinator2PC</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator2PC::Coordinator2PC</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> *</type>
+          <declname>wal</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="428" column="14" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="428" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1a98f0289c597a4457bbd7b536b42c1c04" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::fi_test::Coordinator2PC::addParticipant</definition>
+        <argsstring>(SimParticipant *p)</argsstring>
+        <name>addParticipant</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator2PC::addParticipant</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_participant" kindref="compound">SimParticipant</ref> *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="430" column="10" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="430" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1a2c8c092290f1d3110b3e2191ada88f37" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a02e6c2128c2434cd3a77436c6eb551b5" kindref="member">Coord2PCState</ref></type>
+        <definition>Coord2PCState themisdb::sharding::fi_test::Coordinator2PC::state</definition>
+        <argsstring>() const</argsstring>
+        <name>state</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator2PC::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="435" column="19" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="435" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1a19733b2fbd23727d19007f8fa2700e6a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::fi_test::Coordinator2PC::execute</definition>
+        <argsstring>(const std::string &amp;txn_id, std::chrono::milliseconds timeout=500ms)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator2PC::execute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>500ms</defval>
+        </param>
+        <briefdescription>
+<para>Execute full 2PC returning true on COMMIT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="441" column="10" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="441" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1a06e7c1bd2102f0f68db66475acee6d78" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::fi_test::Coordinator2PC::executeUntilCrashAfterPrepare</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>executeUntilCrashAfterPrepare</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator2PC::executeUntilCrashAfterPrepare</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Simulate crash after Phase-1 (PREPARE logged, no decision). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="483" column="10" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="483" bodyend="493"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1a3c7270dca10e2ca97a8f0ab478ce516c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::fi_test::Coordinator2PC::executeUntilCrashAfterAbortLogged</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>executeUntilCrashAfterAbortLogged</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator2PC::executeUntilCrashAfterAbortLogged</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Simulate crash after ABORT decision logged but before delivery. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="498" column="10" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="498" bodyend="508"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1a216938ddc05d1a4579ecb3ad44c6ba6b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::fi_test::Coordinator2PC::recoverAndCommit</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>recoverAndCommit</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator2PC::recoverAndCommit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>WAL-driven recovery to COMMIT (idempotent). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="513" column="10" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="513" bodyend="529"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1abc7d2ad5542b506c91731eae84afddb7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::fi_test::Coordinator2PC::recoverAndAbort</definition>
+        <argsstring>(const std::string &amp;txn_id)</argsstring>
+        <name>recoverAndAbort</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator2PC::recoverAndAbort</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>WAL-driven recovery to ABORT (idempotent). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="534" column="10" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="534" bodyend="550"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1ad44fc03f578a903bf42f4c4973c02663" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themisdb::sharding::fi_test::Coordinator2PC::inDoubtCount</definition>
+        <argsstring>(const SimWAL &amp;wal, const std::vector&lt; std::string &gt; &amp;txn_ids)</argsstring>
+        <name>inDoubtCount</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator2PC::inDoubtCount</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> &amp;</type>
+          <declname>wal</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>txn_ids</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="552" column="19" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="552" bodyend="562"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1a22073b64433895b7357c568affe7656d" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::fi_test::Coordinator2PC::setState</definition>
+        <argsstring>(Coord2PCState s)</argsstring>
+        <name>setState</name>
+        <qualifiedname>themisdb::sharding::fi_test::Coordinator2PC::setState</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1_1fi__test_1a02e6c2128c2434cd3a77436c6eb551b5" kindref="member">Coord2PCState</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="565" column="10" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="565" bodyend="568"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>In-process 2PC coordinator with WAL and crash/recovery simulation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="426" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="426" bodyend="574"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1a98f0289c597a4457bbd7b536b42c1c04" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator2PC</scope><name>addParticipant</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1a86de49123022175a8b7bc759607f0a32" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator2PC</scope><name>Coordinator2PC</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1a19733b2fbd23727d19007f8fa2700e6a" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator2PC</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1a3c7270dca10e2ca97a8f0ab478ce516c" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator2PC</scope><name>executeUntilCrashAfterAbortLogged</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1a06e7c1bd2102f0f68db66475acee6d78" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator2PC</scope><name>executeUntilCrashAfterPrepare</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1ad44fc03f578a903bf42f4c4973c02663" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator2PC</scope><name>inDoubtCount</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1aa403f36427f66d3b9fc0919cb91ee72a" prot="private" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator2PC</scope><name>mu_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1aa5bb75819368c9ebbd06c6fc207c9939" prot="private" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator2PC</scope><name>participants_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1abc7d2ad5542b506c91731eae84afddb7" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator2PC</scope><name>recoverAndAbort</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1a216938ddc05d1a4579ecb3ad44c6ba6b" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator2PC</scope><name>recoverAndCommit</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1a22073b64433895b7357c568affe7656d" prot="private" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator2PC</scope><name>setState</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1a2c8c092290f1d3110b3e2191ada88f37" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator2PC</scope><name>state</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1ae050fcd080ed76b03b6a1adf7fde4682" prot="private" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator2PC</scope><name>state_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator2_p_c_1a6b522bd9ca67b33dd2e1afcbd6ada412" prot="private" virt="non-virtual"><scope>themisdb::sharding::fi_test::Coordinator2PC</scope><name>wal_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

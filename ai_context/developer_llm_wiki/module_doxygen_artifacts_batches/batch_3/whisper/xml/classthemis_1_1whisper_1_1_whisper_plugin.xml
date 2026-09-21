@@ -1,0 +1,826 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1whisper_1_1_whisper_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::whisper::WhisperPlugin</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">audio::IAudioBackend</basecompoundref>
+    <includes refid="whisper__plugin_8h" local="no">whisper_plugin.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1whisper_1_1_whisper_plugin_1aeb61cdefcf75d5865d664f7cf3e91d14" prot="public" static="no">
+        <type>std::function&lt; std::unique_ptr&lt; IWhisperTranscriber &gt;()&gt;</type>
+        <definition>using themis::whisper::WhisperPlugin::StubTranscriberFactoryFn = std::function&lt;std::unique_ptr&lt;IWhisperTranscriber&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>StubTranscriberFactoryFn</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::StubTranscriberFactoryFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="43" column="5" bodyfile="include/whisper/whisper_plugin.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_whisper_plugin_1a5c91d21182c324150b94630186324eb5" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; IWhisperTranscriber &gt;</type>
+        <definition>std::unique_ptr&lt;IWhisperTranscriber&gt; themis::whisper::WhisperPlugin::transcriber_</definition>
+        <argsstring></argsstring>
+        <name>transcriber_</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::transcriber_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="113" column="21" bodyfile="include/whisper/whisper_plugin.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_whisper_plugin_1a84b40b12a08a33104e0a8cb0d131239e" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader" kindref="compound">IAudioChunkReader</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;IAudioChunkReader&gt; themis::whisper::WhisperPlugin::reader_</definition>
+        <argsstring></argsstring>
+        <name>reader_</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::reader_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="114" column="23" bodyfile="include/whisper/whisper_plugin.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_whisper_plugin_1af7e9734e98c7af7d68b965c41129e18c" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1whisper_1_1_i_voice_activity_detector" kindref="compound">IVoiceActivityDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;IVoiceActivityDetector&gt; themis::whisper::WhisperPlugin::vad_</definition>
+        <argsstring></argsstring>
+        <name>vad_</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::vad_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="115" column="21" bodyfile="include/whisper/whisper_plugin.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_whisper_plugin_1a3d95f10bb6cb507d0a381d93399d2b35" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1whisper_1_1_vad_config" kindref="compound">VadConfig</ref></type>
+        <definition>VadConfig themis::whisper::WhisperPlugin::vad_cfg_</definition>
+        <argsstring></argsstring>
+        <name>vad_cfg_</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::vad_cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="116" column="15" bodyfile="include/whisper/whisper_plugin.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_whisper_plugin_1a98bced94bd3081cfd4be47ae147fd975" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::whisper::WhisperPlugin::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::initialized_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="117" column="21" bodyfile="include/whisper/whisper_plugin.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_whisper_plugin_1ae15d6d50f86fd7b8a82b13444c503755" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::whisper::WhisperPlugin::transcription_count_</definition>
+        <argsstring></argsstring>
+        <name>transcription_count_</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::transcription_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="118" column="17" bodyfile="include/whisper/whisper_plugin.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_whisper_plugin_1a550070cdd79d9771608126bab2f4c72c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::whisper::WhisperPlugin::error_count_</definition>
+        <argsstring></argsstring>
+        <name>error_count_</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::error_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="119" column="17" bodyfile="include/whisper/whisper_plugin.h" bodystart="119" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_whisper_plugin_1a07513e134ffdc65dcd6367301c7ffab0" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::whisper::WhisperPlugin::model_path_</definition>
+        <argsstring></argsstring>
+        <name>model_path_</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::model_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="120" column="17" bodyfile="include/whisper/whisper_plugin.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_whisper_plugin_1aa21b2c73813779a7d673880a0af6f522" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1whisper_1_1_whisper_config" kindref="compound">WhisperConfig</ref></type>
+        <definition>WhisperConfig themis::whisper::WhisperPlugin::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::cfg_</qualifiedname>
+        <briefdescription>
+<para>config snapshot from <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_1ac5a7f6196ef379da78acc0b36bdd058e" kindref="member">initialize()</ref> </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="121" column="19" bodyfile="include/whisper/whisper_plugin.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_whisper_plugin_1a54b045dd200bb1c38ef606996bcc97c4" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::whisper::WhisperPlugin::last_error_message_</definition>
+        <argsstring></argsstring>
+        <name>last_error_message_</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::last_error_message_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="122" column="17" bodyfile="include/whisper/whisper_plugin.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_whisper_plugin_1a1ccc0254251ed98e06dc169884986270" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::whisper::WhisperPlugin::transcriber_mutex_</definition>
+        <argsstring></argsstring>
+        <name>transcriber_mutex_</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::transcriber_mutex_</qualifiedname>
+        <briefdescription>
+<para>serializes transcriber calls </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="123" column="24" bodyfile="include/whisper/whisper_plugin.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_whisper_plugin_1aab862176acd408ea897710789c7fad3d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::whisper::WhisperPlugin::vad_mutex_</definition>
+        <argsstring></argsstring>
+        <name>vad_mutex_</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::vad_mutex_</qualifiedname>
+        <briefdescription>
+<para>guards vad_ and vad_cfg_ for thread-safe swap </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="124" column="24" bodyfile="include/whisper/whisper_plugin.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_whisper_plugin_1acf526837f2c5a6b8ec342772d157dc5e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::whisper::WhisperPlugin::error_mutex_</definition>
+        <argsstring></argsstring>
+        <name>error_mutex_</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::error_mutex_</qualifiedname>
+        <briefdescription>
+<para>guards last_error_message_ </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="125" column="24" bodyfile="include/whisper/whisper_plugin.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_1abdf08190b3e5e3b11d5a9b87035cda6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::whisper::WhisperPlugin::WhisperPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>WhisperPlugin</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::WhisperPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Default constructor – builds production or stub backend automatically. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s_stub_transcriber_factory_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="46" column="5" bodyfile="src/whisper/whisper_plugin.cpp" bodystart="34" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_1a84ade9ddf94f4944a0e70fa6f821f6d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::whisper::WhisperPlugin::WhisperPlugin</definition>
+        <argsstring>(std::unique_ptr&lt; IWhisperTranscriber &gt; transcriber, std::unique_ptr&lt; IAudioChunkReader &gt; reader)</argsstring>
+        <name>WhisperPlugin</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::WhisperPlugin</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; IWhisperTranscriber &gt;</type>
+          <declname>transcriber</declname>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader" kindref="compound">IAudioChunkReader</ref> &gt;</type>
+          <declname>reader</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Injection constructor for tests. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="49" column="5" bodyfile="src/whisper/whisper_plugin.cpp" bodystart="87" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_1a011d8f9cc988d6f8d64d4140c830d71f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::whisper::WhisperPlugin::~WhisperPlugin</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~WhisperPlugin</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::~WhisperPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_1ac5a7f6196ef379da78acc0b36bdd058e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::whisper::WhisperPlugin::initialize</definition>
+        <argsstring>(const std::string &amp;model_path, const nlohmann::json &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::initialize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_path</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>── initialize ─────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1whisper_1_1_whisper_config_1a771adaccabed92e44277a693751c83a1" kindref="member">WhisperConfig::fromJson()</ref>, getLastError(), empty(), lk(), std::move(), clear(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="55" column="10" bodyfile="src/whisper/whisper_plugin.cpp" bodystart="100" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_1a0120e8821469f4ffd7a88cdd9407c000" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::whisper::WhisperPlugin::isInitialized</definition>
+        <argsstring>() const override</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::isInitialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="58" column="10" bodyfile="include/whisper/whisper_plugin.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_1a45a100a7f3c0ce6d8e757c9aabada5e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>audio::TranscriptionResult</type>
+        <definition>audio::TranscriptionResult themis::whisper::WhisperPlugin::transcribe</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;pcm_samples, float sample_rate) override</argsstring>
+        <name>transcribe</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::transcribe</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pcm_samples</declname>
+          <defname>pcm</defname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>sample_rate</declname>
+        </param>
+        <briefdescription>
+<para>── transcribe ─────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pcm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sample_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(), fetch_add(), lk(), empty(), <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_1a272d107763ea212811378126a57f1371" kindref="member">getPluginVersion()</ref>, lock(), <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_1a8b49b8ff68e5f46530d34e616a6ef36c" kindref="member">getModelId()</ref>, std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="60" column="32" bodyfile="src/whisper/whisper_plugin.cpp" bodystart="131" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_1abd180b54b6014f5aaf95c54f94a7275b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>audio::TranscriptionResult</type>
+        <definition>audio::TranscriptionResult themis::whisper::WhisperPlugin::transcribeFile</definition>
+        <argsstring>(const std::string &amp;path) override</argsstring>
+        <name>transcribeFile</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::transcribeFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>── transcribeFile ─────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(), fetch_add(), lk(), empty(), <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_1a272d107763ea212811378126a57f1371" kindref="member">getPluginVersion()</ref>, readFile(), <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_1a45a100a7f3c0ce6d8e757c9aabada5e0" kindref="member">transcribe()</ref>, what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="63" column="32" bodyfile="src/whisper/whisper_plugin.cpp" bodystart="187" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_1a63a97b5fdb0a167c6ebed71478746da0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>audio::TranscriptionResult</type>
+        <definition>audio::TranscriptionResult themis::whisper::WhisperPlugin::transcribeStream</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;pcm_samples, float sample_rate, audio::StreamCallback callback) override</argsstring>
+        <name>transcribeStream</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::transcribeStream</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pcm_samples</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>sample_rate</declname>
+        </param>
+        <param>
+          <type>audio::StreamCallback</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Transcribe with incremental token streaming. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── transcribeStream ─────────────────────────────────────────────────────────</para>
+<para>If a VAD is installed, silent segments are skipped before the PCM is forwarded to the transcriber. The <computeroutput>callback</computeroutput> is invoked once per token emitted by the underlying transcriber. Any exception thrown by the callback aborts the stream and the returned result has success=false.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pcm_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sample_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(), fetch_add(), lk(), empty(), <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_1a272d107763ea212811378126a57f1371" kindref="member">getPluginVersion()</ref>, applyVad(), lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="74" column="32" bodyfile="src/whisper/whisper_plugin.cpp" bodystart="319" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_1a2004c11cf9c0e2273bee3d5dc415721e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>audio::LanguageDetectionResult</type>
+        <definition>audio::LanguageDetectionResult themis::whisper::WhisperPlugin::detectLanguage</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;pcm_samples, float sample_rate) override</argsstring>
+        <name>detectLanguage</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::detectLanguage</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pcm_samples</declname>
+          <defname>pcm</defname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>sample_rate</declname>
+        </param>
+        <briefdescription>
+<para>── detectLanguage ─────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pcm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sample_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: load(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="79" column="36" bodyfile="src/whisper/whisper_plugin.cpp" bodystart="231" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_1a35d9042fd92ebe95526763cc5dacf800" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1whisper_1_1_diarisation_result" kindref="compound">DiarisationResult</ref></type>
+        <definition>DiarisationResult themis::whisper::WhisperPlugin::transcribeWithDiarisation</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;pcm_samples, float sample_rate, const DiarisationConfig &amp;cfg)</argsstring>
+        <name>transcribeWithDiarisation</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::transcribeWithDiarisation</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pcm_samples</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>sample_rate</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1whisper_1_1_diarisation_config" kindref="compound">DiarisationConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Transcribe and optionally attach speaker diarisation segments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transcribe With Diarisation.</para>
+<para>Uses the transcriber&apos;s optional diarize() capability and always applies plugin-side provenance fields on the returned result.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pcm_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sample_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_1a272d107763ea212811378126a57f1371" kindref="member">getPluginVersion()</ref>, <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_1a8b49b8ff68e5f46530d34e616a6ef36c" kindref="member">getModelId()</ref>, std::chrono::system_clock::now(), time_since_epoch(), count(), load(), fetch_add(), lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="88" column="23" bodyfile="src/whisper/whisper_plugin.cpp" bodystart="255" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_1a8b49b8ff68e5f46530d34e616a6ef36c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::whisper::WhisperPlugin::getModelId</definition>
+        <argsstring>() const override</argsstring>
+        <name>getModelId</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::getModelId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="92" column="17" bodyfile="src/whisper/whisper_plugin.cpp" bodystart="419" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_1a272d107763ea212811378126a57f1371" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::whisper::WhisperPlugin::getPluginVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getPluginVersion</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::getPluginVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="93" column="17" bodyfile="include/whisper/whisper_plugin.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_1aa0d7bf24074d03facffdb31a0d4d27d0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::whisper::WhisperPlugin::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="94" column="20" bodyfile="src/whisper/whisper_plugin.cpp" bodystart="423" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_1a730f9ec94913860c2ca0048e62f26c8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::whisper::WhisperPlugin::setVoiceActivityDetector</definition>
+        <argsstring>(std::unique_ptr&lt; IVoiceActivityDetector &gt; vad, const VadConfig &amp;cfg={})</argsstring>
+        <name>setVoiceActivityDetector</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::setVoiceActivityDetector</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1whisper_1_1_i_voice_activity_detector" kindref="compound">IVoiceActivityDetector</ref> &gt;</type>
+          <declname>vad</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1whisper_1_1_vad_config" kindref="compound">VadConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Inject a custom Voice Activity Detector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── VAD ──────────────────────────────────────────────────────────────────────</para>
+<para>If set, <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_1a63a97b5fdb0a167c6ebed71478746da0" kindref="member">transcribeStream()</ref> (and <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_1a45a100a7f3c0ce6d8e757c9aabada5e0" kindref="member">transcribe()</ref> when vad_config is non- default) uses the VAD to skip silent segments before inference. Passing nullptr disables VAD.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vad</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="106" column="10" bodyfile="src/whisper/whisper_plugin.cpp" bodystart="381" bodyend="386"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_1a007fbc5647b6ea4e5f5406d7e07de943" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::whisper::WhisperPlugin::setStubTranscriberFactoryFn</definition>
+        <argsstring>(StubTranscriberFactoryFn fn)</argsstring>
+        <name>setStubTranscriberFactoryFn</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::setStubTranscriberFactoryFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1whisper_1_1_whisper_plugin_1aeb61cdefcf75d5865d664f7cf3e91d14" kindref="member">StubTranscriberFactoryFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Stub Transcriber Factory Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="96" column="17" bodyfile="src/whisper/whisper_plugin.cpp" bodystart="27" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_whisper_plugin_1accd925250c190db5c2a0759964117f23" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::whisper::WhisperPlugin::applyVad</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;pcm, float sample_rate) const</argsstring>
+        <name>applyVad</name>
+        <qualifiedname>themis::whisper::WhisperPlugin::applyVad</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pcm</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>sample_rate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vad_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/whisper/whisper_plugin.h" line="111" column="17" bodyfile="src/whisper/whisper_plugin.cpp" bodystart="388" bodyend="415"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Top-level audio-transcription plugin that implements IAudioBackend. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wires together:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1whisper_1_1_i_whisper_transcriber" kindref="compound">IWhisperTranscriber</ref> (model inference, injected or created from type)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader" kindref="compound">IAudioChunkReader</ref> (file I/O, injected or defaults to <ref refid="classthemis_1_1whisper_1_1_composite_audio_chunk_reader" kindref="compound">CompositeAudioChunkReader</ref>)</para>
+</listitem></itemizedlist>
+</para>
+<para>The default constructor selects WhisperCppTranscriber when THEMIS_ENABLE_WHISPER is defined, otherwise <ref refid="classthemis_1_1whisper_1_1_whisper_stub_transcriber" kindref="compound">WhisperStubTranscriber</ref>.</para>
+<para>Thread-safety: <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_1a45a100a7f3c0ce6d8e757c9aabada5e0" kindref="member">transcribe()</ref>, <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_1abd180b54b6014f5aaf95c54f94a7275b" kindref="member">transcribeFile()</ref>, and <ref refid="classthemis_1_1whisper_1_1_whisper_plugin_1a2004c11cf9c0e2273bee3d5dc415721e" kindref="member">detectLanguage()</ref> are individually thread-safe. Concurrent calls serialize through transcriber_mutex_ so that the underlying whisper_context* is never accessed from two threads simultaneously. Counters are std::atomic. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>audio::IAudioBackend</label>
+      </node>
+      <node id="1">
+        <label>themis::whisper::WhisperPlugin</label>
+        <link refid="classthemis_1_1whisper_1_1_whisper_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>audio::IAudioBackend</label>
+      </node>
+      <node id="1">
+        <label>themis::whisper::WhisperPlugin</label>
+        <link refid="classthemis_1_1whisper_1_1_whisper_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/whisper/whisper_plugin.h" line="41" column="1" bodyfile="include/whisper/whisper_plugin.h" bodystart="41" bodyend="126"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1accd925250c190db5c2a0759964117f23" prot="private" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>applyVad</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1aa21b2c73813779a7d673880a0af6f522" prot="private" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a2004c11cf9c0e2273bee3d5dc415721e" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>detectLanguage</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a550070cdd79d9771608126bab2f4c72c" prot="private" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>error_count_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1acf526837f2c5a6b8ec342772d157dc5e" prot="private" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>error_mutex_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a8b49b8ff68e5f46530d34e616a6ef36c" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>getModelId</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a272d107763ea212811378126a57f1371" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>getPluginVersion</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1aa0d7bf24074d03facffdb31a0d4d27d0" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1ac5a7f6196ef379da78acc0b36bdd058e" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a98bced94bd3081cfd4be47ae147fd975" prot="private" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a0120e8821469f4ffd7a88cdd9407c000" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a54b045dd200bb1c38ef606996bcc97c4" prot="private" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>last_error_message_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a07513e134ffdc65dcd6367301c7ffab0" prot="private" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>model_path_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a84b40b12a08a33104e0a8cb0d131239e" prot="private" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>reader_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a007fbc5647b6ea4e5f5406d7e07de943" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>setStubTranscriberFactoryFn</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a730f9ec94913860c2ca0048e62f26c8d" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>setVoiceActivityDetector</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1aeb61cdefcf75d5865d664f7cf3e91d14" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>StubTranscriberFactoryFn</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a45a100a7f3c0ce6d8e757c9aabada5e0" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>transcribe</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1abd180b54b6014f5aaf95c54f94a7275b" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>transcribeFile</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a5c91d21182c324150b94630186324eb5" prot="private" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>transcriber_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a1ccc0254251ed98e06dc169884986270" prot="private" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>transcriber_mutex_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a63a97b5fdb0a167c6ebed71478746da0" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>transcribeStream</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a35d9042fd92ebe95526763cc5dacf800" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>transcribeWithDiarisation</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1ae15d6d50f86fd7b8a82b13444c503755" prot="private" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>transcription_count_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1af7e9734e98c7af7d68b965c41129e18c" prot="private" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>vad_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a3d95f10bb6cb507d0a381d93399d2b35" prot="private" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>vad_cfg_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1aab862176acd408ea897710789c7fad3d" prot="private" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>vad_mutex_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1abdf08190b3e5e3b11d5a9b87035cda6f" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>WhisperPlugin</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a84ade9ddf94f4944a0e70fa6f821f6d4" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>WhisperPlugin</name></member>
+      <member refid="classthemis_1_1whisper_1_1_whisper_plugin_1a011d8f9cc988d6f8d64d4140c830d71f" prot="public" virt="non-virtual"><scope>themis::whisper::WhisperPlugin</scope><name>~WhisperPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

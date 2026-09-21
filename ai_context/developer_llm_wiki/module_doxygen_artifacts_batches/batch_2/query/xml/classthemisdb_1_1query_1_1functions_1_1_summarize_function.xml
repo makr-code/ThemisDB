@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1query_1_1functions_1_1_summarize_function" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::query::functions::SummarizeFunction</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IFunction</basecompoundref>
+    <includes refid="ai__ml__functions_8h" local="no">ai_ml_functions.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1query_1_1functions_1_1_summarize_function_1ad0536506090e8ca2b239b0051c4fc4ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::query::functions::SummarizeFunction::~SummarizeFunction</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~SummarizeFunction</name>
+        <qualifiedname>themisdb::query::functions::SummarizeFunction::~SummarizeFunction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/ai_ml_functions.h" line="297" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1query_1_1functions_1_1_summarize_function_1aa8986cce174779622743f0b7e29a0338" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>FunctionSignature</type>
+        <definition>FunctionSignature themisdb::query::functions::SummarizeFunction::signature</definition>
+        <argsstring>() const override</argsstring>
+        <name>signature</name>
+        <qualifiedname>themisdb::query::functions::SummarizeFunction::signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/ai_ml_functions.h" line="298" column="23" bodyfile="include/query/functions/ai_ml_functions.h" bodystart="298" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1query_1_1functions_1_1_summarize_function_1ac664b77533cfa577e01f40662d49aaf4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>JsonValue</type>
+        <definition>JsonValue themisdb::query::functions::SummarizeFunction::execute</definition>
+        <argsstring>(const std::vector&lt; JsonValue &gt; &amp;args, ExecutionContext &amp;ctx) const override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::query::functions::SummarizeFunction::execute</qualifiedname>
+        <param>
+          <type>const std::vector&lt; JsonValue &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>ExecutionContext &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/ai_ml_functions.h" line="309" column="15" bodyfile="include/query/functions/ai_ml_functions.h" bodystart="309" bodyend="327"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IFunction</label>
+      </node>
+      <node id="1">
+        <label>themisdb::query::functions::SummarizeFunction</label>
+        <link refid="classthemisdb_1_1query_1_1functions_1_1_summarize_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IFunction</label>
+      </node>
+      <node id="1">
+        <label>themisdb::query::functions::SummarizeFunction</label>
+        <link refid="classthemisdb_1_1query_1_1functions_1_1_summarize_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/functions/ai_ml_functions.h" line="295" column="1" bodyfile="include/query/functions/ai_ml_functions.h" bodystart="295" bodyend="328"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1query_1_1functions_1_1_summarize_function_1ac664b77533cfa577e01f40662d49aaf4" prot="public" virt="non-virtual"><scope>themisdb::query::functions::SummarizeFunction</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1query_1_1functions_1_1_summarize_function_1aa8986cce174779622743f0b7e29a0338" prot="public" virt="non-virtual"><scope>themisdb::query::functions::SummarizeFunction</scope><name>signature</name></member>
+      <member refid="classthemisdb_1_1query_1_1functions_1_1_summarize_function_1ad0536506090e8ca2b239b0051c4fc4ab" prot="public" virt="non-virtual"><scope>themisdb::query::functions::SummarizeFunction</scope><name>~SummarizeFunction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

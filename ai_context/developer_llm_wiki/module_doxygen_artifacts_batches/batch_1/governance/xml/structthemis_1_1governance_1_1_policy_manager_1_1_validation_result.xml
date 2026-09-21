@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_policy_manager_1_1_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::PolicyManager::ValidationResult</compoundname>
+    <includes refid="policy__manager_8h" local="no">policy_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_manager_1_1_validation_result_1a712ded1aa66e58fa7b472e954aa81087" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::PolicyManager::ValidationResult::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::governance::PolicyManager::ValidationResult::valid</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="225" column="14" bodyfile="include/governance/policy_manager.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_manager_1_1_validation_result_1aec7e80869018da73e20773e23d9628cd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::PolicyManager::ValidationResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::governance::PolicyManager::ValidationResult::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="226" column="21" bodyfile="include/governance/policy_manager.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_policy_manager_1_1_validation_result_1ae7c844af704ba7ffaec96d86ed8764d6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::PolicyManager::ValidationResult::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::governance::PolicyManager::ValidationResult::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_manager.h" line="227" column="21" bodyfile="include/governance/policy_manager.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_manager.h" line="224" column="5" bodyfile="include/governance/policy_manager.h" bodystart="224" bodyend="228"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_policy_manager_1_1_validation_result_1aec7e80869018da73e20773e23d9628cd" prot="public" virt="non-virtual"><scope>themis::governance::PolicyManager::ValidationResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_manager_1_1_validation_result_1a712ded1aa66e58fa7b472e954aa81087" prot="public" virt="non-virtual"><scope>themis::governance::PolicyManager::ValidationResult</scope><name>valid</name></member>
+      <member refid="structthemis_1_1governance_1_1_policy_manager_1_1_validation_result_1ae7c844af704ba7ffaec96d86ed8764d6" prot="public" virt="non-virtual"><scope>themis::governance::PolicyManager::ValidationResult</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

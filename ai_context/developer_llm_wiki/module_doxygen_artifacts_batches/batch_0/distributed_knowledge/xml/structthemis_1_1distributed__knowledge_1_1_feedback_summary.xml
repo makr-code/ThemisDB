@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_knowledge::FeedbackSummary</compoundname>
+    <includes refid="cross__shard__feedback__sync_8h" local="no">cross_shard_feedback_sync.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a751495b630e07c3bbfb24be5a7a9f52c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::FeedbackSummary::summary_id</definition>
+        <argsstring></argsstring>
+        <name>summary_id</name>
+        <qualifiedname>themis::distributed_knowledge::FeedbackSummary::summary_id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier for dedup. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="32" column="26" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a335529705f3c4978def22eaef7da4e01" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::FeedbackSummary::feedback_type_label</definition>
+        <argsstring></argsstring>
+        <name>feedback_type_label</name>
+        <qualifiedname>themis::distributed_knowledge::FeedbackSummary::feedback_type_label</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;USER_NEGATIVE&quot;, &quot;SECURITY_ISSUE&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="33" column="26" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1ae76ac87d79775879fbfd10d2b6a01214" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::distributed_knowledge::FeedbackSummary::reason_embedding</definition>
+        <argsstring></argsstring>
+        <name>reason_embedding</name>
+        <qualifiedname>themis::distributed_knowledge::FeedbackSummary::reason_embedding</qualifiedname>
+        <briefdescription>
+<para>Semantic reason (no raw text). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="34" column="19" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a45eeaff3721941db019d6e2a9511c39f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::FeedbackSummary::shard_origin</definition>
+        <argsstring></argsstring>
+        <name>shard_origin</name>
+        <qualifiedname>themis::distributed_knowledge::FeedbackSummary::shard_origin</qualifiedname>
+        <initializer>= &quot;ANON&quot;</initializer>
+        <briefdescription>
+<para>Always anonymised in outbound. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="35" column="26" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a21b1dcb7c12805787bbf347f3b2075f7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_knowledge::FeedbackSummary::rlaif_round</definition>
+        <argsstring></argsstring>
+        <name>rlaif_round</name>
+        <qualifiedname>themis::distributed_knowledge::FeedbackSummary::rlaif_round</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Target RLAIF training round. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="36" column="26" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1ac6b978cb6ef6bf4e284cf77db17028fe" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::distributed_knowledge::FeedbackSummary::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::distributed_knowledge::FeedbackSummary::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="37" column="43" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1acad34323eb3107a8852b88a51d023f14" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::distributed_knowledge::FeedbackSummary::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::distributed_knowledge::FeedbackSummary::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="39" column="21" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="39" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1adba3f7ba30e0228c14f8b266d5bb1749" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary" kindref="compound">FeedbackSummary</ref></type>
+        <definition>static FeedbackSummary themis::distributed_knowledge::FeedbackSummary::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::distributed_knowledge::FeedbackSummary::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="52" column="29" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="52" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_knowledge/cross_shard_feedback_sync.h" line="31" column="1" bodyfile="include/distributed_knowledge/cross_shard_feedback_sync.h" bodystart="31" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1ac6b978cb6ef6bf4e284cf77db17028fe" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FeedbackSummary</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a335529705f3c4978def22eaef7da4e01" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FeedbackSummary</scope><name>feedback_type_label</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1adba3f7ba30e0228c14f8b266d5bb1749" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FeedbackSummary</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1ae76ac87d79775879fbfd10d2b6a01214" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FeedbackSummary</scope><name>reason_embedding</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a21b1dcb7c12805787bbf347f3b2075f7" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FeedbackSummary</scope><name>rlaif_round</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a45eeaff3721941db019d6e2a9511c39f" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FeedbackSummary</scope><name>shard_origin</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1a751495b630e07c3bbfb24be5a7a9f52c" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FeedbackSummary</scope><name>summary_id</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_feedback_summary_1acad34323eb3107a8852b88a51d023f14" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FeedbackSummary</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

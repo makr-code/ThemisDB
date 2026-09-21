@@ -1,0 +1,1328 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1_nlp_text_analyzer" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::NlpTextAnalyzer</compoundname>
+    <includes refid="nlp__text__analyzer_8h" local="no">nlp_text_analyzer.h</includes>
+    <innerclass refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config" prot="public">themis::analytics::NlpTextAnalyzer::Config</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_entity_pattern" prot="private">themis::analytics::NlpTextAnalyzer::EntityPattern</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_legal_modality_pattern" prot="private">themis::analytics::NlpTextAnalyzer::LegalModalityPattern</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Language</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::Language</qualifiedname>
+        <enumvalue id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1aed73cca110623766d7a2457331a4f373" prot="public">
+          <name>GERMAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1a11040bd29db4ec9964af9fd3f9a24f17" prot="public">
+          <name>ENGLISH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1a2ccce33de9a38e4a4799a52f9d69142d" prot="public">
+          <name>FRENCH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1ac4d66a1b93f8f4f0e1cfff184d4bc1e8" prot="public">
+          <name>SPANISH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1ab6a3ee75be7c094822592cdaf15d7451" prot="public">
+          <name>ITALIAN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1a93880f8c3d0e59d2b6ad9f842fa3d3a9" prot="public">
+          <name>DUTCH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="108" column="5" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="108" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1af8e612d0a8d9daca0df37b0859e36891" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::analytics::NlpTextAnalyzer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="244" column="12" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a07443566c4eb243d4a39d12af83e58cc" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1" kindref="member">Language</ref>, std::set&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;Language, std::set&lt;std::string&gt; &gt; themis::analytics::NlpTextAnalyzer::stopwords_</definition>
+        <argsstring></argsstring>
+        <name>stopwords_</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::stopwords_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="247" column="24" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1ac24b6e94df182107098d4544d33ec693" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::analytics::NlpTextAnalyzer::sentiment_lexicon_</definition>
+        <argsstring></argsstring>
+        <name>sentiment_lexicon_</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::sentiment_lexicon_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="250" column="24" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1af8df9ef77d61ad5b0385be1884804d1a" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; EntityPattern &gt;</type>
+        <definition>std::vector&lt;EntityPattern&gt; themis::analytics::NlpTextAnalyzer::entity_patterns_</definition>
+        <argsstring></argsstring>
+        <name>entity_patterns_</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::entity_patterns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="257" column="17" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a484400b443094a2d9947f12e7886562c" prot="private" static="no" mutable="yes">
+        <type>std::vector&lt; LegalModalityPattern &gt;</type>
+        <definition>std::vector&lt;LegalModalityPattern&gt; themis::analytics::NlpTextAnalyzer::legal_modality_patterns_</definition>
+        <argsstring></argsstring>
+        <name>legal_modality_patterns_</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::legal_modality_patterns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="268" column="25" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1af0f3581af7413bd81cf591cbe805dbee" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1" kindref="member">Language</ref>, std::unordered_map&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;Language, std::unordered_map&lt;std::string, std::string&gt; &gt; themis::analytics::NlpTextAnalyzer::irregular_lemmas_</definition>
+        <argsstring></argsstring>
+        <name>irregular_lemmas_</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::irregular_lemmas_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="271" column="24" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1aedc941d3c7b48fca87163b459d28b71b" prot="private" static="no" mutable="yes">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::NlpTextAnalyzer::analysis_count_</definition>
+        <argsstring></argsstring>
+        <name>analysis_count_</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::analysis_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="274" column="20" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a26976fec798f63c5cb6ca8976af1a241" prot="private" static="no" mutable="yes">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::NlpTextAnalyzer::token_count_</definition>
+        <argsstring></argsstring>
+        <name>token_count_</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::token_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="275" column="20" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1ac6dba12b67638e50451f9b29bcac7e8a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::NlpTextAnalyzer::NlpTextAnalyzer</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>NlpTextAnalyzer</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::NlpTextAnalyzer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Nlp Text Analyzer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="137" column="14" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="29" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a368e2075c667da844cb51fcf21fb4f78" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::NlpTextAnalyzer::NlpTextAnalyzer</definition>
+        <argsstring>()</argsstring>
+        <name>NlpTextAnalyzer</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::NlpTextAnalyzer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="139" column="5" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="139" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a97a71fde841ff3229640b66fe477893a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::NlpTextAnalyzer::~NlpTextAnalyzer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~NlpTextAnalyzer</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::~NlpTextAnalyzer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="141" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a389315a7301f60ce2a6efa5a2f6cd725" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1" kindref="member">Language</ref></type>
+        <definition>NlpTextAnalyzer::Language themis::analytics::NlpTextAnalyzer::detectLanguage</definition>
+        <argsstring>(std::string_view text) const</argsstring>
+        <name>detectLanguage</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::detectLanguage</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Detect <ref refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1" kindref="member">Language</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="149" column="14" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="172" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a141689c239079aa1aa765b82a4a37293" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_token" kindref="compound">Token</ref> &gt;</type>
+        <definition>std::vector&lt; Token &gt; themis::analytics::NlpTextAnalyzer::tokenize</definition>
+        <argsstring>(std::string_view text) const</argsstring>
+        <name>tokenize</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::tokenize</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Tokenize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="156" column="17" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="218" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1ae9cfec54b7fcb6a405feaaa3269bb9bf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_keyword" kindref="compound">Keyword</ref> &gt;</type>
+        <definition>std::vector&lt; Keyword &gt; themis::analytics::NlpTextAnalyzer::extractKeywords</definition>
+        <argsstring>(std::string_view text, size_t max_keywords=0) const</argsstring>
+        <name>extractKeywords</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::extractKeywords</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_keywords</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="158" column="17" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="264" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a0749ca0a76d75f4e89de31a48882695d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_named_entity" kindref="compound">NamedEntity</ref> &gt;</type>
+        <definition>std::vector&lt; NamedEntity &gt; themis::analytics::NlpTextAnalyzer::extractEntities</definition>
+        <argsstring>(std::string_view text) const</argsstring>
+        <name>extractEntities</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::extractEntities</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Extract Entities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="165" column="17" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="308" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a63a0a9c3096e121c85dabd1b529e551d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_sentiment_result" kindref="compound">SentimentResult</ref></type>
+        <definition>SentimentResult themis::analytics::NlpTextAnalyzer::analyzeSentiment</definition>
+        <argsstring>(std::string_view text) const</argsstring>
+        <name>analyzeSentiment</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::analyzeSentiment</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Analyze Sentiment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="172" column="21" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="345" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a908460325c688667d5f47ca76f4db403" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_complexity_metrics" kindref="compound">ComplexityMetrics</ref></type>
+        <definition>ComplexityMetrics themis::analytics::NlpTextAnalyzer::analyzeComplexity</definition>
+        <argsstring>(std::string_view text) const</argsstring>
+        <name>analyzeComplexity</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::analyzeComplexity</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Analyze Complexity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="179" column="23" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="381" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a91b68251fe8cdb03bae3392faa1e7879" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1analytics_1_1_legal_modality" kindref="compound">LegalModality</ref> &gt;</type>
+        <definition>std::vector&lt; LegalModality &gt; themis::analytics::NlpTextAnalyzer::extractLegalModalities</definition>
+        <argsstring>(std::string_view text, const std::string &amp;language_code=&quot;de&quot;, const std::string &amp;config_path=&quot;&quot;) const</argsstring>
+        <name>extractLegalModalities</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::extractLegalModalities</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>language_code</declname>
+          <defval>&quot;de&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_path</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="181" column="17" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="2106" bodyend="2177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a4985f92d0043ae4e64b3a79f0ba19d23" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::analytics::NlpTextAnalyzer::estimateQueryComplexity</definition>
+        <argsstring>(std::string_view query_text) const</argsstring>
+        <name>estimateQueryComplexity</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::estimateQueryComplexity</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query_text</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Query Complexity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="192" column="12" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="419" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a53cae965ea56866cdbcce77a6ed4030b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt; std::string, std::string &gt; themis::analytics::NlpTextAnalyzer::extractQueryHints</definition>
+        <argsstring>(std::string_view query_text) const</argsstring>
+        <name>extractQueryHints</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::extractQueryHints</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query_text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="194" column="14" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="450" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1acf2b90787910f82458281b3c773e5296" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::analytics::NlpTextAnalyzer::suggestIndexes</definition>
+        <argsstring>(std::string_view query_text) const</argsstring>
+        <name>suggestIndexes</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::suggestIndexes</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query_text</declname>
+        </param>
+        <briefdescription>
+<para>Suggest Indexes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="201" column="17" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="491" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a2502750d0f0f782e884323fc649808e8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::NlpTextAnalyzer::normalizeQuery</definition>
+        <argsstring>(std::string_view query_text) const</argsstring>
+        <name>normalizeQuery</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::normalizeQuery</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query_text</declname>
+        </param>
+        <briefdescription>
+<para>Normalize Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="208" column="17" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="520" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1aef6fb49feb76f59efe36e9970d562813" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::NlpTextAnalyzer::isStopWord</definition>
+        <argsstring>(std::string_view word, Language lang=Language::ENGLISH) const</argsstring>
+        <name>isStopWord</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::isStopWord</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>word</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1" kindref="member">Language</ref></type>
+          <declname>lang</declname>
+          <defval><ref refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1a11040bd29db4ec9964af9fd3f9a24f17" kindref="member">Language::ENGLISH</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="212" column="10" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="536" bodyend="544"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1ae18b6e7fdf485f36259054affb6fb560" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::NlpTextAnalyzer::stemWord</definition>
+        <argsstring>(std::string_view word, Language lang=Language::ENGLISH) const</argsstring>
+        <name>stemWord</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::stemWord</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>word</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1" kindref="member">Language</ref></type>
+          <declname>lang</declname>
+          <defval><ref refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1a11040bd29db4ec9964af9fd3f9a24f17" kindref="member">Language::ENGLISH</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="214" column="17" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="546" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1acc67828f3bd70a63e00fb0660eb5841e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::NlpTextAnalyzer::lemmatizeWord</definition>
+        <argsstring>(std::string_view word, Language lang=Language::ENGLISH) const</argsstring>
+        <name>lemmatizeWord</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::lemmatizeWord</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>word</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1" kindref="member">Language</ref></type>
+          <declname>lang</declname>
+          <defval><ref refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1a11040bd29db4ec9964af9fd3f9a24f17" kindref="member">Language::ENGLISH</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="216" column="17" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="1670" bodyend="1688"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a239f51abb64464293db43512ea871478" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::analytics::NlpTextAnalyzer::calculateSimilarity</definition>
+        <argsstring>(std::string_view text1, std::string_view text2) const</argsstring>
+        <name>calculateSimilarity</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::calculateSimilarity</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text1</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>text2</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">text2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="224" column="12" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="1690" bodyend="1716"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1aa7a81dab5c4ec19e26de98e20d763b42" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt; std::string, size_t &gt; themis::analytics::NlpTextAnalyzer::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="226" column="14" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="1718" bodyend="1723"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a668e4a6cc55ab3ac1bd400d7c713c97b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::NlpTextAnalyzer::loadStopWordsFromYaml</definition>
+        <argsstring>(const std::string &amp;yaml_path, Language lang)</argsstring>
+        <name>loadStopWordsFromYaml</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::loadStopWordsFromYaml</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>yaml_path</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1" kindref="member">Language</ref></type>
+          <declname>lang</declname>
+        </param>
+        <briefdescription>
+<para>Load Stop Words From Yaml. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the yaml. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lang</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="234" column="10" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="1881" bodyend="1932"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a55dd6ae1f2a41de36c49cbd99b4bb3be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::NlpTextAnalyzer::loadStopWordsFromDirectory</definition>
+        <argsstring>(const std::string &amp;directory)</argsstring>
+        <name>loadStopWordsFromDirectory</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::loadStopWordsFromDirectory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>directory</declname>
+        </param>
+        <briefdescription>
+<para>Load Stop Words From Directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">directory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="241" column="12" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="1934" bodyend="1952"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1ad5a0e440d9680abb5b26601e28510ec0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::NlpTextAnalyzer::initializeStopWords</definition>
+        <argsstring>()</argsstring>
+        <name>initializeStopWords</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::initializeStopWords</qualifiedname>
+        <briefdescription>
+<para>Initialize Stop Words. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements initializeStopWords without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="281" column="10" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="74" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1ab9a624737732dd672b4fd9a880cad598" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::NlpTextAnalyzer::initializeSentimentLexicon</definition>
+        <argsstring>()</argsstring>
+        <name>initializeSentimentLexicon</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::initializeSentimentLexicon</qualifiedname>
+        <briefdescription>
+<para>Initialize Sentiment Lexicon. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements initializeSentimentLexicon without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="285" column="10" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="121" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a97d8c9cb929fd43b80a4271bb56e722c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::NlpTextAnalyzer::initializeEntityPatterns</definition>
+        <argsstring>()</argsstring>
+        <name>initializeEntityPatterns</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::initializeEntityPatterns</qualifiedname>
+        <briefdescription>
+<para>Initialize Entity Patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: push_back(), <ref refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a389315a7301f60ce2a6efa5a2f6cd725" kindref="member">NlpTextAnalyzer::detectLanguage()</ref>, toLowerCase(), find(), count(), empty(), std::max_element(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="289" column="10" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="153" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1acd948bd96147d96d85bcdcf600c5c01d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::analytics::NlpTextAnalyzer::splitSentences</definition>
+        <argsstring>(std::string_view text) const</argsstring>
+        <name>splitSentences</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::splitSentences</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Split Sentences. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="296" column="17" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="1727" bodyend="1744"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1aadd5592ba34f71690f36c02e25934736" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::NlpTextAnalyzer::toLowerCase</definition>
+        <argsstring>(std::string_view text) const</argsstring>
+        <name>toLowerCase</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::toLowerCase</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>To Lower Case. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="302" column="17" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="1746" bodyend="1753"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1ae5ae7c5120f4018f5166fa4c3835d2f5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::NlpTextAnalyzer::removePunctuation</definition>
+        <argsstring>(std::string_view text) const</argsstring>
+        <name>removePunctuation</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::removePunctuation</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Remove Punctuation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="308" column="17" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="1755" bodyend="1764"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a72b3b8b8e871726ff11954a000d4ab52" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::analytics::NlpTextAnalyzer::calculateTfIdf</definition>
+        <argsstring>(const std::string &amp;term, const std::map&lt; std::string, size_t &gt; &amp;term_freqs, size_t total_terms) const</argsstring>
+        <name>calculateTfIdf</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::calculateTfIdf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>term</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, size_t &gt; &amp;</type>
+          <declname>term_freqs</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total_terms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="310" column="12" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="1766" bodyend="1781"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1aa609edd9af695de398972c68169cf39c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::NlpTextAnalyzer::isCapitalized</definition>
+        <argsstring>(std::string_view word) const</argsstring>
+        <name>isCapitalized</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::isCapitalized</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>word</declname>
+        </param>
+        <briefdescription>
+<para>Is Capitalized. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">word</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="319" column="10" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="1783" bodyend="1785"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a634d5f58b87bb88bfa15347afdb0259e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::NlpTextAnalyzer::isAllCaps</definition>
+        <argsstring>(std::string_view word) const</argsstring>
+        <name>isAllCaps</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::isAllCaps</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>word</declname>
+        </param>
+        <briefdescription>
+<para>Is All Caps. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">word</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="325" column="10" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="1787" bodyend="1797"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a917865c02995e46f4dfd49b73d07b3b2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::NlpTextAnalyzer::countSyllables</definition>
+        <argsstring>(std::string_view word) const</argsstring>
+        <name>countSyllables</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::countSyllables</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>word</declname>
+        </param>
+        <briefdescription>
+<para>Count Syllables. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">word</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="331" column="12" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="1799" bodyend="1816"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a4b5648f7202489c36d89395e71aaff6b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::NlpTextAnalyzer::containsAggregation</definition>
+        <argsstring>(std::string_view query) const</argsstring>
+        <name>containsAggregation</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::containsAggregation</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Contains Aggregation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="339" column="10" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="1818" bodyend="1823"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a13ef05d6a6805dbdebb1b5a9f5dcf6dc" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::NlpTextAnalyzer::containsJoin</definition>
+        <argsstring>(std::string_view query) const</argsstring>
+        <name>containsJoin</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::containsJoin</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Contains Join. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="345" column="10" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="1825" bodyend="1829"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a85329495cab7ca8906a36b454dfb1784" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::NlpTextAnalyzer::containsSubquery</definition>
+        <argsstring>(std::string_view query) const</argsstring>
+        <name>containsSubquery</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::containsSubquery</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Contains Subquery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="351" column="10" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="1831" bodyend="1851"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a44e1c1ef04d0d8715306c91bf93dcdc2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::analytics::NlpTextAnalyzer::extractTableNames</definition>
+        <argsstring>(std::string_view query) const</argsstring>
+        <name>extractTableNames</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::extractTableNames</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Extract Table Names. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="357" column="17" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="1853" bodyend="1877"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1ac790b00cc6eb98f6e3dda177f0881eed" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::analytics::NlpTextAnalyzer::initializeLemmatizationData</definition>
+        <argsstring>()</argsstring>
+        <name>initializeLemmatizationData</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::initializeLemmatizationData</qualifiedname>
+        <briefdescription>
+<para>Initialize Lemmatization Data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="363" column="10" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="553" bodyend="1083"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1af31fccdf47c9729fb9707cf188080f1b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::NlpTextAnalyzer::applyMorphologicalRules</definition>
+        <argsstring>(const std::string &amp;lower, Language lang) const</argsstring>
+        <name>applyMorphologicalRules</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::applyMorphologicalRules</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lower</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1" kindref="member">Language</ref></type>
+          <declname>lang</declname>
+        </param>
+        <briefdescription>
+<para>Apply Morphological Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lower</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lang</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="370" column="17" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="1085" bodyend="1668"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a6fab4f54baf39c5eb2b75ac2d4fde01c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::NlpTextAnalyzer::loadLegalModalityConfig</definition>
+        <argsstring>(const std::string &amp;config_path) const</argsstring>
+        <name>loadLegalModalityConfig</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::loadLegalModalityConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_path</declname>
+        </param>
+        <briefdescription>
+<para>Load Legal Modality <ref refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config" kindref="compound">Config</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the retention policy configuration file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="379" column="10" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="1960" bodyend="2104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_nlp_text_analyzer_1abcfb396ad4253b0ab179c7e601e677bc" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::NlpTextAnalyzer::getDefaultLegalConfigPath</definition>
+        <argsstring>(const std::string &amp;language_code) const</argsstring>
+        <name>getDefaultLegalConfigPath</name>
+        <qualifiedname>themis::analytics::NlpTextAnalyzer::getDefaultLegalConfigPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>language_code</declname>
+        </param>
+        <briefdescription>
+<para>Get Default Legal <ref refid="structthemis_1_1analytics_1_1_nlp_text_analyzer_1_1_config" kindref="compound">Config</ref> Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">language_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="385" column="17" bodyfile="src/analytics/nlp_text_analyzer.cpp" bodystart="1956" bodyend="1958"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/nlp_text_analyzer.h" line="106" column="1" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="106" bodyend="386"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1aedc941d3c7b48fca87163b459d28b71b" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>analysis_count_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a908460325c688667d5f47ca76f4db403" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>analyzeComplexity</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a63a0a9c3096e121c85dabd1b529e551d" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>analyzeSentiment</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1af31fccdf47c9729fb9707cf188080f1b" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>applyMorphologicalRules</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a239f51abb64464293db43512ea871478" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>calculateSimilarity</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a72b3b8b8e871726ff11954a000d4ab52" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>calculateTfIdf</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1af8e612d0a8d9daca0df37b0859e36891" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a4b5648f7202489c36d89395e71aaff6b" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>containsAggregation</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a13ef05d6a6805dbdebb1b5a9f5dcf6dc" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>containsJoin</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a85329495cab7ca8906a36b454dfb1784" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>containsSubquery</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a917865c02995e46f4dfd49b73d07b3b2" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>countSyllables</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a389315a7301f60ce2a6efa5a2f6cd725" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>detectLanguage</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1af8df9ef77d61ad5b0385be1884804d1a" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>entity_patterns_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a4985f92d0043ae4e64b3a79f0ba19d23" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>estimateQueryComplexity</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a0749ca0a76d75f4e89de31a48882695d" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>extractEntities</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1ae9cfec54b7fcb6a405feaaa3269bb9bf" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>extractKeywords</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a91b68251fe8cdb03bae3392faa1e7879" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>extractLegalModalities</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a53cae965ea56866cdbcce77a6ed4030b" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>extractQueryHints</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a44e1c1ef04d0d8715306c91bf93dcdc2" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>extractTableNames</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1abcfb396ad4253b0ab179c7e601e677bc" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>getDefaultLegalConfigPath</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1aa7a81dab5c4ec19e26de98e20d763b42" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a97d8c9cb929fd43b80a4271bb56e722c" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>initializeEntityPatterns</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1ac790b00cc6eb98f6e3dda177f0881eed" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>initializeLemmatizationData</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1ab9a624737732dd672b4fd9a880cad598" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>initializeSentimentLexicon</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1ad5a0e440d9680abb5b26601e28510ec0" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>initializeStopWords</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1af0f3581af7413bd81cf591cbe805dbee" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>irregular_lemmas_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a634d5f58b87bb88bfa15347afdb0259e" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>isAllCaps</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1aa609edd9af695de398972c68169cf39c" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>isCapitalized</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1aef6fb49feb76f59efe36e9970d562813" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>isStopWord</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>Language</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a484400b443094a2d9947f12e7886562c" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>legal_modality_patterns_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1acc67828f3bd70a63e00fb0660eb5841e" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>lemmatizeWord</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a6fab4f54baf39c5eb2b75ac2d4fde01c" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>loadLegalModalityConfig</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a55dd6ae1f2a41de36c49cbd99b4bb3be" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>loadStopWordsFromDirectory</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a668e4a6cc55ab3ac1bd400d7c713c97b" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>loadStopWordsFromYaml</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1ac6dba12b67638e50451f9b29bcac7e8a" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>NlpTextAnalyzer</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a368e2075c667da844cb51fcf21fb4f78" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>NlpTextAnalyzer</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a2502750d0f0f782e884323fc649808e8" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>normalizeQuery</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1ae5ae7c5120f4018f5166fa4c3835d2f5" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>removePunctuation</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1ac24b6e94df182107098d4544d33ec693" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>sentiment_lexicon_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1acd948bd96147d96d85bcdcf600c5c01d" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>splitSentences</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1ae18b6e7fdf485f36259054affb6fb560" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>stemWord</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a07443566c4eb243d4a39d12af83e58cc" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>stopwords_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1acf2b90787910f82458281b3c773e5296" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>suggestIndexes</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a26976fec798f63c5cb6ca8976af1a241" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>token_count_</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a141689c239079aa1aa765b82a4a37293" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>tokenize</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1aadd5592ba34f71690f36c02e25934736" prot="private" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>toLowerCase</name></member>
+      <member refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a97a71fde841ff3229640b66fe477893a" prot="public" virt="non-virtual"><scope>themis::analytics::NlpTextAnalyzer</scope><name>~NlpTextAnalyzer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

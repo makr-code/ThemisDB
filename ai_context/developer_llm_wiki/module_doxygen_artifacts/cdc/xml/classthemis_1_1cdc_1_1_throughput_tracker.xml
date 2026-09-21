@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_throughput_tracker" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::ThroughputTracker</compoundname>
+    <includes refid="cdc__metrics_8h" local="no">cdc_metrics.h</includes>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_throughput_tracker_1a76ce6f347a581e0fe898c6569e6e1e9b" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::cdc::ThroughputTracker::WINDOW_DURATION</definition>
+        <argsstring></argsstring>
+        <name>WINDOW_DURATION</name>
+        <qualifiedname>themis::cdc::ThroughputTracker::WINDOW_DURATION</qualifiedname>
+        <initializer>= std::chrono::seconds(60)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="225" column="27" bodyfile="include/cdc/cdc_metrics.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_throughput_tracker_1a4208e1704c58428a690e2ea664c6c373" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::cdc::ThroughputTracker::window_start_</definition>
+        <argsstring></argsstring>
+        <name>window_start_</name>
+        <qualifiedname>themis::cdc::ThroughputTracker::window_start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="227" column="43" bodyfile="include/cdc/cdc_metrics.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_throughput_tracker_1abf76cc1dead2222e051e184551a0f96b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cdc::ThroughputTracker::events_in_window_</definition>
+        <argsstring></argsstring>
+        <name>events_in_window_</name>
+        <qualifiedname>themis::cdc::ThroughputTracker::events_in_window_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="228" column="17" bodyfile="include/cdc/cdc_metrics.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_throughput_tracker_1a7c7b78762a8af6fe8494293f3e7507e2" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cdc::ThroughputTracker::bytes_in_window_</definition>
+        <argsstring></argsstring>
+        <name>bytes_in_window_</name>
+        <qualifiedname>themis::cdc::ThroughputTracker::bytes_in_window_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="229" column="17" bodyfile="include/cdc/cdc_metrics.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_throughput_tracker_1a3e3a807f5e9e9371ca4e7b525ff7cee0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::ThroughputTracker::ThroughputTracker</definition>
+        <argsstring>()</argsstring>
+        <name>ThroughputTracker</name>
+        <qualifiedname>themis::cdc::ThroughputTracker::ThroughputTracker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="182" column="5" bodyfile="include/cdc/cdc_metrics.h" bodystart="182" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_throughput_tracker_1a81f9c38f5fedef7a2bf8193b050f088f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::ThroughputTracker::recordEvent</definition>
+        <argsstring>(size_t bytes=0)</argsstring>
+        <name>recordEvent</name>
+        <qualifiedname>themis::cdc::ThroughputTracker::recordEvent</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="187" column="10" bodyfile="include/cdc/cdc_metrics.h" bodystart="187" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_throughput_tracker_1a2184b7bf0bf6c3fac19e3ebc8acd0d33" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::cdc::ThroughputTracker::eventsPerSecond</definition>
+        <argsstring>() const</argsstring>
+        <name>eventsPerSecond</name>
+        <qualifiedname>themis::cdc::ThroughputTracker::eventsPerSecond</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="193" column="12" bodyfile="include/cdc/cdc_metrics.h" bodystart="193" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_throughput_tracker_1a795d6d7735541ee6e251f5a23c487024" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::cdc::ThroughputTracker::bytesPerSecond</definition>
+        <argsstring>() const</argsstring>
+        <name>bytesPerSecond</name>
+        <qualifiedname>themis::cdc::ThroughputTracker::bytesPerSecond</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="199" column="12" bodyfile="include/cdc/cdc_metrics.h" bodystart="199" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_throughput_tracker_1ad0891e1f497159224b6d25ee0a15e857" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::ThroughputTracker::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::cdc::ThroughputTracker::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="205" column="20" bodyfile="include/cdc/cdc_metrics.h" bodystart="205" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_throughput_tracker_1a22712245abf7d82d0148fabc90376b18" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::ThroughputTracker::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::cdc::ThroughputTracker::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="218" column="10" bodyfile="include/cdc/cdc_metrics.h" bodystart="218" bodyend="222"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_throughput_tracker_1aa435dc827a723328f2f52caa6b8505fd" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::ThroughputTracker::resetWindowIfNeeded</definition>
+        <argsstring>()</argsstring>
+        <name>resetWindowIfNeeded</name>
+        <qualifiedname>themis::cdc::ThroughputTracker::resetWindowIfNeeded</qualifiedname>
+        <briefdescription>
+<para>Reset Window If Needed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::steady_clock::now(), <ref refid="classthemis_1_1cdc_1_1_throughput_tracker_1a22712245abf7d82d0148fabc90376b18" kindref="member">reset()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cdc_metrics.h" line="235" column="10" bodyfile="include/cdc/cdc_metrics.h" bodystart="235" bodyend="240"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/cdc_metrics.h" line="180" column="1" bodyfile="include/cdc/cdc_metrics.h" bodystart="180" bodyend="241"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_throughput_tracker_1a7c7b78762a8af6fe8494293f3e7507e2" prot="private" virt="non-virtual"><scope>themis::cdc::ThroughputTracker</scope><name>bytes_in_window_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_throughput_tracker_1a795d6d7735541ee6e251f5a23c487024" prot="public" virt="non-virtual"><scope>themis::cdc::ThroughputTracker</scope><name>bytesPerSecond</name></member>
+      <member refid="classthemis_1_1cdc_1_1_throughput_tracker_1abf76cc1dead2222e051e184551a0f96b" prot="private" virt="non-virtual"><scope>themis::cdc::ThroughputTracker</scope><name>events_in_window_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_throughput_tracker_1a2184b7bf0bf6c3fac19e3ebc8acd0d33" prot="public" virt="non-virtual"><scope>themis::cdc::ThroughputTracker</scope><name>eventsPerSecond</name></member>
+      <member refid="classthemis_1_1cdc_1_1_throughput_tracker_1a81f9c38f5fedef7a2bf8193b050f088f" prot="public" virt="non-virtual"><scope>themis::cdc::ThroughputTracker</scope><name>recordEvent</name></member>
+      <member refid="classthemis_1_1cdc_1_1_throughput_tracker_1a22712245abf7d82d0148fabc90376b18" prot="public" virt="non-virtual"><scope>themis::cdc::ThroughputTracker</scope><name>reset</name></member>
+      <member refid="classthemis_1_1cdc_1_1_throughput_tracker_1aa435dc827a723328f2f52caa6b8505fd" prot="private" virt="non-virtual"><scope>themis::cdc::ThroughputTracker</scope><name>resetWindowIfNeeded</name></member>
+      <member refid="classthemis_1_1cdc_1_1_throughput_tracker_1a3e3a807f5e9e9371ca4e7b525ff7cee0" prot="public" virt="non-virtual"><scope>themis::cdc::ThroughputTracker</scope><name>ThroughputTracker</name></member>
+      <member refid="classthemis_1_1cdc_1_1_throughput_tracker_1ad0891e1f497159224b6d25ee0a15e857" prot="public" virt="non-virtual"><scope>themis::cdc::ThroughputTracker</scope><name>toJson</name></member>
+      <member refid="classthemis_1_1cdc_1_1_throughput_tracker_1a76ce6f347a581e0fe898c6569e6e1e9b" prot="private" virt="non-virtual"><scope>themis::cdc::ThroughputTracker</scope><name>WINDOW_DURATION</name></member>
+      <member refid="classthemis_1_1cdc_1_1_throughput_tracker_1a4208e1704c58428a690e2ea664c6c373" prot="private" virt="non-virtual"><scope>themis::cdc::ThroughputTracker</scope><name>window_start_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

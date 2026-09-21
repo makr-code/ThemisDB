@@ -1,0 +1,474 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__wave__next__analytics__hardening_8cpp" kind="file" language="C++">
+    <compoundname>test_wave_next_analytics_hardening.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="distributed__analytics_8h" local="yes">analytics/distributed_analytics.h</includes>
+    <includes refid="forecasting_8h" local="yes">analytics/forecasting.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>analytics/distributed_analytics.h</label>
+        <link refid="distributed__analytics_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>analytics/forecasting.h</label>
+        <link refid="forecasting_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>analytics/olap.h</label>
+        <link refid="olap_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/analytics/test_wave_next_analytics_hardening.cpp</label>
+        <link refid="test__wave__next__analytics__hardening_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>algorithm</label>
+      </node>
+      <node id="15">
+        <label>atomic</label>
+      </node>
+      <node id="14">
+        <label>chrono</label>
+      </node>
+      <node id="16">
+        <label>condition_variable</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="17">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="18">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="19">
+        <label>queue</label>
+      </node>
+      <node id="23">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>string_view</label>
+      </node>
+      <node id="20">
+        <label>thread</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>variant</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_counting_shard_executor" prot="public">themisdb::analytics::CountingShardExecutor</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_a_n1_retry_test" prot="public">themisdb::analytics::AN1RetryTest</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1analytics">themisdb::analytics</innernamespace>
+    <briefdescription>
+<para>Targeted regression tests for Wave-A AN1 and AN2 hardening gaps. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="test__wave__next__analytics__hardening_8cpp_1autotoc_md12_1s1"><sect2 id="test__wave__next__analytics__hardening_8cpp_1autotoc_md12">
+<title>Test families</title><para><heading level="3">AN1 — Federated query coordinator: shard-level retry</heading>
+</para>
+<para>AN1-01 Single shard retried on transient failure; succeeds on second call AN1-02 Shard counted as failed only after max_retries exhausted AN1-03 Positive backoff delay between retry attempts (mock timer) AN1-04 Permanent failure (invalid query) does NOT trigger a retry</para>
+<para><heading level="3">AN2 — Forecasting model integrity check</heading>
+</para>
+<para>AN2-01 Model with correct checksum deserializes successfully AN2-02 Model with corrupted checksum throws / returns error AN2-03 Model without checksum passes with WARN (no hard fail) AN2-04 Checksum is stored at save time and is verifiable on reload</para>
+<para><simplesect kind="see"><para><ref refid="distributed__analytics_8h" kindref="compound">include/analytics/distributed_analytics.h</ref> — Config::RetryConfig (AN1) </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="distributed__analytics_8cpp" kindref="compound">src/analytics/distributed_analytics.cpp</ref> — executeDistributed retry loop </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="forecasting_8cpp" kindref="compound">src/analytics/forecasting.cpp</ref> — serialize/deserialize AN2 paths </para>
+</simplesect>
+<simplesect kind="see"><para>src/analytics/ROADMAP.md — Wave-A AN1/AN2 closure 2026-08-26 </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__analytics_8h" kindref="compound">analytics/distributed_analytics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="forecasting_8h" kindref="compound">analytics/forecasting.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics" kindref="compound">analytics</ref><sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AN1<sp/>—<sp/>Mock<sp/>infrastructure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="classthemisdb_1_1analytics_1_1_counting_shard_executor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_counting_shard_executor" kindref="compound">CountingShardExecutor</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_shard_query_executor" kindref="compound">ShardQueryExecutor</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/><ref refid="classthemisdb_1_1analytics_1_1_counting_shard_executor_1a6dd662b75bada18bdb8ae46a3ef05e8a" kindref="member">call_count</ref>{0};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_counting_shard_executor_1a7601f7c1a10e714c9fe2414f53dab9d6" kindref="member">fail_for_n_calls</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemisdb_1_1analytics_1_1_counting_shard_executor_1ac6b860c65a2fbedaaa2f6402989277e8" kindref="member">error_message</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">themis::analytics::OLAPResult</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_counting_shard_executor_1ace0c5cb4d9042c032f28c2e36092761c" kindref="member">execute</ref>(</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*shard_id*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">themis::analytics::OLAPQuery</ref>&amp;<sp/></highlight><highlight class="comment">/*query*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override</highlight></codeline>
+<codeline lineno="61"><highlight class="keyword"><sp/><sp/><sp/><sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/>++<ref refid="classthemisdb_1_1analytics_1_1_counting_shard_executor_1a6dd662b75bada18bdb8ae46a3ef05e8a" kindref="member">call_count</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="classthemisdb_1_1analytics_1_1_counting_shard_executor_1ac6b860c65a2fbedaaa2f6402989277e8" kindref="member">error_message</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(<ref refid="classthemisdb_1_1analytics_1_1_counting_shard_executor_1ac6b860c65a2fbedaaa2f6402989277e8" kindref="member">error_message</ref>);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(n<sp/>&lt;=<sp/><ref refid="classthemisdb_1_1analytics_1_1_counting_shard_executor_1a7601f7c1a10e714c9fe2414f53dab9d6" kindref="member">fail_for_n_calls</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;transient<sp/>network<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">themis::analytics::OLAPResult</ref><sp/>ok;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ok.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result_1a4981e63a7e9920b0febd7230b648cfb7" kindref="member">rows</ref>.push_back({});</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ok;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_counting_shard_executor_1aa5e54f88184e61e22a0c72c5b31f0670" kindref="member">isHealthy</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture:<sp/>coordinator<sp/>with<sp/>retry<sp/>enabled<sp/>and<sp/>zero<sp/>timeout<sp/>(fast<sp/>tests)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="classthemisdb_1_1analytics_1_1_a_n1_retry_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_a_n1_retry_test" kindref="compound">AN1RetryTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classtesting_1_1_test" kindref="compound">::testing::Test</ref><sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_a_n1_retry_test_1ac48378259e9acb3dfff8c574004d210b" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config" kindref="compound">DistributedAnalyticsSharding::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a0c00fcab8de6ad925b9361409bdaf24d" kindref="member">enable_circuit_breaker</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>isolate<sp/>retry<sp/>from<sp/>CB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a1b08802b64e766651311255041d4dec7" kindref="member">allow_partial_results</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a62434b58985c9bbb1b9c1be739a71d6b" kindref="member">shard_timeout_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1ab6b00427b9f9f15805a33dd325ff3636" kindref="member">shard_execution_timeout_ms</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a4d8a111618f68d9bb06580d86af89180" kindref="member">health_check_interval</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds{0};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wave-A<sp/>AN1<sp/>retry<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a06c84e844883cb76c46a9358c5295c71" kindref="member">retry_config</ref>.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1_1_retry_config_1a16a4f56b8b8498a0763ef00df078604d" kindref="member">max_retries</ref><sp/><sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a06c84e844883cb76c46a9358c5295c71" kindref="member">retry_config</ref>.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1_1_retry_config_1a7fb64ddc505f065f3d60b47974053835" kindref="member">base_delay_ms</ref><sp/><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>zero<sp/>delay<sp/>so<sp/>tests<sp/>run<sp/>fast</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a06c84e844883cb76c46a9358c5295c71" kindref="member">retry_config</ref>.<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1_1_retry_config_1a332f19c1158a33b8fb146063249eb579" kindref="member">max_delay_ms</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_a_n1_retry_test_1ae58d799f0a5a3b22ce8670931c9aa268" kindref="member">coordinator</ref><sp/>=<sp/>std::make_unique&lt;DistributedAnalyticsSharding&gt;(cfg);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;DistributedAnalyticsSharding&gt;<sp/><ref refid="classthemisdb_1_1analytics_1_1_a_n1_retry_test_1ae58d799f0a5a3b22ce8670931c9aa268" kindref="member">coordinator</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AN1-01:<sp/>Single<sp/>shard<sp/>retried<sp/>on<sp/>transient<sp/>failure;<sp/>succeeds<sp/>on<sp/>second<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a42a80bd2a3884621fb37d3c81725c8a2" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1analytics_1_1_a_n1_retry_test" kindref="compound">AN1RetryTest</ref>,<sp/>AN1_01_RetryOnTransientFailure)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exec<sp/>=<sp/>std::make_shared&lt;CountingShardExecutor&gt;();</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>exec-&gt;fail_for_n_calls<sp/>=<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>fail<sp/>once,<sp/>succeed<sp/>on<sp/>attempt<sp/>#2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator-&gt;addShard(</highlight><highlight class="stringliteral">&quot;shard-A&quot;</highlight><highlight class="normal">,<sp/>exec);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">themis::analytics::OLAPQuery</ref><sp/>q;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a26d794162df6903794467719f2451cc3" kindref="member">collection</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>coordinator-&gt;executeDistributed(q);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>shard<sp/>must<sp/>have<sp/>been<sp/>called<sp/>exactly<sp/>2<sp/>times<sp/>(1<sp/>failure<sp/>+<sp/>1<sp/>success).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(exec-&gt;call_count.load(),<sp/>2)</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Executor<sp/>should<sp/>be<sp/>called<sp/>once<sp/>for<sp/>the<sp/>initial<sp/>failure<sp/>and<sp/>once<sp/>for<sp/>the<sp/>retry&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>result<sp/>should<sp/>reflect<sp/>a<sp/>successful<sp/>shard.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.successful_shards,<sp/>1u);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AN1-02:<sp/>Shard<sp/>counted<sp/>as<sp/>failed<sp/>only<sp/>after<sp/>max_retries<sp/>exhausted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a42a80bd2a3884621fb37d3c81725c8a2" kindref="member">TEST_F</ref>(AN1RetryTest,<sp/>AN1_02_FailedAfterMaxRetriesExhausted)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exec<sp/>=<sp/>std::make_shared&lt;CountingShardExecutor&gt;();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>exec-&gt;fail_for_n_calls<sp/>=<sp/>999;<sp/></highlight><highlight class="comment">//<sp/>always<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator-&gt;addShard(</highlight><highlight class="stringliteral">&quot;shard-B&quot;</highlight><highlight class="normal">,<sp/>exec);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">themis::analytics::OLAPQuery</ref><sp/>q;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a26d794162df6903794467719f2451cc3" kindref="member">collection</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>coordinator-&gt;executeDistributed(q);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>max_retries=2<sp/>→<sp/>3<sp/>total<sp/>attempts<sp/>(initial<sp/>+<sp/>2<sp/>retries).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(exec-&gt;call_count.load(),<sp/>3)</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Executor<sp/>should<sp/>be<sp/>called<sp/>1<sp/>+<sp/>max_retries<sp/>=<sp/>3<sp/>times<sp/>total&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>shard<sp/>should<sp/>be<sp/>counted<sp/>as<sp/>failed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.successful_shards,<sp/>0u);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.shard_info.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.shard_info[0].success);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AN1-03:<sp/>Backoff<sp/>delay<sp/>between<sp/>retries<sp/>is<sp/>non-negative<sp/>(sanity<sp/>check<sp/>via</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>observable<sp/>timing<sp/>with<sp/>a<sp/>non-zero<sp/>base_delay_ms).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a24f0a3985dbd7df06c68818d3fd81140" kindref="member">TEST</ref>(AN1BackoffTest,<sp/>AN1_03_BackoffDelayIsPositive)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>non-zero<sp/>base<sp/>delay<sp/>so<sp/>we<sp/>can<sp/>measure<sp/>real<sp/>elapsed<sp/>time.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>DistributedAnalyticsSharding::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enable_circuit_breaker<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.allow_partial_results<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.shard_timeout_ms<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.shard_execution_timeout_ms<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.health_check_interval<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds{0};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.retry_config.max_retries<sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.retry_config.base_delay_ms<sp/><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.retry_config.max_delay_ms<sp/><sp/><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding" kindref="compound">DistributedAnalyticsSharding</ref><sp/>coordinator(cfg);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exec<sp/>=<sp/>std::make_shared&lt;CountingShardExecutor&gt;();</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>exec-&gt;fail_for_n_calls<sp/>=<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>one<sp/>transient<sp/>failure<sp/>→<sp/>one<sp/>retry<sp/>with<sp/>delay</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.addShard(</highlight><highlight class="stringliteral">&quot;shard-C&quot;</highlight><highlight class="normal">,<sp/>exec);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::analytics::OLAPQuery<sp/>q;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a26d794162df6903794467719f2451cc3" kindref="member">collection</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t0<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.executeDistributed(q);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>-<sp/>t0;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed_ms<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(elapsed).count();</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>base_delay_ms=20<sp/>and<sp/>±20%<sp/>jitter<sp/>the<sp/>minimum<sp/>possible<sp/>delay<sp/>is<sp/>16<sp/>ms.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>assert<sp/>≥<sp/>10<sp/>ms<sp/>as<sp/>a<sp/>conservative<sp/>lower<sp/>bound<sp/>to<sp/>avoid<sp/>flakiness<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>heavily<sp/>loaded<sp/>CI<sp/>runners.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(elapsed_ms,<sp/>10)</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>non-trivial<sp/>elapsed<sp/>time<sp/>due<sp/>to<sp/>retry<sp/>backoff<sp/>delay&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(exec-&gt;call_count.load(),<sp/>2);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AN1-04:<sp/>Permanent<sp/>failure<sp/>(invalid<sp/>query)<sp/>does<sp/>NOT<sp/>trigger<sp/>a<sp/>retry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a42a80bd2a3884621fb37d3c81725c8a2" kindref="member">TEST_F</ref>(<ref refid="classthemisdb_1_1analytics_1_1_a_n1_retry_test" kindref="compound">AN1RetryTest</ref>,<sp/>AN1_04_PermanentFailureNoRetry)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exec<sp/>=<sp/>std::make_shared&lt;CountingShardExecutor&gt;();</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>exec-&gt;error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;invalid<sp/>query<sp/>syntax&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>triggers<sp/>is_permanent<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator-&gt;addShard(</highlight><highlight class="stringliteral">&quot;shard-D&quot;</highlight><highlight class="normal">,<sp/>exec);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::analytics::OLAPQuery<sp/>q;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query_1a26d794162df6903794467719f2451cc3" kindref="member">collection</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>coordinator-&gt;executeDistributed(q);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Permanent<sp/>failure:<sp/>executor<sp/>must<sp/>be<sp/>called<sp/>exactly<sp/>once<sp/>(no<sp/>retry).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(exec-&gt;call_count.load(),<sp/>1)</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Permanent<sp/>failure<sp/>must<sp/>not<sp/>trigger<sp/>any<sp/>retry<sp/>attempts&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.successful_shards,<sp/>0u);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.shard_info.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.shard_info[0].success);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AN2<sp/>—<sp/>Forecasting<sp/>model<sp/>integrity<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>===========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal">std::string<sp/>makeSerializedModel()<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themisdb::analytics;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model" kindref="compound">ForecastModel</ref><sp/>m(<ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a8fdbe96b7ca9c61d8b8231ee046e0c64" kindref="member">ForecastMethod::LINEAR_REGRESSION</ref>);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_time_series" kindref="compound">TimeSeries</ref><sp/>ts;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ts.<ref refid="classthemisdb_1_1analytics_1_1_time_series_1a22be860542bde120cae7521df9b0a541" kindref="member">push</ref>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>*<sp/>1000,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>+<sp/>1));</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>m.fit(ts);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m.serialize();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AN2-01:<sp/>Model<sp/>with<sp/>correct<sp/>checksum<sp/>deserializes<sp/>successfully</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a24f0a3985dbd7df06c68818d3fd81140" kindref="member">TEST</ref>(AN2IntegrityTest,<sp/>AN2_01_CorrectChecksumPassesVerification)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>serialized<sp/>=<sp/>makeSerializedModel();</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>serialized<sp/>string<sp/>must<sp/>contain<sp/>a<sp/>&quot;checksum=&quot;<sp/>line.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(serialized.find(</highlight><highlight class="stringliteral">&quot;checksum=&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;serialize()<sp/>must<sp/>embed<sp/>a<sp/>checksum<sp/>line&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deserialize<sp/>must<sp/>succeed<sp/>without<sp/>throwing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model" kindref="compound">ForecastModel</ref><sp/>loaded<sp/>=<sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model_1aed9961952e7557d2122f80d50a964ef2" kindref="member">ForecastModel::deserialize</ref>(serialized);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(loaded.<ref refid="classthemisdb_1_1analytics_1_1_forecast_model_1a638fc3523d61fd7bd783cc69b5ef2093" kindref="member">isFitted</ref>());</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AN2-02:<sp/>Model<sp/>with<sp/>corrupted<sp/>checksum<sp/>returns<sp/>an<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a24f0a3985dbd7df06c68818d3fd81140" kindref="member">TEST</ref>(AN2IntegrityTest,<sp/>AN2_02_CorruptedChecksumThrows)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>serialized<sp/>=<sp/>makeSerializedModel();</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Corrupt<sp/>the<sp/>checksum<sp/>value<sp/>by<sp/>flipping<sp/>one<sp/>hex<sp/>digit.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>marker<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;checksum=&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pos<sp/>=<sp/>serialized.rfind(marker);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(pos,<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Flip<sp/>the<sp/>first<sp/>character<sp/>of<sp/>the<sp/>8-digit<sp/>hex<sp/>value.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>hex_pos<sp/>=<sp/>pos<sp/>+<sp/>marker.size();</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_LT(hex_pos,<sp/>serialized.size());</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">&amp;<sp/>c<sp/>=<sp/>serialized[hex_pos];</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>c<sp/>=<sp/>(c<sp/>==<sp/></highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal">)<sp/>?<sp/></highlight><highlight class="charliteral">&apos;B&apos;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&apos;A&apos;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>guaranteed<sp/>to<sp/>change<sp/>the<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model_1aed9961952e7557d2122f80d50a964ef2" kindref="member">ForecastModel::deserialize</ref>(serialized);<sp/>},</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::runtime_error)</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Corrupted<sp/>checksum<sp/>must<sp/>throw<sp/>std::runtime_error&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AN2-03:<sp/>Model<sp/>without<sp/>stored<sp/>checksum<sp/>passes<sp/>with<sp/>WARN<sp/>(no<sp/>hard<sp/>fail)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a24f0a3985dbd7df06c68818d3fd81140" kindref="member">TEST</ref>(AN2IntegrityTest,<sp/>AN2_03_MissingChecksumPassesWithWarn)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>serialized<sp/>=<sp/>makeSerializedModel();</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Strip<sp/>the<sp/>checksum<sp/>line<sp/>(last<sp/>non-empty<sp/>line).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>marker<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;\nchecksum=&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pos<sp/>=<sp/>serialized.rfind(marker);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(pos,<sp/>std::string::npos)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>a<sp/>checksum<sp/>line<sp/>to<sp/>strip&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Remove<sp/>from<sp/>&apos;\nchecksum=...&apos;<sp/>to<sp/>the<sp/>end<sp/>of<sp/>string.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>serialized<sp/>=<sp/>serialized.substr(0,<sp/>pos<sp/>+<sp/>1);<sp/></highlight><highlight class="comment">//<sp/>keep<sp/>the<sp/>trailing<sp/>&apos;\n&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>succeed<sp/>without<sp/>throwing<sp/>(just<sp/>logs<sp/>WARN).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model" kindref="compound">ForecastModel</ref><sp/>loaded<sp/>=<sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model_1aed9961952e7557d2122f80d50a964ef2" kindref="member">ForecastModel::deserialize</ref>(serialized);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(loaded.<ref refid="classthemisdb_1_1analytics_1_1_forecast_model_1a638fc3523d61fd7bd783cc69b5ef2093" kindref="member">isFitted</ref>());</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>})<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Legacy<sp/>model<sp/>without<sp/>checksum<sp/>must<sp/>not<sp/>hard-fail<sp/>on<sp/>load&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AN2-04:<sp/>Checksum<sp/>is<sp/>stored<sp/>at<sp/>save<sp/>time<sp/>and<sp/>is<sp/>verifiable<sp/>on<sp/>reload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics_1a24f0a3985dbd7df06c68818d3fd81140" kindref="member">TEST</ref>(AN2IntegrityTest,<sp/>AN2_04_ChecksumRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model" kindref="compound">ForecastModel</ref><sp/>m(<ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a194125a91eb4159370bf88f029b2a47a" kindref="member">ForecastMethod::EXP_SMOOTHING</ref>);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_time_series" kindref="compound">TimeSeries</ref><sp/>ts;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>8;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ts.<ref refid="classthemisdb_1_1analytics_1_1_time_series_1a22be860542bde120cae7521df9b0a541" kindref="member">push</ref>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>*<sp/>1000,<sp/>10.0<sp/>+<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i));</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>m.fit(ts);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serialize<sp/>→<sp/>includes<sp/>checksum.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>s1<sp/>=<sp/>m.serialize();</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(s1.find(</highlight><highlight class="stringliteral">&quot;checksum=&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deserialize<sp/>the<sp/>serialized<sp/>form<sp/>→<sp/>must<sp/>succeed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model" kindref="compound">ForecastModel</ref><sp/>m2<sp/>=<sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model_1aed9961952e7557d2122f80d50a964ef2" kindref="member">ForecastModel::deserialize</ref>(s1);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(m2.<ref refid="classthemisdb_1_1analytics_1_1_forecast_model_1a638fc3523d61fd7bd783cc69b5ef2093" kindref="member">isFitted</ref>());</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-serialize<sp/>the<sp/>round-tripped<sp/>model:<sp/>the<sp/>new<sp/>checksum<sp/>must<sp/>be<sp/>valid.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>s2<sp/>=<sp/>m2.<ref refid="classthemisdb_1_1analytics_1_1_forecast_model_1ac51b64914f9ccdad6ab2e05517795d3e" kindref="member">serialize</ref>();</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model_1aed9961952e7557d2122f80d50a964ef2" kindref="member">ForecastModel::deserialize</ref>(s2);<sp/>})</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Second-generation<sp/>serialization<sp/>must<sp/>also<sp/>pass<sp/>integrity<sp/>check&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>analytics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/analytics/test_wave_next_analytics_hardening.cpp"/>
+  </compounddef>
+</doxygen>

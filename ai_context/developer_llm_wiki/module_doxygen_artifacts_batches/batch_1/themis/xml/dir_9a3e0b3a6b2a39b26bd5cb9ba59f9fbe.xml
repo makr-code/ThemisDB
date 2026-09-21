@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_9a3e0b3a6b2a39b26bd5cb9ba59f9fbe" kind="dir">
+    <compoundname>include/themis/network</compoundname>
+    <innerfile refid="iconnection__policy_8h">iconnection_policy.h</innerfile>
+    <innerfile refid="wire__protocol__server_8hpp">wire_protocol_server.hpp</innerfile>
+    <innerfile refid="wire__protocol__v2_8hpp">wire_protocol_v2.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/network/"/>
+  </compounddef>
+</doxygen>

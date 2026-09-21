@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_p_i_i_finding" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::PIIFinding</compoundname>
+    <includes refid="pii__detection__engine_8h" local="no">pii_detection_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_i_i_finding_1a976933810db61a175de12cc684ed981e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref></type>
+        <definition>PIIType themis::utils::PIIFinding::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::utils::PIIFinding::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="46" column="13" bodyfile="include/utils/pii_detection_engine.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_i_i_finding_1ab5c6cd8c1d415803ac4f0ba196826657" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PIIFinding::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::utils::PIIFinding::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="47" column="17" bodyfile="include/utils/pii_detection_engine.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_i_i_finding_1a0603b4ede868fc87d6d2b3ef44d1135e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::PIIFinding::start_offset</definition>
+        <argsstring></argsstring>
+        <name>start_offset</name>
+        <qualifiedname>themis::utils::PIIFinding::start_offset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="48" column="12" bodyfile="include/utils/pii_detection_engine.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_i_i_finding_1ab3880e5c9357d4f90c1fa959e79422af" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::PIIFinding::end_offset</definition>
+        <argsstring></argsstring>
+        <name>end_offset</name>
+        <qualifiedname>themis::utils::PIIFinding::end_offset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="49" column="12" bodyfile="include/utils/pii_detection_engine.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_i_i_finding_1a8a173ee448948eddfc4f7579126285bd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::PIIFinding::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::utils::PIIFinding::confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="50" column="12" bodyfile="include/utils/pii_detection_engine.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_i_i_finding_1ab1fcb34e4a2064368a4b136d89d019a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PIIFinding::pattern_name</definition>
+        <argsstring></argsstring>
+        <name>pattern_name</name>
+        <qualifiedname>themis::utils::PIIFinding::pattern_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="51" column="17" bodyfile="include/utils/pii_detection_engine.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_i_i_finding_1ad4945eb759ea7797d001d3472eb584bf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PIIFinding::engine_name</definition>
+        <argsstring></argsstring>
+        <name>engine_name</name>
+        <qualifiedname>themis::utils::PIIFinding::engine_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_detection_engine.h" line="52" column="17" bodyfile="include/utils/pii_detection_engine.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Single PII detection finding. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/pii_detection_engine.h" line="45" column="1" bodyfile="include/utils/pii_detection_engine.h" bodystart="45" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_p_i_i_finding_1a8a173ee448948eddfc4f7579126285bd" prot="public" virt="non-virtual"><scope>themis::utils::PIIFinding</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1utils_1_1_p_i_i_finding_1ab3880e5c9357d4f90c1fa959e79422af" prot="public" virt="non-virtual"><scope>themis::utils::PIIFinding</scope><name>end_offset</name></member>
+      <member refid="structthemis_1_1utils_1_1_p_i_i_finding_1ad4945eb759ea7797d001d3472eb584bf" prot="public" virt="non-virtual"><scope>themis::utils::PIIFinding</scope><name>engine_name</name></member>
+      <member refid="structthemis_1_1utils_1_1_p_i_i_finding_1ab1fcb34e4a2064368a4b136d89d019a7" prot="public" virt="non-virtual"><scope>themis::utils::PIIFinding</scope><name>pattern_name</name></member>
+      <member refid="structthemis_1_1utils_1_1_p_i_i_finding_1a0603b4ede868fc87d6d2b3ef44d1135e" prot="public" virt="non-virtual"><scope>themis::utils::PIIFinding</scope><name>start_offset</name></member>
+      <member refid="structthemis_1_1utils_1_1_p_i_i_finding_1a976933810db61a175de12cc684ed981e" prot="public" virt="non-virtual"><scope>themis::utils::PIIFinding</scope><name>type</name></member>
+      <member refid="structthemis_1_1utils_1_1_p_i_i_finding_1ab5c6cd8c1d415803ac4f0ba196826657" prot="public" virt="non-virtual"><scope>themis::utils::PIIFinding</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,543 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::RAGJudgeConfig</compoundname>
+    <includes refid="rag__judge_8h" local="no">rag_judge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a54d02b9a412daab7cfedc4516a7317fe" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1afc4d225c351fcea1a873afba717c2516" kindref="member">EvaluationMode</ref></type>
+        <definition>EvaluationMode themis::rag::judge::RAGJudgeConfig::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::mode</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1rag_1_1judge_1afc4d225c351fcea1a873afba717c2516a0cb4635d100151dcaac6f91db856c402" kindref="member">EvaluationMode::BALANCED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="164" column="20" bodyfile="include/rag/rag_judge.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a267e95164c9632da90f60537fcb6f3b8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::RAGJudgeConfig::judge_model</definition>
+        <argsstring></argsstring>
+        <name>judge_model</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::judge_model</qualifiedname>
+        <initializer>= &quot;default&quot;</initializer>
+        <briefdescription>
+<para>LLM model for judging. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="167" column="17" bodyfile="include/rag/rag_judge.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a8ec0e61c7c913f65caa2146f53c157b9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudgeConfig::use_chain_of_thought</definition>
+        <argsstring></argsstring>
+        <name>use_chain_of_thought</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::use_chain_of_thought</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable CoT reasoning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="168" column="10" bodyfile="include/rag/rag_judge.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a3035168be161182a676ecaadd4aeeb74" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudgeConfig::faithfulness_weight</definition>
+        <argsstring></argsstring>
+        <name>faithfulness_weight</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::faithfulness_weight</qualifiedname>
+        <initializer>= 0.35</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="171" column="12" bodyfile="include/rag/rag_judge.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a6772f8a4121f76587e06d2b361e18ca5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudgeConfig::relevance_weight</definition>
+        <argsstring></argsstring>
+        <name>relevance_weight</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::relevance_weight</qualifiedname>
+        <initializer>= 0.25</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="172" column="12" bodyfile="include/rag/rag_judge.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a15c230025c7ddeaa6bb4d9d24dd25b8b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudgeConfig::completeness_weight</definition>
+        <argsstring></argsstring>
+        <name>completeness_weight</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::completeness_weight</qualifiedname>
+        <initializer>= 0.15</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="173" column="12" bodyfile="include/rag/rag_judge.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a9cee98f19460e9d72a16e83d11d5bc68" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudgeConfig::coherence_weight</definition>
+        <argsstring></argsstring>
+        <name>coherence_weight</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::coherence_weight</qualifiedname>
+        <initializer>= 0.10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="174" column="12" bodyfile="include/rag/rag_judge.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a98c47378ee263ae49a632b9dd4a43c1e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudgeConfig::ethical_compliance_weight</definition>
+        <argsstring></argsstring>
+        <name>ethical_compliance_weight</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::ethical_compliance_weight</qualifiedname>
+        <initializer>= 0.15</initializer>
+        <briefdescription>
+<para>NEW: Weight for ethical compliance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="175" column="12" bodyfile="include/rag/rag_judge.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1adc6acdb9a8f6b23c47bf35dc0af23075" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudgeConfig::quality_threshold</definition>
+        <argsstring></argsstring>
+        <name>quality_threshold</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::quality_threshold</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+<para>Minimum overall score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="178" column="12" bodyfile="include/rag/rag_judge.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1ac7017088de8588937141d49a03fe77aa" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudgeConfig::faithfulness_threshold</definition>
+        <argsstring></argsstring>
+        <name>faithfulness_threshold</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::faithfulness_threshold</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+<para>Critical for factual accuracy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="179" column="12" bodyfile="include/rag/rag_judge.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a24b80477de3a01fbb9384f0475400f8c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudgeConfig::ethical_compliance_threshold</definition>
+        <argsstring></argsstring>
+        <name>ethical_compliance_threshold</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::ethical_compliance_threshold</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+<para>NEW: Minimum ethical compliance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="180" column="12" bodyfile="include/rag/rag_judge.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a3b2f3acd742d8c05775ca3dd20aa94ea" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudgeConfig::enable_ethical_evaluation</definition>
+        <argsstring></argsstring>
+        <name>enable_ethical_evaluation</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::enable_ethical_evaluation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>NEW: Enable ethical evaluation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="183" column="10" bodyfile="include/rag/rag_judge.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a18112b1c7fcccb0a83fb318b0bc36e16" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudgeConfig::ethical_veto_power</definition>
+        <argsstring></argsstring>
+        <name>ethical_veto_power</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::ethical_veto_power</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>NEW: Ethical compliance can VETO. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="184" column="10" bodyfile="include/rag/rag_judge.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1abc4f9ea2a8fedd4b5fe346aeadbc5216" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudgeConfig::autonomy_respect_weight</definition>
+        <argsstring></argsstring>
+        <name>autonomy_respect_weight</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::autonomy_respect_weight</qualifiedname>
+        <initializer>= 0.40</initializer>
+        <briefdescription>
+<para>NEW: Respect for human autonomy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="187" column="12" bodyfile="include/rag/rag_judge.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a6abaf029b31e4922229c75dfb578a8d3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudgeConfig::moral_diversity_weight</definition>
+        <argsstring></argsstring>
+        <name>moral_diversity_weight</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::moral_diversity_weight</qualifiedname>
+        <initializer>= 0.30</initializer>
+        <briefdescription>
+<para>NEW: Moral perspective diversity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="188" column="12" bodyfile="include/rag/rag_judge.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a2f8de457d290e464621bcbf87b7ca4fb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::RAGJudgeConfig::citation_quality_weight</definition>
+        <argsstring></argsstring>
+        <name>citation_quality_weight</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::citation_quality_weight</qualifiedname>
+        <initializer>= 0.30</initializer>
+        <briefdescription>
+<para>NEW: <ref refid="structthemis_1_1rag_1_1judge_1_1_citation" kindref="compound">Citation</ref> for ethical claims. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="189" column="12" bodyfile="include/rag/rag_judge.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a47636169797b7303826e644eebb87fa5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::RAGJudgeConfig::bias_detection_threshold</definition>
+        <argsstring></argsstring>
+        <name>bias_detection_threshold</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::bias_detection_threshold</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>NEW: Number of absolute statements for bias detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="192" column="9" bodyfile="include/rag/rag_judge.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1ac22b6b51e2b0579187026db311c0b35e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudgeConfig::enable_claim_verification</definition>
+        <argsstring></argsstring>
+        <name>enable_claim_verification</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::enable_claim_verification</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Verify each claim. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="195" column="10" bodyfile="include/rag/rag_judge.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1aea95f47203900e40b2980898efa8b8a8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudgeConfig::enable_citation_check</definition>
+        <argsstring></argsstring>
+        <name>enable_citation_check</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::enable_citation_check</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Check source attribution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="196" column="10" bodyfile="include/rag/rag_judge.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1aa3207621d03f9407ec4039b01e90e0af" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::RAGJudgeConfig::max_claims_to_verify</definition>
+        <argsstring></argsstring>
+        <name>max_claims_to_verify</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::max_claims_to_verify</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Limit for performance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="197" column="12" bodyfile="include/rag/rag_judge.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a1b91c101cbe527106c8b3d5fb74e3af0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudgeConfig::use_llm_judge_client</definition>
+        <argsstring></argsstring>
+        <name>use_llm_judge_client</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::use_llm_judge_client</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Use new LLM Judge Client (requires InferenceEngineEnhanced). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="200" column="10" bodyfile="include/rag/rag_judge.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a410e88b01f6ee91e0e8185f2e0cc18d6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudgeConfig::use_nli_verifier</definition>
+        <argsstring></argsstring>
+        <name>use_nli_verifier</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::use_nli_verifier</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Use NLI model for claim verification. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="201" column="10" bodyfile="include/rag/rag_judge.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a27847472a613b83158761d69d3a1f42c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudgeConfig::use_geval_scoring</definition>
+        <argsstring></argsstring>
+        <name>use_geval_scoring</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::use_geval_scoring</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Use G-Eval probabilistic scoring. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="202" column="10" bodyfile="include/rag/rag_judge.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a455d13ec63586138cd5d4064cd67ba78" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudgeConfig::use_quality_control_pipeline</definition>
+        <argsstring></argsstring>
+        <name>use_quality_control_pipeline</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::use_quality_control_pipeline</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Use full QC pipeline instead of basic judge. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="203" column="10" bodyfile="include/rag/rag_judge.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a21410b4ca27ca943ae416dc2bc5ecb04" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudgeConfig::cache_evaluations</definition>
+        <argsstring></argsstring>
+        <name>cache_evaluations</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::cache_evaluations</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Cache results for identical inputs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="206" column="10" bodyfile="include/rag/rag_judge.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1ae505467acf44212af40218546316df63" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudgeConfig::async_evaluation</definition>
+        <argsstring></argsstring>
+        <name>async_evaluation</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::async_evaluation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Run evaluation asynchronously. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="207" column="10" bodyfile="include/rag/rag_judge.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a4194e488a96ce7dcbc19efff5eb386e0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::RAGJudgeConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::batch_size</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+<para>For batch processing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="208" column="12" bodyfile="include/rag/rag_judge.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a28a37420415bf72962fb753564b0b697" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudgeConfig::enable_prompt_injection_screening</definition>
+        <argsstring></argsstring>
+        <name>enable_prompt_injection_screening</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::enable_prompt_injection_screening</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Scan retrieved docs before evaluation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="211" column="10" bodyfile="include/rag/rag_judge.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1adbd668a186a844298eb937841fee3fc1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudgeConfig::block_on_high_severity_injection</definition>
+        <argsstring></argsstring>
+        <name>block_on_high_severity_injection</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::block_on_high_severity_injection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Block (skip LLM eval) on HIGH+ severity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="212" column="10" bodyfile="include/rag/rag_judge.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1aaf225c71e5f47e8c27e38599d830c7c7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudgeConfig::enable_bias_tracking</definition>
+        <argsstring></argsstring>
+        <name>enable_bias_tracking</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::enable_bias_tracking</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Track evaluations for bias analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="215" column="10" bodyfile="include/rag/rag_judge.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a969338e9e06940ab776ad8f0aa76e5c0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RAGJudgeConfig::validateWeights</definition>
+        <argsstring>() const</argsstring>
+        <name>validateWeights</name>
+        <qualifiedname>themis::rag::judge::RAGJudgeConfig::validateWeights</qualifiedname>
+        <briefdescription>
+<para>Validate that weights sum to approximately 1.0. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if weights are valid, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="221" column="10" bodyfile="include/rag/rag_judge.h" bodystart="221" bodyend="233"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for RAG Judge. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rag_judge.h" line="163" column="1" bodyfile="include/rag/rag_judge.h" bodystart="163" bodyend="234"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1ae505467acf44212af40218546316df63" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>async_evaluation</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1abc4f9ea2a8fedd4b5fe346aeadbc5216" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>autonomy_respect_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a4194e488a96ce7dcbc19efff5eb386e0" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a47636169797b7303826e644eebb87fa5" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>bias_detection_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1adbd668a186a844298eb937841fee3fc1" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>block_on_high_severity_injection</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a21410b4ca27ca943ae416dc2bc5ecb04" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>cache_evaluations</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a2f8de457d290e464621bcbf87b7ca4fb" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>citation_quality_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a9cee98f19460e9d72a16e83d11d5bc68" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>coherence_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a15c230025c7ddeaa6bb4d9d24dd25b8b" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>completeness_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1aaf225c71e5f47e8c27e38599d830c7c7" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>enable_bias_tracking</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1aea95f47203900e40b2980898efa8b8a8" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>enable_citation_check</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1ac22b6b51e2b0579187026db311c0b35e" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>enable_claim_verification</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a3b2f3acd742d8c05775ca3dd20aa94ea" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>enable_ethical_evaluation</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a28a37420415bf72962fb753564b0b697" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>enable_prompt_injection_screening</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a24b80477de3a01fbb9384f0475400f8c" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>ethical_compliance_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a98c47378ee263ae49a632b9dd4a43c1e" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>ethical_compliance_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a18112b1c7fcccb0a83fb318b0bc36e16" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>ethical_veto_power</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1ac7017088de8588937141d49a03fe77aa" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>faithfulness_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a3035168be161182a676ecaadd4aeeb74" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>faithfulness_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a267e95164c9632da90f60537fcb6f3b8" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>judge_model</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1aa3207621d03f9407ec4039b01e90e0af" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>max_claims_to_verify</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a54d02b9a412daab7cfedc4516a7317fe" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>mode</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a6abaf029b31e4922229c75dfb578a8d3" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>moral_diversity_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1adc6acdb9a8f6b23c47bf35dc0af23075" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>quality_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a6772f8a4121f76587e06d2b361e18ca5" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>relevance_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a8ec0e61c7c913f65caa2146f53c157b9" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>use_chain_of_thought</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a27847472a613b83158761d69d3a1f42c" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>use_geval_scoring</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a1b91c101cbe527106c8b3d5fb74e3af0" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>use_llm_judge_client</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a410e88b01f6ee91e0e8185f2e0cc18d6" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>use_nli_verifier</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a455d13ec63586138cd5d4064cd67ba78" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>use_quality_control_pipeline</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config_1a969338e9e06940ab776ad8f0aa76e5c0" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGJudgeConfig</scope><name>validateWeights</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

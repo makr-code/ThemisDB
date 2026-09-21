@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_access_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::AccessRequest</compoundname>
+    <includes refid="governance__diagnostics_8h" local="no">governance_diagnostics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_access_request_1a4052409f081dac588e9745c1f8666ad9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::AccessRequest::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::governance::AccessRequest::request_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="279" column="17" bodyfile="include/governance/governance_diagnostics.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_access_request_1a731b9f144821efd4528d99ffc414b02a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::AccessRequest::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::governance::AccessRequest::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="280" column="17" bodyfile="include/governance/governance_diagnostics.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_access_request_1ac8437c758f9a03d04f2797f57b27b57d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::AccessRequest::user_tier</definition>
+        <argsstring></argsstring>
+        <name>user_tier</name>
+        <qualifiedname>themis::governance::AccessRequest::user_tier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="281" column="17" bodyfile="include/governance/governance_diagnostics.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_access_request_1a869230953aedf4f41cc6ffb63ac807bf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::AccessRequest::dataset_classifications</definition>
+        <argsstring></argsstring>
+        <name>dataset_classifications</name>
+        <qualifiedname>themis::governance::AccessRequest::dataset_classifications</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="282" column="17" bodyfile="include/governance/governance_diagnostics.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_access_request_1a129b8985ee51ace91afc8e3fca55275d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::AccessRequest::policy_ids</definition>
+        <argsstring></argsstring>
+        <name>policy_ids</name>
+        <qualifiedname>themis::governance::AccessRequest::policy_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="283" column="17" bodyfile="include/governance/governance_diagnostics.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_access_request_1a23d2a055de217bbaef4a3a1b646c3d4c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::AccessRequest::target_operation</definition>
+        <argsstring></argsstring>
+        <name>target_operation</name>
+        <qualifiedname>themis::governance::AccessRequest::target_operation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="284" column="17" bodyfile="include/governance/governance_diagnostics.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_access_request_1a5abe236ae0a8b641414bc52ab624cb98" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::AccessRequest::requested_at_ms</definition>
+        <argsstring></argsstring>
+        <name>requested_at_ms</name>
+        <qualifiedname>themis::governance::AccessRequest::requested_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="285" column="13" bodyfile="include/governance/governance_diagnostics.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_access_request_1a0f85b629f4de4fd2fbd66d325c05e258" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::governance::AccessRequest::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>themis::governance::AccessRequest::context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="286" column="24" bodyfile="include/governance/governance_diagnostics.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/governance_diagnostics.h" line="278" column="1" bodyfile="include/governance/governance_diagnostics.h" bodystart="278" bodyend="287"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_access_request_1a0f85b629f4de4fd2fbd66d325c05e258" prot="public" virt="non-virtual"><scope>themis::governance::AccessRequest</scope><name>context</name></member>
+      <member refid="structthemis_1_1governance_1_1_access_request_1a869230953aedf4f41cc6ffb63ac807bf" prot="public" virt="non-virtual"><scope>themis::governance::AccessRequest</scope><name>dataset_classifications</name></member>
+      <member refid="structthemis_1_1governance_1_1_access_request_1a129b8985ee51ace91afc8e3fca55275d" prot="public" virt="non-virtual"><scope>themis::governance::AccessRequest</scope><name>policy_ids</name></member>
+      <member refid="structthemis_1_1governance_1_1_access_request_1a4052409f081dac588e9745c1f8666ad9" prot="public" virt="non-virtual"><scope>themis::governance::AccessRequest</scope><name>request_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_access_request_1a5abe236ae0a8b641414bc52ab624cb98" prot="public" virt="non-virtual"><scope>themis::governance::AccessRequest</scope><name>requested_at_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_access_request_1a23d2a055de217bbaef4a3a1b646c3d4c" prot="public" virt="non-virtual"><scope>themis::governance::AccessRequest</scope><name>target_operation</name></member>
+      <member refid="structthemis_1_1governance_1_1_access_request_1a731b9f144821efd4528d99ffc414b02a" prot="public" virt="non-virtual"><scope>themis::governance::AccessRequest</scope><name>user_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_access_request_1ac8437c758f9a03d04f2797f57b27b57d" prot="public" virt="non-virtual"><scope>themis::governance::AccessRequest</scope><name>user_tier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

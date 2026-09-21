@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_partition_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::PartitionStats</compoundname>
+    <includes refid="advanced__cache__manager_8h" local="no">advanced_cache_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_partition_stats_1aedb7581c775cb13ea93e818d44af77b4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::PartitionStats::hits</definition>
+        <argsstring></argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::performance::PartitionStats::hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="80" column="12" bodyfile="include/performance/advanced_cache_manager.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_partition_stats_1a63a4b38aac6712647d083bb25c61c62c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::PartitionStats::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::performance::PartitionStats::misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="81" column="12" bodyfile="include/performance/advanced_cache_manager.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_partition_stats_1aa7bde3f32b25f5ef2c19fd61e46ce707" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::PartitionStats::hit_rate</definition>
+        <argsstring></argsstring>
+        <name>hit_rate</name>
+        <qualifiedname>themis::performance::PartitionStats::hit_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="82" column="12" bodyfile="include/performance/advanced_cache_manager.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_partition_stats_1a46ba0a2bf6747c53aa0cd9acaec34430" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::PartitionStats::entries</definition>
+        <argsstring></argsstring>
+        <name>entries</name>
+        <qualifiedname>themis::performance::PartitionStats::entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="83" column="12" bodyfile="include/performance/advanced_cache_manager.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_partition_stats_1a02969437003cc257e199f359d508a2cf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::PartitionStats::bytes_used</definition>
+        <argsstring></argsstring>
+        <name>bytes_used</name>
+        <qualifiedname>themis::performance::PartitionStats::bytes_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="84" column="12" bodyfile="include/performance/advanced_cache_manager.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_partition_stats_1a24bd55528d5b1bacd375376d00a19767" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::PartitionStats::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::performance::PartitionStats::compression_ratio</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="85" column="12" bodyfile="include/performance/advanced_cache_manager.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-partition hit/miss statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/advanced_cache_manager.h" line="79" column="1" bodyfile="include/performance/advanced_cache_manager.h" bodystart="79" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_partition_stats_1a02969437003cc257e199f359d508a2cf" prot="public" virt="non-virtual"><scope>themis::performance::PartitionStats</scope><name>bytes_used</name></member>
+      <member refid="structthemis_1_1performance_1_1_partition_stats_1a24bd55528d5b1bacd375376d00a19767" prot="public" virt="non-virtual"><scope>themis::performance::PartitionStats</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1performance_1_1_partition_stats_1a46ba0a2bf6747c53aa0cd9acaec34430" prot="public" virt="non-virtual"><scope>themis::performance::PartitionStats</scope><name>entries</name></member>
+      <member refid="structthemis_1_1performance_1_1_partition_stats_1aa7bde3f32b25f5ef2c19fd61e46ce707" prot="public" virt="non-virtual"><scope>themis::performance::PartitionStats</scope><name>hit_rate</name></member>
+      <member refid="structthemis_1_1performance_1_1_partition_stats_1aedb7581c775cb13ea93e818d44af77b4" prot="public" virt="non-virtual"><scope>themis::performance::PartitionStats</scope><name>hits</name></member>
+      <member refid="structthemis_1_1performance_1_1_partition_stats_1a63a4b38aac6712647d083bb25c61c62c" prot="public" virt="non-virtual"><scope>themis::performance::PartitionStats</scope><name>misses</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

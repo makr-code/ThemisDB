@@ -1,0 +1,658 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__jwt__es256__comprehensive_8cpp" kind="file" language="C++">
+    <compoundname>test_jwt_es256_comprehensive.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">openssl/ec.h</includes>
+    <includes local="no">openssl/ecdsa.h</includes>
+    <includes local="no">openssl/evp.h</includes>
+    <includes local="no">openssl/bn.h</includes>
+    <includes local="no">openssl/obj_mac.h</includes>
+    <includes local="no">sstream</includes>
+    <includes local="yes">auth/jwt_validator.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_jwt_es256_comprehensive.cpp</label>
+        <link refid="test__jwt__es256__comprehensive_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>auth/jwt_validator.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>openssl/bn.h</label>
+      </node>
+      <node id="4">
+        <label>openssl/ec.h</label>
+      </node>
+      <node id="5">
+        <label>openssl/ecdsa.h</label>
+      </node>
+      <node id="6">
+        <label>openssl/evp.h</label>
+      </node>
+      <node id="8">
+        <label>openssl/obj_mac.h</label>
+      </node>
+      <node id="9">
+        <label>sstream</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_e_s256_validator_test" prot="public">ES256ValidatorTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__jwt__es256__comprehensive_8cpp_1a9b04758b5dd4709924684566cbc18773" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ES256ValidatorTest, ValidToken_Accepted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidToken_Accepted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_es256_comprehensive.cpp" line="225" column="1" bodyfile="tests/security/test_jwt_es256_comprehensive.cpp" bodystart="225" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__es256__comprehensive_8cpp_1a18d37b1b8f1006243de4479376105e05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ES256ValidatorTest, ValidToken_ClaimsExtracted)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidToken_ClaimsExtracted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_es256_comprehensive.cpp" line="234" column="1" bodyfile="tests/security/test_jwt_es256_comprehensive.cpp" bodystart="234" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__es256__comprehensive_8cpp_1a9ed3d3a24f61c251f1ecd031416a853b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ES256ValidatorTest, ExpiredToken_Rejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>ExpiredToken_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_es256_comprehensive.cpp" line="243" column="1" bodyfile="tests/security/test_jwt_es256_comprehensive.cpp" bodystart="243" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__es256__comprehensive_8cpp_1a4c35b950983d0b1fa64eb66db46e029f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ES256ValidatorTest, WrongSignature_Rejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>WrongSignature_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_es256_comprehensive.cpp" line="255" column="1" bodyfile="tests/security/test_jwt_es256_comprehensive.cpp" bodystart="255" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__es256__comprehensive_8cpp_1a3d5c5ad3d9dbd23753da5a574feb2a17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ES256ValidatorTest, TamperedPayload_Rejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>TamperedPayload_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_es256_comprehensive.cpp" line="266" column="1" bodyfile="tests/security/test_jwt_es256_comprehensive.cpp" bodystart="266" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__es256__comprehensive_8cpp_1a70c38eb11b863435eb0a8a96aa1930f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ES256ValidatorTest, WrongKidInJWKS_Rejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>WrongKidInJWKS_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_es256_comprehensive.cpp" line="291" column="1" bodyfile="tests/security/test_jwt_es256_comprehensive.cpp" bodystart="291" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__es256__comprehensive_8cpp_1aff99de4fac548eb00c642749f8634b8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ES256ValidatorTest, RsaJwkForEs256Header_Rejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>RsaJwkForEs256Header_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_es256_comprehensive.cpp" line="298" column="1" bodyfile="tests/security/test_jwt_es256_comprehensive.cpp" bodystart="298" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__es256__comprehensive_8cpp_1ac7a5e6941843580fb8bd5f73bad8aaac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ES256ValidatorTest, WrongCurveInJwk_Rejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>WrongCurveInJwk_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_es256_comprehensive.cpp" line="309" column="1" bodyfile="tests/security/test_jwt_es256_comprehensive.cpp" bodystart="309" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__es256__comprehensive_8cpp_1ae5debe85a78cca77252cadcae1deb5ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ES256ValidatorTest, RevokedKid_Rejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>RevokedKid_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_es256_comprehensive.cpp" line="316" column="1" bodyfile="tests/security/test_jwt_es256_comprehensive.cpp" bodystart="316" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__es256__comprehensive_8cpp_1a2171d23da9457e837d155504004da144" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ES256ValidatorTest, UnsupportedAlgHS256_Rejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>UnsupportedAlgHS256_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_es256_comprehensive.cpp" line="322" column="1" bodyfile="tests/security/test_jwt_es256_comprehensive.cpp" bodystart="322" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__es256__comprehensive_8cpp_1a8de8bed05ad3f7e81a65f3799b4d1005" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ES256ValidatorTest, AlgNoneAttack_Rejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>AlgNoneAttack_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_es256_comprehensive.cpp" line="337" column="1" bodyfile="tests/security/test_jwt_es256_comprehensive.cpp" bodystart="337" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="test__jwt__es256__comprehensive_8cpp_1ad2b9b1f6712f86f5949f495b43a4f201" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ES256ValidatorTest, DifferentECKey_SignatureRejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref></type>
+        </param>
+        <param>
+          <type>DifferentECKey_SignatureRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_jwt_es256_comprehensive.cpp" line="349" column="1" bodyfile="tests/security/test_jwt_es256_comprehensive.cpp" bodystart="349" bodyend="355"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Comprehensive tests for ES256 (ECDSA P-256 / SHA-256) JWT validation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests cover:<itemizedlist>
+<listitem><para>Valid ES256 token is accepted</para>
+</listitem><listitem><para>Expired ES256 token is rejected</para>
+</listitem><listitem><para>Wrong signature is rejected</para>
+</listitem><listitem><para>Tampered payload is rejected</para>
+</listitem><listitem><para>Unsupported alg (RS256/none) with EC JWK is rejected</para>
+</listitem><listitem><para>Wrong JWK type (RSA JWK for ES256 header) is rejected</para>
+</listitem><listitem><para>Wrong curve (P-384 JWK) is rejected</para>
+</listitem><listitem><para>Kid revocation works for ES256 tokens</para>
+</listitem><listitem><para>Unsupported algorithm still rejected after adding ES256</para>
+</listitem><listitem><para>ES256 alg:none attack is rejected </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/ec.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/ecdsa.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/evp.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/bn.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/obj_mac.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/jwt_validator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">themis::auth</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Base64url<sp/>helpers<sp/>(copied<sp/>from<sp/>test_jwt_validator.cpp<sp/>style)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>b64url(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>in)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>tbl<sp/>=</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>b64<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>b64.reserve(((in.size()<sp/>+<sp/>2)<sp/>/<sp/>3)<sp/>*<sp/>4);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(i<sp/>+<sp/>3<sp/>&lt;=<sp/>in.size())<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>n<sp/>=<sp/>((uint32_t)in[i]<sp/>&lt;&lt;<sp/>16)<sp/>|<sp/>((uint32_t)in[i+1]<sp/>&lt;&lt;<sp/>8)<sp/>|<sp/>in[i+2];</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b64.push_back(tbl[(n<sp/>&gt;&gt;<sp/>18)<sp/>&amp;<sp/>63]);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b64.push_back(tbl[(n<sp/>&gt;&gt;<sp/>12)<sp/>&amp;<sp/>63]);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b64.push_back(tbl[(n<sp/>&gt;&gt;<sp/><sp/>6)<sp/>&amp;<sp/>63]);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b64.push_back(tbl[<sp/>n<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;<sp/>63]);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>i<sp/>+=<sp/>3;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>+<sp/>1<sp/>==<sp/>in.size())<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>n<sp/>=<sp/>(uint32_t)in[i]<sp/>&lt;&lt;<sp/>16;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b64.push_back(tbl[(n<sp/>&gt;&gt;<sp/>18)<sp/>&amp;<sp/>63]);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b64.push_back(tbl[(n<sp/>&gt;&gt;<sp/>12)<sp/>&amp;<sp/>63]);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b64.push_back(</highlight><highlight class="charliteral">&apos;=&apos;</highlight><highlight class="normal">);<sp/>b64.push_back(</highlight><highlight class="charliteral">&apos;=&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>+<sp/>2<sp/>==<sp/>in.size())<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>n<sp/>=<sp/>((uint32_t)in[i]<sp/>&lt;&lt;<sp/>16)<sp/>|<sp/>((uint32_t)in[i+1]<sp/>&lt;&lt;<sp/>8);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b64.push_back(tbl[(n<sp/>&gt;&gt;<sp/>18)<sp/>&amp;<sp/>63]);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b64.push_back(tbl[(n<sp/>&gt;&gt;<sp/>12)<sp/>&amp;<sp/>63]);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b64.push_back(tbl[(n<sp/>&gt;&gt;<sp/><sp/>6)<sp/>&amp;<sp/>63]);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b64.push_back(</highlight><highlight class="charliteral">&apos;=&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal">&amp;<sp/>c<sp/>:<sp/>b64)<sp/>{<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(c<sp/>==<sp/></highlight><highlight class="charliteral">&apos;+&apos;</highlight><highlight class="normal">)<sp/>c<sp/>=<sp/></highlight><highlight class="charliteral">&apos;-&apos;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(c<sp/>==<sp/></highlight><highlight class="charliteral">&apos;/&apos;</highlight><highlight class="normal">)<sp/>c<sp/>=<sp/></highlight><highlight class="charliteral">&apos;_&apos;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!b64.empty()<sp/>&amp;&amp;<sp/>b64.back()<sp/>==<sp/></highlight><highlight class="charliteral">&apos;=&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>b64.pop_back();</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>b64;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>EC<sp/>P-256<sp/>test<sp/>key<sp/>fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ECFixture<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EC_KEY*<sp/><sp/>ec_key<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EVP_PKEY*<sp/>pkey<sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>ECFixture()<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ec_key<sp/>=<sp/>EC_KEY_new_by_curve_name(NID_X9_62_prime256v1);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ec_key)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;EC_KEY_new_by_curve_name<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(EC_KEY_generate_key(ec_key)<sp/>!=<sp/>1)</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;EC_KEY_generate_key<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pkey<sp/>=<sp/>EVP_PKEY_new();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!pkey)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;EVP_PKEY_new<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>EVP_PKEY_set1_EC_KEY<sp/>increments<sp/>ec_key&apos;s<sp/>refcount;<sp/>we<sp/>keep<sp/>our<sp/>own</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>reference<sp/>so<sp/>we<sp/>can<sp/>call<sp/>EC_KEY_get0_public_key()<sp/>directly<sp/>on<sp/>ec_key.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(EVP_PKEY_set1_EC_KEY(pkey,<sp/>ec_key)<sp/>!=<sp/>1)</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;EVP_PKEY_set1_EC_KEY<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>~ECFixture()<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Free<sp/>our<sp/>own<sp/>ec_key<sp/>reference<sp/>(EVP_PKEY<sp/>holds<sp/>a<sp/>separate<sp/>reference)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ec_key)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EC_KEY_free(ec_key);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pkey)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EVP_PKEY_free(pkey);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Extract<sp/>raw<sp/>x,y<sp/>coordinates<sp/>(32<sp/>bytes<sp/>each<sp/>for<sp/>P-256)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;std::vector&lt;uint8_t&gt;,<sp/>std::vector&lt;uint8_t&gt;&gt;<sp/>publicKeyCoords()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EC_GROUP*<sp/>grp<sp/>=<sp/>EC_KEY_get0_group(ec_key);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EC_POINT*<sp/>pt<sp/><sp/>=<sp/>EC_KEY_get0_public_key(ec_key);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BIGNUM*<sp/>x<sp/>=<sp/>BN_new();<sp/>BIGNUM*<sp/>y<sp/>=<sp/>BN_new();</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!x<sp/>||<sp/>!y)<sp/>{<sp/>BN_free(x);<sp/>BN_free(y);<sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;BN_new<sp/>failed&quot;</highlight><highlight class="normal">);<sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(EC_POINT_get_affine_coordinates_GFp(grp,<sp/>pt,<sp/>x,<sp/>y,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>!=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BN_free(x);<sp/>BN_free(y);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;EC_POINT_get_affine_coordinates_GFp<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>xb(32,<sp/>0),<sp/>yb(32,<sp/>0);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BN_bn2binpad(x,<sp/>xb.data(),<sp/>32);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BN_bn2binpad(y,<sp/>yb.data(),<sp/>32);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>BN_free(x);<sp/>BN_free(y);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{xb,<sp/>yb};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Sign<sp/>header_payload<sp/>with<sp/>ECDSA<sp/>P-256,<sp/>return<sp/>base64url(r||s)<sp/>(JWT<sp/>raw<sp/>encoding)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>sign_ES256(EVP_PKEY*<sp/>pkey,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>header_payload)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EVP_MD_CTX*<sp/>mctx<sp/>=<sp/>EVP_MD_CTX_new();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!mctx)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;EVP_MD_CTX_new<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>der_len<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EVP_DigestSignInit(mctx,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>EVP_sha256(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>pkey);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EVP_DigestSignUpdate(mctx,<sp/>header_payload.data(),<sp/>header_payload.size());</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EVP_DigestSignFinal(mctx,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>&amp;der_len);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>der_sig(der_len);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EVP_DigestSignFinal(mctx,<sp/>der_sig.data(),<sp/>&amp;der_len);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>der_sig.resize(der_len);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EVP_MD_CTX_free(mctx);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>DER-encoded<sp/>ECDSA_SIG<sp/>→<sp/>extract<sp/>r<sp/>and<sp/>s,<sp/>build<sp/>r||s<sp/>(32+32<sp/>bytes)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>der_ptr<sp/>=<sp/>der_sig.data();</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>ECDSA_SIG*<sp/>esig<sp/>=<sp/>d2i_ECDSA_SIG(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>&amp;der_ptr,<sp/>(</highlight><highlight class="keywordtype">long</highlight><highlight class="normal">)der_sig.size());</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!esig)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;d2i_ECDSA_SIG<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BIGNUM<sp/>*r<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>*s<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>ECDSA_SIG_get0(esig,<sp/>&amp;r,<sp/>&amp;s);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>rs(64,<sp/>0);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>BN_bn2binpad(r,<sp/>rs.data(),<sp/><sp/><sp/><sp/><sp/><sp/>32);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>BN_bn2binpad(s,<sp/>rs.data()<sp/>+<sp/>32,<sp/>32);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>ECDSA_SIG_free(esig);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>b64url(rs);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Build<sp/>JWKS<sp/>with<sp/>one<sp/>EC<sp/>P-256<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>nlohmann::json<sp/>make_ec_jwks(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ECFixture&amp;<sp/>fix,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>kid<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ec-key-1&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>crv<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;P-256&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[x,<sp/>y]<sp/>=<sp/>fix.publicKeyCoords();</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>jwk<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;EC&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;crv&quot;</highlight><highlight class="normal">,<sp/>crv},</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,<sp/>kid},</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;alg&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ES256&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;use&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;sig&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>b64url(x)},</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;y&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>b64url(y)},</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json::array({jwk})}};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Build<sp/>JWT<sp/>header.payload<sp/>(unsigned)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>build_es256_token(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>kid,</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>payload)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>header<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;alg&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;ES256&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;typ&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;JWT&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,kid}};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h_str<sp/>=<sp/>header.dump();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>p_str<sp/>=<sp/>payload.dump();</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>b64url(std::vector&lt;uint8_t&gt;(h_str.begin(),<sp/>h_str.end()))<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b64url(std::vector&lt;uint8_t&gt;(p_str.begin(),<sp/>p_str.end()));</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>valid<sp/>signed<sp/>ES256<sp/>token<sp/>expiring<sp/>in<sp/>`exp_offset_sec`<sp/>seconds<sp/>from<sp/>now</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>make_valid_es256_jwt(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ECFixture&amp;<sp/>fix,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>kid,</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>exp_offset_sec<sp/>=<sp/>300)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exp<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::seconds&gt;(</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>now.time_since_epoch()).count()<sp/>+<sp/>exp_offset_sec;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>payload<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;sub&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice@example.com&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;iss&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;issuerX&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;aud&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;audX&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;exp&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>exp},</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>up<sp/>=<sp/>build_es256_token(kid,<sp/>payload);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>up<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>sign_ES256(fix.pkey,<sp/>up);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="class_e_s256_validator_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_e_s256_validator_test_1abf7b57f586e1757f7066eedc7228d3f9" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>JWTValidatorConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.jwks_url<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.expected_issuer<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;issuerX&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.expected_audience<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;audX&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.clock_skew<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds(60);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_e_s256_validator_test_1acffe28f815eb9af7ce186bb4d6055c7a" kindref="member">validator_</ref><sp/>=<sp/>std::make_unique&lt;JWTValidator&gt;(cfg);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_e_s256_validator_test_1acffe28f815eb9af7ce186bb4d6055c7a" kindref="member">validator_</ref>-&gt;setJWKSForTesting(make_ec_jwks(<ref refid="class_e_s256_validator_test_1a0c7b7fd10e68b86a2305d11f3bf6212d" kindref="member">fix_</ref>));</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>ECFixture<sp/><ref refid="class_e_s256_validator_test_1a0c7b7fd10e68b86a2305d11f3bf6212d" kindref="member">fix_</ref>;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;JWTValidator&gt;<sp/><ref refid="class_e_s256_validator_test_1acffe28f815eb9af7ce186bb4d6055c7a" kindref="member">validator_</ref>;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---<sp/>Happy<sp/>path<sp/>-----------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><ref refid="test__jwt__es256__comprehensive_8cpp_1a9b04758b5dd4709924684566cbc18773" kindref="member">TEST_F</ref>(<ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref>,<sp/>ValidToken_Accepted)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>make_valid_es256_jwt(fix_,<sp/></highlight><highlight class="stringliteral">&quot;ec-key-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>claims<sp/>=<sp/>validator_-&gt;parseAndValidate(token);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.sub,<sp/></highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.email,<sp/></highlight><highlight class="stringliteral">&quot;alice@example.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="test__jwt__es256__comprehensive_8cpp_1a9b04758b5dd4709924684566cbc18773" kindref="member">TEST_F</ref>(<ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref>,<sp/>ValidToken_ClaimsExtracted)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>make_valid_es256_jwt(fix_,<sp/></highlight><highlight class="stringliteral">&quot;ec-key-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>claims<sp/>=<sp/>validator_-&gt;parseAndValidate(token);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(claims.issuer,<sp/></highlight><highlight class="stringliteral">&quot;issuerX&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(claims.isExpired());</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---<sp/>Negative<sp/>cases<sp/>-------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><ref refid="test__jwt__es256__comprehensive_8cpp_1a9b04758b5dd4709924684566cbc18773" kindref="member">TEST_F</ref>(<ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref>,<sp/>ExpiredToken_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>make_valid_es256_jwt(fix_,<sp/></highlight><highlight class="stringliteral">&quot;ec-key-1&quot;</highlight><highlight class="normal">,<sp/>-10);<sp/><sp/></highlight><highlight class="comment">//<sp/>expired<sp/>10<sp/>s<sp/>ago</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>zero<sp/>clock_skew<sp/>so<sp/>expiry<sp/>check<sp/>is<sp/>strict</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidatorConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.expected_issuer<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;issuerX&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.expected_audience<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;audX&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.clock_skew<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds(0);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>JWTValidator<sp/>strict_val(cfg);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>strict_val.setJWKSForTesting(make_ec_jwks(fix_));</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(strict_val.parseAndValidate(token),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><ref refid="test__jwt__es256__comprehensive_8cpp_1a9b04758b5dd4709924684566cbc18773" kindref="member">TEST_F</ref>(<ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref>,<sp/>WrongSignature_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>up<sp/>=<sp/>build_es256_token(</highlight><highlight class="stringliteral">&quot;ec-key-1&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;sub&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;u&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;iss&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;issuerX&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;aud&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;audX&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;exp&quot;</highlight><highlight class="normal">,<sp/>(int64_t)(std::chrono::duration_cast&lt;std::chrono::seconds&gt;(</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now().time_since_epoch()).count()<sp/>+<sp/>300)}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Replace<sp/>signature<sp/>with<sp/>garbage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>bad_sig<sp/>=<sp/>b64url(std::vector&lt;uint8_t&gt;(64,<sp/>0xAA));</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator_-&gt;parseAndValidate(up<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>bad_sig),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><ref refid="test__jwt__es256__comprehensive_8cpp_1a9b04758b5dd4709924684566cbc18773" kindref="member">TEST_F</ref>(<ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref>,<sp/>TamperedPayload_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sign<sp/>the<sp/>original,<sp/>then<sp/>alter<sp/>the<sp/>payload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>ECFixture<sp/>fix2;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>make_valid_es256_jwt(fix_,<sp/></highlight><highlight class="stringliteral">&quot;ec-key-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parts<sp/>=<sp/>[&amp;]()<sp/>-&gt;<sp/>std::vector&lt;std::string&gt;<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>p;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::istringstream<sp/>ss(token);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>part<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(std::getline(ss,<sp/>part,<sp/></highlight><highlight class="charliteral">&apos;.&apos;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p.push_back(part);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>p;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>}();</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(parts.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tamper<sp/>payload:<sp/>build<sp/>a<sp/>new<sp/>header.payload<sp/>but<sp/>keep<sp/>old<sp/>signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>evil<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;sub&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;iss&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;issuerX&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;aud&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;audX&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;exp&quot;</highlight><highlight class="normal">,<sp/>(int64_t)(9999999999LL)}};</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>evil_str<sp/>=<sp/>evil.dump();</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>tampered_payload<sp/>=<sp/>b64url(</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;(evil_str.begin(),<sp/>evil_str.end()));</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>tampered<sp/>=<sp/>parts[0]<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>tampered_payload<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>parts[2];</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator_-&gt;parseAndValidate(tampered),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><ref refid="test__jwt__es256__comprehensive_8cpp_1a9b04758b5dd4709924684566cbc18773" kindref="member">TEST_F</ref>(<ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref>,<sp/>WrongKidInJWKS_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Token<sp/>uses<sp/>kid<sp/>&quot;ec-key-1&quot;<sp/>but<sp/>JWKS<sp/>only<sp/>has<sp/>&quot;other-key&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>validator_-&gt;setJWKSForTesting(make_ec_jwks(fix_,<sp/></highlight><highlight class="stringliteral">&quot;other-key&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>make_valid_es256_jwt(fix_,<sp/></highlight><highlight class="stringliteral">&quot;ec-key-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator_-&gt;parseAndValidate(token),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><ref refid="test__jwt__es256__comprehensive_8cpp_1a9b04758b5dd4709924684566cbc18773" kindref="member">TEST_F</ref>(<ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref>,<sp/>RsaJwkForEs256Header_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inject<sp/>an<sp/>RSA<sp/>JWK<sp/>but<sp/>request<sp/>ES256<sp/>–<sp/>type<sp/>mismatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>rsa_jwk<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;kty&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;RSA&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;ec-key-1&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;alg&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;RS256&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;use&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;sig&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;n&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;AQAB&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;AQAB&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>validator_-&gt;setJWKSForTesting(nlohmann::json{{</highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/>{rsa_jwk}}});</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>make_valid_es256_jwt(fix_,<sp/></highlight><highlight class="stringliteral">&quot;ec-key-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator_-&gt;parseAndValidate(token),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><ref refid="test__jwt__es256__comprehensive_8cpp_1a9b04758b5dd4709924684566cbc18773" kindref="member">TEST_F</ref>(<ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref>,<sp/>WrongCurveInJwk_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>JWK<sp/>says<sp/>P-384<sp/>but<sp/>key<sp/>is<sp/>P-256<sp/>(crv<sp/>mismatch)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>validator_-&gt;setJWKSForTesting(make_ec_jwks(fix_,<sp/></highlight><highlight class="stringliteral">&quot;ec-key-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;P-384&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>make_valid_es256_jwt(fix_,<sp/></highlight><highlight class="stringliteral">&quot;ec-key-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator_-&gt;parseAndValidate(token),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><ref refid="test__jwt__es256__comprehensive_8cpp_1a9b04758b5dd4709924684566cbc18773" kindref="member">TEST_F</ref>(<ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref>,<sp/>RevokedKid_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>validator_-&gt;revokeKid(</highlight><highlight class="stringliteral">&quot;ec-key-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>make_valid_es256_jwt(fix_,<sp/></highlight><highlight class="stringliteral">&quot;ec-key-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator_-&gt;parseAndValidate(token),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><ref refid="test__jwt__es256__comprehensive_8cpp_1a9b04758b5dd4709924684566cbc18773" kindref="member">TEST_F</ref>(<ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref>,<sp/>UnsupportedAlgHS256_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Manually<sp/>craft<sp/>a<sp/>token<sp/>with<sp/>alg:<sp/>HS256<sp/>which<sp/>is<sp/>unsupported</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>header<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;alg&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;HS256&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;typ&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;JWT&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;kid&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;ec-key-1&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>payload<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;sub&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;u&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;iss&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;issuerX&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;aud&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;audX&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;exp&quot;</highlight><highlight class="normal">,<sp/>(int64_t)(std::chrono::duration_cast&lt;std::chrono::seconds&gt;(</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now().time_since_epoch()).count()<sp/>+<sp/>300)}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h<sp/>=<sp/>b64url(std::vector&lt;uint8_t&gt;(header.dump().begin(),<sp/>header.dump().end()));</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>p<sp/>=<sp/>b64url(std::vector&lt;uint8_t&gt;(payload.dump().begin(),<sp/>payload.dump().end()));</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>fake_sig<sp/>=<sp/>b64url(std::vector&lt;uint8_t&gt;(32,<sp/>0));</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator_-&gt;parseAndValidate(h<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>p<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>fake_sig),</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><ref refid="test__jwt__es256__comprehensive_8cpp_1a9b04758b5dd4709924684566cbc18773" kindref="member">TEST_F</ref>(<ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref>,<sp/>AlgNoneAttack_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>header<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;alg&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;none&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;typ&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;JWT&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>payload<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;sub&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;iss&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;issuerX&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;aud&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;audX&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;exp&quot;</highlight><highlight class="normal">,<sp/>(int64_t)(std::chrono::duration_cast&lt;std::chrono::seconds&gt;(</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::now().time_since_epoch()).count()<sp/>+<sp/>300)}</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h<sp/>=<sp/>b64url(std::vector&lt;uint8_t&gt;(header.dump().begin(),<sp/>header.dump().end()));</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>p<sp/>=<sp/>b64url(std::vector&lt;uint8_t&gt;(payload.dump().begin(),<sp/>payload.dump().end()));</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator_-&gt;parseAndValidate(h<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>p<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><ref refid="test__jwt__es256__comprehensive_8cpp_1a9b04758b5dd4709924684566cbc18773" kindref="member">TEST_F</ref>(<ref refid="class_e_s256_validator_test" kindref="compound">ES256ValidatorTest</ref>,<sp/>DifferentECKey_SignatureRejected)<sp/>{</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sign<sp/>with<sp/>a<sp/>different<sp/>EC<sp/>key<sp/>–<sp/>should<sp/>not<sp/>verify<sp/>against<sp/>the<sp/>JWKS<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>ECFixture<sp/>other_key;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>token<sp/>=<sp/>make_valid_es256_jwt(other_key,<sp/></highlight><highlight class="stringliteral">&quot;ec-key-1&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>signed<sp/>by<sp/>other_key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>JWKS<sp/>still<sp/>contains<sp/>fix_&apos;s<sp/>public<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(validator_-&gt;parseAndValidate(token),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_jwt_es256_comprehensive.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_plugin" kind="class" language="C++" prot="public">
+    <compoundname>StubPlugin</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_stub_plugin_1a494ed79893212577f675da910413b0f1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool StubPlugin::loaded</definition>
+        <argsstring></argsstring>
+        <name>loaded</name>
+        <qualifiedname>StubPlugin::loaded</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_api_contract_hardening_focused.cpp" line="173" column="10" bodyfile="tests/llm/test_llm_api_contract_hardening_focused.cpp" bodystart="173" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_plugin_1a21b2ae015856ca71420a30a7101038dc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool StubPlugin::double_unload_safe_called</definition>
+        <argsstring></argsstring>
+        <name>double_unload_safe_called</name>
+        <qualifiedname>StubPlugin::double_unload_safe_called</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_api_contract_hardening_focused.cpp" line="174" column="10" bodyfile="tests/llm/test_llm_api_contract_hardening_focused.cpp" bodystart="174" bodyend="174"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_plugin_1acfe6a3356729ef7c78aa06dbe5da9699" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1d" kindref="member">LlmErrorCode</ref></type>
+        <definition>LlmErrorCode StubPlugin::load</definition>
+        <argsstring>()</argsstring>
+        <name>load</name>
+        <qualifiedname>StubPlugin::load</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_api_contract_hardening_focused.cpp" line="176" column="18" bodyfile="tests/llm/test_llm_api_contract_hardening_focused.cpp" bodystart="176" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_plugin_1a4111fca94b4f6ea39f92fd83446bc03b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1a4d45e92d81309352ff5ebff893f83f1d" kindref="member">LlmErrorCode</ref></type>
+        <definition>LlmErrorCode StubPlugin::unload</definition>
+        <argsstring>()</argsstring>
+        <name>unload</name>
+        <qualifiedname>StubPlugin::unload</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_api_contract_hardening_focused.cpp" line="184" column="18" bodyfile="tests/llm/test_llm_api_contract_hardening_focused.cpp" bodystart="184" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub plugin with RAII lifecycle (§3). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_api_contract_hardening_focused.cpp" line="171" column="1" bodyfile="tests/llm/test_llm_api_contract_hardening_focused.cpp" bodystart="171" bodyend="193"/>
+    <listofallmembers>
+      <member refid="class_stub_plugin_1a21b2ae015856ca71420a30a7101038dc" prot="public" virt="non-virtual"><scope>StubPlugin</scope><name>double_unload_safe_called</name></member>
+      <member refid="class_stub_plugin_1acfe6a3356729ef7c78aa06dbe5da9699" prot="public" virt="non-virtual"><scope>StubPlugin</scope><name>load</name></member>
+      <member refid="class_stub_plugin_1a494ed79893212577f675da910413b0f1" prot="public" virt="non-virtual"><scope>StubPlugin</scope><name>loaded</name></member>
+      <member refid="class_stub_plugin_1a4111fca94b4f6ea39f92fd83446bc03b" prot="public" virt="non-virtual"><scope>StubPlugin</scope><name>unload</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

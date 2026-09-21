@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_exponential_backoff" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::ExponentialBackoff</compoundname>
+    <includes refid="database__connection__manager_8h" local="no">database_connection_manager.h</includes>
+    <innerclass refid="structthemis_1_1storage_1_1_exponential_backoff_1_1_config" prot="public">themis::storage::ExponentialBackoff::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_exponential_backoff_1a0e842150be2e29a3b9a67b36d07d4e1f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_exponential_backoff_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::storage::ExponentialBackoff::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::storage::ExponentialBackoff::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="272" column="12" bodyfile="include/storage/database_connection_manager.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_exponential_backoff_1acfb44daabaa2046ed90ab43b444a35a5" prot="private" static="no" mutable="yes">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 themis::storage::ExponentialBackoff::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>themis::storage::ExponentialBackoff::rng_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="273" column="26" bodyfile="include/storage/database_connection_manager.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_exponential_backoff_1acb87e0b6a4260f4bbceb4b69ab7f4d21" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::ExponentialBackoff::ExponentialBackoff</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>ExponentialBackoff</name>
+        <qualifiedname>themis::storage::ExponentialBackoff::ExponentialBackoff</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_exponential_backoff_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="256" column="14" bodyfile="src/storage/database_connection_manager.cpp" bodystart="524" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_exponential_backoff_1a348ac4719d805c4991d4978ca0e580a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::storage::ExponentialBackoff::calculateDelay</definition>
+        <argsstring>(size_t attempt) const</argsstring>
+        <name>calculateDelay</name>
+        <qualifiedname>themis::storage::ExponentialBackoff::calculateDelay</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>attempt</declname>
+        </param>
+        <briefdescription>
+<para>Calculate delay for given attempt number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>attempt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Attempt number (0-indexed) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Delay with jitter applied </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="264" column="31" bodyfile="src/storage/database_connection_manager.cpp" bodystart="529" bodyend="544"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_exponential_backoff_1a4a8db3568880931c54010794fac167a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::ExponentialBackoff::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::storage::ExponentialBackoff::reset</qualifiedname>
+        <briefdescription>
+<para>Reset backoff state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Implements reset without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="269" column="10" bodyfile="src/storage/database_connection_manager.cpp" bodystart="550" bodyend="552"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Exponential Backoff Calculator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Calculates retry delays with exponential backoff and jitter </para>
+    </detaileddescription>
+    <location file="include/storage/database_connection_manager.h" line="247" column="1" bodyfile="include/storage/database_connection_manager.h" bodystart="247" bodyend="274"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_exponential_backoff_1a348ac4719d805c4991d4978ca0e580a9" prot="public" virt="non-virtual"><scope>themis::storage::ExponentialBackoff</scope><name>calculateDelay</name></member>
+      <member refid="classthemis_1_1storage_1_1_exponential_backoff_1a0e842150be2e29a3b9a67b36d07d4e1f" prot="private" virt="non-virtual"><scope>themis::storage::ExponentialBackoff</scope><name>config_</name></member>
+      <member refid="classthemis_1_1storage_1_1_exponential_backoff_1acb87e0b6a4260f4bbceb4b69ab7f4d21" prot="public" virt="non-virtual"><scope>themis::storage::ExponentialBackoff</scope><name>ExponentialBackoff</name></member>
+      <member refid="classthemis_1_1storage_1_1_exponential_backoff_1a4a8db3568880931c54010794fac167a0" prot="public" virt="non-virtual"><scope>themis::storage::ExponentialBackoff</scope><name>reset</name></member>
+      <member refid="classthemis_1_1storage_1_1_exponential_backoff_1acfb44daabaa2046ed90ab43b444a35a5" prot="private" virt="non-virtual"><scope>themis::storage::ExponentialBackoff</scope><name>rng_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

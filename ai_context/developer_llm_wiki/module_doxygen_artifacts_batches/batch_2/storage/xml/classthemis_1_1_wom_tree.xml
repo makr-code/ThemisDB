@@ -1,0 +1,612 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_wom_tree" kind="class" language="C++" prot="public">
+    <compoundname>themis::WomTree</compoundname>
+    <includes refid="wom__tree_8h" local="no">wom_tree.h</includes>
+    <innerclass refid="structthemis_1_1_wom_tree_1_1_config" prot="public">themis::WomTree::Config</innerclass>
+    <innerclass refid="structthemis_1_1_wom_tree_1_1_stats" prot="public">themis::WomTree::Stats</innerclass>
+    <innerclass refid="structthemis_1_1_wom_tree_1_1_impl" prot="public">themis::WomTree::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_wom_tree_1a3f40bda348812304cbd4ccd07b3487bb" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1_wom_tree_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::WomTree::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::WomTree::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="367" column="21" bodyfile="include/storage/wom_tree.h" bodystart="367" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_wom_tree_1ad35d106f8c2e13f296b80bba7a923769" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::WomTree::WomTree</definition>
+        <argsstring>()</argsstring>
+        <name>WomTree</name>
+        <qualifiedname>themis::WomTree::WomTree</qualifiedname>
+        <briefdescription>
+<para>Construct a WOM Tree with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="201" column="5" bodyfile="src/storage/wom_tree.cpp" bodystart="762" bodyend="763"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_wom_tree_1a844e84331320f84b5d211690a9ba4b1e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::WomTree::WomTree</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>WomTree</name>
+        <qualifiedname>themis::WomTree::WomTree</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_wom_tree_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct a WOM Tree with the supplied configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the configuration is invalid (e.g. fanout &lt; 2, leaf_capacity &lt; 2, buffer_size_bytes == 0). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="209" column="14" bodyfile="src/storage/wom_tree.cpp" bodystart="765" bodyend="778"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_wom_tree_1aa3add90584a00300e99b4656ce99abb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::WomTree::~WomTree</definition>
+        <argsstring>()</argsstring>
+        <name>~WomTree</name>
+        <qualifiedname>themis::WomTree::~WomTree</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="211" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_wom_tree_1af0f5cb860745bbad928235879beb1749" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::WomTree::WomTree</definition>
+        <argsstring>(const WomTree &amp;)=delete</argsstring>
+        <name>WomTree</name>
+        <qualifiedname>themis::WomTree::WomTree</qualifiedname>
+        <param>
+          <type>const WomTree &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="214" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_wom_tree_1a88a19814c4c9acff4aeb1c6a6e407b4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_wom_tree_1ad35d106f8c2e13f296b80bba7a923769" kindref="member">WomTree</ref> &amp;</type>
+        <definition>WomTree &amp; themis::WomTree::operator=</definition>
+        <argsstring>(const WomTree &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::WomTree::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_wom_tree_1ad35d106f8c2e13f296b80bba7a923769" kindref="member">WomTree</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="215" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_wom_tree_1a543da2ea65d9952d052558b7df0db2c5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::WomTree::WomTree</definition>
+        <argsstring>(WomTree &amp;&amp;) noexcept</argsstring>
+        <name>WomTree</name>
+        <qualifiedname>themis::WomTree::WomTree</qualifiedname>
+        <param>
+          <type>WomTree &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="216" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_wom_tree_1af0be17514b07c9484a86c46eb8ef926d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_wom_tree_1ad35d106f8c2e13f296b80bba7a923769" kindref="member">WomTree</ref> &amp;</type>
+        <definition>WomTree &amp; themis::WomTree::operator=</definition>
+        <argsstring>(WomTree &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::WomTree::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_wom_tree_1ad35d106f8c2e13f296b80bba7a923769" kindref="member">WomTree</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="217" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_wom_tree_1a70985467b5a7893a555deadbf6398484" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::WomTree::put</definition>
+        <argsstring>(std::string_view key, std::string_view value)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::WomTree::put</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Insert or update a key-value pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── put ──────────────────────────────────────────────────────────────────────</para>
+<para>The mutation is appended to the root&apos;s write buffer. If the buffer exceeds <computeroutput>config.buffer_size_bytes</computeroutput> the affected subtree is flushed synchronously before returning.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-empty key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">Value</ref> to associate with the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>OkVoid() on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_wom_tree_1a2bd805096161f74e9398994243f9a6bf" kindref="member">empty()</ref>, ErrVoid(), lk(), std::string(), fetch_add(), doInsertOp(), std::move(), OkVoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="234" column="12" bodyfile="src/storage/wom_tree.cpp" bodystart="793" bodyend="806"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_wom_tree_1a95aeecc4f51cf26eda6ce6d8c230289e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::WomTree::remove</definition>
+        <argsstring>(std::string_view key)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::WomTree::remove</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Remove a key from the tree. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── remove ───────────────────────────────────────────────────────────────────</para>
+<para>Depending on <computeroutput>config.lazy_deletes</computeroutput>, the key is either tombstoned immediately (deferred purge) or removed synchronously from the leaf.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key to remove. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>OkVoid() on success; Err(..., NOT_FOUND) if the key does not exist in the tree.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_wom_tree_1a2bd805096161f74e9398994243f9a6bf" kindref="member">empty()</ref>, ErrVoid(), lk(), doGet(), has_value(), std::string(), fetch_add(), directRemove(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="246" column="12" bodyfile="src/storage/wom_tree.cpp" bodystart="815" bodyend="844"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_wom_tree_1afd6ad355e99e6bc56e401f0b948bcb01" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::WomTree::get</definition>
+        <argsstring>(std::string_view key) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::WomTree::get</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Look up the value for a key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The search traverses all in-memory node buffers from root to leaf, applying any pending mutations in arrival order before returning the effective value. This is intentionally slower than in an LSM tree (where bloom filters can short-circuit lookups) — a documented WOM-tree trade-off.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key to look up. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ok(value) if found; Err(..., NOT_FOUND) if absent or tombstoned. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="265" column="12" bodyfile="src/storage/wom_tree.cpp" bodystart="848" bodyend="863"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_wom_tree_1a0f315b53b400850c537b967a8a1368df" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::WomTree::contains</definition>
+        <argsstring>(std::string_view key) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::WomTree::contains</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a key is present. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key to test. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the key has a live value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="273" column="10" bodyfile="src/storage/wom_tree.cpp" bodystart="867" bodyend="873"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_wom_tree_1a1be8a6207a09d37b8b7f20901ba9bea3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::WomTree::scan</definition>
+        <argsstring>(const std::function&lt; bool(std::string_view key, std::string_view value)&gt; &amp;callback) const</argsstring>
+        <name>scan</name>
+        <qualifiedname>themis::WomTree::scan</qualifiedname>
+        <param>
+          <type>const std::function&lt; bool(std::string_view key, std::string_view value)&gt; &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Scan all live key-value pairs in ascending key order. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The callback is invoked for every live entry. Returning false from the callback stops the scan early.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function called with (key, value) for each entry. Return true to continue, false to stop. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="288" column="10" bodyfile="src/storage/wom_tree.cpp" bodystart="877" bodyend="893"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_wom_tree_1a640d35d6aefbde770bd0eca5ad35d338" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::WomTree::scanRange</definition>
+        <argsstring>(std::string_view start_key, std::string_view end_key, const std::function&lt; bool(std::string_view key, std::string_view value)&gt; &amp;callback) const</argsstring>
+        <name>scanRange</name>
+        <qualifiedname>themis::WomTree::scanRange</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>end_key</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; bool(std::string_view key, std::string_view value)&gt; &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Scan a half-open key range [start_key, end_key) in ascending order. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Inclusive lower bound (empty string = beginning). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Exclusive upper bound (empty string = end). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Called with (key, value). Return false to stop. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="299" column="10" bodyfile="src/storage/wom_tree.cpp" bodystart="895" bodyend="917"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_wom_tree_1a748ca3869ee8d8846ec74061f2c5c978" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::WomTree::compact</definition>
+        <argsstring>()</argsstring>
+        <name>compact</name>
+        <qualifiedname>themis::WomTree::compact</qualifiedname>
+        <briefdescription>
+<para>Force a full flush of all node buffers down to the leaves. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── compact / flushOnce ──────────────────────────────────────────────────────</para>
+<para>After this call every live mutation resides in a leaf node and all tombstones have been purged. This is the analogue of a full compaction in an LSM tree, but incurs significantly less I/O because each mutation has already been partially propagated.</para>
+<para><simplesect kind="return"><para>OkVoid() on success.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), flushAll(), OkVoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="318" column="12" bodyfile="src/storage/wom_tree.cpp" bodystart="925" bodyend="929"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_wom_tree_1a011143f7a47f1e1d3864dbdab2ecec54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::WomTree::flushOnce</definition>
+        <argsstring>()</argsstring>
+        <name>flushOnce</name>
+        <qualifiedname>themis::WomTree::flushOnce</qualifiedname>
+        <briefdescription>
+<para>Flush buffered mutations from the root down one level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush Once.</para>
+<para>This is a lightweight, incremental version of <ref refid="classthemis_1_1_wom_tree_1a748ca3869ee8d8846ec74061f2c5c978" kindref="member">compact()</ref> suitable for background maintenance. Call periodically to keep buffer occupancy low without blocking writers for long.</para>
+<para><simplesect kind="return"><para>OkVoid() on success.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), <ref refid="classthemis_1_1_wom_tree_1a2bd805096161f74e9398994243f9a6bf" kindref="member">empty()</ref>, flushNode(), OkVoid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="329" column="12" bodyfile="src/storage/wom_tree.cpp" bodystart="936" bodyend="942"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_wom_tree_1a16939b9d0b360c0925da71ee11fc1569" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::WomTree::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::WomTree::size</qualifiedname>
+        <briefdescription>
+<para>Return the number of live entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The count is exact in single-threaded usage. Under concurrent writes it may be momentarily stale by at most the number of in-flight writers, but it is always consistent with what <computeroutput><ref refid="classthemis_1_1_wom_tree_1afd6ad355e99e6bc56e401f0b948bcb01" kindref="member">get()</ref></computeroutput>/<computeroutput><ref refid="classthemis_1_1_wom_tree_1a0f315b53b400850c537b967a8a1368df" kindref="member">contains()</ref></computeroutput> observe once the same exclusive lock is acquired. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="339" column="12" bodyfile="src/storage/wom_tree.cpp" bodystart="946" bodyend="948"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_wom_tree_1a2bd805096161f74e9398994243f9a6bf" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::WomTree::empty</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::WomTree::empty</qualifiedname>
+        <briefdescription>
+<para>Return true if the tree contains no live entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="344" column="10" bodyfile="src/storage/wom_tree.cpp" bodystart="950" bodyend="952"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_wom_tree_1aee8de4451f795404e4b5dfa33a7e0c7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::WomTree::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::WomTree::clear</qualifiedname>
+        <briefdescription>
+<para>Remove all entries from the tree, resetting all statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: lk(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="349" column="10" bodyfile="src/storage/wom_tree.cpp" bodystart="958" bodyend="970"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_wom_tree_1a11199279f85547bc7f97832c9f696bf1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_wom_tree_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>WomTree::Stats themis::WomTree::stats</definition>
+        <argsstring>() const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::WomTree::stats</qualifiedname>
+        <briefdescription>
+<para>Return a consistent snapshot of current statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="358" column="11" bodyfile="src/storage/wom_tree.cpp" bodystart="974" bodyend="992"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_wom_tree_1a39937eb1b75b2c34edc2a6b7303c25e7" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_wom_tree_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const WomTree::Config &amp; themis::WomTree::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::WomTree::config</qualifiedname>
+        <briefdescription>
+<para>Return the active configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="363" column="18" bodyfile="src/storage/wom_tree.cpp" bodystart="996" bodyend="998"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Write-Optimized Merge (WOM) Tree. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The WOM Tree is a write-optimized data structure modelled after the Bε-tree (B-epsilon tree). Unlike LSM trees, which batch writes into immutable sorted runs and periodically compact them, the WOM tree keeps a live tree whose internal nodes each carry a small <emphasis>write buffer</emphasis>. Pending mutations are propagated downward lazily — only when a buffer is full — so the effective write-amplification is determined by the buffer size ε rather than by the compaction fan-in.</para>
+<sect1 id="classthemis_1_1_wom_tree_1autotoc_md25_1s1"><sect2 id="classthemis_1_1_wom_tree_1autotoc_md25">
+<title>Key properties</title><para><table rows="6" cols="3"><row>
+<entry thead="yes"><para>Property  </para>
+</entry><entry thead="yes"><para>WOM Tree  </para>
+</entry><entry thead="yes"><para>LSM Tree  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Write amplification  </para>
+</entry><entry thead="no"><para>2–5×  </para>
+</entry><entry thead="no"><para>10–30×  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Update-heavy workloads  </para>
+</entry><entry thead="no"><para>✅ Excellent  </para>
+</entry><entry thead="no"><para>⚠️ Moderate  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Compaction overhead  </para>
+</entry><entry thead="no"><para>Low (lazy)  </para>
+</entry><entry thead="no"><para>High (periodic)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Space amplification  </para>
+</entry><entry thead="no"><para>Moderate–High  </para>
+</entry><entry thead="no"><para>Low–Moderate  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Point-read latency  </para>
+</entry><entry thead="no"><para>Higher (multi-level)  </para>
+</entry><entry thead="no"><para>Lower (bloom filter)  </para>
+</entry></row>
+</table>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1_wom_tree_1autotoc_md26_1s1"><sect2 id="classthemis_1_1_wom_tree_1autotoc_md26">
+<title>Design</title><para><itemizedlist>
+<listitem><para><bold>Fanout</bold> (B): number of children per internal node (default 16).</para>
+</listitem><listitem><para><bold>Buffer fraction</bold> (ε): fraction of each node&apos;s capacity used for the write buffer. The remaining capacity holds pivot keys and child pointers. Larger ε → lower write amplification, larger node footprint.</para>
+</listitem><listitem><para><bold>Lazy flushing</bold>: when a node&apos;s buffer exceeds <computeroutput>buffer_size_bytes</computeroutput>, the oldest / largest batch is pushed to the appropriate child. Leaf nodes apply mutations directly to their sorted data.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1_wom_tree_1autotoc_md27_1s1"><sect2 id="classthemis_1_1_wom_tree_1autotoc_md27">
+<title>Thread safety</title><para>All public methods are thread-safe. Read-only operations (<computeroutput><ref refid="classthemis_1_1_wom_tree_1afd6ad355e99e6bc56e401f0b948bcb01" kindref="member">get</ref></computeroutput>, <computeroutput><ref refid="classthemis_1_1_wom_tree_1a0f315b53b400850c537b967a8a1368df" kindref="member">contains</ref></computeroutput>, <computeroutput><ref refid="classthemis_1_1_wom_tree_1a11199279f85547bc7f97832c9f696bf1" kindref="member">stats</ref></computeroutput>, <computeroutput><ref refid="classthemis_1_1_wom_tree_1a1be8a6207a09d37b8b7f20901ba9bea3" kindref="member">scan</ref></computeroutput>, <computeroutput><ref refid="classthemis_1_1_wom_tree_1a640d35d6aefbde770bd0eca5ad35d338" kindref="member">scanRange</ref></computeroutput>, <computeroutput><ref refid="classthemis_1_1_wom_tree_1a16939b9d0b360c0925da71ee11fc1569" kindref="member">size</ref></computeroutput>, <computeroutput><ref refid="classthemis_1_1_wom_tree_1a2bd805096161f74e9398994243f9a6bf" kindref="member">empty</ref></computeroutput>, <computeroutput><ref refid="classthemis_1_1_wom_tree_1a39937eb1b75b2c34edc2a6b7303c25e7" kindref="member">config</ref></computeroutput>) acquire a shared lock so concurrent readers do not block each other. Mutating operations (<computeroutput><ref refid="classthemis_1_1_wom_tree_1a70985467b5a7893a555deadbf6398484" kindref="member">put</ref></computeroutput>, <computeroutput><ref refid="classthemis_1_1_wom_tree_1a95aeecc4f51cf26eda6ce6d8c230289e" kindref="member">remove</ref></computeroutput>, <computeroutput><ref refid="classthemis_1_1_wom_tree_1a748ca3869ee8d8846ec74061f2c5c978" kindref="member">compact</ref></computeroutput>, <computeroutput><ref refid="classthemis_1_1_wom_tree_1a011143f7a47f1e1d3864dbdab2ecec54" kindref="member">flushOnce</ref></computeroutput>, <computeroutput><ref refid="classthemis_1_1_wom_tree_1aee8de4451f795404e4b5dfa33a7e0c7d" kindref="member">clear</ref></computeroutput>) acquire an exclusive lock.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1_wom_tree_1autotoc_md28_1s1"><sect2 id="classthemis_1_1_wom_tree_1autotoc_md28">
+<title>References</title><para><itemizedlist>
+<listitem><para>M. A. Bender et al., &quot;An Introduction to Bε-Trees and Write-Optimization,&quot; <emphasis>;login: The USENIX Magazine</emphasis>, 40(5):22–28, 2015.</para>
+</listitem><listitem><para>src/storage/FUTURE_ENHANCEMENTS.md#write-optimized-merge-wom-tree </para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/storage/wom_tree.h" line="77" column="1" bodyfile="include/storage/wom_tree.h" bodystart="77" bodyend="368"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_wom_tree_1aee8de4451f795404e4b5dfa33a7e0c7d" prot="public" virt="non-virtual"><scope>themis::WomTree</scope><name>clear</name></member>
+      <member refid="classthemis_1_1_wom_tree_1a748ca3869ee8d8846ec74061f2c5c978" prot="public" virt="non-virtual"><scope>themis::WomTree</scope><name>compact</name></member>
+      <member refid="classthemis_1_1_wom_tree_1a39937eb1b75b2c34edc2a6b7303c25e7" prot="public" virt="non-virtual"><scope>themis::WomTree</scope><name>config</name></member>
+      <member refid="classthemis_1_1_wom_tree_1a0f315b53b400850c537b967a8a1368df" prot="public" virt="non-virtual"><scope>themis::WomTree</scope><name>contains</name></member>
+      <member refid="classthemis_1_1_wom_tree_1a2bd805096161f74e9398994243f9a6bf" prot="public" virt="non-virtual"><scope>themis::WomTree</scope><name>empty</name></member>
+      <member refid="classthemis_1_1_wom_tree_1a011143f7a47f1e1d3864dbdab2ecec54" prot="public" virt="non-virtual"><scope>themis::WomTree</scope><name>flushOnce</name></member>
+      <member refid="classthemis_1_1_wom_tree_1afd6ad355e99e6bc56e401f0b948bcb01" prot="public" virt="non-virtual"><scope>themis::WomTree</scope><name>get</name></member>
+      <member refid="classthemis_1_1_wom_tree_1a3f40bda348812304cbd4ccd07b3487bb" prot="private" virt="non-virtual"><scope>themis::WomTree</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1_wom_tree_1a88a19814c4c9acff4aeb1c6a6e407b4c" prot="public" virt="non-virtual"><scope>themis::WomTree</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_wom_tree_1af0be17514b07c9484a86c46eb8ef926d" prot="public" virt="non-virtual"><scope>themis::WomTree</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_wom_tree_1a70985467b5a7893a555deadbf6398484" prot="public" virt="non-virtual"><scope>themis::WomTree</scope><name>put</name></member>
+      <member refid="classthemis_1_1_wom_tree_1a95aeecc4f51cf26eda6ce6d8c230289e" prot="public" virt="non-virtual"><scope>themis::WomTree</scope><name>remove</name></member>
+      <member refid="classthemis_1_1_wom_tree_1a1be8a6207a09d37b8b7f20901ba9bea3" prot="public" virt="non-virtual"><scope>themis::WomTree</scope><name>scan</name></member>
+      <member refid="classthemis_1_1_wom_tree_1a640d35d6aefbde770bd0eca5ad35d338" prot="public" virt="non-virtual"><scope>themis::WomTree</scope><name>scanRange</name></member>
+      <member refid="classthemis_1_1_wom_tree_1a16939b9d0b360c0925da71ee11fc1569" prot="public" virt="non-virtual"><scope>themis::WomTree</scope><name>size</name></member>
+      <member refid="classthemis_1_1_wom_tree_1a11199279f85547bc7f97832c9f696bf1" prot="public" virt="non-virtual"><scope>themis::WomTree</scope><name>stats</name></member>
+      <member refid="classthemis_1_1_wom_tree_1ad35d106f8c2e13f296b80bba7a923769" prot="public" virt="non-virtual"><scope>themis::WomTree</scope><name>WomTree</name></member>
+      <member refid="classthemis_1_1_wom_tree_1a844e84331320f84b5d211690a9ba4b1e" prot="public" virt="non-virtual"><scope>themis::WomTree</scope><name>WomTree</name></member>
+      <member refid="classthemis_1_1_wom_tree_1af0f5cb860745bbad928235879beb1749" prot="public" virt="non-virtual"><scope>themis::WomTree</scope><name>WomTree</name></member>
+      <member refid="classthemis_1_1_wom_tree_1a543da2ea65d9952d052558b7df0db2c5" prot="public" virt="non-virtual"><scope>themis::WomTree</scope><name>WomTree</name></member>
+      <member refid="classthemis_1_1_wom_tree_1aa3add90584a00300e99b4656ce99abb2" prot="public" virt="non-virtual"><scope>themis::WomTree</scope><name>~WomTree</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

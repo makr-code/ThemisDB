@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_be9948baa8723c182ab4dc6476ef8cf6" kind="dir">
+    <compoundname>src/onnx_clip</compoundname>
+    <innerfile refid="onnx__clip__plugin_8cpp">onnx_clip_plugin.cpp</innerfile>
+    <innerfile refid="onnx__clip__plugin_8h">onnx_clip_plugin.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/onnx_clip/"/>
+  </compounddef>
+</doxygen>

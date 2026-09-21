@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1test_1_1_nested_resource_manager_1_1_inner_resource" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::test::NestedResourceManager::InnerResource</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1test_1_1_nested_resource_manager_1_1_inner_resource_1abb2511d8f146ed333ca9b7654972cb2c" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::test::NestedResourceManager::InnerResource::value_</definition>
+        <argsstring></argsstring>
+        <name>value_</name>
+        <qualifiedname>themis::llm::test::NestedResourceManager::InnerResource::value_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="334" column="9" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="334" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_nested_resource_manager_1_1_inner_resource_1a0c35c20d8b60864314c48e4de4b7baa6" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::NestedResourceManager::InnerResource::InnerResource</definition>
+        <argsstring>(int value)</argsstring>
+        <name>InnerResource</name>
+        <qualifiedname>themis::llm::test::NestedResourceManager::InnerResource::InnerResource</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="331" column="14" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="331" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_nested_resource_manager_1_1_inner_resource_1a1009ef26040fc1fc62037c1702bbf23a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::test::NestedResourceManager::InnerResource::getValue</definition>
+        <argsstring>() const</argsstring>
+        <name>getValue</name>
+        <qualifiedname>themis::llm::test::NestedResourceManager::InnerResource::getValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="332" column="9" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="332" bodyend="332"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="329" column="3" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="329" bodyend="335"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1test_1_1_nested_resource_manager_1_1_inner_resource_1a1009ef26040fc1fc62037c1702bbf23a" prot="public" virt="non-virtual"><scope>themis::llm::test::NestedResourceManager::InnerResource</scope><name>getValue</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_nested_resource_manager_1_1_inner_resource_1a0c35c20d8b60864314c48e4de4b7baa6" prot="public" virt="non-virtual"><scope>themis::llm::test::NestedResourceManager::InnerResource</scope><name>InnerResource</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_nested_resource_manager_1_1_inner_resource_1abb2511d8f146ed333ca9b7654972cb2c" prot="private" virt="non-virtual"><scope>themis::llm::test::NestedResourceManager::InnerResource</scope><name>value_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

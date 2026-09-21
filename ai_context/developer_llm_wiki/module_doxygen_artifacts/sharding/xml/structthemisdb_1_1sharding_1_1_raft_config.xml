@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_raft_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::RaftConfig</compoundname>
+    <includes refid="raft__state_8h" local="no">raft_state.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_config_1a13f96a7ed501beb3b7f89c5716ac9dd4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::RaftConfig::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themisdb::sharding::RaftConfig::node_id</qualifiedname>
+        <briefdescription>
+<para>Local node identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="61" column="17" bodyfile="include/sharding/raft_state.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_config_1a321ede1d4618d2282128823dc28562d3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::sharding::RaftConfig::cluster_members</definition>
+        <argsstring></argsstring>
+        <name>cluster_members</name>
+        <qualifiedname>themisdb::sharding::RaftConfig::cluster_members</qualifiedname>
+        <briefdescription>
+<para>Current cluster member IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="62" column="17" bodyfile="include/sharding/raft_state.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_config_1aaa46eb7caf0a7110f2d04faa9969959f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::RaftConfig::election_timeout_min_ms</definition>
+        <argsstring></argsstring>
+        <name>election_timeout_min_ms</name>
+        <qualifiedname>themisdb::sharding::RaftConfig::election_timeout_min_ms</qualifiedname>
+        <initializer>= 150</initializer>
+        <briefdescription>
+<para>Lower bound for randomized election timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="63" column="14" bodyfile="include/sharding/raft_state.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_config_1abdf9e325043bc11beb3c160c282fd68d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::RaftConfig::election_timeout_max_ms</definition>
+        <argsstring></argsstring>
+        <name>election_timeout_max_ms</name>
+        <qualifiedname>themisdb::sharding::RaftConfig::election_timeout_max_ms</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+<para>Upper bound for randomized election timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="64" column="14" bodyfile="include/sharding/raft_state.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_raft_config_1aced2d4b1496a9ada589394e1405184cf" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::RaftConfig::heartbeat_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_interval_ms</name>
+        <qualifiedname>themisdb::sharding::RaftConfig::heartbeat_interval_ms</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+<para>Leader heartbeat interval. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_state.h" line="65" column="14" bodyfile="include/sharding/raft_state.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Raft configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/raft_state.h" line="60" column="1" bodyfile="include/sharding/raft_state.h" bodystart="60" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_config_1a321ede1d4618d2282128823dc28562d3" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConfig</scope><name>cluster_members</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_config_1abdf9e325043bc11beb3c160c282fd68d" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConfig</scope><name>election_timeout_max_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_config_1aaa46eb7caf0a7110f2d04faa9969959f" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConfig</scope><name>election_timeout_min_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_config_1aced2d4b1496a9ada589394e1405184cf" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConfig</scope><name>heartbeat_interval_ms</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_raft_config_1a13f96a7ed501beb3b7f89c5716ac9dd4" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftConfig</scope><name>node_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

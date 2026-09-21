@@ -1,0 +1,787 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_kerberos_security_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::KerberosSecurityValidator</compoundname>
+    <includes refid="kerberos__security_8h" local="no">kerberos_security.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config" prot="public">themis::auth::KerberosSecurityValidator::Config</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info" prot="public">themis::auth::KerberosSecurityValidator::TokenInfo</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_a_s_n1_tag" prot="private">themis::auth::KerberosSecurityValidator::ASN1Tag</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ChannelBindingType</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::ChannelBindingType</qualifiedname>
+        <enumvalue id="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219a1f99c81a902bd0dde89b467ac751f62f" prot="public">
+          <name>TLS_UNIQUE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219a3320e9d040b682fac7e57f9f889d5a26" prot="public">
+          <name>TLS_SERVER_ENDPOINT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219aecb50938415b36d26abe152492739fe4" prot="public">
+          <name>TLS_EXPORTER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="25" column="5" bodyfile="include/auth/kerberos_security.h" bodystart="25" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_kerberos_security_validator_1ae841ff692bd91312e034550fc1f64915" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::auth::KerberosSecurityValidator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="156" column="12" bodyfile="include/auth/kerberos_security.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_kerberos_security_validator_1afca37d0de33c8f43ff7813f13fa57e2e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::KerberosSecurityValidator::KerberosSecurityValidator</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>KerberosSecurityValidator</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::KerberosSecurityValidator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Kerberos Security Validator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="62" column="14" bodyfile="src/auth/kerberos_security.cpp" bodystart="388" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_kerberos_security_validator_1a8b632a71e36ee59c19d7fe16dfa31af0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::auth::KerberosSecurityValidator::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="64" column="18" bodyfile="include/auth/kerberos_security.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_kerberos_security_validator_1ab3263ef435750cca71b560f1c3367e30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::KerberosSecurityValidator::validateToken</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;token_data, const std::vector&lt; uint8_t &gt; &amp;channel_binding={})</argsstring>
+        <name>validateToken</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::validateToken</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>token_data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>channel_binding</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Validate Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">channel_binding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1ac0a4072c7ed9c2cca1330a76d70cb3f4" kindref="member">validateASN1Structure()</ref>, <ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a0994e74d7e478030013d3c80d6c3408f" kindref="member">isTicketExpired()</ref>, empty(), <ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1aee41a3f11771fb2aa44d6abf08c2ef86" kindref="member">verifyServicePrincipal()</ref>, <ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a86b5fe7276260d29294185751f59148c" kindref="member">verifyChannelBinding()</ref>, <ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1ad11058424e489db9ab7a593e6f55ec27" kindref="member">getTokenInfo()</ref>, utils::Logger::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="66" column="10" bodyfile="src/auth/kerberos_security.cpp" bodystart="403" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_kerberos_security_validator_1ac0a4072c7ed9c2cca1330a76d70cb3f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::KerberosSecurityValidator::validateASN1Structure</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>validateASN1Structure</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::validateASN1Structure</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Validate ASN1 Structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), validateASN1Depth(), data(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="76" column="10" bodyfile="src/auth/kerberos_security.cpp" bodystart="458" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_kerberos_security_validator_1aee41a3f11771fb2aa44d6abf08c2ef86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::KerberosSecurityValidator::verifyServicePrincipal</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;token_data, const std::string &amp;expected_principal)</argsstring>
+        <name>verifyServicePrincipal</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::verifyServicePrincipal</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>token_data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_principal</declname>
+        </param>
+        <briefdescription>
+<para>Verify Service Principal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1ac4cf24b530bce5816a928ffc8c2ef8ec" kindref="member">extractServicePrincipal()</ref>, empty(), utils::Logger::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="84" column="10" bodyfile="src/auth/kerberos_security.cpp" bodystart="596" bodyend="613"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_kerberos_security_validator_1a86b5fe7276260d29294185751f59148c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::KerberosSecurityValidator::verifyChannelBinding</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;token_data, const std::vector&lt; uint8_t &gt; &amp;channel_binding)</argsstring>
+        <name>verifyChannelBinding</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::verifyChannelBinding</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>token_data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>channel_binding</declname>
+        </param>
+        <briefdescription>
+<para>Verify Channel Binding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">channel_binding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">channel_binding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), parseGssapiKrb5Header(), data(), size(), utils::Logger::warn(), utils::Logger::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="95" column="10" bodyfile="src/auth/kerberos_security.cpp" bodystart="622" bodyend="659"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_kerberos_security_validator_1ac4cf24b530bce5816a928ffc8c2ef8ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::KerberosSecurityValidator::extractServicePrincipal</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;token_data)</argsstring>
+        <name>extractServicePrincipal</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::extractServicePrincipal</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>token_data</declname>
+        </param>
+        <briefdescription>
+<para>Extract Service Principal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractKrb5Fields(), empty(), utils::Logger::info(), utils::Logger::warn(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="105" column="17" bodyfile="src/auth/kerberos_security.cpp" bodystart="667" bodyend="687"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_kerberos_security_validator_1a0994e74d7e478030013d3c80d6c3408f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::KerberosSecurityValidator::isTicketExpired</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;token_data)</argsstring>
+        <name>isTicketExpired</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::isTicketExpired</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>token_data</declname>
+        </param>
+        <briefdescription>
+<para>Is Ticket Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1ad11058424e489db9ab7a593e6f55ec27" kindref="member">getTokenInfo()</ref>, std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), std::abs(), utils::Logger::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="112" column="10" bodyfile="src/auth/kerberos_security.cpp" bodystart="695" bodyend="716"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_kerberos_security_validator_1ad11058424e489db9ab7a593e6f55ec27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_token_info" kindref="compound">TokenInfo</ref></type>
+        <definition>KerberosSecurityValidator::TokenInfo themis::auth::KerberosSecurityValidator::getTokenInfo</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;token_data)</argsstring>
+        <name>getTokenInfo</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::getTokenInfo</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>token_data</declname>
+        </param>
+        <briefdescription>
+<para>Get Token Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractKrb5Fields(), empty(), std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="133" column="15" bodyfile="src/auth/kerberos_security.cpp" bodystart="724" bodyend="764"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_kerberos_security_validator_1a2e0f81ae820a7d568ce200ef9019ecb8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>KerberosSecurityValidator::Config themis::auth::KerberosSecurityValidator::withChannelBindings</definition>
+        <argsstring>(ChannelBindingType type)</argsstring>
+        <name>withChannelBindings</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::withChannelBindings</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219" kindref="member">ChannelBindingType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>With Channel Bindings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withChannelBindings without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="140" column="19" bodyfile="src/auth/kerberos_security.cpp" bodystart="772" bodyend="780"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_kerberos_security_validator_1a91a760417ad857b20a00dce3c9357204" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>KerberosSecurityValidator::Config themis::auth::KerberosSecurityValidator::strictValidation</definition>
+        <argsstring>()</argsstring>
+        <name>strictValidation</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::strictValidation</qualifiedname>
+        <briefdescription>
+<para>Strict Validation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements strictValidation without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="146" column="19" bodyfile="src/auth/kerberos_security.cpp" bodystart="787" bodyend="802"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_kerberos_security_validator_1aa376d16514e584a40bd9ab2075162e3d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_kerberos_security_validator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>KerberosSecurityValidator::Config themis::auth::KerberosSecurityValidator::forService</definition>
+        <argsstring>(const std::string &amp;service_principal)</argsstring>
+        <name>forService</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::forService</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>service_principal</declname>
+        </param>
+        <briefdescription>
+<para>For Service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">service_principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">service_principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements forService without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="153" column="19" bodyfile="src/auth/kerberos_security.cpp" bodystart="810" bodyend="818"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_kerberos_security_validator_1a12b47338c3e5d5a1734b461ee2a52cc2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::KerberosSecurityValidator::parseASN1Tag</definition>
+        <argsstring>(const uint8_t *data, size_t size, ASN1Tag &amp;tag)</argsstring>
+        <name>parseASN1Tag</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::parseASN1Tag</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>ASN1Tag &amp;</type>
+          <declname>tag</declname>
+        </param>
+        <briefdescription>
+<para>Parse ASN1 Tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements parseASN1Tag without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="174" column="10" bodyfile="src/auth/kerberos_security.cpp" bodystart="526" bodyend="587"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_kerberos_security_validator_1a3f34e9500d5953043c217f3672d5ae70" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::KerberosSecurityValidator::validateASN1Depth</definition>
+        <argsstring>(const uint8_t *data, size_t size, size_t current_depth)</argsstring>
+        <name>validateASN1Depth</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::validateASN1Depth</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>current_depth</declname>
+        </param>
+        <briefdescription>
+<para>Validate ASN1 Depth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: utils::Logger::warn(), parseASN1Tag(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="182" column="10" bodyfile="src/auth/kerberos_security.cpp" bodystart="475" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_kerberos_security_validator_1a0c4a5e825e65b4ff51666bd05352980b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::auth::KerberosSecurityValidator::computeTLSServerEndpoint</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;cert_data)</argsstring>
+        <name>computeTLSServerEndpoint</name>
+        <qualifiedname>themis::auth::KerberosSecurityValidator::computeTLSServerEndpoint</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>cert_data</declname>
+        </param>
+        <briefdescription>
+<para>Compute TLSServer Endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/kerberos_security.h" line="190" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/kerberos_security.h" line="23" column="1" bodyfile="include/auth/kerberos_security.h" bodystart="23" bodyend="191"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a74067ec113139b6454bddbeec0a2e219" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator</scope><name>ChannelBindingType</name></member>
+      <member refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a0c4a5e825e65b4ff51666bd05352980b" prot="private" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator</scope><name>computeTLSServerEndpoint</name></member>
+      <member refid="classthemis_1_1auth_1_1_kerberos_security_validator_1ae841ff692bd91312e034550fc1f64915" prot="private" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_kerberos_security_validator_1ac4cf24b530bce5816a928ffc8c2ef8ec" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator</scope><name>extractServicePrincipal</name></member>
+      <member refid="classthemis_1_1auth_1_1_kerberos_security_validator_1aa376d16514e584a40bd9ab2075162e3d" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator</scope><name>forService</name></member>
+      <member refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a8b632a71e36ee59c19d7fe16dfa31af0" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1auth_1_1_kerberos_security_validator_1ad11058424e489db9ab7a593e6f55ec27" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator</scope><name>getTokenInfo</name></member>
+      <member refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a0994e74d7e478030013d3c80d6c3408f" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator</scope><name>isTicketExpired</name></member>
+      <member refid="classthemis_1_1auth_1_1_kerberos_security_validator_1afca37d0de33c8f43ff7813f13fa57e2e" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator</scope><name>KerberosSecurityValidator</name></member>
+      <member refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a12b47338c3e5d5a1734b461ee2a52cc2" prot="private" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator</scope><name>parseASN1Tag</name></member>
+      <member refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a91a760417ad857b20a00dce3c9357204" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator</scope><name>strictValidation</name></member>
+      <member refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a3f34e9500d5953043c217f3672d5ae70" prot="private" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator</scope><name>validateASN1Depth</name></member>
+      <member refid="classthemis_1_1auth_1_1_kerberos_security_validator_1ac0a4072c7ed9c2cca1330a76d70cb3f4" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator</scope><name>validateASN1Structure</name></member>
+      <member refid="classthemis_1_1auth_1_1_kerberos_security_validator_1ab3263ef435750cca71b560f1c3367e30" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator</scope><name>validateToken</name></member>
+      <member refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a86b5fe7276260d29294185751f59148c" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator</scope><name>verifyChannelBinding</name></member>
+      <member refid="classthemis_1_1auth_1_1_kerberos_security_validator_1aee41a3f11771fb2aa44d6abf08c2ef86" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator</scope><name>verifyServicePrincipal</name></member>
+      <member refid="classthemis_1_1auth_1_1_kerberos_security_validator_1a2e0f81ae820a7d568ce200ef9019ecb8" prot="public" virt="non-virtual"><scope>themis::auth::KerberosSecurityValidator</scope><name>withChannelBindings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

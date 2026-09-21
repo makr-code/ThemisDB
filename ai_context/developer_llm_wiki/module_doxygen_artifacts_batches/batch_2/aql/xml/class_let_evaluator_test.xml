@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_let_evaluator_test" kind="class" language="C++" prot="public">
+    <compoundname>LetEvaluatorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_let_evaluator_test_1af4b1c52b7742af094e509a6b7b895660" prot="protected" static="no" mutable="no">
+        <type>LetEvaluator</type>
+        <definition>LetEvaluator LetEvaluatorTest::evaluator</definition>
+        <argsstring></argsstring>
+        <name>evaluator</name>
+        <qualifiedname>LetEvaluatorTest::evaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_let.cpp" line="11" column="18" bodyfile="tests/aql/test_aql_let.cpp" bodystart="11" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_let_evaluator_test_1a3d51509fbbf60fc40b468292601329a8" prot="protected" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json LetEvaluatorTest::testDoc</definition>
+        <argsstring></argsstring>
+        <name>testDoc</name>
+        <qualifiedname>LetEvaluatorTest::testDoc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_let.cpp" line="12" column="20" bodyfile="tests/aql/test_aql_let.cpp" bodystart="12" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_let_evaluator_test_1a96f1e8860ba2cf47e02bc462d67c5f65" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LetEvaluatorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LetEvaluatorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_let.cpp" line="14" column="10" bodyfile="tests/aql/test_aql_let.cpp" bodystart="14" bodyend="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LetEvaluatorTest</label>
+        <link refid="class_let_evaluator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LetEvaluatorTest</label>
+        <link refid="class_let_evaluator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_let.cpp" line="9" column="1" bodyfile="tests/aql/test_aql_let.cpp" bodystart="9" bodyend="29"/>
+    <listofallmembers>
+      <member refid="class_let_evaluator_test_1af4b1c52b7742af094e509a6b7b895660" prot="protected" virt="non-virtual"><scope>LetEvaluatorTest</scope><name>evaluator</name></member>
+      <member refid="class_let_evaluator_test_1a96f1e8860ba2cf47e02bc462d67c5f65" prot="protected" virt="non-virtual"><scope>LetEvaluatorTest</scope><name>SetUp</name></member>
+      <member refid="class_let_evaluator_test_1a3d51509fbbf60fc40b468292601329a8" prot="protected" virt="non-virtual"><scope>LetEvaluatorTest</scope><name>testDoc</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

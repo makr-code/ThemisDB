@@ -1,0 +1,322 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="index__maintenance_8h" kind="file" language="C++">
+    <compoundname>index_maintenance.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">map</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includedby refid="index__maintenance_8cpp" local="yes">src/storage/index_maintenance.cpp</includedby>
+    <includedby refid="test__wave1__critical__fixes_8cpp" local="yes">tests/storage/test_wave1_critical_fixes.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/storage/index_maintenance.h</label>
+        <link refid="index__maintenance_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>condition_variable</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>thread</label>
+      </node>
+      <node id="11">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/storage/index_maintenance.h</label>
+        <link refid="index__maintenance_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/storage/index_maintenance.cpp</label>
+        <link refid="index__maintenance_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/storage/test_wave1_critical_fixes.cpp</label>
+        <link refid="test__wave1__critical__fixes_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1_fragmentation_metrics" prot="public">themis::FragmentationMetrics</innerclass>
+    <innerclass refid="structthemis_1_1_maintenance_job_status" prot="public">themis::MaintenanceJobStatus</innerclass>
+    <innerclass refid="structthemis_1_1_maintenance_policy" prot="public">themis::MaintenancePolicy</innerclass>
+    <innerclass refid="classthemis_1_1_index_maintenance_manager" prot="public">themis::IndexMaintenanceManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_rocks_d_b_wrapper" kindref="compound">RocksDBWrapper</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">IndexManager;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">VectorIndexManager;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1a2a70140560883d0e0332657bdf67cfa1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a2a70140560883d0e0332657bdf67cfa1" kindref="member">FragmentationLevel</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1a2a70140560883d0e0332657bdf67cfa1a41bc94cbd8eebea13ce0491b2ac11b88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a2a70140560883d0e0332657bdf67cfa1a41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">LOW</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0-10%:<sp/>No<sp/>maintenance<sp/>needed,<sp/>optimal<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1a2a70140560883d0e0332657bdf67cfa1ac87f3be66ffc3c0d4249f1c2cc5f3cce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a2a70140560883d0e0332657bdf67cfa1ac87f3be66ffc3c0d4249f1c2cc5f3cce" kindref="member">MEDIUM</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10-30%:<sp/>Consider<sp/>reorganization,<sp/>acceptable<sp/>with<sp/>minor<sp/>degradation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1a2a70140560883d0e0332657bdf67cfa1ab89de3b4b81c4facfac906edf29aec8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a2a70140560883d0e0332657bdf67cfa1ab89de3b4b81c4facfac906edf29aec8c" kindref="member">HIGH</ref><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&gt;30%:<sp/>Rebuild<sp/>recommended,<sp/>significant<sp/>degradation<sp/>possible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bd" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bd" kindref="member">MaintenanceOperation</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bda0274b877a6bbb61375021f4342b02df9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bda0274b877a6bbb61375021f4342b02df9" kindref="member">INDEX_REBUILD</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Full<sp/>reconstruction<sp/>for<sp/>high<sp/>fragmentation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bda1efb03cdf266e92822d5cab6ff9cc572" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bda1efb03cdf266e92822d5cab6ff9cc572" kindref="member">INDEX_REORGANIZATION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In-place<sp/>defragmentation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bdaab8db97a0da9954d006b5a3c4ae711c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bdaab8db97a0da9954d006b5a3c4ae711c2" kindref="member">STATISTICS_UPDATE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Refresh<sp/>cardinality<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bda4dc2bc29c15e7e103992abb8b42edd6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bda4dc2bc29c15e7e103992abb8b42edd6f" kindref="member">ORPHAN_ENTRY_CLEANUP</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Remove<sp/>dead<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bda9c28f82f7589ec786410a6723417d568" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bda9c28f82f7589ec786410a6723417d568" kindref="member">CONSISTENCY_CHECK</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validation<sp/>and<sp/>repair</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bda62eefd41de2a3606487a6ca2e4439f48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bda62eefd41de2a3606487a6ca2e4439f48" kindref="member">VECTOR_INCREMENTAL_REINDEX</ref><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Incremental<sp/>HNSW<sp/>re-index<sp/>without<sp/>full<sp/>rebuild</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1a7fd11395e6c73e80567c4e2169f57c0a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a7fd11395e6c73e80567c4e2169f57c0a" kindref="member">MaintenanceSchedule</ref><sp/>{</highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1a7fd11395e6c73e80567c4e2169f57c0aa055c1a591abb0e8cd86dc969727bcc0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a7fd11395e6c73e80567c4e2169f57c0aa055c1a591abb0e8cd86dc969727bcc0b" kindref="member">DISABLED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>automatic<sp/>maintenance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1a7fd11395e6c73e80567c4e2169f57c0aa7b13ca71d545e3fb822b4c90a876bb83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a7fd11395e6c73e80567c4e2169f57c0aa7b13ca71d545e3fb822b4c90a876bb83" kindref="member">TIME_BASED</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Run<sp/>at<sp/>specific<sp/>intervals</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1a7fd11395e6c73e80567c4e2169f57c0aaf4b986392ccb1aa87a7f627b843d3cfd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a7fd11395e6c73e80567c4e2169f57c0aaf4b986392ccb1aa87a7f627b843d3cfd" kindref="member">EVENT_BASED</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Run<sp/>when<sp/>thresholds<sp/>are<sp/>exceeded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1a7fd11395e6c73e80567c4e2169f57c0aa3bf07fe8ac3883060b1558113ba248d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a7fd11395e6c73e80567c4e2169f57c0aa3bf07fe8ac3883060b1558113ba248d4" kindref="member">HYBRID</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Combination<sp/>of<sp/>time<sp/>and<sp/>event-based</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1_fragmentation_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_fragmentation_metrics" kindref="compound">FragmentationMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1_fragmentation_metrics_1a8b46a33d3d8fb4995b8744fbcc717af1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_fragmentation_metrics_1a8b46a33d3d8fb4995b8744fbcc717af1" kindref="member">index_name</ref>;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1_fragmentation_metrics_1ac16a998cd069d948e173e4ce33057fe3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_fragmentation_metrics_1ac16a998cd069d948e173e4ce33057fe3" kindref="member">fragmentation_percentage</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1_fragmentation_metrics_1ab1ec6655d9537398178db5e72cd0e239" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a2a70140560883d0e0332657bdf67cfa1" kindref="member">FragmentationLevel</ref><sp/><ref refid="structthemis_1_1_fragmentation_metrics_1ab1ec6655d9537398178db5e72cd0e239" kindref="member">level</ref><sp/>=<sp/><ref refid="namespacethemis_1a2a70140560883d0e0332657bdf67cfa1a41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">FragmentationLevel::LOW</ref>;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1_fragmentation_metrics_1a1fd8c845d1c5ff4fa3d019f18e630ec0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_fragmentation_metrics_1a1fd8c845d1c5ff4fa3d019f18e630ec0" kindref="member">total_entries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1_fragmentation_metrics_1a5590e277431a00487a9b2e8695a22d9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_fragmentation_metrics_1a5590e277431a00487a9b2e8695a22d9b" kindref="member">orphan_entries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1_fragmentation_metrics_1ae67a94f53f91d6bfd0702b2f0acd530c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_fragmentation_metrics_1ae67a94f53f91d6bfd0702b2f0acd530c" kindref="member">last_updated_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1_fragmentation_metrics_1ad5b81365c7747cd631c510a60c51e77e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_fragmentation_metrics_1ad5b81365c7747cd631c510a60c51e77e" kindref="member">statistics_staleness_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1_fragmentation_metrics_1a82f2a7f2825710528982afb1e8f84e92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_fragmentation_metrics_1a82f2a7f2825710528982afb1e8f84e92" kindref="member">file_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1_fragmentation_metrics_1a1912b78f337946b6aeec775f230f8d70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_fragmentation_metrics_1a1912b78f337946b6aeec775f230f8d70" kindref="member">size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1_fragmentation_metrics_1a77c26baff1cd0b300da3fcc50bfc8646" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_fragmentation_metrics_1a77c26baff1cd0b300da3fcc50bfc8646" kindref="member">wasted_space_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1_maintenance_job_status" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_maintenance_job_status" kindref="compound">MaintenanceJobStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1_maintenance_job_status_1ad85a4d7576552778834748e5085f318b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_maintenance_job_status_1ad85a4d7576552778834748e5085f318b" kindref="member">job_id</ref>;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1_maintenance_job_status_1a4216a93b099ca2a45329d50b8b41ac78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_maintenance_job_status_1a4216a93b099ca2a45329d50b8b41ac78" kindref="member">index_name</ref>;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1_maintenance_job_status_1a541ff55476d18e72c61bb6a48807f3e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1ac4717fc0b1027e4ca9331abc6ad8a9bd" kindref="member">MaintenanceOperation</ref><sp/><ref refid="structthemis_1_1_maintenance_job_status_1a541ff55476d18e72c61bb6a48807f3e0" kindref="member">operation</ref>;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1_maintenance_job_status_1afd44cd58e801f1e81251b5ce7545c688" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_maintenance_job_status_1afd44cd58e801f1e81251b5ce7545c688" kindref="member">is_running</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1_maintenance_job_status_1affa9577ae85f752bb4cba3c2870b8026" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_maintenance_job_status_1affa9577ae85f752bb4cba3c2870b8026" kindref="member">is_completed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1_maintenance_job_status_1aa1521f7adc6ada01201002e885979f7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_maintenance_job_status_1aa1521f7adc6ada01201002e885979f7c" kindref="member">is_failed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1_maintenance_job_status_1a4f8f50c0a2d8a20e74bc1df4e0404414" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_maintenance_job_status_1a4f8f50c0a2d8a20e74bc1df4e0404414" kindref="member">progress_percentage</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1_maintenance_job_status_1a733e4636ab63bee78f32acbc5339e0f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_maintenance_job_status_1a733e4636ab63bee78f32acbc5339e0f3" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1_maintenance_job_status_1a10483034c098d305279dc3c4eac9df13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_maintenance_job_status_1a10483034c098d305279dc3c4eac9df13" kindref="member">result_summary</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1_maintenance_job_status_1a6a396667de9427bd94270ccd192dd8f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_maintenance_job_status_1a6a396667de9427bd94270ccd192dd8f4" kindref="member">start_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1_maintenance_job_status_1a5daecdefc9aa0388c3e35537c93671bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_maintenance_job_status_1a5daecdefc9aa0388c3e35537c93671bc" kindref="member">end_time_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1_maintenance_job_status_1afb6df5dd0b949db637b5fade146749ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_maintenance_job_status_1afb6df5dd0b949db637b5fade146749ec" kindref="member">duration_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Before/After<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1_maintenance_job_status_1a77c28003f7076320882d3f3adc6fa248" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_fragmentation_metrics" kindref="compound">FragmentationMetrics</ref><sp/><ref refid="structthemis_1_1_maintenance_job_status_1a77c28003f7076320882d3f3adc6fa248" kindref="member">before_metrics</ref>;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1_maintenance_job_status_1a97a16c0b3fb4b188e54edea18c54fbff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_fragmentation_metrics" kindref="compound">FragmentationMetrics</ref><sp/><ref refid="structthemis_1_1_maintenance_job_status_1a97a16c0b3fb4b188e54edea18c54fbff" kindref="member">after_metrics</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1_maintenance_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_maintenance_policy" kindref="compound">MaintenancePolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fragmentation<sp/>thresholds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1_maintenance_policy_1afb770880d8813395052f8ce4604736f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_maintenance_policy_1afb770880d8813395052f8ce4604736f7" kindref="member">reorganize_threshold</ref><sp/>=<sp/>10.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>10%:<sp/>trigger<sp/>reorganization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1_maintenance_policy_1a36e09c1c1478f01b2f8fcea9720f01a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_maintenance_policy_1a36e09c1c1478f01b2f8fcea9720f01a2" kindref="member">rebuild_threshold</ref><sp/>=<sp/>30.0;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>30%:<sp/>trigger<sp/>rebuild</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics<sp/>staleness<sp/>thresholds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1_maintenance_policy_1aa40d77afa5fb44a2a9b4172ac5279b24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_maintenance_policy_1aa40d77afa5fb44a2a9b4172ac5279b24" kindref="member">statistics_update_interval_ms</ref><sp/>=<sp/>3600000;<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>hour</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Scheduling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1_maintenance_policy_1a72588b9bbebffc4cc490990919082951" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a7fd11395e6c73e80567c4e2169f57c0a" kindref="member">MaintenanceSchedule</ref><sp/><ref refid="structthemis_1_1_maintenance_policy_1a72588b9bbebffc4cc490990919082951" kindref="member">schedule_type</ref><sp/>=<sp/><ref refid="namespacethemis_1a7fd11395e6c73e80567c4e2169f57c0aa3bf07fe8ac3883060b1558113ba248d4" kindref="member">MaintenanceSchedule::HYBRID</ref>;</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1_maintenance_policy_1add272858dc88ebfa78ae4d3d58b1d3a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1_maintenance_policy_1add272858dc88ebfa78ae4d3d58b1d3a3" kindref="member">time_based_interval_ms</ref><sp/>=<sp/>86400000;<sp/><sp/></highlight><highlight class="comment">//<sp/>24<sp/>hours</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>allocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1_maintenance_policy_1a67634d6cf40ec3cc568b44d1f810a5b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_maintenance_policy_1a67634d6cf40ec3cc568b44d1f810a5b2" kindref="member">max_concurrent_jobs</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1_maintenance_policy_1a47e5129c818374ec32f8621bb3149d6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_maintenance_policy_1a47e5129c818374ec32f8621bb3149d6e" kindref="member">priority_level</ref><sp/>=<sp/>5;<sp/><sp/></highlight><highlight class="comment">//<sp/>1-10,<sp/>higher<sp/>=<sp/>more<sp/>important</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maintenance<sp/>windows<sp/>(hours<sp/>in<sp/>24h<sp/>format)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1_maintenance_policy_1a6810536d59a29db122d6c1e672973a9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_maintenance_policy_1a6810536d59a29db122d6c1e672973a9b" kindref="member">enable_maintenance_window</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1_maintenance_policy_1a5edcb4d4cb2bf03586b1d39574cdf17e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_maintenance_policy_1a5edcb4d4cb2bf03586b1d39574cdf17e" kindref="member">window_start_hour</ref><sp/>=<sp/>2;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>AM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1_maintenance_policy_1adec2ed51616770605a858f4bb92b624f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_maintenance_policy_1adec2ed51616770605a858f4bb92b624f" kindref="member">window_end_hour</ref><sp/>=<sp/>6;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>6<sp/>AM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>throttling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1_maintenance_policy_1aa2ff8daf626a4931430e73e5b96b4222" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_maintenance_policy_1aa2ff8daf626a4931430e73e5b96b4222" kindref="member">enable_throttling</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1_maintenance_policy_1a2f49a1df6f53595ca75d048407accfa0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_maintenance_policy_1a2f49a1df6f53595ca75d048407accfa0" kindref="member">max_cpu_usage_percent</ref><sp/>=<sp/>50.0;</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1_maintenance_policy_1aca0a68c383c19a9224860adf07c9de78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_maintenance_policy_1aca0a68c383c19a9224860adf07c9de78" kindref="member">max_memory_usage_mb</ref><sp/>=<sp/>1024.0;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Online<sp/>maintenance<sp/>(minimal<sp/>locking)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1_maintenance_policy_1a64aed9dfac8b706f7ef50d1879945c79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_maintenance_policy_1a64aed9dfac8b706f7ef50d1879945c79" kindref="member">online_maintenance</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1_index_maintenance_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_index_maintenance_manager_1a366feb6e004a70cca900602983af171f" kindref="member">IndexMaintenanceManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_index_maintenance_manager_1a366feb6e004a70cca900602983af171f" kindref="member">IndexMaintenanceManager</ref>(</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/>db_wrapper,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IndexManager&gt;<sp/>index_manager<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_index_maintenance_manager_1ab151204fa420698a31fe3c619fc96de3" kindref="member">~IndexMaintenanceManager</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy<sp/>and<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="classthemis_1_1_index_maintenance_manager_1adaabae379218f537547faa7116ef9c27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_index_maintenance_manager_1adaabae379218f537547faa7116ef9c27" kindref="member">IndexMaintenanceManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_index_maintenance_manager_1a366feb6e004a70cca900602983af171f" kindref="member">IndexMaintenanceManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169" refid="classthemis_1_1_index_maintenance_manager_1a64c706d644c5159afe4c37a42794525a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_index_maintenance_manager_1a366feb6e004a70cca900602983af171f" kindref="member">IndexMaintenanceManager</ref>&amp;<sp/><ref refid="classthemis_1_1_index_maintenance_manager_1a64c706d644c5159afe4c37a42794525a" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_index_maintenance_manager_1a366feb6e004a70cca900602983af171f" kindref="member">IndexMaintenanceManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170" refid="classthemis_1_1_index_maintenance_manager_1a68e11692054efac7b648354d34bb45a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_index_maintenance_manager_1a68e11692054efac7b648354d34bb45a6" kindref="member">IndexMaintenanceManager</ref>(<ref refid="classthemis_1_1_index_maintenance_manager_1a366feb6e004a70cca900602983af171f" kindref="member">IndexMaintenanceManager</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1_index_maintenance_manager_1a348206355ec1d4851808fc637a90fcb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_index_maintenance_manager_1a366feb6e004a70cca900602983af171f" kindref="member">IndexMaintenanceManager</ref>&amp;<sp/><ref refid="classthemis_1_1_index_maintenance_manager_1a348206355ec1d4851808fc637a90fcb5" kindref="member">operator=</ref>(<ref refid="classthemis_1_1_index_maintenance_manager_1a366feb6e004a70cca900602983af171f" kindref="member">IndexMaintenanceManager</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1_index_maintenance_manager_1ac19173e9cc17bdaf58441c582d7fbe75" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1_index_maintenance_manager_1a6965056933f4c8cb39e712d8e183779e" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_index_maintenance_manager_1a8ec4f06ecb22c7cbec8f4e94b250a76e" kindref="member">isRunning</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1_index_maintenance_manager_1a68b0934c58b409306fa4b32e0d36b9ad" kindref="member">setPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_maintenance_policy" kindref="compound">MaintenancePolicy</ref>&amp;<sp/>policy);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_maintenance_policy" kindref="compound">MaintenancePolicy</ref><sp/><ref refid="classthemis_1_1_index_maintenance_manager_1a1072e28d825fd33055a1ce8ce1eb9ecd" kindref="member">getPolicy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;FragmentationMetrics&gt;<sp/><ref refid="classthemis_1_1_index_maintenance_manager_1a3c4f37605718589cd67d97af4caee6e3" kindref="member">monitorFragmentation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_name);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;MaintenanceJobStatus&gt;<sp/><ref refid="classthemis_1_1_index_maintenance_manager_1ab4d15ee53b325d5228a87fcc01078c4f" kindref="member">rebuildIndex</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_name,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>async<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;MaintenanceJobStatus&gt;<sp/><ref refid="classthemis_1_1_index_maintenance_manager_1a58c7aefe93545f1a0385378825149648" kindref="member">reorganizeIndex</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_name,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>async<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;MaintenanceJobStatus&gt;<sp/><ref refid="classthemis_1_1_index_maintenance_manager_1a8f857957af09ac7a34aa1578ba995853" kindref="member">updateStatistics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_name);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;MaintenanceJobStatus&gt;<sp/><ref refid="classthemis_1_1_index_maintenance_manager_1ac219288aad633ddd5a38295e26a82e89" kindref="member">cleanupOrphanEntries</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_name);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;MaintenanceJobStatus&gt;<sp/><ref refid="classthemis_1_1_index_maintenance_manager_1a5570b1588dba4e1c241fe1e7c85ad2ed" kindref="member">checkConsistency</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_name,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>repair<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;MaintenanceJobStatus&gt;<sp/><ref refid="classthemis_1_1_index_maintenance_manager_1a072c1927294d4f81d8c036e2903c4407" kindref="member">getJobStatus</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>job_id);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MaintenanceJobStatus&gt;<sp/><ref refid="classthemis_1_1_index_maintenance_manager_1aa0d11ab1be229682c77f45622f257fa7" kindref="member">listActiveJobs</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1_index_maintenance_manager_1a3bc82cd89fc3195a9fc9e88d807ccd40" kindref="member">cancelJob</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>job_id);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>FragmentationMetrics&gt;<sp/><ref refid="classthemis_1_1_index_maintenance_manager_1aaefbb590b08f26446fe94914b330eb86" kindref="member">getAllFragmentationMetrics</ref>();</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1_index_maintenance_manager_1acbc242e54c13bca18692c5ab71091ba3" kindref="member">triggerMaintenanceCheck</ref>();</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>Vector<sp/>Index<sp/>Integration<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_index_maintenance_manager_1a8674743f79ac093d668e1aed4e4996c2" kindref="member">setVectorIndexManager</ref>(std::shared_ptr&lt;VectorIndexManager&gt;<sp/>vector_index);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;MaintenanceJobStatus&gt;<sp/><ref refid="classthemis_1_1_index_maintenance_manager_1a9f199d81ad3ffc6c2912b70040c56989" kindref="member">vectorIncrementalReindex</ref>(</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>rebuild_threshold<sp/>=<sp/>0.20f,</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>vector_field<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;embedding&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Background<sp/>maintenance<sp/>thread</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>maintenanceThreadFunc();</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;FragmentationMetrics&gt;<sp/>calculateFragmentation(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_name);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/>performRebuild(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_name,<sp/><ref refid="structthemis_1_1_maintenance_job_status" kindref="compound">MaintenanceJobStatus</ref>&amp;<sp/>status);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/>performReorganize(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_name,<sp/><ref refid="structthemis_1_1_maintenance_job_status" kindref="compound">MaintenanceJobStatus</ref>&amp;<sp/>status);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/>performStatisticsUpdate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_name,<sp/><ref refid="structthemis_1_1_maintenance_job_status" kindref="compound">MaintenanceJobStatus</ref>&amp;<sp/>status);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/>performOrphanCleanup(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_name,<sp/><ref refid="structthemis_1_1_maintenance_job_status" kindref="compound">MaintenanceJobStatus</ref>&amp;<sp/>status);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/>performConsistencyCheck(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_name,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>repair,<sp/><ref refid="structthemis_1_1_maintenance_job_status" kindref="compound">MaintenanceJobStatus</ref>&amp;<sp/>status);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>shouldRunMaintenance()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isInMaintenanceWindow()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateJobId();</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a2a70140560883d0e0332657bdf67cfa1" kindref="member">FragmentationLevel</ref><sp/>classifyFragmentation(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>percentage)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Members</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/>db_wrapper_;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IndexManager&gt;<sp/>index_manager_;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;VectorIndexManager&gt;<sp/>vector_index_manager_;<sp/></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_maintenance_policy" kindref="compound">MaintenancePolicy</ref><sp/>policy_;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Threading</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>maintenance_thread_;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>cv_;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Job<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>MaintenanceJobStatus&gt;<sp/>active_jobs_;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>MaintenanceJobStatus&gt;<sp/>completed_jobs_;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>job_counter_{0};</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metrics<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>FragmentationMetrics&gt;<sp/>metrics_cache_;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>last_metrics_update_ms_{0};</highlight></codeline>
+<codeline lineno="344"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/storage/index_maintenance.h"/>
+  </compounddef>
+</doxygen>

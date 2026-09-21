@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1user__storage_1_1_0d157145267066264247054361266231343235216251102132" kind="namespace" language="C++">
+    <compoundname>themis::plugins::user_storage::@157145267066264247054361266231343235216251102132</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/user_storage_encrypted/key_derivation_service.cpp" line="48" column="1"/>
+  </compounddef>
+</doxygen>

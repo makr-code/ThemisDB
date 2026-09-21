@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_remote_step" kind="struct" language="C++" prot="public">
+    <compoundname>themis::RemoteStep</compoundname>
+    <includes refid="distributed__saga_8h" local="no">distributed_saga.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_remote_step_1ab0f84d506faef6f04b740dd6c7500a77" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::RemoteStep::service_endpoint</definition>
+        <argsstring></argsstring>
+        <name>service_endpoint</name>
+        <qualifiedname>themis::RemoteStep::service_endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="149" column="17" bodyfile="include/transaction/distributed_saga.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_remote_step_1affd42fe9372470fbb175ef541be0a4ef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::RemoteStep::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themis::RemoteStep::operation</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="151" column="17" bodyfile="include/transaction/distributed_saga.h" bodystart="151" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_remote_step_1ae516625f1832fea4cbd1c1f0077124f3" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::RemoteStep::params</definition>
+        <argsstring></argsstring>
+        <name>params</name>
+        <qualifiedname>themis::RemoteStep::params</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="153" column="20" bodyfile="include/transaction/distributed_saga.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_remote_step_1af4b868513986ee78c8543e482d11acc8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::RemoteStep::compensate_operation</definition>
+        <argsstring></argsstring>
+        <name>compensate_operation</name>
+        <qualifiedname>themis::RemoteStep::compensate_operation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="155" column="17" bodyfile="include/transaction/distributed_saga.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_remote_step_1a329deda5727974ae8de870f107e75a75" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::RemoteStep::compensate_params</definition>
+        <argsstring></argsstring>
+        <name>compensate_params</name>
+        <qualifiedname>themis::RemoteStep::compensate_params</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="157" column="20" bodyfile="include/transaction/distributed_saga.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_remote_step_1afe44516c497d050377d61a2818d9fb51" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::RemoteStep::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::RemoteStep::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="159" column="17" bodyfile="include/transaction/distributed_saga.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_remote_step_1a27f6d1c4ac406c956353edab7ddfc317" prot="public" static="no" mutable="no">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>std::set&lt;std::string&gt; themis::RemoteStep::depends_on</definition>
+        <argsstring></argsstring>
+        <name>depends_on</name>
+        <qualifiedname>themis::RemoteStep::depends_on</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="161" column="14" bodyfile="include/transaction/distributed_saga.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_remote_step_1adab011df818ba76d00468bf593d3524a" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::RemoteStep::forward_timeout</definition>
+        <argsstring></argsstring>
+        <name>forward_timeout</name>
+        <qualifiedname>themis::RemoteStep::forward_timeout</qualifiedname>
+        <initializer>{std::chrono::milliseconds(5000)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="163" column="31" bodyfile="include/transaction/distributed_saga.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_remote_step_1aa8fdbad32e83e90c0e500b6a4330ab9b" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::RemoteStep::compensate_timeout</definition>
+        <argsstring></argsstring>
+        <name>compensate_timeout</name>
+        <qualifiedname>themis::RemoteStep::compensate_timeout</qualifiedname>
+        <initializer>{std::chrono::milliseconds(10000)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="165" column="31" bodyfile="include/transaction/distributed_saga.h" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_remote_step_1a0a2b2ef6a9c464f1e9b07d4d64cfa625" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::RemoteStep::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::RemoteStep::max_retries</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="167" column="12" bodyfile="include/transaction/distributed_saga.h" bodystart="167" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_remote_step_1a2a4504d5f0212fbff075bfc947ef8658" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::RemoteStep::retry_backoff</definition>
+        <argsstring></argsstring>
+        <name>retry_backoff</name>
+        <qualifiedname>themis::RemoteStep::retry_backoff</qualifiedname>
+        <initializer>{std::chrono::milliseconds(100)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="169" column="31" bodyfile="include/transaction/distributed_saga.h" bodystart="169" bodyend="169"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/distributed_saga.h" line="148" column="1" bodyfile="include/transaction/distributed_saga.h" bodystart="148" bodyend="170"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_remote_step_1af4b868513986ee78c8543e482d11acc8" prot="public" virt="non-virtual"><scope>themis::RemoteStep</scope><name>compensate_operation</name></member>
+      <member refid="structthemis_1_1_remote_step_1a329deda5727974ae8de870f107e75a75" prot="public" virt="non-virtual"><scope>themis::RemoteStep</scope><name>compensate_params</name></member>
+      <member refid="structthemis_1_1_remote_step_1aa8fdbad32e83e90c0e500b6a4330ab9b" prot="public" virt="non-virtual"><scope>themis::RemoteStep</scope><name>compensate_timeout</name></member>
+      <member refid="structthemis_1_1_remote_step_1a27f6d1c4ac406c956353edab7ddfc317" prot="public" virt="non-virtual"><scope>themis::RemoteStep</scope><name>depends_on</name></member>
+      <member refid="structthemis_1_1_remote_step_1adab011df818ba76d00468bf593d3524a" prot="public" virt="non-virtual"><scope>themis::RemoteStep</scope><name>forward_timeout</name></member>
+      <member refid="structthemis_1_1_remote_step_1a0a2b2ef6a9c464f1e9b07d4d64cfa625" prot="public" virt="non-virtual"><scope>themis::RemoteStep</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1_remote_step_1afe44516c497d050377d61a2818d9fb51" prot="public" virt="non-virtual"><scope>themis::RemoteStep</scope><name>name</name></member>
+      <member refid="structthemis_1_1_remote_step_1affd42fe9372470fbb175ef541be0a4ef" prot="public" virt="non-virtual"><scope>themis::RemoteStep</scope><name>operation</name></member>
+      <member refid="structthemis_1_1_remote_step_1ae516625f1832fea4cbd1c1f0077124f3" prot="public" virt="non-virtual"><scope>themis::RemoteStep</scope><name>params</name></member>
+      <member refid="structthemis_1_1_remote_step_1a2a4504d5f0212fbff075bfc947ef8658" prot="public" virt="non-virtual"><scope>themis::RemoteStep</scope><name>retry_backoff</name></member>
+      <member refid="structthemis_1_1_remote_step_1ab0f84d506faef6f04b740dd6c7500a77" prot="public" virt="non-virtual"><scope>themis::RemoteStep</scope><name>service_endpoint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

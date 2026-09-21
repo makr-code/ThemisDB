@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_tokenizer" kind="class" language="C++" prot="public">
+    <compoundname>MockTokenizer</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">ITokenizer</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_tokenizer_1ab619a79d14fe7f8ae418473e815cfe1a" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int MockTokenizer::vocab_size_</definition>
+        <argsstring></argsstring>
+        <name>vocab_size_</name>
+        <qualifiedname>MockTokenizer::vocab_size_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_data_transfer.cpp" line="222" column="9" bodyfile="benchmarks/gpu/bench_data_transfer.cpp" bodystart="222" bodyend="222"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_tokenizer_1ad8a6bf5c3b62bcccea80aafe912d3d3d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MockTokenizer::MockTokenizer</definition>
+        <argsstring>(int vocab_size=VOCAB_SIZE)</argsstring>
+        <name>MockTokenizer</name>
+        <qualifiedname>MockTokenizer::MockTokenizer</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>vocab_size</declname>
+          <defval><ref refid="bench__data__transfer_8cpp_1a7693a870c6dce4129c6246e97f751d81" kindref="member">VOCAB_SIZE</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_data_transfer.cpp" line="197" column="5" bodyfile="benchmarks/gpu/bench_data_transfer.cpp" bodystart="197" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_tokenizer_1aeef28a01b51eea18c78f3ec4fdaa3b47" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; MockTokenizer::encode</definition>
+        <argsstring>(const std::string &amp;text, bool add_bos=true, bool add_eos=false) override</argsstring>
+        <name>encode</name>
+        <qualifiedname>MockTokenizer::encode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>add_bos</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>add_eos</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_data_transfer.cpp" line="199" column="17" bodyfile="benchmarks/gpu/bench_data_transfer.cpp" bodystart="199" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_tokenizer_1a21110e8c93c9c4b6bf6de9fbbec37070" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string MockTokenizer::decode</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;tokens) override</argsstring>
+        <name>decode</name>
+        <qualifiedname>MockTokenizer::decode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>tokens</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_data_transfer.cpp" line="212" column="17" bodyfile="benchmarks/gpu/bench_data_transfer.cpp" bodystart="212" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_tokenizer_1a26401895cc14d02a9da5daf9f39ce96f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int MockTokenizer::vocab_size</definition>
+        <argsstring>() const override</argsstring>
+        <name>vocab_size</name>
+        <qualifiedname>MockTokenizer::vocab_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_data_transfer.cpp" line="216" column="9" bodyfile="benchmarks/gpu/bench_data_transfer.cpp" bodystart="216" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_tokenizer_1a68021843c4cd34a0c9b313eac536a838" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int MockTokenizer::bos_token_id</definition>
+        <argsstring>() const override</argsstring>
+        <name>bos_token_id</name>
+        <qualifiedname>MockTokenizer::bos_token_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_data_transfer.cpp" line="217" column="9" bodyfile="benchmarks/gpu/bench_data_transfer.cpp" bodystart="217" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_tokenizer_1ad53f49fec25e45e4f08d174048aec9d7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int MockTokenizer::eos_token_id</definition>
+        <argsstring>() const override</argsstring>
+        <name>eos_token_id</name>
+        <qualifiedname>MockTokenizer::eos_token_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_data_transfer.cpp" line="218" column="9" bodyfile="benchmarks/gpu/bench_data_transfer.cpp" bodystart="218" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_tokenizer_1a2a5b23991cb38a241dd9f17e73df4b16" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int MockTokenizer::pad_token_id</definition>
+        <argsstring>() const override</argsstring>
+        <name>pad_token_id</name>
+        <qualifiedname>MockTokenizer::pad_token_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_data_transfer.cpp" line="219" column="9" bodyfile="benchmarks/gpu/bench_data_transfer.cpp" bodystart="219" bodyend="219"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ITokenizer</label>
+      </node>
+      <node id="1">
+        <label>MockTokenizer</label>
+        <link refid="class_mock_tokenizer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>ITokenizer</label>
+      </node>
+      <node id="1">
+        <label>MockTokenizer</label>
+        <link refid="class_mock_tokenizer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/gpu/bench_data_transfer.cpp" line="195" column="1" bodyfile="benchmarks/gpu/bench_data_transfer.cpp" bodystart="195" bodyend="223"/>
+    <listofallmembers>
+      <member refid="class_mock_tokenizer_1a68021843c4cd34a0c9b313eac536a838" prot="public" virt="non-virtual"><scope>MockTokenizer</scope><name>bos_token_id</name></member>
+      <member refid="class_mock_tokenizer_1a21110e8c93c9c4b6bf6de9fbbec37070" prot="public" virt="non-virtual"><scope>MockTokenizer</scope><name>decode</name></member>
+      <member refid="class_mock_tokenizer_1aeef28a01b51eea18c78f3ec4fdaa3b47" prot="public" virt="non-virtual"><scope>MockTokenizer</scope><name>encode</name></member>
+      <member refid="class_mock_tokenizer_1ad53f49fec25e45e4f08d174048aec9d7" prot="public" virt="non-virtual"><scope>MockTokenizer</scope><name>eos_token_id</name></member>
+      <member refid="class_mock_tokenizer_1ad8a6bf5c3b62bcccea80aafe912d3d3d" prot="public" virt="non-virtual"><scope>MockTokenizer</scope><name>MockTokenizer</name></member>
+      <member refid="class_mock_tokenizer_1a2a5b23991cb38a241dd9f17e73df4b16" prot="public" virt="non-virtual"><scope>MockTokenizer</scope><name>pad_token_id</name></member>
+      <member refid="class_mock_tokenizer_1a26401895cc14d02a9da5daf9f39ce96f" prot="public" virt="non-virtual"><scope>MockTokenizer</scope><name>vocab_size</name></member>
+      <member refid="class_mock_tokenizer_1ab619a79d14fe7f8ae418473e815cfe1a" prot="private" virt="non-virtual"><scope>MockTokenizer</scope><name>vocab_size_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

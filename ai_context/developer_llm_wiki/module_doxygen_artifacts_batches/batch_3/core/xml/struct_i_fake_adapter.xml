@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_i_fake_adapter" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>IFakeAdapter</compoundname>
+    <derivedcompoundref refid="struct_fake_adapter_impl" prot="public" virt="non-virtual">FakeAdapterImpl</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_i_fake_adapter_1a234773930c3062412a12e82973269c12" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual IFakeAdapter::~IFakeAdapter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IFakeAdapter</name>
+        <qualifiedname>IFakeAdapter::~IFakeAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_signing_focused.cpp" line="126" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_i_fake_adapter_1a08119290ed998adeaeae66aa67af6728" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int IFakeAdapter::value</definition>
+        <argsstring>() const =0</argsstring>
+        <name>value</name>
+        <qualifiedname>IFakeAdapter::value</qualifiedname>
+        <reimplementedby refid="struct_fake_adapter_impl_1a3e1c58d85d5f6ad19c06625a57e179da">value</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/core/test_adapter_signing_focused.cpp" line="127" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>FakeAdapterImpl</label>
+        <link refid="struct_fake_adapter_impl"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>IFakeAdapter</label>
+        <link refid="struct_i_fake_adapter"/>
+      </node>
+    </inheritancegraph>
+    <location file="tests/core/test_adapter_signing_focused.cpp" line="125" column="1" bodyfile="tests/core/test_adapter_signing_focused.cpp" bodystart="125" bodyend="128"/>
+    <listofallmembers>
+      <member refid="struct_i_fake_adapter_1a08119290ed998adeaeae66aa67af6728" prot="public" virt="pure-virtual"><scope>IFakeAdapter</scope><name>value</name></member>
+      <member refid="struct_i_fake_adapter_1a234773930c3062412a12e82973269c12" prot="public" virt="virtual"><scope>IFakeAdapter</scope><name>~IFakeAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

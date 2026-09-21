@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::FlareRetrieval::FlareStats</compoundname>
+    <includes refid="flare__retrieval_8h" local="no">flare_retrieval.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a231b3ff67ee09715c608fff091d5a4ea" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::FlareRetrieval::FlareStats::tokens_emitted</definition>
+        <argsstring></argsstring>
+        <name>tokens_emitted</name>
+        <qualifiedname>themis::rag::FlareRetrieval::FlareStats::tokens_emitted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="241" column="21" bodyfile="include/rag/flare_retrieval.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1af932e17eb3ac530cabc451f436fba63d" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::FlareRetrieval::FlareStats::retrieval_triggers</definition>
+        <argsstring></argsstring>
+        <name>retrieval_triggers</name>
+        <qualifiedname>themis::rag::FlareRetrieval::FlareStats::retrieval_triggers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="242" column="21" bodyfile="include/rag/flare_retrieval.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a9f98f4d3ef98e12af9d1f70669d39f96" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::FlareRetrieval::FlareStats::cooldown_skips</definition>
+        <argsstring></argsstring>
+        <name>cooldown_skips</name>
+        <qualifiedname>themis::rag::FlareRetrieval::FlareStats::cooldown_skips</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="243" column="21" bodyfile="include/rag/flare_retrieval.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a1f3ba7331c3a9b7d970e2fcc53810f99" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::FlareRetrieval::FlareStats::max_steps_skips</definition>
+        <argsstring></argsstring>
+        <name>max_steps_skips</name>
+        <qualifiedname>themis::rag::FlareRetrieval::FlareStats::max_steps_skips</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="244" column="21" bodyfile="include/rag/flare_retrieval.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a00e1999aaa7694baf0d6c7ba45f1ed17" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::FlareRetrieval::FlareStats::mean_log_prob</definition>
+        <argsstring></argsstring>
+        <name>mean_log_prob</name>
+        <qualifiedname>themis::rag::FlareRetrieval::FlareStats::mean_log_prob</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="245" column="21" bodyfile="include/rag/flare_retrieval.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a1f7311db99f82c0e4c27283961222e10" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::FlareRetrieval::FlareStats::min_log_prob</definition>
+        <argsstring></argsstring>
+        <name>min_log_prob</name>
+        <qualifiedname>themis::rag::FlareRetrieval::FlareStats::min_log_prob</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="246" column="21" bodyfile="include/rag/flare_retrieval.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a43f02b7888847b612ec5bf78e873764d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::FlareRetrieval::FlareStats::max_log_prob</definition>
+        <argsstring></argsstring>
+        <name>max_log_prob</name>
+        <qualifiedname>themis::rag::FlareRetrieval::FlareStats::max_log_prob</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="247" column="21" bodyfile="include/rag/flare_retrieval.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a7876a4ef3321e4fa1c5b72503766e41e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::FlareRetrieval::FlareStats::triggerRate</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>triggerRate</name>
+        <qualifiedname>themis::rag::FlareRetrieval::FlareStats::triggerRate</qualifiedname>
+        <briefdescription>
+<para>Fraction of tokens that triggered retrieval. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="250" column="17" bodyfile="include/rag/flare_retrieval.h" bodystart="250" bodyend="254"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/flare_retrieval.h" line="240" column="5" bodyfile="include/rag/flare_retrieval.h" bodystart="240" bodyend="255"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a9f98f4d3ef98e12af9d1f70669d39f96" prot="public" virt="non-virtual"><scope>themis::rag::FlareRetrieval::FlareStats</scope><name>cooldown_skips</name></member>
+      <member refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a43f02b7888847b612ec5bf78e873764d" prot="public" virt="non-virtual"><scope>themis::rag::FlareRetrieval::FlareStats</scope><name>max_log_prob</name></member>
+      <member refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a1f3ba7331c3a9b7d970e2fcc53810f99" prot="public" virt="non-virtual"><scope>themis::rag::FlareRetrieval::FlareStats</scope><name>max_steps_skips</name></member>
+      <member refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a00e1999aaa7694baf0d6c7ba45f1ed17" prot="public" virt="non-virtual"><scope>themis::rag::FlareRetrieval::FlareStats</scope><name>mean_log_prob</name></member>
+      <member refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a1f7311db99f82c0e4c27283961222e10" prot="public" virt="non-virtual"><scope>themis::rag::FlareRetrieval::FlareStats</scope><name>min_log_prob</name></member>
+      <member refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1af932e17eb3ac530cabc451f436fba63d" prot="public" virt="non-virtual"><scope>themis::rag::FlareRetrieval::FlareStats</scope><name>retrieval_triggers</name></member>
+      <member refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a231b3ff67ee09715c608fff091d5a4ea" prot="public" virt="non-virtual"><scope>themis::rag::FlareRetrieval::FlareStats</scope><name>tokens_emitted</name></member>
+      <member refid="structthemis_1_1rag_1_1_flare_retrieval_1_1_flare_stats_1a7876a4ef3321e4fa1c5b72503766e41e" prot="public" virt="non-virtual"><scope>themis::rag::FlareRetrieval::FlareStats</scope><name>triggerRate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

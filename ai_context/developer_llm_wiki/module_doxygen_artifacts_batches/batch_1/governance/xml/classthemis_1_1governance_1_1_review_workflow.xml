@@ -1,0 +1,659 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_review_workflow" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::ReviewWorkflow</compoundname>
+    <includes refid="policy__review_8h" local="no">policy_review.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_review_workflow_1a0c0de05a4dfdd2b9bd7fda6a74c2c194" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::ReviewWorkflow::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::governance::ReviewWorkflow::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="212" column="24" bodyfile="include/governance/policy_review.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_review_workflow_1ab2b848e9e1f29277c4100821a6a033c9" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1governance_1_1_policy_review" kindref="compound">PolicyReview</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, PolicyReview&gt; themis::governance::ReviewWorkflow::reviews_</definition>
+        <argsstring></argsstring>
+        <name>reviews_</name>
+        <qualifiedname>themis::governance::ReviewWorkflow::reviews_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="213" column="24" bodyfile="include/governance/policy_review.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_workflow_1abe298da5290bf4b6e1a886225fa5be7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ReviewWorkflow::createReview</definition>
+        <argsstring>(const std::string &amp;rule_id, const std::string &amp;reviewer, const std::string &amp;requester, int days_to_complete=7)</argsstring>
+        <name>createReview</name>
+        <qualifiedname>themis::governance::ReviewWorkflow::createReview</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reviewer</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>requester</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>days_to_complete</declname>
+          <defval>7</defval>
+        </param>
+        <briefdescription>
+<para>Create Review. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reviewer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">requester</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">days_to_complete</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), generateReviewId(), getCurrentTimeMs(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="125" column="17" bodyfile="src/governance/policy_review.cpp" bodystart="354" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_workflow_1a2cd847e4365cb4da0a2c77fb9ef8c641" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_policy_review" kindref="compound">PolicyReview</ref> &gt;</type>
+        <definition>std::optional&lt; PolicyReview &gt; themis::governance::ReviewWorkflow::getReview</definition>
+        <argsstring>(const std::string &amp;review_id) const</argsstring>
+        <name>getReview</name>
+        <qualifiedname>themis::governance::ReviewWorkflow::getReview</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>review_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Review. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">review_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the review. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="137" column="19" bodyfile="src/governance/policy_review.cpp" bodystart="376" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_workflow_1ae782bc08ae4c966f709c1d7fd0be6d8c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_review" kindref="compound">PolicyReview</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyReview &gt; themis::governance::ReviewWorkflow::listReviews</definition>
+        <argsstring>() const</argsstring>
+        <name>listReviews</name>
+        <qualifiedname>themis::governance::ReviewWorkflow::listReviews</qualifiedname>
+        <briefdescription>
+<para>List Reviews. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="143" column="17" bodyfile="src/governance/policy_review.cpp" bodystart="391" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_workflow_1a54c2f934be7fca598932c29c376ef31a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_review" kindref="compound">PolicyReview</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyReview &gt; themis::governance::ReviewWorkflow::listReviewsByStatus</definition>
+        <argsstring>(const std::string &amp;status) const</argsstring>
+        <name>listReviewsByStatus</name>
+        <qualifiedname>themis::governance::ReviewWorkflow::listReviewsByStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>List Reviews By Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="150" column="17" bodyfile="src/governance/policy_review.cpp" bodystart="410" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_workflow_1a1098348e305f6b3995785c419ce87a96" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_review" kindref="compound">PolicyReview</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyReview &gt; themis::governance::ReviewWorkflow::listReviewsByReviewer</definition>
+        <argsstring>(const std::string &amp;reviewer) const</argsstring>
+        <name>listReviewsByReviewer</name>
+        <qualifiedname>themis::governance::ReviewWorkflow::listReviewsByReviewer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reviewer</declname>
+        </param>
+        <briefdescription>
+<para>List Reviews By Reviewer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reviewer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="157" column="17" bodyfile="src/governance/policy_review.cpp" bodystart="429" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_workflow_1a16a28f68c74a53259c3891547a8cf06e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_review" kindref="compound">PolicyReview</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyReview &gt; themis::governance::ReviewWorkflow::listPendingReviews</definition>
+        <argsstring>() const</argsstring>
+        <name>listPendingReviews</name>
+        <qualifiedname>themis::governance::ReviewWorkflow::listPendingReviews</qualifiedname>
+        <briefdescription>
+<para>List Pending Reviews. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="163" column="17" bodyfile="src/governance/policy_review.cpp" bodystart="448" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_workflow_1a6ad21ff88450035a47398f8367be1e28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::ReviewWorkflow::approveReview</definition>
+        <argsstring>(const std::string &amp;review_id, const std::string &amp;notes)</argsstring>
+        <name>approveReview</name>
+        <qualifiedname>themis::governance::ReviewWorkflow::approveReview</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>review_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>notes</declname>
+        </param>
+        <briefdescription>
+<para>Approve Review. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">review_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the review. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">notes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">review_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the review. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">notes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_ERROR(), getCurrentTimeMs(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="171" column="10" bodyfile="src/governance/policy_review.cpp" bodystart="459" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_workflow_1a2841a32271df8dae54d8db11a14cfdad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::ReviewWorkflow::rejectReview</definition>
+        <argsstring>(const std::string &amp;review_id, const std::string &amp;reason, const std::string &amp;notes)</argsstring>
+        <name>rejectReview</name>
+        <qualifiedname>themis::governance::ReviewWorkflow::rejectReview</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>review_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>notes</declname>
+        </param>
+        <briefdescription>
+<para>Reject Review. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">review_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the review. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">notes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">review_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the review. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">notes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_ERROR(), getCurrentTimeMs(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="180" column="10" bodyfile="src/governance/policy_review.cpp" bodystart="489" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_workflow_1ad0602548c639cb3769d4a9a0f2987cb9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_review" kindref="compound">PolicyReview</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyReview &gt; themis::governance::ReviewWorkflow::getReviewHistory</definition>
+        <argsstring>(const std::string &amp;rule_id) const</argsstring>
+        <name>getReviewHistory</name>
+        <qualifiedname>themis::governance::ReviewWorkflow::getReviewHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Review History. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="187" column="17" bodyfile="src/governance/policy_review.cpp" bodystart="512" bodyend="533"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_workflow_1aad4b232aa684506354e8be15a7a88411" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_review" kindref="compound">PolicyReview</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyReview &gt; themis::governance::ReviewWorkflow::getOverdueReviews</definition>
+        <argsstring>(int64_t current_time=0) const</argsstring>
+        <name>getOverdueReviews</name>
+        <qualifiedname>themis::governance::ReviewWorkflow::getOverdueReviews</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>current_time</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="189" column="17" bodyfile="src/governance/policy_review.cpp" bodystart="535" bodyend="557"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_workflow_1ad35d6e282abd21c063ecedfebb7557c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::ReviewWorkflow::cancelReview</definition>
+        <argsstring>(const std::string &amp;review_id)</argsstring>
+        <name>cancelReview</name>
+        <qualifiedname>themis::governance::ReviewWorkflow::cancelReview</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>review_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel Review. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">review_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the review. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">review_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the review. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_ERROR(), getCurrentTimeMs(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="196" column="10" bodyfile="src/governance/policy_review.cpp" bodystart="565" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_workflow_1aa0b3d97bd02125c33e576d5c741fabf1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ReviewWorkflow::exportReviews</definition>
+        <argsstring>() const</argsstring>
+        <name>exportReviews</name>
+        <qualifiedname>themis::governance::ReviewWorkflow::exportReviews</qualifiedname>
+        <briefdescription>
+<para>Export Reviews. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="202" column="20" bodyfile="src/governance/policy_review.cpp" bodystart="586" bodyend="605"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_workflow_1a80b1d5027d89c7eb65eaecd71ca17cc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::ReviewWorkflow::importReviews</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>importReviews</name>
+        <qualifiedname>themis::governance::ReviewWorkflow::importReviews</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Import Reviews. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: contains(), is_array(), THEMIS_ERROR(), lock(), clear(), <ref refid="structthemis_1_1governance_1_1_policy_review_1acff236ea3282e49d7b84fcebafbb84b4" kindref="member">PolicyReview::fromJson()</ref>, THEMIS_INFO(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="209" column="10" bodyfile="src/governance/policy_review.cpp" bodystart="613" bodyend="635"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_review_workflow_1a6394e1303b7e64326eb9c798e561c54d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ReviewWorkflow::generateReviewId</definition>
+        <argsstring>() const</argsstring>
+        <name>generateReviewId</name>
+        <qualifiedname>themis::governance::ReviewWorkflow::generateReviewId</qualifiedname>
+        <briefdescription>
+<para>Generate Review Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_review.h" line="219" column="17" bodyfile="src/governance/policy_review.cpp" bodystart="334" bodyend="343"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_review.h" line="123" column="1" bodyfile="include/governance/policy_review.h" bodystart="123" bodyend="220"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_review_workflow_1a6ad21ff88450035a47398f8367be1e28" prot="public" virt="non-virtual"><scope>themis::governance::ReviewWorkflow</scope><name>approveReview</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_workflow_1ad35d6e282abd21c063ecedfebb7557c4" prot="public" virt="non-virtual"><scope>themis::governance::ReviewWorkflow</scope><name>cancelReview</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_workflow_1abe298da5290bf4b6e1a886225fa5be7f" prot="public" virt="non-virtual"><scope>themis::governance::ReviewWorkflow</scope><name>createReview</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_workflow_1aa0b3d97bd02125c33e576d5c741fabf1" prot="public" virt="non-virtual"><scope>themis::governance::ReviewWorkflow</scope><name>exportReviews</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_workflow_1a6394e1303b7e64326eb9c798e561c54d" prot="private" virt="non-virtual"><scope>themis::governance::ReviewWorkflow</scope><name>generateReviewId</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_workflow_1aad4b232aa684506354e8be15a7a88411" prot="public" virt="non-virtual"><scope>themis::governance::ReviewWorkflow</scope><name>getOverdueReviews</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_workflow_1a2cd847e4365cb4da0a2c77fb9ef8c641" prot="public" virt="non-virtual"><scope>themis::governance::ReviewWorkflow</scope><name>getReview</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_workflow_1ad0602548c639cb3769d4a9a0f2987cb9" prot="public" virt="non-virtual"><scope>themis::governance::ReviewWorkflow</scope><name>getReviewHistory</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_workflow_1a80b1d5027d89c7eb65eaecd71ca17cc8" prot="public" virt="non-virtual"><scope>themis::governance::ReviewWorkflow</scope><name>importReviews</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_workflow_1a16a28f68c74a53259c3891547a8cf06e" prot="public" virt="non-virtual"><scope>themis::governance::ReviewWorkflow</scope><name>listPendingReviews</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_workflow_1ae782bc08ae4c966f709c1d7fd0be6d8c" prot="public" virt="non-virtual"><scope>themis::governance::ReviewWorkflow</scope><name>listReviews</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_workflow_1a1098348e305f6b3995785c419ce87a96" prot="public" virt="non-virtual"><scope>themis::governance::ReviewWorkflow</scope><name>listReviewsByReviewer</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_workflow_1a54c2f934be7fca598932c29c376ef31a" prot="public" virt="non-virtual"><scope>themis::governance::ReviewWorkflow</scope><name>listReviewsByStatus</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_workflow_1a0c0de05a4dfdd2b9bd7fda6a74c2c194" prot="private" virt="non-virtual"><scope>themis::governance::ReviewWorkflow</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_workflow_1a2841a32271df8dae54d8db11a14cfdad" prot="public" virt="non-virtual"><scope>themis::governance::ReviewWorkflow</scope><name>rejectReview</name></member>
+      <member refid="classthemis_1_1governance_1_1_review_workflow_1ab2b848e9e1f29277c4100821a6a033c9" prot="private" virt="non-virtual"><scope>themis::governance::ReviewWorkflow</scope><name>reviews_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

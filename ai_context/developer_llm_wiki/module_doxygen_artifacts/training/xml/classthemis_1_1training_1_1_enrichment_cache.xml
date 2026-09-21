@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_enrichment_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::EnrichmentCache</compoundname>
+    <innerclass refid="structthemis_1_1training_1_1_enrichment_cache_1_1_stats" prot="public">themis::training::EnrichmentCache::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_enrichment_cache_1a47b5efa5d12afd78a1343250ffc07fd6" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::training::EnrichmentCache::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::training::EnrichmentCache::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="177" column="24" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_enrichment_cache_1a807d1a9008f6aa3f087403ea9e6013b2" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1training_1_1_cache_entry" kindref="compound">CacheEntry</ref> &gt;</type>
+        <definition>std::map&lt;std::string, CacheEntry&gt; themis::training::EnrichmentCache::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themis::training::EnrichmentCache::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="178" column="14" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_enrichment_cache_1a3327f20e9797044fb02737a7d59a61ab" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentCache::max_entries_</definition>
+        <argsstring></argsstring>
+        <name>max_entries_</name>
+        <qualifiedname>themis::training::EnrichmentCache::max_entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="179" column="12" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_enrichment_cache_1aca14a2f64cd04b0acfa74aa3dd517d46" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::training::EnrichmentCache::ttl_seconds_</definition>
+        <argsstring></argsstring>
+        <name>ttl_seconds_</name>
+        <qualifiedname>themis::training::EnrichmentCache::ttl_seconds_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="180" column="9" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_enrichment_cache_1a7dd9f424123d4d9cb3ec81cdc03f6d51" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1training_1_1_enrichment_cache_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::training::EnrichmentCache::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::training::EnrichmentCache::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="181" column="19" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_enrichment_cache_1a3e0663907fe0a8af553f1c0eb5276b6b" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::EnrichmentCache::EnrichmentCache</definition>
+        <argsstring>(size_t max_entries=100, int ttl_seconds=3600)</argsstring>
+        <name>EnrichmentCache</name>
+        <qualifiedname>themis::training::EnrichmentCache::EnrichmentCache</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_entries</declname>
+          <defval>100</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ttl_seconds</declname>
+          <defval>3600</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="45" column="14" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="45" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_enrichment_cache_1a77284b7d0cd6e2b077aa128c92400bc0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::EnrichmentCache::put</definition>
+        <argsstring>(const std::string &amp;key, const std::vector&lt; float &gt; &amp;data)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::training::EnrichmentCache::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="48" column="10" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="48" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_enrichment_cache_1a4e1c70652b7475e4923d2e91dc6cb312" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::training::EnrichmentCache::get</definition>
+        <argsstring>(const std::string &amp;key, bool *hit=nullptr)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::training::EnrichmentCache::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>hit</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="67" column="17" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="67" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_enrichment_cache_1a0ea5f81e787db5cdbff06e6705161e4f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::EnrichmentCache::invalidate</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>themis::training::EnrichmentCache::invalidate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="102" column="10" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="102" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_enrichment_cache_1abb948373ac667507a7cb2c1c247edab2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::EnrichmentCache::invalidateAll</definition>
+        <argsstring>()</argsstring>
+        <name>invalidateAll</name>
+        <qualifiedname>themis::training::EnrichmentCache::invalidateAll</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="113" column="10" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="113" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_enrichment_cache_1ad747b2d24d802c5616bddc3b0957720a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::EnrichmentCache::markStale</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>markStale</name>
+        <qualifiedname>themis::training::EnrichmentCache::markStale</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="119" column="10" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="119" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_enrichment_cache_1af271a33baed0a7ca23323857eab7c694" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentCache::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::training::EnrichmentCache::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="127" column="12" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="127" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_enrichment_cache_1ac8bbd3c7590cfe52824f296541a20f1e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::EnrichmentCache::contains</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::training::EnrichmentCache::contains</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="132" column="10" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="132" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_enrichment_cache_1a61c9a8c8572214c6221757afba270d9e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::EnrichmentCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::training::EnrichmentCache::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="137" column="10" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="137" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_enrichment_cache_1a3e41533158695eaa2779c6942072a69d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_enrichment_cache_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::training::EnrichmentCache::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::training::EnrichmentCache::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="155" column="11" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="155" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_enrichment_cache_1a0df2fb66b63f554af3cf1ce1fa147e2c" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::EnrichmentCache::evictOne</definition>
+        <argsstring>()</argsstring>
+        <name>evictOne</name>
+        <qualifiedname>themis::training::EnrichmentCache::evictOne</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_enrichment_cache.cpp" line="161" column="10" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="161" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/training/test_enrichment_cache.cpp" line="43" column="1" bodyfile="tests/training/test_enrichment_cache.cpp" bodystart="43" bodyend="182"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_enrichment_cache_1a61c9a8c8572214c6221757afba270d9e" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_cache_1ac8bbd3c7590cfe52824f296541a20f1e" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCache</scope><name>contains</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_cache_1a3e0663907fe0a8af553f1c0eb5276b6b" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCache</scope><name>EnrichmentCache</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_cache_1a807d1a9008f6aa3f087403ea9e6013b2" prot="private" virt="non-virtual"><scope>themis::training::EnrichmentCache</scope><name>entries_</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_cache_1a0df2fb66b63f554af3cf1ce1fa147e2c" prot="private" virt="non-virtual"><scope>themis::training::EnrichmentCache</scope><name>evictOne</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_cache_1a4e1c70652b7475e4923d2e91dc6cb312" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_cache_1a3e41533158695eaa2779c6942072a69d" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCache</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_cache_1a0ea5f81e787db5cdbff06e6705161e4f" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCache</scope><name>invalidate</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_cache_1abb948373ac667507a7cb2c1c247edab2" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCache</scope><name>invalidateAll</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_cache_1ad747b2d24d802c5616bddc3b0957720a" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCache</scope><name>markStale</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_cache_1a3327f20e9797044fb02737a7d59a61ab" prot="private" virt="non-virtual"><scope>themis::training::EnrichmentCache</scope><name>max_entries_</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_cache_1a47b5efa5d12afd78a1343250ffc07fd6" prot="private" virt="non-virtual"><scope>themis::training::EnrichmentCache</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_cache_1a77284b7d0cd6e2b077aa128c92400bc0" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCache</scope><name>put</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_cache_1af271a33baed0a7ca23323857eab7c694" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentCache</scope><name>size</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_cache_1a7dd9f424123d4d9cb3ec81cdc03f6d51" prot="private" virt="non-virtual"><scope>themis::training::EnrichmentCache</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1training_1_1_enrichment_cache_1aca14a2f64cd04b0acfa74aa3dd517d46" prot="private" virt="non-virtual"><scope>themis::training::EnrichmentCache</scope><name>ttl_seconds_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

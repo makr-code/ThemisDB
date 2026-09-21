@@ -1,0 +1,616 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_hybrid_search" kind="class" language="C++" prot="public">
+    <compoundname>themis::HybridSearch</compoundname>
+    <includes refid="hybrid__search_8h" local="no">hybrid_search.h</includes>
+    <innerclass refid="structthemis_1_1_hybrid_search_1_1_config" prot="public">themis::HybridSearch::Config</innerclass>
+    <innerclass refid="structthemis_1_1_hybrid_search_1_1_result" prot="public">themis::HybridSearch::Result</innerclass>
+    <innerclass refid="structthemis_1_1_hybrid_search_1_1_search_stats" prot="public">themis::HybridSearch::SearchStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_hybrid_search_1a5e09d253eaaa1d266ea913834f3c61ce" prot="private" static="no" mutable="no">
+        <type>SecondaryIndexManager *</type>
+        <definition>SecondaryIndexManager* themis::HybridSearch::fulltext_index_</definition>
+        <argsstring></argsstring>
+        <name>fulltext_index_</name>
+        <qualifiedname>themis::HybridSearch::fulltext_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="230" column="27" bodyfile="include/search/hybrid_search.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_hybrid_search_1ac9a2727203451938fd8f449be31502d0" prot="private" static="no" mutable="no">
+        <type>VectorIndexManager *</type>
+        <definition>VectorIndexManager* themis::HybridSearch::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>themis::HybridSearch::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="231" column="24" bodyfile="include/search/hybrid_search.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_hybrid_search_1af6c5e0d4cd865db3523d9f9cd0cbe8e7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_hybrid_search_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::HybridSearch::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::HybridSearch::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="232" column="12" bodyfile="include/search/hybrid_search.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_hybrid_search_1a31587b812efb40799d8e02e1d0e7fa80" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; index::AnnFrontdoor &gt;</type>
+        <definition>std::shared_ptr&lt;index::AnnFrontdoor&gt; themis::HybridSearch::ann_frontdoor_</definition>
+        <argsstring></argsstring>
+        <name>ann_frontdoor_</name>
+        <qualifiedname>themis::HybridSearch::ann_frontdoor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="233" column="21" bodyfile="include/search/hybrid_search.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_hybrid_search_1ab4b8ac86cdb33c12d181f21af82f0a9b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ILlmReranker &gt;</type>
+        <definition>std::shared_ptr&lt;ILlmReranker&gt; themis::HybridSearch::reranker_</definition>
+        <argsstring></argsstring>
+        <name>reranker_</name>
+        <qualifiedname>themis::HybridSearch::reranker_</qualifiedname>
+        <briefdescription>
+<para>Optional LLM re-ranker (Phase 3). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="234" column="21" bodyfile="include/search/hybrid_search.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_hybrid_search_1acb85d97d2901fb9cae1d6e566af7c07c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::HybridSearch::HybridSearch</definition>
+        <argsstring>(SecondaryIndexManager *fulltext_index, VectorIndexManager *vector_index, const Config &amp;config)</argsstring>
+        <name>HybridSearch</name>
+        <qualifiedname>themis::HybridSearch::HybridSearch</qualifiedname>
+        <param>
+          <type>SecondaryIndexManager *</type>
+          <declname>fulltext_index</declname>
+        </param>
+        <param>
+          <type>VectorIndexManager *</type>
+          <declname>vector_index</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_hybrid_search_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="136" column="14" bodyfile="src/search/hybrid_search.cpp" bodystart="50" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hybrid_search_1ae834c50fbcb06e73012e595f886b2c8b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::HybridSearch::~HybridSearch</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~HybridSearch</name>
+        <qualifiedname>themis::HybridSearch::~HybridSearch</qualifiedname>
+        <briefdescription>
+<para>Destructor ensures no-throw guarantee. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="143" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hybrid_search_1a1e19e389db4ce3b877f171d5f66fec14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::HybridSearch::HybridSearch</definition>
+        <argsstring>(const HybridSearch &amp;)=delete</argsstring>
+        <name>HybridSearch</name>
+        <qualifiedname>themis::HybridSearch::HybridSearch</qualifiedname>
+        <param>
+          <type>const HybridSearch &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="145" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hybrid_search_1aa9cd20a5762e662b63d2e53a7f4b8a6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_hybrid_search_1acb85d97d2901fb9cae1d6e566af7c07c" kindref="member">HybridSearch</ref> &amp;</type>
+        <definition>HybridSearch &amp; themis::HybridSearch::operator=</definition>
+        <argsstring>(const HybridSearch &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::HybridSearch::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_hybrid_search_1acb85d97d2901fb9cae1d6e566af7c07c" kindref="member">HybridSearch</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="146" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hybrid_search_1a799157e103c2058933deccd4e86334cc" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::HybridSearch::HybridSearch</definition>
+        <argsstring>(HybridSearch &amp;&amp;) noexcept=default</argsstring>
+        <name>HybridSearch</name>
+        <qualifiedname>themis::HybridSearch::HybridSearch</qualifiedname>
+        <param>
+          <type>HybridSearch &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="147" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hybrid_search_1a8c9fb345248945cd6c00c7cf93733f9e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_hybrid_search_1acb85d97d2901fb9cae1d6e566af7c07c" kindref="member">HybridSearch</ref> &amp;</type>
+        <definition>HybridSearch &amp; themis::HybridSearch::operator=</definition>
+        <argsstring>(HybridSearch &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::HybridSearch::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_hybrid_search_1acb85d97d2901fb9cae1d6e566af7c07c" kindref="member">HybridSearch</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="148" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hybrid_search_1a21e278c43125f175a8e646a0d4d482ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">Result</ref> &gt;</type>
+        <definition>std::vector&lt; HybridSearch::Result &gt; themis::HybridSearch::search</definition>
+        <argsstring>(const std::string &amp;text_query, const float *vector_query=nullptr, size_t vector_dim=0, SearchStats *stats=nullptr)</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::HybridSearch::search</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text_query</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vector_query</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>vector_dim</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_hybrid_search_1_1_search_stats" kindref="compound">SearchStats</ref> *</type>
+          <declname>stats</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Perform hybrid search combining BM25 and vector search. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Search.</para>
+<para>Internally catches all exceptions from the index backends and returns whatever partial results are available, logging errors via THEMIS_ERROR. Never throws.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Text query for BM25 search (pass &quot;&quot; to skip BM25) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vector_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional vector query for ANN search (nullptr to skip) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vector_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dimension of vector_query; ignored when nullptr </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional output: filled with per-source diagnostics </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Fused results ranked by hybrid score; may be partial if one source failed (indicated by stats.partial_result == true)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vector_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vector_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), scanFulltextWithScores(), reserve(), size(), Result(), push_back(), THEMIS_DEBUG(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="164" column="17" bodyfile="src/search/hybrid_search.cpp" bodystart="145" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hybrid_search_1a85906e3c62830c1c27be9c25a8d64f44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">Result</ref> &gt;</type>
+        <definition>std::vector&lt; HybridSearch::Result &gt; themis::HybridSearch::reciprocalRankFusion</definition>
+        <argsstring>(const std::vector&lt; Result &gt; &amp;bm25_results, const std::vector&lt; Result &gt; &amp;vector_results)</argsstring>
+        <name>reciprocalRankFusion</name>
+        <qualifiedname>themis::HybridSearch::reciprocalRankFusion</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">Result</ref> &gt; &amp;</type>
+          <declname>bm25_results</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">Result</ref> &gt; &amp;</type>
+          <declname>vector_results</declname>
+        </param>
+        <briefdescription>
+<para>Fuse BM25 and vector results using Reciprocal Rank Fusion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reciprocal Rank Fusion.</para>
+<para>RRF formula: score(d) = sum(1 / (k + rank_i(d))) where k is a constant (default 60) and rank_i is the rank in result set i. May throw std::bad_alloc; callers (<ref refid="namespacethemis_1_1search" kindref="compound">search()</ref>) catch this.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bm25_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>BM25 search results (ordered by score descending) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vector_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector search results (ordered by distance ascending) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Fused results sorted by hybrid score, limited to <ref refid="structthemis_1_1_hybrid_search_1_1_config_1a4a5dba6b00d1667b394279ca33afe11e" kindref="member">Config::k</ref></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bm25_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vector_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), empty(), push_back(), std::sort(), begin(), end(), resize(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="182" column="17" bodyfile="src/search/hybrid_search.cpp" bodystart="395" bodyend="453"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hybrid_search_1a84f9ecb8e73d0188c36907e17386597c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_hybrid_search_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::HybridSearch::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::HybridSearch::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="187" column="18" bodyfile="include/search/hybrid_search.h" bodystart="187" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hybrid_search_1aa9bd98d5af53b31de18115a58c80d51b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::HybridSearch::setConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::HybridSearch::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_hybrid_search_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="188" column="10" bodyfile="include/search/hybrid_search.h" bodystart="188" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hybrid_search_1a5ddf7f141be20560c68381ae87798cfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::HybridSearch::setAnnFrontdoor</definition>
+        <argsstring>(std::shared_ptr&lt; index::AnnFrontdoor &gt; frontdoor)</argsstring>
+        <name>setAnnFrontdoor</name>
+        <qualifiedname>themis::HybridSearch::setAnnFrontdoor</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; index::AnnFrontdoor &gt;</type>
+          <declname>frontdoor</declname>
+        </param>
+        <briefdescription>
+<para>Inject an ANN frontdoor used by the vector search path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Ann Frontdoor.</para>
+<para>When configured, <ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref> routes dense candidate generation through AnnFrontdoor instead of calling VectorIndexManager directly. Passing nullptr disables the frontdoor path and restores the legacy vector-index fallback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>frontdoor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared ANN frontdoor instance (may be null).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">frontdoor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="200" column="10" bodyfile="src/search/hybrid_search.cpp" bodystart="132" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hybrid_search_1ade6dbb88c0126f4363c8509659519f6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::HybridSearch::setReranker</definition>
+        <argsstring>(ILlmReranker::LlmBackend backend, const ILlmReranker::Config &amp;config=ILlmReranker::Config{})</argsstring>
+        <name>setReranker</name>
+        <qualifiedname>themis::HybridSearch::setReranker</qualifiedname>
+        <param>
+          <type>ILlmReranker::LlmBackend</type>
+          <declname>backend</declname>
+        </param>
+        <param>
+          <type>const ILlmReranker::Config &amp;</type>
+          <declname>config</declname>
+          <defval>ILlmReranker::Config{}</defval>
+        </param>
+        <briefdescription>
+<para>Attach an LLM re-ranker to the search pipeline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Reranker.</para>
+<para>When set, <computeroutput><ref refid="namespacethemis_1_1search" kindref="compound">search()</ref></computeroutput> applies the re-ranker as a final step after RRF fusion: the top-N fused results are scored by the LLM and returned in the re-ranked order. Calling with a null <computeroutput>backend</computeroutput> removes any previously attached re-ranker (falls back to RRF order).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LLM callable (same signature as <ref refid="classthemis_1_1_llm_reranker_1a1997004f4f0d774dc0c0f4902488bb29" kindref="member">LlmReranker::LlmBackend</ref>). Pass nullptr to disable. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional re-ranker configuration.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: reset(), THEMIS_DEBUG(), <ref refid="namespacethemis_1_1search_1a04040bd946c965f7444aaad5ff87e4b9" kindref="member">search::createLlmReranker()</ref>, setBackend(), std::move(), release(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="214" column="10" bodyfile="src/search/hybrid_search.cpp" bodystart="106" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_hybrid_search_1ae9d18b157e2a438a5903f434ccc3dcca" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::HybridSearch::normalizeScores</definition>
+        <argsstring>(std::vector&lt; Result &gt; &amp;results, bool is_bm25)</argsstring>
+        <name>normalizeScores</name>
+        <qualifiedname>themis::HybridSearch::normalizeScores</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">Result</ref> &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_bm25</declname>
+        </param>
+        <briefdescription>
+<para>Normalize scores in [min, max] to [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Normalize Scores.</para>
+<para>When all scores are equal (range == 0):<itemizedlist>
+<listitem><para>score &gt; 0 → all normalized to 1.0</para>
+</listitem><listitem><para>score == 0 → all normalized to 0.0</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">Result</ref> list whose BM25 or vector scores are modified in place. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>is_bm25</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>True to normalize bm25_score; false to normalize vector_score.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">is_bm25</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), max(), lowest(), std::min(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/hybrid_search.h" line="227" column="17" bodyfile="src/search/hybrid_search.cpp" bodystart="461" bodyend="497"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Hybrid Search combining BM25 (full-text) and Vector (semantic) search. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>v1.2.0 Feature: Reciprocal Rank Fusion (RRF) for RAG optimization v1.3.0 Update: Real BM25 and Vector index integration v1.4.0 Update: Configurable vector metric, config validation, normalization fixes, resource limits, exception safety, partial-result logging v1.8.0 Update: Configurable LLM re-ranking via <ref refid="classthemis_1_1_hybrid_search_1ade6dbb88c0126f4363c8509659519f6e" kindref="member">setReranker()</ref> (Phase 3)</para>
+<para>Features:<itemizedlist>
+<listitem><para>BM25 fulltext search with scoring</para>
+</listitem><listitem><para>Vector ANN search (HNSW)</para>
+</listitem><listitem><para>Reciprocal Rank Fusion (RRF) for result merging</para>
+</listitem><listitem><para>Linear combination fallback with pre-normalization</para>
+</listitem><listitem><para>Score normalization with edge-case handling</para>
+</listitem><listitem><para>Configurable vector distance metric (COSINE, DOT, L2)</para>
+</listitem><listitem><para>Bounded resource usage via max_k / max_candidates limits</para>
+</listitem><listitem><para>Optional LLM re-ranking via injected LlmBackend (<ref refid="classthemis_1_1_hybrid_search_1ade6dbb88c0126f4363c8509659519f6e" kindref="member">setReranker()</ref>)</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="note"><para>Thread Safety: A single <ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref> instance is NOT thread-safe. <ref refid="namespacethemis_1_1search" kindref="compound">search()</ref> and <ref refid="classthemis_1_1_hybrid_search_1aa9bd98d5af53b31de18115a58c80d51b" kindref="member">setConfig()</ref> must not be called concurrently on the same instance. Callers that share an instance across threads must provide their own synchronization (e.g. a mutex around each call). Creating separate <ref refid="classthemis_1_1_hybrid_search" kindref="compound">HybridSearch</ref> instances per thread is the preferred pattern, since the class is lightweight and holds no mutable state beyond <ref refid="structthemis_1_1_hybrid_search_1_1_config" kindref="compound">Config</ref> and the two non-owning index pointers.</para>
+</simplesect>
+<simplesect kind="note"><para>Exception Safety: The constructor offers strong exception safety (throws std::invalid_argument on invalid <ref refid="structthemis_1_1_hybrid_search_1_1_config" kindref="compound">Config</ref>; the object is never partially constructed). <ref refid="namespacethemis_1_1search" kindref="compound">search()</ref> is unconditionally noexcept at runtime: all exceptions from the index backends and from the fusion stage are caught internally, logged via THEMIS_ERROR, and <ref refid="namespacethemis_1_1search" kindref="compound">search()</ref> returns an empty (or partial) result vector rather than propagating the exception. <ref refid="classthemis_1_1_hybrid_search_1a85906e3c62830c1c27be9c25a8d64f44" kindref="member">reciprocalRankFusion()</ref> and <ref refid="classthemis_1_1_hybrid_search_1ae9d18b157e2a438a5903f434ccc3dcca" kindref="member">normalizeScores()</ref> may throw std::bad_alloc when called directly, but within <ref refid="namespacethemis_1_1search" kindref="compound">search()</ref> this is caught and results in an empty return value.</para>
+</simplesect>
+Use Cases:<itemizedlist>
+<listitem><para>RAG (Retrieval-Augmented Generation)</para>
+</listitem><listitem><para>Semantic + keyword search</para>
+</listitem><listitem><para>Document ranking</para>
+</listitem><listitem><para>Question answering systems</para>
+</listitem></itemizedlist>
+</para>
+<para>Performance:<itemizedlist>
+<listitem><para>85%+ recall@10 with RRF</para>
+</listitem><listitem><para>Combines lexical and semantic matching</para>
+</listitem><listitem><para>Configurable weights for BM25/vector balance </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/search/hybrid_search.h" line="81" column="1" bodyfile="include/search/hybrid_search.h" bodystart="81" bodyend="235"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_hybrid_search_1a31587b812efb40799d8e02e1d0e7fa80" prot="private" virt="non-virtual"><scope>themis::HybridSearch</scope><name>ann_frontdoor_</name></member>
+      <member refid="classthemis_1_1_hybrid_search_1af6c5e0d4cd865db3523d9f9cd0cbe8e7" prot="private" virt="non-virtual"><scope>themis::HybridSearch</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_hybrid_search_1a5e09d253eaaa1d266ea913834f3c61ce" prot="private" virt="non-virtual"><scope>themis::HybridSearch</scope><name>fulltext_index_</name></member>
+      <member refid="classthemis_1_1_hybrid_search_1a84f9ecb8e73d0188c36907e17386597c" prot="public" virt="non-virtual"><scope>themis::HybridSearch</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_hybrid_search_1acb85d97d2901fb9cae1d6e566af7c07c" prot="public" virt="non-virtual"><scope>themis::HybridSearch</scope><name>HybridSearch</name></member>
+      <member refid="classthemis_1_1_hybrid_search_1a1e19e389db4ce3b877f171d5f66fec14" prot="public" virt="non-virtual"><scope>themis::HybridSearch</scope><name>HybridSearch</name></member>
+      <member refid="classthemis_1_1_hybrid_search_1a799157e103c2058933deccd4e86334cc" prot="public" virt="non-virtual"><scope>themis::HybridSearch</scope><name>HybridSearch</name></member>
+      <member refid="classthemis_1_1_hybrid_search_1ae9d18b157e2a438a5903f434ccc3dcca" prot="public" virt="non-virtual"><scope>themis::HybridSearch</scope><name>normalizeScores</name></member>
+      <member refid="classthemis_1_1_hybrid_search_1aa9cd20a5762e662b63d2e53a7f4b8a6d" prot="public" virt="non-virtual"><scope>themis::HybridSearch</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_hybrid_search_1a8c9fb345248945cd6c00c7cf93733f9e" prot="public" virt="non-virtual"><scope>themis::HybridSearch</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_hybrid_search_1a85906e3c62830c1c27be9c25a8d64f44" prot="public" virt="non-virtual"><scope>themis::HybridSearch</scope><name>reciprocalRankFusion</name></member>
+      <member refid="classthemis_1_1_hybrid_search_1ab4b8ac86cdb33c12d181f21af82f0a9b" prot="private" virt="non-virtual"><scope>themis::HybridSearch</scope><name>reranker_</name></member>
+      <member refid="classthemis_1_1_hybrid_search_1a21e278c43125f175a8e646a0d4d482ac" prot="public" virt="non-virtual"><scope>themis::HybridSearch</scope><name>search</name></member>
+      <member refid="classthemis_1_1_hybrid_search_1a5ddf7f141be20560c68381ae87798cfb" prot="public" virt="non-virtual"><scope>themis::HybridSearch</scope><name>setAnnFrontdoor</name></member>
+      <member refid="classthemis_1_1_hybrid_search_1aa9bd98d5af53b31de18115a58c80d51b" prot="public" virt="non-virtual"><scope>themis::HybridSearch</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1_hybrid_search_1ade6dbb88c0126f4363c8509659519f6e" prot="public" virt="non-virtual"><scope>themis::HybridSearch</scope><name>setReranker</name></member>
+      <member refid="classthemis_1_1_hybrid_search_1ac9a2727203451938fd8f449be31502d0" prot="private" virt="non-virtual"><scope>themis::HybridSearch</scope><name>vector_index_</name></member>
+      <member refid="classthemis_1_1_hybrid_search_1ae834c50fbcb06e73012e595f886b2c8b" prot="public" virt="non-virtual"><scope>themis::HybridSearch</scope><name>~HybridSearch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

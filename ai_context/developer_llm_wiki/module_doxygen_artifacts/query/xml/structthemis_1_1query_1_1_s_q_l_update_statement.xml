@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_s_q_l_update_statement" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SQLUpdateStatement</compoundname>
+    <includes refid="sql__parser_8h" local="no">sql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_update_statement_1ad0c6f8f5bf9f35a2d92ce807c345ca72" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SQLUpdateStatement::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>themis::query::SQLUpdateStatement::table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="142" column="17" bodyfile="include/query/sql_parser.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_update_statement_1aa443651c0d358febebc43ae1ad5827d5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_s_q_l_assignment" kindref="compound">SQLAssignment</ref> &gt;</type>
+        <definition>std::vector&lt;SQLAssignment&gt; themis::query::SQLUpdateStatement::assignments</definition>
+        <argsstring></argsstring>
+        <name>assignments</name>
+        <qualifiedname>themis::query::SQLUpdateStatement::assignments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="143" column="17" bodyfile="include/query/sql_parser.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_update_statement_1aeede0db26d6efc1d28ac3788c147b814" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_s_q_l_expr" kindref="compound">SQLExpr</ref> &gt; &gt;</type>
+        <definition>std::optional&lt;std::shared_ptr&lt;SQLExpr&gt; &gt; themis::query::SQLUpdateStatement::where</definition>
+        <argsstring></argsstring>
+        <name>where</name>
+        <qualifiedname>themis::query::SQLUpdateStatement::where</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="144" column="19" bodyfile="include/query/sql_parser.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/sql_parser.h" line="141" column="1" bodyfile="include/query/sql_parser.h" bodystart="141" bodyend="145"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_s_q_l_update_statement_1aa443651c0d358febebc43ae1ad5827d5" prot="public" virt="non-virtual"><scope>themis::query::SQLUpdateStatement</scope><name>assignments</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_update_statement_1ad0c6f8f5bf9f35a2d92ce807c345ca72" prot="public" virt="non-virtual"><scope>themis::query::SQLUpdateStatement</scope><name>table</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_update_statement_1aeede0db26d6efc1d28ac3788c147b814" prot="public" virt="non-virtual"><scope>themis::query::SQLUpdateStatement</scope><name>where</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_redundancy_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::RedundancyStats</compoundname>
+    <includes refid="redundancy__strategy_8h" local="no">redundancy_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_stats_1aef26d4834cd23a01fca6819a4400f411" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RedundancyStats::total_documents</definition>
+        <argsstring></argsstring>
+        <name>total_documents</name>
+        <qualifiedname>themis::sharding::RedundancyStats::total_documents</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="304" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_stats_1a0d20df287cf7d98a9c296bd22417b103" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RedundancyStats::total_replicas</definition>
+        <argsstring></argsstring>
+        <name>total_replicas</name>
+        <qualifiedname>themis::sharding::RedundancyStats::total_replicas</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="305" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_stats_1a3d1aaaf620e862f6ce29afd4578e15d5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RedundancyStats::total_chunks</definition>
+        <argsstring></argsstring>
+        <name>total_chunks</name>
+        <qualifiedname>themis::sharding::RedundancyStats::total_chunks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="306" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_stats_1ae98d19f500a7ea6ffa5a696bdd96b80f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RedundancyStats::parity_chunks</definition>
+        <argsstring></argsstring>
+        <name>parity_chunks</name>
+        <qualifiedname>themis::sharding::RedundancyStats::parity_chunks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="307" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_stats_1a8677c80495487889a9d1156803587308" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RedundancyStats::logical_bytes</definition>
+        <argsstring></argsstring>
+        <name>logical_bytes</name>
+        <qualifiedname>themis::sharding::RedundancyStats::logical_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="310" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_stats_1a57284889829eede3888dde07f1fe2895" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RedundancyStats::physical_bytes</definition>
+        <argsstring></argsstring>
+        <name>physical_bytes</name>
+        <qualifiedname>themis::sharding::RedundancyStats::physical_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="311" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_stats_1ae3bc47f8ad399b313e7cab4919327361" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::RedundancyStats::storage_efficiency</definition>
+        <argsstring></argsstring>
+        <name>storage_efficiency</name>
+        <qualifiedname>themis::sharding::RedundancyStats::storage_efficiency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="312" column="12" bodyfile="include/sharding/redundancy_strategy.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_stats_1ab0a62fbc5c42fec358d7776ada627728" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RedundancyStats::reads_from_primary</definition>
+        <argsstring></argsstring>
+        <name>reads_from_primary</name>
+        <qualifiedname>themis::sharding::RedundancyStats::reads_from_primary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="315" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_stats_1ac35b0c1eb0f1aacd482f847bedca4c28" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RedundancyStats::reads_from_replica</definition>
+        <argsstring></argsstring>
+        <name>reads_from_replica</name>
+        <qualifiedname>themis::sharding::RedundancyStats::reads_from_replica</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="316" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_stats_1a09568b9a11464d2af460210d5c0bc890" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RedundancyStats::stripe_reads</definition>
+        <argsstring></argsstring>
+        <name>stripe_reads</name>
+        <qualifiedname>themis::sharding::RedundancyStats::stripe_reads</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="317" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_stats_1a97891dc405c92d3719b6a8e511cc2dd9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RedundancyStats::degraded_reads</definition>
+        <argsstring></argsstring>
+        <name>degraded_reads</name>
+        <qualifiedname>themis::sharding::RedundancyStats::degraded_reads</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="318" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_stats_1a197066c263ae60198494733e1d19607b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RedundancyStats::recovery_operations</definition>
+        <argsstring></argsstring>
+        <name>recovery_operations</name>
+        <qualifiedname>themis::sharding::RedundancyStats::recovery_operations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="321" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_stats_1a0d562e9cf052b0a0e39d3cc1f78e7e52" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RedundancyStats::recovered_bytes</definition>
+        <argsstring></argsstring>
+        <name>recovered_bytes</name>
+        <qualifiedname>themis::sharding::RedundancyStats::recovered_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="322" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_stats_1aa547c158b52c41e759a8419469661b1a" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::RedundancyStats::avg_recovery_time</definition>
+        <argsstring></argsstring>
+        <name>avg_recovery_time</name>
+        <qualifiedname>themis::sharding::RedundancyStats::avg_recovery_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="323" column="31" bodyfile="include/sharding/redundancy_strategy.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_stats_1a3e5a1780211a4a461068588e790f5d9f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::RedundancyStats::healthy_shards</definition>
+        <argsstring></argsstring>
+        <name>healthy_shards</name>
+        <qualifiedname>themis::sharding::RedundancyStats::healthy_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="326" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_stats_1ae13d9c84e98ff8c63958e46ee0ec2d02" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::RedundancyStats::unhealthy_shards</definition>
+        <argsstring></argsstring>
+        <name>unhealthy_shards</name>
+        <qualifiedname>themis::sharding::RedundancyStats::unhealthy_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="327" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_stats_1ae6e585adf7bc066d7148f65b476b12df" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::RedundancyStats::degraded_documents</definition>
+        <argsstring></argsstring>
+        <name>degraded_documents</name>
+        <qualifiedname>themis::sharding::RedundancyStats::degraded_documents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="328" column="14" bodyfile="include/sharding/redundancy_strategy.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated runtime statistics for redundancy strategy activity. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/redundancy_strategy.h" line="303" column="1" bodyfile="include/sharding/redundancy_strategy.h" bodystart="303" bodyend="329"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_stats_1aa547c158b52c41e759a8419469661b1a" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStats</scope><name>avg_recovery_time</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_stats_1ae6e585adf7bc066d7148f65b476b12df" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStats</scope><name>degraded_documents</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_stats_1a97891dc405c92d3719b6a8e511cc2dd9" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStats</scope><name>degraded_reads</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_stats_1a3e5a1780211a4a461068588e790f5d9f" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStats</scope><name>healthy_shards</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_stats_1a8677c80495487889a9d1156803587308" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStats</scope><name>logical_bytes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_stats_1ae98d19f500a7ea6ffa5a696bdd96b80f" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStats</scope><name>parity_chunks</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_stats_1a57284889829eede3888dde07f1fe2895" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStats</scope><name>physical_bytes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_stats_1ab0a62fbc5c42fec358d7776ada627728" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStats</scope><name>reads_from_primary</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_stats_1ac35b0c1eb0f1aacd482f847bedca4c28" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStats</scope><name>reads_from_replica</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_stats_1a0d562e9cf052b0a0e39d3cc1f78e7e52" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStats</scope><name>recovered_bytes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_stats_1a197066c263ae60198494733e1d19607b" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStats</scope><name>recovery_operations</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_stats_1ae3bc47f8ad399b313e7cab4919327361" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStats</scope><name>storage_efficiency</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_stats_1a09568b9a11464d2af460210d5c0bc890" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStats</scope><name>stripe_reads</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_stats_1a3d1aaaf620e862f6ce29afd4578e15d5" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStats</scope><name>total_chunks</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_stats_1aef26d4834cd23a01fca6819a4400f411" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStats</scope><name>total_documents</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_stats_1a0d20df287cf7d98a9c296bd22417b103" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStats</scope><name>total_replicas</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_stats_1ae13d9c84e98ff8c63958e46ee0ec2d02" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStats</scope><name>unhealthy_shards</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

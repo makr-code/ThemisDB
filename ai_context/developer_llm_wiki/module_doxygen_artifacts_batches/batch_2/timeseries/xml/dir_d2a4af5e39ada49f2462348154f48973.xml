@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_d2a4af5e39ada49f2462348154f48973" kind="dir">
+    <compoundname>tests/timeseries</compoundname>
+    <innerfile refid="test__continuous__agg__materialization_8cpp">test_continuous_agg_materialization.cpp</innerfile>
+    <innerfile refid="test__timeseries__contract__hardening__focused_8cpp">test_timeseries_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__timeseries__error__path__phase3_8cpp">test_timeseries_error_path_phase3.cpp</innerfile>
+    <innerfile refid="test__timeseries__highcardinality__stress_8cpp">test_timeseries_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__timeseries__metrics_8cpp">test_timeseries_metrics.cpp</innerfile>
+    <innerfile refid="test__timeseries__q4__hardening__focused_8cpp">test_timeseries_q4_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__timeseries__retention_8cpp">test_timeseries_retention.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/timeseries/"/>
+  </compounddef>
+</doxygen>

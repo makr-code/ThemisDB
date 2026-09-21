@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_model_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::PredictiveFailureDetector::ModelImpl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_model_impl_1a77541cc2e576cbd3754b699ca0a1521e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PredictiveFailureDetector::ModelImpl::loaded</definition>
+        <argsstring></argsstring>
+        <name>loaded</name>
+        <qualifiedname>themisdb::sharding::PredictiveFailureDetector::ModelImpl::loaded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/predictive_detector.cpp" line="33" column="10" bodyfile="src/sharding/predictive_detector.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_model_impl_1a4129611b0aa5f02e4c56059b33e580e3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::PredictiveFailureDetector::ModelImpl::model_path</definition>
+        <argsstring></argsstring>
+        <name>model_path</name>
+        <qualifiedname>themisdb::sharding::PredictiveFailureDetector::ModelImpl::model_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/predictive_detector.cpp" line="34" column="17" bodyfile="src/sharding/predictive_detector.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_model_impl_1a3c7d9074507a7d82f5fbafa380603bbc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themisdb::sharding::PredictiveFailureDetector::ModelImpl::predict</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;features)</argsstring>
+        <name>predict</name>
+        <qualifiedname>themisdb::sharding::PredictiveFailureDetector::ModelImpl::predict</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>features</declname>
+        </param>
+        <briefdescription>
+<para>Predict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">features</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::min(), size(), std::exp(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/sharding/predictive_detector.cpp" line="61" column="17" bodyfile="src/sharding/predictive_detector.cpp" bodystart="61" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/sharding/predictive_detector.cpp" line="32" column="1" bodyfile="src/sharding/predictive_detector.cpp" bodystart="32" bodyend="119"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_model_impl_1a77541cc2e576cbd3754b699ca0a1521e" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveFailureDetector::ModelImpl</scope><name>loaded</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_model_impl_1a4129611b0aa5f02e4c56059b33e580e3" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveFailureDetector::ModelImpl</scope><name>model_path</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_predictive_failure_detector_1_1_model_impl_1a3c7d9074507a7d82f5fbafa380603bbc" prot="public" virt="non-virtual"><scope>themisdb::sharding::PredictiveFailureDetector::ModelImpl</scope><name>predict</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

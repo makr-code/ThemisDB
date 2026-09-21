@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1bench_1_1_migration_scanner_bench_fixture" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::bench::MigrationScannerBenchFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1config_1_1bench_1_1_migration_scanner_bench_fixture_1a654b83b7e1de13a8ad34ed6e014a0a95" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::config::bench::MigrationScannerBenchFixture::temp_root_</definition>
+        <argsstring></argsstring>
+        <name>temp_root_</name>
+        <qualifiedname>themis::config::bench::MigrationScannerBenchFixture::temp_root_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_migration_scanner.cpp" line="76" column="14" bodyfile="benchmarks/config/bench_config_migration_scanner.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1bench_1_1_migration_scanner_bench_fixture_1a0e67daa0b598626cb687391dafd52696" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::config::bench::MigrationScannerBenchFixture::no_match_file_</definition>
+        <argsstring></argsstring>
+        <name>no_match_file_</name>
+        <qualifiedname>themis::config::bench::MigrationScannerBenchFixture::no_match_file_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_migration_scanner.cpp" line="77" column="14" bodyfile="benchmarks/config/bench_config_migration_scanner.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1config_1_1bench_1_1_migration_scanner_bench_fixture_1a808a4f47864914c441a3ebf6c60a64f0" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::config::bench::MigrationScannerBenchFixture::with_match_file_</definition>
+        <argsstring></argsstring>
+        <name>with_match_file_</name>
+        <qualifiedname>themis::config::bench::MigrationScannerBenchFixture::with_match_file_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_migration_scanner.cpp" line="78" column="14" bodyfile="benchmarks/config/bench_config_migration_scanner.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1bench_1_1_migration_scanner_bench_fixture_1a49d91fd7f40f0998ef5667bb484232a7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::bench::MigrationScannerBenchFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::config::bench::MigrationScannerBenchFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_migration_scanner.cpp" line="51" column="10" bodyfile="benchmarks/config/bench_config_migration_scanner.cpp" bodystart="51" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1bench_1_1_migration_scanner_bench_fixture_1a2b891d342560bb1364f0e361ad80dfca" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::bench::MigrationScannerBenchFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::config::bench::MigrationScannerBenchFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/config/bench_config_migration_scanner.cpp" line="70" column="10" bodyfile="benchmarks/config/bench_config_migration_scanner.cpp" bodystart="70" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::config::bench::MigrationScannerBenchFixture</label>
+        <link refid="classthemis_1_1config_1_1bench_1_1_migration_scanner_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::config::bench::MigrationScannerBenchFixture</label>
+        <link refid="classthemis_1_1config_1_1bench_1_1_migration_scanner_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/config/bench_config_migration_scanner.cpp" line="49" column="1" bodyfile="benchmarks/config/bench_config_migration_scanner.cpp" bodystart="49" bodyend="79"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1bench_1_1_migration_scanner_bench_fixture_1a0e67daa0b598626cb687391dafd52696" prot="protected" virt="non-virtual"><scope>themis::config::bench::MigrationScannerBenchFixture</scope><name>no_match_file_</name></member>
+      <member refid="classthemis_1_1config_1_1bench_1_1_migration_scanner_bench_fixture_1a49d91fd7f40f0998ef5667bb484232a7" prot="public" virt="non-virtual"><scope>themis::config::bench::MigrationScannerBenchFixture</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1config_1_1bench_1_1_migration_scanner_bench_fixture_1a2b891d342560bb1364f0e361ad80dfca" prot="public" virt="non-virtual"><scope>themis::config::bench::MigrationScannerBenchFixture</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1config_1_1bench_1_1_migration_scanner_bench_fixture_1a654b83b7e1de13a8ad34ed6e014a0a95" prot="protected" virt="non-virtual"><scope>themis::config::bench::MigrationScannerBenchFixture</scope><name>temp_root_</name></member>
+      <member refid="classthemis_1_1config_1_1bench_1_1_migration_scanner_bench_fixture_1a808a4f47864914c441a3ebf6c60a64f0" prot="protected" virt="non-virtual"><scope>themis::config::bench::MigrationScannerBenchFixture</scope><name>with_match_file_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

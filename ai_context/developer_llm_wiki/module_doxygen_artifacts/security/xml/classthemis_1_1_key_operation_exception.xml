@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_key_operation_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::KeyOperationException</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="include_2security_2key__provider_8h" local="no">key_provider.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_key_operation_exception_1a7f096fa777cc04a966854c1a4041f8a7" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::KeyOperationException::http_code_</definition>
+        <argsstring></argsstring>
+        <name>http_code_</name>
+        <qualifiedname>themis::KeyOperationException::http_code_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="89" column="9" bodyfile="include/security/key_provider.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_key_operation_exception_1a95e39a3b1675ca69433a150ccca7e959" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::KeyOperationException::vault_message_</definition>
+        <argsstring></argsstring>
+        <name>vault_message_</name>
+        <qualifiedname>themis::KeyOperationException::vault_message_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="90" column="17" bodyfile="include/security/key_provider.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_key_operation_exception_1ad1079dec40bd436dc7c6246ef324eb85" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::KeyOperationException::transient_</definition>
+        <argsstring></argsstring>
+        <name>transient_</name>
+        <qualifiedname>themis::KeyOperationException::transient_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="91" column="10" bodyfile="include/security/key_provider.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_key_operation_exception_1a9ada44d237f8f7513c2d820799eb3ba0" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::KeyOperationException::KeyOperationException</definition>
+        <argsstring>(const std::string &amp;message)</argsstring>
+        <name>KeyOperationException</name>
+        <qualifiedname>themis::KeyOperationException::KeyOperationException</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Key Operation Exception. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="72" column="14" bodyfile="include/security/key_provider.h" bodystart="72" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_operation_exception_1a718abe92fbf1874ac832ba704a6c4350" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::KeyOperationException::KeyOperationException</definition>
+        <argsstring>(std::string message, int http_code, std::string vault_message, bool transient)</argsstring>
+        <name>KeyOperationException</name>
+        <qualifiedname>themis::KeyOperationException::KeyOperationException</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>http_code</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>vault_message</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>transient</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="78" column="5" bodyfile="include/security/key_provider.h" bodystart="78" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_operation_exception_1ac5ca41ec3153decadf4fdab52e39434c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::KeyOperationException::httpCode</definition>
+        <argsstring>() const</argsstring>
+        <name>httpCode</name>
+        <qualifiedname>themis::KeyOperationException::httpCode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="85" column="10" bodyfile="include/security/key_provider.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_operation_exception_1a06e01c410b02a33e2ce58b762dfdaf11" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::KeyOperationException::vaultMessage</definition>
+        <argsstring>() const</argsstring>
+        <name>vaultMessage</name>
+        <qualifiedname>themis::KeyOperationException::vaultMessage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="86" column="24" bodyfile="include/security/key_provider.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_operation_exception_1a3502dc44b34f5f82bd5b0cbd43fb66ed" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::KeyOperationException::transient</definition>
+        <argsstring>() const</argsstring>
+        <name>transient</name>
+        <qualifiedname>themis::KeyOperationException::transient</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="87" column="11" bodyfile="include/security/key_provider.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::KeyOperationException</label>
+        <link refid="classthemis_1_1_key_operation_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::KeyOperationException</label>
+        <link refid="classthemis_1_1_key_operation_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/key_provider.h" line="65" column="1" bodyfile="include/security/key_provider.h" bodystart="65" bodyend="92"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_key_operation_exception_1a7f096fa777cc04a966854c1a4041f8a7" prot="private" virt="non-virtual"><scope>themis::KeyOperationException</scope><name>http_code_</name></member>
+      <member refid="classthemis_1_1_key_operation_exception_1ac5ca41ec3153decadf4fdab52e39434c" prot="public" virt="non-virtual"><scope>themis::KeyOperationException</scope><name>httpCode</name></member>
+      <member refid="classthemis_1_1_key_operation_exception_1a9ada44d237f8f7513c2d820799eb3ba0" prot="public" virt="non-virtual"><scope>themis::KeyOperationException</scope><name>KeyOperationException</name></member>
+      <member refid="classthemis_1_1_key_operation_exception_1a718abe92fbf1874ac832ba704a6c4350" prot="public" virt="non-virtual"><scope>themis::KeyOperationException</scope><name>KeyOperationException</name></member>
+      <member refid="classthemis_1_1_key_operation_exception_1a3502dc44b34f5f82bd5b0cbd43fb66ed" prot="public" virt="non-virtual"><scope>themis::KeyOperationException</scope><name>transient</name></member>
+      <member refid="classthemis_1_1_key_operation_exception_1ad1079dec40bd436dc7c6246ef324eb85" prot="private" virt="non-virtual"><scope>themis::KeyOperationException</scope><name>transient_</name></member>
+      <member refid="classthemis_1_1_key_operation_exception_1a95e39a3b1675ca69433a150ccca7e959" prot="private" virt="non-virtual"><scope>themis::KeyOperationException</scope><name>vault_message_</name></member>
+      <member refid="classthemis_1_1_key_operation_exception_1a06e01c410b02a33e2ce58b762dfdaf11" prot="public" virt="non-virtual"><scope>themis::KeyOperationException</scope><name>vaultMessage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

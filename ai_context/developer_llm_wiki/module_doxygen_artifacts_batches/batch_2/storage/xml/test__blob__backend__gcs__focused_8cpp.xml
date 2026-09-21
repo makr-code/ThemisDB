@@ -1,0 +1,318 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__blob__backend__gcs__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_blob_backend_gcs_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="blob__backend__gcs_8h" local="yes">storage/blob_backend_gcs.h</includes>
+    <includes refid="blob__storage__backend_8h" local="yes">storage/blob_storage_backend.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>storage/blob_backend_gcs.h</label>
+        <link refid="blob__backend__gcs_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>storage/blob_storage_backend.h</label>
+        <link refid="blob__storage__backend_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/storage/test_blob_backend_gcs_focused.cpp</label>
+        <link refid="test__blob__backend__gcs__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__blob__backend__gcs__focused_8cpp_1a3536ab0cdacaf08e188777d4fac4ea30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GCSBlobBackend, GCS01_PutReturnsErrorWhenUnavailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_g_c_s_blob_backend" kindref="compound">GCSBlobBackend</ref></type>
+        </param>
+        <param>
+          <type>GCS01_PutReturnsErrorWhenUnavailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_blob_backend_gcs_focused.cpp" line="75" column="1" bodyfile="tests/storage/test_blob_backend_gcs_focused.cpp" bodystart="75" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__blob__backend__gcs__focused_8cpp_1aa8bcc8172609bf1d05f406ddc66796da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GCSBlobBackend, GCS02_GetReturnsErrorWhenUnavailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_g_c_s_blob_backend" kindref="compound">GCSBlobBackend</ref></type>
+        </param>
+        <param>
+          <type>GCS02_GetReturnsErrorWhenUnavailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_blob_backend_gcs_focused.cpp" line="88" column="1" bodyfile="tests/storage/test_blob_backend_gcs_focused.cpp" bodystart="88" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="test__blob__backend__gcs__focused_8cpp_1a664ccdd7dee535116fd1799393f29fcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GCSBlobBackend, GCS03_RemoveReturnsErrorWhenUnavailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_g_c_s_blob_backend" kindref="compound">GCSBlobBackend</ref></type>
+        </param>
+        <param>
+          <type>GCS03_RemoveReturnsErrorWhenUnavailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_blob_backend_gcs_focused.cpp" line="100" column="1" bodyfile="tests/storage/test_blob_backend_gcs_focused.cpp" bodystart="100" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__blob__backend__gcs__focused_8cpp_1a837a49e4547ff292bb9d77900905f52f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GCSBlobBackend, GCS04_ExistsReturnsFalseWhenUnavailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_g_c_s_blob_backend" kindref="compound">GCSBlobBackend</ref></type>
+        </param>
+        <param>
+          <type>GCS04_ExistsReturnsFalseWhenUnavailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_blob_backend_gcs_focused.cpp" line="112" column="1" bodyfile="tests/storage/test_blob_backend_gcs_focused.cpp" bodystart="112" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__blob__backend__gcs__focused_8cpp_1aec6c60d908871875fcff2c00fb05441a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GCSBlobBackend, GCS05_NameIsGcs)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_g_c_s_blob_backend" kindref="compound">GCSBlobBackend</ref></type>
+        </param>
+        <param>
+          <type>GCS05_NameIsGcs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_blob_backend_gcs_focused.cpp" line="122" column="1" bodyfile="tests/storage/test_blob_backend_gcs_focused.cpp" bodystart="122" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__blob__backend__gcs__focused_8cpp_1abe9265de94f37dea7c8770dc85615735" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GCSBlobBackend, GCS06_IsAvailableFalseWithoutCredentials)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_g_c_s_blob_backend" kindref="compound">GCSBlobBackend</ref></type>
+        </param>
+        <param>
+          <type>GCS06_IsAvailableFalseWithoutCredentials</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_blob_backend_gcs_focused.cpp" line="130" column="1" bodyfile="tests/storage/test_blob_backend_gcs_focused.cpp" bodystart="130" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>GCS blob backend contract-hardening focused tests (GCS-01..08). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All tests run without an actual GCS bucket. When the backend is compiled without THEMIS_ENABLE_GCS (the normal CI configuration), the constructor marks itself unavailable and every API method must return a structured error. When THEMIS_ENABLE_GCS is defined but no ADC credentials are present, the constructor also marks itself unavailable via the fail-closed path.</para>
+<sect1 id="test__blob__backend__gcs__focused_8cpp_1autotoc_md29_1s1"><sect2 id="test__blob__backend__gcs__focused_8cpp_1autotoc_md29">
+<title>Test Cases</title><para><heading level="3">GCS-01 — Unavailable backend put() returns error</heading>
+</para>
+<para>Verified: put() on unavailable backend returns ERR_UTIL_FILE_OPERATION_FAILED.</para>
+<para><heading level="3">GCS-02 — Unavailable backend get() returns error</heading>
+</para>
+<para>Verified: get() on unavailable backend returns an error.</para>
+<para><heading level="3">GCS-03 — Unavailable backend remove() returns error</heading>
+</para>
+<para>Verified: remove() on unavailable backend returns an error.</para>
+<para><heading level="3">GCS-04 — Unavailable backend exists() returns false</heading>
+</para>
+<para>Verified: exists() on unavailable backend returns false.</para>
+<para><heading level="3">GCS-05 — name() returns &quot;gcs&quot;</heading>
+</para>
+<para>Verified: backend type identifier is always &quot;gcs&quot;.</para>
+<para><heading level="3">GCS-06 — isAvailable() returns false without ADC credentials</heading>
+</para>
+<para>Verified: backend is unavailable when GCS is disabled / no credentials.</para>
+<para><heading level="3">GCS-07 — presignedUrl() returns error when backend is unavailable</heading>
+</para>
+<para>Verified: presignedUrl() on unavailable backend returns an error.</para>
+<para><heading level="3">GCS-08 — presignedUrl() rejects invalid expiry values</heading>
+</para>
+<para>Verified: expiry &lt;= 0 and expiry &gt; 604800 both return an error.</para>
+<para><simplesect kind="see"><para><ref refid="blob__backend__gcs_8h" kindref="compound">include/storage/blob_backend_gcs.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="blob__backend__gcs_8cpp" kindref="compound">src/storage/blob_backend_gcs.cpp</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>plugins/blob_storage/gcs/plugin.json </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="blob__backend__gcs_8h" kindref="compound">storage/blob_backend_gcs.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="blob__storage__backend_8h" kindref="compound">storage/blob_storage_backend.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage" kindref="compound">themis::storage</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_g_c_s_blob_backend" kindref="compound">GCSBlobBackend</ref><sp/>makeUnavailableBackend()<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_g_c_s_blob_backend" kindref="compound">GCSBlobBackend</ref>(</highlight><highlight class="stringliteral">&quot;test-bucket&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test/prefix&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref><sp/>makeBlobRef(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test-blob-id&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref><sp/>ref;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>ref.<ref refid="structthemis_1_1storage_1_1_blob_ref_1aee8e0ab57630baddb77b617ae206291b" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>ref.<ref refid="structthemis_1_1storage_1_1_blob_ref_1a928a3f3e7ff050fff50f6075df659b92" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1storage_1a0920c3f1eae9af3a4a216dceebb88a42a0f783f732d106dbf30f255f311e83e67" kindref="member">BlobStorageType::GCS</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>ref.<ref refid="structthemis_1_1storage_1_1_blob_ref_1ad95c84baf77bda97a2a4c216869eb0e8" kindref="member">uri</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;gs://test-bucket/test/prefix/&quot;</highlight><highlight class="normal"><sp/>+<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.blob&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>ref.<ref refid="structthemis_1_1storage_1_1_blob_ref_1a69de9d18e7520f657d00e7d034dc1da6" kindref="member">size_bytes</ref><sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>ref.<ref refid="structthemis_1_1storage_1_1_blob_ref_1a8df7e72f728ed0b8cd7634b394d099ad" kindref="member">hash_sha256</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ref;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GCS-01<sp/>—<sp/>put()<sp/>on<sp/>unavailable<sp/>backend<sp/>returns<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="test__blob__backend__gcs__focused_8cpp_1a3536ab0cdacaf08e188777d4fac4ea30" kindref="member">TEST</ref>(<ref refid="classthemis_1_1storage_1_1_g_c_s_blob_backend" kindref="compound">GCSBlobBackend</ref>,<sp/>GCS01_PutReturnsErrorWhenUnavailable)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>makeUnavailableBackend();</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(backend.isAvailable());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>data<sp/>=<sp/>{0x01,<sp/>0x02,<sp/>0x03};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>backend.put(</highlight><highlight class="stringliteral">&quot;blob-id&quot;</highlight><highlight class="normal">,<sp/>data);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.error().message().empty());</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GCS-02<sp/>—<sp/>get()<sp/>on<sp/>unavailable<sp/>backend<sp/>returns<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__blob__backend__gcs__focused_8cpp_1a3536ab0cdacaf08e188777d4fac4ea30" kindref="member">TEST</ref>(<ref refid="classthemis_1_1storage_1_1_g_c_s_blob_backend" kindref="compound">GCSBlobBackend</ref>,<sp/>GCS02_GetReturnsErrorWhenUnavailable)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>makeUnavailableBackend();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(backend.isAvailable());</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>backend.get(makeBlobRef());</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.error().message().empty());</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GCS-03<sp/>—<sp/>remove()<sp/>on<sp/>unavailable<sp/>backend<sp/>returns<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__blob__backend__gcs__focused_8cpp_1a3536ab0cdacaf08e188777d4fac4ea30" kindref="member">TEST</ref>(<ref refid="classthemis_1_1storage_1_1_g_c_s_blob_backend" kindref="compound">GCSBlobBackend</ref>,<sp/>GCS03_RemoveReturnsErrorWhenUnavailable)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>makeUnavailableBackend();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(backend.isAvailable());</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>backend.remove(makeBlobRef());</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.error().message().empty());</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GCS-04<sp/>—<sp/>exists()<sp/>on<sp/>unavailable<sp/>backend<sp/>returns<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__blob__backend__gcs__focused_8cpp_1a3536ab0cdacaf08e188777d4fac4ea30" kindref="member">TEST</ref>(<ref refid="classthemis_1_1storage_1_1_g_c_s_blob_backend" kindref="compound">GCSBlobBackend</ref>,<sp/>GCS04_ExistsReturnsFalseWhenUnavailable)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>makeUnavailableBackend();</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(backend.isAvailable());</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(backend.exists(makeBlobRef()));</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GCS-05<sp/>—<sp/>name()<sp/>returns<sp/>&quot;gcs&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="test__blob__backend__gcs__focused_8cpp_1a3536ab0cdacaf08e188777d4fac4ea30" kindref="member">TEST</ref>(<ref refid="classthemis_1_1storage_1_1_g_c_s_blob_backend" kindref="compound">GCSBlobBackend</ref>,<sp/>GCS05_NameIsGcs)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>makeUnavailableBackend();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(backend.name(),<sp/></highlight><highlight class="stringliteral">&quot;gcs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GCS-06<sp/>—<sp/>isAvailable()<sp/>is<sp/>false<sp/>without<sp/>ADC<sp/>credentials<sp/>/<sp/>GCS<sp/>disabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="test__blob__backend__gcs__focused_8cpp_1a3536ab0cdacaf08e188777d4fac4ea30" kindref="member">TEST</ref>(<ref refid="classthemis_1_1storage_1_1_g_c_s_blob_backend" kindref="compound">GCSBlobBackend</ref>,<sp/>GCS06_IsAvailableFalseWithoutCredentials)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_g_c_s_blob_backend" kindref="compound">GCSBlobBackend</ref><sp/>backend(</highlight><highlight class="stringliteral">&quot;my-bucket&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(backend.isAvailable());</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/storage/test_blob_backend_gcs_focused.cpp"/>
+  </compounddef>
+</doxygen>

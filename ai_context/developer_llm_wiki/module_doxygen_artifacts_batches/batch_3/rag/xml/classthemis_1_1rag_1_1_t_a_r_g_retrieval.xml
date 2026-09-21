@@ -1,0 +1,424 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_t_a_r_g_retrieval" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::TARGRetrieval</compoundname>
+    <includes refid="targ__retrieval_8h" local="no">targ_retrieval.h</includes>
+    <innerclass refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_scoped_full_entropy_fn_override" prot="public">themis::rag::TARGRetrieval::ScopedFullEntropyFnOverride</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats" prot="public">themis::rag::TARGRetrieval::GateStats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a7dc66eac78ed4aea10a29125b4cd66bc" prot="public" static="no">
+        <type>std::function&lt; float(const std::vector&lt; float &gt; &amp;)&gt;</type>
+        <definition>using themis::rag::TARGRetrieval::FullEntropyFn = std::function&lt;float(const std::vector&lt;float&gt;&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>FullEntropyFn</name>
+        <qualifiedname>themis::rag::TARGRetrieval::FullEntropyFn</qualifiedname>
+        <briefdescription>
+<para>Injectable full-vocabulary entropy computation function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set via <computeroutput><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a826ab7de445f30853fd4286f8e8f6039" kindref="member">setFullEntropyFn()</ref></computeroutput>, the entropy gate uses the injected function instead of the built-in full-vocabulary softmax entropy path. This allows plugging in a backend-specific or precomputed entropy implementation at runtime.</para>
+<para>Signature: <computeroutput>float fn(const std::vector&lt;float&gt;&amp; logits)</computeroutput> returning the Shannon entropy in nats. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="147" column="5" bodyfile="include/rag/targ_retrieval.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a71d94f6fef0ff492051f5530e94a7884" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_t_a_r_g_config" kindref="compound">TARGConfig</ref></type>
+        <definition>TARGConfig themis::rag::TARGRetrieval::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::rag::TARGRetrieval::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="234" column="16" bodyfile="include/rag/targ_retrieval.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1ab886566fd23dad1ca34867f2f00e8903" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::TARGRetrieval::consecutive_uncertain_</definition>
+        <argsstring></argsstring>
+        <name>consecutive_uncertain_</name>
+        <qualifiedname>themis::rag::TARGRetrieval::consecutive_uncertain_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="236" column="17" bodyfile="include/rag/targ_retrieval.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a868eafd07496c989f55c88505b022e02" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::TARGRetrieval::cooldown_remaining_</definition>
+        <argsstring></argsstring>
+        <name>cooldown_remaining_</name>
+        <qualifiedname>themis::rag::TARGRetrieval::cooldown_remaining_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="237" column="17" bodyfile="include/rag/targ_retrieval.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1ab6f02e544685be25dc88d8a72f6150db" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats" kindref="compound">GateStats</ref></type>
+        <definition>GateStats themis::rag::TARGRetrieval::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::rag::TARGRetrieval::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="239" column="15" bodyfile="include/rag/targ_retrieval.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a638832d13de7c9657b1be8ec8d8f3942" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::TARGRetrieval::TARGRetrieval</definition>
+        <argsstring>(TARGConfig cfg={})</argsstring>
+        <name>TARGRetrieval</name>
+        <qualifiedname>themis::rag::TARGRetrieval::TARGRetrieval</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1rag_1_1_t_a_r_g_config" kindref="compound">TARGConfig</ref></type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="111" column="14" bodyfile="src/rag/targ_retrieval.cpp" bodystart="123" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a789a70b877638fb64029bec37b58c6db" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_t_a_r_g_decision" kindref="compound">TARGDecision</ref></type>
+        <definition>TARGDecision themis::rag::TARGRetrieval::gate</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;logits)</argsstring>
+        <name>gate</name>
+        <qualifiedname>themis::rag::TARGRetrieval::gate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>logits</declname>
+        </param>
+        <briefdescription>
+<para>Full gating decision for a raw logit vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>logits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw (un-softmaxed) model logits over the full vocabulary. Must have at least 2 elements. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1rag_1_1_t_a_r_g_decision" kindref="compound">TARGDecision</ref> with all gating metrics.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">logits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: computeMetrics(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="122" column="19" bodyfile="src/rag/targ_retrieval.cpp" bodystart="197" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a7359849e3b21c642d7f01de3db7175af" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::TARGRetrieval::shouldRetrieve</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;logits)</argsstring>
+        <name>shouldRetrieve</name>
+        <qualifiedname>themis::rag::TARGRetrieval::shouldRetrieve</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>logits</declname>
+        </param>
+        <briefdescription>
+<para>Convenience wrapper — returns true if retrieval should occur. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Should Retrieve.</para>
+<para>Equivalent to <computeroutput>gate(logits).should_retrieve</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>logits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw model logits (vocabulary-size vector). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if retrieval is recommended.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">logits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a789a70b877638fb64029bec37b58c6db" kindref="member">gate()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="132" column="11" bodyfile="src/rag/targ_retrieval.cpp" bodystart="264" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1aaa304f7fe29a1dd01023164280386f2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::TARGRetrieval::notifyRetrievalExecuted</definition>
+        <argsstring>()</argsstring>
+        <name>notifyRetrievalExecuted</name>
+        <qualifiedname>themis::rag::TARGRetrieval::notifyRetrievalExecuted</qualifiedname>
+        <briefdescription>
+<para>Notify the gate that a retrieval was successfully executed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Notify Retrieval Executed.</para>
+<para>Resets the consecutive-uncertain counter and starts the cool-down timer. Call this immediately after performing retrieval.</para>
+<para>Implements notifyRetrievalExecuted without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="194" column="10" bodyfile="src/rag/targ_retrieval.cpp" bodystart="276" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1afaa2e4e0e64d0fc45a89ac86a5f4ac0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::TARGRetrieval::notifyTokenEmitted</definition>
+        <argsstring>()</argsstring>
+        <name>notifyTokenEmitted</name>
+        <qualifiedname>themis::rag::TARGRetrieval::notifyTokenEmitted</qualifiedname>
+        <briefdescription>
+<para>Notify the gate that one token was emitted (advances cooldown). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Notify Token Emitted.</para>
+<para>Call once per generated token, regardless of gating decision.</para>
+<para>Implements notifyTokenEmitted without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="201" column="10" bodyfile="src/rag/targ_retrieval.cpp" bodystart="289" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a11f3b5036fd7c382b82543ccfac9c911" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::TARGRetrieval::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::rag::TARGRetrieval::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all stateful counters to initial values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Use between independent generation sessions.</para>
+<para>Implements reset without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="208" column="10" bodyfile="src/rag/targ_retrieval.cpp" bodystart="304" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a165c7cb0e49e6d263949992526d8f4f6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_t_a_r_g_retrieval_1_1_gate_stats" kindref="compound">GateStats</ref></type>
+        <definition>GateStats themis::rag::TARGRetrieval::stats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::rag::TARGRetrieval::stats</qualifiedname>
+        <briefdescription>
+<para>Cumulative statistics since construction (or last <ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a11f3b5036fd7c382b82543ccfac9c911" kindref="member">reset()</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="231" column="16" bodyfile="include/rag/targ_retrieval.h" bodystart="231" bodyend="231"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a826ab7de445f30853fd4286f8e8f6039" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::TARGRetrieval::setFullEntropyFn</definition>
+        <argsstring>(FullEntropyFn fn)</argsstring>
+        <name>setFullEntropyFn</name>
+        <qualifiedname>themis::rag::TARGRetrieval::setFullEntropyFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a7dc66eac78ed4aea10a29125b4cd66bc" kindref="member">FullEntropyFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject a full-vocabulary entropy computation function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para>Once set, <computeroutput><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a789a70b877638fb64029bec37b58c6db" kindref="member">gate()</ref></computeroutput> will call <computeroutput>fn</computeroutput> instead of the built-in full-vocabulary entropy computation whenever <computeroutput><ref refid="structthemis_1_1rag_1_1_t_a_r_g_config_1afecf9144fcf9de6ee76957b5717614b0" kindref="member">TARGConfig::use_entropy_gate</ref> == true</computeroutput>. Pass a null / default-constructed <computeroutput><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a7dc66eac78ed4aea10a29125b4cd66bc" kindref="member">FullEntropyFn</ref></computeroutput> to revert to the built-in exact full-vocabulary entropy path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable accepting raw logits and returning entropy in nats.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), fullEntropyFnMutex(), fullEntropyFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="160" column="17" bodyfile="src/rag/targ_retrieval.cpp" bodystart="85" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a89e5b7d4ee37ae03c7a3d09dea3338da" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::TARGRetrieval::clearFullEntropyFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearFullEntropyFn</name>
+        <qualifiedname>themis::rag::TARGRetrieval::clearFullEntropyFn</qualifiedname>
+        <briefdescription>
+<para>Remove a previously injected <ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a7dc66eac78ed4aea10a29125b4cd66bc" kindref="member">FullEntropyFn</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para>Calls: lk(), fullEntropyFnMutex(), fullEntropyFnStorage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="163" column="17" bodyfile="src/rag/targ_retrieval.cpp" bodystart="94" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a006a933c5092a02e928a7f978b0c6b73" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::TARGRetrieval::computeMetrics</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;logits, float &amp;out_gap, float &amp;out_entropy, bool compute_entropy)</argsstring>
+        <name>computeMetrics</name>
+        <qualifiedname>themis::rag::TARGRetrieval::computeMetrics</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>logits</declname>
+        </param>
+        <param>
+          <type>float &amp;</type>
+          <declname>out_gap</declname>
+        </param>
+        <param>
+          <type>float &amp;</type>
+          <declname>out_entropy</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>compute_entropy</declname>
+        </param>
+        <briefdescription>
+<para>Compute the logit gap and optional entropy from raw logits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute Metrics.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">logits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_gap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_entropy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">compute_entropy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), threadLocalFullEntropyFnStack(), empty(), back(), lk(), fullEntropyFnMutex(), fullEntropyFnStorage(), fn_copy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="242" column="17" bodyfile="src/rag/targ_retrieval.cpp" bodystart="139" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stateful TARG gate: decides per-token whether retrieval is needed. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Maintains per-session state (consecutive uncertainty count, cooldown counter). Create one instance per generation session and call <computeroutput><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a789a70b877638fb64029bec37b58c6db" kindref="member">gate()</ref></computeroutput> or <computeroutput><ref refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a7359849e3b21c642d7f01de3db7175af" kindref="member">shouldRetrieve()</ref></computeroutput> on each generated token. </para>
+    </detaileddescription>
+    <location file="include/rag/targ_retrieval.h" line="109" column="1" bodyfile="include/rag/targ_retrieval.h" bodystart="109" bodyend="246"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a71d94f6fef0ff492051f5530e94a7884" prot="private" virt="non-virtual"><scope>themis::rag::TARGRetrieval</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a89e5b7d4ee37ae03c7a3d09dea3338da" prot="public" virt="non-virtual"><scope>themis::rag::TARGRetrieval</scope><name>clearFullEntropyFn</name></member>
+      <member refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a006a933c5092a02e928a7f978b0c6b73" prot="private" virt="non-virtual"><scope>themis::rag::TARGRetrieval</scope><name>computeMetrics</name></member>
+      <member refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1ab886566fd23dad1ca34867f2f00e8903" prot="private" virt="non-virtual"><scope>themis::rag::TARGRetrieval</scope><name>consecutive_uncertain_</name></member>
+      <member refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a868eafd07496c989f55c88505b022e02" prot="private" virt="non-virtual"><scope>themis::rag::TARGRetrieval</scope><name>cooldown_remaining_</name></member>
+      <member refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a7dc66eac78ed4aea10a29125b4cd66bc" prot="public" virt="non-virtual"><scope>themis::rag::TARGRetrieval</scope><name>FullEntropyFn</name></member>
+      <member refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a789a70b877638fb64029bec37b58c6db" prot="public" virt="non-virtual"><scope>themis::rag::TARGRetrieval</scope><name>gate</name></member>
+      <member refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1aaa304f7fe29a1dd01023164280386f2d" prot="public" virt="non-virtual"><scope>themis::rag::TARGRetrieval</scope><name>notifyRetrievalExecuted</name></member>
+      <member refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1afaa2e4e0e64d0fc45a89ac86a5f4ac0a" prot="public" virt="non-virtual"><scope>themis::rag::TARGRetrieval</scope><name>notifyTokenEmitted</name></member>
+      <member refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a11f3b5036fd7c382b82543ccfac9c911" prot="public" virt="non-virtual"><scope>themis::rag::TARGRetrieval</scope><name>reset</name></member>
+      <member refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a826ab7de445f30853fd4286f8e8f6039" prot="public" virt="non-virtual"><scope>themis::rag::TARGRetrieval</scope><name>setFullEntropyFn</name></member>
+      <member refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a7359849e3b21c642d7f01de3db7175af" prot="public" virt="non-virtual"><scope>themis::rag::TARGRetrieval</scope><name>shouldRetrieve</name></member>
+      <member refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a165c7cb0e49e6d263949992526d8f4f6" prot="public" virt="non-virtual"><scope>themis::rag::TARGRetrieval</scope><name>stats</name></member>
+      <member refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1ab6f02e544685be25dc88d8a72f6150db" prot="private" virt="non-virtual"><scope>themis::rag::TARGRetrieval</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1rag_1_1_t_a_r_g_retrieval_1a638832d13de7c9657b1be8ec8d8f3942" prot="public" virt="non-virtual"><scope>themis::rag::TARGRetrieval</scope><name>TARGRetrieval</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

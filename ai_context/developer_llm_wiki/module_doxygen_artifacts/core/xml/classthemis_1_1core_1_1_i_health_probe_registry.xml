@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1_i_health_probe_registry" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::core::IHealthProbeRegistry</compoundname>
+    <includes refid="health__probe_8h" local="no">health_probe.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1_i_health_probe_registry_1a6e029fa8af0192408dd8da50a0153141" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::core::IHealthProbeRegistry::~IHealthProbeRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IHealthProbeRegistry</name>
+        <qualifiedname>themis::core::IHealthProbeRegistry::~IHealthProbeRegistry</qualifiedname>
+        <briefdescription>
+<para>IHealth Probe Registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/health_probe.h" line="107" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1_i_health_probe_registry_1a91701ff418eaab1caf2e37c47a1182dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::core::IHealthProbeRegistry::registerProbe</definition>
+        <argsstring>(std::shared_ptr&lt; IHealthProbe &gt; probe)=0</argsstring>
+        <name>registerProbe</name>
+        <qualifiedname>themis::core::IHealthProbeRegistry::registerProbe</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1core_1_1_i_health_probe" kindref="compound">IHealthProbe</ref> &gt;</type>
+          <declname>probe</declname>
+        </param>
+        <briefdescription>
+<para>Register Probe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">probe</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/health_probe.h" line="114" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1_i_health_probe_registry_1ac94e4beccf075f000423a243703af3d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::core::IHealthProbeRegistry::unregisterProbe</definition>
+        <argsstring>(const std::string &amp;component_name)=0</argsstring>
+        <name>unregisterProbe</name>
+        <qualifiedname>themis::core::IHealthProbeRegistry::unregisterProbe</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component_name</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Probe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">component_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the component. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/health_probe.h" line="121" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1_i_health_probe_registry_1a442a558ee826fc65de0915b9f7d7601b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1core_1_1_aggregate_health_report" kindref="compound">AggregateHealthReport</ref></type>
+        <definition>virtual AggregateHealthReport themis::core::IHealthProbeRegistry::checkAll</definition>
+        <argsstring>()=0</argsstring>
+        <name>checkAll</name>
+        <qualifiedname>themis::core::IHealthProbeRegistry::checkAll</qualifiedname>
+        <briefdescription>
+<para>Check All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/health_probe.h" line="127" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1_i_health_probe_registry_1a15629ee78aa76c7c62b1cb249af82c62" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1core_1_1_health_check_result" kindref="compound">HealthCheckResult</ref></type>
+        <definition>virtual HealthCheckResult themis::core::IHealthProbeRegistry::checkComponent</definition>
+        <argsstring>(const std::string &amp;component_name)=0</argsstring>
+        <name>checkComponent</name>
+        <qualifiedname>themis::core::IHealthProbeRegistry::checkComponent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component_name</declname>
+        </param>
+        <briefdescription>
+<para>Check Component. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">component_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the component. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/health_probe.h" line="134" column="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/health_probe.h" line="101" column="1" bodyfile="include/core/health_probe.h" bodystart="101" bodyend="135"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1_i_health_probe_registry_1a442a558ee826fc65de0915b9f7d7601b" prot="public" virt="pure-virtual"><scope>themis::core::IHealthProbeRegistry</scope><name>checkAll</name></member>
+      <member refid="classthemis_1_1core_1_1_i_health_probe_registry_1a15629ee78aa76c7c62b1cb249af82c62" prot="public" virt="pure-virtual"><scope>themis::core::IHealthProbeRegistry</scope><name>checkComponent</name></member>
+      <member refid="classthemis_1_1core_1_1_i_health_probe_registry_1a91701ff418eaab1caf2e37c47a1182dc" prot="public" virt="pure-virtual"><scope>themis::core::IHealthProbeRegistry</scope><name>registerProbe</name></member>
+      <member refid="classthemis_1_1core_1_1_i_health_probe_registry_1ac94e4beccf075f000423a243703af3d4" prot="public" virt="pure-virtual"><scope>themis::core::IHealthProbeRegistry</scope><name>unregisterProbe</name></member>
+      <member refid="classthemis_1_1core_1_1_i_health_probe_registry_1a6e029fa8af0192408dd8da50a0153141" prot="public" virt="virtual"><scope>themis::core::IHealthProbeRegistry</scope><name>~IHealthProbeRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

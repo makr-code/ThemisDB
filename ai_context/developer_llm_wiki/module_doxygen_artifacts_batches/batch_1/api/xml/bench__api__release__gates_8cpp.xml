@@ -1,0 +1,1007 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__api__release__gates_8cpp" kind="file" language="C++">
+    <compoundname>bench_api_release_gates.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes refid="http__handler_8h" local="yes">api/http_handler.h</includes>
+    <includes refid="api__transport__contracts_8h" local="yes">api/api_transport_contracts.h</includes>
+    <includes refid="api__error__taxonomy_8h" local="yes">api/api_error_taxonomy.h</includes>
+    <includes refid="api__transport__policy_8h" local="yes">api/api_transport_policy.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/api/bench_api_release_gates.cpp</label>
+        <link refid="bench__api__release__gates_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>api/api_error_taxonomy.h</label>
+        <link refid="api__error__taxonomy_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>api/api_transport_contracts.h</label>
+        <link refid="api__transport__contracts_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>api/api_transport_policy.h</label>
+        <link refid="api__transport__policy_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>api/http_handler.h</label>
+        <link refid="http__handler_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="17">
+        <label>cstddef</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>string_view</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="15">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="10">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1ace86d8b943dcf9248370d4dc9218689d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_PolicyGetRequestHappyPath</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PolicyGetRequestHappyPath</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>@benchmark GATE-API-01: <ref refid="classthemis_1_1api_1_1_transport_policy_middleware" kindref="compound">TransportPolicyMiddleware</ref> — valid GET (no version header)</para>
+<para>Measures the overhead introduced by the policy enforcement layer for the simplest possible valid request: a GET with no special headers. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="91" column="13" bodyfile="benchmarks/api/bench_api_release_gates.cpp" bodystart="91" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1adcb4847e26b515b54cc6a34d02822740" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_PolicyGetRequestHappyPath) -&gt; UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_PolicyGetRequestHappyPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="103" column="1" declfile="benchmarks/api/bench_api_release_gates.cpp" declline="103" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1a8a8fb5a5be3c99c2b5fe064e3715d827" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_PolicyGetRequestWithVersionHeader</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PolicyGetRequestWithVersionHeader</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>@benchmark GATE-API-01: <ref refid="classthemis_1_1api_1_1_transport_policy_middleware" kindref="compound">TransportPolicyMiddleware</ref> — valid GET with v1 version header</para>
+<para>Adds version-header lookup cost to the GET happy path. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="110" column="13" bodyfile="benchmarks/api/bench_api_release_gates.cpp" bodystart="110" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1af4ea2bc7d03b53b119f22bad67d157c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_PolicyGetRequestWithVersionHeader) -&gt; UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_PolicyGetRequestWithVersionHeader</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="123" column="1" declfile="benchmarks/api/bench_api_release_gates.cpp" declline="123" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1a80e35c8cfa12d6b6c77466073ca5bf87" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_PolicyPostSmallBody</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PolicyPostSmallBody</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>@benchmark GATE-API-02: <ref refid="classthemis_1_1api_1_1_transport_policy_middleware" kindref="compound">TransportPolicyMiddleware</ref> — valid POST 1 KiB JSON payload</para>
+<para>Exercises payload-size check, Content-Type enforcement, and delegation for a small but realistic POST body. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="136" column="13" bodyfile="benchmarks/api/bench_api_release_gates.cpp" bodystart="136" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1a68cf4e911cb4c0147274a1d41fad330d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_PolicyPostSmallBody) -&gt; UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_PolicyPostSmallBody</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="150" column="1" declfile="benchmarks/api/bench_api_release_gates.cpp" declline="150" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1af2bb4beefde4914d2c50d08c4c5af8cd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_PolicyPostMediumBody</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PolicyPostMediumBody</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>@benchmark GATE-API-02: <ref refid="classthemis_1_1api_1_1_transport_policy_middleware" kindref="compound">TransportPolicyMiddleware</ref> — valid POST 64 KiB payload</para>
+<para>Representative of a batch-write or import operation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="157" column="13" bodyfile="benchmarks/api/bench_api_release_gates.cpp" bodystart="157" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1a49e5ee97a7198133896c8fdb5407d1d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_PolicyPostMediumBody) -&gt; UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_PolicyPostMediumBody</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="172" column="1" declfile="benchmarks/api/bench_api_release_gates.cpp" declline="172" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1ab99627ef244d9f362d071cb811ee11d4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_PolicyPayloadRejection</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PolicyPayloadRejection</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>@benchmark GATE-API-03: <ref refid="classthemis_1_1api_1_1_transport_policy_middleware" kindref="compound">TransportPolicyMiddleware</ref> — payload rejection (oversized body)</para>
+<para>Validates that payload-size enforcement exits early without examining the body contents. The rejection path must be as cheap as the happy path. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="185" column="13" bodyfile="benchmarks/api/bench_api_release_gates.cpp" bodystart="185" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1a6303dc1ddef656b80e5ccd5b379d3dbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_PolicyPayloadRejection) -&gt; UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_PolicyPayloadRejection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="201" column="1" declfile="benchmarks/api/bench_api_release_gates.cpp" declline="201" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1a13b2bdd89a40558611354ddd8e555584" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_PolicyVersionRejection</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PolicyVersionRejection</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>@benchmark GATE-API-04: <ref refid="classthemis_1_1api_1_1_transport_policy_middleware" kindref="compound">TransportPolicyMiddleware</ref> — version rejection</para>
+<para>Measures the overhead of rejecting a request with an unsupported X-API-Version header. Should be at most as expensive as accepting a valid version (the loop over kSupportedApiVersions is O(|versions|) = O(2)). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="215" column="13" bodyfile="benchmarks/api/bench_api_release_gates.cpp" bodystart="215" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1a033c5d5eea4e515f11d4afe7693d000d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_PolicyVersionRejection) -&gt; UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_PolicyVersionRejection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="228" column="1" declfile="benchmarks/api/bench_api_release_gates.cpp" declline="228" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1aa9405b0ac042c6af52ea8e3ecfcfadd3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ErrorTaxonomyToErrorCode</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ErrorTaxonomyToErrorCode</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>@benchmark GATE-API-05: <ref refid="classthemis_1_1api_1_1_api_error_taxonomy_1a9f8b22006de70fd4f1197074be27d7f5" kindref="member">ApiErrorTaxonomy::toErrorCode</ref> — all failure classes</para>
+<para>Taxonomy mapping must be O(1) per call (switch statement). This benchmark cycles through all failure classes to ensure the hot path has no branches that add surprising overhead. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="242" column="13" bodyfile="benchmarks/api/bench_api_release_gates.cpp" bodystart="242" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1af71be91ab329cb83ac918191d0dd6853" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_ErrorTaxonomyToErrorCode) -&gt; UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_ErrorTaxonomyToErrorCode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="259" column="1" declfile="benchmarks/api/bench_api_release_gates.cpp" declline="259" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1a845c526687e75ae5eb921429d0bde0f4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ErrorTaxonomyToHttpStatus</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ErrorTaxonomyToHttpStatus</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>@benchmark GATE-API-05: <ref refid="classthemis_1_1api_1_1_api_error_taxonomy_1a0afb2086489342df90c7c794317515d5" kindref="member">ApiErrorTaxonomy::toHttpStatus</ref> — all failure classes </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="264" column="13" bodyfile="benchmarks/api/bench_api_release_gates.cpp" bodystart="264" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1abe3af6a1eb262f29fee8c1d7f6df88b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_ErrorTaxonomyToHttpStatus) -&gt; UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_ErrorTaxonomyToHttpStatus</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="281" column="1" declfile="benchmarks/api/bench_api_release_gates.cpp" declline="281" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1a090d83274c7d8ba3cc1ca2bc4d42207b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ContractValidateGetValid</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ContractValidateGetValid</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>@benchmark GATE-API-06: <ref refid="classthemis_1_1api_1_1_transport_contract_validator_1a207650e893fd3449f1bf3b26cd838ebf" kindref="member">TransportContractValidator::validate</ref> — valid GET </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="291" column="13" bodyfile="benchmarks/api/bench_api_release_gates.cpp" bodystart="291" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1a9efd12d2d0f17b8adbe1b709c7a1cc4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_ContractValidateGetValid) -&gt; UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_ContractValidateGetValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="298" column="1" declfile="benchmarks/api/bench_api_release_gates.cpp" declline="298" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1a4fdf681501c9721c1267939b463c9053" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ContractValidatePostValid</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ContractValidatePostValid</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>@benchmark GATE-API-06: <ref refid="classthemis_1_1api_1_1_transport_contract_validator_1a207650e893fd3449f1bf3b26cd838ebf" kindref="member">TransportContractValidator::validate</ref> — valid POST </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="303" column="13" bodyfile="benchmarks/api/bench_api_release_gates.cpp" bodystart="303" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1a49879e51e2df38fd0f6eb8344d790355" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_ContractValidatePostValid) -&gt; UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_ContractValidatePostValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="312" column="1" declfile="benchmarks/api/bench_api_release_gates.cpp" declline="312" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1a72ac8467f1a7b51d53115e5741ade935" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_ContractValidateUnsupportedVersion</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_ContractValidateUnsupportedVersion</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>@benchmark GATE-API-06: <ref refid="classthemis_1_1api_1_1_transport_contract_validator_1a207650e893fd3449f1bf3b26cd838ebf" kindref="member">TransportContractValidator::validate</ref> — invalid version </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="317" column="13" bodyfile="benchmarks/api/bench_api_release_gates.cpp" bodystart="317" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1a4559afa7e81fe542187263b54f8fafae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_ContractValidateUnsupportedVersion) -&gt; UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_ContractValidateUnsupportedVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="324" column="1" declfile="benchmarks/api/bench_api_release_gates.cpp" declline="324" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1a3f70dfb443a991648dd290d350e72628" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_PolicySustainedGetThroughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PolicySustainedGetThroughput</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>@benchmark API policy: sustained throughput — 100 sequential requests</para>
+<para>Measures wall-clock time for 100 sequential GET requests through the policy middleware. Used to establish the p95/p99 baseline latency per request. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="336" column="13" bodyfile="benchmarks/api/bench_api_release_gates.cpp" bodystart="336" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1a60cea23754a6c3100a0e9273e4d4ba54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_PolicySustainedGetThroughput) -&gt; UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_PolicySustainedGetThroughput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="351" column="1" declfile="benchmarks/api/bench_api_release_gates.cpp" declline="351" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1a0546ae74aa6454b0654b2d5be1a4e61f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_PolicySustainedPostThroughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PolicySustainedPostThroughput</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>@benchmark API policy: sustained throughput — 100 sequential POST requests</para>
+<para>Representative batch-ingest scenario with JSON bodies. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="358" column="13" bodyfile="benchmarks/api/bench_api_release_gates.cpp" bodystart="358" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1abe55e381ddcc8f97515d90ff9224bb97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_PolicySustainedPostThroughput) -&gt; UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_PolicySustainedPostThroughput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="375" column="1" declfile="benchmarks/api/bench_api_release_gates.cpp" declline="375" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1a47ebb166946e5e0b80ae6edaf612e3a3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_PolicyMixedRequestTypes</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_PolicyMixedRequestTypes</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>@benchmark API policy: mixed request types — GET / POST / DELETE interleaved</para>
+<para>Models realistic API traffic with a mix of read, write, and delete operations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="382" column="13" bodyfile="benchmarks/api/bench_api_release_gates.cpp" bodystart="382" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1a5ec90212a3e1d96838c3a7fac3466c88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_PolicyMixedRequestTypes) -&gt; UseRealTime()</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_PolicyMixedRequestTypes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="406" column="1" declfile="benchmarks/api/bench_api_release_gates.cpp" declline="406" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__api__release__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/api/bench_api_release_gates.cpp" line="408" column="1" declfile="benchmarks/api/bench_api_release_gates.cpp" declline="408" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 5: Benchmark-backed release gates for API transport hot paths. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Phase 5 Q4 2026 — release gate consolidation. </para>
+</simplesect>
+<simplesect kind="note"><para>Validates ROADMAP.md Phase 5 items:<itemizedlist>
+<listitem><para>&quot;lock benchmark-backed release gates for API parsing/execution/serialization hot paths&quot;</para>
+</listitem><listitem><para>&quot;validate p95/p99 envelopes under representative concurrency profiles&quot; </para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+<simplesect kind="note"><para>Validates FUTURE_ENHANCEMENTS.md § Performance Targets:<itemizedlist>
+<listitem><para>&quot;parser and adapter hot paths stay within release baseline regression budgets&quot;</para>
+</listitem><listitem><para>&quot;correlation/tracing overhead remains bounded in low-latency request paths&quot;</para>
+</listitem><listitem><para>&quot;benchmark manifest completeness reaches no-missing-case status for mapped API targets&quot;</para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+<heading level="3">Release Gates (hard limits for CI regression checks)</heading>
+</para>
+<para><table rows="7" cols="3"><row>
+<entry thead="yes"><para>Gate ID  </para>
+</entry><entry thead="yes"><para>Metric  </para>
+</entry><entry thead="yes"><para>Limit  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-API-01  </para>
+</entry><entry thead="no"><para>Policy validation: GET request  </para>
+</entry><entry thead="no"><para>≤ 5 µs/op  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-API-02  </para>
+</entry><entry thead="no"><para>Policy validation: POST with body  </para>
+</entry><entry thead="no"><para>≤ 10 µs/op  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-API-03  </para>
+</entry><entry thead="no"><para>Payload rejection (&gt;10 MiB)  </para>
+</entry><entry thead="no"><para>≤ 5 µs/op  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-API-04  </para>
+</entry><entry thead="no"><para>Version rejection  </para>
+</entry><entry thead="no"><para>≤ 5 µs/op  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-API-05  </para>
+</entry><entry thead="no"><para>Error taxonomy mapping (all classes)  </para>
+</entry><entry thead="no"><para>≤ 1 µs/op  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-API-06  </para>
+</entry><entry thead="no"><para>Contract validator (full check)  </para>
+</entry><entry thead="no"><para>≤ 5 µs/op  </para>
+</entry></row>
+</table>
+</para>
+<para><simplesect kind="note"><para>Benchmarks use <computeroutput>UseRealTime()</computeroutput> as required by benchmarks/MEASUREMENT_HYGIENE.md for wall-clock accuracy in tests involving I/O or system calls. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="http__handler_8h" kindref="compound">api/http_handler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="api__transport__contracts_8h" kindref="compound">api/api_transport_contracts.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="api__error__taxonomy_8h" kindref="compound">api/api_error_taxonomy.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="api__transport__policy_8h" kindref="compound">api/api_transport_policy.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1api" kindref="compound">themis::api</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Shared<sp/>test<sp/>infrastructure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">PassthroughHandler<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_http_handler" kindref="compound">IHttpHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::Result&lt;HttpResponse&gt;<sp/>handle(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>HttpRequest&amp;<sp/>req)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)req;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HttpResponse<sp/>resp;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resp.<ref refid="structthemis_1_1api_1_1_http_response_1acff4ec6b8eceaf15e5edbd0fb6519c84" kindref="member">status_code</ref><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resp.<ref refid="structthemis_1_1api_1_1_http_response_1a0da27ab24080058d5ca4ffba268f4c36" kindref="member">body</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resp.<ref refid="structthemis_1_1api_1_1_http_response_1ad5b5314e3b957451c2e6f2cdb887ee45" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;Content-Type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>resp;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string_view<sp/>handlerName()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;PassthroughHandler&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>requiresAuthentication()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Shared<sp/>inner<sp/>handler<sp/>—<sp/>constructed<sp/>once<sp/>per<sp/>benchmark<sp/>invocation<sp/>context.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>makePolicy()<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>inner<sp/>=<sp/>std::make_shared&lt;PassthroughHandler&gt;();</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;TransportPolicyMiddleware&gt;(inner);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-API-01:<sp/>Policy<sp/>validation<sp/>—<sp/>GET<sp/>request<sp/>(happy<sp/>path)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Limit:<sp/>≤<sp/>5<sp/>µs/op</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PolicyGetRequestHappyPath(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>policy<sp/>=<sp/>makePolicy();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v2/entities&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy-&gt;handle(req);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="bench__api__release__gates_8cpp_1adcb4847e26b515b54cc6a34d02822740" kindref="member">BENCHMARK</ref>(BM_PolicyGetRequestHappyPath)-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PolicyGetRequestWithVersionHeader(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>policy<sp/>=<sp/>makePolicy();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/entities&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a4fc7a132f4fd32f465b98ebd598b5cb3" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;X-API-Version&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy-&gt;handle(req);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="bench__api__release__gates_8cpp_1adcb4847e26b515b54cc6a34d02822740" kindref="member">BENCHMARK</ref>(BM_PolicyGetRequestWithVersionHeader)-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-API-02:<sp/>Policy<sp/>validation<sp/>—<sp/>POST<sp/>with<sp/>body<sp/>(happy<sp/>path)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Limit:<sp/>≤<sp/>10<sp/>µs/op</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PolicyPostSmallBody(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>policy<sp/>=<sp/>makePolicy();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;POST&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v2/query&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a4fc7a132f4fd32f465b98ebd598b5cb3" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;Content-Type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1ab8e4235fb26ec414654294be92e2eb49" kindref="member">body</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::string(1024,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy-&gt;handle(req);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="bench__api__release__gates_8cpp_1adcb4847e26b515b54cc6a34d02822740" kindref="member">BENCHMARK</ref>(BM_PolicyPostSmallBody)-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PolicyPostMediumBody(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>policy<sp/>=<sp/>makePolicy();</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>body(64<sp/>*<sp/>1024,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;POST&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v2/batch&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a4fc7a132f4fd32f465b98ebd598b5cb3" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;Content-Type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/octet-stream&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1ab8e4235fb26ec414654294be92e2eb49" kindref="member">body</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>body;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy-&gt;handle(req);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="bench__api__release__gates_8cpp_1adcb4847e26b515b54cc6a34d02822740" kindref="member">BENCHMARK</ref>(BM_PolicyPostMediumBody)-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-API-03:<sp/>Payload<sp/>rejection<sp/>(&gt;10<sp/>MiB)<sp/>—<sp/>fail-closed<sp/>fast<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Limit:<sp/>≤<sp/>5<sp/>µs/op</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PolicyPayloadRejection(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>policy<sp/>=<sp/>makePolicy();</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Body<sp/>just<sp/>over<sp/>the<sp/>10<sp/>MiB<sp/>limit.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>oversized_body(<ref refid="namespacethemis_1_1api_1a6b221e453135400e65ad9b6077acc01b" kindref="member">kMaxPayloadBytes</ref><sp/>+<sp/>1,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;POST&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v2/bulk&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a4fc7a132f4fd32f465b98ebd598b5cb3" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;Content-Type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/octet-stream&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1ab8e4235fb26ec414654294be92e2eb49" kindref="member">body</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>oversized_body;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy-&gt;handle(req);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><ref refid="bench__api__release__gates_8cpp_1adcb4847e26b515b54cc6a34d02822740" kindref="member">BENCHMARK</ref>(BM_PolicyPayloadRejection)-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-API-04:<sp/>Version<sp/>rejection<sp/>—<sp/>fail-closed<sp/>fast<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Limit:<sp/>≤<sp/>5<sp/>µs/op</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PolicyVersionRejection(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>policy<sp/>=<sp/>makePolicy();</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v99/entities&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a4fc7a132f4fd32f465b98ebd598b5cb3" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;X-API-Version&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v99&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy-&gt;handle(req);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><ref refid="bench__api__release__gates_8cpp_1adcb4847e26b515b54cc6a34d02822740" kindref="member">BENCHMARK</ref>(BM_PolicyVersionRejection)-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-API-05:<sp/>Error<sp/>taxonomy<sp/>mapping<sp/>—<sp/>all<sp/>failure<sp/>classes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Limit:<sp/>≤<sp/>1<sp/>µs/op</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ErrorTaxonomyToErrorCode(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">FC<sp/>=<sp/><ref refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5" kindref="member">TransportFailureClass</ref>;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>FC<sp/>classes[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FC::MalformedRequest,<sp/><sp/><sp/><sp/>FC::PayloadTooLarge,</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FC::UnsupportedVersion,<sp/><sp/>FC::ContentTypeMissing,</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FC::ContentTypeMismatch,<sp/>FC::Unauthorized,</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FC::RateLimitExceeded,<sp/><sp/><sp/>FC::CapabilityUnavailable,</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FC::InternalError,</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>fc<sp/>:<sp/>classes)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/><ref refid="classthemis_1_1api_1_1_api_error_taxonomy_1a9f8b22006de70fd4f1197074be27d7f5" kindref="member">ApiErrorTaxonomy::toErrorCode</ref>(fc);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(code);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="bench__api__release__gates_8cpp_1adcb4847e26b515b54cc6a34d02822740" kindref="member">BENCHMARK</ref>(BM_ErrorTaxonomyToErrorCode)-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ErrorTaxonomyToHttpStatus(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">FC<sp/>=<sp/><ref refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5" kindref="member">TransportFailureClass</ref>;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>FC<sp/>classes[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FC::MalformedRequest,<sp/><sp/><sp/><sp/>FC::PayloadTooLarge,</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FC::UnsupportedVersion,<sp/><sp/>FC::ContentTypeMissing,</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FC::ContentTypeMismatch,<sp/>FC::Unauthorized,</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FC::RateLimitExceeded,<sp/><sp/><sp/>FC::CapabilityUnavailable,</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FC::InternalError,</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>fc<sp/>:<sp/>classes)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/><ref refid="classthemis_1_1api_1_1_api_error_taxonomy_1a0afb2086489342df90c7c794317515d5" kindref="member">ApiErrorTaxonomy::toHttpStatus</ref>(fc);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(status);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><ref refid="bench__api__release__gates_8cpp_1adcb4847e26b515b54cc6a34d02822740" kindref="member">BENCHMARK</ref>(BM_ErrorTaxonomyToHttpStatus)-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-API-06:<sp/>TransportContractValidator::validate<sp/>—<sp/>full<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Limit:<sp/>≤<sp/>5<sp/>µs/op</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ContractValidateGetValid(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fc<sp/>=<sp/><ref refid="classthemis_1_1api_1_1_transport_contract_validator_1a207650e893fd3449f1bf3b26cd838ebf" kindref="member">TransportContractValidator::validate</ref>(</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/entities&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>0,<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(fc);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="297"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><ref refid="bench__api__release__gates_8cpp_1adcb4847e26b515b54cc6a34d02822740" kindref="member">BENCHMARK</ref>(BM_ContractValidateGetValid)-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ContractValidatePostValid(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>body(1024,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fc<sp/>=<sp/><ref refid="classthemis_1_1api_1_1_transport_contract_validator_1a207650e893fd3449f1bf3b26cd838ebf" kindref="member">TransportContractValidator::validate</ref>(</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;POST&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/ingest&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>body.size(),<sp/></highlight><highlight class="stringliteral">&quot;v2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(fc);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="311"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><ref refid="bench__api__release__gates_8cpp_1adcb4847e26b515b54cc6a34d02822740" kindref="member">BENCHMARK</ref>(BM_ContractValidatePostValid)-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_ContractValidateUnsupportedVersion(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fc<sp/>=<sp/><ref refid="classthemis_1_1api_1_1_transport_contract_validator_1a207650e893fd3449f1bf3b26cd838ebf" kindref="member">TransportContractValidator::validate</ref>(</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;/api/v99/entities&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>0,<sp/></highlight><highlight class="stringliteral">&quot;v99&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(fc);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><ref refid="bench__api__release__gates_8cpp_1adcb4847e26b515b54cc6a34d02822740" kindref="member">BENCHMARK</ref>(BM_ContractValidateUnsupportedVersion)-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight><highlight class="comment">//<sp/>p95/p99<sp/>envelope:<sp/>sustained<sp/>throughput<sp/>under<sp/>representative<sp/>concurrency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PolicySustainedGetThroughput(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>policy<sp/>=<sp/>makePolicy();</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v2/entities&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy-&gt;handle(req);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.SetItemsProcessed(100);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="350"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><ref refid="bench__api__release__gates_8cpp_1adcb4847e26b515b54cc6a34d02822740" kindref="member">BENCHMARK</ref>(BM_PolicySustainedGetThroughput)-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PolicySustainedPostThroughput(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>policy<sp/>=<sp/>makePolicy();</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;POST&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v2/ingest&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a4fc7a132f4fd32f465b98ebd598b5cb3" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;Content-Type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1ab8e4235fb26ec414654294be92e2eb49" kindref="member">body</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::string(256,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy-&gt;handle(req);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.SetItemsProcessed(100);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="374"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><ref refid="bench__api__release__gates_8cpp_1adcb4847e26b515b54cc6a34d02822740" kindref="member">BENCHMARK</ref>(BM_PolicySustainedPostThroughput)-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_PolicyMixedRequestTypes(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>policy<sp/>=<sp/>makePolicy();</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>get_req;</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>get_req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>get_req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/entities/42&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>post_req;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>post_req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;POST&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>post_req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/entities&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>post_req.<ref refid="structthemis_1_1api_1_1_http_request_1a4fc7a132f4fd32f465b98ebd598b5cb3" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;Content-Type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>post_req.<ref refid="structthemis_1_1api_1_1_http_request_1ab8e4235fb26ec414654294be92e2eb49" kindref="member">body</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;key\&quot;:\&quot;value\&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>del_req;</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>del_req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;DELETE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>del_req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/entities/42&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(policy-&gt;handle(get_req));</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(policy-&gt;handle(post_req));</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(policy-&gt;handle(del_req));</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.SetItemsProcessed(3);</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="405"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><ref refid="bench__api__release__gates_8cpp_1adcb4847e26b515b54cc6a34d02822740" kindref="member">BENCHMARK</ref>(BM_PolicyMixedRequestTypes)-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"></highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><ref refid="bench__api__release__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/api/bench_api_release_gates.cpp"/>
+  </compounddef>
+</doxygen>

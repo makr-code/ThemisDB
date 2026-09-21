@@ -1,0 +1,716 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_tenant_metrics_namespace" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::TenantMetricsNamespace</compoundname>
+    <includes refid="tenant__metrics__namespace_8h" local="no">tenant_metrics_namespace.h</includes>
+    <innerclass refid="structthemis_1_1observability_1_1_tenant_metrics_namespace_1_1_tenant_store" prot="private">themis::observability::TenantMetricsNamespace::TenantStore</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a75cadd7465ca163e82695017863c5da8" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_tenant_metrics_config" kindref="compound">TenantMetricsConfig</ref></type>
+        <definition>TenantMetricsConfig themis::observability::TenantMetricsNamespace::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="242" column="25" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a063f34977a894c52250c1ac47fd9651b" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::observability::TenantMetricsNamespace::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="243" column="31" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a2ed817a498e34a3265b36b3606b4a791" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unique_ptr&lt; TenantStore &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unique_ptr&lt;TenantStore&gt; &gt; themis::observability::TenantMetricsNamespace::stores_</definition>
+        <argsstring></argsstring>
+        <name>stores_</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::stores_</qualifiedname>
+        <briefdescription>
+<para>tenant_id → TenantStore (owned via unique_ptr for stable address) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="246" column="24" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1ac9565540f6c239108a440606715a035a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::TenantMetricsNamespace::TenantMetricsNamespace</definition>
+        <argsstring>(const TenantMetricsConfig &amp;config=TenantMetricsConfig{})</argsstring>
+        <name>TenantMetricsNamespace</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::TenantMetricsNamespace</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_tenant_metrics_config" kindref="compound">TenantMetricsConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1observability_1_1_tenant_metrics_config" kindref="compound">TenantMetricsConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="84" column="14" bodyfile="src/observability/tenant_metrics_namespace.cpp" bodystart="24" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a9c69dc658426ea4f682eab4fd480123f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::TenantMetricsNamespace::~TenantMetricsNamespace</definition>
+        <argsstring>()</argsstring>
+        <name>~TenantMetricsNamespace</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::~TenantMetricsNamespace</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="86" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a5eee68c81e2d6303a3f4410a51432bc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::TenantMetricsNamespace::TenantMetricsNamespace</definition>
+        <argsstring>(const TenantMetricsNamespace &amp;)=delete</argsstring>
+        <name>TenantMetricsNamespace</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::TenantMetricsNamespace</qualifiedname>
+        <param>
+          <type>const TenantMetricsNamespace &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="89" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1adb918805bc575c9a0f301a2f3233fec1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1ac9565540f6c239108a440606715a035a" kindref="member">TenantMetricsNamespace</ref> &amp;</type>
+        <definition>TenantMetricsNamespace &amp; themis::observability::TenantMetricsNamespace::operator=</definition>
+        <argsstring>(const TenantMetricsNamespace &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1ac9565540f6c239108a440606715a035a" kindref="member">TenantMetricsNamespace</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="90" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a2151bfbc2edad18ce6c88b433d499c25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::TenantMetricsNamespace::registerTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id)</argsstring>
+        <name>registerTenant</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::registerTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Register a new tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Tenant.</para>
+<para>Idempotent — calling with an already-registered tenant_id is a no-op. <simplesect kind="return"><para>true if the tenant was newly registered, false if it already existed or could not be added (max_tenants exceeded).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), count(), size(), emplace(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="103" column="10" bodyfile="src/observability/tenant_metrics_namespace.cpp" bodystart="36" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a12a6c6dfb4f93f0220d7208d30d01b82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::TenantMetricsNamespace::deregisterTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id)</argsstring>
+        <name>deregisterTenant</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::deregisterTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Deregister a tenant and free all its metric data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deregister Tenant.</para>
+<para><simplesect kind="return"><para>true if the tenant existed and was removed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="109" column="10" bodyfile="src/observability/tenant_metrics_namespace.cpp" bodystart="56" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1ad6903cc701ca2bceb2d3c2e1659cf0cc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::TenantMetricsNamespace::hasTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>hasTenant</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::hasTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true when the given tenant is currently registered. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="112" column="10" bodyfile="src/observability/tenant_metrics_namespace.cpp" bodystart="61" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a8c25b40774406d97f083a2723b280046" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::observability::TenantMetricsNamespace::tenants</definition>
+        <argsstring>() const</argsstring>
+        <name>tenants</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::tenants</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>the list of all currently registered tenant IDs. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="115" column="17" bodyfile="src/observability/tenant_metrics_namespace.cpp" bodystart="71" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1ad052817e07438434ad18c67482053968" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::TenantMetricsNamespace::tenantCount</definition>
+        <argsstring>() const</argsstring>
+        <name>tenantCount</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::tenantCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>the number of registered tenants. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="118" column="12" bodyfile="src/observability/tenant_metrics_namespace.cpp" bodystart="87" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a1225841f0c38fc21a7704689ea2b0846" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::TenantMetricsNamespace::increment</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::string &amp;metric_name, const std::map&lt; std::string, std::string &gt; &amp;labels={})</argsstring>
+        <name>increment</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::increment</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Increment a counter for the given tenant by 1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>In non-strict mode an unknown <computeroutput>tenant_id</computeroutput> is auto-registered before recording the observation. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="130" column="10" bodyfile="src/observability/tenant_metrics_namespace.cpp" bodystart="140" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1accd102e1da52b4cc2d3977f8ad545ae9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::TenantMetricsNamespace::setGauge</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::string &amp;metric_name, double value, const std::map&lt; std::string, std::string &gt; &amp;labels={})</argsstring>
+        <name>setGauge</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::setGauge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Set a gauge to an absolute value for the given tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="137" column="10" bodyfile="src/observability/tenant_metrics_namespace.cpp" bodystart="177" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1ad4dc3518959d3b685640a92e31a05491" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::TenantMetricsNamespace::observeHistogram</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::string &amp;metric_name, double value, const std::map&lt; std::string, std::string &gt; &amp;labels={})</argsstring>
+        <name>observeHistogram</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::observeHistogram</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Record a histogram observation for the given tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="145" column="10" bodyfile="src/observability/tenant_metrics_namespace.cpp" bodystart="214" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a4641c400869bd95887a6e1766ef6f38a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::TenantMetricsNamespace::exportTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>exportTenant</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::exportTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Export Prometheus text-format metrics for a single tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Every metric name is prefixed with <computeroutput>themis_&lt;tenant_id&gt;_</computeroutput> and every label set includes <computeroutput>tenant_id="&lt;id&gt;"</computeroutput>.</para>
+<para><simplesect kind="return"><para>Prometheus text or an empty string if the tenant is unknown. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="162" column="17" bodyfile="src/observability/tenant_metrics_namespace.cpp" bodystart="322" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1aeffb05a49acc784ffe6d5f47fde75430" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::TenantMetricsNamespace::exportAll</definition>
+        <argsstring>() const</argsstring>
+        <name>exportAll</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::exportAll</qualifiedname>
+        <briefdescription>
+<para>Export Prometheus text-format metrics for all registered tenants. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Equivalent to concatenating <ref refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a4641c400869bd95887a6e1766ef6f38a" kindref="member">exportTenant()</ref> for every registered tenant. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="169" column="17" bodyfile="src/observability/tenant_metrics_namespace.cpp" bodystart="334" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1ac014ae2a779f2b62900750c6c0271b45" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_tenant_metrics_stats" kindref="compound">TenantMetricsStats</ref></type>
+        <definition>TenantMetricsStats themis::observability::TenantMetricsNamespace::stats</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::stats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>runtime statistics for the given tenant, or a zeroed struct if unknown. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="176" column="24" bodyfile="src/observability/tenant_metrics_namespace.cpp" bodystart="352" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1af066a0ea0d1f596710d8c5e4877779ad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_tenant_metrics_stats" kindref="compound">TenantMetricsStats</ref> &gt;</type>
+        <definition>std::vector&lt; TenantMetricsStats &gt; themis::observability::TenantMetricsNamespace::allStats</definition>
+        <argsstring>() const</argsstring>
+        <name>allStats</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::allStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>runtime statistics for all registered tenants. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="179" column="17" bodyfile="src/observability/tenant_metrics_namespace.cpp" bodystart="371" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a351700d392852295c92d02382706e79a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_tenant_metrics_config" kindref="compound">TenantMetricsConfig</ref></type>
+        <definition>TenantMetricsConfig themis::observability::TenantMetricsNamespace::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>the active configuration. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="182" column="25" bodyfile="src/observability/tenant_metrics_namespace.cpp" bodystart="393" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a16a921ebba7a2bd4eae6c5b4a2a83245" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::TenantMetricsNamespace::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::reset</qualifiedname>
+        <briefdescription>
+<para>Remove all metrics data for all tenants (useful in tests). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: lock(), clear(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="185" column="10" bodyfile="src/observability/tenant_metrics_namespace.cpp" bodystart="407" bodyend="418"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1ac129dc1ef00d8265d9892db4b4df278e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::TenantMetricsNamespace::makeKey</definition>
+        <argsstring>(const std::string &amp;metric_name, const std::map&lt; std::string, std::string &gt; &amp;labels)</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::makeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <briefdescription>
+<para>Make a fully qualified metric key from a metric name and label map. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="221" column="24" bodyfile="src/observability/tenant_metrics_namespace.cpp" bodystart="101" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a5881fa9162af56f5112e87dad29281cc" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::TenantMetricsNamespace::formatLine</definition>
+        <argsstring>(const std::string &amp;prefixed_name, const std::map&lt; std::string, std::string &gt; &amp;labels, double value)</argsstring>
+        <name>formatLine</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::formatLine</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefixed_name</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Format a single Prometheus metric line. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="231" column="24" bodyfile="src/observability/tenant_metrics_namespace.cpp" bodystart="258" bodyend="279"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a4f4c6608d9f517251994aacf03992207" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::TenantMetricsNamespace::checkCardinality</definition>
+        <argsstring>(TenantStore &amp;store, const std::string &amp;metric_name, const std::string &amp;key) const</argsstring>
+        <name>checkCardinality</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::checkCardinality</qualifiedname>
+        <param>
+          <type>TenantStore &amp;</type>
+          <declname>store</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check and enforce per-tenant cardinality. Returns true when the observation should proceed, false when it must be dropped. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="226" column="10" bodyfile="src/observability/tenant_metrics_namespace.cpp" bodystart="113" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a64b2638908f36e12799457b0b9b2feab" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::TenantMetricsNamespace::exportStore</definition>
+        <argsstring>(const TenantStore &amp;store) const</argsstring>
+        <name>exportStore</name>
+        <qualifiedname>themis::observability::TenantMetricsNamespace::exportStore</qualifiedname>
+        <param>
+          <type>const TenantStore &amp;</type>
+          <declname>store</declname>
+        </param>
+        <briefdescription>
+<para>Export all metrics from a single TenantStore. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/tenant_metrics_namespace.h" line="236" column="17" bodyfile="src/observability/tenant_metrics_namespace.cpp" bodystart="281" bodyend="320"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Registry that provides per-tenant metric isolation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Internally each tenant owns an independent set of counters, gauges and histogram samples. Prometheus export prefixes every metric name with <computeroutput>themis_&lt;tenant_id&gt;_</computeroutput> and automatically injects <computeroutput>tenant_id="&lt;id&gt;"</computeroutput> into every label set, so per-tenant and cross-tenant aggregations are both possible from a single scrape endpoint.</para>
+<para>Cross-tenant cardinality isolation is enforced at the series level: the cardinality limit applies independently per tenant — a single high- cardinality tenant cannot starve other tenants. </para>
+    </detaileddescription>
+    <location file="include/observability/tenant_metrics_namespace.h" line="82" column="1" bodyfile="include/observability/tenant_metrics_namespace.h" bodystart="82" bodyend="247"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1af066a0ea0d1f596710d8c5e4877779ad" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>allStats</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a4f4c6608d9f517251994aacf03992207" prot="private" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>checkCardinality</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a351700d392852295c92d02382706e79a" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>config</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a75cadd7465ca163e82695017863c5da8" prot="private" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>config_</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a12a6c6dfb4f93f0220d7208d30d01b82" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>deregisterTenant</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1aeffb05a49acc784ffe6d5f47fde75430" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>exportAll</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a64b2638908f36e12799457b0b9b2feab" prot="private" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>exportStore</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a4641c400869bd95887a6e1766ef6f38a" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>exportTenant</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a5881fa9162af56f5112e87dad29281cc" prot="private" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>formatLine</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1ad6903cc701ca2bceb2d3c2e1659cf0cc" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>hasTenant</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a1225841f0c38fc21a7704689ea2b0846" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>increment</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1ac129dc1ef00d8265d9892db4b4df278e" prot="private" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a063f34977a894c52250c1ac47fd9651b" prot="private" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1ad4dc3518959d3b685640a92e31a05491" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>observeHistogram</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1adb918805bc575c9a0f301a2f3233fec1" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a2151bfbc2edad18ce6c88b433d499c25" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>registerTenant</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a16a921ebba7a2bd4eae6c5b4a2a83245" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>reset</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1accd102e1da52b4cc2d3977f8ad545ae9" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>setGauge</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1ac014ae2a779f2b62900750c6c0271b45" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>stats</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a2ed817a498e34a3265b36b3606b4a791" prot="private" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>stores_</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1ad052817e07438434ad18c67482053968" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>tenantCount</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1ac9565540f6c239108a440606715a035a" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>TenantMetricsNamespace</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a5eee68c81e2d6303a3f4410a51432bc2" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>TenantMetricsNamespace</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a8c25b40774406d97f083a2723b280046" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>tenants</name></member>
+      <member refid="classthemis_1_1observability_1_1_tenant_metrics_namespace_1a9c69dc658426ea4f682eab4fd480123f" prot="public" virt="non-virtual"><scope>themis::observability::TenantMetricsNamespace</scope><name>~TenantMetricsNamespace</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

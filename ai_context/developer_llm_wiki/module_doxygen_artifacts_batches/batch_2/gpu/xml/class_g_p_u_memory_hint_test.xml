@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_p_u_memory_hint_test" kind="class" language="C++" prot="public">
+    <compoundname>GPUMemoryHintTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_g_p_u_memory_hint_test_1a262fa6dacaf8f09ff4a501ffb28cdd70" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUMemoryHintTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GPUMemoryHintTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_management.cpp" line="769" column="10" bodyfile="tests/gpu/test_gpu_memory_management.cpp" bodystart="769" bodyend="769"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_memory_hint_test_1a0cc4480113cd15b354888c34a179f930" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUMemoryHintTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GPUMemoryHintTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_memory_management.cpp" line="770" column="10" bodyfile="tests/gpu/test_gpu_memory_management.cpp" bodystart="770" bodyend="770"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GPUMemoryHintTest</label>
+        <link refid="class_g_p_u_memory_hint_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GPUMemoryHintTest</label>
+        <link refid="class_g_p_u_memory_hint_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_memory_management.cpp" line="767" column="1" bodyfile="tests/gpu/test_gpu_memory_management.cpp" bodystart="767" bodyend="771"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_memory_hint_test_1a262fa6dacaf8f09ff4a501ffb28cdd70" prot="protected" virt="non-virtual"><scope>GPUMemoryHintTest</scope><name>SetUp</name></member>
+      <member refid="class_g_p_u_memory_hint_test_1a0cc4480113cd15b354888c34a179f930" prot="protected" virt="non-virtual"><scope>GPUMemoryHintTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

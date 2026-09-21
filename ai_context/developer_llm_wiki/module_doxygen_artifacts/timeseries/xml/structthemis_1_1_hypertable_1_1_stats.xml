@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_hypertable_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::Hypertable::Stats</compoundname>
+    <includes refid="hypertable_8h" local="no">hypertable.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_stats_1a7a5106afefdfcadac7a60e0ba5a1ef25" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::Hypertable::Stats::total_chunks</definition>
+        <argsstring></argsstring>
+        <name>total_chunks</name>
+        <qualifiedname>themis::Hypertable::Stats::total_chunks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="167" column="16" bodyfile="include/timeseries/hypertable.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_stats_1a97c27ab83a6c7fd3e625e6813163ae06" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::Hypertable::Stats::active_chunks</definition>
+        <argsstring></argsstring>
+        <name>active_chunks</name>
+        <qualifiedname>themis::Hypertable::Stats::active_chunks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="168" column="16" bodyfile="include/timeseries/hypertable.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_stats_1a01a998e99a9da5ab486a0448f5bc396d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::Hypertable::Stats::compressed_chunks</definition>
+        <argsstring></argsstring>
+        <name>compressed_chunks</name>
+        <qualifiedname>themis::Hypertable::Stats::compressed_chunks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="169" column="16" bodyfile="include/timeseries/hypertable.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_stats_1ace2cda8f92501d737d3d7cd9c519af21" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::Hypertable::Stats::total_rows</definition>
+        <argsstring></argsstring>
+        <name>total_rows</name>
+        <qualifiedname>themis::Hypertable::Stats::total_rows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="170" column="16" bodyfile="include/timeseries/hypertable.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_stats_1a051e2d4d58f93a8c8ea325842e2254d4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::Hypertable::Stats::total_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_size_bytes</name>
+        <qualifiedname>themis::Hypertable::Stats::total_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="171" column="16" bodyfile="include/timeseries/hypertable.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_stats_1a844de7a9c048fe17f4c2185f3d1f8a06" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::Hypertable::Stats::oldest_timestamp</definition>
+        <argsstring></argsstring>
+        <name>oldest_timestamp</name>
+        <qualifiedname>themis::Hypertable::Stats::oldest_timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="172" column="17" bodyfile="include/timeseries/hypertable.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hypertable_1_1_stats_1a8be78d2c9af6d3b88bf8580d77326dc2" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::Hypertable::Stats::newest_timestamp</definition>
+        <argsstring></argsstring>
+        <name>newest_timestamp</name>
+        <qualifiedname>themis::Hypertable::Stats::newest_timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="173" column="17" bodyfile="include/timeseries/hypertable.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Get hypertable statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/hypertable.h" line="166" column="5" bodyfile="include/timeseries/hypertable.h" bodystart="166" bodyend="174"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_hypertable_1_1_stats_1a97c27ab83a6c7fd3e625e6813163ae06" prot="public" virt="non-virtual"><scope>themis::Hypertable::Stats</scope><name>active_chunks</name></member>
+      <member refid="structthemis_1_1_hypertable_1_1_stats_1a01a998e99a9da5ab486a0448f5bc396d" prot="public" virt="non-virtual"><scope>themis::Hypertable::Stats</scope><name>compressed_chunks</name></member>
+      <member refid="structthemis_1_1_hypertable_1_1_stats_1a8be78d2c9af6d3b88bf8580d77326dc2" prot="public" virt="non-virtual"><scope>themis::Hypertable::Stats</scope><name>newest_timestamp</name></member>
+      <member refid="structthemis_1_1_hypertable_1_1_stats_1a844de7a9c048fe17f4c2185f3d1f8a06" prot="public" virt="non-virtual"><scope>themis::Hypertable::Stats</scope><name>oldest_timestamp</name></member>
+      <member refid="structthemis_1_1_hypertable_1_1_stats_1a7a5106afefdfcadac7a60e0ba5a1ef25" prot="public" virt="non-virtual"><scope>themis::Hypertable::Stats</scope><name>total_chunks</name></member>
+      <member refid="structthemis_1_1_hypertable_1_1_stats_1ace2cda8f92501d737d3d7cd9c519af21" prot="public" virt="non-virtual"><scope>themis::Hypertable::Stats</scope><name>total_rows</name></member>
+      <member refid="structthemis_1_1_hypertable_1_1_stats_1a051e2d4d58f93a8c8ea325842e2254d4" prot="public" virt="non-virtual"><scope>themis::Hypertable::Stats</scope><name>total_size_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

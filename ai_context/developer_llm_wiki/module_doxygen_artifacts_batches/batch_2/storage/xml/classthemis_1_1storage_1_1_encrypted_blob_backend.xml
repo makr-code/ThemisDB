@@ -1,0 +1,485 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_encrypted_blob_backend" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::storage::EncryptedBlobBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1storage_1_1_i_blob_storage_backend" prot="public" virt="non-virtual">themis::storage::IBlobStorageBackend</basecompoundref>
+    <includes refid="encrypted__blob__backend_8h" local="no">encrypted_blob_backend.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_encrypted_blob_backend_1a27b96dbdbd720236c6a2d3461b3d0b21" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1storage_1_1_i_blob_storage_backend" kindref="compound">IBlobStorageBackend</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IBlobStorageBackend&gt; themis::storage::EncryptedBlobBackend::inner_</definition>
+        <argsstring></argsstring>
+        <name>inner_</name>
+        <qualifiedname>themis::storage::EncryptedBlobBackend::inner_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="162" column="22" bodyfile="include/storage/encrypted_blob_backend.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_encrypted_blob_backend_1a6ea1cfcf4fe83f3dc933c3837576e666" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1storage_1_1_i_encryption_key_provider" kindref="compound">IEncryptionKeyProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IEncryptionKeyProvider&gt; themis::storage::EncryptedBlobBackend::keys_</definition>
+        <argsstring></argsstring>
+        <name>keys_</name>
+        <qualifiedname>themis::storage::EncryptedBlobBackend::keys_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="163" column="21" bodyfile="include/storage/encrypted_blob_backend.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_encrypted_blob_backend_1aef9d1d22f27e418bb0b6396d0f105a74" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::EncryptedBlobBackend::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::storage::EncryptedBlobBackend::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="165" column="25" bodyfile="include/storage/encrypted_blob_backend.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_encrypted_blob_backend_1abec667429590c862f34325458b96ea8f" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1storage_1_1_encryption_stats" kindref="compound">EncryptionStats</ref></type>
+        <definition>EncryptionStats themis::storage::EncryptedBlobBackend::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::storage::EncryptedBlobBackend::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="166" column="29" bodyfile="include/storage/encrypted_blob_backend.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_encrypted_blob_backend_1a90cfe8cccabd2bfe007bed05e19428b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::EncryptedBlobBackend::EncryptedBlobBackend</definition>
+        <argsstring>(std::shared_ptr&lt; IBlobStorageBackend &gt; inner, std::shared_ptr&lt; IEncryptionKeyProvider &gt; keys)</argsstring>
+        <name>EncryptedBlobBackend</name>
+        <qualifiedname>themis::storage::EncryptedBlobBackend::EncryptedBlobBackend</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1storage_1_1_i_blob_storage_backend" kindref="compound">IBlobStorageBackend</ref> &gt;</type>
+          <declname>inner</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1storage_1_1_i_encryption_key_provider" kindref="compound">IEncryptionKeyProvider</ref> &gt;</type>
+          <declname>keys</declname>
+        </param>
+        <briefdescription>
+<para>Construct an encrypting backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inner</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Underlying backend where ciphertext is stored. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key provider; must outlive this object. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput>inner</computeroutput> or <computeroutput>keys</computeroutput> is nullptr. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="119" column="5" bodyfile="src/storage/encrypted_blob_backend.cpp" bodystart="53" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_encrypted_blob_backend_1aa2cf9d4ac9cc64d30eb7ce8b71c55152" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &gt;</type>
+        <definition>Result&lt; BlobRef &gt; themis::storage::EncryptedBlobBackend::put</definition>
+        <argsstring>(const std::string &amp;blob_id, const std::vector&lt; uint8_t &gt; &amp;data) override</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::storage::EncryptedBlobBackend::put</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a95f20c9781e8494ebd196b26fa907fe7">put</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Encrypt <computeroutput>data</computeroutput> and store in the underlying backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put.</para>
+<para>A fresh 12-byte random IV is generated per call. The ciphertext layout is <computeroutput>[ IV (12 B) | ciphertext | GCM tag (16 B) ]</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the blob. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="128" column="12" bodyfile="src/storage/encrypted_blob_backend.cpp" bodystart="81" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_encrypted_blob_backend_1abcd3a585d4f61892c41d61414f7d4d95" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::storage::EncryptedBlobBackend::get</definition>
+        <argsstring>(const BlobRef &amp;ref) override</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::storage::EncryptedBlobBackend::get</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1ad9be71e35853a3f8fa0eb3ca8cd720e0">get</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve and decrypt a blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if GCM authentication tag verification fails.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="136" column="12" bodyfile="src/storage/encrypted_blob_backend.cpp" bodystart="112" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_encrypted_blob_backend_1ac5e7954ebebb616c0e4c3a64c9c7aec0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::storage::EncryptedBlobBackend::remove</definition>
+        <argsstring>(const BlobRef &amp;ref) override</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::storage::EncryptedBlobBackend::remove</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1adfcf671215efaedc0b1b8dcf3a04aaf4">remove</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Delegate to the underlying backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="139" column="12" bodyfile="src/storage/encrypted_blob_backend.cpp" bodystart="145" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_encrypted_blob_backend_1a3a693dbe52b2c0d0be08b7c8bb7d10d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::EncryptedBlobBackend::exists</definition>
+        <argsstring>(const BlobRef &amp;ref) override</argsstring>
+        <name>exists</name>
+        <qualifiedname>themis::storage::EncryptedBlobBackend::exists</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a12a0da5953ed62e43fd0c7781ea2bffb">exists</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Delegate to the underlying backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Exists.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="142" column="10" bodyfile="src/storage/encrypted_blob_backend.cpp" bodystart="161" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_encrypted_blob_backend_1a14d88dce2fb8268242a897b387902bc8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::EncryptedBlobBackend::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::storage::EncryptedBlobBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a2ca43ee09ac2171de91232e3791ef3b6">name</reimplements>
+        <briefdescription>
+<para>Get backend name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Backend name (e.g., &quot;filesystem&quot;, &quot;s3&quot;, &quot;webdav&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="144" column="18" bodyfile="src/storage/encrypted_blob_backend.cpp" bodystart="170" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_encrypted_blob_backend_1a90452cb63a298c8d89b1a52074f42c49" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::EncryptedBlobBackend::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::storage::EncryptedBlobBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a7bca1f3bdefb0139f6988710880ef2c4">isAvailable</reimplements>
+        <briefdescription>
+<para>Check if backend is available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if backend can be used </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="146" column="11" bodyfile="src/storage/encrypted_blob_backend.cpp" bodystart="179" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_encrypted_blob_backend_1a7a05048346d10a4664a36607160997a3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_encryption_stats" kindref="compound">EncryptionStats</ref></type>
+        <definition>EncryptionStats themis::storage::EncryptedBlobBackend::stats</definition>
+        <argsstring>() const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::storage::EncryptedBlobBackend::stats</qualifiedname>
+        <briefdescription>
+<para>Read a snapshot of cumulative encryption statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread-safe (takes the internal mutex). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="153" column="22" bodyfile="src/storage/encrypted_blob_backend.cpp" bodystart="188" bodyend="197"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_encrypted_blob_backend_1a64978eb523cb10454c195b1446bd13c9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::storage::EncryptedBlobBackend::encrypt</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;plaintext) const</argsstring>
+        <name>encrypt</name>
+        <qualifiedname>themis::storage::EncryptedBlobBackend::encrypt</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>plaintext</declname>
+        </param>
+        <briefdescription>
+<para>Encrypt plaintext with AES-256-GCM; prepend 12-byte IV. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="157" column="17" bodyfile="src/storage/encrypted_blob_backend.cpp" bodystart="204" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_encrypted_blob_backend_1af3d6fe4b87ccacf3e375d9f821441bbd" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::storage::EncryptedBlobBackend::decrypt</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;ciphertext) const</argsstring>
+        <name>decrypt</name>
+        <qualifiedname>themis::storage::EncryptedBlobBackend::decrypt</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>ciphertext</declname>
+        </param>
+        <briefdescription>
+<para>Decrypt ciphertext (with prepended IV). Returns plaintext or throws. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Plaintext. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ct_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="160" column="17" bodyfile="src/storage/encrypted_blob_backend.cpp" bodystart="265" bodyend="342"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>AES-256-GCM encryption decorator for <computeroutput><ref refid="classthemis_1_1storage_1_1_i_blob_storage_backend" kindref="compound">IBlobStorageBackend</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Wraps an existing backend; all data is encrypted before being forwarded to the underlying store and decrypted transparently on retrieval.</para>
+<para>Thread-safe: protected by an internal <computeroutput>std::mutex</computeroutput>. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::storage::EncryptedBlobBackend</label>
+        <link refid="classthemis_1_1storage_1_1_encrypted_blob_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::storage::IBlobStorageBackend</label>
+        <link refid="classthemis_1_1storage_1_1_i_blob_storage_backend"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::storage::EncryptedBlobBackend</label>
+        <link refid="classthemis_1_1storage_1_1_encrypted_blob_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::storage::IBlobStorageBackend</label>
+        <link refid="classthemis_1_1storage_1_1_i_blob_storage_backend"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/encrypted_blob_backend.h" line="110" column="1" bodyfile="include/storage/encrypted_blob_backend.h" bodystart="110" bodyend="167"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_encrypted_blob_backend_1af3d6fe4b87ccacf3e375d9f821441bbd" prot="private" virt="non-virtual"><scope>themis::storage::EncryptedBlobBackend</scope><name>decrypt</name></member>
+      <member refid="classthemis_1_1storage_1_1_encrypted_blob_backend_1a64978eb523cb10454c195b1446bd13c9" prot="private" virt="non-virtual"><scope>themis::storage::EncryptedBlobBackend</scope><name>encrypt</name></member>
+      <member refid="classthemis_1_1storage_1_1_encrypted_blob_backend_1a90cfe8cccabd2bfe007bed05e19428b6" prot="public" virt="non-virtual"><scope>themis::storage::EncryptedBlobBackend</scope><name>EncryptedBlobBackend</name></member>
+      <member refid="classthemis_1_1storage_1_1_encrypted_blob_backend_1a3a693dbe52b2c0d0be08b7c8bb7d10d4" prot="public" virt="virtual"><scope>themis::storage::EncryptedBlobBackend</scope><name>exists</name></member>
+      <member refid="classthemis_1_1storage_1_1_encrypted_blob_backend_1abcd3a585d4f61892c41d61414f7d4d95" prot="public" virt="virtual"><scope>themis::storage::EncryptedBlobBackend</scope><name>get</name></member>
+      <member refid="classthemis_1_1storage_1_1_encrypted_blob_backend_1a27b96dbdbd720236c6a2d3461b3d0b21" prot="private" virt="non-virtual"><scope>themis::storage::EncryptedBlobBackend</scope><name>inner_</name></member>
+      <member refid="classthemis_1_1storage_1_1_encrypted_blob_backend_1a90452cb63a298c8d89b1a52074f42c49" prot="public" virt="virtual"><scope>themis::storage::EncryptedBlobBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1storage_1_1_encrypted_blob_backend_1a6ea1cfcf4fe83f3dc933c3837576e666" prot="private" virt="non-virtual"><scope>themis::storage::EncryptedBlobBackend</scope><name>keys_</name></member>
+      <member refid="classthemis_1_1storage_1_1_encrypted_blob_backend_1aef9d1d22f27e418bb0b6396d0f105a74" prot="private" virt="non-virtual"><scope>themis::storage::EncryptedBlobBackend</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1storage_1_1_encrypted_blob_backend_1a14d88dce2fb8268242a897b387902bc8" prot="public" virt="virtual"><scope>themis::storage::EncryptedBlobBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1storage_1_1_encrypted_blob_backend_1aa2cf9d4ac9cc64d30eb7ce8b71c55152" prot="public" virt="virtual"><scope>themis::storage::EncryptedBlobBackend</scope><name>put</name></member>
+      <member refid="classthemis_1_1storage_1_1_encrypted_blob_backend_1ac5e7954ebebb616c0e4c3a64c9c7aec0" prot="public" virt="virtual"><scope>themis::storage::EncryptedBlobBackend</scope><name>remove</name></member>
+      <member refid="classthemis_1_1storage_1_1_encrypted_blob_backend_1a7a05048346d10a4664a36607160997a3" prot="public" virt="non-virtual"><scope>themis::storage::EncryptedBlobBackend</scope><name>stats</name></member>
+      <member refid="classthemis_1_1storage_1_1_encrypted_blob_backend_1abec667429590c862f34325458b96ea8f" prot="private" virt="non-virtual"><scope>themis::storage::EncryptedBlobBackend</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a9298452bf506be5cc61866a8010e8cd5" prot="public" virt="virtual"><scope>themis::storage::EncryptedBlobBackend</scope><name>~IBlobStorageBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

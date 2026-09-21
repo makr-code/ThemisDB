@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_cicada_transaction_1_1_write_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::performance::CicadaTransaction::WriteEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_cicada_transaction_1_1_write_entry_1a9f18477625037c97b07580063d60bfa6" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1performance_1_1_cicada_record" kindref="compound">CicadaRecord</ref> *</type>
+        <definition>CicadaRecord* themis::performance::CicadaTransaction::WriteEntry::record</definition>
+        <argsstring></argsstring>
+        <name>record</name>
+        <qualifiedname>themis::performance::CicadaTransaction::WriteEntry::record</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="132" column="22" bodyfile="include/performance/cicada.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_cicada_transaction_1_1_write_entry_1ad021c50967e1fd039c80a30aa1fc4a03" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::CicadaTransaction::WriteEntry::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::performance::CicadaTransaction::WriteEntry::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/cicada.h" line="133" column="21" bodyfile="include/performance/cicada.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::performance::CicadaRecord</label>
+        <link refid="classthemis_1_1performance_1_1_cicada_record"/>
+      </node>
+      <node id="1">
+        <label>themis::performance::CicadaTransaction::WriteEntry</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>record</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/performance/cicada.h" line="131" column="5" bodyfile="include/performance/cicada.h" bodystart="131" bodyend="134"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_cicada_transaction_1_1_write_entry_1ad021c50967e1fd039c80a30aa1fc4a03" prot="public" virt="non-virtual"><scope>themis::performance::CicadaTransaction::WriteEntry</scope><name>data</name></member>
+      <member refid="structthemis_1_1performance_1_1_cicada_transaction_1_1_write_entry_1a9f18477625037c97b07580063d60bfa6" prot="public" virt="non-virtual"><scope>themis::performance::CicadaTransaction::WriteEntry</scope><name>record</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,333 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="diff__engine_8h" kind="file" language="C++">
+    <compoundname>diff_engine.h</compoundname>
+    <includes local="yes">cdc/changefeed.h</includes>
+    <includes local="yes">transaction/snapshot_manager.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="bench__diff__engine_8cpp" local="yes">benchmarks/analytics/bench_diff_engine.cpp</includedby>
+    <includedby refid="diff__engine_8cpp" local="yes">src/analytics/diff_engine.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/analytics/diff_engine.h</label>
+        <link refid="diff__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cdc/changefeed.h</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>condition_variable</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>transaction/snapshot_manager.h</label>
+      </node>
+      <node id="11">
+        <label>unordered_set</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/analytics/bench_diff_engine.cpp</label>
+        <link refid="bench__diff__engine_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/analytics/diff_engine.h</label>
+        <link refid="diff__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/analytics/diff_engine.cpp</label>
+        <link refid="diff__engine_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1analytics_1_1_diff_engine" prot="public">themis::analytics::DiffEngine</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change" prot="public">themis::analytics::DiffEngine::Change</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats" prot="public">themis::analytics::DiffEngine::DiffStats</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result" prot="public">themis::analytics::DiffEngine::DiffResult</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options" prot="public">themis::analytics::DiffEngine::DiffOptions</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_diff_engine_1_1_cached_diff" prot="private">themis::analytics::DiffEngine::CachedDiff</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_diff_engine_1_1_cache_key_hash" prot="private">themis::analytics::DiffEngine::CacheKeyHash</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1analytics">themis::analytics</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;cdc/changefeed.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;transaction/snapshot_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics" kindref="compound">analytics</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1analytics_1_1_diff_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1analytics_1_1_diff_engine_1aac721bf4f9bc48c4203b15517933163d" kindref="member">DiffEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1analytics_1_1_diff_engine_1a77371f23b27cca44aed293e93bbc11d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1a77371f23b27cca44aed293e93bbc11d5" kindref="member">ChangeType</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1analytics_1_1_diff_engine_1a77371f23b27cca44aed293e93bbc11d5a55771bcb939a8afbf4d119d6e0099317" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1a77371f23b27cca44aed293e93bbc11d5a55771bcb939a8afbf4d119d6e0099317" kindref="member">ADDED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Entity<sp/>was<sp/>created</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1analytics_1_1_diff_engine_1a77371f23b27cca44aed293e93bbc11d5a40e3819215b52841e19a7cac06b5f065" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1a77371f23b27cca44aed293e93bbc11d5a40e3819215b52841e19a7cac06b5f065" kindref="member">MODIFIED</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Entity<sp/>was<sp/>updated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1analytics_1_1_diff_engine_1a77371f23b27cca44aed293e93bbc11d5a63c2867fdcae0e8e8413d7ac21b69b59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1a77371f23b27cca44aed293e93bbc11d5a63c2867fdcae0e8e8413d7ac21b69b59" kindref="member">DELETED</ref><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Entity<sp/>was<sp/>removed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change" kindref="compound">Change</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change_1acecb04ed4abadd0282c1f0fc6ae79f53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1a77371f23b27cca44aed293e93bbc11d5" kindref="member">ChangeType</ref><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change_1acecb04ed4abadd0282c1f0fc6ae79f53" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change_1a9a64cc4979646fe56ec9f029667e7002" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change_1a9a64cc4979646fe56ec9f029667e7002" kindref="member">key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Affected<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change_1adc26a36a8a7e32da430a9d2e430e226f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change_1adc26a36a8a7e32da430a9d2e430e226f" kindref="member">old_value</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Value<sp/>before<sp/>change<sp/>(for<sp/>MODIFIED/DELETED)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change_1a7ab47f127465fdde09e898643c0d5f19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change_1a7ab47f127465fdde09e898643c0d5f19" kindref="member">new_value</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Value<sp/>after<sp/>change<sp/>(for<sp/>ADDED/MODIFIED)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change_1aa5eee393c6b05debd3f372bd463c1627" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change_1aa5eee393c6b05debd3f372bd463c1627" kindref="member">sequence</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sequence<sp/>number<sp/>of<sp/>change</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change_1aacfc538887548d62456774da83bf23e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change_1aacfc538887548d62456774da83bf23e6" kindref="member">timestamp_ms</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timestamp<sp/>of<sp/>change</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change_1aabb1cf56f5be50e9545b12a4fe74fa90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change_1aabb1cf56f5be50e9545b12a4fe74fa90" kindref="member">metadata</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change_1a0d773a0ee7d9440053eb1cac2694af6c" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change" kindref="compound">Change</ref><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change_1a9195193a4574b0217c0c71eb8f4f1506" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats" kindref="compound">DiffStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats_1a910b0c971f6e3ba3e42e93c0312a04e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats_1a910b0c971f6e3ba3e42e93c0312a04e8" kindref="member">added_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats_1a4427f2ad4915d0ced6e45f665695d33a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats_1a4427f2ad4915d0ced6e45f665695d33a" kindref="member">modified_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats_1a6c4ae9abe127db036e3817baee9d5556" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats_1a6c4ae9abe127db036e3817baee9d5556" kindref="member">deleted_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats_1a752ddba9454f5ff99e7d413b92673e70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats_1a752ddba9454f5ff99e7d413b92673e70" kindref="member">total_changes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats_1a141e23436f8f0265074626d1cba5168b" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result" kindref="compound">DiffResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1aed4075c089cc5631a0b632e0a8cf7ea7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Change&gt;<sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1aed4075c089cc5631a0b632e0a8cf7ea7" kindref="member">added</ref>;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1ab26910f24221e72100f8221708009c13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Change&gt;<sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1ab26910f24221e72100f8221708009c13" kindref="member">modified</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a7c26f4c0646d398387aac1ef3b4d0a51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Change&gt;<sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a7c26f4c0646d398387aac1ef3b4d0a51" kindref="member">deleted</ref>;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a8e77c8c582d4795762b5cdc3635a92a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_stats" kindref="compound">DiffStats</ref><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a8e77c8c582d4795762b5cdc3635a92a6" kindref="member">stats</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a78aae523de88f4210a71303f40d1f084" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a78aae523de88f4210a71303f40d1f084" kindref="member">from_sequence</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a5f3dd284d502a0bd2e883983c915d4d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a5f3dd284d502a0bd2e883983c915d4d7" kindref="member">to_sequence</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a15991104ddb224633eca4a4a86d2d613" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;int64_t&gt;<sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a15991104ddb224633eca4a4a86d2d613" kindref="member">from_timestamp_ms</ref>;</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1ac022e3b7a8941ee1e071f2375defca5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;int64_t&gt;<sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1ac022e3b7a8941ee1e071f2375defca5f" kindref="member">to_timestamp_ms</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1ae82bc09c4716ecc452aa5cfdec9dbd8d" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result" kindref="compound">DiffResult</ref><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result_1a71d4e3e0516f57ca81fa939cc837e9e7" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options" kindref="compound">DiffOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Filtering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1a53c01ebed33f403270bed54a4058336a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1a53c01ebed33f403270bed54a4058336a" kindref="member">table_filter</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Filter<sp/>by<sp/>table<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1ad11331b56a5059e4be5c245442abc09e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1ad11331b56a5059e4be5c245442abc09e" kindref="member">key_prefix</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Filter<sp/>by<sp/>key<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1acef20b76fb28628530f64873f3ef99eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1acef20b76fb28628530f64873f3ef99eb" kindref="member">include_values</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Include<sp/>actual<sp/>values<sp/>in<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pagination</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1a00b6ba5ad32735d357c5c1b2a1a7da7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1a00b6ba5ad32735d357c5c1b2a1a7da7d" kindref="member">limit</ref><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>changes<sp/>to<sp/>return<sp/>(0<sp/>=<sp/>no<sp/>limit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1af6d13172d05aeb9b2b3a4d5328c4727f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1af6d13172d05aeb9b2b3a4d5328c4727f" kindref="member">offset</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Skip<sp/>first<sp/>N<sp/>changes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1a52ff82a51b397d075985ee49af01428a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1a52ff82a51b397d075985ee49af01428a" kindref="member">enable_caching</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>intermediate<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1aac721bf4f9bc48c4203b15517933163d" kindref="member">DiffEngine</ref>(Changefeed&amp;<sp/>changefeed,<sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>transaction::SnapshotManager*<sp/>snapshot_manager<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1analytics_1_1_diff_engine_1ad93634c0073bb2d1363c59721f399a88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1ad93634c0073bb2d1363c59721f399a88" kindref="member">~DiffEngine</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy;<sp/>move<sp/>is<sp/>implicitly<sp/>deleted<sp/>because<sp/>std::mutex<sp/>/<sp/>std::condition_variable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>are<sp/>non-movable<sp/>—<sp/>keep<sp/>=<sp/>default<sp/>so<sp/>the<sp/>compiler<sp/>enforces<sp/>this<sp/>clearly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1analytics_1_1_diff_engine_1a3d5bdb58886dfd4b007e73baa81c9b0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1a3d5bdb58886dfd4b007e73baa81c9b0a" kindref="member">DiffEngine</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1aac721bf4f9bc48c4203b15517933163d" kindref="member">DiffEngine</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120" refid="classthemis_1_1analytics_1_1_diff_engine_1a85349783b5103df566baceb52a4c473c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1aac721bf4f9bc48c4203b15517933163d" kindref="member">DiffEngine</ref>&amp;<sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1a85349783b5103df566baceb52a4c473c" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1aac721bf4f9bc48c4203b15517933163d" kindref="member">DiffEngine</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1analytics_1_1_diff_engine_1a8a7b2acde8c1538ce4c4dde9968ce772" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1a8a7b2acde8c1538ce4c4dde9968ce772" kindref="member">DiffEngine</ref>(<ref refid="classthemis_1_1analytics_1_1_diff_engine_1aac721bf4f9bc48c4203b15517933163d" kindref="member">DiffEngine</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1analytics_1_1_diff_engine_1acc4763593aa29ac73d743ec657c347e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1aac721bf4f9bc48c4203b15517933163d" kindref="member">DiffEngine</ref>&amp;<sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1acc4763593aa29ac73d743ec657c347e2" kindref="member">operator=</ref>(<ref refid="classthemis_1_1analytics_1_1_diff_engine_1aac721bf4f9bc48c4203b15517933163d" kindref="member">DiffEngine</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result" kindref="compound">DiffResult</ref><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1acd39f8be19500ea2947604ff323a2129" kindref="member">computeDiff</ref>(</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>from_sequence,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>to_sequence,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options" kindref="compound">DiffOptions</ref>&amp;<sp/>options</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1analytics_1_1_diff_engine_1af56e766c749423f3e47679e7d1c39b44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result" kindref="compound">DiffResult</ref><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1af56e766c749423f3e47679e7d1c39b44" kindref="member">computeDiff</ref>(</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>from_sequence,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>to_sequence</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1acd39f8be19500ea2947604ff323a2129" kindref="member">computeDiff</ref>(from_sequence,<sp/>to_sequence,<sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options" kindref="compound">DiffOptions</ref>{});</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>DiffResult<sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1a4591688a4d3bfb25ddb08be6e705b531" kindref="member">computeDiffByTimestamp</ref>(</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>from_timestamp,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>to_timestamp,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DiffOptions&amp;<sp/>options</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1analytics_1_1_diff_engine_1acfbeb9b72223b44214ac6b11656478d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result" kindref="compound">DiffResult</ref><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1acfbeb9b72223b44214ac6b11656478d9" kindref="member">computeDiffByTimestamp</ref>(</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>from_timestamp,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>to_timestamp</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1a4591688a4d3bfb25ddb08be6e705b531" kindref="member">computeDiffByTimestamp</ref>(from_timestamp,<sp/>to_timestamp,<sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options" kindref="compound">DiffOptions</ref>{});</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>DiffResult<sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1a9ce36bcaac39b6ff358309337d69f3e4" kindref="member">computeDiffByTag</ref>(</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>from_tag,</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>to_tag,</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DiffOptions&amp;<sp/>options</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198" refid="classthemis_1_1analytics_1_1_diff_engine_1ae35a545de893789aea1cfb71a25818e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result" kindref="compound">DiffResult</ref><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1ae35a545de893789aea1cfb71a25818e0" kindref="member">computeDiffByTag</ref>(</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>from_tag,</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>to_tag</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1a9ce36bcaac39b6ff358309337d69f3e4" kindref="member">computeDiffByTag</ref>(from_tag,<sp/>to_tag,<sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options" kindref="compound">DiffOptions</ref>{});</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1a4ad5b1cf5613065f3fa3932820dbcafb" kindref="member">clearCache</ref>();</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" kindref="member">json</ref><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1a174b47e4f957854b888a1aabe5fcf41e" kindref="member">getCacheStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216" refid="classthemis_1_1analytics_1_1_diff_engine_1a47aeddffa2d2027225c862d7a9c8f7a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_diff_engine_1a47aeddffa2d2027225c862d7a9c8f7a0" kindref="member">setComputeHookForTesting</ref>(std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">()&gt;<sp/>hook)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compute_hook_for_testing_<sp/>=<sp/>std::move(hook);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>Changefeed&amp;<sp/>changefeed_;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>transaction::SnapshotManager*<sp/>snapshot_manager_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Optional,<sp/>for<sp/>tag-based<sp/>diff</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>for<sp/>frequently<sp/>requested<sp/>diffs<sp/>(simple<sp/>LRU-like<sp/>cache)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Implementation:<sp/>map<sp/>of<sp/>(from,to)<sp/>-&gt;<sp/>DiffResult<sp/>with<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">CachedDiff<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DiffResult<sp/>result;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>cached_at;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>key<sp/>type:<sp/>(from_sequence,<sp/>to_sequence)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">CacheKey<sp/>=<sp/>std::pair&lt;uint64_t,<sp/>uint64_t&gt;;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hash<sp/>functor<sp/>for<sp/>CacheKey<sp/>(std::pair<sp/>has<sp/>no<sp/>default<sp/>hash)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">CacheKeyHash<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>operator()(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>CacheKey&amp;<sp/>k)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>h1<sp/>=<sp/>std::hash&lt;uint64_t&gt;{}(k.first);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>h2<sp/>=<sp/>std::hash&lt;uint64_t&gt;{}(k.second);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mix<sp/>with<sp/>a<sp/>large<sp/>prime<sp/>to<sp/>reduce<sp/>collisions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>h1<sp/>^<sp/>(h2<sp/>*<sp/>0x9e3779b97f4a7c15ULL<sp/>+<sp/>(h1<sp/>&lt;&lt;<sp/>6)<sp/>+<sp/>(h1<sp/>&gt;&gt;<sp/>2));</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::map&lt;CacheKey,<sp/>CachedDiff&gt;<sp/>diff_cache_;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>cache_mutex_;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::condition_variable<sp/>inflight_cv_;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::unordered_set&lt;CacheKey,<sp/>CacheKeyHash&gt;<sp/>inflight_keys_;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/>CACHE_TTL{300};<sp/></highlight><highlight class="comment">//<sp/>5<sp/>minutes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>MAX_CACHE_SIZE<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>MAX_DIFF_LIMIT<sp/>=<sp/>1000000;<sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>allowed<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Testing<sp/>hook<sp/>—<sp/>see<sp/>setComputeHookForTesting()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void()&gt;<sp/>compute_hook_for_testing_;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_result" kindref="compound">DiffResult</ref><sp/>processEvents(</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Changefeed::ChangeEvent&gt;&amp;<sp/>events,</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options" kindref="compound">DiffOptions</ref>&amp;<sp/>options,</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>from_sequence</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>shouldIncludeEvent(</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Changefeed::ChangeEvent&amp;<sp/>event,</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options" kindref="compound">DiffOptions</ref>&amp;<sp/>options</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_diff_engine_1_1_change" kindref="compound">Change</ref><sp/>categorizeChange(</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Changefeed::ChangeEvent&amp;<sp/>event,</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>Changefeed::ChangeEvent&gt;&amp;<sp/>key_history</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>Changefeed::ChangeEvent&gt;<sp/>buildKeyHistory(</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Changefeed::ChangeEvent&gt;&amp;<sp/>events</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;uint64_t,<sp/>uint64_t&gt;<sp/>findSequenceRange(</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>from_timestamp,</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>to_timestamp</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isCacheValid(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>CachedDiff&amp;<sp/>cached)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>evictOldCacheEntries();</highlight></codeline>
+<codeline lineno="304"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>analytics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/analytics/diff_engine.h"/>
+  </compounddef>
+</doxygen>

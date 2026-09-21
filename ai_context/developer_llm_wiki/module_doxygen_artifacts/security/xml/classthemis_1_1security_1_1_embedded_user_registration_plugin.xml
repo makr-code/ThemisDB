@@ -1,0 +1,660 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_embedded_user_registration_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::EmbeddedUserRegistrationPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1security_1_1_i_user_registration_plugin" prot="public" virt="non-virtual">themis::security::IUserRegistrationPlugin</basecompoundref>
+    <innerclass refid="structthemis_1_1security_1_1_embedded_user_registration_plugin_1_1_config" prot="public">themis::security::EmbeddedUserRegistrationPlugin::Config</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_embedded_user_registration_plugin_1_1_user_data" prot="private">themis::security::EmbeddedUserRegistrationPlugin::UserData</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_embedded_user_registration_plugin_1ac1e6a3e0228539bb44005f3988eaf1f0" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1security_1_1_embedded_user_registration_plugin_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::security::EmbeddedUserRegistrationPlugin::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="281" column="12" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_embedded_user_registration_plugin_1ad5af27b9c298424f30e36a47929bd02c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::security::EmbeddedUserRegistrationPlugin::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="282" column="24" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_embedded_user_registration_plugin_1acd51dcce4c94796bdb29a0f6913e952d" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, UserData &gt;</type>
+        <definition>std::unordered_map&lt;std::string, UserData&gt; themis::security::EmbeddedUserRegistrationPlugin::users_</definition>
+        <argsstring></argsstring>
+        <name>users_</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::users_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="283" column="24" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="283" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_embedded_user_registration_plugin_1aa7427f35df993cf9d883efecddb1e7c8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::EmbeddedUserRegistrationPlugin::EmbeddedUserRegistrationPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>EmbeddedUserRegistrationPlugin</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::EmbeddedUserRegistrationPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="44" column="5" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="44" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_embedded_user_registration_plugin_1a38724e25bf1e5fadf7c9ee2fd4f3c1de" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::EmbeddedUserRegistrationPlugin::EmbeddedUserRegistrationPlugin</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>EmbeddedUserRegistrationPlugin</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::EmbeddedUserRegistrationPlugin</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_embedded_user_registration_plugin_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Embedded <ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> Registration Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="54" column="14" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="54" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_embedded_user_registration_plugin_1aba09a1cd31ec585e90e344f407011b3c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::EmbeddedUserRegistrationPlugin::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_user_registration_plugin_1ac464e79cc5025c7528cc405e939935a4">getName</reimplements>
+        <briefdescription>
+<para>Get plugin name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Plugin name (e.g., &quot;arrow&quot;, &quot;webdav&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="63" column="17" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="63" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_embedded_user_registration_plugin_1ab691a70904b8ffb8f4c0e99375fc9f9a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::security::EmbeddedUserRegistrationPlugin::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_user_registration_plugin_1ad814451e726203192e7f1227e1b859e7">isAvailable</reimplements>
+        <briefdescription>
+<para>Check if plugin is available and configured. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if plugin can be used </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="67" column="10" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="67" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_embedded_user_registration_plugin_1ad1724b2af896e4f27989e1cd97cd3962" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1security_1_1_user_registration_data" kindref="compound">UserRegistrationData</ref> &gt;</type>
+        <definition>Result&lt; UserRegistrationData &gt; themis::security::EmbeddedUserRegistrationPlugin::registerUser</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;password, const std::unordered_map&lt; std::string, std::string &gt; &amp;attributes) override</argsstring>
+        <name>registerUser</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::registerUser</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_user_registration_plugin_1a06e423808b4a458fab9c8d791d82056e">registerUser</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>password</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>attributes</declname>
+        </param>
+        <briefdescription>
+<para>Register user through plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The plugin is responsible for:<itemizedlist>
+<listitem><para>Validating user credentials with external system</para>
+</listitem><listitem><para>Hashing passwords if needed</para>
+</listitem><listitem><para>Mapping user attributes and roles</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>password</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plain text password (will be hashed by plugin) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>attributes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional additional attributes </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;UserRegistrationData&gt; Registration data or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="72" column="12" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="72" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_embedded_user_registration_plugin_1a0815b62caadc6643f5e4ca62202203b6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1security_1_1_user_registration_data" kindref="compound">UserRegistrationData</ref> &gt;</type>
+        <definition>Result&lt; UserRegistrationData &gt; themis::security::EmbeddedUserRegistrationPlugin::authenticateUser</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;password) override</argsstring>
+        <name>authenticateUser</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::authenticateUser</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_user_registration_plugin_1a26e712a99383e21200533ccb7974a221">authenticateUser</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>password</declname>
+        </param>
+        <briefdescription>
+<para>Authenticate user through plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies credentials against external system (e.g., WebDAV server). If successful, returns user data that can be synchronized locally.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>password</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plain text password </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;UserRegistrationData&gt; <ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> data if authenticated </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="126" column="12" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="126" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_embedded_user_registration_plugin_1ae3f9ad10a9c1dea91253eb3d9beaa27d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; std::vector&lt; <ref refid="structthemis_1_1security_1_1_user_registration_data" kindref="compound">UserRegistrationData</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; UserRegistrationData &gt; &gt; themis::security::EmbeddedUserRegistrationPlugin::syncUsers</definition>
+        <argsstring>() override</argsstring>
+        <name>syncUsers</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::syncUsers</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_user_registration_plugin_1a4aa344b1a853cb9f19e192dedadf60c2">syncUsers</reimplements>
+        <briefdescription>
+<para>Synchronize users from external source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Batch operation to import/sync users from external system. Used for Apache Arrow-based bulk imports or WebDAV directory sync.</para>
+<para><simplesect kind="return"><para>Result&lt;vector&lt;UserRegistrationData&gt;&gt; List of users or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="161" column="12" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="161" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_embedded_user_registration_plugin_1a5face23986888f7e02c0c99dea23420c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1security_1_1_user_registration_data" kindref="compound">UserRegistrationData</ref> &gt;</type>
+        <definition>Result&lt; UserRegistrationData &gt; themis::security::EmbeddedUserRegistrationPlugin::updateUser</definition>
+        <argsstring>(const std::string &amp;user_id) override</argsstring>
+        <name>updateUser</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::updateUser</qualifiedname>
+        <reimplements refid="classthemis_1_1security_1_1_i_user_registration_plugin_1af75e7351a5887e22c0ab1731a1e114e0">updateUser</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Update user information from external source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;UserRegistrationData&gt; Updated user data or error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="185" column="12" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="185" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_embedded_user_registration_plugin_1ad57c2719e26e1c4f7ce3ca7493397deb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::security::EmbeddedUserRegistrationPlugin::changePassword</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;old_password, const std::string &amp;new_password)</argsstring>
+        <name>changePassword</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::changePassword</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>old_password</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_password</declname>
+        </param>
+        <briefdescription>
+<para>Additional methods for embedded plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">old_password</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current password. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_password</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replacement password. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result indicating whether the password changed.</para>
+</simplesect>
+Calls: lock(), find(), end(), themis::ErrVoid(), verifyPassword(), validatePassword(), has_value(), hashPassword(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="218" column="12" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="218" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_embedded_user_registration_plugin_1a5191a5faf3825d1f4c4c0b2b794656c3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::EmbeddedUserRegistrationPlugin::userExists</definition>
+        <argsstring>(const std::string &amp;user_id) const</argsstring>
+        <name>userExists</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::userExists</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="262" column="10" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="262" bodyend="270"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_embedded_user_registration_plugin_1a7aeeb66f728253b8938efd4f1080c4ff" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::security::EmbeddedUserRegistrationPlugin::validatePassword</definition>
+        <argsstring>(const std::string &amp;password) const</argsstring>
+        <name>validatePassword</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::validatePassword</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>password</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="285" column="12" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="285" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_embedded_user_registration_plugin_1acc24d239831abdd85a06d45e6de9e992" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::EmbeddedUserRegistrationPlugin::hashPassword</definition>
+        <argsstring>(const std::string &amp;password) const</argsstring>
+        <name>hashPassword</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::hashPassword</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>password</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="388" column="17" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="388" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_embedded_user_registration_plugin_1a162d7f7d95e950efde168baab70ccadd" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::EmbeddedUserRegistrationPlugin::verifyPassword</definition>
+        <argsstring>(const std::string &amp;password, const std::string &amp;stored_hash) const</argsstring>
+        <name>verifyPassword</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::verifyPassword</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>password</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>stored_hash</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="459" column="10" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="459" bodyend="590"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_embedded_user_registration_plugin_1afaa9e349d8f24baf72898ae24477de9b" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::security::EmbeddedUserRegistrationPlugin::base64Encode</definition>
+        <argsstring>(const unsigned char *data, int len)</argsstring>
+        <name>base64Encode</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::base64Encode</qualifiedname>
+        <param>
+          <type>const unsigned char *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>--------------------------------------------------------------------<mdash/> Base64 helpers (no line wrapping, no padding trimming needed here) --------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: out(), EVP_EncodeBlock(), resize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="329" column="24" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="329" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_embedded_user_registration_plugin_1a13699f53e75480626d4c74ad13292a8a" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; unsigned char &gt;</type>
+        <definition>static std::vector&lt; unsigned char &gt; themis::security::EmbeddedUserRegistrationPlugin::base64Decode</definition>
+        <argsstring>(const std::string &amp;encoded)</argsstring>
+        <name>base64Decode</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::base64Decode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>encoded</declname>
+        </param>
+        <briefdescription>
+<para>Base64 Decode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">encoded</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), out(), EVP_DecodeBlock(), data(), rbegin(), rend(), resize(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="345" column="24" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="345" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_embedded_user_registration_plugin_1af748d46d3a45ba7c035da5d23bd46bb8" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::security::EmbeddedUserRegistrationPlugin::splitBy</definition>
+        <argsstring>(const std::string &amp;s, char delim)</argsstring>
+        <name>splitBy</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::splitBy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>char</type>
+          <declname>delim</declname>
+        </param>
+        <briefdescription>
+<para>Split a string by a delimiter character. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), push_back(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="368" column="24" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="368" bodyend="380"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::security::EmbeddedUserRegistrationPlugin</label>
+        <link refid="classthemis_1_1security_1_1_embedded_user_registration_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::security::IUserRegistrationPlugin</label>
+        <link refid="classthemis_1_1security_1_1_i_user_registration_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::security::EmbeddedUserRegistrationPlugin</label>
+        <link refid="classthemis_1_1security_1_1_embedded_user_registration_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::security::IUserRegistrationPlugin</label>
+        <link refid="classthemis_1_1security_1_1_i_user_registration_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/security/embedded_user_registration_plugin.cpp" line="32" column="1" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="32" bodyend="591"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1a0815b62caadc6643f5e4ca62202203b6" prot="public" virt="virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin</scope><name>authenticateUser</name></member>
+      <member refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1a13699f53e75480626d4c74ad13292a8a" prot="private" virt="non-virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin</scope><name>base64Decode</name></member>
+      <member refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1afaa9e349d8f24baf72898ae24477de9b" prot="private" virt="non-virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin</scope><name>base64Encode</name></member>
+      <member refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1ad57c2719e26e1c4f7ce3ca7493397deb" prot="public" virt="non-virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin</scope><name>changePassword</name></member>
+      <member refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1ac1e6a3e0228539bb44005f3988eaf1f0" prot="private" virt="non-virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin</scope><name>config_</name></member>
+      <member refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1aa7427f35df993cf9d883efecddb1e7c8" prot="public" virt="non-virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin</scope><name>EmbeddedUserRegistrationPlugin</name></member>
+      <member refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1a38724e25bf1e5fadf7c9ee2fd4f3c1de" prot="public" virt="non-virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin</scope><name>EmbeddedUserRegistrationPlugin</name></member>
+      <member refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1aba09a1cd31ec585e90e344f407011b3c" prot="public" virt="virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin</scope><name>getName</name></member>
+      <member refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1acc24d239831abdd85a06d45e6de9e992" prot="private" virt="non-virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin</scope><name>hashPassword</name></member>
+      <member refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1ab691a70904b8ffb8f4c0e99375fc9f9a" prot="public" virt="virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1ad5af27b9c298424f30e36a47929bd02c" prot="private" virt="non-virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1ad1724b2af896e4f27989e1cd97cd3962" prot="public" virt="virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin</scope><name>registerUser</name></member>
+      <member refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1af748d46d3a45ba7c035da5d23bd46bb8" prot="private" virt="non-virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin</scope><name>splitBy</name></member>
+      <member refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1ae3f9ad10a9c1dea91253eb3d9beaa27d" prot="public" virt="virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin</scope><name>syncUsers</name></member>
+      <member refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1a5face23986888f7e02c0c99dea23420c" prot="public" virt="virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin</scope><name>updateUser</name></member>
+      <member refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1a5191a5faf3825d1f4c4c0b2b794656c3" prot="public" virt="non-virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin</scope><name>userExists</name></member>
+      <member refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1acd51dcce4c94796bdb29a0f6913e952d" prot="private" virt="non-virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin</scope><name>users_</name></member>
+      <member refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1a7aeeb66f728253b8938efd4f1080c4ff" prot="private" virt="non-virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin</scope><name>validatePassword</name></member>
+      <member refid="classthemis_1_1security_1_1_embedded_user_registration_plugin_1a162d7f7d95e950efde168baab70ccadd" prot="private" virt="non-virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin</scope><name>verifyPassword</name></member>
+      <member refid="classthemis_1_1security_1_1_i_user_registration_plugin_1ad8dda604915e5dbbcd1c8c389ea808fb" prot="public" virt="virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin</scope><name>~IUserRegistrationPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

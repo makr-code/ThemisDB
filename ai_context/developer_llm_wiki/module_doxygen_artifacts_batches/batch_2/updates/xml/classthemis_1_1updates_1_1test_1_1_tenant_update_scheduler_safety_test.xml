@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1test_1_1_tenant_update_scheduler_safety_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::test::TenantUpdateSchedulerSafetyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1test_1_1_tenant_update_scheduler_safety_test_1a8e25021f901b610ecaebc73e633f1fe8" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_tenant_update_scheduler" kindref="compound">TenantUpdateScheduler</ref></type>
+        <definition>TenantUpdateScheduler themis::updates::test::TenantUpdateSchedulerSafetyTest::scheduler_</definition>
+        <argsstring></argsstring>
+        <name>scheduler_</name>
+        <qualifiedname>themis::updates::test::TenantUpdateSchedulerSafetyTest::scheduler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="51" column="27" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Verify that multiplication overflow is detected and handled safely @finding 7500-tenant_update_scheduler.cpp:364. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><xrefsect id="test_1_test000001"><xreftitle>Test</xreftitle><xrefdescription><para>UP-FIL-01: Integer overflow detection in size calculations </para>
+</xrefdescription></xrefsect></para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::updates::test::TenantUpdateSchedulerSafetyTest</label>
+        <link refid="classthemis_1_1updates_1_1test_1_1_tenant_update_scheduler_safety_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::updates::TenantUpdateScheduler</label>
+        <link refid="classthemis_1_1updates_1_1_tenant_update_scheduler"/>
+      </node>
+      <node id="1">
+        <label>themis::updates::test::TenantUpdateSchedulerSafetyTest</label>
+        <link refid="classthemis_1_1updates_1_1test_1_1_tenant_update_scheduler_safety_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>scheduler_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/updates/test_updates_batch5_finalization.cpp" line="49" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="49" bodyend="52"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1test_1_1_tenant_update_scheduler_safety_test_1a8e25021f901b610ecaebc73e633f1fe8" prot="protected" virt="non-virtual"><scope>themis::updates::test::TenantUpdateSchedulerSafetyTest</scope><name>scheduler_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

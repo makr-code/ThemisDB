@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_soc2_a1_control" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::governance::Soc2A1Control</compoundname>
+    <basecompoundref refid="classthemis_1_1governance_1_1_i_soc2_control" prot="public" virt="non-virtual">themis::governance::ISoc2Control</basecompoundref>
+    <includes refid="soc2__controls_8h" local="no">soc2_controls.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_soc2_a1_control_1a4f91181907c31dc2631b1234bbeccc58" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Soc2A1Control::id</definition>
+        <argsstring>() const override</argsstring>
+        <name>id</name>
+        <qualifiedname>themis::governance::Soc2A1Control::id</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_soc2_control_1a83c26c96bca4d5a61a4bc143d2700489">id</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="165" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_soc2_a1_control_1a67670b99754622a4774773b74ad336e0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Soc2A1Control::criteria</definition>
+        <argsstring>() const override</argsstring>
+        <name>criteria</name>
+        <qualifiedname>themis::governance::Soc2A1Control::criteria</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_soc2_control_1a6ef8f55fae7f418e40b1192e3c0ea5a5">criteria</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="166" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="166" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_soc2_a1_control_1abf14409b8b903a03edc2e4a23455eedf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Soc2A1Control::title</definition>
+        <argsstring>() const override</argsstring>
+        <name>title</name>
+        <qualifiedname>themis::governance::Soc2A1Control::title</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_soc2_control_1aa93cb8560f7412b0efeebd38245503b7">title</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="167" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="167" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_soc2_a1_control_1a04a9538abcc4fd52c0c9a2ce0778a26c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Soc2A1Control::description</definition>
+        <argsstring>() const override</argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::Soc2A1Control::description</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_soc2_control_1a48bd3a8a65d0c9e6e2a25e3cc777a8b8">description</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="170" column="17" bodyfile="include/governance/soc2_controls.h" bodystart="170" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_soc2_a1_control_1a8d42055bfcdcca29f43b156145b06c22" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_soc2_control_result" kindref="compound">Soc2ControlResult</ref></type>
+        <definition>Soc2ControlResult themis::governance::Soc2A1Control::evaluate</definition>
+        <argsstring>(const PolicyRule &amp;rule) const override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::governance::Soc2A1Control::evaluate</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_soc2_control_1a189f5ea762c51f8bb737ab6c029397d2">evaluate</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/soc2_controls.h" line="177" column="23" bodyfile="src/governance/soc2_controls.cpp" bodystart="317" bodyend="358"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::governance::ISoc2Control</label>
+        <link refid="classthemis_1_1governance_1_1_i_soc2_control"/>
+      </node>
+      <node id="1">
+        <label>themis::governance::Soc2A1Control</label>
+        <link refid="classthemis_1_1governance_1_1_soc2_a1_control"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::governance::ISoc2Control</label>
+        <link refid="classthemis_1_1governance_1_1_i_soc2_control"/>
+      </node>
+      <node id="1">
+        <label>themis::governance::Soc2A1Control</label>
+        <link refid="classthemis_1_1governance_1_1_soc2_a1_control"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/governance/soc2_controls.h" line="163" column="1" bodyfile="include/governance/soc2_controls.h" bodystart="163" bodyend="178"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_soc2_a1_control_1a67670b99754622a4774773b74ad336e0" prot="public" virt="virtual"><scope>themis::governance::Soc2A1Control</scope><name>criteria</name></member>
+      <member refid="classthemis_1_1governance_1_1_soc2_a1_control_1a04a9538abcc4fd52c0c9a2ce0778a26c" prot="public" virt="virtual"><scope>themis::governance::Soc2A1Control</scope><name>description</name></member>
+      <member refid="classthemis_1_1governance_1_1_soc2_a1_control_1a8d42055bfcdcca29f43b156145b06c22" prot="public" virt="virtual"><scope>themis::governance::Soc2A1Control</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1governance_1_1_soc2_a1_control_1a4f91181907c31dc2631b1234bbeccc58" prot="public" virt="virtual"><scope>themis::governance::Soc2A1Control</scope><name>id</name></member>
+      <member refid="classthemis_1_1governance_1_1_soc2_a1_control_1abf14409b8b903a03edc2e4a23455eedf" prot="public" virt="virtual"><scope>themis::governance::Soc2A1Control</scope><name>title</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_soc2_control_1ae3d7c5ef53f7e8e3eae0e65d649002e0" prot="public" virt="virtual"><scope>themis::governance::Soc2A1Control</scope><name>~ISoc2Control</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

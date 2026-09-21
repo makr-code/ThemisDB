@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_replication_observer_1_1_health_score" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::ReplicationObserver::HealthScore</compoundname>
+    <includes refid="observability_8h" local="no">observability.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_observer_1_1_health_score_1aee38fd981edf4f9f0befedefdd3babd8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::replication::ReplicationObserver::HealthScore::overall_score</definition>
+        <argsstring></argsstring>
+        <name>overall_score</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::HealthScore::overall_score</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Weighted composite, 0–100. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="117" column="34" bodyfile="include/replication/observability.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_observer_1_1_health_score_1a602932c238ba1eafae77523ba36d930d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::replication::ReplicationObserver::HealthScore::lag_score</definition>
+        <argsstring></argsstring>
+        <name>lag_score</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::HealthScore::lag_score</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>0–100 (100 = no lag) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="118" column="34" bodyfile="include/replication/observability.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_observer_1_1_health_score_1a9a7e6f2df4c5ae3ad4b03970f837e2b3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::replication::ReplicationObserver::HealthScore::throughput_score</definition>
+        <argsstring></argsstring>
+        <name>throughput_score</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::HealthScore::throughput_score</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>0–100 (100 = healthy throughput) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="119" column="34" bodyfile="include/replication/observability.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_observer_1_1_health_score_1a5b6a8ceaf220e8096a9c24f46d48515c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::replication::ReplicationObserver::HealthScore::availability_score</definition>
+        <argsstring></argsstring>
+        <name>availability_score</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::HealthScore::availability_score</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>0–100 (100 = all replicas healthy) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="120" column="34" bodyfile="include/replication/observability.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_observer_1_1_health_score_1a389114758ec643b6ab305f618740bfd3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::replication::ReplicationObserver::HealthScore::issues</definition>
+        <argsstring></argsstring>
+        <name>issues</name>
+        <qualifiedname>themisdb::replication::ReplicationObserver::HealthScore::issues</qualifiedname>
+        <briefdescription>
+<para>Human-readable descriptions of problems. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/observability.h" line="121" column="21" bodyfile="include/replication/observability.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Composite health score for the replication cluster. </para>
+    </detaileddescription>
+    <location file="include/replication/observability.h" line="116" column="5" bodyfile="include/replication/observability.h" bodystart="116" bodyend="122"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_health_score_1a5b6a8ceaf220e8096a9c24f46d48515c" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver::HealthScore</scope><name>availability_score</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_health_score_1a389114758ec643b6ab305f618740bfd3" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver::HealthScore</scope><name>issues</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_health_score_1a602932c238ba1eafae77523ba36d930d" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver::HealthScore</scope><name>lag_score</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_health_score_1aee38fd981edf4f9f0befedefdd3babd8" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver::HealthScore</scope><name>overall_score</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_observer_1_1_health_score_1a9a7e6f2df4c5ae3ad4b03970f837e2b3" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationObserver::HealthScore</scope><name>throughput_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

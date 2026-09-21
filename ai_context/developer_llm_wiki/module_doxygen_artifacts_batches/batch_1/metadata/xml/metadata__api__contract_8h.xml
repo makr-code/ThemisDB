@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="metadata__api__contract_8h" kind="file" language="C++">
+    <compoundname>metadata_api_contract.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__metadata__release__gates_8cpp" local="yes">benchmarks/metadata/bench_metadata_release_gates.cpp</includedby>
+    <includedby refid="test__metadata__contract__hardening__focused_8cpp" local="yes">tests/metadata/test_metadata_contract_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/metadata/metadata_api_contract.h</label>
+        <link refid="metadata__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/metadata/bench_metadata_release_gates.cpp</label>
+        <link refid="bench__metadata__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/metadata/metadata_api_contract.h</label>
+        <link refid="metadata__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tests/metadata/test_metadata_contract_hardening_focused.cpp</label>
+        <link refid="test__metadata__contract__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1metadata">themis::metadata</innernamespace>
+    <briefdescription>
+<para>Frozen API contract for the ThemisDB metadata module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0</para>
+</simplesect>
+</para>
+<sect1 id="metadata__api__contract_8h_1purpose">
+<title>Purpose</title><para>The metadata module manages schema catalogues, AQL bridging, and metadata export/import operations.</para>
+</sect1>
+<sect1 id="metadata__api__contract_8h_1contracts">
+<title>API Contracts</title><para><heading level="3">CatalogExporter</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>exportSchema()</computeroutput> serialises the complete schema graph; partial export is not allowed (all-or-nothing).</para>
+</listitem><listitem><para>Missing collection → META_COLLECTION_NOT_FOUND.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">AqlSchemaBridge</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>resolve()</computeroutput> maps AQL field references to physical column descriptors.</para>
+</listitem><listitem><para>Unresolvable reference → META_FIELD_NOT_FOUND (never silently returns null).</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="metadata__api__contract_8h_1error_taxonomy">
+<title>Error Taxonomy</title><para><table rows="5" cols="2"><row>
+<entry thead="yes"><para>Code  </para>
+</entry><entry thead="yes"><para>Meaning  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>META_COLLECTION_NOT_FOUND  </para>
+</entry><entry thead="no"><para>Requested collection not in catalogue  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>META_FIELD_NOT_FOUND  </para>
+</entry><entry thead="no"><para>AQL field reference cannot be resolved  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>META_SCHEMA_MISMATCH  </para>
+</entry><entry thead="no"><para>Schema version incompatible with data  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>META_EXPORT_FAILED  </para>
+</entry><entry thead="no"><para>Serialisation to export format failed  </para>
+</entry></row>
+</table>
+</para>
+</sect1>
+<sect1 id="metadata__api__contract_8h_1threading">
+<title>Threading Guarantees</title><para><itemizedlist>
+<listitem><para><computeroutput>CatalogExporter</computeroutput> is thread-safe for concurrent reads.</para>
+</listitem><listitem><para>Schema mutations require exclusive lock.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="metadata__api__contract_8h_1contract_freeze">
+<title>Contract Freeze</title><para>Frozen for ThemisDB v2.x. </para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1metadata" kindref="compound">themis::metadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64" kindref="member">MetaError</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64adaeefd49e3ec67a221b3d25459a924a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64adaeefd49e3ec67a221b3d25459a924a3" kindref="member">kCollectionNotFound</ref><sp/>=<sp/>7900,</highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64a687dbdb1ee81fc5e3b7b89a6a186ec92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64a687dbdb1ee81fc5e3b7b89a6a186ec92" kindref="member">kFieldNotFound</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>7901,</highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64ab79d97a35d835a7c1b9614360f808ff6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64ab79d97a35d835a7c1b9614360f808ff6" kindref="member">kSchemaMismatch</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>7902,</highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64a797ffa4b2d6944dedd466a142de3368b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64a797ffa4b2d6944dedd466a142de3368b" kindref="member">kExportFailed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>7903,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::metadata</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/metadata/metadata_api_contract.h"/>
+  </compounddef>
+</doxygen>

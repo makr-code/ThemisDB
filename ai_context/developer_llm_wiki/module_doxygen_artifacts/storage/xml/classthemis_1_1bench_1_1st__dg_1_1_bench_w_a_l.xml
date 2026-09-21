@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1st__dg_1_1_bench_w_a_l" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::st_dg::BenchWAL</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1st__dg_1_1_bench_w_a_l_1_1_entry" prot="private">themis::bench::st_dg::BenchWAL::Entry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1st__dg_1_1_bench_w_a_l_1a4be5eb8bdef617871e1ce4b06dd98b6b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; Entry &gt;</type>
+        <definition>std::vector&lt;Entry&gt; themis::bench::st_dg::BenchWAL::ring_</definition>
+        <argsstring></argsstring>
+        <name>ring_</name>
+        <qualifiedname>themis::bench::st_dg::BenchWAL::ring_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="72" column="26" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1st__dg_1_1_bench_w_a_l_1aeb5b127040817f3f0444d0d3b52754b9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; themis::bench::st_dg::BenchWAL::seq_</definition>
+        <argsstring></argsstring>
+        <name>seq_</name>
+        <qualifiedname>themis::bench::st_dg::BenchWAL::seq_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="73" column="20" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="73" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1st__dg_1_1_bench_w_a_l_1ad0ef882923e72e9d1c9779a9aa6b6540" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::st_dg::BenchWAL::BenchWAL</definition>
+        <argsstring>(std::size_t cap=1&lt;&lt; 20)</argsstring>
+        <name>BenchWAL</name>
+        <qualifiedname>themis::bench::st_dg::BenchWAL::BenchWAL</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>cap</declname>
+          <defval>1&lt;&lt; 20</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="56" column="14" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1st__dg_1_1_bench_w_a_l_1ae950b352b959cda20cad128da8f29dca" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::bench::st_dg::BenchWAL::append</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>append</name>
+        <qualifiedname>themis::bench::st_dg::BenchWAL::append</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="58" column="10" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="58" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1st__dg_1_1_bench_w_a_l_1a6c1fdc53b5193dd1f700a1bc899779bc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::bench::st_dg::BenchWAL::replay</definition>
+        <argsstring>() const</argsstring>
+        <name>replay</name>
+        <qualifiedname>themis::bench::st_dg::BenchWAL::replay</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="66" column="17" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="66" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/storage/bench_storage_dedicated_gates.cpp" line="54" column="1" bodyfile="benchmarks/storage/bench_storage_dedicated_gates.cpp" bodystart="54" bodyend="74"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1st__dg_1_1_bench_w_a_l_1ae950b352b959cda20cad128da8f29dca" prot="public" virt="non-virtual"><scope>themis::bench::st_dg::BenchWAL</scope><name>append</name></member>
+      <member refid="classthemis_1_1bench_1_1st__dg_1_1_bench_w_a_l_1ad0ef882923e72e9d1c9779a9aa6b6540" prot="public" virt="non-virtual"><scope>themis::bench::st_dg::BenchWAL</scope><name>BenchWAL</name></member>
+      <member refid="classthemis_1_1bench_1_1st__dg_1_1_bench_w_a_l_1a6c1fdc53b5193dd1f700a1bc899779bc" prot="public" virt="non-virtual"><scope>themis::bench::st_dg::BenchWAL</scope><name>replay</name></member>
+      <member refid="classthemis_1_1bench_1_1st__dg_1_1_bench_w_a_l_1a4be5eb8bdef617871e1ce4b06dd98b6b" prot="private" virt="non-virtual"><scope>themis::bench::st_dg::BenchWAL</scope><name>ring_</name></member>
+      <member refid="classthemis_1_1bench_1_1st__dg_1_1_bench_w_a_l_1aeb5b127040817f3f0444d0d3b52754b9" prot="private" virt="non-virtual"><scope>themis::bench::st_dg::BenchWAL</scope><name>seq_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

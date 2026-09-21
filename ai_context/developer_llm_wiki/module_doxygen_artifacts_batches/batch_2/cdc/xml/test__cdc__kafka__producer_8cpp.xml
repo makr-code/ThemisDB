@@ -1,0 +1,713 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__cdc__kafka__producer_8cpp" kind="file" language="C++">
+    <compoundname>test_cdc_kafka_producer.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">type_traits</includes>
+    <includes refid="debezium__format_8h" local="yes">cdc/debezium_format.h</includes>
+    <includes refid="icdc__transport_8h" local="yes">cdc/icdc_transport.h</includes>
+    <includes refid="kafka__cdc__producer_8h" local="yes">cdc/kafka_cdc_producer.h</includes>
+    <incdepgraph>
+      <node id="22">
+        <label>cdc/cdc_metrics.h</label>
+        <link refid="cdc__metrics_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>cdc/changefeed.h</label>
+        <link refid="changefeed_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>cdc/debezium_format.h</label>
+        <link refid="debezium__format_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>cdc/icdc_transport.h</label>
+        <link refid="icdc__transport_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>cdc/kafka_cdc_producer.h</label>
+        <link refid="kafka__cdc__producer_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/cdc/test_cdc_kafka_producer.cpp</label>
+        <link refid="test__cdc__kafka__producer_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>algorithm</label>
+      </node>
+      <node id="15">
+        <label>atomic</label>
+      </node>
+      <node id="16">
+        <label>chrono</label>
+      </node>
+      <node id="14">
+        <label>condition_variable</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="18">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="17">
+        <label>set</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>thread</label>
+      </node>
+      <node id="4">
+        <label>type_traits</label>
+      </node>
+      <node id="19">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__cdc__kafka__producer_8cpp_1a94d36ba4d2b94f761aaad4324215b668" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KafkaCDCProducerTest, DefaultConfigValues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KafkaCDCProducerTest</type>
+        </param>
+        <param>
+          <type>DefaultConfigValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_kafka_producer.cpp" line="26" column="1" bodyfile="tests/cdc/test_cdc_kafka_producer.cpp" bodystart="26" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__kafka__producer_8cpp_1a578bef2772c1ed077334f4ea000d571d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KafkaCDCProducerTest, DefaultStatsValues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KafkaCDCProducerTest</type>
+        </param>
+        <param>
+          <type>DefaultStatsValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_kafka_producer.cpp" line="47" column="1" bodyfile="tests/cdc/test_cdc_kafka_producer.cpp" bodystart="47" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__kafka__producer_8cpp_1a25b2134dfd09703f715d5dc5763781a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KafkaCDCProducerTest, GetStatsBeforeStart)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KafkaCDCProducerTest</type>
+        </param>
+        <param>
+          <type>GetStatsBeforeStart</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_kafka_producer.cpp" line="60" column="1" bodyfile="tests/cdc/test_cdc_kafka_producer.cpp" bodystart="60" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__kafka__producer_8cpp_1aa537896ac00ee29229054612da96495b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KafkaCDCProducerTest, StubStartReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KafkaCDCProducerTest</type>
+        </param>
+        <param>
+          <type>StubStartReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_kafka_producer.cpp" line="75" column="1" bodyfile="tests/cdc/test_cdc_kafka_producer.cpp" bodystart="75" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__kafka__producer_8cpp_1ad7c1b68b0f55c162dbd2c17223869a08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KafkaCDCProducerTest, StubPublishReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KafkaCDCProducerTest</type>
+        </param>
+        <param>
+          <type>StubPublishReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_kafka_producer.cpp" line="80" column="1" bodyfile="tests/cdc/test_cdc_kafka_producer.cpp" bodystart="80" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__kafka__producer_8cpp_1afb6b88ad1bba3c6828c23f7166525e5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KafkaCDCProducerTest, StubStopIsNoOp)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KafkaCDCProducerTest</type>
+        </param>
+        <param>
+          <type>StubStopIsNoOp</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_kafka_producer.cpp" line="91" column="1" bodyfile="tests/cdc/test_cdc_kafka_producer.cpp" bodystart="91" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__kafka__producer_8cpp_1a8ad1560291d58db86ba51d0a7bc5d7dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KafkaCDCProducerTest, MetricsHasKafkaCounters)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KafkaCDCProducerTest</type>
+        </param>
+        <param>
+          <type>MetricsHasKafkaCounters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_kafka_producer.cpp" line="100" column="1" bodyfile="tests/cdc/test_cdc_kafka_producer.cpp" bodystart="100" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__kafka__producer_8cpp_1a7309c6854ef6e89a6d014d6e60e71f54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KafkaCDCProducerTest, MetricsToJsonContainsKafkaCounters)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KafkaCDCProducerTest</type>
+        </param>
+        <param>
+          <type>MetricsToJsonContainsKafkaCounters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_kafka_producer.cpp" line="117" column="1" bodyfile="tests/cdc/test_cdc_kafka_producer.cpp" bodystart="117" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__kafka__producer_8cpp_1adce8360e7d8a5c80103d6ae6a609b498" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KafkaCDCProducerTest, ConfigSingleTopicOverride)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KafkaCDCProducerTest</type>
+        </param>
+        <param>
+          <type>ConfigSingleTopicOverride</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_kafka_producer.cpp" line="133" column="1" bodyfile="tests/cdc/test_cdc_kafka_producer.cpp" bodystart="133" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__kafka__producer_8cpp_1a31fd1aed6e104fb949f82ed96de902c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KafkaCDCProducerTest, ConfigPerCollectionTopicPrefix)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KafkaCDCProducerTest</type>
+        </param>
+        <param>
+          <type>ConfigPerCollectionTopicPrefix</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_kafka_producer.cpp" line="140" column="1" bodyfile="tests/cdc/test_cdc_kafka_producer.cpp" bodystart="140" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__kafka__producer_8cpp_1aaf250f82ceca8364373b2ef19a4fed60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KafkaCDCProducerTest, ImplementsICDCTransport)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KafkaCDCProducerTest</type>
+        </param>
+        <param>
+          <type>ImplementsICDCTransport</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_kafka_producer.cpp" line="151" column="1" bodyfile="tests/cdc/test_cdc_kafka_producer.cpp" bodystart="151" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__kafka__producer_8cpp_1a5d55e2150e26f0ad0a7890fd8d912d7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KafkaCDCProducerTest, PolymorphicOwnershipViaUniquePtr)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KafkaCDCProducerTest</type>
+        </param>
+        <param>
+          <type>PolymorphicOwnershipViaUniquePtr</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_kafka_producer.cpp" line="169" column="1" bodyfile="tests/cdc/test_cdc_kafka_producer.cpp" bodystart="169" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__kafka__producer_8cpp_1ae738587a152b2da573861f3796d33b12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KafkaCDCProducerTest, DebeziumFormatFlagCanBeEnabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KafkaCDCProducerTest</type>
+        </param>
+        <param>
+          <type>DebeziumFormatFlagCanBeEnabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_kafka_producer.cpp" line="179" column="1" bodyfile="tests/cdc/test_cdc_kafka_producer.cpp" bodystart="179" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__kafka__producer_8cpp_1a5ddd511d01ff8e420cf55d67441a1558" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KafkaCDCProducerTest, DebeziumConfigDefaultServerName)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KafkaCDCProducerTest</type>
+        </param>
+        <param>
+          <type>DebeziumConfigDefaultServerName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_kafka_producer.cpp" line="185" column="1" bodyfile="tests/cdc/test_cdc_kafka_producer.cpp" bodystart="185" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__kafka__producer_8cpp_1a3f1fd981da28968a85106a7c0d8c3399" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KafkaCDCProducerTest, DebeziumConfigCanBeCustomized)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KafkaCDCProducerTest</type>
+        </param>
+        <param>
+          <type>DebeziumConfigCanBeCustomized</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_kafka_producer.cpp" line="193" column="1" bodyfile="tests/cdc/test_cdc_kafka_producer.cpp" bodystart="193" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__kafka__producer_8cpp_1a060c12f8138849ea3c72786ab5bc88d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(KafkaCDCProducerTest, DebeziumFormatterProducesValidEnvelope)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>KafkaCDCProducerTest</type>
+        </param>
+        <param>
+          <type>DebeziumFormatterProducesValidEnvelope</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_kafka_producer.cpp" line="205" column="1" bodyfile="tests/cdc/test_cdc_kafka_producer.cpp" bodystart="205" bodyend="227"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Tests<sp/>for<sp/>KafkaCDCProducer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>These<sp/>tests<sp/>exercise<sp/>the<sp/>producer<sp/>without<sp/>a<sp/>live<sp/>Kafka<sp/>broker:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>Configuration<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>No-op<sp/>stub<sp/>behaviour<sp/>when<sp/>THEMIS_ENABLE_KAFKA<sp/>is<sp/>not<sp/>defined</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>Topic-routing<sp/>logic<sp/>(per-collection<sp/>vs<sp/>single-topic)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>Metric<sp/>counter<sp/>initialisation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>getStats()<sp/>snapshot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/>-<sp/>ICDCTransport<sp/>interface<sp/>compliance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Live-broker<sp/>integration<sp/>tests<sp/>require<sp/>a<sp/>running<sp/>Kafka<sp/>instance<sp/>and<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>outside<sp/>the<sp/>scope<sp/>of<sp/>the<sp/>unit-test<sp/>suite.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="debezium__format_8h" kindref="compound">cdc/debezium_format.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="icdc__transport_8h" kindref="compound">cdc/icdc_transport.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="kafka__cdc__producer_8h" kindref="compound">cdc/kafka_cdc_producer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cdc" kindref="compound">themis::cdc</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>KafkaProducerConfig<sp/>defaults<sp/>─────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><ref refid="test__cdc__kafka__producer_8cpp_1a94d36ba4d2b94f761aaad4324215b668" kindref="member">TEST</ref>(KafkaCDCProducerTest,<sp/>DefaultConfigValues)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_kafka_producer_config" kindref="compound">KafkaProducerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1acfe67654a10e44ac22e7748b00c95391" kindref="member">brokers</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;localhost:9092&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a42d61ebc72d95ad6f769e534cb7dd123" kindref="member">topic_prefix</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;themis.cdc.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1acdb466dbe7e28bd7930de815e5024485" kindref="member">single_topic</ref>.empty());</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1ad928535fe49d97ee0a412c56bb6b5cb5" kindref="member">acks</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;all&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1ad9ab6cd75b9e4482b4214ab53f649e69" kindref="member">enable_idempotence</ref>);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a4faf3477ac21782021f05574c658fcfe" kindref="member">poll_interval_ms</ref>,<sp/><sp/>500u);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a82e3d399cb3d4aeba70dd8d490b6d23e" kindref="member">linger_ms</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>5);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a7f74f160b5e04ddd026ddaa47f0db36d" kindref="member">max_in_flight</ref>,<sp/><sp/><sp/><sp/><sp/>5);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a1ad4572ca9966f668325e079fcfc4dc8" kindref="member">security_protocol</ref>,<sp/></highlight><highlight class="stringliteral">&quot;plaintext&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a595898202beba6768b666ed27351feee" kindref="member">sasl_mechanism</ref>.empty());</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a29d57ffb6f2915a0aac1d66e97570ab9" kindref="member">sasl_username</ref>.empty());</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a92d959522720b578c2a10841b0c585de" kindref="member">sasl_password</ref>.empty());</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a9f86225cf8277cf49dac9616ff9fc1a0" kindref="member">ssl_ca_location</ref>.empty());</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a5c3e18362d01db650963e7c3627c4b16" kindref="member">flush_timeout_ms</ref>,<sp/><sp/>10000u);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a43174fa08ce70bc2c2cc321c7cb56e39" kindref="member">use_debezium_format</ref>);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>KafkaProducerStats<sp/>defaults<sp/>───────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="test__cdc__kafka__producer_8cpp_1a94d36ba4d2b94f761aaad4324215b668" kindref="member">TEST</ref>(KafkaCDCProducerTest,<sp/>DefaultStatsValues)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_kafka_producer_stats" kindref="compound">KafkaProducerStats</ref><sp/>s;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_stats_1aa0fc3f24ed4e231989b78ca0ced72527" kindref="member">delivered_total</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_stats_1af339610d51a8cbf20e2036066070d004" kindref="member">error_total</ref>,<sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_stats_1ad8d3ae1a7b8cc99092f6483cf78a81b6" kindref="member">poll_cycles</ref>,<sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(s.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_stats_1aaffc589fba80eae146a732bb8789babc" kindref="member">running</ref>);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>No-op<sp/>stub<sp/>or<sp/>stopped-producer<sp/>getStats()<sp/>─────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>is<sp/>valid<sp/>in<sp/>both<sp/>stub<sp/>and<sp/>full<sp/>builds:<sp/>before<sp/>start()<sp/>is<sp/>called</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(or<sp/>when<sp/>compiled<sp/>without<sp/>THEMIS_ENABLE_KAFKA)<sp/>stats<sp/>must<sp/>show<sp/>zeroes<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>running=false.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__cdc__kafka__producer_8cpp_1a94d36ba4d2b94f761aaad4324215b668" kindref="member">TEST</ref>(KafkaCDCProducerTest,<sp/>GetStatsBeforeStart)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>KafkaCDCProducer<sp/>requires<sp/>a<sp/>Changefeed*<sp/>but<sp/>we<sp/>only<sp/>need<sp/>the<sp/>stub/ctor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>path<sp/>here;<sp/>pass<sp/>nullptr<sp/>—<sp/>the<sp/>constructor<sp/>must<sp/>not<sp/>dereference<sp/>it<sp/>before</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>start()<sp/>is<sp/>called.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer" kindref="compound">KafkaCDCProducer</ref><sp/>producer(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_kafka_producer_stats" kindref="compound">KafkaProducerStats</ref><sp/>s<sp/>=<sp/>producer.getStats();</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_stats_1aa0fc3f24ed4e231989b78ca0ced72527" kindref="member">delivered_total</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_stats_1af339610d51a8cbf20e2036066070d004" kindref="member">error_total</ref>,<sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(s.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_stats_1ad8d3ae1a7b8cc99092f6483cf78a81b6" kindref="member">poll_cycles</ref>,<sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(s.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_stats_1aaffc589fba80eae146a732bb8789babc" kindref="member">running</ref>);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>No-op<sp/>stub:<sp/>start()<sp/>returns<sp/>false,<sp/>publish()<sp/>returns<sp/>false<sp/>────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_ENABLE_KAFKA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="test__cdc__kafka__producer_8cpp_1a94d36ba4d2b94f761aaad4324215b668" kindref="member">TEST</ref>(KafkaCDCProducerTest,<sp/>StubStartReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer" kindref="compound">KafkaCDCProducer</ref><sp/>producer(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(producer.start());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__cdc__kafka__producer_8cpp_1a94d36ba4d2b94f761aaad4324215b668" kindref="member">TEST</ref>(KafkaCDCProducerTest,<sp/>StubPublishReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer" kindref="compound">KafkaCDCProducer</ref><sp/>producer(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a6768432c72d8a143488ea46d4ce45856" kindref="member">sequence</ref><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a6cb4b5ef33ab335211f73af9fbd56d3b" kindref="member">Changefeed::ChangeEventType::EVENT_PUT</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;orders:42&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" kindref="member">value</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;qty&quot;:3})&quot;;</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" kindref="member">timestamp_ms</ref><sp/>=<sp/>1740000000000LL;</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_FALSE(producer.publish(ev));</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral">}</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"><ref refid="test__cdc__kafka__producer_8cpp_1a94d36ba4d2b94f761aaad4324215b668" kindref="member">TEST</ref>(KafkaCDCProducerTest,<sp/>StubStopIsNoOp)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer" kindref="compound">KafkaCDCProducer</ref><sp/>producer(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(producer.stop());</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(producer.stop());<sp/><sp/></highlight><highlight class="comment">//<sp/>Idempotent.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>!THEMIS_ENABLE_KAFKA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>CDCMetrics<sp/>Kafka<sp/>counter<sp/>fields<sp/>──────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__cdc__kafka__producer_8cpp_1a94d36ba4d2b94f761aaad4324215b668" kindref="member">TEST</ref>(KafkaCDCProducerTest,<sp/>MetricsHasKafkaCounters)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics" kindref="compound">CDCMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a1e1bd09d7fb76a2aa4301482ddefccb9" kindref="member">kafka_delivered_total</ref>.load(),<sp/>0u);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ac0024956194fc090d9ff702018cf3032" kindref="member">kafka_error_total</ref>.load(),<sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>++m.<ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a1e1bd09d7fb76a2aa4301482ddefccb9" kindref="member">kafka_delivered_total</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>++m.<ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a1e1bd09d7fb76a2aa4301482ddefccb9" kindref="member">kafka_delivered_total</ref>;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>++m.<ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ac0024956194fc090d9ff702018cf3032" kindref="member">kafka_error_total</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a1e1bd09d7fb76a2aa4301482ddefccb9" kindref="member">kafka_delivered_total</ref>.load(),<sp/>2u);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ac0024956194fc090d9ff702018cf3032" kindref="member">kafka_error_total</ref>.load(),<sp/><sp/><sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a0f01057dd8b84b03626a95b1a5d10b1e" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a1e1bd09d7fb76a2aa4301482ddefccb9" kindref="member">kafka_delivered_total</ref>.load(),<sp/>0u);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1ac0024956194fc090d9ff702018cf3032" kindref="member">kafka_error_total</ref>.load(),<sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="test__cdc__kafka__producer_8cpp_1a94d36ba4d2b94f761aaad4324215b668" kindref="member">TEST</ref>(KafkaCDCProducerTest,<sp/>MetricsToJsonContainsKafkaCounters)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics" kindref="compound">CDCMetrics</ref><sp/>m;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>++m.<ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1a1e1bd09d7fb76a2aa4301482ddefccb9" kindref="member">kafka_delivered_total</ref>;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>j<sp/>=<sp/>m.<ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics_1add98021533f8dfb4c14f5e2d4e9ff5bf" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;counters&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>counters<sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;counters&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(counters[</highlight><highlight class="stringliteral">&quot;kafka_delivered_total&quot;</highlight><highlight class="normal">].get&lt;uint64_t&gt;(),<sp/>1u);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(counters[</highlight><highlight class="stringliteral">&quot;kafka_error_total&quot;</highlight><highlight class="normal">].get&lt;uint64_t&gt;(),<sp/><sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Topic<sp/>routing<sp/>helpers<sp/>(exercised<sp/>via<sp/>public<sp/>config,<sp/>not<sp/>private<sp/>method)<sp/>───</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>We<sp/>verify<sp/>the<sp/>documented<sp/>routing<sp/>rules<sp/>by<sp/>inspecting<sp/>config<sp/>options<sp/>only;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>the<sp/>private<sp/>topicForEvent()<sp/>is<sp/>implicitly<sp/>tested<sp/>by<sp/>publish()<sp/>in<sp/>integration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>tests<sp/>that<sp/>require<sp/>a<sp/>live<sp/>broker.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__cdc__kafka__producer_8cpp_1a94d36ba4d2b94f761aaad4324215b668" kindref="member">TEST</ref>(KafkaCDCProducerTest,<sp/>ConfigSingleTopicOverride)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_kafka_producer_config" kindref="compound">KafkaProducerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1acdb466dbe7e28bd7930de815e5024485" kindref="member">single_topic</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;my.events&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1acdb466dbe7e28bd7930de815e5024485" kindref="member">single_topic</ref>.empty());</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>single_topic<sp/>set,<sp/>all<sp/>events<sp/>should<sp/>go<sp/>to<sp/>&quot;my.events&quot;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="test__cdc__kafka__producer_8cpp_1a94d36ba4d2b94f761aaad4324215b668" kindref="member">TEST</ref>(KafkaCDCProducerTest,<sp/>ConfigPerCollectionTopicPrefix)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_kafka_producer_config" kindref="compound">KafkaProducerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a42d61ebc72d95ad6f769e534cb7dd123" kindref="member">topic_prefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;db.cdc.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1acdb466dbe7e28bd7930de815e5024485" kindref="member">single_topic</ref>.empty());</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>single_topic<sp/>empty,<sp/>per-collection<sp/>routing<sp/>uses<sp/>topic_prefix.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>ICDCTransport<sp/>interface<sp/>compliance<sp/>────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>KafkaCDCProducer<sp/>is<sp/>a<sp/>subtype<sp/>of<sp/>ICDCTransport<sp/>so<sp/>it<sp/>can<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>used<sp/>polymorphically<sp/>through<sp/>the<sp/>transport<sp/>interface.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="test__cdc__kafka__producer_8cpp_1a94d36ba4d2b94f761aaad4324215b668" kindref="member">TEST</ref>(KafkaCDCProducerTest,<sp/>ImplementsICDCTransport)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(std::is_base_of&lt;ICDCTransport,<sp/>KafkaCDCProducer&gt;::value,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;KafkaCDCProducer<sp/>must<sp/>derive<sp/>from<sp/>ICDCTransport&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer" kindref="compound">KafkaCDCProducer</ref><sp/>producer(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_i_c_d_c_transport" kindref="compound">ICDCTransport</ref>*<sp/>transport<sp/>=<sp/>&amp;producer;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Interface<sp/>methods<sp/>must<sp/>be<sp/>callable<sp/>via<sp/>the<sp/>base<sp/>pointer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(transport-&gt;<ref refid="classthemis_1_1cdc_1_1_i_c_d_c_transport_1a50aa70a8d4e6b3894c3e7f11b7d5fcb7" kindref="member">start</ref>());</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(transport-&gt;<ref refid="classthemis_1_1cdc_1_1_i_c_d_c_transport_1a1a788edc6fe7c2f58a6e1c396cd8edf4" kindref="member">stop</ref>());</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a6768432c72d8a143488ea46d4ce45856" kindref="member">sequence</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a6cb4b5ef33ab335211f73af9fbd56d3b" kindref="member">Changefeed::ChangeEventType::EVENT_PUT</ref>;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;col:1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(transport-&gt;<ref refid="classthemis_1_1cdc_1_1_i_c_d_c_transport_1ab4b9fad9dca393c235367b43f06ce6dd" kindref="member">publish</ref>(ev));</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>a<sp/>unique_ptr&lt;ICDCTransport&gt;<sp/>can<sp/>own<sp/>a<sp/>KafkaCDCProducer,<sp/>which</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>is<sp/>the<sp/>expected<sp/>usage<sp/>pattern<sp/>in<sp/>enterprise<sp/>CDC<sp/>pipeline<sp/>setup<sp/>code.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><ref refid="test__cdc__kafka__producer_8cpp_1a94d36ba4d2b94f761aaad4324215b668" kindref="member">TEST</ref>(KafkaCDCProducerTest,<sp/>PolymorphicOwnershipViaUniquePtr)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ICDCTransport&gt;<sp/>transport<sp/>=</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_unique&lt;KafkaCDCProducer&gt;(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(transport,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(transport-&gt;start());</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>transport-&gt;stop();</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Debezium<sp/>format<sp/>configuration<sp/>─────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><ref refid="test__cdc__kafka__producer_8cpp_1a94d36ba4d2b94f761aaad4324215b668" kindref="member">TEST</ref>(KafkaCDCProducerTest,<sp/>DebeziumFormatFlagCanBeEnabled)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_kafka_producer_config" kindref="compound">KafkaProducerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a43174fa08ce70bc2c2cc321c7cb56e39" kindref="member">use_debezium_format</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a43174fa08ce70bc2c2cc321c7cb56e39" kindref="member">use_debezium_format</ref>);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__cdc__kafka__producer_8cpp_1a94d36ba4d2b94f761aaad4324215b668" kindref="member">TEST</ref>(KafkaCDCProducerTest,<sp/>DebeziumConfigDefaultServerName)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_kafka_producer_config" kindref="compound">KafkaProducerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>debezium_config<sp/>should<sp/>reflect<sp/>DebeziumFormatter::Config<sp/>defaults.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a1b44a7817775b745a971a05dfebfa3a3" kindref="member">debezium_config</ref>.<ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a556035d0993db42ecd112eeb55ceaad1" kindref="member">server_name</ref>,<sp/></highlight><highlight class="stringliteral">&quot;themis&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a1b44a7817775b745a971a05dfebfa3a3" kindref="member">debezium_config</ref>.<ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a2869b9a62a674b70d4158be993efcd96" kindref="member">db_name</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;themisdb&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a1b44a7817775b745a971a05dfebfa3a3" kindref="member">debezium_config</ref>.<ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a2fd9ab3d460ced0c18bcbfc2d3fd9a7b" kindref="member">version</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;1.5.0-dev&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><ref refid="test__cdc__kafka__producer_8cpp_1a94d36ba4d2b94f761aaad4324215b668" kindref="member">TEST</ref>(KafkaCDCProducerTest,<sp/>DebeziumConfigCanBeCustomized)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_kafka_producer_config" kindref="compound">KafkaProducerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a43174fa08ce70bc2c2cc321c7cb56e39" kindref="member">use_debezium_format</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a1b44a7817775b745a971a05dfebfa3a3" kindref="member">debezium_config</ref>.<ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a556035d0993db42ecd112eeb55ceaad1" kindref="member">server_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;prod-cluster&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a1b44a7817775b745a971a05dfebfa3a3" kindref="member">debezium_config</ref>.<ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a2869b9a62a674b70d4158be993efcd96" kindref="member">db_name</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;myapp&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a1b44a7817775b745a971a05dfebfa3a3" kindref="member">debezium_config</ref>.<ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a556035d0993db42ecd112eeb55ceaad1" kindref="member">server_name</ref>,<sp/></highlight><highlight class="stringliteral">&quot;prod-cluster&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a1b44a7817775b745a971a05dfebfa3a3" kindref="member">debezium_config</ref>.<ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a2869b9a62a674b70d4158be993efcd96" kindref="member">db_name</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;myapp&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>DebeziumFormatter<sp/>(used<sp/>by<sp/>the<sp/>producer<sp/>when<sp/>use_debezium_format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>is<sp/>true)<sp/>produces<sp/>a<sp/>valid<sp/>Debezium<sp/>envelope<sp/>for<sp/>a<sp/>sample<sp/>PUT<sp/>event.<sp/><sp/>This</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>acts<sp/>as<sp/>a<sp/>smoke<sp/>test<sp/>for<sp/>the<sp/>integration<sp/>path<sp/>without<sp/>requiring<sp/>a<sp/>live<sp/>broker.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__cdc__kafka__producer_8cpp_1a94d36ba4d2b94f761aaad4324215b668" kindref="member">TEST</ref>(KafkaCDCProducerTest,<sp/>DebeziumFormatterProducesValidEnvelope)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config" kindref="compound">DebeziumFormatter::Config</ref><sp/>dcfg;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>dcfg.<ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a556035d0993db42ecd112eeb55ceaad1" kindref="member">server_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test-cluster&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>dcfg.<ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a2869b9a62a674b70d4158be993efcd96" kindref="member">db_name</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;testdb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter" kindref="compound">DebeziumFormatter</ref><sp/>fmt(dcfg);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>ev;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a6768432c72d8a143488ea46d4ce45856" kindref="member">sequence</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>7;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a6cb4b5ef33ab335211f73af9fbd56d3b" kindref="member">Changefeed::ChangeEventType::EVENT_PUT</ref>;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;orders:42&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" kindref="member">value</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;qty&quot;:5})&quot;;</highlight></codeline>
+<codeline lineno="216"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ev.<ref refid="struct_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" kindref="member">timestamp_ms</ref><sp/>=<sp/>1740000000000LL;</highlight></codeline>
+<codeline lineno="217"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="218"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>j<sp/>=<sp/>fmt.toJson(ev,<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;table&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;connector&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;themisdb&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;test-cluster&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;db&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;testdb&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;sequence&quot;</highlight><highlight class="normal">].get&lt;uint64_t&gt;(),<sp/>7ULL);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/cdc/test_cdc_kafka_producer.cpp"/>
+  </compounddef>
+</doxygen>

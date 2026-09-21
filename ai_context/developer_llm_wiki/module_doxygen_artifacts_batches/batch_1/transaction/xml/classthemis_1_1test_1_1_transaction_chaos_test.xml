@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1test_1_1_transaction_chaos_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::test::TransactionChaosTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_transaction_chaos_test_1acf3566364c374a14ff31f56987af4b93" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1test_1_1_mock_transaction_coordinator" kindref="compound">MockTransactionCoordinator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MockTransactionCoordinator&gt; themis::test::TransactionChaosTest::coordinator_</definition>
+        <argsstring></argsstring>
+        <name>coordinator_</name>
+        <qualifiedname>themis::test::TransactionChaosTest::coordinator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="230" column="21" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="230" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_transaction_chaos_test_1a965c501e7834f9a27a08e1569652b733" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::TransactionChaosTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::test::TransactionChaosTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="220" column="10" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="220" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_transaction_chaos_test_1a94010829cf283aca94d56c982d61c68b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::TransactionChaosTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::test::TransactionChaosTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="224" column="10" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="224" bodyend="228"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::test::TransactionChaosTest</label>
+        <link refid="classthemis_1_1test_1_1_transaction_chaos_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::test::TransactionChaosTest</label>
+        <link refid="classthemis_1_1test_1_1_transaction_chaos_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_transaction_chaos.cpp" line="218" column="1" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="218" bodyend="231"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1test_1_1_transaction_chaos_test_1acf3566364c374a14ff31f56987af4b93" prot="protected" virt="non-virtual"><scope>themis::test::TransactionChaosTest</scope><name>coordinator_</name></member>
+      <member refid="classthemis_1_1test_1_1_transaction_chaos_test_1a965c501e7834f9a27a08e1569652b733" prot="protected" virt="non-virtual"><scope>themis::test::TransactionChaosTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1test_1_1_transaction_chaos_test_1a94010829cf283aca94d56c982d61c68b" prot="protected" virt="non-virtual"><scope>themis::test::TransactionChaosTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

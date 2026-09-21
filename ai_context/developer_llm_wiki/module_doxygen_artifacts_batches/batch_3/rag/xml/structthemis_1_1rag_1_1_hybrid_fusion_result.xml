@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_hybrid_fusion_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::HybridFusionResult</compoundname>
+    <includes refid="hybrid__retriever_8h" local="no">hybrid_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_hybrid_fusion_result_1a3e2ce8bbef703c08dced8447f793855d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;judge::RetrievedDocument&gt; themis::rag::HybridFusionResult::documents</definition>
+        <argsstring></argsstring>
+        <name>documents</name>
+        <qualifiedname>themis::rag::HybridFusionResult::documents</qualifiedname>
+        <briefdescription>
+<para>Fused documents sorted by descending hybrid_score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="67" column="17" bodyfile="include/rag/hybrid_retriever.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_hybrid_fusion_result_1a1c70b8fa041d64bda1084d7dc2d673e5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_hybrid_score" kindref="compound">HybridScore</ref> &gt;</type>
+        <definition>std::vector&lt;HybridScore&gt; themis::rag::HybridFusionResult::scores</definition>
+        <argsstring></argsstring>
+        <name>scores</name>
+        <qualifiedname>themis::rag::HybridFusionResult::scores</qualifiedname>
+        <briefdescription>
+<para>Per-document score details in the same order as <ref refid="structthemis_1_1rag_1_1_hybrid_fusion_result_1a3e2ce8bbef703c08dced8447f793855d" kindref="member">documents</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="70" column="17" bodyfile="include/rag/hybrid_retriever.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_hybrid_fusion_result_1ab9f20cd372d3f5e8f8fbe981eb45cb3f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::HybridFusionResult::total_candidates</definition>
+        <argsstring></argsstring>
+        <name>total_candidates</name>
+        <qualifiedname>themis::rag::HybridFusionResult::total_candidates</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of unique documents considered (union of both lists). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="73" column="12" bodyfile="include/rag/hybrid_retriever.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_hybrid_fusion_result_1af40c46bd5dbecf0e47b48a2c8d13fb07" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::HybridFusionResult::used_rrf</definition>
+        <argsstring></argsstring>
+        <name>used_rrf</name>
+        <qualifiedname>themis::rag::HybridFusionResult::used_rrf</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when RRF was used, false for linear combination. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="76" column="10" bodyfile="include/rag/hybrid_retriever.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a single <ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1a59668eb561798fb677664fa616055c4c" kindref="member">HybridRetriever::fuse()</ref> call. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/hybrid_retriever.h" line="65" column="1" bodyfile="include/rag/hybrid_retriever.h" bodystart="65" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_hybrid_fusion_result_1a3e2ce8bbef703c08dced8447f793855d" prot="public" virt="non-virtual"><scope>themis::rag::HybridFusionResult</scope><name>documents</name></member>
+      <member refid="structthemis_1_1rag_1_1_hybrid_fusion_result_1a1c70b8fa041d64bda1084d7dc2d673e5" prot="public" virt="non-virtual"><scope>themis::rag::HybridFusionResult</scope><name>scores</name></member>
+      <member refid="structthemis_1_1rag_1_1_hybrid_fusion_result_1ab9f20cd372d3f5e8f8fbe981eb45cb3f" prot="public" virt="non-virtual"><scope>themis::rag::HybridFusionResult</scope><name>total_candidates</name></member>
+      <member refid="structthemis_1_1rag_1_1_hybrid_fusion_result_1af40c46bd5dbecf0e47b48a2c8d13fb07" prot="public" virt="non-virtual"><scope>themis::rag::HybridFusionResult</scope><name>used_rrf</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_export_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::ExportStats</compoundname>
+    <includes refid="exporter__interface_8h" local="no">exporter_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_export_stats_1a3234ba6723e19ba9e0b33c1aec171f87" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExportStats::total_entities</definition>
+        <argsstring></argsstring>
+        <name>total_entities</name>
+        <qualifiedname>themis::exporters::ExportStats::total_entities</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_interface.h" line="41" column="12" bodyfile="include/exporters/exporter_interface.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_export_stats_1ada9714c90433d91b9b7ea994210cafbc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExportStats::exported_entities</definition>
+        <argsstring></argsstring>
+        <name>exported_entities</name>
+        <qualifiedname>themis::exporters::ExportStats::exported_entities</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_interface.h" line="42" column="12" bodyfile="include/exporters/exporter_interface.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_export_stats_1a3a62f50cd363eb349942fc6e294b4ed7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExportStats::failed_entities</definition>
+        <argsstring></argsstring>
+        <name>failed_entities</name>
+        <qualifiedname>themis::exporters::ExportStats::failed_entities</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_interface.h" line="43" column="12" bodyfile="include/exporters/exporter_interface.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_export_stats_1a0cb60bca92d790718e8db768ad2785f9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExportStats::skipped_entities</definition>
+        <argsstring></argsstring>
+        <name>skipped_entities</name>
+        <qualifiedname>themis::exporters::ExportStats::skipped_entities</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_interface.h" line="44" column="12" bodyfile="include/exporters/exporter_interface.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_export_stats_1ac14808e351b31ddd535555c168b9e1ec" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExportStats::bytes_written</definition>
+        <argsstring></argsstring>
+        <name>bytes_written</name>
+        <qualifiedname>themis::exporters::ExportStats::bytes_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_interface.h" line="45" column="12" bodyfile="include/exporters/exporter_interface.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_export_stats_1a8184b8f74ac4fa05ec544f438c9806c9" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::exporters::ExportStats::duration</definition>
+        <argsstring></argsstring>
+        <name>duration</name>
+        <qualifiedname>themis::exporters::ExportStats::duration</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_interface.h" line="46" column="31" bodyfile="include/exporters/exporter_interface.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_export_stats_1aa28c988bc3963658923219283c8686e9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::exporters::ExportStats::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::exporters::ExportStats::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_interface.h" line="47" column="17" bodyfile="include/exporters/exporter_interface.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_export_stats_1aab933facc893604cad1fa685b8e2b004" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::exporters::ExportStats::estimated_eta_seconds</definition>
+        <argsstring></argsstring>
+        <name>estimated_eta_seconds</name>
+        <qualifiedname>themis::exporters::ExportStats::estimated_eta_seconds</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_interface.h" line="49" column="12" bodyfile="include/exporters/exporter_interface.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_export_stats_1aaf2532f678f76addd9187fae2810af33" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1exporters_1_1_exporter_metrics" kindref="compound">ExporterMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ExporterMetrics&gt; themis::exporters::ExportStats::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::exporters::ExportStats::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_interface.h" line="52" column="21" bodyfile="include/exporters/exporter_interface.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1exporters_1_1_export_stats_1a9aa943c425f18b1996f97d61ddb9d2e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::ExportStats::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::exporters::ExportStats::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_interface.h" line="58" column="17" bodyfile="src/exporters/jsonl_llm_exporter.cpp" bodystart="39" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/exporter_interface.h" line="40" column="1" bodyfile="include/exporters/exporter_interface.h" bodystart="40" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_export_stats_1ac14808e351b31ddd535555c168b9e1ec" prot="public" virt="non-virtual"><scope>themis::exporters::ExportStats</scope><name>bytes_written</name></member>
+      <member refid="structthemis_1_1exporters_1_1_export_stats_1a8184b8f74ac4fa05ec544f438c9806c9" prot="public" virt="non-virtual"><scope>themis::exporters::ExportStats</scope><name>duration</name></member>
+      <member refid="structthemis_1_1exporters_1_1_export_stats_1aa28c988bc3963658923219283c8686e9" prot="public" virt="non-virtual"><scope>themis::exporters::ExportStats</scope><name>errors</name></member>
+      <member refid="structthemis_1_1exporters_1_1_export_stats_1aab933facc893604cad1fa685b8e2b004" prot="public" virt="non-virtual"><scope>themis::exporters::ExportStats</scope><name>estimated_eta_seconds</name></member>
+      <member refid="structthemis_1_1exporters_1_1_export_stats_1ada9714c90433d91b9b7ea994210cafbc" prot="public" virt="non-virtual"><scope>themis::exporters::ExportStats</scope><name>exported_entities</name></member>
+      <member refid="structthemis_1_1exporters_1_1_export_stats_1a3a62f50cd363eb349942fc6e294b4ed7" prot="public" virt="non-virtual"><scope>themis::exporters::ExportStats</scope><name>failed_entities</name></member>
+      <member refid="structthemis_1_1exporters_1_1_export_stats_1aaf2532f678f76addd9187fae2810af33" prot="public" virt="non-virtual"><scope>themis::exporters::ExportStats</scope><name>metrics</name></member>
+      <member refid="structthemis_1_1exporters_1_1_export_stats_1a0cb60bca92d790718e8db768ad2785f9" prot="public" virt="non-virtual"><scope>themis::exporters::ExportStats</scope><name>skipped_entities</name></member>
+      <member refid="structthemis_1_1exporters_1_1_export_stats_1a9aa943c425f18b1996f97d61ddb9d2e9" prot="public" virt="non-virtual"><scope>themis::exporters::ExportStats</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1exporters_1_1_export_stats_1a3234ba6723e19ba9e0b33c1aec171f87" prot="public" virt="non-virtual"><scope>themis::exporters::ExportStats</scope><name>total_entities</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

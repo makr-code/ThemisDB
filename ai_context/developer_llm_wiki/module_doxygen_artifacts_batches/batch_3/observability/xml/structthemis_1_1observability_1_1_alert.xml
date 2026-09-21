@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_alert" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::Alert</compoundname>
+    <includes refid="alertmanager_8h" local="no">alertmanager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alert_1ab1fd15f1723c1b77b3fc1b5c61f69df1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::Alert::alert_name</definition>
+        <argsstring></argsstring>
+        <name>alert_name</name>
+        <qualifiedname>themis::observability::Alert::alert_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="60" column="17" bodyfile="include/observability/alertmanager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alert_1a6b88734ab28a4ec54fcab56019a96b71" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::Alert::alert_id</definition>
+        <argsstring></argsstring>
+        <name>alert_id</name>
+        <qualifiedname>themis::observability::Alert::alert_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="61" column="17" bodyfile="include/observability/alertmanager.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alert_1a5ac666e4a9d3f954bdd6321a2b42f67c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1a8ee1043d756365fbf3e4632ae5371c2f" kindref="member">AlertSeverity</ref></type>
+        <definition>AlertSeverity themis::observability::Alert::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::observability::Alert::severity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="62" column="19" bodyfile="include/observability/alertmanager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alert_1a8c40c71b97c583351fa539ad1b3ab3fb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1a4220c1ff0acfbc9d15fff7d84d33051d" kindref="member">AlertStatus</ref></type>
+        <definition>AlertStatus themis::observability::Alert::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::observability::Alert::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="63" column="17" bodyfile="include/observability/alertmanager.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alert_1a7f7f6017ff389113fb25edb608bd7b54" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::Alert::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::observability::Alert::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="64" column="17" bodyfile="include/observability/alertmanager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alert_1af4316e855dd94d8bc1ca384da0050c3d" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::observability::Alert::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <qualifiedname>themis::observability::Alert::labels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="65" column="14" bodyfile="include/observability/alertmanager.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alert_1a379234f2015cf6c1c03378c7eee92d53" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::observability::Alert::annotations</definition>
+        <argsstring></argsstring>
+        <name>annotations</name>
+        <qualifiedname>themis::observability::Alert::annotations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="66" column="14" bodyfile="include/observability/alertmanager.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alert_1adb5e3d320a0c9c402e291405908e5b34" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::Alert::fired_at</definition>
+        <argsstring></argsstring>
+        <name>fired_at</name>
+        <qualifiedname>themis::observability::Alert::fired_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="67" column="43" bodyfile="include/observability/alertmanager.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_alert_1ab79435edf044fec75f51832f05821d71" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::Alert::resolved_at</definition>
+        <argsstring></argsstring>
+        <name>resolved_at</name>
+        <qualifiedname>themis::observability::Alert::resolved_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="68" column="43" bodyfile="include/observability/alertmanager.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_alert_1aa2965cb3947b4a4bc8aa9d4147941889" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::Alert::Alert</definition>
+        <argsstring>()</argsstring>
+        <name>Alert</name>
+        <qualifiedname>themis::observability::Alert::Alert</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="70" column="5" bodyfile="include/observability/alertmanager.h" bodystart="70" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref> definition </para>
+    </detaileddescription>
+    <location file="include/observability/alertmanager.h" line="59" column="1" bodyfile="include/observability/alertmanager.h" bodystart="59" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_alert_1aa2965cb3947b4a4bc8aa9d4147941889" prot="public" virt="non-virtual"><scope>themis::observability::Alert</scope><name>Alert</name></member>
+      <member refid="structthemis_1_1observability_1_1_alert_1a6b88734ab28a4ec54fcab56019a96b71" prot="public" virt="non-virtual"><scope>themis::observability::Alert</scope><name>alert_id</name></member>
+      <member refid="structthemis_1_1observability_1_1_alert_1ab1fd15f1723c1b77b3fc1b5c61f69df1" prot="public" virt="non-virtual"><scope>themis::observability::Alert</scope><name>alert_name</name></member>
+      <member refid="structthemis_1_1observability_1_1_alert_1a379234f2015cf6c1c03378c7eee92d53" prot="public" virt="non-virtual"><scope>themis::observability::Alert</scope><name>annotations</name></member>
+      <member refid="structthemis_1_1observability_1_1_alert_1adb5e3d320a0c9c402e291405908e5b34" prot="public" virt="non-virtual"><scope>themis::observability::Alert</scope><name>fired_at</name></member>
+      <member refid="structthemis_1_1observability_1_1_alert_1af4316e855dd94d8bc1ca384da0050c3d" prot="public" virt="non-virtual"><scope>themis::observability::Alert</scope><name>labels</name></member>
+      <member refid="structthemis_1_1observability_1_1_alert_1a7f7f6017ff389113fb25edb608bd7b54" prot="public" virt="non-virtual"><scope>themis::observability::Alert</scope><name>message</name></member>
+      <member refid="structthemis_1_1observability_1_1_alert_1ab79435edf044fec75f51832f05821d71" prot="public" virt="non-virtual"><scope>themis::observability::Alert</scope><name>resolved_at</name></member>
+      <member refid="structthemis_1_1observability_1_1_alert_1a5ac666e4a9d3f954bdd6321a2b42f67c" prot="public" virt="non-virtual"><scope>themis::observability::Alert</scope><name>severity</name></member>
+      <member refid="structthemis_1_1observability_1_1_alert_1a8c40c71b97c583351fa539ad1b3ab3fb" prot="public" virt="non-virtual"><scope>themis::observability::Alert</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

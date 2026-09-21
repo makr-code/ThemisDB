@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_t_n_s_r_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::TNSRConfig</compoundname>
+    <includes refid="tnsr__task_8h" local="no">tnsr_task.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_t_n_s_r_config_1a9743b53768a7a86c4f796d49ae7bbda1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::TNSRConfig::epsilon</definition>
+        <argsstring></argsstring>
+        <name>epsilon</name>
+        <qualifiedname>themis::tensor::TNSRConfig::epsilon</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+<para>Reconstruction error tolerance used during recompression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Passed verbatim to <computeroutput>TensorTrainDecomposer::recompress()</computeroutput>. Default: 0.01 (1% error — matches TensorCompactionFilter default). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="41" column="12" bodyfile="include/tensor/tnsr_task.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_t_n_s_r_config_1a22bebfffcf5e0d3c2bf0a39364bdd2d8" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TNSRConfig::max_topology_changes_per_run</definition>
+        <argsstring></argsstring>
+        <name>max_topology_changes_per_run</name>
+        <qualifiedname>themis::tensor::TNSRConfig::max_topology_changes_per_run</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+<para>Maximum number of topology changes (rerouteEdge calls) per run. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Caps the amount of structural mutation per TNSR invocation to bound overhead. Default: 4. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="49" column="17" bodyfile="include/tensor/tnsr_task.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_t_n_s_r_config_1a0b94617d79ecac5b282dd9ffeb322e25" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TNSRConfig::min_bytes_saved_to_commit</definition>
+        <argsstring></argsstring>
+        <name>min_bytes_saved_to_commit</name>
+        <qualifiedname>themis::tensor::TNSRConfig::min_bytes_saved_to_commit</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Minimum byte savings required before writing the result back. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If the recompressed form is less than this many bytes smaller than the stored form, the write is skipped (avoids write amplification for marginal gains). Default: 64 bytes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="58" column="17" bodyfile="include/tensor/tnsr_task.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_t_n_s_r_config_1ae5b795b2a9b7230055a5c7b0ded2af67" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TNSRConfig::run_frequency_hours</definition>
+        <argsstring></argsstring>
+        <name>run_frequency_hours</name>
+        <qualifiedname>themis::tensor::TNSRConfig::run_frequency_hours</qualifiedname>
+        <initializer>= 6</initializer>
+        <briefdescription>
+<para>Minimum hours between successive TNSR runs per index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Callers are responsible for enforcing this via a schedule; <ref refid="classthemis_1_1tensor_1_1_t_n_s_r_task" kindref="compound">TNSRTask</ref> itself does not track last-run timestamps. Default: 6. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="66" column="17" bodyfile="include/tensor/tnsr_task.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_t_n_s_r_config_1af28da32d7a80a3313e506c1e2fa08707" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1tensor_1_1_hiss_config" kindref="compound">HissConfig</ref></type>
+        <definition>HissConfig themis::tensor::TNSRConfig::hiss_config</definition>
+        <argsstring></argsstring>
+        <name>hiss_config</name>
+        <qualifiedname>themis::tensor::TNSRConfig::hiss_config</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Hiss config forwarded to <ref refid="classthemis_1_1tensor_1_1_hiss_structural_search_engine_1a2fb803f4a8678486486e7971d7834065" kindref="member">HissStructuralSearchEngine::search()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Controls entropy-guided skip-edge sampling used for topology analysis. Default values are appropriate for most workloads. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tnsr_task.h" line="74" column="16" bodyfile="include/tensor/tnsr_task.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::tensor::HissConfig</label>
+        <link refid="structthemis_1_1tensor_1_1_hiss_config"/>
+      </node>
+      <node id="1">
+        <label>themis::tensor::TNSRConfig</label>
+        <link refid="structthemis_1_1tensor_1_1_t_n_s_r_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>hiss_config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/tnsr_task.h" line="34" column="1" bodyfile="include/tensor/tnsr_task.h" bodystart="34" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_t_n_s_r_config_1a9743b53768a7a86c4f796d49ae7bbda1" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRConfig</scope><name>epsilon</name></member>
+      <member refid="structthemis_1_1tensor_1_1_t_n_s_r_config_1af28da32d7a80a3313e506c1e2fa08707" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRConfig</scope><name>hiss_config</name></member>
+      <member refid="structthemis_1_1tensor_1_1_t_n_s_r_config_1a22bebfffcf5e0d3c2bf0a39364bdd2d8" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRConfig</scope><name>max_topology_changes_per_run</name></member>
+      <member refid="structthemis_1_1tensor_1_1_t_n_s_r_config_1a0b94617d79ecac5b282dd9ffeb322e25" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRConfig</scope><name>min_bytes_saved_to_commit</name></member>
+      <member refid="structthemis_1_1tensor_1_1_t_n_s_r_config_1ae5b795b2a9b7230055a5c7b0ded2af67" prot="public" virt="non-virtual"><scope>themis::tensor::TNSRConfig</scope><name>run_frequency_hours</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_aql_translator_prealloc_test" kind="class" language="C++" prot="public">
+    <compoundname>AqlTranslatorPreallocTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AqlTranslatorPreallocTest</label>
+        <link refid="class_aql_translator_prealloc_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AqlTranslatorPreallocTest</label>
+        <link refid="class_aql_translator_prealloc_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_phase4_query_hardening.cpp" line="177" column="1" bodyfile="tests/query/test_phase4_query_hardening.cpp" bodystart="177" bodyend="177"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

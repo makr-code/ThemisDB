@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_tiktoken_estimator" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::TiktokenEstimator</compoundname>
+    <basecompoundref refid="classthemis_1_1aql_1_1_token_estimator" prot="public" virt="non-virtual">themis::aql::TokenEstimator</basecompoundref>
+    <includes refid="llm__token__estimator_8h" local="no">llm_token_estimator.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1aql_1_1_tiktoken_estimator_1aa99b9b11e747dc8969b88be37c6bcf53" prot="public" static="no">
+        <type>std::function&lt; std::size_t(const std::string &amp;)&gt;</type>
+        <definition>using themis::aql::TiktokenEstimator::TokenizeFunc = std::function&lt;std::size_t(const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TokenizeFunc</name>
+        <qualifiedname>themis::aql::TiktokenEstimator::TokenizeFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_token_estimator.h" line="56" column="5" bodyfile="include/aql/llm_token_estimator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_tiktoken_estimator_1ae77a632b0a50b626b66d85348cdc362a" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1_tiktoken_estimator_1aa99b9b11e747dc8969b88be37c6bcf53" kindref="member">TokenizeFunc</ref></type>
+        <definition>TokenizeFunc themis::aql::TiktokenEstimator::tokenize_fn_</definition>
+        <argsstring></argsstring>
+        <name>tokenize_fn_</name>
+        <qualifiedname>themis::aql::TiktokenEstimator::tokenize_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_token_estimator.h" line="79" column="27" bodyfile="include/aql/llm_token_estimator.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_tiktoken_estimator_1acecebb1d01f7480af86c1dc3f6a5731d" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1_char_division_estimator" kindref="compound">CharDivisionEstimator</ref></type>
+        <definition>CharDivisionEstimator themis::aql::TiktokenEstimator::fallback_</definition>
+        <argsstring></argsstring>
+        <name>fallback_</name>
+        <qualifiedname>themis::aql::TiktokenEstimator::fallback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_token_estimator.h" line="80" column="27" bodyfile="include/aql/llm_token_estimator.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_tiktoken_estimator_1afad715fdc3eb398a9ea840a5e34a927c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::TiktokenEstimator::TiktokenEstimator</definition>
+        <argsstring>(TokenizeFunc tokenize_fn)</argsstring>
+        <name>TiktokenEstimator</name>
+        <qualifiedname>themis::aql::TiktokenEstimator::TiktokenEstimator</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1_tiktoken_estimator_1aa99b9b11e747dc8969b88be37c6bcf53" kindref="member">TokenizeFunc</ref></type>
+          <declname>tokenize_fn</declname>
+        </param>
+        <briefdescription>
+<para>Tiktoken Estimator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokenize_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_token_estimator.h" line="63" column="14" bodyfile="include/aql/llm_token_estimator.h" bodystart="63" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_tiktoken_estimator_1acdce46b5bf6a10bace1e14fac0630fdc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::aql::TiktokenEstimator::estimate</definition>
+        <argsstring>(const std::string &amp;text) const override</argsstring>
+        <name>estimate</name>
+        <qualifiedname>themis::aql::TiktokenEstimator::estimate</qualifiedname>
+        <reimplements refid="classthemis_1_1aql_1_1_token_estimator_1ae02a80ce13a013cb25489512dad17cf8">estimate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Estimate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_token_estimator.h" line="68" column="17" bodyfile="include/aql/llm_token_estimator.h" bodystart="68" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::aql::TiktokenEstimator</label>
+        <link refid="classthemis_1_1aql_1_1_tiktoken_estimator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::aql::TokenEstimator</label>
+        <link refid="classthemis_1_1aql_1_1_token_estimator"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::aql::TiktokenEstimator</label>
+        <link refid="classthemis_1_1aql_1_1_tiktoken_estimator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::aql::TokenEstimator</label>
+        <link refid="classthemis_1_1aql_1_1_token_estimator"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/aql/llm_token_estimator.h" line="54" column="1" bodyfile="include/aql/llm_token_estimator.h" bodystart="54" bodyend="81"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_tiktoken_estimator_1acdce46b5bf6a10bace1e14fac0630fdc" prot="public" virt="virtual"><scope>themis::aql::TiktokenEstimator</scope><name>estimate</name></member>
+      <member refid="classthemis_1_1aql_1_1_tiktoken_estimator_1acecebb1d01f7480af86c1dc3f6a5731d" prot="private" virt="non-virtual"><scope>themis::aql::TiktokenEstimator</scope><name>fallback_</name></member>
+      <member refid="classthemis_1_1aql_1_1_tiktoken_estimator_1afad715fdc3eb398a9ea840a5e34a927c" prot="public" virt="non-virtual"><scope>themis::aql::TiktokenEstimator</scope><name>TiktokenEstimator</name></member>
+      <member refid="classthemis_1_1aql_1_1_tiktoken_estimator_1ae77a632b0a50b626b66d85348cdc362a" prot="private" virt="non-virtual"><scope>themis::aql::TiktokenEstimator</scope><name>tokenize_fn_</name></member>
+      <member refid="classthemis_1_1aql_1_1_tiktoken_estimator_1aa99b9b11e747dc8969b88be37c6bcf53" prot="public" virt="non-virtual"><scope>themis::aql::TiktokenEstimator</scope><name>TokenizeFunc</name></member>
+      <member refid="classthemis_1_1aql_1_1_token_estimator_1a752f0f96b893717939f5a1439c3a9247" prot="public" virt="virtual"><scope>themis::aql::TiktokenEstimator</scope><name>~TokenEstimator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

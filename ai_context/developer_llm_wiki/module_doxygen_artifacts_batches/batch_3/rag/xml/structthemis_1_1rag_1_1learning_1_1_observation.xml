@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_observation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::Observation</compoundname>
+    <includes refid="bayesian__optimizer_8h" local="no">bayesian_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_observation_1a9f8f851d68fa82716ae697db1650cc01" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::rag::learning::Observation::params</definition>
+        <argsstring></argsstring>
+        <name>params</name>
+        <qualifiedname>themis::rag::learning::Observation::params</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bayesian_optimizer.h" line="32" column="24" bodyfile="include/rag/bayesian_optimizer.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_observation_1a99fc0b524afa8a1500e4b689596f82c2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::Observation::objective_value</definition>
+        <argsstring></argsstring>
+        <name>objective_value</name>
+        <qualifiedname>themis::rag::learning::Observation::objective_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bayesian_optimizer.h" line="33" column="12" bodyfile="include/rag/bayesian_optimizer.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A point in parameter space with observed objective value. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/bayesian_optimizer.h" line="31" column="1" bodyfile="include/rag/bayesian_optimizer.h" bodystart="31" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_observation_1a99fc0b524afa8a1500e4b689596f82c2" prot="public" virt="non-virtual"><scope>themis::rag::learning::Observation</scope><name>objective_value</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_observation_1a9f8f851d68fa82716ae697db1650cc01" prot="public" virt="non-virtual"><scope>themis::rag::learning::Observation</scope><name>params</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

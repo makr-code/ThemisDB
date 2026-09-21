@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1evaluation_1_1_planner_observer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::evaluation::PlannerObserver</compoundname>
+    <includes refid="query__planner_8h" local="no">query_planner.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_planner_observer_1a68b40062ac215e4145a939a625015a6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::PlannerObserver::PlannerObserver</definition>
+        <argsstring>()=default</argsstring>
+        <name>PlannerObserver</name>
+        <qualifiedname>themis::evaluation::PlannerObserver::PlannerObserver</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="288" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_planner_observer_1a2f350959fc9ac91597a7bb9ee9d087d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::evaluation::PlannerObserver::~PlannerObserver</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PlannerObserver</name>
+        <qualifiedname>themis::evaluation::PlannerObserver::~PlannerObserver</qualifiedname>
+        <briefdescription>
+<para>Planner Observer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="293" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_planner_observer_1a1772ea44774d56ef7ca663bb2060462a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::PlannerObserver::PlannerObserver</definition>
+        <argsstring>(const PlannerObserver &amp;)=delete</argsstring>
+        <name>PlannerObserver</name>
+        <qualifiedname>themis::evaluation::PlannerObserver::PlannerObserver</qualifiedname>
+        <param>
+          <type>const PlannerObserver &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="295" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_planner_observer_1a90fca38d019046b09c0a99fba00d717a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1evaluation_1_1_planner_observer_1a68b40062ac215e4145a939a625015a6f" kindref="member">PlannerObserver</ref> &amp;</type>
+        <definition>PlannerObserver &amp; themis::evaluation::PlannerObserver::operator=</definition>
+        <argsstring>(const PlannerObserver &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::evaluation::PlannerObserver::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1evaluation_1_1_planner_observer_1a68b40062ac215e4145a939a625015a6f" kindref="member">PlannerObserver</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="296" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_planner_observer_1a450af4d8575d8cb0217dcbf8afa9ecd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::PlannerObserver::PlannerObserver</definition>
+        <argsstring>(PlannerObserver &amp;&amp;)=delete</argsstring>
+        <name>PlannerObserver</name>
+        <qualifiedname>themis::evaluation::PlannerObserver::PlannerObserver</qualifiedname>
+        <param>
+          <type>PlannerObserver &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="297" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_planner_observer_1ad8532321a77d72d57234e930d44b3a82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1evaluation_1_1_planner_observer_1a68b40062ac215e4145a939a625015a6f" kindref="member">PlannerObserver</ref> &amp;</type>
+        <definition>PlannerObserver &amp; themis::evaluation::PlannerObserver::operator=</definition>
+        <argsstring>(PlannerObserver &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::evaluation::PlannerObserver::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1evaluation_1_1_planner_observer_1a68b40062ac215e4145a939a625015a6f" kindref="member">PlannerObserver</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="298" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_planner_observer_1a194eef3877c6cefbb2df2e5a78f67135" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::evaluation::PlannerObserver::onDecision</definition>
+        <argsstring>(const PlannerDecision &amp;decision, uint64_t latency_us) noexcept=0</argsstring>
+        <name>onDecision</name>
+        <qualifiedname>themis::evaluation::PlannerObserver::onDecision</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1evaluation_1_1_planner_decision" kindref="compound">PlannerDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>latency_us</declname>
+        </param>
+        <briefdescription>
+<para>On Decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="306" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/query_planner.h" line="286" column="1" bodyfile="src/evaluation/include/query_planner.h" bodystart="286" bodyend="309"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1evaluation_1_1_planner_observer_1a194eef3877c6cefbb2df2e5a78f67135" prot="public" virt="pure-virtual"><scope>themis::evaluation::PlannerObserver</scope><name>onDecision</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_planner_observer_1a90fca38d019046b09c0a99fba00d717a" prot="public" virt="non-virtual"><scope>themis::evaluation::PlannerObserver</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_planner_observer_1ad8532321a77d72d57234e930d44b3a82" prot="public" virt="non-virtual"><scope>themis::evaluation::PlannerObserver</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_planner_observer_1a68b40062ac215e4145a939a625015a6f" prot="public" virt="non-virtual"><scope>themis::evaluation::PlannerObserver</scope><name>PlannerObserver</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_planner_observer_1a1772ea44774d56ef7ca663bb2060462a" prot="public" virt="non-virtual"><scope>themis::evaluation::PlannerObserver</scope><name>PlannerObserver</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_planner_observer_1a450af4d8575d8cb0217dcbf8afa9ecd8" prot="public" virt="non-virtual"><scope>themis::evaluation::PlannerObserver</scope><name>PlannerObserver</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_planner_observer_1a2f350959fc9ac91597a7bb9ee9d087d6" prot="public" virt="virtual"><scope>themis::evaluation::PlannerObserver</scope><name>~PlannerObserver</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

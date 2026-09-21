@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_feedback_collector_1_1_i_embedding_model" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::prompt_engineering::FeedbackCollector::IEmbeddingModel</compoundname>
+    <includes refid="feedback__collector_8h" local="no">feedback_collector.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_feedback_collector_1_1_i_embedding_model_1a5f355bd6d105d05e25d4fc8db1469176" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>virtual std::vector&lt; float &gt; themis::prompt_engineering::FeedbackCollector::IEmbeddingModel::embed</definition>
+        <argsstring>(const std::string &amp;text) const =0</argsstring>
+        <name>embed</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::IEmbeddingModel::embed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="310" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_feedback_collector_1_1_i_embedding_model_1a1621b5a5e729ccb73c1814e32daea971" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::prompt_engineering::FeedbackCollector::IEmbeddingModel::~IEmbeddingModel</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IEmbeddingModel</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackCollector::IEmbeddingModel::~IEmbeddingModel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="311" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal embedding model interface for cross-shard feedback. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implement this (or inject a lambda via <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a2998ad64fc9a5652d3aba2099cb9e523" kindref="member">setEmbeddingModel</ref></computeroutput>) to provide the 384-dimensional float embedding that is broadcast — in place of the raw query text — when cross-shard sync is enabled. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/feedback_collector.h" line="309" column="5" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="309" bodyend="312"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_collector_1_1_i_embedding_model_1a5f355bd6d105d05e25d4fc8db1469176" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::FeedbackCollector::IEmbeddingModel</scope><name>embed</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_collector_1_1_i_embedding_model_1a1621b5a5e729ccb73c1814e32daea971" prot="public" virt="virtual"><scope>themis::prompt_engineering::FeedbackCollector::IEmbeddingModel</scope><name>~IEmbeddingModel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

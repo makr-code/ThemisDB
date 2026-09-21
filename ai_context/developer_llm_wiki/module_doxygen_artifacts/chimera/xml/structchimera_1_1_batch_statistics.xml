@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structchimera_1_1_batch_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>chimera::BatchStatistics</compoundname>
+    <includes refid="batch__executor_8hpp" local="no">batch_executor.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structchimera_1_1_batch_statistics_1a50fafc437ced3be0011b8e872d954ad2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t chimera::BatchStatistics::rows_processed</definition>
+        <argsstring></argsstring>
+        <name>rows_processed</name>
+        <qualifiedname>chimera::BatchStatistics::rows_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/batch_executor.hpp" line="34" column="12" bodyfile="include/chimera/batch_executor.hpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_batch_statistics_1a9b037deacf07bd5edf112d66867611cf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t chimera::BatchStatistics::rows_committed</definition>
+        <argsstring></argsstring>
+        <name>rows_committed</name>
+        <qualifiedname>chimera::BatchStatistics::rows_committed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/batch_executor.hpp" line="36" column="12" bodyfile="include/chimera/batch_executor.hpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_batch_statistics_1aae52ab88c9cfa361b0ed6404f28941c4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t chimera::BatchStatistics::rows_failed</definition>
+        <argsstring></argsstring>
+        <name>rows_failed</name>
+        <qualifiedname>chimera::BatchStatistics::rows_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/batch_executor.hpp" line="38" column="12" bodyfile="include/chimera/batch_executor.hpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_batch_statistics_1a905356b0ede31efff7d2f3d2a4cb8928" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t chimera::BatchStatistics::total_time_ms</definition>
+        <argsstring></argsstring>
+        <name>total_time_ms</name>
+        <qualifiedname>chimera::BatchStatistics::total_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/batch_executor.hpp" line="40" column="14" bodyfile="include/chimera/batch_executor.hpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_batch_statistics_1a8e4033bfb3d3492538afe653e2bc2455" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t chimera::BatchStatistics::operation_count</definition>
+        <argsstring></argsstring>
+        <name>operation_count</name>
+        <qualifiedname>chimera::BatchStatistics::operation_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/batch_executor.hpp" line="42" column="12" bodyfile="include/chimera/batch_executor.hpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structchimera_1_1_batch_statistics_1a747773c1ff1897f72242e4a8403c3161" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string chimera::BatchStatistics::last_error</definition>
+        <argsstring></argsstring>
+        <name>last_error</name>
+        <qualifiedname>chimera::BatchStatistics::last_error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/batch_executor.hpp" line="44" column="17" bodyfile="include/chimera/batch_executor.hpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/chimera/batch_executor.hpp" line="33" column="1" bodyfile="include/chimera/batch_executor.hpp" bodystart="33" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structchimera_1_1_batch_statistics_1a747773c1ff1897f72242e4a8403c3161" prot="public" virt="non-virtual"><scope>chimera::BatchStatistics</scope><name>last_error</name></member>
+      <member refid="structchimera_1_1_batch_statistics_1a8e4033bfb3d3492538afe653e2bc2455" prot="public" virt="non-virtual"><scope>chimera::BatchStatistics</scope><name>operation_count</name></member>
+      <member refid="structchimera_1_1_batch_statistics_1a9b037deacf07bd5edf112d66867611cf" prot="public" virt="non-virtual"><scope>chimera::BatchStatistics</scope><name>rows_committed</name></member>
+      <member refid="structchimera_1_1_batch_statistics_1aae52ab88c9cfa361b0ed6404f28941c4" prot="public" virt="non-virtual"><scope>chimera::BatchStatistics</scope><name>rows_failed</name></member>
+      <member refid="structchimera_1_1_batch_statistics_1a50fafc437ced3be0011b8e872d954ad2" prot="public" virt="non-virtual"><scope>chimera::BatchStatistics</scope><name>rows_processed</name></member>
+      <member refid="structchimera_1_1_batch_statistics_1a905356b0ede31efff7d2f3d2a4cb8928" prot="public" virt="non-virtual"><scope>chimera::BatchStatistics</scope><name>total_time_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

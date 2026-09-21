@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1test_1_1_process_mining_l_l_m_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::test::ProcessMiningLLMTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_process_mining_l_l_m_test_1ac9b41e819aa26d960f4cf081fb466f8a" prot="protected" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::test::ProcessMiningLLMTest::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::test::ProcessMiningLLMTest::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_mining_llm.cpp" line="46" column="43" bodyfile="tests/analytics/test_process_mining_llm.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_process_mining_l_l_m_test_1aa4165ad2c2fd931a35c8ba7131be84fc" prot="protected" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::test::ProcessMiningLLMTest::max_response_time_ms_</definition>
+        <argsstring></argsstring>
+        <name>max_response_time_ms_</name>
+        <qualifiedname>themis::test::ProcessMiningLLMTest::max_response_time_ms_</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_mining_llm.cpp" line="47" column="13" bodyfile="tests/analytics/test_process_mining_llm.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_process_mining_l_l_m_test_1adffbf6bd67fe60eb429c85f3562c07d2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::ProcessMiningLLMTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::test::ProcessMiningLLMTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_mining_llm.cpp" line="29" column="10" bodyfile="tests/analytics/test_process_mining_llm.cpp" bodystart="29" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_process_mining_l_l_m_test_1a3cf486baade9c0cf4bb507ccb18b0cc9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::ProcessMiningLLMTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::test::ProcessMiningLLMTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_mining_llm.cpp" line="34" column="10" bodyfile="tests/analytics/test_process_mining_llm.cpp" bodystart="34" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_process_mining_l_l_m_test_1ad919eb8180df052f5b2fa228b4e7f27f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::test::ProcessMiningLLMTest::simulateLLMAnalysis</definition>
+        <argsstring>(const nlohmann::json &amp;input, const std::string &amp;task_type)</argsstring>
+        <name>simulateLLMAnalysis</name>
+        <qualifiedname>themis::test::ProcessMiningLLMTest::simulateLLMAnalysis</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_mining_llm.cpp" line="50" column="20" bodyfile="tests/analytics/test_process_mining_llm.cpp" bodystart="50" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test suite for LLM-assisted process mining behavior. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>These tests evaluate the LLM integration for process mining tasks including:<itemizedlist>
+<listitem><para>Process conformance analysis</para>
+</listitem><listitem><para>Compliance verification (5R Rule, Vier-Augen-Prinzip, etc.)</para>
+</listitem><listitem><para>Fraud detection</para>
+</listitem><listitem><para>Activity prediction</para>
+</listitem><listitem><para>Optimization recommendations</para>
+</listitem></itemizedlist>
+</para>
+<para>Tests are organized by domain with specific benchmark requirements. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="1">
+        <label>themis::test::ProcessMiningLLMTest</label>
+        <link refid="classthemis_1_1test_1_1_process_mining_l_l_m_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="1">
+        <label>themis::test::ProcessMiningLLMTest</label>
+        <link refid="classthemis_1_1test_1_1_process_mining_l_l_m_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_process_mining_llm.cpp" line="27" column="1" bodyfile="tests/analytics/test_process_mining_llm.cpp" bodystart="27" bodyend="61"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1test_1_1_process_mining_l_l_m_test_1aa4165ad2c2fd931a35c8ba7131be84fc" prot="protected" virt="non-virtual"><scope>themis::test::ProcessMiningLLMTest</scope><name>max_response_time_ms_</name></member>
+      <member refid="classthemis_1_1test_1_1_process_mining_l_l_m_test_1adffbf6bd67fe60eb429c85f3562c07d2" prot="protected" virt="non-virtual"><scope>themis::test::ProcessMiningLLMTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1test_1_1_process_mining_l_l_m_test_1ad919eb8180df052f5b2fa228b4e7f27f" prot="protected" virt="non-virtual"><scope>themis::test::ProcessMiningLLMTest</scope><name>simulateLLMAnalysis</name></member>
+      <member refid="classthemis_1_1test_1_1_process_mining_l_l_m_test_1ac9b41e819aa26d960f4cf081fb466f8a" prot="protected" virt="non-virtual"><scope>themis::test::ProcessMiningLLMTest</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1test_1_1_process_mining_l_l_m_test_1a3cf486baade9c0cf4bb507ccb18b0cc9" prot="protected" virt="non-virtual"><scope>themis::test::ProcessMiningLLMTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

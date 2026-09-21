@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1storage_1_1_transaction_retry_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::storage::TransactionRetryConfig</compoundname>
+    <includes refid="transaction__retry__manager_8h" local="no">transaction_retry_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_transaction_retry_config_1ad8d2b8fc5dcc6f5cfdac92a70b3088ac" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::storage::TransactionRetryConfig::max_attempts</definition>
+        <argsstring></argsstring>
+        <name>max_attempts</name>
+        <qualifiedname>themisdb::storage::TransactionRetryConfig::max_attempts</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="73" column="12" bodyfile="include/storage/transaction_retry_manager.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_transaction_retry_config_1acf318a29c8eb2c8a4d83df764e9f594d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::storage::TransactionRetryConfig::base_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>base_delay_ms</name>
+        <qualifiedname>themisdb::storage::TransactionRetryConfig::base_delay_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="74" column="14" bodyfile="include/storage/transaction_retry_manager.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_transaction_retry_config_1a24efc0925ae147d3761e3cf083699657" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::storage::TransactionRetryConfig::max_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>max_delay_ms</name>
+        <qualifiedname>themisdb::storage::TransactionRetryConfig::max_delay_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="75" column="14" bodyfile="include/storage/transaction_retry_manager.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_transaction_retry_config_1a64dd09ba43ccf4b75744bdeacfb6b80d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::storage::TransactionRetryConfig::backoff_multiplier</definition>
+        <argsstring></argsstring>
+        <name>backoff_multiplier</name>
+        <qualifiedname>themisdb::storage::TransactionRetryConfig::backoff_multiplier</qualifiedname>
+        <initializer>= 2.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="76" column="12" bodyfile="include/storage/transaction_retry_manager.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_transaction_retry_config_1a02cff39b2aba8eca360298ac3bda2548" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1storage_1aa1bbc27d54dee43ebd1a19bfc069c30c" kindref="member">BackoffStrategy</ref></type>
+        <definition>BackoffStrategy themisdb::storage::TransactionRetryConfig::backoff_strategy</definition>
+        <argsstring></argsstring>
+        <name>backoff_strategy</name>
+        <qualifiedname>themisdb::storage::TransactionRetryConfig::backoff_strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1storage_1aa1bbc27d54dee43ebd1a19bfc069c30cadcd5fc33e211f31cef0cd7cb36518d31" kindref="member">BackoffStrategy::EXPONENTIAL</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="77" column="21" bodyfile="include/storage/transaction_retry_manager.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_transaction_retry_config_1ae000e2f59d38233b54d38c75639e9028" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::storage::TransactionRetryConfig::enable_jitter</definition>
+        <argsstring></argsstring>
+        <name>enable_jitter</name>
+        <qualifiedname>themisdb::storage::TransactionRetryConfig::enable_jitter</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="78" column="10" bodyfile="include/storage/transaction_retry_manager.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_transaction_retry_config_1a37d090076fe5a9e4944335e8d62b1eea" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::storage::TransactionRetryConfig::jitter_factor</definition>
+        <argsstring></argsstring>
+        <name>jitter_factor</name>
+        <qualifiedname>themisdb::storage::TransactionRetryConfig::jitter_factor</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="79" column="12" bodyfile="include/storage/transaction_retry_manager.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_transaction_retry_config_1a5cbdb798ab1404a0ac03eb70499a686a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::storage::TransactionRetryConfig::max_total_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>max_total_timeout_ms</name>
+        <qualifiedname>themisdb::storage::TransactionRetryConfig::max_total_timeout_ms</qualifiedname>
+        <initializer>= 60000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="80" column="14" bodyfile="include/storage/transaction_retry_manager.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_transaction_retry_config_1a5bfb2498acc62025e18feb808273f385" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::storage::TransactionRetryConfig::enable_circuit_breaker</definition>
+        <argsstring></argsstring>
+        <name>enable_circuit_breaker</name>
+        <qualifiedname>themisdb::storage::TransactionRetryConfig::enable_circuit_breaker</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="83" column="10" bodyfile="include/storage/transaction_retry_manager.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_transaction_retry_config_1adf2a89f0b089f98703fd8558e4ada559" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::storage::TransactionRetryConfig::failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>failure_threshold</name>
+        <qualifiedname>themisdb::storage::TransactionRetryConfig::failure_threshold</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="84" column="12" bodyfile="include/storage/transaction_retry_manager.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_transaction_retry_config_1a60989990f6abc2a1ae88eb64c59d6fa6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::storage::TransactionRetryConfig::reset_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>reset_timeout_ms</name>
+        <qualifiedname>themisdb::storage::TransactionRetryConfig::reset_timeout_ms</qualifiedname>
+        <initializer>= 60000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/transaction_retry_manager.h" line="85" column="14" bodyfile="include/storage/transaction_retry_manager.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for transaction retry behavior. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/transaction_retry_manager.h" line="72" column="1" bodyfile="include/storage/transaction_retry_manager.h" bodystart="72" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1storage_1_1_transaction_retry_config_1a64dd09ba43ccf4b75744bdeacfb6b80d" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryConfig</scope><name>backoff_multiplier</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_transaction_retry_config_1a02cff39b2aba8eca360298ac3bda2548" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryConfig</scope><name>backoff_strategy</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_transaction_retry_config_1acf318a29c8eb2c8a4d83df764e9f594d" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryConfig</scope><name>base_delay_ms</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_transaction_retry_config_1a5bfb2498acc62025e18feb808273f385" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryConfig</scope><name>enable_circuit_breaker</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_transaction_retry_config_1ae000e2f59d38233b54d38c75639e9028" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryConfig</scope><name>enable_jitter</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_transaction_retry_config_1adf2a89f0b089f98703fd8558e4ada559" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryConfig</scope><name>failure_threshold</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_transaction_retry_config_1a37d090076fe5a9e4944335e8d62b1eea" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryConfig</scope><name>jitter_factor</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_transaction_retry_config_1ad8d2b8fc5dcc6f5cfdac92a70b3088ac" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryConfig</scope><name>max_attempts</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_transaction_retry_config_1a24efc0925ae147d3761e3cf083699657" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryConfig</scope><name>max_delay_ms</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_transaction_retry_config_1a5cbdb798ab1404a0ac03eb70499a686a" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryConfig</scope><name>max_total_timeout_ms</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_transaction_retry_config_1a60989990f6abc2a1ae88eb64c59d6fa6" prot="public" virt="non-virtual"><scope>themisdb::storage::TransactionRetryConfig</scope><name>reset_timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

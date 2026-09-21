@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_lock_free_linker_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::LockFreeLinkerConfig</compoundname>
+    <includes refid="lock__free__linker__contract_8h" local="no">lock_free_linker_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_lock_free_linker_config_1a67a5a8ab6edc8cd9738725986cc5e2a0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::LockFreeLinkerConfig::enable_lock_free</definition>
+        <argsstring></argsstring>
+        <name>enable_lock_free</name>
+        <qualifiedname>themis::process::LockFreeLinkerConfig::enable_lock_free</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>true to enable lock-free mode; false to use traditional locking </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="449" column="10" bodyfile="include/process/lock_free_linker_contract.h" bodystart="449" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_lock_free_linker_config_1ab1f610de716404551f106d7af1166f66" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::LockFreeLinkerConfig::batch_queue_capacity</definition>
+        <argsstring></argsstring>
+        <name>batch_queue_capacity</name>
+        <qualifiedname>themis::process::LockFreeLinkerConfig::batch_queue_capacity</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Capacity of batch queue (entries). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="452" column="14" bodyfile="include/process/lock_free_linker_contract.h" bodystart="452" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_lock_free_linker_config_1ab41a0dfacd18a38b3e0fb6d43c318d28" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::LockFreeLinkerConfig::batch_commit_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>batch_commit_interval_ms</name>
+        <qualifiedname>themis::process::LockFreeLinkerConfig::batch_commit_interval_ms</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Batch commit interval (ms); background thread commits every N ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="455" column="14" bodyfile="include/process/lock_free_linker_contract.h" bodystart="455" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_lock_free_linker_config_1a984ee965014ae206f8494810c8f11250" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::LockFreeLinkerConfig::epoch_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>epoch_duration_ms</name>
+        <qualifiedname>themis::process::LockFreeLinkerConfig::epoch_duration_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Epoch duration (ms); global epoch advances every N ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="458" column="14" bodyfile="include/process/lock_free_linker_contract.h" bodystart="458" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_lock_free_linker_config_1acf5bf6425089040821b36a7bd952da1b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::LockFreeLinkerConfig::epoch_sync_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>epoch_sync_timeout_ms</name>
+        <qualifiedname>themis::process::LockFreeLinkerConfig::epoch_sync_timeout_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Timeout for epoch synchronization before forcing reclamation (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="461" column="14" bodyfile="include/process/lock_free_linker_contract.h" bodystart="461" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_lock_free_linker_config_1a5a4eddcc5d674eed4b842a8db45e2df3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::LockFreeLinkerConfig::hash_table_initial_size</definition>
+        <argsstring></argsstring>
+        <name>hash_table_initial_size</name>
+        <qualifiedname>themis::process::LockFreeLinkerConfig::hash_table_initial_size</qualifiedname>
+        <initializer>= 16384</initializer>
+        <briefdescription>
+<para>Initial hash table size (grows automatically). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="464" column="14" bodyfile="include/process/lock_free_linker_contract.h" bodystart="464" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_lock_free_linker_config_1a9f22642660487cd6b601faddb660e3a0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::process::LockFreeLinkerConfig::hash_table_max_load_factor</definition>
+        <argsstring></argsstring>
+        <name>hash_table_max_load_factor</name>
+        <qualifiedname>themis::process::LockFreeLinkerConfig::hash_table_max_load_factor</qualifiedname>
+        <initializer>= 0.75</initializer>
+        <briefdescription>
+<para>Maximum load factor before hash table resizes (0.0 - 1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="467" column="12" bodyfile="include/process/lock_free_linker_contract.h" bodystart="467" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_lock_free_linker_config_1ac53960486530243ffc350850b6d46a4f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::LockFreeLinkerConfig::enable_profiling</definition>
+        <argsstring></argsstring>
+        <name>enable_profiling</name>
+        <qualifiedname>themis::process::LockFreeLinkerConfig::enable_profiling</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true to enable profiling (measures latencies, throughput) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="470" column="10" bodyfile="include/process/lock_free_linker_contract.h" bodystart="470" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_lock_free_linker_config_1a69ad213bf62ca279e6d846d8d451d188" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::LockFreeLinkerConfig::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::process::LockFreeLinkerConfig::trace_id</qualifiedname>
+        <briefdescription>
+<para>Correlation ID for tracing lock-free operations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/lock_free_linker_contract.h" line="473" column="17" bodyfile="include/process/lock_free_linker_contract.h" bodystart="473" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for lock-free linking layer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/lock_free_linker_contract.h" line="447" column="1" bodyfile="include/process/lock_free_linker_contract.h" bodystart="447" bodyend="474"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_lock_free_linker_config_1ab41a0dfacd18a38b3e0fb6d43c318d28" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkerConfig</scope><name>batch_commit_interval_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_lock_free_linker_config_1ab1f610de716404551f106d7af1166f66" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkerConfig</scope><name>batch_queue_capacity</name></member>
+      <member refid="structthemis_1_1process_1_1_lock_free_linker_config_1a67a5a8ab6edc8cd9738725986cc5e2a0" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkerConfig</scope><name>enable_lock_free</name></member>
+      <member refid="structthemis_1_1process_1_1_lock_free_linker_config_1ac53960486530243ffc350850b6d46a4f" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkerConfig</scope><name>enable_profiling</name></member>
+      <member refid="structthemis_1_1process_1_1_lock_free_linker_config_1a984ee965014ae206f8494810c8f11250" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkerConfig</scope><name>epoch_duration_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_lock_free_linker_config_1acf5bf6425089040821b36a7bd952da1b" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkerConfig</scope><name>epoch_sync_timeout_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_lock_free_linker_config_1a5a4eddcc5d674eed4b842a8db45e2df3" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkerConfig</scope><name>hash_table_initial_size</name></member>
+      <member refid="structthemis_1_1process_1_1_lock_free_linker_config_1a9f22642660487cd6b601faddb660e3a0" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkerConfig</scope><name>hash_table_max_load_factor</name></member>
+      <member refid="structthemis_1_1process_1_1_lock_free_linker_config_1a69ad213bf62ca279e6d846d8d451d188" prot="public" virt="non-virtual"><scope>themis::process::LockFreeLinkerConfig</scope><name>trace_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

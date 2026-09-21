@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="citation__highlighter_8h" kind="file" language="C++">
+    <compoundname>citation_highlighter.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="citation__highlighter_8cpp" local="yes">src/rag/citation_highlighter.cpp</includedby>
+    <includedby refid="quality__control__pipeline_8cpp" local="yes">src/rag/quality_control_pipeline.cpp</includedby>
+    <includedby refid="test__rag__citation__highlighter_8cpp" local="yes">tests/rag/test_rag_citation_highlighter.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/citation_highlighter.h</label>
+        <link refid="citation__highlighter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/citation_highlighter.h</label>
+        <link refid="citation__highlighter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rag/citation_highlighter.cpp</label>
+        <link refid="citation__highlighter_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/rag/quality_control_pipeline.cpp</label>
+        <link refid="quality__control__pipeline_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/rag/test_rag_citation_highlighter.cpp</label>
+        <link refid="test__rag__citation__highlighter_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1_source_chunk" prot="public">themis::rag::SourceChunk</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_sentence_citation_mapping" prot="public">themis::rag::SentenceCitationMapping</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1_1_secondary_source" prot="public">themis::rag::SentenceCitationMapping::SecondarySource</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_citation_highlight_result" prot="public">themis::rag::CitationHighlightResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_citation_highlighter_config" prot="public">themis::rag::CitationHighlighterConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_citation_highlighter" prot="public">themis::rag::CitationHighlighter</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_citation_highlighter_factory" prot="public">themis::rag::CitationHighlighterFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Supporting<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1rag_1_1judge_1_1_source_chunk" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_source_chunk" kindref="compound">SourceChunk</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1rag_1_1_source_chunk_1aa236ba0baad5a288686d5ad275ec413a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_source_chunk_1aa236ba0baad5a288686d5ad275ec413a" kindref="member">doc_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1rag_1_1_source_chunk_1ad9644de3fc5f5816f7f73700a5fb7a03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_source_chunk_1ad9644de3fc5f5816f7f73700a5fb7a03" kindref="member">chunk_index</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1rag_1_1_source_chunk_1a3d6d366cb1b6d15bc3565e10aa57a094" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_source_chunk_1a3d6d366cb1b6d15bc3565e10aa57a094" kindref="member">content</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1rag_1_1_source_chunk_1ae4141b00e6f807f7a0c02f1395b9b891" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_source_chunk_1ae4141b00e6f807f7a0c02f1395b9b891" kindref="member">metadata</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1rag_1_1_sentence_citation_mapping" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_sentence_citation_mapping" kindref="compound">SentenceCitationMapping</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1af6cb3979f96479c3a9029ce4c9a30c88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1af6cb3979f96479c3a9029ce4c9a30c88" kindref="member">answer_sentence</ref>;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1a8a38d98d618101411840d31898dd2f37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1a8a38d98d618101411840d31898dd2f37" kindref="member">sentence_index</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1af23b4efdcfc7b07016c9847144a8633f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1af23b4efdcfc7b07016c9847144a8633f" kindref="member">primary_chunk_id</ref>;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1a89d54a7da60ea2afae2a8d128a0f7acb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1a89d54a7da60ea2afae2a8d128a0f7acb" kindref="member">primary_chunk_index</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1aa761ff0afe8f4eb837ddc135cd5eb811" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1aa761ff0afe8f4eb837ddc135cd5eb811" kindref="member">similarity_score</ref><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1_1_secondary_source" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1_1_secondary_source" kindref="compound">SecondarySource</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1_1_secondary_source_1a7e2136ca32ceb779a9426867dd9efaba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1_1_secondary_source_1a7e2136ca32ceb779a9426867dd9efaba" kindref="member">doc_id</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1_1_secondary_source_1a2813396cb1247d06e40ec9d86cfd997a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1_1_secondary_source_1a2813396cb1247d06e40ec9d86cfd997a" kindref="member">chunk_index</ref>;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1_1_secondary_source_1a2e364a65620a6d97d93549c71a7e15c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1_1_secondary_source_1a2e364a65620a6d97d93549c71a7e15c2" kindref="member">similarity_score</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1a7656c9a218e95024e5c59e009aef0f49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SecondarySource&gt;<sp/><ref refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1a7656c9a218e95024e5c59e009aef0f49" kindref="member">secondary_sources</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1a2b47980c421d565d44aa0b338c3708ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1a2b47980c421d565d44aa0b338c3708ce" kindref="member">has_citation</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!<ref refid="structthemis_1_1rag_1_1_sentence_citation_mapping_1af23b4efdcfc7b07016c9847144a8633f" kindref="member">primary_chunk_id</ref>.empty();<sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1rag_1_1_citation_highlight_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_citation_highlight_result" kindref="compound">CitationHighlightResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1rag_1_1_citation_highlight_result_1a0c5a6e73b0fe2d5ca2fe647c40981fdf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SentenceCitationMapping&gt;<sp/><ref refid="structthemis_1_1rag_1_1_citation_highlight_result_1a0c5a6e73b0fe2d5ca2fe647c40981fdf" kindref="member">mappings</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1rag_1_1_citation_highlight_result_1a59940feac8f0c6afeb952bfd7d7a4a13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_citation_highlight_result_1a59940feac8f0c6afeb952bfd7d7a4a13" kindref="member">citation_coverage</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1rag_1_1_citation_highlight_result_1ac5380b9e0d17446ebab1025e5b652429" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_citation_highlight_result_1ac5380b9e0d17446ebab1025e5b652429" kindref="member">mean_similarity</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1rag_1_1_citation_highlight_result_1a283346c316da7fb60a232a49d349004a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_citation_highlight_result_1a283346c316da7fb60a232a49d349004a" kindref="member">highlight_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1rag_1_1_citation_highlighter_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config" kindref="compound">CitationHighlighterConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1rag_1_1_citation_highlighter_config_1a2ea73256e8017f96d775fdacc3edf741" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1a2ea73256e8017f96d775fdacc3edf741" kindref="member">min_similarity_threshold</ref><sp/>=<sp/>0.15;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1rag_1_1_citation_highlighter_config_1ad87238a42806c72ffa9dcf71a2d627ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1ad87238a42806c72ffa9dcf71a2d627ec" kindref="member">secondary_similarity_threshold</ref><sp/>=<sp/>0.08;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1rag_1_1_citation_highlighter_config_1a620593bb2dfcf39c0de13a861df0a0fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1a620593bb2dfcf39c0de13a861df0a0fc" kindref="member">max_secondary_citations</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1rag_1_1_citation_highlighter_config_1af6dca1caa8d311fd17d8ded5e1439035" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1af6dca1caa8d311fd17d8ded5e1439035" kindref="member">sentence_delimiters</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;.!?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1rag_1_1_citation_highlighter_config_1ab7b65d63f10082111fbd136806461f90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config_1ab7b65d63f10082111fbd136806461f90" kindref="member">min_sentence_length</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Main<sp/>class</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1rag_1_1_citation_highlighter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1af3e598b393e1b21375dcd3f121487c1c" kindref="member">CitationHighlighter</ref><sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1af3e598b393e1b21375dcd3f121487c1c" kindref="member">CitationHighlighter</ref>(</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config" kindref="compound">CitationHighlighterConfig</ref><sp/>config<sp/>=<sp/><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config" kindref="compound">CitationHighlighterConfig</ref>{});</highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1rag_1_1_citation_highlighter_1af1732551f8032c8759cb6dcaf1622ca7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1af1732551f8032c8759cb6dcaf1622ca7" kindref="member">~CitationHighlighter</ref>();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1rag_1_1_citation_highlighter_1a0af88f591668daf942690769d0cd11fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a0af88f591668daf942690769d0cd11fe" kindref="member">CitationHighlighter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1af3e598b393e1b21375dcd3f121487c1c" kindref="member">CitationHighlighter</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1rag_1_1_citation_highlighter_1a1bd5a82c9922616b5d3b0898fe86aff2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1af3e598b393e1b21375dcd3f121487c1c" kindref="member">CitationHighlighter</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a1bd5a82c9922616b5d3b0898fe86aff2" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1af3e598b393e1b21375dcd3f121487c1c" kindref="member">CitationHighlighter</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147" refid="classthemis_1_1rag_1_1_citation_highlighter_1a80075d283fa1e96b1017b9413640ffd8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a80075d283fa1e96b1017b9413640ffd8" kindref="member">CitationHighlighter</ref>(<ref refid="classthemis_1_1rag_1_1_citation_highlighter_1af3e598b393e1b21375dcd3f121487c1c" kindref="member">CitationHighlighter</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1rag_1_1_citation_highlighter_1a9fd208e1342922f97448cf4d506b29f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1af3e598b393e1b21375dcd3f121487c1c" kindref="member">CitationHighlighter</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1rag_1_1_citation_highlighter_1af3e598b393e1b21375dcd3f121487c1c" kindref="member">CitationHighlighter</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_citation_highlight_result" kindref="compound">CitationHighlightResult</ref><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a207db2136e69ff7f0810b07a34b6ba44" kindref="member">highlight</ref>(</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>answer,</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1rag_1_1_source_chunk" kindref="compound">SourceChunk</ref>&gt;&amp;<sp/>chunks)<sp/>const;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a59d341d9a0a70e7c1b85d1f223c43649" kindref="member">splitSentences</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>text)<sp/>const;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a238e57fc02f0b5f6a44b0b5ad62d36bf" kindref="member">computeSimilarity</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>a,</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>b);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config" kindref="compound">CitationHighlighterConfig</ref><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a85efa06e46b57ab5bdd05e7d71c6636f" kindref="member">getConfig</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_1a617d7341f2263504df7813c5f446221b" kindref="member">setConfig</ref>(const<sp/><ref refid="structthemis_1_1rag_1_1_citation_highlighter_config" kindref="compound">CitationHighlighterConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1rag_1_1_citation_highlighter_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="structthemis_1_1rag_1_1_citation_highlighter_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Factory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205" refid="classthemis_1_1rag_1_1_citation_highlighter_factory" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_factory" kindref="compound">CitationHighlighterFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;CitationHighlighter&gt;<sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_factory_1a8f4c033ce90c56e0b2af64590bbdd60f" kindref="member">createStrict</ref>();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;CitationHighlighter&gt;<sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_factory_1a3ee20aa2ddc1e96be84b58bf3ccdbb0b" kindref="member">createBalanced</ref>();</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;CitationHighlighter&gt;<sp/><ref refid="classthemis_1_1rag_1_1_citation_highlighter_factory_1a6fba0a0eff1a329cd8630ab3dfdecf69" kindref="member">createPermissive</ref>();</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/citation_highlighter.h"/>
+  </compounddef>
+</doxygen>

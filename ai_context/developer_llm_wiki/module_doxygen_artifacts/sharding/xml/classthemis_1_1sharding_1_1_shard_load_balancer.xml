@@ -1,0 +1,624 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_shard_load_balancer" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardLoadBalancer</compoundname>
+    <includes refid="shard__load__balancer_8h" local="no">shard_load_balancer.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_weights" prot="public">themis::sharding::ShardLoadBalancer::Weights</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_config" prot="public">themis::sharding::ShardLoadBalancer::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_shard_statistics" prot="public">themis::sharding::ShardLoadBalancer::ShardStatistics</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_shard_state" prot="private">themis::sharding::ShardLoadBalancer::ShardState</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_load_balancer_1aa94e422f8cf9bada94cc9ca8868b0baf" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::ShardLoadBalancer::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="205" column="50" bodyfile="include/sharding/shard_load_balancer.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_load_balancer_1a80fdc4521b360239ef898a36f1d608d0" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::ShardLoadBalancer::shard_order_</definition>
+        <argsstring></argsstring>
+        <name>shard_order_</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::shard_order_</qualifiedname>
+        <briefdescription>
+<para>Insertion order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="206" column="37" bodyfile="include/sharding/shard_load_balancer.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_load_balancer_1a5861d215c483289bc873d2db01259f6a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, ShardState &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ShardState&gt; themis::sharding::ShardLoadBalancer::shards_</definition>
+        <argsstring></argsstring>
+        <name>shards_</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="207" column="25" bodyfile="include/sharding/shard_load_balancer.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_load_balancer_1a383e56a527ebe88add9e7b9888f70432" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::ShardLoadBalancer::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="208" column="50" bodyfile="include/sharding/shard_load_balancer.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_balancer_1ab07b03e210d4474d00734e9373501317" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardLoadBalancer::ShardLoadBalancer</definition>
+        <argsstring>(std::vector&lt; std::string &gt; shard_ids)</argsstring>
+        <name>ShardLoadBalancer</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::ShardLoadBalancer</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>shard_ids</declname>
+        </param>
+        <briefdescription>
+<para>Constructs the balancer with default weights. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of shard identifiers. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="123" column="14" bodyfile="src/sharding/shard_load_balancer.cpp" bodystart="19" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_balancer_1a6cc2c0cb75c04fdb4c3a7b5422002161" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardLoadBalancer::ShardLoadBalancer</definition>
+        <argsstring>(std::vector&lt; std::string &gt; shard_ids, Config cfg)</argsstring>
+        <name>ShardLoadBalancer</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::ShardLoadBalancer</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>shard_ids</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_config" kindref="compound">Config</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Constructs the balancer with custom configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of shard identifiers. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Weight configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="130" column="5" bodyfile="src/sharding/shard_load_balancer.cpp" bodystart="22" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_balancer_1a839ff935fac5978571d1f256b3714578" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardLoadBalancer::~ShardLoadBalancer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ShardLoadBalancer</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::~ShardLoadBalancer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="132" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_balancer_1aed8d0ae67bb82756252c38f4d3ca63dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardLoadBalancer::ShardLoadBalancer</definition>
+        <argsstring>(const ShardLoadBalancer &amp;)=delete</argsstring>
+        <name>ShardLoadBalancer</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::ShardLoadBalancer</qualifiedname>
+        <param>
+          <type>const ShardLoadBalancer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="135" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_balancer_1a5da095e4881d6294d90099aa1395cfaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_shard_load_balancer_1ab07b03e210d4474d00734e9373501317" kindref="member">ShardLoadBalancer</ref> &amp;</type>
+        <definition>ShardLoadBalancer &amp; themis::sharding::ShardLoadBalancer::operator=</definition>
+        <argsstring>(const ShardLoadBalancer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1sharding_1_1_shard_load_balancer_1ab07b03e210d4474d00734e9373501317" kindref="member">ShardLoadBalancer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="136" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_balancer_1a9c7cbdbc60f58296e3090c2ce7c0f6c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardLoadBalancer::addShard</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>addShard</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::addShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Registers a new shard dynamically. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Shard.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique identifier for the shard.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), find(), end(), push_back(), emplace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="142" column="10" bodyfile="src/sharding/shard_load_balancer.cpp" bodystart="49" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_balancer_1ada41fb2fa9fd0d3a6a350eb8d909b45f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardLoadBalancer::removeShard</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>removeShard</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::removeShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Removes a shard (graceful drain). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Shard.</para>
+<para>The shard will not be selected for new queries. Returns false if the shard was not registered.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), find(), end(), erase(), std::remove(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="150" column="10" bodyfile="src/sharding/shard_load_balancer.cpp" bodystart="64" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_balancer_1a32cc76e0c263289b50b4cf0074bb1687" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardLoadBalancer::updateMetrics</definition>
+        <argsstring>(const std::string &amp;shard_id, const ShardMetrics &amp;metrics)</argsstring>
+        <name>updateMetrics</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::updateMetrics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_metrics" kindref="compound">ShardMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Updates load metrics for a shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Metrics.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard to update. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New metrics. <computeroutput>available</computeroutput> defaults to true.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), find(), end(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="158" column="10" bodyfile="src/sharding/shard_load_balancer.cpp" bodystart="88" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_balancer_1a6ad8d4cf6452f2cf01927dc9f5ae4239" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardLoadBalancer::setAvailable</definition>
+        <argsstring>(const std::string &amp;shard_id, bool available)</argsstring>
+        <name>setAvailable</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::setAvailable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>available</declname>
+        </param>
+        <briefdescription>
+<para>Marks a shard as available or unavailable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Available.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard to update. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>available</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New availability state.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">available</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="165" column="10" bodyfile="src/sharding/shard_load_balancer.cpp" bodystart="105" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_balancer_1a1c8ed71e5ee22d4dd135b4f9133fd86e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardLoadBalancer::selectShard</definition>
+        <argsstring>(std::optional&lt; std::size_t &gt; client_hash=std::nullopt) const</argsstring>
+        <name>selectShard</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::selectShard</qualifiedname>
+        <param>
+          <type>std::optional&lt; std::size_t &gt;</type>
+          <declname>client_hash</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Selects the shard with the lowest current load score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>client_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional client hash for sticky-session routing. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The shard ID to route to. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if no shards are available. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="174" column="18" bodyfile="src/sharding/shard_load_balancer.cpp" bodystart="138" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_balancer_1a05c15263c8d24211470ef9d74426f339" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardLoadBalancer::reportCompletion</definition>
+        <argsstring>(const std::string &amp;shard_id, double latency_ms)</argsstring>
+        <name>reportCompletion</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::reportCompletion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Records query completion for latency tracking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Report Completion.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard that processed the query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Observed latency.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="183" column="10" bodyfile="src/sharding/shard_load_balancer.cpp" bodystart="200" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_balancer_1a87355440d02c689f4153979b9facdc90" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadBalancer::computeScore</definition>
+        <argsstring>(const ShardMetrics &amp;m) const noexcept</argsstring>
+        <name>computeScore</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::computeScore</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_metrics" kindref="compound">ShardMetrics</ref> &amp;</type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+<para>Computes the load score for a shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metrics snapshot. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Score in [0, 100]. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="191" column="13" bodyfile="src/sharding/shard_load_balancer.cpp" bodystart="117" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_balancer_1ad579c3276fc71fa2137d6a07912fb5dc" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_load_balancer_1_1_shard_statistics" kindref="compound">ShardStatistics</ref> &gt;</type>
+        <definition>std::vector&lt; ShardLoadBalancer::ShardStatistics &gt; themis::sharding::ShardLoadBalancer::statistics</definition>
+        <argsstring>() const</argsstring>
+        <name>statistics</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::statistics</qualifiedname>
+        <briefdescription>
+<para>Returns statistics for all registered shards. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="194" column="18" bodyfile="src/sharding/shard_load_balancer.cpp" bodystart="220" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_balancer_1a91c7efcf1d60485daa26af4cc46f53ec" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::sharding::ShardLoadBalancer::availableShardCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>availableShardCount</name>
+        <qualifiedname>themis::sharding::ShardLoadBalancer::availableShardCount</qualifiedname>
+        <briefdescription>
+<para>Returns the number of registered (and available) shards. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_balancer.h" line="197" column="18" bodyfile="src/sharding/shard_load_balancer.cpp" bodystart="245" bodyend="259"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Selects the least-loaded shard for each incoming query. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Usage</heading>
+</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_shard_load_balancer_1ab07b03e210d4474d00734e9373501317" kindref="member">ShardLoadBalancer</ref><sp/>lb({</highlight><highlight class="stringliteral">&quot;shard-0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;shard-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;shard-2&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Update<sp/>metrics<sp/>(e.g.,<sp/>from<sp/>heartbeat<sp/>thread):</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">lb.updateMetrics(</highlight><highlight class="stringliteral">&quot;shard-1&quot;</highlight><highlight class="normal">,<sp/>{.cpu_percent=60,<sp/>.pending_queries=80});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Select<sp/>best<sp/>shard<sp/>for<sp/>a<sp/>query:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>lb.selectShard();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>returns<sp/>&quot;shard-0&quot;<sp/>(lowest<sp/>score)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Notify<sp/>after<sp/>completion:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">lb.reportCompletion(</highlight><highlight class="stringliteral">&quot;shard-0&quot;</highlight><highlight class="normal">,<sp/>12.4);<sp/><sp/></highlight><highlight class="comment">//<sp/>records<sp/>response<sp/>time</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/sharding/shard_load_balancer.h" line="86" column="1" bodyfile="include/sharding/shard_load_balancer.h" bodystart="86" bodyend="209"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_balancer_1a9c7cbdbc60f58296e3090c2ce7c0f6c5" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer</scope><name>addShard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_balancer_1a91c7efcf1d60485daa26af4cc46f53ec" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer</scope><name>availableShardCount</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_balancer_1a383e56a527ebe88add9e7b9888f70432" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_balancer_1a87355440d02c689f4153979b9facdc90" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer</scope><name>computeScore</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_balancer_1aa94e422f8cf9bada94cc9ca8868b0baf" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_balancer_1a5da095e4881d6294d90099aa1395cfaf" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_balancer_1ada41fb2fa9fd0d3a6a350eb8d909b45f" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer</scope><name>removeShard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_balancer_1a05c15263c8d24211470ef9d74426f339" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer</scope><name>reportCompletion</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_balancer_1a1c8ed71e5ee22d4dd135b4f9133fd86e" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer</scope><name>selectShard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_balancer_1a6ad8d4cf6452f2cf01927dc9f5ae4239" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer</scope><name>setAvailable</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_balancer_1a80fdc4521b360239ef898a36f1d608d0" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer</scope><name>shard_order_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_balancer_1ab07b03e210d4474d00734e9373501317" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer</scope><name>ShardLoadBalancer</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_balancer_1a6cc2c0cb75c04fdb4c3a7b5422002161" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer</scope><name>ShardLoadBalancer</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_balancer_1aed8d0ae67bb82756252c38f4d3ca63dd" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer</scope><name>ShardLoadBalancer</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_balancer_1a5861d215c483289bc873d2db01259f6a" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer</scope><name>shards_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_balancer_1ad579c3276fc71fa2137d6a07912fb5dc" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer</scope><name>statistics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_balancer_1a32cc76e0c263289b50b4cf0074bb1687" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer</scope><name>updateMetrics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_balancer_1a839ff935fac5978571d1f256b3714578" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadBalancer</scope><name>~ShardLoadBalancer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

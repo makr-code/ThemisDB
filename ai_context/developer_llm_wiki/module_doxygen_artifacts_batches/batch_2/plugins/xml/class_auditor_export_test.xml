@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_auditor_export_test" kind="class" language="C++" prot="public">
+    <compoundname>AuditorExportTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_auditor_export_test_1a2522ed1ef18e95ff142b4c8d86a404aa" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path AuditorExportTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>AuditorExportTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_audit.cpp" line="265" column="14" bodyfile="tests/plugins/test_plugin_security_audit.cpp" bodystart="265" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_auditor_export_test_1a8ab8b6347f9ab63a374ed09a762340f1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AuditorExportTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AuditorExportTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_audit.cpp" line="256" column="10" bodyfile="tests/plugins/test_plugin_security_audit.cpp" bodystart="256" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="class_auditor_export_test_1a8d48190c0568398b31c16bb97b7c8f7d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AuditorExportTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AuditorExportTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_audit.cpp" line="261" column="10" bodyfile="tests/plugins/test_plugin_security_audit.cpp" bodystart="261" bodyend="264"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AuditorExportTest</label>
+        <link refid="class_auditor_export_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AuditorExportTest</label>
+        <link refid="class_auditor_export_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/plugins/test_plugin_security_audit.cpp" line="254" column="1" bodyfile="tests/plugins/test_plugin_security_audit.cpp" bodystart="254" bodyend="266"/>
+    <listofallmembers>
+      <member refid="class_auditor_export_test_1a8ab8b6347f9ab63a374ed09a762340f1" prot="protected" virt="non-virtual"><scope>AuditorExportTest</scope><name>SetUp</name></member>
+      <member refid="class_auditor_export_test_1a8d48190c0568398b31c16bb97b7c8f7d" prot="protected" virt="non-virtual"><scope>AuditorExportTest</scope><name>TearDown</name></member>
+      <member refid="class_auditor_export_test_1a2522ed1ef18e95ff142b4c8d86a404aa" prot="protected" virt="non-virtual"><scope>AuditorExportTest</scope><name>test_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

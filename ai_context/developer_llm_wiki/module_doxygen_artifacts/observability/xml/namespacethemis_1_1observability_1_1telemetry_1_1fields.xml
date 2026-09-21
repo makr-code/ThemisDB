@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1observability_1_1telemetry_1_1fields" kind="namespace" language="C++">
+    <compoundname>themis::observability::telemetry::fields</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a1fcbd1a0b2a23d36baade11aa7d0a178" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::telemetry::fields::kEvent</definition>
+        <argsstring></argsstring>
+        <name>kEvent</name>
+        <qualifiedname>themis::observability::telemetry::fields::kEvent</qualifiedname>
+        <initializer>= &quot;event&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/telemetry_keys.h" line="16" column="35" bodyfile="include/observability/telemetry_keys.h" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1telemetry_1_1fields_1ae67b64faec2c4fcd053c05caae2f24e6" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::telemetry::fields::kLayerName</definition>
+        <argsstring></argsstring>
+        <name>kLayerName</name>
+        <qualifiedname>themis::observability::telemetry::fields::kLayerName</qualifiedname>
+        <initializer>= &quot;layer_name&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/telemetry_keys.h" line="17" column="35" bodyfile="include/observability/telemetry_keys.h" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a8f85e850648da3e9449e6d0b358ad98e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::telemetry::fields::kCorrelationId</definition>
+        <argsstring></argsstring>
+        <name>kCorrelationId</name>
+        <qualifiedname>themis::observability::telemetry::fields::kCorrelationId</qualifiedname>
+        <initializer>= &quot;correlation_id&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/telemetry_keys.h" line="18" column="35" bodyfile="include/observability/telemetry_keys.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1telemetry_1_1fields_1ac0b23e816a543f68f88a1976637da8c9" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::telemetry::fields::kRoutingReasonCode</definition>
+        <argsstring></argsstring>
+        <name>kRoutingReasonCode</name>
+        <qualifiedname>themis::observability::telemetry::fields::kRoutingReasonCode</qualifiedname>
+        <initializer>= &quot;routing_reason_code&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/telemetry_keys.h" line="19" column="35" bodyfile="include/observability/telemetry_keys.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1telemetry_1_1fields_1ac30e570dc3ae91f4adef8cddabb299da" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::telemetry::fields::kConfidencePolicyVersion</definition>
+        <argsstring></argsstring>
+        <name>kConfidencePolicyVersion</name>
+        <qualifiedname>themis::observability::telemetry::fields::kConfidencePolicyVersion</qualifiedname>
+        <initializer>= &quot;confidence_policy_version&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/telemetry_keys.h" line="20" column="35" bodyfile="include/observability/telemetry_keys.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1telemetry_1_1fields_1aee76d0e9b96c52ec8a3b7a91553daf42" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::telemetry::fields::kConfidenceThresholdKey</definition>
+        <argsstring></argsstring>
+        <name>kConfidenceThresholdKey</name>
+        <qualifiedname>themis::observability::telemetry::fields::kConfidenceThresholdKey</qualifiedname>
+        <initializer>= &quot;confidence_threshold_key&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/telemetry_keys.h" line="21" column="35" bodyfile="include/observability/telemetry_keys.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a5bbf7e83c4008336a2df60594c3dfc1b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::telemetry::fields::kFallbackMode</definition>
+        <argsstring></argsstring>
+        <name>kFallbackMode</name>
+        <qualifiedname>themis::observability::telemetry::fields::kFallbackMode</qualifiedname>
+        <initializer>= &quot;fallback_mode&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/telemetry_keys.h" line="22" column="35" bodyfile="include/observability/telemetry_keys.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a0a7560894c653e550a6b86215a17ae2f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::telemetry::fields::kFallbackReasonCode</definition>
+        <argsstring></argsstring>
+        <name>kFallbackReasonCode</name>
+        <qualifiedname>themis::observability::telemetry::fields::kFallbackReasonCode</qualifiedname>
+        <initializer>= &quot;fallback_reason_code&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/telemetry_keys.h" line="23" column="35" bodyfile="include/observability/telemetry_keys.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1telemetry_1_1fields_1afd251a60adbbea23db08613d57e22390" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::telemetry::fields::kEscalationSourceLayer</definition>
+        <argsstring></argsstring>
+        <name>kEscalationSourceLayer</name>
+        <qualifiedname>themis::observability::telemetry::fields::kEscalationSourceLayer</qualifiedname>
+        <initializer>= &quot;escalation_source_layer&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/telemetry_keys.h" line="24" column="35" bodyfile="include/observability/telemetry_keys.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1telemetry_1_1fields_1a9e01cd2998dd8e1929cab4dceb5b7975" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::telemetry::fields::kResolved</definition>
+        <argsstring></argsstring>
+        <name>kResolved</name>
+        <qualifiedname>themis::observability::telemetry::fields::kResolved</qualifiedname>
+        <initializer>= &quot;resolved&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/telemetry_keys.h" line="25" column="35" bodyfile="include/observability/telemetry_keys.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/telemetry_keys.h" line="15" column="1"/>
+  </compounddef>
+</doxygen>

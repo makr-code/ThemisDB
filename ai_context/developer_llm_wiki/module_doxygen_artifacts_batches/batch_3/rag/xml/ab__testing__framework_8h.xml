@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ab__testing__framework_8h" kind="file" language="C++">
+    <compoundname>ab_testing_framework.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="learning__metrics_8h" local="yes">learning_metrics.h</includes>
+    <includedby refid="continuous__learning__orchestrator_8h" local="yes">include/rag/continuous_learning_orchestrator.h</includedby>
+    <includedby refid="ab__testing__framework_8cpp" local="yes">src/rag/ab_testing_framework.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/ab_testing_framework.h</label>
+        <link refid="ab__testing__framework_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>knowledge_gap_detector.h</label>
+        <link refid="knowledge__gap__detector_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>learning_metrics.h</label>
+        <link refid="learning__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>deque</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>ostream</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/ab_testing_framework.h</label>
+        <link refid="ab__testing__framework_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/rag/continuous_learning_orchestrator.h</label>
+        <link refid="continuous__learning__orchestrator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/rag/ab_testing_framework.cpp</label>
+        <link refid="ab__testing__framework_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/rag/continuous_learning_orchestrator.cpp</label>
+        <link refid="continuous__learning__orchestrator_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/rag/examples/loop_orchestration_example.cpp</label>
+        <link refid="loop__orchestration__example_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config" prot="public">themis::rag::learning::ABTestConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_group_metrics" prot="public">themis::rag::learning::GroupMetrics</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework" prot="public">themis::rag::learning::ABTestingFramework</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1learning">themis::rag::learning</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="learning__metrics_8h" kindref="compound">learning_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1learning" kindref="compound">themis::rag::learning</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1rag_1_1learning_1a1b61d8d65a5ec17088e5a39eca629f78" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1learning_1a1b61d8d65a5ec17088e5a39eca629f78" kindref="member">ABTestStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1rag_1_1learning_1a1b61d8d65a5ec17088e5a39eca629f78a18ff74f43da410c5529f7d6fca84f115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1learning_1a1b61d8d65a5ec17088e5a39eca629f78a18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1rag_1_1learning_1a1b61d8d65a5ec17088e5a39eca629f78a8f7afecbc8fbc4cd0f50a57d1172482e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1learning_1a1b61d8d65a5ec17088e5a39eca629f78a8f7afecbc8fbc4cd0f50a57d1172482e" kindref="member">COMPLETED</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1rag_1_1learning_1a1b61d8d65a5ec17088e5a39eca629f78a1a204e059a0d2f4356c999877d8e5cce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1learning_1a1b61d8d65a5ec17088e5a39eca629f78a1a204e059a0d2f4356c999877d8e5cce" kindref="member">PROMOTED</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1rag_1_1learning_1a1b61d8d65a5ec17088e5a39eca629f78aed701d1c3d474e00c7a2f416f8d6858c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1learning_1a1b61d8d65a5ec17088e5a39eca629f78aed701d1c3d474e00c7a2f416f8d6858c" kindref="member">ROLLED_BACK</ref>,<sp/></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1rag_1_1learning_1a1b61d8d65a5ec17088e5a39eca629f78a9f935beb31030ad0d4d26126c0f39bf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1learning_1a1b61d8d65a5ec17088e5a39eca629f78a9f935beb31030ad0d4d26126c0f39bf2" kindref="member">CANCELLED</ref><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config" kindref="compound">ABTestConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1a61359bc365763c3542fd3e070ad761ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1a61359bc365763c3542fd3e070ad761ff" kindref="member">test_id</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1ab043793d043f63fce581c0be2e7d967e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1ab043793d043f63fce581c0be2e7d967e" kindref="member">component</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1a4bbde01910dccee854521cf09c3039e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1a4bbde01910dccee854521cf09c3039e9" kindref="member">traffic_split</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.1;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1a89d86dd6bfed69459c24e2e407cfba3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1a89d86dd6bfed69459c24e2e407cfba3b" kindref="member">min_samples</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1a6baf87469e6084b12d1a643a84233f00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1a6baf87469e6084b12d1a643a84233f00" kindref="member">significance_level</ref><sp/>=<sp/>0.05;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1ac7cd367d49b6b74c066e095fa76c9ac0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1ac7cd367d49b6b74c066e095fa76c9ac0" kindref="member">min_improvement</ref><sp/><sp/><sp/><sp/>=<sp/>0.02;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1a25c00eb493b9c973e891077b0b73a047" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::hours<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config_1a25c00eb493b9c973e891077b0b73a047" kindref="member">max_duration</ref>{72};<sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1rag_1_1learning_1_1_group_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1learning_1_1_group_metrics" kindref="compound">GroupMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1rag_1_1learning_1_1_group_metrics_1a4b96f19ef3d26d0999fa24e07425911a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_group_metrics_1a4b96f19ef3d26d0999fa24e07425911a" kindref="member">sample_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1rag_1_1learning_1_1_group_metrics_1a957bdd345eed0897c374bf971dc476e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_group_metrics_1a957bdd345eed0897c374bf971dc476e4" kindref="member">success_rate</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1rag_1_1learning_1_1_group_metrics_1af0d022dd2e4cffc24b9db235f8f98596" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_group_metrics_1af0d022dd2e4cffc24b9db235f8f98596" kindref="member">mean</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1rag_1_1learning_1_1_group_metrics_1a7e2d27e7c0df6bf8f4d8828c630004b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_group_metrics_1a7e2d27e7c0df6bf8f4d8828c630004b4" kindref="member">std_dev</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1rag_1_1learning_1_1_group_metrics_1aeadc3af26076055db715cbfbc3c92b7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_group_metrics_1aeadc3af26076055db715cbfbc3c92b7e" kindref="member">observations</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1ab289f854c93ddd1625356f0bf7627426" kindref="member">ABTestingFramework</ref><sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1ab289f854c93ddd1625356f0bf7627426" kindref="member">ABTestingFramework</ref>();</highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1a1edc83417436c7f9cc5ed5cb6aed6c96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1a1edc83417436c7f9cc5ed5cb6aed6c96" kindref="member">~ABTestingFramework</ref>();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1aa8c009f3be0960c7317d7d86680b34fb" kindref="member">startTest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config" kindref="compound">ABTestConfig</ref><sp/>&amp;config);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1aee1dadf5a260f1d509b1cbf95e0ed17c" kindref="member">recordObservation</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;test_id,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_treatment,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>metric_value<sp/>=<sp/>0.0);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1adb968c386ffb67b194b65832206c646f" kindref="member">shouldUseTreatment</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;test_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;user_id);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result" kindref="compound">ABTestResult</ref><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1a215de09e1e52f1aff304122bcf5be32a" kindref="member">evaluateTest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;test_id);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1a3ae4faf14f485192a25d193de785613e" kindref="member">getActiveTests</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1learning_1a1b61d8d65a5ec17088e5a39eca629f78" kindref="member">ABTestStatus</ref><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1abbdedd37db3dd4a6dbfa08743eda94fb" kindref="member">getTestStatus</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;test_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1af32c9d71edcb57b5b0ce73fb402eaab3" kindref="member">completeTest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;test_id,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>promote);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1a22b6a9352d9859792323fc22bbc4e690" kindref="member">cancelTest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;test_id);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistical<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>calculateTStatistic(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_group_metrics" kindref="compound">GroupMetrics</ref><sp/>&amp;control,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1learning_1_1_group_metrics" kindref="compound">GroupMetrics</ref><sp/>&amp;treatment);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>calculatePValue(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>t_statistic,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>df);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hash<sp/>function<sp/>for<sp/>consistent<sp/>user<sp/>assignment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>hashUserId(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;user_id);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag::learning</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/ab_testing_framework.h"/>
+  </compounddef>
+</doxygen>

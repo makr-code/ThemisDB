@@ -1,0 +1,288 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073" kind="namespace" language="C++">
+    <compoundname>themis::query::@371314324213211114302250227063341213216233130073</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SPARQLTokenType</name>
+        <qualifiedname>themis::query::@371314324213211114302250227063341213216233130073::SPARQLTokenType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a63225f19fccb18e7c709f1fa11bc738e" prot="public">
+          <name>SELECT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a5105e0481cb9b1e1d0dd3e10bab1f1c0" prot="public">
+          <name>WHERE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871ae75ab17a550f46adbbe891b819cf951d" prot="public">
+          <name>FILTER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a9cb26dba96b451a88aeb73e3be10a4ce" prot="public">
+          <name>FROM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a6575d9a58f0b41a108f2d6a565a0650d" prot="public">
+          <name>ORDER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a925ab312a51a924ab68d9812baa788ff" prot="public">
+          <name>BY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871ac6e421eaad140c1bc1a39980502df80c" prot="public">
+          <name>ASC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a65a6d757dbb571ccc3af9706e9a5f607" prot="public">
+          <name>DESC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a3d49b5cb41d88e381beb0d887d7023a2" prot="public">
+          <name>LIMIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a1b8a8605d2ff5670a215e55c6645e0d9" prot="public">
+          <name>OFFSET</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a1dab50915ef6776bbf3ee503e21f5757" prot="public">
+          <name>TRUE_KW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871ae35387d165c6b2929006517d1cd59640" prot="public">
+          <name>FALSE_KW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871ad5e4de54911c050245979d940dc65c3a" prot="public">
+          <name>LBRACE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a7907975edd3cb3611c6808f3ea6bd290" prot="public">
+          <name>RBRACE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a45bf4f3d35a115aaa2df577ba7861286" prot="public">
+          <name>LPAREN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871afccedc90f87593a3b31536bd658808b1" prot="public">
+          <name>RPAREN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a40679521b5da0954b705341a2859f782" prot="public">
+          <name>DOT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a4d9b3e9fc12849d060371eb65154c751" prot="public">
+          <name>COMMA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a8ab2630ada18b94a005a0c5399d9d483" prot="public">
+          <name>STAR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871abaaceccc27b1d4e0968c999583f97de5" prot="public">
+          <name>SEMICOLON</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a2dcbad7477fd40561e8b8198f173bd47" prot="public">
+          <name>EQ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a375b332cf2e0c6d522baf007ef7cb554" prot="public">
+          <name>NEQ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871ac562607189d77eb9dfb707464c1e7b0b" prot="public">
+          <name>LT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871acc981ecc65ecf63ad1673cbec9c64198" prot="public">
+          <name>LTE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871acd6a9bd2a175104eed40f0d33a8b4020" prot="public">
+          <name>GT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a32d35312e8f24bc1669bd2b45c00d47c" prot="public">
+          <name>GTE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a1a1a30b02b31446b1de336bfc776e713" prot="public">
+          <name>AND_OP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a9e4bd11c2cd268a084f6a42c33d43324" prot="public">
+          <name>OR_OP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871ad55fa807e2f9690e82c25179bd7f2e7a" prot="public">
+          <name>NOT_OP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871ad6f4440b8633f973d33c78928bdac2e1" prot="public">
+          <name>VAR</name>
+          <briefdescription>
+<para>?name or $name </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a8447306210a0972ac94b7d774799df1a" prot="public">
+          <name>URI</name>
+          <briefdescription>
+<para>&lt;uri&gt; </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a8e45ce8ec0627fe7e7ca6d2031b2f6bb" prot="public">
+          <name>PREFIXED</name>
+          <briefdescription>
+<para>prefix:local or bare identifier </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871ae951095b425d2b3cdd999c73bd860509" prot="public">
+          <name>STRING_LIT</name>
+          <briefdescription>
+<para>&quot;...&quot; or &apos;...&apos; </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871a78ffd7cc730d8ba5f48221781ce058bf" prot="public">
+          <name>INT_LIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871ada05d22d9e294c5852e4575b2e108b8a" prot="public">
+          <name>FLOAT_LIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871addc7141d0f8b4ee8a53b7504e15878cf" prot="public">
+          <name>END_OF_INPUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1_0d371314324213211114302250227063341213216233130073_1a4130cb0b3e9d523a57fde838e448a871accc0377a8afbf50e7094f5c23a8af223" prot="public">
+          <name>INVALID</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/sparql_parser.cpp" line="84" column="1" bodyfile="src/query/sparql_parser.cpp" bodystart="84" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/sparql_parser.cpp" line="38" column="1"/>
+  </compounddef>
+</doxygen>

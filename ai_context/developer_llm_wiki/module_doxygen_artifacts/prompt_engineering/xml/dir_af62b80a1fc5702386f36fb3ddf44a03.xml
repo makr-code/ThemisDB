@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_af62b80a1fc5702386f36fb3ddf44a03" kind="dir">
+    <compoundname>tests/prompt_engineering</compoundname>
+    <innerfile refid="test__llm__reflection__adapter__focused_8cpp">test_llm_reflection_adapter_focused.cpp</innerfile>
+    <innerfile refid="test__prompt__engineering__adversarial__focused_8cpp">test_prompt_engineering_adversarial_focused.cpp</innerfile>
+    <innerfile refid="test__prompt__engineering__focused_8cpp">test_prompt_engineering_focused.cpp</innerfile>
+    <innerfile refid="test__prompt__engineering__highcardinality__stress_8cpp">test_prompt_engineering_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__prompt__engineering__validation__hardening_8cpp">test_prompt_engineering_validation_hardening.cpp</innerfile>
+    <innerfile refid="test__rewrite__engine__focused_8cpp">test_rewrite_engine_focused.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/prompt_engineering/"/>
+  </compounddef>
+</doxygen>

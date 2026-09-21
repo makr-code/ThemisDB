@@ -1,0 +1,370 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__tensor__dtype__cast__bridge_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_tensor_dtype_cast_bridge.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="gpu__tensor_8h" local="yes">llm/lora_framework/gpu_tensor.h</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>llm/lora_framework/gpu_memory.h</label>
+        <link refid="gpu__memory_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/lora_framework/gpu_tensor.h</label>
+        <link refid="gpu__tensor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>llm/lora_framework/tensor_dtype.h</label>
+        <link refid="tensor__dtype_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>llm/lora_framework/vram_allocator.h</label>
+        <link refid="vram__allocator_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp</label>
+        <link refid="test__gpu__tensor__dtype__cast__bridge_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>acceleration/compute_backend.h</label>
+      </node>
+      <node id="6">
+        <label>cstddef</label>
+      </node>
+      <node id="14">
+        <label>cstdint</label>
+      </node>
+      <node id="15">
+        <label>cstring</label>
+      </node>
+      <node id="16">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_g_p_u_tensor_dtype_cast_bridge_test" prot="public">GPUTensorDtypeCastBridgeTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__tensor__dtype__cast__bridge_8cpp_1a8b726536cfc6a030eb13a4b29d7d5d2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorDtypeCastBridgeTest, CudaCastFnIsRegisteredAndStoredCorrectly)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_dtype_cast_bridge_test" kindref="compound">GPUTensorDtypeCastBridgeTest</ref></type>
+        </param>
+        <param>
+          <type>CudaCastFnIsRegisteredAndStoredCorrectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp" line="37" column="1" bodyfile="tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp" bodystart="37" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor__dtype__cast__bridge_8cpp_1a49071ab6151c6844777ec3d8fae724aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorDtypeCastBridgeTest, CudaCastFnClearingWithNullptrDoesNotThrow)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_dtype_cast_bridge_test" kindref="compound">GPUTensorDtypeCastBridgeTest</ref></type>
+        </param>
+        <param>
+          <type>CudaCastFnClearingWithNullptrDoesNotThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp" line="60" column="1" bodyfile="tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor__dtype__cast__bridge_8cpp_1a5bfb743768cb27ab902ef3a35a5f56ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorDtypeCastBridgeTest, CpuTensorToDtypeWorksWithoutBridgeFn)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_dtype_cast_bridge_test" kindref="compound">GPUTensorDtypeCastBridgeTest</ref></type>
+        </param>
+        <param>
+          <type>CpuTensorToDtypeWorksWithoutBridgeFn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp" line="67" column="1" bodyfile="tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp" bodystart="67" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor__dtype__cast__bridge_8cpp_1a7c77c879a356c0af178c85ad63509d89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorDtypeCastBridgeTest, HipCastFnIsRegisteredAndStoredCorrectly)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_dtype_cast_bridge_test" kindref="compound">GPUTensorDtypeCastBridgeTest</ref></type>
+        </param>
+        <param>
+          <type>HipCastFnIsRegisteredAndStoredCorrectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp" line="81" column="1" bodyfile="tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp" bodystart="81" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor__dtype__cast__bridge_8cpp_1a712646beaab140a6001291a14d91fc47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorDtypeCastBridgeTest, HipCastFnClearingWithNullptrDoesNotThrow)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_dtype_cast_bridge_test" kindref="compound">GPUTensorDtypeCastBridgeTest</ref></type>
+        </param>
+        <param>
+          <type>HipCastFnClearingWithNullptrDoesNotThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp" line="97" column="1" bodyfile="tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp" bodystart="97" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__tensor__dtype__cast__bridge_8cpp_1af4260273cec1a0ce0926e5eba4ec5a13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUTensorDtypeCastBridgeTest, CudaAndHipFnsAreIndependent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_tensor_dtype_cast_bridge_test" kindref="compound">GPUTensorDtypeCastBridgeTest</ref></type>
+        </param>
+        <param>
+          <type>CudaAndHipFnsAreIndependent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp" line="104" column="1" bodyfile="tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp" bodystart="104" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Tests<sp/>for<sp/>GPUTensor<sp/>dtype-cast<sp/>callback<sp/>bridges<sp/>(STUB<sp/>#2<sp/>/<sp/>STUB<sp/>#3)</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>Covers:<sp/>GT-DC-01..GT-DC-06</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/><sp/><sp/>GT-DC-01<sp/>—<sp/>setCudaDtypeCastFn:<sp/>injected<sp/>fn<sp/>is<sp/>called<sp/>with<sp/>correct<sp/>args;<sp/>result<sp/>used</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/><sp/><sp/>GT-DC-02<sp/>—<sp/>setCudaDtypeCastFn:<sp/>exception<sp/>in<sp/>fn<sp/>falls<sp/>back<sp/>to<sp/>CPU<sp/>round-trip</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/><sp/><sp/>GT-DC-03<sp/>—<sp/>setCudaDtypeCastFn<sp/>not<sp/>set:<sp/>CPU<sp/>round-trip<sp/>fallback<sp/>used</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/><sp/><sp/>GT-DC-04<sp/>—<sp/>setHipDtypeCastFn:<sp/>injected<sp/>fn<sp/>is<sp/>called<sp/>with<sp/>correct<sp/>args;<sp/>result<sp/>used</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/><sp/><sp/>GT-DC-05<sp/>—<sp/>setHipDtypeCastFn:<sp/>exception<sp/>in<sp/>fn<sp/>falls<sp/>back<sp/>to<sp/>CPU<sp/>round-trip</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/><sp/><sp/>GT-DC-06<sp/>—<sp/>setHipDtypeCastFn<sp/>not<sp/>set:<sp/>CPU<sp/>round-trip<sp/>fallback<sp/>used</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/>Because<sp/>THEMIS_ENABLE_CUDA<sp/>/<sp/>THEMIS_ENABLE_HIP<sp/>are<sp/>not<sp/>available<sp/>in<sp/>CI,</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>these<sp/>tests<sp/>exercise<sp/>the<sp/>static<sp/>bridge<sp/>API<sp/>directly<sp/>(setter/getter<sp/>round-trip</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>via<sp/>the<sp/>storage<sp/>functions),<sp/>and<sp/>verify<sp/>the<sp/>fallback<sp/>behaviour<sp/>on<sp/>CPU<sp/>tensors</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>which<sp/>follow<sp/>the<sp/>same<sp/>pattern<sp/>for<sp/>the<sp/>guard<sp/>path.</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__tensor_8h" kindref="compound">llm/lora_framework/gpu_tensor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">themis::llm::lora</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="class_g_p_u_tensor_dtype_cast_bridge_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_g_p_u_tensor_dtype_cast_bridge_test" kindref="compound">GPUTensorDtypeCastBridgeTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_g_p_u_tensor_dtype_cast_bridge_test_1a06eca34fbb10959f14dcb571b9da22a1" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a863e90d5bf621247e98eaf0444985286" kindref="member">GPUTensor::setCudaDtypeCastFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a5f3874d423194fcfb53288463831d1b3" kindref="member">GPUTensor::setHipDtypeCastFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_g_p_u_tensor_dtype_cast_bridge_test_1a810ef2112130971730b224d99260977b" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a863e90d5bf621247e98eaf0444985286" kindref="member">GPUTensor::setCudaDtypeCastFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a5f3874d423194fcfb53288463831d1b3" kindref="member">GPUTensor::setHipDtypeCastFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>GT-DC-01:<sp/>CUDA<sp/>cast<sp/>fn<sp/>—<sp/>called<sp/>with<sp/>correct<sp/>args<sp/>───────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><ref refid="test__gpu__tensor__dtype__cast__bridge_8cpp_1a8b726536cfc6a030eb13a4b29d7d5d2e" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_dtype_cast_bridge_test" kindref="compound">GPUTensorDtypeCastBridgeTest</ref>,<sp/>CudaCastFnIsRegisteredAndStoredCorrectly)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>called<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref><sp/>received_src<sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24ac49f280a5ad551ccc77be0b01a2f386a" kindref="member">DType::FLOAT16</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>intentionally<sp/>wrong<sp/>to<sp/>detect<sp/>non-update</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref><sp/>received_dst<sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24ac49f280a5ad551ccc77be0b01a2f386a" kindref="member">DType::FLOAT16</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a863e90d5bf621247e98eaf0444985286" kindref="member">GPUTensor::setCudaDtypeCastFn</ref>(</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>data,<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref><sp/>src,<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref><sp/>dst)<sp/>-&gt;<sp/>std::vector&lt;float&gt;<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>called<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>received_src<sp/>=<sp/>src;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>received_dst<sp/>=<sp/>dst;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>identity<sp/>conversion<sp/>for<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>the<sp/>fn<sp/>is<sp/>stored<sp/>(we<sp/>can<sp/>confirm<sp/>by<sp/>the<sp/>fact<sp/>that<sp/>clearing<sp/>it<sp/>works)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a863e90d5bf621247e98eaf0444985286" kindref="member">GPUTensor::setCudaDtypeCastFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>should<sp/>not<sp/>throw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(called);<sp/><sp/></highlight><highlight class="comment">//<sp/>setter<sp/>itself<sp/>doesn&apos;t<sp/>call<sp/>the<sp/>fn</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(received_src,<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24ac49f280a5ad551ccc77be0b01a2f386a" kindref="member">DType::FLOAT16</ref>);<sp/><sp/></highlight><highlight class="comment">//<sp/>unchanged<sp/>—<sp/>fn<sp/>was<sp/>never<sp/>invoked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(received_dst,<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24ac49f280a5ad551ccc77be0b01a2f386a" kindref="member">DType::FLOAT16</ref>);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>GT-DC-02:<sp/>CUDA<sp/>cast<sp/>fn<sp/>—<sp/>nullptr<sp/>clears<sp/>storage<sp/>─────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__gpu__tensor__dtype__cast__bridge_8cpp_1a8b726536cfc6a030eb13a4b29d7d5d2e" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_dtype_cast_bridge_test" kindref="compound">GPUTensorDtypeCastBridgeTest</ref>,<sp/>CudaCastFnClearingWithNullptrDoesNotThrow)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a863e90d5bf621247e98eaf0444985286" kindref="member">GPUTensor::setCudaDtypeCastFn</ref>([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>d,<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref>,<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref>)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>d;<sp/>});</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a863e90d5bf621247e98eaf0444985286" kindref="member">GPUTensor::setCudaDtypeCastFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>GT-DC-03:<sp/>CPU<sp/>tensor<sp/>to_dtype<sp/>—<sp/>works<sp/>without<sp/>bridge<sp/>fn<sp/>─────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__gpu__tensor__dtype__cast__bridge_8cpp_1a8b726536cfc6a030eb13a4b29d7d5d2e" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_dtype_cast_bridge_test" kindref="compound">GPUTensorDtypeCastBridgeTest</ref>,<sp/>CpuTensorToDtypeWorksWithoutBridgeFn)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>bridge<sp/>fn<sp/>set<sp/>—<sp/>CPU<sp/>path<sp/>should<sp/>work<sp/>fine<sp/>(bridge<sp/>is<sp/>CUDA/HIP<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/>shape<sp/>=<sp/>{4};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/>t(shape,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>(),<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref>);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>t.upload({1.0f,<sp/>2.0f,<sp/>3.0f,<sp/>4.0f});</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/>t16<sp/>=<sp/>t.<ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a59f0f37260c3fe9c5c0efd74c428f8a2" kindref="member">to_dtype</ref>(<ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24ac49f280a5ad551ccc77be0b01a2f386a" kindref="member">DType::FLOAT16</ref>);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(t16.<ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a88f84a84e8bd7a352aa7eadcd10006fd" kindref="member">shape</ref>(),<sp/>shape);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>GT-DC-04:<sp/>HIP<sp/>cast<sp/>fn<sp/>—<sp/>called<sp/>and<sp/>stored<sp/>correctly<sp/>─────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__gpu__tensor__dtype__cast__bridge_8cpp_1a8b726536cfc6a030eb13a4b29d7d5d2e" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_dtype_cast_bridge_test" kindref="compound">GPUTensorDtypeCastBridgeTest</ref>,<sp/>HipCastFnIsRegisteredAndStoredCorrectly)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>call_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a5f3874d423194fcfb53288463831d1b3" kindref="member">GPUTensor::setHipDtypeCastFn</ref>(</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>data,<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref>,<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref>)<sp/>-&gt;<sp/>std::vector&lt;float&gt;<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++call_count;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setter<sp/>itself<sp/>does<sp/>not<sp/>invoke<sp/>the<sp/>fn</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(call_count,<sp/>0);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a5f3874d423194fcfb53288463831d1b3" kindref="member">GPUTensor::setHipDtypeCastFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>GT-DC-05:<sp/>HIP<sp/>cast<sp/>fn<sp/>—<sp/>nullptr<sp/>clears<sp/>storage<sp/>──────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="test__gpu__tensor__dtype__cast__bridge_8cpp_1a8b726536cfc6a030eb13a4b29d7d5d2e" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_dtype_cast_bridge_test" kindref="compound">GPUTensorDtypeCastBridgeTest</ref>,<sp/>HipCastFnClearingWithNullptrDoesNotThrow)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a5f3874d423194fcfb53288463831d1b3" kindref="member">GPUTensor::setHipDtypeCastFn</ref>([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>d,<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref>,<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref>)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>d;<sp/>});</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a5f3874d423194fcfb53288463831d1b3" kindref="member">GPUTensor::setHipDtypeCastFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>GT-DC-06:<sp/>CUDA<sp/>and<sp/>HIP<sp/>fns<sp/>are<sp/>independent<sp/>──────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="test__gpu__tensor__dtype__cast__bridge_8cpp_1a8b726536cfc6a030eb13a4b29d7d5d2e" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_tensor_dtype_cast_bridge_test" kindref="compound">GPUTensorDtypeCastBridgeTest</ref>,<sp/>CudaAndHipFnsAreIndependent)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cuda_called<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hip_called<sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a863e90d5bf621247e98eaf0444985286" kindref="member">GPUTensor::setCudaDtypeCastFn</ref>(</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>d,<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref>,<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref>)<sp/>-&gt;<sp/>std::vector&lt;float&gt;<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cuda_called<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>d;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a5f3874d423194fcfb53288463831d1b3" kindref="member">GPUTensor::setHipDtypeCastFn</ref>(</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>d,<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref>,<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24" kindref="member">DType</ref>)<sp/>-&gt;<sp/>std::vector&lt;float&gt;<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hip_called<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>d;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clear<sp/>only<sp/>CUDA<sp/>fn<sp/>—<sp/>HIP<sp/>fn<sp/>should<sp/>still<sp/>be<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a863e90d5bf621247e98eaf0444985286" kindref="member">GPUTensor::setCudaDtypeCastFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CPU<sp/>to_dtype()<sp/>does<sp/>not<sp/>invoke<sp/>either<sp/>GPU<sp/>fn</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/>shape<sp/>=<sp/>{2};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref><sp/>t(shape,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">Device::cpu</ref>(),<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24a967d280b5c16d95f2947647dd2ca6cc2" kindref="member">DType::FLOAT32</ref>);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>t.upload({1.0f,<sp/>2.0f});</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(t.to_dtype(<ref refid="namespacethemis_1_1llm_1_1lora_1ad5730a132e398efc06b094e709534f24ac49f280a5ad551ccc77be0b01a2f386a" kindref="member">DType::FLOAT16</ref>));</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cuda_called);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hip_called);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clean<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor_1a5f3874d423194fcfb53288463831d1b3" kindref="member">GPUTensor::setHipDtypeCastFn</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp"/>
+  </compounddef>
+</doxygen>

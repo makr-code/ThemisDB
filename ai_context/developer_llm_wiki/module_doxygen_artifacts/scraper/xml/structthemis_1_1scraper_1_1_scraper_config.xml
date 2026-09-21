@@ -1,0 +1,327 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_scraper_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::ScraperConfig</compoundname>
+    <includes refid="scraper__config_8h" local="no">scraper_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_config_1a6039fa99b66823e5de154b355f64ad44" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1scraper_1_1_gap_context" kindref="compound">GapContext</ref></type>
+        <definition>GapContext themis::scraper::ScraperConfig::gap_context</definition>
+        <argsstring></argsstring>
+        <name>gap_context</name>
+        <qualifiedname>themis::scraper::ScraperConfig::gap_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="134" column="24" bodyfile="include/scraper/scraper_config.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_config_1a11aafb4e72b3ea6e8c233c8e06402b18" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1scraper_1_1_crawl_options" kindref="compound">CrawlOptions</ref></type>
+        <definition>CrawlOptions themis::scraper::ScraperConfig::crawl_options</definition>
+        <argsstring></argsstring>
+        <name>crawl_options</name>
+        <qualifiedname>themis::scraper::ScraperConfig::crawl_options</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="135" column="24" bodyfile="include/scraper/scraper_config.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_config_1a5f9d9983e1e4589d660b5745d13ee396" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1scraper_1_1_search_options" kindref="compound">SearchOptions</ref></type>
+        <definition>SearchOptions themis::scraper::ScraperConfig::search_options</definition>
+        <argsstring></argsstring>
+        <name>search_options</name>
+        <qualifiedname>themis::scraper::ScraperConfig::search_options</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="136" column="24" bodyfile="include/scraper/scraper_config.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_config_1ad9c66348297ac617d4a04ed058edb128" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1scraper_1_1_api_options" kindref="compound">ApiOptions</ref></type>
+        <definition>ApiOptions themis::scraper::ScraperConfig::api_options</definition>
+        <argsstring></argsstring>
+        <name>api_options</name>
+        <qualifiedname>themis::scraper::ScraperConfig::api_options</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="137" column="24" bodyfile="include/scraper/scraper_config.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_config_1a726d57438b849b19bf24c303aeb92e70" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1scraper_1_1_llm_options" kindref="compound">LlmOptions</ref></type>
+        <definition>LlmOptions themis::scraper::ScraperConfig::llm_options</definition>
+        <argsstring></argsstring>
+        <name>llm_options</name>
+        <qualifiedname>themis::scraper::ScraperConfig::llm_options</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="138" column="24" bodyfile="include/scraper/scraper_config.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_config_1ac3492eeb745c5b52b095b3c4d97d9d24" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1scraper_1_1_gov_sources_options" kindref="compound">GovSourcesOptions</ref></type>
+        <definition>GovSourcesOptions themis::scraper::ScraperConfig::gov_sources</definition>
+        <argsstring></argsstring>
+        <name>gov_sources</name>
+        <qualifiedname>themis::scraper::ScraperConfig::gov_sources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="139" column="24" bodyfile="include/scraper/scraper_config.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_config_1a0b6f131e5683b60f5e8799f6b82dd928" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::scraper::ScraperConfig::seed_urls</definition>
+        <argsstring></argsstring>
+        <name>seed_urls</name>
+        <qualifiedname>themis::scraper::ScraperConfig::seed_urls</qualifiedname>
+        <briefdescription>
+<para>Explicit seed URLs to crawl (in addition to gov sources). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="142" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_config_1a35fd6828686d3fd2accdd329b89c79ea" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::scraper::ScraperConfig::whitelist</definition>
+        <argsstring></argsstring>
+        <name>whitelist</name>
+        <qualifiedname>themis::scraper::ScraperConfig::whitelist</qualifiedname>
+        <briefdescription>
+<para>URL-prefix / glob patterns that must match for a URL to be crawled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="144" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_scraper_config_1a30845d997026d01cfd874ff835386e6e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::scraper::ScraperConfig::blacklist</definition>
+        <argsstring></argsstring>
+        <name>blacklist</name>
+        <qualifiedname>themis::scraper::ScraperConfig::blacklist</qualifiedname>
+        <briefdescription>
+<para>URL-prefix / glob patterns that block a URL even if whitelisted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="146" column="17" bodyfile="include/scraper/scraper_config.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1scraper_1_1_scraper_config_1abaf104d745c5d479c2b7e14303ede0da" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1scraper_1_1_scraper_config" kindref="compound">ScraperConfig</ref></type>
+        <definition>ScraperConfig themis::scraper::ScraperConfig::loadFromFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadFromFile</name>
+        <qualifiedname>themis::scraper::ScraperConfig::loadFromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load config from a YAML file on disk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load From File.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when the file cannot be read or is invalid.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: YAML::LoadFile(), parseNode(), what(), else(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="152" column="26" bodyfile="src/scraper/scraper_config.cpp" bodystart="257" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1scraper_1_1_scraper_config_1a69caf370f01021ad9db4d2d757c9b5f8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1scraper_1_1_scraper_config" kindref="compound">ScraperConfig</ref></type>
+        <definition>ScraperConfig themis::scraper::ScraperConfig::loadFromYaml</definition>
+        <argsstring>(const std::string &amp;yaml_content)</argsstring>
+        <name>loadFromYaml</name>
+        <qualifiedname>themis::scraper::ScraperConfig::loadFromYaml</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>yaml_content</declname>
+        </param>
+        <briefdescription>
+<para>Parse config from an in-memory YAML string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load From Yaml.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when the YAML is invalid.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: YAML::Load(), parseNode(), std::string(), what(), else(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="158" column="26" bodyfile="src/scraper/scraper_config.cpp" bodystart="279" bodyend="292"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1scraper_1_1_scraper_config_1a07c9dcfc50c9f52c24a06db307151899" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::scraper::ScraperConfig::effectiveSearchQueries</definition>
+        <argsstring>() const</argsstring>
+        <name>effectiveSearchQueries</name>
+        <qualifiedname>themis::scraper::ScraperConfig::effectiveSearchQueries</qualifiedname>
+        <briefdescription>
+<para>Returns the effective search queries for this run. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If search_options.queries is non-empty, those are returned as-is. Otherwise the gap_context keywords are used. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_config.h" line="166" column="17" bodyfile="src/scraper/scraper_config.cpp" bodystart="294" bodyend="298"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Complete configuration for one scraper run. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Load from a YAML file via <ref refid="structthemis_1_1scraper_1_1_scraper_config_1abaf104d745c5d479c2b7e14303ede0da" kindref="member">ScraperConfig::loadFromFile()</ref> or parse an in-memory YAML string via <ref refid="structthemis_1_1scraper_1_1_scraper_config_1a69caf370f01021ad9db4d2d757c9b5f8" kindref="member">ScraperConfig::loadFromYaml()</ref>. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="5">
+        <label>themis::scraper::ApiOptions</label>
+        <link refid="structthemis_1_1scraper_1_1_api_options"/>
+      </node>
+      <node id="3">
+        <label>themis::scraper::CrawlOptions</label>
+        <link refid="structthemis_1_1scraper_1_1_crawl_options"/>
+      </node>
+      <node id="2">
+        <label>themis::scraper::GapContext</label>
+        <link refid="structthemis_1_1scraper_1_1_gap_context"/>
+      </node>
+      <node id="7">
+        <label>themis::scraper::GovSourcesOptions</label>
+        <link refid="structthemis_1_1scraper_1_1_gov_sources_options"/>
+      </node>
+      <node id="6">
+        <label>themis::scraper::LlmOptions</label>
+        <link refid="structthemis_1_1scraper_1_1_llm_options"/>
+      </node>
+      <node id="1">
+        <label>themis::scraper::ScraperConfig</label>
+        <link refid="structthemis_1_1scraper_1_1_scraper_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>gap_context</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>crawl_options</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>search_options</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>api_options</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>llm_options</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>gov_sources</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::scraper::SearchOptions</label>
+        <link refid="structthemis_1_1scraper_1_1_search_options"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/scraper/scraper_config.h" line="133" column="1" bodyfile="include/scraper/scraper_config.h" bodystart="133" bodyend="167"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_scraper_config_1ad9c66348297ac617d4a04ed058edb128" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperConfig</scope><name>api_options</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_config_1a30845d997026d01cfd874ff835386e6e" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperConfig</scope><name>blacklist</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_config_1a11aafb4e72b3ea6e8c233c8e06402b18" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperConfig</scope><name>crawl_options</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_config_1a07c9dcfc50c9f52c24a06db307151899" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperConfig</scope><name>effectiveSearchQueries</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_config_1a6039fa99b66823e5de154b355f64ad44" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperConfig</scope><name>gap_context</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_config_1ac3492eeb745c5b52b095b3c4d97d9d24" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperConfig</scope><name>gov_sources</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_config_1a726d57438b849b19bf24c303aeb92e70" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperConfig</scope><name>llm_options</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_config_1abaf104d745c5d479c2b7e14303ede0da" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperConfig</scope><name>loadFromFile</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_config_1a69caf370f01021ad9db4d2d757c9b5f8" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperConfig</scope><name>loadFromYaml</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_config_1a5f9d9983e1e4589d660b5745d13ee396" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperConfig</scope><name>search_options</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_config_1a0b6f131e5683b60f5e8799f6b82dd928" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperConfig</scope><name>seed_urls</name></member>
+      <member refid="structthemis_1_1scraper_1_1_scraper_config_1a35fd6828686d3fd2accdd329b89c79ea" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperConfig</scope><name>whitelist</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

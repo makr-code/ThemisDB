@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_agent_tool" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::AgentTool</compoundname>
+    <includes refid="aql__agent_8h" local="no">aql_agent.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_agent_tool_1a5b3910150133d30df75292b3384efdd6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AgentTool::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::aql::AgentTool::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="35" column="17" bodyfile="include/aql/aql_agent.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_agent_tool_1a443e861c17868fef3a5053ea4215fc4b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AgentTool::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::aql::AgentTool::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="37" column="17" bodyfile="include/aql/aql_agent.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_agent_tool_1a0d897a915adefb64fee22490bc1c3633" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1aql_1a33b74478135fa9f5b404669fed4bb549" kindref="member">json</ref></type>
+        <definition>json themis::aql::AgentTool::parameter_schema</definition>
+        <argsstring></argsstring>
+        <name>parameter_schema</name>
+        <qualifiedname>themis::aql::AgentTool::parameter_schema</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="39" column="10" bodyfile="include/aql/aql_agent.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_agent_tool_1aa116adf4644241200bb604b8a1d2568e" prot="public" static="no" mutable="no">
+        <type>std::function&lt; <ref refid="namespacethemis_1_1aql_1a33b74478135fa9f5b404669fed4bb549" kindref="member">json</ref>(const <ref refid="namespacethemis_1_1aql_1a33b74478135fa9f5b404669fed4bb549" kindref="member">json</ref> &amp;args)&gt;</type>
+        <definition>std::function&lt;json(const json&amp; args)&gt; themis::aql::AgentTool::executor</definition>
+        <argsstring></argsstring>
+        <name>executor</name>
+        <qualifiedname>themis::aql::AgentTool::executor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="41" column="19" bodyfile="include/aql/aql_agent.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_agent.h" line="34" column="1" bodyfile="include/aql/aql_agent.h" bodystart="34" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_agent_tool_1a443e861c17868fef3a5053ea4215fc4b" prot="public" virt="non-virtual"><scope>themis::aql::AgentTool</scope><name>description</name></member>
+      <member refid="structthemis_1_1aql_1_1_agent_tool_1aa116adf4644241200bb604b8a1d2568e" prot="public" virt="non-virtual"><scope>themis::aql::AgentTool</scope><name>executor</name></member>
+      <member refid="structthemis_1_1aql_1_1_agent_tool_1a5b3910150133d30df75292b3384efdd6" prot="public" virt="non-virtual"><scope>themis::aql::AgentTool</scope><name>name</name></member>
+      <member refid="structthemis_1_1aql_1_1_agent_tool_1a0d897a915adefb64fee22490bc1c3633" prot="public" virt="non-virtual"><scope>themis::aql::AgentTool</scope><name>parameter_schema</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

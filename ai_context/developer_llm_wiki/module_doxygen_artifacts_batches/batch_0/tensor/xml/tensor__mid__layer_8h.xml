@@ -1,0 +1,283 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tensor__mid__layer_8h" kind="file" language="C++">
+    <compoundname>tensor_mid_layer.h</compoundname>
+    <includes local="yes">index/ann_frontdoor.h</includes>
+    <includes refid="adapter__repository_8h" local="yes">tensor/adapter_repository.h</includes>
+    <includes refid="tensor__fingerprint__graph_8h" local="yes">tensor/tensor_fingerprint_graph.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__tensor__integration__baseline_8cpp" local="yes">benchmarks/tensor/bench_tensor_integration_baseline.cpp</includedby>
+    <includedby refid="tensor__mid__layer_8cpp" local="yes">src/tensor/tensor_mid_layer.cpp</includedby>
+    <includedby refid="test__federated__tensor__summaries_8cpp" local="yes">tests/tensor/test_federated_tensor_summaries.cpp</includedby>
+    <includedby refid="test__tensor__mid__layer__integration_8cpp" local="yes">tests/tensor/test_tensor_mid_layer_integration.cpp</includedby>
+    <includedby refid="test__tensor__phase3_8cpp" local="yes">tests/tensor/test_tensor_phase3.cpp</includedby>
+    <incdepgraph>
+      <node id="3">
+        <label>tensor/adapter_repository.h</label>
+        <link refid="adapter__repository_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>tensor/tensor_compat.h</label>
+        <link refid="tensor__compat_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>tensor/tensor_fingerprint_graph.h</label>
+        <link refid="tensor__fingerprint__graph_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/tensor/tensor_mid_layer.h</label>
+        <link refid="tensor__mid__layer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstddef</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>index/ann_frontdoor.h</label>
+      </node>
+      <node id="18">
+        <label>memory</label>
+      </node>
+      <node id="19">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="12">
+        <label>shared_mutex</label>
+      </node>
+      <node id="5">
+        <label>storage/tensor_network_storage_engine.h</label>
+      </node>
+      <node id="4">
+        <label>storage/tensor_train_decomposer.h</label>
+      </node>
+      <node id="13">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>string_view</label>
+      </node>
+      <node id="15">
+        <label>unordered_map</label>
+      </node>
+      <node id="16">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/tensor/bench_tensor_integration_baseline.cpp</label>
+        <link refid="bench__tensor__integration__baseline_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/tensor/tensor_mid_layer.h</label>
+        <link refid="tensor__mid__layer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/tensor/tensor_mid_layer.cpp</label>
+        <link refid="tensor__mid__layer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/tensor/test_federated_tensor_summaries.cpp</label>
+        <link refid="test__federated__tensor__summaries_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/tensor/test_tensor_mid_layer_integration.cpp</label>
+        <link refid="test__tensor__mid__layer__integration_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/tensor/test_tensor_phase3.cpp</label>
+        <link refid="test__tensor__phase3_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_layer_context" prot="public">themis::tensor::TensorLayerContext</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_layer_plan" prot="public">themis::tensor::TensorLayerPlan</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_layer_summary" prot="public">themis::tensor::TensorLayerSummary</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1_federated_tensor_summary" prot="public">themis::tensor::FederatedTensorSummary</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1_tensor_mid_layer" prot="public">themis::tensor::TensorMidLayer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1tensor">themis::tensor</innernamespace>
+    <briefdescription>
+<para>Logical tensor-layer kind selected by the mid-layer planner. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Mid-layer orchestrator for tensor processing pipelines.</para>
+<para>Coordinates the transformation stages that sit between raw tensor ingestion and the storage/retrieval backend within ThemisDB. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/ann_frontdoor.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__repository_8h" kindref="compound">tensor/adapter_repository.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__fingerprint__graph_8h" kindref="compound">tensor/tensor_fingerprint_graph.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1tensor" kindref="compound">tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552" kindref="member">TensorLayerKind</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552a8601c10b2797050a900697daac0c0001" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552a8601c10b2797050a900697daac0c0001" kindref="member">Adapter</ref>,</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552a209802fb858e2c83205027dbbb5d9e6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552a209802fb858e2c83205027dbbb5d9e6c" kindref="member">Package</ref>,</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552a7ef9473d9fc5a4ee368e734a585ca9b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1_shard_summary" kindref="compound">ShardSummary</ref>,</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552a0844c0c1b4ff269fa3d937e0452bacb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1tensor_1_1_fingerprint_summary" kindref="compound">FingerprintSummary</ref>,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1tensor_1_1_tensor_layer_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_tensor_layer_context" kindref="compound">TensorLayerContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a3dd0ea4a437c65b78ff0986caaebd065" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a3dd0ea4a437c65b78ff0986caaebd065" kindref="member">tenant_id</ref>;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a76a52891bdf1193312355106b6f7edce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a76a52891bdf1193312355106b6f7edce" kindref="member">domain</ref>;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a3b5cc58910f2ae44a2df942b92d99597" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a3b5cc58910f2ae44a2df942b92d99597" kindref="member">base_model_id</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a7654b5a46f4e85e5a89fd448584046a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a7654b5a46f4e85e5a89fd448584046a4" kindref="member">scope_id</ref>;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a87267a97f316199848edc75509a93677" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a87267a97f316199848edc75509a93677" kindref="member">shard_scope_ids</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a90735969bfa20268c6de15c54e430e84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a90735969bfa20268c6de15c54e430e84" kindref="member">top_k</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a158834dc9f78d31824dbad68774d4f31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a158834dc9f78d31824dbad68774d4f31" kindref="member">use_fingerprint_summary</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a5138790367da7fd3175666123ef31b58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_context_1a5138790367da7fd3175666123ef31b58" kindref="member">shard_aware</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1tensor_1_1_tensor_layer_plan" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_tensor_layer_plan" kindref="compound">TensorLayerPlan</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1tensor_1_1_tensor_layer_plan_1a129a8df36c4b6ed831c583ca3c9923b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552" kindref="member">TensorLayerKind</ref><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_plan_1a129a8df36c4b6ed831c583ca3c9923b3" kindref="member">layer_kind</ref><sp/>=<sp/><ref refid="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552a8601c10b2797050a900697daac0c0001" kindref="member">TensorLayerKind::Adapter</ref>;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1tensor_1_1_tensor_layer_plan_1a853f54eeb0fb9defcbaec3b1af284a13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>index::AnnScopeKind<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_plan_1a853f54eeb0fb9defcbaec3b1af284a13" kindref="member">ann_scope_kind</ref><sp/>=<sp/>index::AnnScopeKind::Adapter;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1tensor_1_1_tensor_layer_plan_1a769557194e943a91233dc8d6cdd088e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_plan_1a769557194e943a91233dc8d6cdd088e0" kindref="member">scope_key</ref>;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1tensor_1_1_tensor_layer_plan_1aab75cbb339ce47935f2e3e61c680c78b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_plan_1aab75cbb339ce47935f2e3e61c680c78b" kindref="member">reason</ref>;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1tensor_1_1_tensor_layer_plan_1a3dbf07ac92f96c9b6ce98112b7ce7a26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_plan_1a3dbf07ac92f96c9b6ce98112b7ce7a26" kindref="member">candidate_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1tensor_1_1_tensor_layer_summary" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_tensor_layer_summary" kindref="compound">TensorLayerSummary</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1a93c51e5c43314d957ec420cb3464c04e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1a93c51e5c43314d957ec420cb3464c04e" kindref="member">scope_key</ref>;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1a756db7bc09072dfb106c420eb46f8a57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552" kindref="member">TensorLayerKind</ref><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1a756db7bc09072dfb106c420eb46f8a57" kindref="member">layer_kind</ref><sp/>=<sp/><ref refid="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552a8601c10b2797050a900697daac0c0001" kindref="member">TensorLayerKind::Adapter</ref>;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1a485065a693595b31315518caa3613cb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>index::AnnScopeKind<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1a485065a693595b31315518caa3613cb6" kindref="member">ann_scope_kind</ref><sp/>=<sp/>index::AnnScopeKind::Adapter;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1aae773912e3f4308a3f4da5cecdde6023" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SimilarityResult&gt;<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1aae773912e3f4308a3f4da5cecdde6023" kindref="member">similar_adapters</ref>;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1a0634f99c34fbdfc63e006b726da8c649" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1a0634f99c34fbdfc63e006b726da8c649" kindref="member">routing_reason</ref>;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1ae76a3474e7e7f36d755995c50230c2a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1ae76a3474e7e7f36d755995c50230c2a7" kindref="member">candidate_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1a7c365fd3d69e89cf0ec59021179ca0b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1a7c365fd3d69e89cf0ec59021179ca0b3" kindref="member">federated</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1a64e51b611f2600f5d4fead6121d08c92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_summary_1a64e51b611f2600f5d4fead6121d08c92" kindref="member">participating_shards</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1tensor_1_1_federated_tensor_summary" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1tensor_1_1_federated_tensor_summary" kindref="compound">FederatedTensorSummary</ref><sp/>{</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1tensor_1_1_federated_tensor_summary_1a97271e58bb95c74052c2f9c5cb517bb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TensorLayerSummary&gt;<sp/><ref refid="structthemis_1_1tensor_1_1_federated_tensor_summary_1a97271e58bb95c74052c2f9c5cb517bb4" kindref="member">shard_summaries</ref>;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1tensor_1_1_federated_tensor_summary_1a8dab2c40b2a76b34cc79cda3f866d08b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SimilarityResult&gt;<sp/><ref refid="structthemis_1_1tensor_1_1_federated_tensor_summary_1a8dab2c40b2a76b34cc79cda3f866d08b" kindref="member">merged_similar_adapters</ref>;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1tensor_1_1_federated_tensor_summary_1a4ba741b4e322bdc0cf3c7b84cf2a1abc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1tensor_1_1_federated_tensor_summary_1a4ba741b4e322bdc0cf3c7b84cf2a1abc" kindref="member">routing_reason</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1tensor_1_1_tensor_mid_layer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1a30bd4371066a0b5aaabf0af9e5549814" kindref="member">TensorMidLayer</ref><sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1a30bd4371066a0b5aaabf0af9e5549814" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1a30bd4371066a0b5aaabf0af9e5549814" kindref="member">TensorMidLayer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1afa843e506728601f34c10851c4038b63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1afa843e506728601f34c10851c4038b63" kindref="member">~TensorMidLayer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1ad0cf69f8750ca907ba65d60a31d6c6d1" kindref="member">setAdapterRepository</ref>(std::shared_ptr&lt;AdapterRepository&gt;<sp/>repository);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1a766584ef358302779b34a6e86819d3f7" kindref="member">setFingerprintGraph</ref>(std::shared_ptr&lt;TensorFingerprintGraph&gt;<sp/>graph);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1a7d5045d4ce8c05539b9f1188cac77d1c" kindref="member">setAnnFrontdoor</ref>(std::shared_ptr&lt;index::AnnFrontdoor&gt;<sp/>frontdoor);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_plan" kindref="compound">TensorLayerPlan</ref><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1a1f531ce50894ea1a3bc38eda6c62c589" kindref="member">plan</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_context" kindref="compound">TensorLayerContext</ref>&amp;<sp/>context)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_summary" kindref="compound">TensorLayerSummary</ref><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1a443e1c6219c047fc15263fdcd0ef5cce" kindref="member">summarize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_context" kindref="compound">TensorLayerContext</ref>&amp;<sp/>context)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1tensor_1_1_federated_tensor_summary" kindref="compound">FederatedTensorSummary</ref><sp/><ref refid="classthemis_1_1tensor_1_1_tensor_mid_layer_1a1d42db0a230ed8679c536e4508941b15" kindref="member">summarizeFederatedShards</ref>(</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_context" kindref="compound">TensorLayerContext</ref>&amp;<sp/>context)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552" kindref="member">TensorLayerKind</ref><sp/>classify(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_context" kindref="compound">TensorLayerContext</ref>&amp;<sp/>context)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>index::AnnScopeKind<sp/>annScopeKindForLayer(<ref refid="namespacethemis_1_1tensor_1a8ef85b987ac7f3e79643904c124d5552" kindref="member">TensorLayerKind</ref><sp/>kind)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>buildScopeKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1tensor_1_1_tensor_layer_context" kindref="compound">TensorLayerContext</ref>&amp;<sp/>context);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;SimilarityResult&gt;<sp/>mergeSimilarityResults(</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;TensorLayerSummary&gt;&amp;<sp/>summaries,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>top_k);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;AdapterRepository&gt;<sp/>adapter_repository_;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TensorFingerprintGraph&gt;<sp/>fingerprint_graph_;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;index::AnnFrontdoor&gt;<sp/>ann_frontdoor_;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/tensor/tensor_mid_layer.h"/>
+  </compounddef>
+</doxygen>

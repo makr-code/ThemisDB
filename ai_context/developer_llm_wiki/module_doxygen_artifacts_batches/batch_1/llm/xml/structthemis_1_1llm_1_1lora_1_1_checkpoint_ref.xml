@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_checkpoint_ref" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::CheckpointRef</compoundname>
+    <includes refid="lora__checkpoint__manager_8h" local="no">lora_checkpoint_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_ref_1af31739d474c42f266fa0f1c70d4f8463" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::CheckpointRef::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::llm::lora::CheckpointRef::path</qualifiedname>
+        <briefdescription>
+<para>Absolute path to weight file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="62" column="17" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_ref_1a91eb295e04e2af687a906245772d994c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta" kindref="compound">CheckpointMeta</ref></type>
+        <definition>CheckpointMeta themis::llm::lora::CheckpointRef::meta</definition>
+        <argsstring></argsstring>
+        <name>meta</name>
+        <qualifiedname>themis::llm::lora::CheckpointRef::meta</qualifiedname>
+        <briefdescription>
+<para>Associated metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="63" column="20" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_ref_1a796c54dcaaed09012f3093d7ff17d8f7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::CheckpointRef::is_best</definition>
+        <argsstring></argsstring>
+        <name>is_best</name>
+        <qualifiedname>themis::llm::lora::CheckpointRef::is_best</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether this is the current best checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="64" column="10" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::lora::CheckpointMeta</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::CheckpointRef</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_ref"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>meta</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="61" column="1" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="61" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_ref_1a796c54dcaaed09012f3093d7ff17d8f7" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointRef</scope><name>is_best</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_ref_1a91eb295e04e2af687a906245772d994c" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointRef</scope><name>meta</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_ref_1af31739d474c42f266fa0f1c70d4f8463" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointRef</scope><name>path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

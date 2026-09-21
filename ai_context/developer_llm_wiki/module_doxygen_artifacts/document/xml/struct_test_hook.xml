@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_test_hook" kind="struct" language="C++" prot="public" final="yes">
+    <compoundname>TestHook</compoundname>
+    <basecompoundref refid="classthemis_1_1document_1_1_i_document_lifecycle_hook" prot="public" virt="non-virtual">themis::document::IDocumentLifecycleHook</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_test_hook_1a35a66808e71f6aa50ca1b57df43fc2d8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abe" kindref="member">DocumentEventType</ref> &gt;</type>
+        <definition>std::vector&lt;DocumentEventType&gt; TestHook::events</definition>
+        <argsstring></argsstring>
+        <name>events</name>
+        <qualifiedname>TestHook::events</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_store.cpp" line="321" column="17" bodyfile="tests/document/test_document_store.cpp" bodystart="321" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_test_hook_1ab362f4c156b8f3d8761477229014ed64" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void TestHook::beforeCreate</definition>
+        <argsstring>(const DocumentLifecycleEvent &amp;evt) noexcept override</argsstring>
+        <name>beforeCreate</name>
+        <qualifiedname>TestHook::beforeCreate</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a221377863a4e8da14dda902466cae32e">beforeCreate</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref> &amp;</type>
+          <declname>evt</declname>
+        </param>
+        <briefdescription>
+<para>Before Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_store.cpp" line="323" column="10" bodyfile="tests/document/test_document_store.cpp" bodystart="323" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_test_hook_1a7366e57a501594e90938938e3c8bd1d5" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void TestHook::afterCreate</definition>
+        <argsstring>(const DocumentLifecycleEvent &amp;evt) noexcept override</argsstring>
+        <name>afterCreate</name>
+        <qualifiedname>TestHook::afterCreate</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a8ed069a99ddc2202430077e346c6adcd">afterCreate</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref> &amp;</type>
+          <declname>evt</declname>
+        </param>
+        <briefdescription>
+<para>After Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_store.cpp" line="326" column="10" bodyfile="tests/document/test_document_store.cpp" bodystart="326" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_test_hook_1a5958213a709bc8ceeb16c66c7978c2ff" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void TestHook::beforeUpdate</definition>
+        <argsstring>(const DocumentLifecycleEvent &amp;evt) noexcept override</argsstring>
+        <name>beforeUpdate</name>
+        <qualifiedname>TestHook::beforeUpdate</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1ac9bdb6cc49ad9a5fe9637987f063a344">beforeUpdate</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref> &amp;</type>
+          <declname>evt</declname>
+        </param>
+        <briefdescription>
+<para>Before Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_store.cpp" line="329" column="10" bodyfile="tests/document/test_document_store.cpp" bodystart="329" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_test_hook_1a60516443db394da208bcf46b88a5c7a7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void TestHook::afterUpdate</definition>
+        <argsstring>(const DocumentLifecycleEvent &amp;evt) noexcept override</argsstring>
+        <name>afterUpdate</name>
+        <qualifiedname>TestHook::afterUpdate</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a5fad58a6bcfb16ce28396a8c0e103f87">afterUpdate</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref> &amp;</type>
+          <declname>evt</declname>
+        </param>
+        <briefdescription>
+<para>After Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_store.cpp" line="332" column="10" bodyfile="tests/document/test_document_store.cpp" bodystart="332" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_test_hook_1a6e38fb157241acb69a32e7cf59eed41d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void TestHook::beforeDelete</definition>
+        <argsstring>(const DocumentLifecycleEvent &amp;evt) noexcept override</argsstring>
+        <name>beforeDelete</name>
+        <qualifiedname>TestHook::beforeDelete</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a984af5ae4e27cec99427499d0f36fd95">beforeDelete</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref> &amp;</type>
+          <declname>evt</declname>
+        </param>
+        <briefdescription>
+<para>Before Delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_store.cpp" line="335" column="10" bodyfile="tests/document/test_document_store.cpp" bodystart="335" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_test_hook_1ab1fb48c31cf0ae884b0b9956e3ace19a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void TestHook::afterDelete</definition>
+        <argsstring>(const DocumentLifecycleEvent &amp;evt) noexcept override</argsstring>
+        <name>afterDelete</name>
+        <qualifiedname>TestHook::afterDelete</qualifiedname>
+        <reimplements refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a1e48928cd00dcba8cbd5be8cfbe86977">afterDelete</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref> &amp;</type>
+          <declname>evt</declname>
+        </param>
+        <briefdescription>
+<para>After Delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_store.cpp" line="338" column="10" bodyfile="tests/document/test_document_store.cpp" bodystart="338" bodyend="340"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TestHook</label>
+        <link refid="struct_test_hook"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::document::IDocumentLifecycleHook</label>
+        <link refid="classthemis_1_1document_1_1_i_document_lifecycle_hook"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TestHook</label>
+        <link refid="struct_test_hook"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::document::IDocumentLifecycleHook</label>
+        <link refid="classthemis_1_1document_1_1_i_document_lifecycle_hook"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/document/test_document_store.cpp" line="320" column="1" bodyfile="tests/document/test_document_store.cpp" bodystart="320" bodyend="341"/>
+    <listofallmembers>
+      <member refid="struct_test_hook_1a7366e57a501594e90938938e3c8bd1d5" prot="public" virt="virtual"><scope>TestHook</scope><name>afterCreate</name></member>
+      <member refid="struct_test_hook_1ab1fb48c31cf0ae884b0b9956e3ace19a" prot="public" virt="virtual"><scope>TestHook</scope><name>afterDelete</name></member>
+      <member refid="struct_test_hook_1a60516443db394da208bcf46b88a5c7a7" prot="public" virt="virtual"><scope>TestHook</scope><name>afterUpdate</name></member>
+      <member refid="struct_test_hook_1ab362f4c156b8f3d8761477229014ed64" prot="public" virt="virtual"><scope>TestHook</scope><name>beforeCreate</name></member>
+      <member refid="struct_test_hook_1a6e38fb157241acb69a32e7cf59eed41d" prot="public" virt="virtual"><scope>TestHook</scope><name>beforeDelete</name></member>
+      <member refid="struct_test_hook_1a5958213a709bc8ceeb16c66c7978c2ff" prot="public" virt="virtual"><scope>TestHook</scope><name>beforeUpdate</name></member>
+      <member refid="struct_test_hook_1a35a66808e71f6aa50ca1b57df43fc2d8" prot="public" virt="non-virtual"><scope>TestHook</scope><name>events</name></member>
+      <member refid="classthemis_1_1document_1_1_i_document_lifecycle_hook_1a88736b081ee82d7d90a8ed4bd9052f8e" prot="public" virt="virtual"><scope>TestHook</scope><name>~IDocumentLifecycleHook</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

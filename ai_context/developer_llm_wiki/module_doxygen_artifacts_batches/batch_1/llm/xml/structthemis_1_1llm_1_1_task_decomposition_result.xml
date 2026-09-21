@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_task_decomposition_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::TaskDecompositionResult</compoundname>
+    <includes refid="task__decomposer_8h" local="no">task_decomposer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_task_decomposition_result_1a1df99714ff298db0c2a210ebd0fd850e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::TaskDecompositionResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::llm::TaskDecompositionResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="115" column="10" bodyfile="include/llm/task_decomposer.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_task_decomposition_result_1a86c5d8bcde0ed3be085a104546fcd305" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_sub_task" kindref="compound">SubTask</ref> &gt;</type>
+        <definition>std::vector&lt;SubTask&gt; themis::llm::TaskDecompositionResult::subtasks</definition>
+        <argsstring></argsstring>
+        <name>subtasks</name>
+        <qualifiedname>themis::llm::TaskDecompositionResult::subtasks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="117" column="17" bodyfile="include/llm/task_decomposer.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_task_decomposition_result_1ad238152d3b6d8a3b98ce7e87819d23e3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TaskDecompositionResult::decomposition_prompt</definition>
+        <argsstring></argsstring>
+        <name>decomposition_prompt</name>
+        <qualifiedname>themis::llm::TaskDecompositionResult::decomposition_prompt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="119" column="17" bodyfile="include/llm/task_decomposer.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_task_decomposition_result_1a7f782dda6eebe8e33d41938f03f024eb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TaskDecompositionResult::raw_llm_response</definition>
+        <argsstring></argsstring>
+        <name>raw_llm_response</name>
+        <qualifiedname>themis::llm::TaskDecompositionResult::raw_llm_response</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="121" column="17" bodyfile="include/llm/task_decomposer.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_task_decomposition_result_1ae9d4b03911850c7ee43e0aa7017da834" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TaskDecompositionResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::llm::TaskDecompositionResult::error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="123" column="17" bodyfile="include/llm/task_decomposer.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_task_decomposition_result_1a32b462503287bcd18bbc9fe43db2a6ac" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::TaskDecompositionResult::llm_calls_made</definition>
+        <argsstring></argsstring>
+        <name>llm_calls_made</name>
+        <qualifiedname>themis::llm::TaskDecompositionResult::llm_calls_made</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="125" column="9" bodyfile="include/llm/task_decomposer.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_task_decomposition_result_1ad4fdc530fd5314fb49f9c48247eeb2d6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::TaskDecompositionResult::tokens_consumed</definition>
+        <argsstring></argsstring>
+        <name>tokens_consumed</name>
+        <qualifiedname>themis::llm::TaskDecompositionResult::tokens_consumed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="127" column="12" bodyfile="include/llm/task_decomposer.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/task_decomposer.h" line="114" column="1" bodyfile="include/llm/task_decomposer.h" bodystart="114" bodyend="128"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_task_decomposition_result_1ad238152d3b6d8a3b98ce7e87819d23e3" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecompositionResult</scope><name>decomposition_prompt</name></member>
+      <member refid="structthemis_1_1llm_1_1_task_decomposition_result_1ae9d4b03911850c7ee43e0aa7017da834" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecompositionResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1llm_1_1_task_decomposition_result_1a32b462503287bcd18bbc9fe43db2a6ac" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecompositionResult</scope><name>llm_calls_made</name></member>
+      <member refid="structthemis_1_1llm_1_1_task_decomposition_result_1a7f782dda6eebe8e33d41938f03f024eb" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecompositionResult</scope><name>raw_llm_response</name></member>
+      <member refid="structthemis_1_1llm_1_1_task_decomposition_result_1a86c5d8bcde0ed3be085a104546fcd305" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecompositionResult</scope><name>subtasks</name></member>
+      <member refid="structthemis_1_1llm_1_1_task_decomposition_result_1a1df99714ff298db0c2a210ebd0fd850e" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecompositionResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1llm_1_1_task_decomposition_result_1ad4fdc530fd5314fb49f9c48247eeb2d6" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecompositionResult</scope><name>tokens_consumed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

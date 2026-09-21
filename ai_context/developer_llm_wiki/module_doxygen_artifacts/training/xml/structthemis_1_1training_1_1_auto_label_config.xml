@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_auto_label_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::AutoLabelConfig</compoundname>
+    <includes refid="auto__labeler_8h" local="no">auto_labeler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_auto_label_config_1acdacd1928a9ad80d01e69c699900906a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::AutoLabelConfig::source_collection</definition>
+        <argsstring></argsstring>
+        <name>source_collection</name>
+        <qualifiedname>themis::training::AutoLabelConfig::source_collection</qualifiedname>
+        <briefdescription>
+<para>Collection with raw documents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="109" column="17" bodyfile="include/training/auto_labeler.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_auto_label_config_1a3e441d2257e6c894cc40a782315fe964" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::AutoLabelConfig::target_collection</definition>
+        <argsstring></argsstring>
+        <name>target_collection</name>
+        <qualifiedname>themis::training::AutoLabelConfig::target_collection</qualifiedname>
+        <briefdescription>
+<para>Collection for training samples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="110" column="17" bodyfile="include/training/auto_labeler.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_auto_label_config_1a6a47924c8199848b265538601efe5a58" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::AutoLabelConfig::language_code</definition>
+        <argsstring></argsstring>
+        <name>language_code</name>
+        <qualifiedname>themis::training::AutoLabelConfig::language_code</qualifiedname>
+        <initializer>= &quot;de&quot;</initializer>
+        <briefdescription>
+<para>Language code (e.g., &quot;de&quot; for German). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="111" column="17" bodyfile="include/training/auto_labeler.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_auto_label_config_1a90e834dba6ac6e3b183bf6b09de27253" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::AutoLabelConfig::modal_verbs_config</definition>
+        <argsstring></argsstring>
+        <name>modal_verbs_config</name>
+        <qualifiedname>themis::training::AutoLabelConfig::modal_verbs_config</qualifiedname>
+        <briefdescription>
+<para>Path to modal verbs YAML config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="112" column="17" bodyfile="include/training/auto_labeler.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_auto_label_config_1a49f9c773b2f018bd9b0fa44af4894a37" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::AutoLabelConfig::min_confidence</definition>
+        <argsstring></argsstring>
+        <name>min_confidence</name>
+        <qualifiedname>themis::training::AutoLabelConfig::min_confidence</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+<para>Minimum confidence to include sample. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="113" column="11" bodyfile="include/training/auto_labeler.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_auto_label_config_1a4231e2b7b33247ebcc3f0d4de8ed7d3f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::AutoLabelConfig::flag_low_confidence</definition>
+        <argsstring></argsstring>
+        <name>flag_low_confidence</name>
+        <qualifiedname>themis::training::AutoLabelConfig::flag_low_confidence</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Flag low-confidence for review. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="114" column="10" bodyfile="include/training/auto_labeler.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_auto_label_config_1ab507196df3307a9b544f39ba4f010920" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::AutoLabelConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::training::AutoLabelConfig::batch_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Documents per batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="115" column="12" bodyfile="include/training/auto_labeler.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_auto_label_config_1a2e80a68b7ee22cd61df953ed8dc6d895" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1training_1a619b2dcb68d4e906fdc0e573c7dd512a" kindref="member">DomainType</ref></type>
+        <definition>DomainType themis::training::AutoLabelConfig::domain_type</definition>
+        <argsstring></argsstring>
+        <name>domain_type</name>
+        <qualifiedname>themis::training::AutoLabelConfig::domain_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1training_1a619b2dcb68d4e906fdc0e573c7dd512aac53151ffd180a17416e8f09b1ca4bfc3" kindref="member">DomainType::LEGAL</ref></initializer>
+        <briefdescription>
+<para>Target domain for sample extraction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="116" column="16" bodyfile="include/training/auto_labeler.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_auto_label_config_1a1106fde24db711df39be2a877dacab32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::AutoLabelConfig::AutoLabelConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>AutoLabelConfig</name>
+        <qualifiedname>themis::training::AutoLabelConfig::AutoLabelConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/auto_labeler.h" line="118" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for auto-labeling. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/auto_labeler.h" line="108" column="1" bodyfile="include/training/auto_labeler.h" bodystart="108" bodyend="119"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_auto_label_config_1a1106fde24db711df39be2a877dacab32" prot="public" virt="non-virtual"><scope>themis::training::AutoLabelConfig</scope><name>AutoLabelConfig</name></member>
+      <member refid="structthemis_1_1training_1_1_auto_label_config_1ab507196df3307a9b544f39ba4f010920" prot="public" virt="non-virtual"><scope>themis::training::AutoLabelConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1training_1_1_auto_label_config_1a2e80a68b7ee22cd61df953ed8dc6d895" prot="public" virt="non-virtual"><scope>themis::training::AutoLabelConfig</scope><name>domain_type</name></member>
+      <member refid="structthemis_1_1training_1_1_auto_label_config_1a4231e2b7b33247ebcc3f0d4de8ed7d3f" prot="public" virt="non-virtual"><scope>themis::training::AutoLabelConfig</scope><name>flag_low_confidence</name></member>
+      <member refid="structthemis_1_1training_1_1_auto_label_config_1a6a47924c8199848b265538601efe5a58" prot="public" virt="non-virtual"><scope>themis::training::AutoLabelConfig</scope><name>language_code</name></member>
+      <member refid="structthemis_1_1training_1_1_auto_label_config_1a49f9c773b2f018bd9b0fa44af4894a37" prot="public" virt="non-virtual"><scope>themis::training::AutoLabelConfig</scope><name>min_confidence</name></member>
+      <member refid="structthemis_1_1training_1_1_auto_label_config_1a90e834dba6ac6e3b183bf6b09de27253" prot="public" virt="non-virtual"><scope>themis::training::AutoLabelConfig</scope><name>modal_verbs_config</name></member>
+      <member refid="structthemis_1_1training_1_1_auto_label_config_1acdacd1928a9ad80d01e69c699900906a" prot="public" virt="non-virtual"><scope>themis::training::AutoLabelConfig</scope><name>source_collection</name></member>
+      <member refid="structthemis_1_1training_1_1_auto_label_config_1a3e441d2257e6c894cc40a782315fe964" prot="public" virt="non-virtual"><scope>themis::training::AutoLabelConfig</scope><name>target_collection</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

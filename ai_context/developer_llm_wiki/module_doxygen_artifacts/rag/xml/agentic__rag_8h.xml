@@ -1,0 +1,355 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="agentic__rag_8h" kind="file" language="C++">
+    <compoundname>agentic_rag.h</compoundname>
+    <includes refid="rag__judge_8h" local="yes">rag/rag_judge.h</includes>
+    <includes refid="knowledge__gap__detector_8h" local="yes">rag/knowledge_gap_detector.h</includes>
+    <includes refid="delegate__evaluator_8h" local="yes">rag/delegate_evaluator.h</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includedby refid="agentic__rag_8cpp" local="yes">src/rag/agentic_rag.cpp</includedby>
+    <includedby refid="test__rag__agentic_8cpp" local="yes">tests/rag/test_rag_agentic.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/agentic_rag.h</label>
+        <link refid="agentic__rag_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>rag/delegate_evaluator.h</label>
+        <link refid="delegate__evaluator_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>rag/knowledge_gap_detector.h</label>
+        <link refid="knowledge__gap__detector_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>algorithm</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cmath</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/agentic_rag.h</label>
+        <link refid="agentic__rag_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rag/agentic_rag.cpp</label>
+        <link refid="agentic__rag_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/rag/test_rag_agentic.cpp</label>
+        <link refid="test__rag__agentic_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record" prot="public">themis::rag::agentic::IterationRecord</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result" prot="public">themis::rag::agentic::AgenticRAGResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config" prot="public">themis::rag::agentic::AgenticRAGConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1_1_relay_guard_config" prot="public">themis::rag::agentic::AgenticRAGConfig::RelayGuardConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g" prot="public">themis::rag::agentic::AgenticRAG</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_factory" prot="public">themis::rag::agentic::AgenticRAGFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1agentic">themis::rag::agentic</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 96/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rag__judge_8h" kindref="compound">rag/rag_judge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="knowledge__gap__detector_8h" kindref="compound">rag/knowledge_gap_detector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="delegate__evaluator_8h" kindref="compound">rag/delegate_evaluator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1rag_1_1agentic" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1agentic" kindref="compound">themis::rag::agentic</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Stop<sp/>conditions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975" kindref="member">StopReason</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975ab4c383027492eeb8c7d749c1f8267347" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975ab4c383027492eeb8c7d749c1f8267347" kindref="member">QUALITY_SATISFIED</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975a447b7f31011e2e430b002ca26c06ae51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975a447b7f31011e2e430b002ca26c06ae51" kindref="member">MAX_ITERATIONS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975ad838b565671b0bc90c1aea616c98d239" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975ad838b565671b0bc90c1aea616c98d239" kindref="member">NO_GAP_DETECTED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975a948590573e7619a1a3bc297a941d1f06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975a948590573e7619a1a3bc297a941d1f06" kindref="member">NO_NEW_DOCUMENTS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975a9f935beb31030ad0d4d26126c0f39bf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975a9f935beb31030ad0d4d26126c0f39bf2" kindref="member">CANCELLED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975a70d0ec1955c6bc7e6686692afbb3ee12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975a70d0ec1955c6bc7e6686692afbb3ee12" kindref="member">BUDGET_EXCEEDED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Per-iteration<sp/>record</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record" kindref="compound">IterationRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1a1ec8c10663c0c5a9597e804be59433ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1a1ec8c10663c0c5a9597e804be59433ee" kindref="member">iteration</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1a73a4b2a6c97632cbc45fd356669d4484" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1a73a4b2a6c97632cbc45fd356669d4484" kindref="member">query_used</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1a43d916a5d51e7f6fec16cc19bc3ec235" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;judge::RetrievedDocument&gt;<sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1a43d916a5d51e7f6fec16cc19bc3ec235" kindref="member">documents</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1a0bd750a29d052cfee3deca512b829461" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">judge::EvaluationResult</ref><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1a0bd750a29d052cfee3deca512b829461" kindref="member">evaluation</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1aad3407d0a265e80dddd5fa91f515d99e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result" kindref="compound">knowledge_gap::DetectionResult</ref><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1aad3407d0a265e80dddd5fa91f515d99e" kindref="member">gap</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1aac4604fe236dafd1c8360e252fde057c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_iteration_record_1aac4604fe236dafd1c8360e252fde057c" kindref="member">elapsed_ms</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Final<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result" kindref="compound">AgenticRAGResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a03e772a4001f8f22e8b7cd4e56ed415c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;judge::RetrievedDocument&gt;<sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a03e772a4001f8f22e8b7cd4e56ed415c" kindref="member">final_documents</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a2d8e1872e821fb71c93f8dad7162e2a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">judge::EvaluationResult</ref><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a2d8e1872e821fb71c93f8dad7162e2a4" kindref="member">final_evaluation</ref>;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a2a4846d11f1771e6fdcc9e1ddbefe367" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;IterationRecord&gt;<sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a2a4846d11f1771e6fdcc9e1ddbefe367" kindref="member">iterations</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a8f16097a066cd5887fef370f0f9c55ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1agentic_1af45d34de983a4635feaf5a2dee2f4975" kindref="member">StopReason</ref><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a8f16097a066cd5887fef370f0f9c55ba" kindref="member">stop_reason</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1aa66300633ef1bd84f6178b08a1b866e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1aa66300633ef1bd84f6178b08a1b866e7" kindref="member">total_iterations</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1acb5371805bbfd61670b840ea7bd47153" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1acb5371805bbfd61670b840ea7bd47153" kindref="member">total_elapsed_ms</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1af7527c4dbc1126054eb28ee1d49b5707" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1af7527c4dbc1126054eb28ee1d49b5707" kindref="member">quality_satisfied</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a765b17383787aab6532e764a9da9a784" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;delegate_eval::RelayResult&gt;<sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a765b17383787aab6532e764a9da9a784" kindref="member">delegate_relay</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a70857213b675556f33c537e3fe1eddde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result_1a70857213b675556f33c537e3fe1eddde" kindref="member">tokens_consumed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Retrieval<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="namespacethemis_1_1rag_1_1agentic_1a6dc37d7e980eec531d803a416e7b5e8c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1agentic_1a6dc37d7e980eec531d803a416e7b5e8c" kindref="member">RetrievalFn</ref><sp/>=<sp/>std::function&lt;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;judge::RetrievedDocument&gt;(</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>seen_ids)&gt;;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config" kindref="compound">AgenticRAGConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a9410690ceb40695867010e79376d6c34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a9410690ceb40695867010e79376d6c34" kindref="member">max_iterations</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a3bd3876fc4af6241d4e507fd5be31109" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a3bd3876fc4af6241d4e507fd5be31109" kindref="member">quality_threshold</ref><sp/>=<sp/>0.75;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a8dfcb1d24083a841aa27117266b9bcfd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a8dfcb1d24083a841aa27117266b9bcfd" kindref="member">faithfulness_threshold</ref><sp/>=<sp/>0.80;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a0dca66c731b77bcebae9a7da709abbf4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a0dca66c731b77bcebae9a7da709abbf4" kindref="member">max_total_documents</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1aaf51a0123071f6ed523ea22075c00e99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1aaf51a0123071f6ed523ea22075c00e99" kindref="member">accumulate_documents</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1ab2486da92a8f80555cb7eefbbaf28627" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1ab2486da92a8f80555cb7eefbbaf28627" kindref="member">reformulation_strategy</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;expand&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1aa7887f418bbc13ad736a542a71ccc67a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" kindref="compound">judge::RAGJudgeConfig</ref><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1aa7887f418bbc13ad736a542a71ccc67a" kindref="member">judge_config</ref>;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a740faf29397972df4bd675f28e2e9e8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_knowledge_gap_config" kindref="compound">knowledge_gap::KnowledgeGapConfig</ref><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a740faf29397972df4bd675f28e2e9e8f" kindref="member">gap_config</ref>;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a7cd5c67d1314a2933c95a5bb4b562e2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a7cd5c67d1314a2933c95a5bb4b562e2f" kindref="member">max_session_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DELEGATE-52<sp/>relay<sp/>guard<sp/>(optional<sp/>pre-production<sp/>safety<sp/>net)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1_1_relay_guard_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1_1_relay_guard_config" kindref="compound">RelayGuardConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1_1_relay_guard_config_1a056b87b9f4602831c79f24aa39ea0d0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator" kindref="compound">delegate_eval::RoundTripSimulator</ref>*<sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1_1_relay_guard_config_1a056b87b9f4602831c79f24aa39ea0d0f" kindref="member">simulator</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1_1_relay_guard_config_1a2549321a15db3118dee54db4e2437ab7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator" kindref="compound">delegate_eval::IDomainEvaluator</ref>*<sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1_1_relay_guard_config_1a2549321a15db3118dee54db4e2437ab7" kindref="member">evaluator</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1_1_relay_guard_config_1aaa7439c72b07f9604f1b67f89a1f06bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;delegate_eval::RoundTripEditPair&gt;<sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1_1_relay_guard_config_1aaa7439c72b07f9604f1b67f89a1f06bd" kindref="member">edit_pairs</ref>;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1_1_relay_guard_config_1a22208ae2d29562fc5e3b5083c893fdfd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a77690185c5e7ffb2644027fe860989b4" kindref="member">delegate_eval::EditFn</ref><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1_1_relay_guard_config_1a22208ae2d29562fc5e3b5083c893fdfd" kindref="member">edit_fn</ref>;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208" refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a482a5591084bd37683b1b1423135c33d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;RelayGuardConfig&gt;<sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config_1a482a5591084bd37683b1b1423135c33d" kindref="member">relay_guard</ref>;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AgenticRAG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235" refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1aa7ec22ac7e626aabea78c41960f3834d" kindref="member">AgenticRAG</ref><sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1aa7ec22ac7e626aabea78c41960f3834d" kindref="member">AgenticRAG</ref>();</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1aa7ec22ac7e626aabea78c41960f3834d" kindref="member">AgenticRAG</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config" kindref="compound">AgenticRAGConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251" refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1a459ad9774b6d36742964387ceff8df0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1a459ad9774b6d36742964387ceff8df0f" kindref="member">~AgenticRAG</ref>();</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254" refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1a55714bbab4018e0a95855184406cc7e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1a55714bbab4018e0a95855184406cc7e3" kindref="member">AgenticRAG</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1aa7ec22ac7e626aabea78c41960f3834d" kindref="member">AgenticRAG</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255" refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1a20fa47f433a86aaa4590ad631669b318" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1aa7ec22ac7e626aabea78c41960f3834d" kindref="member">AgenticRAG</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1a20fa47f433a86aaa4590ad631669b318" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1aa7ec22ac7e626aabea78c41960f3834d" kindref="member">AgenticRAG</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256" refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1ac87ff52a2c7c2603afce15463ec3b6f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1ac87ff52a2c7c2603afce15463ec3b6f4" kindref="member">AgenticRAG</ref>(<ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1aa7ec22ac7e626aabea78c41960f3834d" kindref="member">AgenticRAG</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="257" refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1aee240240c6197b1bb1e0c875dfddd005" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1aa7ec22ac7e626aabea78c41960f3834d" kindref="member">AgenticRAG</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1aa7ec22ac7e626aabea78c41960f3834d" kindref="member">AgenticRAG</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Primary<sp/>entry<sp/>point</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result" kindref="compound">AgenticRAGResult</ref><sp/><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1a51d595366bd4d54cbcb1699f9a2eb2ca" kindref="member">run</ref>(</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>initial_query,</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::RetrievedDocument&gt;<sp/>initial_docs,</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1agentic_1a6dc37d7e980eec531d803a416e7b5e8c" kindref="member">RetrievalFn</ref><sp/>retrieval_fn);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_result" kindref="compound">AgenticRAGResult</ref><sp/><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1a51d595366bd4d54cbcb1699f9a2eb2ca" kindref="member">run</ref>(</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">judge</ref>::RetrievedDocument&gt;<sp/>docs);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Control</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1ad38dce8cbad3e4cfb8c34753886b1de8" kindref="member">cancel</ref>();</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config" kindref="compound">AgenticRAGConfig</ref><sp/><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1a09f9e08c2683510382187bbf40e9d6af" kindref="member">getConfig</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1a17f16e59f5d8a7a0ef7ca09b324f08f0" kindref="member">setConfig</ref>(const<sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_config" kindref="compound">AgenticRAGConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>reformulation<sp/>(exposed<sp/>for<sp/>testing)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1a614fcd8493af62ae85f39c719209c922" kindref="member">reformulateQuery</ref>(</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>original_query,</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="namespacethemis_1_1rag_1_1knowledge__gap" kindref="compound">knowledge_gap</ref>::DetectionResult&amp;<sp/>gap)<sp/>const;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="structthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Factory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347" refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_factory" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_factory" kindref="compound">AgenticRAGFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;AgenticRAG&gt;<sp/><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_factory_1a70329b25b09c6a02eb435f4dc067cd3d" kindref="member">createAggressive</ref>();</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;AgenticRAG&gt;<sp/><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_factory_1af464772cca4b916017d355d4044a3347" kindref="member">createBalanced</ref>();</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;AgenticRAG&gt;<sp/><ref refid="classthemis_1_1rag_1_1agentic_1_1_agentic_r_a_g_factory_1ac76cc341039ff92afd601a75c8cbaacc" kindref="member">createConservative</ref>();</highlight></codeline>
+<codeline lineno="363"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag::agentic</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/agentic_rag.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_watermark_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::WatermarkConfig</compoundname>
+    <includes refid="streaming__window_8h" local="no">streaming_window.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_watermark_config_1ab79aabc79d16fff7f7f20e5f024ae5a3" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::WatermarkConfig::max_out_of_orderness</definition>
+        <argsstring></argsstring>
+        <name>max_out_of_orderness</name>
+        <qualifiedname>themisdb::analytics::WatermarkConfig::max_out_of_orderness</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="179" column="31" bodyfile="include/analytics/streaming_window.h" bodystart="179" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_watermark_config_1a267452d491e4b2f2b3f0730462733fff" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::WatermarkConfig::idle_timeout</definition>
+        <argsstring></argsstring>
+        <name>idle_timeout</name>
+        <qualifiedname>themisdb::analytics::WatermarkConfig::idle_timeout</qualifiedname>
+        <initializer>{60000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="180" column="31" bodyfile="include/analytics/streaming_window.h" bodystart="180" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_watermark_config_1aa7173f6de72189a58574f502ad9ddf72" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::WatermarkConfig::allow_late_data</definition>
+        <argsstring></argsstring>
+        <name>allow_late_data</name>
+        <qualifiedname>themisdb::analytics::WatermarkConfig::allow_late_data</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/streaming_window.h" line="181" column="10" bodyfile="include/analytics/streaming_window.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/streaming_window.h" line="178" column="1" bodyfile="include/analytics/streaming_window.h" bodystart="178" bodyend="182"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_watermark_config_1aa7173f6de72189a58574f502ad9ddf72" prot="public" virt="non-virtual"><scope>themisdb::analytics::WatermarkConfig</scope><name>allow_late_data</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_watermark_config_1a267452d491e4b2f2b3f0730462733fff" prot="public" virt="non-virtual"><scope>themisdb::analytics::WatermarkConfig</scope><name>idle_timeout</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_watermark_config_1ab79aabc79d16fff7f7f20e5f024ae5a3" prot="public" virt="non-virtual"><scope>themisdb::analytics::WatermarkConfig</scope><name>max_out_of_orderness</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

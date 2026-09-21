@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_policy_engine" kind="class" language="C++" prot="public">
+    <compoundname>MockPolicyEngine</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_policy_engine_1ab43ece94e8b8f4beb0a80a1a079ec362" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="struct_mock_policy_rule" kindref="compound">MockPolicyRule</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, MockPolicyRule&gt; MockPolicyEngine::rules_</definition>
+        <argsstring></argsstring>
+        <name>rules_</name>
+        <qualifiedname>MockPolicyEngine::rules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase3_policy_gates.cpp" line="75" column="24" bodyfile="benchmarks/security/bench_security_phase3_policy_gates.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_policy_engine_1ad83f5fdbaadd51cfed78c6b59ded100d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; MockPolicyEngine::eval_count_</definition>
+        <argsstring></argsstring>
+        <name>eval_count_</name>
+        <qualifiedname>MockPolicyEngine::eval_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase3_policy_gates.cpp" line="76" column="17" bodyfile="benchmarks/security/bench_security_phase3_policy_gates.cpp" bodystart="76" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_policy_engine_1a8d94efa96c29b05a4938ae1654152930" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>MockPolicyEngine::MockPolicyEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>MockPolicyEngine</name>
+        <qualifiedname>MockPolicyEngine::MockPolicyEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase3_policy_gates.cpp" line="41" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_policy_engine_1a83724b15c766d88cff24970505c13d2a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockPolicyEngine::addRule</definition>
+        <argsstring>(const std::string &amp;rule_id, const MockPolicyRule &amp;rule)</argsstring>
+        <name>addRule</name>
+        <qualifiedname>MockPolicyEngine::addRule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_mock_policy_rule" kindref="compound">MockPolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase3_policy_gates.cpp" line="43" column="10" bodyfile="benchmarks/security/bench_security_phase3_policy_gates.cpp" bodystart="43" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_policy_engine_1a1715c3892d639cf227e0b71f8e93190f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockPolicyEngine::evaluate</definition>
+        <argsstring>(const std::string &amp;principal, const std::string &amp;resource, const std::string &amp;action)</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>MockPolicyEngine::evaluate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase3_policy_gates.cpp" line="47" column="10" bodyfile="benchmarks/security/bench_security_phase3_policy_gates.cpp" bodystart="47" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_policy_engine_1acf17220d68559b8e01fc7fd4c88635b0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t MockPolicyEngine::evalCount</definition>
+        <argsstring>() const</argsstring>
+        <name>evalCount</name>
+        <qualifiedname>MockPolicyEngine::evalCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_security_phase3_policy_gates.cpp" line="72" column="14" bodyfile="benchmarks/security/bench_security_phase3_policy_gates.cpp" bodystart="72" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/security/bench_security_phase3_policy_gates.cpp" line="39" column="1" bodyfile="benchmarks/security/bench_security_phase3_policy_gates.cpp" bodystart="39" bodyend="77"/>
+    <listofallmembers>
+      <member refid="class_mock_policy_engine_1a83724b15c766d88cff24970505c13d2a" prot="public" virt="non-virtual"><scope>MockPolicyEngine</scope><name>addRule</name></member>
+      <member refid="class_mock_policy_engine_1ad83f5fdbaadd51cfed78c6b59ded100d" prot="private" virt="non-virtual"><scope>MockPolicyEngine</scope><name>eval_count_</name></member>
+      <member refid="class_mock_policy_engine_1acf17220d68559b8e01fc7fd4c88635b0" prot="public" virt="non-virtual"><scope>MockPolicyEngine</scope><name>evalCount</name></member>
+      <member refid="class_mock_policy_engine_1a1715c3892d639cf227e0b71f8e93190f" prot="public" virt="non-virtual"><scope>MockPolicyEngine</scope><name>evaluate</name></member>
+      <member refid="class_mock_policy_engine_1a8d94efa96c29b05a4938ae1654152930" prot="public" virt="non-virtual"><scope>MockPolicyEngine</scope><name>MockPolicyEngine</name></member>
+      <member refid="class_mock_policy_engine_1ab43ece94e8b8f4beb0a80a1a079ec362" prot="private" virt="non-virtual"><scope>MockPolicyEngine</scope><name>rules_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

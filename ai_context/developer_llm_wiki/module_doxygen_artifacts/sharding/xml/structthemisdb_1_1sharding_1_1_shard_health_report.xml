@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_shard_health_report" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ShardHealthReport</compoundname>
+    <includes refid="shard__repair__engine_8h" local="no">shard_repair_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_health_report_1a003d406ed56c24166edbb5982e368ab6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardHealthReport::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themisdb::sharding::ShardHealthReport::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="96" column="17" bodyfile="include/sharding/shard_repair_engine.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_health_report_1a659411655760bb3419d17e4b0104779a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1a769c5afc5540bee6ee4d703ad5aabacf" kindref="member">ShardRepairStatus</ref></type>
+        <definition>ShardRepairStatus themis::sharding::ShardHealthReport::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themisdb::sharding::ShardHealthReport::status</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1sharding_1a769c5afc5540bee6ee4d703ad5aabacfaf068ebe4133e3e6563080836268ea979" kindref="member">ShardRepairStatus::HEALTHY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="97" column="23" bodyfile="include/sharding/shard_repair_engine.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_health_report_1a4313d3fc204685f540dcecfbd961bfc2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ShardHealthReport::documents_scanned</definition>
+        <argsstring></argsstring>
+        <name>documents_scanned</name>
+        <qualifiedname>themisdb::sharding::ShardHealthReport::documents_scanned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="98" column="14" bodyfile="include/sharding/shard_repair_engine.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_health_report_1a9ce0f18495f63dcbfe72b37855d5c58c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ShardHealthReport::documents_healthy</definition>
+        <argsstring></argsstring>
+        <name>documents_healthy</name>
+        <qualifiedname>themisdb::sharding::ShardHealthReport::documents_healthy</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="99" column="14" bodyfile="include/sharding/shard_repair_engine.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_health_report_1a45f43d4190d3474b30c52053ce3a775c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ShardHealthReport::documents_degraded</definition>
+        <argsstring></argsstring>
+        <name>documents_degraded</name>
+        <qualifiedname>themisdb::sharding::ShardHealthReport::documents_degraded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="100" column="14" bodyfile="include/sharding/shard_repair_engine.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_health_report_1a0568f9a59c66859b88bc2d5bdeba886c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ShardHealthReport::documents_unrecoverable</definition>
+        <argsstring></argsstring>
+        <name>documents_unrecoverable</name>
+        <qualifiedname>themisdb::sharding::ShardHealthReport::documents_unrecoverable</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="101" column="14" bodyfile="include/sharding/shard_repair_engine.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_health_report_1a4e2458985254c5c3f6f7f8f679295518" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::ShardHealthReport::last_scan</definition>
+        <argsstring></argsstring>
+        <name>last_scan</name>
+        <qualifiedname>themisdb::sharding::ShardHealthReport::last_scan</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="102" column="43" bodyfile="include/sharding/shard_repair_engine.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_health_report_1a872dc60a7c1a9e0841a34c192bbc77e8" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::ShardHealthReport::last_repair</definition>
+        <argsstring></argsstring>
+        <name>last_repair</name>
+        <qualifiedname>themisdb::sharding::ShardHealthReport::last_repair</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="103" column="43" bodyfile="include/sharding/shard_repair_engine.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_health_report_1a4943330209341326a7d03ca13001a3ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardHealthReport::last_error</definition>
+        <argsstring></argsstring>
+        <name>last_error</name>
+        <qualifiedname>themisdb::sharding::ShardHealthReport::last_error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_repair_engine.h" line="104" column="17" bodyfile="include/sharding/shard_repair_engine.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Latest per-shard anti-entropy health report. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/shard_repair_engine.h" line="95" column="1" bodyfile="include/sharding/shard_repair_engine.h" bodystart="95" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_health_report_1a45f43d4190d3474b30c52053ce3a775c" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardHealthReport</scope><name>documents_degraded</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_health_report_1a9ce0f18495f63dcbfe72b37855d5c58c" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardHealthReport</scope><name>documents_healthy</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_health_report_1a4313d3fc204685f540dcecfbd961bfc2" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardHealthReport</scope><name>documents_scanned</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_health_report_1a0568f9a59c66859b88bc2d5bdeba886c" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardHealthReport</scope><name>documents_unrecoverable</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_health_report_1a4943330209341326a7d03ca13001a3ad" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardHealthReport</scope><name>last_error</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_health_report_1a872dc60a7c1a9e0841a34c192bbc77e8" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardHealthReport</scope><name>last_repair</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_health_report_1a4e2458985254c5c3f6f7f8f679295518" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardHealthReport</scope><name>last_scan</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_health_report_1a003d406ed56c24166edbb5982e368ab6" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardHealthReport</scope><name>shard_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_health_report_1a659411655760bb3419d17e4b0104779a" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardHealthReport</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

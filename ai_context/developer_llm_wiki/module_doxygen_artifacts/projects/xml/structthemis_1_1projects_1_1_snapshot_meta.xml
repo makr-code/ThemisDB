@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1projects_1_1_snapshot_meta" kind="struct" language="C++" prot="public">
+    <compoundname>themis::projects::SnapshotMeta</compoundname>
+    <includes refid="project__versioning_8h" local="no">project_versioning.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_snapshot_meta_1a10c14dcbbaef5ff48943e51646787a4f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1projects_1a904262ebb886578d2e21ef7718def9be" kindref="member">SnapshotId</ref></type>
+        <definition>SnapshotId themis::projects::SnapshotMeta::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::projects::SnapshotMeta::id</qualifiedname>
+        <briefdescription>
+<para>&quot;snap:&lt;uuid&gt;&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="44" column="17" bodyfile="include/projects/project_versioning.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_snapshot_meta_1aa3ba99a796b33384dcb97154b7b3166f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::SnapshotMeta::project_id</definition>
+        <argsstring></argsstring>
+        <name>project_id</name>
+        <qualifiedname>themis::projects::SnapshotMeta::project_id</qualifiedname>
+        <briefdescription>
+<para>Owning project UUID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="45" column="17" bodyfile="include/projects/project_versioning.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_snapshot_meta_1a36d07a80c534706751de945805845d7d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::SnapshotMeta::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::projects::SnapshotMeta::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable label. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="46" column="17" bodyfile="include/projects/project_versioning.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_snapshot_meta_1a0fc1fe76ee1e1a1f152620ad0a830d03" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::projects::SnapshotMeta::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::projects::SnapshotMeta::created_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix timestamp (seconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="47" column="17" bodyfile="include/projects/project_versioning.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_snapshot_meta_1a10801e02157f6bbc4271cf81c8658b1c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1projects_1ae12285e4416206b25da7ad0755116906" kindref="member">Sha256Digest</ref></type>
+        <definition>Sha256Digest themis::projects::SnapshotMeta::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themis::projects::SnapshotMeta::checksum</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of snapshot content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="48" column="18" bodyfile="include/projects/project_versioning.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_snapshot_meta_1a55fa31b941066153571fddaae6d22d57" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::projects::SnapshotMeta::document_count</definition>
+        <argsstring></argsstring>
+        <name>document_count</name>
+        <qualifiedname>themis::projects::SnapshotMeta::document_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of documents captured. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="49" column="17" bodyfile="include/projects/project_versioning.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_snapshot_meta_1a64bf27eb92260d31d20a0112c5c5ac7d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref></type>
+        <definition>json themis::projects::SnapshotMeta::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::projects::SnapshotMeta::metadata</qualifiedname>
+        <briefdescription>
+<para>Arbitrary user metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="50" column="17" bodyfile="include/projects/project_versioning.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1projects_1_1_snapshot_meta_1a59d5026ce7c4c7c7bb2121773d9dd665" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref></type>
+        <definition>json themis::projects::SnapshotMeta::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::projects::SnapshotMeta::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="52" column="10" bodyfile="src/projects/project_versioning.cpp" bodystart="51" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1projects_1_1_snapshot_meta_1a5533f3ede8a2a03d51415ef1881f2605" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1projects_1_1_snapshot_meta" kindref="compound">SnapshotMeta</ref></type>
+        <definition>SnapshotMeta themis::projects::SnapshotMeta::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::projects::SnapshotMeta::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), json::object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="53" column="25" bodyfile="src/projects/project_versioning.cpp" bodystart="69" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Immutable metadata for a project snapshot. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Snapshots are content-addressed: the <computeroutput>checksum</computeroutput> field is the SHA-256 digest of the serialised snapshot content. It is computed at creation time and verified on every restore call. Snapshots are never mutated after creation. </para>
+    </detaileddescription>
+    <location file="include/projects/project_versioning.h" line="43" column="1" bodyfile="include/projects/project_versioning.h" bodystart="43" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1projects_1_1_snapshot_meta_1a10801e02157f6bbc4271cf81c8658b1c" prot="public" virt="non-virtual"><scope>themis::projects::SnapshotMeta</scope><name>checksum</name></member>
+      <member refid="structthemis_1_1projects_1_1_snapshot_meta_1a0fc1fe76ee1e1a1f152620ad0a830d03" prot="public" virt="non-virtual"><scope>themis::projects::SnapshotMeta</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1projects_1_1_snapshot_meta_1a36d07a80c534706751de945805845d7d" prot="public" virt="non-virtual"><scope>themis::projects::SnapshotMeta</scope><name>description</name></member>
+      <member refid="structthemis_1_1projects_1_1_snapshot_meta_1a55fa31b941066153571fddaae6d22d57" prot="public" virt="non-virtual"><scope>themis::projects::SnapshotMeta</scope><name>document_count</name></member>
+      <member refid="structthemis_1_1projects_1_1_snapshot_meta_1a5533f3ede8a2a03d51415ef1881f2605" prot="public" virt="non-virtual"><scope>themis::projects::SnapshotMeta</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1projects_1_1_snapshot_meta_1a10c14dcbbaef5ff48943e51646787a4f" prot="public" virt="non-virtual"><scope>themis::projects::SnapshotMeta</scope><name>id</name></member>
+      <member refid="structthemis_1_1projects_1_1_snapshot_meta_1a64bf27eb92260d31d20a0112c5c5ac7d" prot="public" virt="non-virtual"><scope>themis::projects::SnapshotMeta</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1projects_1_1_snapshot_meta_1aa3ba99a796b33384dcb97154b7b3166f" prot="public" virt="non-virtual"><scope>themis::projects::SnapshotMeta</scope><name>project_id</name></member>
+      <member refid="structthemis_1_1projects_1_1_snapshot_meta_1a59d5026ce7c4c7c7bb2121773d9dd665" prot="public" virt="non-virtual"><scope>themis::projects::SnapshotMeta</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

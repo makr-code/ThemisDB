@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1metadata_1_1_metadata_change_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::metadata::MetadataChangeEvent</compoundname>
+    <includes refid="imetadata__change__listener_8h" local="no">imetadata_change_listener.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_metadata_change_event_1a22d0e9d751cbb784b7d4b7801ecab050" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1metadata_1afd7078e993135071573cd065ff801f2e" kindref="member">MetadataChangeType</ref></type>
+        <definition>MetadataChangeType themis::metadata::MetadataChangeEvent::change_type</definition>
+        <argsstring></argsstring>
+        <name>change_type</name>
+        <qualifiedname>themis::metadata::MetadataChangeEvent::change_type</qualifiedname>
+        <briefdescription>
+<para>What happened. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="69" column="43" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_metadata_change_event_1ae50250b2ad1842f28095c78667583293" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::MetadataChangeEvent::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::metadata::MetadataChangeEvent::table_name</qualifiedname>
+        <briefdescription>
+<para>Affected table/collection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="70" column="43" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_metadata_change_event_1a04120f1707e3ae0ad28641e2725fe015" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::metadata::MetadataChangeEvent::actor</definition>
+        <argsstring></argsstring>
+        <name>actor</name>
+        <qualifiedname>themis::metadata::MetadataChangeEvent::actor</qualifiedname>
+        <briefdescription>
+<para>Who triggered the change (nullopt = system). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="71" column="30" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_metadata_change_event_1aacaeb2ba28b77f808a4a846f4e01b471" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::metadata::MetadataChangeEvent::detail</definition>
+        <argsstring></argsstring>
+        <name>detail</name>
+        <qualifiedname>themis::metadata::MetadataChangeEvent::detail</qualifiedname>
+        <briefdescription>
+<para>Human-readable description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="72" column="30" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_metadata_change_event_1af097f63de0160e4205ea995fdaba6ace" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::metadata::MetadataChangeEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::metadata::MetadataChangeEvent::timestamp</qualifiedname>
+        <briefdescription>
+<para>When the change occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="73" column="43" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1metadata_1_1_metadata_change_event_1a79830fdb8bcb57e6dd1c38c45c37a730" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1metadata_1a8efd44656ac5d0cf26226df8e9a7fbc2" kindref="member">json</ref></type>
+        <definition>json themis::metadata::MetadataChangeEvent::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::metadata::MetadataChangeEvent::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="75" column="10" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="75" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Describes a single metadata change event passed to listeners. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/imetadata_change_listener.h" line="68" column="1" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="68" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1metadata_1_1_metadata_change_event_1a04120f1707e3ae0ad28641e2725fe015" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataChangeEvent</scope><name>actor</name></member>
+      <member refid="structthemis_1_1metadata_1_1_metadata_change_event_1a22d0e9d751cbb784b7d4b7801ecab050" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataChangeEvent</scope><name>change_type</name></member>
+      <member refid="structthemis_1_1metadata_1_1_metadata_change_event_1aacaeb2ba28b77f808a4a846f4e01b471" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataChangeEvent</scope><name>detail</name></member>
+      <member refid="structthemis_1_1metadata_1_1_metadata_change_event_1ae50250b2ad1842f28095c78667583293" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataChangeEvent</scope><name>table_name</name></member>
+      <member refid="structthemis_1_1metadata_1_1_metadata_change_event_1af097f63de0160e4205ea995fdaba6ace" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataChangeEvent</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1metadata_1_1_metadata_change_event_1a79830fdb8bcb57e6dd1c38c45c37a730" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataChangeEvent</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

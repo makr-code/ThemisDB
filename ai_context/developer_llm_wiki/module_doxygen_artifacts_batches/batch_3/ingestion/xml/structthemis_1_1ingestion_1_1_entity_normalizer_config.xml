@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_entity_normalizer_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::EntityNormalizerConfig</compoundname>
+    <includes refid="entity__assembler_8h" local="no">entity_assembler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_entity_normalizer_config_1ac4686dc2099387c245d71221b7bef283" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::EntityNormalizerConfig::dedup_strategy</definition>
+        <argsstring></argsstring>
+        <name>dedup_strategy</name>
+        <qualifiedname>themis::ingestion::EntityNormalizerConfig::dedup_strategy</qualifiedname>
+        <initializer>{&quot;canonical_id&quot;}</initializer>
+        <briefdescription>
+<para>Deduplication strategy: &quot;canonical_id&quot; (default) | &quot;none&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="34" column="17" bodyfile="include/ingestion/entity_assembler.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_entity_normalizer_config_1a77cb47cef15727874ec826a22515071d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::EntityNormalizerConfig::min_confidence</definition>
+        <argsstring></argsstring>
+        <name>min_confidence</name>
+        <qualifiedname>themis::ingestion::EntityNormalizerConfig::min_confidence</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Minimum confidence to retain an entity (0.0 = keep all). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="36" column="12" bodyfile="include/ingestion/entity_assembler.h" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_entity_normalizer_config_1a80fcdf452646a27a756690a63cbeb907" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::ingestion::EntityNormalizerConfig::known_law_abbreviations</definition>
+        <argsstring></argsstring>
+        <name>known_law_abbreviations</name>
+        <qualifiedname>themis::ingestion::EntityNormalizerConfig::known_law_abbreviations</qualifiedname>
+        <briefdescription>
+<para>Known law abbreviations for canonical ID building, e.g. {&quot;BImSchG&quot;, &quot;BImSchV&quot;}. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/entity_assembler.h" line="38" column="24" bodyfile="include/ingestion/entity_assembler.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <computeroutput><ref refid="classthemis_1_1ingestion_1_1_entity_normalizer" kindref="compound">EntityNormalizer</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/entity_assembler.h" line="32" column="1" bodyfile="include/ingestion/entity_assembler.h" bodystart="32" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_entity_normalizer_config_1ac4686dc2099387c245d71221b7bef283" prot="public" virt="non-virtual"><scope>themis::ingestion::EntityNormalizerConfig</scope><name>dedup_strategy</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_entity_normalizer_config_1a80fcdf452646a27a756690a63cbeb907" prot="public" virt="non-virtual"><scope>themis::ingestion::EntityNormalizerConfig</scope><name>known_law_abbreviations</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_entity_normalizer_config_1a77cb47cef15727874ec826a22515071d" prot="public" virt="non-virtual"><scope>themis::ingestion::EntityNormalizerConfig</scope><name>min_confidence</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

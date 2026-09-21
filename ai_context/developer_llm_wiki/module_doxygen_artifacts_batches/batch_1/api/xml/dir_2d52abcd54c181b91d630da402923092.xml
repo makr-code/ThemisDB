@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_2d52abcd54c181b91d630da402923092" kind="dir">
+    <compoundname>include/api</compoundname>
+    <innerfile refid="api__error__taxonomy_8h">api_error_taxonomy.h</innerfile>
+    <innerfile refid="api__gateway__hook_8h">api_gateway_hook.h</innerfile>
+    <innerfile refid="api__transport__contracts_8h">api_transport_contracts.h</innerfile>
+    <innerfile refid="api__transport__policy_8h">api_transport_policy.h</innerfile>
+    <innerfile refid="api__version__router_8h">api_version_router.h</innerfile>
+    <innerfile refid="aql__utils_8h">aql_utils.h</innerfile>
+    <innerfile refid="correlation__id_8h">correlation_id.h</innerfile>
+    <innerfile refid="federation__admin__handler_8h">federation_admin_handler.h</innerfile>
+    <innerfile refid="geo__index__hooks_8h">geo_index_hooks.h</innerfile>
+    <innerfile refid="graphql_8h">graphql.h</innerfile>
+    <innerfile refid="graphql__aql__resolver_8h">graphql_aql_resolver.h</innerfile>
+    <innerfile refid="graphql__audit__logger_8h">graphql_audit_logger.h</innerfile>
+    <innerfile refid="graphql__cache_8h">graphql_cache.h</innerfile>
+    <innerfile refid="graphql__metrics_8h">graphql_metrics.h</innerfile>
+    <innerfile refid="graphql__schema__builder_8h">graphql_schema_builder.h</innerfile>
+    <innerfile refid="graphql__ws__handler_8h">graphql_ws_handler.h</innerfile>
+    <innerfile refid="grpc__bridge_8h">grpc_bridge.h</innerfile>
+    <innerfile refid="grpc__server_8h">grpc_server.h</innerfile>
+    <innerfile refid="http__handler_8h">http_handler.h</innerfile>
+    <innerfile refid="otlp__exporter_8h">otlp_exporter.h</innerfile>
+    <innerfile refid="persisted__queries_8h">persisted_queries.h</innerfile>
+    <innerfile refid="rate__limiter_8h">rate_limiter.h</innerfile>
+    <innerfile refid="subscription__multiplexer_8h">subscription_multiplexer.h</innerfile>
+    <innerfile refid="themisdb__grpc__service_8h">themisdb_grpc_service.h</innerfile>
+    <innerfile refid="themisdb__grpc__service__factory_8h">themisdb_grpc_service_factory.h</innerfile>
+    <innerfile refid="tracing__middleware_8h">tracing_middleware.h</innerfile>
+    <innerfile refid="websocket__handler_8h">websocket_handler.h</innerfile>
+    <innerfile refid="ws__handler_8h">ws_handler.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/"/>
+  </compounddef>
+</doxygen>

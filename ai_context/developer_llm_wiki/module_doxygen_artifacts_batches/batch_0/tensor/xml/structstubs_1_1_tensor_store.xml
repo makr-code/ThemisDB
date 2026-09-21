@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstubs_1_1_tensor_store" kind="struct" language="C++" prot="public">
+    <compoundname>stubs::TensorStore</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structstubs_1_1_tensor_store_1a24d7d65d6e01260e9ce5b5b458b71996" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::TensorStore::inserts</definition>
+        <argsstring></argsstring>
+        <name>inserts</name>
+        <qualifiedname>stubs::TensorStore::inserts</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_highcardinality_stress.cpp" line="26" column="17" bodyfile="tests/tensor/test_tensor_highcardinality_stress.cpp" bodystart="26" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="variable" id="structstubs_1_1_tensor_store_1ad2c78afa04307fb61e3ec97371e1e17e" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::TensorStore::insert_errors</definition>
+        <argsstring></argsstring>
+        <name>insert_errors</name>
+        <qualifiedname>stubs::TensorStore::insert_errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_highcardinality_stress.cpp" line="27" column="17" bodyfile="tests/tensor/test_tensor_highcardinality_stress.cpp" bodystart="27" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstubs_1_1_tensor_store_1a3b748950d9ade750b4749e306dab90cd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool stubs::TensorStore::insert</definition>
+        <argsstring>(uint64_t tensor_id, std::vector&lt; float &gt; &amp;)</argsstring>
+        <name>insert</name>
+        <qualifiedname>stubs::TensorStore::insert</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>tensor_id</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_highcardinality_stress.cpp" line="30" column="10" bodyfile="tests/tensor/test_tensor_highcardinality_stress.cpp" bodystart="30" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/tensor/test_tensor_highcardinality_stress.cpp" line="25" column="1" bodyfile="tests/tensor/test_tensor_highcardinality_stress.cpp" bodystart="25" bodyend="34"/>
+    <listofallmembers>
+      <member refid="structstubs_1_1_tensor_store_1a3b748950d9ade750b4749e306dab90cd" prot="public" virt="non-virtual"><scope>stubs::TensorStore</scope><name>insert</name></member>
+      <member refid="structstubs_1_1_tensor_store_1ad2c78afa04307fb61e3ec97371e1e17e" prot="public" virt="non-virtual"><scope>stubs::TensorStore</scope><name>insert_errors</name></member>
+      <member refid="structstubs_1_1_tensor_store_1a24d7d65d6e01260e9ce5b5b458b71996" prot="public" virt="non-virtual"><scope>stubs::TensorStore</scope><name>inserts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::tests::Wave5StateStoreTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test_1a043c957ca24be179ba8d64ca86cad754" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_l_l_m_plugin_manager" kindref="compound">LLMPluginManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LLMPluginManager&gt; themis::llm::tests::Wave5StateStoreTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>themis::llm::tests::Wave5StateStoreTest::mgr_</qualifiedname>
+        <initializer>                 =
+std::make_unique&lt;<ref refid="class_l_l_m_plugin_manager" kindref="compound">LLMPluginManager</ref>&gt;()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave5_llm_stubs.cpp" line="99" column="21" bodyfile="tests/llm/test_wave5_llm_stubs.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test_1acded233684158c10ce91225cc0316fe5" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::llm::tests::Wave5StateStoreTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>themis::llm::tests::Wave5StateStoreTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave5_llm_stubs.cpp" line="101" column="14" bodyfile="tests/llm/test_wave5_llm_stubs.cpp" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test_1a04bf718c0a1907ae77a2f4cd1aa19dbb" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::tests::Wave5StateStoreTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::llm::tests::Wave5StateStoreTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave5_llm_stubs.cpp" line="87" column="10" bodyfile="tests/llm/test_wave5_llm_stubs.cpp" bodystart="87" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test_1a3a5f9a8732458b8ee60bbcf92755bfb1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::tests::Wave5StateStoreTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::llm::tests::Wave5StateStoreTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wave5_llm_stubs.cpp" line="93" column="10" bodyfile="tests/llm/test_wave5_llm_stubs.cpp" bodystart="93" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::llm::tests::Wave5StateStoreTest</label>
+        <link refid="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::llm::tests::Wave5StateStoreTest</label>
+        <link refid="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_wave5_llm_stubs.cpp" line="85" column="1" bodyfile="tests/llm/test_wave5_llm_stubs.cpp" bodystart="85" bodyend="102"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test_1acded233684158c10ce91225cc0316fe5" prot="protected" virt="non-virtual"><scope>themis::llm::tests::Wave5StateStoreTest</scope><name>db_path_</name></member>
+      <member refid="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test_1a043c957ca24be179ba8d64ca86cad754" prot="protected" virt="non-virtual"><scope>themis::llm::tests::Wave5StateStoreTest</scope><name>mgr_</name></member>
+      <member refid="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test_1a04bf718c0a1907ae77a2f4cd1aa19dbb" prot="protected" virt="non-virtual"><scope>themis::llm::tests::Wave5StateStoreTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1llm_1_1tests_1_1_wave5_state_store_test_1a3a5f9a8732458b8ee60bbcf92755bfb1" prot="protected" virt="non-virtual"><scope>themis::llm::tests::Wave5StateStoreTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

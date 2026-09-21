@@ -1,0 +1,399 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_token_buffer_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::TokenBufferGuard</compoundname>
+    <includes refid="inference__guard_8h" local="no">inference_guard.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_token_buffer_guard_1add793a3936671d3eb87e90da43a213a7" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; int32_t &gt;</type>
+        <definition>std::vector&lt;int32_t&gt; themis::llm::TokenBufferGuard::tokens_</definition>
+        <argsstring></argsstring>
+        <name>tokens_</name>
+        <qualifiedname>themis::llm::TokenBufferGuard::tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="137" column="17" bodyfile="include/llm/inference_guard.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_token_buffer_guard_1a93caeec015ef14a1a73a599c952c8518" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::TokenBufferGuard::max_capacity_</definition>
+        <argsstring></argsstring>
+        <name>max_capacity_</name>
+        <qualifiedname>themis::llm::TokenBufferGuard::max_capacity_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="138" column="12" bodyfile="include/llm/inference_guard.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_token_buffer_guard_1a1906ed9406b9cd5282626ca7592b954c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::TokenBufferGuard::TokenBufferGuard</definition>
+        <argsstring>(size_t capacity)</argsstring>
+        <name>TokenBufferGuard</name>
+        <qualifiedname>themis::llm::TokenBufferGuard::TokenBufferGuard</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <briefdescription>
+<para>Token Buffer Guard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="89" column="14" bodyfile="src/llm/inference_guard.cpp" bodystart="140" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_token_buffer_guard_1a09bf3a2106c3b65c97c318f7e1e682f5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::TokenBufferGuard::~TokenBufferGuard</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>~TokenBufferGuard</name>
+        <qualifiedname>themis::llm::TokenBufferGuard::~TokenBufferGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="91" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_token_buffer_guard_1a83cddeca8fcefd77a34437ea60a87c98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::TokenBufferGuard::TokenBufferGuard</definition>
+        <argsstring>(const TokenBufferGuard &amp;)=delete</argsstring>
+        <name>TokenBufferGuard</name>
+        <qualifiedname>themis::llm::TokenBufferGuard::TokenBufferGuard</qualifiedname>
+        <param>
+          <type>const TokenBufferGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="94" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_token_buffer_guard_1a012f8680e759c7f6da82f88ae6efed23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a1906ed9406b9cd5282626ca7592b954c" kindref="member">TokenBufferGuard</ref> &amp;</type>
+        <definition>TokenBufferGuard &amp; themis::llm::TokenBufferGuard::operator=</definition>
+        <argsstring>(const TokenBufferGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::TokenBufferGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a1906ed9406b9cd5282626ca7592b954c" kindref="member">TokenBufferGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="95" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_token_buffer_guard_1a92d0f570b67b86879e63cd8fc6f5ea1d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::TokenBufferGuard::TokenBufferGuard</definition>
+        <argsstring>(TokenBufferGuard &amp;&amp;) noexcept=default</argsstring>
+        <name>TokenBufferGuard</name>
+        <qualifiedname>themis::llm::TokenBufferGuard::TokenBufferGuard</qualifiedname>
+        <param>
+          <type>TokenBufferGuard &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="98" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_token_buffer_guard_1a633aafb9133898fabe0de0d2b12574b0" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a1906ed9406b9cd5282626ca7592b954c" kindref="member">TokenBufferGuard</ref> &amp;</type>
+        <definition>TokenBufferGuard &amp; themis::llm::TokenBufferGuard::operator=</definition>
+        <argsstring>(TokenBufferGuard &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::TokenBufferGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_token_buffer_guard_1a1906ed9406b9cd5282626ca7592b954c" kindref="member">TokenBufferGuard</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="99" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_token_buffer_guard_1a059f10acbc3cc715f051dbe187ebcc97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::TokenBufferGuard::Push</definition>
+        <argsstring>(int32_t token)</argsstring>
+        <name>Push</name>
+        <qualifiedname>themis::llm::TokenBufferGuard::Push</qualifiedname>
+        <param>
+          <type>int32_t</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Push. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::overflow_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), spdlog::error(), std::to_string(), push_back(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="105" column="10" bodyfile="src/llm/inference_guard.cpp" bodystart="163" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_token_buffer_guard_1a68506a7e8fe2c58c6b2e187e9f85e9ff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t themis::llm::TokenBufferGuard::At</definition>
+        <argsstring>(size_t index) const</argsstring>
+        <name>At</name>
+        <qualifiedname>themis::llm::TokenBufferGuard::At</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+<para>At. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="112" column="13" bodyfile="src/llm/inference_guard.cpp" bodystart="180" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_token_buffer_guard_1acdbf407719f7cd8096adc8e7ec509d7b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::TokenBufferGuard::Size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>Size</name>
+        <qualifiedname>themis::llm::TokenBufferGuard::Size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="114" column="12" bodyfile="include/llm/inference_guard.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_token_buffer_guard_1a3accc6caa6f162d39fa85daac216b05a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::TokenBufferGuard::Capacity</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>Capacity</name>
+        <qualifiedname>themis::llm::TokenBufferGuard::Capacity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="116" column="12" bodyfile="include/llm/inference_guard.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_token_buffer_guard_1a72a890f74f5e46d4afd26e9bd39a7303" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::TokenBufferGuard::Remaining</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>Remaining</name>
+        <qualifiedname>themis::llm::TokenBufferGuard::Remaining</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="118" column="12" bodyfile="include/llm/inference_guard.h" bodystart="118" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_token_buffer_guard_1a08d0169bf85a86071bcfd823c73a2ada" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::TokenBufferGuard::IsFull</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>IsFull</name>
+        <qualifiedname>themis::llm::TokenBufferGuard::IsFull</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="122" column="10" bodyfile="include/llm/inference_guard.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_token_buffer_guard_1a0c78c60ed7d79e06c40e62eaa7ca5d89" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const int32_t *</type>
+        <definition>const int32_t * themis::llm::TokenBufferGuard::Data</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>Data</name>
+        <qualifiedname>themis::llm::TokenBufferGuard::Data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="124" column="19" bodyfile="include/llm/inference_guard.h" bodystart="124" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_token_buffer_guard_1a38b69aee8418635e6042306a0dc29bc0" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::TokenBufferGuard::Clear</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>Clear</name>
+        <qualifiedname>themis::llm::TokenBufferGuard::Clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="128" column="10" bodyfile="include/llm/inference_guard.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_token_buffer_guard_1ab9af0904860b972150c99ba5bd8561bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::TokenBufferGuard::Reserve</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>Reserve</name>
+        <qualifiedname>themis::llm::TokenBufferGuard::Reserve</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Reserve. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: reserve(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_guard.h" line="134" column="10" bodyfile="src/llm/inference_guard.cpp" bodystart="199" bodyend="212"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/inference_guard.h" line="82" column="1" bodyfile="include/llm/inference_guard.h" bodystart="82" bodyend="139"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_token_buffer_guard_1a68506a7e8fe2c58c6b2e187e9f85e9ff" prot="public" virt="non-virtual"><scope>themis::llm::TokenBufferGuard</scope><name>At</name></member>
+      <member refid="classthemis_1_1llm_1_1_token_buffer_guard_1a3accc6caa6f162d39fa85daac216b05a" prot="public" virt="non-virtual"><scope>themis::llm::TokenBufferGuard</scope><name>Capacity</name></member>
+      <member refid="classthemis_1_1llm_1_1_token_buffer_guard_1a38b69aee8418635e6042306a0dc29bc0" prot="public" virt="non-virtual"><scope>themis::llm::TokenBufferGuard</scope><name>Clear</name></member>
+      <member refid="classthemis_1_1llm_1_1_token_buffer_guard_1a0c78c60ed7d79e06c40e62eaa7ca5d89" prot="public" virt="non-virtual"><scope>themis::llm::TokenBufferGuard</scope><name>Data</name></member>
+      <member refid="classthemis_1_1llm_1_1_token_buffer_guard_1a08d0169bf85a86071bcfd823c73a2ada" prot="public" virt="non-virtual"><scope>themis::llm::TokenBufferGuard</scope><name>IsFull</name></member>
+      <member refid="classthemis_1_1llm_1_1_token_buffer_guard_1a93caeec015ef14a1a73a599c952c8518" prot="private" virt="non-virtual"><scope>themis::llm::TokenBufferGuard</scope><name>max_capacity_</name></member>
+      <member refid="classthemis_1_1llm_1_1_token_buffer_guard_1a012f8680e759c7f6da82f88ae6efed23" prot="public" virt="non-virtual"><scope>themis::llm::TokenBufferGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_token_buffer_guard_1a633aafb9133898fabe0de0d2b12574b0" prot="public" virt="non-virtual"><scope>themis::llm::TokenBufferGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_token_buffer_guard_1a059f10acbc3cc715f051dbe187ebcc97" prot="public" virt="non-virtual"><scope>themis::llm::TokenBufferGuard</scope><name>Push</name></member>
+      <member refid="classthemis_1_1llm_1_1_token_buffer_guard_1a72a890f74f5e46d4afd26e9bd39a7303" prot="public" virt="non-virtual"><scope>themis::llm::TokenBufferGuard</scope><name>Remaining</name></member>
+      <member refid="classthemis_1_1llm_1_1_token_buffer_guard_1ab9af0904860b972150c99ba5bd8561bf" prot="public" virt="non-virtual"><scope>themis::llm::TokenBufferGuard</scope><name>Reserve</name></member>
+      <member refid="classthemis_1_1llm_1_1_token_buffer_guard_1acdbf407719f7cd8096adc8e7ec509d7b" prot="public" virt="non-virtual"><scope>themis::llm::TokenBufferGuard</scope><name>Size</name></member>
+      <member refid="classthemis_1_1llm_1_1_token_buffer_guard_1a1906ed9406b9cd5282626ca7592b954c" prot="public" virt="non-virtual"><scope>themis::llm::TokenBufferGuard</scope><name>TokenBufferGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_token_buffer_guard_1a83cddeca8fcefd77a34437ea60a87c98" prot="public" virt="non-virtual"><scope>themis::llm::TokenBufferGuard</scope><name>TokenBufferGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_token_buffer_guard_1a92d0f570b67b86879e63cd8fc6f5ea1d" prot="public" virt="non-virtual"><scope>themis::llm::TokenBufferGuard</scope><name>TokenBufferGuard</name></member>
+      <member refid="classthemis_1_1llm_1_1_token_buffer_guard_1add793a3936671d3eb87e90da43a213a7" prot="private" virt="non-virtual"><scope>themis::llm::TokenBufferGuard</scope><name>tokens_</name></member>
+      <member refid="classthemis_1_1llm_1_1_token_buffer_guard_1a09bf3a2106c3b65c97c318f7e1e682f5" prot="public" virt="non-virtual"><scope>themis::llm::TokenBufferGuard</scope><name>~TokenBufferGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

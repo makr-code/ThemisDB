@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_mode_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ModeSpec</compoundname>
+    <includes refid="ai__orchestrator_8h" local="no">ai_orchestrator.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_mode_spec_1_1_judge_spec" prot="public">themis::llm::ModeSpec::JudgeSpec</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_mode_spec_1_1_safety_spec" prot="public">themis::llm::ModeSpec::SafetySpec</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_spec_1a63c07e3083fa1848c34cafb5733a975d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModeSpec::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::llm::ModeSpec::id</qualifiedname>
+        <briefdescription>
+<para>Unique mode identifier, e.g. &quot;rag&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="109" column="22" bodyfile="include/llm/ai_orchestrator.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_spec_1a77915323b99882ff6a160178937192f5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1abcb1b9ea7ad8ac869312c2110d2cd46f" kindref="member">ModeId</ref></type>
+        <definition>ModeId themis::llm::ModeSpec::mode_id</definition>
+        <argsstring></argsstring>
+        <name>mode_id</name>
+        <qualifiedname>themis::llm::ModeSpec::mode_id</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1abcb1b9ea7ad8ac869312c2110d2cd46fa90589c47f06eb971d548591f23c285af" kindref="member">ModeId::Custom</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="110" column="22" bodyfile="include/llm/ai_orchestrator.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_spec_1ab768a4d82475347e05b12680c99c4953" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModeSpec::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::llm::ModeSpec::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="111" column="22" bodyfile="include/llm/ai_orchestrator.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_spec_1a803163c3c7f254c3eefd71aa948dbcbc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModeSpec::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::ModeSpec::model_id</qualifiedname>
+        <initializer>= &quot;default&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="112" column="22" bodyfile="include/llm/ai_orchestrator.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_spec_1a1584b0903cc6086ca5cf728b65913684" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModeSpec::lora_adapter_id</definition>
+        <argsstring></argsstring>
+        <name>lora_adapter_id</name>
+        <qualifiedname>themis::llm::ModeSpec::lora_adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="113" column="22" bodyfile="include/llm/ai_orchestrator.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_spec_1a32d2d34473bac5d7a99f1fbe8144487f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::ModeSpec::tools_allowed</definition>
+        <argsstring></argsstring>
+        <name>tools_allowed</name>
+        <qualifiedname>themis::llm::ModeSpec::tools_allowed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="115" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_spec_1ab40a580e8a36b9a045440e2af5a6484c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::ModeSpec::tools_denied</definition>
+        <argsstring></argsstring>
+        <name>tools_denied</name>
+        <qualifiedname>themis::llm::ModeSpec::tools_denied</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="116" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_spec_1a16e9ea6cdd681e1f610ac289d5907a75" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_retrieval_spec" kindref="compound">RetrievalSpec</ref></type>
+        <definition>RetrievalSpec themis::llm::ModeSpec::retrieval</definition>
+        <argsstring></argsstring>
+        <name>retrieval</name>
+        <qualifiedname>themis::llm::ModeSpec::retrieval</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="118" column="21" bodyfile="include/llm/ai_orchestrator.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_spec_1ae1d8813383e99480168ba0b8b1362601" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_output_spec" kindref="compound">OutputSpec</ref></type>
+        <definition>OutputSpec themis::llm::ModeSpec::output</definition>
+        <argsstring></argsstring>
+        <name>output</name>
+        <qualifiedname>themis::llm::ModeSpec::output</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="119" column="21" bodyfile="include/llm/ai_orchestrator.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_spec_1a5e935f865842aab565330ecd2724d14f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_budget_spec" kindref="compound">BudgetSpec</ref></type>
+        <definition>BudgetSpec themis::llm::ModeSpec::budgets</definition>
+        <argsstring></argsstring>
+        <name>budgets</name>
+        <qualifiedname>themis::llm::ModeSpec::budgets</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="120" column="21" bodyfile="include/llm/ai_orchestrator.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_spec_1a116314e7b619cf7c9ef459872e05d34a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_observability_spec" kindref="compound">ObservabilitySpec</ref></type>
+        <definition>ObservabilitySpec themis::llm::ModeSpec::observability</definition>
+        <argsstring></argsstring>
+        <name>observability</name>
+        <qualifiedname>themis::llm::ModeSpec::observability</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="121" column="23" bodyfile="include/llm/ai_orchestrator.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_spec_1a674ae9293e08331863b2b9d6b768edea" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1llm_1_1_mode_spec_1_1_judge_spec" kindref="compound">themis::llm::ModeSpec::JudgeSpec</ref></type>
+        <definition>struct themis::llm::ModeSpec::JudgeSpec themis::llm::ModeSpec::judge</definition>
+        <argsstring></argsstring>
+        <name>judge</name>
+        <qualifiedname>themis::llm::ModeSpec::judge</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="127" column="11"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_spec_1a90d93cca46ad4b21f6e8b9c9b4d22666" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1llm_1_1_mode_spec_1_1_safety_spec" kindref="compound">themis::llm::ModeSpec::SafetySpec</ref></type>
+        <definition>struct themis::llm::ModeSpec::SafetySpec themis::llm::ModeSpec::safety</definition>
+        <argsstring></argsstring>
+        <name>safety</name>
+        <qualifiedname>themis::llm::ModeSpec::safety</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="132" column="12"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_spec_1a93cc17206e4b9df3510b4b9141fa1fc6" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::ModeSpec::extensions</definition>
+        <argsstring></argsstring>
+        <name>extensions</name>
+        <qualifiedname>themis::llm::ModeSpec::extensions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="134" column="10" bodyfile="include/llm/ai_orchestrator.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="5">
+        <label>themis::llm::BudgetSpec</label>
+        <link refid="structthemis_1_1llm_1_1_budget_spec"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::ModeSpec</label>
+        <link refid="structthemis_1_1llm_1_1_mode_spec"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>retrieval</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>output</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>budgets</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>observability</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>judge</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>safety</edgelabel>
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::llm::ModeSpec::JudgeSpec</label>
+        <link refid="structthemis_1_1llm_1_1_mode_spec_1_1_judge_spec"/>
+      </node>
+      <node id="8">
+        <label>themis::llm::ModeSpec::SafetySpec</label>
+        <link refid="structthemis_1_1llm_1_1_mode_spec_1_1_safety_spec"/>
+      </node>
+      <node id="6">
+        <label>themis::llm::ObservabilitySpec</label>
+        <link refid="structthemis_1_1llm_1_1_observability_spec"/>
+      </node>
+      <node id="4">
+        <label>themis::llm::OutputSpec</label>
+        <link refid="structthemis_1_1llm_1_1_output_spec"/>
+      </node>
+      <node id="2">
+        <label>themis::llm::RetrievalSpec</label>
+        <link refid="structthemis_1_1llm_1_1_retrieval_spec"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>chunking</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::RetrievalSpec::ChunkingSpec</label>
+        <link refid="structthemis_1_1llm_1_1_retrieval_spec_1_1_chunking_spec"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/ai_orchestrator.h" line="108" column="1" bodyfile="include/llm/ai_orchestrator.h" bodystart="108" bodyend="135"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_mode_spec_1a5e935f865842aab565330ecd2724d14f" prot="public" virt="non-virtual"><scope>themis::llm::ModeSpec</scope><name>budgets</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_spec_1ab768a4d82475347e05b12680c99c4953" prot="public" virt="non-virtual"><scope>themis::llm::ModeSpec</scope><name>description</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_spec_1a93cc17206e4b9df3510b4b9141fa1fc6" prot="public" virt="non-virtual"><scope>themis::llm::ModeSpec</scope><name>extensions</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_spec_1a63c07e3083fa1848c34cafb5733a975d" prot="public" virt="non-virtual"><scope>themis::llm::ModeSpec</scope><name>id</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_spec_1a674ae9293e08331863b2b9d6b768edea" prot="public" virt="non-virtual"><scope>themis::llm::ModeSpec</scope><name>judge</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_spec_1a1584b0903cc6086ca5cf728b65913684" prot="public" virt="non-virtual"><scope>themis::llm::ModeSpec</scope><name>lora_adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_spec_1a77915323b99882ff6a160178937192f5" prot="public" virt="non-virtual"><scope>themis::llm::ModeSpec</scope><name>mode_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_spec_1a803163c3c7f254c3eefd71aa948dbcbc" prot="public" virt="non-virtual"><scope>themis::llm::ModeSpec</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_spec_1a116314e7b619cf7c9ef459872e05d34a" prot="public" virt="non-virtual"><scope>themis::llm::ModeSpec</scope><name>observability</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_spec_1ae1d8813383e99480168ba0b8b1362601" prot="public" virt="non-virtual"><scope>themis::llm::ModeSpec</scope><name>output</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_spec_1a16e9ea6cdd681e1f610ac289d5907a75" prot="public" virt="non-virtual"><scope>themis::llm::ModeSpec</scope><name>retrieval</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_spec_1a90d93cca46ad4b21f6e8b9c9b4d22666" prot="public" virt="non-virtual"><scope>themis::llm::ModeSpec</scope><name>safety</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_spec_1a32d2d34473bac5d7a99f1fbe8144487f" prot="public" virt="non-virtual"><scope>themis::llm::ModeSpec</scope><name>tools_allowed</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_spec_1ab40a580e8a36b9a045440e2af5a6484c" prot="public" virt="non-virtual"><scope>themis::llm::ModeSpec</scope><name>tools_denied</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

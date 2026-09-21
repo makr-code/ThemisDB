@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1benchmark_1_1_process_conflict" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::ProcessConflict</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_conflict_1a7fb87640945fdd34d2ff8e2638450225" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::ProcessConflict::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::process::benchmark::ProcessConflict::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="35" column="17" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_conflict_1a5d30cda0d99bd50aa81a7936ede2f3ba" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::benchmark::ProcessConflict::conflict_type</definition>
+        <argsstring></argsstring>
+        <name>conflict_type</name>
+        <qualifiedname>themis::process::benchmark::ProcessConflict::conflict_type</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="36" column="9" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_conflict_1a93c2069951845f56551fe83fed3b3909" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1benchmark_1_1_process_model_revision" kindref="compound">ProcessModelRevision</ref> &gt;</type>
+        <definition>std::vector&lt;ProcessModelRevision&gt; themis::process::benchmark::ProcessConflict::conflicting_revisions</definition>
+        <argsstring></argsstring>
+        <name>conflicting_revisions</name>
+        <qualifiedname>themis::process::benchmark::ProcessConflict::conflicting_revisions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="37" column="17" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_conflict_1a48a737250878ad4d53f11ee4433c72be" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::benchmark::ProcessConflict::detected_ms</definition>
+        <argsstring></argsstring>
+        <name>detected_ms</name>
+        <qualifiedname>themis::process::benchmark::ProcessConflict::detected_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="38" column="13" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="38" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simulated conflict record. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="34" column="1" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="34" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_conflict_1a5d30cda0d99bd50aa81a7936ede2f3ba" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessConflict</scope><name>conflict_type</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_conflict_1a93c2069951845f56551fe83fed3b3909" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessConflict</scope><name>conflicting_revisions</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_conflict_1a48a737250878ad4d53f11ee4433c72be" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessConflict</scope><name>detected_ms</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_conflict_1a7fb87640945fdd34d2ff8e2638450225" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessConflict</scope><name>model_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_final_transcript" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::FinalTranscript</compoundname>
+    <includes refid="voice__browser__streaming_8h" local="no">voice_browser_streaming.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_final_transcript_1ac4f3225852db5287c710c34e3c7e6ba0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a2d4d9868e74312f16c1dd5e78f0c0e89" kindref="member">StreamID</ref></type>
+        <definition>StreamID themis::voice::FinalTranscript::stream_id</definition>
+        <argsstring></argsstring>
+        <name>stream_id</name>
+        <qualifiedname>themis::voice::FinalTranscript::stream_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="96" column="17" bodyfile="include/voice/voice_browser_streaming.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_final_transcript_1ad0097611e775adbf48d16ac941ddd031" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::FinalTranscript::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::voice::FinalTranscript::text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="97" column="17" bodyfile="include/voice/voice_browser_streaming.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_final_transcript_1a292801d53c06da895e8e2ec48fc7e3c1" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::FinalTranscript::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::voice::FinalTranscript::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="98" column="17" bodyfile="include/voice/voice_browser_streaming.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_final_transcript_1a03afa356a772b263c78d150dab1ae79f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_word" kindref="compound">Word</ref> &gt;</type>
+        <definition>std::vector&lt;Word&gt; themis::voice::FinalTranscript::words</definition>
+        <argsstring></argsstring>
+        <name>words</name>
+        <qualifiedname>themis::voice::FinalTranscript::words</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="99" column="17" bodyfile="include/voice/voice_browser_streaming.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_final_transcript_1aa6ecc46730265f13d72946d33acdc2e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::FinalTranscript::intent</definition>
+        <argsstring></argsstring>
+        <name>intent</name>
+        <qualifiedname>themis::voice::FinalTranscript::intent</qualifiedname>
+        <briefdescription>
+<para>NLU intent label (empty if not run). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="100" column="17" bodyfile="include/voice/voice_browser_streaming.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_final_transcript_1ae510501ee991d30cb86f0d8fcd0a7ec3" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::FinalTranscript::intent_confidence</definition>
+        <argsstring></argsstring>
+        <name>intent_confidence</name>
+        <qualifiedname>themis::voice::FinalTranscript::intent_confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="101" column="17" bodyfile="include/voice/voice_browser_streaming.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_final_transcript_1a5b62b7526f749ac8ab4ce48c1546b7aa" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::FinalTranscript::duration_ms</definition>
+        <argsstring></argsstring>
+        <name>duration_ms</name>
+        <qualifiedname>themis::voice::FinalTranscript::duration_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total utterance duration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="102" column="17" bodyfile="include/voice/voice_browser_streaming.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Definitive transcript + intent for a completed utterance. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_browser_streaming.h" line="95" column="1" bodyfile="include/voice/voice_browser_streaming.h" bodystart="95" bodyend="103"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_final_transcript_1a292801d53c06da895e8e2ec48fc7e3c1" prot="public" virt="non-virtual"><scope>themis::voice::FinalTranscript</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1voice_1_1_final_transcript_1a5b62b7526f749ac8ab4ce48c1546b7aa" prot="public" virt="non-virtual"><scope>themis::voice::FinalTranscript</scope><name>duration_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_final_transcript_1aa6ecc46730265f13d72946d33acdc2e0" prot="public" virt="non-virtual"><scope>themis::voice::FinalTranscript</scope><name>intent</name></member>
+      <member refid="structthemis_1_1voice_1_1_final_transcript_1ae510501ee991d30cb86f0d8fcd0a7ec3" prot="public" virt="non-virtual"><scope>themis::voice::FinalTranscript</scope><name>intent_confidence</name></member>
+      <member refid="structthemis_1_1voice_1_1_final_transcript_1ac4f3225852db5287c710c34e3c7e6ba0" prot="public" virt="non-virtual"><scope>themis::voice::FinalTranscript</scope><name>stream_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_final_transcript_1ad0097611e775adbf48d16ac941ddd031" prot="public" virt="non-virtual"><scope>themis::voice::FinalTranscript</scope><name>text</name></member>
+      <member refid="structthemis_1_1voice_1_1_final_transcript_1a03afa356a772b263c78d150dab1ae79f" prot="public" virt="non-virtual"><scope>themis::voice::FinalTranscript</scope><name>words</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_storage_profiler_test" kind="class" language="C++" prot="public">
+    <compoundname>StorageProfilerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_storage_profiler_test_1aa701157c0f4feeec6727ca0eb9e1e066" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_storage_profiler_config" kindref="compound">StorageProfilerConfig</ref></type>
+        <definition>StorageProfilerConfig StorageProfilerTest::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>StorageProfilerTest::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_profilers.cpp" line="139" column="27" bodyfile="tests/observability/test_observability_profilers.cpp" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_storage_profiler_test_1a6ff08a28a02d062d9ad4eb06f4394a5f" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1observability_1_1_storage_profiler" kindref="compound">StorageProfiler</ref></type>
+        <definition>StorageProfiler StorageProfilerTest::profiler_</definition>
+        <argsstring></argsstring>
+        <name>profiler_</name>
+        <qualifiedname>StorageProfilerTest::profiler_</qualifiedname>
+        <initializer>{<ref refid="class_storage_profiler_test_1aa701157c0f4feeec6727ca0eb9e1e066" kindref="member">cfg_</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_profilers.cpp" line="140" column="27" bodyfile="tests/observability/test_observability_profilers.cpp" bodystart="140" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StorageProfilerTest</label>
+        <link refid="class_storage_profiler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StorageProfilerTest</label>
+        <link refid="class_storage_profiler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg_</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>profiler_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::observability::StorageProfiler</label>
+        <link refid="classthemis_1_1observability_1_1_storage_profiler"/>
+      </node>
+      <node id="3">
+        <label>themis::observability::StorageProfilerConfig</label>
+        <link refid="structthemis_1_1observability_1_1_storage_profiler_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/observability/test_observability_profilers.cpp" line="137" column="1" bodyfile="tests/observability/test_observability_profilers.cpp" bodystart="137" bodyend="141"/>
+    <listofallmembers>
+      <member refid="class_storage_profiler_test_1aa701157c0f4feeec6727ca0eb9e1e066" prot="protected" virt="non-virtual"><scope>StorageProfilerTest</scope><name>cfg_</name></member>
+      <member refid="class_storage_profiler_test_1a6ff08a28a02d062d9ad4eb06f4394a5f" prot="protected" virt="non-virtual"><scope>StorageProfilerTest</scope><name>profiler_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

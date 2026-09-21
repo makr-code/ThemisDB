@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_exponential_histogram_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::ExponentialHistogramResult</compoundname>
+    <includes refid="advanced__metrics_8h" local="no">advanced_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exponential_histogram_result_1a528d3c830d7841a20c8d450c96588bb3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::ExponentialHistogramResult::metric_name</definition>
+        <argsstring></argsstring>
+        <name>metric_name</name>
+        <qualifiedname>themis::observability::ExponentialHistogramResult::metric_name</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="61" column="17" bodyfile="include/observability/advanced_metrics.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exponential_histogram_result_1a68ce624109f8c6f1faf1a7498f75a397" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::ExponentialHistogramResult::scale</definition>
+        <argsstring></argsstring>
+        <name>scale</name>
+        <qualifiedname>themis::observability::ExponentialHistogramResult::scale</qualifiedname>
+        <initializer>{2.0}</initializer>
+        <briefdescription>
+<para>Exponential base used for bucket boundaries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="63" column="12" bodyfile="include/observability/advanced_metrics.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exponential_histogram_result_1ae43d2a0ba9f22e7105e1d1cbcdbbd1f1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_exponential_histogram_bucket" kindref="compound">ExponentialHistogramBucket</ref> &gt;</type>
+        <definition>std::vector&lt;ExponentialHistogramBucket&gt; themis::observability::ExponentialHistogramResult::buckets</definition>
+        <argsstring></argsstring>
+        <name>buckets</name>
+        <qualifiedname>themis::observability::ExponentialHistogramResult::buckets</qualifiedname>
+        <briefdescription>
+<para>Sorted bucket list (ascending by lower_bound). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="65" column="17" bodyfile="include/observability/advanced_metrics.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exponential_histogram_result_1a89172179b9c0c83fbbcda6f68c06df7e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::ExponentialHistogramResult::total_count</definition>
+        <argsstring></argsstring>
+        <name>total_count</name>
+        <qualifiedname>themis::observability::ExponentialHistogramResult::total_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total number of observations recorded (including non-positive values). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="67" column="14" bodyfile="include/observability/advanced_metrics.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exponential_histogram_result_1a4f60db9d26e46a7b823d9d785609ab31" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::ExponentialHistogramResult::sum</definition>
+        <argsstring></argsstring>
+        <name>sum</name>
+        <qualifiedname>themis::observability::ExponentialHistogramResult::sum</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Sum of all positive observation values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="69" column="12" bodyfile="include/observability/advanced_metrics.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exponential_histogram_result_1a9bed95a1e05c512f294fba606175ca5e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::ExponentialHistogramResult::zero_count</definition>
+        <argsstring></argsstring>
+        <name>zero_count</name>
+        <qualifiedname>themis::observability::ExponentialHistogramResult::zero_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Count of non-positive (≤ 0) observations tracked separately. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="71" column="14" bodyfile="include/observability/advanced_metrics.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_exponential_histogram_result_1a8d5c409361348c673249065391f4756b" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::ExponentialHistogramResult::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::observability::ExponentialHistogramResult::timestamp</qualifiedname>
+        <initializer>{std::chrono::system_clock::now()}</initializer>
+        <briefdescription>
+<para>Timestamp at which the result was computed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/advanced_metrics.h" line="73" column="43" bodyfile="include/observability/advanced_metrics.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of querying an exponential histogram metric. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/advanced_metrics.h" line="59" column="1" bodyfile="include/observability/advanced_metrics.h" bodystart="59" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_exponential_histogram_result_1ae43d2a0ba9f22e7105e1d1cbcdbbd1f1" prot="public" virt="non-virtual"><scope>themis::observability::ExponentialHistogramResult</scope><name>buckets</name></member>
+      <member refid="structthemis_1_1observability_1_1_exponential_histogram_result_1a528d3c830d7841a20c8d450c96588bb3" prot="public" virt="non-virtual"><scope>themis::observability::ExponentialHistogramResult</scope><name>metric_name</name></member>
+      <member refid="structthemis_1_1observability_1_1_exponential_histogram_result_1a68ce624109f8c6f1faf1a7498f75a397" prot="public" virt="non-virtual"><scope>themis::observability::ExponentialHistogramResult</scope><name>scale</name></member>
+      <member refid="structthemis_1_1observability_1_1_exponential_histogram_result_1a4f60db9d26e46a7b823d9d785609ab31" prot="public" virt="non-virtual"><scope>themis::observability::ExponentialHistogramResult</scope><name>sum</name></member>
+      <member refid="structthemis_1_1observability_1_1_exponential_histogram_result_1a8d5c409361348c673249065391f4756b" prot="public" virt="non-virtual"><scope>themis::observability::ExponentialHistogramResult</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1observability_1_1_exponential_histogram_result_1a89172179b9c0c83fbbcda6f68c06df7e" prot="public" virt="non-virtual"><scope>themis::observability::ExponentialHistogramResult</scope><name>total_count</name></member>
+      <member refid="structthemis_1_1observability_1_1_exponential_histogram_result_1a9bed95a1e05c512f294fba606175ca5e" prot="public" virt="non-virtual"><scope>themis::observability::ExponentialHistogramResult</scope><name>zero_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::delegate_eval::RelayResult</compoundname>
+    <includes refid="delegate__evaluator_8h" local="no">delegate_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a4d4139f3ad2fe4825b1acebf5fbb1cd7" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k" kindref="compound">ReconstructionScoreAtK</ref></type>
+        <definition>ReconstructionScoreAtK themis::rag::delegate_eval::RelayResult::scores</definition>
+        <argsstring></argsstring>
+        <name>scores</name>
+        <qualifiedname>themis::rag::delegate_eval::RelayResult::scores</qualifiedname>
+        <briefdescription>
+<para>RS history per interaction (see <computeroutput><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k" kindref="compound">ReconstructionScoreAtK</ref></computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="229" column="28" bodyfile="include/rag/delegate_evaluator.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a8a05577ad3d9b914d7480a14eb89de2b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::delegate_eval::RelayResult::catastrophic_corruption_count</definition>
+        <argsstring></argsstring>
+        <name>catastrophic_corruption_count</name>
+        <qualifiedname>themis::rag::delegate_eval::RelayResult::catastrophic_corruption_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of interactions whose RS fell below <computeroutput>catastrophic_threshold</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="232" column="12" bodyfile="include/rag/delegate_evaluator.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a2436db325836ab9e83cd9d50337994e5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::delegate_eval::RelayResult::fully_catastrophic</definition>
+        <argsstring></argsstring>
+        <name>fully_catastrophic</name>
+        <qualifiedname>themis::rag::delegate_eval::RelayResult::fully_catastrophic</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when <bold>every</bold> interaction was catastrophic (total content loss). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="235" column="10" bodyfile="include/rag/delegate_evaluator.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a545c85a027e737d932ce9e7dcceb70a6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::delegate_eval::RelayResult::final_doc</definition>
+        <argsstring></argsstring>
+        <name>final_doc</name>
+        <qualifiedname>themis::rag::delegate_eval::RelayResult::final_doc</qualifiedname>
+        <briefdescription>
+<para>The document in its final state after all edits. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="238" column="17" bodyfile="include/rag/delegate_evaluator.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a1754a2bc8afc87ba270a63b7da551b5c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a108125b3ca005e1e3b5f6b4763ca770a" kindref="member">StopReason</ref></type>
+        <definition>StopReason themis::rag::delegate_eval::RelayResult::stop_reason</definition>
+        <argsstring></argsstring>
+        <name>stop_reason</name>
+        <qualifiedname>themis::rag::delegate_eval::RelayResult::stop_reason</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a108125b3ca005e1e3b5f6b4763ca770aa2aa4029d1e4c1e0f0d8febd58c9afe33" kindref="member">StopReason::COMPLETED_NORMALLY</ref></initializer>
+        <briefdescription>
+<para>Reason the relay terminated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="241" column="16" bodyfile="include/rag/delegate_evaluator.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a1954b4b981109534ef7ee2e5c93168df" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::delegate_eval::RelayResult::total_interactions</definition>
+        <argsstring></argsstring>
+        <name>total_interactions</name>
+        <qualifiedname>themis::rag::delegate_eval::RelayResult::total_interactions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total number of individual forward/backward edit calls executed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="244" column="12" bodyfile="include/rag/delegate_evaluator.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1ade53d6a643d47ae22ae7b647c0faf54f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::delegate_eval::RelayResult::persistence_write_failures</definition>
+        <argsstring></argsstring>
+        <name>persistence_write_failures</name>
+        <qualifiedname>themis::rag::delegate_eval::RelayResult::persistence_write_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of snapshot persistence writes that failed in best-effort mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="247" column="12" bodyfile="include/rag/delegate_evaluator.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a complete <computeroutput><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_round_trip_simulator_1a85db3c77bc8ecad82219e25faf4044f4" kindref="member">RoundTripSimulator::run()</ref></computeroutput> relay. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::delegate_eval::ReconstructionScoreAtK</label>
+        <link refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::delegate_eval::RelayResult</label>
+        <link refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>scores</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/delegate_evaluator.h" line="227" column="1" bodyfile="include/rag/delegate_evaluator.h" bodystart="227" bodyend="248"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a8a05577ad3d9b914d7480a14eb89de2b" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RelayResult</scope><name>catastrophic_corruption_count</name></member>
+      <member refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a545c85a027e737d932ce9e7dcceb70a6" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RelayResult</scope><name>final_doc</name></member>
+      <member refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a2436db325836ab9e83cd9d50337994e5" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RelayResult</scope><name>fully_catastrophic</name></member>
+      <member refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1ade53d6a643d47ae22ae7b647c0faf54f" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RelayResult</scope><name>persistence_write_failures</name></member>
+      <member refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a4d4139f3ad2fe4825b1acebf5fbb1cd7" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RelayResult</scope><name>scores</name></member>
+      <member refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a1754a2bc8afc87ba270a63b7da551b5c" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RelayResult</scope><name>stop_reason</name></member>
+      <member refid="structthemis_1_1rag_1_1delegate__eval_1_1_relay_result_1a1954b4b981109534ef7ee2e5c93168df" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::RelayResult</scope><name>total_interactions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

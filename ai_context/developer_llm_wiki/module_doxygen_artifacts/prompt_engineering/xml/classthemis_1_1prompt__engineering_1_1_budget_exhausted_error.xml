@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_budget_exhausted_error" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::BudgetExhaustedError</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="rag__context__budget__manager_8h" local="no">rag_context_budget_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_budget_exhausted_error_1ae5cdae960e0be1d3d4c0582f9d043776" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::BudgetExhaustedError::requested_</definition>
+        <argsstring></argsstring>
+        <name>requested_</name>
+        <qualifiedname>themis::prompt_engineering::BudgetExhaustedError::requested_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="51" column="12" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_budget_exhausted_error_1af490885f7fc6d5afd31721ffbb909025" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::BudgetExhaustedError::remaining_</definition>
+        <argsstring></argsstring>
+        <name>remaining_</name>
+        <qualifiedname>themis::prompt_engineering::BudgetExhaustedError::remaining_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="52" column="12" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_budget_exhausted_error_1a9d2f1b638e84410428c43f9bd304f2bc" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::BudgetExhaustedError::total_</definition>
+        <argsstring></argsstring>
+        <name>total_</name>
+        <qualifiedname>themis::prompt_engineering::BudgetExhaustedError::total_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="53" column="12" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_budget_exhausted_error_1acdd1489a37f12679de37fc1e0a106851" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::BudgetExhaustedError::BudgetExhaustedError</definition>
+        <argsstring>(size_t requested, size_t remaining, size_t total)</argsstring>
+        <name>BudgetExhaustedError</name>
+        <qualifiedname>themis::prompt_engineering::BudgetExhaustedError::BudgetExhaustedError</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>requested</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>remaining</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>requested</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Token count that was requested. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remaining</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Token count currently available. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>total</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total budget configured for the manager. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="36" column="5" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="36" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_budget_exhausted_error_1a7bec1607a2b16cf65b3cb2dde41ad0d1" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::BudgetExhaustedError::requested</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>requested</name>
+        <qualifiedname>themis::prompt_engineering::BudgetExhaustedError::requested</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="46" column="12" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_budget_exhausted_error_1a81fe2b928fa098573b64925fd1d79f50" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::BudgetExhaustedError::remaining</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>remaining</name>
+        <qualifiedname>themis::prompt_engineering::BudgetExhaustedError::remaining</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="47" column="12" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_budget_exhausted_error_1ac558c9bb455180c7355da13f4358eb76" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::BudgetExhaustedError::total</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>total</name>
+        <qualifiedname>themis::prompt_engineering::BudgetExhaustedError::total</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="48" column="12" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thrown by <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_r_a_g_context_budget_manager_1a069ff31c008b8cd503fc743876e07a7f" kindref="member">IRAGContextBudgetManager::allocate()</ref></computeroutput> when the requested allocation would exceed the remaining budget. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::BudgetExhaustedError</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_budget_exhausted_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::BudgetExhaustedError</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_budget_exhausted_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/rag_context_budget_manager.h" line="29" column="1" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="29" bodyend="54"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_exhausted_error_1acdd1489a37f12679de37fc1e0a106851" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BudgetExhaustedError</scope><name>BudgetExhaustedError</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_exhausted_error_1a81fe2b928fa098573b64925fd1d79f50" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BudgetExhaustedError</scope><name>remaining</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_exhausted_error_1af490885f7fc6d5afd31721ffbb909025" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::BudgetExhaustedError</scope><name>remaining_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_exhausted_error_1a7bec1607a2b16cf65b3cb2dde41ad0d1" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BudgetExhaustedError</scope><name>requested</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_exhausted_error_1ae5cdae960e0be1d3d4c0582f9d043776" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::BudgetExhaustedError</scope><name>requested_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_exhausted_error_1ac558c9bb455180c7355da13f4358eb76" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BudgetExhaustedError</scope><name>total</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_budget_exhausted_error_1a9d2f1b638e84410428c43f9bd304f2bc" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::BudgetExhaustedError</scope><name>total_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

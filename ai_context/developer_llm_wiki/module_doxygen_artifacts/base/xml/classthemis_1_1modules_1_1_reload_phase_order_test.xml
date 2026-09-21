@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_reload_phase_order_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::ReloadPhaseOrderTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_reload_phase_order_test_1abcb915b0fa16fee2855bd51a5efbe5c2" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; HotReloadManager &gt;</type>
+        <definition>std::unique_ptr&lt;HotReloadManager&gt; themis::modules::ReloadPhaseOrderTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>themis::modules::ReloadPhaseOrderTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="141" column="21" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_reload_phase_order_test_1ada9d0320c0330bd9a34c5ce2c52a713e" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; ModuleLoader &gt;</type>
+        <definition>std::unique_ptr&lt;ModuleLoader&gt; themis::modules::ReloadPhaseOrderTest::loader_</definition>
+        <argsstring></argsstring>
+        <name>loader_</name>
+        <qualifiedname>themis::modules::ReloadPhaseOrderTest::loader_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="142" column="25" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="142" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_reload_phase_order_test_1a55753ed7884a3dcaf18dbd8b2939c5ac" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ReloadPhaseOrderTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::modules::ReloadPhaseOrderTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_reload_regression.cpp" line="131" column="10" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="131" bodyend="139"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::modules::ReloadPhaseOrderTest</label>
+        <link refid="classthemis_1_1modules_1_1_reload_phase_order_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::modules::ReloadPhaseOrderTest</label>
+        <link refid="classthemis_1_1modules_1_1_reload_phase_order_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/base/test_base_reload_regression.cpp" line="129" column="1" bodyfile="tests/base/test_base_reload_regression.cpp" bodystart="129" bodyend="143"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_reload_phase_order_test_1ada9d0320c0330bd9a34c5ce2c52a713e" prot="protected" virt="non-virtual"><scope>themis::modules::ReloadPhaseOrderTest</scope><name>loader_</name></member>
+      <member refid="classthemis_1_1modules_1_1_reload_phase_order_test_1abcb915b0fa16fee2855bd51a5efbe5c2" prot="protected" virt="non-virtual"><scope>themis::modules::ReloadPhaseOrderTest</scope><name>mgr_</name></member>
+      <member refid="classthemis_1_1modules_1_1_reload_phase_order_test_1a55753ed7884a3dcaf18dbd8b2939c5ac" prot="protected" virt="non-virtual"><scope>themis::modules::ReloadPhaseOrderTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

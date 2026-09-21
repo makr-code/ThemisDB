@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_generate_key_pair_test" kind="class" language="C++" prot="public">
+    <compoundname>GenerateKeyPairTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_generate_key_pair_test_1a8fc5a5df99d824398bded8821d105a29" prot="protected" static="no" mutable="no">
+        <type><ref refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t" kindref="compound">CK_FUNCTION_LIST</ref></type>
+        <definition>CK_FUNCTION_LIST GenerateKeyPairTest::funcs_</definition>
+        <argsstring></argsstring>
+        <name>funcs_</name>
+        <qualifiedname>GenerateKeyPairTest::funcs_</qualifiedname>
+        <initializer>= makeStubFunctions()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pkcs11_wrapper.cpp" line="647" column="22" bodyfile="tests/security/test_pkcs11_wrapper.cpp" bodystart="647" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_generate_key_pair_test_1af6d00ca95acd8559a48062110b7c2363" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kindref="compound">Pkcs11Session</ref></type>
+        <definition>Pkcs11Session GenerateKeyPairTest::makeOpenSession</definition>
+        <argsstring>()</argsstring>
+        <name>makeOpenSession</name>
+        <qualifiedname>GenerateKeyPairTest::makeOpenSession</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pkcs11_wrapper.cpp" line="648" column="19" bodyfile="tests/security/test_pkcs11_wrapper.cpp" bodystart="648" bodyend="653"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GenerateKeyPairTest</label>
+        <link refid="class_generate_key_pair_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>CK_FUNCTION_LIST</label>
+        <link refid="struct_c_k___f_u_n_c_t_i_o_n___l_i_s_t"/>
+      </node>
+      <node id="1">
+        <label>GenerateKeyPairTest</label>
+        <link refid="class_generate_key_pair_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>funcs_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_pkcs11_wrapper.cpp" line="645" column="1" bodyfile="tests/security/test_pkcs11_wrapper.cpp" bodystart="645" bodyend="654"/>
+    <listofallmembers>
+      <member refid="class_generate_key_pair_test_1a8fc5a5df99d824398bded8821d105a29" prot="protected" virt="non-virtual"><scope>GenerateKeyPairTest</scope><name>funcs_</name></member>
+      <member refid="class_generate_key_pair_test_1af6d00ca95acd8559a48062110b7c2363" prot="protected" virt="non-virtual"><scope>GenerateKeyPairTest</scope><name>makeOpenSession</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

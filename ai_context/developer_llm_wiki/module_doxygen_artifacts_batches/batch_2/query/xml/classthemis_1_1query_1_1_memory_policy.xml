@@ -1,0 +1,556 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_memory_policy" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::MemoryPolicy</compoundname>
+    <includes refid="query__federation__memory_8h" local="no">query_federation_memory.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_memory_policy_1_1_memory_pressure_event" prot="public">themis::query::MemoryPolicy::MemoryPressureEvent</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_memory_policy_1_1_result_batch" prot="public">themis::query::MemoryPolicy::ResultBatch</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_memory_policy_1_1_builder" prot="public">themis::query::MemoryPolicy::Builder</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1query_1_1_memory_policy_1a686476a18250193950702a912cafb453" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>OverflowPolicy</name>
+        <qualifiedname>themis::query::MemoryPolicy::OverflowPolicy</qualifiedname>
+        <enumvalue id="classthemis_1_1query_1_1_memory_policy_1a686476a18250193950702a912cafb453a59b228d9fec9b88833bfe5d812ed8ad4" prot="public">
+          <name>REJECT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_memory_policy_1a686476a18250193950702a912cafb453a0768201691a979ef7cee36b722fa99ce" prot="public">
+          <name>DROP_OLDEST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_memory_policy_1a686476a18250193950702a912cafb453a0a83d15fde12983f199bdeb76667660f" prot="public">
+          <name>TRUNCATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="32" column="5" bodyfile="include/query/query_federation_memory.h" bodystart="32" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="enum" id="classthemis_1_1query_1_1_memory_policy_1a1d11d9e4f24139ba4e522186ff4874ad" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PressureLevel</name>
+        <qualifiedname>themis::query::MemoryPolicy::PressureLevel</qualifiedname>
+        <enumvalue id="classthemis_1_1query_1_1_memory_policy_1a1d11d9e4f24139ba4e522186ff4874ada1e23852820b9154316c7c06e2b7ba051" prot="public">
+          <name>NORMAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_memory_policy_1a1d11d9e4f24139ba4e522186ff4874adacb98253aaa42bddafe3662d0cadb74b0" prot="public">
+          <name>ELEVATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_memory_policy_1a1d11d9e4f24139ba4e522186ff4874adab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_memory_policy_1a1d11d9e4f24139ba4e522186ff4874ada99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="38" column="5" bodyfile="include/query/query_federation_memory.h" bodystart="38" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1query_1_1_memory_policy_1a870e4066b979b9cef642eb091f8f3d95" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class Builder</definition>
+        <argsstring></argsstring>
+        <name>Builder</name>
+        <qualifiedname>themis::query::MemoryPolicy::Builder</qualifiedname>
+        <param>
+          <type>Builder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="181" column="18" bodyfile="include/query/query_federation_memory.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="friend" id="classthemis_1_1query_1_1_memory_policy_1a9264e8491cc4a2d367e61c46b10e0125" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class ResultAccumulator</definition>
+        <argsstring></argsstring>
+        <name>ResultAccumulator</name>
+        <qualifiedname>themis::query::MemoryPolicy::ResultAccumulator</qualifiedname>
+        <param>
+          <type>ResultAccumulator</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="182" column="18" bodyfile="include/query/query_federation_memory.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_memory_policy_1a0fef16994ee80d552cc7e9c9e6886ecd" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::MemoryPolicy::max_result_bytes_</definition>
+        <argsstring></argsstring>
+        <name>max_result_bytes_</name>
+        <qualifiedname>themis::query::MemoryPolicy::max_result_bytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="192" column="14" bodyfile="include/query/query_federation_memory.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_memory_policy_1a5ad115a47d4103359e2653560d19c2b6" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_memory_policy_1a686476a18250193950702a912cafb453" kindref="member">OverflowPolicy</ref></type>
+        <definition>OverflowPolicy themis::query::MemoryPolicy::overflow_policy_</definition>
+        <argsstring></argsstring>
+        <name>overflow_policy_</name>
+        <qualifiedname>themis::query::MemoryPolicy::overflow_policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="193" column="20" bodyfile="include/query/query_federation_memory.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_memory_policy_1a2733d71fe191450267752772887a3773" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::MemoryPolicy::elevated_threshold_pct_</definition>
+        <argsstring></argsstring>
+        <name>elevated_threshold_pct_</name>
+        <qualifiedname>themis::query::MemoryPolicy::elevated_threshold_pct_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="194" column="12" bodyfile="include/query/query_federation_memory.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_memory_policy_1a7cace76b3c0d9e178bd06867948d3603" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::MemoryPolicy::high_threshold_pct_</definition>
+        <argsstring></argsstring>
+        <name>high_threshold_pct_</name>
+        <qualifiedname>themis::query::MemoryPolicy::high_threshold_pct_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="195" column="12" bodyfile="include/query/query_federation_memory.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_memory_policy_1a542074b6575958e1c5d4149e087fd281" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::MemoryPolicy::critical_threshold_pct_</definition>
+        <argsstring></argsstring>
+        <name>critical_threshold_pct_</name>
+        <qualifiedname>themis::query::MemoryPolicy::critical_threshold_pct_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="196" column="12" bodyfile="include/query/query_federation_memory.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_memory_policy_1a05b6dc708eec211aebab5814693c9311" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::MemoryPolicy::max_batches_per_shard_</definition>
+        <argsstring></argsstring>
+        <name>max_batches_per_shard_</name>
+        <qualifiedname>themis::query::MemoryPolicy::max_batches_per_shard_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="197" column="12" bodyfile="include/query/query_federation_memory.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_memory_policy_1aceae0324b78adddc44eab1f8c618c238" prot="private" static="no" mutable="yes">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_memory_policy_1_1_memory_pressure_event" kindref="compound">MemoryPressureEvent</ref> &gt;</type>
+        <definition>std::vector&lt;MemoryPressureEvent&gt; themis::query::MemoryPolicy::pressure_events_</definition>
+        <argsstring></argsstring>
+        <name>pressure_events_</name>
+        <qualifiedname>themis::query::MemoryPolicy::pressure_events_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="198" column="25" bodyfile="include/query/query_federation_memory.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_memory_policy_1a2d405718109799bdec8f8e277001cad4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::MemoryPolicy::MemoryPolicy</definition>
+        <argsstring>(const MemoryPolicy &amp;)=delete</argsstring>
+        <name>MemoryPolicy</name>
+        <qualifiedname>themis::query::MemoryPolicy::MemoryPolicy</qualifiedname>
+        <param>
+          <type>const MemoryPolicy &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="131" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_memory_policy_1ac1dac25b72036cfd5832a837051e7cc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_memory_policy_1a2d405718109799bdec8f8e277001cad4" kindref="member">MemoryPolicy</ref> &amp;</type>
+        <definition>MemoryPolicy &amp; themis::query::MemoryPolicy::operator=</definition>
+        <argsstring>(const MemoryPolicy &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::MemoryPolicy::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1_memory_policy_1a2d405718109799bdec8f8e277001cad4" kindref="member">MemoryPolicy</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="132" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_memory_policy_1ab7401d0cb04aede6dee0ae5229bbda6a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::MemoryPolicy::MemoryPolicy</definition>
+        <argsstring>(MemoryPolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>MemoryPolicy</name>
+        <qualifiedname>themis::query::MemoryPolicy::MemoryPolicy</qualifiedname>
+        <param>
+          <type>MemoryPolicy &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="135" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_memory_policy_1a63a02b56c88d1eb6c1a2d4f0a53f7220" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_memory_policy_1a2d405718109799bdec8f8e277001cad4" kindref="member">MemoryPolicy</ref> &amp;</type>
+        <definition>MemoryPolicy &amp; themis::query::MemoryPolicy::operator=</definition>
+        <argsstring>(MemoryPolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::MemoryPolicy::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_memory_policy_1a2d405718109799bdec8f8e277001cad4" kindref="member">MemoryPolicy</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="136" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_memory_policy_1a5be7f73b42aee6d16dd321918eaac4d2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::MemoryPolicy::getMaxResultBytes</definition>
+        <argsstring>() const</argsstring>
+        <name>getMaxResultBytes</name>
+        <qualifiedname>themis::query::MemoryPolicy::getMaxResultBytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="138" column="15" bodyfile="include/query/query_federation_memory.h" bodystart="138" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_memory_policy_1a85b4d2b0a7e5e8348cd3d28f0c0f9520" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_memory_policy_1a686476a18250193950702a912cafb453" kindref="member">OverflowPolicy</ref></type>
+        <definition>OverflowPolicy themis::query::MemoryPolicy::getOverflowPolicy</definition>
+        <argsstring>() const</argsstring>
+        <name>getOverflowPolicy</name>
+        <qualifiedname>themis::query::MemoryPolicy::getOverflowPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="142" column="21" bodyfile="include/query/query_federation_memory.h" bodystart="142" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_memory_policy_1aec6de2a44fb7f18bffe6895bcc7e097d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::MemoryPolicy::getUtilizationPercent</definition>
+        <argsstring>(uint64_t current_bytes) const</argsstring>
+        <name>getUtilizationPercent</name>
+        <qualifiedname>themis::query::MemoryPolicy::getUtilizationPercent</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>current_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="146" column="13" bodyfile="include/query/query_federation_memory.h" bodystart="146" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_memory_policy_1a6d2757dc46a4a2df973c2c9176715848" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_memory_policy_1a1d11d9e4f24139ba4e522186ff4874ad" kindref="member">PressureLevel</ref></type>
+        <definition>MemoryPolicy::PressureLevel themis::query::MemoryPolicy::getPressureLevel</definition>
+        <argsstring>(uint64_t current_bytes) const</argsstring>
+        <name>getPressureLevel</name>
+        <qualifiedname>themis::query::MemoryPolicy::getPressureLevel</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>current_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="154" column="20" bodyfile="src/query/query_federation_memory.cpp" bodystart="66" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_memory_policy_1a8fc5dd691a8063d7c953abbd9caa7f2f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::MemoryPolicy::isUnderPressure</definition>
+        <argsstring>(uint64_t current_bytes) const</argsstring>
+        <name>isUnderPressure</name>
+        <qualifiedname>themis::query::MemoryPolicy::isUnderPressure</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>current_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="156" column="11" bodyfile="src/query/query_federation_memory.cpp" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_memory_policy_1ac130024c127ab708df2435fd66ce8221" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::MemoryPolicy::isLimitExceeded</definition>
+        <argsstring>(uint64_t current_bytes) const</argsstring>
+        <name>isLimitExceeded</name>
+        <qualifiedname>themis::query::MemoryPolicy::isLimitExceeded</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>current_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="158" column="11" bodyfile="include/query/query_federation_memory.h" bodystart="158" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_memory_policy_1a580ad3004977766f82a7ee2b7f828820" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::MemoryPolicy::recordPressureEvent</definition>
+        <argsstring>(const MemoryPressureEvent &amp;event) const</argsstring>
+        <name>recordPressureEvent</name>
+        <qualifiedname>themis::query::MemoryPolicy::recordPressureEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_memory_policy_1_1_memory_pressure_event" kindref="compound">MemoryPressureEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Record Pressure Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="166" column="10" bodyfile="src/query/query_federation_memory.cpp" bodystart="84" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_memory_policy_1a534638651e80d1abfc14da97cc0bf3be" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_memory_policy_1_1_memory_pressure_event" kindref="compound">MemoryPressureEvent</ref> &gt;</type>
+        <definition>std::vector&lt; MemoryPolicy::MemoryPressureEvent &gt; themis::query::MemoryPolicy::getPressureEvents</definition>
+        <argsstring>() const</argsstring>
+        <name>getPressureEvents</name>
+        <qualifiedname>themis::query::MemoryPolicy::getPressureEvents</qualifiedname>
+        <briefdescription>
+<para>Get Pressure Events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="168" column="18" bodyfile="src/query/query_federation_memory.cpp" bodystart="118" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_memory_policy_1ac181dd8e9139709cc29505eeb319e604" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::MemoryPolicy::clearEvents</definition>
+        <argsstring>()</argsstring>
+        <name>clearEvents</name>
+        <qualifiedname>themis::query::MemoryPolicy::clearEvents</qualifiedname>
+        <briefdescription>
+<para>Clear Events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="173" column="10" bodyfile="src/query/query_federation_memory.cpp" bodystart="127" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_memory_policy_1a14a9f38d7e01bc59dd5d30fe2251be4f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::MemoryPolicy::getSummary</definition>
+        <argsstring>() const</argsstring>
+        <name>getSummary</name>
+        <qualifiedname>themis::query::MemoryPolicy::getSummary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="175" column="18" bodyfile="src/query/query_federation_memory.cpp" bodystart="131" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_memory_policy_1af0413c8f93e3c2a8f3b813adf5a34a4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::MemoryPolicy::~MemoryPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MemoryPolicy</name>
+        <qualifiedname>themis::query::MemoryPolicy::~MemoryPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="178" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_memory_policy_1a230b538e1e814cd46795ef4d5d247ba3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::MemoryPolicy::MemoryPolicy</definition>
+        <argsstring>(uint64_t max_result_bytes, OverflowPolicy overflow_policy, double elevated_threshold_pct, double high_threshold_pct, double critical_threshold_pct, size_t max_batches_per_shard)</argsstring>
+        <name>MemoryPolicy</name>
+        <qualifiedname>themis::query::MemoryPolicy::MemoryPolicy</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>max_result_bytes</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_memory_policy_1a686476a18250193950702a912cafb453" kindref="member">OverflowPolicy</ref></type>
+          <declname>overflow_policy</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>elevated_threshold_pct</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>high_threshold_pct</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>critical_threshold_pct</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_batches_per_shard</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_memory.h" line="184" column="5" bodyfile="src/query/query_federation_memory.cpp" bodystart="43" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_federation_memory.h" line="30" column="1" bodyfile="include/query/query_federation_memory.h" bodystart="30" bodyend="199"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1a870e4066b979b9cef642eb091f8f3d95" prot="private" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>Builder</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1ac181dd8e9139709cc29505eeb319e604" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>clearEvents</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1a542074b6575958e1c5d4149e087fd281" prot="private" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>critical_threshold_pct_</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1a2733d71fe191450267752772887a3773" prot="private" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>elevated_threshold_pct_</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1a5be7f73b42aee6d16dd321918eaac4d2" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>getMaxResultBytes</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1a85b4d2b0a7e5e8348cd3d28f0c0f9520" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>getOverflowPolicy</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1a534638651e80d1abfc14da97cc0bf3be" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>getPressureEvents</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1a6d2757dc46a4a2df973c2c9176715848" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>getPressureLevel</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1a14a9f38d7e01bc59dd5d30fe2251be4f" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>getSummary</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1aec6de2a44fb7f18bffe6895bcc7e097d" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>getUtilizationPercent</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1a7cace76b3c0d9e178bd06867948d3603" prot="private" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>high_threshold_pct_</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1ac130024c127ab708df2435fd66ce8221" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>isLimitExceeded</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1a8fc5dd691a8063d7c953abbd9caa7f2f" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>isUnderPressure</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1a05b6dc708eec211aebab5814693c9311" prot="private" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>max_batches_per_shard_</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1a0fef16994ee80d552cc7e9c9e6886ecd" prot="private" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>max_result_bytes_</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1a2d405718109799bdec8f8e277001cad4" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>MemoryPolicy</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1ab7401d0cb04aede6dee0ae5229bbda6a" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>MemoryPolicy</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1a230b538e1e814cd46795ef4d5d247ba3" prot="private" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>MemoryPolicy</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1ac1dac25b72036cfd5832a837051e7cc5" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1a63a02b56c88d1eb6c1a2d4f0a53f7220" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1a5ad115a47d4103359e2653560d19c2b6" prot="private" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>overflow_policy_</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1a686476a18250193950702a912cafb453" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>OverflowPolicy</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1aceae0324b78adddc44eab1f8c618c238" prot="private" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>pressure_events_</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1a1d11d9e4f24139ba4e522186ff4874ad" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>PressureLevel</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1a580ad3004977766f82a7ee2b7f828820" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>recordPressureEvent</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1a9264e8491cc4a2d367e61c46b10e0125" prot="private" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>ResultAccumulator</name></member>
+      <member refid="classthemis_1_1query_1_1_memory_policy_1af0413c8f93e3c2a8f3b813adf5a34a4f" prot="public" virt="non-virtual"><scope>themis::query::MemoryPolicy</scope><name>~MemoryPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

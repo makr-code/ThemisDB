@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gpu__checked__ops_8h" kind="file" language="C++">
+    <compoundname>gpu_checked_ops.h</compoundname>
+    <includes refid="gpu__error_8h" local="yes">themis/gpu/gpu_error.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/themis/gpu/gpu_checked_ops.h</label>
+        <link refid="gpu__checked__ops_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis/gpu/gpu_error.h</label>
+        <link refid="gpu__error_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <briefdescription>
+<para>Checked CUDA/HIP operation macros for safe GPU calls. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides convenience macros for error-checked GPU operations:<itemizedlist>
+<listitem><para><ref refid="gpu__error_8h_1acc7879c81144836818b034332fa0e352" kindref="member">CHECKED_CUDA(stmt)</ref> - Error checking for CUDA calls</para>
+</listitem><listitem><para><ref refid="gpu__error_8h_1a71be4b5712150caa6571b7988052f4c2" kindref="member">CHECKED_HIP(stmt)</ref> - Error checking for HIP calls</para>
+</listitem><listitem><para><ref refid="gpu__error_8h_1ac51058dc44416031141d6011eb4415e1" kindref="member">TRY_CUDA(stmt, fallback)</ref> - Custom error handling for CUDA</para>
+</listitem></itemizedlist>
+</para>
+<para>This header includes and re-exports the checked operation macros defined in <ref refid="gpu__error_8h" kindref="compound">gpu_error.h</ref> for convenient access.</para>
+<sect1 id="gpu__checked__ops_8h_1autotoc_md10_1s1"><sect2 id="gpu__checked__ops_8h_1autotoc_md10">
+<title>Purpose</title><para>Wraps raw CUDA/HIP calls with automatic error detection, diagnostic logging, and recovery policy application. Enables fail-closed behavior: on GPU errors, automatically degrade to CPU execution.</para>
+</sect2></sect1>
+<sect1 id="gpu__checked__ops_8h_1autotoc_md11_1s1"><sect2 id="gpu__checked__ops_8h_1autotoc_md11">
+<title>Supported Operations</title><para>Safe to use with:<itemizedlist>
+<listitem><para>Memory operations: cudaMalloc, cudaFree, cudaMemcpy, hipMalloc, hipFree, hipMemcpy</para>
+</listitem><listitem><para>Kernel launches: cudaLaunchKernel, hipLaunchKernel</para>
+</listitem><listitem><para>Stream/event operations: cudaStreamCreate, cudaEventRecord, etc.</para>
+</listitem><listitem><para>Device queries: cudaGetDeviceCount, hipGetDeviceCount, etc.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="gpu__checked__ops_8h_1autotoc_md12_1s1"><sect2 id="gpu__checked__ops_8h_1autotoc_md12">
+<title>Usage Example</title><para><programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__checked__ops_8h" kindref="compound">themis/gpu/gpu_checked_ops.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">themis::gpu</ref>;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>CHECKED_CUDA<sp/>macro:<sp/>auto-logs<sp/>on<sp/>error,<sp/>applies<sp/>recovery<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>d_data<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="gpu__error_8h_1acc7879c81144836818b034332fa0e352" kindref="member">CHECKED_CUDA</ref>(cudaMalloc(&amp;d_data,<sp/>num_bytes));<sp/><sp/></highlight><highlight class="comment">//<sp/>throws<sp/>on<sp/>critical<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>TRY_CUDA<sp/>macro:<sp/>custom<sp/>error<sp/>handling</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>retry_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="gpu__error_8h_1ac51058dc44416031141d6011eb4415e1" kindref="member">TRY_CUDA</ref>(cudaMemcpy(d_data,<sp/>h_data,<sp/>num_bytes,<sp/>cudaMemcpyHostToDevice),<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(++retry_count<sp/>&lt;<sp/>3)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(100));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>retry<sp/>logic<sp/>here</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>RAII<sp/>cleanup<sp/>(no<sp/>manual<sp/>cudaFree<sp/>needed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gpu_data<sp/>=<sp/><ref refid="namespacethemis_1_1gpu_1a807ef3b41e2c36b24cd2b410074411ad" kindref="member">make_unique_gpu&lt;float&gt;</ref>(count);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="gpu__error_8h_1acc7879c81144836818b034332fa0e352" kindref="member">CHECKED_CUDA</ref>(cudaMemcpy(gpu_data.get(),<sp/>host_data,<sp/>count<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cudaMemcpyHostToDevice));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>...<sp/>use<sp/>gpu_data<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>automatically<sp/>freed<sp/>on<sp/>scope<sp/>exit</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="gpu__checked__ops_8h_1autotoc_md13_1s1"><sect2 id="gpu__checked__ops_8h_1autotoc_md13">
+<title>Error Handling Strategy</title><para><bold>CHECKED_CUDA/CHECKED_HIP</bold> (recommended):<itemizedlist>
+<listitem><para>Executes stmt and captures error code</para>
+</listitem><listitem><para>On error: logs diagnostic via spdlog, applies recovery policy</para>
+</listitem><listitem><para>Policy is per error class (see GPUErrorClass taxonomy)</para>
+</listitem><listitem><para>May throw on critical errors (depending on policy and build config)</para>
+</listitem><listitem><para>Suitable for: critical path operations (malloc, kernel launch)</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>TRY_CUDA</bold> (advanced):<itemizedlist>
+<listitem><para>Executes stmt and captures error code</para>
+</listitem><listitem><para>On error: logs diagnostic, executes custom fallback_action</para>
+</listitem><listitem><para>Does NOT apply handler recovery policy</para>
+</listitem><listitem><para>Useful for: retry patterns, custom error handling</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="gpu__checked__ops_8h_1autotoc_md14_1s1"><sect2 id="gpu__checked__ops_8h_1autotoc_md14">
+<title>Macros</title></sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__error_8h" kindref="compound">themis/gpu/gpu_error.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">gpu</ref><sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gpu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="142"><highlight class="comment"><sp/>*<sp/>NOTE:<sp/>CHECKED_CUDA,<sp/>CHECKED_HIP,<sp/>and<sp/>TRY_CUDA<sp/>macros<sp/>are<sp/>defined<sp/>in</highlight></codeline>
+<codeline lineno="143"><highlight class="comment"><sp/>*<sp/>gpu_error.h<sp/>(lines<sp/>382-482).<sp/>This<sp/>header<sp/>provides<sp/>convenient<sp/>documentation</highlight></codeline>
+<codeline lineno="144"><highlight class="comment"><sp/>*<sp/>and<sp/>re-export<sp/>of<sp/>those<sp/>macros<sp/>for<sp/>GPU<sp/>operations<sp/>using<sp/>CHECKED_*<sp/>patterns.</highlight></codeline>
+<codeline lineno="145"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/gpu/gpu_checked_ops.h"/>
+  </compounddef>
+</doxygen>

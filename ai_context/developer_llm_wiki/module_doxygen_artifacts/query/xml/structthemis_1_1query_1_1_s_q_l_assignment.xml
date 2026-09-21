@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_s_q_l_assignment" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SQLAssignment</compoundname>
+    <includes refid="sql__parser_8h" local="no">sql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_assignment_1a9d27c982566c4caf88f91b828225abe0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SQLAssignment::column</definition>
+        <argsstring></argsstring>
+        <name>column</name>
+        <qualifiedname>themis::query::SQLAssignment::column</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="137" column="17" bodyfile="include/query/sql_parser.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_assignment_1af946d88214b8879b592953dbed804129" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a52cb07cd3837eaf7d7ea4bf23b103b7f" kindref="member">SQLValue</ref></type>
+        <definition>SQLValue themis::query::SQLAssignment::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::query::SQLAssignment::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="138" column="14" bodyfile="include/query/sql_parser.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/sql_parser.h" line="136" column="1" bodyfile="include/query/sql_parser.h" bodystart="136" bodyend="139"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_s_q_l_assignment_1a9d27c982566c4caf88f91b828225abe0" prot="public" virt="non-virtual"><scope>themis::query::SQLAssignment</scope><name>column</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_assignment_1af946d88214b8879b592953dbed804129" prot="public" virt="non-virtual"><scope>themis::query::SQLAssignment</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

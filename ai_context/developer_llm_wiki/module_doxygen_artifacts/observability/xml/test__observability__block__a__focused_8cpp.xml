@@ -1,0 +1,483 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__observability__block__a__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_observability_block_a_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="alerting__engine_8h" local="yes">observability/alerting_engine.h</includes>
+    <includes refid="alertmanager_8h" local="yes">observability/alertmanager.h</includes>
+    <includes refid="continuous__profiler_8h" local="yes">observability/continuous_profiler.h</includes>
+    <includes refid="distributed__flame__graph_8h" local="yes">observability/distributed_flame_graph.h</includes>
+    <includes refid="root__cause__analyzer_8h" local="yes">observability/root_cause_analyzer.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>observability/alerting_engine.h</label>
+        <link refid="alerting__engine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>observability/alertmanager.h</label>
+        <link refid="alertmanager_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>observability/continuous_profiler.h</label>
+        <link refid="continuous__profiler_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>observability/distributed_flame_graph.h</label>
+        <link refid="distributed__flame__graph_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>observability/performance_analyzer.h</label>
+        <link refid="performance__analyzer_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>observability/query_profiler.h</label>
+        <link refid="query__profiler_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>observability/root_cause_analyzer.h</label>
+        <link refid="root__cause__analyzer_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>observability/storage_profiler.h</label>
+        <link refid="storage__profiler_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/observability/test_observability_block_a_focused.cpp</label>
+        <link refid="test__observability__block__a__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="15">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="20">
+        <label>unordered_map</label>
+      </node>
+      <node id="12">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacestd_1_1chrono__literals">std::chrono_literals</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__observability__block__a__focused_8cpp_1a26bf3e2ccd88133ad7da6ffa70f52fc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ObservabilityBlockAFlameGraph, MergeUsesLatestVersionPerNodeAndTracksVersions)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ObservabilityBlockAFlameGraph</type>
+        </param>
+        <param>
+          <type>MergeUsesLatestVersionPerNodeAndTracksVersions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_block_a_focused.cpp" line="69" column="1" bodyfile="tests/observability/test_observability_block_a_focused.cpp" bodystart="69" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__block__a__focused_8cpp_1a7c8adc220d225ecfe4dea770516b3978" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ObservabilityBlockAFlameGraph, FoldedAndJsonOutputAreDeterministic)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ObservabilityBlockAFlameGraph</type>
+        </param>
+        <param>
+          <type>FoldedAndJsonOutputAreDeterministic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_block_a_focused.cpp" line="82" column="1" bodyfile="tests/observability/test_observability_block_a_focused.cpp" bodystart="82" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__block__a__focused_8cpp_1ab826868d58c0ecc9af69e6f44c779e9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ObservabilityBlockAAlerting, EngineReturnsChannelFailureExplicitly)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ObservabilityBlockAAlerting</type>
+        </param>
+        <param>
+          <type>EngineReturnsChannelFailureExplicitly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_block_a_focused.cpp" line="94" column="1" bodyfile="tests/observability/test_observability_block_a_focused.cpp" bodystart="94" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__block__a__focused_8cpp_1a8831796e17d1f0c3502b18cbb8ecccff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ObservabilityBlockAAlerting, EngineDispatchesAndResolvesBackendState)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ObservabilityBlockAAlerting</type>
+        </param>
+        <param>
+          <type>EngineDispatchesAndResolvesBackendState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_block_a_focused.cpp" line="107" column="1" bodyfile="tests/observability/test_observability_block_a_focused.cpp" bodystart="107" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__block__a__focused_8cpp_1a183195f616cfc478c855728b33b8ea19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ObservabilityBlockARootCause, ReportIncludesReasonCodeAndFallbackFactor)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ObservabilityBlockARootCause</type>
+        </param>
+        <param>
+          <type>ReportIncludesReasonCodeAndFallbackFactor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_block_a_focused.cpp" line="126" column="1" bodyfile="tests/observability/test_observability_block_a_focused.cpp" bodystart="126" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="test__observability__block__a__focused_8cpp_1a66b2f82a46509d79df7a7864831d2a46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ObservabilityBlockARootCause, CorrelationRequiresAlignedData)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ObservabilityBlockARootCause</type>
+        </param>
+        <param>
+          <type>CorrelationRequiresAlignedData</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/observability/test_observability_block_a_focused.cpp" line="141" column="1" bodyfile="tests/observability/test_observability_block_a_focused.cpp" bodystart="141" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="alerting__engine_8h" kindref="compound">observability/alerting_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="alertmanager_8h" kindref="compound">observability/alertmanager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="continuous__profiler_8h" kindref="compound">observability/continuous_profiler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__flame__graph_8h" kindref="compound">observability/distributed_flame_graph.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="root__cause__analyzer_8h" kindref="compound">observability/root_cause_analyzer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">themis::observability</ref>;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref><sp/>makeCpuSnapshot(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>folded)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_profile_snapshot" kindref="compound">ProfileSnapshot</ref><sp/>snapshot;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>snapshot.<ref refid="structthemis_1_1observability_1_1_profile_snapshot_1a40c9890ca4ae893535389cd1b00e0835" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893efa2b55387dd066c5bac646ac61543d152d" kindref="member">ProfileType::CPU</ref>;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>snapshot.<ref refid="structthemis_1_1observability_1_1_profile_snapshot_1ac98a3e93e0ab57b2739ae6f8e6a79c48" kindref="member">data</ref><sp/>=<sp/>std::vector&lt;uint8_t&gt;(folded.size());</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>folded.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>snapshot.<ref refid="structthemis_1_1observability_1_1_profile_snapshot_1ac98a3e93e0ab57b2739ae6f8e6a79c48" kindref="member">data</ref>[i]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(folded[i]);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>snapshot;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RecordingChannel<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_i_notification_channel" kindref="compound">INotificationChannel</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>RecordingChannel(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>fail<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)<sp/>:<sp/>fail_(fail)<sp/>{}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/>channelType()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;recording&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>themis::Result&lt;void&gt;<sp/>send(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Alert&amp;<sp/>alert)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>alerts.push_back(alert);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fail_)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tl::unexpected(themis::Error{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::errors::ErrorCode::ERR_NET_CONNECTION_REFUSED,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;channel<sp/>failure&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Alert&gt;<sp/>alerts;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>fail_;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RecordingAlertmanager<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_alertmanager" kindref="compound">Alertmanager</ref><sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::Result&lt;void&gt;<sp/>sendAlert(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Alert&amp;<sp/>alert)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sent.push_back(alert);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>upsertActiveAlert(alert);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::Result&lt;void&gt;<sp/>resolveAlert(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>alert_id)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resolved.push_back(alert_id);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>removeActiveAlertById(alert_id);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Alert&gt;<sp/>sent;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>resolved;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="test__observability__block__a__focused_8cpp_1a26bf3e2ccd88133ad7da6ffa70f52fc2" kindref="member">TEST</ref>(ObservabilityBlockAFlameGraph,<sp/>MergeUsesLatestVersionPerNodeAndTracksVersions)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph" kindref="compound">DistributedFlameGraph</ref><sp/>graph;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>graph.<ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1ae2227d31070ab22b9839033f2d88f5fe" kindref="member">addNodeProfile</ref>({</highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;host-a&quot;</highlight><highlight class="normal">,<sp/>2,<sp/>makeCpuSnapshot(</highlight><highlight class="stringliteral">&quot;main;a<sp/>2\n&quot;</highlight><highlight class="normal">)});</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>graph.<ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1ae2227d31070ab22b9839033f2d88f5fe" kindref="member">addNodeProfile</ref>({</highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;host-a&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>makeCpuSnapshot(</highlight><highlight class="stringliteral">&quot;main;a<sp/>99\n&quot;</highlight><highlight class="normal">)});</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>graph.<ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1ae2227d31070ab22b9839033f2d88f5fe" kindref="member">addNodeProfile</ref>({</highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;host-b&quot;</highlight><highlight class="normal">,<sp/>5,<sp/>makeCpuSnapshot(</highlight><highlight class="stringliteral">&quot;main;b<sp/>3\n&quot;</highlight><highlight class="normal">)});</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>merged<sp/>=<sp/>graph.<ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1a8c4f106255e8a76422ed8dd426aae26c" kindref="member">merge</ref>();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(merged.node_versions.at(</highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">),<sp/>2u);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(merged.node_versions.at(</highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">),<sp/>5u);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(merged.stacks.at(</highlight><highlight class="stringliteral">&quot;main;a&quot;</highlight><highlight class="normal">),<sp/>2u);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(merged.stacks.at(</highlight><highlight class="stringliteral">&quot;main;b&quot;</highlight><highlight class="normal">),<sp/>3u);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="test__observability__block__a__focused_8cpp_1a26bf3e2ccd88133ad7da6ffa70f52fc2" kindref="member">TEST</ref>(ObservabilityBlockAFlameGraph,<sp/>FoldedAndJsonOutputAreDeterministic)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph" kindref="compound">DistributedFlameGraph</ref><sp/>graph;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>graph.<ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1ae2227d31070ab22b9839033f2d88f5fe" kindref="member">addNodeProfile</ref>({</highlight><highlight class="stringliteral">&quot;node-b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;host-b&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>makeCpuSnapshot(</highlight><highlight class="stringliteral">&quot;main;z<sp/>1\n&quot;</highlight><highlight class="normal">)});</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>graph.<ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1ae2227d31070ab22b9839033f2d88f5fe" kindref="member">addNodeProfile</ref>({</highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;host-a&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>makeCpuSnapshot(</highlight><highlight class="stringliteral">&quot;main;a<sp/>2\n&quot;</highlight><highlight class="normal">)});</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>merged<sp/>=<sp/>graph.<ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1a8c4f106255e8a76422ed8dd426aae26c" kindref="member">merge</ref>();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(merged.toFoldedText(),<sp/>std::string(</highlight><highlight class="stringliteral">&quot;main;a<sp/>2\nmain;z<sp/>1\n&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>as_json<sp/>=<sp/>merged.toJSON();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(as_json.contains(</highlight><highlight class="stringliteral">&quot;node_versions&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(as_json[</highlight><highlight class="stringliteral">&quot;node_versions&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;node-a&quot;</highlight><highlight class="normal">],<sp/>1u);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="test__observability__block__a__focused_8cpp_1a26bf3e2ccd88133ad7da6ffa70f52fc2" kindref="member">TEST</ref>(ObservabilityBlockAAlerting,<sp/>EngineReturnsChannelFailureExplicitly)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_alerting_engine" kindref="compound">AlertingEngine</ref><sp/>engine;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>engine.<ref refid="classthemis_1_1observability_1_1_alerting_engine_1a3d18264b3f47513b53452ce0736dba0d" kindref="member">addChannel</ref>(std::make_shared&lt;RecordingChannel&gt;(</highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref><sp/>alert;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>alert.<ref refid="structthemis_1_1observability_1_1_alert_1a6b88734ab28a4ec54fcab56019a96b71" kindref="member">alert_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;a1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>alert.<ref refid="structthemis_1_1observability_1_1_alert_1ab1fd15f1723c1b77b3fc1b5c61f69df1" kindref="member">alert_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>Alert&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>alert.<ref refid="structthemis_1_1observability_1_1_alert_1a7f7f6017ff389113fb25edb608bd7b54" kindref="member">message</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;failure&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine.<ref refid="classthemis_1_1observability_1_1_alerting_engine_1a387dd600c91452db51df42a2e4803e09" kindref="member">sendAlert</ref>(alert);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__observability__block__a__focused_8cpp_1a26bf3e2ccd88133ad7da6ffa70f52fc2" kindref="member">TEST</ref>(ObservabilityBlockAAlerting,<sp/>EngineDispatchesAndResolvesBackendState)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>std::make_shared&lt;RecordingAlertmanager&gt;();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_alerting_engine" kindref="compound">AlertingEngine</ref><sp/>engine(backend);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>channel<sp/>=<sp/>std::make_shared&lt;RecordingChannel&gt;();</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>engine.<ref refid="classthemis_1_1observability_1_1_alerting_engine_1a3d18264b3f47513b53452ce0736dba0d" kindref="member">addChannel</ref>(channel);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref><sp/>alert;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>alert.<ref refid="structthemis_1_1observability_1_1_alert_1a6b88734ab28a4ec54fcab56019a96b71" kindref="member">alert_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;a2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>alert.<ref refid="structthemis_1_1observability_1_1_alert_1ab1fd15f1723c1b77b3fc1b5c61f69df1" kindref="member">alert_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Backend<sp/>Alert&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>alert.<ref refid="structthemis_1_1observability_1_1_alert_1a7f7f6017ff389113fb25edb608bd7b54" kindref="member">message</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine.<ref refid="classthemis_1_1observability_1_1_alerting_engine_1a387dd600c91452db51df42a2e4803e09" kindref="member">sendAlert</ref>(alert).has_value());</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(channel-&gt;alerts.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(backend-&gt;sent.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(engine.<ref refid="classthemis_1_1observability_1_1_alerting_engine_1a3ebcf2e868a7bc0ef4d8c6e20924f866" kindref="member">resolveAlert</ref>(</highlight><highlight class="stringliteral">&quot;a2&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(backend-&gt;resolved.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="test__observability__block__a__focused_8cpp_1a26bf3e2ccd88133ad7da6ffa70f52fc2" kindref="member">TEST</ref>(ObservabilityBlockARootCause,<sp/>ReportIncludesReasonCodeAndFallbackFactor)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_root_cause_analyzer" kindref="compound">RootCauseAnalyzer</ref><sp/>analyzer;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_performance_issue" kindref="compound">PerformanceIssue</ref><sp/>issue;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>issue.<ref refid="structthemis_1_1observability_1_1_performance_issue_1af76e51dfeb0c6fbf66e6e2ef890cc238" kindref="member">category</ref><sp/>=<sp/><ref refid="namespacethemis_1_1observability_1a698d92ba41e04abb3b909bf35c010a7ca12445661fb30e1f1dbec52e4aad553dd" kindref="member">IssueCategory::QUERY_OPTIMIZATION</ref>;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_system_snapshot" kindref="compound">SystemSnapshot</ref><sp/>before;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>before.<ref refid="structthemis_1_1observability_1_1_system_snapshot_1a311ed63befd44493826fb3c73a1cd12d" kindref="member">avg_query_latency_ms</ref><sp/>=<sp/>100.0;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_system_snapshot" kindref="compound">SystemSnapshot</ref><sp/>after;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>after.<ref refid="structthemis_1_1observability_1_1_system_snapshot_1a311ed63befd44493826fb3c73a1cd12d" kindref="member">avg_query_latency_ms</ref><sp/>=<sp/>100.0;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/>analyzer.<ref refid="classthemis_1_1observability_1_1_root_cause_analyzer_1ae84fc237688f7a0a38d84b5853a8e8ea" kindref="member">analyzeIssue</ref>(issue,<sp/>before,<sp/>after);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(report.primary_reason_code.empty());</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(report.contributing_factors.empty());</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="test__observability__block__a__focused_8cpp_1a26bf3e2ccd88133ad7da6ffa70f52fc2" kindref="member">TEST</ref>(ObservabilityBlockARootCause,<sp/>CorrelationRequiresAlignedData)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_root_cause_analyzer" kindref="compound">RootCauseAnalyzer</ref><sp/>analyzer;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_time_series" kindref="compound">TimeSeries</ref><sp/>target;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>target.<ref refid="structthemis_1_1observability_1_1_time_series_1af31c9863e74f72ba28ebe1821108ac1f" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;target&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>target.<ref refid="structthemis_1_1observability_1_1_time_series_1a3581c6a9881c53f6a680c28d1b02f2b5" kindref="member">points</ref>.push_back({std::chrono::system_clock::now(),<sp/>1.0});</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_time_series" kindref="compound">TimeSeries</ref><sp/>short_series;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>short_series.<ref refid="structthemis_1_1observability_1_1_time_series_1af31c9863e74f72ba28ebe1821108ac1f" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;other&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>short_series.<ref refid="structthemis_1_1observability_1_1_time_series_1a3581c6a9881c53f6a680c28d1b02f2b5" kindref="member">points</ref>.push_back({std::chrono::system_clock::now(),<sp/>2.0});</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>analyzer.<ref refid="classthemis_1_1observability_1_1_root_cause_analyzer_1ad52e648816a84af56f94612ca9c0cd56" kindref="member">addTimeSeries</ref>(target);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>analyzer.<ref refid="classthemis_1_1observability_1_1_root_cause_analyzer_1ad52e648816a84af56f94612ca9c0cd56" kindref="member">addTimeSeries</ref>(short_series);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(analyzer.<ref refid="classthemis_1_1observability_1_1_root_cause_analyzer_1a03efc5a0c148f39cd631699e01e76845" kindref="member">findCorrelations</ref>(</highlight><highlight class="stringliteral">&quot;target&quot;</highlight><highlight class="normal">).empty());</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/observability/test_observability_block_a_focused.cpp"/>
+  </compounddef>
+</doxygen>

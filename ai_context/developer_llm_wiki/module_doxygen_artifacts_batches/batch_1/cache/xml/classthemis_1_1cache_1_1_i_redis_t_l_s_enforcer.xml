@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_i_redis_t_l_s_enforcer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::cache::IRedisTLSEnforcer</compoundname>
+    <includes refid="redis__tls__config_8h" local="no">redis_tls_config.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_redis_t_l_s_enforcer_1a24c5388e704606fd86892772f66cbbe1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::cache::IRedisTLSEnforcer::~IRedisTLSEnforcer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IRedisTLSEnforcer</name>
+        <qualifiedname>themis::cache::IRedisTLSEnforcer::~IRedisTLSEnforcer</qualifiedname>
+        <briefdescription>
+<para>IRedis TLSEnforcer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_tls_config.h" line="46" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_redis_t_l_s_enforcer_1a1224091e487bdc93728bd10844f40ad3" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::cache::IRedisTLSEnforcer::applyTLSConfig</definition>
+        <argsstring>(const RedisTLSConfig &amp;config)=0</argsstring>
+        <name>applyTLSConfig</name>
+        <qualifiedname>themis::cache::IRedisTLSEnforcer::applyTLSConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_redis_t_l_s_config" kindref="compound">RedisTLSConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Apply TLSConfig. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_tls_config.h" line="53" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_redis_t_l_s_enforcer_1af747aacccd5b25589e459e9e0808b7b9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::cache::IRedisTLSEnforcer::isTLSActive</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isTLSActive</name>
+        <qualifiedname>themis::cache::IRedisTLSEnforcer::isTLSActive</qualifiedname>
+        <briefdescription>
+<para>Is TLSActive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_tls_config.h" line="59" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_redis_t_l_s_enforcer_1a611c015f1f18871379ae835daa5d3566" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::cache::IRedisTLSEnforcer::getTLSVersion</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getTLSVersion</name>
+        <qualifiedname>themis::cache::IRedisTLSEnforcer::getTLSVersion</qualifiedname>
+        <briefdescription>
+<para>Get TLSVersion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_tls_config.h" line="65" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_i_redis_t_l_s_enforcer_1a93b8873657bd590135099288f68829a1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::cache::IRedisTLSEnforcer::getActiveCipherSuite</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getActiveCipherSuite</name>
+        <qualifiedname>themis::cache::IRedisTLSEnforcer::getActiveCipherSuite</qualifiedname>
+        <briefdescription>
+<para>Get Active Cipher Suite. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/redis_tls_config.h" line="71" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/redis_tls_config.h" line="40" column="1" bodyfile="include/cache/redis_tls_config.h" bodystart="40" bodyend="72"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_i_redis_t_l_s_enforcer_1a1224091e487bdc93728bd10844f40ad3" prot="public" virt="pure-virtual"><scope>themis::cache::IRedisTLSEnforcer</scope><name>applyTLSConfig</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_redis_t_l_s_enforcer_1a93b8873657bd590135099288f68829a1" prot="public" virt="pure-virtual"><scope>themis::cache::IRedisTLSEnforcer</scope><name>getActiveCipherSuite</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_redis_t_l_s_enforcer_1a611c015f1f18871379ae835daa5d3566" prot="public" virt="pure-virtual"><scope>themis::cache::IRedisTLSEnforcer</scope><name>getTLSVersion</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_redis_t_l_s_enforcer_1af747aacccd5b25589e459e9e0808b7b9" prot="public" virt="pure-virtual"><scope>themis::cache::IRedisTLSEnforcer</scope><name>isTLSActive</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_redis_t_l_s_enforcer_1a24c5388e704606fd86892772f66cbbe1" prot="public" virt="virtual"><scope>themis::cache::IRedisTLSEnforcer</scope><name>~IRedisTLSEnforcer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

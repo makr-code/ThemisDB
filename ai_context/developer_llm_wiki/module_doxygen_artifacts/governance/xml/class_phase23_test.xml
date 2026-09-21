@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_phase23_test" kind="class" language="C++" prot="public">
+    <compoundname>Phase23Test</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_phase23_test_1a6a0f9195dc714689db9e1e5cc1734041" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void Phase23Test::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>Phase23Test::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_phase2_phase3_focused.cpp" line="23" column="10" bodyfile="tests/governance/test_governance_phase2_phase3_focused.cpp" bodystart="23" bodyend="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>Phase23Test</label>
+        <link refid="class_phase23_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>Phase23Test</label>
+        <link refid="class_phase23_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/governance/test_governance_phase2_phase3_focused.cpp" line="21" column="1" bodyfile="tests/governance/test_governance_phase2_phase3_focused.cpp" bodystart="21" bodyend="26"/>
+    <listofallmembers>
+      <member refid="class_phase23_test_1a6a0f9195dc714689db9e1e5cc1734041" prot="protected" virt="non-virtual"><scope>Phase23Test</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

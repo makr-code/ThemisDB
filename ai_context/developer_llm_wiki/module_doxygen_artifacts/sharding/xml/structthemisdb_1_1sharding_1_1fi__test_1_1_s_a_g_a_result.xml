@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::fi_test::SAGAResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_result_1aede9a64ea93e215d8db8f28b9a637d1b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::fi_test::SAGAResult::succeeded</definition>
+        <argsstring></argsstring>
+        <name>succeeded</name>
+        <qualifiedname>themisdb::sharding::fi_test::SAGAResult::succeeded</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="781" column="30" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="781" bodyend="781"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_result_1ac4cb69adf6ab352939794e5200c7a066" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::sharding::fi_test::SAGAResult::steps_completed</definition>
+        <argsstring></argsstring>
+        <name>steps_completed</name>
+        <qualifiedname>themisdb::sharding::fi_test::SAGAResult::steps_completed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="782" column="30" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="782" bodyend="782"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_result_1aa2103adea15d0757c0397bcb98890255" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::sharding::fi_test::SAGAResult::compensations_run</definition>
+        <argsstring></argsstring>
+        <name>compensations_run</name>
+        <qualifiedname>themisdb::sharding::fi_test::SAGAResult::compensations_run</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="783" column="30" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="783" bodyend="783"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_result_1a57e22cf1f09725b85942eb1c8e1e57e1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::sharding::fi_test::SAGAResult::compensation_order</definition>
+        <argsstring></argsstring>
+        <name>compensation_order</name>
+        <qualifiedname>themisdb::sharding::fi_test::SAGAResult::compensation_order</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="784" column="17" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="784" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="780" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="780" bodyend="785"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_result_1a57e22cf1f09725b85942eb1c8e1e57e1" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::SAGAResult</scope><name>compensation_order</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_result_1aa2103adea15d0757c0397bcb98890255" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::SAGAResult</scope><name>compensations_run</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_result_1ac4cb69adf6ab352939794e5200c7a066" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::SAGAResult</scope><name>steps_completed</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1fi__test_1_1_s_a_g_a_result_1aede9a64ea93e215d8db8f28b9a637d1b" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::SAGAResult</scope><name>succeeded</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

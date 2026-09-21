@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_backend_selection_performance_test" kind="class" language="C++" prot="public">
+    <compoundname>BackendSelectionPerformanceTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_backend_selection_performance_test_1aa897ce5609a6a07a8e6b8cf9eb5d5c26" prot="protected" static="no" mutable="no">
+        <type>PerfCounter</type>
+        <definition>PerfCounter BackendSelectionPerformanceTest::counter</definition>
+        <argsstring></argsstring>
+        <name>counter</name>
+        <qualifiedname>BackendSelectionPerformanceTest::counter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_performance_gates.cpp" line="196" column="17" bodyfile="tests/acceleration/test_acceleration_performance_gates.cpp" bodystart="196" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_backend_selection_performance_test_1a82ad8d50abd31f6e373189c2001e5d01" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double BackendSelectionPerformanceTest::BACKEND_SELECT_THRESHOLD_US</definition>
+        <argsstring></argsstring>
+        <name>BACKEND_SELECT_THRESHOLD_US</name>
+        <qualifiedname>BackendSelectionPerformanceTest::BACKEND_SELECT_THRESHOLD_US</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_performance_gates.cpp" line="197" column="29" bodyfile="tests/acceleration/test_acceleration_performance_gates.cpp" bodystart="197" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_backend_selection_performance_test_1a35e15547f478e76ccfa61238f2e6dae2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void BackendSelectionPerformanceTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>BackendSelectionPerformanceTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_performance_gates.cpp" line="199" column="10" bodyfile="tests/acceleration/test_acceleration_performance_gates.cpp" bodystart="199" bodyend="201"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>BackendSelectionPerformanceTest</label>
+        <link refid="class_backend_selection_performance_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>BackendSelectionPerformanceTest</label>
+        <link refid="class_backend_selection_performance_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>counter</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>anonymous:counter</label>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/acceleration/test_acceleration_performance_gates.cpp" line="194" column="1" bodyfile="tests/acceleration/test_acceleration_performance_gates.cpp" bodystart="194" bodyend="202"/>
+    <listofallmembers>
+      <member refid="class_backend_selection_performance_test_1a82ad8d50abd31f6e373189c2001e5d01" prot="protected" virt="non-virtual"><scope>BackendSelectionPerformanceTest</scope><name>BACKEND_SELECT_THRESHOLD_US</name></member>
+      <member refid="class_backend_selection_performance_test_1aa897ce5609a6a07a8e6b8cf9eb5d5c26" prot="protected" virt="non-virtual"><scope>BackendSelectionPerformanceTest</scope><name>counter</name></member>
+      <member refid="class_backend_selection_performance_test_1a35e15547f478e76ccfa61238f2e6dae2" prot="protected" virt="non-virtual"><scope>BackendSelectionPerformanceTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

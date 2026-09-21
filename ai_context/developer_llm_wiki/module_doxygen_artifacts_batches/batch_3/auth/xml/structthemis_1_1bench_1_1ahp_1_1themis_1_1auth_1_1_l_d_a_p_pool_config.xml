@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::ahp::themis::auth::LDAPPoolConfig</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config_1a4563fb238e5784f11c2029a16669aa1b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::ahp::themis::auth::LDAPPoolConfig::min_idle</definition>
+        <argsstring></argsstring>
+        <name>min_idle</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPPoolConfig::min_idle</qualifiedname>
+        <initializer>{2}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="35" column="9" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config_1a5dddc3198e5e3b47e79faa0f45883859" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::ahp::themis::auth::LDAPPoolConfig::max_size</definition>
+        <argsstring></argsstring>
+        <name>max_size</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPPoolConfig::max_size</qualifiedname>
+        <initializer>{16}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="37" column="9" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config_1ad677db9cc216dcb1a907c58612fba87d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::ahp::themis::auth::LDAPPoolConfig::checkout_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>checkout_timeout_ms</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPPoolConfig::checkout_timeout_ms</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="39" column="9" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config_1ac402ca4a192ec3e3ebc5d5efc879d39e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::bench::ahp::themis::auth::LDAPPoolConfig::host</definition>
+        <argsstring></argsstring>
+        <name>host</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPPoolConfig::host</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="42" column="17" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config_1af8ddc38bfc71cfcde7656e775f24de60" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::bench::ahp::themis::auth::LDAPPoolConfig::server_url</definition>
+        <argsstring></argsstring>
+        <name>server_url</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPPoolConfig::server_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="44" column="17" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config_1aa4ba57cf5ea01cae4fd9f1d14357a821" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::ahp::themis::auth::LDAPPoolConfig::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPPoolConfig::port</qualifiedname>
+        <initializer>{389}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="45" column="17" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config_1ac37d1c5a3f1cf2479b32ea2c762c75b1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::bench::ahp::themis::auth::LDAPPoolConfig::use_tls</definition>
+        <argsstring></argsstring>
+        <name>use_tls</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPPoolConfig::use_tls</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="46" column="17" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config_1a27db4ad9f83c4d4ac209eb962e8a6f70" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::ahp::themis::auth::LDAPPoolConfig::connection_timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>connection_timeout_seconds</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPPoolConfig::connection_timeout_seconds</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="47" column="17" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config_1a19e345318a7f2347eae8c9c3d18456cd" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::ahp::themis::auth::LDAPPoolConfig::search_timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>search_timeout_seconds</name>
+        <qualifiedname>themis::bench::ahp::themis::auth::LDAPPoolConfig::search_timeout_seconds</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/ldap_connection_pool.h" line="48" column="17" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="48" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/ldap_connection_pool.h" line="34" column="1" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="34" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config_1ad677db9cc216dcb1a907c58612fba87d" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPPoolConfig</scope><name>checkout_timeout_ms</name></member>
+      <member refid="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config_1a27db4ad9f83c4d4ac209eb962e8a6f70" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPPoolConfig</scope><name>connection_timeout_seconds</name></member>
+      <member refid="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config_1ac402ca4a192ec3e3ebc5d5efc879d39e" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPPoolConfig</scope><name>host</name></member>
+      <member refid="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config_1a5dddc3198e5e3b47e79faa0f45883859" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPPoolConfig</scope><name>max_size</name></member>
+      <member refid="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config_1a4563fb238e5784f11c2029a16669aa1b" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPPoolConfig</scope><name>min_idle</name></member>
+      <member refid="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config_1aa4ba57cf5ea01cae4fd9f1d14357a821" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPPoolConfig</scope><name>port</name></member>
+      <member refid="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config_1a19e345318a7f2347eae8c9c3d18456cd" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPPoolConfig</scope><name>search_timeout_seconds</name></member>
+      <member refid="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config_1af8ddc38bfc71cfcde7656e775f24de60" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPPoolConfig</scope><name>server_url</name></member>
+      <member refid="structthemis_1_1bench_1_1ahp_1_1themis_1_1auth_1_1_l_d_a_p_pool_config_1ac37d1c5a3f1cf2479b32ea2c762c75b1" prot="public" virt="non-virtual"><scope>themis::bench::ahp::themis::auth::LDAPPoolConfig</scope><name>use_tls</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

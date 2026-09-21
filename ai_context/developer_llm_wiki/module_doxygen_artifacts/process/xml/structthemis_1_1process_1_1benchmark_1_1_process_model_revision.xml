@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1benchmark_1_1_process_model_revision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::ProcessModelRevision</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_model_revision_1a9898eba6259c525570ca4c200ffdd6b5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::ProcessModelRevision::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRevision::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="24" column="17" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_model_revision_1a3e9d68e4d0945d44fe046b6d5177669f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::benchmark::ProcessModelRevision::revision_num</definition>
+        <argsstring></argsstring>
+        <name>revision_num</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRevision::revision_num</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="25" column="9" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="25" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_model_revision_1a1d68e58edac3da4888b105505ae21f7c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::ProcessModelRevision::content_hash</definition>
+        <argsstring></argsstring>
+        <name>content_hash</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRevision::content_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="26" column="17" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_model_revision_1af4c07d5938914b0e64f4f30b24502161" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::benchmark::ProcessModelRevision::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRevision::timestamp_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="27" column="13" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1benchmark_1_1_process_model_revision_1a9d9ebbaa28263a94179e4cc09ef48363" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::benchmark::ProcessModelRevision::author</definition>
+        <argsstring></argsstring>
+        <name>author</name>
+        <qualifiedname>themis::process::benchmark::ProcessModelRevision::author</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="28" column="17" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simulated process model revision record. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_determinism_gates.cpp" line="23" column="1" bodyfile="benchmarks/process/bench_process_determinism_gates.cpp" bodystart="23" bodyend="29"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_model_revision_1a9d9ebbaa28263a94179e4cc09ef48363" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRevision</scope><name>author</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_model_revision_1a1d68e58edac3da4888b105505ae21f7c" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRevision</scope><name>content_hash</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_model_revision_1a9898eba6259c525570ca4c200ffdd6b5" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRevision</scope><name>id</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_model_revision_1a3e9d68e4d0945d44fe046b6d5177669f" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRevision</scope><name>revision_num</name></member>
+      <member refid="structthemis_1_1process_1_1benchmark_1_1_process_model_revision_1af4c07d5938914b0e64f4f30b24502161" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessModelRevision</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

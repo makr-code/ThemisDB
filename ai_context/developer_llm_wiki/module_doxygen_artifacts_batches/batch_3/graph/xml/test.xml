@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1aa5abe5c2fab1ae18418461f5ccca5e68" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, LRUEviction_CapacityOne_OldestEvicted)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>LRUEviction_CapacityOne_OldestEvicted  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1ab5465f5f8e6c226dd35e1a71e982578b" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, LRUEviction_CapacityFull_LRUEntryEvicted)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>LRUEviction_CapacityFull_LRUEntryEvicted  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a2ae316ba0727f1ef8464093a66ebdcdf" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, LRUEviction_RecentAccessPromotion_ProtectsItem)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>LRUEviction_RecentAccessPromotion_ProtectsItem  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a1e48b09e4e41543e147a284802dadfaa" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, LRUEviction_SizeNeverExceedsCapacity)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>LRUEviction_SizeNeverExceedsCapacity  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a18a31671bc682a0231d1b8338ca0f03a" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, StatsDrift_10xRatio_PlanInvalidated)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>StatsDrift_10xRatio_PlanInvalidated  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a0ad4a8438f2b636a1e3929ac7ab59892" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, StatsDrift_BelowThreshold_PlanValid)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>StatsDrift_BelowThreshold_PlanValid  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a546f8f5ed834b75ac2d35bc857e2f590" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, StatsDrift_MissingTable_PlanInvalidated)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>StatsDrift_MissingTable_PlanInvalidated  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1ab44be37c1265d8be634e37c6fbb32e8a" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, ConcurrentAccess_MultipleWriters_NoDataCorruption)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>ConcurrentAccess_MultipleWriters_NoDataCorruption  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a787587b03c26b45f7bd423eab16d36f9" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, ConcurrentAccess_ReadersAndWriters_ThreadSafe)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>ConcurrentAccess_ReadersAndWriters_ThreadSafe  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a147f9ecbff4c34fc75f16b1cc1044750" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, HitMissRatio_AccurateAfterKnownSequence)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/>HitMissRatio_AccurateAfterKnownSequence  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a81452536bd414452fe4f80c1783c3007" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, HitMissRatio_EmptyCache_ZeroRate)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/>HitMissRatio_EmptyCache_ZeroRate  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a2114a60950cc20dcbb27e56b3290b8db" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, TableInvalidation_RemovesAllAffectedPlans)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>TableInvalidation_RemovesAllAffectedPlans  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a94cfae15735d5fb36df9218c51ce563e" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, TableInvalidation_PreservesUnaffectedPlans)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000013"/>TableInvalidation_PreservesUnaffectedPlans  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1ac5649c80e61b8e0ba88597282b35eff0" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, TableInvalidation_ReturnsCorrectCount)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000014"/>TableInvalidation_ReturnsCorrectCount  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a2f5da7e756424ad0cb4ab2410fb76757" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, CacheWarming_PlanFoundOnFirstLookup)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000015"/>CacheWarming_PlanFoundOnFirstLookup  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a0c651273c50be484a14fe260bb02d752" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, CacheWarming_StatsReflectWarmHits)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000016"/>CacheWarming_StatsReflectWarmHits  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a92da0b1fcde5bd3fc109af0a172a4d6d" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, AgeExpiry_ZeroMaxAge_PlansImmediatelyStale)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000017"/>AgeExpiry_ZeroMaxAge_PlansImmediatelyStale  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a25b1c99d0d57640d6d024a1c5576870e" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, AgeExpiry_EvictExpired_ClearsStaleEntries)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000018"/>AgeExpiry_EvictExpired_ClearsStaleEntries  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a049f31ac1c0c99da8dad9ff2cf1add94" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, EdgeCase_EmptyQueryString_FingerprintableAndStorable)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000019"/>EdgeCase_EmptyQueryString_FingerprintableAndStorable  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a478c73a5d67f35c0f7b94cc46ef8fff8" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, EdgeCase_VeryLongQuery_StoredAndRetrieved)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000020"/>EdgeCase_VeryLongQuery_StoredAndRetrieved  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a946999a6b830919ebede20dde5e694ec" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, EdgeCase_UnicodeInQueryFingerprint_DeterministicHash)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000021"/>EdgeCase_UnicodeInQueryFingerprint_DeterministicHash  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1query_1_1test_1a78f65ddd6716564ab86e5c1e7a4ceac3" kindref="member">themis::query::test::TEST_F</ref>  (<ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref>, EdgeCase_ClearResetsAllState)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000022"/>EdgeCase_ClearResetsAllState </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_semantic_query_cache_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SemanticQueryCache::Config</compoundname>
+    <includes refid="semantic__cache_8h" local="no">semantic_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_semantic_query_cache_1_1_config_1ad5a3b4cd60fd3bf00485651a9d1f14d5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SemanticQueryCache::Config::max_entries</definition>
+        <argsstring></argsstring>
+        <name>max_entries</name>
+        <qualifiedname>themis::SemanticQueryCache::Config::max_entries</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="47" column="16" bodyfile="include/query/semantic_cache.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_semantic_query_cache_1_1_config_1ad30f443795682b6966302b1f47b79f3e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::SemanticQueryCache::Config::similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>similarity_threshold</name>
+        <qualifiedname>themis::SemanticQueryCache::Config::similarity_threshold</qualifiedname>
+        <initializer>= 0.85f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="48" column="15" bodyfile="include/query/semantic_cache.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_semantic_query_cache_1_1_config_1ada88e17c515b9c12d644d3ee56f9a8ec" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::SemanticQueryCache::Config::embedding_dim</definition>
+        <argsstring></argsstring>
+        <name>embedding_dim</name>
+        <qualifiedname>themis::SemanticQueryCache::Config::embedding_dim</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="49" column="13" bodyfile="include/query/semantic_cache.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_semantic_query_cache_1_1_config_1aa308d2073af60aeb43a2514e70f53433" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::SemanticQueryCache::Config::ttl</definition>
+        <argsstring></argsstring>
+        <name>ttl</name>
+        <qualifiedname>themis::SemanticQueryCache::Config::ttl</qualifiedname>
+        <initializer>{3600}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="50" column="30" bodyfile="include/query/semantic_cache.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_semantic_query_cache_1_1_config_1a1e8c693cab3c1af8b533820aafd3ed21" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::SemanticQueryCache::Config::enable_exact_match</definition>
+        <argsstring></argsstring>
+        <name>enable_exact_match</name>
+        <qualifiedname>themis::SemanticQueryCache::Config::enable_exact_match</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="51" column="14" bodyfile="include/query/semantic_cache.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_semantic_query_cache_1_1_config_1aebf0bc9971f36a51f2821e367ae5f508" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::SemanticQueryCache::Config::enable_similarity_match</definition>
+        <argsstring></argsstring>
+        <name>enable_similarity_match</name>
+        <qualifiedname>themis::SemanticQueryCache::Config::enable_similarity_match</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="52" column="14" bodyfile="include/query/semantic_cache.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_semantic_query_cache_1_1_config_1a2a4fb70fafbfcecb1cb66680b6fa967d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::SemanticQueryCache::Config::Config</definition>
+        <argsstring>()=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::SemanticQueryCache::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/semantic_cache.h" line="54" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/semantic_cache.h" line="46" column="5" bodyfile="include/query/semantic_cache.h" bodystart="46" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_config_1a2a4fb70fafbfcecb1cb66680b6fa967d" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_config_1ada88e17c515b9c12d644d3ee56f9a8ec" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::Config</scope><name>embedding_dim</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_config_1a1e8c693cab3c1af8b533820aafd3ed21" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::Config</scope><name>enable_exact_match</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_config_1aebf0bc9971f36a51f2821e367ae5f508" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::Config</scope><name>enable_similarity_match</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_config_1ad5a3b4cd60fd3bf00485651a9d1f14d5" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::Config</scope><name>max_entries</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_config_1ad30f443795682b6966302b1f47b79f3e" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::Config</scope><name>similarity_threshold</name></member>
+      <member refid="structthemis_1_1_semantic_query_cache_1_1_config_1aa308d2073af60aeb43a2514e70f53433" prot="public" virt="non-virtual"><scope>themis::SemanticQueryCache::Config</scope><name>ttl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

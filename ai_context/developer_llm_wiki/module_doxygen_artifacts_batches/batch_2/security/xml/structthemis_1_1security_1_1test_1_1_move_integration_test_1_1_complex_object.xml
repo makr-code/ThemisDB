@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1test_1_1_move_integration_test_1_1_complex_object" kind="struct" language="C++" prot="protected">
+    <compoundname>themis::security::test::MoveIntegrationTest::ComplexObject</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1test_1_1_move_integration_test_1_1_complex_object_1a94a0a5d4c0d5fe397aee4321127b913c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::security::test::MoveIntegrationTest::ComplexObject::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::security::test::MoveIntegrationTest::ComplexObject::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="356" column="17" bodyfile="tests/security/test_safe_move.cpp" bodystart="356" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1test_1_1_move_integration_test_1_1_complex_object_1ab5b12358ec0f3f62e32db1efd4e745d5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::test::MoveIntegrationTest::ComplexObject::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::security::test::MoveIntegrationTest::ComplexObject::name</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="357" column="17" bodyfile="tests/security/test_safe_move.cpp" bodystart="357" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1test_1_1_move_integration_test_1_1_complex_object_1a6f6730e4ef86e2a73cda8ad6bffb413e" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; std::vector&lt; double &gt; &gt;</type>
+        <definition>std::unique_ptr&lt;std::vector&lt;double&gt; &gt; themis::security::test::MoveIntegrationTest::ComplexObject::expensive</definition>
+        <argsstring></argsstring>
+        <name>expensive</name>
+        <qualifiedname>themis::security::test::MoveIntegrationTest::ComplexObject::expensive</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="358" column="21" bodyfile="tests/security/test_safe_move.cpp" bodystart="358" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1test_1_1_move_integration_test_1_1_complex_object_1a2404ccce32bce0f08f6b315a98172f55" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::MoveIntegrationTest::ComplexObject::ComplexObject</definition>
+        <argsstring>(const std::string &amp;n=&quot;&quot;)</argsstring>
+        <name>ComplexObject</name>
+        <qualifiedname>themis::security::test::MoveIntegrationTest::ComplexObject::ComplexObject</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>n</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="360" column="5" bodyfile="tests/security/test_safe_move.cpp" bodystart="360" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1test_1_1_move_integration_test_1_1_complex_object_1a6ed174b7d83b83146bf2c61454a16fc0" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::test::MoveIntegrationTest::ComplexObject::ComplexObject</definition>
+        <argsstring>(ComplexObject &amp;&amp;other) noexcept</argsstring>
+        <name>ComplexObject</name>
+        <qualifiedname>themis::security::test::MoveIntegrationTest::ComplexObject::ComplexObject</qualifiedname>
+        <param>
+          <type>ComplexObject &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="363" column="5" bodyfile="tests/security/test_safe_move.cpp" bodystart="363" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1test_1_1_move_integration_test_1_1_complex_object_1a442b26f363a1824aef1e63132c601aca" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1test_1_1_move_integration_test_1_1_complex_object_1a2404ccce32bce0f08f6b315a98172f55" kindref="member">ComplexObject</ref> &amp;</type>
+        <definition>ComplexObject &amp; themis::security::test::MoveIntegrationTest::ComplexObject::operator=</definition>
+        <argsstring>(ComplexObject &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::test::MoveIntegrationTest::ComplexObject::operator=</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1security_1_1test_1_1_move_integration_test_1_1_complex_object_1a2404ccce32bce0f08f6b315a98172f55" kindref="member">ComplexObject</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_safe_move.cpp" line="367" column="19" bodyfile="tests/security/test_safe_move.cpp" bodystart="367" bodyend="374"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_safe_move.cpp" line="355" column="3" bodyfile="tests/security/test_safe_move.cpp" bodystart="355" bodyend="375"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1test_1_1_move_integration_test_1_1_complex_object_1a2404ccce32bce0f08f6b315a98172f55" prot="public" virt="non-virtual"><scope>themis::security::test::MoveIntegrationTest::ComplexObject</scope><name>ComplexObject</name></member>
+      <member refid="structthemis_1_1security_1_1test_1_1_move_integration_test_1_1_complex_object_1a6ed174b7d83b83146bf2c61454a16fc0" prot="public" virt="non-virtual"><scope>themis::security::test::MoveIntegrationTest::ComplexObject</scope><name>ComplexObject</name></member>
+      <member refid="structthemis_1_1security_1_1test_1_1_move_integration_test_1_1_complex_object_1a94a0a5d4c0d5fe397aee4321127b913c" prot="public" virt="non-virtual"><scope>themis::security::test::MoveIntegrationTest::ComplexObject</scope><name>data</name></member>
+      <member refid="structthemis_1_1security_1_1test_1_1_move_integration_test_1_1_complex_object_1a6f6730e4ef86e2a73cda8ad6bffb413e" prot="public" virt="non-virtual"><scope>themis::security::test::MoveIntegrationTest::ComplexObject</scope><name>expensive</name></member>
+      <member refid="structthemis_1_1security_1_1test_1_1_move_integration_test_1_1_complex_object_1ab5b12358ec0f3f62e32db1efd4e745d5" prot="public" virt="non-virtual"><scope>themis::security::test::MoveIntegrationTest::ComplexObject</scope><name>name</name></member>
+      <member refid="structthemis_1_1security_1_1test_1_1_move_integration_test_1_1_complex_object_1a442b26f363a1824aef1e63132c601aca" prot="public" virt="non-virtual"><scope>themis::security::test::MoveIntegrationTest::ComplexObject</scope><name>operator=</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

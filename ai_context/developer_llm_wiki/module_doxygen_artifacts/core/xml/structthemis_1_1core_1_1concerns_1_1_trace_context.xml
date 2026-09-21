@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1concerns_1_1_trace_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::core::concerns::TraceContext</compoundname>
+    <includes refid="i__logger_8h" local="no">i_logger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_trace_context_1ab0e95a56e2b016974e8789ee047b254d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::TraceContext::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::core::concerns::TraceContext::trace_id</qualifiedname>
+        <briefdescription>
+<para>OpenTelemetry trace id (hex string). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="28" column="17" bodyfile="include/core/concerns/i_logger.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_trace_context_1a0db355dd240dc384216f95b7a968e2d0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::TraceContext::span_id</definition>
+        <argsstring></argsstring>
+        <name>span_id</name>
+        <qualifiedname>themis::core::concerns::TraceContext::span_id</qualifiedname>
+        <briefdescription>
+<para>OpenTelemetry span id (hex string). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="29" column="17" bodyfile="include/core/concerns/i_logger.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_trace_context_1aecc909f4f3a009aa2e6d8ccbeb2ea5f5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::TraceContext::request_id</definition>
+        <argsstring></argsstring>
+        <name>request_id</name>
+        <qualifiedname>themis::core::concerns::TraceContext::request_id</qualifiedname>
+        <briefdescription>
+<para>Per-request/RPC correlation id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="30" column="17" bodyfile="include/core/concerns/i_logger.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1core_1_1concerns_1_1_trace_context_1a8a945c4a35cf98c68577b2f46f69ef73" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::TraceContext::empty</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::core::concerns::TraceContext::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="32" column="10" bodyfile="include/core/concerns/i_logger.h" bodystart="32" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/i_logger.h" line="27" column="1" bodyfile="include/core/concerns/i_logger.h" bodystart="27" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1a8a945c4a35cf98c68577b2f46f69ef73" prot="public" virt="non-virtual"><scope>themis::core::concerns::TraceContext</scope><name>empty</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1aecc909f4f3a009aa2e6d8ccbeb2ea5f5" prot="public" virt="non-virtual"><scope>themis::core::concerns::TraceContext</scope><name>request_id</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1a0db355dd240dc384216f95b7a968e2d0" prot="public" virt="non-virtual"><scope>themis::core::concerns::TraceContext</scope><name>span_id</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_trace_context_1ab0e95a56e2b016974e8789ee047b254d" prot="public" virt="non-virtual"><scope>themis::core::concerns::TraceContext</scope><name>trace_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

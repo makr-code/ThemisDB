@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::attention::InfiniAttentionCPU::Config</compoundname>
+    <includes refid="infini__attention__cpu_8h" local="no">infini_attention_cpu.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config_1acaa3ddc0ab6fa312af4ca6c8fb5db8d0" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::llm::attention::InfiniAttentionCPU::Config::hidden_dim</definition>
+        <argsstring></argsstring>
+        <name>hidden_dim</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::Config::hidden_dim</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="22" column="17" bodyfile="include/llm/infini_attention_cpu.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config_1a49c958834c8cc079f01566bc6cf0125d" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::llm::attention::InfiniAttentionCPU::Config::seq_len</definition>
+        <argsstring></argsstring>
+        <name>seq_len</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::Config::seq_len</qualifiedname>
+        <initializer>= 2048</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="24" column="17" bodyfile="include/llm/infini_attention_cpu.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config_1a2cdcff64215984ab0094495d16373020" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::llm::attention::InfiniAttentionCPU::Config::memory_size</definition>
+        <argsstring></argsstring>
+        <name>memory_size</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::Config::memory_size</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="26" column="17" bodyfile="include/llm/infini_attention_cpu.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config_1a37250a12b8bee0e074a7b8b074d7ed93" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::attention::InfiniAttentionCPU::Config::epsilon</definition>
+        <argsstring></argsstring>
+        <name>epsilon</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::Config::epsilon</qualifiedname>
+        <initializer>= 1e-6f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="28" column="15" bodyfile="include/llm/infini_attention_cpu.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config_1a43e58faab894374e8ab4943eb430f6e9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::attention::InfiniAttentionCPU::Config::use_fp64</definition>
+        <argsstring></argsstring>
+        <name>use_fp64</name>
+        <qualifiedname>themis::llm::attention::InfiniAttentionCPU::Config::use_fp64</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/infini_attention_cpu.h" line="30" column="14" bodyfile="include/llm/infini_attention_cpu.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/infini_attention_cpu.h" line="21" column="5" bodyfile="include/llm/infini_attention_cpu.h" bodystart="21" bodyend="31"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config_1a37250a12b8bee0e074a7b8b074d7ed93" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU::Config</scope><name>epsilon</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config_1acaa3ddc0ab6fa312af4ca6c8fb5db8d0" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU::Config</scope><name>hidden_dim</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config_1a2cdcff64215984ab0094495d16373020" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU::Config</scope><name>memory_size</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config_1a49c958834c8cc079f01566bc6cf0125d" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU::Config</scope><name>seq_len</name></member>
+      <member refid="structthemis_1_1llm_1_1attention_1_1_infini_attention_c_p_u_1_1_config_1a43e58faab894374e8ab4943eb430f6e9" prot="public" virt="non-virtual"><scope>themis::llm::attention::InfiniAttentionCPU::Config</scope><name>use_fp64</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1failover_1_1_topology_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::failover::TopologySnapshot</compoundname>
+    <includes refid="topology__snapshot_8h" local="no">topology_snapshot.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_topology_snapshot_1abbb5557c3aebd976259c5dd0503814f8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::failover::TopologySnapshot::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::failover::TopologySnapshot::version</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Version at snapshot time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/topology_snapshot.h" line="11" column="14" bodyfile="include/failover/topology_snapshot.h" bodystart="11" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_topology_snapshot_1a6223ae019f14535ac56d8676d83fc131" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::failover::TopologySnapshot::failures</definition>
+        <argsstring></argsstring>
+        <name>failures</name>
+        <qualifiedname>themis::failover::TopologySnapshot::failures</qualifiedname>
+        <briefdescription>
+<para>node_id → consecutive_failures copy </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/topology_snapshot.h" line="12" column="24" bodyfile="include/failover/topology_snapshot.h" bodystart="12" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_topology_snapshot_1ac86e1437e34fe771aaba3667f16ab791" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::failover::TopologySnapshot::node_ids</definition>
+        <argsstring></argsstring>
+        <name>node_ids</name>
+        <qualifiedname>themis::failover::TopologySnapshot::node_ids</qualifiedname>
+        <briefdescription>
+<para>Ordered node list at snapshot time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/topology_snapshot.h" line="13" column="17" bodyfile="include/failover/topology_snapshot.h" bodystart="13" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1failover_1_1_topology_snapshot_1a99bade088b1cb6a5f4dbfe3aa1ed38bc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::failover::TopologySnapshot::added_nodes</definition>
+        <argsstring>(const TopologySnapshot &amp;other) const</argsstring>
+        <name>added_nodes</name>
+        <qualifiedname>themis::failover::TopologySnapshot::added_nodes</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1failover_1_1_topology_snapshot" kindref="compound">TopologySnapshot</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Added nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/topology_snapshot.h" line="20" column="17" bodyfile="src/failover/topology_snapshot.cpp" bodystart="15" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1failover_1_1_topology_snapshot_1ae6e9efee1bb2745016a4af6fde8ccd93" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::failover::TopologySnapshot::removed_nodes</definition>
+        <argsstring>(const TopologySnapshot &amp;other) const</argsstring>
+        <name>removed_nodes</name>
+        <qualifiedname>themis::failover::TopologySnapshot::removed_nodes</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1failover_1_1_topology_snapshot" kindref="compound">TopologySnapshot</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Removed nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/topology_snapshot.h" line="27" column="17" bodyfile="src/failover/topology_snapshot.cpp" bodystart="29" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1failover_1_1_topology_snapshot_1ac69a0939a1d551ff7aa2e7956d9bef23" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::failover::TopologySnapshot::has_topology_change</definition>
+        <argsstring>(const TopologySnapshot &amp;other) const</argsstring>
+        <name>has_topology_change</name>
+        <qualifiedname>themis::failover::TopologySnapshot::has_topology_change</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1failover_1_1_topology_snapshot" kindref="compound">TopologySnapshot</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Has topology change. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/topology_snapshot.h" line="34" column="10" bodyfile="src/failover/topology_snapshot.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1failover_1_1_topology_snapshot_1ad51afc63ed652c73f055f699a32aba90" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1failover_1_1_topology_snapshot" kindref="compound">TopologySnapshot</ref></type>
+        <definition>TopologySnapshot themis::failover::TopologySnapshot::capture</definition>
+        <argsstring>(uint64_t version, const std::unordered_map&lt; std::string, int &gt; &amp;failures)</argsstring>
+        <name>capture</name>
+        <qualifiedname>themis::failover::TopologySnapshot::capture</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, int &gt; &amp;</type>
+          <declname>failures</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/topology_snapshot.h" line="36" column="29" bodyfile="src/failover/topology_snapshot.cpp" bodystart="47" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/failover/topology_snapshot.h" line="10" column="1" bodyfile="include/failover/topology_snapshot.h" bodystart="10" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1failover_1_1_topology_snapshot_1a99bade088b1cb6a5f4dbfe3aa1ed38bc" prot="public" virt="non-virtual"><scope>themis::failover::TopologySnapshot</scope><name>added_nodes</name></member>
+      <member refid="structthemis_1_1failover_1_1_topology_snapshot_1ad51afc63ed652c73f055f699a32aba90" prot="public" virt="non-virtual"><scope>themis::failover::TopologySnapshot</scope><name>capture</name></member>
+      <member refid="structthemis_1_1failover_1_1_topology_snapshot_1a6223ae019f14535ac56d8676d83fc131" prot="public" virt="non-virtual"><scope>themis::failover::TopologySnapshot</scope><name>failures</name></member>
+      <member refid="structthemis_1_1failover_1_1_topology_snapshot_1ac69a0939a1d551ff7aa2e7956d9bef23" prot="public" virt="non-virtual"><scope>themis::failover::TopologySnapshot</scope><name>has_topology_change</name></member>
+      <member refid="structthemis_1_1failover_1_1_topology_snapshot_1ac86e1437e34fe771aaba3667f16ab791" prot="public" virt="non-virtual"><scope>themis::failover::TopologySnapshot</scope><name>node_ids</name></member>
+      <member refid="structthemis_1_1failover_1_1_topology_snapshot_1ae6e9efee1bb2745016a4af6fde8ccd93" prot="public" virt="non-virtual"><scope>themis::failover::TopologySnapshot</scope><name>removed_nodes</name></member>
+      <member refid="structthemis_1_1failover_1_1_topology_snapshot_1abbb5557c3aebd976259c5dd0503814f8" prot="public" virt="non-virtual"><scope>themis::failover::TopologySnapshot</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,397 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="vision__resource__monitor_8h" kind="file" language="C++">
+    <compoundname>vision_resource_monitor.h</compoundname>
+    <includes refid="vision__config_8h" local="yes">llm/vision_config.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">queue</includes>
+    <includes local="no">thread</includes>
+    <includedby refid="vision__encoder_8h" local="yes">include/llm/vision_encoder.h</includedby>
+    <includedby refid="vision__resource__monitor_8cpp" local="yes">src/llm/vision_resource_monitor.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>llm/vision_config.h</label>
+        <link refid="vision__config_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/vision_resource_monitor.h</label>
+        <link refid="vision__resource__monitor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>queue</label>
+      </node>
+      <node id="9">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>thread</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/llm/vision_encoder.h</label>
+        <link refid="vision__encoder_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/vision_resource_monitor.h</label>
+        <link refid="vision__resource__monitor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/llm/vision_encoder.cpp</label>
+        <link refid="vision__encoder_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/llm/vision_resource_monitor.cpp</label>
+        <link refid="vision__resource__monitor_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/llm/test_llm_vision_encoder.cpp</label>
+        <link refid="test__llm__vision__encoder_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/llm/test_llm_vision_integration.cpp</label>
+        <link refid="test__llm__vision__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_vision_resource_usage" prot="public">themis::llm::VisionResourceUsage</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_rate_limiter" prot="public">themis::llm::RateLimiter</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_quota_tracker" prot="public">themis::llm::QuotaTracker</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining" prot="public">themis::llm::QuotaTracker::QuotaRemaining</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_quota_tracker_1_1_user_quota" prot="private">themis::llm::QuotaTracker::UserQuota</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_vision_resource_monitor" prot="public">themis::llm::VisionResourceMonitor</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats" prot="public">themis::llm::VisionResourceMonitor::RateLimiterStats</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_audit_entry" prot="public">themis::llm::VisionResourceMonitor::AuditEntry</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_health_status" prot="public">themis::llm::VisionResourceMonitor::HealthStatus</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_request_info" prot="private">themis::llm::VisionResourceMonitor::RequestInfo</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_model_info" prot="private">themis::llm::VisionResourceMonitor::ModelInfo</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="vision__config_8h" kindref="compound">llm/vision_config.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;queue&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1llm_1_1_vision_resource_usage" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_vision_resource_usage" kindref="compound">VisionResourceUsage</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1llm_1_1_vision_resource_usage_1aff1b0e7ae619233f82acf27e47f17752" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage_1aff1b0e7ae619233f82acf27e47f17752" kindref="member">~VisionResourceUsage</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1_vision_resource_usage_1a44cb2e86fbafd316719af2afbad8cf64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage_1a44cb2e86fbafd316719af2afbad8cf64" kindref="member">current_memory_mb</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1_vision_resource_usage_1acce25518a7de62353866e87a1a7f448e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage_1acce25518a7de62353866e87a1a7f448e" kindref="member">peak_memory_mb</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1_vision_resource_usage_1ab7483cc7e74b1cf5ec2bfe50f9fad22e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage_1ab7483cc7e74b1cf5ec2bfe50f9fad22e" kindref="member">current_vram_mb</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1_vision_resource_usage_1a7dbd53bcd46d04b44c3960ae09b455e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage_1a7dbd53bcd46d04b44c3960ae09b455e5" kindref="member">peak_vram_mb</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1_vision_resource_usage_1a731f8ae174921fe1c92b1df792c72be3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage_1a731f8ae174921fe1c92b1df792c72be3" kindref="member">active_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1_vision_resource_usage_1a3cf347ac8a1876c9dbfb9a03a04c236f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage_1a3cf347ac8a1876c9dbfb9a03a04c236f" kindref="member">queued_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1_vision_resource_usage_1a3a2f1cda230491bf4dd3f9e3d26bcdc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage_1a3a2f1cda230491bf4dd3f9e3d26bcdc0" kindref="member">loaded_models</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1_vision_resource_usage_1a8bcb5b77b8615a19a62e75fa867e7c99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage_1a8bcb5b77b8615a19a62e75fa867e7c99" kindref="member">start_time</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1llm_1_1_vision_resource_usage_1aecfa90e278e0368033eb0f22a22ca15e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage_1aecfa90e278e0368033eb0f22a22ca15e" kindref="member">total_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1_vision_resource_usage_1ab92f254765f2b8f30962fc790010d188" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage_1ab92f254765f2b8f30962fc790010d188" kindref="member">successful_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1_vision_resource_usage_1a3c1da86f6e38f07f0ed3a52fb416cf54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage_1a3c1da86f6e38f07f0ed3a52fb416cf54" kindref="member">failed_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1_vision_resource_usage_1a0fe818adc4e77c3c1dfc1f00d04eb542" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage_1a0fe818adc4e77c3c1dfc1f00d04eb542" kindref="member">rejected_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timing<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1_vision_resource_usage_1aa5b74db22fbba73e484897d351237226" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage_1aa5b74db22fbba73e484897d351237226" kindref="member">avg_inference_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1llm_1_1_vision_resource_usage_1af76493de53e8858fc964e9c298185d97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage_1af76493de53e8858fc964e9c298185d97" kindref="member">max_inference_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1llm_1_1_vision_resource_usage_1a0f918e4ec4cd4ff68bd26e94b6f14cd4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage_1a0f918e4ec4cd4ff68bd26e94b6f14cd4" kindref="member">min_inference_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage_1aae25bde56c6dfadc148fedbe0e3c69fc" kindref="member">getMemoryUtilization</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit_mb)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage_1a4b744980157169542fb01a5484b7af4b" kindref="member">getVRAMUtilization</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit_mb)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage_1af8bd731ad9c89439f7de9e6c05557c42" kindref="member">getRequestUtilization</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1llm_1_1_rate_limiter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_rate_limiter_1a736e7865b731d7cd537fe141046d16c1" kindref="member">RateLimiter</ref><sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1llm_1_1_rate_limiter_1a679aed81b1d00d3f1d7dda43a89d4a93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_rate_limiter_1a679aed81b1d00d3f1d7dda43a89d4a93" kindref="member">~RateLimiter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_rate_limiter_1a736e7865b731d7cd537fe141046d16c1" kindref="member">RateLimiter</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>rate_per_minute,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>burst_size);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_rate_limiter_1a9253933918a7124fc1687c4c96aa62d7" kindref="member">tryAcquire</ref>();</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_rate_limiter_1ae6f7de9d7200ca1eac8c36a91ad8b071" kindref="member">availableTokens</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="classthemis_1_1llm_1_1_rate_limiter_1ae195b9e662ef839e23c1f66c143da1b8" kindref="member">timeUntilNextToken</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_rate_limiter_1ab4c9fc28a29bcd75127f2ce5017dcd60" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>refillTokens();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>capacity_<sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>refill_rate_<sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;size_t&gt;<sp/>tokens_;<sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::chrono::steady_clock::time_point<sp/>last_refill_;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1llm_1_1_quota_tracker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_quota_tracker_1a1e5efc85ec3311cce9447b1c9cbdcc12" kindref="member">QuotaTracker</ref><sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1llm_1_1_quota_tracker_1ae5887a75bfb054d470aa35a3e2fc26c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_quota_tracker_1ae5887a75bfb054d470aa35a3e2fc26c8" kindref="member">~QuotaTracker</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_quota_tracker_1a1e5efc85ec3311cce9447b1c9cbdcc12" kindref="member">QuotaTracker</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_quota" kindref="compound">VisionResourceQuota</ref>&amp;<sp/>quota);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_quota_tracker_1a0769edf981f095c7683d22312008e57c" kindref="member">hasQuotaAvailable</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_quota_tracker_1a999b63090839a6a3de4f9648f0ff391f" kindref="member">consumeQuota</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,<sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>requests<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>inference_time<sp/>=<sp/>std::chrono::milliseconds(0),</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>vram_mb_seconds<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining" kindref="compound">QuotaRemaining</ref><sp/>{</highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining_1a22c80feda4665e56fecf94421e3ac5bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining_1a22c80feda4665e56fecf94421e3ac5bd" kindref="member">daily_requests_remaining</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining_1a355fec23149a17fc4886dd6b354c8dc8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining_1a355fec23149a17fc4886dd6b354c8dc8" kindref="member">monthly_requests_remaining</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining_1ad4e08abf81ce1aa1d629802c4273522b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining_1ad4e08abf81ce1aa1d629802c4273522b" kindref="member">inference_minutes_remaining</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining_1aa8ee519282cca04b78f24a27c391a251" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining_1aa8ee519282cca04b78f24a27c391a251" kindref="member">vram_hours_remaining</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining" kindref="compound">QuotaRemaining</ref><sp/><ref refid="classthemis_1_1llm_1_1_quota_tracker_1ab4193b04cf67b4c4a58ff0f39ae9a25d" kindref="member">getRemainingQuota</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_quota_tracker_1a2bbded8671e856443b8af3557a25be93" kindref="member">resetQuotas</ref>();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">UserQuota<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>daily_requests_used<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>monthly_requests_used<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>inference_minutes_used<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>vram_hours_used<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_reset;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_quota" kindref="compound">VisionResourceQuota</ref><sp/>quota_config_;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>UserQuota&gt;<sp/>user_quotas_;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="classthemis_1_1llm_1_1_vision_resource_monitor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_vision_resource_monitor_1a30efee461077a595b935535e7c0bb7e3" kindref="member">VisionResourceMonitor</ref><sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_vision_resource_monitor_1a30efee461077a595b935535e7c0bb7e3" kindref="member">VisionResourceMonitor</ref>(std::shared_ptr&lt;VisionConfig&gt;<sp/>config);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_vision_resource_monitor_1a18e3a2352abdb356adf2294ec201844c" kindref="member">~VisionResourceMonitor</ref>();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_vision_resource_monitor_1a5d495051a17fdddff4a6f64dcccb4535" kindref="member">initialize</ref>();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_vision_resource_monitor_1abcf836fc4394235dbe5c1a924ff43a87" kindref="member">shutdown</ref>();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>Management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_vision_resource_monitor_1ab45e2effbdd901358454610604c54806" kindref="member">canAcceptRequest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>estimated_memory_mb<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1llm_1_1_vision_resource_monitor_1a1ebbc1cb347c94d35c62c45e2f02a371" kindref="member">startRequest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_vision_resource_monitor_1a696eabfc282111aa15a3c42703c48cbc" kindref="member">completeRequest</ref>(uint64_t<sp/>request_id,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success,<sp/></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>inference_time,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>memory_used_mb<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_vision_resource_monitor_1a1a3d1269ff75b99ddb5cd4f1547d0e4b" kindref="member">rejectRequest</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>reason);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>Tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_vision_resource_monitor_1a72a04c4f90e740bae2baea36a8d8727f" kindref="member">updateMemoryUsage</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>memory_mb);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_vision_resource_monitor_1af47847bb524779d6b653c7b0be88f2eb" kindref="member">updateVRAMUsage</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>vram_mb);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_vision_resource_monitor_1a2f31e09950771ab08dabe1ddd725eb37" kindref="member">registerModelLoad</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>memory_mb,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>vram_mb);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_vision_resource_monitor_1aa1a51ae9e6e73b67ffa9318326cd8072" kindref="member">registerModelUnload</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Monitoring<sp/>&amp;<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage" kindref="compound">VisionResourceUsage</ref><sp/><ref refid="classthemis_1_1llm_1_1_vision_resource_monitor_1a573377c22fb29aa32b7d06f5aa0e7f46" kindref="member">getResourceUsage</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="255" refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats" kindref="compound">RateLimiterStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="256" refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats_1a0b3be1c2ee636e3b740ad27e5177e471" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats_1a0b3be1c2ee636e3b740ad27e5177e471" kindref="member">available_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="257" refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats_1adfbda76c0ed90b770b78b16a499b457e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats_1adfbda76c0ed90b770b78b16a499b457e" kindref="member">time_until_next_token</ref>{0};</highlight></codeline>
+<codeline lineno="258" refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats_1ac65da384c84f7e42c5b653e26d07ece6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats_1ac65da384c84f7e42c5b653e26d07ece6" kindref="member">total_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="259" refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats_1aa7d542f3d435d09be630d3139e9569a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats_1aa7d542f3d435d09be630d3139e9569a4" kindref="member">rejected_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_rate_limiter_stats" kindref="compound">RateLimiterStats</ref><sp/><ref refid="classthemis_1_1llm_1_1_vision_resource_monitor_1a382b84c049f7f575dcf5fc93d53d41da" kindref="member">getRateLimiterStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_quota_tracker_1_1_quota_remaining" kindref="compound">QuotaTracker::QuotaRemaining</ref><sp/><ref refid="classthemis_1_1llm_1_1_vision_resource_monitor_1a083072bc40592322e731e39719468e1a" kindref="member">getUserQuota</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_vision_resource_monitor_1a9d584c6d8cd44b2cce45e5a7d3b9edaa" kindref="member">exportMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="280" refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_audit_entry" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_audit_entry" kindref="compound">AuditEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="281" refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_audit_entry_1a8f4d23570f16fcad19d81f1456c9e041" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_audit_entry_1a8f4d23570f16fcad19d81f1456c9e041" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="282" refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_audit_entry_1a6e94e54db3133f562b682b52deec0e70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_audit_entry_1a6e94e54db3133f562b682b52deec0e70" kindref="member">event_type</ref>;</highlight></codeline>
+<codeline lineno="283" refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_audit_entry_1a2193ed9a843c25939bb04b812d10b0fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_audit_entry_1a2193ed9a843c25939bb04b812d10b0fd" kindref="member">user_id</ref>;</highlight></codeline>
+<codeline lineno="284" refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_audit_entry_1a8ab7d7ccacd97705777017a6706a1160" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_audit_entry_1a8ab7d7ccacd97705777017a6706a1160" kindref="member">model_id</ref>;</highlight></codeline>
+<codeline lineno="285" refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_audit_entry_1a612f818010169ae41abbfb1abf83cf0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_audit_entry_1a612f818010169ae41abbfb1abf83cf0e" kindref="member">details</ref>;</highlight></codeline>
+<codeline lineno="286" refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_audit_entry_1af4464aa362da2ca082147548871017a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_audit_entry_1af4464aa362da2ca082147548871017a2" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AuditEntry&gt;<sp/><ref refid="classthemis_1_1llm_1_1_vision_resource_monitor_1afcd1cf10874e8accce9afd019f587756" kindref="member">getAuditLog</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_entries<sp/>=<sp/>100)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lifecycle<sp/>Management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_vision_resource_monitor_1a35d86b51ed91063e96a127107d52ee07" kindref="member">isHealthy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="300" refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_health_status" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_health_status" kindref="compound">HealthStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="301" refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_health_status_1a21fdca309519e0ed1f20f341c2791951" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_health_status_1a21fdca309519e0ed1f20f341c2791951" kindref="member">healthy</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="302" refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_health_status_1a93ba77476ba2afe341570ef75ea707c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_health_status_1a93ba77476ba2afe341570ef75ea707c4" kindref="member">status</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;healthy&quot;,<sp/>&quot;degraded&quot;,<sp/>&quot;unhealthy&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303" refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_health_status_1a41e220c9dbfc1c094d1fc0d7ff94c14a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_health_status_1a41e220c9dbfc1c094d1fc0d7ff94c14a" kindref="member">issues</ref>;</highlight></codeline>
+<codeline lineno="304" refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_health_status_1a263dc97e44db373a8351a6a05d5e945a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_health_status_1a263dc97e44db373a8351a6a05d5e945a" kindref="member">memory_utilization_percent</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="305" refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_health_status_1a3d428f744190bc6115f633ca23a41d48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_health_status_1a3d428f744190bc6115f633ca23a41d48" kindref="member">vram_utilization_percent</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="306" refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_health_status_1a0489468f57ded36d45fdde40b87cec4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_health_status_1a0489468f57ded36d45fdde40b87cec4c" kindref="member">request_utilization_percent</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_health_status" kindref="compound">HealthStatus</ref><sp/><ref refid="classthemis_1_1llm_1_1_vision_resource_monitor_1ae8175153ee9a6cc16a985fbebf5bc0b6" kindref="member">getHealthStatus</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;VisionConfig&gt;<sp/>config_;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_vision_resource_usage" kindref="compound">VisionResourceUsage</ref><sp/>usage_;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>usage_mutex_;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rate<sp/>limiting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RateLimiter&gt;<sp/>global_rate_limiter_;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::unique_ptr&lt;RateLimiter&gt;&gt;<sp/>user_rate_limiters_;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>rate_limiter_mutex_;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quota<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;QuotaTracker&gt;<sp/>quota_tracker_;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">RequestInfo<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>request_id<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>user_id;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>model_id;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>start_time;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>memory_allocated_mb<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;uint64_t,<sp/>RequestInfo&gt;<sp/>active_requests_;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>next_request_id_{1};</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>requests_mutex_;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Model<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ModelInfo<sp/>{</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>model_id;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>memory_mb<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>vram_mb<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>load_time;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>ModelInfo&gt;<sp/>loaded_models_;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>models_mutex_;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Audit<sp/>logging</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>std::queue&lt;AuditEntry&gt;<sp/>audit_log_;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>audit_mutex_;</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>MAX_AUDIT_ENTRIES<sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Background<sp/>tasks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>metrics_thread_;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>quota_reset_thread_;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>metricsCollectionLoop();</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>quotaResetLoop();</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>logAuditEvent(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>event_type,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>details,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success);</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>RateLimiter*<sp/>getUserRateLimiter(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::llm</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/vision_resource_monitor.h"/>
+  </compounddef>
+</doxygen>

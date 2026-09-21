@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_p_i_i_match" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::PIIDetector::PIIMatch</compoundname>
+    <includes refid="pii__detector_8h" local="no">pii_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_p_i_i_match_1a09caf72b65330abe7fe7255cb735ee72" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1exporters_1_1_p_i_i_detector_1af9fb393a60a9a0b224e366db090dd446" kindref="member">PIIType</ref></type>
+        <definition>PIIType themis::exporters::PIIDetector::PIIMatch::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::exporters::PIIDetector::PIIMatch::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="41" column="17" bodyfile="include/exporters/pii_detector.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_p_i_i_match_1a4107e26b29d0272a1597ea6207207379" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::PIIDetector::PIIMatch::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::exporters::PIIDetector::PIIMatch::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="42" column="21" bodyfile="include/exporters/pii_detector.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_p_i_i_match_1ab720924f8075eed2b0486c043dbeb802" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::PIIDetector::PIIMatch::start_pos</definition>
+        <argsstring></argsstring>
+        <name>start_pos</name>
+        <qualifiedname>themis::exporters::PIIDetector::PIIMatch::start_pos</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="43" column="16" bodyfile="include/exporters/pii_detector.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_p_i_i_match_1a7b068873a2d0f2fbf424ea11054ef06c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::PIIDetector::PIIMatch::end_pos</definition>
+        <argsstring></argsstring>
+        <name>end_pos</name>
+        <qualifiedname>themis::exporters::PIIDetector::PIIMatch::end_pos</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="44" column="16" bodyfile="include/exporters/pii_detector.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/pii_detector.h" line="40" column="5" bodyfile="include/exporters/pii_detector.h" bodystart="40" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_p_i_i_match_1a7b068873a2d0f2fbf424ea11054ef06c" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector::PIIMatch</scope><name>end_pos</name></member>
+      <member refid="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_p_i_i_match_1ab720924f8075eed2b0486c043dbeb802" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector::PIIMatch</scope><name>start_pos</name></member>
+      <member refid="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_p_i_i_match_1a09caf72b65330abe7fe7255cb735ee72" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector::PIIMatch</scope><name>type</name></member>
+      <member refid="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_p_i_i_match_1a4107e26b29d0272a1597ea6207207379" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector::PIIMatch</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::ShardSummaryCoordinator::Config</compoundname>
+    <includes refid="shard__summary__coordinator_8h" local="no">shard_summary_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1afd1285bd2e3a6280825d450690a99254" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::ShardSummaryCoordinator::Config::default_ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>default_ttl_seconds</name>
+        <qualifiedname>themis::distributed_tensor::ShardSummaryCoordinator::Config::default_ttl_seconds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="220" column="18" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1a09ad5077141fedcb0b6dbdf97e18237f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::distributed_tensor::ShardSummaryCoordinator::Config::freshness_quorum_ratio</definition>
+        <argsstring></argsstring>
+        <name>freshness_quorum_ratio</name>
+        <qualifiedname>themis::distributed_tensor::ShardSummaryCoordinator::Config::freshness_quorum_ratio</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="222" column="15" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1a85433ad8a9d7d405ed2ac75b1f45b6f2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::ShardSummaryCoordinator::Config::exact_fetch_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>exact_fetch_timeout_ms</name>
+        <qualifiedname>themis::distributed_tensor::ShardSummaryCoordinator::Config::exact_fetch_timeout_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="224" column="18" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1a28e18daede0315f4c1d18cabecaef3e4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ShardSummaryCoordinator::Config::escalate_stale_shards</definition>
+        <argsstring></argsstring>
+        <name>escalate_stale_shards</name>
+        <qualifiedname>themis::distributed_tensor::ShardSummaryCoordinator::Config::escalate_stale_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="226" column="14" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1ad3609d57eeabd7a66f84ec776113cc39" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ShardSummaryCoordinator::Config::skip_invalid_shards</definition>
+        <argsstring></argsstring>
+        <name>skip_invalid_shards</name>
+        <qualifiedname>themis::distributed_tensor::ShardSummaryCoordinator::Config::skip_invalid_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="228" column="14" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1af8670d2580f3187bac6b07998a04c5fb" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::ShardSummaryCoordinator::Config::Config</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::distributed_tensor::ShardSummaryCoordinator::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="230" column="9" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="230" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1afc77e1ac9ce10530b56117afa6723a2a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::ShardSummaryCoordinator::Config::validateAndClamp</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>validateAndClamp</name>
+        <qualifiedname>themis::distributed_tensor::ShardSummaryCoordinator::Config::validateAndClamp</qualifiedname>
+        <briefdescription>
+<para>Validate And Clamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="243" column="14" bodyfile="src/distributed_tensor/src/shard_summary_coordinator.cc" bodystart="72" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1a1edbb95765f7605a715840624f0afc25" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ShardSummaryCoordinator::Config::isQuorumSafe</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isQuorumSafe</name>
+        <qualifiedname>themis::distributed_tensor::ShardSummaryCoordinator::Config::isQuorumSafe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="245" column="15" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="245" bodyend="247"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="219" column="5" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="219" bodyend="248"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1af8670d2580f3187bac6b07998a04c5fb" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardSummaryCoordinator::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1afd1285bd2e3a6280825d450690a99254" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardSummaryCoordinator::Config</scope><name>default_ttl_seconds</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1a28e18daede0315f4c1d18cabecaef3e4" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardSummaryCoordinator::Config</scope><name>escalate_stale_shards</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1a85433ad8a9d7d405ed2ac75b1f45b6f2" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardSummaryCoordinator::Config</scope><name>exact_fetch_timeout_ms</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1a09ad5077141fedcb0b6dbdf97e18237f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardSummaryCoordinator::Config</scope><name>freshness_quorum_ratio</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1a1edbb95765f7605a715840624f0afc25" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardSummaryCoordinator::Config</scope><name>isQuorumSafe</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1ad3609d57eeabd7a66f84ec776113cc39" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardSummaryCoordinator::Config</scope><name>skip_invalid_shards</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_summary_coordinator_1_1_config_1afc77e1ac9ce10530b56117afa6723a2a" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardSummaryCoordinator::Config</scope><name>validateAndClamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

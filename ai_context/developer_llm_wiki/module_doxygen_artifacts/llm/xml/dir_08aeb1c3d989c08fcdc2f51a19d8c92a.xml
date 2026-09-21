@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_08aeb1c3d989c08fcdc2f51a19d8c92a" kind="dir">
+    <compoundname>benchmarks/llm</compoundname>
+    <innerfile refid="bench__embedded__llm_8cpp">bench_embedded_llm.cpp</innerfile>
+    <innerfile refid="bench__extended__context_8cpp">bench_extended_context.cpp</innerfile>
+    <innerfile refid="bench__flash__attention_8cpp">bench_flash_attention.cpp</innerfile>
+    <innerfile refid="bench__legal__lora__pipeline_8cpp">bench_legal_lora_pipeline.cpp</innerfile>
+    <innerfile refid="bench__llm__hotpaths_8cpp">bench_llm_hotpaths.cpp</innerfile>
+    <innerfile refid="bench__llm__inference__performance_8cpp">bench_llm_inference_performance.cpp</innerfile>
+    <innerfile refid="bench__llm__infrastructure_8cpp">bench_llm_infrastructure.cpp</innerfile>
+    <innerfile refid="bench__llm__judge__integration_8cpp">bench_llm_judge_integration.cpp</innerfile>
+    <innerfile refid="bench__llm__raid__pipeline_8cpp">bench_llm_raid_pipeline.cpp</innerfile>
+    <innerfile refid="bench__llm__real__models_8cpp">bench_llm_real_models.cpp</innerfile>
+    <innerfile refid="bench__llm__response__cache_8cpp">bench_llm_response_cache.cpp</innerfile>
+    <innerfile refid="bench__lora__auto__binding_8cpp">bench_lora_auto_binding.cpp</innerfile>
+    <innerfile refid="bench__lora__framework_8cpp">bench_lora_framework.cpp</innerfile>
+    <innerfile refid="bench__lora__inline_8cpp">bench_lora_inline.cpp</innerfile>
+    <innerfile refid="bench__lora__training_8cpp">bench_lora_training.cpp</innerfile>
+    <innerfile refid="bench__multi__lora__fusion_8cpp">bench_multi_lora_fusion.cpp</innerfile>
+    <innerfile refid="bench__multitask__lora__training_8cpp">bench_multitask_lora_training.cpp</innerfile>
+    <innerfile refid="bench__phase1__flash__attention_8cpp">bench_phase1_flash_attention.cpp</innerfile>
+    <innerfile refid="bench__raid__lora_8cpp">bench_raid_lora.cpp</innerfile>
+    <innerfile refid="bench__rotary__embeddings_8cpp">bench_rotary_embeddings.cpp</innerfile>
+    <innerfile refid="llm__bench_8cpp">llm_bench.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/llm/"/>
+  </compounddef>
+</doxygen>

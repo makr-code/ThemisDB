@@ -1,0 +1,1486 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1gpu" kind="namespace" language="C++">
+    <compoundname>themis::gpu</compoundname>
+    <innerclass refid="classthemis_1_1gpu_1_1_allocation_guard" prot="public">themis::gpu::AllocationGuard</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_cuda_device_memory" prot="public">themis::gpu::CudaDeviceMemory</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_cuda_device_memory_guard" prot="public">themis::gpu::CudaDeviceMemoryGuard</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_cuda_error" prot="public">themis::gpu::CudaError</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_cuda_event_guard" prot="public">themis::gpu::CudaEventGuard</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_cuda_fallback_guard" prot="public">themis::gpu::CudaFallbackGuard</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_cuda_kernel_handle" prot="public">themis::gpu::CudaKernelHandle</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_cuda_operation" prot="public">themis::gpu::CudaOperation</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_cuda_operation_batch" prot="public">themis::gpu::CudaOperationBatch</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_cuda_stream" prot="public">themis::gpu::CudaStream</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_cuda_stream_guard" prot="public">themis::gpu::CudaStreamGuard</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_device_memory_guard" prot="public">themis::gpu::DeviceMemoryGuard</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_device_memory_region" prot="public">themis::gpu::DeviceMemoryRegion</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_diagnostic_emission_guard" prot="public">themis::gpu::DiagnosticEmissionGuard</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_backend_dispatch_contract" prot="public">themis::gpu::GPUBackendDispatchContract</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_g_p_u_backend_dispatch_diagnostics" prot="public">themis::gpu::GPUBackendDispatchDiagnostics</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_g_p_u_error_handler_impl" prot="public">themis::gpu::GPUErrorHandlerImpl</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_g_p_u_event_handle" prot="public">themis::gpu::GPUEventHandle</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_g_p_u_kernel_manager" prot="public">themis::gpu::GPUKernelManager</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_g_p_u_kernel_timeout_guard" prot="public">themis::gpu::GPUKernelTimeoutGuard</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_g_p_u_memory_allocator" prot="public">themis::gpu::GPUMemoryAllocator</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle" prot="public">themis::gpu::GPUMemoryHandle</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool" prot="public">themis::gpu::GPUMemoryPool</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" prot="public">themis::gpu::GPUPhase23HardeningTest</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_g_p_u_stream_handle" prot="public">themis::gpu::GPUStreamHandle</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_kernel_argument_buffer" prot="public">themis::gpu::KernelArgumentBuffer</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_kernel_execution_guard" prot="public">themis::gpu::KernelExecutionGuard</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer" prot="public">themis::gpu::KernelTimeoutEnforcer</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_kernel_timeout_guard" prot="public">themis::gpu::KernelTimeoutGuard</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_memory_allocation" prot="public">themis::gpu::MemoryAllocation</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_slab_state_guard" prot="public">themis::gpu::SlabStateGuard</innerclass>
+    <innerclass refid="classthemis_1_1gpu_1_1_unified_memory_buffer" prot="public">themis::gpu::UnifiedMemoryBuffer</innerclass>
+    <innernamespace refid="namespacethemis_1_1gpu_1_1batch__a9">themis::gpu::batch_a9</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu_1_1bench">themis::gpu::bench</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu_1_1detail">themis::gpu::detail</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu_1_1test">themis::gpu::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>GPUDispatchErrorCode</name>
+        <qualifiedname>themis::gpu::GPUDispatchErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>No error; operation succeeded or was not attempted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba80d1f9cc00c6eeb89474106aea2449b7" prot="public">
+          <name>ALLOC_SIZE_EXCEEDS_LIMIT</name>
+          <initializer>= 10</initializer>
+          <briefdescription>
+<para>Requested allocation exceeds configured maximum per-device limit. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba48498870e48f083697ca3920393ad49a" prot="public">
+          <name>ALLOC_INSUFFICIENT_VRAM</name>
+          <initializer>= 11</initializer>
+          <briefdescription>
+<para>No device has sufficient free VRAM for requested allocation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba53eb0bc26574c827367b1193485748c0" prot="public">
+          <name>ALLOC_DEVICE_FAILURE</name>
+          <initializer>= 12</initializer>
+          <briefdescription>
+<para>Device malloc or cudaMalloc failed (OOM, invalid device, or driver issue). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bad021e18f4316730b57fa7b3e4cf044a5" prot="public">
+          <name>ALLOC_INVALID_PARAMS</name>
+          <initializer>= 13</initializer>
+          <briefdescription>
+<para>Invalid allocation parameters (negative size, invalid device ID). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bac56e165fd1787e29b8e616c828608fc8" prot="public">
+          <name>ALLOC_QUOTA_EXCEEDED</name>
+          <initializer>= 14</initializer>
+          <briefdescription>
+<para>Allocation request would exceed global quota (multi-tenant). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bacd980e982c179a5e9a2806dfdce166bf" prot="public">
+          <name>BACKEND_NO_DEVICE_AVAILABLE</name>
+          <initializer>= 20</initializer>
+          <briefdescription>
+<para>No backend available for requested operation (all devices unhealthy). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bad0bc88d0d45ddfc2297631f7040aa3ba" prot="public">
+          <name>BACKEND_CAPABILITY_MISMATCH</name>
+          <initializer>= 21</initializer>
+          <briefdescription>
+<para>Requested backend feature not supported on available devices. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba00f0dc541d197a574009f5bc556f0688" prot="public">
+          <name>BACKEND_TOPOLOGY_UNAVAILABLE</name>
+          <initializer>= 22</initializer>
+          <briefdescription>
+<para>Backend topology information is stale or uninitialized. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba56270da0c47185dbdc9f15293a265e18" prot="public">
+          <name>BACKEND_NOT_ENABLED</name>
+          <initializer>= 23</initializer>
+          <briefdescription>
+<para>Requested backend type is not compiled/enabled in this build. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba56a02e21206f5a21c8f532c0a8ead220" prot="public">
+          <name>BACKEND_DEGRADED</name>
+          <initializer>= 24</initializer>
+          <briefdescription>
+<para>Backend degradation detected; fallback to CPU recommended. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba8dbc26d1ca7f11f36b8040a07d357410" prot="public">
+          <name>DISPATCH_TIMEOUT</name>
+          <initializer>= 30</initializer>
+          <briefdescription>
+<para>Query/kernel dispatch timeout (exceeded configured SLA). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6badf0ff6a12b365586ab3169d108250825" prot="public">
+          <name>DISPATCH_KERNEL_LAUNCH_FAILED</name>
+          <initializer>= 31</initializer>
+          <briefdescription>
+<para>Kernel launch failed (invalid grid/block dims, resource limit). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6baba7a08e120c1c7cebc3e5f7744659fd8" prot="public">
+          <name>DISPATCH_STREAM_FULL</name>
+          <initializer>= 32</initializer>
+          <briefdescription>
+<para>Dispatch stream is full; enqueue rejected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba7d1318afd85ed6e652c96659d8d3346e" prot="public">
+          <name>DISPATCH_CONCURRENT_EXECUTION_REJECTED</name>
+          <initializer>= 33</initializer>
+          <briefdescription>
+<para>Concurrent dispatch rejected (mutex acquisition or lock order violation). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba9f4348744f901865da6dad2888742e84" prot="public">
+          <name>DISPATCH_QUERY_TYPE_UNSUPPORTED</name>
+          <initializer>= 34</initializer>
+          <briefdescription>
+<para>Query type not supported by GPU acceleration path. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6ba33507cc36a50f1d8d32cf7ef8523b27c" prot="public">
+          <name>FALLBACK_CPU_DEGRADED</name>
+          <initializer>= 40</initializer>
+          <briefdescription>
+<para>CPU fallback executed (expected; not an error). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6baba21a2b5d25a4b25056ad5ca3d14dc43" prot="public">
+          <name>FALLBACK_UNAVAILABLE</name>
+          <initializer>= 41</initializer>
+          <briefdescription>
+<para>Fallback mechanism unavailable (should not occur in production). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6bae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 99</initializer>
+          <briefdescription>
+<para>Internal error (unexpected condition, logging recommended). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>GPU backend dispatch error codes (fail-closed classification). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>All error codes are fail-closed: the system degrades gracefully to CPU-only execution when any condition cannot be met. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_contract.h" line="28" column="1" bodyfile="include/gpu/gpu_backend_dispatch_contract.h" bodystart="28" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1gpu_1a5601df17f0cef5f13fa7ee19965dde78" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>GPUDispatchEventType</name>
+        <qualifiedname>themis::gpu::GPUDispatchEventType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1gpu_1a5601df17f0cef5f13fa7ee19965dde78adcda066639ec16527e09a645c4db4bce" prot="public">
+          <name>ALLOCATION_FAILED</name>
+          <initializer>= 10</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1a5601df17f0cef5f13fa7ee19965dde78a8e7a0f60b8f1c31b33541ad3cdc27b4c" prot="public">
+          <name>BACKEND_SELECTION_FAILED</name>
+          <initializer>= 20</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1a5601df17f0cef5f13fa7ee19965dde78a45933607bbffda9d4daf71f4a2c314ed" prot="public">
+          <name>CAPABILITY_MISMATCH</name>
+          <initializer>= 21</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1a5601df17f0cef5f13fa7ee19965dde78af084bb2f347532778764a8206854e27f" prot="public">
+          <name>DISPATCH_FAILED</name>
+          <initializer>= 30</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1a5601df17f0cef5f13fa7ee19965dde78a32fb39121b129ac6d3c0a57d7d358656" prot="public">
+          <name>DEVICE_DEGRADED</name>
+          <initializer>= 31</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1gpu_1a5601df17f0cef5f13fa7ee19965dde78a767a13aa2a2869385dbd25fbce0dc834" prot="public">
+          <name>FALLBACK_TO_CPU</name>
+          <initializer>= 40</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_diagnostics.h" line="23" column="1" bodyfile="include/gpu/gpu_backend_dispatch_diagnostics.h" bodystart="23" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1gpu_1af8e78635a7c458de5ca02a1b068f42b9" prot="public" static="no">
+        <type>std::function&lt; void( <ref refid="namespacethemis_1_1gpu_1a5601df17f0cef5f13fa7ee19965dde78" kindref="member">GPUDispatchEventType</ref> event_type, <ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref> error_code, int device_id, const std::string &amp;<ref refid="namespacethemis_1_1gpu_1_1detail" kindref="compound">detail</ref>)&gt;</type>
+        <definition>using themis::gpu::GPUDispatchEventCallback = std::function&lt;void(
+   GPUDispatchEventType event_type,
+   GPUDispatchErrorCode error_code,
+   int device_id,
+   const std::string&amp; detail)&gt;</definition>
+        <argsstring></argsstring>
+        <name>GPUDispatchEventCallback</name>
+        <qualifiedname>themis::gpu::GPUDispatchEventCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_diagnostics.h" line="32" column="1" bodyfile="include/gpu/gpu_backend_dispatch_diagnostics.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1gpu_1a6fd1413d6e5c03a84142858adce47421" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::GPU_BACKEND_DISPATCH_SEED</definition>
+        <argsstring></argsstring>
+        <name>GPU_BACKEND_DISPATCH_SEED</name>
+        <qualifiedname>themis::gpu::GPU_BACKEND_DISPATCH_SEED</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical seed for deterministic GPU backend dispatch tests. Used for reproducible randomization in allocation policies and device selection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_contract.h" line="159" column="27" bodyfile="include/gpu/gpu_backend_dispatch_contract.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1gpu_1a1a43ef9697388cc6935be83312d819a7" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>float</type>
+        <definition>float themis::gpu::kDefaultInfiniBandBwGbps</definition>
+        <argsstring></argsstring>
+        <name>kDefaultInfiniBandBwGbps</name>
+        <qualifiedname>themis::gpu::kDefaultInfiniBandBwGbps</qualifiedname>
+        <initializer>= 25.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/cluster_coordinator.cpp" line="31" column="24" bodyfile="src/gpu/cluster_coordinator.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1gpu_1af68e39ec75439ff91494778bde431416" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>float</type>
+        <definition>float themis::gpu::kDefaultInfiniBandLatencyUs</definition>
+        <argsstring></argsstring>
+        <name>kDefaultInfiniBandLatencyUs</name>
+        <qualifiedname>themis::gpu::kDefaultInfiniBandLatencyUs</qualifiedname>
+        <initializer>= 2.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/cluster_coordinator.cpp" line="32" column="24" bodyfile="src/gpu/cluster_coordinator.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1gpu_1a5658489d6f38027f90bca0465da5c44e" prot="public" static="yes" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::g_callback_mutex</definition>
+        <argsstring></argsstring>
+        <name>g_callback_mutex</name>
+        <qualifiedname>themis::gpu::g_callback_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_backend_dispatch_diagnostics.cpp" line="17" column="19" bodyfile="src/gpu/gpu_backend_dispatch_diagnostics.cpp" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1gpu_1a3cf579edb917abd0996bbc4afb6d178a" prot="public" static="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1gpu_1af8e78635a7c458de5ca02a1b068f42b9" kindref="member">GPUDispatchEventCallback</ref></type>
+        <definition>GPUDispatchEventCallback themis::gpu::g_event_callback</definition>
+        <argsstring></argsstring>
+        <name>g_event_callback</name>
+        <qualifiedname>themis::gpu::g_event_callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_backend_dispatch_diagnostics.cpp" line="18" column="33" bodyfile="src/gpu/gpu_backend_dispatch_diagnostics.cpp" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1gpu_1afa9a62bd1cc8a12160939d397ab48652" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::kP23CanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kP23CanonicalSeed</name>
+        <qualifiedname>themis::gpu::kP23CanonicalSeed</qualifiedname>
+        <initializer>= GPU_BACKEND_DISPATCH_SEED</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" line="28" column="27" bodyfile="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1afaa92fb12158f0906d44acb26c8b86c6" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::isFailClosedClass</definition>
+        <argsstring>(GPUDispatchErrorCode code) noexcept</argsstring>
+        <name>isFailClosedClass</name>
+        <qualifiedname>themis::gpu::isFailClosedClass</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1gpu_1afe088b91efd54af07cd72da337205c6b" kindref="member">GPUDispatchErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Return true if the error code indicates a fail-closed class. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Fail-closed errors are expected to trigger automatic degradation to CPU execution without user intervention. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_contract.h" line="85" column="13" bodyfile="include/gpu/gpu_backend_dispatch_contract.h" bodystart="85" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1ad0fe664c398874152c80563b60d6500c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::logGPUError</definition>
+        <argsstring>(const std::string &amp;location, const std::string &amp;error_msg) noexcept</argsstring>
+        <name>logGPUError</name>
+        <qualifiedname>themis::gpu::logGPUError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>location</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="52" column="13" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="52" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a0e88dcdd0f04641aefedfd66f1b852cf" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::logGPUOperation</definition>
+        <argsstring>(const std::string &amp;operation, bool success) noexcept</argsstring>
+        <name>logGPUOperation</name>
+        <qualifiedname>themis::gpu::logGPUOperation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="59" column="13" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="59" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1ab64a37f8442f803e1a2e49672c7265ae" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle" kindref="compound">GPUMemoryHandle</ref>&lt; T &gt;</type>
+        <definition>GPUMemoryHandle&lt; T &gt; themis::gpu::makeGPUMemory</definition>
+        <argsstring>(size_t count)</argsstring>
+        <name>makeGPUMemory</name>
+        <qualifiedname>themis::gpu::makeGPUMemory</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Make GPUMemory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements makeGPUMemory without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="412" column="24" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="412" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a3c1b7de659f82c69a6cb3df2f6667044" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_stream_handle" kindref="compound">GPUStreamHandle</ref></type>
+        <definition>GPUStreamHandle themis::gpu::makeGPUStream</definition>
+        <argsstring>()</argsstring>
+        <name>makeGPUStream</name>
+        <qualifiedname>themis::gpu::makeGPUStream</qualifiedname>
+        <briefdescription>
+<para>Make GPUStream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: GPUStreamHandle(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="421" column="24" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="421" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a0cb8b91766ca104fcf6ce2b2101bee2e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_event_handle" kindref="compound">GPUEventHandle</ref></type>
+        <definition>GPUEventHandle themis::gpu::makeGPUEvent</definition>
+        <argsstring>()</argsstring>
+        <name>makeGPUEvent</name>
+        <qualifiedname>themis::gpu::makeGPUEvent</qualifiedname>
+        <briefdescription>
+<para>Make GPUEvent. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: GPUEventHandle(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="430" column="23" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="430" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1ad7c4ad592fb7adcc5b6649e90627925f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_stream_handle" kindref="compound">GPUStreamHandle</ref></type>
+        <definition>GPUStreamHandle themis::gpu::createGPUStream</definition>
+        <argsstring>()</argsstring>
+        <name>createGPUStream</name>
+        <qualifiedname>themis::gpu::createGPUStream</qualifiedname>
+        <briefdescription>
+<para>Create GPUStream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: GPUStreamHandle(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="234" column="24" bodyfile="include/gpu/gpu_resource_handles.h" bodystart="234" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a3cc2e4d680398508afb140d8d7fa0837" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_event_handle" kindref="compound">GPUEventHandle</ref></type>
+        <definition>GPUEventHandle themis::gpu::createGPUEvent</definition>
+        <argsstring>()</argsstring>
+        <name>createGPUEvent</name>
+        <qualifiedname>themis::gpu::createGPUEvent</qualifiedname>
+        <briefdescription>
+<para>Create GPUEvent. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: GPUEventHandle(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_resource_handles.h" line="243" column="23" bodyfile="include/gpu/gpu_resource_handles.h" bodystart="243" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a87790dc2d2b7e72ebfddd0e2c50869ff" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::cuda_error_to_string</definition>
+        <argsstring>(cudaError_t err) noexcept</argsstring>
+        <name>cuda_error_to_string</name>
+        <qualifiedname>themis::gpu::cuda_error_to_string</qualifiedname>
+        <param>
+          <type><ref refid="gpu__batch__a9__safety_8hpp_1a00a732ab4048fd2446773b198c3e7a9d" kindref="member">cudaError_t</ref></type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="310" column="21" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="310" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a4bd82c0d2f224435267a191eb08d8417" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::ms_to_us</definition>
+        <argsstring>(uint64_t ms) noexcept</argsstring>
+        <name>ms_to_us</name>
+        <qualifiedname>themis::gpu::ms_to_us</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="314" column="18" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="314" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1aac138f6deab1b718b16a45ab9b120a4f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::us_to_ms</definition>
+        <argsstring>(uint64_t us) noexcept</argsstring>
+        <name>us_to_ms</name>
+        <qualifiedname>themis::gpu::us_to_ms</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>us</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="318" column="18" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="318" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1ab817fd2d2f4dd237480d6bbfef4d3b0f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="classthemis_1_1gpu_1_1_device_memory_guard" kindref="compound">DeviceMemoryGuard</ref>&lt; T &gt;</type>
+        <definition>DeviceMemoryGuard&lt; T &gt; themis::gpu::makeDeviceMemory</definition>
+        <argsstring>(size_t count)</argsstring>
+        <name>makeDeviceMemory</name>
+        <qualifiedname>themis::gpu::makeDeviceMemory</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Make Device Memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements makeDeviceMemory without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_raii.h" line="226" column="26" bodyfile="include/gpu/gpu_safe_raii.h" bodystart="226" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1abb58209cc1fe9103c8da9bb24dff9336" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::gpu::interconnectTypeName</definition>
+        <argsstring>(InterconnectType t) noexcept</argsstring>
+        <name>interconnectTypeName</name>
+        <qualifiedname>themis::gpu::interconnectTypeName</qualifiedname>
+        <param>
+          <type>InterconnectType</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/cluster_topology.cpp" line="38" column="12" bodyfile="src/gpu/cluster_topology.cpp" bodystart="38" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1ac6c5b139ce75aba24f215f172504a737" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GetGPUFallbackStrategy</definition>
+        <argsstring>()</argsstring>
+        <name>GetGPUFallbackStrategy</name>
+        <qualifiedname>themis::gpu::GetGPUFallbackStrategy</qualifiedname>
+        <briefdescription>
+<para>Get GPUFallback Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: edition::EditionInfo::Get(), std::to_string(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_memory_manager_edition.cpp" line="693" column="13" bodyfile="src/gpu/gpu_memory_manager_edition.cpp" bodystart="693" bodyend="705"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a69d721f34fcdbee8c98b51e6af519d11" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::log_cuda_error</definition>
+        <argsstring>(const CudaError &amp;err) noexcept</argsstring>
+        <name>log_cuda_error</name>
+        <qualifiedname>themis::gpu::log_cuda_error</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_cuda_error" kindref="compound">CudaError</ref> &amp;</type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+<para>Log a CUDA error for diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called by CUDA_CHECK macro when an error is encountered. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_safe_operations.cpp" line="26" column="6" bodyfile="src/gpu/gpu_safe_operations.cpp" bodystart="26" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a008db33e26d21c2db06dc6bd81f6b42b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t themis::gpu::getCurrentTimeUS</definition>
+        <argsstring>()</argsstring>
+        <name>getCurrentTimeUS</name>
+        <qualifiedname>themis::gpu::getCurrentTimeUS</qualifiedname>
+        <briefdescription>
+<para>Helper: Measure selectDevice operation time against bounded runtime contract. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::high_resolution_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/load_balancer.cpp" line="30" column="24" bodyfile="src/gpu/load_balancer.cpp" bodystart="30" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a1a7507ddfe37099982d27b545db77461" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::gpu::migStatusName</definition>
+        <argsstring>(MIGManager::Status s) noexcept</argsstring>
+        <name>migStatusName</name>
+        <qualifiedname>themis::gpu::migStatusName</qualifiedname>
+        <param>
+          <type>MIGManager::Status</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/mig_manager.cpp" line="450" column="12" bodyfile="src/gpu/mig_manager.cpp" bodystart="450" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a89a20c783cdd398568211bc41bd29f0d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::gpu::p2pStatusName</definition>
+        <argsstring>(GPUP2PTransferManager::Status s) noexcept</argsstring>
+        <name>p2pStatusName</name>
+        <qualifiedname>themis::gpu::p2pStatusName</qualifiedname>
+        <param>
+          <type>GPUP2PTransferManager::Status</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/p2p_transfer.cpp" line="52" column="12" bodyfile="src/gpu/p2p_transfer.cpp" bodystart="52" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a87e15caf280604c56c64888b0634af81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::gpu::capabilityName</definition>
+        <argsstring>(GPUPolicy::Capability cap)</argsstring>
+        <name>capabilityName</name>
+        <qualifiedname>themis::gpu::capabilityName</qualifiedname>
+        <param>
+          <type>GPUPolicy::Capability</type>
+          <declname>cap</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/policy.cpp" line="183" column="12" bodyfile="src/gpu/policy.cpp" bodystart="183" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1ad730e71160e8e000efcab74d36476b85" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>static uint16_t themis::gpu::fp32_to_fp16</definition>
+        <argsstring>(float f) noexcept</argsstring>
+        <name>fp32_to_fp16</name>
+        <qualifiedname>themis::gpu::fp32_to_fp16</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/query_accelerator.cpp" line="93" column="17" bodyfile="src/gpu/query_accelerator.cpp" bodystart="93" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a3cd9e039335353063eb95401c5ca93e5" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::gpu::fp16_to_fp32</definition>
+        <argsstring>(uint16_t h) noexcept</argsstring>
+        <name>fp16_to_fp32</name>
+        <qualifiedname>themis::gpu::fp16_to_fp32</qualifiedname>
+        <param>
+          <type>uint16_t</type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/query_accelerator.cpp" line="134" column="14" bodyfile="src/gpu/query_accelerator.cpp" bodystart="134" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1ada5a1f4bf5e05d651cfdecd980b519da" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::gpu::quantise_fp16</definition>
+        <argsstring>(float f) noexcept</argsstring>
+        <name>quantise_fp16</name>
+        <qualifiedname>themis::gpu::quantise_fp16</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/query_accelerator.cpp" line="166" column="14" bodyfile="src/gpu/query_accelerator.cpp" bodystart="166" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a2a54145522b1667cdc2ba0758136340a" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint16_t</type>
+        <definition>static uint16_t themis::gpu::fp32_to_bf16</definition>
+        <argsstring>(float f) noexcept</argsstring>
+        <name>fp32_to_bf16</name>
+        <qualifiedname>themis::gpu::fp32_to_bf16</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/query_accelerator.cpp" line="170" column="17" bodyfile="src/gpu/query_accelerator.cpp" bodystart="170" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a64655b0b5260a3bc390c8e7747414e98" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::gpu::bf16_to_fp32</definition>
+        <argsstring>(uint16_t b) noexcept</argsstring>
+        <name>bf16_to_fp32</name>
+        <qualifiedname>themis::gpu::bf16_to_fp32</qualifiedname>
+        <param>
+          <type>uint16_t</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/query_accelerator.cpp" line="178" column="14" bodyfile="src/gpu/query_accelerator.cpp" bodystart="178" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a66cd01334791087728706630db60d2b9" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>static float themis::gpu::quantise_bf16</definition>
+        <argsstring>(float f) noexcept</argsstring>
+        <name>quantise_bf16</name>
+        <qualifiedname>themis::gpu::quantise_bf16</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/query_accelerator.cpp" line="185" column="14" bodyfile="src/gpu/query_accelerator.cpp" bodystart="185" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a6f3c5b72b1b7423ce2c8c6f43536b1f6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::gpu::write32</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; &amp;buf, uint32_t v)</argsstring>
+        <name>write32</name>
+        <qualifiedname>themis::gpu::write32</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> Serialisation ------------------------------------------------------------------------<mdash/> Format (little-endian): [4] magic: 0x54454E53 (&quot;TENS&quot;) [4] dtype (uint32_t) [4] ndim (uint32_t) [4*ndim] dims (uint32_t each) [4] name length [name_len] name bytes [data_size] raw data bytes </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/tensor_buffer.cpp" line="286" column="13" bodyfile="src/gpu/tensor_buffer.cpp" bodystart="286" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a7e3a843b64c3fe218c2f81ddf74a96ed" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t themis::gpu::read32</definition>
+        <argsstring>(const uint8_t *p)</argsstring>
+        <name>read32</name>
+        <qualifiedname>themis::gpu::read32</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Read32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements read32 without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/tensor_buffer.cpp" line="299" column="17" bodyfile="src/gpu/tensor_buffer.cpp" bodystart="299" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a1b5f70fccc072c16db28bf5e86036ab4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::gpu::sandboxStatusName</definition>
+        <argsstring>(WASMKernelSandbox::Status s) noexcept</argsstring>
+        <name>sandboxStatusName</name>
+        <qualifiedname>themis::gpu::sandboxStatusName</qualifiedname>
+        <param>
+          <type>WASMKernelSandbox::Status</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/wasm_kernel_sandbox.cpp" line="362" column="12" bodyfile="src/gpu/wasm_kernel_sandbox.cpp" bodystart="362" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1afc686ff7a40f27e17d7173696b4b4963" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::TEST_F</definition>
+        <argsstring>(GPUPhase23HardeningTest, P23_01_BackendSelectionFailClosedNoDevices)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>P23_01_BackendSelectionFailClosedNoDevices</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase2_phase3_focused.cpp" line="58" column="1" bodyfile="tests/gpu/test_gpu_phase2_phase3_focused.cpp" bodystart="58" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a860d85c8c0e3b709f5a0f2d1c3f25a31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::TEST_F</definition>
+        <argsstring>(GPUPhase23HardeningTest, P23_02_SelectDeviceBoundedLatency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>P23_02_SelectDeviceBoundedLatency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase2_phase3_focused.cpp" line="83" column="1" bodyfile="tests/gpu/test_gpu_phase2_phase3_focused.cpp" bodystart="83" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1ad8f962aa30c21f2402cf29b670882d8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::TEST_F</definition>
+        <argsstring>(GPUPhase23HardeningTest, P23_03_AllocationFailClosedInvalidParams)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>P23_03_AllocationFailClosedInvalidParams</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase2_phase3_focused.cpp" line="127" column="1" bodyfile="tests/gpu/test_gpu_phase2_phase3_focused.cpp" bodystart="127" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1aec5b48d4ad4f79858b8c904ad8b9df8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::TEST_F</definition>
+        <argsstring>(GPUPhase23HardeningTest, P23_04_AllocationSizeValidation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>P23_04_AllocationSizeValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase2_phase3_focused.cpp" line="144" column="1" bodyfile="tests/gpu/test_gpu_phase2_phase3_focused.cpp" bodystart="144" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1af28cbba243842ec36de6573d56f7b638" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::TEST_F</definition>
+        <argsstring>(GPUPhase23HardeningTest, P23_05_ErrorCodeToStringConversion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>P23_05_ErrorCodeToStringConversion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase2_phase3_focused.cpp" line="161" column="1" bodyfile="tests/gpu/test_gpu_phase2_phase3_focused.cpp" bodystart="161" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a6254e490b3096f378c4db11eea4428fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::TEST_F</definition>
+        <argsstring>(GPUPhase23HardeningTest, P23_06_ErrorCodeToEventTypeMapping)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>P23_06_ErrorCodeToEventTypeMapping</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase2_phase3_focused.cpp" line="184" column="1" bodyfile="tests/gpu/test_gpu_phase2_phase3_focused.cpp" bodystart="184" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a09e3e4dbcd3eb3580762dfe18763321f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::TEST_F</definition>
+        <argsstring>(GPUPhase23HardeningTest, P23_07_FailClosedClassPredicate)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>P23_07_FailClosedClassPredicate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase2_phase3_focused.cpp" line="208" column="1" bodyfile="tests/gpu/test_gpu_phase2_phase3_focused.cpp" bodystart="208" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a98912ebebfb2e8dfcea547914501006e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::TEST_F</definition>
+        <argsstring>(GPUPhase23HardeningTest, P23_08_DiagnosticEmissionCallback)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>P23_08_DiagnosticEmissionCallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase2_phase3_focused.cpp" line="223" column="1" bodyfile="tests/gpu/test_gpu_phase2_phase3_focused.cpp" bodystart="223" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1af560e528d53c5236fa21ce909e2989f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::TEST_F</definition>
+        <argsstring>(GPUPhase23HardeningTest, ContractLatencyBoundsSanity)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ContractLatencyBoundsSanity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase2_phase3_focused.cpp" line="259" column="1" bodyfile="tests/gpu/test_gpu_phase2_phase3_focused.cpp" bodystart="259" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a8e2e013b9df50966a924c6dbe869e02d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::TEST_F</definition>
+        <argsstring>(GPUPhase23HardeningTest, ContractLockOrderDocumented)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ContractLockOrderDocumented</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase2_phase3_focused.cpp" line="266" column="1" bodyfile="tests/gpu/test_gpu_phase2_phase3_focused.cpp" bodystart="266" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1af7d00608974c59818b99be06bf2136be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::TEST_F</definition>
+        <argsstring>(GPUPhase23HardeningTest, ContractFailClosedFlags)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::gpu::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_phase23_hardening_test" kindref="compound">GPUPhase23HardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ContractFailClosedFlags</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_phase2_phase3_focused.cpp" line="274" column="1" bodyfile="tests/gpu/test_gpu_phase2_phase3_focused.cpp" bodystart="274" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a7ff573784b303deaf898e2dc83e4351d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::gpu::GP23_01_BackendSelection_Least_Loaded</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>GP23_01_BackendSelection_Least_Loaded</name>
+        <qualifiedname>themis::gpu::GP23_01_BackendSelection_Least_Loaded</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" line="34" column="13" bodyfile="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" bodystart="34" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a3b5ef15517a96bf8d79387ea0552ebbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::BENCHMARK</definition>
+        <argsstring>(GP23_01_BackendSelection_Least_Loaded) -&gt; Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::gpu::BENCHMARK</qualifiedname>
+        <param>
+          <type>GP23_01_BackendSelection_Least_Loaded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" line="60" column="1" declfile="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" declline="60" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a6d444f94cd017d752d23d5eb2b9273b2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::gpu::GP23_01_BackendSelection_Round_Robin</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>GP23_01_BackendSelection_Round_Robin</name>
+        <qualifiedname>themis::gpu::GP23_01_BackendSelection_Round_Robin</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" line="62" column="13" bodyfile="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" bodystart="62" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a6f6a57290cac4dd200ff7b033f526f50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::BENCHMARK</definition>
+        <argsstring>(GP23_01_BackendSelection_Round_Robin) -&gt; Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::gpu::BENCHMARK</qualifiedname>
+        <param>
+          <type>GP23_01_BackendSelection_Round_Robin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" line="86" column="1" declfile="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" declline="86" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a746c5a45ed8e76ef3f2ccf4c3cc46cb3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::gpu::GP23_02_AllocationValidation</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>GP23_02_AllocationValidation</name>
+        <qualifiedname>themis::gpu::GP23_02_AllocationValidation</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" line="92" column="13" bodyfile="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" bodystart="92" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a60c529d5a9f685975fa8b2a14f769b88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::BENCHMARK</definition>
+        <argsstring>(GP23_02_AllocationValidation) -&gt; Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::gpu::BENCHMARK</qualifiedname>
+        <param>
+          <type>GP23_02_AllocationValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" line="106" column="1" declfile="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" declline="106" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a5ae24e27b73e36828f963532bfb24b34" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::gpu::GP23_03_DiagnosticEmission</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>GP23_03_DiagnosticEmission</name>
+        <qualifiedname>themis::gpu::GP23_03_DiagnosticEmission</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" line="112" column="13" bodyfile="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" bodystart="112" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a67ed743fddff6e8417cd703987a437fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::BENCHMARK</definition>
+        <argsstring>(GP23_03_DiagnosticEmission) -&gt; Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::gpu::BENCHMARK</qualifiedname>
+        <param>
+          <type>GP23_03_DiagnosticEmission</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" line="129" column="1" declfile="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" declline="129" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1adec24824066fd022c8288ecb7935d90e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::gpu::GP23_04_DeviceHealthCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>GP23_04_DeviceHealthCheck</name>
+        <qualifiedname>themis::gpu::GP23_04_DeviceHealthCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" line="135" column="13" bodyfile="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" bodystart="135" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a2978cc1a26b0b92a67cdfbad865cf062" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::BENCHMARK</definition>
+        <argsstring>(GP23_04_DeviceHealthCheck) -&gt; Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::gpu::BENCHMARK</qualifiedname>
+        <param>
+          <type>GP23_04_DeviceHealthCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" line="158" column="1" declfile="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" declline="158" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1ad4233454cb783ab2c7a4e9870d6677c2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::gpu::GP23_05_QuotaCheck_Fast_Path</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>GP23_05_QuotaCheck_Fast_Path</name>
+        <qualifiedname>themis::gpu::GP23_05_QuotaCheck_Fast_Path</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" line="164" column="13" bodyfile="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" bodystart="164" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a267ebf6b8fcd23a207ff830e1bc48a81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::BENCHMARK</definition>
+        <argsstring>(GP23_05_QuotaCheck_Fast_Path) -&gt; Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::gpu::BENCHMARK</qualifiedname>
+        <param>
+          <type>GP23_05_QuotaCheck_Fast_Path</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" line="181" column="1" declfile="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" declline="181" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a8328b9aa2e7989e086a6958285657cb0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::gpu::GP23_06_ErrorCodeToString</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>GP23_06_ErrorCodeToString</name>
+        <qualifiedname>themis::gpu::GP23_06_ErrorCodeToString</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" line="187" column="13" bodyfile="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" bodystart="187" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a4b6de3239d931a1bc01ebf0c11825063" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::BENCHMARK</definition>
+        <argsstring>(GP23_06_ErrorCodeToString) -&gt; Repetitions(5)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::gpu::BENCHMARK</qualifiedname>
+        <param>
+          <type>GP23_06_ErrorCodeToString</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" line="208" column="1" declfile="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" declline="208" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1a700802ea4943303ba023ee75ff072ebe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::RecordGateResult</definition>
+        <argsstring>(const std::string &amp;gate_name, uint64_t latency_us, uint64_t threshold_us)</argsstring>
+        <name>RecordGateResult</name>
+        <qualifiedname>themis::gpu::RecordGateResult</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>gate_name</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>latency_us</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>threshold_us</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" line="214" column="6" bodyfile="benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp" bodystart="214" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/cuda_operations.h" line="34" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_t_s_auto_buffer_1_1_flush_controller" kind="struct" language="C++" prot="private">
+    <compoundname>themis::TSAutoBuffer::FlushController</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_1_1_flush_controller_1a9cb2315ed642b89a00726f8cff122490" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TSAutoBuffer::FlushController::ewma_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>ewma_latency_ms</name>
+        <qualifiedname>themis::TSAutoBuffer::FlushController::ewma_latency_ms</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Exponentially-weighted moving average. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="361" column="16" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="361" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_1_1_flush_controller_1af4670ac71c3f67a7bbcb7347b4e1d2db" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TSAutoBuffer::FlushController::alpha</definition>
+        <argsstring></argsstring>
+        <name>alpha</name>
+        <qualifiedname>themis::TSAutoBuffer::FlushController::alpha</qualifiedname>
+        <initializer>{0.1}</initializer>
+        <briefdescription>
+<para>EWMA smoothing factor (0 &lt; alpha ≤ 1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="362" column="16" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="362" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_1_1_flush_controller_1afcf4ec3b90c5699a34049456b1211ef7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TSAutoBuffer::FlushController::slo_ms</definition>
+        <argsstring></argsstring>
+        <name>slo_ms</name>
+        <qualifiedname>themis::TSAutoBuffer::FlushController::slo_ms</qualifiedname>
+        <initializer>{50.0}</initializer>
+        <briefdescription>
+<para>Write-latency SLO threshold (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="363" column="16" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="363" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_1_1_flush_controller_1a63d877f3bf5822a90ea6364103e88999" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBuffer::FlushController::batch_min</definition>
+        <argsstring></argsstring>
+        <name>batch_min</name>
+        <qualifiedname>themis::TSAutoBuffer::FlushController::batch_min</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+<para>Minimum batch size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="364" column="16" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="364" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_1_1_flush_controller_1a29e0d654e637958452b126825a4ebcf4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBuffer::FlushController::batch_max</definition>
+        <argsstring></argsstring>
+        <name>batch_max</name>
+        <qualifiedname>themis::TSAutoBuffer::FlushController::batch_max</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+<para>Maximum batch size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="365" column="16" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="365" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_1_1_flush_controller_1a5663594b75f04400eb5db5ff2ee52fc2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBuffer::FlushController::current_batch_size</definition>
+        <argsstring></argsstring>
+        <name>current_batch_size</name>
+        <qualifiedname>themis::TSAutoBuffer::FlushController::current_batch_size</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+<para>Current adaptive batch target. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="366" column="16" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="366" bodyend="366"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_t_s_auto_buffer_1_1_flush_controller_1adabb8457ecc48b5ea32a8da88a87504c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::TSAutoBuffer::FlushController::FlushController</definition>
+        <argsstring>(double alpha_, double slo_ms_, size_t batch_min_, size_t batch_max_, size_t initial_batch)</argsstring>
+        <name>FlushController</name>
+        <qualifiedname>themis::TSAutoBuffer::FlushController::FlushController</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>alpha_</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>slo_ms_</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_min_</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_max_</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>initial_batch</declname>
+        </param>
+        <briefdescription>
+<para>Flush Controller. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alpha_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">slo_ms_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_min_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_max_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">initial_batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="377" column="18" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="377" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_t_s_auto_buffer_1_1_flush_controller_1a6152f2eab8576887fe41d1af1868353a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TSAutoBuffer::FlushController::updateLatency</definition>
+        <argsstring>(double observed_ms)</argsstring>
+        <name>updateLatency</name>
+        <qualifiedname>themis::TSAutoBuffer::FlushController::updateLatency</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>observed_ms</declname>
+        </param>
+        <briefdescription>
+<para>Feed a new <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> write latency sample and recompute batch size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="388" column="14" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="388" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_t_s_auto_buffer_1_1_flush_controller_1afa4f3c616fb99da649c89e5dae407d49" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TSAutoBuffer::FlushController::isBackpressure</definition>
+        <argsstring>() const</argsstring>
+        <name>isBackpressure</name>
+        <qualifiedname>themis::TSAutoBuffer::FlushController::isBackpressure</qualifiedname>
+        <briefdescription>
+<para>True when EWMA latency exceeds the SLO and backpressure should engage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="412" column="14" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="412" bodyend="412"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Feedback-control loop that adapts flush batch size to <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> write latency. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks an EWMA of observed write latencies and scales <computeroutput>current_batch_size</computeroutput> inversely. When latency exceeds the configured SLO, <computeroutput>isBackpressure()</computeroutput> returns true so that the <computeroutput><ref refid="classthemis_1_1_t_s_auto_buffer_1acf21c940f798f75f2977f8a215cc2966" kindref="member">add()</ref></computeroutput> path can block producers at the high-watermark. </para>
+    </detaileddescription>
+    <location file="include/timeseries/ts_auto_buffer.h" line="360" column="5" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="360" bodyend="413"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_t_s_auto_buffer_1_1_flush_controller_1af4670ac71c3f67a7bbcb7347b4e1d2db" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer::FlushController</scope><name>alpha</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_1_1_flush_controller_1a29e0d654e637958452b126825a4ebcf4" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer::FlushController</scope><name>batch_max</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_1_1_flush_controller_1a63d877f3bf5822a90ea6364103e88999" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer::FlushController</scope><name>batch_min</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_1_1_flush_controller_1a5663594b75f04400eb5db5ff2ee52fc2" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer::FlushController</scope><name>current_batch_size</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_1_1_flush_controller_1a9cb2315ed642b89a00726f8cff122490" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer::FlushController</scope><name>ewma_latency_ms</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_1_1_flush_controller_1adabb8457ecc48b5ea32a8da88a87504c" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer::FlushController</scope><name>FlushController</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_1_1_flush_controller_1afa4f3c616fb99da649c89e5dae407d49" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer::FlushController</scope><name>isBackpressure</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_1_1_flush_controller_1afcf4ec3b90c5699a34049456b1211ef7" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer::FlushController</scope><name>slo_ms</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_1_1_flush_controller_1a6152f2eab8576887fe41d1af1868353a" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer::FlushController</scope><name>updateLatency</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

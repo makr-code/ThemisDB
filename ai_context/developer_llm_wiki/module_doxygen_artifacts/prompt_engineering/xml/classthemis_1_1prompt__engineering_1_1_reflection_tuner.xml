@@ -1,0 +1,492 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_reflection_tuner" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ReflectionTuner</compoundname>
+    <includes refid="reflection__tuner_8h" local="no">reflection_tuner.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a15e6be1141ca70d76ad56caf302c4d7c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_reflection_config" kindref="compound">ReflectionConfig</ref></type>
+        <definition>ReflectionConfig themis::prompt_engineering::ReflectionTuner::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionTuner::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="504" column="39" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="504" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1abd421584e4a10dac20c3d6a430fb1668" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider" kindref="compound">IReflectionProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IReflectionProvider&gt; themis::prompt_engineering::ReflectionTuner::provider_</definition>
+        <argsstring></argsstring>
+        <name>provider_</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionTuner::provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="505" column="21" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="505" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a03efaf86ff5994fc7b508694fc7c546f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder" kindref="compound">DynamicReflectionPromptBuilder</ref></type>
+        <definition>DynamicReflectionPromptBuilder themis::prompt_engineering::ReflectionTuner::prompt_builder_</definition>
+        <argsstring></argsstring>
+        <name>prompt_builder_</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionTuner::prompt_builder_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="506" column="39" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="506" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a72de90945d0b3a3e737f2ce4dec2dac0" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard" kindref="compound">ReflectionHallucinationGuard</ref></type>
+        <definition>ReflectionHallucinationGuard themis::prompt_engineering::ReflectionTuner::hallucination_guard_</definition>
+        <argsstring></argsstring>
+        <name>hallucination_guard_</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionTuner::hallucination_guard_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="507" column="39" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="507" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a6cf3a3aa87d69a18f1090e3b6d9c82ce" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::ReflectionTuner::ReflectionTuner</definition>
+        <argsstring>(const ReflectionConfig &amp;config=ReflectionConfig{})</argsstring>
+        <name>ReflectionTuner</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionTuner::ReflectionTuner</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_reflection_config" kindref="compound">ReflectionConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1prompt__engineering_1_1_reflection_config" kindref="compound">ReflectionConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct with an optional configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="441" column="14" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="435" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1ae12863f7ed2dbc52cf8c3dd0c09eb93a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_reflection_result" kindref="compound">ReflectionResult</ref></type>
+        <definition>ReflectionResult themis::prompt_engineering::ReflectionTuner::tune</definition>
+        <argsstring>(const std::string &amp;prompt, const std::string &amp;initial_response)</argsstring>
+        <name>tune</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionTuner::tune</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>initial_response</declname>
+        </param>
+        <briefdescription>
+<para>Run the full reflection cycle starting from <computeroutput>initial_response</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Tune.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original task prompt (used for context in critiques). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>initial_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pre-generated response to start the cycle from. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1prompt__engineering_1_1_reflection_result" kindref="compound">ReflectionResult</ref></computeroutput> with the refined response and full trace.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">initial_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: name(), std::string(), score(), computeHeuristicScore(), push_back(), <ref refid="structthemis_1_1prompt__engineering_1_1_self_aware_context_1a251a3f892425e56c5770d6079a46b4e8" kindref="member">SelfAwareContext::fromResponse()</ref>, runIteration(), shouldHalt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="454" column="22" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="640" bodyend="696"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1ae7ec6914b9bb72895c6ad6dbb5e15055" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_reflection_result" kindref="compound">ReflectionResult</ref></type>
+        <definition>ReflectionResult themis::prompt_engineering::ReflectionTuner::tuneFromPrompt</definition>
+        <argsstring>(const std::string &amp;prompt)</argsstring>
+        <name>tuneFromPrompt</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionTuner::tuneFromPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Generate an initial response and run the full reflection cycle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Tune From Prompt.</para>
+<para>Requires an <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider" kindref="compound">IReflectionProvider</ref></computeroutput> to be attached for the generation step; in fallback mode the original <computeroutput>prompt</computeroutput> is used as the initial response.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generate(), <ref refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1ae12863f7ed2dbc52cf8c3dd0c09eb93a" kindref="member">tune()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="463" column="22" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="627" bodyend="631"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a78811e76103b01d0296288d43c628a33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::ReflectionTuner::setReflectionProvider</definition>
+        <argsstring>(std::shared_ptr&lt; IReflectionProvider &gt; provider)</argsstring>
+        <name>setReflectionProvider</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionTuner::setReflectionProvider</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider" kindref="compound">IReflectionProvider</ref> &gt;</type>
+          <declname>provider</declname>
+        </param>
+        <briefdescription>
+<para>Attach a reflection-capable LLM provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Reflection Provider.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="470" column="10" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="445" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1ac337864cf354cb2c375c2fb8a7b59623" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::ReflectionTuner::clearReflectionProvider</definition>
+        <argsstring>()</argsstring>
+        <name>clearReflectionProvider</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionTuner::clearReflectionProvider</qualifiedname>
+        <briefdescription>
+<para>Remove the attached provider (fall back to template/heuristic mode). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Reflection Provider.</para>
+<para>Calls: reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="473" column="10" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="454" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a53adc6e5ddb3f7866ddffabea76bfee7" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ReflectionTuner::hasReflectionProvider</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasReflectionProvider</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionTuner::hasReflectionProvider</qualifiedname>
+        <briefdescription>
+<para>Returns true if a provider is currently attached. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="476" column="10" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="458" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a4c594da8a72d423696cbfaee7ba966ce" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_reflection_config" kindref="compound">ReflectionConfig</ref> &amp;</type>
+        <definition>const ReflectionConfig &amp; themis::prompt_engineering::ReflectionTuner::getConfig</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionTuner::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="483" column="28" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="462" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1af6d482c023847e06c639094f155f3c66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::ReflectionTuner::setConfig</definition>
+        <argsstring>(const ReflectionConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionTuner::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_reflection_config" kindref="compound">ReflectionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Replace the configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para>Also updates the embedded <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder" kindref="compound">DynamicReflectionPromptBuilder</ref></computeroutput> strategy and <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard" kindref="compound">ReflectionHallucinationGuard</ref></computeroutput> thresholds.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setStrategy(), ReflectionHallucinationGuard(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="491" column="10" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="471" bodyend="476"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a5bdcfc346b91e9c39bbfc75c3d229421" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder" kindref="compound">DynamicReflectionPromptBuilder</ref> &amp;</type>
+        <definition>const DynamicReflectionPromptBuilder &amp; themis::prompt_engineering::ReflectionTuner::getPromptBuilder</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getPromptBuilder</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionTuner::getPromptBuilder</qualifiedname>
+        <briefdescription>
+<para>Read-only access to the embedded prompt builder. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="498" column="42" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="479" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a0c53281b90be9facd4fa173fdd17c52d" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard" kindref="compound">ReflectionHallucinationGuard</ref> &amp;</type>
+        <definition>const ReflectionHallucinationGuard &amp; themis::prompt_engineering::ReflectionTuner::getHallucinationGuard</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getHallucinationGuard</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionTuner::getHallucinationGuard</qualifiedname>
+        <briefdescription>
+<para>Read-only access to the embedded hallucination guard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="501" column="40" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="484" bodyend="486"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a0819872d4e2ea8d84862fab863e5879f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_reflection_step" kindref="compound">ReflectionStep</ref></type>
+        <definition>ReflectionStep themis::prompt_engineering::ReflectionTuner::runIteration</definition>
+        <argsstring>(const std::string &amp;prompt, const std::string &amp;current_response, size_t iteration, const SelfAwareContext &amp;ctx)</argsstring>
+        <name>runIteration</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionTuner::runIteration</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>current_response</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>iteration</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_self_aware_context" kindref="compound">SelfAwareContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Run Iteration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">iteration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: critique(), revise(), score(), buildCritiquePrompt(), empty(), buildConstitutionalCritiquePrompt(), size(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="509" column="20" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="538" bodyend="607"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a62c343a695b9443a7ed031395d9aa2ac" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ReflectionTuner::shouldConverge</definition>
+        <argsstring>(const ReflectionResult &amp;result, const ReflectionStep &amp;step) const</argsstring>
+        <name>shouldConverge</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionTuner::shouldConverge</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_reflection_result" kindref="compound">ReflectionResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_reflection_step" kindref="compound">ReflectionStep</ref> &amp;</type>
+          <declname>step</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="514" column="10" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="609" bodyend="619"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a58f7e0e86110a79adf3e584c025c12ac" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ReflectionTuner::computeHeuristicScore</definition>
+        <argsstring>(const std::string &amp;prompt, const std::string &amp;response) const</argsstring>
+        <name>computeHeuristicScore</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionTuner::computeHeuristicScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="517" column="12" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="488" bodyend="521"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a7fac901607e18f85982d5875e04739b5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_self_aware_context" kindref="compound">SelfAwareContext</ref></type>
+        <definition>SelfAwareContext themis::prompt_engineering::ReflectionTuner::extractContext</definition>
+        <argsstring>(const std::vector&lt; ReflectionStep &gt; &amp;steps) const</argsstring>
+        <name>extractContext</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionTuner::extractContext</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_reflection_step" kindref="compound">ReflectionStep</ref> &gt; &amp;</type>
+          <declname>steps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="520" column="22" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="523" bodyend="527"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Orchestrates the reflection tuning cycle for a single LLM response. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1ae12863f7ed2dbc52cf8c3dd0c09eb93a" kindref="member">tune()</ref></computeroutput> method runs a configurable number of generate→critique→revise iterations, stopping early when the quality converges, plateaus, or the hallucination guard fires.</para>
+<para>When no <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider" kindref="compound">IReflectionProvider</ref></computeroutput> is attached, the tuner operates in <bold>fallback mode</bold>: critique prompts are generated by the <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder" kindref="compound">DynamicReflectionPromptBuilder</ref></computeroutput> (returned in the step metadata for callers to forward to an LLM), and the response is scored heuristically.</para>
+<para>Usage with a provider: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a6cf3a3aa87d69a18f1090e3b6d9c82ce" kindref="member">ReflectionTuner</ref><sp/>tuner;</highlight></codeline>
+<codeline><highlight class="normal">tuner.setConfig({.strategy<sp/>=<sp/><ref refid="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921faece65a2dff2c0356d2ead07c0fa4b6c2" kindref="member">ReflectionStrategy::REFLEXION</ref>,<sp/>.max_iterations<sp/>=<sp/>4});</highlight></codeline>
+<codeline><highlight class="normal">tuner.setReflectionProvider(std::make_shared&lt;MyReflectionAdapter&gt;());</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>tuner.tune(</highlight><highlight class="stringliteral">&quot;Summarise<sp/>the<sp/>GDPR.&quot;</highlight><highlight class="normal">,<sp/>initial_draft);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.converged)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>use(result.final_response);</highlight></codeline>
+<codeline><highlight class="normal">}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.halted_by_hallucination_guard)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>use<sp/>the<sp/>best<sp/>step<sp/>before<sp/>divergence</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>use(result.steps.front().response);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/reflection_tuner.h" line="438" column="1" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="438" bodyend="521"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1ac337864cf354cb2c375c2fb8a7b59623" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionTuner</scope><name>clearReflectionProvider</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a58f7e0e86110a79adf3e584c025c12ac" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionTuner</scope><name>computeHeuristicScore</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a15e6be1141ca70d76ad56caf302c4d7c" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionTuner</scope><name>config_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a7fac901607e18f85982d5875e04739b5" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionTuner</scope><name>extractContext</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a4c594da8a72d423696cbfaee7ba966ce" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionTuner</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a0c53281b90be9facd4fa173fdd17c52d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionTuner</scope><name>getHallucinationGuard</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a5bdcfc346b91e9c39bbfc75c3d229421" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionTuner</scope><name>getPromptBuilder</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a72de90945d0b3a3e737f2ce4dec2dac0" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionTuner</scope><name>hallucination_guard_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a53adc6e5ddb3f7866ddffabea76bfee7" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionTuner</scope><name>hasReflectionProvider</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a03efaf86ff5994fc7b508694fc7c546f" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionTuner</scope><name>prompt_builder_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1abd421584e4a10dac20c3d6a430fb1668" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionTuner</scope><name>provider_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a6cf3a3aa87d69a18f1090e3b6d9c82ce" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionTuner</scope><name>ReflectionTuner</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a0819872d4e2ea8d84862fab863e5879f" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionTuner</scope><name>runIteration</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1af6d482c023847e06c639094f155f3c66" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionTuner</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a78811e76103b01d0296288d43c628a33" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionTuner</scope><name>setReflectionProvider</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1a62c343a695b9443a7ed031395d9aa2ac" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionTuner</scope><name>shouldConverge</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1ae12863f7ed2dbc52cf8c3dd0c09eb93a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionTuner</scope><name>tune</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1ae7ec6914b9bb72895c6ad6dbb5e15055" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionTuner</scope><name>tuneFromPrompt</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,335 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="spatial__backend_8h" kind="file" language="C++">
+    <compoundname>spatial_backend.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="yes">utils/geo/ewkb.h</includes>
+    <includedby refid="bench__geo__cpu__gpu_8cpp" local="yes">benchmarks/geo/bench_geo_cpu_gpu.cpp</includedby>
+    <includedby refid="boost__cpu__exact__backend_8cpp" local="yes">src/geo/boost_cpu_exact_backend.cpp</includedby>
+    <includedby refid="cpu__backend_8cpp" local="yes">src/geo/cpu_backend.cpp</includedby>
+    <includedby refid="gpu__backend__production_8cpp" local="yes">src/geo/gpu_backend_production.cpp</includedby>
+    <includedby refid="gpu__backend__stub_8cpp" local="yes">src/geo/gpu_backend_stub.cpp</includedby>
+    <includedby refid="test__category__b__parity__geo_8cpp" local="yes">tests/geo/test_category_b_parity_geo.cpp</includedby>
+    <includedby refid="test__geo__ewkb_8cpp" local="yes">tests/geo/test_geo_ewkb.cpp</includedby>
+    <includedby refid="test__geo__gpu__backend_8cpp" local="yes">tests/geo/test_geo_gpu_backend.cpp</includedby>
+    <includedby refid="test__geo__hardening__focused_8cpp" local="yes">tests/geo/test_geo_hardening_focused.cpp</includedby>
+    <includedby refid="test__geo__index__integration_8cpp" local="yes">tests/geo/test_geo_index_integration.cpp</includedby>
+    <includedby refid="test__geo__precision__mode_8cpp" local="yes">tests/geo/test_geo_precision_mode.cpp</includedby>
+    <includedby refid="test__geo__st__buffer_8cpp" local="yes">tests/geo/test_geo_st_buffer.cpp</includedby>
+    <includedby refid="test__geo__st__union__difference_8cpp" local="yes">tests/geo/test_geo_st_union_difference.cpp</includedby>
+    <includedby refid="test__geo__wgs84__spherical_8cpp" local="yes">tests/geo/test_geo_wgs84_spherical.cpp</includedby>
+    <includedby refid="test__gpu__backend__production_8cpp" local="yes">tests/geo/test_gpu_backend_production.cpp</includedby>
+    <includedby refid="test__gpu__kernel__dispatcher_8cpp" local="yes">tests/geo/test_gpu_kernel_dispatcher.cpp</includedby>
+    <includedby refid="test__rtree__cpu__integration_8cpp" local="yes">tests/geo/test_rtree_cpu_integration.cpp</includedby>
+    <includedby refid="test__spatial__index_8cpp" local="yes">tests/geo/test_spatial_index.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/geo/spatial_backend.h</label>
+        <link refid="spatial__backend_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/geo/bench_geo_cpu_gpu.cpp</label>
+        <link refid="bench__geo__cpu__gpu_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/geo/spatial_backend.h</label>
+        <link refid="spatial__backend_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/geo/boost_cpu_exact_backend.cpp</label>
+        <link refid="boost__cpu__exact__backend_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/geo/cpu_backend.cpp</label>
+        <link refid="cpu__backend_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/geo/gpu_backend_production.cpp</label>
+        <link refid="gpu__backend__production_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/geo/gpu_backend_stub.cpp</label>
+        <link refid="gpu__backend__stub_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/geo/test_category_b_parity_geo.cpp</label>
+        <link refid="test__category__b__parity__geo_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/geo/test_geo_ewkb.cpp</label>
+        <link refid="test__geo__ewkb_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/geo/test_geo_gpu_backend.cpp</label>
+        <link refid="test__geo__gpu__backend_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/geo/test_geo_hardening_focused.cpp</label>
+        <link refid="test__geo__hardening__focused_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/geo/test_geo_index_integration.cpp</label>
+        <link refid="test__geo__index__integration_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/geo/test_geo_precision_mode.cpp</label>
+        <link refid="test__geo__precision__mode_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/geo/test_geo_st_buffer.cpp</label>
+        <link refid="test__geo__st__buffer_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/geo/test_geo_st_union_difference.cpp</label>
+        <link refid="test__geo__st__union__difference_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/geo/test_geo_wgs84_spherical.cpp</label>
+        <link refid="test__geo__wgs84__spherical_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/geo/test_gpu_backend_production.cpp</label>
+        <link refid="test__gpu__backend__production_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/geo/test_gpu_kernel_dispatcher.cpp</label>
+        <link refid="test__gpu__kernel__dispatcher_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/geo/test_rtree_cpu_integration.cpp</label>
+        <link refid="test__rtree__cpu__integration_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/geo/test_spatial_index.cpp</label>
+        <link refid="test__spatial__index_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1geo_1_1_spatial_batch_inputs" prot="public">themis::geo::SpatialBatchInputs</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_spatial_batch_results" prot="public">themis::geo::SpatialBatchResults</innerclass>
+    <innerclass refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" prot="public">themis::geo::ISpatialComputeBackend</innerclass>
+    <innerclass refid="classthemis_1_1geo_1_1_i_geo_registry" prot="public">themis::geo::IGeoRegistry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1geo">themis::geo</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/geo/ewkb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">geo</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimal<sp/>abstraction<sp/>for<sp/>compute<sp/>backends<sp/>(CPU/GPU)<sp/>used<sp/>by<sp/>Geo<sp/>exact<sp/>checks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1geo_1_1_spatial_batch_inputs" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1add0683cd3d44799b8ee13868af1284ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1add0683cd3d44799b8ee13868af1284ac" kindref="member">count</ref>{0};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1abb587a9a704edc555d0dc79311addf95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeometryInfo&gt;<sp/><ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1abb587a9a704edc555d0dc79311addf95" kindref="member">geoms_a</ref>;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1a1417504162afab5bb796f301b4b9fed0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GeometryInfo&gt;<sp/><ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs_1a1417504162afab5bb796f301b4b9fed0" kindref="member">geoms_b</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1geo_1_1_spatial_batch_results" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_spatial_batch_results" kindref="compound">SpatialBatchResults</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1geo_1_1_spatial_batch_results_1afb6be78d07b7e01eebf79ec6c030bd8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1geo_1_1_spatial_batch_results_1afb6be78d07b7e01eebf79ec6c030bd8c" kindref="member">mask</ref>;<sp/></highlight><highlight class="comment">//<sp/>1<sp/>=<sp/>hit,<sp/>0<sp/>=<sp/>no<sp/>hit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1ac73e2531ea40978af133460e88a1a242" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1ac73e2531ea40978af133460e88a1a242" kindref="member">~ISpatialComputeBackend</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a1c4449a6016a5eb97a9103d5db3d3e48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a1c4449a6016a5eb97a9103d5db3d3e48" kindref="member">name</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a9425c0b8acfa7591052b641da875de6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a9425c0b8acfa7591052b641da875de6b" kindref="member">isAvailable</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Example<sp/>operation:<sp/>batch<sp/>Intersects<sp/>exact-checks<sp/>on<sp/>prefiltered<sp/>candidates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1af47ef704007f683b97adc804495d41ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/><ref refid="structthemis_1_1geo_1_1_spatial_batch_results" kindref="compound">SpatialBatchResults</ref><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1af47ef704007f683b97adc804495d41ca" kindref="member">batchIntersects</ref>(const<sp/><ref refid="structthemis_1_1geo_1_1_spatial_batch_inputs" kindref="compound">SpatialBatchInputs</ref>&amp;<sp/>in)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Exact<sp/>intersects<sp/>check<sp/>between<sp/>two<sp/>geometries<sp/>(used<sp/>by<sp/>search<sp/>path)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>true<sp/>if<sp/>geometries<sp/>actually<sp/>intersect,<sp/>false<sp/>otherwise</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a84c6d241e0607e0fae2033d7a94489f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a84c6d241e0607e0fae2033d7a94489f8" kindref="member">exactIntersects</ref>(const<sp/>GeometryInfo&amp;<sp/>geom1,<sp/>const<sp/>GeometryInfo&amp;<sp/>geom2)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ST_BUFFER:<sp/>expand<sp/>geometry<sp/>by<sp/>a<sp/>fixed<sp/>geodesic<sp/>distance<sp/>(metres).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>a<sp/>Polygon<sp/>approximating<sp/>the<sp/>buffered<sp/>geometry,<sp/>or<sp/>an<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GeometryInfo<sp/>if<sp/>the<sp/>geometry<sp/>type<sp/>is<sp/>unsupported.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>arc_points<sp/>controls<sp/>the<sp/>number<sp/>of<sp/>vertices<sp/>used<sp/>to<sp/>approximate<sp/>curves</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(default<sp/>36;<sp/>minimum<sp/>3).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Supported<sp/>types:<sp/>Point<sp/>→<sp/>circular<sp/>polygon,<sp/>Polygon<sp/>→<sp/>outward<sp/>expansion.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>path<sp/>deferred:<sp/>implementations<sp/>without<sp/>CUDA<sp/>delegate<sp/>to<sp/>the<sp/>CPU<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a6cee7527b53f693b1f8eeb255488d19e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/>GeometryInfo<sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a6cee7527b53f693b1f8eeb255488d19e" kindref="member">stBuffer</ref>([[maybe_unused]]<sp/>const<sp/>GeometryInfo&amp;<sp/>geom,<sp/>[[maybe_unused]]<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>distance_m,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>arc_points<sp/>=<sp/>36)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>GeometryInfo{};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Geodesic<sp/>distance<sp/>on<sp/>the<sp/>WGS-84<sp/>ellipsoid<sp/>using<sp/>the<sp/>Vincenty<sp/>formula.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>the<sp/>distance<sp/>in<sp/>metres<sp/>between<sp/>two<sp/>geographic<sp/>coordinates.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>lat1/lon1<sp/>and<sp/>lat2/lon2<sp/>are<sp/>in<sp/>decimal<sp/>degrees<sp/>(WGS-84).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>0.0<sp/>for<sp/>coincident<sp/>points.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>nearly-antipodal<sp/>inputs<sp/>where<sp/>Vincenty<sp/>does<sp/>not<sp/>converge,<sp/>falls<sp/>back</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>to<sp/>the<sp/>Haversine<sp/>formula<sp/>and<sp/>returns<sp/>a<sp/>positive<sp/>finite<sp/>approximation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(accuracy<sp/>±0.5<sp/>%;<sp/>never<sp/>returns<sp/>a<sp/>negative<sp/>sentinel<sp/>value).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a6f7d1da128cc4b93dd3d1345f56b329e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a6f7d1da128cc4b93dd3d1345f56b329e" kindref="member">geodesicDistance</ref>([[maybe_unused]]<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat1,<sp/>[[maybe_unused]]<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon1,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat2,<sp/>[[maybe_unused]]<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon2)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ST_UNION:<sp/>compute<sp/>the<sp/>geometric<sp/>union<sp/>of<sp/>two<sp/>geometries.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>a<sp/>geometry<sp/>that<sp/>contains<sp/>all<sp/>points<sp/>in<sp/>either<sp/>geom1<sp/>or<sp/>geom2.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>two<sp/>non-overlapping<sp/>polygons<sp/>the<sp/>result<sp/>is<sp/>a<sp/>GeometryCollection.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>overlapping<sp/>polygons<sp/>the<sp/>result<sp/>is<sp/>a<sp/>merged<sp/>Polygon.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>an<sp/>empty<sp/>GeometryInfo<sp/>on<sp/>unsupported<sp/>type<sp/>combinations.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a75a0a61492e8bf2755c3307e901206d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>GeometryInfo<sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a75a0a61492e8bf2755c3307e901206d7" kindref="member">stUnion</ref>([[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo&amp;<sp/>geom1,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo&amp;<sp/>geom2)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>GeometryInfo{};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ST_DIFFERENCE:<sp/>compute<sp/>geom1<sp/>minus<sp/>geom2<sp/>(the<sp/>set-difference).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>a<sp/>geometry<sp/>containing<sp/>all<sp/>points<sp/>in<sp/>geom1<sp/>that<sp/>are<sp/>not<sp/>in<sp/>geom2.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>geom1<sp/>unchanged<sp/>when<sp/>the<sp/>two<sp/>geometries<sp/>do<sp/>not<sp/>intersect.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>an<sp/>empty<sp/>GeometryInfo<sp/>when<sp/>geom1<sp/>is<sp/>fully<sp/>contained<sp/>in<sp/>geom2.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a1e4ba225af0b839f94b1f4877b9af33b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>GeometryInfo<sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a1e4ba225af0b839f94b1f4877b9af33b" kindref="member">stDifference</ref>([[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo&amp;<sp/>geom1,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GeometryInfo&amp;<sp/>geom2)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>GeometryInfo{};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Registry<sp/>for<sp/>dynamically<sp/>loaded<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1geo_1_1_i_geo_registry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_i_geo_registry" kindref="compound">IGeoRegistry</ref><sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1geo_1_1_i_geo_registry_1ac7807c5081759e8f939587f575fb50f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_geo_registry_1ac7807c5081759e8f939587f575fb50f4" kindref="member">~IGeoRegistry</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1geo_1_1_i_geo_registry_1a818dd6758c41eb9a483fbbe7a7aa5c97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_geo_registry_1a818dd6758c41eb9a483fbbe7a7aa5c97" kindref="member">registerBackend</ref>(std::unique_ptr&lt;ISpatialComputeBackend&gt;<sp/>backend)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Plugin<sp/>entry<sp/>point<sp/>signature<sp/>a<sp/>plugin<sp/>must<sp/>export<sp/>if<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>extern<sp/>&quot;C&quot;<sp/>void<sp/>RegisterGeoPlugin(IGeoRegistry*<sp/>registry);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="namespacethemis_1_1geo_1a83d73d6f3a229cef5913d4513acfabb1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo_1a83d73d6f3a229cef5913d4513acfabb1" kindref="member">RegisterGeoPluginFn</ref><sp/>=<sp/>void(*)(<ref refid="classthemis_1_1geo_1_1_i_geo_registry" kindref="compound">IGeoRegistry</ref>*);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Precision<sp/>mode<sp/>for<sp/>spatial<sp/>computation<sp/>backends.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Exact<sp/>mode<sp/>uses<sp/>full<sp/>geometric<sp/>algorithms<sp/>(ray-casting,<sp/>segment-intersection).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Approximate<sp/>mode<sp/>uses<sp/>MBR<sp/>(bounding-box)<sp/>overlap<sp/>for<sp/>faster<sp/>but<sp/>potentially</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>conservative<sp/>checks<sp/>(no<sp/>false<sp/>negatives;<sp/>may<sp/>produce<sp/>false<sp/>positives).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="namespacethemis_1_1geo_1a757d45a5c8148f5efc7c3ce31e727093" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" kindref="member">GeoPrecisionMode</ref><sp/>{</highlight></codeline>
+<codeline lineno="122" refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61a1649aed298f99d587e2eb30c1db5946b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61a1649aed298f99d587e2eb30c1db5946b" kindref="member">Exact</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Full<sp/>geometric<sp/>exactness;<sp/>higher<sp/>CPU<sp/>cost.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61ab81a30c12698563b79179ec37d43629b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61ab81a30c12698563b79179ec37d43629b" kindref="member">Approximate</ref><sp/><sp/></highlight><highlight class="comment">//<sp/>MBR-based<sp/>fast<sp/>approximation;<sp/>safe<sp/>for<sp/>pre-filtering.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal">ISpatialComputeBackend*<sp/><ref refid="namespacethemis_1_1geo_1af8acf1e6da1ea4cdc92075ea21d6866e" kindref="member">getBoostCpuBackend</ref>();</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal">ISpatialComputeBackend*<sp/><ref refid="namespacethemis_1_1geo_1a28cb4be068b844c22d99f9484510fd8f" kindref="member">getCpuExactBackend</ref>();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal">ISpatialComputeBackend*<sp/><ref refid="namespacethemis_1_1geo_1a618a09c4d368ea8209e625d6acb85d33" kindref="member">getCpuApproximateBackend</ref>();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal">IGeoRegistry*<sp/><ref refid="namespacethemis_1_1geo_1ad2396953eda3033a82e5d1fe8a8e5971" kindref="member">getGeoBackendRegistry</ref>();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="namespacethemis_1_1geo_1a3e78f805175c11314831c4cff033a072" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo_1a3e78f805175c11314831c4cff033a072" kindref="member">GeoContainmentFn</ref><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>px,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>py,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Coordinate&gt;&amp;<sp/>ring)&gt;;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1a0d5d5d6434bdfcba73a978a7632a938f" kindref="member">setCpuExactContainmentFn</ref>(<ref refid="namespacethemis_1_1geo_1a3e78f805175c11314831c4cff033a072" kindref="member">GeoContainmentFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/><ref refid="namespacethemis_1_1geo_1a6fdd53c9b704e78db047c77ae54386ab" kindref="member">getBackendForPrecision</ref>(<ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" kindref="member">GeoPrecisionMode</ref><sp/>mode);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/><ref refid="namespacethemis_1_1geo_1a6a624344c315b22db1046070c5e3c504" kindref="member">getGpuSpatialBackend</ref>();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/><ref refid="namespacethemis_1_1geo_1affd317ca9221251575dc975b7461229a" kindref="member">getProductionGpuBackend</ref>();</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1geo_1af401c31bbe06a1d6169fef70bba94fb0" kindref="member">getGpuSpatialBackendStatsJson</ref>();</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1geo_1a0e5b6f6fe1bafb43f49f82b5394fcf48" kindref="member">getGeoDeviceReportJson</ref>();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>geo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/geo/spatial_backend.h"/>
+  </compounddef>
+</doxygen>

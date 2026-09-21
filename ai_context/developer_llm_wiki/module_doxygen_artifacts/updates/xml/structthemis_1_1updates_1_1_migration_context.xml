@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_migration_context" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::updates::MigrationContext</compoundname>
+    <includes refid="schema__migration_8h" local="no">schema_migration.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_migration_context_1a8057113790086baf5231aaf82b413c89" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::MigrationContext::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::updates::MigrationContext::version</qualifiedname>
+        <briefdescription>
+<para>Target migration version (same as <ref refid="classthemis_1_1updates_1_1_schema_migration" kindref="compound">SchemaMigration</ref> version). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="216" column="17" bodyfile="include/updates/schema_migration.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_migration_context_1a9b718756ef01d434eb86d86ae0328f64" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_i_migration_storage" kindref="compound">IMigrationStorage</ref> *</type>
+        <definition>IMigrationStorage* themis::updates::MigrationContext::storage</definition>
+        <argsstring></argsstring>
+        <name>storage</name>
+        <qualifiedname>themis::updates::MigrationContext::storage</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Pointer to the storage backend. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="217" column="23" bodyfile="include/updates/schema_migration.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_migration_context_1aae0cd027716f5b7fad893f7b4d5679e6" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1updates_1_1_i_migration_iterator" kindref="compound">IMigrationIterator</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; IMigrationIterator &gt; themis::updates::MigrationContext::createIterator</definition>
+        <argsstring>(const std::string &amp;table_name)=0</argsstring>
+        <name>createIterator</name>
+        <qualifiedname>themis::updates::MigrationContext::createIterator</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Create a forward iterator over all records in <computeroutput>table_name</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table to scan. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Iterator positioned at the first record, or an exhausted iterator for an empty table. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="224" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_migration_context_1a6ef9d4be7e4c4efdb0732265aa1903c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::updates::MigrationContext::~MigrationContext</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MigrationContext</name>
+        <qualifiedname>themis::updates::MigrationContext::~MigrationContext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="227" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Context object provided to custom migration lambdas. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Grants access to the underlying storage and metadata about the current migration so that custom callbacks can read, transform, and re-write records as needed.</para>
+<para><heading level="3">Example</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">migration.addCustomMigration([](MigrationContext&amp;<sp/>ctx)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>ctx.createIterator(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(it-&gt;valid())<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>val<sp/>=<sp/>it-&gt;value();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>…transform<sp/>val…</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.storage-&gt;put(it-&gt;key(),<sp/>val);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>it-&gt;next();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::updates::IMigrationStorage</label>
+        <link refid="classthemis_1_1updates_1_1_i_migration_storage"/>
+      </node>
+      <node id="1">
+        <label>themis::updates::MigrationContext</label>
+        <link refid="structthemis_1_1updates_1_1_migration_context"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>storage</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/updates/schema_migration.h" line="215" column="1" bodyfile="include/updates/schema_migration.h" bodystart="215" bodyend="228"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_migration_context_1aae0cd027716f5b7fad893f7b4d5679e6" prot="public" virt="pure-virtual"><scope>themis::updates::MigrationContext</scope><name>createIterator</name></member>
+      <member refid="structthemis_1_1updates_1_1_migration_context_1a9b718756ef01d434eb86d86ae0328f64" prot="public" virt="non-virtual"><scope>themis::updates::MigrationContext</scope><name>storage</name></member>
+      <member refid="structthemis_1_1updates_1_1_migration_context_1a8057113790086baf5231aaf82b413c89" prot="public" virt="non-virtual"><scope>themis::updates::MigrationContext</scope><name>version</name></member>
+      <member refid="structthemis_1_1updates_1_1_migration_context_1a6ef9d4be7e4c4efdb0732265aa1903c0" prot="public" virt="virtual"><scope>themis::updates::MigrationContext</scope><name>~MigrationContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

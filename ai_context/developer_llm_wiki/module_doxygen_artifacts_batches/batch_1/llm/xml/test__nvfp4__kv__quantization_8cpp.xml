@@ -1,0 +1,492 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__nvfp4__kv__quantization_8cpp" kind="file" language="C++">
+    <compoundname>test_nvfp4_kv_quantization.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">gmock/gmock.h</includes>
+    <includes refid="paged__kv__cache_8h" local="yes">llm/paged_kv_cache.h</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">random</includes>
+    <includes local="no">algorithm</includes>
+    <incdepgraph>
+      <node id="5">
+        <label>llm/block_table.h</label>
+        <link refid="block__table_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>llm/paged_block_manager.h</label>
+        <link refid="paged__block__manager_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>llm/paged_kv_cache.h</label>
+        <link refid="paged__kv__cache_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_nvfp4_kv_quantization.cpp</label>
+        <link refid="test__nvfp4__kv__quantization_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>algorithm</label>
+      </node>
+      <node id="16">
+        <label>atomic</label>
+      </node>
+      <node id="17">
+        <label>cmath</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>gmock/gmock.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="15">
+        <label>list</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>queue</label>
+      </node>
+      <node id="18">
+        <label>random</label>
+      </node>
+      <node id="14">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>utils/concurrent_cache.h</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" prot="public">themis::llm::test::NVFP4QuantizationTest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1test">themis::llm::test</innernamespace>
+    <briefdescription>
+<para>P2-D06 Phase 2 Tests: NVFP4 KV-Cache Quantization and Accuracy Validation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This test suite verifies NVFP4 KV-cache quantization accuracy against FP16 baseline and validates compression efficiency across three quantization types (FP16, INT8, NVFP4).</para>
+<para><simplesect kind="note"><para>Phase 2 Acceptance Gates:<itemizedlist>
+<listitem><para>P2-GATE-01: NVFP4 accuracy delta ≤ 1% vs FP16</para>
+</listitem><listitem><para>P2-GATE-02: Round-trip numeric consistency</para>
+</listitem><listitem><para>P2-GATE-04: VRAM footprint NVFP4 ≤ 55% vs FP16</para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+<simplesect kind="author"><para>Copilot Coding Agent </para>
+</simplesect>
+<simplesect kind="date"><para>2026-07-22 </para>
+</simplesect>
+<simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gmock/gmock.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="paged__kv__cache_8h" kindref="compound">llm/paged_kv_cache.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">::testing::FloatNear;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">::testing::DoubleNear;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1af76e9e43da6a4cfe9655fc44375b2c37" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>dummy<sp/>block<sp/>manager<sp/>(minimal<sp/>setup<sp/>for<sp/>testing)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>practice,<sp/>would<sp/>use<sp/>real<sp/>PagedBlockManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1a28b2cf46800079a1bcc4c639e6a0f18d" kindref="member">config_</ref>.block_size<sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1a28b2cf46800079a1bcc4c639e6a0f18d" kindref="member">config_</ref>.num_blocks<sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1a28b2cf46800079a1bcc4c639e6a0f18d" kindref="member">config_</ref>.num_layers<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1a28b2cf46800079a1bcc4c639e6a0f18d" kindref="member">config_</ref>.head_dim<sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1a28b2cf46800079a1bcc4c639e6a0f18d" kindref="member">config_</ref>.num_kv_heads<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1a28b2cf46800079a1bcc4c639e6a0f18d" kindref="member">config_</ref>.enable_prefix_caching<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1ac0b875eb8917a4ea69c21be11ce108cf" kindref="member">generateRandomKVData</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,<sp/>uint32_t<sp/>seed<sp/>=<sp/>42)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(seed);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::normal_distribution&lt;float&gt;<sp/>dist(0.0f,<sp/>0.1f);<sp/><sp/></highlight><highlight class="comment">//<sp/>Small<sp/>scale<sp/>like<sp/>attention<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>data(size);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v<sp/>=<sp/>dist(rng);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1a43db7a745b4a8afaf4caacd820b05838" kindref="member">generateRealisticKVData</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>data(size);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>attention<sp/>scores:<sp/>mostly<sp/>small<sp/>values<sp/>with<sp/>occasional<sp/>large<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(42);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;float&gt;<sp/>sparse_dist(0.0f,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>size;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>u<sp/>=<sp/>sparse_dist(rng);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(u<sp/>&lt;<sp/>0.85f)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Small<sp/>values<sp/>(85%<sp/>of<sp/>data)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data[i]<sp/>=<sp/>(sparse_dist(rng)<sp/>-<sp/>0.5f)<sp/>*<sp/>0.05f;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Occasional<sp/>larger<sp/>values<sp/>(15%<sp/>of<sp/>data)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data[i]<sp/>=<sp/>(sparse_dist(rng)<sp/>-<sp/>0.5f)<sp/>*<sp/>0.5f;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1a669e3da643d385039f5caa06d6cef81e" kindref="member">calculateMAPE</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>original,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>reconstructed)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(original.size()<sp/>!=<sp/>reconstructed.size())<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::numeric_limits&lt;float&gt;::max();</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>sum_error<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>non_zero_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>original.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>abs_original<sp/>=<sp/>std::abs(original[i]);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(abs_original<sp/>&gt;<sp/>1e-6f)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>error<sp/>=<sp/>std::abs(original[i]<sp/>-<sp/>reconstructed[i])<sp/>/<sp/>abs_original;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sum_error<sp/>+=<sp/>error;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>non_zero_count++;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(non_zero_count<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.0f;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(sum_error<sp/>/<sp/>non_zero_count);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1ae3229a731065eb51ec181c1da26f00d7" kindref="member">calculateMSE</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>original,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>reconstructed)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(original.size()<sp/>!=<sp/>reconstructed.size())<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::numeric_limits&lt;float&gt;::max();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>sum_squared_error<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>original.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>error<sp/>=<sp/>original[i]<sp/>-<sp/>reconstructed[i];</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sum_squared_error<sp/>+=<sp/>error<sp/>*<sp/>error;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(sum_squared_error<sp/>/<sp/>original.size());</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config" kindref="compound">PagedKVCache::Config</ref><sp/><ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1a28b2cf46800079a1bcc4c639e6a0f18d" kindref="member">config_</ref>;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1test_1a0b304cbbe9b9715a9a2b84f53999306a" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref>,<sp/>RoundTripAccuracyRandomData)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>cache<sp/>instance<sp/>(nullptr<sp/>for<sp/>block<sp/>manager<sp/>is<sp/>acceptable<sp/>for<sp/>quantization<sp/>testing)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;PagedBlockManager&gt;<sp/>dummy_manager;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache" kindref="compound">PagedKVCache</ref><sp/>cache(config_,<sp/>dummy_manager);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>test<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>original<sp/>=<sp/>generateRandomKVData(1024);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quantize<sp/>to<sp/>NVFP4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>quantized_data<sp/>=<sp/>cache.quantizeKVData(original,<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbabb03c21bff5b42f26e7a0cd4437089aa" kindref="member">PagedKVCache::KVQuantizationType::NVFP4</ref>);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(quantized_data.empty());</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>compression:<sp/>NVFP4<sp/>should<sp/>achieve<sp/>~50%<sp/>of<sp/>original<sp/>size<sp/>(2<sp/>values<sp/>per<sp/>byte)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>compression_ratio<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(quantized_data.size())<sp/>/<sp/>(original.size()<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(compression_ratio,<sp/>0.1f);<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>under<sp/>10%<sp/>(highly<sp/>compressed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dequantize<sp/>back<sp/>to<sp/>float</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>reconstructed<sp/>=<sp/>cache.dequantizeKVData(quantized_data,<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbabb03c21bff5b42f26e7a0cd4437089aa" kindref="member">PagedKVCache::KVQuantizationType::NVFP4</ref>);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>size<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(original.size(),<sp/>reconstructed.size());</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>accuracy:<sp/>MAPE<sp/>should<sp/>be<sp/>≤<sp/>5%<sp/>(NVFP4<sp/>expected<sp/>~5%<sp/>error)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>mape<sp/>=<sp/>calculateMAPE(original,<sp/>reconstructed);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(mape,<sp/>0.05f)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;MAPE<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>mape<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>exceeds<sp/>5%<sp/>tolerance&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1test_1a0b304cbbe9b9715a9a2b84f53999306a" kindref="member">TEST_F</ref>(NVFP4QuantizationTest,<sp/>NVFP4VsFP16AccuracyDelta)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;PagedBlockManager&gt;<sp/>dummy_manager;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache" kindref="compound">PagedKVCache</ref><sp/>cache(config_,<sp/>dummy_manager);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>with<sp/>realistic<sp/>attention<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>original<sp/>=<sp/>generateRealisticKVData(512);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quantize<sp/>to<sp/>FP16</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fp16_quantized<sp/>=<sp/>cache.quantizeKVData(original,<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbaa4bf99d6945c25077fd6660d536af8a0" kindref="member">PagedKVCache::KVQuantizationType::FP16</ref>);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fp16_reconstructed<sp/>=<sp/>cache.dequantizeKVData(fp16_quantized,<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbaa4bf99d6945c25077fd6660d536af8a0" kindref="member">PagedKVCache::KVQuantizationType::FP16</ref>);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>fp16_mape<sp/>=<sp/>calculateMAPE(original,<sp/>fp16_reconstructed);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quantize<sp/>to<sp/>NVFP4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>nvfp4_quantized<sp/>=<sp/>cache.quantizeKVData(original,<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbabb03c21bff5b42f26e7a0cd4437089aa" kindref="member">PagedKVCache::KVQuantizationType::NVFP4</ref>);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>nvfp4_reconstructed<sp/>=<sp/>cache.dequantizeKVData(nvfp4_quantized,<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbabb03c21bff5b42f26e7a0cd4437089aa" kindref="member">PagedKVCache::KVQuantizationType::NVFP4</ref>);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>nvfp4_mape<sp/>=<sp/>calculateMAPE(original,<sp/>nvfp4_reconstructed);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>delta<sp/>≤<sp/>1%<sp/>(gate<sp/>requirement)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>accuracy_delta<sp/>=<sp/>nvfp4_mape<sp/>-<sp/>fp16_mape;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(accuracy_delta,<sp/>0.01f)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;NVFP4<sp/>delta<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>accuracy_delta<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>exceeds<sp/>1%<sp/>vs<sp/>FP16&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Also<sp/>verify<sp/>NVFP4<sp/>MAPE<sp/>is<sp/>reasonable<sp/>(~5%<sp/>expected<sp/>vs<sp/>~0.1%<sp/>for<sp/>FP16)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(nvfp4_mape,<sp/>0.06f);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1test_1a0b304cbbe9b9715a9a2b84f53999306a" kindref="member">TEST_F</ref>(NVFP4QuantizationTest,<sp/>INT8QuantizationAccuracy)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;PagedBlockManager&gt;<sp/>dummy_manager;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>PagedKVCache<sp/>cache(config_,<sp/>dummy_manager);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>original<sp/>=<sp/>generateRandomKVData(256);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quantize<sp/>to<sp/>INT8</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>int8_quantized<sp/>=<sp/>cache.quantizeKVData(original,<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbaee9d73311ff0658494edfff14c3ec1e3" kindref="member">PagedKVCache::KVQuantizationType::INT8</ref>);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(int8_quantized.empty());</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>INT8<sp/>should<sp/>be<sp/>more<sp/>efficient<sp/>than<sp/>NVFP4<sp/>(1<sp/>byte<sp/>per<sp/>value<sp/>+<sp/>8<sp/>bytes<sp/>metadata)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>compression_ratio<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(int8_quantized.size())<sp/>/<sp/>(original.size()<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(compression_ratio,<sp/>0.35f);<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>&lt;<sp/>35%<sp/>(highly<sp/>compressed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dequantize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>int8_reconstructed<sp/>=<sp/>cache.dequantizeKVData(int8_quantized,<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbaee9d73311ff0658494edfff14c3ec1e3" kindref="member">PagedKVCache::KVQuantizationType::INT8</ref>);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(original.size(),<sp/>int8_reconstructed.size());</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>accuracy:<sp/>INT8<sp/>should<sp/>achieve<sp/>~2%<sp/>MAPE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>mape<sp/>=<sp/>calculateMAPE(original,<sp/>int8_reconstructed);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(mape,<sp/>0.03f)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;INT8<sp/>MAPE<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>mape<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>exceeds<sp/>3%<sp/>tolerance&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1test_1a0b304cbbe9b9715a9a2b84f53999306a" kindref="member">TEST_F</ref>(NVFP4QuantizationTest,<sp/>CompressionFactorVerification)<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>FP16:<sp/>50%<sp/>compression<sp/>(4<sp/>bytes<sp/>-&gt;<sp/>2<sp/>bytes)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>fp16_factor<sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a409e2c7f05fc3bd1a285255136054e43" kindref="member">PagedKVCache::getCompressionFactor</ref>(<ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbaa4bf99d6945c25077fd6660d536af8a0" kindref="member">PagedKVCache::KVQuantizationType::FP16</ref>);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(fp16_factor,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>INT8:<sp/>75%<sp/>compression<sp/>(4<sp/>bytes<sp/>-&gt;<sp/>1<sp/>byte,<sp/>but<sp/>metadata<sp/>overhead)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>int8_factor<sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a409e2c7f05fc3bd1a285255136054e43" kindref="member">PagedKVCache::getCompressionFactor</ref>(<ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbaee9d73311ff0658494edfff14c3ec1e3" kindref="member">PagedKVCache::KVQuantizationType::INT8</ref>);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(int8_factor,<sp/>0.75f<sp/>+<sp/>0.01f);<sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>small<sp/>margin<sp/>for<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(int8_factor,<sp/>0.2f);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NVFP4:<sp/>87.5%<sp/>compression<sp/>(4<sp/>bytes<sp/>-&gt;<sp/>0.5<sp/>bytes,<sp/>gate<sp/>P2-GATE-04<sp/>requires<sp/>≤<sp/>55%<sp/>vs<sp/>FP16)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>nvfp4_factor<sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a409e2c7f05fc3bd1a285255136054e43" kindref="member">PagedKVCache::getCompressionFactor</ref>(<ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbabb03c21bff5b42f26e7a0cd4437089aa" kindref="member">PagedKVCache::KVQuantizationType::NVFP4</ref>);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(nvfp4_factor,<sp/>0.5f<sp/>*<sp/>0.55f);<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>≤<sp/>55%<sp/>of<sp/>FP16<sp/>footprint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1test_1a0b304cbbe9b9715a9a2b84f53999306a" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref>,<sp/>ExpectedAccuracyTargets)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>FP16:<sp/>99.9%<sp/>accuracy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>fp16_acc<sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a6bfdfa4bc069b78405071d41ecce339f" kindref="member">PagedKVCache::getExpectedAccuracy</ref>(<ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbaa4bf99d6945c25077fd6660d536af8a0" kindref="member">PagedKVCache::KVQuantizationType::FP16</ref>);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(fp16_acc,<sp/>0.999f,<sp/>0.001f);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>INT8:<sp/>98%<sp/>accuracy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>int8_acc<sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a6bfdfa4bc069b78405071d41ecce339f" kindref="member">PagedKVCache::getExpectedAccuracy</ref>(<ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbaee9d73311ff0658494edfff14c3ec1e3" kindref="member">PagedKVCache::KVQuantizationType::INT8</ref>);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(int8_acc,<sp/>0.98f,<sp/>0.01f);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NVFP4:<sp/>99%<sp/>accuracy<sp/>(~99%<sp/>per<sp/>requirements)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>nvfp4_acc<sp/>=<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a6bfdfa4bc069b78405071d41ecce339f" kindref="member">PagedKVCache::getExpectedAccuracy</ref>(<ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbabb03c21bff5b42f26e7a0cd4437089aa" kindref="member">PagedKVCache::KVQuantizationType::NVFP4</ref>);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(nvfp4_acc,<sp/>0.99f,<sp/>0.01f);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1test_1a0b304cbbe9b9715a9a2b84f53999306a" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref>,<sp/>NVFP4EdgeCases)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;PagedBlockManager&gt;<sp/>dummy_manager;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>PagedKVCache<sp/>cache(config_,<sp/>dummy_manager);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>data<sp/>with<sp/>edge<sp/>cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>edge_cases<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.0f,</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1.0f,<sp/>-1.0f,</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.1f,<sp/>-0.1f,</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>100.0f,<sp/>-100.0f,</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.001f,<sp/>-0.001f,</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::numeric_limits&lt;float&gt;::epsilon(),</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-std::numeric_limits&lt;float&gt;::epsilon()</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quantize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>quantized<sp/>=<sp/>cache.quantizeKVData(edge_cases,<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbabb03c21bff5b42f26e7a0cd4437089aa" kindref="member">PagedKVCache::KVQuantizationType::NVFP4</ref>);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(quantized.empty());</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dequantize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>reconstructed<sp/>=<sp/>cache.dequantizeKVData(quantized,<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbabb03c21bff5b42f26e7a0cd4437089aa" kindref="member">PagedKVCache::KVQuantizationType::NVFP4</ref>);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(edge_cases.size(),<sp/>reconstructed.size());</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>zeros<sp/>are<sp/>preserved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(reconstructed[0],<sp/>0.0f);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>rough<sp/>magnitude<sp/>preservation<sp/>for<sp/>other<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>edge_cases.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>original<sp/>=<sp/>edge_cases[i];</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>recon<sp/>=<sp/>reconstructed[i];</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::abs(original)<sp/>&gt;<sp/>0.01f)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>error_ratio<sp/>=<sp/>std::abs(original<sp/>-<sp/>recon)<sp/>/<sp/>std::abs(original);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(error_ratio,<sp/>0.1f)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Large<sp/>error<sp/>at<sp/>index<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>original<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>vs<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>recon;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1test_1a0b304cbbe9b9715a9a2b84f53999306a" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref>,<sp/>BatchQuantizationPerformance)<sp/>{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;PagedBlockManager&gt;<sp/>dummy_manager;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>PagedKVCache<sp/>cache(config_,<sp/>dummy_manager);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>batch<sp/>of<sp/>8<sp/>sequences,<sp/>each<sp/>with<sp/>256<sp/>tokens<sp/>worth<sp/>of<sp/>KV<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>batch_size<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>tokens_per_sequence<sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/>batches;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;uint8_t&gt;&gt;<sp/>quantized_batches;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Quantize<sp/>all<sp/>sequences</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>batch_size;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>batch_data<sp/>=<sp/>generateRandomKVData(tokens_per_sequence<sp/>*<sp/>128);<sp/><sp/></highlight><highlight class="comment">//<sp/>128<sp/>=<sp/>2*kv_heads*head_dim</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>batches.push_back(batch_data);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>quantized<sp/>=<sp/>cache.quantizeKVData(batch_data,<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbabb03c21bff5b42f26e7a0cd4437089aa" kindref="member">PagedKVCache::KVQuantizationType::NVFP4</ref>);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>quantized_batches.push_back(quantized);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>compression<sp/>across<sp/>all<sp/>batches</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_original<sp/>=<sp/>batch_size<sp/>*<sp/>tokens_per_sequence<sp/>*<sp/>128<sp/>*<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(float);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_quantized<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>q<sp/>:<sp/>quantized_batches)<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_quantized<sp/>+=<sp/>q.size();</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>overall_compression<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(total_quantized)<sp/>/<sp/>total_original;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(overall_compression,<sp/>0.1f)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Batch<sp/>compression<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>overall_compression<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>too<sp/>high&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1test_1a0b304cbbe9b9715a9a2b84f53999306a" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref>,<sp/>NumericStabilityMultipleCycles)<sp/>{</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;PagedBlockManager&gt;<sp/>dummy_manager;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>PagedKVCache<sp/>cache(config_,<sp/>dummy_manager);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>original<sp/>=<sp/>generateRandomKVData(512);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>current<sp/>=<sp/>original;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Run<sp/>3<sp/>quantize/dequantize<sp/>cycles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cycle<sp/>=<sp/>0;<sp/>cycle<sp/>&lt;<sp/>3;<sp/>++cycle)<sp/>{</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>quantized<sp/>=<sp/>cache.quantizeKVData(current,<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbabb03c21bff5b42f26e7a0cd4437089aa" kindref="member">PagedKVCache::KVQuantizationType::NVFP4</ref>);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>current<sp/>=<sp/>cache.dequantizeKVData(quantized,<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbabb03c21bff5b42f26e7a0cd4437089aa" kindref="member">PagedKVCache::KVQuantizationType::NVFP4</ref>);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Final<sp/>reconstruction<sp/>should<sp/>still<sp/>be<sp/>reasonable<sp/>(MAPE<sp/>&lt;<sp/>15%<sp/>after<sp/>3<sp/>cycles)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>final_mape<sp/>=<sp/>calculateMAPE(original,<sp/>current);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(final_mape,<sp/>0.15f)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Numeric<sp/>stability<sp/>degraded<sp/>after<sp/>cycles:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>final_mape;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1test_1a0b304cbbe9b9715a9a2b84f53999306a" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref>,<sp/>EmptyDataHandling)<sp/>{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;PagedBlockManager&gt;<sp/>dummy_manager;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>PagedKVCache<sp/>cache(config_,<sp/>dummy_manager);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>empty;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>quantization<sp/>types<sp/>should<sp/>handle<sp/>empty<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>nvfp4_result<sp/>=<sp/>cache.quantizeKVData(empty,<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbabb03c21bff5b42f26e7a0cd4437089aa" kindref="member">PagedKVCache::KVQuantizationType::NVFP4</ref>);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(nvfp4_result.empty());</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fp16_result<sp/>=<sp/>cache.quantizeKVData(empty,<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbaa4bf99d6945c25077fd6660d536af8a0" kindref="member">PagedKVCache::KVQuantizationType::FP16</ref>);</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(fp16_result.empty());</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>int8_result<sp/>=<sp/>cache.quantizeKVData(empty,<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbaee9d73311ff0658494edfff14c3ec1e3" kindref="member">PagedKVCache::KVQuantizationType::INT8</ref>);</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(int8_result.empty());</highlight></codeline>
+<codeline lineno="376"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1test_1a0b304cbbe9b9715a9a2b84f53999306a" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kindref="compound">NVFP4QuantizationTest</ref>,<sp/>MemoryFootprintGateP2GATE04)<sp/>{</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;PagedBlockManager&gt;<sp/>dummy_manager;</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>PagedKVCache<sp/>cache(config_,<sp/>dummy_manager);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>large<sp/>KV<sp/>cache:<sp/>32<sp/>layers,<sp/>8<sp/>heads,<sp/>128<sp/>dims,<sp/>2048<sp/>tokens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_layers<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_tokens<sp/>=<sp/>2048;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kv_size<sp/>=<sp/>2<sp/>*<sp/>8<sp/>*<sp/>128;<sp/><sp/></highlight><highlight class="comment">//<sp/>2*kv_heads*head_dim<sp/>per<sp/>token</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_values<sp/>=<sp/>num_layers<sp/>*<sp/>num_tokens<sp/>*<sp/>kv_size;</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Generate<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>kv_data<sp/>=<sp/>generateRandomKVData(total_values);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>footprints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fp16_quantized<sp/>=<sp/>cache.quantizeKVData(kv_data,<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbaa4bf99d6945c25077fd6660d536af8a0" kindref="member">PagedKVCache::KVQuantizationType::FP16</ref>);</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>nvfp4_quantized<sp/>=<sp/>cache.quantizeKVData(kv_data,<sp/><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_1a3ce55fe728093cf9ef76d8a1256479fbabb03c21bff5b42f26e7a0cd4437089aa" kindref="member">PagedKVCache::KVQuantizationType::NVFP4</ref>);</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>fp16_footprint<sp/>=<sp/>fp16_quantized.size();</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>nvfp4_footprint<sp/>=<sp/>nvfp4_quantized.size();</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>nvfp4_to_fp16_ratio<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(nvfp4_footprint)<sp/>/<sp/>fp16_footprint;</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gate<sp/>P2-GATE-04:<sp/>VRAM<sp/>footprint<sp/>NVFP4<sp/>≤<sp/>55%<sp/>of<sp/>FP16</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(nvfp4_to_fp16_ratio,<sp/>0.55f)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;NVFP4<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>nvfp4_footprint<sp/></highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>is<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>nvfp4_to_fp16_ratio<sp/>*<sp/>100<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;%<sp/>of<sp/>FP16<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>fp16_footprint;</highlight></codeline>
+<codeline lineno="409"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight></codeline>
+<codeline lineno="411"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_nvfp4_kv_quantization.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_request_coalescer" kind="class" language="C++" prot="public">
+    <compoundname>themis::cache::RequestCoalescer</compoundname>
+    <includes refid="request__coalescer_8h" local="no">request_coalescer.h</includes>
+    <innerclass refid="structthemis_1_1cache_1_1_request_coalescer_1_1_result" prot="public">themis::cache::RequestCoalescer::Result</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_request_coalescer_1a037f8b565713f750000dd64cda24d60a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cache::RequestCoalescer::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::cache::RequestCoalescer::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/request_coalescer.h" line="106" column="24" bodyfile="include/cache/request_coalescer.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_request_coalescer_1a36567ac8263629bd7478c4f0e3cc950c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_future&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1cache_1_1_request_coalescer_1_1_result" kindref="compound">Result</ref> &gt; &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_future&lt;std::shared_ptr&lt;Result&gt; &gt; &gt; themis::cache::RequestCoalescer::inflight_</definition>
+        <argsstring></argsstring>
+        <name>inflight_</name>
+        <qualifiedname>themis::cache::RequestCoalescer::inflight_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/request_coalescer.h" line="108" column="2" bodyfile="include/cache/request_coalescer.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_request_coalescer_1adcb10aece28bc7560c81733e268bfeff" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Fn</type>
+          </param>
+        </templateparamlist>
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1cache_1_1_request_coalescer_1_1_result" kindref="compound">Result</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Result &gt; themis::cache::RequestCoalescer::Do</definition>
+        <argsstring>(const std::string &amp;key, Fn &amp;&amp;fn)</argsstring>
+        <name>Do</name>
+        <qualifiedname>themis::cache::RequestCoalescer::Do</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>Fn &amp;&amp;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Do. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), find(), end(), get_future(), share(), emplace(), get(), fn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/request_coalescer.h" line="42" column="21" bodyfile="include/cache/request_coalescer.h" bodystart="42" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_request_coalescer_1ab855e7075e374f3c5306bb2fb13b23f0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::cache::RequestCoalescer::inflight_count</definition>
+        <argsstring>() const</argsstring>
+        <name>inflight_count</name>
+        <qualifiedname>themis::cache::RequestCoalescer::inflight_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/request_coalescer.h" line="95" column="12" bodyfile="include/cache/request_coalescer.h" bodystart="95" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/request_coalescer.h" line="25" column="1" bodyfile="include/cache/request_coalescer.h" bodystart="25" bodyend="109"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_request_coalescer_1adcb10aece28bc7560c81733e268bfeff" prot="public" virt="non-virtual"><scope>themis::cache::RequestCoalescer</scope><name>Do</name></member>
+      <member refid="classthemis_1_1cache_1_1_request_coalescer_1a36567ac8263629bd7478c4f0e3cc950c" prot="private" virt="non-virtual"><scope>themis::cache::RequestCoalescer</scope><name>inflight_</name></member>
+      <member refid="classthemis_1_1cache_1_1_request_coalescer_1ab855e7075e374f3c5306bb2fb13b23f0" prot="public" virt="non-virtual"><scope>themis::cache::RequestCoalescer</scope><name>inflight_count</name></member>
+      <member refid="classthemis_1_1cache_1_1_request_coalescer_1a037f8b565713f750000dd64cda24d60a" prot="private" virt="non-virtual"><scope>themis::cache::RequestCoalescer</scope><name>mu_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

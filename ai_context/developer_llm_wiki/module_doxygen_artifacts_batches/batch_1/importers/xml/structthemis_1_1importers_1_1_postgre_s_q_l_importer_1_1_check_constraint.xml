@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_check_constraint" kind="struct" language="C++" prot="private">
+    <compoundname>themis::importers::PostgreSQLImporter::CheckConstraint</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_check_constraint_1aca44775183ea9dbbb07dce8231d58412" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLImporter::CheckConstraint::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::CheckConstraint::name</qualifiedname>
+        <briefdescription>
+<para>Constraint name (empty for unnamed CHECK). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="60" column="21" bodyfile="include/importers/postgres_importer.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_check_constraint_1a185a767d2e33350fc68cb94423503275" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLImporter::CheckConstraint::expression</definition>
+        <argsstring></argsstring>
+        <name>expression</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::CheckConstraint::expression</qualifiedname>
+        <briefdescription>
+<para>The expression inside CHECK (...). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="61" column="21" bodyfile="include/importers/postgres_importer.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_check_constraint_1a1e3e45c61fc7c841fe5bebc7fd88889b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::PostgreSQLImporter::CheckConstraint::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::CheckConstraint::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="63" column="14" bodyfile="include/importers/postgres_importer.h" bodystart="63" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/postgres_importer.h" line="59" column="5" bodyfile="include/importers/postgres_importer.h" bodystart="59" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_check_constraint_1a185a767d2e33350fc68cb94423503275" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::CheckConstraint</scope><name>expression</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_check_constraint_1aca44775183ea9dbbb07dce8231d58412" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::CheckConstraint</scope><name>name</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_check_constraint_1a1e3e45c61fc7c841fe5bebc7fd88889b" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::CheckConstraint</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

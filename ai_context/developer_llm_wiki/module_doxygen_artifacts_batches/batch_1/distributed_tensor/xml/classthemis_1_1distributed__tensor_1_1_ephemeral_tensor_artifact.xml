@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_ephemeral_tensor_artifact" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::EphemeralTensorArtifact</compoundname>
+    <basecompoundref refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact" prot="public" virt="non-virtual">themis::distributed_tensor::TensorArtifact</basecompoundref>
+    <includes refid="include_2distributed__tensor_2tensor__artifact__classes_8h" local="no">tensor_artifact_classes.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_ephemeral_tensor_artifact_1a615c3e294d5525644249e84b510699f5" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::EphemeralTensorArtifact::session_id_</definition>
+        <argsstring></argsstring>
+        <name>session_id_</name>
+        <qualifiedname>themis::distributed_tensor::EphemeralTensorArtifact::session_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="211" column="15" bodyfile="include/distributed_tensor/tensor_artifact_classes.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_ephemeral_tensor_artifact_1a906d1e8a9aec777381ad9de847153d5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::EphemeralTensorArtifact::EphemeralTensorArtifact</definition>
+        <argsstring>(const std::string &amp;artifact_id, const std::string &amp;session_id)</argsstring>
+        <name>EphemeralTensorArtifact</name>
+        <qualifiedname>themis::distributed_tensor::EphemeralTensorArtifact::EphemeralTensorArtifact</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="199" column="3" bodyfile="src/distributed_tensor/tensor_artifact_classes.cc" bodystart="119" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_ephemeral_tensor_artifact_1a7908955ea463975cde5c9a733007f104" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::EphemeralTensorArtifact::EphemeralTensorArtifact</definition>
+        <argsstring>(EphemeralTensorArtifact &amp;&amp;) noexcept=default</argsstring>
+        <name>EphemeralTensorArtifact</name>
+        <qualifiedname>themis::distributed_tensor::EphemeralTensorArtifact::EphemeralTensorArtifact</qualifiedname>
+        <param>
+          <type>EphemeralTensorArtifact &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="202" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_ephemeral_tensor_artifact_1a4860492ed315cb35183c587eda91ed6c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_ephemeral_tensor_artifact_1a906d1e8a9aec777381ad9de847153d5e" kindref="member">EphemeralTensorArtifact</ref> &amp;</type>
+        <definition>EphemeralTensorArtifact &amp; themis::distributed_tensor::EphemeralTensorArtifact::operator=</definition>
+        <argsstring>(EphemeralTensorArtifact &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::distributed_tensor::EphemeralTensorArtifact::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_ephemeral_tensor_artifact_1a906d1e8a9aec777381ad9de847153d5e" kindref="member">EphemeralTensorArtifact</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="204" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_ephemeral_tensor_artifact_1ad29947338c851e764f38be7989ecab66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::EphemeralTensorArtifact::~EphemeralTensorArtifact</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~EphemeralTensorArtifact</name>
+        <qualifiedname>themis::distributed_tensor::EphemeralTensorArtifact::~EphemeralTensorArtifact</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="206" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_ephemeral_tensor_artifact_1aeb722bede030a3b5c3b946fc91fbb592" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::distributed_tensor::EphemeralTensorArtifact::session_id</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::distributed_tensor::EphemeralTensorArtifact::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="208" column="21" bodyfile="include/distributed_tensor/tensor_artifact_classes.h" bodystart="208" bodyend="208"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::distributed_tensor::EphemeralTensorArtifact</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_ephemeral_tensor_artifact"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::distributed_tensor::TensorArtifact</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::distributed_tensor::ArtifactMetadata</label>
+        <link refid="structthemis_1_1distributed__tensor_1_1_artifact_metadata"/>
+      </node>
+      <node id="1">
+        <label>themis::distributed_tensor::EphemeralTensorArtifact</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_ephemeral_tensor_artifact"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::distributed_tensor::TensorArtifact</label>
+        <link refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>metadata_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/distributed_tensor/tensor_artifact_classes.h" line="197" column="1" bodyfile="include/distributed_tensor/tensor_artifact_classes.h" bodystart="197" bodyend="212"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_ephemeral_tensor_artifact_1a906d1e8a9aec777381ad9de847153d5e" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>EphemeralTensorArtifact</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_ephemeral_tensor_artifact_1a7908955ea463975cde5c9a733007f104" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>EphemeralTensorArtifact</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a8108ca5fb8ab15b11350dc99ae45d716" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>is_queryable</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a99cf917dc1285d5bb641eb4156fa67a8" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>is_rebuildable</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a2d8428998c7b123f1faa3edda75d14e5" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>is_valid_transition</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1ab1a9e60f8a1a76e110a800f6855f1865" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>mark_deprecated</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1ab5c5e875e52e4cdee967a16a047f3754" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>mark_stale</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a98e85fa356dc8efc4dcd10186b5049ff" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>metadata</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a417d583478f1ec133644fba8882a5b4b" prot="protected" virt="non-virtual"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>metadata_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a756e633f59ccfdbc54ca65401eeaccd1" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>mutable_metadata</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_ephemeral_tensor_artifact_1a4860492ed315cb35183c587eda91ed6c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1ab96c2fea1c6156514a9f162dc1459fd0" prot="public" virt="non-virtual" ambiguityscope="themis::distributed_tensor::TensorArtifact::"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a559f13a25414620eb93ab303db7ac795" prot="public" virt="non-virtual" ambiguityscope="themis::distributed_tensor::TensorArtifact::"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_ephemeral_tensor_artifact_1aeb722bede030a3b5c3b946fc91fbb592" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>session_id</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_ephemeral_tensor_artifact_1a615c3e294d5525644249e84b510699f5" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>session_id_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a77dbc9754b72b9a8f4445c4eb5123305" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>set_rebuild_instruction</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1ad82ea00484081def06c27d3aac6bd16c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>TensorArtifact</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a1f6b6db2bba1cc86e556aab8cd03ce43" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>TensorArtifact</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1a817bab3190319ba9ebccf6fafd3d15d6" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>TensorArtifact</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1adb19539b492b8dd10366265255608fae" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>transition_lifecycle_stage</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_ephemeral_tensor_artifact_1ad29947338c851e764f38be7989ecab66" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>~EphemeralTensorArtifact</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact_1afc4ae49c1c5eb8e2aca413dcbd34befd" prot="public" virt="virtual"><scope>themis::distributed_tensor::EphemeralTensorArtifact</scope><name>~TensorArtifact</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

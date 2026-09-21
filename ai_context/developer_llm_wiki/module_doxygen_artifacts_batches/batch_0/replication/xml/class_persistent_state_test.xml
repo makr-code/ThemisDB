@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_persistent_state_test" kind="class" language="C++" prot="public">
+    <compoundname>PersistentStateTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_persistent_state_test_1aa98a2dc960048b068f1f37faa2f1c4d6" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string PersistentStateTest::path_</definition>
+        <argsstring></argsstring>
+        <name>path_</name>
+        <qualifiedname>PersistentStateTest::path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_ha.cpp" line="2186" column="17" bodyfile="tests/replication/test_replication_ha.cpp" bodystart="2186" bodyend="2186"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_persistent_state_test_1a625d114c730366720935e4a69ee538e6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PersistentStateTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>PersistentStateTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_ha.cpp" line="2188" column="10" bodyfile="tests/replication/test_replication_ha.cpp" bodystart="2188" bodyend="2198"/>
+      </memberdef>
+      <memberdef kind="function" id="class_persistent_state_test_1a5ea3893bdc0a413fd49b0aabd90fa815" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PersistentStateTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>PersistentStateTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_ha.cpp" line="2200" column="10" bodyfile="tests/replication/test_replication_ha.cpp" bodystart="2200" bodyend="2200"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_persistent_state_test_1a471c1d454b12ea2e92fef8bf1ff5c239" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PersistentStateTest::cleanupPath</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupPath</name>
+        <qualifiedname>PersistentStateTest::cleanupPath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_ha.cpp" line="2203" column="10" bodyfile="tests/replication/test_replication_ha.cpp" bodystart="2203" bodyend="2212"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PersistentStateTest</label>
+        <link refid="class_persistent_state_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PersistentStateTest</label>
+        <link refid="class_persistent_state_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/replication/test_replication_ha.cpp" line="2184" column="1" bodyfile="tests/replication/test_replication_ha.cpp" bodystart="2184" bodyend="2213"/>
+    <listofallmembers>
+      <member refid="class_persistent_state_test_1a471c1d454b12ea2e92fef8bf1ff5c239" prot="private" virt="non-virtual"><scope>PersistentStateTest</scope><name>cleanupPath</name></member>
+      <member refid="class_persistent_state_test_1aa98a2dc960048b068f1f37faa2f1c4d6" prot="protected" virt="non-virtual"><scope>PersistentStateTest</scope><name>path_</name></member>
+      <member refid="class_persistent_state_test_1a625d114c730366720935e4a69ee538e6" prot="protected" virt="non-virtual"><scope>PersistentStateTest</scope><name>SetUp</name></member>
+      <member refid="class_persistent_state_test_1a5ea3893bdc0a413fd49b0aabd90fa815" prot="protected" virt="non-virtual"><scope>PersistentStateTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

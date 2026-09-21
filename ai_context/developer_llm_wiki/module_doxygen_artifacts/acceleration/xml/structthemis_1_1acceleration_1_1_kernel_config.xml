@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_kernel_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::KernelConfig</compoundname>
+    <includes refid="compute__backend_8h" local="no">compute_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_config_1ae9a9538a6d5458afbdf141a64d161280" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::KernelConfig::block_size</definition>
+        <argsstring></argsstring>
+        <name>block_size</name>
+        <qualifiedname>themis::acceleration::KernelConfig::block_size</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Thread block/work group size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="243" column="20" bodyfile="include/acceleration/compute_backend.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_config_1a3f32d4336cd65f7dee7c03d06a73ebb5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::KernelConfig::grid_size</definition>
+        <argsstring></argsstring>
+        <name>grid_size</name>
+        <qualifiedname>themis::acceleration::KernelConfig::grid_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of blocks/work groups (0 = auto-calculate). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="244" column="20" bodyfile="include/acceleration/compute_backend.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_config_1ab8c033e5f9b0e59ddd740a10ffde911f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::KernelConfig::shared_mem</definition>
+        <argsstring></argsstring>
+        <name>shared_mem</name>
+        <qualifiedname>themis::acceleration::KernelConfig::shared_mem</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Shared memory per block (bytes; GPU only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="245" column="20" bodyfile="include/acceleration/compute_backend.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_config_1a243edb6e2bf35384d56c203b0f94c252" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100" kindref="member">DistanceMetric</ref></type>
+        <definition>DistanceMetric themis::acceleration::KernelConfig::metric</definition>
+        <argsstring></argsstring>
+        <name>metric</name>
+        <qualifiedname>themis::acceleration::KernelConfig::metric</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100a7e6aa2d53f6ee2b1a34b017fa403cb76" kindref="member">DistanceMetric::L2</ref></initializer>
+        <briefdescription>
+<para>Distance metric to use. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="246" column="20" bodyfile="include/acceleration/compute_backend.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_config_1a88edbcac1bbba62902814eda41209054" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1aef777e7dd3ac6c6539d74768aba452b4" kindref="member">PrecisionMode</ref></type>
+        <definition>PrecisionMode themis::acceleration::KernelConfig::precision</definition>
+        <argsstring></argsstring>
+        <name>precision</name>
+        <qualifiedname>themis::acceleration::KernelConfig::precision</qualifiedname>
+        <initializer>= PrecisionMode::FP32</initializer>
+        <briefdescription>
+<para>Floating-point precision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="247" column="20" bodyfile="include/acceleration/compute_backend.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_config_1a53b7ca3294e6adc52f1866addb4d2d7c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelConfig::async_exec</definition>
+        <argsstring></argsstring>
+        <name>async_exec</name>
+        <qualifiedname>themis::acceleration::KernelConfig::async_exec</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True for asynchronous execution (non-blocking). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="248" column="20" bodyfile="include/acceleration/compute_backend.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_backend.h" line="242" column="1" bodyfile="include/acceleration/compute_backend.h" bodystart="242" bodyend="249"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_config_1a53b7ca3294e6adc52f1866addb4d2d7c" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelConfig</scope><name>async_exec</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_config_1ae9a9538a6d5458afbdf141a64d161280" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelConfig</scope><name>block_size</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_config_1a3f32d4336cd65f7dee7c03d06a73ebb5" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelConfig</scope><name>grid_size</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_config_1a243edb6e2bf35384d56c203b0f94c252" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelConfig</scope><name>metric</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_config_1a88edbcac1bbba62902814eda41209054" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelConfig</scope><name>precision</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_config_1ab8c033e5f9b0e59ddd740a10ffde911f" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelConfig</scope><name>shared_mem</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

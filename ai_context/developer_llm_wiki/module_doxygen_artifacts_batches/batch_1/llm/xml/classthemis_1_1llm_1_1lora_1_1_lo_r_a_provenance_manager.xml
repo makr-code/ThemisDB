@@ -1,0 +1,680 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRAProvenanceManager</compoundname>
+    <includes refid="lora__provenance_8h" local="no">lora_provenance.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1_1_impl" prot="public">themis::llm::lora::LoRAProvenanceManager::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1ae54549034eadcc993bde9103a546285b" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::lora::LoRAProvenanceManager::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="297" column="21" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a4b4db96fe0c839108d4c7168c3cd6c02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRAProvenanceManager::LoRAProvenanceManager</definition>
+        <argsstring>()</argsstring>
+        <name>LoRAProvenanceManager</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::LoRAProvenanceManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="173" column="5" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="330" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a2efb3a494e0fd3c8b38195e8302f6fed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRAProvenanceManager::~LoRAProvenanceManager</definition>
+        <argsstring>()</argsstring>
+        <name>~LoRAProvenanceManager</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::~LoRAProvenanceManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="174" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a79290cb08585d6e3005de744d59ec41a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRAProvenanceManager::LoRAProvenanceManager</definition>
+        <argsstring>(const LoRAProvenanceManager &amp;)=delete</argsstring>
+        <name>LoRAProvenanceManager</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::LoRAProvenanceManager</qualifiedname>
+        <param>
+          <type>const LoRAProvenanceManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="177" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a231ddf9e1213abd0dfbc9a383853f791" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a4b4db96fe0c839108d4c7168c3cd6c02" kindref="member">LoRAProvenanceManager</ref> &amp;</type>
+        <definition>LoRAProvenanceManager &amp; themis::llm::lora::LoRAProvenanceManager::operator=</definition>
+        <argsstring>(const LoRAProvenanceManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a4b4db96fe0c839108d4c7168c3cd6c02" kindref="member">LoRAProvenanceManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="178" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1acafb5875c505e85cbf7542839ce2cf7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAProvenanceManager::storeProvenance</definition>
+        <argsstring>(const std::string &amp;adapter_id, const LoRAProvenanceRecord &amp;record)</argsstring>
+        <name>storeProvenance</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::storeProvenance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record" kindref="compound">LoRAProvenanceRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>Store Provenance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), spdlog::error(), lock(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="190" column="10" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="346" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a0b160944bd7bc14539a3c0e1d26ab0f5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record" kindref="compound">LoRAProvenanceRecord</ref> &gt;</type>
+        <definition>std::optional&lt; LoRAProvenanceRecord &gt; themis::llm::lora::LoRAProvenanceManager::getProvenance</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>getProvenance</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::getProvenance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Provenance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="198" column="19" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="358" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a985d65506e0c93d1628a770fd42bb5a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance" kindref="compound">ExternalAdapterProvenance</ref></type>
+        <definition>ExternalAdapterProvenance themis::llm::lora::LoRAProvenanceManager::importExternalAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, ExternalAdapterProvenance provenance, const std::string &amp;trusted_ca_pem=&quot;&quot;, bool allow_unsigned=false)</argsstring>
+        <name>importExternalAdapter</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::importExternalAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance" kindref="compound">ExternalAdapterProvenance</ref></type>
+          <declname>provenance</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>trusted_ca_pem</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>allow_unsigned</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Import External Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">provenance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">trusted_ca_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">allow_unsigned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nowISO8601(), clear(), spdlog::warn(), empty(), push_back(), size(), lock(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="205" column="31" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="381" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1ac8dfe62b200dfcd0e79145e1d45d7052" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_external_adapter_provenance" kindref="compound">ExternalAdapterProvenance</ref> &gt;</type>
+        <definition>std::optional&lt; ExternalAdapterProvenance &gt; themis::llm::lora::LoRAProvenanceManager::getExternalProvenance</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>getExternalProvenance</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::getExternalProvenance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Get External Provenance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="216" column="19" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="459" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1ac67d1d2a37d695e988dafcb1c3698e09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot" kindref="compound">AdapterSnapshot</ref></type>
+        <definition>AdapterSnapshot themis::llm::lora::LoRAProvenanceManager::createSnapshot</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;version, const std::string &amp;weights_hash, const LoRAProvenanceRecord &amp;provenance)</argsstring>
+        <name>createSnapshot</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::createSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>weights_hash</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record" kindref="compound">LoRAProvenanceRecord</ref> &amp;</type>
+          <declname>provenance</declname>
+        </param>
+        <briefdescription>
+<para>Create Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weights_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">provenance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weights_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">provenance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateId(), nowISO8601(), lock(), empty(), back(), push_back(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="231" column="21" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="482" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1ac03ae7b145271a08c70d10512e206971" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot" kindref="compound">AdapterSnapshot</ref> &gt;</type>
+        <definition>std::vector&lt; AdapterSnapshot &gt; themis::llm::lora::LoRAProvenanceManager::listSnapshots</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>listSnapshots</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::listSnapshots</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>List Snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="241" column="17" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="511" bodyend="517"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1acfe0730d28f8c9688a052be2cf189b3b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot" kindref="compound">AdapterSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterSnapshot &gt; themis::llm::lora::LoRAProvenanceManager::getSnapshot</definition>
+        <argsstring>(const std::string &amp;snapshot_id) const</argsstring>
+        <name>getSnapshot</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::getSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>snapshot_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the snapshot. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="249" column="19" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="519" bodyend="527"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a433c29f0fd17b0b0d8e3589dd33f6483" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_inference_audit_entry" kindref="compound">InferenceAuditEntry</ref></type>
+        <definition>InferenceAuditEntry themis::llm::lora::LoRAProvenanceManager::appendAuditEntry</definition>
+        <argsstring>(const std::string &amp;adapter_id, InferenceAuditEntry entry)</argsstring>
+        <name>appendAuditEntry</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::appendAuditEntry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_inference_audit_entry" kindref="compound">InferenceAuditEntry</ref></type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>--------------------------------------------------------------------<mdash/> Merkle-chained inference audit log --------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Append Audit Entry.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), generateId(), nowISO8601(), lock(), back(), computeContentHash(), push_back(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="259" column="25" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="540" bodyend="572"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a6e507341fcdc208419efc933b51844f2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_inference_audit_entry" kindref="compound">InferenceAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt; InferenceAuditEntry &gt; themis::llm::lora::LoRAProvenanceManager::getAuditLog</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>getAuditLog</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::getAuditLog</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Audit Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="267" column="17" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="574" bodyend="580"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a61155db99f1db61a13abeacd1a9ef63c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAProvenanceManager::verifyAuditChain</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>verifyAuditChain</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::verifyAuditChain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Verify Audit Chain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="275" column="10" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="582" bodyend="613"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1ad2b3d9c9c71838ee36e9dbe55e6a93bd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAProvenanceManager::sha256Hex</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>sha256Hex</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::sha256Hex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Sha256 Hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: SHA256(), data(), size(), digestToHex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="286" column="24" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="625" bodyend="629"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a7a1d9c01c5b4a4c1ee63b30349840930" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAProvenanceManager::sha256File</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>sha256File</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceManager::sha256File</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Sha256 File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: file(), is_open(), spdlog::warn(), SHA256_Init(), read(), gcount(), SHA256_Update(), SHA256_Final(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="293" column="24" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="637" bodyend="657"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_provenance.h" line="171" column="1" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="171" bodyend="298"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a433c29f0fd17b0b0d8e3589dd33f6483" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager</scope><name>appendAuditEntry</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1ac67d1d2a37d695e988dafcb1c3698e09" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager</scope><name>createSnapshot</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a6e507341fcdc208419efc933b51844f2" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager</scope><name>getAuditLog</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1ac8dfe62b200dfcd0e79145e1d45d7052" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager</scope><name>getExternalProvenance</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a0b160944bd7bc14539a3c0e1d26ab0f5" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager</scope><name>getProvenance</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1acfe0730d28f8c9688a052be2cf189b3b" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager</scope><name>getSnapshot</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1ae54549034eadcc993bde9103a546285b" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a985d65506e0c93d1628a770fd42bb5a3" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager</scope><name>importExternalAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1ac03ae7b145271a08c70d10512e206971" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager</scope><name>listSnapshots</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a4b4db96fe0c839108d4c7168c3cd6c02" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager</scope><name>LoRAProvenanceManager</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a79290cb08585d6e3005de744d59ec41a" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager</scope><name>LoRAProvenanceManager</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a231ddf9e1213abd0dfbc9a383853f791" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a7a1d9c01c5b4a4c1ee63b30349840930" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager</scope><name>sha256File</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1ad2b3d9c9c71838ee36e9dbe55e6a93bd" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager</scope><name>sha256Hex</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1acafb5875c505e85cbf7542839ce2cf7b" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager</scope><name>storeProvenance</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a61155db99f1db61a13abeacd1a9ef63c" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager</scope><name>verifyAuditChain</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager_1a2efb3a494e0fd3c8b38195e8302f6fed" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceManager</scope><name>~LoRAProvenanceManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

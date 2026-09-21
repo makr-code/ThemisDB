@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_merge_edge_test" kind="class" language="C++" prot="public">
+    <compoundname>MergeEdgeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_merge_edge_test_1a572defdb4056591ba0155027fd7e6d7d" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1document_1_1_in_memory_document_store" kindref="compound">InMemoryDocumentStore</ref></type>
+        <definition>InMemoryDocumentStore MergeEdgeTest::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>MergeEdgeTest::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_schema_hardening_focused.cpp" line="366" column="30" bodyfile="tests/document/test_document_schema_hardening_focused.cpp" bodystart="366" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_merge_edge_test_1a64c03fb4571719541b3a3251f930cbf6" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1document_1_1_in_memory_document_diff_merge" kindref="compound">InMemoryDocumentDiffMerge</ref></type>
+        <definition>InMemoryDocumentDiffMerge MergeEdgeTest::dm_</definition>
+        <argsstring></argsstring>
+        <name>dm_</name>
+        <qualifiedname>MergeEdgeTest::dm_</qualifiedname>
+        <initializer>{<ref refid="class_merge_edge_test_1a572defdb4056591ba0155027fd7e6d7d" kindref="member">store_</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_schema_hardening_focused.cpp" line="367" column="31" bodyfile="tests/document/test_document_schema_hardening_focused.cpp" bodystart="367" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_merge_edge_test_1a36a796e7164d9a8a871b9f2d9df7c68b" prot="protected" static="no" mutable="no">
+        <type>const <ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref></type>
+        <definition>const CollectionId MergeEdgeTest::kCol</definition>
+        <argsstring></argsstring>
+        <name>kCol</name>
+        <qualifiedname>MergeEdgeTest::kCol</qualifiedname>
+        <initializer>{&quot;me-col&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_schema_hardening_focused.cpp" line="368" column="30" bodyfile="tests/document/test_document_schema_hardening_focused.cpp" bodystart="368" bodyend="368"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_merge_edge_test_1ad6715f7b443558c914bfce40af30f853" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MergeEdgeTest::put</definition>
+        <argsstring>(const std::string &amp;id, const nlohmann::json &amp;body)</argsstring>
+        <name>put</name>
+        <qualifiedname>MergeEdgeTest::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_schema_hardening_focused.cpp" line="370" column="10" bodyfile="tests/document/test_document_schema_hardening_focused.cpp" bodystart="370" bodyend="372"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test fixture for three-way merge edge cases. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Owns both a backing store and the diff/merge engine. The helper <ref refid="class_merge_edge_test_1ad6715f7b443558c914bfce40af30f853" kindref="member">put()</ref> inserts documents without boilerplate. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MergeEdgeTest</label>
+        <link refid="class_merge_edge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MergeEdgeTest</label>
+        <link refid="class_merge_edge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>store_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>dm_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="6">
+        <label>themis::document::IDocumentDiffMerge</label>
+        <link refid="classthemis_1_1document_1_1_i_document_diff_merge"/>
+      </node>
+      <node id="4">
+        <label>themis::document::IDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_i_document_store"/>
+      </node>
+      <node id="5">
+        <label>themis::document::InMemoryDocumentDiffMerge</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_document_diff_merge"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::document::InMemoryDocumentStore</label>
+        <link refid="classthemis_1_1document_1_1_in_memory_document_store"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/document/test_document_schema_hardening_focused.cpp" line="364" column="1" bodyfile="tests/document/test_document_schema_hardening_focused.cpp" bodystart="364" bodyend="373"/>
+    <listofallmembers>
+      <member refid="class_merge_edge_test_1a64c03fb4571719541b3a3251f930cbf6" prot="protected" virt="non-virtual"><scope>MergeEdgeTest</scope><name>dm_</name></member>
+      <member refid="class_merge_edge_test_1a36a796e7164d9a8a871b9f2d9df7c68b" prot="protected" virt="non-virtual"><scope>MergeEdgeTest</scope><name>kCol</name></member>
+      <member refid="class_merge_edge_test_1ad6715f7b443558c914bfce40af30f853" prot="protected" virt="non-virtual"><scope>MergeEdgeTest</scope><name>put</name></member>
+      <member refid="class_merge_edge_test_1a572defdb4056591ba0155027fd7e6d7d" prot="protected" virt="non-virtual"><scope>MergeEdgeTest</scope><name>store_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

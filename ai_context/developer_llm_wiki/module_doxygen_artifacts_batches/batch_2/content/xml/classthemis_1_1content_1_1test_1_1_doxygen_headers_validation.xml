@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1test_1_1_doxygen_headers_validation" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::test::DoxygenHeadersValidation</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <innerclass refid="structthemis_1_1content_1_1test_1_1_doxygen_headers_validation_1_1_header_fields" prot="protected">themis::content::test::DoxygenHeadersValidation::HeaderFields</innerclass>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1test_1_1_doxygen_headers_validation_1ad7c9a3c2c074ec890581fa14aa067628" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::content::test::DoxygenHeadersValidation::CONTENT_DIR</definition>
+        <argsstring></argsstring>
+        <name>CONTENT_DIR</name>
+        <qualifiedname>themis::content::test::DoxygenHeadersValidation::CONTENT_DIR</qualifiedname>
+        <initializer>= &quot;src/content&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" line="28" column="33" bodyfile="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1test_1_1_doxygen_headers_validation_1aaf8d21ac3cad43a730bb01a4acc2a076" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::content::test::DoxygenHeadersValidation::REQUIRED_FILES[]</definition>
+        <argsstring>[]</argsstring>
+        <name>REQUIRED_FILES</name>
+        <qualifiedname>themis::content::test::DoxygenHeadersValidation::REQUIRED_FILES</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" line="29" column="33" bodyfile="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" bodystart="29" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1test_1_1_doxygen_headers_validation_1a56c7f3e5861d1f77621aa38f589f4eba" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1test_1_1_doxygen_headers_validation_1_1_header_fields" kindref="compound">HeaderFields</ref></type>
+        <definition>HeaderFields themis::content::test::DoxygenHeadersValidation::ParseHeader</definition>
+        <argsstring>(const std::string &amp;content)</argsstring>
+        <name>ParseHeader</name>
+        <qualifiedname>themis::content::test::DoxygenHeadersValidation::ParseHeader</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" line="78" column="18" bodyfile="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" bodystart="78" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1test_1_1_doxygen_headers_validation_1a22f4f0c377e1e97d26321ec95e023970" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::test::DoxygenHeadersValidation::ClassifyMaturity</definition>
+        <argsstring>(int score)</argsstring>
+        <name>ClassifyMaturity</name>
+        <qualifiedname>themis::content::test::DoxygenHeadersValidation::ClassifyMaturity</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>score</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" line="124" column="17" bodyfile="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" bodystart="124" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::content::test::DoxygenHeadersValidation</label>
+        <link refid="classthemis_1_1content_1_1test_1_1_doxygen_headers_validation"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::content::test::DoxygenHeadersValidation</label>
+        <link refid="classthemis_1_1content_1_1test_1_1_doxygen_headers_validation"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" line="26" column="1" bodyfile="tests/content/test_cmt_fin_doxygen_headers_validation.cpp" bodystart="26" bodyend="133"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1test_1_1_doxygen_headers_validation_1a22f4f0c377e1e97d26321ec95e023970" prot="protected" virt="non-virtual"><scope>themis::content::test::DoxygenHeadersValidation</scope><name>ClassifyMaturity</name></member>
+      <member refid="classthemis_1_1content_1_1test_1_1_doxygen_headers_validation_1ad7c9a3c2c074ec890581fa14aa067628" prot="protected" virt="non-virtual"><scope>themis::content::test::DoxygenHeadersValidation</scope><name>CONTENT_DIR</name></member>
+      <member refid="classthemis_1_1content_1_1test_1_1_doxygen_headers_validation_1a56c7f3e5861d1f77621aa38f589f4eba" prot="protected" virt="non-virtual"><scope>themis::content::test::DoxygenHeadersValidation</scope><name>ParseHeader</name></member>
+      <member refid="classthemis_1_1content_1_1test_1_1_doxygen_headers_validation_1aaf8d21ac3cad43a730bb01a4acc2a076" prot="protected" virt="non-virtual"><scope>themis::content::test::DoxygenHeadersValidation</scope><name>REQUIRED_FILES</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

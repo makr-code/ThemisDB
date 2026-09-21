@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_failure_prediction" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::FailurePrediction</compoundname>
+    <includes refid="predictive__detector_8h" local="no">predictive_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_failure_prediction_1ab2ef20fb7d7c2628511a3e2190477c92" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::FailurePrediction::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themisdb::sharding::FailurePrediction::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="93" column="17" bodyfile="include/sharding/predictive_detector.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_failure_prediction_1ac0b93531d51c5dd6974f068f90a0c2e5" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themisdb::sharding::FailurePrediction::failure_probability</definition>
+        <argsstring></argsstring>
+        <name>failure_probability</name>
+        <qualifiedname>themisdb::sharding::FailurePrediction::failure_probability</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="94" column="11" bodyfile="include/sharding/predictive_detector.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_failure_prediction_1ab6c7f44d8d23d8dc3fa5d6dea05514f7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::FailurePrediction::predicted_days_to_failure</definition>
+        <argsstring></argsstring>
+        <name>predicted_days_to_failure</name>
+        <qualifiedname>themisdb::sharding::FailurePrediction::predicted_days_to_failure</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="95" column="14" bodyfile="include/sharding/predictive_detector.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_failure_prediction_1a77d887cb8bedc5c6328fa6f8dcbdfa50" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::sharding::FailurePrediction::prediction_time</definition>
+        <argsstring></argsstring>
+        <name>prediction_time</name>
+        <qualifiedname>themisdb::sharding::FailurePrediction::prediction_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="96" column="43" bodyfile="include/sharding/predictive_detector.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_failure_prediction_1ad11cae0ae242cfcadb6e968011ff0576" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, float &gt;</type>
+        <definition>std::map&lt;std::string, float&gt; themisdb::sharding::FailurePrediction::feature_importance</definition>
+        <argsstring></argsstring>
+        <name>feature_importance</name>
+        <qualifiedname>themisdb::sharding::FailurePrediction::feature_importance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="99" column="14" bodyfile="include/sharding/predictive_detector.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_failure_prediction_1a6374cd7af00862cf220d62aa6fce6672" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::FailurePrediction::isHighRisk</definition>
+        <argsstring>() const</argsstring>
+        <name>isHighRisk</name>
+        <qualifiedname>themisdb::sharding::FailurePrediction::isHighRisk</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/predictive_detector.h" line="101" column="10" bodyfile="include/sharding/predictive_detector.h" bodystart="101" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/predictive_detector.h" line="92" column="1" bodyfile="include/sharding/predictive_detector.h" bodystart="92" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_failure_prediction_1ac0b93531d51c5dd6974f068f90a0c2e5" prot="public" virt="non-virtual"><scope>themisdb::sharding::FailurePrediction</scope><name>failure_probability</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_failure_prediction_1ad11cae0ae242cfcadb6e968011ff0576" prot="public" virt="non-virtual"><scope>themisdb::sharding::FailurePrediction</scope><name>feature_importance</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_failure_prediction_1a6374cd7af00862cf220d62aa6fce6672" prot="public" virt="non-virtual"><scope>themisdb::sharding::FailurePrediction</scope><name>isHighRisk</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_failure_prediction_1ab6c7f44d8d23d8dc3fa5d6dea05514f7" prot="public" virt="non-virtual"><scope>themisdb::sharding::FailurePrediction</scope><name>predicted_days_to_failure</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_failure_prediction_1a77d887cb8bedc5c6328fa6f8dcbdfa50" prot="public" virt="non-virtual"><scope>themisdb::sharding::FailurePrediction</scope><name>prediction_time</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_failure_prediction_1ab2ef20fb7d7c2628511a3e2190477c92" prot="public" virt="non-virtual"><scope>themisdb::sharding::FailurePrediction</scope><name>shard_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

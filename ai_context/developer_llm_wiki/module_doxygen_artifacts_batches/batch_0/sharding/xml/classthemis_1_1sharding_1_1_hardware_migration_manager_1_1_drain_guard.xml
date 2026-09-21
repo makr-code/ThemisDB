@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::HardwareMigrationManager::DrainGuard</compoundname>
+    <includes refid="hardware__migration__manager_8h" local="no">hardware_migration_manager.h</includes>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1a18c674403351b065710cb710473957ba" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class HardwareMigrationManager</definition>
+        <argsstring></argsstring>
+        <name>HardwareMigrationManager</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::DrainGuard::HardwareMigrationManager</qualifiedname>
+        <param>
+          <type>HardwareMigrationManager</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="248" column="22" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1aea0c078388c252289a065e63369909ea" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1a18c674403351b065710cb710473957ba" kindref="member">HardwareMigrationManager</ref> *</type>
+        <definition>HardwareMigrationManager* themis::sharding::HardwareMigrationManager::DrainGuard::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::DrainGuard::mgr_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="251" column="34" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="251" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1a1871c965242b37aef087a217fdff9ac8" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::HardwareMigrationManager::DrainGuard::shard_id_</definition>
+        <argsstring></argsstring>
+        <name>shard_id_</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::DrainGuard::shard_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="252" column="21" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1afb2f40c2b051b915d44d41063b3dfcd0" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::HardwareMigrationManager::DrainGuard::active_</definition>
+        <argsstring></argsstring>
+        <name>active_</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::DrainGuard::active_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="253" column="14" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="253" bodyend="253"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1afc8f3a751650d48466ff7a51ef5b7499" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::HardwareMigrationManager::DrainGuard::DrainGuard</definition>
+        <argsstring>()=default</argsstring>
+        <name>DrainGuard</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::DrainGuard::DrainGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="240" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1aab2d7f020139a14be7dbc591122bc28e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::HardwareMigrationManager::DrainGuard::~DrainGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~DrainGuard</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::DrainGuard::~DrainGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="241" column="9" bodyfile="src/sharding/hardware_migration_manager.cpp" bodystart="363" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1a08c32773a3bb2f6a48ae38c4c540cfca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::HardwareMigrationManager::DrainGuard::DrainGuard</definition>
+        <argsstring>(const DrainGuard &amp;)=delete</argsstring>
+        <name>DrainGuard</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::DrainGuard::DrainGuard</qualifiedname>
+        <param>
+          <type>const DrainGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="242" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1abb02123811ce4ecf72bbe0ccad4b228a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1afc8f3a751650d48466ff7a51ef5b7499" kindref="member">DrainGuard</ref> &amp;</type>
+        <definition>DrainGuard &amp; themis::sharding::HardwareMigrationManager::DrainGuard::operator=</definition>
+        <argsstring>(const DrainGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::DrainGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1afc8f3a751650d48466ff7a51ef5b7499" kindref="member">DrainGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="243" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1af96c6b7b3dc8cf5564b1b92f70d1c23d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::HardwareMigrationManager::DrainGuard::DrainGuard</definition>
+        <argsstring>(DrainGuard &amp;&amp;) noexcept</argsstring>
+        <name>DrainGuard</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::DrainGuard::DrainGuard</qualifiedname>
+        <param>
+          <type>DrainGuard &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="244" column="9" bodyfile="src/sharding/hardware_migration_manager.cpp" bodystart="369" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1a0c4d071cf01c497622997efbee4ee045" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1afc8f3a751650d48466ff7a51ef5b7499" kindref="member">DrainGuard</ref> &amp;</type>
+        <definition>HardwareMigrationManager::DrainGuard &amp; themis::sharding::HardwareMigrationManager::DrainGuard::operator=</definition>
+        <argsstring>(DrainGuard &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::DrainGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1afc8f3a751650d48466ff7a51ef5b7499" kindref="member">DrainGuard</ref> &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="245" column="20" bodyfile="src/sharding/hardware_migration_manager.cpp" bodystart="378" bodyend="390"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1a59d13c1d365f1b9110412243a98fd123" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::HardwareMigrationManager::DrainGuard::DrainGuard</definition>
+        <argsstring>(HardwareMigrationManager *mgr, std::string shard_id)</argsstring>
+        <name>DrainGuard</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::DrainGuard::DrainGuard</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1a18c674403351b065710cb710473957ba" kindref="member">HardwareMigrationManager</ref> *</type>
+          <declname>mgr</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="249" column="9" bodyfile="src/sharding/hardware_migration_manager.cpp" bodystart="357" bodyend="361"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII guard that tracks one in-flight request for a shard. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Create one guard per request that is active during a migration drain. The guard increments the in-flight counter on construction and decrements it on destruction.</para>
+<para>Usage: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>guard<sp/>=<sp/>mgr.makeRequestGuard(</highlight><highlight class="stringliteral">&quot;shard-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>…<sp/>serve<sp/>the<sp/>request<sp/>…</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/sharding/hardware_migration_manager.h" line="238" column="5" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="238" bodyend="254"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1afb2f40c2b051b915d44d41063b3dfcd0" prot="private" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager::DrainGuard</scope><name>active_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1afc8f3a751650d48466ff7a51ef5b7499" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager::DrainGuard</scope><name>DrainGuard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1a08c32773a3bb2f6a48ae38c4c540cfca" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager::DrainGuard</scope><name>DrainGuard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1af96c6b7b3dc8cf5564b1b92f70d1c23d" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager::DrainGuard</scope><name>DrainGuard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1a59d13c1d365f1b9110412243a98fd123" prot="private" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager::DrainGuard</scope><name>DrainGuard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1a18c674403351b065710cb710473957ba" prot="private" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager::DrainGuard</scope><name>HardwareMigrationManager</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1aea0c078388c252289a065e63369909ea" prot="private" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager::DrainGuard</scope><name>mgr_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1abb02123811ce4ecf72bbe0ccad4b228a" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager::DrainGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1a0c4d071cf01c497622997efbee4ee045" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager::DrainGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1a1871c965242b37aef087a217fdff9ac8" prot="private" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager::DrainGuard</scope><name>shard_id_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard_1aab2d7f020139a14be7dbc591122bc28e" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager::DrainGuard</scope><name>~DrainGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

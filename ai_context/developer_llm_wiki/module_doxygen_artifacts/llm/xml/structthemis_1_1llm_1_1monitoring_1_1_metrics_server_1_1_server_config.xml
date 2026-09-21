@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::monitoring::MetricsServer::ServerConfig</compoundname>
+    <includes refid="grafana__metrics_8h" local="no">grafana_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a484a2c8d7b87308448e2ac0754f710b9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::monitoring::MetricsServer::ServerConfig::host</definition>
+        <argsstring></argsstring>
+        <name>host</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::ServerConfig::host</qualifiedname>
+        <initializer>= &quot;0.0.0.0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="560" column="21" bodyfile="include/llm/grafana_metrics.h" bodystart="560" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1aa990d2d384af0dc4734736338f18b415" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::monitoring::MetricsServer::ServerConfig::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::ServerConfig::port</qualifiedname>
+        <initializer>= 9090</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="561" column="13" bodyfile="include/llm/grafana_metrics.h" bodystart="561" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a9beba9088e2f8c3de2c2acc5785bc5b4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::monitoring::MetricsServer::ServerConfig::enable_cors</definition>
+        <argsstring></argsstring>
+        <name>enable_cors</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::ServerConfig::enable_cors</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="562" column="14" bodyfile="include/llm/grafana_metrics.h" bodystart="562" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1af5e7201514b8641c9635864def48ace8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::monitoring::MetricsServer::ServerConfig::metrics_path</definition>
+        <argsstring></argsstring>
+        <name>metrics_path</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::ServerConfig::metrics_path</qualifiedname>
+        <initializer>= &quot;/metrics&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="563" column="21" bodyfile="include/llm/grafana_metrics.h" bodystart="563" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a12ab6ae425fe9e18f06e6db122261c41" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::monitoring::MetricsServer::ServerConfig::dashboard_path</definition>
+        <argsstring></argsstring>
+        <name>dashboard_path</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::ServerConfig::dashboard_path</qualifiedname>
+        <initializer>= &quot;/dashboard&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="564" column="21" bodyfile="include/llm/grafana_metrics.h" bodystart="564" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a8791341eb458a5b13cc63b039f923df2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::monitoring::MetricsServer::ServerConfig::health_path</definition>
+        <argsstring></argsstring>
+        <name>health_path</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::ServerConfig::health_path</qualifiedname>
+        <initializer>= &quot;/health&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="565" column="21" bodyfile="include/llm/grafana_metrics.h" bodystart="565" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a1fe0cc3fb2dff7e4f54c990f4a0c8ab1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::monitoring::MetricsServer::ServerConfig::ready_path</definition>
+        <argsstring></argsstring>
+        <name>ready_path</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::ServerConfig::ready_path</qualifiedname>
+        <initializer>= &quot;/ready&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="566" column="21" bodyfile="include/llm/grafana_metrics.h" bodystart="566" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a9948c368e008e9f21c6a51f26794d8b2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::monitoring::MetricsServer::ServerConfig::models_path</definition>
+        <argsstring></argsstring>
+        <name>models_path</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::ServerConfig::models_path</qualifiedname>
+        <initializer>= &quot;/models&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="567" column="21" bodyfile="include/llm/grafana_metrics.h" bodystart="567" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a1e8a33b2c56875a09c6b8ff25b909dd5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::monitoring::MetricsServer::ServerConfig::admin_reload_path</definition>
+        <argsstring></argsstring>
+        <name>admin_reload_path</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::ServerConfig::admin_reload_path</qualifiedname>
+        <initializer>= &quot;/admin/models/reload&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="568" column="21" bodyfile="include/llm/grafana_metrics.h" bodystart="568" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a16b273f98f91c3805c7898faa24aaa34" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::monitoring::MetricsServer::ServerConfig::admin_simulate_path</definition>
+        <argsstring></argsstring>
+        <name>admin_simulate_path</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::ServerConfig::admin_simulate_path</qualifiedname>
+        <initializer>= &quot;/admin/prompt/simulate&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="569" column="21" bodyfile="include/llm/grafana_metrics.h" bodystart="569" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a025e20f432e2f72033366ae6867fd634" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::monitoring::MetricsServer::ServerConfig::admin_sessions_path</definition>
+        <argsstring></argsstring>
+        <name>admin_sessions_path</name>
+        <qualifiedname>themis::llm::monitoring::MetricsServer::ServerConfig::admin_sessions_path</qualifiedname>
+        <initializer>= &quot;/admin/sessions&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/grafana_metrics.h" line="570" column="21" bodyfile="include/llm/grafana_metrics.h" bodystart="570" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/grafana_metrics.h" line="559" column="5" bodyfile="include/llm/grafana_metrics.h" bodystart="559" bodyend="571"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a1e8a33b2c56875a09c6b8ff25b909dd5" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer::ServerConfig</scope><name>admin_reload_path</name></member>
+      <member refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a025e20f432e2f72033366ae6867fd634" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer::ServerConfig</scope><name>admin_sessions_path</name></member>
+      <member refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a16b273f98f91c3805c7898faa24aaa34" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer::ServerConfig</scope><name>admin_simulate_path</name></member>
+      <member refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a12ab6ae425fe9e18f06e6db122261c41" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer::ServerConfig</scope><name>dashboard_path</name></member>
+      <member refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a9beba9088e2f8c3de2c2acc5785bc5b4" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer::ServerConfig</scope><name>enable_cors</name></member>
+      <member refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a8791341eb458a5b13cc63b039f923df2" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer::ServerConfig</scope><name>health_path</name></member>
+      <member refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a484a2c8d7b87308448e2ac0754f710b9" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer::ServerConfig</scope><name>host</name></member>
+      <member refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1af5e7201514b8641c9635864def48ace8" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer::ServerConfig</scope><name>metrics_path</name></member>
+      <member refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a9948c368e008e9f21c6a51f26794d8b2" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer::ServerConfig</scope><name>models_path</name></member>
+      <member refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1aa990d2d384af0dc4734736338f18b415" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer::ServerConfig</scope><name>port</name></member>
+      <member refid="structthemis_1_1llm_1_1monitoring_1_1_metrics_server_1_1_server_config_1a1fe0cc3fb2dff7e4f54c990f4a0c8ab1" prot="public" virt="non-virtual"><scope>themis::llm::monitoring::MetricsServer::ServerConfig</scope><name>ready_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

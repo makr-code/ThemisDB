@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_signed_batch" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::SignedBatch</compoundname>
+    <includes refid="saga__logger_8h" local="no">saga_logger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_signed_batch_1a4840869917d2fb04d7becba6ba026f0d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SignedBatch::batch_id</definition>
+        <argsstring></argsstring>
+        <name>batch_id</name>
+        <qualifiedname>themis::utils::SignedBatch::batch_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="60" column="17" bodyfile="include/utils/saga_logger.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_signed_batch_1ac728c24ddd74649cf8b3913ea9a5ee0c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::SignedBatch::entry_count</definition>
+        <argsstring></argsstring>
+        <name>entry_count</name>
+        <qualifiedname>themis::utils::SignedBatch::entry_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="61" column="12" bodyfile="include/utils/saga_logger.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_signed_batch_1a83f53e92a9b7e93b49131d0387f82a05" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::utils::SignedBatch::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::utils::SignedBatch::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="62" column="43" bodyfile="include/utils/saga_logger.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_signed_batch_1a81adc027aee64393cad80fc99f8fdffa" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::utils::SignedBatch::end_time</definition>
+        <argsstring></argsstring>
+        <name>end_time</name>
+        <qualifiedname>themis::utils::SignedBatch::end_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="63" column="43" bodyfile="include/utils/saga_logger.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_signed_batch_1a80bf09dad15064907028aa976c051a90" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::SignedBatch::lek_id</definition>
+        <argsstring></argsstring>
+        <name>lek_id</name>
+        <qualifiedname>themis::utils::SignedBatch::lek_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="64" column="17" bodyfile="include/utils/saga_logger.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_signed_batch_1a7c234620e664bedf6be12bcb2cc7844d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::utils::SignedBatch::key_version</definition>
+        <argsstring></argsstring>
+        <name>key_version</name>
+        <qualifiedname>themis::utils::SignedBatch::key_version</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="65" column="14" bodyfile="include/utils/saga_logger.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_signed_batch_1a857d33f289f0b1502846123d0d2cc644" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::utils::SignedBatch::iv</definition>
+        <argsstring></argsstring>
+        <name>iv</name>
+        <qualifiedname>themis::utils::SignedBatch::iv</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="66" column="17" bodyfile="include/utils/saga_logger.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_signed_batch_1adec12b1d2f499392a45ec6aae1214c1c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::utils::SignedBatch::tag</definition>
+        <argsstring></argsstring>
+        <name>tag</name>
+        <qualifiedname>themis::utils::SignedBatch::tag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="67" column="17" bodyfile="include/utils/saga_logger.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_signed_batch_1a2727ec88f461f5d331a6fba276248fe5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::utils::SignedBatch::ciphertext_hash</definition>
+        <argsstring></argsstring>
+        <name>ciphertext_hash</name>
+        <qualifiedname>themis::utils::SignedBatch::ciphertext_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="68" column="17" bodyfile="include/utils/saga_logger.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_signed_batch_1a5ae805678853796cd870031a4e8d5a7f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_signature_result" kindref="compound">SignatureResult</ref></type>
+        <definition>SignatureResult themis::utils::SignedBatch::signature</definition>
+        <argsstring></argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::utils::SignedBatch::signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="69" column="21" bodyfile="include/utils/saga_logger.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_signed_batch_1ab90b533e846de0dfbfc5810a786b8cbd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::utils::SignedBatch::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::utils::SignedBatch::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="71" column="20" bodyfile="src/utils/saga_logger.cpp" bodystart="30" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_signed_batch_1a7ab3ee72141ebed53d2b8c2dba2daf0a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_signed_batch" kindref="compound">SignedBatch</ref></type>
+        <definition>SignedBatch themis::utils::SignedBatch::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::utils::SignedBatch::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), is_string(), is_number_integer(), is_number_unsigned(), get_str(), is_number(), get_i64(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/saga_logger.h" line="72" column="24" bodyfile="src/utils/saga_logger.cpp" bodystart="70" bodyend="127"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Signed batch metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::utils::SignatureResult</label>
+        <link refid="structthemis_1_1utils_1_1_signature_result"/>
+      </node>
+      <node id="1">
+        <label>themis::utils::SignedBatch</label>
+        <link refid="structthemis_1_1utils_1_1_signed_batch"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>signature</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/utils/saga_logger.h" line="59" column="1" bodyfile="include/utils/saga_logger.h" bodystart="59" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_signed_batch_1a4840869917d2fb04d7becba6ba026f0d" prot="public" virt="non-virtual"><scope>themis::utils::SignedBatch</scope><name>batch_id</name></member>
+      <member refid="structthemis_1_1utils_1_1_signed_batch_1a2727ec88f461f5d331a6fba276248fe5" prot="public" virt="non-virtual"><scope>themis::utils::SignedBatch</scope><name>ciphertext_hash</name></member>
+      <member refid="structthemis_1_1utils_1_1_signed_batch_1a81adc027aee64393cad80fc99f8fdffa" prot="public" virt="non-virtual"><scope>themis::utils::SignedBatch</scope><name>end_time</name></member>
+      <member refid="structthemis_1_1utils_1_1_signed_batch_1ac728c24ddd74649cf8b3913ea9a5ee0c" prot="public" virt="non-virtual"><scope>themis::utils::SignedBatch</scope><name>entry_count</name></member>
+      <member refid="structthemis_1_1utils_1_1_signed_batch_1a7ab3ee72141ebed53d2b8c2dba2daf0a" prot="public" virt="non-virtual"><scope>themis::utils::SignedBatch</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1utils_1_1_signed_batch_1a857d33f289f0b1502846123d0d2cc644" prot="public" virt="non-virtual"><scope>themis::utils::SignedBatch</scope><name>iv</name></member>
+      <member refid="structthemis_1_1utils_1_1_signed_batch_1a7c234620e664bedf6be12bcb2cc7844d" prot="public" virt="non-virtual"><scope>themis::utils::SignedBatch</scope><name>key_version</name></member>
+      <member refid="structthemis_1_1utils_1_1_signed_batch_1a80bf09dad15064907028aa976c051a90" prot="public" virt="non-virtual"><scope>themis::utils::SignedBatch</scope><name>lek_id</name></member>
+      <member refid="structthemis_1_1utils_1_1_signed_batch_1a5ae805678853796cd870031a4e8d5a7f" prot="public" virt="non-virtual"><scope>themis::utils::SignedBatch</scope><name>signature</name></member>
+      <member refid="structthemis_1_1utils_1_1_signed_batch_1a83f53e92a9b7e93b49131d0387f82a05" prot="public" virt="non-virtual"><scope>themis::utils::SignedBatch</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1utils_1_1_signed_batch_1adec12b1d2f499392a45ec6aae1214c1c" prot="public" virt="non-virtual"><scope>themis::utils::SignedBatch</scope><name>tag</name></member>
+      <member refid="structthemis_1_1utils_1_1_signed_batch_1ab90b533e846de0dfbfc5810a786b8cbd" prot="public" virt="non-virtual"><scope>themis::utils::SignedBatch</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

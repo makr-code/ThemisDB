@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_hsm_provider_env_guard" kind="struct" language="C++" prot="public">
+    <compoundname>HsmProviderEnvGuard</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_hsm_provider_env_guard_1a84e238a99bed3ee8d7196ebc72c94e08" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string HsmProviderEnvGuard::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>HsmProviderEnvGuard::name</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_provider.cpp" line="501" column="17" bodyfile="tests/security/test_hsm_provider.cpp" bodystart="501" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_hsm_provider_env_guard_1a274a07da29810fb20790533755f6062b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string HsmProviderEnvGuard::previous</definition>
+        <argsstring></argsstring>
+        <name>previous</name>
+        <qualifiedname>HsmProviderEnvGuard::previous</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_provider.cpp" line="502" column="17" bodyfile="tests/security/test_hsm_provider.cpp" bodystart="502" bodyend="502"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_hsm_provider_env_guard_1aa7a0e878a5ef7f0a62eaff24d72c248d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool HsmProviderEnvGuard::had_previous</definition>
+        <argsstring></argsstring>
+        <name>had_previous</name>
+        <qualifiedname>HsmProviderEnvGuard::had_previous</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_provider.cpp" line="503" column="10" bodyfile="tests/security/test_hsm_provider.cpp" bodystart="503" bodyend="503"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_hsm_provider_env_guard_1a0178a731a56721e9f1e40cbbe46e80c7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>HsmProviderEnvGuard::HsmProviderEnvGuard</definition>
+        <argsstring>(const std::string &amp;var_name, const std::string &amp;value)</argsstring>
+        <name>HsmProviderEnvGuard</name>
+        <qualifiedname>HsmProviderEnvGuard::HsmProviderEnvGuard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>var_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_provider.cpp" line="505" column="5" bodyfile="tests/security/test_hsm_provider.cpp" bodystart="505" bodyend="513"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_hsm_provider_env_guard_1a101dca7d6728fa781a9b9e6ec08d63ce" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>HsmProviderEnvGuard::~HsmProviderEnvGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~HsmProviderEnvGuard</name>
+        <qualifiedname>HsmProviderEnvGuard::~HsmProviderEnvGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_provider.cpp" line="515" column="5" bodyfile="tests/security/test_hsm_provider.cpp" bodystart="515" bodyend="521"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_hsm_provider.cpp" line="500" column="1" bodyfile="tests/security/test_hsm_provider.cpp" bodystart="500" bodyend="522"/>
+    <listofallmembers>
+      <member refid="struct_hsm_provider_env_guard_1aa7a0e878a5ef7f0a62eaff24d72c248d" prot="public" virt="non-virtual"><scope>HsmProviderEnvGuard</scope><name>had_previous</name></member>
+      <member refid="struct_hsm_provider_env_guard_1a0178a731a56721e9f1e40cbbe46e80c7" prot="public" virt="non-virtual"><scope>HsmProviderEnvGuard</scope><name>HsmProviderEnvGuard</name></member>
+      <member refid="struct_hsm_provider_env_guard_1a84e238a99bed3ee8d7196ebc72c94e08" prot="public" virt="non-virtual"><scope>HsmProviderEnvGuard</scope><name>name</name></member>
+      <member refid="struct_hsm_provider_env_guard_1a274a07da29810fb20790533755f6062b" prot="public" virt="non-virtual"><scope>HsmProviderEnvGuard</scope><name>previous</name></member>
+      <member refid="struct_hsm_provider_env_guard_1a101dca7d6728fa781a9b9e6ec08d63ce" prot="public" virt="non-virtual"><scope>HsmProviderEnvGuard</scope><name>~HsmProviderEnvGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

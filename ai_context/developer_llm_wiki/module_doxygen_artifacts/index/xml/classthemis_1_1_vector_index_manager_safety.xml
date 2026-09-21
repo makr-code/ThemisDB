@@ -1,0 +1,490 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_vector_index_manager_safety" kind="class" language="C++" prot="public">
+    <compoundname>themis::VectorIndexManagerSafety</compoundname>
+    <includes refid="vector__index__manager__safety_8h" local="no">vector_index_manager_safety.h</includes>
+    <innerclass refid="structthemis_1_1_vector_index_manager_safety_1_1_index_metadata" prot="private">themis::VectorIndexManagerSafety::IndexMetadata</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_vector_index_manager_safety_1a2007249237bc309004b08cce2a500ee5" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::VectorIndexManagerSafety::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::VectorIndexManagerSafety::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="160" column="24" bodyfile="include/index/vector_index_manager_safety.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_vector_index_manager_safety_1a09df233ad33eb3a5042e5233517fb66a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint32_t, IndexMetadata &gt;</type>
+        <definition>std::unordered_map&lt;uint32_t, IndexMetadata&gt; themis::VectorIndexManagerSafety::indices_</definition>
+        <argsstring></argsstring>
+        <name>indices_</name>
+        <qualifiedname>themis::VectorIndexManagerSafety::indices_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="161" column="24" bodyfile="include/index/vector_index_manager_safety.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_vector_index_manager_safety_1a44596fd611c2a8d1af7e720bd82166af" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::VectorIndexManagerSafety::next_id_</definition>
+        <argsstring></argsstring>
+        <name>next_id_</name>
+        <qualifiedname>themis::VectorIndexManagerSafety::next_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="162" column="14" bodyfile="include/index/vector_index_manager_safety.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_vector_index_manager_safety_1ad113b1ac405fa3a794da9ddfe460d30f" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint32_t, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;uint32_t, uint64_t&gt; themis::VectorIndexManagerSafety::generation_map_</definition>
+        <argsstring></argsstring>
+        <name>generation_map_</name>
+        <qualifiedname>themis::VectorIndexManagerSafety::generation_map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="163" column="24" bodyfile="include/index/vector_index_manager_safety.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_vector_index_manager_safety_1a5e9e80447b3809aaca1ce9a05d2b4476" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::VectorIndexManagerSafety::VectorIndexManagerSafety</definition>
+        <argsstring>()</argsstring>
+        <name>VectorIndexManagerSafety</name>
+        <qualifiedname>themis::VectorIndexManagerSafety::VectorIndexManagerSafety</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="81" column="5" bodyfile="src/index/vector_index_manager_safety.cpp" bodystart="45" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_index_manager_safety_1af4d386c653aef2121dae5a56c744c2d6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::VectorIndexManagerSafety::~VectorIndexManagerSafety</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~VectorIndexManagerSafety</name>
+        <qualifiedname>themis::VectorIndexManagerSafety::~VectorIndexManagerSafety</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="82" column="5" bodyfile="src/index/vector_index_manager_safety.cpp" bodystart="49" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_index_manager_safety_1ac03e74e6ed396fa8a9d02cd9e826dbce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_vector_index_handle" kindref="compound">VectorIndexHandle</ref></type>
+        <definition>VectorIndexHandle themis::VectorIndexManagerSafety::CreateIndex</definition>
+        <argsstring>(const std::string &amp;name, uint32_t dimension)</argsstring>
+        <name>CreateIndex</name>
+        <qualifiedname>themis::VectorIndexManagerSafety::CreateIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>dimension</declname>
+        </param>
+        <briefdescription>
+<para>Create a vector index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Index.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector dimension </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Handle for safe index access </para>
+</simplesect>
+<simplesect kind="note"><para>Gap A-2-05: Returns handle instead of raw iterator</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), THEMIS_DEBUG(), VectorIndexHandle(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="91" column="23" bodyfile="src/index/vector_index_manager_safety.cpp" bodystart="68" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_index_manager_safety_1a075f91c6b4d501f8d99447fc9428a209" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::VectorIndexManagerSafety::RemoveVectorIndex</definition>
+        <argsstring>(uint32_t index_id)</argsstring>
+        <name>RemoveVectorIndex</name>
+        <qualifiedname>themis::VectorIndexManagerSafety::RemoveVectorIndex</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>index_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove a vector index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Vector Index.</para>
+<para>Invalidates all handles to this index by incrementing its generation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID of index to remove </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if index was removed, false if not found </para>
+</simplesect>
+<simplesect kind="note"><para>Gap A-2-06: Generation increment invalidates all existing handles</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the index. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_WARN(), erase(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="102" column="10" bodyfile="src/index/vector_index_manager_safety.cpp" bodystart="94" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_index_manager_safety_1a2f33d9a6b799180ba47caeb4ceff59cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::VectorIndexManagerSafety::UpdateVectorIndex</definition>
+        <argsstring>(uint32_t index_id)</argsstring>
+        <name>UpdateVectorIndex</name>
+        <qualifiedname>themis::VectorIndexManagerSafety::UpdateVectorIndex</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>index_id</declname>
+        </param>
+        <briefdescription>
+<para>Update a vector index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Vector Index.</para>
+<para>May trigger internal reorganization. Uses snapshot pattern to prevent iterator invalidation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index to update </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if update succeeded </para>
+</simplesect>
+<simplesect kind="note"><para>Gap A-2-07: Snapshot-based rebuild for iterator safety</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the index. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_WARN(), THEMIS_DEBUG(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="114" column="10" bodyfile="src/index/vector_index_manager_safety.cpp" bodystart="120" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_index_manager_safety_1a19a73bc49f5ca909f78896962042e2ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_vector_index_data" kindref="compound">VectorIndexData</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; VectorIndexData &gt; themis::VectorIndexManagerSafety::GetIndexByHandle</definition>
+        <argsstring>(const VectorIndexHandle &amp;handle)</argsstring>
+        <name>GetIndexByHandle</name>
+        <qualifiedname>themis::VectorIndexManagerSafety::GetIndexByHandle</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_vector_index_handle" kindref="compound">VectorIndexHandle</ref> &amp;</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Get index by handle (safe access). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Index By Handle.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Previously obtained index handle </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Shared pointer to index data if valid, nullptr if invalidated </para>
+</simplesect>
+<simplesect kind="note"><para>Gap A-2-08: Validates handle and detects invalidation</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="122" column="21" bodyfile="src/index/vector_index_manager_safety.cpp" bodystart="169" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_index_manager_safety_1af75236f2e06cc6d3c316e69d0dda55b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_vector_index_data" kindref="compound">VectorIndexData</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; VectorIndexData &gt; themis::VectorIndexManagerSafety::GetIndexById</definition>
+        <argsstring>(uint32_t index_id)</argsstring>
+        <name>GetIndexById</name>
+        <qualifiedname>themis::VectorIndexManagerSafety::GetIndexById</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>index_id</declname>
+        </param>
+        <briefdescription>
+<para>Get index by ID (fallback access pattern). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Index By Id.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Shared pointer to index data, or nullptr if not found </para>
+</simplesect>
+<simplesect kind="note"><para>Stable ID-based lookup for iterator safety</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the index. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="130" column="21" bodyfile="src/index/vector_index_manager_safety.cpp" bodystart="198" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_index_manager_safety_1afe4c9d79bd547abd1ffe0a83587d5dd4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint32_t &gt;</type>
+        <definition>std::vector&lt; uint32_t &gt; themis::VectorIndexManagerSafety::GetIndexIds</definition>
+        <argsstring>() const</argsstring>
+        <name>GetIndexIds</name>
+        <qualifiedname>themis::VectorIndexManagerSafety::GetIndexIds</qualifiedname>
+        <briefdescription>
+<para>Get all index IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of current index IDs </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="136" column="17" bodyfile="src/index/vector_index_manager_safety.cpp" bodystart="209" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_index_manager_safety_1aaf450ad764585d6e93beb4202f903003" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::VectorIndexManagerSafety::GetIndexCount</definition>
+        <argsstring>() const</argsstring>
+        <name>GetIndexCount</name>
+        <qualifiedname>themis::VectorIndexManagerSafety::GetIndexCount</qualifiedname>
+        <briefdescription>
+<para>Get index count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of active indices </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="142" column="12" bodyfile="src/index/vector_index_manager_safety.cpp" bodystart="226" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vector_index_manager_safety_1a4cdb0030c658ad5877aab2686dbc56f4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::VectorIndexManagerSafety::CurrentGeneration</definition>
+        <argsstring>(uint32_t index_id) const</argsstring>
+        <name>CurrentGeneration</name>
+        <qualifiedname>themis::VectorIndexManagerSafety::CurrentGeneration</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>index_id</declname>
+        </param>
+        <briefdescription>
+<para>Get current generation for an index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Index identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Current generation value (0 if not found) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="149" column="14" bodyfile="src/index/vector_index_manager_safety.cpp" bodystart="236" bodyend="250"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Safe wrapper for <ref refid="classthemis_1_1_vector_index_manager" kindref="compound">VectorIndexManager</ref> with iterator safety. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Features:<itemizedlist>
+<listitem><para>Replace raw iterators with stable handles</para>
+</listitem><listitem><para>Automatic invalidation detection on index removal</para>
+</listitem><listitem><para>Fallback to stable ID-based lookup patterns</para>
+</listitem><listitem><para>Exception safety during iterator cleanup</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="note"><para>Gaps A-2-05 to A-2-08: Complete iterator safety for vector indices </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/index/vector_index_manager_safety.h" line="79" column="1" bodyfile="include/index/vector_index_manager_safety.h" bodystart="79" bodyend="164"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_vector_index_manager_safety_1ac03e74e6ed396fa8a9d02cd9e826dbce" prot="public" virt="non-virtual"><scope>themis::VectorIndexManagerSafety</scope><name>CreateIndex</name></member>
+      <member refid="classthemis_1_1_vector_index_manager_safety_1a4cdb0030c658ad5877aab2686dbc56f4" prot="public" virt="non-virtual"><scope>themis::VectorIndexManagerSafety</scope><name>CurrentGeneration</name></member>
+      <member refid="classthemis_1_1_vector_index_manager_safety_1ad113b1ac405fa3a794da9ddfe460d30f" prot="private" virt="non-virtual"><scope>themis::VectorIndexManagerSafety</scope><name>generation_map_</name></member>
+      <member refid="classthemis_1_1_vector_index_manager_safety_1a19a73bc49f5ca909f78896962042e2ed" prot="public" virt="non-virtual"><scope>themis::VectorIndexManagerSafety</scope><name>GetIndexByHandle</name></member>
+      <member refid="classthemis_1_1_vector_index_manager_safety_1af75236f2e06cc6d3c316e69d0dda55b9" prot="public" virt="non-virtual"><scope>themis::VectorIndexManagerSafety</scope><name>GetIndexById</name></member>
+      <member refid="classthemis_1_1_vector_index_manager_safety_1aaf450ad764585d6e93beb4202f903003" prot="public" virt="non-virtual"><scope>themis::VectorIndexManagerSafety</scope><name>GetIndexCount</name></member>
+      <member refid="classthemis_1_1_vector_index_manager_safety_1afe4c9d79bd547abd1ffe0a83587d5dd4" prot="public" virt="non-virtual"><scope>themis::VectorIndexManagerSafety</scope><name>GetIndexIds</name></member>
+      <member refid="classthemis_1_1_vector_index_manager_safety_1a09df233ad33eb3a5042e5233517fb66a" prot="private" virt="non-virtual"><scope>themis::VectorIndexManagerSafety</scope><name>indices_</name></member>
+      <member refid="classthemis_1_1_vector_index_manager_safety_1a2007249237bc309004b08cce2a500ee5" prot="private" virt="non-virtual"><scope>themis::VectorIndexManagerSafety</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1_vector_index_manager_safety_1a44596fd611c2a8d1af7e720bd82166af" prot="private" virt="non-virtual"><scope>themis::VectorIndexManagerSafety</scope><name>next_id_</name></member>
+      <member refid="classthemis_1_1_vector_index_manager_safety_1a075f91c6b4d501f8d99447fc9428a209" prot="public" virt="non-virtual"><scope>themis::VectorIndexManagerSafety</scope><name>RemoveVectorIndex</name></member>
+      <member refid="classthemis_1_1_vector_index_manager_safety_1a2f33d9a6b799180ba47caeb4ceff59cb" prot="public" virt="non-virtual"><scope>themis::VectorIndexManagerSafety</scope><name>UpdateVectorIndex</name></member>
+      <member refid="classthemis_1_1_vector_index_manager_safety_1a5e9e80447b3809aaca1ce9a05d2b4476" prot="public" virt="non-virtual"><scope>themis::VectorIndexManagerSafety</scope><name>VectorIndexManagerSafety</name></member>
+      <member refid="classthemis_1_1_vector_index_manager_safety_1af4d386c653aef2121dae5a56c744c2d6" prot="public" virt="non-virtual"><scope>themis::VectorIndexManagerSafety</scope><name>~VectorIndexManagerSafety</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

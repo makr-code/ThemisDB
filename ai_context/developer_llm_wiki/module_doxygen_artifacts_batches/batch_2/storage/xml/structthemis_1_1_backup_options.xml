@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_backup_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::BackupOptions</compoundname>
+    <includes refid="backup__manager_8h" local="no">backup_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_backup_options_1a245882454208c0c0d4274d2f60ebcc15" prot="public" static="no" mutable="no">
+        <type><ref refid="group__storage_1ga735a2b5f31bda6737b967fde9d418947" kindref="member">CompressionType</ref></type>
+        <definition>CompressionType themis::BackupOptions::compression</definition>
+        <argsstring></argsstring>
+        <name>compression</name>
+        <qualifiedname>themis::BackupOptions::compression</qualifiedname>
+        <initializer>= <ref refid="group__storage_1gga735a2b5f31bda6737b967fde9d418947ab50339a10e1de285ac99d4c3990b8693" kindref="member">CompressionType::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="111" column="21" bodyfile="include/storage/backup_manager.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_backup_options_1a6debe973fbf5290b9e9fef88dc2d0fc3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::BackupOptions::encrypt</definition>
+        <argsstring></argsstring>
+        <name>encrypt</name>
+        <qualifiedname>themis::BackupOptions::encrypt</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="112" column="10" bodyfile="include/storage/backup_manager.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_backup_options_1a7101cc24f5cc72ab5ef4929d6addff30" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::BackupOptions::encryption_key</definition>
+        <argsstring></argsstring>
+        <name>encryption_key</name>
+        <qualifiedname>themis::BackupOptions::encryption_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="113" column="17" bodyfile="include/storage/backup_manager.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_backup_options_1a8bfc0338078e516499b391fc7f79779a" prot="public" static="no" mutable="no">
+        <type><ref refid="group__storage_1gaf7e7cc47cbb8962dec1c4013af54c72d" kindref="member">StorageBackend</ref></type>
+        <definition>StorageBackend themis::BackupOptions::storage</definition>
+        <argsstring></argsstring>
+        <name>storage</name>
+        <qualifiedname>themis::BackupOptions::storage</qualifiedname>
+        <initializer>= <ref refid="group__storage_1ggaf7e7cc47cbb8962dec1c4013af54c72da54b4c4075463b2e02cd69f5cd139b5b2" kindref="member">StorageBackend::LOCAL</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="114" column="20" bodyfile="include/storage/backup_manager.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_backup_options_1a2c436eff8c74c23ccff9e297803e208c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::BackupOptions::storage_path</definition>
+        <argsstring></argsstring>
+        <name>storage_path</name>
+        <qualifiedname>themis::BackupOptions::storage_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="115" column="17" bodyfile="include/storage/backup_manager.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_backup_options_1a2887b5fd8917e66b20a9ca8cd7d8e88e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::BackupOptions::verify_after_backup</definition>
+        <argsstring></argsstring>
+        <name>verify_after_backup</name>
+        <qualifiedname>themis::BackupOptions::verify_after_backup</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="116" column="10" bodyfile="include/storage/backup_manager.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_backup_options_1a719ec449139a4416e189289299f38e9f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::BackupOptions::retention_days</definition>
+        <argsstring></argsstring>
+        <name>retention_days</name>
+        <qualifiedname>themis::BackupOptions::retention_days</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="117" column="14" bodyfile="include/storage/backup_manager.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_backup_options_1ad164de793b3f33144968d8b5bbe7893f" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::BackupOptions::cloud_config</definition>
+        <argsstring></argsstring>
+        <name>cloud_config</name>
+        <qualifiedname>themis::BackupOptions::cloud_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="118" column="14" bodyfile="include/storage/backup_manager.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime options that control backup creation, transport, and retention. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/backup_manager.h" line="110" column="1" bodyfile="include/storage/backup_manager.h" bodystart="110" bodyend="119"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_backup_options_1ad164de793b3f33144968d8b5bbe7893f" prot="public" virt="non-virtual"><scope>themis::BackupOptions</scope><name>cloud_config</name></member>
+      <member refid="structthemis_1_1_backup_options_1a245882454208c0c0d4274d2f60ebcc15" prot="public" virt="non-virtual"><scope>themis::BackupOptions</scope><name>compression</name></member>
+      <member refid="structthemis_1_1_backup_options_1a6debe973fbf5290b9e9fef88dc2d0fc3" prot="public" virt="non-virtual"><scope>themis::BackupOptions</scope><name>encrypt</name></member>
+      <member refid="structthemis_1_1_backup_options_1a7101cc24f5cc72ab5ef4929d6addff30" prot="public" virt="non-virtual"><scope>themis::BackupOptions</scope><name>encryption_key</name></member>
+      <member refid="structthemis_1_1_backup_options_1a719ec449139a4416e189289299f38e9f" prot="public" virt="non-virtual"><scope>themis::BackupOptions</scope><name>retention_days</name></member>
+      <member refid="structthemis_1_1_backup_options_1a8bfc0338078e516499b391fc7f79779a" prot="public" virt="non-virtual"><scope>themis::BackupOptions</scope><name>storage</name></member>
+      <member refid="structthemis_1_1_backup_options_1a2c436eff8c74c23ccff9e297803e208c" prot="public" virt="non-virtual"><scope>themis::BackupOptions</scope><name>storage_path</name></member>
+      <member refid="structthemis_1_1_backup_options_1a2887b5fd8917e66b20a9ca8cd7d8e88e" prot="public" virt="non-virtual"><scope>themis::BackupOptions</scope><name>verify_after_backup</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

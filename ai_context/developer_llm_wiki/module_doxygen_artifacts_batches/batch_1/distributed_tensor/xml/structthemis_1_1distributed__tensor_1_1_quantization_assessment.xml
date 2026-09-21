@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_quantization_assessment" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::QuantizationAssessment</compoundname>
+    <includes refid="tensor__storage__strategy_8h" local="no">tensor_storage_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_quantization_assessment_1a14e14a0e37825121c66aa96a35a433b0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1aeb000aa969dcae0497341269cc4d42fc" kindref="member">QuantizationLevel</ref></type>
+        <definition>QuantizationLevel themis::distributed_tensor::QuantizationAssessment::recommended_level</definition>
+        <argsstring></argsstring>
+        <name>recommended_level</name>
+        <qualifiedname>themis::distributed_tensor::QuantizationAssessment::recommended_level</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1distributed__tensor_1aeb000aa969dcae0497341269cc4d42fca44ad4ef5a76e6aa6fb3e3fa079a54fda" kindref="member">QuantizationLevel::F32</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="122" column="23" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_quantization_assessment_1a3f1fdfb2cf407a844db7c157c98adfab" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_tensor::QuantizationAssessment::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::distributed_tensor::QuantizationAssessment::compression_ratio</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="124" column="12" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_quantization_assessment_1aaca4792657555c568ac14b1b57026473" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_tensor::QuantizationAssessment::estimated_l2_error</definition>
+        <argsstring></argsstring>
+        <name>estimated_l2_error</name>
+        <qualifiedname>themis::distributed_tensor::QuantizationAssessment::estimated_l2_error</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="126" column="12" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_quantization_assessment_1a68f5424a6781630ad4c8cd50922f3d78" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::QuantizationAssessment::rationale</definition>
+        <argsstring></argsstring>
+        <name>rationale</name>
+        <qualifiedname>themis::distributed_tensor::QuantizationAssessment::rationale</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="128" column="17" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_quantization_assessment_1a68b5e4beb27d2cc0d7cc2177f98beedf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::distributed_tensor::QuantizationAssessment::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::distributed_tensor::QuantizationAssessment::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="130" column="17" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/tensor_storage_strategy.h" line="121" column="1" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="121" bodyend="131"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_quantization_assessment_1a3f1fdfb2cf407a844db7c157c98adfab" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::QuantizationAssessment</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_quantization_assessment_1aaca4792657555c568ac14b1b57026473" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::QuantizationAssessment</scope><name>estimated_l2_error</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_quantization_assessment_1a68f5424a6781630ad4c8cd50922f3d78" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::QuantizationAssessment</scope><name>rationale</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_quantization_assessment_1a14e14a0e37825121c66aa96a35a433b0" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::QuantizationAssessment</scope><name>recommended_level</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_quantization_assessment_1a68b5e4beb27d2cc0d7cc2177f98beedf" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::QuantizationAssessment</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

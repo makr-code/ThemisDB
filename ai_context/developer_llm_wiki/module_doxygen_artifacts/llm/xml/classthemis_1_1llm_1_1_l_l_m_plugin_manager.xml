@@ -1,0 +1,2139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_l_l_m_plugin_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::LLMPluginManager</compoundname>
+    <includes refid="llm__plugin__manager_8h" local="no">llm_plugin_manager.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_plugin_statistics" prot="public">themis::llm::LLMPluginManager::PluginStatistics</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_cache_statistics" prot="public">themis::llm::LLMPluginManager::CacheStatistics</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_health_status" prot="public">themis::llm::LLMPluginManager::HealthStatus</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_s_s_m_state_store_config" prot="public">themis::llm::LLMPluginManager::SSMStateStoreConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_plugin_entry" prot="private">themis::llm::LLMPluginManager::PluginEntry</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a23b6ab2415339a65137b0f6b3292a436" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;session_id)&gt;</type>
+        <definition>using themis::llm::LLMPluginManager::CancelSessionCallback = std::function&lt;bool(const std::string&amp; session_id)&gt;</definition>
+        <argsstring></argsstring>
+        <name>CancelSessionCallback</name>
+        <qualifiedname>themis::llm::LLMPluginManager::CancelSessionCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="282" column="5" bodyfile="include/llm/llm_plugin_manager.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a297db318a75de2e6e83579756717e8cd" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, PluginEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, PluginEntry&gt; themis::llm::LLMPluginManager::plugins_</definition>
+        <argsstring></argsstring>
+        <name>plugins_</name>
+        <qualifiedname>themis::llm::LLMPluginManager::plugins_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="375" column="24" bodyfile="include/llm/llm_plugin_manager.h" bodystart="375" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a5af22c814b76fdadab3cdddf483d3974" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMPluginManager::default_plugin_name_</definition>
+        <argsstring></argsstring>
+        <name>default_plugin_name_</name>
+        <qualifiedname>themis::llm::LLMPluginManager::default_plugin_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="376" column="17" bodyfile="include/llm/llm_plugin_manager.h" bodystart="376" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1aa46ff7ab67ff80b895727128593005c8" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::LLMPluginManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::LLMPluginManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="377" column="24" bodyfile="include/llm/llm_plugin_manager.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a9bab130db2129fc2842de2e421a0fa44" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::llm::LLMPluginManager::plugin_operation_count_</definition>
+        <argsstring></argsstring>
+        <name>plugin_operation_count_</name>
+        <qualifiedname>themis::llm::LLMPluginManager::plugin_operation_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="383" column="17" bodyfile="include/llm/llm_plugin_manager.h" bodystart="383" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a914d7846b19aeb8960d0acc6c86cf37d" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_active_v_r_a_m_allocator" kindref="compound">ActiveVRAMAllocator</ref></type>
+        <definition>ActiveVRAMAllocator themis::llm::LLMPluginManager::vram_allocator_</definition>
+        <argsstring></argsstring>
+        <name>vram_allocator_</name>
+        <qualifiedname>themis::llm::LLMPluginManager::vram_allocator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="385" column="25" bodyfile="include/llm/llm_plugin_manager.h" bodystart="385" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1aca25458737882e92ebefe5dcef087943" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::LLMPluginManager::vram_mutex_</definition>
+        <argsstring></argsstring>
+        <name>vram_mutex_</name>
+        <qualifiedname>themis::llm::LLMPluginManager::vram_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="390" column="24" bodyfile="include/llm/llm_plugin_manager.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a512f09ceb23ff5bd3ea84e757c40bef5" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_allocation_handle" kindref="compound">ActiveVRAMAllocator::AllocationHandle</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ActiveVRAMAllocator::AllocationHandle&gt; themis::llm::LLMPluginManager::vram_handles_</definition>
+        <argsstring></argsstring>
+        <name>vram_handles_</name>
+        <qualifiedname>themis::llm::LLMPluginManager::vram_handles_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="392" column="24" bodyfile="include/llm/llm_plugin_manager.h" bodystart="392" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a7d1e53cca011b6be1319483325e01fe0" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a23b6ab2415339a65137b0f6b3292a436" kindref="member">CancelSessionCallback</ref></type>
+        <definition>CancelSessionCallback themis::llm::LLMPluginManager::cancel_session_cb_</definition>
+        <argsstring></argsstring>
+        <name>cancel_session_cb_</name>
+        <qualifiedname>themis::llm::LLMPluginManager::cancel_session_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="394" column="27" bodyfile="include/llm/llm_plugin_manager.h" bodystart="394" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1aaa4bbf04de13fc973f86c7c61e473807" prot="private" static="no" mutable="no">
+        <type>distributed_knowledge::GossipAdapterPublisher *</type>
+        <definition>distributed_knowledge::GossipAdapterPublisher* themis::llm::LLMPluginManager::adapter_publisher_</definition>
+        <argsstring></argsstring>
+        <name>adapter_publisher_</name>
+        <qualifiedname>themis::llm::LLMPluginManager::adapter_publisher_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="395" column="51" bodyfile="include/llm/llm_plugin_manager.h" bodystart="395" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a0f54bedb9d70ec02cfee02684269509d" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMPluginManager::local_shard_id_</definition>
+        <argsstring></argsstring>
+        <name>local_shard_id_</name>
+        <qualifiedname>themis::llm::LLMPluginManager::local_shard_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="397" column="17" bodyfile="include/llm/llm_plugin_manager.h" bodystart="397" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ad572245ab4ed310e6fa2d02d53cad8fa" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_s_s_m_state_rocks_d_b_store" kindref="compound">SSMStateRocksDBStore</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SSMStateRocksDBStore&gt; themis::llm::LLMPluginManager::state_store_</definition>
+        <argsstring></argsstring>
+        <name>state_store_</name>
+        <qualifiedname>themis::llm::LLMPluginManager::state_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="399" column="21" bodyfile="include/llm/llm_plugin_manager.h" bodystart="399" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a213bdb9d27bc3cccb2fb60b085cb566a" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; rocksdb::TransactionDB &gt;</type>
+        <definition>std::unique_ptr&lt;rocksdb::TransactionDB&gt; themis::llm::LLMPluginManager::owned_state_db_</definition>
+        <argsstring></argsstring>
+        <name>owned_state_db_</name>
+        <qualifiedname>themis::llm::LLMPluginManager::owned_state_db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="401" column="21" bodyfile="include/llm/llm_plugin_manager.h" bodystart="401" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a27ff9cc88d9ae592ab1bee23205db6a8" prot="private" static="no" mutable="no">
+        <type>rocksdb::TransactionDB *</type>
+        <definition>rocksdb::TransactionDB* themis::llm::LLMPluginManager::state_db_</definition>
+        <argsstring></argsstring>
+        <name>state_db_</name>
+        <qualifiedname>themis::llm::LLMPluginManager::state_db_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="403" column="28" bodyfile="include/llm/llm_plugin_manager.h" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a2e3b80576f659459a74be3572ed2e418" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::llm::LLMPluginManager::state_cf_</definition>
+        <argsstring></argsstring>
+        <name>state_cf_</name>
+        <qualifiedname>themis::llm::LLMPluginManager::state_cf_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="405" column="33" bodyfile="include/llm/llm_plugin_manager.h" bodystart="405" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1adf345e252a29d4248c8607c79c33a3ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LLMPluginManager::LLMPluginManager</definition>
+        <argsstring>()</argsstring>
+        <name>LLMPluginManager</name>
+        <qualifiedname>themis::llm::LLMPluginManager::LLMPluginManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="38" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a8248692a71069271dd60e2a13e1ec66f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LLMPluginManager::~LLMPluginManager</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~LLMPluginManager</name>
+        <qualifiedname>themis::llm::LLMPluginManager::~LLMPluginManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="39" column="5" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="39" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a1d792d70a0f697b0f15d65e653c37601" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::LLMPluginManager::LLMPluginManager</definition>
+        <argsstring>(const LLMPluginManager &amp;)=delete</argsstring>
+        <name>LLMPluginManager</name>
+        <qualifiedname>themis::llm::LLMPluginManager::LLMPluginManager</qualifiedname>
+        <param>
+          <type>const <ref refid="class_l_l_m_plugin_manager" kindref="compound">LLMPluginManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="42" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a41d47d9c01f110097f1f2eaf12573dea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_l_l_m_plugin_manager" kindref="compound">LLMPluginManager</ref> &amp;</type>
+        <definition>LLMPluginManager &amp; themis::llm::LLMPluginManager::operator=</definition>
+        <argsstring>(const LLMPluginManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::LLMPluginManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_l_l_m_plugin_manager" kindref="compound">LLMPluginManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="43" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a77d4a3004760a9483ea9aa9f1c8dbf49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMPluginManager::registerPlugin</definition>
+        <argsstring>(const std::string &amp;name, std::unique_ptr&lt; ILLMPlugin &gt; plugin)</argsstring>
+        <name>registerPlugin</name>
+        <qualifiedname>themis::llm::LLMPluginManager::registerPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; ILLMPlugin &gt;</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+<para>Register Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), spdlog::warn(), std::move(), fetch_add(), empty(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="50" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="65" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a810cfd8c579cc6306e99de47010196a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMPluginManager::unregisterPlugin</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>unregisterPlugin</name>
+        <qualifiedname>themis::llm::LLMPluginManager::unregisterPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Unregister Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), spdlog::warn(), clear(), empty(), spdlog::info(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="59" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="105" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a31f7cf2ab2184de55594a34e11257c8c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>ILLMPlugin *</type>
+        <definition>ILLMPlugin * themis::llm::LLMPluginManager::getPlugin</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getPlugin</name>
+        <qualifiedname>themis::llm::LLMPluginManager::getPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="66" column="16" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="134" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ac631f99340e86ea5a95167ba6a68bfa0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>ILLMPlugin *</type>
+        <definition>ILLMPlugin * themis::llm::LLMPluginManager::getDefaultPlugin</definition>
+        <argsstring>() const</argsstring>
+        <name>getDefaultPlugin</name>
+        <qualifiedname>themis::llm::LLMPluginManager::getDefaultPlugin</qualifiedname>
+        <briefdescription>
+<para>Get Default Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="72" column="16" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="150" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a49313a9fbf88cf5e7d4c3d1fb2bdbaeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMPluginManager::setDefaultPlugin</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>setDefaultPlugin</name>
+        <qualifiedname>themis::llm::LLMPluginManager::setDefaultPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Set Default Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="78" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="179" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a29ac6e4b3bf016f42133f9cb78d22e0b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::LLMPluginManager::listPlugins</definition>
+        <argsstring>() const</argsstring>
+        <name>listPlugins</name>
+        <qualifiedname>themis::llm::LLMPluginManager::listPlugins</qualifiedname>
+        <briefdescription>
+<para>List Plugins. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="84" column="17" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="190" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ac8ab61c5c01b72c09c6edf61661ff5a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMPluginManager::hasPlugin</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>hasPlugin</name>
+        <qualifiedname>themis::llm::LLMPluginManager::hasPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Has Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="91" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="210" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1aff900522049b0bc18f2b857cf2cf6350" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::LLMPluginManager::getAggregatedCapabilities</definition>
+        <argsstring>() const</argsstring>
+        <name>getAggregatedCapabilities</name>
+        <qualifiedname>themis::llm::LLMPluginManager::getAggregatedCapabilities</qualifiedname>
+        <briefdescription>
+<para>Get Aggregated Capabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="97" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="220" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1affc88b5bc9f612f98b7cf6235acf1b0b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::LLMPluginManager::getAggregatedStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getAggregatedStats</name>
+        <qualifiedname>themis::llm::LLMPluginManager::getAggregatedStats</qualifiedname>
+        <briefdescription>
+<para>Get Aggregated Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="103" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="285" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a553b72956aa08cda9d84e2d94e8909c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse themis::llm::LLMPluginManager::generate</definition>
+        <argsstring>(const InferenceRequest &amp;request)</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::llm::LLMPluginManager::generate</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Convenience methods (delegate to default plugin) ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Convenience methods ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ac631f99340e86ea5a95167ba6a68bfa0" kindref="member">getDefaultPlugin()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="117" column="23" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="351" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a354495d77817ae221344effaaa2b2eae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse themis::llm::LLMPluginManager::generateRAG</definition>
+        <argsstring>(const RAGContext &amp;rag_context, const InferenceRequest &amp;request)</argsstring>
+        <name>generateRAG</name>
+        <qualifiedname>themis::llm::LLMPluginManager::generateRAG</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_r_a_g_context" kindref="compound">RAGContext</ref> &amp;</type>
+          <declname>rag_context</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Generate RAG. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rag_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rag_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(), empty(), size(), <ref refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ac631f99340e86ea5a95167ba6a68bfa0" kindref="member">getDefaultPlugin()</ref>, spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="125" column="23" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="368" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ae6003dabdfc99dae9da9e952eafc5f2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::LLMPluginManager::embed</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>embed</name>
+        <qualifiedname>themis::llm::LLMPluginManager::embed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Embed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ac631f99340e86ea5a95167ba6a68bfa0" kindref="member">getDefaultPlugin()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="135" column="17" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="406" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a91e8e7e5093be8eb6cb69de528267a1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMPluginManager::loadModel</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;path)</argsstring>
+        <name>loadModel</name>
+        <qualifiedname>themis::llm::LLMPluginManager::loadModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Convenience wrappers for model management. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Model.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), spdlog::error(), std::getenv(), model_root_str(), fs::canonical(), fs::path(), clear(), fs::weakly_canonical(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="143" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="422" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a5abe562fa90256a72ec25ed413217eb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMPluginManager::unloadModel</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>unloadModel</name>
+        <qualifiedname>themis::llm::LLMPluginManager::unloadModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Unload Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), find(), end(), free(), erase(), getDefaultPluginLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="148" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="520" bodyend="539"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a118ead9e9ce0aa724744ae2e6a12d47d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::LLMPluginManager::listModels</definition>
+        <argsstring>() const</argsstring>
+        <name>listModels</name>
+        <qualifiedname>themis::llm::LLMPluginManager::listModels</qualifiedname>
+        <briefdescription>
+<para>List Models. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="153" column="17" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="541" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1aefb1851eed28c8859e92870785c4bcc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMPluginManager::loadLoRA</definition>
+        <argsstring>(const std::string &amp;lora_id, const std::string &amp;path, const std::string &amp;base_model)</argsstring>
+        <name>loadLoRA</name>
+        <qualifiedname>themis::llm::LLMPluginManager::loadLoRA</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model</declname>
+        </param>
+        <briefdescription>
+<para>Convenience wrappers for LoRA management. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Lo RA.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the lora. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the lora. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), spdlog::error(), <ref refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ac631f99340e86ea5a95167ba6a68bfa0" kindref="member">getDefaultPlugin()</ref>, lock(), std::move(), announce(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="162" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="573" bodyend="613"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1aadfe06bc2fd2e0addbffe97092c2076a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMPluginManager::unloadLoRA</definition>
+        <argsstring>(const std::string &amp;lora_id)</argsstring>
+        <name>unloadLoRA</name>
+        <qualifiedname>themis::llm::LLMPluginManager::unloadLoRA</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lora_id</declname>
+        </param>
+        <briefdescription>
+<para>Unload Lo RA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the lora. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lora_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the lora. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ac631f99340e86ea5a95167ba6a68bfa0" kindref="member">getDefaultPlugin()</ref>, lock(), std::move(), announce(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="168" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="622" bodyend="652"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a9d44824f90a9705e659598c2cbfb0da3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_lo_r_a_info" kindref="compound">LoRAInfo</ref> &gt;</type>
+        <definition>std::vector&lt; LoRAInfo &gt; themis::llm::LLMPluginManager::listLoRAs</definition>
+        <argsstring>() const</argsstring>
+        <name>listLoRAs</name>
+        <qualifiedname>themis::llm::LLMPluginManager::listLoRAs</qualifiedname>
+        <briefdescription>
+<para>List Lo RAs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="173" column="17" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="654" bodyend="666"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1af41e69a034291278d52b800e4019b211" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::LLMPluginManager::generateStream</definition>
+        <argsstring>(const InferenceRequest &amp;request)</argsstring>
+        <name>generateStream</name>
+        <qualifiedname>themis::llm::LLMPluginManager::generateStream</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Streaming and ingestion helpers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Stream.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ac631f99340e86ea5a95167ba6a68bfa0" kindref="member">getDefaultPlugin()</ref>, <ref refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a553b72956aa08cda9d84e2d94e8909c7" kindref="member">generate()</ref>, iss(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="180" column="17" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="675" bodyend="689"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a90dcf5dad01b198c0f7c8b3f88df62bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMPluginManager::ingestModel</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;data)</argsstring>
+        <name>ingestModel</name>
+        <qualifiedname>themis::llm::LLMPluginManager::ingestModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Ingest Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a91e8e7e5093be8eb6cb69de528267a1a" kindref="member">loadModel()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="187" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="698" bodyend="701"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a93df35f8640fd3384c886baac5214224" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_model_info" kindref="compound">ModelInfo</ref> &gt;</type>
+        <definition>std::optional&lt; ModelInfo &gt; themis::llm::LLMPluginManager::getModelInfo</definition>
+        <argsstring>(const std::string &amp;model_id) const</argsstring>
+        <name>getModelInfo</name>
+        <qualifiedname>themis::llm::LLMPluginManager::getModelInfo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Model Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="193" column="19" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="703" bodyend="716"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1abbe5e5bac04c5bb4c51be8ec03fa1e5b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::LLMPluginManager::getPluginOperationCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getPluginOperationCount</name>
+        <qualifiedname>themis::llm::LLMPluginManager::getPluginOperationCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="195" column="14" bodyfile="include/llm/llm_plugin_manager.h" bodystart="195" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a95a76123b9fbf1f8782f3ff7cd4eb9ba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_plugin_statistics" kindref="compound">PluginStatistics</ref></type>
+        <definition>LLMPluginManager::PluginStatistics themis::llm::LLMPluginManager::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::llm::LLMPluginManager::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="258" column="22" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="718" bodyend="736"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ae0d9d425dab1d7a6fdccb4de17c8777b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_cache_statistics" kindref="compound">CacheStatistics</ref></type>
+        <definition>LLMPluginManager::CacheStatistics themis::llm::LLMPluginManager::getCacheStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getCacheStatistics</name>
+        <qualifiedname>themis::llm::LLMPluginManager::getCacheStatistics</qualifiedname>
+        <briefdescription>
+<para>Get Cache Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="263" column="21" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="738" bodyend="741"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1af0bd98186cc18723980f941ee9077ddf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_health_status" kindref="compound">HealthStatus</ref></type>
+        <definition>LLMPluginManager::HealthStatus themis::llm::LLMPluginManager::getHealthStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealthStatus</name>
+        <qualifiedname>themis::llm::LLMPluginManager::getHealthStatus</qualifiedname>
+        <briefdescription>
+<para>Get Health Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="268" column="18" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="743" bodyend="760"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1af61aba5b9eeecc9173d397e867dec947" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMPluginManager::clearAllCaches</definition>
+        <argsstring>()</argsstring>
+        <name>clearAllCaches</name>
+        <qualifiedname>themis::llm::LLMPluginManager::clearAllCaches</qualifiedname>
+        <briefdescription>
+<para>Clear All Caches. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1llm_1_1_embedded_l_l_m_manager_1a4b0a0a02fd5131ec90e36a4fa4fd916a" kindref="member">EmbeddedLLMManager::instance()</ref>, isInitialized(), get(), clearCache(), spdlog::info(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="272" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="791" bodyend="802"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a4a2323c6a0848d293ec53d1036edbae0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_active_v_r_a_m_allocator_1_1_stats" kindref="compound">ActiveVRAMAllocator::Stats</ref></type>
+        <definition>ActiveVRAMAllocator::Stats themis::llm::LLMPluginManager::getVRAMStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getVRAMStats</name>
+        <qualifiedname>themis::llm::LLMPluginManager::getVRAMStats</qualifiedname>
+        <briefdescription>
+<para>Get VRAMStats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="278" column="32" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="762" bodyend="764"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1aef5acc31cce9bac11aaad4b318a5d975" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMPluginManager::setCancelSessionCallback</definition>
+        <argsstring>(CancelSessionCallback cb)</argsstring>
+        <name>setCancelSessionCallback</name>
+        <qualifiedname>themis::llm::LLMPluginManager::setCancelSessionCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a23b6ab2415339a65137b0f6b3292a436" kindref="member">CancelSessionCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Set Cancel Session Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ MSW: MetricsServer Admin Callback Wiring ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="288" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="925" bodyend="934"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a8367f83d4c872914b70d43e2d9e405ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMPluginManager::wireMetricsServerCallbacks</definition>
+        <argsstring>(monitoring::MetricsServer &amp;server)</argsstring>
+        <name>wireMetricsServerCallbacks</name>
+        <qualifiedname>themis::llm::LLMPluginManager::wireMetricsServerCallbacks</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server" kindref="compound">monitoring::MetricsServer</ref> &amp;</type>
+          <declname>server</declname>
+        </param>
+        <briefdescription>
+<para>Wire Metrics Server Callbacks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">server</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="294" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="940" bodyend="1049"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ac1c0c7b889f43018d1ac3c4bfc820d8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::LLMPluginManager::setAdapterPublisher</definition>
+        <argsstring>(distributed_knowledge::GossipAdapterPublisher *publisher, std::string local_shard_id=&quot;&quot;)</argsstring>
+        <name>setAdapterPublisher</name>
+        <qualifiedname>themis::llm::LLMPluginManager::setAdapterPublisher</qualifiedname>
+        <param>
+          <type>distributed_knowledge::GossipAdapterPublisher *</type>
+          <declname>publisher</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>local_shard_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Set Adapter Publisher. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">publisher</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">local_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the local shard. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="295" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="771" bodyend="785"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a1ca65626904e4910b619074c79ec8586" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMPluginManager::initializeStateStore</definition>
+        <argsstring>(const SSMStateStoreConfig &amp;config)</argsstring>
+        <name>initializeStateStore</name>
+        <qualifiedname>themis::llm::LLMPluginManager::initializeStateStore</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_l_l_m_plugin_manager_1_1_s_s_m_state_store_config" kindref="compound">SSMStateStoreConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ SSM State Store Management (P2-D04 / P2-D05 Runtime Integration) ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════════════════════ SSM State Store Management (P2-D04 / P2-D05 Runtime Integration) ═══════════════════════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), spdlog::info(), empty(), std::filesystem::create_directories(), rocksdb::TransactionDB::Open(), ok(), ToString(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="305" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="1060" bodyend="1150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a97d9457d396cd48ac5cce15d5b696199" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMPluginManager::checkpointState</definition>
+        <argsstring>(const std::string &amp;session_id, const SSMStateSnapshot &amp;snapshot)</argsstring>
+        <name>checkpointState</name>
+        <qualifiedname>themis::llm::LLMPluginManager::checkpointState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot" kindref="compound">SSMStateSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Checkpoint State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), empty(), checkpoint(), spdlog::debug(), spdlog::warn(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="313" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="1160" bodyend="1183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a6d1753f1957990866cf4577aabe51c21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot" kindref="compound">SSMStateSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt; SSMStateSnapshot &gt; themis::llm::LLMPluginManager::recoverState</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>recoverState</name>
+        <qualifiedname>themis::llm::LLMPluginManager::recoverState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Recover State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), empty(), resume(), spdlog::debug(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="320" column="19" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="1192" bodyend="1213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a081f30e4fcea72d57a5d2e7958e0e3bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMPluginManager::invalidateState</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>invalidateState</name>
+        <qualifiedname>themis::llm::LLMPluginManager::invalidateState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), empty(), invalidate(), spdlog::debug(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="327" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="1222" bodyend="1243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a0e75b9e5d9eb26c13651f8610c6521fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::LLMPluginManager::compactStateStore</definition>
+        <argsstring>()</argsstring>
+        <name>compactStateStore</name>
+        <qualifiedname>themis::llm::LLMPluginManager::compactStateStore</qualifiedname>
+        <briefdescription>
+<para>Compact State Store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), compact(), spdlog::info(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="333" column="14" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="1250" bodyend="1266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1aec0ede73163d997a422674b4bf328047" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMPluginManager::getStateStoreStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStateStoreStatistics</name>
+        <qualifiedname>themis::llm::LLMPluginManager::getStateStoreStatistics</qualifiedname>
+        <briefdescription>
+<para>Get State Store Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="339" column="17" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="1268" bodyend="1286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ad5b80fb13ceda7c4f689bb4f9868d2f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; ILLMPlugin &gt;</type>
+        <definition>std::unique_ptr&lt; ILLMPlugin &gt; themis::llm::LLMPluginManager::CreatePluginSafe</definition>
+        <argsstring>(const std::string &amp;plugin_name, const std::string &amp;config_json=&quot;&quot;)</argsstring>
+        <name>CreatePluginSafe</name>
+        <qualifiedname>themis::llm::LLMPluginManager::CreatePluginSafe</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_json</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════════════════════ PHASE2 CRITICAL GAPS: Exception-safe plugin creation and validation ═══════════════════════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the plugin. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), spdlog::error(), spdlog::debug(), size(), spdlog::info(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="341" column="21" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="1298" bodyend="1336"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a4adbab3dd927c82301a3fae9d96fed00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMPluginManager::InitializePluginSafe</definition>
+        <argsstring>(const std::string &amp;name, std::unique_ptr&lt; ILLMPlugin &gt; &amp;plugin)</argsstring>
+        <name>InitializePluginSafe</name>
+        <qualifiedname>themis::llm::LLMPluginManager::InitializePluginSafe</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; ILLMPlugin &gt; &amp;</type>
+          <declname>plugin</declname>
+        </param>
+        <briefdescription>
+<para>Initialize Plugin Safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::error(), spdlog::info(), what(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="352" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="1346" bodyend="1370"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a0881af257cdc000237c790626f93b5fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::LLMPluginManager::ValidateModelState</definition>
+        <argsstring>(const std::string &amp;model_id)</argsstring>
+        <name>ValidateModelState</name>
+        <qualifiedname>themis::llm::LLMPluginManager::ValidateModelState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Validate Model State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), getDefaultPluginLocked(), spdlog::error(), <ref refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a93df35f8640fd3384c886baac5214224" kindref="member">getModelInfo()</ref>, spdlog::warn(), spdlog::debug(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="362" column="10" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="1378" bodyend="1406"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a711a359d70511e182cac239dd6b6af74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int32_t &gt;</type>
+        <definition>std::vector&lt; int32_t &gt; themis::llm::LLMPluginManager::ProcessTokensSafe</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;tokens, size_t max_tokens=8192)</argsstring>
+        <name>ProcessTokensSafe</name>
+        <qualifiedname>themis::llm::LLMPluginManager::ProcessTokensSafe</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>tokens</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_tokens</declname>
+          <defval>8192</defval>
+        </param>
+        <briefdescription>
+<para>Process Tokens Safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), spdlog::error(), reserve(), size(), spdlog::warn(), push_back(), spdlog::debug(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="364" column="17" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="1416" bodyend="1458"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1acd865f6941d469b6fb0ccf9cb2368311" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_l_l_m_plugin_manager" kindref="compound">LLMPluginManager</ref> &amp;</type>
+        <definition>LLMPluginManager &amp; themis::llm::LLMPluginManager::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::llm::LLMPluginManager::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::call_once(), setOOMCallback(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="109" column="29" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="318" bodyend="341"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ac6f29d747311460b0ed3e8f17e159d50" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>ILLMPlugin *</type>
+        <definition>ILLMPlugin * themis::llm::LLMPluginManager::getDefaultPluginLocked</definition>
+        <argsstring>() const</argsstring>
+        <name>getDefaultPluginLocked</name>
+        <qualifiedname>themis::llm::LLMPluginManager::getDefaultPluginLocked</qualifiedname>
+        <briefdescription>
+<para>Get Default Plugin Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_manager.h" line="411" column="16" bodyfile="src/llm/llm_plugin_manager.cpp" bodystart="160" bodyend="171"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_plugin_manager.h" line="36" column="1" bodyfile="include/llm/llm_plugin_manager.h" bodystart="36" bodyend="412"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1aaa4bbf04de13fc973f86c7c61e473807" prot="private" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>adapter_publisher_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a7d1e53cca011b6be1319483325e01fe0" prot="private" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>cancel_session_cb_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a23b6ab2415339a65137b0f6b3292a436" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>CancelSessionCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a97d9457d396cd48ac5cce15d5b696199" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>checkpointState</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1af61aba5b9eeecc9173d397e867dec947" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>clearAllCaches</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a0e75b9e5d9eb26c13651f8610c6521fd" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>compactStateStore</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ad5b80fb13ceda7c4f689bb4f9868d2f1" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>CreatePluginSafe</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a5af22c814b76fdadab3cdddf483d3974" prot="private" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>default_plugin_name_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ae6003dabdfc99dae9da9e952eafc5f2b" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>embed</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a553b72956aa08cda9d84e2d94e8909c7" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>generate</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a354495d77817ae221344effaaa2b2eae" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>generateRAG</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1af41e69a034291278d52b800e4019b211" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>generateStream</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1aff900522049b0bc18f2b857cf2cf6350" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>getAggregatedCapabilities</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1affc88b5bc9f612f98b7cf6235acf1b0b" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>getAggregatedStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ae0d9d425dab1d7a6fdccb4de17c8777b" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>getCacheStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ac631f99340e86ea5a95167ba6a68bfa0" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>getDefaultPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ac6f29d747311460b0ed3e8f17e159d50" prot="private" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>getDefaultPluginLocked</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1af0bd98186cc18723980f941ee9077ddf" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a93df35f8640fd3384c886baac5214224" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>getModelInfo</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a31f7cf2ab2184de55594a34e11257c8c" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>getPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1abbe5e5bac04c5bb4c51be8ec03fa1e5b" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>getPluginOperationCount</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1aec0ede73163d997a422674b4bf328047" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>getStateStoreStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a95a76123b9fbf1f8782f3ff7cd4eb9ba" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a4a2323c6a0848d293ec53d1036edbae0" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>getVRAMStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ac8ab61c5c01b72c09c6edf61661ff5a9" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>hasPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a90dcf5dad01b198c0f7c8b3f88df62bb" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>ingestModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a4adbab3dd927c82301a3fae9d96fed00" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>InitializePluginSafe</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a1ca65626904e4910b619074c79ec8586" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>initializeStateStore</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1acd865f6941d469b6fb0ccf9cb2368311" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>instance</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a081f30e4fcea72d57a5d2e7958e0e3bc" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>invalidateState</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a9d44824f90a9705e659598c2cbfb0da3" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>listLoRAs</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a118ead9e9ce0aa724744ae2e6a12d47d" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>listModels</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a29ac6e4b3bf016f42133f9cb78d22e0b" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>listPlugins</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1adf345e252a29d4248c8607c79c33a3ff" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>LLMPluginManager</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a1d792d70a0f697b0f15d65e653c37601" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>LLMPluginManager</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1aefb1851eed28c8859e92870785c4bcc0" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>loadLoRA</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a91e8e7e5093be8eb6cb69de528267a1a" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>loadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a0f54bedb9d70ec02cfee02684269509d" prot="private" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>local_shard_id_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1aa46ff7ab67ff80b895727128593005c8" prot="private" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a41d47d9c01f110097f1f2eaf12573dea" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a213bdb9d27bc3cccb2fb60b085cb566a" prot="private" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>owned_state_db_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a9bab130db2129fc2842de2e421a0fa44" prot="private" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>plugin_operation_count_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a297db318a75de2e6e83579756717e8cd" prot="private" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>plugins_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a711a359d70511e182cac239dd6b6af74" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>ProcessTokensSafe</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a6d1753f1957990866cf4577aabe51c21" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>recoverState</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a77d4a3004760a9483ea9aa9f1c8dbf49" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>registerPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ac1c0c7b889f43018d1ac3c4bfc820d8a" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>setAdapterPublisher</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1aef5acc31cce9bac11aaad4b318a5d975" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>setCancelSessionCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a49313a9fbf88cf5e7d4c3d1fb2bdbaeb" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>setDefaultPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a2e3b80576f659459a74be3572ed2e418" prot="private" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>state_cf_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a27ff9cc88d9ae592ab1bee23205db6a8" prot="private" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>state_db_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1ad572245ab4ed310e6fa2d02d53cad8fa" prot="private" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>state_store_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1aadfe06bc2fd2e0addbffe97092c2076a" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>unloadLoRA</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a5abe562fa90256a72ec25ed413217eb8" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>unloadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a810cfd8c579cc6306e99de47010196a9" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>unregisterPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a0881af257cdc000237c790626f93b5fa" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>ValidateModelState</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a914d7846b19aeb8960d0acc6c86cf37d" prot="private" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>vram_allocator_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a512f09ceb23ff5bd3ea84e757c40bef5" prot="private" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>vram_handles_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1aca25458737882e92ebefe5dcef087943" prot="private" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>vram_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a8367f83d4c872914b70d43e2d9e405ef" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>wireMetricsServerCallbacks</name></member>
+      <member refid="classthemis_1_1llm_1_1_l_l_m_plugin_manager_1a8248692a71069271dd60e2a13e1ec66f" prot="public" virt="non-virtual"><scope>themis::llm::LLMPluginManager</scope><name>~LLMPluginManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

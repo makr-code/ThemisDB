@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_module_sandbox_1_1_platform_handle" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::ModuleSandbox::PlatformHandle</compoundname>
+    <innerclass refid="structthemis_1_1modules_1_1_module_sandbox_1_1_platform_handle_1_1saved__mem__limit" prot="public">themis::modules::ModuleSandbox::PlatformHandle::saved_mem_limit</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_module_sandbox_1_1_platform_handle_1_1saved__cpu__limit" prot="public">themis::modules::ModuleSandbox::PlatformHandle::saved_cpu_limit</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_sandbox_1_1_platform_handle_1a7ef1c73a5201fe59ac84891d048984e2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleSandbox::PlatformHandle::cgroup_path</definition>
+        <argsstring></argsstring>
+        <name>cgroup_path</name>
+        <qualifiedname>themis::modules::ModuleSandbox::PlatformHandle::cgroup_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/base/module_sandbox.cpp" line="278" column="17" bodyfile="src/base/module_sandbox.cpp" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_sandbox_1_1_platform_handle_1ae6aaa7689b5876960376a225c2a38faf" prot="public" static="no" mutable="no">
+        <type>pid_t</type>
+        <definition>pid_t themis::modules::ModuleSandbox::PlatformHandle::target_pid</definition>
+        <argsstring></argsstring>
+        <name>target_pid</name>
+        <qualifiedname>themis::modules::ModuleSandbox::PlatformHandle::target_pid</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/base/module_sandbox.cpp" line="280" column="11" bodyfile="src/base/module_sandbox.cpp" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_sandbox_1_1_platform_handle_1a50646864f70455c1a34db4363ba30013" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleSandbox::PlatformHandle::mem_limit_applied</definition>
+        <argsstring></argsstring>
+        <name>mem_limit_applied</name>
+        <qualifiedname>themis::modules::ModuleSandbox::PlatformHandle::mem_limit_applied</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/base/module_sandbox.cpp" line="283" column="10" bodyfile="src/base/module_sandbox.cpp" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_sandbox_1_1_platform_handle_1a31ccce2681532d9a03454f06b18670cf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleSandbox::PlatformHandle::cpu_limit_applied</definition>
+        <argsstring></argsstring>
+        <name>cpu_limit_applied</name>
+        <qualifiedname>themis::modules::ModuleSandbox::PlatformHandle::cpu_limit_applied</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/base/module_sandbox.cpp" line="285" column="10" bodyfile="src/base/module_sandbox.cpp" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_sandbox_1_1_platform_handle_1a4e9dc8ad2797b84d784b22d4626b2bd8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleSandbox::PlatformHandle::cgroup_v2_active</definition>
+        <argsstring></argsstring>
+        <name>cgroup_v2_active</name>
+        <qualifiedname>themis::modules::ModuleSandbox::PlatformHandle::cgroup_v2_active</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/base/module_sandbox.cpp" line="287" column="10" bodyfile="src/base/module_sandbox.cpp" bodystart="287" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/base/module_sandbox.cpp" line="273" column="1" bodyfile="src/base/module_sandbox.cpp" bodystart="273" bodyend="289"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_module_sandbox_1_1_platform_handle_1a7ef1c73a5201fe59ac84891d048984e2" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSandbox::PlatformHandle</scope><name>cgroup_path</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_sandbox_1_1_platform_handle_1a4e9dc8ad2797b84d784b22d4626b2bd8" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSandbox::PlatformHandle</scope><name>cgroup_v2_active</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_sandbox_1_1_platform_handle_1a31ccce2681532d9a03454f06b18670cf" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSandbox::PlatformHandle</scope><name>cpu_limit_applied</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_sandbox_1_1_platform_handle_1a50646864f70455c1a34db4363ba30013" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSandbox::PlatformHandle</scope><name>mem_limit_applied</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_sandbox_1_1_platform_handle_1ae6aaa7689b5876960376a225c2a38faf" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSandbox::PlatformHandle</scope><name>target_pid</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

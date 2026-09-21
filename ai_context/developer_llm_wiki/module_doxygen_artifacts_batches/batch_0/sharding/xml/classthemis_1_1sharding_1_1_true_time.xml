@@ -1,0 +1,551 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_true_time" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::TrueTime</compoundname>
+    <includes refid="truetime_8h" local="no">truetime.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_true_time_1_1_config" prot="public">themis::sharding::TrueTime::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_true_time_1a3dcb2aac67e0c3a3f30b1954eb6852ed" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_true_time_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::TrueTime::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::TrueTime::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="193" column="12" bodyfile="include/sharding/truetime.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_true_time_1ab72c68e88f030dbede9d4a94f1794245" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::TrueTime::uncertainty_ns_</definition>
+        <argsstring></argsstring>
+        <name>uncertainty_ns_</name>
+        <qualifiedname>themis::sharding::TrueTime::uncertainty_ns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="196" column="25" bodyfile="include/sharding/truetime.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_true_time_1a153ebdab07756d082ad2b99d3a440bf1" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::sharding::TrueTime::drift_ns_</definition>
+        <argsstring></argsstring>
+        <name>drift_ns_</name>
+        <qualifiedname>themis::sharding::TrueTime::drift_ns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="199" column="25" bodyfile="include/sharding/truetime.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_true_time_1a1ab33b41792e04874723ab323c525ca8" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::TrueTime::last_sync_ns_</definition>
+        <argsstring></argsstring>
+        <name>last_sync_ns_</name>
+        <qualifiedname>themis::sharding::TrueTime::last_sync_ns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="202" column="25" bodyfile="include/sharding/truetime.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_true_time_1add4aaf6beadbf13faa96bb99790e01e6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::sharding::TrueTime::sync_thread_running_</definition>
+        <argsstring></argsstring>
+        <name>sync_thread_running_</name>
+        <qualifiedname>themis::sharding::TrueTime::sync_thread_running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="205" column="17" bodyfile="include/sharding/truetime.h" bodystart="205" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_true_time_1a100b8d82b0c287afd502d4dd26797d7a" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::sharding::TrueTime::sync_thread_</definition>
+        <argsstring></argsstring>
+        <name>sync_thread_</name>
+        <qualifiedname>themis::sharding::TrueTime::sync_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="206" column="17" bodyfile="include/sharding/truetime.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_true_time_1a9d039040e81cac7cf60290d581b15159" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::TrueTime::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::TrueTime::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="208" column="24" bodyfile="include/sharding/truetime.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_true_time_1aadfe7c2b354d5bf3dbc3e5b572d5b40e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::TrueTime::TrueTime</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>TrueTime</name>
+        <qualifiedname>themis::sharding::TrueTime::TrueTime</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_true_time_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="127" column="14" bodyfile="src/sharding/truetime.cpp" bodystart="40" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_true_time_1a322d7e297e1bd21070b2da5fdd764cb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::TrueTime::~TrueTime</definition>
+        <argsstring>()</argsstring>
+        <name>~TrueTime</name>
+        <qualifiedname>themis::sharding::TrueTime::~TrueTime</qualifiedname>
+        <briefdescription>
+<para>Destructor; stops synchronization thread if active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="130" column="5" bodyfile="src/sharding/truetime.cpp" bodystart="59" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_true_time_1a13bb555244983ae5f35291c918b97e31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::TrueTime::TrueTime</definition>
+        <argsstring>(const TrueTime &amp;)=delete</argsstring>
+        <name>TrueTime</name>
+        <qualifiedname>themis::sharding::TrueTime::TrueTime</qualifiedname>
+        <param>
+          <type>const TrueTime &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="133" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_true_time_1a25fa9825b0e26ace63b9e9c9a8abad2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_true_time_1aadfe7c2b354d5bf3dbc3e5b572d5b40e" kindref="member">TrueTime</ref> &amp;</type>
+        <definition>TrueTime &amp; themis::sharding::TrueTime::operator=</definition>
+        <argsstring>(const TrueTime &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::TrueTime::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1sharding_1_1_true_time_1aadfe7c2b354d5bf3dbc3e5b572d5b40e" kindref="member">TrueTime</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="134" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_true_time_1a4818ccb44db16afa0172cf15ecf70085" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_t_t_interval" kindref="compound">TTInterval</ref></type>
+        <definition>TTInterval themis::sharding::TrueTime::now</definition>
+        <argsstring>() const</argsstring>
+        <name>now</name>
+        <qualifiedname>themis::sharding::TrueTime::now</qualifiedname>
+        <briefdescription>
+<para>Get current time as an interval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_t_t_interval" kindref="compound">TTInterval</ref> representing current time with uncertainty </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="140" column="16" bodyfile="src/sharding/truetime.cpp" bodystart="63" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_true_time_1a6f7dc701bd5145d4f9148d941a31854c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_t_t_interval" kindref="compound">TTInterval</ref></type>
+        <definition>TTInterval themis::sharding::TrueTime::now_with_uncertainty</definition>
+        <argsstring>() const</argsstring>
+        <name>now_with_uncertainty</name>
+        <qualifiedname>themis::sharding::TrueTime::now_with_uncertainty</qualifiedname>
+        <briefdescription>
+<para>Get current time as an interval with explicit uncertainty bounds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Convenience alias for <ref refid="classthemis_1_1sharding_1_1_true_time_1a4818ccb44db16afa0172cf15ecf70085" kindref="member">now()</ref> that emphasises the [earliest, latest] semantics used by the Percolator commit-wait protocol:</para>
+<para>auto tt = truetime-&gt;<ref refid="classthemis_1_1sharding_1_1_true_time_1a6f7dc701bd5145d4f9148d941a31854c" kindref="member">now_with_uncertainty()</ref>; // commit_ts = tt.latest // wait until TT.now().earliest &gt; commit_ts + max_uncertainty</para>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1sharding_1_1_t_t_interval" kindref="compound">TTInterval</ref> with earliest = now - epsilon, latest = now + epsilon </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="154" column="16" bodyfile="src/sharding/truetime.cpp" bodystart="121" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_true_time_1aab4de9daa1bdceb64cedabf51885af0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::TrueTime::waitUntil</definition>
+        <argsstring>(std::chrono::nanoseconds timestamp)</argsstring>
+        <name>waitUntil</name>
+        <qualifiedname>themis::sharding::TrueTime::waitUntil</qualifiedname>
+        <param>
+          <type>std::chrono::nanoseconds</type>
+          <declname>timestamp</declname>
+        </param>
+        <briefdescription>
+<para>Wait until a specific timestamp is definitely in the past. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Wait Until.</para>
+<para>This is the key operation for distributed transactions: After calling waitUntil(t), we know that t &lt; TT.now().earliest</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The timestamp to wait for</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1sharding_1_1_true_time_1a4818ccb44db16afa0172cf15ecf70085" kindref="member">now()</ref>, uncertainty(), count(), std::chrono::milliseconds(), std::min(), std::this_thread::sleep_for(), std::this_thread::yield(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="164" column="10" bodyfile="src/sharding/truetime.cpp" bodystart="84" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_true_time_1abb1ffca145eebbb152990dcbe549bee5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::nanoseconds</type>
+        <definition>std::chrono::nanoseconds themis::sharding::TrueTime::getUncertainty</definition>
+        <argsstring>() const</argsstring>
+        <name>getUncertainty</name>
+        <qualifiedname>themis::sharding::TrueTime::getUncertainty</qualifiedname>
+        <briefdescription>
+<para>Get the current uncertainty bound. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current epsilon (half-width of uncertainty interval) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="170" column="30" bodyfile="src/sharding/truetime.cpp" bodystart="128" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_true_time_1abacd81923f4e17820193f3c0994d8fd3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::nanoseconds</type>
+        <definition>std::chrono::nanoseconds themis::sharding::TrueTime::getDrift</definition>
+        <argsstring>() const</argsstring>
+        <name>getDrift</name>
+        <qualifiedname>themis::sharding::TrueTime::getDrift</qualifiedname>
+        <briefdescription>
+<para>Get clock drift since last sync. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Estimated drift in nanoseconds </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="176" column="30" bodyfile="src/sharding/truetime.cpp" bodystart="132" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_true_time_1a39b628c519b42230e720f536a0a1e482" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::TrueTime::syncNow</definition>
+        <argsstring>()</argsstring>
+        <name>syncNow</name>
+        <qualifiedname>themis::sharding::TrueTime::syncNow</qualifiedname>
+        <briefdescription>
+<para>Force immediate clock synchronization attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sync Now.</para>
+<para><simplesect kind="return"><para>true when synchronization succeeded or local fallback was applied.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: performSync(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="181" column="10" bodyfile="src/sharding/truetime.cpp" bodystart="141" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_true_time_1a194a7bf7d439cb140ff6ef22ea802a6a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::TrueTime::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::sharding::TrueTime::getStats</qualifiedname>
+        <briefdescription>
+<para>Return JSON statistics for sync/uncertainty state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="184" column="17" bodyfile="src/sharding/truetime.cpp" bodystart="145" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_true_time_1af885c0d6fe69f8becc8ce1e7fe2bbba4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::TrueTime::startSyncThread</definition>
+        <argsstring>()</argsstring>
+        <name>startSyncThread</name>
+        <qualifiedname>themis::sharding::TrueTime::startSyncThread</qualifiedname>
+        <briefdescription>
+<para>Start background clock synchronization thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start Sync Thread.</para>
+<para>Calls: exchange(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="187" column="10" bodyfile="src/sharding/truetime.cpp" bodystart="160" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_true_time_1aec07f7dbb5f7c68696a37c91a6bbf321" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::TrueTime::stopSyncThread</definition>
+        <argsstring>()</argsstring>
+        <name>stopSyncThread</name>
+        <qualifiedname>themis::sharding::TrueTime::stopSyncThread</qualifiedname>
+        <briefdescription>
+<para>Stop background clock synchronization thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop Sync Thread.</para>
+<para>Calls: exchange(), themis::utils::joinThreadWithin(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="190" column="10" bodyfile="src/sharding/truetime.cpp" bodystart="172" bodyend="181"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_true_time_1a6eabf2fba6e09c45cb15ce5540861cea" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::nanoseconds</type>
+        <definition>std::chrono::nanoseconds themis::sharding::TrueTime::getSystemTime</definition>
+        <argsstring>() const</argsstring>
+        <name>getSystemTime</name>
+        <qualifiedname>themis::sharding::TrueTime::getSystemTime</qualifiedname>
+        <briefdescription>
+<para>Get raw system time. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>System time in nanoseconds since epoch </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="214" column="30" bodyfile="src/sharding/truetime.cpp" bodystart="183" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_true_time_1ae0eb1e9e68aba8e5251cf8f05817a01b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::TrueTime::performSync</definition>
+        <argsstring>()</argsstring>
+        <name>performSync</name>
+        <qualifiedname>themis::sharding::TrueTime::performSync</qualifiedname>
+        <briefdescription>
+<para>Synchronize with NTP servers Updates drift and uncertainty estimates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Perform Sync.</para>
+<para><simplesect kind="return"><para>True if sync was successful</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), store(), reserve(), size(), queryNTPServer(), push_back(), load(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="221" column="10" bodyfile="src/sharding/truetime.cpp" bodystart="194" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_true_time_1afbfe58fe785980f5c4a44938caa2dccc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::TrueTime::queryNTPServer</definition>
+        <argsstring>(const std::string &amp;server, int64_t &amp;offset)</argsstring>
+        <name>queryNTPServer</name>
+        <qualifiedname>themis::sharding::TrueTime::queryNTPServer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>server</declname>
+        </param>
+        <param>
+          <type>int64_t &amp;</type>
+          <declname>offset</declname>
+        </param>
+        <briefdescription>
+<para>Query a single NTP server. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Query NTPServer.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>server</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>NTP server address </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output parameter for clock offset </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if query was successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">server</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: SocketGuard(), fd_(), closesocket(), close(), get(), socket(), socketGuard(), setsockopt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="229" column="10" bodyfile="src/sharding/truetime.cpp" bodystart="252" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_true_time_1a53988a7e9c479778e24c418192916a5a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::TrueTime::calculateUncertainty</definition>
+        <argsstring>() const</argsstring>
+        <name>calculateUncertainty</name>
+        <qualifiedname>themis::sharding::TrueTime::calculateUncertainty</qualifiedname>
+        <briefdescription>
+<para>Calculate uncertainty based on time since last sync. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current uncertainty in nanoseconds </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="235" column="14" bodyfile="src/sharding/truetime.cpp" bodystart="435" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_true_time_1a9f770721344b6b6b2761a2a8b7a75c67" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::TrueTime::syncThreadFunc</definition>
+        <argsstring>()</argsstring>
+        <name>syncThreadFunc</name>
+        <qualifiedname>themis::sharding::TrueTime::syncThreadFunc</qualifiedname>
+        <briefdescription>
+<para>Background thread for periodic clock sync. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sync Thread Func.</para>
+<para>Calls: load(), performSync(), std::this_thread::sleep_for(), std::chrono::seconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="240" column="10" bodyfile="src/sharding/truetime.cpp" bodystart="458" bodyend="468"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> clock providing time with uncertainty bounds. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This implementation provides a TrueTime-inspired API with:<itemizedlist>
+<listitem><para>Time intervals with uncertainty bounds</para>
+</listitem><listitem><para>Clock synchronization via NTP</para>
+</listitem><listitem><para>Drift detection and compensation</para>
+</listitem><listitem><para>Wait-until-certain operations for distributed transactions </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/truetime.h" line="96" column="1" bodyfile="include/sharding/truetime.h" bodystart="96" bodyend="241"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1a53988a7e9c479778e24c418192916a5a" prot="private" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>calculateUncertainty</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1a3dcb2aac67e0c3a3f30b1954eb6852ed" prot="private" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1a153ebdab07756d082ad2b99d3a440bf1" prot="private" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>drift_ns_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1abacd81923f4e17820193f3c0994d8fd3" prot="public" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>getDrift</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1a194a7bf7d439cb140ff6ef22ea802a6a" prot="public" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1a6eabf2fba6e09c45cb15ce5540861cea" prot="private" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>getSystemTime</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1abb1ffca145eebbb152990dcbe549bee5" prot="public" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>getUncertainty</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1a1ab33b41792e04874723ab323c525ca8" prot="private" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>last_sync_ns_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1a9d039040e81cac7cf60290d581b15159" prot="private" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1a4818ccb44db16afa0172cf15ecf70085" prot="public" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>now</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1a6f7dc701bd5145d4f9148d941a31854c" prot="public" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>now_with_uncertainty</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1a25fa9825b0e26ace63b9e9c9a8abad2f" prot="public" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1ae0eb1e9e68aba8e5251cf8f05817a01b" prot="private" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>performSync</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1afbfe58fe785980f5c4a44938caa2dccc" prot="private" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>queryNTPServer</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1af885c0d6fe69f8becc8ce1e7fe2bbba4" prot="public" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>startSyncThread</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1aec07f7dbb5f7c68696a37c91a6bbf321" prot="public" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>stopSyncThread</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1a100b8d82b0c287afd502d4dd26797d7a" prot="private" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>sync_thread_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1add4aaf6beadbf13faa96bb99790e01e6" prot="private" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>sync_thread_running_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1a39b628c519b42230e720f536a0a1e482" prot="public" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>syncNow</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1a9f770721344b6b6b2761a2a8b7a75c67" prot="private" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>syncThreadFunc</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1aadfe7c2b354d5bf3dbc3e5b572d5b40e" prot="public" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>TrueTime</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1a13bb555244983ae5f35291c918b97e31" prot="public" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>TrueTime</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1ab72c68e88f030dbede9d4a94f1794245" prot="private" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>uncertainty_ns_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1aab4de9daa1bdceb64cedabf51885af0f" prot="public" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>waitUntil</name></member>
+      <member refid="classthemis_1_1sharding_1_1_true_time_1a322d7e297e1bd21070b2da5fdd764cb5" prot="public" virt="non-virtual"><scope>themis::sharding::TrueTime</scope><name>~TrueTime</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

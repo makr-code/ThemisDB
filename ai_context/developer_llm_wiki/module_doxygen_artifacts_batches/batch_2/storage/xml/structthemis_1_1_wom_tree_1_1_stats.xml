@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_wom_tree_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::WomTree::Stats</compoundname>
+    <includes refid="wom__tree_8h" local="no">wom_tree.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_stats_1afbf720f3e1a70f322b32d63b642ea6db" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::WomTree::Stats::total_puts</definition>
+        <argsstring></argsstring>
+        <name>total_puts</name>
+        <qualifiedname>themis::WomTree::Stats::total_puts</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total number of <ref refid="classthemis_1_1_wom_tree_1a70985467b5a7893a555deadbf6398484" kindref="member">put()</ref> calls since construction. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="137" column="18" bodyfile="include/storage/wom_tree.h" bodystart="137" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_stats_1a08c732f7d2f654a5ed5a45255423fdae" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::WomTree::Stats::total_removes</definition>
+        <argsstring></argsstring>
+        <name>total_removes</name>
+        <qualifiedname>themis::WomTree::Stats::total_removes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total number of <ref refid="classthemis_1_1_wom_tree_1a95aeecc4f51cf26eda6ce6d8c230289e" kindref="member">remove()</ref> calls since construction. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="139" column="18" bodyfile="include/storage/wom_tree.h" bodystart="139" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_stats_1a8fb6e0bf6db0b7e5b449d630ca0518b3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::WomTree::Stats::total_gets</definition>
+        <argsstring></argsstring>
+        <name>total_gets</name>
+        <qualifiedname>themis::WomTree::Stats::total_gets</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total number of <ref refid="classthemis_1_1_wom_tree_1afd6ad355e99e6bc56e401f0b948bcb01" kindref="member">get()</ref> calls since construction. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="141" column="18" bodyfile="include/storage/wom_tree.h" bodystart="141" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_stats_1a4ebcaf08b272d09fe26f6794907876ff" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::WomTree::Stats::get_hits</definition>
+        <argsstring></argsstring>
+        <name>get_hits</name>
+        <qualifiedname>themis::WomTree::Stats::get_hits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of <ref refid="classthemis_1_1_wom_tree_1afd6ad355e99e6bc56e401f0b948bcb01" kindref="member">get()</ref> calls that found a value. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="143" column="18" bodyfile="include/storage/wom_tree.h" bodystart="143" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_stats_1af2a12abe3b0c7980ff0da3ecc8dcf8a0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::WomTree::Stats::flush_passes</definition>
+        <argsstring></argsstring>
+        <name>flush_passes</name>
+        <qualifiedname>themis::WomTree::Stats::flush_passes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of buffer-flush (propagation) passes performed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="145" column="18" bodyfile="include/storage/wom_tree.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_stats_1aadc81c562eed0218c809c12dc49077d7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::WomTree::Stats::user_bytes_written</definition>
+        <argsstring></argsstring>
+        <name>user_bytes_written</name>
+        <qualifiedname>themis::WomTree::Stats::user_bytes_written</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Cumulative bytes written by user <ref refid="classthemis_1_1_wom_tree_1a70985467b5a7893a555deadbf6398484" kindref="member">put()</ref> calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="147" column="18" bodyfile="include/storage/wom_tree.h" bodystart="147" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_stats_1adf46eb3169d4bb532f567c3c80f0757a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::WomTree::Stats::internal_bytes_written</definition>
+        <argsstring></argsstring>
+        <name>internal_bytes_written</name>
+        <qualifiedname>themis::WomTree::Stats::internal_bytes_written</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Cumulative bytes written during internal buffer propagation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="149" column="18" bodyfile="include/storage/wom_tree.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_stats_1a2b6b730f99fce82f23ebabf73726efca" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::WomTree::Stats::live_entries</definition>
+        <argsstring></argsstring>
+        <name>live_entries</name>
+        <qualifiedname>themis::WomTree::Stats::live_entries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total live entries currently in the tree (approximate). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="151" column="18" bodyfile="include/storage/wom_tree.h" bodystart="151" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_stats_1a2076adf3f7609ddee5dfc3a315a4d387" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::WomTree::Stats::tree_height</definition>
+        <argsstring></argsstring>
+        <name>tree_height</name>
+        <qualifiedname>themis::WomTree::Stats::tree_height</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Current tree height (root → leaf depth). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="153" column="18" bodyfile="include/storage/wom_tree.h" bodystart="153" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_stats_1a532aa438e16ec2b58d5c34f4cd468d70" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::WomTree::Stats::leaf_count</definition>
+        <argsstring></argsstring>
+        <name>leaf_count</name>
+        <qualifiedname>themis::WomTree::Stats::leaf_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of leaf nodes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="155" column="18" bodyfile="include/storage/wom_tree.h" bodystart="155" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_stats_1ac3067c8310026b98d1ae5492a0367436" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::WomTree::Stats::internal_node_count</definition>
+        <argsstring></argsstring>
+        <name>internal_node_count</name>
+        <qualifiedname>themis::WomTree::Stats::internal_node_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of internal nodes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="157" column="18" bodyfile="include/storage/wom_tree.h" bodystart="157" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_wom_tree_1_1_stats_1a85d4d9b691e4361ae1a48bad5d7631da" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::WomTree::Stats::writeAmplification</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>writeAmplification</name>
+        <qualifiedname>themis::WomTree::Stats::writeAmplification</qualifiedname>
+        <briefdescription>
+<para>Estimated write-amplification factor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ratio of all bytes physically written to tree nodes (direct leaf writes + buffer propagation hops) to bytes submitted by the user. A value of 1.0 means each user byte was written exactly once (ideal, single-leaf tree); typical multi-level WOM trees target 2–5× compared to 10–30× for typical LSM trees.</para>
+<para>Returns 0.0 if no user bytes have been written yet. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="170" column="16" bodyfile="include/storage/wom_tree.h" bodystart="170" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_wom_tree_1_1_stats_1a201616dd0dc3d87bb14adceb60dd41fc" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::WomTree::Stats::readHitRatio</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>readHitRatio</name>
+        <qualifiedname>themis::WomTree::Stats::readHitRatio</qualifiedname>
+        <briefdescription>
+<para>Point-read hit ratio. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns fraction of <ref refid="classthemis_1_1_wom_tree_1afd6ad355e99e6bc56e401f0b948bcb01" kindref="member">get()</ref> calls that found a value. Values below 1.0 include misses for absent keys; this is expected in write-heavy workloads. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="185" column="16" bodyfile="include/storage/wom_tree.h" bodystart="185" bodyend="191"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Live statistics snapshot returned by <ref refid="classthemis_1_1_wom_tree_1a11199279f85547bc7f97832c9f696bf1" kindref="member">stats()</ref>. </para>
+    </detaileddescription>
+    <location file="include/storage/wom_tree.h" line="135" column="5" bodyfile="include/storage/wom_tree.h" bodystart="135" bodyend="192"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_wom_tree_1_1_stats_1af2a12abe3b0c7980ff0da3ecc8dcf8a0" prot="public" virt="non-virtual"><scope>themis::WomTree::Stats</scope><name>flush_passes</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_stats_1a4ebcaf08b272d09fe26f6794907876ff" prot="public" virt="non-virtual"><scope>themis::WomTree::Stats</scope><name>get_hits</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_stats_1adf46eb3169d4bb532f567c3c80f0757a" prot="public" virt="non-virtual"><scope>themis::WomTree::Stats</scope><name>internal_bytes_written</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_stats_1ac3067c8310026b98d1ae5492a0367436" prot="public" virt="non-virtual"><scope>themis::WomTree::Stats</scope><name>internal_node_count</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_stats_1a532aa438e16ec2b58d5c34f4cd468d70" prot="public" virt="non-virtual"><scope>themis::WomTree::Stats</scope><name>leaf_count</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_stats_1a2b6b730f99fce82f23ebabf73726efca" prot="public" virt="non-virtual"><scope>themis::WomTree::Stats</scope><name>live_entries</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_stats_1a201616dd0dc3d87bb14adceb60dd41fc" prot="public" virt="non-virtual"><scope>themis::WomTree::Stats</scope><name>readHitRatio</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_stats_1a8fb6e0bf6db0b7e5b449d630ca0518b3" prot="public" virt="non-virtual"><scope>themis::WomTree::Stats</scope><name>total_gets</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_stats_1afbf720f3e1a70f322b32d63b642ea6db" prot="public" virt="non-virtual"><scope>themis::WomTree::Stats</scope><name>total_puts</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_stats_1a08c732f7d2f654a5ed5a45255423fdae" prot="public" virt="non-virtual"><scope>themis::WomTree::Stats</scope><name>total_removes</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_stats_1a2076adf3f7609ddee5dfc3a315a4d387" prot="public" virt="non-virtual"><scope>themis::WomTree::Stats</scope><name>tree_height</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_stats_1aadc81c562eed0218c809c12dc49077d7" prot="public" virt="non-virtual"><scope>themis::WomTree::Stats</scope><name>user_bytes_written</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_stats_1a85d4d9b691e4361ae1a48bad5d7631da" prot="public" virt="non-virtual"><scope>themis::WomTree::Stats</scope><name>writeAmplification</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

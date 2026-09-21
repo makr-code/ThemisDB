@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_hiss_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::HissConfig</compoundname>
+    <includes refid="hiss__structural__search_8h" local="no">hiss_structural_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hiss_config_1a590444382594894fb70602c7cf1eae0a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::HissConfig::num_samples</definition>
+        <argsstring></argsstring>
+        <name>num_samples</name>
+        <qualifiedname>themis::tensor::HissConfig::num_samples</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="63" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hiss_config_1a5efaf812e0a9c7ec987d869614647ffd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::HissConfig::entropy_threshold</definition>
+        <argsstring></argsstring>
+        <name>entropy_threshold</name>
+        <qualifiedname>themis::tensor::HissConfig::entropy_threshold</qualifiedname>
+        <initializer>= 0.35</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="64" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hiss_config_1acde6b0074b787ef51e4cfd5fcabe3c82" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::HissConfig::max_reshape_depth</definition>
+        <argsstring></argsstring>
+        <name>max_reshape_depth</name>
+        <qualifiedname>themis::tensor::HissConfig::max_reshape_depth</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="65" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hiss_config_1a90a6dc361c5c2b1e3da3f5b4ab7e0bab" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::HissConfig::diversity_budget</definition>
+        <argsstring></argsstring>
+        <name>diversity_budget</name>
+        <qualifiedname>themis::tensor::HissConfig::diversity_budget</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="66" column="17" bodyfile="include/tensor/hiss_structural_search.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hiss_config_1a5be8cd3ae8007048819a472d480c2bd9" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::tensor::HissConfig::random_seed</definition>
+        <argsstring></argsstring>
+        <name>random_seed</name>
+        <qualifiedname>themis::tensor::HissConfig::random_seed</qualifiedname>
+        <initializer>= 0x54484D4953444201ULL</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hiss_structural_search.h" line="67" column="19" bodyfile="include/tensor/hiss_structural_search.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/hiss_structural_search.h" line="62" column="1" bodyfile="include/tensor/hiss_structural_search.h" bodystart="62" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_hiss_config_1a90a6dc361c5c2b1e3da3f5b4ab7e0bab" prot="public" virt="non-virtual"><scope>themis::tensor::HissConfig</scope><name>diversity_budget</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hiss_config_1a5efaf812e0a9c7ec987d869614647ffd" prot="public" virt="non-virtual"><scope>themis::tensor::HissConfig</scope><name>entropy_threshold</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hiss_config_1acde6b0074b787ef51e4cfd5fcabe3c82" prot="public" virt="non-virtual"><scope>themis::tensor::HissConfig</scope><name>max_reshape_depth</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hiss_config_1a590444382594894fb70602c7cf1eae0a" prot="public" virt="non-virtual"><scope>themis::tensor::HissConfig</scope><name>num_samples</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hiss_config_1a5be8cd3ae8007048819a472d480c2bd9" prot="public" virt="non-virtual"><scope>themis::tensor::HissConfig</scope><name>random_seed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

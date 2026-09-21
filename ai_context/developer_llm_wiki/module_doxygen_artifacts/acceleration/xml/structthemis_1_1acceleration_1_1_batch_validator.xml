@@ -1,0 +1,897 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_batch_validator" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::BatchValidator</compoundname>
+    <includes refid="batch__validator_8h" local="no">batch_validator.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structthemis_1_1acceleration_1_1_batch_validator_1abb78ab88791f45352d5aff6d1abe230b" prot="public" static="no">
+        <type>std::function&lt; void(<ref refid="structthemis_1_1acceleration_1_1_error_context" kindref="compound">ErrorContext</ref>)&gt;</type>
+        <definition>using themis::acceleration::BatchValidator::ErrorSink = std::function&lt;void(ErrorContext)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ErrorSink</name>
+        <qualifiedname>themis::acceleration::BatchValidator::ErrorSink</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/batch_validator.h" line="28" column="5" bodyfile="include/acceleration/batch_validator.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_batch_validator_1a7baf2eafe6f2c19bb766fef981f6eb3a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::acceleration::BatchValidator::kMinLatitude</definition>
+        <argsstring></argsstring>
+        <name>kMinLatitude</name>
+        <qualifiedname>themis::acceleration::BatchValidator::kMinLatitude</qualifiedname>
+        <initializer>= -90.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/batch_validator.h" line="29" column="29" bodyfile="include/acceleration/batch_validator.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_batch_validator_1a14cd77d7a2f34d30024a58b61a1d22e2" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::acceleration::BatchValidator::kMaxLatitude</definition>
+        <argsstring></argsstring>
+        <name>kMaxLatitude</name>
+        <qualifiedname>themis::acceleration::BatchValidator::kMaxLatitude</qualifiedname>
+        <initializer>= 90.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/batch_validator.h" line="30" column="29" bodyfile="include/acceleration/batch_validator.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_batch_validator_1a328aa3e759d64e35bb861972eea350e8" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::acceleration::BatchValidator::kMinLongitude</definition>
+        <argsstring></argsstring>
+        <name>kMinLongitude</name>
+        <qualifiedname>themis::acceleration::BatchValidator::kMinLongitude</qualifiedname>
+        <initializer>= -180.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/batch_validator.h" line="31" column="29" bodyfile="include/acceleration/batch_validator.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_batch_validator_1ac74faa4ca694f1acc844320d9735d65a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::acceleration::BatchValidator::kMaxLongitude</definition>
+        <argsstring></argsstring>
+        <name>kMaxLongitude</name>
+        <qualifiedname>themis::acceleration::BatchValidator::kMaxLongitude</qualifiedname>
+        <initializer>= 180.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/batch_validator.h" line="32" column="29" bodyfile="include/acceleration/batch_validator.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_batch_validator_1a868803162ea741c73991491c74735272" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>float</type>
+        <definition>float themis::acceleration::BatchValidator::kMaxGeodesicDistanceKm</definition>
+        <argsstring></argsstring>
+        <name>kMaxGeodesicDistanceKm</name>
+        <qualifiedname>themis::acceleration::BatchValidator::kMaxGeodesicDistanceKm</qualifiedname>
+        <initializer>= 20039.5f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/batch_validator.h" line="33" column="28" bodyfile="include/acceleration/batch_validator.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_batch_validator_1a37316c9b0a1e6ffe35766c3a402df2c0" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::BatchValidator::kBfsMaxDepth</definition>
+        <argsstring></argsstring>
+        <name>kBfsMaxDepth</name>
+        <qualifiedname>themis::acceleration::BatchValidator::kBfsMaxDepth</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/batch_validator.h" line="34" column="31" bodyfile="include/acceleration/batch_validator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_batch_validator_1ac5ae83c3c0725cf86b4277b4045c3e15" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::BatchValidator::kBfsMaxNodesPerHop</definition>
+        <argsstring></argsstring>
+        <name>kBfsMaxNodesPerHop</name>
+        <qualifiedname>themis::acceleration::BatchValidator::kBfsMaxNodesPerHop</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/batch_validator.h" line="35" column="29" bodyfile="include/acceleration/batch_validator.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_batch_validator_1ad78b4c1259840f054837f5a47f4c1e81" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::acceleration::BatchValidator::validateVectorBatch</definition>
+        <argsstring>(const char *backendName, const float *queries, size_t numQueries, size_t dim, const float *vectors, size_t numVectors, const ErrorSink &amp;onError)</argsstring>
+        <name>validateVectorBatch</name>
+        <qualifiedname>themis::acceleration::BatchValidator::validateVectorBatch</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>backendName</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>queries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numQueries</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVectors</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_batch_validator_1abb78ab88791f45352d5aff6d1abe230b" kindref="member">ErrorSink</ref> &amp;</type>
+          <declname>onError</declname>
+        </param>
+        <briefdescription>
+<para>Validate Vector Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backendName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">queries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numQueries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numVectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">onError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/batch_validator.h" line="49" column="17" bodyfile="include/acceleration/batch_validator.h" bodystart="49" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_batch_validator_1a935b8c18169a5af62e5302071c46b85e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::acceleration::BatchValidator::validateK</definition>
+        <argsstring>(const char *backendName, size_t k, const ErrorSink &amp;onError)</argsstring>
+        <name>validateK</name>
+        <qualifiedname>themis::acceleration::BatchValidator::validateK</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>backendName</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_batch_validator_1abb78ab88791f45352d5aff6d1abe230b" kindref="member">ErrorSink</ref> &amp;</type>
+          <declname>onError</declname>
+        </param>
+        <briefdescription>
+<para>Validate K. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backendName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">onError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/batch_validator.h" line="82" column="17" bodyfile="include/acceleration/batch_validator.h" bodystart="82" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_batch_validator_1a01d511d41ba796140c329ad2429180bf" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::acceleration::BatchValidator::validateGeoBatch</definition>
+        <argsstring>(const char *backendName, const double *lats1, const double *lons1, const double *lats2, const double *lons2, size_t count, const ErrorSink &amp;onError)</argsstring>
+        <name>validateGeoBatch</name>
+        <qualifiedname>themis::acceleration::BatchValidator::validateGeoBatch</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>backendName</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>lats1</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>lons1</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>lats2</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>lons2</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_batch_validator_1abb78ab88791f45352d5aff6d1abe230b" kindref="member">ErrorSink</ref> &amp;</type>
+          <declname>onError</declname>
+        </param>
+        <briefdescription>
+<para>Validate Geo Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backendName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lats1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lons1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lats2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lons2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">onError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/batch_validator.h" line="109" column="17" bodyfile="include/acceleration/batch_validator.h" bodystart="109" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_batch_validator_1a2e92c6c7430eb8c441b77b90d3c15150" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::acceleration::BatchValidator::validatePointInPolygonBatch</definition>
+        <argsstring>(const char *backendName, const double *pointLats, const double *pointLons, size_t numPoints, const double *polygonCoords, size_t numPolygonVertices, const ErrorSink &amp;onError)</argsstring>
+        <name>validatePointInPolygonBatch</name>
+        <qualifiedname>themis::acceleration::BatchValidator::validatePointInPolygonBatch</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>backendName</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>pointLats</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>pointLons</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numPoints</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>polygonCoords</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numPolygonVertices</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_batch_validator_1abb78ab88791f45352d5aff6d1abe230b" kindref="member">ErrorSink</ref> &amp;</type>
+          <declname>onError</declname>
+        </param>
+        <briefdescription>
+<para>Validate Point In Polygon Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backendName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pointLats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pointLons</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numPoints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">polygonCoords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numPolygonVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">onError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/batch_validator.h" line="161" column="17" bodyfile="include/acceleration/batch_validator.h" bodystart="161" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_batch_validator_1a04174ba2e8ff228f08a3e85b8e4a91f2" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::acceleration::BatchValidator::validateGeoDistanceResults</definition>
+        <argsstring>(const char *backendName, const float *distancesKm, size_t count, const ErrorSink &amp;onError)</argsstring>
+        <name>validateGeoDistanceResults</name>
+        <qualifiedname>themis::acceleration::BatchValidator::validateGeoDistanceResults</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>backendName</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>distancesKm</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_batch_validator_1abb78ab88791f45352d5aff6d1abe230b" kindref="member">ErrorSink</ref> &amp;</type>
+          <declname>onError</declname>
+        </param>
+        <briefdescription>
+<para>Validate Geo Distance Results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backendName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">distancesKm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">onError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/batch_validator.h" line="235" column="17" bodyfile="include/acceleration/batch_validator.h" bodystart="235" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_batch_validator_1af78e4796463330b3da096d492975664d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::acceleration::BatchValidator::validateGraphBFSBatch</definition>
+        <argsstring>(const char *backendName, const uint32_t *adjacency, size_t numVertices, const uint32_t *startVertices, size_t numStarts, const ErrorSink &amp;onError)</argsstring>
+        <name>validateGraphBFSBatch</name>
+        <qualifiedname>themis::acceleration::BatchValidator::validateGraphBFSBatch</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>backendName</declname>
+        </param>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>adjacency</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVertices</declname>
+        </param>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>startVertices</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numStarts</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_batch_validator_1abb78ab88791f45352d5aff6d1abe230b" kindref="member">ErrorSink</ref> &amp;</type>
+          <declname>onError</declname>
+        </param>
+        <briefdescription>
+<para>Validate Graph BFSBatch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backendName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adjacency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">startVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numStarts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">onError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/batch_validator.h" line="273" column="17" bodyfile="include/acceleration/batch_validator.h" bodystart="273" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_batch_validator_1a96b1c51b443a516dffea710223b52742" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::acceleration::BatchValidator::validateGraphBFSHopLimit</definition>
+        <argsstring>(const char *backendName, uint32_t maxDepth, const ErrorSink &amp;onError)</argsstring>
+        <name>validateGraphBFSHopLimit</name>
+        <qualifiedname>themis::acceleration::BatchValidator::validateGraphBFSHopLimit</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>backendName</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>maxDepth</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_batch_validator_1abb78ab88791f45352d5aff6d1abe230b" kindref="member">ErrorSink</ref> &amp;</type>
+          <declname>onError</declname>
+        </param>
+        <briefdescription>
+<para>Validate Graph BFSHop Limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backendName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">maxDepth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">onError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/batch_validator.h" line="305" column="17" bodyfile="include/acceleration/batch_validator.h" bodystart="305" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_batch_validator_1a4d3816c5129024c1b0ac2e9b2630cbf6" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::acceleration::BatchValidator::shouldUseCpuFallbackForGraphBFS</definition>
+        <argsstring>(size_t numVertices, uint32_t maxDepth) noexcept</argsstring>
+        <name>shouldUseCpuFallbackForGraphBFS</name>
+        <qualifiedname>themis::acceleration::BatchValidator::shouldUseCpuFallbackForGraphBFS</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>numVertices</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>maxDepth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/batch_validator.h" line="320" column="17" bodyfile="include/acceleration/batch_validator.h" bodystart="320" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_batch_validator_1a6d27fe9a99388a124b67568fbf4eea7d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::acceleration::BatchValidator::validateShortestPathBatch</definition>
+        <argsstring>(const char *backendName, const uint32_t *adjacency, const float *weights, size_t numVertices, const uint32_t *startVertices, const uint32_t *endVertices, size_t numPairs, const ErrorSink &amp;onError)</argsstring>
+        <name>validateShortestPathBatch</name>
+        <qualifiedname>themis::acceleration::BatchValidator::validateShortestPathBatch</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>backendName</declname>
+        </param>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>adjacency</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>weights</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVertices</declname>
+        </param>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>startVertices</declname>
+        </param>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>endVertices</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numPairs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_batch_validator_1abb78ab88791f45352d5aff6d1abe230b" kindref="member">ErrorSink</ref> &amp;</type>
+          <declname>onError</declname>
+        </param>
+        <briefdescription>
+<para>Validate Shortest Path Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backendName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adjacency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">startVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">endVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numPairs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">onError</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/batch_validator.h" line="336" column="17" bodyfile="include/acceleration/batch_validator.h" bodystart="336" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_batch_validator_1a04779a45d935de67879fb4abee148443" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::acceleration::BatchValidator::shouldUseCpuFallbackForShortestPath</definition>
+        <argsstring>(const uint32_t *adjacency, const float *weights, size_t numVertices) noexcept</argsstring>
+        <name>shouldUseCpuFallbackForShortestPath</name>
+        <qualifiedname>themis::acceleration::BatchValidator::shouldUseCpuFallbackForShortestPath</qualifiedname>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>adjacency</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>weights</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numVertices</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/batch_validator.h" line="365" column="17" bodyfile="include/acceleration/batch_validator.h" bodystart="365" bodyend="390"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/batch_validator.h" line="27" column="1" bodyfile="include/acceleration/batch_validator.h" bodystart="27" bodyend="391"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_batch_validator_1abb78ab88791f45352d5aff6d1abe230b" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchValidator</scope><name>ErrorSink</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_validator_1a37316c9b0a1e6ffe35766c3a402df2c0" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchValidator</scope><name>kBfsMaxDepth</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_validator_1ac5ae83c3c0725cf86b4277b4045c3e15" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchValidator</scope><name>kBfsMaxNodesPerHop</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_validator_1a868803162ea741c73991491c74735272" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchValidator</scope><name>kMaxGeodesicDistanceKm</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_validator_1a14cd77d7a2f34d30024a58b61a1d22e2" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchValidator</scope><name>kMaxLatitude</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_validator_1ac74faa4ca694f1acc844320d9735d65a" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchValidator</scope><name>kMaxLongitude</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_validator_1a7baf2eafe6f2c19bb766fef981f6eb3a" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchValidator</scope><name>kMinLatitude</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_validator_1a328aa3e759d64e35bb861972eea350e8" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchValidator</scope><name>kMinLongitude</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_validator_1a4d3816c5129024c1b0ac2e9b2630cbf6" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchValidator</scope><name>shouldUseCpuFallbackForGraphBFS</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_validator_1a04779a45d935de67879fb4abee148443" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchValidator</scope><name>shouldUseCpuFallbackForShortestPath</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_validator_1a01d511d41ba796140c329ad2429180bf" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchValidator</scope><name>validateGeoBatch</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_validator_1a04174ba2e8ff228f08a3e85b8e4a91f2" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchValidator</scope><name>validateGeoDistanceResults</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_validator_1af78e4796463330b3da096d492975664d" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchValidator</scope><name>validateGraphBFSBatch</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_validator_1a96b1c51b443a516dffea710223b52742" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchValidator</scope><name>validateGraphBFSHopLimit</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_validator_1a935b8c18169a5af62e5302071c46b85e" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchValidator</scope><name>validateK</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_validator_1a2e92c6c7430eb8c441b77b90d3c15150" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchValidator</scope><name>validatePointInPolygonBatch</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_validator_1a6d27fe9a99388a124b67568fbf4eea7d" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchValidator</scope><name>validateShortestPathBatch</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_batch_validator_1ad78b4c1259840f054837f5a47f4c1e81" prot="public" virt="non-virtual"><scope>themis::acceleration::BatchValidator</scope><name>validateVectorBatch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

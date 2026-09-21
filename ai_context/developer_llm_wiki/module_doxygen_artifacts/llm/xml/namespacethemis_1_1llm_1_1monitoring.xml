@@ -1,0 +1,316 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1monitoring" kind="namespace" language="C++">
+    <compoundname>themis::llm::monitoring</compoundname>
+    <innerclass refid="structthemis_1_1llm_1_1monitoring_1_1_fake_plugin" prot="public">themis::llm::monitoring::FakePlugin</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1monitoring_1_1_grafana_dashboard_generator" prot="public">themis::llm::monitoring::GrafanaDashboardGenerator</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1monitoring_1_1_l_l_m_metrics_collector" prot="public">themis::llm::monitoring::LLMMetricsCollector</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server" prot="public">themis::llm::monitoring::MetricsServer</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1monitoring_1_1_m_s_w___tests" prot="public">themis::llm::monitoring::MSW_Tests</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1monitoring_1_1_prometheus_exporter" prot="public">themis::llm::monitoring::PrometheusExporter</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1llm_1_1monitoring_1a6f95d971840e154952c6517da5879aa9" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::monitoring::MAX_HISTOGRAM_SAMPLES</definition>
+        <argsstring></argsstring>
+        <name>MAX_HISTOGRAM_SAMPLES</name>
+        <qualifiedname>themis::llm::monitoring::MAX_HISTOGRAM_SAMPLES</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/grafana_metrics.cpp" line="31" column="18" bodyfile="src/llm/grafana_metrics.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1monitoring_1a5551cd829becb2881f1fe89501c7315c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server" kindref="compound">MetricsServer</ref></type>
+        <definition>static MetricsServer themis::llm::monitoring::makeServer</definition>
+        <argsstring>()</argsstring>
+        <name>makeServer</name>
+        <qualifiedname>themis::llm::monitoring::makeServer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_metrics_server_wiring.cpp" line="75" column="22" bodyfile="tests/llm/test_metrics_server_wiring.cpp" bodystart="75" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1monitoring_1aa0ca81e3c1779b850a15888c5013eea4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::llm::monitoring::reloadPost</definition>
+        <argsstring>(MetricsServer &amp;srv, const std::string &amp;body)</argsstring>
+        <name>reloadPost</name>
+        <qualifiedname>themis::llm::monitoring::reloadPost</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server" kindref="compound">MetricsServer</ref> &amp;</type>
+          <declname>srv</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_metrics_server_wiring.cpp" line="81" column="20" bodyfile="tests/llm/test_metrics_server_wiring.cpp" bodystart="81" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1monitoring_1acec3c24ed3af65e18a3be2aed3ec104f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::llm::monitoring::simulatePost</definition>
+        <argsstring>(MetricsServer &amp;srv, const std::string &amp;body)</argsstring>
+        <name>simulatePost</name>
+        <qualifiedname>themis::llm::monitoring::simulatePost</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server" kindref="compound">MetricsServer</ref> &amp;</type>
+          <declname>srv</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_metrics_server_wiring.cpp" line="88" column="20" bodyfile="tests/llm/test_metrics_server_wiring.cpp" bodystart="88" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1monitoring_1a01ff7dd6644fe9171aa7096d2c80c79e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::llm::monitoring::sessionDelete</definition>
+        <argsstring>(MetricsServer &amp;srv, const std::string &amp;sid)</argsstring>
+        <name>sessionDelete</name>
+        <qualifiedname>themis::llm::monitoring::sessionDelete</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_metrics_server" kindref="compound">MetricsServer</ref> &amp;</type>
+          <declname>srv</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_metrics_server_wiring.cpp" line="95" column="20" bodyfile="tests/llm/test_metrics_server_wiring.cpp" bodystart="95" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1monitoring_1af6d08842a2c34392e321a7887ac73209" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::monitoring::TEST_F</definition>
+        <argsstring>(MSW_Tests, MSW_01_WiringDoesNotThrow)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::monitoring::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_m_s_w___tests" kindref="compound">MSW_Tests</ref></type>
+        </param>
+        <param>
+          <type>MSW_01_WiringDoesNotThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_metrics_server_wiring.cpp" line="118" column="1" bodyfile="tests/llm/test_metrics_server_wiring.cpp" bodystart="118" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1monitoring_1acb51db62e9a517f4599f4865d8db97b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::monitoring::TEST_F</definition>
+        <argsstring>(MSW_Tests, MSW_02_ValidReloadBodyReturnsOk)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::monitoring::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_m_s_w___tests" kindref="compound">MSW_Tests</ref></type>
+        </param>
+        <param>
+          <type>MSW_02_ValidReloadBodyReturnsOk</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_metrics_server_wiring.cpp" line="126" column="1" bodyfile="tests/llm/test_metrics_server_wiring.cpp" bodystart="126" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1monitoring_1a8e9ccba3613387ebe03730eb22509f92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::monitoring::TEST_F</definition>
+        <argsstring>(MSW_Tests, MSW_03_MalformedReloadBodyReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::monitoring::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_m_s_w___tests" kindref="compound">MSW_Tests</ref></type>
+        </param>
+        <param>
+          <type>MSW_03_MalformedReloadBodyReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_metrics_server_wiring.cpp" line="143" column="1" bodyfile="tests/llm/test_metrics_server_wiring.cpp" bodystart="143" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1monitoring_1a8f5b6e72a4f6e2e5dc8ea8c52f2d760a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::monitoring::TEST_F</definition>
+        <argsstring>(MSW_Tests, MSW_04_MissingModelIdReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::monitoring::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_m_s_w___tests" kindref="compound">MSW_Tests</ref></type>
+        </param>
+        <param>
+          <type>MSW_04_MissingModelIdReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_metrics_server_wiring.cpp" line="155" column="1" bodyfile="tests/llm/test_metrics_server_wiring.cpp" bodystart="155" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1monitoring_1a7a46a58ecdb55fcc641fa2e57d1c49c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::monitoring::TEST_F</definition>
+        <argsstring>(MSW_Tests, MSW_05_SimulateValidPromptReturnsOk)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::monitoring::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_m_s_w___tests" kindref="compound">MSW_Tests</ref></type>
+        </param>
+        <param>
+          <type>MSW_05_SimulateValidPromptReturnsOk</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_metrics_server_wiring.cpp" line="168" column="1" bodyfile="tests/llm/test_metrics_server_wiring.cpp" bodystart="168" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1monitoring_1a5d080c425a44530aabea05e623da0a5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::monitoring::TEST_F</definition>
+        <argsstring>(MSW_Tests, MSW_06_SimulateMissingPromptReturnsError)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::monitoring::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_m_s_w___tests" kindref="compound">MSW_Tests</ref></type>
+        </param>
+        <param>
+          <type>MSW_06_SimulateMissingPromptReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_metrics_server_wiring.cpp" line="186" column="1" bodyfile="tests/llm/test_metrics_server_wiring.cpp" bodystart="186" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1monitoring_1a24cc1d49c18dc7586977b64e3e694956" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::monitoring::TEST_F</definition>
+        <argsstring>(MSW_Tests, MSW_07_SimulateTokenCountScalesWithLength)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::monitoring::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_m_s_w___tests" kindref="compound">MSW_Tests</ref></type>
+        </param>
+        <param>
+          <type>MSW_07_SimulateTokenCountScalesWithLength</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_metrics_server_wiring.cpp" line="203" column="1" bodyfile="tests/llm/test_metrics_server_wiring.cpp" bodystart="203" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1monitoring_1aa0a121b5176a3f4347df065059ae40b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::monitoring::TEST_F</definition>
+        <argsstring>(MSW_Tests, MSW_08_SessionDeleteNotConfiguredWhenNoCancelCb)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::monitoring::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_m_s_w___tests" kindref="compound">MSW_Tests</ref></type>
+        </param>
+        <param>
+          <type>MSW_08_SessionDeleteNotConfiguredWhenNoCancelCb</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_metrics_server_wiring.cpp" line="223" column="1" bodyfile="tests/llm/test_metrics_server_wiring.cpp" bodystart="223" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1monitoring_1ab86ae970a787915862b3b0e41c87ef51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::monitoring::TEST_F</definition>
+        <argsstring>(MSW_Tests, MSW_09_SessionDeleteDelegatesToCancelCbKnownSession)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::monitoring::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_m_s_w___tests" kindref="compound">MSW_Tests</ref></type>
+        </param>
+        <param>
+          <type>MSW_09_SessionDeleteDelegatesToCancelCbKnownSession</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_metrics_server_wiring.cpp" line="237" column="1" bodyfile="tests/llm/test_metrics_server_wiring.cpp" bodystart="237" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1monitoring_1a430c4a3799b0fe2a21b1b7d4daaf703f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::monitoring::TEST_F</definition>
+        <argsstring>(MSW_Tests, MSW_10_SessionDeleteDelegatesToCancelCbUnknownSession)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::llm::monitoring::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1monitoring_1_1_m_s_w___tests" kindref="compound">MSW_Tests</ref></type>
+        </param>
+        <param>
+          <type>MSW_10_SessionDeleteDelegatesToCancelCbUnknownSession</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_metrics_server_wiring.cpp" line="260" column="1" bodyfile="tests/llm/test_metrics_server_wiring.cpp" bodystart="260" bodyend="272"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/grafana_metrics.h" line="26" column="1"/>
+  </compounddef>
+</doxygen>

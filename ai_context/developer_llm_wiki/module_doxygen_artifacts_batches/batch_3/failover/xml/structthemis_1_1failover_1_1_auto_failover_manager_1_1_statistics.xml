@@ -1,0 +1,269 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::failover::AutoFailoverManager::Statistics</compoundname>
+    <includes refid="auto__failover__manager_8h" local="no">auto_failover_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a3d7fff6585ef8762d1f2ff046850cfb7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::failover::AutoFailoverManager::Statistics::total_failovers</definition>
+        <argsstring></argsstring>
+        <name>total_failovers</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::Statistics::total_failovers</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="207" column="18" bodyfile="include/failover/auto_failover_manager.h" bodystart="207" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1af324c9892b9ec2c09f3da642bd03eb10" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::failover::AutoFailoverManager::Statistics::successful_failovers</definition>
+        <argsstring></argsstring>
+        <name>successful_failovers</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::Statistics::successful_failovers</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="208" column="18" bodyfile="include/failover/auto_failover_manager.h" bodystart="208" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a5d5a1506bdfc4148473058c14eaf709e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::failover::AutoFailoverManager::Statistics::failed_failovers</definition>
+        <argsstring></argsstring>
+        <name>failed_failovers</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::Statistics::failed_failovers</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="209" column="18" bodyfile="include/failover/auto_failover_manager.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a46e46c6a991490471841bb4415ce6317" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::failover::AutoFailoverManager::Statistics::network_partitions_detected</definition>
+        <argsstring></argsstring>
+        <name>network_partitions_detected</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::Statistics::network_partitions_detected</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="210" column="18" bodyfile="include/failover/auto_failover_manager.h" bodystart="210" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a3c97ead0459f808294538c5eb04997d3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::failover::AutoFailoverManager::Statistics::split_brain_preventions</definition>
+        <argsstring></argsstring>
+        <name>split_brain_preventions</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::Statistics::split_brain_preventions</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="211" column="18" bodyfile="include/failover/auto_failover_manager.h" bodystart="211" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1aa3afe0854430c2af052f868db09ddd9d" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::failover::AutoFailoverManager::Statistics::avg_failover_time</definition>
+        <argsstring></argsstring>
+        <name>avg_failover_time</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::Statistics::avg_failover_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="212" column="35" bodyfile="include/failover/auto_failover_manager.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a02c28fa063df5aae5bb5635551aa2dd3" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::failover::AutoFailoverManager::Statistics::min_failover_time</definition>
+        <argsstring></argsstring>
+        <name>min_failover_time</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::Statistics::min_failover_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="213" column="35" bodyfile="include/failover/auto_failover_manager.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a8b0563091a1b9d77033b3f0b3766b134" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::failover::AutoFailoverManager::Statistics::max_failover_time</definition>
+        <argsstring></argsstring>
+        <name>max_failover_time</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::Statistics::max_failover_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="214" column="35" bodyfile="include/failover/auto_failover_manager.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a8a7d839a4291d6d25f96d3ed80cf0134" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::failover::AutoFailoverManager::Statistics::current_queue_depth</definition>
+        <argsstring></argsstring>
+        <name>current_queue_depth</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::Statistics::current_queue_depth</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="217" column="18" bodyfile="include/failover/auto_failover_manager.h" bodystart="217" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a8f21f178ff2667bdae740177419e6753" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::failover::AutoFailoverManager::Statistics::max_queue_depth_observed</definition>
+        <argsstring></argsstring>
+        <name>max_queue_depth_observed</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::Statistics::max_queue_depth_observed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="218" column="18" bodyfile="include/failover/auto_failover_manager.h" bodystart="218" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a61b4eee73c784f186183557b7c7a848b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::failover::AutoFailoverManager::Statistics::tasks_dropped_queue_full</definition>
+        <argsstring></argsstring>
+        <name>tasks_dropped_queue_full</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::Statistics::tasks_dropped_queue_full</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="219" column="18" bodyfile="include/failover/auto_failover_manager.h" bodystart="219" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a11e6b6e4ed42f7e3eee0f6cea6f1fb74" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::failover::AutoFailoverManager::Statistics::queue_pressure_events</definition>
+        <argsstring></argsstring>
+        <name>queue_pressure_events</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::Statistics::queue_pressure_events</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="220" column="18" bodyfile="include/failover/auto_failover_manager.h" bodystart="220" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a8dc4baf32c7c44019a73fef19b4ab80e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::failover::AutoFailoverManager::Statistics::total_retry_attempts</definition>
+        <argsstring></argsstring>
+        <name>total_retry_attempts</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::Statistics::total_retry_attempts</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="223" column="18" bodyfile="include/failover/auto_failover_manager.h" bodystart="223" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1aff4b588b4595d71102c6fa66e3871a5e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::failover::AutoFailoverManager::Statistics::successful_retries</definition>
+        <argsstring></argsstring>
+        <name>successful_retries</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::Statistics::successful_retries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="224" column="18" bodyfile="include/failover/auto_failover_manager.h" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a036166a994a529348efd677db85c0773" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::failover::AutoFailoverManager::Statistics::failed_retries</definition>
+        <argsstring></argsstring>
+        <name>failed_retries</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::Statistics::failed_retries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="225" column="18" bodyfile="include/failover/auto_failover_manager.h" bodystart="225" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1add24e44e6f207e02c7ee646149339970" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::failover::AutoFailoverManager::Statistics::total_recovery_attempts</definition>
+        <argsstring></argsstring>
+        <name>total_recovery_attempts</name>
+        <qualifiedname>themis::failover::AutoFailoverManager::Statistics::total_recovery_attempts</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/auto_failover_manager.h" line="228" column="18" bodyfile="include/failover/auto_failover_manager.h" bodystart="228" bodyend="228"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/failover/auto_failover_manager.h" line="206" column="5" bodyfile="include/failover/auto_failover_manager.h" bodystart="206" bodyend="229"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1aa3afe0854430c2af052f868db09ddd9d" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager::Statistics</scope><name>avg_failover_time</name></member>
+      <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a8a7d839a4291d6d25f96d3ed80cf0134" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager::Statistics</scope><name>current_queue_depth</name></member>
+      <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a5d5a1506bdfc4148473058c14eaf709e" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager::Statistics</scope><name>failed_failovers</name></member>
+      <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a036166a994a529348efd677db85c0773" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager::Statistics</scope><name>failed_retries</name></member>
+      <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a8b0563091a1b9d77033b3f0b3766b134" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager::Statistics</scope><name>max_failover_time</name></member>
+      <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a8f21f178ff2667bdae740177419e6753" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager::Statistics</scope><name>max_queue_depth_observed</name></member>
+      <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a02c28fa063df5aae5bb5635551aa2dd3" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager::Statistics</scope><name>min_failover_time</name></member>
+      <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a46e46c6a991490471841bb4415ce6317" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager::Statistics</scope><name>network_partitions_detected</name></member>
+      <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a11e6b6e4ed42f7e3eee0f6cea6f1fb74" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager::Statistics</scope><name>queue_pressure_events</name></member>
+      <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a3c97ead0459f808294538c5eb04997d3" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager::Statistics</scope><name>split_brain_preventions</name></member>
+      <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1af324c9892b9ec2c09f3da642bd03eb10" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager::Statistics</scope><name>successful_failovers</name></member>
+      <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1aff4b588b4595d71102c6fa66e3871a5e" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager::Statistics</scope><name>successful_retries</name></member>
+      <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a61b4eee73c784f186183557b7c7a848b" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager::Statistics</scope><name>tasks_dropped_queue_full</name></member>
+      <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a3d7fff6585ef8762d1f2ff046850cfb7" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager::Statistics</scope><name>total_failovers</name></member>
+      <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1add24e44e6f207e02c7ee646149339970" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager::Statistics</scope><name>total_recovery_attempts</name></member>
+      <member refid="structthemis_1_1failover_1_1_auto_failover_manager_1_1_statistics_1a8dc4baf32c7c44019a73fef19b4ab80e" prot="public" virt="non-virtual"><scope>themis::failover::AutoFailoverManager::Statistics</scope><name>total_retry_attempts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

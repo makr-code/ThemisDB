@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_signature_scanner_1_1_signature" kind="struct" language="C++" prot="private">
+    <compoundname>themis::security::SignatureScanner::Signature</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_signature_scanner_1_1_signature_1a87c31a490923fe70e53f83905c834aee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::SignatureScanner::Signature::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::security::SignatureScanner::Signature::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="344" column="21" bodyfile="include/security/malware_scanner.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_signature_scanner_1_1_signature_1acd691aa9f027fbc30e86aa1d15dd1d5a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::security::SignatureScanner::Signature::pattern</definition>
+        <argsstring></argsstring>
+        <name>pattern</name>
+        <qualifiedname>themis::security::SignatureScanner::Signature::pattern</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="345" column="21" bodyfile="include/security/malware_scanner.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_signature_scanner_1_1_signature_1a69daff4be79cc68c0aa42205ccb44646" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::SignatureScanner::Signature::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::security::SignatureScanner::Signature::offset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="346" column="13" bodyfile="include/security/malware_scanner.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_signature_scanner_1_1_signature_1a1f597b05c0b1a4eb2074d0adf7f59dc7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1security_1a250201555f300f1909c5101c13ce6384" kindref="member">ThreatLevel</ref></type>
+        <definition>ThreatLevel themis::security::SignatureScanner::Signature::threat_level</definition>
+        <argsstring></argsstring>
+        <name>threat_level</name>
+        <qualifiedname>themis::security::SignatureScanner::Signature::threat_level</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/malware_scanner.h" line="347" column="21" bodyfile="include/security/malware_scanner.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/malware_scanner.h" line="343" column="5" bodyfile="include/security/malware_scanner.h" bodystart="343" bodyend="348"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_signature_scanner_1_1_signature_1a87c31a490923fe70e53f83905c834aee" prot="public" virt="non-virtual"><scope>themis::security::SignatureScanner::Signature</scope><name>name</name></member>
+      <member refid="structthemis_1_1security_1_1_signature_scanner_1_1_signature_1a69daff4be79cc68c0aa42205ccb44646" prot="public" virt="non-virtual"><scope>themis::security::SignatureScanner::Signature</scope><name>offset</name></member>
+      <member refid="structthemis_1_1security_1_1_signature_scanner_1_1_signature_1acd691aa9f027fbc30e86aa1d15dd1d5a" prot="public" virt="non-virtual"><scope>themis::security::SignatureScanner::Signature</scope><name>pattern</name></member>
+      <member refid="structthemis_1_1security_1_1_signature_scanner_1_1_signature_1a1f597b05c0b1a4eb2074d0adf7f59dc7" prot="public" virt="non-virtual"><scope>themis::security::SignatureScanner::Signature</scope><name>threat_level</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

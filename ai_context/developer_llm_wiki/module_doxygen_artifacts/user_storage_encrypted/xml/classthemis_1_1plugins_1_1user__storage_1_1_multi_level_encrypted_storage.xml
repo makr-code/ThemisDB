@@ -1,0 +1,1395 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::user_storage::MultiLevelEncryptedStorage</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">themis::plugins::IThemisPlugin</basecompoundref>
+    <includes refid="multi__level__storage_8hpp" local="no">multi_level_storage.hpp</includes>
+    <innerclass refid="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl" prot="public">themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1af7281bc2e43fa71a01f42dceb3b8e723" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="185" column="21" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="185" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1aaa6e424315d79f977c5a0d543732e06b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::MultiLevelEncryptedStorage::MultiLevelEncryptedStorage</definition>
+        <argsstring>()</argsstring>
+        <name>MultiLevelEncryptedStorage</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::MultiLevelEncryptedStorage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="106" column="5" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="54" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a782a18784fecc28afa9ec4c59c7e9736" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::MultiLevelEncryptedStorage::~MultiLevelEncryptedStorage</definition>
+        <argsstring>() override</argsstring>
+        <name>~MultiLevelEncryptedStorage</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::~MultiLevelEncryptedStorage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="107" column="5" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="58" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1aefeae6679cb23b1877f06baa93ebab4c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::plugins::user_storage::MultiLevelEncryptedStorage::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="110" column="16" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="110" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1aebb535e58febe98da31cd7534dad5c60" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::plugins::user_storage::MultiLevelEncryptedStorage::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::getVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="114" column="16" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="114" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1afc247d8095c16c4f7c558a41948416cd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>PluginType</type>
+        <definition>PluginType themis::plugins::user_storage::MultiLevelEncryptedStorage::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::getType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="118" column="16" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="118" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1adc369e5b25dc80e59808340a86054bff" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>PluginCapabilities</type>
+        <definition>PluginCapabilities themis::plugins::user_storage::MultiLevelEncryptedStorage::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::getCapabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="122" column="24" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="122" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a9056c9e8d8577f67c243d1acdaa9b426" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::MultiLevelEncryptedStorage::initialize</definition>
+        <argsstring>(const char *config_json) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::initialize</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: loadConfiguration(), isError(), validateConfiguration(), reconcileStaleMounts(), empty(), rfind(), substr(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="131" column="10" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="68" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a22e0ad5b3758521f9c748ec88e3a0d6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::user_storage::MultiLevelEncryptedStorage::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a0a40540963d0131a60170a16466a2ad9" kindref="member">unmountAll()</ref>, clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="132" column="10" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="121" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a8e159a6a3867fb16bd162da59b8093de" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::plugins::user_storage::MultiLevelEncryptedStorage::getInstance</definition>
+        <argsstring>() override</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::getInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="133" column="10" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="133" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a5d69f27b6b99a0743a8ba57a3325516b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::createUser</definition>
+        <argsstring>(const User &amp;user, SecurityLevel level)</argsstring>
+        <name>createUser</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::createUser</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_user" kindref="compound">User</ref> &amp;</type>
+          <declname>user</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="structthemis_1_1plugins_1_1user__storage_1_1_user" kindref="compound">User</ref> Management API Implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getUserPath(), empty(), error(), writeUserFile(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="136" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="960" bodyend="967"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a8ca6c362ea9ba6e7413980fcf1a622cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_user" kindref="compound">User</ref> &gt;</type>
+        <definition>Result&lt; User &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::getUser</definition>
+        <argsstring>(const std::string &amp;user_id, SecurityLevel level)</argsstring>
+        <name>getUser</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::getUser</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_user" kindref="compound">User</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getUserPath(), empty(), error(), readUserFile(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="137" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="976" bodyend="983"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a542ad9af2294b618ea37945db07021fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::updateUser</definition>
+        <argsstring>(const User &amp;user, SecurityLevel level)</argsstring>
+        <name>updateUser</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::updateUser</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_user" kindref="compound">User</ref> &amp;</type>
+          <declname>user</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Update <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_user" kindref="compound">User</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a5d69f27b6b99a0743a8ba57a3325516b" kindref="member">createUser()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="138" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="992" bodyend="994"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a26e50290a92370e2df37f1bb5de41eac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::deleteUser</definition>
+        <argsstring>(const std::string &amp;user_id, SecurityLevel level)</argsstring>
+        <name>deleteUser</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::deleteUser</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Delete <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_user" kindref="compound">User</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getUserPath(), empty(), error(), std::remove(), c_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="139" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="1003" bodyend="1014"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a94e615c5b74498118b45a05f07060117" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_user" kindref="compound">User</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; User &gt; &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::listUsers</definition>
+        <argsstring>(SecurityLevel level)</argsstring>
+        <name>listUsers</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::listUsers</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>List Users. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getBasePath(), empty(), error(), std::filesystem::path(), std::filesystem::exists(), std::filesystem::is_directory(), std::filesystem::directory_iterator(), is_regular_file(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="140" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="1022" bodyend="1052"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a650f0adafb355165f866798a19de2428" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::createGroup</definition>
+        <argsstring>(const Group &amp;group, SecurityLevel level)</argsstring>
+        <name>createGroup</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::createGroup</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_group" kindref="compound">Group</ref> &amp;</type>
+          <declname>group</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="structthemis_1_1plugins_1_1user__storage_1_1_group" kindref="compound">Group</ref> Management API Implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getGroupPath(), empty(), error(), writeGroupFile(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="143" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="1061" bodyend="1068"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1ab558c81047306f8288f60cbe28ccb121" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_group" kindref="compound">Group</ref> &gt;</type>
+        <definition>Result&lt; Group &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::getGroup</definition>
+        <argsstring>(const std::string &amp;group_id, SecurityLevel level)</argsstring>
+        <name>getGroup</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::getGroup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_group" kindref="compound">Group</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getGroupPath(), empty(), error(), readGroupFile(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="144" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="1077" bodyend="1084"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a3620e3c8c41aacdbb8c271258f10fb48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::updateGroup</definition>
+        <argsstring>(const Group &amp;group, SecurityLevel level)</argsstring>
+        <name>updateGroup</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::updateGroup</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_group" kindref="compound">Group</ref> &amp;</type>
+          <declname>group</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Update <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_group" kindref="compound">Group</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a650f0adafb355165f866798a19de2428" kindref="member">createGroup()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="145" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="1093" bodyend="1095"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a4f248a6813f4e45448df71003a0e8333" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::deleteGroup</definition>
+        <argsstring>(const std::string &amp;group_id, SecurityLevel level)</argsstring>
+        <name>deleteGroup</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::deleteGroup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Delete <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_group" kindref="compound">Group</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getGroupPath(), empty(), error(), std::remove(), c_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="146" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="1104" bodyend="1115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1aeff6c2f2ee49d177f1a848eb1c4890e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; std::vector&lt; <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_group" kindref="compound">Group</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; Group &gt; &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::listGroups</definition>
+        <argsstring>(SecurityLevel level)</argsstring>
+        <name>listGroups</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::listGroups</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>List Groups. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getBasePath(), empty(), error(), std::filesystem::path(), std::filesystem::exists(), std::filesystem::is_directory(), std::filesystem::directory_iterator(), is_regular_file(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="147" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="1123" bodyend="1153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1afa3be5b073c20a32f81cdf9a1ddc547c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::mountAll</definition>
+        <argsstring>()</argsstring>
+        <name>mountAll</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::mountAll</qualifiedname>
+        <briefdescription>
+<para>Mount All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1aad9072fdecd4870dd45d763a1d745a4d" kindref="member">mountLevel()</ref>, isError(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="150" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="542" bodyend="550"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a0a40540963d0131a60170a16466a2ad9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::unmountAll</definition>
+        <argsstring>()</argsstring>
+        <name>unmountAll</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::unmountAll</qualifiedname>
+        <briefdescription>
+<para>Unmount All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1ad8c0d38c1d36eba8e50edad1de87443d" kindref="member">unmountLevel()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="151" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="557" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1aad9072fdecd4870dd45d763a1d745a4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::mountLevel</definition>
+        <argsstring>(SecurityLevel level)</argsstring>
+        <name>mountLevel</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::mountLevel</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Mount Level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), error(), <ref refid="namespacethemis_1_1plugins_1_1user__storage_1a29902bdf997d755c8e98ebfc83215697" kindref="member">securityLevelToString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="152" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="570" bodyend="576"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1ad8c0d38c1d36eba8e50edad1de87443d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::unmountLevel</definition>
+        <argsstring>(SecurityLevel level)</argsstring>
+        <name>unmountLevel</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::unmountLevel</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Unmount Level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), error(), <ref refid="namespacethemis_1_1plugins_1_1user__storage_1a29902bdf997d755c8e98ebfc83215697" kindref="member">securityLevelToString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="153" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="584" bodyend="590"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a0ac48787f3670dfd6dca8fb7858aa0da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::rotateKey</definition>
+        <argsstring>(SecurityLevel level)</argsstring>
+        <name>rotateKey</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::rotateKey</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Rotate Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), error(), <ref refid="namespacethemis_1_1plugins_1_1user__storage_1a29902bdf997d755c8e98ebfc83215697" kindref="member">securityLevelToString()</ref>, getKeyProvider(), isError(), value(), getKey(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="154" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="598" bodyend="712"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a33afcd0b473ebcae90f28344b98e0600" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_health_status" kindref="compound">HealthStatus</ref> &gt;</type>
+        <definition>Result&lt; HealthStatus &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::checkHealth</definition>
+        <argsstring>()</argsstring>
+        <name>checkHealth</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::checkHealth</qualifiedname>
+        <briefdescription>
+<para>Check Health. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a0d06200e64a13add27f9688925f8545c" kindref="member">checkLevelHealth()</ref>, isError(), push_back(), error(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="157" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="1161" bodyend="1188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a0d06200e64a13add27f9688925f8545c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_health_status" kindref="compound">HealthStatus</ref> &gt;</type>
+        <definition>Result&lt; HealthStatus &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::checkLevelHealth</definition>
+        <argsstring>(SecurityLevel level)</argsstring>
+        <name>checkLevelHealth</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::checkLevelHealth</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Check Level Health. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), find(), end(), isMounted(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="158" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="1196" bodyend="1229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a73d02c2c9c6b17923c075bae242a6e73" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::MultiLevelEncryptedStorage::getMetricsText</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetricsText</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::getMetricsText</qualifiedname>
+        <briefdescription>
+<para>Emit Prometheus text format (v0.0.4) for encrypted-storage metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Exposed metric families:<itemizedlist>
+<listitem><para><computeroutput>user_storage_mounts_active</computeroutput> Gauge Currently mounted containers</para>
+</listitem><listitem><para><computeroutput>user_storage_mount_operations_total</computeroutput> Counter Total mount + unmount ops (label: operation)</para>
+</listitem><listitem><para><computeroutput>user_storage_key_rotations_total</computeroutput> Counter Key rotation callbacks fired (label: level)</para>
+</listitem><listitem><para><computeroutput>user_storage_container_size_bytes</computeroutput> Gauge Sum of encrypted container sizes on disk</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safe (reads std::atomic values). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="173" column="17" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="735" bodyend="766"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a89df9e4bf8085607c9698fff39b7af6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::user_storage::MultiLevelEncryptedStorage::recordKeyRotation</definition>
+        <argsstring>(SecurityLevel level)</argsstring>
+        <name>recordKeyRotation</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::recordKeyRotation</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Manually record a key rotation event for <computeroutput>level</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Key Rotation.</para>
+<para>Called automatically by <computeroutput><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a0ac48787f3670dfd6dca8fb7858aa0da" kindref="member">rotateKey()</ref></computeroutput>; exposed for testing and for callers that manage rotation outside this class.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">SecurityLevel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordKeyRotation without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="181" column="10" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="773" bodyend="775"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a5d8905febcee654ff848e3cab2af1b37" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::loadConfiguration</definition>
+        <argsstring>(const std::string &amp;config_json)</argsstring>
+        <name>loadConfiguration</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::loadConfiguration</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+<para>Load Configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::parse(), contains(), LevelConfig(), error(), value(), <ref refid="namespacethemis_1_1plugins_1_1user__storage_1ac96958f13caa26cb8dbe519ae7b24ba9" kindref="member">stringToSecurityLevel()</ref>, std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="188" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="224" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1abf92e7a5f028cc62afc53e669a7fc54d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::validateConfiguration</definition>
+        <argsstring>()</argsstring>
+        <name>validateConfiguration</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::validateConfiguration</qualifiedname>
+        <briefdescription>
+<para>Validate Configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="189" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="298" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1ad525b327558797faf1411d21bf5f3124" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::initializeLevel</definition>
+        <argsstring>(const LevelConfig &amp;config)</argsstring>
+        <name>initializeLevel</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::initializeLevel</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config" kindref="compound">LevelConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize Level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a9056c9e8d8577f67c243d1acdaa9b426" kindref="member">initialize()</ref>, isError(), checkAvailability(), getKeyProvider(), error(), <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1aad9072fdecd4870dd45d763a1d745a4d" kindref="member">mountLevel()</ref>, std::filesystem::exists(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="192" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="334" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a91b6f66603f00e02561e514ece775086" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::mountLevel</definition>
+        <argsstring>(const LevelConfig &amp;config)</argsstring>
+        <name>mountLevel</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::mountLevel</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config" kindref="compound">LevelConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Mount Level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), error(), getKeyProvider(), isError(), value(), getKey(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="193" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="385" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a1f8e327a82538fb7fa75116e7b679af9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::unmountLevel</definition>
+        <argsstring>(const LevelConfig &amp;config)</argsstring>
+        <name>unmountLevel</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::unmountLevel</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config" kindref="compound">LevelConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Unmount Level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), unmountContainer(), isSuccess(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="194" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="444" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a0e297cdf2f4d0880d416b1e585710a06" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::user_storage::MultiLevelEncryptedStorage::reconcileStaleMounts</definition>
+        <argsstring>(const std::string &amp;base_path)</argsstring>
+        <name>reconcileStaleMounts</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::reconcileStaleMounts</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_path</declname>
+        </param>
+        <briefdescription>
+<para>Reconcile stale gocryptfs mounts left over from a previous crash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reconcile Stale Mounts.</para>
+<para>Scans /proc/mounts for any mount point that is a direct child of <computeroutput>base_path</computeroutput> and is currently not among the configured mount points. Each stale mount is unmounted via &quot;fusermount -u&quot; (Linux) / &quot;umount&quot; (macOS). A WARN-level log message is emitted per stale mount; if unmounting fails the error is logged and startup continues — it is never fatal.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>base_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Directory prefix to scan (e.g. &quot;/var/lib/themisdb&quot;).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the base.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), insert(), defined(), mounts(), std::getline(), iss(), size(), compare(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="208" column="10" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="135" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a3345005c5acfd6eb6d5eaf764320016c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; std::shared_ptr&lt; KeyProvider &gt; &gt;</type>
+        <definition>Result&lt; std::shared_ptr&lt; KeyProvider &gt; &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::getKeyProvider</definition>
+        <argsstring>(const LevelConfig &amp;config)</argsstring>
+        <name>getKeyProvider</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::getKeyProvider</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config" kindref="compound">LevelConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Get Key Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), empty(), error(), std::getenv(), <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a9056c9e8d8577f67c243d1acdaa9b426" kindref="member">initialize()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="211" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="470" bodyend="535"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a305d49dfed875e715042d3828de3333c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::writeUserFile</definition>
+        <argsstring>(const std::string &amp;path, const User &amp;user)</argsstring>
+        <name>writeUserFile</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::writeUserFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_user" kindref="compound">User</ref> &amp;</type>
+          <declname>user</declname>
+        </param>
+        <briefdescription>
+<para>Write <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_user" kindref="compound">User</ref> File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1plugins_1_1user__storage_1a29902bdf997d755c8e98ebfc83215697" kindref="member">securityLevelToString()</ref>, std::filesystem::path(), parent_path(), empty(), std::filesystem::create_directories(), error(), string(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="214" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="814" bodyend="848"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1ab28632644c41eddc967dc1b8b85b3013" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_user" kindref="compound">User</ref> &gt;</type>
+        <definition>Result&lt; User &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::readUserFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>readUserFile</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::readUserFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Read <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_user" kindref="compound">User</ref> File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: file(), is_open(), error(), value(), <ref refid="namespacethemis_1_1plugins_1_1user__storage_1ac96958f13caa26cb8dbe519ae7b24ba9" kindref="member">stringToSecurityLevel()</ref>, std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="215" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="856" bodyend="880"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1ab258c512d1c74891bb3bc8f3e93d257d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::writeGroupFile</definition>
+        <argsstring>(const std::string &amp;path, const Group &amp;group)</argsstring>
+        <name>writeGroupFile</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::writeGroupFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_group" kindref="compound">Group</ref> &amp;</type>
+          <declname>group</declname>
+        </param>
+        <briefdescription>
+<para>Write <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_group" kindref="compound">Group</ref> File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">group</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1plugins_1_1user__storage_1a29902bdf997d755c8e98ebfc83215697" kindref="member">securityLevelToString()</ref>, std::filesystem::path(), parent_path(), empty(), std::filesystem::create_directories(), error(), string(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="216" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="889" bodyend="921"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1af5d34e2504bcb430f9b1e70f1710ad97" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_group" kindref="compound">Group</ref> &gt;</type>
+        <definition>Result&lt; Group &gt; themis::plugins::user_storage::MultiLevelEncryptedStorage::readGroupFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>readGroupFile</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::readGroupFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Read <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_group" kindref="compound">Group</ref> File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: file(), is_open(), error(), value(), <ref refid="namespacethemis_1_1plugins_1_1user__storage_1ac96958f13caa26cb8dbe519ae7b24ba9" kindref="member">stringToSecurityLevel()</ref>, std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="217" column="12" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="929" bodyend="951"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a70e0be7c89f4a103078dfd48d4a3cdab" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::MultiLevelEncryptedStorage::getUserPath</definition>
+        <argsstring>(SecurityLevel level, const std::string &amp;user_id)</argsstring>
+        <name>getUserPath</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::getUserPath</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_user" kindref="compound">User</ref> Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getBasePath(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="220" column="17" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="784" bodyend="790"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a72ed5b0ac3afa87691e26bc68445fc8d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::MultiLevelEncryptedStorage::getGroupPath</definition>
+        <argsstring>(SecurityLevel level, const std::string &amp;group_id)</argsstring>
+        <name>getGroupPath</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::getGroupPath</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>group_id</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_group" kindref="compound">Group</ref> Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">group_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the group. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getBasePath(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="221" column="17" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="799" bodyend="805"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1ae8a7939cf390185b06dca04a96756439" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::MultiLevelEncryptedStorage::getBasePath</definition>
+        <argsstring>(SecurityLevel level)</argsstring>
+        <name>getBasePath</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::getBasePath</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kindref="member">SecurityLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Get Base Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="222" column="17" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="720" bodyend="731"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a0028801f19d22c635fa50311139f58bd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::user_storage::MultiLevelEncryptedStorage::reconcileStaleMounts</definition>
+        <argsstring>()</argsstring>
+        <name>reconcileStaleMounts</name>
+        <qualifiedname>themis::plugins::user_storage::MultiLevelEncryptedStorage::reconcileStaleMounts</qualifiedname>
+        <briefdescription>
+<para>Reconcile Stale Mounts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: empty(), push_back(), mounts_file(), std::getline(), iss(), find(), fork(), c_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="225" column="10" bodyfile="src/user_storage_encrypted/multi_level_storage.cpp" bodystart="1235" bodyend="1321"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Multi-Level Encrypted Storage Plugin. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides encrypted user/group storage with:<itemizedlist>
+<listitem><para>4 security classification levels (offen, vs-nfd, geheim, streng-geheim)</para>
+</listitem><listitem><para>Separate encrypted containers per level</para>
+</listitem><listitem><para>Integration with HashiCorp Vault and HSM</para>
+</listitem><listitem><para>Automatic key rotation</para>
+</listitem><listitem><para>Zero-downtime key rotation</para>
+</listitem></itemizedlist>
+</para>
+<para>Architecture:<itemizedlist>
+<listitem><para>offen: Unencrypted filesystem storage</para>
+</listitem><listitem><para>vs-nfd: gocryptfs + Vault (90-day rotation)</para>
+</listitem><listitem><para>geheim: gocryptfs + Vault (60-day rotation)</para>
+</listitem><listitem><para>streng-geheim: gocryptfs + HSM (30-day rotation)</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread Safety: All methods are thread-safe </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::plugins::IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::plugins::user_storage::MultiLevelEncryptedStorage</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::plugins::IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::plugins::user_storage::MultiLevelEncryptedStorage</label>
+        <link refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/user_storage_encrypted/multi_level_storage.hpp" line="104" column="1" bodyfile="include/user_storage_encrypted/multi_level_storage.hpp" bodystart="104" bodyend="226"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a33afcd0b473ebcae90f28344b98e0600" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>checkHealth</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a0d06200e64a13add27f9688925f8545c" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>checkLevelHealth</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a650f0adafb355165f866798a19de2428" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>createGroup</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a5d69f27b6b99a0743a8ba57a3325516b" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>createUser</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a4f248a6813f4e45448df71003a0e8333" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>deleteGroup</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a26e50290a92370e2df37f1bb5de41eac" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>deleteUser</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1ae8a7939cf390185b06dca04a96756439" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>getBasePath</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1adc369e5b25dc80e59808340a86054bff" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1ab558c81047306f8288f60cbe28ccb121" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>getGroup</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a72ed5b0ac3afa87691e26bc68445fc8d" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>getGroupPath</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a8e159a6a3867fb16bd162da59b8093de" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a3345005c5acfd6eb6d5eaf764320016c" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>getKeyProvider</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a73d02c2c9c6b17923c075bae242a6e73" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>getMetricsText</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1aefeae6679cb23b1877f06baa93ebab4c" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>getName</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1afc247d8095c16c4f7c558a41948416cd" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>getType</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a8ca6c362ea9ba6e7413980fcf1a622cf" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>getUser</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a70e0be7c89f4a103078dfd48d4a3cdab" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>getUserPath</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1aebb535e58febe98da31cd7534dad5c60" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1af7281bc2e43fa71a01f42dceb3b8e723" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a9056c9e8d8577f67c243d1acdaa9b426" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1ad525b327558797faf1411d21bf5f3124" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>initializeLevel</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1aeff6c2f2ee49d177f1a848eb1c4890e6" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>listGroups</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a94e615c5b74498118b45a05f07060117" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>listUsers</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a5d8905febcee654ff848e3cab2af1b37" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>loadConfiguration</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1afa3be5b073c20a32f81cdf9a1ddc547c" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>mountAll</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1aad9072fdecd4870dd45d763a1d745a4d" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>mountLevel</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a91b6f66603f00e02561e514ece775086" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>mountLevel</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1aaa6e424315d79f977c5a0d543732e06b" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>MultiLevelEncryptedStorage</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1af5d34e2504bcb430f9b1e70f1710ad97" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>readGroupFile</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1ab28632644c41eddc967dc1b8b85b3013" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>readUserFile</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a0e297cdf2f4d0880d416b1e585710a06" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>reconcileStaleMounts</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a0028801f19d22c635fa50311139f58bd" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>reconcileStaleMounts</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a89df9e4bf8085607c9698fff39b7af6a" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>recordKeyRotation</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a0ac48787f3670dfd6dca8fb7858aa0da" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>rotateKey</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a22e0ad5b3758521f9c748ec88e3a0d6d" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a0a40540963d0131a60170a16466a2ad9" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>unmountAll</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1ad8c0d38c1d36eba8e50edad1de87443d" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>unmountLevel</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a1f8e327a82538fb7fa75116e7b679af9" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>unmountLevel</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a3620e3c8c41aacdbb8c271258f10fb48" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>updateGroup</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a542ad9af2294b618ea37945db07021fa" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>updateUser</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1abf92e7a5f028cc62afc53e669a7fc54d" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>validateConfiguration</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1ab258c512d1c74891bb3bc8f3e93d257d" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>writeGroupFile</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a305d49dfed875e715042d3828de3333c" prot="private" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>writeUserFile</name></member>
+      <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a782a18784fecc28afa9ec4c59c7e9736" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::MultiLevelEncryptedStorage</scope><name>~MultiLevelEncryptedStorage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_cpu_exact_backend_1_1_g_h_vert" kind="struct" language="C++" prot="private">
+    <compoundname>themis::geo::CpuExactBackend::GHVert</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_cpu_exact_backend_1_1_g_h_vert_1a4110abcd3d6b938918a4015e0e71c865" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::CpuExactBackend::GHVert::x</definition>
+        <argsstring></argsstring>
+        <name>x</name>
+        <qualifiedname>themis::geo::CpuExactBackend::GHVert::x</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="709" column="16" bodyfile="src/geo/cpu_backend.cpp" bodystart="709" bodyend="709"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_cpu_exact_backend_1_1_g_h_vert_1af4b72603fa559bf7b5a4dd21a3f17b5a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::CpuExactBackend::GHVert::y</definition>
+        <argsstring></argsstring>
+        <name>y</name>
+        <qualifiedname>themis::geo::CpuExactBackend::GHVert::y</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="709" column="18" bodyfile="src/geo/cpu_backend.cpp" bodystart="709" bodyend="709"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_cpu_exact_backend_1_1_g_h_vert_1a376a29f8bee90d2cd6f9e90b9a635c27" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::CpuExactBackend::GHVert::alpha</definition>
+        <argsstring></argsstring>
+        <name>alpha</name>
+        <qualifiedname>themis::geo::CpuExactBackend::GHVert::alpha</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="710" column="16" bodyfile="src/geo/cpu_backend.cpp" bodystart="710" bodyend="710"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_cpu_exact_backend_1_1_g_h_vert_1ac2f0cc57562adadbf9dbcd0560c0a3dd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::geo::CpuExactBackend::GHVert::is_isect</definition>
+        <argsstring></argsstring>
+        <name>is_isect</name>
+        <qualifiedname>themis::geo::CpuExactBackend::GHVert::is_isect</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="713" column="14" bodyfile="src/geo/cpu_backend.cpp" bodystart="713" bodyend="713"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_cpu_exact_backend_1_1_g_h_vert_1a0ba003965b93ae39c1314d1495b6f715" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::geo::CpuExactBackend::GHVert::ent_B</definition>
+        <argsstring></argsstring>
+        <name>ent_B</name>
+        <qualifiedname>themis::geo::CpuExactBackend::GHVert::ent_B</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="714" column="14" bodyfile="src/geo/cpu_backend.cpp" bodystart="714" bodyend="714"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_cpu_exact_backend_1_1_g_h_vert_1abd698d469f3ec78c7d9e46e66bcf9bd6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::geo::CpuExactBackend::GHVert::ent_A</definition>
+        <argsstring></argsstring>
+        <name>ent_A</name>
+        <qualifiedname>themis::geo::CpuExactBackend::GHVert::ent_A</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="715" column="14" bodyfile="src/geo/cpu_backend.cpp" bodystart="715" bodyend="715"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_cpu_exact_backend_1_1_g_h_vert_1abc13ea5488f784c21f57ed129dfe56d6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::geo::CpuExactBackend::GHVert::used</definition>
+        <argsstring></argsstring>
+        <name>used</name>
+        <qualifiedname>themis::geo::CpuExactBackend::GHVert::used</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="716" column="14" bodyfile="src/geo/cpu_backend.cpp" bodystart="716" bodyend="716"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_cpu_exact_backend_1_1_g_h_vert_1acb65422a230ef78a961ca68080eb1a74" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::geo::CpuExactBackend::GHVert::link</definition>
+        <argsstring></argsstring>
+        <name>link</name>
+        <qualifiedname>themis::geo::CpuExactBackend::GHVert::link</qualifiedname>
+        <initializer>{-1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/cpu_backend.cpp" line="717" column="13" bodyfile="src/geo/cpu_backend.cpp" bodystart="717" bodyend="717"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/geo/cpu_backend.cpp" line="708" column="5" bodyfile="src/geo/cpu_backend.cpp" bodystart="708" bodyend="718"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_cpu_exact_backend_1_1_g_h_vert_1a376a29f8bee90d2cd6f9e90b9a635c27" prot="public" virt="non-virtual"><scope>themis::geo::CpuExactBackend::GHVert</scope><name>alpha</name></member>
+      <member refid="structthemis_1_1geo_1_1_cpu_exact_backend_1_1_g_h_vert_1abd698d469f3ec78c7d9e46e66bcf9bd6" prot="public" virt="non-virtual"><scope>themis::geo::CpuExactBackend::GHVert</scope><name>ent_A</name></member>
+      <member refid="structthemis_1_1geo_1_1_cpu_exact_backend_1_1_g_h_vert_1a0ba003965b93ae39c1314d1495b6f715" prot="public" virt="non-virtual"><scope>themis::geo::CpuExactBackend::GHVert</scope><name>ent_B</name></member>
+      <member refid="structthemis_1_1geo_1_1_cpu_exact_backend_1_1_g_h_vert_1ac2f0cc57562adadbf9dbcd0560c0a3dd" prot="public" virt="non-virtual"><scope>themis::geo::CpuExactBackend::GHVert</scope><name>is_isect</name></member>
+      <member refid="structthemis_1_1geo_1_1_cpu_exact_backend_1_1_g_h_vert_1acb65422a230ef78a961ca68080eb1a74" prot="public" virt="non-virtual"><scope>themis::geo::CpuExactBackend::GHVert</scope><name>link</name></member>
+      <member refid="structthemis_1_1geo_1_1_cpu_exact_backend_1_1_g_h_vert_1abc13ea5488f784c21f57ed129dfe56d6" prot="public" virt="non-virtual"><scope>themis::geo::CpuExactBackend::GHVert</scope><name>used</name></member>
+      <member refid="structthemis_1_1geo_1_1_cpu_exact_backend_1_1_g_h_vert_1a4110abcd3d6b938918a4015e0e71c865" prot="public" virt="non-virtual"><scope>themis::geo::CpuExactBackend::GHVert</scope><name>x</name></member>
+      <member refid="structthemis_1_1geo_1_1_cpu_exact_backend_1_1_g_h_vert_1af4b72603fa559bf7b5a4dd21a3f17b5a" prot="public" virt="non-virtual"><scope>themis::geo::CpuExactBackend::GHVert</scope><name>y</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

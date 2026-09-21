@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_redundancy_strategy_1_1_versioned_read_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::RedundancyStrategy::VersionedReadResult</compoundname>
+    <includes refid="redundancy__strategy_8h" local="no">redundancy_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_strategy_1_1_versioned_read_result_1afb33be90a3d944cbe7d706daab95694a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt;std::vector&lt;uint8_t&gt; &gt; themis::sharding::RedundancyStrategy::VersionedReadResult::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::VersionedReadResult::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="553" column="23" bodyfile="include/sharding/redundancy_strategy.h" bodystart="553" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_strategy_1_1_versioned_read_result_1a3841498adce274c77b09403113dc754b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::RedundancyStrategy::VersionedReadResult::version_token</definition>
+        <argsstring></argsstring>
+        <name>version_token</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::VersionedReadResult::version_token</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="554" column="18" bodyfile="include/sharding/redundancy_strategy.h" bodystart="554" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_redundancy_strategy_1_1_versioned_read_result_1a7bbead980f392a83df29940925af0531" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::RedundancyStrategy::VersionedReadResult::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::RedundancyStrategy::VersionedReadResult::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/redundancy_strategy.h" line="555" column="21" bodyfile="include/sharding/redundancy_strategy.h" bodystart="555" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Read handler with version token support for consistency checking. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/redundancy_strategy.h" line="552" column="5" bodyfile="include/sharding/redundancy_strategy.h" bodystart="552" bodyend="556"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_strategy_1_1_versioned_read_result_1afb33be90a3d944cbe7d706daab95694a" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy::VersionedReadResult</scope><name>data</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_strategy_1_1_versioned_read_result_1a7bbead980f392a83df29940925af0531" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy::VersionedReadResult</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_redundancy_strategy_1_1_versioned_read_result_1a3841498adce274c77b09403113dc754b" prot="public" virt="non-virtual"><scope>themis::sharding::RedundancyStrategy::VersionedReadResult</scope><name>version_token</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

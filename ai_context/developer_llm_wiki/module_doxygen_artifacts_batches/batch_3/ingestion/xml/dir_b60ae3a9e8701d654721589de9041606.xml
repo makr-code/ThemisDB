@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_b60ae3a9e8701d654721589de9041606" kind="dir">
+    <compoundname>tests/ingestion</compoundname>
+    <innerfile refid="test__ingestion__assembler__sinks_8cpp">test_ingestion_assembler_sinks.cpp</innerfile>
+    <innerfile refid="test__ingestion__base__entity_8cpp">test_ingestion_base_entity.cpp</innerfile>
+    <innerfile refid="test__ingestion__builder_8cpp">test_ingestion_builder.cpp</innerfile>
+    <innerfile refid="test__ingestion__builtin__steps__v14_8cpp">test_ingestion_builtin_steps_v14.cpp</innerfile>
+    <innerfile refid="test__ingestion__cdc_8cpp">test_ingestion_cdc.cpp</innerfile>
+    <innerfile refid="test__ingestion__checkpoint_8cpp">test_ingestion_checkpoint.cpp</innerfile>
+    <innerfile refid="test__ingestion__contract__hardening__focused_8cpp">test_ingestion_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__ingestion__coordinator_8cpp">test_ingestion_coordinator.cpp</innerfile>
+    <innerfile refid="test__ingestion__database_8cpp">test_ingestion_database.cpp</innerfile>
+    <innerfile refid="test__ingestion__error__contract__focused_8cpp">test_ingestion_error_contract_focused.cpp</innerfile>
+    <innerfile refid="test__ingestion__errors_8cpp">test_ingestion_errors.cpp</innerfile>
+    <innerfile refid="test__ingestion__features_8cpp">test_ingestion_features.cpp</innerfile>
+    <innerfile refid="test__ingestion__highcardinality__stress_8cpp">test_ingestion_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__ingestion__inference__backend_8cpp">test_ingestion_inference_backend.cpp</innerfile>
+    <innerfile refid="test__ingestion__integration_8cpp">test_ingestion_integration.cpp</innerfile>
+    <innerfile refid="test__ingestion__kafka_8cpp">test_ingestion_kafka.cpp</innerfile>
+    <innerfile refid="test__ingestion__legal__domain_8cpp">test_ingestion_legal_domain.cpp</innerfile>
+    <innerfile refid="test__ingestion__lineage_8cpp">test_ingestion_lineage.cpp</innerfile>
+    <innerfile refid="test__ingestion__llm__adapter_8cpp">test_ingestion_llm_adapter.cpp</innerfile>
+    <innerfile refid="test__ingestion__manager__adapter_8cpp">test_ingestion_manager_adapter.cpp</innerfile>
+    <innerfile refid="test__ingestion__ner__llm_8cpp">test_ingestion_ner_llm.cpp</innerfile>
+    <innerfile refid="test__ingestion__oauth_8cpp">test_ingestion_oauth.cpp</innerfile>
+    <innerfile refid="test__ingestion__object__storage_8cpp">test_ingestion_object_storage.cpp</innerfile>
+    <innerfile refid="test__ingestion__pipeline_8cpp">test_ingestion_pipeline.cpp</innerfile>
+    <innerfile refid="test__ingestion__plugin__api_8cpp">test_ingestion_plugin_api.cpp</innerfile>
+    <innerfile refid="test__ingestion__quality__judge_8cpp">test_ingestion_quality_judge.cpp</innerfile>
+    <innerfile refid="test__ingestion__queue__saturation__stress_8cpp">test_ingestion_queue_saturation_stress.cpp</innerfile>
+    <innerfile refid="test__ingestion__reconfig_8cpp">test_ingestion_reconfig.cpp</innerfile>
+    <innerfile refid="test__ingestion__resilience_8cpp">test_ingestion_resilience.cpp</innerfile>
+    <innerfile refid="test__ingestion__schema__validation_8cpp">test_ingestion_schema_validation.cpp</innerfile>
+    <innerfile refid="test__ingestion__security_8cpp">test_ingestion_security.cpp</innerfile>
+    <innerfile refid="test__ingestion__web__crawler_8cpp">test_ingestion_web_crawler.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/ingestion/"/>
+  </compounddef>
+</doxygen>

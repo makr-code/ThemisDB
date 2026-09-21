@@ -88,7 +88,9 @@ TEST(GPULauncherTest, SubmitBatch_MixedResults) {
     size_t ok = 0, fail = 0;
     for (const auto& r : results) {
         if (r.success) {
-          ++ok; else ++fail;
+            ++ok;
+        } else {
+            ++fail;
         }
     }
     EXPECT_EQ(ok, 2u);

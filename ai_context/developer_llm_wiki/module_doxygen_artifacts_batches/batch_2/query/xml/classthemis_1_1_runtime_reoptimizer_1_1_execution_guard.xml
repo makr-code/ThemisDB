@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::RuntimeReoptimizer::ExecutionGuard</compoundname>
+    <includes refid="runtime__reoptimizer_8h" local="no">runtime_reoptimizer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1ad00a3c2f5f80a663bcb1b3124176fabe" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_runtime_reoptimizer_1aadfd16f7da283cf3abfa7cb0fd63e35f" kindref="member">RuntimeReoptimizer</ref> *</type>
+        <definition>RuntimeReoptimizer* themis::RuntimeReoptimizer::ExecutionGuard::owner_</definition>
+        <argsstring></argsstring>
+        <name>owner_</name>
+        <qualifiedname>themis::RuntimeReoptimizer::ExecutionGuard::owner_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="50" column="28" bodyfile="include/query/runtime_reoptimizer.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1a3ffee8fbce1d0736c93cf08391e43517" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_runtime_reoptimizer_1_1_execution_context" kindref="compound">ExecutionContext</ref></type>
+        <definition>ExecutionContext themis::RuntimeReoptimizer::ExecutionGuard::ctx_</definition>
+        <argsstring></argsstring>
+        <name>ctx_</name>
+        <qualifiedname>themis::RuntimeReoptimizer::ExecutionGuard::ctx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="51" column="26" bodyfile="include/query/runtime_reoptimizer.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1a827769d6cf167395db8ceb87e2ce8943" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::RuntimeReoptimizer::ExecutionGuard::actual_rows_</definition>
+        <argsstring></argsstring>
+        <name>actual_rows_</name>
+        <qualifiedname>themis::RuntimeReoptimizer::ExecutionGuard::actual_rows_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="52" column="16" bodyfile="include/query/runtime_reoptimizer.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1a93d33d81d0cc84ead47d9d141cdd7574" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::RuntimeReoptimizer::ExecutionGuard::finished_</definition>
+        <argsstring></argsstring>
+        <name>finished_</name>
+        <qualifiedname>themis::RuntimeReoptimizer::ExecutionGuard::finished_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="53" column="14" bodyfile="include/query/runtime_reoptimizer.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1a35655782f1627d1f5c16ba4d6b00e65c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::RuntimeReoptimizer::ExecutionGuard::ExecutionGuard</definition>
+        <argsstring>(RuntimeReoptimizer &amp;owner, ExecutionContext ctx)</argsstring>
+        <name>ExecutionGuard</name>
+        <qualifiedname>themis::RuntimeReoptimizer::ExecutionGuard::ExecutionGuard</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_runtime_reoptimizer_1aadfd16f7da283cf3abfa7cb0fd63e35f" kindref="member">RuntimeReoptimizer</ref> &amp;</type>
+          <declname>owner</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_runtime_reoptimizer_1_1_execution_context" kindref="compound">ExecutionContext</ref></type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="34" column="9" bodyfile="src/query/runtime_reoptimizer.cpp" bodystart="34" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1ab9661932ddc81b81e7da6a4e1d0b6005" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::RuntimeReoptimizer::ExecutionGuard::ExecutionGuard</definition>
+        <argsstring>(const ExecutionGuard &amp;)=delete</argsstring>
+        <name>ExecutionGuard</name>
+        <qualifiedname>themis::RuntimeReoptimizer::ExecutionGuard::ExecutionGuard</qualifiedname>
+        <param>
+          <type>const ExecutionGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="35" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1a01fdb745e8fd4ed8998fc00a3b7cbdab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1a35655782f1627d1f5c16ba4d6b00e65c" kindref="member">ExecutionGuard</ref> &amp;</type>
+        <definition>ExecutionGuard &amp; themis::RuntimeReoptimizer::ExecutionGuard::operator=</definition>
+        <argsstring>(const ExecutionGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::RuntimeReoptimizer::ExecutionGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1a35655782f1627d1f5c16ba4d6b00e65c" kindref="member">ExecutionGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="36" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1afb0708039f674052d30a56b99c5cce1b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::RuntimeReoptimizer::ExecutionGuard::ExecutionGuard</definition>
+        <argsstring>(ExecutionGuard &amp;&amp;) noexcept</argsstring>
+        <name>ExecutionGuard</name>
+        <qualifiedname>themis::RuntimeReoptimizer::ExecutionGuard::ExecutionGuard</qualifiedname>
+        <param>
+          <type>ExecutionGuard &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="37" column="9" bodyfile="src/query/runtime_reoptimizer.cpp" bodystart="38" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1af6b64cd53ce61451624ba1a7329625c2" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1a35655782f1627d1f5c16ba4d6b00e65c" kindref="member">ExecutionGuard</ref> &amp;</type>
+        <definition>RuntimeReoptimizer::ExecutionGuard &amp; themis::RuntimeReoptimizer::ExecutionGuard::operator=</definition>
+        <argsstring>(ExecutionGuard &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::RuntimeReoptimizer::ExecutionGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1a35655782f1627d1f5c16ba4d6b00e65c" kindref="member">ExecutionGuard</ref> &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="38" column="24" bodyfile="src/query/runtime_reoptimizer.cpp" bodystart="48" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1a10101ff89080cb4eac846b6f7c641d1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::RuntimeReoptimizer::ExecutionGuard::~ExecutionGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~ExecutionGuard</name>
+        <qualifiedname>themis::RuntimeReoptimizer::ExecutionGuard::~ExecutionGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="39" column="9" bodyfile="src/query/runtime_reoptimizer.cpp" bodystart="63" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1a95421fb4db1d7c54c57e3f1c14f38091" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RuntimeReoptimizer::ExecutionGuard::finish</definition>
+        <argsstring>(size_t actual_rows)</argsstring>
+        <name>finish</name>
+        <qualifiedname>themis::RuntimeReoptimizer::ExecutionGuard::finish</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>actual_rows</declname>
+        </param>
+        <briefdescription>
+<para>Finish. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">actual_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">actual_rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::steady_clock::now(), count(), <ref refid="classthemis_1_1_runtime_reoptimizer_1afe785b0814a3ec2d60da02c0e0861eb2" kindref="member">recordExecution()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="45" column="14" bodyfile="src/query/runtime_reoptimizer.cpp" bodystart="74" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1a937e2dac448f131cab7ab73bfb3edebe" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_runtime_reoptimizer_1_1_execution_context" kindref="compound">ExecutionContext</ref> &amp;</type>
+        <definition>const ExecutionContext &amp; themis::RuntimeReoptimizer::ExecutionGuard::context</definition>
+        <argsstring>() const</argsstring>
+        <name>context</name>
+        <qualifiedname>themis::RuntimeReoptimizer::ExecutionGuard::context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="47" column="32" bodyfile="include/query/runtime_reoptimizer.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/runtime_reoptimizer.h" line="32" column="5" bodyfile="include/query/runtime_reoptimizer.h" bodystart="32" bodyend="54"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1a827769d6cf167395db8ceb87e2ce8943" prot="private" virt="non-virtual"><scope>themis::RuntimeReoptimizer::ExecutionGuard</scope><name>actual_rows_</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1a937e2dac448f131cab7ab73bfb3edebe" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer::ExecutionGuard</scope><name>context</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1a3ffee8fbce1d0736c93cf08391e43517" prot="private" virt="non-virtual"><scope>themis::RuntimeReoptimizer::ExecutionGuard</scope><name>ctx_</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1a35655782f1627d1f5c16ba4d6b00e65c" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer::ExecutionGuard</scope><name>ExecutionGuard</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1ab9661932ddc81b81e7da6a4e1d0b6005" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer::ExecutionGuard</scope><name>ExecutionGuard</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1afb0708039f674052d30a56b99c5cce1b" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer::ExecutionGuard</scope><name>ExecutionGuard</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1a95421fb4db1d7c54c57e3f1c14f38091" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer::ExecutionGuard</scope><name>finish</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1a93d33d81d0cc84ead47d9d141cdd7574" prot="private" virt="non-virtual"><scope>themis::RuntimeReoptimizer::ExecutionGuard</scope><name>finished_</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1a01fdb745e8fd4ed8998fc00a3b7cbdab" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer::ExecutionGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1af6b64cd53ce61451624ba1a7329625c2" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer::ExecutionGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1ad00a3c2f5f80a663bcb1b3124176fabe" prot="private" virt="non-virtual"><scope>themis::RuntimeReoptimizer::ExecutionGuard</scope><name>owner_</name></member>
+      <member refid="classthemis_1_1_runtime_reoptimizer_1_1_execution_guard_1a10101ff89080cb4eac846b6f7c641d1e" prot="public" virt="non-virtual"><scope>themis::RuntimeReoptimizer::ExecutionGuard</scope><name>~ExecutionGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

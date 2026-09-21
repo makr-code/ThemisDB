@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d137240047307255044001060055344125143037173354063" kind="namespace" language="C++">
+    <compoundname>@137240047307255044001060055344125143037173354063</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/chimera/test_chimera_highcardinality_stress.cpp" line="41" column="1"/>
+  </compounddef>
+</doxygen>

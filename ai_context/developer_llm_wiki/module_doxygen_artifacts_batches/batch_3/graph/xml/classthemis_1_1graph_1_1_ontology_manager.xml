@@ -1,0 +1,922 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_ontology_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::OntologyManager</compoundname>
+    <includes refid="ontology__manager_8h" local="no">ontology_manager.h</includes>
+    <innerclass refid="structthemis_1_1graph_1_1_ontology_manager_1_1_concept_node" prot="public">themis::graph::OntologyManager::ConceptNode</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_ontology_manager_1_1_axiom" prot="public">themis::graph::OntologyManager::Axiom</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Ruleset</name>
+        <qualifiedname>themis::graph::OntologyManager::Ruleset</qualifiedname>
+        <enumvalue id="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8a2e979835dd62324f5bfe217449ba4974" prot="public">
+          <name>Strict</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8a56525ae64d370c0b448ac0d60710ef17" prot="public">
+          <name>Warn</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="36" column="5" bodyfile="include/graph/ontology_manager.h" bodystart="36" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_ontology_manager_1ac089bfd0eea5d6e7dd76c688c083ec4c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::graph::OntologyManager::kMaxIsADepth</definition>
+        <argsstring></argsstring>
+        <name>kMaxIsADepth</name>
+        <qualifiedname>themis::graph::OntologyManager::kMaxIsADepth</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="32" column="26" bodyfile="include/graph/ontology_manager.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_ontology_manager_1ac23784b15787c876974b06e503b60d8b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::OntologyManager::kIsACacheCapacity</definition>
+        <argsstring></argsstring>
+        <name>kIsACacheCapacity</name>
+        <qualifiedname>themis::graph::OntologyManager::kIsACacheCapacity</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="33" column="34" bodyfile="include/graph/ontology_manager.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_ontology_manager_1a5c0983d814661bc6d18e511c9b61dfd9" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1graph_1_1_ontology_manager_1_1_concept_node" kindref="compound">ConceptNode</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ConceptNode&gt; themis::graph::OntologyManager::concepts_</definition>
+        <argsstring></argsstring>
+        <name>concepts_</name>
+        <qualifiedname>themis::graph::OntologyManager::concepts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="140" column="24" bodyfile="include/graph/ontology_manager.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_ontology_manager_1a113213d86af22c932aec93c906f63ea0" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_ontology_manager_1_1_axiom" kindref="compound">Axiom</ref> &gt;</type>
+        <definition>std::vector&lt;Axiom&gt; themis::graph::OntologyManager::axioms_</definition>
+        <argsstring></argsstring>
+        <name>axioms_</name>
+        <qualifiedname>themis::graph::OntologyManager::axioms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="141" column="17" bodyfile="include/graph/ontology_manager.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_ontology_manager_1a4577ee5f0a48d724d8bf3be398666d99" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::OntologyManager::built_</definition>
+        <argsstring></argsstring>
+        <name>built_</name>
+        <qualifiedname>themis::graph::OntologyManager::built_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="142" column="10" bodyfile="include/graph/ontology_manager.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_ontology_manager_1ae6a16d72880dd92ebe75162b34997d74" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; std::string, bool &gt;</type>
+        <definition>std::unordered_map&lt;std::string, bool&gt; themis::graph::OntologyManager::isa_cache_</definition>
+        <argsstring></argsstring>
+        <name>isa_cache_</name>
+        <qualifiedname>themis::graph::OntologyManager::isa_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="146" column="32" bodyfile="include/graph/ontology_manager.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_ontology_manager_1a437306471b691c89c9ad3c72cdcdd2ad" prot="private" static="no" mutable="yes">
+        <type>std::list&lt; std::string &gt;</type>
+        <definition>std::list&lt;std::string&gt; themis::graph::OntologyManager::isa_cache_lru_</definition>
+        <argsstring></argsstring>
+        <name>isa_cache_lru_</name>
+        <qualifiedname>themis::graph::OntologyManager::isa_cache_lru_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="147" column="23" bodyfile="include/graph/ontology_manager.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_ontology_manager_1abfd74e3e396a720c93e77e5a7f494d04" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::graph::OntologyManager::isa_cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>isa_cache_mutex_</name>
+        <qualifiedname>themis::graph::OntologyManager::isa_cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="148" column="31" bodyfile="include/graph/ontology_manager.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1a397989b7ca3cd519260bfbefdc3efc10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::OntologyManager::OntologyManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>OntologyManager</name>
+        <qualifiedname>themis::graph::OntologyManager::OntologyManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="56" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1a9fc4a550505ba59b856bf2d35e898912" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::OntologyManager::OntologyManager</definition>
+        <argsstring>(const OntologyManager &amp;)=delete</argsstring>
+        <name>OntologyManager</name>
+        <qualifiedname>themis::graph::OntologyManager::OntologyManager</qualifiedname>
+        <param>
+          <type>const OntologyManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="58" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1a8380b1e433618a036c9277857c21057e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a397989b7ca3cd519260bfbefdc3efc10" kindref="member">OntologyManager</ref> &amp;</type>
+        <definition>OntologyManager &amp; themis::graph::OntologyManager::operator=</definition>
+        <argsstring>(const OntologyManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::graph::OntologyManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1graph_1_1_ontology_manager_1a397989b7ca3cd519260bfbefdc3efc10" kindref="member">OntologyManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="59" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1a6e080e6f5344f3ea17197e74b5a07231" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::OntologyManager::OntologyManager</definition>
+        <argsstring>(OntologyManager &amp;&amp;) noexcept=default</argsstring>
+        <name>OntologyManager</name>
+        <qualifiedname>themis::graph::OntologyManager::OntologyManager</qualifiedname>
+        <param>
+          <type>OntologyManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="61" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1ab7560b67c48a0e2802da2ecb79f8f033" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a397989b7ca3cd519260bfbefdc3efc10" kindref="member">OntologyManager</ref> &amp;</type>
+        <definition>OntologyManager &amp; themis::graph::OntologyManager::operator=</definition>
+        <argsstring>(OntologyManager &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::graph::OntologyManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_ontology_manager_1a397989b7ca3cd519260bfbefdc3efc10" kindref="member">OntologyManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="62" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1aca3f78c3891e9ca1173105d2189e0bd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::OntologyManager::~OntologyManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~OntologyManager</name>
+        <qualifiedname>themis::graph::OntologyManager::~OntologyManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="64" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1aba51e52a45ca3826838383c4174c6bb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::OntologyManager::loadFromJson</definition>
+        <argsstring>(std::string_view path)</argsstring>
+        <name>loadFromJson</name>
+        <qualifiedname>themis::graph::OntologyManager::loadFromJson</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>── Schema loading ────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load From Json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: is_open(), rdbuf(), parseJson(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="72" column="10" bodyfile="src/graph/ontology_manager.cpp" bodystart="338" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1a2fda13ef5ca4bff98d55419de6d2092d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::OntologyManager::loadFromYaml</definition>
+        <argsstring>(std::string_view path)</argsstring>
+        <name>loadFromYaml</name>
+        <qualifiedname>themis::graph::OntologyManager::loadFromYaml</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load From Yaml. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: is_open(), rdbuf(), parseYaml(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="79" column="10" bodyfile="src/graph/ontology_manager.cpp" bodystart="365" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1a0f1456cfa3326b6f020eaf51062f4d36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::OntologyManager::loadFromJsonString</definition>
+        <argsstring>(std::string_view json_text)</argsstring>
+        <name>loadFromJsonString</name>
+        <qualifiedname>themis::graph::OntologyManager::loadFromJsonString</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>json_text</declname>
+        </param>
+        <briefdescription>
+<para>Load From Json String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: parseJson(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="86" column="10" bodyfile="src/graph/ontology_manager.cpp" bodystart="355" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1afe1bb0b0e4c75f05115e2316ea6c8bfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::OntologyManager::addConcept</definition>
+        <argsstring>(std::string id, std::vector&lt; std::string &gt; parents={})</argsstring>
+        <name>addConcept</name>
+        <qualifiedname>themis::graph::OntologyManager::addConcept</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>parents</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Add Concept. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="88" column="10" bodyfile="src/graph/ontology_manager.cpp" bodystart="382" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1a697c6f0bd59119bef5654a57a51affa1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::OntologyManager::addAxiom</definition>
+        <argsstring>(std::string source_class, std::string edge_type, std::string target_class)</argsstring>
+        <name>addAxiom</name>
+        <qualifiedname>themis::graph::OntologyManager::addAxiom</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>source_class</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>edge_type</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>target_class</declname>
+        </param>
+        <briefdescription>
+<para>Add <ref refid="structthemis_1_1graph_1_1_ontology_manager_1_1_axiom" kindref="compound">Axiom</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_class</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">edge_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_class</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_class</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">edge_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_class</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="96" column="10" bodyfile="src/graph/ontology_manager.cpp" bodystart="399" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1ad3f36c86cd2e8c479fd6c7273e9bf6b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::OntologyManager::build</definition>
+        <argsstring>()</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::graph::OntologyManager::build</qualifiedname>
+        <briefdescription>
+<para>Build. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: find(), end(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="101" column="10" bodyfile="src/graph/ontology_manager.cpp" bodystart="410" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1aebae0989cc5fab8fe231cdc34035a304" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::OntologyManager::isA</definition>
+        <argsstring>(std::string_view conceptName, std::string_view superConcept) const</argsstring>
+        <name>isA</name>
+        <qualifiedname>themis::graph::OntologyManager::isA</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>conceptName</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>superConcept</declname>
+        </param>
+        <briefdescription>
+<para>── Query API ─────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conceptName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">superConcept</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Rl. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">isa_cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Wl. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">isa_cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="110" column="10" bodyfile="src/graph/ontology_manager.cpp" bodystart="470" bodyend="505"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1a8d79c11a54fa734b0d8fe5f5544588c2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt; std::string &gt; themis::graph::OntologyManager::allowedEdgeTypes</definition>
+        <argsstring>(std::string_view sourceClass, std::string_view targetClass) const</argsstring>
+        <name>allowedEdgeTypes</name>
+        <qualifiedname>themis::graph::OntologyManager::allowedEdgeTypes</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>sourceClass</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>targetClass</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="112" column="25" bodyfile="src/graph/ontology_manager.cpp" bodystart="509" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1a8c3e2c80f5e0ffcea47d6faa1b11a834" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::OntologyManager::isEdgeTypeAllowed</definition>
+        <argsstring>(std::string_view sourceClass, std::string_view targetClass, std::string_view edgeType) const</argsstring>
+        <name>isEdgeTypeAllowed</name>
+        <qualifiedname>themis::graph::OntologyManager::isEdgeTypeAllowed</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>sourceClass</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>targetClass</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>edgeType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="116" column="12" bodyfile="src/graph/ontology_manager.cpp" bodystart="521" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1a8d0a8e89df093cc89dfac0977dd74b54" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::OntologyManager::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::graph::OntologyManager::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="122" column="18" bodyfile="src/graph/ontology_manager.cpp" bodystart="563" bodyend="599"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1af59e59afe4afd2e05a769d8c2b7b4193" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::OntologyManager::toYaml</definition>
+        <argsstring>() const</argsstring>
+        <name>toYaml</name>
+        <qualifiedname>themis::graph::OntologyManager::toYaml</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="124" column="18" bodyfile="src/graph/ontology_manager.cpp" bodystart="601" bodyend="620"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1aac1c160994bf0c030f2218ec07ad90ba" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::OntologyManager::isBuilt</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isBuilt</name>
+        <qualifiedname>themis::graph::OntologyManager::isBuilt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="128" column="11" bodyfile="include/graph/ontology_manager.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1acb5312f066a29dd23c8526ccf8328404" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::OntologyManager::conceptCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>conceptCount</name>
+        <qualifiedname>themis::graph::OntologyManager::conceptCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="130" column="18" bodyfile="include/graph/ontology_manager.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1a86bdc69323f082d7ac0273b0ef48dd65" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::OntologyManager::axiomCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>axiomCount</name>
+        <qualifiedname>themis::graph::OntologyManager::axiomCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="132" column="18" bodyfile="include/graph/ontology_manager.h" bodystart="132" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1ab290ec102da91421fb39bf9d2c2519d9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::OntologyManager::hasConcept</definition>
+        <argsstring>(std::string_view id) const</argsstring>
+        <name>hasConcept</name>
+        <qualifiedname>themis::graph::OntologyManager::hasConcept</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="134" column="11" bodyfile="src/graph/ontology_manager.cpp" bodystart="624" bodyend="626"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1a1f0d2e830c343e02ea33d49227872a13" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1graph_1_1_ontology_manager_1_1_concept_node" kindref="compound">ConceptNode</ref> *</type>
+        <definition>const OntologyManager::ConceptNode * themis::graph::OntologyManager::getConcept</definition>
+        <argsstring>(std::string_view id) const</argsstring>
+        <name>getConcept</name>
+        <qualifiedname>themis::graph::OntologyManager::getConcept</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="136" column="24" bodyfile="src/graph/ontology_manager.cpp" bodystart="628" bodyend="634"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1abe1faa6d197c3173502fa624b8aec191" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::OntologyManager::isAUncached</definition>
+        <argsstring>(std::string_view conceptName, std::string_view superConcept) const</argsstring>
+        <name>isAUncached</name>
+        <qualifiedname>themis::graph::OntologyManager::isAUncached</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>conceptName</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>superConcept</declname>
+        </param>
+        <briefdescription>
+<para>── Internal helpers ───────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conceptName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">superConcept</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="156" column="10" bodyfile="src/graph/ontology_manager.cpp" bodystart="428" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1a5b45d2495470106306c4aa37331a8c3d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::OntologyManager::evictIsACacheEntry</definition>
+        <argsstring>() const</argsstring>
+        <name>evictIsACacheEntry</name>
+        <qualifiedname>themis::graph::OntologyManager::evictIsACacheEntry</qualifiedname>
+        <briefdescription>
+<para>Evict Is ACache Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="160" column="10" bodyfile="src/graph/ontology_manager.cpp" bodystart="462" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1a62af91b63a06ef0103b5fb75d242ff3e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::OntologyManager::parseJson</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>parseJson</name>
+        <qualifiedname>themis::graph::OntologyManager::parseJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Parse Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: expect(), size(), skipWs(), parseString(), parseObject(), count(), empty(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="167" column="10" bodyfile="src/graph/ontology_manager.cpp" bodystart="646" bodyend="731"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_ontology_manager_1a30eb60ed00b7caf6a658cbe36af30e5d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::OntologyManager::parseYaml</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>parseYaml</name>
+        <qualifiedname>themis::graph::OntologyManager::parseYaml</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Parse Yaml. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: ss(), std::getline(), push_back(), size(), trimYaml(), empty(), find(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/ontology_manager.h" line="173" column="10" bodyfile="src/graph/ontology_manager.cpp" bodystart="739" bodyend="818"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/ontology_manager.h" line="29" column="1" bodyfile="include/graph/ontology_manager.h" bodystart="29" bodyend="174"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1a697c6f0bd59119bef5654a57a51affa1" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>addAxiom</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1afe1bb0b0e4c75f05115e2316ea6c8bfb" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>addConcept</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1a8d79c11a54fa734b0d8fe5f5544588c2" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>allowedEdgeTypes</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1a86bdc69323f082d7ac0273b0ef48dd65" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>axiomCount</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1a113213d86af22c932aec93c906f63ea0" prot="private" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>axioms_</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1ad3f36c86cd2e8c479fd6c7273e9bf6b7" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>build</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1a4577ee5f0a48d724d8bf3be398666d99" prot="private" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>built_</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1acb5312f066a29dd23c8526ccf8328404" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>conceptCount</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1a5c0983d814661bc6d18e511c9b61dfd9" prot="private" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>concepts_</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1a5b45d2495470106306c4aa37331a8c3d" prot="private" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>evictIsACacheEntry</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1a1f0d2e830c343e02ea33d49227872a13" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>getConcept</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1ab290ec102da91421fb39bf9d2c2519d9" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>hasConcept</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1aebae0989cc5fab8fe231cdc34035a304" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>isA</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1ae6a16d72880dd92ebe75162b34997d74" prot="private" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>isa_cache_</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1a437306471b691c89c9ad3c72cdcdd2ad" prot="private" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>isa_cache_lru_</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1abfd74e3e396a720c93e77e5a7f494d04" prot="private" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>isa_cache_mutex_</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1abe1faa6d197c3173502fa624b8aec191" prot="private" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>isAUncached</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1aac1c160994bf0c030f2218ec07ad90ba" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>isBuilt</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1a8c3e2c80f5e0ffcea47d6faa1b11a834" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>isEdgeTypeAllowed</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1ac23784b15787c876974b06e503b60d8b" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>kIsACacheCapacity</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1ac089bfd0eea5d6e7dd76c688c083ec4c" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>kMaxIsADepth</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1aba51e52a45ca3826838383c4174c6bb1" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>loadFromJson</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1a0f1456cfa3326b6f020eaf51062f4d36" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>loadFromJsonString</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1a2fda13ef5ca4bff98d55419de6d2092d" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>loadFromYaml</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1a397989b7ca3cd519260bfbefdc3efc10" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>OntologyManager</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1a9fc4a550505ba59b856bf2d35e898912" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>OntologyManager</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1a6e080e6f5344f3ea17197e74b5a07231" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>OntologyManager</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1a8380b1e433618a036c9277857c21057e" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1ab7560b67c48a0e2802da2ecb79f8f033" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1a62af91b63a06ef0103b5fb75d242ff3e" prot="private" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>parseJson</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1a30eb60ed00b7caf6a658cbe36af30e5d" prot="private" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>parseYaml</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1a2ac5b51c29204dfaf0761ee050339cf8" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>Ruleset</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1a8d0a8e89df093cc89dfac0977dd74b54" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>toJson</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1af59e59afe4afd2e05a769d8c2b7b4193" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>toYaml</name></member>
+      <member refid="classthemis_1_1graph_1_1_ontology_manager_1aca3f78c3891e9ca1173105d2189e0bd2" prot="public" virt="non-virtual"><scope>themis::graph::OntologyManager</scope><name>~OntologyManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_adaptive_query_cache_1_1_warmup_result" kind="struct" language="C++" prot="public">
+    <compoundname>AdaptiveQueryCache::WarmupResult</compoundname>
+    <includes refid="adaptive__query__cache_8h" local="no">adaptive_query_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_adaptive_query_cache_1_1_warmup_result_1a43ab214a88704f5d08b82f352ad0fbc1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::AdaptiveQueryCache::WarmupResult::entries_loaded</definition>
+        <argsstring></argsstring>
+        <name>entries_loaded</name>
+        <qualifiedname>AdaptiveQueryCache::WarmupResult::entries_loaded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>entries successfully inserted (warmupFromLog) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="332" column="16" bodyfile="include/cache/adaptive_query_cache.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_adaptive_query_cache_1_1_warmup_result_1a3b542d3774179f0d11c5c115be869c24" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::AdaptiveQueryCache::WarmupResult::entries_written</definition>
+        <argsstring></argsstring>
+        <name>entries_written</name>
+        <qualifiedname>AdaptiveQueryCache::WarmupResult::entries_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>entries successfully written (exportSnapshot) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="333" column="16" bodyfile="include/cache/adaptive_query_cache.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_adaptive_query_cache_1_1_warmup_result_1af91ff6131a29652f1ab74e4946d44eec" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::AdaptiveQueryCache::WarmupResult::entries_skipped</definition>
+        <argsstring></argsstring>
+        <name>entries_skipped</name>
+        <qualifiedname>AdaptiveQueryCache::WarmupResult::entries_skipped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>malformed or quota-rejected entries </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="334" column="16" bodyfile="include/cache/adaptive_query_cache.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_adaptive_query_cache_1_1_warmup_result_1aac3445f5009022f575b4cef6e0a3e7a2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::AdaptiveQueryCache::WarmupResult::entries_total</definition>
+        <argsstring></argsstring>
+        <name>entries_total</name>
+        <qualifiedname>AdaptiveQueryCache::WarmupResult::entries_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>total lines read / entries considered </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="335" column="16" bodyfile="include/cache/adaptive_query_cache.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_adaptive_query_cache_1_1_warmup_result_1aff84d8389ee1e73adbcee0c1f99c42ba" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::AdaptiveQueryCache::WarmupResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>AdaptiveQueryCache::WarmupResult::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>false if the log file could not be opened </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="336" column="16" bodyfile="include/cache/adaptive_query_cache.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_adaptive_query_cache_1_1_warmup_result_1a06cbbf6fa54fe7f971eac25ef9a2aa5a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AdaptiveQueryCache::WarmupResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>AdaptiveQueryCache::WarmupResult::error</qualifiedname>
+        <briefdescription>
+<para>error message when ok == false </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="337" column="21" bodyfile="include/cache/adaptive_query_cache.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_adaptive_query_cache_1_1_warmup_result_1a6324e7df0e554b04744f724b49720adb" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::AdaptiveQueryCache::WarmupResult::warmup_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>warmup_duration_ms</name>
+        <qualifiedname>AdaptiveQueryCache::WarmupResult::warmup_duration_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>wall-clock time for warmupFromLog (ms) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="338" column="17" bodyfile="include/cache/adaptive_query_cache.h" bodystart="338" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_adaptive_query_cache_1_1_warmup_result_1ae936dbf0b102721856a0f1567742b4e6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::AdaptiveQueryCache::WarmupResult::warmup_entries_per_second</definition>
+        <argsstring></argsstring>
+        <name>warmup_entries_per_second</name>
+        <qualifiedname>AdaptiveQueryCache::WarmupResult::warmup_entries_per_second</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>throughput: entries loaded / second </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="339" column="17" bodyfile="include/cache/adaptive_query_cache.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/adaptive_query_cache.h" line="331" column="5" bodyfile="include/cache/adaptive_query_cache.h" bodystart="331" bodyend="340"/>
+    <listofallmembers>
+      <member refid="struct_adaptive_query_cache_1_1_warmup_result_1a43ab214a88704f5d08b82f352ad0fbc1" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache::WarmupResult</scope><name>entries_loaded</name></member>
+      <member refid="struct_adaptive_query_cache_1_1_warmup_result_1af91ff6131a29652f1ab74e4946d44eec" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache::WarmupResult</scope><name>entries_skipped</name></member>
+      <member refid="struct_adaptive_query_cache_1_1_warmup_result_1aac3445f5009022f575b4cef6e0a3e7a2" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache::WarmupResult</scope><name>entries_total</name></member>
+      <member refid="struct_adaptive_query_cache_1_1_warmup_result_1a3b542d3774179f0d11c5c115be869c24" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache::WarmupResult</scope><name>entries_written</name></member>
+      <member refid="struct_adaptive_query_cache_1_1_warmup_result_1a06cbbf6fa54fe7f971eac25ef9a2aa5a" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache::WarmupResult</scope><name>error</name></member>
+      <member refid="struct_adaptive_query_cache_1_1_warmup_result_1aff84d8389ee1e73adbcee0c1f99c42ba" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache::WarmupResult</scope><name>ok</name></member>
+      <member refid="struct_adaptive_query_cache_1_1_warmup_result_1a6324e7df0e554b04744f724b49720adb" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache::WarmupResult</scope><name>warmup_duration_ms</name></member>
+      <member refid="struct_adaptive_query_cache_1_1_warmup_result_1ae936dbf0b102721856a0f1567742b4e6" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache::WarmupResult</scope><name>warmup_entries_per_second</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

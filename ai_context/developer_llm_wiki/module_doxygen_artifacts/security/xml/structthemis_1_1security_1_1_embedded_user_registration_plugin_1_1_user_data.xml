@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_embedded_user_registration_plugin_1_1_user_data" kind="struct" language="C++" prot="private">
+    <compoundname>themis::security::EmbeddedUserRegistrationPlugin::UserData</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_embedded_user_registration_plugin_1_1_user_data_1a2121539489f30185fb87c66bb2fe6ea9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::EmbeddedUserRegistrationPlugin::UserData::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::UserData::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="274" column="21" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_embedded_user_registration_plugin_1_1_user_data_1a007a546fe20e0edd30c3383594caf2cb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::EmbeddedUserRegistrationPlugin::UserData::password_hash</definition>
+        <argsstring></argsstring>
+        <name>password_hash</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::UserData::password_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="275" column="21" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_embedded_user_registration_plugin_1_1_user_data_1a1d2dbb2d73dcc16d31645f07d88331ce" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::EmbeddedUserRegistrationPlugin::UserData::roles</definition>
+        <argsstring></argsstring>
+        <name>roles</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::UserData::roles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="276" column="21" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_embedded_user_registration_plugin_1_1_user_data_1a94a945ae3f6b14290dc540347d5f0b55" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::security::EmbeddedUserRegistrationPlugin::UserData::attributes</definition>
+        <argsstring></argsstring>
+        <name>attributes</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::UserData::attributes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="277" column="28" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_embedded_user_registration_plugin_1_1_user_data_1a01b41aa255c01e8f7a58b8d44d5f322f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::EmbeddedUserRegistrationPlugin::UserData::password_history</definition>
+        <argsstring></argsstring>
+        <name>password_history</name>
+        <qualifiedname>themis::security::EmbeddedUserRegistrationPlugin::UserData::password_history</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/embedded_user_registration_plugin.cpp" line="278" column="21" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="278" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/security/embedded_user_registration_plugin.cpp" line="273" column="5" bodyfile="src/security/embedded_user_registration_plugin.cpp" bodystart="273" bodyend="279"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_embedded_user_registration_plugin_1_1_user_data_1a94a945ae3f6b14290dc540347d5f0b55" prot="public" virt="non-virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin::UserData</scope><name>attributes</name></member>
+      <member refid="structthemis_1_1security_1_1_embedded_user_registration_plugin_1_1_user_data_1a007a546fe20e0edd30c3383594caf2cb" prot="public" virt="non-virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin::UserData</scope><name>password_hash</name></member>
+      <member refid="structthemis_1_1security_1_1_embedded_user_registration_plugin_1_1_user_data_1a01b41aa255c01e8f7a58b8d44d5f322f" prot="public" virt="non-virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin::UserData</scope><name>password_history</name></member>
+      <member refid="structthemis_1_1security_1_1_embedded_user_registration_plugin_1_1_user_data_1a1d2dbb2d73dcc16d31645f07d88331ce" prot="public" virt="non-virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin::UserData</scope><name>roles</name></member>
+      <member refid="structthemis_1_1security_1_1_embedded_user_registration_plugin_1_1_user_data_1a2121539489f30185fb87c66bb2fe6ea9" prot="public" virt="non-virtual"><scope>themis::security::EmbeddedUserRegistrationPlugin::UserData</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

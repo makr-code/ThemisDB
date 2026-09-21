@@ -1,0 +1,640 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_adaptive_join_executor" kind="class" language="C++" prot="public">
+    <compoundname>themis::AdaptiveJoinExecutor</compoundname>
+    <includes refid="adaptive__join_8h" local="no">adaptive_join.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_adaptive_join_executor_1a16c8d70998a24d4d129cbebfac5eff83" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_adaptive_join_config" kindref="compound">AdaptiveJoinConfig</ref></type>
+        <definition>AdaptiveJoinConfig themis::AdaptiveJoinExecutor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::AdaptiveJoinExecutor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="224" column="24" bodyfile="include/query/adaptive_join.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_adaptive_join_executor_1a58dadebabb54fd1b6df5f4eb5ff74ca8" prot="public" static="no" const="no" explicit="yes" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::AdaptiveJoinExecutor::AdaptiveJoinExecutor</definition>
+        <argsstring>(AdaptiveJoinConfig config={}) noexcept</argsstring>
+        <name>AdaptiveJoinExecutor</name>
+        <qualifiedname>themis::AdaptiveJoinExecutor::AdaptiveJoinExecutor</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_adaptive_join_config" kindref="compound">AdaptiveJoinConfig</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="118" column="14" bodyfile="src/query/adaptive_join.cpp" bodystart="112" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_join_executor_1a9e96842798982fb60e52f19af20750d2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_join_result" kindref="compound">JoinResult</ref></type>
+        <definition>JoinResult themis::AdaptiveJoinExecutor::executeJoin</definition>
+        <argsstring>(const JoinSpec &amp;spec, const Table &amp;left, const Table &amp;right, const RuntimeStats &amp;stats) const</argsstring>
+        <name>executeJoin</name>
+        <qualifiedname>themis::AdaptiveJoinExecutor::executeJoin</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_join_spec" kindref="compound">JoinSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_table" kindref="compound">Table</ref> &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_table" kindref="compound">Table</ref> &amp;</type>
+          <declname>right</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_runtime_stats" kindref="compound">RuntimeStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="120" column="17" bodyfile="src/query/adaptive_join.cpp" bodystart="190" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_join_executor_1a57d86bcfc535ff35fcfcc12b9bb6d32e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1ae6c40bb36ea2f37aaabc642cd26cacaa" kindref="member">JoinAlgorithm</ref></type>
+        <definition>JoinAlgorithm themis::AdaptiveJoinExecutor::selectAlgorithm</definition>
+        <argsstring>(size_t left_rows, size_t right_rows, bool left_sorted, bool right_sorted, bool has_index, const RuntimeStats &amp;stats) const noexcept</argsstring>
+        <name>selectAlgorithm</name>
+        <qualifiedname>themis::AdaptiveJoinExecutor::selectAlgorithm</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>left_rows</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>right_rows</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>left_sorted</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>right_sorted</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>has_index</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_runtime_stats" kindref="compound">RuntimeStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="125" column="20" bodyfile="src/query/adaptive_join.cpp" bodystart="119" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_join_executor_1ac77f036473ae39dc8845ac81246c74e4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_adaptive_join_config" kindref="compound">AdaptiveJoinConfig</ref> &amp;</type>
+        <definition>const AdaptiveJoinConfig &amp; themis::AdaptiveJoinExecutor::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::AdaptiveJoinExecutor::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="132" column="31" bodyfile="include/query/adaptive_join.h" bodystart="132" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_join_executor_1a5c75c7272f0edb4377f66b904eed659f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveJoinExecutor::setConfig</definition>
+        <argsstring>(AdaptiveJoinConfig cfg) noexcept</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::AdaptiveJoinExecutor::setConfig</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_adaptive_join_config" kindref="compound">AdaptiveJoinConfig</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="134" column="10" bodyfile="include/query/adaptive_join.h" bodystart="134" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_adaptive_join_executor_1a7feccf901d7e618a3f31abf429876b82" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_join_result" kindref="compound">JoinResult</ref></type>
+        <definition>JoinResult themis::AdaptiveJoinExecutor::executeHashJoin</definition>
+        <argsstring>(const JoinSpec &amp;spec, const Table &amp;left, const Table &amp;right) const</argsstring>
+        <name>executeHashJoin</name>
+        <qualifiedname>themis::AdaptiveJoinExecutor::executeHashJoin</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_join_spec" kindref="compound">JoinSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_table" kindref="compound">Table</ref> &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_table" kindref="compound">Table</ref> &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>-<mdash/> Individual algorithm implementations -<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="145" column="16" bodyfile="src/query/adaptive_join.cpp" bodystart="266" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_join_executor_1a0e1fc16d2b89c7dc4fe2cda582e4b4b6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_join_result" kindref="compound">JoinResult</ref></type>
+        <definition>JoinResult themis::AdaptiveJoinExecutor::executeMergeJoin</definition>
+        <argsstring>(const JoinSpec &amp;spec, const Table &amp;left, const Table &amp;right) const</argsstring>
+        <name>executeMergeJoin</name>
+        <qualifiedname>themis::AdaptiveJoinExecutor::executeMergeJoin</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_join_spec" kindref="compound">JoinSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_table" kindref="compound">Table</ref> &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_table" kindref="compound">Table</ref> &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Execute Merge Join. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="156" column="16" bodyfile="src/query/adaptive_join.cpp" bodystart="316" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_join_executor_1a77f89f7c8a54e449968a34f67aa1986e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_join_result" kindref="compound">JoinResult</ref></type>
+        <definition>JoinResult themis::AdaptiveJoinExecutor::executeNestedLoopJoin</definition>
+        <argsstring>(const JoinSpec &amp;spec, const Table &amp;left, const Table &amp;right) const</argsstring>
+        <name>executeNestedLoopJoin</name>
+        <qualifiedname>themis::AdaptiveJoinExecutor::executeNestedLoopJoin</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_join_spec" kindref="compound">JoinSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_table" kindref="compound">Table</ref> &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_table" kindref="compound">Table</ref> &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Execute Nested Loop Join. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="167" column="16" bodyfile="src/query/adaptive_join.cpp" bodystart="432" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_join_executor_1a14390f623714cb24336cb1faf4ddc4c4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_join_result" kindref="compound">JoinResult</ref></type>
+        <definition>JoinResult themis::AdaptiveJoinExecutor::executeIndexNestedLoopJoin</definition>
+        <argsstring>(const JoinSpec &amp;spec, const Table &amp;left, const Table &amp;right) const</argsstring>
+        <name>executeIndexNestedLoopJoin</name>
+        <qualifiedname>themis::AdaptiveJoinExecutor::executeIndexNestedLoopJoin</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_join_spec" kindref="compound">JoinSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_table" kindref="compound">Table</ref> &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_table" kindref="compound">Table</ref> &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Execute Index Nested Loop Join. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="178" column="16" bodyfile="src/query/adaptive_join.cpp" bodystart="466" bodyend="507"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_join_executor_1a9419d9e95728ee97b7c1cb618f21287f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_join_result" kindref="compound">JoinResult</ref></type>
+        <definition>JoinResult themis::AdaptiveJoinExecutor::executeGraceHashJoin</definition>
+        <argsstring>(const JoinSpec &amp;spec, const Table &amp;left, const Table &amp;right) const</argsstring>
+        <name>executeGraceHashJoin</name>
+        <qualifiedname>themis::AdaptiveJoinExecutor::executeGraceHashJoin</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_join_spec" kindref="compound">JoinSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_table" kindref="compound">Table</ref> &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_table" kindref="compound">Table</ref> &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Execute Grace Hash Join. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Left parts. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">NUM_PARTITIONS</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Right parts. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">NUM_PARTITIONS</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="189" column="16" bodyfile="src/query/adaptive_join.cpp" bodystart="513" bodyend="606"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_join_executor_1a9864c782608627cb186f0e3d600381b7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_join_result" kindref="compound">JoinResult</ref></type>
+        <definition>JoinResult themis::AdaptiveJoinExecutor::executeBroadcastJoin</definition>
+        <argsstring>(const JoinSpec &amp;spec, const Table &amp;left, const Table &amp;right) const</argsstring>
+        <name>executeBroadcastJoin</name>
+        <qualifiedname>themis::AdaptiveJoinExecutor::executeBroadcastJoin</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_join_spec" kindref="compound">JoinSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_table" kindref="compound">Table</ref> &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_table" kindref="compound">Table</ref> &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Execute Broadcast Join. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="200" column="16" bodyfile="src/query/adaptive_join.cpp" bodystart="612" bodyend="619"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_adaptive_join_executor_1ac3f389b09444525052d9c82c44b7a75a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_join_result" kindref="compound">JoinResult</ref></type>
+        <definition>JoinResult themis::AdaptiveJoinExecutor::executeShuffleJoin</definition>
+        <argsstring>(const JoinSpec &amp;spec, const Table &amp;left, const Table &amp;right) const</argsstring>
+        <name>executeShuffleJoin</name>
+        <qualifiedname>themis::AdaptiveJoinExecutor::executeShuffleJoin</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_join_spec" kindref="compound">JoinSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_table" kindref="compound">Table</ref> &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_table" kindref="compound">Table</ref> &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Execute Shuffle Join. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="211" column="16" bodyfile="src/query/adaptive_join.cpp" bodystart="625" bodyend="631"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_adaptive_join_executor_1a88dd1eeb625dec4a78470083a9176103" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1af141136067e6bab28010b6591e8acbcc" kindref="member">RowValue</ref></type>
+        <definition>RowValue themis::AdaptiveJoinExecutor::mergeRows</definition>
+        <argsstring>(const RowValue &amp;left_row, const RowValue &amp;right_row)</argsstring>
+        <name>mergeRows</name>
+        <qualifiedname>themis::AdaptiveJoinExecutor::mergeRows</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1af141136067e6bab28010b6591e8acbcc" kindref="member">RowValue</ref> &amp;</type>
+          <declname>left_row</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1af141136067e6bab28010b6591e8acbcc" kindref="member">RowValue</ref> &amp;</type>
+          <declname>right_row</declname>
+        </param>
+        <briefdescription>
+<para>-<mdash/> Helper -<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Merge Rows.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">left_row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right_row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">left_row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right_row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements mergeRows without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="222" column="21" bodyfile="src/query/adaptive_join.cpp" bodystart="253" bodyend="260"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/adaptive_join.h" line="116" column="1" bodyfile="include/query/adaptive_join.h" bodystart="116" bodyend="225"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_adaptive_join_executor_1a58dadebabb54fd1b6df5f4eb5ff74ca8" prot="public" virt="non-virtual"><scope>themis::AdaptiveJoinExecutor</scope><name>AdaptiveJoinExecutor</name></member>
+      <member refid="classthemis_1_1_adaptive_join_executor_1ac77f036473ae39dc8845ac81246c74e4" prot="public" virt="non-virtual"><scope>themis::AdaptiveJoinExecutor</scope><name>config</name></member>
+      <member refid="classthemis_1_1_adaptive_join_executor_1a16c8d70998a24d4d129cbebfac5eff83" prot="private" virt="non-virtual"><scope>themis::AdaptiveJoinExecutor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_adaptive_join_executor_1a9864c782608627cb186f0e3d600381b7" prot="private" virt="non-virtual"><scope>themis::AdaptiveJoinExecutor</scope><name>executeBroadcastJoin</name></member>
+      <member refid="classthemis_1_1_adaptive_join_executor_1a9419d9e95728ee97b7c1cb618f21287f" prot="private" virt="non-virtual"><scope>themis::AdaptiveJoinExecutor</scope><name>executeGraceHashJoin</name></member>
+      <member refid="classthemis_1_1_adaptive_join_executor_1a7feccf901d7e618a3f31abf429876b82" prot="private" virt="non-virtual"><scope>themis::AdaptiveJoinExecutor</scope><name>executeHashJoin</name></member>
+      <member refid="classthemis_1_1_adaptive_join_executor_1a14390f623714cb24336cb1faf4ddc4c4" prot="private" virt="non-virtual"><scope>themis::AdaptiveJoinExecutor</scope><name>executeIndexNestedLoopJoin</name></member>
+      <member refid="classthemis_1_1_adaptive_join_executor_1a9e96842798982fb60e52f19af20750d2" prot="public" virt="non-virtual"><scope>themis::AdaptiveJoinExecutor</scope><name>executeJoin</name></member>
+      <member refid="classthemis_1_1_adaptive_join_executor_1a0e1fc16d2b89c7dc4fe2cda582e4b4b6" prot="private" virt="non-virtual"><scope>themis::AdaptiveJoinExecutor</scope><name>executeMergeJoin</name></member>
+      <member refid="classthemis_1_1_adaptive_join_executor_1a77f89f7c8a54e449968a34f67aa1986e" prot="private" virt="non-virtual"><scope>themis::AdaptiveJoinExecutor</scope><name>executeNestedLoopJoin</name></member>
+      <member refid="classthemis_1_1_adaptive_join_executor_1ac3f389b09444525052d9c82c44b7a75a" prot="private" virt="non-virtual"><scope>themis::AdaptiveJoinExecutor</scope><name>executeShuffleJoin</name></member>
+      <member refid="classthemis_1_1_adaptive_join_executor_1a88dd1eeb625dec4a78470083a9176103" prot="private" virt="non-virtual"><scope>themis::AdaptiveJoinExecutor</scope><name>mergeRows</name></member>
+      <member refid="classthemis_1_1_adaptive_join_executor_1a57d86bcfc535ff35fcfcc12b9bb6d32e" prot="public" virt="non-virtual"><scope>themis::AdaptiveJoinExecutor</scope><name>selectAlgorithm</name></member>
+      <member refid="classthemis_1_1_adaptive_join_executor_1a5c75c7272f0edb4377f66b904eed659f" prot="public" virt="non-virtual"><scope>themis::AdaptiveJoinExecutor</scope><name>setConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

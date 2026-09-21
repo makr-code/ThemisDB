@@ -1,0 +1,660 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_html_processor" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::HtmlProcessor</compoundname>
+    <basecompoundref refid="classthemis_1_1content_1_1_i_content_processor" prot="public" virt="non-virtual">themis::content::IContentProcessor</basecompoundref>
+    <includes refid="html__processor_8h" local="no">html_processor.h</includes>
+    <innerclass refid="structthemis_1_1content_1_1_html_processor_1_1_config" prot="public">themis::content::HtmlProcessor::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_html_processor_1aac00f97dcf8848de9f899a602e8a8839" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1content_1_1_html_processor_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::content::HtmlProcessor::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::content::HtmlProcessor::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="91" column="12" bodyfile="include/content/html_processor.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_html_processor_1a82d4abd5c9dd2a6e173d668754455f5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::HtmlProcessor::HtmlProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>HtmlProcessor</name>
+        <qualifiedname>themis::content::HtmlProcessor::HtmlProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="30" column="5" bodyfile="src/content/html_processor.cpp" bodystart="28" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_html_processor_1a2b5bc0ed72c4393241a0a0b8383ecb80" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::HtmlProcessor::HtmlProcessor</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>HtmlProcessor</name>
+        <qualifiedname>themis::content::HtmlProcessor::HtmlProcessor</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_html_processor_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Html Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="36" column="14" bodyfile="src/content/html_processor.cpp" bodystart="32" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_html_processor_1a9df40189aba509aeed5fb9cc263a6729" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::HtmlProcessor::~HtmlProcessor</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~HtmlProcessor</name>
+        <qualifiedname>themis::content::HtmlProcessor::~HtmlProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="37" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_html_processor_1a1059237b80442a8e2b8042c7bd7b84c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref></type>
+        <definition>ExtractionResult themis::content::HtmlProcessor::extract</definition>
+        <argsstring>(const std::string &amp;blob, const ContentType &amp;content_type) override</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::content::HtmlProcessor::extract</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a638d82433a5fd1e4cc50bba304ffcd32">extract</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref> &amp;</type>
+          <declname>content_type</declname>
+        </param>
+        <briefdescription>
+<para>Extract. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="classthemis_1_1content_1_1_html_processor_1a6522f8228dd3c4ac7ec2ed7ff5cd8eb9" kindref="member">extractMetaTags()</ref>, <ref refid="classthemis_1_1content_1_1_html_processor_1a174ce5e3ed0ff607d333a0c22c23ff7f" kindref="member">removeScriptsAndStyles()</ref>, <ref refid="classthemis_1_1content_1_1_html_processor_1a87697a49ae05a987afd63acdfec40347" kindref="member">removeBoilerplate()</ref>, <ref refid="classthemis_1_1content_1_1_html_processor_1aa676e76933c1976cc37fed16bb5dfb2b" kindref="member">stripTags()</ref>, <ref refid="classthemis_1_1content_1_1_html_processor_1ad65595f71cfc81fa23da828aa57ca84a" kindref="member">decodeEntities()</ref>, normalizeWhitespace(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="39" column="22" bodyfile="src/content/html_processor.cpp" bodystart="501" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_html_processor_1ab53243dce980ab7e4123f8a85d4a55e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt; json &gt; themis::content::HtmlProcessor::chunk</definition>
+        <argsstring>(const ExtractionResult &amp;extraction_result, int chunk_size, int overlap) override</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::content::HtmlProcessor::chunk</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1ad7a72eb8186023fc9ee450906d9fb632">chunk</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref> &amp;</type>
+          <declname>extraction_result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>chunk_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>overlap</declname>
+        </param>
+        <briefdescription>
+<para>Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">extraction_result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">overlap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), push_back(), clear(), json::object(), countTokens(), std::move(), flushChunk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="44" column="17" bodyfile="src/content/html_processor.cpp" bodystart="563" bodyend="660"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_html_processor_1a24db5db525623dfe1884bbceca0514a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::content::HtmlProcessor::generateEmbedding</definition>
+        <argsstring>(const std::string &amp;chunk_data) override</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::content::HtmlProcessor::generateEmbedding</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a84aba018f92d394ed51094bba497de8c">generateEmbedding</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_data</declname>
+        </param>
+        <briefdescription>
+<para>Generate Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: embedding(), empty(), iss(), push_back(), size(), hasher(), std::sin(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="50" column="17" bodyfile="src/content/html_processor.cpp" bodystart="668" bodyend="716"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_html_processor_1abab46d65257545bd0eca24d5a18e0d00" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::HtmlProcessor::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::content::HtmlProcessor::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1a893353e264c76ec1bcc9b4f4a375f37a">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="52" column="17" bodyfile="include/content/html_processor.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_html_processor_1a185171281e8efe8743b6b6d775e31765" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref> &gt;</type>
+        <definition>std::vector&lt; ContentCategory &gt; themis::content::HtmlProcessor::getSupportedCategories</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedCategories</name>
+        <qualifiedname>themis::content::HtmlProcessor::getSupportedCategories</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_1ab2b446811cbac33cecb30d3fa55680f0">getSupportedCategories</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="54" column="17" bodyfile="include/content/html_processor.h" bodystart="54" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_html_processor_1a87697a49ae05a987afd63acdfec40347" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::HtmlProcessor::removeBoilerplate</definition>
+        <argsstring>(const std::string &amp;html)</argsstring>
+        <name>removeBoilerplate</name>
+        <qualifiedname>themis::content::HtmlProcessor::removeBoilerplate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>html</declname>
+        </param>
+        <briefdescription>
+<para>Remove Boilerplate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">html</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">html</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: removeElement(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="64" column="24" bodyfile="src/content/html_processor.cpp" bodystart="170" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_html_processor_1a174ce5e3ed0ff607d333a0c22c23ff7f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::HtmlProcessor::removeScriptsAndStyles</definition>
+        <argsstring>(const std::string &amp;html)</argsstring>
+        <name>removeScriptsAndStyles</name>
+        <qualifiedname>themis::content::HtmlProcessor::removeScriptsAndStyles</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>html</declname>
+        </param>
+        <briefdescription>
+<para>Remove Scripts And Styles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">html</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">html</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: removeElement(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="71" column="24" bodyfile="src/content/html_processor.cpp" bodystart="187" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_html_processor_1aa676e76933c1976cc37fed16bb5dfb2b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::HtmlProcessor::stripTags</definition>
+        <argsstring>(const std::string &amp;html, bool preserve_headings=false)</argsstring>
+        <name>stripTags</name>
+        <qualifiedname>themis::content::HtmlProcessor::stripTags</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>html</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>preserve_headings</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Strip Tags. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">html</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">preserve_headings</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: heading_open(), heading_close(), reserve(), size(), std::sregex_iterator(), begin(), end(), append(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="73" column="24" bodyfile="src/content/html_processor.cpp" bodystart="200" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_html_processor_1ad65595f71cfc81fa23da828aa57ca84a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::HtmlProcessor::decodeEntities</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>decodeEntities</name>
+        <qualifiedname>themis::content::HtmlProcessor::decodeEntities</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Decode Entities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), find(), substr(), empty(), std::stol(), std::transform(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="81" column="24" bodyfile="src/content/html_processor.cpp" bodystart="254" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_html_processor_1a6522f8228dd3c4ac7ec2ed7ff5cd8eb9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::HtmlProcessor::extractMetaTags</definition>
+        <argsstring>(const std::string &amp;html)</argsstring>
+        <name>extractMetaTags</name>
+        <qualifiedname>themis::content::HtmlProcessor::extractMetaTags</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>html</declname>
+        </param>
+        <briefdescription>
+<para>Extract Meta Tags. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">html</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">html</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::object(), title_re(), std::regex_search(), str(), any_tag(), std::regex_replace(), <ref refid="classthemis_1_1content_1_1_html_processor_1ad65595f71cfc81fa23da828aa57ca84a" kindref="member">decodeEntities()</ref>, find_first_not_of(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="88" column="17" bodyfile="src/content/html_processor.cpp" bodystart="341" bodyend="421"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_html_processor_1a37d4b19eee49f7a1b3993344de460fce" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::HtmlProcessor::normalizeWhitespace</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>normalizeWhitespace</name>
+        <qualifiedname>themis::content::HtmlProcessor::normalizeWhitespace</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Normalize Whitespace. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), find_first_not_of(), find_last_not_of(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="98" column="24" bodyfile="src/content/html_processor.cpp" bodystart="433" bodyend="469"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_html_processor_1a73d32aa007cc396408bc5dfac4b68521" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::content::HtmlProcessor::countTokens</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>countTokens</name>
+        <qualifiedname>themis::content::HtmlProcessor::countTokens</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Count Tokens. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), iss(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="105" column="16" bodyfile="src/content/html_processor.cpp" bodystart="477" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_html_processor_1a548a74342f771d95c3767e7d4364de9f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::HtmlProcessor::removeElement</definition>
+        <argsstring>(const std::string &amp;html, const std::string &amp;tag)</argsstring>
+        <name>removeElement</name>
+        <qualifiedname>themis::content::HtmlProcessor::removeElement</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>html</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag</declname>
+        </param>
+        <briefdescription>
+<para>Remove Element. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove a block-level element and all its content.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">html</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">html</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Handles nested elements of the same tag name via a simple depth counter. Calls: reserve(), size(), std::tolower(), std::isspace(), ciFind(), append(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/html_processor.h" line="113" column="24" bodyfile="src/content/html_processor.cpp" bodystart="47" bodyend="162"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::content::HtmlProcessor</label>
+        <link refid="classthemis_1_1content_1_1_html_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::content::IContentProcessor</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::content::HtmlProcessor</label>
+        <link refid="classthemis_1_1content_1_1_html_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::content::IContentProcessor</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/html_processor.h" line="20" column="1" bodyfile="include/content/html_processor.h" bodystart="20" bodyend="114"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_html_processor_1ab53243dce980ab7e4123f8a85d4a55e3" prot="public" virt="virtual"><scope>themis::content::HtmlProcessor</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1content_1_1_html_processor_1aac00f97dcf8848de9f899a602e8a8839" prot="private" virt="non-virtual"><scope>themis::content::HtmlProcessor</scope><name>config_</name></member>
+      <member refid="classthemis_1_1content_1_1_html_processor_1a73d32aa007cc396408bc5dfac4b68521" prot="private" virt="non-virtual"><scope>themis::content::HtmlProcessor</scope><name>countTokens</name></member>
+      <member refid="classthemis_1_1content_1_1_html_processor_1ad65595f71cfc81fa23da828aa57ca84a" prot="public" virt="non-virtual"><scope>themis::content::HtmlProcessor</scope><name>decodeEntities</name></member>
+      <member refid="classthemis_1_1content_1_1_html_processor_1a1059237b80442a8e2b8042c7bd7b84c8" prot="public" virt="virtual"><scope>themis::content::HtmlProcessor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1content_1_1_html_processor_1a6522f8228dd3c4ac7ec2ed7ff5cd8eb9" prot="public" virt="non-virtual"><scope>themis::content::HtmlProcessor</scope><name>extractMetaTags</name></member>
+      <member refid="classthemis_1_1content_1_1_html_processor_1a24db5db525623dfe1884bbceca0514a2" prot="public" virt="virtual"><scope>themis::content::HtmlProcessor</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_html_processor_1abab46d65257545bd0eca24d5a18e0d00" prot="public" virt="virtual"><scope>themis::content::HtmlProcessor</scope><name>getName</name></member>
+      <member refid="classthemis_1_1content_1_1_html_processor_1a185171281e8efe8743b6b6d775e31765" prot="public" virt="virtual"><scope>themis::content::HtmlProcessor</scope><name>getSupportedCategories</name></member>
+      <member refid="classthemis_1_1content_1_1_html_processor_1a82d4abd5c9dd2a6e173d668754455f5a" prot="public" virt="non-virtual"><scope>themis::content::HtmlProcessor</scope><name>HtmlProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_html_processor_1a2b5bc0ed72c4393241a0a0b8383ecb80" prot="public" virt="non-virtual"><scope>themis::content::HtmlProcessor</scope><name>HtmlProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_html_processor_1a37d4b19eee49f7a1b3993344de460fce" prot="private" virt="non-virtual"><scope>themis::content::HtmlProcessor</scope><name>normalizeWhitespace</name></member>
+      <member refid="classthemis_1_1content_1_1_html_processor_1a87697a49ae05a987afd63acdfec40347" prot="public" virt="non-virtual"><scope>themis::content::HtmlProcessor</scope><name>removeBoilerplate</name></member>
+      <member refid="classthemis_1_1content_1_1_html_processor_1a548a74342f771d95c3767e7d4364de9f" prot="private" virt="non-virtual"><scope>themis::content::HtmlProcessor</scope><name>removeElement</name></member>
+      <member refid="classthemis_1_1content_1_1_html_processor_1a174ce5e3ed0ff607d333a0c22c23ff7f" prot="public" virt="non-virtual"><scope>themis::content::HtmlProcessor</scope><name>removeScriptsAndStyles</name></member>
+      <member refid="classthemis_1_1content_1_1_html_processor_1aa676e76933c1976cc37fed16bb5dfb2b" prot="public" virt="non-virtual"><scope>themis::content::HtmlProcessor</scope><name>stripTags</name></member>
+      <member refid="classthemis_1_1content_1_1_html_processor_1a9df40189aba509aeed5fb9cc263a6729" prot="public" virt="non-virtual"><scope>themis::content::HtmlProcessor</scope><name>~HtmlProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_1a134e78148633727400cd4d1a1466eedc" prot="public" virt="virtual"><scope>themis::content::HtmlProcessor</scope><name>~IContentProcessor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_auto_m_l_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::AutoML::Impl</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/analytics/automl.cpp" line="2345" column="1" bodyfile="src/analytics/automl.cpp" bodystart="2345" bodyend="2345"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

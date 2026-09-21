@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_log_search_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::LogSearchEngine</compoundname>
+    <includes refid="log__search__engine_8h" local="no">log_search_engine.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_log_search_engine_1a6790b424435eb6587788057532ebf171" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::LogSearchEngine::LogSearchEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>LogSearchEngine</name>
+        <qualifiedname>themis::observability::LogSearchEngine::LogSearchEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="142" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_log_search_engine_1a48baa52752d6197d7e802a3bf70ac7b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::LogSearchEngine::~LogSearchEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LogSearchEngine</name>
+        <qualifiedname>themis::observability::LogSearchEngine::~LogSearchEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="143" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_log_search_engine_1af6103a2dee0f5d1b33c5ea93e6dfe960" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_log_search_result" kindref="compound">LogSearchResult</ref></type>
+        <definition>LogSearchResult themis::observability::LogSearchEngine::search</definition>
+        <argsstring>(const std::vector&lt; LogEntry &gt; &amp;entries, const LogSearchQuery &amp;query) const</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::observability::LogSearchEngine::search</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1observability_1_1_log_entry" kindref="compound">LogEntry</ref> &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_log_search_query" kindref="compound">LogSearchQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute a structured search over the given log entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Snapshot of <ref refid="structthemis_1_1observability_1_1_log_entry" kindref="compound">LogEntry</ref> objects to search (typically from <ref refid="classthemis_1_1observability_1_1_log_aggregator_1a28f21dc6ac500e9c462e13abeed24381" kindref="member">LogAggregator::entries()</ref>). The vector is not modified. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Search criteria. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1observability_1_1_log_search_result" kindref="compound">LogSearchResult</ref> containing matching entries and metadata. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="153" column="21" bodyfile="src/observability/log_search_engine.cpp" bodystart="106" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_log_search_engine_1a1f0107cddec1d0b9c2866b0676d73fe7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::LogSearchEngine::count</definition>
+        <argsstring>(const std::vector&lt; LogEntry &gt; &amp;entries, const LogSearchQuery &amp;query) const</argsstring>
+        <name>count</name>
+        <qualifiedname>themis::observability::LogSearchEngine::count</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1observability_1_1_log_entry" kindref="compound">LogEntry</ref> &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_log_search_query" kindref="compound">LogSearchQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Count how many entries in the snapshot match the query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Equivalent to search(...).total_matched but avoids copying entries. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="161" column="12" bodyfile="src/observability/log_search_engine.cpp" bodystart="163" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_log_search_engine_1a43f9213780857139d21ca91e9a8d98ad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::observability::LogSearchEngine::distinctFieldValues</definition>
+        <argsstring>(const std::vector&lt; LogEntry &gt; &amp;entries, const std::string &amp;field_key) const</argsstring>
+        <name>distinctFieldValues</name>
+        <qualifiedname>themis::observability::LogSearchEngine::distinctFieldValues</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1observability_1_1_log_entry" kindref="compound">LogEntry</ref> &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_key</declname>
+        </param>
+        <briefdescription>
+<para>Return the distinct values present in the given field key across all provided entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Useful for building faceted search UIs (e.g. &quot;all distinct component
+values seen in this log buffer&quot;). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="171" column="17" bodyfile="src/observability/log_search_engine.cpp" bodystart="179" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_log_search_engine_1a8c188d6e7c4adffbb1a86fc995c41200" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::LogSearchEngine::matchesQuery</definition>
+        <argsstring>(const LogEntry &amp;entry, const LogSearchQuery &amp;query) const</argsstring>
+        <name>matchesQuery</name>
+        <qualifiedname>themis::observability::LogSearchEngine::matchesQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_log_entry" kindref="compound">LogEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_log_search_query" kindref="compound">LogSearchQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the given entry satisfies ALL conditions in query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="177" column="10" bodyfile="src/observability/log_search_engine.cpp" bodystart="67" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stateless search engine for structured log entries. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1observability_1_1_log_search_engine" kindref="compound">LogSearchEngine</ref> operates purely in-memory on a snapshot of entries provided by the caller. Typical usage is to pass agg.entries() where agg is a <ref refid="classthemis_1_1observability_1_1_log_aggregator" kindref="compound">LogAggregator</ref> instance.</para>
+<para>Thread safety: <ref refid="classthemis_1_1observability_1_1_log_search_engine" kindref="compound">LogSearchEngine</ref> itself holds no mutable state; all state lives in the <ref refid="structthemis_1_1observability_1_1_log_search_query" kindref="compound">LogSearchQuery</ref> and the input vector. It is therefore safe to call <ref refid="classthemis_1_1observability_1_1_log_search_engine_1af6103a2dee0f5d1b33c5ea93e6dfe960" kindref="member">search()</ref> concurrently from multiple threads on the same engine instance without additional synchronisation. </para>
+    </detaileddescription>
+    <location file="include/observability/log_search_engine.h" line="140" column="1" bodyfile="include/observability/log_search_engine.h" bodystart="140" bodyend="178"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_log_search_engine_1a1f0107cddec1d0b9c2866b0676d73fe7" prot="public" virt="non-virtual"><scope>themis::observability::LogSearchEngine</scope><name>count</name></member>
+      <member refid="classthemis_1_1observability_1_1_log_search_engine_1a43f9213780857139d21ca91e9a8d98ad" prot="public" virt="non-virtual"><scope>themis::observability::LogSearchEngine</scope><name>distinctFieldValues</name></member>
+      <member refid="classthemis_1_1observability_1_1_log_search_engine_1a6790b424435eb6587788057532ebf171" prot="public" virt="non-virtual"><scope>themis::observability::LogSearchEngine</scope><name>LogSearchEngine</name></member>
+      <member refid="classthemis_1_1observability_1_1_log_search_engine_1a8c188d6e7c4adffbb1a86fc995c41200" prot="private" virt="non-virtual"><scope>themis::observability::LogSearchEngine</scope><name>matchesQuery</name></member>
+      <member refid="classthemis_1_1observability_1_1_log_search_engine_1af6103a2dee0f5d1b33c5ea93e6dfe960" prot="public" virt="non-virtual"><scope>themis::observability::LogSearchEngine</scope><name>search</name></member>
+      <member refid="classthemis_1_1observability_1_1_log_search_engine_1a48baa52752d6197d7e802a3bf70ac7b2" prot="public" virt="non-virtual"><scope>themis::observability::LogSearchEngine</scope><name>~LogSearchEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_cost_estimate" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::CostEstimate</compoundname>
+    <includes refid="tensor__rag__cost__model_8h" local="no">tensor_rag_cost_model.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cost_estimate_1a4f72bf28f41a92a81906a09f74839126" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::CostEstimate::total_ms</definition>
+        <argsstring></argsstring>
+        <name>total_ms</name>
+        <qualifiedname>themis::rag::CostEstimate::total_ms</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+<para>Sum of all five phase estimates (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_cost_model.h" line="61" column="11" bodyfile="include/rag/tensor_rag_cost_model.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cost_estimate_1a9f3d70fcc0ceeb244ef91ed64ecd32c2" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::CostEstimate::embed_ms</definition>
+        <argsstring></argsstring>
+        <name>embed_ms</name>
+        <qualifiedname>themis::rag::CostEstimate::embed_ms</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+<para>Phase 1 — text embedding latency (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_cost_model.h" line="64" column="11" bodyfile="include/rag/tensor_rag_cost_model.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cost_estimate_1a25e11d7dfd03984bda02639b1bdf0a88" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::CostEstimate::retrieve_ms</definition>
+        <argsstring></argsstring>
+        <name>retrieve_ms</name>
+        <qualifiedname>themis::rag::CostEstimate::retrieve_ms</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+<para>Phase 2 — ANN / vector retrieval latency (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_cost_model.h" line="67" column="11" bodyfile="include/rag/tensor_rag_cost_model.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cost_estimate_1a687eb0af297c9b79f4d6dc4b694c6666" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::CostEstimate::rerank_ms</definition>
+        <argsstring></argsstring>
+        <name>rerank_ms</name>
+        <qualifiedname>themis::rag::CostEstimate::rerank_ms</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+<para>Phase 3 — cross-encoder reranking latency (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_cost_model.h" line="70" column="11" bodyfile="include/rag/tensor_rag_cost_model.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cost_estimate_1a6513f0cf4c122ac189a9e0060d86b774" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::CostEstimate::assemble_ms</definition>
+        <argsstring></argsstring>
+        <name>assemble_ms</name>
+        <qualifiedname>themis::rag::CostEstimate::assemble_ms</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+<para>Phase 4 — context assembly latency (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_cost_model.h" line="73" column="11" bodyfile="include/rag/tensor_rag_cost_model.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cost_estimate_1a3e98591483d28c01cd752620fd6351c3" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::CostEstimate::generate_ms</definition>
+        <argsstring></argsstring>
+        <name>generate_ms</name>
+        <qualifiedname>themis::rag::CostEstimate::generate_ms</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+<para>Phase 5 — LLM generation / TTFT (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_cost_model.h" line="76" column="11" bodyfile="include/rag/tensor_rag_cost_model.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_cost_estimate_1ae74cbdbaf1c66d696ada836d3bc91d9e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::CostEstimate::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::rag::CostEstimate::confidence</qualifiedname>
+        <initializer>{0.8f}</initializer>
+        <briefdescription>
+<para>Model confidence in the estimate [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>0.8 when all <ref refid="structthemis_1_1rag_1_1_tensor_rag_config" kindref="compound">TensorRagConfig</ref> fields use their defaults. 0.5 when cache_hit_rate == 0.0 (cold path, higher variance). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_cost_model.h" line="84" column="11" bodyfile="include/rag/tensor_rag_cost_model.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-phase and aggregate latency estimate returned by <ref refid="classthemis_1_1rag_1_1_tensor_rag_cost_model" kindref="compound">TensorRagCostModel</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/tensor_rag_cost_model.h" line="59" column="1" bodyfile="include/rag/tensor_rag_cost_model.h" bodystart="59" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_cost_estimate_1a6513f0cf4c122ac189a9e0060d86b774" prot="public" virt="non-virtual"><scope>themis::rag::CostEstimate</scope><name>assemble_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1_cost_estimate_1ae74cbdbaf1c66d696ada836d3bc91d9e" prot="public" virt="non-virtual"><scope>themis::rag::CostEstimate</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1_cost_estimate_1a9f3d70fcc0ceeb244ef91ed64ecd32c2" prot="public" virt="non-virtual"><scope>themis::rag::CostEstimate</scope><name>embed_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1_cost_estimate_1a3e98591483d28c01cd752620fd6351c3" prot="public" virt="non-virtual"><scope>themis::rag::CostEstimate</scope><name>generate_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1_cost_estimate_1a687eb0af297c9b79f4d6dc4b694c6666" prot="public" virt="non-virtual"><scope>themis::rag::CostEstimate</scope><name>rerank_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1_cost_estimate_1a25e11d7dfd03984bda02639b1bdf0a88" prot="public" virt="non-virtual"><scope>themis::rag::CostEstimate</scope><name>retrieve_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1_cost_estimate_1a4f72bf28f41a92a81906a09f74839126" prot="public" virt="non-virtual"><scope>themis::rag::CostEstimate</scope><name>total_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

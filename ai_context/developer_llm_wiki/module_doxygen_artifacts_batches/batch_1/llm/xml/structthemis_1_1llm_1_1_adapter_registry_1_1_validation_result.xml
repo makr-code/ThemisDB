@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_adapter_registry_1_1_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AdapterRegistry::ValidationResult</compoundname>
+    <includes refid="adapter__registry_8h" local="no">adapter_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_registry_1_1_validation_result_1a7584c7236ab494fd34f1bd46c0971aa8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterRegistry::ValidationResult::compatible</definition>
+        <argsstring></argsstring>
+        <name>compatible</name>
+        <qualifiedname>themis::llm::AdapterRegistry::ValidationResult::compatible</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="332" column="14" bodyfile="include/llm/adapter_registry.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_registry_1_1_validation_result_1a6afe203d37a8880c877d375e82b78b32" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::AdapterRegistry::ValidationResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::llm::AdapterRegistry::ValidationResult::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="333" column="21" bodyfile="include/llm/adapter_registry.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_registry_1_1_validation_result_1a1e8cc5badb6be99f4b934ec71230360c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::AdapterRegistry::ValidationResult::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::llm::AdapterRegistry::ValidationResult::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="334" column="21" bodyfile="include/llm/adapter_registry.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_adapter_registry_1_1_validation_result_1a5ffbeda081730f05aa853ca89788e51c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterRegistry::ValidationResult::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::llm::AdapterRegistry::ValidationResult::toString</qualifiedname>
+        <briefdescription>
+<para>To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="340" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_registry.h" line="331" column="5" bodyfile="include/llm/adapter_registry.h" bodystart="331" bodyend="341"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_adapter_registry_1_1_validation_result_1a7584c7236ab494fd34f1bd46c0971aa8" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry::ValidationResult</scope><name>compatible</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_registry_1_1_validation_result_1a6afe203d37a8880c877d375e82b78b32" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry::ValidationResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_registry_1_1_validation_result_1a5ffbeda081730f05aa853ca89788e51c" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry::ValidationResult</scope><name>toString</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_registry_1_1_validation_result_1a1e8cc5badb6be99f4b934ec71230360c" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry::ValidationResult</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

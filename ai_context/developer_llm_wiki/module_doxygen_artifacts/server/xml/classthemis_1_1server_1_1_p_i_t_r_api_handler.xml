@@ -1,0 +1,608 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_p_i_t_r_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::PITRApiHandler</compoundname>
+    <includes refid="pitr__api__handler_8h" local="no">pitr_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a5c203fe097c2b3e222db653ae2348b8a" prot="private" static="no" mutable="no">
+        <type>PITRManager &amp;</type>
+        <definition>PITRManager&amp; themis::server::PITRApiHandler::pitr_manager_</definition>
+        <argsstring></argsstring>
+        <name>pitr_manager_</name>
+        <qualifiedname>themis::server::PITRApiHandler::pitr_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_api_handler.h" line="69" column="17" bodyfile="include/server/pitr_api_handler.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a5c78d9595ab2a5a06f84be860d7d545f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::PITRApiHandler::PITRApiHandler</definition>
+        <argsstring>(PITRManager &amp;pitr_manager)</argsstring>
+        <name>PITRApiHandler</name>
+        <qualifiedname>themis::server::PITRApiHandler::PITRApiHandler</qualifiedname>
+        <param>
+          <type>PITRManager &amp;</type>
+          <declname>pitr_manager</declname>
+        </param>
+        <briefdescription>
+<para>PITRApi Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">pitr_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_api_handler.h" line="31" column="14" bodyfile="src/server/pitr_api_handler.cpp" bodystart="22" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a88767eab16c9fc14b10eb3135a878d2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::PITRApiHandler::~PITRApiHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PITRApiHandler</name>
+        <qualifiedname>themis::server::PITRApiHandler::~PITRApiHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_api_handler.h" line="33" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_t_r_api_handler_1abf240ea72f9c1d7ff26362a741d1a70e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::PITRApiHandler::PITRApiHandler</definition>
+        <argsstring>(const PITRApiHandler &amp;)=delete</argsstring>
+        <name>PITRApiHandler</name>
+        <qualifiedname>themis::server::PITRApiHandler::PITRApiHandler</qualifiedname>
+        <param>
+          <type>const PITRApiHandler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_api_handler.h" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_t_r_api_handler_1afc05631eea0a9a6215bd0ddf646c0cbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a5c78d9595ab2a5a06f84be860d7d545f" kindref="member">PITRApiHandler</ref> &amp;</type>
+        <definition>PITRApiHandler &amp; themis::server::PITRApiHandler::operator=</definition>
+        <argsstring>(const PITRApiHandler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::PITRApiHandler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a5c78d9595ab2a5a06f84be860d7d545f" kindref="member">PITRApiHandler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_api_handler.h" line="37" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_t_r_api_handler_1ac52f89a0ac726e433b381d99d78e4b8a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::PITRApiHandler::PITRApiHandler</definition>
+        <argsstring>(PITRApiHandler &amp;&amp;) noexcept=default</argsstring>
+        <name>PITRApiHandler</name>
+        <qualifiedname>themis::server::PITRApiHandler::PITRApiHandler</qualifiedname>
+        <param>
+          <type>PITRApiHandler &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_api_handler.h" line="38" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_t_r_api_handler_1add37467edfce5b14c4c391a5c59b1bf5" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a5c78d9595ab2a5a06f84be860d7d545f" kindref="member">PITRApiHandler</ref> &amp;</type>
+        <definition>PITRApiHandler &amp; themis::server::PITRApiHandler::operator=</definition>
+        <argsstring>(PITRApiHandler &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::PITRApiHandler::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a5c78d9595ab2a5a06f84be860d7d545f" kindref="member">PITRApiHandler</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_api_handler.h" line="39" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a809fa39227be2b199d050b9c71d448b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::PITRApiHandler::registerRoutes</definition>
+        <argsstring>(httplib::Server &amp;server)</argsstring>
+        <name>registerRoutes</name>
+        <qualifiedname>themis::server::PITRApiHandler::registerRoutes</qualifiedname>
+        <param>
+          <type>httplib::Server &amp;</type>
+          <declname>server</declname>
+        </param>
+        <briefdescription>
+<para>Register Routes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">server</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">server</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Post(), <ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1affa57892f7c917f0cfb88655f2f128ce" kindref="member">handleRestore()</ref>, <ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1abf2c0a3c71f7e63eddde16d44fee201f" kindref="member">handlePreview()</ref>, Get(), <ref refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1ac9424617b7a305008290668965e32d2d" kindref="member">handleGetProgress()</ref>, spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_api_handler.h" line="45" column="10" bodyfile="src/server/pitr_api_handler.cpp" bodystart="31" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_t_r_api_handler_1affa57892f7c917f0cfb88655f2f128ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::PITRApiHandler::handleRestore</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleRestore</name>
+        <qualifiedname>themis::server::PITRApiHandler::handleRestore</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Restore. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), json::parse(), contains(), sendError(), parseRestoreOptions(), std::stoull(), restoreToSequence(), fmt::format(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_api_handler.h" line="52" column="10" bodyfile="src/server/pitr_api_handler.cpp" bodystart="56" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_t_r_api_handler_1abf2c0a3c71f7e63eddde16d44fee201f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::PITRApiHandler::handlePreview</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handlePreview</name>
+        <qualifiedname>themis::server::PITRApiHandler::handlePreview</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Preview. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), json::parse(), contains(), sendError(), parseRestoreOptions(), std::stoull(), fmt::format(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_api_handler.h" line="59" column="10" bodyfile="src/server/pitr_api_handler.cpp" bodystart="127" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_t_r_api_handler_1ac9424617b7a305008290668965e32d2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::PITRApiHandler::handleGetProgress</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleGetProgress</name>
+        <qualifiedname>themis::server::PITRApiHandler::handleGetProgress</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), getProgress(), has_value(), sendJson(), progressToJson(), value(), sendError(), fmt::format(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_api_handler.h" line="66" column="10" bodyfile="src/server/pitr_api_handler.cpp" bodystart="198" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a7224904fcaedc6d33568934b640bd97e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>PITRManager::RestoreOptions</type>
+        <definition>PITRManager::RestoreOptions themis::server::PITRApiHandler::parseRestoreOptions</definition>
+        <argsstring>(const json &amp;options_json) const</argsstring>
+        <name>parseRestoreOptions</name>
+        <qualifiedname>themis::server::PITRApiHandler::parseRestoreOptions</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref> &amp;</type>
+          <declname>options_json</declname>
+        </param>
+        <briefdescription>
+<para>Parse Restore Options. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">options_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_api_handler.h" line="76" column="33" bodyfile="src/server/pitr_api_handler.cpp" bodystart="219" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a89e47102711a32fcf64e60a518f770fe" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref></type>
+        <definition>json themis::server::PITRApiHandler::progressToJson</definition>
+        <argsstring>(const PITRManager::RestoreProgress &amp;progress) const</argsstring>
+        <name>progressToJson</name>
+        <qualifiedname>themis::server::PITRApiHandler::progressToJson</qualifiedname>
+        <param>
+          <type>const PITRManager::RestoreProgress &amp;</type>
+          <declname>progress</declname>
+        </param>
+        <briefdescription>
+<para>Progress To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">progress</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_api_handler.h" line="83" column="10" bodyfile="src/server/pitr_api_handler.cpp" bodystart="262" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_t_r_api_handler_1ac86edc6a1d8ea201962ab1de57d77c8d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref></type>
+        <definition>json themis::server::PITRApiHandler::previewToJson</definition>
+        <argsstring>(const PITRManager::RestorePreview &amp;preview) const</argsstring>
+        <name>previewToJson</name>
+        <qualifiedname>themis::server::PITRApiHandler::previewToJson</qualifiedname>
+        <param>
+          <type>const PITRManager::RestorePreview &amp;</type>
+          <declname>preview</declname>
+        </param>
+        <briefdescription>
+<para>Preview To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">preview</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_api_handler.h" line="90" column="10" bodyfile="src/server/pitr_api_handler.cpp" bodystart="276" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a39af292553a8b2a048fad5c8a5e59a11" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref></type>
+        <definition>json themis::server::PITRApiHandler::statusToJson</definition>
+        <argsstring>(const PITRManager::Status &amp;status) const</argsstring>
+        <name>statusToJson</name>
+        <qualifiedname>themis::server::PITRApiHandler::statusToJson</qualifiedname>
+        <param>
+          <type>const PITRManager::Status &amp;</type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+<para>Status To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_api_handler.h" line="97" column="10" bodyfile="src/server/pitr_api_handler.cpp" bodystart="288" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_t_r_api_handler_1aecb752ca47e56ef3780c80f13042ff89" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::PITRApiHandler::phaseToString</definition>
+        <argsstring>(PITRManager::RestoreProgress::Phase phase) const</argsstring>
+        <name>phaseToString</name>
+        <qualifiedname>themis::server::PITRApiHandler::phaseToString</qualifiedname>
+        <param>
+          <type>PITRManager::RestoreProgress::Phase</type>
+          <declname>phase</declname>
+        </param>
+        <briefdescription>
+<para>Phase To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_api_handler.h" line="104" column="17" bodyfile="src/server/pitr_api_handler.cpp" bodystart="300" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_t_r_api_handler_1aea284d33cfcf8d8ac1e08e5297755c7f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::PITRApiHandler::sendError</definition>
+        <argsstring>(httplib::Response &amp;res, int status_code, const std::string &amp;message) const</argsstring>
+        <name>sendError</name>
+        <qualifiedname>themis::server::PITRApiHandler::sendError</qualifiedname>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>status_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Send Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_api_handler.h" line="112" column="10" bodyfile="src/server/pitr_api_handler.cpp" bodystart="323" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a150b3af1cfb19f81c3dcbb9de8122b57" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::PITRApiHandler::sendJson</definition>
+        <argsstring>(httplib::Response &amp;res, const json &amp;data, int status_code=200) const</argsstring>
+        <name>sendJson</name>
+        <qualifiedname>themis::server::PITRApiHandler::sendJson</qualifiedname>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>status_code</declname>
+          <defval>200</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/pitr_api_handler.h" line="114" column="10" bodyfile="src/server/pitr_api_handler.cpp" bodystart="332" bodyend="335"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/pitr_api_handler.h" line="24" column="1" bodyfile="include/server/pitr_api_handler.h" bodystart="24" bodyend="115"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1ac9424617b7a305008290668965e32d2d" prot="public" virt="non-virtual"><scope>themis::server::PITRApiHandler</scope><name>handleGetProgress</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1abf2c0a3c71f7e63eddde16d44fee201f" prot="public" virt="non-virtual"><scope>themis::server::PITRApiHandler</scope><name>handlePreview</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1affa57892f7c917f0cfb88655f2f128ce" prot="public" virt="non-virtual"><scope>themis::server::PITRApiHandler</scope><name>handleRestore</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1afc05631eea0a9a6215bd0ddf646c0cbd" prot="public" virt="non-virtual"><scope>themis::server::PITRApiHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1add37467edfce5b14c4c391a5c59b1bf5" prot="public" virt="non-virtual"><scope>themis::server::PITRApiHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a7224904fcaedc6d33568934b640bd97e" prot="private" virt="non-virtual"><scope>themis::server::PITRApiHandler</scope><name>parseRestoreOptions</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1aecb752ca47e56ef3780c80f13042ff89" prot="private" virt="non-virtual"><scope>themis::server::PITRApiHandler</scope><name>phaseToString</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a5c203fe097c2b3e222db653ae2348b8a" prot="private" virt="non-virtual"><scope>themis::server::PITRApiHandler</scope><name>pitr_manager_</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a5c78d9595ab2a5a06f84be860d7d545f" prot="public" virt="non-virtual"><scope>themis::server::PITRApiHandler</scope><name>PITRApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1abf240ea72f9c1d7ff26362a741d1a70e" prot="public" virt="non-virtual"><scope>themis::server::PITRApiHandler</scope><name>PITRApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1ac52f89a0ac726e433b381d99d78e4b8a" prot="public" virt="non-virtual"><scope>themis::server::PITRApiHandler</scope><name>PITRApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1ac86edc6a1d8ea201962ab1de57d77c8d" prot="private" virt="non-virtual"><scope>themis::server::PITRApiHandler</scope><name>previewToJson</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a89e47102711a32fcf64e60a518f770fe" prot="private" virt="non-virtual"><scope>themis::server::PITRApiHandler</scope><name>progressToJson</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a809fa39227be2b199d050b9c71d448b3" prot="public" virt="non-virtual"><scope>themis::server::PITRApiHandler</scope><name>registerRoutes</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1aea284d33cfcf8d8ac1e08e5297755c7f" prot="private" virt="non-virtual"><scope>themis::server::PITRApiHandler</scope><name>sendError</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a150b3af1cfb19f81c3dcbb9de8122b57" prot="private" virt="non-virtual"><scope>themis::server::PITRApiHandler</scope><name>sendJson</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a39af292553a8b2a048fad5c8a5e59a11" prot="private" virt="non-virtual"><scope>themis::server::PITRApiHandler</scope><name>statusToJson</name></member>
+      <member refid="classthemis_1_1server_1_1_p_i_t_r_api_handler_1a88767eab16c9fc14b10eb3135a878d2d" prot="public" virt="non-virtual"><scope>themis::server::PITRApiHandler</scope><name>~PITRApiHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

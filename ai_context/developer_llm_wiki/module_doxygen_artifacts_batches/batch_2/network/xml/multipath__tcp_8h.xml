@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="multipath__tcp_8h" kind="file" language="C++">
+    <compoundname>multipath_tcp.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="multipath__tcp_8cpp" local="yes">src/network/multipath_tcp.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/network/multipath_tcp.h</label>
+        <link refid="multipath__tcp_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/network/multipath_tcp.h</label>
+        <link refid="multipath__tcp_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/network/multipath_tcp.cpp</label>
+        <link refid="multipath__tcp_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1network_1_1_mptcp_subflow_info" prot="public">themis::network::MptcpSubflowInfo</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_mptcp_connection_stats" prot="public">themis::network::MptcpConnectionStats</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_mptcp_config" prot="public">themis::network::MptcpConfig</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_mptcp_subflow_manager" prot="public">themis::network::MptcpSubflowManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1network">themis::network</innernamespace>
+    <briefdescription>
+<para>MPTCP (Multipath TCP) subflow management interface for ThemisDB network module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟡 BETA </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Interface-Stable </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>–<sp/>MPTCP<sp/>subflow<sp/>management<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Provides<sp/>a<sp/>platform-abstracted<sp/>API<sp/>for<sp/>managing<sp/>Multipath<sp/>TCP<sp/>(MPTCP,<sp/>RFC<sp/>8684)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>subflows.<sp/>On<sp/>Linux<sp/>kernels<sp/>≥<sp/>5.6<sp/>with<sp/>MPTCP<sp/>enabled,<sp/>this<sp/>interface<sp/>wires</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MPTCP<sp/>sockets<sp/>via<sp/>the<sp/>kernel&apos;s<sp/>IPPROTO_MPTCP<sp/>protocol<sp/>family.<sp/>On<sp/>platforms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>without<sp/>MPTCP<sp/>support<sp/>(or<sp/>when<sp/>THEMIS_ENABLE_MPTCP<sp/>is<sp/>not<sp/>defined),<sp/>all</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>operations<sp/>degrade<sp/>gracefully<sp/>to<sp/>standard<sp/>TCP<sp/>semantics.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Key<sp/>design<sp/>goals:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Transparent<sp/>fallback:<sp/>absent<sp/>MPTCP<sp/>kernel<sp/>support<sp/>→<sp/>single-path<sp/>TCP.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Per-connection<sp/>subflow<sp/>visibility:<sp/>enumeration,<sp/>priority,<sp/>and<sp/>bandwidth.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Operator-facing<sp/>diagnostics:<sp/>subflow<sp/>state,<sp/>path<sp/>RTT,<sp/>bytes-per-path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Zero<sp/>extra<sp/>copies:<sp/>subflow<sp/>management<sp/>does<sp/>not<sp/>touch<sp/>payload<sp/>buffers.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Guarded<sp/>by<sp/>THEMIS_ENABLE_MPTCP<sp/>(requires<sp/>Linux<sp/>≥<sp/>5.6<sp/>with<sp/>mptcp<sp/>enabled).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">network</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036c" kindref="member">MptcpSubflowState</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036ca18ff74f43da410c5529f7d6fca84f115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036ca18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036cabfdf97ae01c73d83a58ec41f78a4291f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036cabfdf97ae01c73d83a58ec41f78a4291f" kindref="member">BACKUP</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036caa71a44c4c886bfc66b1edd511e6a677e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036caa71a44c4c886bfc66b1edd511e6a677e" kindref="member">CLOSING</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036cab3461745d64b12346503b2980e436db5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036cab3461745d64b12346503b2980e436db5" kindref="member">REMOVED</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036cab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036cab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1network_1_1_mptcp_subflow_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_mptcp_subflow_info" kindref="compound">MptcpSubflowInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1network_1_1_mptcp_subflow_info_1ab6eeaecb28a99534522fe991ec3baa26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_mptcp_subflow_info_1ab6eeaecb28a99534522fe991ec3baa26" kindref="member">subflow_id</ref><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a1f9f8eea73aa90b06177632624a1c5e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a1f9f8eea73aa90b06177632624a1c5e0" kindref="member">local_addr</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1network_1_1_mptcp_subflow_info_1afd482e79f460ca551fa394eaab06e4f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_mptcp_subflow_info_1afd482e79f460ca551fa394eaab06e4f0" kindref="member">local_port</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1network_1_1_mptcp_subflow_info_1aec3f4520037d2df93100b112d64fda9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1network_1_1_mptcp_subflow_info_1aec3f4520037d2df93100b112d64fda9e" kindref="member">remote_addr</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a87b344b4f127f41abb33b7772c828408" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a87b344b4f127f41abb33b7772c828408" kindref="member">remote_port</ref><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1network_1_1_mptcp_subflow_info_1ae5eae98396afa948a9f0c12747f2f7d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036c" kindref="member">MptcpSubflowState</ref><sp/><ref refid="structthemis_1_1network_1_1_mptcp_subflow_info_1ae5eae98396afa948a9f0c12747f2f7d8" kindref="member">state</ref><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036ca18ff74f43da410c5529f7d6fca84f115" kindref="member">MptcpSubflowState::ACTIVE</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a5280d26b9234c304bd94759b7e6e6081" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a5280d26b9234c304bd94759b7e6e6081" kindref="member">priority</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a7d09daea4cf968888779e1ce88df3fbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a7d09daea4cf968888779e1ce88df3fbb" kindref="member">bytes_sent</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a897d3a9ee80b94ee40738aa93306cb48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a897d3a9ee80b94ee40738aa93306cb48" kindref="member">bytes_recv</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a32c9cc2145197374296b7ca57e2d434c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a32c9cc2145197374296b7ca57e2d434c" kindref="member">rtt_us</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a4918d0e74f51c1c75361ef83f38d9922" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_mptcp_subflow_info_1a4918d0e74f51c1c75361ef83f38d9922" kindref="member">bandwidth_kbps</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1network_1_1_mptcp_connection_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_mptcp_connection_stats" kindref="compound">MptcpConnectionStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1network_1_1_mptcp_connection_stats_1a1e63d8908d9ec382dc50feeaaa61a47e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1network_1_1_mptcp_connection_stats_1a1e63d8908d9ec382dc50feeaaa61a47e" kindref="member">active_subflows</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1network_1_1_mptcp_connection_stats_1a138e44bff2af50fe21439c7516f96c07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1network_1_1_mptcp_connection_stats_1a138e44bff2af50fe21439c7516f96c07" kindref="member">total_subflows</ref><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1network_1_1_mptcp_connection_stats_1a603e41767c32eecb98bb92e4c7cc3ec9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_mptcp_connection_stats_1a603e41767c32eecb98bb92e4c7cc3ec9" kindref="member">total_bytes_sent</ref><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1network_1_1_mptcp_connection_stats_1a37ed2be56306b4209dd8704f4e83fbac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_mptcp_connection_stats_1a37ed2be56306b4209dd8704f4e83fbac" kindref="member">total_bytes_recv</ref><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1network_1_1_mptcp_connection_stats_1aba2cc6c14c177e4f42b7ae4e67cd46b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_mptcp_connection_stats_1aba2cc6c14c177e4f42b7ae4e67cd46b1" kindref="member">fallback_to_tcp</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1network_1_1_mptcp_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_mptcp_config_1a60d9abbe26e0feba7bc8f92d07d0ba2f" kindref="member">MptcpConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1network_1_1_mptcp_config_1a76526f6f7f721cb0730c51301654b8ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1network_1_1_mptcp_config_1a76526f6f7f721cb0730c51301654b8ea" kindref="member">max_subflows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1network_1_1_mptcp_config_1adc8225beee5ee3592383844bc1651f43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_mptcp_config_1adc8225beee5ee3592383844bc1651f43" kindref="member">enable_path_manager</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1network_1_1_mptcp_config_1ae3ab97448e54ed0fb8b898f720306fb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1network_1_1_mptcp_config_1ae3ab97448e54ed0fb8b898f720306fb2" kindref="member">scheduler</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1network_1_1_mptcp_config_1ade61b477ff2b58c25b7c9578717f5262" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_mptcp_config_1ade61b477ff2b58c25b7c9578717f5262" kindref="member">fallback_to_tcp</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1network_1_1_mptcp_config_1a60d9abbe26e0feba7bc8f92d07d0ba2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_mptcp_config_1a60d9abbe26e0feba7bc8f92d07d0ba2f" kindref="member">MptcpConfig</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MptcpSubflowManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1network_1_1_mptcp_subflow_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a9694baf161e54ad3a3e614b3df1a8b65" kindref="member">MptcpSubflowManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a9694baf161e54ad3a3e614b3df1a8b65" kindref="member">MptcpSubflowManager</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>socket_fd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_mptcp_config" kindref="compound">MptcpConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1aa990d5a8857353f6b46d0d7ad787146a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1aa990d5a8857353f6b46d0d7ad787146a" kindref="member">~MptcpSubflowManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a878cf553d4284979e2ad821d68efebbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a878cf553d4284979e2ad821d68efebbd" kindref="member">MptcpSubflowManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a9694baf161e54ad3a3e614b3df1a8b65" kindref="member">MptcpSubflowManager</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a80cd5ffc44490cbb51398a5ddbc24dfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a9694baf161e54ad3a3e614b3df1a8b65" kindref="member">MptcpSubflowManager</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a80cd5ffc44490cbb51398a5ddbc24dfe" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a9694baf161e54ad3a3e614b3df1a8b65" kindref="member">MptcpSubflowManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a02479b563caeb9e1329b48425fc7b633" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a02479b563caeb9e1329b48425fc7b633" kindref="member">MptcpSubflowManager</ref>(<ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a9694baf161e54ad3a3e614b3df1a8b65" kindref="member">MptcpSubflowManager</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="126" refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a92c778110f8b0e64a3589e44c18446e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a9694baf161e54ad3a3e614b3df1a8b65" kindref="member">MptcpSubflowManager</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a9694baf161e54ad3a3e614b3df1a8b65" kindref="member">MptcpSubflowManager</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Capability<sp/>and<sp/>state<sp/>queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a8a812bcabc8aa37b7f773f82a6eac684" kindref="member">isMptcpEnabled</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1network_1_1_mptcp_subflow_info" kindref="compound">MptcpSubflowInfo</ref>&gt;<sp/><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1abafb0a5888dbe2612a91aaa484a8458d" kindref="member">enumerateSubflows</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_mptcp_connection_stats" kindref="compound">MptcpConnectionStats</ref><sp/><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1aa3c05602e3d92175350ac77a5d591ad6" kindref="member">getStats</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Subflow<sp/>control</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1ae74fb7cf381c9c53a89b14a4936060e7" kindref="member">setPriority</ref>(uint32_t<sp/>subflow_id,<sp/>uint32_t<sp/>priority);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1a82130f4d1cd8aa12b6e1d1cafec2bd44" kindref="member">removeSubflow</ref>(uint32_t<sp/>subflow_id);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Diagnostic<sp/>hook</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_mptcp_subflow_manager_1aedb13d1a7b0fdd9816912c2270076e89" kindref="member">setSubflowStateCallback</ref>(</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(const<sp/><ref refid="structthemis_1_1network_1_1_mptcp_subflow_info" kindref="compound">MptcpSubflowInfo</ref>&amp;)&gt;<sp/>callback);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>socket_fd_;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_mptcp_config" kindref="compound">MptcpConfig</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mptcp_enabled_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::vector&lt;MptcpSubflowInfo&gt;<sp/>last_snapshot_;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_mptcp_subflow_info" kindref="compound">MptcpSubflowInfo</ref>&amp;)&gt;<sp/>state_cb_;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Utility:<sp/>create<sp/>an<sp/>MPTCP-capable<sp/>server<sp/>or<sp/>client<sp/>socket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1a00a96913bcd1d7510435b5c049d7a5f7" kindref="member">createMptcpListenSocket</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>host,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint16_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>port,</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MptcpConfig&amp;<sp/>config<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1aef40c96a4ea7d0050c289b2ed703b4ff" kindref="member">isMptcpKernelSupported</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>network</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/network/multipath_tcp.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_trust_verifier" kind="class" language="C++" prot="public">
+    <compoundname>StubTrustVerifier</compoundname>
+    <innerclass refid="struct_stub_trust_verifier_1_1_trust_result" prot="public">StubTrustVerifier::TrustResult</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_trust_verifier_1a074dc8b0ade4923e498cd8129dc86fc9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubTrustVerifier::ops_</definition>
+        <argsstring></argsstring>
+        <name>ops_</name>
+        <qualifiedname>StubTrustVerifier::ops_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_highcardinality_stress.cpp" line="84" column="17" bodyfile="tests/themis/test_themis_highcardinality_stress.cpp" bodystart="84" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_trust_verifier_1ae0d39bb11931267d75864f72e8175f22" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="struct_stub_trust_verifier_1_1_trust_result" kindref="compound">TrustResult</ref></type>
+        <definition>TrustResult StubTrustVerifier::verify</definition>
+        <argsstring>(const std::string &amp;module_name, uint8_t claimed_level) noexcept</argsstring>
+        <name>verify</name>
+        <qualifiedname>StubTrustVerifier::verify</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>claimed_level</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_highcardinality_stress.cpp" line="75" column="17" bodyfile="tests/themis/test_themis_highcardinality_stress.cpp" bodystart="75" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_trust_verifier_1af922e5594cf979a055739f7680d31cb8" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubTrustVerifier::totalOps</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalOps</name>
+        <qualifiedname>StubTrustVerifier::totalOps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_highcardinality_stress.cpp" line="82" column="14" bodyfile="tests/themis/test_themis_highcardinality_stress.cpp" bodystart="82" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/themis/test_themis_highcardinality_stress.cpp" line="68" column="1" bodyfile="tests/themis/test_themis_highcardinality_stress.cpp" bodystart="68" bodyend="85"/>
+    <listofallmembers>
+      <member refid="class_stub_trust_verifier_1a074dc8b0ade4923e498cd8129dc86fc9" prot="private" virt="non-virtual"><scope>StubTrustVerifier</scope><name>ops_</name></member>
+      <member refid="class_stub_trust_verifier_1af922e5594cf979a055739f7680d31cb8" prot="public" virt="non-virtual"><scope>StubTrustVerifier</scope><name>totalOps</name></member>
+      <member refid="class_stub_trust_verifier_1ae0d39bb11931267d75864f72e8175f22" prot="public" virt="non-virtual"><scope>StubTrustVerifier</scope><name>verify</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

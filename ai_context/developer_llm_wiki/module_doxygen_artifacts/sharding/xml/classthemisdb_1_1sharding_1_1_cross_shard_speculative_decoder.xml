@@ -1,0 +1,1634 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::CrossShardSpeculativeDecoder</compoundname>
+    <includes refid="cross__shard__speculative__decoder_8h" local="no">cross_shard_speculative_decoder.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1_1_active_speculation" prot="private">themisdb::sharding::CrossShardSpeculativeDecoder::ActiveSpeculation</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1ac0a24646f9ab209838a364230b27672c" prot="public" static="no">
+        <type>std::function&lt; void( int64_t request_id, const std::vector&lt; int &gt; &amp;accepted_tokens, double acceptance_rate, double speedup)&gt;</type>
+        <definition>using themisdb::sharding::CrossShardSpeculativeDecoder::SpeculativeCompletionCallback = std::function&lt;void(
+       int64_t request_id,
+       const std::vector&lt;int&gt;&amp; accepted_tokens,
+       double acceptance_rate,
+       double speedup
+   )&gt;</definition>
+        <argsstring></argsstring>
+        <name>SpeculativeCompletionCallback</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::SpeculativeCompletionCallback</qualifiedname>
+        <briefdescription>
+<para>Callback for speculative decoding completion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="271" column="5" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a1e43748090140f5c7849e8cea08fbe5f" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemisdb_1_1sharding_1_1_shard_capability_info" kindref="compound">ShardCapabilityInfo</ref> &amp;)&gt;</type>
+        <definition>using themisdb::sharding::CrossShardSpeculativeDecoder::CapabilityUpdateCallback = std::function&lt;void(const ShardCapabilityInfo&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>CapabilityUpdateCallback</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::CapabilityUpdateCallback</qualifiedname>
+        <briefdescription>
+<para>Callback for shard capability updates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="281" column="5" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1aa76767d2f21125899cdea19886743051" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_speculative_decoding_config" kindref="compound">SpeculativeDecodingConfig</ref></type>
+        <definition>SpeculativeDecodingConfig themisdb::sharding::CrossShardSpeculativeDecoder::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="568" column="31" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="568" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a4856e1f0c1d393203bc977c7810ba28f" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossShardSpeculativeDecoder::local_shard_id_</definition>
+        <argsstring></argsstring>
+        <name>local_shard_id_</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::local_shard_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="569" column="17" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="569" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a70fb8d3afcce6ada942c63374ff276c3" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced" kindref="compound">InferenceEngineEnhanced</ref> *</type>
+        <definition>InferenceEngineEnhanced* themisdb::sharding::CrossShardSpeculativeDecoder::local_engine_</definition>
+        <argsstring></argsstring>
+        <name>local_engine_</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::local_engine_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="570" column="29" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="570" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a4d64ee61cd1b83c1a55b40f4b3fc1104" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemisdb_1_1sharding_1_1_shard_capability_info" kindref="compound">ShardCapabilityInfo</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ShardCapabilityInfo&gt; themisdb::sharding::CrossShardSpeculativeDecoder::shards_</definition>
+        <argsstring></argsstring>
+        <name>shards_</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="573" column="24" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="573" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a89eb4564482fc1bedb2b00284cc45098" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int64_t, ActiveSpeculation &gt;</type>
+        <definition>std::unordered_map&lt;int64_t, ActiveSpeculation&gt; themisdb::sharding::CrossShardSpeculativeDecoder::active_speculations_</definition>
+        <argsstring></argsstring>
+        <name>active_speculations_</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::active_speculations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="576" column="24" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="576" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a143fb61842a23e0258a2821b10610803" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::CrossShardSpeculativeDecoder::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="579" column="24" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="579" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a5ca1796bffb3edc949aaf786b2117d3d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_speculative_decoding_stats" kindref="compound">SpeculativeDecodingStats</ref></type>
+        <definition>SpeculativeDecodingStats themisdb::sharding::CrossShardSpeculativeDecoder::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="580" column="30" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="580" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1ae5452627499c515c75ab17d74bdeaf9e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themisdb::sharding::CrossShardSpeculativeDecoder::recent_acceptance_rates_</definition>
+        <argsstring></argsstring>
+        <name>recent_acceptance_rates_</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::recent_acceptance_rates_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="583" column="17" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="583" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1abd93f4ba70fd3ddc6a1f315ce9d2fe3e" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::CrossShardSpeculativeDecoder::current_adaptive_acceptance_rate_</definition>
+        <argsstring></argsstring>
+        <name>current_adaptive_acceptance_rate_</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::current_adaptive_acceptance_rate_</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="584" column="12" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="584" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a038a32aba31acc54bcb98f82700a2dec" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a1e43748090140f5c7849e8cea08fbe5f" kindref="member">CapabilityUpdateCallback</ref></type>
+        <definition>CapabilityUpdateCallback themisdb::sharding::CrossShardSpeculativeDecoder::capability_update_callback_</definition>
+        <argsstring></argsstring>
+        <name>capability_update_callback_</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::capability_update_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="587" column="30" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="587" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a83f23f73e626b33c1b795f1e81f1dedd" prot="private" static="no" mutable="no">
+        <type>std::function&lt; bool(const std::string &amp;, const <ref refid="structthemisdb_1_1sharding_1_1_draft_generation_request" kindref="compound">DraftGenerationRequest</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;bool(const std::string&amp;, const DraftGenerationRequest&amp;)&gt; themisdb::sharding::CrossShardSpeculativeDecoder::remote_draft_callback_</definition>
+        <argsstring></argsstring>
+        <name>remote_draft_callback_</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::remote_draft_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="588" column="19" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="588" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a8960d2f35188401ce99d634a4c51e036" prot="private" static="no" mutable="no">
+        <type>std::function&lt; bool(const std::string &amp;, const <ref refid="structthemisdb_1_1sharding_1_1_draft_verification_request" kindref="compound">DraftVerificationRequest</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;bool(const std::string&amp;, const DraftVerificationRequest&amp;)&gt; themisdb::sharding::CrossShardSpeculativeDecoder::remote_verify_callback_</definition>
+        <argsstring></argsstring>
+        <name>remote_verify_callback_</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::remote_verify_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="589" column="19" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="589" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a55ef5409ac7ef73902c472c0f8430faf" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::CrossShardSpeculativeDecoder::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="592" column="24" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="592" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a3d5138ab203670aed09cd0a4d869c428" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::CrossShardSpeculativeDecoder::CrossShardSpeculativeDecoder</definition>
+        <argsstring>(const SpeculativeDecodingConfig &amp;config)</argsstring>
+        <name>CrossShardSpeculativeDecoder</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::CrossShardSpeculativeDecoder</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_speculative_decoding_config" kindref="compound">SpeculativeDecodingConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder" kindref="compound">CrossShardSpeculativeDecoder</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Speculative decoding configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="287" column="14" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="26" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1ae5b85b16d48128b39931d7359e0071d6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::CrossShardSpeculativeDecoder::~CrossShardSpeculativeDecoder</definition>
+        <argsstring>()</argsstring>
+        <name>~CrossShardSpeculativeDecoder</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::~CrossShardSpeculativeDecoder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="289" column="5" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="39" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a01b670e39bb6e617a6eea7804e434a24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::CrossShardSpeculativeDecoder::CrossShardSpeculativeDecoder</definition>
+        <argsstring>(const CrossShardSpeculativeDecoder &amp;)=delete</argsstring>
+        <name>CrossShardSpeculativeDecoder</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::CrossShardSpeculativeDecoder</qualifiedname>
+        <param>
+          <type>const CrossShardSpeculativeDecoder &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="292" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a51df4641ca3c2cc85abe52a98609c442" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a3d5138ab203670aed09cd0a4d869c428" kindref="member">CrossShardSpeculativeDecoder</ref> &amp;</type>
+        <definition>CrossShardSpeculativeDecoder &amp; themisdb::sharding::CrossShardSpeculativeDecoder::operator=</definition>
+        <argsstring>(const CrossShardSpeculativeDecoder &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a3d5138ab203670aed09cd0a4d869c428" kindref="member">CrossShardSpeculativeDecoder</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="293" column="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a82a99d9aa0cf97748057a83b80d82b60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardSpeculativeDecoder::initialize</definition>
+        <argsstring>(const std::string &amp;local_shard_id, InferenceEngineEnhanced *local_engine)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::initialize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local_shard_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced" kindref="compound">InferenceEngineEnhanced</ref> *</type>
+          <declname>local_engine</declname>
+        </param>
+        <briefdescription>
+<para>Initialize the coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>local_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>local_engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local inference engine </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if initialization succeeded</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">local_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the local shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">local_engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), spdlog::error(), isModelLoaded(), <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1ac7e41ba7722397326be2b8b57498a61f" kindref="member">getConfig()</ref>, <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a8715bd33ac3009b44c9ca26ac543c65b" kindref="member">registerShard()</ref>, spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="305" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="55" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1aa35e6815bb67e03bbfb9e0d124bb2bb4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSpeculativeDecoder::shutdown</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown the coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="313" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="83" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a2e0e6ce3454006656a43375b983d5966" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSpeculativeDecoder::updateConfig</definition>
+        <argsstring>(const SpeculativeDecodingConfig &amp;config)</argsstring>
+        <name>updateConfig</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::updateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_speculative_decoding_config" kindref="compound">SpeculativeDecodingConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the access control configuration.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New configuration</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New access control configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), isValid(), spdlog::error(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="319" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="116" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1ac7e41ba7722397326be2b8b57498a61f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1sharding_1_1_speculative_decoding_config" kindref="compound">SpeculativeDecodingConfig</ref> &amp;</type>
+        <definition>const SpeculativeDecodingConfig &amp; themisdb::sharding::CrossShardSpeculativeDecoder::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="324" column="37" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="128" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a8715bd33ac3009b44c9ca26ac543c65b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSpeculativeDecoder::registerShard</definition>
+        <argsstring>(const ShardCapabilityInfo &amp;shard_info)</argsstring>
+        <name>registerShard</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::registerShard</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_shard_capability_info" kindref="compound">ShardCapabilityInfo</ref> &amp;</type>
+          <declname>shard_info</declname>
+        </param>
+        <briefdescription>
+<para>Register a shard with the coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Shard.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard capability information</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), calculateCapabilityScore(), spdlog::debug(), capability_update_callback_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="334" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="141" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a0489116b6206ef08ee7053a69c6a87e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSpeculativeDecoder::unregisterShard</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>unregisterShard</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::unregisterShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Unregister a shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unregister Shard.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), spdlog::info(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="340" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="167" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1ab6ba30b16206cd766aa33c497d345cce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSpeculativeDecoder::updateShardCapability</definition>
+        <argsstring>(const ShardCapabilityInfo &amp;shard_info)</argsstring>
+        <name>updateShardCapability</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::updateShardCapability</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_shard_capability_info" kindref="compound">ShardCapabilityInfo</ref> &amp;</type>
+          <declname>shard_info</declname>
+        </param>
+        <briefdescription>
+<para>Update shard capability information. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Shard Capability.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Updated shard capability information</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_info</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), calculateCapabilityScore(), spdlog::debug(), capability_update_callback_(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="346" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="182" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a02e9be6f3a1fb08ede9dad3014546fce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_shard_capability_info" kindref="compound">ShardCapabilityInfo</ref> &gt;</type>
+        <definition>std::optional&lt; ShardCapabilityInfo &gt; themisdb::sharding::CrossShardSpeculativeDecoder::getShardCapability</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>getShardCapability</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::getShardCapability</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Get shard capability information. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Shard capability information or nullopt if not found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="353" column="19" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="202" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1aff83cc4947c682df7f1d235b7133ad77" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_shard_capability_info" kindref="compound">ShardCapabilityInfo</ref> &gt;</type>
+        <definition>std::vector&lt; ShardCapabilityInfo &gt; themisdb::sharding::CrossShardSpeculativeDecoder::getAllShards</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllShards</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::getAllShards</qualifiedname>
+        <briefdescription>
+<para>Get all registered shards. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="358" column="17" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="218" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a3dc594dcae74bd58e4209826ea74d383" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardSpeculativeDecoder::startSpeculativeDecoding</definition>
+        <argsstring>(int64_t request_id, const std::vector&lt; int &gt; &amp;input_token_ids, uint32_t max_draft_tokens, SpeculativeCompletionCallback callback)</argsstring>
+        <name>startSpeculativeDecoding</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::startSpeculativeDecoding</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>input_token_ids</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_draft_tokens</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1ac0a24646f9ab209838a364230b27672c" kindref="member">SpeculativeCompletionCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Start speculative decoding for a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start Speculative Decoding.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input token IDs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_draft_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum draft tokens to generate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Completion callback </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if speculative decoding started successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_draft_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::warn(), spdlog::debug(), <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a3263ff31bb9da752ddb844079d9d85b9" kindref="member">processLocalSpeculativeDecoding()</ref>, <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1adb0cdbf4e2f5f2a816555966b864ef27" kindref="member">selectDraftShard()</ref>, <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a6626c10f160e33b163f0ec74bbe6cff2" kindref="member">selectVerifyShard()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="372" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="246" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a6dcead9ace6014f0994a7c0bf8a8aab4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSpeculativeDecoder::generateDraft</definition>
+        <argsstring>(DraftGenerationRequest request)</argsstring>
+        <name>generateDraft</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::generateDraft</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1sharding_1_1_draft_generation_request" kindref="compound">DraftGenerationRequest</ref></type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Generate draft tokens (called by remote shards). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Draft.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Draft generation request</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), spdlog::warn(), on_failure(), spdlog::error(), isSpeculativeDecodingEnabled(), enableSpeculativeDecoding(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="383" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="351" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a6734ea90ae882a74cda4ff8edf2e7ce7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSpeculativeDecoder::verifyDraft</definition>
+        <argsstring>(DraftVerificationRequest request)</argsstring>
+        <name>verifyDraft</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::verifyDraft</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1sharding_1_1_draft_verification_request" kindref="compound">DraftVerificationRequest</ref></type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Verify draft tokens (called by remote shards). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Draft.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Draft verification request</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), spdlog::warn(), on_failure(), spdlog::error(), verifyDraftTokens(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="389" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="421" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a3263ff31bb9da752ddb844079d9d85b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardSpeculativeDecoder::processLocalSpeculativeDecoding</definition>
+        <argsstring>(int64_t request_id, const std::vector&lt; int &gt; &amp;input_token_ids, uint32_t max_draft_tokens, SpeculativeCompletionCallback callback)</argsstring>
+        <name>processLocalSpeculativeDecoding</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::processLocalSpeculativeDecoding</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>input_token_ids</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_draft_tokens</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1ac0a24646f9ab209838a364230b27672c" kindref="member">SpeculativeCompletionCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Process local speculative decoding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Process Local Speculative Decoding.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input token IDs </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_draft_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum draft tokens </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Completion callback </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if local decoding started successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input_token_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_draft_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::warn(), spdlog::error(), isSpeculativeDecodingEnabled(), enableSpeculativeDecoding(), generateDraftTokens(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="399" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="491" bodyend="568"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a4cd76e4e6610970833cbf34095f05224" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardSpeculativeDecoder::cancelSpeculativeDecoding</definition>
+        <argsstring>(int64_t request_id)</argsstring>
+        <name>cancelSpeculativeDecoding</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::cancelSpeculativeDecoding</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel speculative decoding for a request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cancel Speculative Decoding.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if cancelled successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::info(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="411" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="576" bodyend="591"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1adb0cdbf4e2f5f2a816555966b864ef27" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_shard_capability_info" kindref="compound">ShardCapabilityInfo</ref> &gt;</type>
+        <definition>std::optional&lt; ShardCapabilityInfo &gt; themisdb::sharding::CrossShardSpeculativeDecoder::selectDraftShard</definition>
+        <argsstring>(const std::string &amp;exclude_shard_id=&quot;&quot;) const</argsstring>
+        <name>selectDraftShard</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::selectDraftShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>exclude_shard_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Select the best shard for draft generation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>exclude_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard to exclude (usually the local shard) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Shard capability information or nullopt if no suitable shard </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="422" column="19" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="597" bodyend="643"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a6626c10f160e33b163f0ec74bbe6cff2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_shard_capability_info" kindref="compound">ShardCapabilityInfo</ref> &gt;</type>
+        <definition>std::optional&lt; ShardCapabilityInfo &gt; themisdb::sharding::CrossShardSpeculativeDecoder::selectVerifyShard</definition>
+        <argsstring>() const</argsstring>
+        <name>selectVerifyShard</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::selectVerifyShard</qualifiedname>
+        <briefdescription>
+<para>Select the best shard for verification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shard capability information or nullopt if no suitable shard </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="430" column="19" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="645" bodyend="690"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a78dab65e367f30ebd54c034c17909e9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSpeculativeDecoder::enableAdaptiveSpeculation</definition>
+        <argsstring>()</argsstring>
+        <name>enableAdaptiveSpeculation</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::enableAdaptiveSpeculation</qualifiedname>
+        <briefdescription>
+<para>Enable adaptive speculation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable Adaptive Speculation.</para>
+<para>Calls: lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="439" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="700" bodyend="704"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a37591377eb5e1d6af6f4ecaf1ad22235" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSpeculativeDecoder::disableAdaptiveSpeculation</definition>
+        <argsstring>()</argsstring>
+        <name>disableAdaptiveSpeculation</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::disableAdaptiveSpeculation</qualifiedname>
+        <briefdescription>
+<para>Disable adaptive speculation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Disable Adaptive Speculation.</para>
+<para>Calls: lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="444" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="710" bodyend="714"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a102ff26ac2e81a7122443123d5324c11" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardSpeculativeDecoder::isAdaptiveSpeculationEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isAdaptiveSpeculationEnabled</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::isAdaptiveSpeculationEnabled</qualifiedname>
+        <briefdescription>
+<para>Check if adaptive speculation is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="449" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="716" bodyend="718"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1af354460b500313c9845b2886b88fa465" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSpeculativeDecoder::updateAcceptanceRate</definition>
+        <argsstring>(double acceptance_rate)</argsstring>
+        <name>updateAcceptanceRate</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::updateAcceptanceRate</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>acceptance_rate</declname>
+        </param>
+        <briefdescription>
+<para>Update acceptance rate for adaptation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Acceptance Rate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>acceptance_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Latest acceptance rate</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">acceptance_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), size(), erase(), begin(), empty(), std::accumulate(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="455" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="725" bodyend="750"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1afa415888c5cf5f75c90f967c5d1a7a59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSpeculativeDecoder::adjustSpeculationParameters</definition>
+        <argsstring>()</argsstring>
+        <name>adjustSpeculationParameters</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::adjustSpeculationParameters</qualifiedname>
+        <briefdescription>
+<para>Adjust speculation parameters based on recent performance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Adjust Speculation Parameters.</para>
+<para>Calls: lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="460" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="756" bodyend="778"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a2b1955c2be08e00ed22bf99c9a2205cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSpeculativeDecoder::setLocalEngine</definition>
+        <argsstring>(InferenceEngineEnhanced *engine)</argsstring>
+        <name>setLocalEngine</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::setLocalEngine</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced" kindref="compound">InferenceEngineEnhanced</ref> *</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Set the local inference engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Local Engine.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local inference engine</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), empty(), find(), end(), isModelLoaded(), <ref refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1ac7e41ba7722397326be2b8b57498a61f" kindref="member">getConfig()</ref>, spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="470" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="789" bodyend="805"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a2326a7ddb4b8eeee4b8b5baefc46d6f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_inference_engine_enhanced" kindref="compound">InferenceEngineEnhanced</ref> *</type>
+        <definition>InferenceEngineEnhanced * themisdb::sharding::CrossShardSpeculativeDecoder::getLocalEngine</definition>
+        <argsstring>()</argsstring>
+        <name>getLocalEngine</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::getLocalEngine</qualifiedname>
+        <briefdescription>
+<para>Get the local inference engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Local Engine.</para>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements getLocalEngine without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="475" column="29" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="812" bodyend="814"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1ae79696eb8365ce967701e33b91155f27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSpeculativeDecoder::setLocalShardId</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>setLocalShardId</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::setLocalShardId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Set the local shard ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Local Shard Id.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="481" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="821" bodyend="832"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a9ebf8c1c7d98f1a370c39d207f9b326c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themisdb::sharding::CrossShardSpeculativeDecoder::getLocalShardId</definition>
+        <argsstring>() const</argsstring>
+        <name>getLocalShardId</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::getLocalShardId</qualifiedname>
+        <briefdescription>
+<para>Get the local shard ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="486" column="23" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="834" bodyend="836"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1ad67fcd41bd1940e3f60104486b856e6a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_speculative_decoding_stats" kindref="compound">SpeculativeDecodingStats</ref></type>
+        <definition>SpeculativeDecodingStats themisdb::sharding::CrossShardSpeculativeDecoder::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::getStats</qualifiedname>
+        <briefdescription>
+<para>Get current statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="495" column="30" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="842" bodyend="850"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1acf6426de37252054a2963c2e604b46ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::CrossShardSpeculativeDecoder::getStatsJson</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatsJson</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::getStatsJson</qualifiedname>
+        <briefdescription>
+<para>Get detailed statistics as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="500" column="20" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="852" bodyend="860"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a67fa45aa83340b110bf84b3a302f410a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSpeculativeDecoder::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Stats.</para>
+<para>Calls: lock(), SpeculativeDecodingStats(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="505" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="866" bodyend="871"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1ab9dac47012c329dedd8a9a615bf78bd3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::CrossShardSpeculativeDecoder::getPerformanceReport</definition>
+        <argsstring>() const</argsstring>
+        <name>getPerformanceReport</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::getPerformanceReport</qualifiedname>
+        <briefdescription>
+<para>Get performance report. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="510" column="20" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="873" bodyend="898"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a577f5002b70ad0c830521aa1ed198f6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSpeculativeDecoder::setCapabilityUpdateCallback</definition>
+        <argsstring>(CapabilityUpdateCallback callback)</argsstring>
+        <name>setCapabilityUpdateCallback</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::setCapabilityUpdateCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a1e43748090140f5c7849e8cea08fbe5f" kindref="member">CapabilityUpdateCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set capability update callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Capability Update Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback for shard capability updates</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="520" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="909" bodyend="914"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a0d9b6bb9facc95d2ce036ee471334330" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSpeculativeDecoder::setRemoteDraftCallback</definition>
+        <argsstring>(std::function&lt; bool(const std::string &amp;shard_id, const DraftGenerationRequest &amp;)&gt; callback)</argsstring>
+        <name>setRemoteDraftCallback</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::setRemoteDraftCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; bool(const std::string &amp;shard_id, const <ref refid="structthemisdb_1_1sharding_1_1_draft_generation_request" kindref="compound">DraftGenerationRequest</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set remote draft generation callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback to send draft generation request to remote shard </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="526" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="916" bodyend="926"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1aae6c936396568d6b41c7464dc3e08b1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSpeculativeDecoder::setRemoteVerifyCallback</definition>
+        <argsstring>(std::function&lt; bool(const std::string &amp;shard_id, const DraftVerificationRequest &amp;)&gt; callback)</argsstring>
+        <name>setRemoteVerifyCallback</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::setRemoteVerifyCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; bool(const std::string &amp;shard_id, const <ref refid="structthemisdb_1_1sharding_1_1_draft_verification_request" kindref="compound">DraftVerificationRequest</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set remote draft verification callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback to send draft verification request to remote shard </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="534" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="928" bodyend="938"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a5f378fc417b63aef01c49917980d28b4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::sharding::CrossShardSpeculativeDecoder::calculateCapabilityScore</definition>
+        <argsstring>(const ShardCapabilityInfo &amp;shard) const</argsstring>
+        <name>calculateCapabilityScore</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::calculateCapabilityScore</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_shard_capability_info" kindref="compound">ShardCapabilityInfo</ref> &amp;</type>
+          <declname>shard</declname>
+        </param>
+        <briefdescription>
+<para>Calculate shard capability score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="601" column="12" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="1149" bodyend="1181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a1ac68d748e92f209ebbbf9254fb49c93" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossShardSpeculativeDecoder::meetsLatencyRequirements</definition>
+        <argsstring>(const ShardCapabilityInfo &amp;shard) const</argsstring>
+        <name>meetsLatencyRequirements</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::meetsLatencyRequirements</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_shard_capability_info" kindref="compound">ShardCapabilityInfo</ref> &amp;</type>
+          <declname>shard</declname>
+        </param>
+        <briefdescription>
+<para>Check if shard meets latency requirements. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="606" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="1183" bodyend="1187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a3d4f6aa1eebcd42e7ee3567b289bf92e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSpeculativeDecoder::updateStats</definition>
+        <argsstring>(const ActiveSpeculation &amp;speculation)</argsstring>
+        <name>updateStats</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::updateStats</qualifiedname>
+        <param>
+          <type>const ActiveSpeculation &amp;</type>
+          <declname>speculation</declname>
+        </param>
+        <briefdescription>
+<para>Update statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Stats.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">speculation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="611" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="1194" bodyend="1203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1afac9e96ab8fab4c7cacc395e788a02a8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::CrossShardSpeculativeDecoder::cleanupCompletedSpeculations</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupCompletedSpeculations</name>
+        <qualifiedname>themisdb::sharding::CrossShardSpeculativeDecoder::cleanupCompletedSpeculations</qualifiedname>
+        <briefdescription>
+<para>Clean up completed speculations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cleanup Completed Speculations.</para>
+<para>Calls: lock(), begin(), end(), updateStats(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cross_shard_speculative_decoder.h" line="616" column="10" bodyfile="src/sharding/cross_shard_speculative_decoder.cpp" bodystart="1209" bodyend="1220"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cross-Shard Speculative Decoding Coordinator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements distributed speculative decoding following the DSD (Draft-Speculate-Verify) pattern for Converged Storage-Inference architectures:</para>
+<para><orderedlist>
+<listitem><para>Draft Phase: A lightweight draft model on one shard proposes token sequences</para>
+</listitem><listitem><para>Speculate Phase: The proposing shard sends draft tokens to the target shard</para>
+</listitem><listitem><para>Verify Phase: The target shard&apos;s larger model verifies the draft in a single pass</para>
+</listitem></orderedlist>
+</para>
+<para>Key features:<itemizedlist>
+<listitem><para>Cross-shard draft generation and verification</para>
+</listitem><listitem><para>Adaptive speculation based on acceptance rates</para>
+</listitem><listitem><para>Latency-aware shard selection</para>
+</listitem><listitem><para>Load-balanced draft distribution</para>
+</listitem><listitem><para>Fallback to local/non-speculative decoding</para>
+</listitem></itemizedlist>
+</para>
+<para>This coordinator enables 2-3x speedup for inference workloads in distributed environments while maintaining exact output distributions. </para>
+    </detaileddescription>
+    <location file="include/sharding/cross_shard_speculative_decoder.h" line="266" column="1" bodyfile="include/sharding/cross_shard_speculative_decoder.h" bodystart="266" bodyend="617"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a89eb4564482fc1bedb2b00284cc45098" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>active_speculations_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1afa415888c5cf5f75c90f967c5d1a7a59" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>adjustSpeculationParameters</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a5f378fc417b63aef01c49917980d28b4" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>calculateCapabilityScore</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a4cd76e4e6610970833cbf34095f05224" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>cancelSpeculativeDecoding</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a038a32aba31acc54bcb98f82700a2dec" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>capability_update_callback_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a1e43748090140f5c7849e8cea08fbe5f" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>CapabilityUpdateCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1afac9e96ab8fab4c7cacc395e788a02a8" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>cleanupCompletedSpeculations</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1aa76767d2f21125899cdea19886743051" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a3d5138ab203670aed09cd0a4d869c428" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>CrossShardSpeculativeDecoder</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a01b670e39bb6e617a6eea7804e434a24" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>CrossShardSpeculativeDecoder</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1abd93f4ba70fd3ddc6a1f315ce9d2fe3e" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>current_adaptive_acceptance_rate_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a37591377eb5e1d6af6f4ecaf1ad22235" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>disableAdaptiveSpeculation</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a78dab65e367f30ebd54c034c17909e9c" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>enableAdaptiveSpeculation</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a6dcead9ace6014f0994a7c0bf8a8aab4" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>generateDraft</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1aff83cc4947c682df7f1d235b7133ad77" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>getAllShards</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1ac7e41ba7722397326be2b8b57498a61f" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>getConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a2326a7ddb4b8eeee4b8b5baefc46d6f0" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>getLocalEngine</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a9ebf8c1c7d98f1a370c39d207f9b326c" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>getLocalShardId</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1ab9dac47012c329dedd8a9a615bf78bd3" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>getPerformanceReport</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a02e9be6f3a1fb08ede9dad3014546fce" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>getShardCapability</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1ad67fcd41bd1940e3f60104486b856e6a" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1acf6426de37252054a2963c2e604b46ab" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>getStatsJson</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a82a99d9aa0cf97748057a83b80d82b60" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>initialize</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a102ff26ac2e81a7122443123d5324c11" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>isAdaptiveSpeculationEnabled</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a70fb8d3afcce6ada942c63374ff276c3" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>local_engine_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a4856e1f0c1d393203bc977c7810ba28f" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>local_shard_id_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a1ac68d748e92f209ebbbf9254fb49c93" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>meetsLatencyRequirements</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a55ef5409ac7ef73902c472c0f8430faf" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a51df4641ca3c2cc85abe52a98609c442" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a3263ff31bb9da752ddb844079d9d85b9" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>processLocalSpeculativeDecoding</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1ae5452627499c515c75ab17d74bdeaf9e" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>recent_acceptance_rates_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a8715bd33ac3009b44c9ca26ac543c65b" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>registerShard</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a83f23f73e626b33c1b795f1e81f1dedd" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>remote_draft_callback_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a8960d2f35188401ce99d634a4c51e036" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>remote_verify_callback_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a67fa45aa83340b110bf84b3a302f410a" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>resetStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1adb0cdbf4e2f5f2a816555966b864ef27" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>selectDraftShard</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a6626c10f160e33b163f0ec74bbe6cff2" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>selectVerifyShard</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a577f5002b70ad0c830521aa1ed198f6e" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>setCapabilityUpdateCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a2b1955c2be08e00ed22bf99c9a2205cc" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>setLocalEngine</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1ae79696eb8365ce967701e33b91155f27" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>setLocalShardId</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a0d9b6bb9facc95d2ce036ee471334330" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>setRemoteDraftCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1aae6c936396568d6b41c7464dc3e08b1a" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>setRemoteVerifyCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a4d64ee61cd1b83c1a55b40f4b3fc1104" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>shards_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1aa35e6815bb67e03bbfb9e0d124bb2bb4" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>shutdown</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1ac0a24646f9ab209838a364230b27672c" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>SpeculativeCompletionCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a3dc594dcae74bd58e4209826ea74d383" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>startSpeculativeDecoding</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a5ca1796bffb3edc949aaf786b2117d3d" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a143fb61842a23e0258a2821b10610803" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>stats_mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a0489116b6206ef08ee7053a69c6a87e5" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>unregisterShard</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1af354460b500313c9845b2886b88fa465" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>updateAcceptanceRate</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a2e0e6ce3454006656a43375b983d5966" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>updateConfig</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1ab6ba30b16206cd766aa33c497d345cce" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>updateShardCapability</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a3d4f6aa1eebcd42e7ee3567b289bf92e" prot="private" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>updateStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1a6734ea90ae882a74cda4ff8edf2e7ce7" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>verifyDraft</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_cross_shard_speculative_decoder_1ae5b85b16d48128b39931d7359e0071d6" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossShardSpeculativeDecoder</scope><name>~CrossShardSpeculativeDecoder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

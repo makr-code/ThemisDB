@@ -1,0 +1,682 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_i_logger" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::core::concerns::ILogger</compoundname>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger" prot="public" virt="non-virtual">themis::core::concerns::IAsyncLogger</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger" prot="public" virt="non-virtual">themis::core::concerns::NoOpLogger</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_spdlog_logger_adapter" prot="public" virt="non-virtual">themis::core::concerns::SpdlogLoggerAdapter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_zero_copy_logger" prot="public" virt="non-virtual">themis::core::concerns::ZeroCopyLogger</derivedcompoundref>
+    <includes refid="i__logger_8h" local="no">i_logger.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Level</name>
+        <qualifiedname>themis::core::concerns::ILogger::Level</qualifiedname>
+        <enumvalue id="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7a2d3e4144aa384b18849ab9a8abad74d6" prot="public">
+          <name>TRACE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7adc30ec20708ef7b0f641ef78b7880a15" prot="public">
+          <name>DEBUG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7a551b723eafd6a31d444fcb2f5920fbd3" prot="public">
+          <name>INFO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7a32bd8a1db2275458673903bdb84cb277" prot="public">
+          <name>WARN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7abb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="41" column="5" bodyfile="include/core/concerns/i_logger.h" bodystart="41" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1core_1_1concerns_1_1_i_logger_1a7e409e2eff508738d84906f03b9a2650" prot="public" static="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>using themis::core::concerns::ILogger::Fields = std::map&lt;std::string, std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>Fields</name>
+        <qualifiedname>themis::core::concerns::ILogger::Fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="39" column="5" bodyfile="include/core/concerns/i_logger.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_logger_1a4449e4e4226d7c424496828cd120c498" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::core::concerns::ILogger::~ILogger</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ILogger</name>
+        <qualifiedname>themis::core::concerns::ILogger::~ILogger</qualifiedname>
+        <briefdescription>
+<para><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger" kindref="compound">ILogger</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="54" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3cbb94ad1481ea5b7e98ad520a1a97fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ILogger::log</definition>
+        <argsstring>(Level level, const std::string &amp;message)=0</argsstring>
+        <name>log</name>
+        <qualifiedname>themis::core::concerns::ILogger::log</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a4e30dd930888061cb95aba72f4c38aa5">log</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a78a4c1104df184ab435278fe0bedaa12">log</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_spdlog_logger_adapter_1ae3db91801ea07fa084be2af249df27fc">log</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zero_copy_logger_1a2bd18e65920ae7b9b82eb0329c3b38a8">log</reimplementedby>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref></type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="65" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3b15536718a2c1ceb3ea0ac93982400c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ILogger::trace</definition>
+        <argsstring>(const std::string &amp;message)=0</argsstring>
+        <name>trace</name>
+        <qualifiedname>themis::core::concerns::ILogger::trace</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a36558ff26792e7420cb8e7e74bed2fd5">trace</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a6206a195cef1ad730113558c2a0100ff">trace</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_spdlog_logger_adapter_1a60630b5404d0b9cb2f8261f8f3d345df">trace</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zero_copy_logger_1a0f5edf96a13e3fabc377f080a2674a81">trace</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Trace. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="71" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_logger_1a02a28dc1041e6ef6a9040c3c22109e4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ILogger::debug</definition>
+        <argsstring>(const std::string &amp;message)=0</argsstring>
+        <name>debug</name>
+        <qualifiedname>themis::core::concerns::ILogger::debug</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a0f9e7ed2f6d134998301360fd0df3335">debug</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a7c830bfd7f6de52ff1b22d7af778926a">debug</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_spdlog_logger_adapter_1a1a815b60d77884ae3ffec8c24216b9a9">debug</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zero_copy_logger_1ae415710b0f613f5a5349a77f1ebec835">debug</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Debug. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="77" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_logger_1a2dac2d96344e01cb6ee307713805f75b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ILogger::info</definition>
+        <argsstring>(const std::string &amp;message)=0</argsstring>
+        <name>info</name>
+        <qualifiedname>themis::core::concerns::ILogger::info</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a30c910444d9e22edd8e28a7c01e82cc0">info</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1accda141392ace128c05e3640c0bccdeb">info</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_spdlog_logger_adapter_1a9cdfbd549262871bf872369eb3d2fed0">info</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zero_copy_logger_1a2bdf512aa61f978e6eda038af928788a">info</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="83" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_logger_1acbfce41c2de5ad245dcb8f9bc1839b99" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ILogger::warn</definition>
+        <argsstring>(const std::string &amp;message)=0</argsstring>
+        <name>warn</name>
+        <qualifiedname>themis::core::concerns::ILogger::warn</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a76d1b098e87ce67aff78bac3cc81e183">warn</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a00cc15148999272163ef420b3cd6d6eb">warn</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_spdlog_logger_adapter_1a1a0515793039fb96ee2604394c2fa334">warn</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zero_copy_logger_1abb944e4bc511113f7e16dd719a266a35">warn</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Warn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="89" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_logger_1a98af42df2ab45c06e7f19a4cf758bd77" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ILogger::error</definition>
+        <argsstring>(const std::string &amp;message)=0</argsstring>
+        <name>error</name>
+        <qualifiedname>themis::core::concerns::ILogger::error</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a936baaba8af9353482058899b632dfc6">error</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a41f80b4521e6c16ca2f05fb2c5b78755">error</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_spdlog_logger_adapter_1a049ba8915a7b5b9286876d4db8b928fd">error</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zero_copy_logger_1aa2e77b3cd7e257dca7f60db9da701d61">error</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="95" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_logger_1a74c91729ce0cf5ec240198a6a6e1613f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ILogger::critical</definition>
+        <argsstring>(const std::string &amp;message)=0</argsstring>
+        <name>critical</name>
+        <qualifiedname>themis::core::concerns::ILogger::critical</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a962d7faafdfe4b96b700cf04d0318164">critical</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a8e25a3498f45c1da3736b7f2c18de056">critical</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_spdlog_logger_adapter_1acc1532a4cbfffc882994e59d61a78cff">critical</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zero_copy_logger_1ac7f56872cc242797b31d69808d42d4f6">critical</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Critical. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="101" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_logger_1ade28b8d3e27ba1f168c62afa7cc1b09e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ILogger::logStructured</definition>
+        <argsstring>(Level level, const std::string &amp;message, const Fields &amp;fields={})</argsstring>
+        <name>logStructured</name>
+        <qualifiedname>themis::core::concerns::ILogger::logStructured</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1ada1dc79219447addd17a6968620826d3">logStructured</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_spdlog_logger_adapter_1afdfc99114277236d4c985d5ae6fb320a">logStructured</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zero_copy_logger_1afed2d99bfa61b61e05f8e7d8f24e0385">logStructured</reimplementedby>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref></type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a7e409e2eff508738d84906f03b9a2650" kindref="member">Fields</ref> &amp;</type>
+          <declname>fields</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="103" column="18" bodyfile="include/core/concerns/i_logger.h" bodystart="103" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_logger_1aee543d2fa572acb5e1927b6b1234abd1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ILogger::logWithContext</definition>
+        <argsstring>(Level level, const std::string &amp;message, const TraceContext &amp;ctx, const Fields &amp;fields={})</argsstring>
+        <name>logWithContext</name>
+        <qualifiedname>themis::core::concerns::ILogger::logWithContext</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_spdlog_logger_adapter_1a9f8b6e05f4d3b4d8968343f1c4f3c9aa">logWithContext</reimplementedby>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref></type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1core_1_1concerns_1_1_trace_context" kindref="compound">TraceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a7e409e2eff508738d84906f03b9a2650" kindref="member">Fields</ref> &amp;</type>
+          <declname>fields</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="117" column="18" bodyfile="include/core/concerns/i_logger.h" bodystart="117" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_logger_1a2b633b28775590ef129aef091de16a08" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ILogger::setLevel</definition>
+        <argsstring>(Level level)=0</argsstring>
+        <name>setLevel</name>
+        <qualifiedname>themis::core::concerns::ILogger::setLevel</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1ac788cd6ccba45b77b88eb8c8d4f3200b">setLevel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a63a1df5211d7df14e682963dc1682932">setLevel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_spdlog_logger_adapter_1ad8574ad6b2edfae8eae5762b4e440b2a">setLevel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zero_copy_logger_1a6ccf8da28a4a66c71b20ed2fcae6b918">setLevel</reimplementedby>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Set <ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="142" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_logger_1abb3373117236c57a6d905fc959c976f8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref></type>
+        <definition>virtual Level themis::core::concerns::ILogger::getLevel</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getLevel</name>
+        <qualifiedname>themis::core::concerns::ILogger::getLevel</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1ac796855a8f1b3936ff77bb8d80fb1190">getLevel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1ae339a00da7167cb6f322e18bda3d51b2">getLevel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_spdlog_logger_adapter_1a03511fc06bc5d4ff53d93727a875961c">getLevel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zero_copy_logger_1a208891b84d6dd3751f92a33373796fdc">getLevel</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="144" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_logger_1aaab9e858ed3d1bb39ac08baf18ca1c50" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ILogger::setPattern</definition>
+        <argsstring>(const std::string &amp;pattern)=0</argsstring>
+        <name>setPattern</name>
+        <qualifiedname>themis::core::concerns::ILogger::setPattern</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a7a2009645de97dc5ceaaca6285fb7f9f">setPattern</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a7de4c2bf95e1e51a1c6e06138c69743d">setPattern</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_spdlog_logger_adapter_1a6ee19730827179fddffdd8fccf800440">setPattern</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zero_copy_logger_1a1628eb6fe49750e3fbb5a98d59bcb7fb">setPattern</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+<para>Set Pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="150" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_logger_1a8638ec5d5d5a91ccfb78f6d659a06b1c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ILogger::flush</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::core::concerns::ILogger::flush</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a92bd41edce5c2e34aa1f95d05079b18f">flush</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a7e50d007f9fb6f1afe45211124e9d44a">flush</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_spdlog_logger_adapter_1a6eea4600d48ac126f908f69bc780fcc5">flush</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zero_copy_logger_1a23e47f47286c909dfb963124e076f219">flush</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="153" column="18" bodyfile="include/core/concerns/i_logger.h" bodystart="153" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_logger_1af0d99633502a4f1eb497c3feddbf63d7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::ILogger::shutdown</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::core::concerns::ILogger::shutdown</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1af481e0cca737b7a7ebcc75f3b3220bc0">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1af8841818ffa1c6d1ed32d3c732ac7262">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_spdlog_logger_adapter_1a78d7bf5ba5226f8cb51556319aeca5cb">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zero_copy_logger_1a5e111261b7ce2298d5ee0f9b4b18c823">shutdown</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="155" column="18" bodyfile="include/core/concerns/i_logger.h" bodystart="155" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_logger_1aadf51ad97e545469e7adf1da0ed81d2f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>virtual ProbeResult themis::core::concerns::ILogger::isHealthy</definition>
+        <argsstring>() const</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::core::concerns::ILogger::isHealthy</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger_1a28538bc36b260acd57612bcd7fb12ac2">isHealthy</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a2e8bbc24d99c357a5af369e365a305ad">isHealthy</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_spdlog_logger_adapter_1a7f11e23a97ec4b0d4bee63cdf2013af4">isHealthy</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_zero_copy_logger_1af9504b2465a3df7b250c76d9d4da0a8a">isHealthy</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="157" column="25" bodyfile="include/core/concerns/i_logger.h" bodystart="157" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_logger_1afed30568fb21bc6e89370ef3336ef472" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref></type>
+        <definition>ILogger::Level themis::core::concerns::ILogger::levelFromString</definition>
+        <argsstring>(const std::string &amp;level)</argsstring>
+        <name>levelFromString</name>
+        <qualifiedname>themis::core::concerns::ILogger::levelFromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref> From String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), std::tolower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="168" column="18" bodyfile="src/core/concerns/i_logger.cpp" bodystart="27" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3e3a77f56de7d4c1e09951b87f46c963" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::core::concerns::ILogger::levelToString</definition>
+        <argsstring>(Level level)</argsstring>
+        <name>levelToString</name>
+        <qualifiedname>themis::core::concerns::ILogger::levelToString</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref> To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_logger.h" line="175" column="23" bodyfile="src/core/concerns/i_logger.cpp" bodystart="53" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::core::concerns::IAsyncLogger</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_async_logger"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::ILogger</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_logger"/>
+      </node>
+      <node id="3">
+        <label>themis::core::concerns::NoOpAsyncLogger</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_async_logger"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::core::concerns::NoOpLogger</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::core::concerns::SpdlogLoggerAdapter</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_spdlog_logger_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::core::concerns::ZeroCopyLogger</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_zero_copy_logger"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/core/concerns/i_logger.h" line="37" column="1" bodyfile="include/core/concerns/i_logger.h" bodystart="37" bodyend="176"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a74c91729ce0cf5ec240198a6a6e1613f" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ILogger</scope><name>critical</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a02a28dc1041e6ef6a9040c3c22109e4d" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ILogger</scope><name>debug</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a98af42df2ab45c06e7f19a4cf758bd77" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ILogger</scope><name>error</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a7e409e2eff508738d84906f03b9a2650" prot="public" virt="non-virtual"><scope>themis::core::concerns::ILogger</scope><name>Fields</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a8638ec5d5d5a91ccfb78f6d659a06b1c" prot="public" virt="virtual"><scope>themis::core::concerns::ILogger</scope><name>flush</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1abb3373117236c57a6d905fc959c976f8" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ILogger</scope><name>getLevel</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a2dac2d96344e01cb6ee307713805f75b" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ILogger</scope><name>info</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1aadf51ad97e545469e7adf1da0ed81d2f" prot="public" virt="virtual"><scope>themis::core::concerns::ILogger</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" prot="public" virt="non-virtual"><scope>themis::core::concerns::ILogger</scope><name>Level</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1afed30568fb21bc6e89370ef3336ef472" prot="public" virt="non-virtual"><scope>themis::core::concerns::ILogger</scope><name>levelFromString</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3e3a77f56de7d4c1e09951b87f46c963" prot="public" virt="non-virtual"><scope>themis::core::concerns::ILogger</scope><name>levelToString</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3cbb94ad1481ea5b7e98ad520a1a97fb" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ILogger</scope><name>log</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1ade28b8d3e27ba1f168c62afa7cc1b09e" prot="public" virt="virtual"><scope>themis::core::concerns::ILogger</scope><name>logStructured</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1aee543d2fa572acb5e1927b6b1234abd1" prot="public" virt="virtual"><scope>themis::core::concerns::ILogger</scope><name>logWithContext</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a2b633b28775590ef129aef091de16a08" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ILogger</scope><name>setLevel</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1aaab9e858ed3d1bb39ac08baf18ca1c50" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ILogger</scope><name>setPattern</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1af0d99633502a4f1eb497c3feddbf63d7" prot="public" virt="virtual"><scope>themis::core::concerns::ILogger</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3b15536718a2c1ceb3ea0ac93982400c" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ILogger</scope><name>trace</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1acbfce41c2de5ad245dcb8f9bc1839b99" prot="public" virt="pure-virtual"><scope>themis::core::concerns::ILogger</scope><name>warn</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a4449e4e4226d7c424496828cd120c498" prot="public" virt="virtual"><scope>themis::core::concerns::ILogger</scope><name>~ILogger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

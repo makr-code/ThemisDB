@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1_global_two_phase_commit_recovery_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::GlobalTwoPhaseCommitRecoveryManager</compoundname>
+    <includes refid="recoverable__two__phase__coordinator_8h" local="no">recoverable_two_phase_coordinator.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_global_two_phase_commit_recovery_manager_1ae6689872fb24f8b102003a91a8720925" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report" kindref="compound">GlobalTwoPhaseCommitRecoveryReport</ref></type>
+        <definition>static GlobalTwoPhaseCommitRecoveryReport themis::transaction::GlobalTwoPhaseCommitRecoveryManager::recoverAll</definition>
+        <argsstring>(const std::vector&lt; IRecoverableTwoPhaseCoordinator * &gt; &amp;coordinators)</argsstring>
+        <name>recoverAll</name>
+        <qualifiedname>themis::transaction::GlobalTwoPhaseCommitRecoveryManager::recoverAll</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator" kindref="compound">IRecoverableTwoPhaseCoordinator</ref> * &gt; &amp;</type>
+          <declname>coordinators</declname>
+        </param>
+        <briefdescription>
+<para>Recover all supplied coordinators and return a unified report. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Iterates <computeroutput>coordinators</computeroutput> in order, calls recoverInDoubtTransactions() on each, and accumulates before/after counts and per-coordinator details. Null pointers in the list are silently skipped.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>coordinators</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Recovery-capable coordinators to visit exactly once. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Aggregated before/after counts and per-coordinator results. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/recoverable_two_phase_coordinator.h" line="179" column="48" bodyfile="include/transaction/recoverable_two_phase_coordinator.h" bodystart="179" bodyend="210"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Run one normalized recovery pass across multiple 2PC coordinators. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This is a stateless header-only orchestrator. Call <ref refid="classthemis_1_1transaction_1_1_global_two_phase_commit_recovery_manager_1ae6689872fb24f8b102003a91a8720925" kindref="member">recoverAll()</ref> once after a coordinator restart to drive every registered coordinator through its recovery sequence and obtain a unified report.</para>
+<para>Example: <programlisting><codeline><highlight class="normal">std::vector&lt;IRecoverableTwoPhaseCoordinator*&gt;<sp/>coordinators<sp/>=<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>&amp;twoPhaseCoord,<sp/>&amp;globalTxnMgr,<sp/>&amp;distributedTxnMgr</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>report<sp/>=<sp/><ref refid="classthemis_1_1transaction_1_1_global_two_phase_commit_recovery_manager_1ae6689872fb24f8b102003a91a8720925" kindref="member">GlobalTwoPhaseCommitRecoveryManager::recoverAll</ref>(coordinators);</highlight></codeline>
+<codeline><highlight class="normal">assert(report.in_doubt_after<sp/>==<sp/>0);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/transaction/recoverable_two_phase_coordinator.h" line="167" column="1" bodyfile="include/transaction/recoverable_two_phase_coordinator.h" bodystart="167" bodyend="211"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1_global_two_phase_commit_recovery_manager_1ae6689872fb24f8b102003a91a8720925" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTwoPhaseCommitRecoveryManager</scope><name>recoverAll</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

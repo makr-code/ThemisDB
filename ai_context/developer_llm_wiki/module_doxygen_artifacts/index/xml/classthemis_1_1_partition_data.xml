@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_partition_data" kind="class" language="C++" prot="public">
+    <compoundname>themis::PartitionData</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_partition_data_1af42fb0f861617d88ce3e23e39cb04729" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::PartitionData::id_</definition>
+        <argsstring></argsstring>
+        <name>id_</name>
+        <qualifiedname>themis::PartitionData::id_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/partition_manager.cpp" line="24" column="14" bodyfile="src/index/partition_manager.cpp" bodystart="24" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_partition_data_1ab2206d1b85bbeedabec2874d7da64c8b" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::PartitionData::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>themis::PartitionData::name_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/partition_manager.cpp" line="25" column="17" bodyfile="src/index/partition_manager.cpp" bodystart="25" bodyend="25"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_partition_data_1af1ab31ad46b97a98aa0316bd020eb65e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::PartitionData::PartitionData</definition>
+        <argsstring>(uint32_t id, const std::string &amp;name)</argsstring>
+        <name>PartitionData</name>
+        <qualifiedname>themis::PartitionData::PartitionData</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/partition_manager.cpp" line="17" column="5" bodyfile="src/index/partition_manager.cpp" bodystart="17" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_partition_data_1a30f382d3ff86bf6806eefad850255a6e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::PartitionData::id</definition>
+        <argsstring>() const</argsstring>
+        <name>id</name>
+        <qualifiedname>themis::PartitionData::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/partition_manager.cpp" line="20" column="14" bodyfile="src/index/partition_manager.cpp" bodystart="20" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_partition_data_1ad77cd1532d32c77dae0984ba542d4a5e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::PartitionData::name</definition>
+        <argsstring>() const</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::PartitionData::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/index/partition_manager.cpp" line="21" column="23" bodyfile="src/index/partition_manager.cpp" bodystart="21" bodyend="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/index/partition_manager.cpp" line="15" column="1" bodyfile="src/index/partition_manager.cpp" bodystart="15" bodyend="26"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_partition_data_1a30f382d3ff86bf6806eefad850255a6e" prot="public" virt="non-virtual"><scope>themis::PartitionData</scope><name>id</name></member>
+      <member refid="classthemis_1_1_partition_data_1af42fb0f861617d88ce3e23e39cb04729" prot="private" virt="non-virtual"><scope>themis::PartitionData</scope><name>id_</name></member>
+      <member refid="classthemis_1_1_partition_data_1ad77cd1532d32c77dae0984ba542d4a5e" prot="public" virt="non-virtual"><scope>themis::PartitionData</scope><name>name</name></member>
+      <member refid="classthemis_1_1_partition_data_1ab2206d1b85bbeedabec2874d7da64c8b" prot="private" virt="non-virtual"><scope>themis::PartitionData</scope><name>name_</name></member>
+      <member refid="classthemis_1_1_partition_data_1af1ab31ad46b97a98aa0316bd020eb65e" prot="public" virt="non-virtual"><scope>themis::PartitionData</scope><name>PartitionData</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

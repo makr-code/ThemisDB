@@ -1,0 +1,375 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__prompt__engineering__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_prompt_engineering_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes refid="feedback__collector_8h" local="yes">prompt_engineering/feedback_collector.h</includes>
+    <includes refid="prompt__engineering__metrics_8h" local="yes">prompt_engineering/prompt_engineering_metrics.h</includes>
+    <includes refid="prompt__evaluator_8h" local="yes">prompt_engineering/prompt_evaluator.h</includes>
+    <includes refid="prompt__manager_8h" local="yes">prompt_engineering/prompt_manager.h</includes>
+    <includes refid="prompt__optimizer_8h" local="yes">prompt_engineering/prompt_optimizer.h</includes>
+    <includes refid="prompt__version__control_8h" local="yes">prompt_engineering/prompt_version_control.h</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>prompt_engineering/feedback_collector.h</label>
+        <link refid="feedback__collector_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>prompt_engineering/prompt_engineering_metrics.h</label>
+        <link refid="prompt__engineering__metrics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>prompt_engineering/prompt_evaluator.h</label>
+        <link refid="prompt__evaluator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>prompt_engineering/prompt_manager.h</label>
+        <link refid="prompt__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>prompt_engineering/prompt_optimizer.h</label>
+        <link refid="prompt__optimizer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>prompt_engineering/prompt_version_control.h</label>
+        <link refid="prompt__version__control_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/prompt_engineering/test_prompt_engineering_focused.cpp</label>
+        <link refid="test__prompt__engineering__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="15">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+      <node id="18">
+        <label>utils/tbb_compat.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__prompt__engineering__focused_8cpp_1aa606f770188bd2af02308af0ddccebf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PromptEngineeringFocused, PromptManagerCreateGetValidateAndInject)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PromptEngineeringFocused</type>
+        </param>
+        <param>
+          <type>PromptManagerCreateGetValidateAndInject</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_focused.cpp" line="21" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_focused.cpp" bodystart="21" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__focused_8cpp_1a23559f5a1148f740bc99b5ba29a5f404" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PromptEngineeringFocused, PromptVersionControlCommitAndHistory)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PromptEngineeringFocused</type>
+        </param>
+        <param>
+          <type>PromptVersionControlCommitAndHistory</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_focused.cpp" line="48" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_focused.cpp" bodystart="48" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__focused_8cpp_1a7566a6f94ddf06840550a0179f290ab1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PromptEngineeringFocused, FeedbackCollectorRecordAndStats)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PromptEngineeringFocused</type>
+        </param>
+        <param>
+          <type>FeedbackCollectorRecordAndStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_focused.cpp" line="62" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_focused.cpp" bodystart="62" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__prompt__engineering__focused_8cpp_1a811cd5b0b7fc90867c2cc23920533df4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PromptEngineeringFocused, OptimizerEvaluatorAndMetricsSmoke)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PromptEngineeringFocused</type>
+        </param>
+        <param>
+          <type>OptimizerEvaluatorAndMetricsSmoke</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_focused.cpp" line="79" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_focused.cpp" bodystart="79" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>API-aligned focused smoke tests for prompt_engineering module. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="feedback__collector_8h" kindref="compound">prompt_engineering/feedback_collector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="prompt__engineering__metrics_8h" kindref="compound">prompt_engineering/prompt_engineering_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="prompt__evaluator_8h" kindref="compound">prompt_engineering/prompt_evaluator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="prompt__manager_8h" kindref="compound">prompt_engineering/prompt_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="prompt__optimizer_8h" kindref="compound">prompt_engineering/prompt_optimizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="prompt__version__control_8h" kindref="compound">prompt_engineering/prompt_version_control.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">themis::prompt_engineering</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><ref refid="test__prompt__engineering__focused_8cpp_1aa606f770188bd2af02308af0ddccebf5" kindref="member">TEST</ref>(PromptEngineeringFocused,<sp/>PromptManagerCreateGetValidateAndInject)<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager" kindref="compound">PromptManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template" kindref="compound">PromptManager::PromptTemplate</ref><sp/>t;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a62bd7f00d9852a123edc6ac21eb799ea" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;focused_template&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a8d3399d8823207c1ab27209d8551b2bc" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1a9fa2f923fc372a65fafd4a37c8d80f04" kindref="member">content</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Question:<sp/>{query}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>t.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_manager_1_1_prompt_template_1ac9c4d6e1c02d429f02ef235b22b04959" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;focused<sp/>smoke&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>created<sp/>=<sp/>mgr.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a95e1205d5cd546f043442898a712a67b" kindref="member">createTemplate</ref>(t);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(created.id.empty());</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fetched<sp/>=<sp/>mgr.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a2bcd2d054434a2879f1d7de81c885918" kindref="member">getTemplate</ref>(created.id);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(fetched.has_value());</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fetched-&gt;name,<sp/></highlight><highlight class="stringliteral">&quot;focused_template&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>validation<sp/>=<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1a5e6d1db58c86404e842e89ad965afe89" kindref="member">PromptManager::validateTemplate</ref>(created);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(validation.valid);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rendered<sp/>=<sp/>mgr.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_manager_1ac3e640a7e276ec5c94ee05683ce641b7" kindref="member">getPromptWithContext</ref>(</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>created.id,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;{{</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>ThemisDB?&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(rendered.has_value());</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(rendered-&gt;find(</highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>ThemisDB?&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="test__prompt__engineering__focused_8cpp_1aa606f770188bd2af02308af0ddccebf5" kindref="member">TEST</ref>(PromptEngineeringFocused,<sp/>PromptVersionControlCommitAndHistory)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control" kindref="compound">PromptVersionControl</ref><sp/>vcs;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>prompt_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;focused_prompt&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v1<sp/>=<sp/>vcs.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1aa6eeadd376a4e5fbd919167a88587437" kindref="member">commit</ref>(prompt_id,<sp/></highlight><highlight class="stringliteral">&quot;content<sp/>v1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;init&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v2<sp/>=<sp/>vcs.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1aa6eeadd376a4e5fbd919167a88587437" kindref="member">commit</ref>(prompt_id,<sp/></highlight><highlight class="stringliteral">&quot;content<sp/>v2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;update&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(v1.empty());</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(v2.empty());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>history<sp/>=<sp/>vcs.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_version_control_1a737fc5b5f3448eb750939ad8a548c7f9" kindref="member">getHistory</ref>(prompt_id,<sp/></highlight><highlight class="stringliteral">&quot;main&quot;</highlight><highlight class="normal">,<sp/>10);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(history.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__prompt__engineering__focused_8cpp_1aa606f770188bd2af02308af0ddccebf5" kindref="member">TEST</ref>(PromptEngineeringFocused,<sp/>FeedbackCollectorRecordAndStats)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector" kindref="compound">FeedbackCollector</ref><sp/>collector;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>collector.<ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a2b330048b544c621f0fca27a1a1ffb5e" kindref="member">recordFeedback</ref>(</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;tmpl-1&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;response&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469a741a693bbff093ea47dabeeea8dafe07" kindref="member">FeedbackType::USER_POSITIVE</ref>,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;looks<sp/>good&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0.2</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">.empty());</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>collector.<ref refid="classthemis_1_1prompt__engineering_1_1_feedback_collector_1a19c99e3d23fcaa5841f6e3be3ff5561f" kindref="member">getStats</ref>(</highlight><highlight class="stringliteral">&quot;tmpl-1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(stats.total_feedback,<sp/>1u);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__prompt__engineering__focused_8cpp_1aa606f770188bd2af02308af0ddccebf5" kindref="member">TEST</ref>(PromptEngineeringFocused,<sp/>OptimizerEvaluatorAndMetricsSmoke)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer" kindref="compound">PromptOptimizer</ref><sp/>optimizer;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_evaluator" kindref="compound">PromptEvaluator</ref><sp/>evaluator;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics" kindref="compound">PromptEngineeringMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;TestCase&gt;<sp/>tests<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;input&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;expected&quot;</highlight><highlight class="normal">,<sp/>{}}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>opt<sp/>=<sp/>optimizer.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_optimizer_1aa6db251aedf456cc2c6482a7f5deb7eb" kindref="member">optimize</ref>(</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Respond<sp/>with<sp/>expected&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tests,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;TestCase&gt;&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>prompt.empty()<sp/>?<sp/>0.0<sp/>:<sp/>0.8;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(opt.optimized_prompt.empty());</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eval<sp/>=<sp/>evaluator.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_evaluator_1aac4f34997a81bc84507c1c5f44da75f9" kindref="member">evaluateSingle</ref>(</highlight><highlight class="stringliteral">&quot;expected&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;expected&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(eval.exact_match,<sp/>1.0);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1af072ccad30c879ad021c069a46e8f2bf" kindref="member">recordPromptExecution</ref>(</highlight><highlight class="stringliteral">&quot;tmpl-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>5.0);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exported<sp/>=<sp/>metrics.<ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1ac832302c20c12ef7fc429fd2a66c2bca" kindref="member">exportMetrics</ref>();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(exported.empty());</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/prompt_engineering/test_prompt_engineering_focused.cpp"/>
+  </compounddef>
+</doxygen>

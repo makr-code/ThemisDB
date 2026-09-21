@@ -1,0 +1,598 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_final_layer_orchestrator" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::FinalLayerOrchestrator</compoundname>
+    <includes refid="final__layer__orchestrator_8h" local="no">final_layer_orchestrator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_final_layer_orchestrator_1a238eb316e7c2bb56cdee81e3b23c864b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AdapterRegistry&gt; themis::llm::FinalLayerOrchestrator::adapter_registry_</definition>
+        <argsstring></argsstring>
+        <name>adapter_registry_</name>
+        <qualifiedname>themis::llm::FinalLayerOrchestrator::adapter_registry_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="152" column="21" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_final_layer_orchestrator_1abc059f35ebea79e3729e7607f057a97a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_model_router" kindref="compound">ModelRouter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ModelRouter&gt; themis::llm::FinalLayerOrchestrator::model_router_</definition>
+        <argsstring></argsstring>
+        <name>model_router_</name>
+        <qualifiedname>themis::llm::FinalLayerOrchestrator::model_router_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="153" column="21" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_final_layer_orchestrator_1a430fed67ee03a58e295a8eabdbb1e979" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1_final_layer_package" kindref="compound">FinalLayerPackage</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, FinalLayerPackage&gt; themis::llm::FinalLayerOrchestrator::packages_</definition>
+        <argsstring></argsstring>
+        <name>packages_</name>
+        <qualifiedname>themis::llm::FinalLayerOrchestrator::packages_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="154" column="24" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_final_layer_orchestrator_1a198c05011a08d18cf766db74c89719d8" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_final_layer_transition_policy" kindref="compound">FinalLayerTransitionPolicy</ref></type>
+        <definition>FinalLayerTransitionPolicy themis::llm::FinalLayerOrchestrator::transition_policy_</definition>
+        <argsstring></argsstring>
+        <name>transition_policy_</name>
+        <qualifiedname>themis::llm::FinalLayerOrchestrator::transition_policy_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="155" column="32" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="155" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_final_layer_orchestrator_1a71a87c91750d9f4a381504e0aa44d2b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::FinalLayerOrchestrator::FinalLayerOrchestrator</definition>
+        <argsstring>()=default</argsstring>
+        <name>FinalLayerOrchestrator</name>
+        <qualifiedname>themis::llm::FinalLayerOrchestrator::FinalLayerOrchestrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="102" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_final_layer_orchestrator_1acb5b254111e81af3cae8fbac207fa93c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::FinalLayerOrchestrator::~FinalLayerOrchestrator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~FinalLayerOrchestrator</name>
+        <qualifiedname>themis::llm::FinalLayerOrchestrator::~FinalLayerOrchestrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="103" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_final_layer_orchestrator_1a9bf1b82961685357ef28d7f5f9d1938b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::FinalLayerOrchestrator::setAdapterRegistry</definition>
+        <argsstring>(std::shared_ptr&lt; AdapterRegistry &gt; registry)</argsstring>
+        <name>setAdapterRegistry</name>
+        <qualifiedname>themis::llm::FinalLayerOrchestrator::setAdapterRegistry</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_adapter_registry" kindref="compound">AdapterRegistry</ref> &gt;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Set Adapter Registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="109" column="10" bodyfile="src/llm/final_layer_orchestrator.cpp" bodystart="78" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_final_layer_orchestrator_1a78b31b10b7bc76c9e2da214d58982d11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::FinalLayerOrchestrator::setModelRouter</definition>
+        <argsstring>(std::shared_ptr&lt; ModelRouter &gt; router)</argsstring>
+        <name>setModelRouter</name>
+        <qualifiedname>themis::llm::FinalLayerOrchestrator::setModelRouter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_model_router" kindref="compound">ModelRouter</ref> &gt;</type>
+          <declname>router</declname>
+        </param>
+        <briefdescription>
+<para>Set Model Router. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">router</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">router</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="114" column="10" bodyfile="src/llm/final_layer_orchestrator.cpp" bodystart="87" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_final_layer_orchestrator_1adc25b9dbfac96f731541c18020a2a0be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::FinalLayerOrchestrator::setTransitionPolicy</definition>
+        <argsstring>(FinalLayerTransitionPolicy policy)</argsstring>
+        <name>setTransitionPolicy</name>
+        <qualifiedname>themis::llm::FinalLayerOrchestrator::setTransitionPolicy</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_final_layer_transition_policy" kindref="compound">FinalLayerTransitionPolicy</ref></type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Set Transition Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setTransitionPolicy without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="119" column="10" bodyfile="src/llm/final_layer_orchestrator.cpp" bodystart="96" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_final_layer_orchestrator_1a4d1c9de85ff56858f2a098f292167b5c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_final_layer_transition_policy" kindref="compound">FinalLayerTransitionPolicy</ref></type>
+        <definition>FinalLayerTransitionPolicy themis::llm::FinalLayerOrchestrator::transitionPolicy</definition>
+        <argsstring>() const</argsstring>
+        <name>transitionPolicy</name>
+        <qualifiedname>themis::llm::FinalLayerOrchestrator::transitionPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="120" column="33" bodyfile="src/llm/final_layer_orchestrator.cpp" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_final_layer_orchestrator_1a1332c479f2c278b6dc73621394ac1301" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::FinalLayerOrchestrator::registerPackage</definition>
+        <argsstring>(const FinalLayerPackage &amp;package)</argsstring>
+        <name>registerPackage</name>
+        <qualifiedname>themis::llm::FinalLayerOrchestrator::registerPackage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_final_layer_package" kindref="compound">FinalLayerPackage</ref> &amp;</type>
+          <declname>package</declname>
+        </param>
+        <briefdescription>
+<para>Register Package. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">package</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), emplace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="122" column="11" bodyfile="src/llm/final_layer_orchestrator.cpp" bodystart="110" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_final_layer_orchestrator_1a3c7ecc6a31136c3ae51aab24cca46768" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::FinalLayerOrchestrator::updatePackage</definition>
+        <argsstring>(const FinalLayerPackage &amp;package)</argsstring>
+        <name>updatePackage</name>
+        <qualifiedname>themis::llm::FinalLayerOrchestrator::updatePackage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_final_layer_package" kindref="compound">FinalLayerPackage</ref> &amp;</type>
+          <declname>package</declname>
+        </param>
+        <briefdescription>
+<para>Update Package. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">package</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="123" column="11" bodyfile="src/llm/final_layer_orchestrator.cpp" bodystart="123" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_final_layer_orchestrator_1a561eddb90ff0637723c942f3c651301b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::FinalLayerOrchestrator::setPackageStatus</definition>
+        <argsstring>(const std::string &amp;package_id, FinalLayerPackageStatus new_status)</argsstring>
+        <name>setPackageStatus</name>
+        <qualifiedname>themis::llm::FinalLayerOrchestrator::setPackageStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>package_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a68eee715b67aafedf79f8f73403c57af" kindref="member">FinalLayerPackageStatus</ref></type>
+          <declname>new_status</declname>
+        </param>
+        <briefdescription>
+<para>Set Package Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">package_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the package. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">package_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the package. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="130" column="10" bodyfile="src/llm/final_layer_orchestrator.cpp" bodystart="138" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_final_layer_orchestrator_1a472e783ee2413633d2f1c99c826da13d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_final_layer_package" kindref="compound">FinalLayerPackage</ref> &gt;</type>
+        <definition>std::vector&lt; FinalLayerPackage &gt; themis::llm::FinalLayerOrchestrator::listPackages</definition>
+        <argsstring>() const</argsstring>
+        <name>listPackages</name>
+        <qualifiedname>themis::llm::FinalLayerOrchestrator::listPackages</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="132" column="18" bodyfile="src/llm/final_layer_orchestrator.cpp" bodystart="148" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_final_layer_orchestrator_1a045391386e4d625a7ca93c4cd07d5815" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::FinalLayerOrchestrator::promotePackage</definition>
+        <argsstring>(const std::string &amp;package_id, FinalLayerDeploymentStage target_stage, const std::string &amp;base_model_name={}, const std::string &amp;base_model_version={})</argsstring>
+        <name>promotePackage</name>
+        <qualifiedname>themis::llm::FinalLayerOrchestrator::promotePackage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>package_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1ab56d54a9e251b85b287b4e69b189dee2" kindref="member">FinalLayerDeploymentStage</ref></type>
+          <declname>target_stage</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_name</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_version</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Promote Package. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">package_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the package. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the base model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), canPromote(), passesCompatibilityGate(), isServingStage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="134" column="11" bodyfile="src/llm/final_layer_orchestrator.cpp" bodystart="167" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_final_layer_orchestrator_1ae081fa7783680c81360f4d3e177356ef" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::FinalLayerOrchestrator::rollbackToPackage</definition>
+        <argsstring>(const std::string &amp;source_package_id, const std::string &amp;rollback_target_id, const std::string &amp;base_model_name={}, const std::string &amp;base_model_version={})</argsstring>
+        <name>rollbackToPackage</name>
+        <qualifiedname>themis::llm::FinalLayerOrchestrator::rollbackToPackage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_package_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rollback_target_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_name</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_version</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Rollback To Package. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_package_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the source package. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rollback_target_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rollback target. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the base model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), passesCompatibilityGate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="139" column="11" bodyfile="src/llm/final_layer_orchestrator.cpp" bodystart="207" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_final_layer_orchestrator_1a0a32dcac64f6881bdb8f854dfa7ebe25" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_final_layer_resolution" kindref="compound">FinalLayerResolution</ref></type>
+        <definition>FinalLayerResolution themis::llm::FinalLayerOrchestrator::resolve</definition>
+        <argsstring>(const FinalLayerRequest &amp;request) const</argsstring>
+        <name>resolve</name>
+        <qualifiedname>themis::llm::FinalLayerOrchestrator::resolve</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_final_layer_request" kindref="compound">FinalLayerRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="144" column="27" bodyfile="src/llm/final_layer_orchestrator.cpp" bodystart="238" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_final_layer_orchestrator_1a52909e6bd052799b23dad842ccae59b6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_final_layer_compatibility_row" kindref="compound">FinalLayerCompatibilityRow</ref> &gt;</type>
+        <definition>std::vector&lt; FinalLayerCompatibilityRow &gt; themis::llm::FinalLayerOrchestrator::buildCompatibilityMatrix</definition>
+        <argsstring>(const std::string &amp;package_id) const</argsstring>
+        <name>buildCompatibilityMatrix</name>
+        <qualifiedname>themis::llm::FinalLayerOrchestrator::buildCompatibilityMatrix</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>package_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="145" column="18" bodyfile="src/llm/final_layer_orchestrator.cpp" bodystart="363" bodyend="391"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_final_layer_orchestrator_1a9ed57de192c0fc41d3f8fce5af95c2c9" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1_final_layer_package" kindref="compound">FinalLayerPackage</ref> *</type>
+        <definition>const FinalLayerPackage * themis::llm::FinalLayerOrchestrator::findPackageById</definition>
+        <argsstring>(const std::string &amp;package_id) const</argsstring>
+        <name>findPackageById</name>
+        <qualifiedname>themis::llm::FinalLayerOrchestrator::findPackageById</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>package_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="149" column="30" bodyfile="src/llm/final_layer_orchestrator.cpp" bodystart="393" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_final_layer_orchestrator_1ad3d2f63123da260adda78028010fefd6" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1_final_layer_package" kindref="compound">FinalLayerPackage</ref> *</type>
+        <definition>const FinalLayerPackage * themis::llm::FinalLayerOrchestrator::findActivePackageForModel</definition>
+        <argsstring>(const std::string &amp;model_id) const</argsstring>
+        <name>findActivePackageForModel</name>
+        <qualifiedname>themis::llm::FinalLayerOrchestrator::findActivePackageForModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="150" column="30" bodyfile="src/llm/final_layer_orchestrator.cpp" bodystart="398" bodyend="405"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/final_layer_orchestrator.h" line="100" column="1" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="100" bodyend="156"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a238eb316e7c2bb56cdee81e3b23c864b" prot="private" virt="non-virtual"><scope>themis::llm::FinalLayerOrchestrator</scope><name>adapter_registry_</name></member>
+      <member refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a52909e6bd052799b23dad842ccae59b6" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerOrchestrator</scope><name>buildCompatibilityMatrix</name></member>
+      <member refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a71a87c91750d9f4a381504e0aa44d2b5" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerOrchestrator</scope><name>FinalLayerOrchestrator</name></member>
+      <member refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1ad3d2f63123da260adda78028010fefd6" prot="private" virt="non-virtual"><scope>themis::llm::FinalLayerOrchestrator</scope><name>findActivePackageForModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a9ed57de192c0fc41d3f8fce5af95c2c9" prot="private" virt="non-virtual"><scope>themis::llm::FinalLayerOrchestrator</scope><name>findPackageById</name></member>
+      <member refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a472e783ee2413633d2f1c99c826da13d" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerOrchestrator</scope><name>listPackages</name></member>
+      <member refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1abc059f35ebea79e3729e7607f057a97a" prot="private" virt="non-virtual"><scope>themis::llm::FinalLayerOrchestrator</scope><name>model_router_</name></member>
+      <member refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a430fed67ee03a58e295a8eabdbb1e979" prot="private" virt="non-virtual"><scope>themis::llm::FinalLayerOrchestrator</scope><name>packages_</name></member>
+      <member refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a045391386e4d625a7ca93c4cd07d5815" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerOrchestrator</scope><name>promotePackage</name></member>
+      <member refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a1332c479f2c278b6dc73621394ac1301" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerOrchestrator</scope><name>registerPackage</name></member>
+      <member refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a0a32dcac64f6881bdb8f854dfa7ebe25" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerOrchestrator</scope><name>resolve</name></member>
+      <member refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1ae081fa7783680c81360f4d3e177356ef" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerOrchestrator</scope><name>rollbackToPackage</name></member>
+      <member refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a9bf1b82961685357ef28d7f5f9d1938b" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerOrchestrator</scope><name>setAdapterRegistry</name></member>
+      <member refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a78b31b10b7bc76c9e2da214d58982d11" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerOrchestrator</scope><name>setModelRouter</name></member>
+      <member refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a561eddb90ff0637723c942f3c651301b" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerOrchestrator</scope><name>setPackageStatus</name></member>
+      <member refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1adc25b9dbfac96f731541c18020a2a0be" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerOrchestrator</scope><name>setTransitionPolicy</name></member>
+      <member refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a198c05011a08d18cf766db74c89719d8" prot="private" virt="non-virtual"><scope>themis::llm::FinalLayerOrchestrator</scope><name>transition_policy_</name></member>
+      <member refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a4d1c9de85ff56858f2a098f292167b5c" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerOrchestrator</scope><name>transitionPolicy</name></member>
+      <member refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1a3c7ecc6a31136c3ae51aab24cca46768" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerOrchestrator</scope><name>updatePackage</name></member>
+      <member refid="classthemis_1_1llm_1_1_final_layer_orchestrator_1acb5b254111e81af3cae8fbac207fa93c" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerOrchestrator</scope><name>~FinalLayerOrchestrator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

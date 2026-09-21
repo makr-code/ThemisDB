@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_phase3_policy_hardening_test_1_1_mock_policy" kind="struct" language="C++" prot="protected">
+    <compoundname>Phase3PolicyHardeningTest::MockPolicy</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_phase3_policy_hardening_test_1_1_mock_policy_1a00231050db5247e66d696a33283715b9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Phase3PolicyHardeningTest::MockPolicy::policy_id</definition>
+        <argsstring></argsstring>
+        <name>policy_id</name>
+        <qualifiedname>Phase3PolicyHardeningTest::MockPolicy::policy_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase3_policy_hardening_focused.cpp" line="76" column="21" bodyfile="tests/security/test_security_phase3_policy_hardening_focused.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_phase3_policy_hardening_test_1_1_mock_policy_1a5dceaf69155c83d897445a7c961f4522" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Phase3PolicyHardeningTest::MockPolicy::principal_id</definition>
+        <argsstring></argsstring>
+        <name>principal_id</name>
+        <qualifiedname>Phase3PolicyHardeningTest::MockPolicy::principal_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase3_policy_hardening_focused.cpp" line="77" column="21" bodyfile="tests/security/test_security_phase3_policy_hardening_focused.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_phase3_policy_hardening_test_1_1_mock_policy_1a49fb983df085d4d20b54d76b5ba826b8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Phase3PolicyHardeningTest::MockPolicy::resource</definition>
+        <argsstring></argsstring>
+        <name>resource</name>
+        <qualifiedname>Phase3PolicyHardeningTest::MockPolicy::resource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase3_policy_hardening_focused.cpp" line="78" column="21" bodyfile="tests/security/test_security_phase3_policy_hardening_focused.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_phase3_policy_hardening_test_1_1_mock_policy_1a223cacb948b0b8c4632abf4d3c3f936e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Phase3PolicyHardeningTest::MockPolicy::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>Phase3PolicyHardeningTest::MockPolicy::action</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase3_policy_hardening_focused.cpp" line="79" column="21" bodyfile="tests/security/test_security_phase3_policy_hardening_focused.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_phase3_policy_hardening_test_1_1_mock_policy_1a1ed9d5b4ac6f2958b8dea7042ca6289e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Phase3PolicyHardeningTest::MockPolicy::allowed</definition>
+        <argsstring></argsstring>
+        <name>allowed</name>
+        <qualifiedname>Phase3PolicyHardeningTest::MockPolicy::allowed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase3_policy_hardening_focused.cpp" line="80" column="14" bodyfile="tests/security/test_security_phase3_policy_hardening_focused.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_phase3_policy_hardening_test_1_1_mock_policy_1a4e4f380c5205c8202bb917338801f1bf" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Phase3PolicyHardeningTest::MockPolicy::precedence</definition>
+        <argsstring></argsstring>
+        <name>precedence</name>
+        <qualifiedname>Phase3PolicyHardeningTest::MockPolicy::precedence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase3_policy_hardening_focused.cpp" line="81" column="13" bodyfile="tests/security/test_security_phase3_policy_hardening_focused.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock policy entry. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_security_phase3_policy_hardening_focused.cpp" line="75" column="5" bodyfile="tests/security/test_security_phase3_policy_hardening_focused.cpp" bodystart="75" bodyend="82"/>
+    <listofallmembers>
+      <member refid="struct_phase3_policy_hardening_test_1_1_mock_policy_1a223cacb948b0b8c4632abf4d3c3f936e" prot="public" virt="non-virtual"><scope>Phase3PolicyHardeningTest::MockPolicy</scope><name>action</name></member>
+      <member refid="struct_phase3_policy_hardening_test_1_1_mock_policy_1a1ed9d5b4ac6f2958b8dea7042ca6289e" prot="public" virt="non-virtual"><scope>Phase3PolicyHardeningTest::MockPolicy</scope><name>allowed</name></member>
+      <member refid="struct_phase3_policy_hardening_test_1_1_mock_policy_1a00231050db5247e66d696a33283715b9" prot="public" virt="non-virtual"><scope>Phase3PolicyHardeningTest::MockPolicy</scope><name>policy_id</name></member>
+      <member refid="struct_phase3_policy_hardening_test_1_1_mock_policy_1a4e4f380c5205c8202bb917338801f1bf" prot="public" virt="non-virtual"><scope>Phase3PolicyHardeningTest::MockPolicy</scope><name>precedence</name></member>
+      <member refid="struct_phase3_policy_hardening_test_1_1_mock_policy_1a5dceaf69155c83d897445a7c961f4522" prot="public" virt="non-virtual"><scope>Phase3PolicyHardeningTest::MockPolicy</scope><name>principal_id</name></member>
+      <member refid="struct_phase3_policy_hardening_test_1_1_mock_policy_1a49fb983df085d4d20b54d76b5ba826b8" prot="public" virt="non-virtual"><scope>Phase3PolicyHardeningTest::MockPolicy</scope><name>resource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

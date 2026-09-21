@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_rate_limiter" kind="class" language="C++" prot="public">
+    <compoundname>StubRateLimiter</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_rate_limiter_1a05a2d1f118eaec8b4b9c58ef883e251a" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int StubRateLimiter::limit_</definition>
+        <argsstring></argsstring>
+        <name>limit_</name>
+        <qualifiedname>StubRateLimiter::limit_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="195" column="9" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_rate_limiter_1a3bebbf8e8fe58fa30bbe2f189b61039d" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex StubRateLimiter::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>StubRateLimiter::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="196" column="16" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_rate_limiter_1af6a4a27242fa7a252f82f49091102c6b" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; StubRateLimiter::counts_</definition>
+        <argsstring></argsstring>
+        <name>counts_</name>
+        <qualifiedname>StubRateLimiter::counts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="197" column="24" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="197" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_rate_limiter_1a0b48d19bb114095dee7db4abffe47203" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubRateLimiter::StubRateLimiter</definition>
+        <argsstring>(int limit_per_window)</argsstring>
+        <name>StubRateLimiter</name>
+        <qualifiedname>StubRateLimiter::StubRateLimiter</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>limit_per_window</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="172" column="14" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="172" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_rate_limiter_1ad5dda609f60dd322a89c9a9c8106f3c2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161" kindref="member">ServerErrorClass</ref></type>
+        <definition>ServerErrorClass StubRateLimiter::check</definition>
+        <argsstring>(const std::string &amp;client_id)</argsstring>
+        <name>check</name>
+        <qualifiedname>StubRateLimiter::check</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="174" column="22" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="174" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_rate_limiter_1af52cf0dc282a93cee7847d00835ff385" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubRateLimiter::reset</definition>
+        <argsstring>(const std::string &amp;client_id)</argsstring>
+        <name>reset</name>
+        <qualifiedname>StubRateLimiter::reset</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>client_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="184" column="10" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="184" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_rate_limiter_1a83cefadd6b6f45de4aa32fd67fd63e7b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161" kindref="member">ServerErrorClass</ref></type>
+        <definition>ServerErrorClass StubRateLimiter::checkWithFailedBackend</definition>
+        <argsstring>(const std::string &amp;) noexcept</argsstring>
+        <name>checkWithFailedBackend</name>
+        <qualifiedname>StubRateLimiter::checkWithFailedBackend</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+<para>Simulate distributed backend failure → fail-closed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="190" column="22" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="190" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub in-memory per-client rate limiter implementing §10. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_contract_hardening_focused.cpp" line="170" column="1" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="170" bodyend="198"/>
+    <listofallmembers>
+      <member refid="class_stub_rate_limiter_1ad5dda609f60dd322a89c9a9c8106f3c2" prot="public" virt="non-virtual"><scope>StubRateLimiter</scope><name>check</name></member>
+      <member refid="class_stub_rate_limiter_1a83cefadd6b6f45de4aa32fd67fd63e7b" prot="public" virt="non-virtual"><scope>StubRateLimiter</scope><name>checkWithFailedBackend</name></member>
+      <member refid="class_stub_rate_limiter_1af6a4a27242fa7a252f82f49091102c6b" prot="private" virt="non-virtual"><scope>StubRateLimiter</scope><name>counts_</name></member>
+      <member refid="class_stub_rate_limiter_1a05a2d1f118eaec8b4b9c58ef883e251a" prot="private" virt="non-virtual"><scope>StubRateLimiter</scope><name>limit_</name></member>
+      <member refid="class_stub_rate_limiter_1a3bebbf8e8fe58fa30bbe2f189b61039d" prot="private" virt="non-virtual"><scope>StubRateLimiter</scope><name>mu_</name></member>
+      <member refid="class_stub_rate_limiter_1af52cf0dc282a93cee7847d00835ff385" prot="public" virt="non-virtual"><scope>StubRateLimiter</scope><name>reset</name></member>
+      <member refid="class_stub_rate_limiter_1a0b48d19bb114095dee7db4abffe47203" prot="public" virt="non-virtual"><scope>StubRateLimiter</scope><name>StubRateLimiter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

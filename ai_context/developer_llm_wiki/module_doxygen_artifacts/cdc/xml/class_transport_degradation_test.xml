@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_transport_degradation_test" kind="class" language="C++" prot="public">
+    <compoundname>TransportDegradationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_transport_degradation_test_1a7769cc621f75f8549f754c6f07f117a4" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string TransportDegradationTest::test_db_path</definition>
+        <argsstring></argsstring>
+        <name>test_db_path</name>
+        <qualifiedname>TransportDegradationTest::test_db_path</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_transport_degradation.cpp" line="59" column="17" bodyfile="tests/cdc/test_cdc_transport_degradation.cpp" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transport_degradation_test_1a1e439096b96b3920e08cc5b1a73a642a" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; rocksdb::TransactionDB &gt;</type>
+        <definition>std::unique_ptr&lt;rocksdb::TransactionDB&gt; TransportDegradationTest::db</definition>
+        <argsstring></argsstring>
+        <name>db</name>
+        <qualifiedname>TransportDegradationTest::db</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_transport_degradation.cpp" line="60" column="21" bodyfile="tests/cdc/test_cdc_transport_degradation.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transport_degradation_test_1a021f1a0ef5dd14782a70234b4cdb44fe" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_changefeed" kindref="compound">Changefeed</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Changefeed&gt; TransportDegradationTest::changefeed</definition>
+        <argsstring></argsstring>
+        <name>changefeed</name>
+        <qualifiedname>TransportDegradationTest::changefeed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_transport_degradation.cpp" line="61" column="21" bodyfile="tests/cdc/test_cdc_transport_degradation.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transport_degradation_test_1a1902f11b981e36cf2e6e230fb0e9b16b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1cdc_1_1_consumer_group_manager" kindref="compound">ConsumerGroupManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ConsumerGroupManager&gt; TransportDegradationTest::manager</definition>
+        <argsstring></argsstring>
+        <name>manager</name>
+        <qualifiedname>TransportDegradationTest::manager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_transport_degradation.cpp" line="62" column="21" bodyfile="tests/cdc/test_cdc_transport_degradation.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_transport_degradation_test_1a27689de51afe1c5cc9b26238caadd211" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransportDegradationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TransportDegradationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_transport_degradation.cpp" line="64" column="10" bodyfile="tests/cdc/test_cdc_transport_degradation.cpp" bodystart="64" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="class_transport_degradation_test_1a5e4b5de6cd5d7392bc3b0caf0e5fed75" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransportDegradationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>TransportDegradationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_transport_degradation.cpp" line="85" column="10" bodyfile="tests/cdc/test_cdc_transport_degradation.cpp" bodystart="85" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="class_transport_degradation_test_1ab23c04d538b4a3447453376d66ab9e0f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransportDegradationTest::seedEvents</definition>
+        <argsstring>(int n, const std::string &amp;key_prefix=&quot;key&quot;)</argsstring>
+        <name>seedEvents</name>
+        <qualifiedname>TransportDegradationTest::seedEvents</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_prefix</declname>
+          <defval>&quot;key&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Record <computeroutput>n</computeroutput> events with distinct keys into the changefeed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_transport_degradation.cpp" line="93" column="10" bodyfile="tests/cdc/test_cdc_transport_degradation.cpp" bodystart="93" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_transport_degradation_test_1a80c60a4e36eab3c0dd95e545c19b84fc" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &gt;</type>
+        <definition>static std::vector&lt; Changefeed::ChangeEvent &gt; TransportDegradationTest::makeEvents</definition>
+        <argsstring>(uint64_t from, int count, const std::string &amp;key_prefix=&quot;trd&quot;)</argsstring>
+        <name>makeEvents</name>
+        <qualifiedname>TransportDegradationTest::makeEvents</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_prefix</declname>
+          <defval>&quot;trd&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Build a vector of synthetic ChangeEvents with sequences [from, from+count). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_transport_degradation.cpp" line="105" column="24" bodyfile="tests/cdc/test_cdc_transport_degradation.cpp" bodystart="105" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TransportDegradationTest</label>
+        <link refid="class_transport_degradation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TransportDegradationTest</label>
+        <link refid="class_transport_degradation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cdc/test_cdc_transport_degradation.cpp" line="57" column="1" bodyfile="tests/cdc/test_cdc_transport_degradation.cpp" bodystart="57" bodyend="120"/>
+    <listofallmembers>
+      <member refid="class_transport_degradation_test_1a021f1a0ef5dd14782a70234b4cdb44fe" prot="protected" virt="non-virtual"><scope>TransportDegradationTest</scope><name>changefeed</name></member>
+      <member refid="class_transport_degradation_test_1a1e439096b96b3920e08cc5b1a73a642a" prot="protected" virt="non-virtual"><scope>TransportDegradationTest</scope><name>db</name></member>
+      <member refid="class_transport_degradation_test_1a80c60a4e36eab3c0dd95e545c19b84fc" prot="protected" virt="non-virtual"><scope>TransportDegradationTest</scope><name>makeEvents</name></member>
+      <member refid="class_transport_degradation_test_1a1902f11b981e36cf2e6e230fb0e9b16b" prot="protected" virt="non-virtual"><scope>TransportDegradationTest</scope><name>manager</name></member>
+      <member refid="class_transport_degradation_test_1ab23c04d538b4a3447453376d66ab9e0f" prot="protected" virt="non-virtual"><scope>TransportDegradationTest</scope><name>seedEvents</name></member>
+      <member refid="class_transport_degradation_test_1a27689de51afe1c5cc9b26238caadd211" prot="protected" virt="non-virtual"><scope>TransportDegradationTest</scope><name>SetUp</name></member>
+      <member refid="class_transport_degradation_test_1a5e4b5de6cd5d7392bc3b0caf0e5fed75" prot="protected" virt="non-virtual"><scope>TransportDegradationTest</scope><name>TearDown</name></member>
+      <member refid="class_transport_degradation_test_1a7769cc621f75f8549f754c6f07f117a4" prot="protected" virt="non-virtual"><scope>TransportDegradationTest</scope><name>test_db_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

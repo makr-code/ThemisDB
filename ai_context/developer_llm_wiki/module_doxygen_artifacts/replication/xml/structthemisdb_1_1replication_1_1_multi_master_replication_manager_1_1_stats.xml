@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::MultiMasterReplicationManager::Stats</compoundname>
+    <includes refid="multi__master__replication_8h" local="no">multi_master_replication.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_stats_1a1fb101a007dc69ad3a19e634974d4337" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::MultiMasterReplicationManager::Stats::writes_total</definition>
+        <argsstring></argsstring>
+        <name>writes_total</name>
+        <qualifiedname>themisdb::replication::MultiMasterReplicationManager::Stats::writes_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="437" column="18" bodyfile="include/replication/multi_master_replication.h" bodystart="437" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_stats_1a7d8b1a7cc4033cd9a55127076901f7af" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::MultiMasterReplicationManager::Stats::writes_replicated</definition>
+        <argsstring></argsstring>
+        <name>writes_replicated</name>
+        <qualifiedname>themisdb::replication::MultiMasterReplicationManager::Stats::writes_replicated</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="438" column="18" bodyfile="include/replication/multi_master_replication.h" bodystart="438" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_stats_1ac7eaa48ec2e4a1ee6bc7ee6f95580fec" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::MultiMasterReplicationManager::Stats::writes_pending</definition>
+        <argsstring></argsstring>
+        <name>writes_pending</name>
+        <qualifiedname>themisdb::replication::MultiMasterReplicationManager::Stats::writes_pending</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="439" column="18" bodyfile="include/replication/multi_master_replication.h" bodystart="439" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_stats_1a3a2e9fde1d1b01bb9c4ce147631e571b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::MultiMasterReplicationManager::Stats::conflicts_detected</definition>
+        <argsstring></argsstring>
+        <name>conflicts_detected</name>
+        <qualifiedname>themisdb::replication::MultiMasterReplicationManager::Stats::conflicts_detected</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="440" column="18" bodyfile="include/replication/multi_master_replication.h" bodystart="440" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_stats_1af9fe6ce069c0ccd2a2e606a40c882db0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::MultiMasterReplicationManager::Stats::conflicts_resolved</definition>
+        <argsstring></argsstring>
+        <name>conflicts_resolved</name>
+        <qualifiedname>themisdb::replication::MultiMasterReplicationManager::Stats::conflicts_resolved</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="441" column="18" bodyfile="include/replication/multi_master_replication.h" bodystart="441" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_stats_1ac52c3f9b8af8b0fc841fbc736e7c3462" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::MultiMasterReplicationManager::Stats::sync_rounds</definition>
+        <argsstring></argsstring>
+        <name>sync_rounds</name>
+        <qualifiedname>themisdb::replication::MultiMasterReplicationManager::Stats::sync_rounds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="442" column="18" bodyfile="include/replication/multi_master_replication.h" bodystart="442" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_stats_1a5a80ceef7ccab385c044b7c129e33388" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::MultiMasterReplicationManager::Stats::bytes_sent</definition>
+        <argsstring></argsstring>
+        <name>bytes_sent</name>
+        <qualifiedname>themisdb::replication::MultiMasterReplicationManager::Stats::bytes_sent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="443" column="18" bodyfile="include/replication/multi_master_replication.h" bodystart="443" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_stats_1ab959dd0ad8aa569100706fb4eb289a5e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::MultiMasterReplicationManager::Stats::bytes_received</definition>
+        <argsstring></argsstring>
+        <name>bytes_received</name>
+        <qualifiedname>themisdb::replication::MultiMasterReplicationManager::Stats::bytes_received</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="444" column="18" bodyfile="include/replication/multi_master_replication.h" bodystart="444" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_stats_1a7735644317301dcc3e57a9ecfbb0cbad" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::replication::MultiMasterReplicationManager::Stats::avg_replication_latency</definition>
+        <argsstring></argsstring>
+        <name>avg_replication_latency</name>
+        <qualifiedname>themisdb::replication::MultiMasterReplicationManager::Stats::avg_replication_latency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="445" column="35" bodyfile="include/replication/multi_master_replication.h" bodystart="445" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/multi_master_replication.h" line="436" column="5" bodyfile="include/replication/multi_master_replication.h" bodystart="436" bodyend="446"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_stats_1a7735644317301dcc3e57a9ecfbb0cbad" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiMasterReplicationManager::Stats</scope><name>avg_replication_latency</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_stats_1ab959dd0ad8aa569100706fb4eb289a5e" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiMasterReplicationManager::Stats</scope><name>bytes_received</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_stats_1a5a80ceef7ccab385c044b7c129e33388" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiMasterReplicationManager::Stats</scope><name>bytes_sent</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_stats_1a3a2e9fde1d1b01bb9c4ce147631e571b" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiMasterReplicationManager::Stats</scope><name>conflicts_detected</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_stats_1af9fe6ce069c0ccd2a2e606a40c882db0" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiMasterReplicationManager::Stats</scope><name>conflicts_resolved</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_stats_1ac52c3f9b8af8b0fc841fbc736e7c3462" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiMasterReplicationManager::Stats</scope><name>sync_rounds</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_stats_1ac7eaa48ec2e4a1ee6bc7ee6f95580fec" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiMasterReplicationManager::Stats</scope><name>writes_pending</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_stats_1a7d8b1a7cc4033cd9a55127076901f7af" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiMasterReplicationManager::Stats</scope><name>writes_replicated</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_stats_1a1fb101a007dc69ad3a19e634974d4337" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiMasterReplicationManager::Stats</scope><name>writes_total</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

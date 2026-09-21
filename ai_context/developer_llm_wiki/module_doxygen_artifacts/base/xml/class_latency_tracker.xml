@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_latency_tracker" kind="class" language="C++" prot="public">
+    <compoundname>LatencyTracker</compoundname>
+    <innerclass refid="struct_latency_tracker_1_1_latency_stats" prot="public">LatencyTracker::LatencyStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_latency_tracker_1adad796dc7ccd0c67d0573da81d80b0f8" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; LatencyTracker::latencies_us_</definition>
+        <argsstring></argsstring>
+        <name>latencies_us_</name>
+        <qualifiedname>LatencyTracker::latencies_us_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_latency_comprehensive.cpp" line="34" column="17" bodyfile="benchmarks/base/bench_latency_comprehensive.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_latency_tracker_1aa23808829d0d51fccc56dd108ffdd176" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex LatencyTracker::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>LatencyTracker::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_latency_comprehensive.cpp" line="35" column="24" bodyfile="benchmarks/base/bench_latency_comprehensive.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_latency_tracker_1ac7d8642d996c257012b349030c8f6a18" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LatencyTracker::record</definition>
+        <argsstring>(double latency_us)</argsstring>
+        <name>record</name>
+        <qualifiedname>LatencyTracker::record</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>latency_us</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_latency_comprehensive.cpp" line="38" column="10" bodyfile="benchmarks/base/bench_latency_comprehensive.cpp" bodystart="38" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="class_latency_tracker_1abe6c5da463c236179cde57974610d12a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_latency_tracker_1_1_latency_stats" kindref="compound">LatencyStats</ref></type>
+        <definition>LatencyStats LatencyTracker::calculateStats</definition>
+        <argsstring>() const</argsstring>
+        <name>calculateStats</name>
+        <qualifiedname>LatencyTracker::calculateStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_latency_comprehensive.cpp" line="54" column="18" bodyfile="benchmarks/base/bench_latency_comprehensive.cpp" bodystart="54" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="class_latency_tracker_1ae06c33bf2c932dc93ad51aee3c586833" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LatencyTracker::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>LatencyTracker::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_latency_comprehensive.cpp" line="96" column="10" bodyfile="benchmarks/base/bench_latency_comprehensive.cpp" bodystart="96" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/base/bench_latency_comprehensive.cpp" line="32" column="1" bodyfile="benchmarks/base/bench_latency_comprehensive.cpp" bodystart="32" bodyend="100"/>
+    <listofallmembers>
+      <member refid="class_latency_tracker_1abe6c5da463c236179cde57974610d12a" prot="public" virt="non-virtual"><scope>LatencyTracker</scope><name>calculateStats</name></member>
+      <member refid="class_latency_tracker_1adad796dc7ccd0c67d0573da81d80b0f8" prot="private" virt="non-virtual"><scope>LatencyTracker</scope><name>latencies_us_</name></member>
+      <member refid="class_latency_tracker_1aa23808829d0d51fccc56dd108ffdd176" prot="private" virt="non-virtual"><scope>LatencyTracker</scope><name>mutex_</name></member>
+      <member refid="class_latency_tracker_1ac7d8642d996c257012b349030c8f6a18" prot="public" virt="non-virtual"><scope>LatencyTracker</scope><name>record</name></member>
+      <member refid="class_latency_tracker_1ae06c33bf2c932dc93ad51aee3c586833" prot="public" virt="non-virtual"><scope>LatencyTracker</scope><name>reset</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

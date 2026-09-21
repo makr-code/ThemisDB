@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state" kind="struct" language="C++" prot="private">
+    <compoundname>themis::network::QoSManager::ConnectionState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1a52fe147f64e55e35f781a7609ebf874a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::QoSManager::ConnectionState::connection_id</definition>
+        <argsstring></argsstring>
+        <name>connection_id</name>
+        <qualifiedname>themis::network::QoSManager::ConnectionState::connection_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="750" column="18" bodyfile="include/network/qos_manager.h" bodystart="750" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1a53991ebefe53be567f4768822d474caa" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint8_t &gt;</type>
+        <definition>std::atomic&lt;uint8_t&gt; themis::network::QoSManager::ConnectionState::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::network::QoSManager::ConnectionState::priority</qualifiedname>
+        <initializer>{static_cast&lt;uint8_t&gt;(<ref refid="namespacethemis_1_1network_1a22e802acd794e9fc2562dfdb0f8d5b8eac87f3be66ffc3c0d4249f1c2cc5f3cce" kindref="member">Priority::MEDIUM</ref>)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="751" column="21" bodyfile="include/network/qos_manager.h" bodystart="751" bodyend="751"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1a6bf33621e4a97f46b81d64a42dcc5d7f" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::QoSManager::ConnectionState::token_bucket_mutex</definition>
+        <argsstring></argsstring>
+        <name>token_bucket_mutex</name>
+        <qualifiedname>themis::network::QoSManager::ConnectionState::token_bucket_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="753" column="28" bodyfile="include/network/qos_manager.h" bodystart="753" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1acbfe09181e75d507bb42d9b13e69a081" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1network_1_1_token_bucket" kindref="compound">TokenBucket</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;TokenBucket&gt; themis::network::QoSManager::ConnectionState::token_bucket</definition>
+        <argsstring></argsstring>
+        <name>token_bucket</name>
+        <qualifiedname>themis::network::QoSManager::ConnectionState::token_bucket</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="754" column="25" bodyfile="include/network/qos_manager.h" bodystart="754" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1a52ab4f9ec5e0635c7cb4aba128fdfe92" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::QoSManager::ConnectionState::leaky_bucket_mutex</definition>
+        <argsstring></argsstring>
+        <name>leaky_bucket_mutex</name>
+        <qualifiedname>themis::network::QoSManager::ConnectionState::leaky_bucket_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="756" column="28" bodyfile="include/network/qos_manager.h" bodystart="756" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1a391f0cdc2e19281c1d238475fe6523f0" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1network_1_1_leaky_bucket" kindref="compound">LeakyBucket</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;LeakyBucket&gt; themis::network::QoSManager::ConnectionState::leaky_bucket</definition>
+        <argsstring></argsstring>
+        <name>leaky_bucket</name>
+        <qualifiedname>themis::network::QoSManager::ConnectionState::leaky_bucket</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="757" column="25" bodyfile="include/network/qos_manager.h" bodystart="757" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1ac8dacc40470e7b29e19cf5b6b138ee15" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::QoSManager::ConnectionState::congestion_mutex</definition>
+        <argsstring></argsstring>
+        <name>congestion_mutex</name>
+        <qualifiedname>themis::network::QoSManager::ConnectionState::congestion_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="759" column="28" bodyfile="include/network/qos_manager.h" bodystart="759" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1a6731f655415cb716ccf9b4bee364311f" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1network_1_1_congestion_controller" kindref="compound">CongestionController</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;CongestionController&gt; themis::network::QoSManager::ConnectionState::congestion_ctrl</definition>
+        <argsstring></argsstring>
+        <name>congestion_ctrl</name>
+        <qualifiedname>themis::network::QoSManager::ConnectionState::congestion_ctrl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="760" column="25" bodyfile="include/network/qos_manager.h" bodystart="760" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1aeacf002438d2aca0adbe7361e5d35850" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::QoSManager::ConnectionState::bytes_sent</definition>
+        <argsstring></argsstring>
+        <name>bytes_sent</name>
+        <qualifiedname>themis::network::QoSManager::ConnectionState::bytes_sent</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="762" column="21" bodyfile="include/network/qos_manager.h" bodystart="762" bodyend="762"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1a7f1e2bcceb00a3ce5bf18ffa6933bacf" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::QoSManager::ConnectionState::bytes_received</definition>
+        <argsstring></argsstring>
+        <name>bytes_received</name>
+        <qualifiedname>themis::network::QoSManager::ConnectionState::bytes_received</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="763" column="21" bodyfile="include/network/qos_manager.h" bodystart="763" bodyend="763"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1a424472ccdee0cd5b6e0f495e09f7620b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::QoSManager::ConnectionState::bytes_shaped</definition>
+        <argsstring></argsstring>
+        <name>bytes_shaped</name>
+        <qualifiedname>themis::network::QoSManager::ConnectionState::bytes_shaped</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="764" column="21" bodyfile="include/network/qos_manager.h" bodystart="764" bodyend="764"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1a5832c5f5b579fc104502192fd7a6554b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::QoSManager::ConnectionState::queue_depth</definition>
+        <argsstring></argsstring>
+        <name>queue_depth</name>
+        <qualifiedname>themis::network::QoSManager::ConnectionState::queue_depth</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="765" column="21" bodyfile="include/network/qos_manager.h" bodystart="765" bodyend="765"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1a24f15a3a0292c2962baacd95af450d22" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::network::QoSManager::ConnectionState::backpressure_events</definition>
+        <argsstring></argsstring>
+        <name>backpressure_events</name>
+        <qualifiedname>themis::network::QoSManager::ConnectionState::backpressure_events</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="766" column="21" bodyfile="include/network/qos_manager.h" bodystart="766" bodyend="766"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/qos_manager.h" line="749" column="5" bodyfile="include/network/qos_manager.h" bodystart="749" bodyend="767"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1a24f15a3a0292c2962baacd95af450d22" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::ConnectionState</scope><name>backpressure_events</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1a7f1e2bcceb00a3ce5bf18ffa6933bacf" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::ConnectionState</scope><name>bytes_received</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1aeacf002438d2aca0adbe7361e5d35850" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::ConnectionState</scope><name>bytes_sent</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1a424472ccdee0cd5b6e0f495e09f7620b" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::ConnectionState</scope><name>bytes_shaped</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1a6731f655415cb716ccf9b4bee364311f" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::ConnectionState</scope><name>congestion_ctrl</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1ac8dacc40470e7b29e19cf5b6b138ee15" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::ConnectionState</scope><name>congestion_mutex</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1a52fe147f64e55e35f781a7609ebf874a" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::ConnectionState</scope><name>connection_id</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1a391f0cdc2e19281c1d238475fe6523f0" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::ConnectionState</scope><name>leaky_bucket</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1a52ab4f9ec5e0635c7cb4aba128fdfe92" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::ConnectionState</scope><name>leaky_bucket_mutex</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1a53991ebefe53be567f4768822d474caa" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::ConnectionState</scope><name>priority</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1a5832c5f5b579fc104502192fd7a6554b" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::ConnectionState</scope><name>queue_depth</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1acbfe09181e75d507bb42d9b13e69a081" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::ConnectionState</scope><name>token_bucket</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_connection_state_1a6bf33621e4a97f46b81d64a42dcc5d7f" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::ConnectionState</scope><name>token_bucket_mutex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

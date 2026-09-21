@@ -1,0 +1,257 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_api_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>ApiIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_api_integration_test_1a4aee72675c699d7c310586c3db875037" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1server_1_1_http_server" kindref="compound">themis::server::HttpServer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::server::HttpServer&gt; ApiIntegrationTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>ApiIntegrationTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_api_integration.cpp" line="209" column="26" bodyfile="tests/server/test_api_integration.cpp" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_api_integration_test_1af7a41bdd3a86f2d8938293b476f61dea" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; ApiIntegrationTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>ApiIntegrationTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_api_integration.cpp" line="210" column="30" bodyfile="tests/server/test_api_integration.cpp" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_api_integration_test_1a74cd64c986a7a03f3a3a9c8e0d3b2f2f" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::SecondaryIndexManager&gt; ApiIntegrationTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>ApiIntegrationTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_api_integration.cpp" line="211" column="23" bodyfile="tests/server/test_api_integration.cpp" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_api_integration_test_1a193b5ec154c07104c07c73e2179c7af7" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::GraphIndexManager&gt; ApiIntegrationTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>ApiIntegrationTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_api_integration.cpp" line="212" column="27" bodyfile="tests/server/test_api_integration.cpp" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_api_integration_test_1abe84ec8a72ae33eb487f0bfa49f2c0d6" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::VectorIndexManager&gt; ApiIntegrationTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>ApiIntegrationTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_api_integration.cpp" line="213" column="26" bodyfile="tests/server/test_api_integration.cpp" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_api_integration_test_1a42994dc001bdd7da6037fe9390158a4b" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;themis::TransactionManager&gt; ApiIntegrationTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>ApiIntegrationTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_api_integration.cpp" line="214" column="26" bodyfile="tests/server/test_api_integration.cpp" bodystart="214" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_api_integration_test_1a8446dc1cdc5944392809d19bfc277219" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool ApiIntegrationTest::isRedirectStatus</definition>
+        <argsstring>(http::status status)</argsstring>
+        <name>isRedirectStatus</name>
+        <qualifiedname>ApiIntegrationTest::isRedirectStatus</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_api_integration.cpp" line="48" column="17" bodyfile="tests/server/test_api_integration.cpp" bodystart="48" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_api_integration_test_1a53fa5a01245aa1ee051917fa3fb3ec08" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ApiIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ApiIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_api_integration.cpp" line="55" column="10" bodyfile="tests/server/test_api_integration.cpp" bodystart="55" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_api_integration_test_1a1bdeef03d31e48fbff8b2ac036968a66" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ApiIntegrationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ApiIntegrationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_api_integration.cpp" line="84" column="10" bodyfile="tests/server/test_api_integration.cpp" bodystart="84" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="class_api_integration_test_1aad5dcd8d78c6c2e40700db382efe72b2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; ApiIntegrationTest::get</definition>
+        <argsstring>(const std::string &amp;target, const std::string &amp;auth=&quot;&quot;)</argsstring>
+        <name>get</name>
+        <qualifiedname>ApiIntegrationTest::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>auth</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_api_integration.cpp" line="96" column="20" bodyfile="tests/server/test_api_integration.cpp" bodystart="96" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="class_api_integration_test_1ab4d84804618e794fb56be87f4bae7de5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; ApiIntegrationTest::post</definition>
+        <argsstring>(const std::string &amp;target, const json &amp;body, const std::string &amp;auth=&quot;&quot;)</argsstring>
+        <name>post</name>
+        <qualifiedname>ApiIntegrationTest::post</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const json &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>auth</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_api_integration.cpp" line="132" column="20" bodyfile="tests/server/test_api_integration.cpp" bodystart="132" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="class_api_integration_test_1ace55b78f5fa060804d81f16e0c35be80" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; ApiIntegrationTest::del</definition>
+        <argsstring>(const std::string &amp;target, const std::string &amp;auth=&quot;&quot;)</argsstring>
+        <name>del</name>
+        <qualifiedname>ApiIntegrationTest::del</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>auth</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_api_integration.cpp" line="172" column="20" bodyfile="tests/server/test_api_integration.cpp" bodystart="172" bodyend="206"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ApiIntegrationTest</label>
+        <link refid="class_api_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ApiIntegrationTest</label>
+        <link refid="class_api_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/server/test_api_integration.cpp" line="46" column="1" bodyfile="tests/server/test_api_integration.cpp" bodystart="46" bodyend="215"/>
+    <listofallmembers>
+      <member refid="class_api_integration_test_1ace55b78f5fa060804d81f16e0c35be80" prot="protected" virt="non-virtual"><scope>ApiIntegrationTest</scope><name>del</name></member>
+      <member refid="class_api_integration_test_1aad5dcd8d78c6c2e40700db382efe72b2" prot="protected" virt="non-virtual"><scope>ApiIntegrationTest</scope><name>get</name></member>
+      <member refid="class_api_integration_test_1a193b5ec154c07104c07c73e2179c7af7" prot="protected" virt="non-virtual"><scope>ApiIntegrationTest</scope><name>graph_index_</name></member>
+      <member refid="class_api_integration_test_1a8446dc1cdc5944392809d19bfc277219" prot="protected" virt="non-virtual"><scope>ApiIntegrationTest</scope><name>isRedirectStatus</name></member>
+      <member refid="class_api_integration_test_1ab4d84804618e794fb56be87f4bae7de5" prot="protected" virt="non-virtual"><scope>ApiIntegrationTest</scope><name>post</name></member>
+      <member refid="class_api_integration_test_1a74cd64c986a7a03f3a3a9c8e0d3b2f2f" prot="protected" virt="non-virtual"><scope>ApiIntegrationTest</scope><name>secondary_index_</name></member>
+      <member refid="class_api_integration_test_1a4aee72675c699d7c310586c3db875037" prot="protected" virt="non-virtual"><scope>ApiIntegrationTest</scope><name>server_</name></member>
+      <member refid="class_api_integration_test_1a53fa5a01245aa1ee051917fa3fb3ec08" prot="protected" virt="non-virtual"><scope>ApiIntegrationTest</scope><name>SetUp</name></member>
+      <member refid="class_api_integration_test_1af7a41bdd3a86f2d8938293b476f61dea" prot="protected" virt="non-virtual"><scope>ApiIntegrationTest</scope><name>storage_</name></member>
+      <member refid="class_api_integration_test_1a1bdeef03d31e48fbff8b2ac036968a66" prot="protected" virt="non-virtual"><scope>ApiIntegrationTest</scope><name>TearDown</name></member>
+      <member refid="class_api_integration_test_1a42994dc001bdd7da6037fe9390158a4b" prot="protected" virt="non-virtual"><scope>ApiIntegrationTest</scope><name>tx_manager_</name></member>
+      <member refid="class_api_integration_test_1abe84ec8a72ae33eb487f0bfa49f2c0d6" prot="protected" virt="non-virtual"><scope>ApiIntegrationTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="stopwords_8cpp" kind="file" language="C++">
+    <compoundname>stopwords.cpp</compoundname>
+    <includes refid="stopwords_8h" local="yes">utils/stopwords.h</includes>
+    <includes local="no">algorithm</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>utils/stopwords.h</label>
+        <link refid="stopwords_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/utils/stopwords.cpp</label>
+        <link refid="stopwords_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>algorithm</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_set</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="stopwords_8h" kindref="compound">utils/stopwords.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unordered_set&lt;std::string&gt;<sp/>make_set(std::initializer_list&lt;const<sp/>char*&gt;<sp/>list)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>s<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>s.reserve(list.size()<sp/>*<sp/>2);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>w<sp/>:<sp/>list)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>s.emplace(w);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>s;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">std::unordered_set&lt;std::string&gt;<sp/><ref refid="classthemis_1_1utils_1_1_stopwords_1a33458f207506058bd761796b79357f38" kindref="member">Stopwords::defaults</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>language)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(language<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;en&quot;</highlight><highlight class="normal"><sp/>||<sp/>language<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;EN&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>make_set({</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;the&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;an&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;and&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;or&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;but&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;if&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;then&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;else&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;when&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;while&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;is&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;are&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;was&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;were&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;be&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;been&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;being&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;in&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;on&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;at&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;of&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;for&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;with&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;by&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;as&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;it&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;its&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;this&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;that&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;these&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;those&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;not&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;no&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;do&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;does&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;did&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;done&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(language<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;de&quot;</highlight><highlight class="normal"><sp/>||<sp/>language<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;DE&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>make_set({</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;der&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;die&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;das&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;und&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;oder&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;aber&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;nicht&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ist&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;sind&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;war&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;waren&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;im&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;in&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;am&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;an&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;auf&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;zu&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;von&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;mit&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;bei&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;aus&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;dies&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;diese&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;dieser&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;diesen&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;dem&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;den&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ein&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;eine&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;einer&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;einem&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;einen&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;als&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;es&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;sein&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;seine&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;seiner&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal">std::unordered_set&lt;std::string&gt;<sp/><ref refid="classthemis_1_1utils_1_1_stopwords_1a0b5f2fd6a13947347e3625b06596a527" kindref="member">Stopwords::merge</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_set&lt;std::string&gt;&amp;<sp/>base,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>custom)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>out<sp/>=<sp/>base;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>out.reserve(out.size()<sp/>+<sp/>custom.size()<sp/>);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>w<sp/>:<sp/>custom)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ensure<sp/>lowercase<sp/>(defensive)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>lw<sp/>=<sp/>w;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::transform(lw.begin(),<sp/>lw.end(),<sp/>lw.begin(),<sp/>[](</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>c){<sp/>return<sp/>std::tolower(c);<sp/>});</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out.emplace(std::move(lw));</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>out;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/utils/stopwords.cpp"/>
+  </compounddef>
+</doxygen>

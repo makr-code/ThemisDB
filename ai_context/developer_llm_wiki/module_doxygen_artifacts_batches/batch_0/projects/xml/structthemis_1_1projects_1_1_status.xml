@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1projects_1_1_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::projects::Status</compoundname>
+    <includes refid="document__manager_8h" local="no">document_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_status_1ae5453d62e0761bd67fdae21132f1275d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::projects::Status::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::projects::Status::ok</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="101" column="10" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_status_1a9950ca506398153879ce72eca79b8fed" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::Status::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::projects::Status::message</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="102" column="17" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="102" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1projects_1_1_status_1a0ef0965f0693013687369b060ae45308" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::projects::Status::Status</definition>
+        <argsstring>(bool success, std::string msg={})</argsstring>
+        <name>Status</name>
+        <qualifiedname>themis::projects::Status::Status</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="104" column="5" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="104" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1projects_1_1_status_1acc3ce610d59053a34b42694f44dfb06d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1projects_1_1_status_1a0ef0965f0693013687369b060ae45308" kindref="member">Status</ref></type>
+        <definition>static Status themis::projects::Status::OK</definition>
+        <argsstring>()</argsstring>
+        <name>OK</name>
+        <qualifiedname>themis::projects::Status::OK</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="107" column="19" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1projects_1_1_status_1af9185bdcbc99cdef70b6d82e189b0ea5" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1projects_1_1_status_1a0ef0965f0693013687369b060ae45308" kindref="member">Status</ref></type>
+        <definition>static Status themis::projects::Status::Error</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::projects::Status::Error</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="108" column="19" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1projects_1_1_status" kindref="compound">Status</ref> result for operations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/projects/DocumentManager/document_manager.h" line="100" column="1" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="100" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1projects_1_1_status_1af9185bdcbc99cdef70b6d82e189b0ea5" prot="public" virt="non-virtual"><scope>themis::projects::Status</scope><name>Error</name></member>
+      <member refid="structthemis_1_1projects_1_1_status_1a9950ca506398153879ce72eca79b8fed" prot="public" virt="non-virtual"><scope>themis::projects::Status</scope><name>message</name></member>
+      <member refid="structthemis_1_1projects_1_1_status_1acc3ce610d59053a34b42694f44dfb06d" prot="public" virt="non-virtual"><scope>themis::projects::Status</scope><name>OK</name></member>
+      <member refid="structthemis_1_1projects_1_1_status_1ae5453d62e0761bd67fdae21132f1275d" prot="public" virt="non-virtual"><scope>themis::projects::Status</scope><name>ok</name></member>
+      <member refid="structthemis_1_1projects_1_1_status_1a0ef0965f0693013687369b060ae45308" prot="public" virt="non-virtual"><scope>themis::projects::Status</scope><name>Status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="totp__replay__cache_8h" kind="file" language="C++">
+    <compoundname>totp_replay_cache.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="totp__replay__cache_8cpp" local="yes">src/auth/totp_replay_cache.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/auth/totp_replay_cache.h</label>
+        <link refid="totp__replay__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>unordered_set</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/auth/totp_replay_cache.h</label>
+        <link refid="totp__replay__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/auth/totp_replay_cache.cpp</label>
+        <link refid="totp__replay__cache_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache" prot="public">themis::auth::TOTPReplayCache</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config" prot="public">themis::auth::TOTPReplayCache::Config</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics" prot="public">themis::auth::TOTPReplayCache::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_used_code" prot="private">themis::auth::TOTPReplayCache::UsedCode</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_secure_m_f_a_validator" prot="public">themis::auth::SecureMFAValidator</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config" prot="public">themis::auth::SecureMFAValidator::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aba1b1e16e5173c7ec42597ceb84ffa56" kindref="member">TOTPReplayCache</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>How<sp/>long<sp/>to<sp/>keep<sp/>used<sp/>codes<sp/>in<sp/>cache<sp/>(should<sp/>match<sp/>TOTP<sp/>window)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config_1a7cff89987c1ee490e89464789a90167b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config_1a7cff89987c1ee490e89464789a90167b" kindref="member">retention_period</ref>{90};<sp/><sp/></highlight><highlight class="comment">//<sp/>3<sp/>time<sp/>steps<sp/>@<sp/>30s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup<sp/>interval<sp/>for<sp/>expired<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config_1a532e10d6c7e2344e89c94ed527b5006a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config_1a532e10d6c7e2344e89c94ed527b5006a" kindref="member">cleanup_interval</ref>{300};<sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>minutes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>entries<sp/>per<sp/>user<sp/>(prevents<sp/>memory<sp/>exhaustion)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config_1a272601be5d40613847bd7463bb54a45a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config_1a272601be5d40613847bd7463bb54a45a" kindref="member">max_entries_per_user</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config_1a5d2223a5056e24e8a7dc6d3773f1cc44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config" kindref="compound">Config</ref><sp/><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config_1a5d2223a5056e24e8a7dc6d3773f1cc44" kindref="member">defaults</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aba1b1e16e5173c7ec42597ceb84ffa56" kindref="member">TOTPReplayCache</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config_1a5d2223a5056e24e8a7dc6d3773f1cc44" kindref="member">Config::defaults</ref>());</highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a2f608a43a0b587076e928b1bdb2ff76d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a2f608a43a0b587076e928b1bdb2ff76d" kindref="member">~TOTPReplayCache</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy,<sp/>allow<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aa982814f0519444af0044991f4eced9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aa982814f0519444af0044991f4eced9e" kindref="member">TOTPReplayCache</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aba1b1e16e5173c7ec42597ceb84ffa56" kindref="member">TOTPReplayCache</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aa3bf97ad59d4fc2d75d0ddc6087f1ddb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aba1b1e16e5173c7ec42597ceb84ffa56" kindref="member">TOTPReplayCache</ref>&amp;<sp/><ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aa3bf97ad59d4fc2d75d0ddc6087f1ddb" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aba1b1e16e5173c7ec42597ceb84ffa56" kindref="member">TOTPReplayCache</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a2384c95405f7eeb076c213d13d292cce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a2384c95405f7eeb076c213d13d292cce" kindref="member">TOTPReplayCache</ref>(<ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aba1b1e16e5173c7ec42597ceb84ffa56" kindref="member">TOTPReplayCache</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a86a328fc93d552c5eedce0236c5c1a2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aba1b1e16e5173c7ec42597ceb84ffa56" kindref="member">TOTPReplayCache</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aba1b1e16e5173c7ec42597ceb84ffa56" kindref="member">TOTPReplayCache</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1ab8a4927cda4fa7a5697d123cefaec7cd" kindref="member">checkAndMarkUsed</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>user_id,<sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>code);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a1873e7f4256572894f7997520e5c1fb9" kindref="member">isUsed</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>user_id,<sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>code)<sp/>const;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1afc7aefa8309014bfac3a844adcd924c6" kindref="member">clearUser</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>user_id);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a196f9ee47c50fa8dd5c945290b3cfc81" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1ac99a56df4f39a6d352d199a2ea7e717a" kindref="member">cleanup</ref>();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics_1a37c13d40d028d8ec40c1cfb40e02894c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics_1a37c13d40d028d8ec40c1cfb40e02894c" kindref="member">total_users</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics_1aca2311b838b12de0877b442af204256f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics_1aca2311b838b12de0877b442af204256f" kindref="member">total_codes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics_1a4d3399cb6932a13750d6baf502f5faaa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics_1a4d3399cb6932a13750d6baf502f5faaa" kindref="member">replay_attempts_blocked</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics_1ad1c28aa27117157b16e7a01954c06b99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics_1ad1c28aa27117157b16e7a01954c06b99" kindref="member">entries_expired</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics" kindref="compound">Statistics</ref><sp/><ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a592c80acf76b102f01e77ba56f588ebc" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">UsedCode<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>code<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/>used_at;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-user<sp/>cache<sp/>of<sp/>used<sp/>codes<sp/>with<sp/>timestamps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::vector&lt;UsedCode&gt;&gt;<sp/>user_caches_;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>Statistics<sp/>stats_;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thread<sp/>safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Last<sp/>cleanup<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_cleanup_;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanupUser(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>needsCleanup()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1auth_1_1_secure_m_f_a_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_secure_m_f_a_validator_1ae052d423c906a444d37ea743ed96fe64" kindref="member">SecureMFAValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Include<sp/>MFA<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1a2f9d26099d63d3ffba9a432c48242bcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1a2f9d26099d63d3ffba9a432c48242bcb" kindref="member">time_step_seconds</ref><sp/>=<sp/>30;</highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1ad3f03712a72e258b1110410488456285" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1ad3f03712a72e258b1110410488456285" kindref="member">code_length</ref><sp/>=<sp/>6;</highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1a435e62b8ff64c063f97b4f87d64ff6f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1a435e62b8ff64c063f97b4f87d64ff6f3" kindref="member">time_window</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1a1600afe7660ba453b325bcd9c8ee5f29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1a1600afe7660ba453b325bcd9c8ee5f29" kindref="member">issuer</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ThemisDB&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Replay<sp/>cache<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1a73e2c638149925120bef589a18690854" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1a73e2c638149925120bef589a18690854" kindref="member">enable_replay_protection</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1a63dbc19a53bd58865c5dd7ebd52d9609" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config" kindref="compound">TOTPReplayCache::Config</ref><sp/><ref refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1a63dbc19a53bd58865c5dd7ebd52d9609" kindref="member">replay_cache_config</ref>;</highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1aaf020f80a8a0422f2923e157b50ce2b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config" kindref="compound">Config</ref><sp/><ref refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1aaf020f80a8a0422f2923e157b50ce2b0" kindref="member">defaults</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_secure_m_f_a_validator_1ae052d423c906a444d37ea743ed96fe64" kindref="member">SecureMFAValidator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1auth_1_1_secure_m_f_a_validator_1_1_config_1aaf020f80a8a0422f2923e157b50ce2b0" kindref="member">Config::defaults</ref>());</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_secure_m_f_a_validator_1a099968e7998a1a2ceb13633207784800" kindref="member">validateTOTP</ref>(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>secret_base32,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>code</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_secure_m_f_a_validator_1a1ed167099a36ccb41501843f70f7a7a0" kindref="member">clearUserCache</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics" kindref="compound">TOTPReplayCache::Statistics</ref><sp/><ref refid="classthemis_1_1auth_1_1_secure_m_f_a_validator_1a8a36561ab1163f7e302a2d04549a51f6" kindref="member">getReplayStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;TOTPReplayCache&gt;<sp/>replay_cache_;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>auth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/auth/totp_replay_cache.h"/>
+  </compounddef>
+</doxygen>

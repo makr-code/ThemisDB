@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_network_audit_log_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::NetworkAuditLog::Stats</compoundname>
+    <includes refid="network__audit__log_8h" local="no">network_audit_log.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_audit_log_1_1_stats_1a3fc863827be2167f9c8e9371325ce6fa" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::NetworkAuditLog::Stats::total_recorded</definition>
+        <argsstring></argsstring>
+        <name>total_recorded</name>
+        <qualifiedname>themis::network::NetworkAuditLog::Stats::total_recorded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total events appended since construction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="119" column="18" bodyfile="include/network/network_audit_log.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_audit_log_1_1_stats_1a955341b26f8553362269c18626b02ff6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::NetworkAuditLog::Stats::total_evicted</definition>
+        <argsstring></argsstring>
+        <name>total_evicted</name>
+        <qualifiedname>themis::network::NetworkAuditLog::Stats::total_evicted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Events dropped due to ring-buffer overflow. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="120" column="18" bodyfile="include/network/network_audit_log.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_audit_log_1_1_stats_1a9ed6f0b733077bd25f7ccf111001648f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::NetworkAuditLog::Stats::connection_opens</definition>
+        <argsstring></argsstring>
+        <name>connection_opens</name>
+        <qualifiedname>themis::network::NetworkAuditLog::Stats::connection_opens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="121" column="18" bodyfile="include/network/network_audit_log.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_audit_log_1_1_stats_1a0bcce74484dfaf92646fad44a42095a6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::NetworkAuditLog::Stats::connection_closes</definition>
+        <argsstring></argsstring>
+        <name>connection_closes</name>
+        <qualifiedname>themis::network::NetworkAuditLog::Stats::connection_closes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="122" column="18" bodyfile="include/network/network_audit_log.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_audit_log_1_1_stats_1aeb94ae141eb59ef951500cfa52d27b4e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::NetworkAuditLog::Stats::auth_successes</definition>
+        <argsstring></argsstring>
+        <name>auth_successes</name>
+        <qualifiedname>themis::network::NetworkAuditLog::Stats::auth_successes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="123" column="18" bodyfile="include/network/network_audit_log.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_audit_log_1_1_stats_1af9695c6e29e83240d9e23a069bc098e4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::NetworkAuditLog::Stats::auth_failures</definition>
+        <argsstring></argsstring>
+        <name>auth_failures</name>
+        <qualifiedname>themis::network::NetworkAuditLog::Stats::auth_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="124" column="18" bodyfile="include/network/network_audit_log.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_audit_log_1_1_stats_1a9d866a94142720cb91830a3653a5389b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::NetworkAuditLog::Stats::rate_limited</definition>
+        <argsstring></argsstring>
+        <name>rate_limited</name>
+        <qualifiedname>themis::network::NetworkAuditLog::Stats::rate_limited</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="125" column="18" bodyfile="include/network/network_audit_log.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_network_audit_log_1_1_stats_1acc1f5ab430bf1c2c89f5ac09040131ac" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::NetworkAuditLog::Stats::current_size</definition>
+        <argsstring></argsstring>
+        <name>current_size</name>
+        <qualifiedname>themis::network::NetworkAuditLog::Stats::current_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Events currently in the buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="126" column="18" bodyfile="include/network/network_audit_log.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/network_audit_log.h" line="118" column="5" bodyfile="include/network/network_audit_log.h" bodystart="118" bodyend="127"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_network_audit_log_1_1_stats_1af9695c6e29e83240d9e23a069bc098e4" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog::Stats</scope><name>auth_failures</name></member>
+      <member refid="structthemis_1_1network_1_1_network_audit_log_1_1_stats_1aeb94ae141eb59ef951500cfa52d27b4e" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog::Stats</scope><name>auth_successes</name></member>
+      <member refid="structthemis_1_1network_1_1_network_audit_log_1_1_stats_1a0bcce74484dfaf92646fad44a42095a6" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog::Stats</scope><name>connection_closes</name></member>
+      <member refid="structthemis_1_1network_1_1_network_audit_log_1_1_stats_1a9ed6f0b733077bd25f7ccf111001648f" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog::Stats</scope><name>connection_opens</name></member>
+      <member refid="structthemis_1_1network_1_1_network_audit_log_1_1_stats_1acc1f5ab430bf1c2c89f5ac09040131ac" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog::Stats</scope><name>current_size</name></member>
+      <member refid="structthemis_1_1network_1_1_network_audit_log_1_1_stats_1a9d866a94142720cb91830a3653a5389b" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog::Stats</scope><name>rate_limited</name></member>
+      <member refid="structthemis_1_1network_1_1_network_audit_log_1_1_stats_1a955341b26f8553362269c18626b02ff6" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog::Stats</scope><name>total_evicted</name></member>
+      <member refid="structthemis_1_1network_1_1_network_audit_log_1_1_stats_1a3fc863827be2167f9c8e9371325ce6fa" prot="public" virt="non-virtual"><scope>themis::network::NetworkAuditLog::Stats</scope><name>total_recorded</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

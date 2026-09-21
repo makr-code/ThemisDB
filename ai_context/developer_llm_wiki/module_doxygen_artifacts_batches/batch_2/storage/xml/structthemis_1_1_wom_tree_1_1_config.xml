@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_wom_tree_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::WomTree::Config</compoundname>
+    <includes refid="wom__tree_8h" local="no">wom_tree.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_config_1a26790a751a62fa956b664949d345a5ee" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::WomTree::Config::buffer_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>buffer_size_bytes</name>
+        <qualifiedname>themis::WomTree::Config::buffer_size_bytes</qualifiedname>
+        <initializer>= 64 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Target size in bytes for the write buffer held at each internal node. Larger values → fewer propagation steps → lower write amplification, but higher per-node memory usage. Recommended: 64 KiB–512 KiB. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="91" column="16" bodyfile="include/storage/wom_tree.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_config_1a975c23473110e6e0deea3c7af65d31fb" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::WomTree::Config::fanout</definition>
+        <argsstring></argsstring>
+        <name>fanout</name>
+        <qualifiedname>themis::WomTree::Config::fanout</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Fanout factor B: maximum number of children per internal node. Must be ≥ 2. Higher fanout reduces tree height (fewer read amplification levels) at the cost of larger nodes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="98" column="18" bodyfile="include/storage/wom_tree.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_config_1af7a02354b811ea4861bce1c4a89e5f72" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::WomTree::Config::leaf_capacity</definition>
+        <argsstring></argsstring>
+        <name>leaf_capacity</name>
+        <qualifiedname>themis::WomTree::Config::leaf_capacity</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of entries per leaf node before the leaf is split. Must be ≥ 2. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="104" column="18" bodyfile="include/storage/wom_tree.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_config_1a1c6440d5db3aef8d56a8d6bcd3f13fe3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::WomTree::Config::max_buffered_entries</definition>
+        <argsstring></argsstring>
+        <name>max_buffered_entries</name>
+        <qualifiedname>themis::WomTree::Config::max_buffered_entries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum total number of entries held in all in-memory node buffers before a synchronous flush-to-leaf pass is triggered. Zero means &quot;no global limit&quot; (rely solely on per-node thresholds). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="111" column="16" bodyfile="include/storage/wom_tree.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_wom_tree_1_1_config_1a1457dc67e9e9f1bad1cc4b57db2275ee" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::WomTree::Config::lazy_deletes</definition>
+        <argsstring></argsstring>
+        <name>lazy_deletes</name>
+        <qualifiedname>themis::WomTree::Config::lazy_deletes</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If true (default), a <computeroutput><ref refid="classthemis_1_1_wom_tree_1a95aeecc4f51cf26eda6ce6d8c230289e" kindref="member">remove()</ref></computeroutput> call is buffered as a tombstone and propagated lazily down to the leaf during the next flush/compact pass. This keeps the write path fast at the cost of a slightly higher read path (every buffer along the path must be scanned for the most-recent tombstone).</para>
+<para>If false, <computeroutput><ref refid="classthemis_1_1_wom_tree_1a95aeecc4f51cf26eda6ce6d8c230289e" kindref="member">remove()</ref></computeroutput> immediately descends to the leaf, clears any buffered ops for that key in all internal nodes on the path, and physically erases the entry from the leaf. This makes reads cheaper (no buffer scanning for deleted keys) but makes the write path heavier: it must walk the tree top-to-bottom and purge the key from every intermediate buffer. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/wom_tree.h" line="127" column="14" bodyfile="include/storage/wom_tree.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration knobs for the WOM tree. </para>
+    </detaileddescription>
+    <location file="include/storage/wom_tree.h" line="84" column="5" bodyfile="include/storage/wom_tree.h" bodystart="84" bodyend="128"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_wom_tree_1_1_config_1a26790a751a62fa956b664949d345a5ee" prot="public" virt="non-virtual"><scope>themis::WomTree::Config</scope><name>buffer_size_bytes</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_config_1a975c23473110e6e0deea3c7af65d31fb" prot="public" virt="non-virtual"><scope>themis::WomTree::Config</scope><name>fanout</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_config_1a1457dc67e9e9f1bad1cc4b57db2275ee" prot="public" virt="non-virtual"><scope>themis::WomTree::Config</scope><name>lazy_deletes</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_config_1af7a02354b811ea4861bce1c4a89e5f72" prot="public" virt="non-virtual"><scope>themis::WomTree::Config</scope><name>leaf_capacity</name></member>
+      <member refid="structthemis_1_1_wom_tree_1_1_config_1a1c6440d5db3aef8d56a8d6bcd3f13fe3" prot="public" virt="non-virtual"><scope>themis::WomTree::Config</scope><name>max_buffered_entries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

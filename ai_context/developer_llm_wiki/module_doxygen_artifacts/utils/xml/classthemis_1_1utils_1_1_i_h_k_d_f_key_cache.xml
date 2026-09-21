@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_i_h_k_d_f_key_cache" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::utils::IHKDFKeyCache</compoundname>
+    <derivedcompoundref refid="classthemis_1_1utils_1_1_h_k_d_f_key_cache_adapter" prot="public" virt="non-virtual">themis::utils::HKDFKeyCacheAdapter</derivedcompoundref>
+    <includes refid="utils__interfaces_8h" local="no">utils_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_h_k_d_f_key_cache_1a8f8c5c5765036449297423a65b3aad11" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::utils::IHKDFKeyCache::~IHKDFKeyCache</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IHKDFKeyCache</name>
+        <qualifiedname>themis::utils::IHKDFKeyCache::~IHKDFKeyCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="301" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_h_k_d_f_key_cache_1a841c1b01cdf49352cfd089b783961c5d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1_key_handle" kindref="compound">KeyHandle</ref></type>
+        <definition>virtual KeyHandle themis::utils::IHKDFKeyCache::derive</definition>
+        <argsstring>(const KeyContext &amp;ctx)=0</argsstring>
+        <name>derive</name>
+        <qualifiedname>themis::utils::IHKDFKeyCache::derive</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_h_k_d_f_key_cache_adapter_1aabcb7f65c8e4f03c3f81176ce95b03cb">derive</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_key_context" kindref="compound">KeyContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Return a (possibly cached) derived key for the given context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If an unexpired cache entry exists for <computeroutput>ctx</computeroutput>, the cached <ref refid="classthemis_1_1utils_1_1_key_handle" kindref="compound">KeyHandle</ref> is returned. Otherwise a fresh HKDF derivation is performed, the result is cached, and the new handle is returned.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Derivation context (IKM, salt, info, length). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Move-only handle wrapping the derived key bytes. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="313" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_h_k_d_f_key_cache_1a28a2849b4ae7b096c2a59e7ffb9e5318" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::utils::IHKDFKeyCache::evict</definition>
+        <argsstring>(const KeyContext &amp;ctx)=0</argsstring>
+        <name>evict</name>
+        <qualifiedname>themis::utils::IHKDFKeyCache::evict</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_h_k_d_f_key_cache_adapter_1aefe2fbd982617f5e1334e666ac390689">evict</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_key_context" kindref="compound">KeyContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Explicitly invalidate the cache entry for <computeroutput>ctx</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>A no-op when no entry exists. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="320" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_h_k_d_f_key_cache_1af999a3b52c18d3b76dca566dec63113b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::utils::IHKDFKeyCache::evictAll</definition>
+        <argsstring>()=0</argsstring>
+        <name>evictAll</name>
+        <qualifiedname>themis::utils::IHKDFKeyCache::evictAll</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_h_k_d_f_key_cache_adapter_1ae35e12baa770262f88cc5aa23cf88c6c">evictAll</reimplementedby>
+        <briefdescription>
+<para>Evict all cache entries (emergency key-cache flush). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="325" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_h_k_d_f_key_cache_1a0aebbe42def50a3032b844a057ddc120" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>virtual std::chrono::milliseconds themis::utils::IHKDFKeyCache::ttl</definition>
+        <argsstring>(const KeyContext &amp;ctx) const =0</argsstring>
+        <name>ttl</name>
+        <qualifiedname>themis::utils::IHKDFKeyCache::ttl</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_h_k_d_f_key_cache_adapter_1ababe2e7ddd74654ca6ab7ed86a2c6a33">ttl</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_key_context" kindref="compound">KeyContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Remaining TTL for the cached entry for <computeroutput>ctx</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Remaining lifetime in milliseconds; 0 when expired or absent. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="332" column="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_h_k_d_f_key_cache_1a6f21fdcb787aafd3a1a94d798c758e95" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::utils::IHKDFKeyCache::cacheSize</definition>
+        <argsstring>() const =0</argsstring>
+        <name>cacheSize</name>
+        <qualifiedname>themis::utils::IHKDFKeyCache::cacheSize</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_h_k_d_f_key_cache_adapter_1aaee06f0da89b61224a0aeef503a45060">cacheSize</reimplementedby>
+        <briefdescription>
+<para>Current number of live (unexpired) cache entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="335" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_h_k_d_f_key_cache_1a972aac575c755ad54b1aae073aa96130" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::utils::IHKDFKeyCache::maxCacheSize</definition>
+        <argsstring>() const =0</argsstring>
+        <name>maxCacheSize</name>
+        <qualifiedname>themis::utils::IHKDFKeyCache::maxCacheSize</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_h_k_d_f_key_cache_adapter_1a8f27890c5a592422fb54c6b84c73382a">maxCacheSize</reimplementedby>
+        <briefdescription>
+<para>Maximum number of entries the cache will hold before evicting LRU entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="338" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>TTL-enforced HKDF key-derivation cache interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1utils_1_1_i_h_k_d_f_key_cache_1a841c1b01cdf49352cfd089b783961c5d" kindref="member">derive()</ref> returns a cached key when the TTL has not expired; it evicts and re-derives when the TTL has expired, ensuring stale key material is never served. <ref refid="classthemis_1_1utils_1_1_key_handle" kindref="compound">KeyHandle</ref>&apos;s destructor zeroes key bytes on release.</para>
+<para>No method on this interface exposes raw key bytes beyond <ref refid="classthemis_1_1utils_1_1_key_handle_1a2f2537db2c5e2ad514ee15356694de8b" kindref="member">KeyHandle::bytes()</ref>. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::utils::HKDFKeyCacheAdapter</label>
+        <link refid="classthemis_1_1utils_1_1_h_k_d_f_key_cache_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::utils::IHKDFKeyCache</label>
+        <link refid="classthemis_1_1utils_1_1_i_h_k_d_f_key_cache"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/utils/utils_interfaces.h" line="299" column="1" bodyfile="include/utils/utils_interfaces.h" bodystart="299" bodyend="339"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_i_h_k_d_f_key_cache_1a6f21fdcb787aafd3a1a94d798c758e95" prot="public" virt="pure-virtual"><scope>themis::utils::IHKDFKeyCache</scope><name>cacheSize</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_h_k_d_f_key_cache_1a841c1b01cdf49352cfd089b783961c5d" prot="public" virt="pure-virtual"><scope>themis::utils::IHKDFKeyCache</scope><name>derive</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_h_k_d_f_key_cache_1a28a2849b4ae7b096c2a59e7ffb9e5318" prot="public" virt="pure-virtual"><scope>themis::utils::IHKDFKeyCache</scope><name>evict</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_h_k_d_f_key_cache_1af999a3b52c18d3b76dca566dec63113b" prot="public" virt="pure-virtual"><scope>themis::utils::IHKDFKeyCache</scope><name>evictAll</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_h_k_d_f_key_cache_1a972aac575c755ad54b1aae073aa96130" prot="public" virt="pure-virtual"><scope>themis::utils::IHKDFKeyCache</scope><name>maxCacheSize</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_h_k_d_f_key_cache_1a0aebbe42def50a3032b844a057ddc120" prot="public" virt="pure-virtual"><scope>themis::utils::IHKDFKeyCache</scope><name>ttl</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_h_k_d_f_key_cache_1a8f8c5c5765036449297423a65b3aad11" prot="public" virt="virtual"><scope>themis::utils::IHKDFKeyCache</scope><name>~IHKDFKeyCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

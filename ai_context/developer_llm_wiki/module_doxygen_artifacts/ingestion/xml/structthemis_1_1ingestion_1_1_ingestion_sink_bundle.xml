@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_ingestion_sink_bundle" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::IngestionSinkBundle</compoundname>
+    <includes refid="ingestion__sinks_8h" local="no">ingestion_sinks.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_sink_bundle_1a58ad8995a941f52f37f6e3d80a2bfae5" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_graph_writer" kindref="compound">IGraphWriter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IGraphWriter&gt; themis::ingestion::IngestionSinkBundle::graph</definition>
+        <argsstring></argsstring>
+        <name>graph</name>
+        <qualifiedname>themis::ingestion::IngestionSinkBundle::graph</qualifiedname>
+        <briefdescription>
+<para>may be nullptr (skip graph write) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="289" column="22" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_sink_bundle_1acc195cfbec8e7a17f88991ccbff8bb02" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_vector_writer" kindref="compound">IVectorWriter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IVectorWriter&gt; themis::ingestion::IngestionSinkBundle::vector</definition>
+        <argsstring></argsstring>
+        <name>vector</name>
+        <qualifiedname>themis::ingestion::IngestionSinkBundle::vector</qualifiedname>
+        <briefdescription>
+<para>may be nullptr (skip vector write) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="290" column="21" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_sink_bundle_1a64c5a30e536c83ebcb3d859dfc786425" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_i_doc_writer" kindref="compound">IDocWriter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IDocWriter&gt; themis::ingestion::IngestionSinkBundle::doc</definition>
+        <argsstring></argsstring>
+        <name>doc</name>
+        <qualifiedname>themis::ingestion::IngestionSinkBundle::doc</qualifiedname>
+        <briefdescription>
+<para>may be nullptr (skip doc write) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="291" column="24" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_ingestion_sink_bundle_1aa76856356ec93af4d658b8868d80d0d5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::ingestion::IngestionSinkBundle::writeAll</definition>
+        <argsstring>(const BaseEntitySet &amp;entity_set, const std::string &amp;collection=&quot;ingested&quot;) const</argsstring>
+        <name>writeAll</name>
+        <qualifiedname>themis::ingestion::IngestionSinkBundle::writeAll</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref> &amp;</type>
+          <declname>entity_set</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+          <defval>&quot;ingested&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Write <computeroutput>entity_set</computeroutput> to all configured (non-null) sinks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>First error encountered, or success when all sinks succeed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_sinks.h" line="298" column="12" bodyfile="src/ingestion/ingestion_sinks.cpp" bodystart="354" bodyend="373"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Groups all three sinks for convenient passing through the pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The <computeroutput><ref refid="classthemis_1_1ingestion_1_1_workflow_engine" kindref="compound">WorkflowEngine</ref></computeroutput> / <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref></computeroutput> can optionally accept a <computeroutput><ref refid="structthemis_1_1ingestion_1_1_ingestion_sink_bundle" kindref="compound">IngestionSinkBundle</ref></computeroutput> and write the assembled <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref></computeroutput> to it after workflow execution completes. </para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_sinks.h" line="288" column="1" bodyfile="include/ingestion/ingestion_sinks.h" bodystart="288" bodyend="300"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_sink_bundle_1a64c5a30e536c83ebcb3d859dfc786425" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionSinkBundle</scope><name>doc</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_sink_bundle_1a58ad8995a941f52f37f6e3d80a2bfae5" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionSinkBundle</scope><name>graph</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_sink_bundle_1acc195cfbec8e7a17f88991ccbff8bb02" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionSinkBundle</scope><name>vector</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_sink_bundle_1aa76856356ec93af4d658b8868d80d0d5" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionSinkBundle</scope><name>writeAll</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

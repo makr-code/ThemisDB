@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_response_generator" kind="class" language="C++" prot="public">
+    <compoundname>MockResponseGenerator</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_response_generator_1ad3eed49bb62cd21fe3dcb62eba4d0c44" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string MockResponseGenerator::generateResponse</definition>
+        <argsstring>(const std::string &amp;command, const std::map&lt; std::string, std::string &gt; &amp;params)</argsstring>
+        <name>generateResponse</name>
+        <qualifiedname>MockResponseGenerator::generateResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>command</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_assistant_latency.cpp" line="57" column="17" bodyfile="benchmarks/voice/bench_voice_assistant_latency.cpp" bodystart="57" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/voice/bench_voice_assistant_latency.cpp" line="54" column="1" bodyfile="benchmarks/voice/bench_voice_assistant_latency.cpp" bodystart="54" bodyend="63"/>
+    <listofallmembers>
+      <member refid="class_mock_response_generator_1ad3eed49bb62cd21fe3dcb62eba4d0c44" prot="public" virt="non-virtual"><scope>MockResponseGenerator</scope><name>generateResponse</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

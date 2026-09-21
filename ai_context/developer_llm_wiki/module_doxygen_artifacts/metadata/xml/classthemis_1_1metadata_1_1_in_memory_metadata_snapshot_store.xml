@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1metadata_1_1_in_memory_metadata_snapshot_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::metadata::InMemoryMetadataSnapshotStore</compoundname>
+    <basecompoundref refid="classthemis_1_1metadata_1_1_i_metadata_snapshot_store" prot="public" virt="non-virtual">themis::metadata::IMetadataSnapshotStore</basecompoundref>
+    <includes refid="metadata__snapshot_8h" local="no">metadata_snapshot.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_in_memory_metadata_snapshot_store_1af243a6feae47b99827536fe2658b3884" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::metadata::InMemoryMetadataSnapshotStore::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::metadata::InMemoryMetadataSnapshotStore::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="294" column="24" bodyfile="include/metadata/metadata_snapshot.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_in_memory_metadata_snapshot_store_1a680a656327006f972c9780071f9de0ff" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1metadata_1_1_metadata_snapshot" kindref="compound">MetadataSnapshot</ref> &gt;</type>
+        <definition>std::map&lt;std::string, MetadataSnapshot&gt; themis::metadata::InMemoryMetadataSnapshotStore::snapshots_</definition>
+        <argsstring></argsstring>
+        <name>snapshots_</name>
+        <qualifiedname>themis::metadata::InMemoryMetadataSnapshotStore::snapshots_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="295" column="14" bodyfile="include/metadata/metadata_snapshot.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_in_memory_metadata_snapshot_store_1ab1b33cbcc96add4f503b8563cdf9927f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::InMemoryMetadataSnapshotStore::save</definition>
+        <argsstring>(const MetadataSnapshot &amp;snapshot) override</argsstring>
+        <name>save</name>
+        <qualifiedname>themis::metadata::InMemoryMetadataSnapshotStore::save</qualifiedname>
+        <reimplements refid="classthemis_1_1metadata_1_1_i_metadata_snapshot_store_1ad4eeac5965de857b216fc9440c8d4c62">save</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1metadata_1_1_metadata_snapshot" kindref="compound">MetadataSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Store <computeroutput>snapshot</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If a snapshot with the same ID already exists it is overwritten.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>MetadataSnapshotException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if snapshot.snapshot_id is empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="226" column="17" bodyfile="include/metadata/metadata_snapshot.h" bodystart="226" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_in_memory_metadata_snapshot_store_1a521ce32da3e75fa111f2488798737589" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1metadata_1_1_metadata_snapshot" kindref="compound">MetadataSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt; MetadataSnapshot &gt; themis::metadata::InMemoryMetadataSnapshotStore::load</definition>
+        <argsstring>(std::string_view id) override</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::metadata::InMemoryMetadataSnapshotStore::load</qualifiedname>
+        <reimplements refid="classthemis_1_1metadata_1_1_i_metadata_snapshot_store_1a9435ee8aa94e67a2f095d861df430dd5">load</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Load snapshot by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The snapshot, or std::nullopt if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="241" column="19" bodyfile="include/metadata/metadata_snapshot.h" bodystart="241" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_in_memory_metadata_snapshot_store_1a5c511eecd49f4d2965aee51438cd9cfe" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::metadata::InMemoryMetadataSnapshotStore::listSnapshotIds</definition>
+        <argsstring>() override</argsstring>
+        <name>listSnapshotIds</name>
+        <qualifiedname>themis::metadata::InMemoryMetadataSnapshotStore::listSnapshotIds</qualifiedname>
+        <reimplements refid="classthemis_1_1metadata_1_1_i_metadata_snapshot_store_1a38307737541aa65e66b26301945b958a">listSnapshotIds</reimplements>
+        <briefdescription>
+<para>Return all snapshot IDs in ascending lexicographic order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="253" column="17" bodyfile="include/metadata/metadata_snapshot.h" bodystart="253" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_in_memory_metadata_snapshot_store_1a92ea980ac630867a96bb3a88ee27c7d3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::metadata::InMemoryMetadataSnapshotStore::remove</definition>
+        <argsstring>(std::string_view id) override</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::metadata::InMemoryMetadataSnapshotStore::remove</qualifiedname>
+        <reimplements refid="classthemis_1_1metadata_1_1_i_metadata_snapshot_store_1a17d61e7909a853bec04b64f65ecba5e1">remove</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Remove the snapshot with the given ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if the snapshot was found and removed; false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="270" column="10" bodyfile="include/metadata/metadata_snapshot.h" bodystart="270" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_in_memory_metadata_snapshot_store_1a18071e428e1497e4bfa8992f21631ff0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::metadata::InMemoryMetadataSnapshotStore::size</definition>
+        <argsstring>() override</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::metadata::InMemoryMetadataSnapshotStore::size</qualifiedname>
+        <reimplements refid="classthemis_1_1metadata_1_1_i_metadata_snapshot_store_1a9ef9cba3e250f449f5a6bad385b09dcb">size</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of snapshots currently held. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="276" column="12" bodyfile="include/metadata/metadata_snapshot.h" bodystart="276" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_in_memory_metadata_snapshot_store_1a0e5474aa3efc0b1e6ac0e2a7b42fbcde" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::metadata::InMemoryMetadataSnapshotStore::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::metadata::InMemoryMetadataSnapshotStore::clear</qualifiedname>
+        <briefdescription>
+<para>Remove all snapshots from the store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Useful for resetting state between unit-test cases. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="288" column="10" bodyfile="include/metadata/metadata_snapshot.h" bodystart="288" bodyend="291"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe in-memory implementation of <ref refid="classthemis_1_1metadata_1_1_i_metadata_snapshot_store" kindref="compound">IMetadataSnapshotStore</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All snapshots are held in a std::map keyed by snapshot_id. Data does not survive process exit; this implementation is intended for unit tests, integration tests, and embedded scenarios that do not require durability.</para>
+<para>Thread-safety guarantee: all public methods acquire the internal mutex before accessing the snapshot map.</para>
+<para>Example: <programlisting><codeline><highlight class="normal">InMemoryMetadataSnapshotStore<sp/>store;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">MetadataSnapshot<sp/>snap;</highlight></codeline>
+<codeline><highlight class="normal">snap.snapshot_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">snap.created_at<sp/><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline><highlight class="normal">snap.author<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ci-pipeline&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">snap.tables<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>schema_manager.getAllTables();</highlight></codeline>
+<codeline><highlight class="normal">store.save(snap);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/>store.load(</highlight><highlight class="stringliteral">&quot;v1.0.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">assert(loaded.has_value());</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::metadata::IMetadataSnapshotStore</label>
+        <link refid="classthemis_1_1metadata_1_1_i_metadata_snapshot_store"/>
+      </node>
+      <node id="1">
+        <label>themis::metadata::InMemoryMetadataSnapshotStore</label>
+        <link refid="classthemis_1_1metadata_1_1_in_memory_metadata_snapshot_store"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::metadata::IMetadataSnapshotStore</label>
+        <link refid="classthemis_1_1metadata_1_1_i_metadata_snapshot_store"/>
+      </node>
+      <node id="1">
+        <label>themis::metadata::InMemoryMetadataSnapshotStore</label>
+        <link refid="classthemis_1_1metadata_1_1_in_memory_metadata_snapshot_store"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/metadata/metadata_snapshot.h" line="215" column="1" bodyfile="include/metadata/metadata_snapshot.h" bodystart="215" bodyend="296"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1metadata_1_1_in_memory_metadata_snapshot_store_1a0e5474aa3efc0b1e6ac0e2a7b42fbcde" prot="public" virt="non-virtual"><scope>themis::metadata::InMemoryMetadataSnapshotStore</scope><name>clear</name></member>
+      <member refid="classthemis_1_1metadata_1_1_in_memory_metadata_snapshot_store_1a5c511eecd49f4d2965aee51438cd9cfe" prot="public" virt="virtual"><scope>themis::metadata::InMemoryMetadataSnapshotStore</scope><name>listSnapshotIds</name></member>
+      <member refid="classthemis_1_1metadata_1_1_in_memory_metadata_snapshot_store_1a521ce32da3e75fa111f2488798737589" prot="public" virt="virtual"><scope>themis::metadata::InMemoryMetadataSnapshotStore</scope><name>load</name></member>
+      <member refid="classthemis_1_1metadata_1_1_in_memory_metadata_snapshot_store_1af243a6feae47b99827536fe2658b3884" prot="private" virt="non-virtual"><scope>themis::metadata::InMemoryMetadataSnapshotStore</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_in_memory_metadata_snapshot_store_1a92ea980ac630867a96bb3a88ee27c7d3" prot="public" virt="virtual"><scope>themis::metadata::InMemoryMetadataSnapshotStore</scope><name>remove</name></member>
+      <member refid="classthemis_1_1metadata_1_1_in_memory_metadata_snapshot_store_1ab1b33cbcc96add4f503b8563cdf9927f" prot="public" virt="virtual"><scope>themis::metadata::InMemoryMetadataSnapshotStore</scope><name>save</name></member>
+      <member refid="classthemis_1_1metadata_1_1_in_memory_metadata_snapshot_store_1a18071e428e1497e4bfa8992f21631ff0" prot="public" virt="virtual"><scope>themis::metadata::InMemoryMetadataSnapshotStore</scope><name>size</name></member>
+      <member refid="classthemis_1_1metadata_1_1_in_memory_metadata_snapshot_store_1a680a656327006f972c9780071f9de0ff" prot="private" virt="non-virtual"><scope>themis::metadata::InMemoryMetadataSnapshotStore</scope><name>snapshots_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_i_metadata_snapshot_store_1ac5169bd48d36a3f630cad777f4be1354" prot="public" virt="virtual"><scope>themis::metadata::InMemoryMetadataSnapshotStore</scope><name>~IMetadataSnapshotStore</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

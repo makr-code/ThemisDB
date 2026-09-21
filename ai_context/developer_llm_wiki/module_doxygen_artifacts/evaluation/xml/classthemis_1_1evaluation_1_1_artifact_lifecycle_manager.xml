@@ -1,0 +1,377 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::evaluation::ArtifactLifecycleManager</compoundname>
+    <includes refid="artifact__lifecycle_8h" local="no">artifact_lifecycle.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a516b3f82e7734f7c9e2bda2cee6f7b5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::ArtifactLifecycleManager::ArtifactLifecycleManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>ArtifactLifecycleManager</name>
+        <qualifiedname>themis::evaluation::ArtifactLifecycleManager::ArtifactLifecycleManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="255" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a7e0bfcaf50c05cdea637c11cd062ce49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::ArtifactLifecycleManager::ArtifactLifecycleManager</definition>
+        <argsstring>(const ArtifactLifecycleManager &amp;)=delete</argsstring>
+        <name>ArtifactLifecycleManager</name>
+        <qualifiedname>themis::evaluation::ArtifactLifecycleManager::ArtifactLifecycleManager</qualifiedname>
+        <param>
+          <type>const ArtifactLifecycleManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="257" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a478a886ca1b991be26f55022115b9582" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a516b3f82e7734f7c9e2bda2cee6f7b5d" kindref="member">ArtifactLifecycleManager</ref> &amp;</type>
+        <definition>ArtifactLifecycleManager &amp; themis::evaluation::ArtifactLifecycleManager::operator=</definition>
+        <argsstring>(const ArtifactLifecycleManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::evaluation::ArtifactLifecycleManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a516b3f82e7734f7c9e2bda2cee6f7b5d" kindref="member">ArtifactLifecycleManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="258" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a022e88a42ae61131b71e6ef47c68d0da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::evaluation::ArtifactLifecycleManager::ArtifactLifecycleManager</definition>
+        <argsstring>(ArtifactLifecycleManager &amp;&amp;)=default</argsstring>
+        <name>ArtifactLifecycleManager</name>
+        <qualifiedname>themis::evaluation::ArtifactLifecycleManager::ArtifactLifecycleManager</qualifiedname>
+        <param>
+          <type>ArtifactLifecycleManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="260" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1ac9bf406957541002e2fb3145f750c15d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a516b3f82e7734f7c9e2bda2cee6f7b5d" kindref="member">ArtifactLifecycleManager</ref> &amp;</type>
+        <definition>ArtifactLifecycleManager &amp; themis::evaluation::ArtifactLifecycleManager::operator=</definition>
+        <argsstring>(ArtifactLifecycleManager &amp;&amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::evaluation::ArtifactLifecycleManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a516b3f82e7734f7c9e2bda2cee6f7b5d" kindref="member">ArtifactLifecycleManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="261" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a224fbf7d764bd51bcd54a5e167be0c05" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1" kindref="member">LifecycleState</ref></type>
+        <definition>LifecycleState themis::evaluation::ArtifactLifecycleManager::computeState</definition>
+        <argsstring>(const LifecycleMetadata &amp;metadata, const StalenessPolicy &amp;policy) const noexcept</argsstring>
+        <name>computeState</name>
+        <qualifiedname>themis::evaluation::ArtifactLifecycleManager::computeState</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1evaluation_1_1_staleness_policy" kindref="compound">StalenessPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="267" column="21" bodyfile="src/evaluation/src/artifact_lifecycle.cc" bodystart="19" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a7bdc2e885b79dee8771a251525e457f9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::evaluation::ArtifactLifecycleManager::diagnoseStalenessCause</definition>
+        <argsstring>(const LifecycleMetadata &amp;metadata, const StalenessPolicy &amp;policy) const noexcept</argsstring>
+        <name>diagnoseStalenessCause</name>
+        <qualifiedname>themis::evaluation::ArtifactLifecycleManager::diagnoseStalenessCause</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1evaluation_1_1_staleness_policy" kindref="compound">StalenessPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="311" column="20" bodyfile="src/evaluation/src/artifact_lifecycle.cc" bodystart="161" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a1256eb7188b86258790f8b3a8b7e5f63" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1" kindref="member">LifecycleState</ref> &gt;</type>
+        <definition>std::vector&lt; LifecycleState &gt; themis::evaluation::ArtifactLifecycleManager::computeStatesBatch</definition>
+        <argsstring>(const std::vector&lt; LifecycleMetadata &gt; &amp;metadata_batch, const StalenessPolicy &amp;policy) const noexcept</argsstring>
+        <name>computeStatesBatch</name>
+        <qualifiedname>themis::evaluation::ArtifactLifecycleManager::computeStatesBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref> &gt; &amp;</type>
+          <declname>metadata_batch</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1evaluation_1_1_staleness_policy" kindref="compound">StalenessPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="320" column="18" bodyfile="src/evaluation/src/artifact_lifecycle.cc" bodystart="211" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1adc78db5a0d30bbdb846ac46ccdaa10d1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref> &gt;</type>
+        <definition>std::vector&lt; LifecycleMetadata &gt; themis::evaluation::ArtifactLifecycleManager::filterUsableArtifacts</definition>
+        <argsstring>(const std::vector&lt; LifecycleMetadata &gt; &amp;metadata_batch, const StalenessPolicy &amp;policy) const noexcept</argsstring>
+        <name>filterUsableArtifacts</name>
+        <qualifiedname>themis::evaluation::ArtifactLifecycleManager::filterUsableArtifacts</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref> &gt; &amp;</type>
+          <declname>metadata_batch</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1evaluation_1_1_staleness_policy" kindref="compound">StalenessPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="325" column="18" bodyfile="src/evaluation/src/artifact_lifecycle.cc" bodystart="226" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a06ef2ecba09cb82ac65f3af172871e46" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref> &gt;</type>
+        <definition>std::vector&lt; LifecycleMetadata &gt; themis::evaluation::ArtifactLifecycleManager::identifyRebuildCandidates</definition>
+        <argsstring>(const std::vector&lt; LifecycleMetadata &gt; &amp;metadata_batch) const noexcept</argsstring>
+        <name>identifyRebuildCandidates</name>
+        <qualifiedname>themis::evaluation::ArtifactLifecycleManager::identifyRebuildCandidates</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref> &gt; &amp;</type>
+          <declname>metadata_batch</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="330" column="18" bodyfile="src/evaluation/src/artifact_lifecycle.cc" bodystart="242" bodyend="254"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a1c22923de2292ccc49413fca776541d2" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ArtifactLifecycleManager::isUsableForPlanning</definition>
+        <argsstring>(LifecycleState state) noexcept</argsstring>
+        <name>isUsableForPlanning</name>
+        <qualifiedname>themis::evaluation::ArtifactLifecycleManager::isUsableForPlanning</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1" kindref="member">LifecycleState</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="272" column="18" bodyfile="src/evaluation/src/artifact_lifecycle.cc" bodystart="81" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a749a65e2de833f4d94cc6f8c42f7b3f8" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ArtifactLifecycleManager::requiresImmediateRebuild</definition>
+        <argsstring>(LifecycleState state) noexcept</argsstring>
+        <name>requiresImmediateRebuild</name>
+        <qualifiedname>themis::evaluation::ArtifactLifecycleManager::requiresImmediateRebuild</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1" kindref="member">LifecycleState</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="274" column="18" bodyfile="src/evaluation/src/artifact_lifecycle.cc" bodystart="85" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a0bc19f32ca78f8375347e865794e434e" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref></type>
+        <definition>LifecycleMetadata themis::evaluation::ArtifactLifecycleManager::invalidate</definition>
+        <argsstring>(LifecycleMetadata metadata, InvalidationReason reason) noexcept</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>themis::evaluation::ArtifactLifecycleManager::invalidate</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref></type>
+          <declname>metadata</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0b" kindref="member">InvalidationReason</ref></type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="280" column="31" bodyfile="src/evaluation/src/artifact_lifecycle.cc" bodystart="89" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a1f346da7e866a45405f9a0e14e6d79c1" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref></type>
+        <definition>LifecycleMetadata themis::evaluation::ArtifactLifecycleManager::beginRebuild</definition>
+        <argsstring>(LifecycleMetadata metadata) noexcept</argsstring>
+        <name>beginRebuild</name>
+        <qualifiedname>themis::evaluation::ArtifactLifecycleManager::beginRebuild</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref></type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="285" column="31" bodyfile="src/evaluation/src/artifact_lifecycle.cc" bodystart="102" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a5592362e878f5c1ddc98b22626fd92d4" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref></type>
+        <definition>LifecycleMetadata themis::evaluation::ArtifactLifecycleManager::completeRebuildSuccess</definition>
+        <argsstring>(LifecycleMetadata metadata, std::uint32_t new_age_ms, std::uint64_t new_delta_lag, double new_residual) noexcept</argsstring>
+        <name>completeRebuildSuccess</name>
+        <qualifiedname>themis::evaluation::ArtifactLifecycleManager::completeRebuildSuccess</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref></type>
+          <declname>metadata</declname>
+        </param>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>new_age_ms</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>new_delta_lag</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>new_residual</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="289" column="31" bodyfile="src/evaluation/src/artifact_lifecycle.cc" bodystart="114" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a451b1bc3f7f64401a0bd0156fd8c3d6d" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref></type>
+        <definition>LifecycleMetadata themis::evaluation::ArtifactLifecycleManager::completeRebuildFailure</definition>
+        <argsstring>(LifecycleMetadata metadata) noexcept</argsstring>
+        <name>completeRebuildFailure</name>
+        <qualifiedname>themis::evaluation::ArtifactLifecycleManager::completeRebuildFailure</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref></type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="296" column="31" bodyfile="src/evaluation/src/artifact_lifecycle.cc" bodystart="132" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1ac5f1283ee7792755f7c9cc3a3f21d6e3" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref></type>
+        <definition>LifecycleMetadata themis::evaluation::ArtifactLifecycleManager::markReady</definition>
+        <argsstring>(LifecycleMetadata metadata, std::uint32_t age_ms, std::uint64_t delta_lag, double residual) noexcept</argsstring>
+        <name>markReady</name>
+        <qualifiedname>themis::evaluation::ArtifactLifecycleManager::markReady</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" kindref="compound">LifecycleMetadata</ref></type>
+          <declname>metadata</declname>
+        </param>
+        <param>
+          <type>std::uint32_t</type>
+          <declname>age_ms</declname>
+        </param>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>delta_lag</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>residual</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="300" column="31" bodyfile="src/evaluation/src/artifact_lifecycle.cc" bodystart="144" bodyend="159"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/artifact_lifecycle.h" line="253" column="1" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="253" bodyend="333"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a516b3f82e7734f7c9e2bda2cee6f7b5d" prot="public" virt="non-virtual"><scope>themis::evaluation::ArtifactLifecycleManager</scope><name>ArtifactLifecycleManager</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a7e0bfcaf50c05cdea637c11cd062ce49" prot="public" virt="non-virtual"><scope>themis::evaluation::ArtifactLifecycleManager</scope><name>ArtifactLifecycleManager</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a022e88a42ae61131b71e6ef47c68d0da" prot="public" virt="non-virtual"><scope>themis::evaluation::ArtifactLifecycleManager</scope><name>ArtifactLifecycleManager</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a1f346da7e866a45405f9a0e14e6d79c1" prot="public" virt="non-virtual"><scope>themis::evaluation::ArtifactLifecycleManager</scope><name>beginRebuild</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a451b1bc3f7f64401a0bd0156fd8c3d6d" prot="public" virt="non-virtual"><scope>themis::evaluation::ArtifactLifecycleManager</scope><name>completeRebuildFailure</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a5592362e878f5c1ddc98b22626fd92d4" prot="public" virt="non-virtual"><scope>themis::evaluation::ArtifactLifecycleManager</scope><name>completeRebuildSuccess</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a224fbf7d764bd51bcd54a5e167be0c05" prot="public" virt="non-virtual"><scope>themis::evaluation::ArtifactLifecycleManager</scope><name>computeState</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a1256eb7188b86258790f8b3a8b7e5f63" prot="public" virt="non-virtual"><scope>themis::evaluation::ArtifactLifecycleManager</scope><name>computeStatesBatch</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a7bdc2e885b79dee8771a251525e457f9" prot="public" virt="non-virtual"><scope>themis::evaluation::ArtifactLifecycleManager</scope><name>diagnoseStalenessCause</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1adc78db5a0d30bbdb846ac46ccdaa10d1" prot="public" virt="non-virtual"><scope>themis::evaluation::ArtifactLifecycleManager</scope><name>filterUsableArtifacts</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a06ef2ecba09cb82ac65f3af172871e46" prot="public" virt="non-virtual"><scope>themis::evaluation::ArtifactLifecycleManager</scope><name>identifyRebuildCandidates</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a0bc19f32ca78f8375347e865794e434e" prot="public" virt="non-virtual"><scope>themis::evaluation::ArtifactLifecycleManager</scope><name>invalidate</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a1c22923de2292ccc49413fca776541d2" prot="public" virt="non-virtual"><scope>themis::evaluation::ArtifactLifecycleManager</scope><name>isUsableForPlanning</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1ac5f1283ee7792755f7c9cc3a3f21d6e3" prot="public" virt="non-virtual"><scope>themis::evaluation::ArtifactLifecycleManager</scope><name>markReady</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a478a886ca1b991be26f55022115b9582" prot="public" virt="non-virtual"><scope>themis::evaluation::ArtifactLifecycleManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1ac9bf406957541002e2fb3145f750c15d" prot="public" virt="non-virtual"><scope>themis::evaluation::ArtifactLifecycleManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager_1a749a65e2de833f4d94cc6f8c42f7b3f8" prot="public" virt="non-virtual"><scope>themis::evaluation::ArtifactLifecycleManager</scope><name>requiresImmediateRebuild</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

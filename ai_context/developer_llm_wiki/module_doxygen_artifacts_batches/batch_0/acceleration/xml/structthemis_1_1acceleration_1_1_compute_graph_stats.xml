@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_compute_graph_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::ComputeGraphStats</compoundname>
+    <includes refid="compute__graph_8h" local="no">compute_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_compute_graph_stats_1ad88e23a1aaa83eddd82146cbc07930a9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::ComputeGraphStats::nodes_executed</definition>
+        <argsstring></argsstring>
+        <name>nodes_executed</name>
+        <qualifiedname>themis::acceleration::ComputeGraphStats::nodes_executed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of nodes that executed (excluding fused nodes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="51" column="12" bodyfile="include/acceleration/compute_graph.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_compute_graph_stats_1aea6eccf6cccc1395d152fd3fe554415f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::ComputeGraphStats::kernel_fusions</definition>
+        <argsstring></argsstring>
+        <name>kernel_fusions</name>
+        <qualifiedname>themis::acceleration::ComputeGraphStats::kernel_fusions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of kernel fusion operations performed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="52" column="12" bodyfile="include/acceleration/compute_graph.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_compute_graph_stats_1ab17c13576ca860faf5ba373d7ff31b31" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::acceleration::ComputeGraphStats::total_execution_ms</definition>
+        <argsstring></argsstring>
+        <name>total_execution_ms</name>
+        <qualifiedname>themis::acceleration::ComputeGraphStats::total_execution_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Total execution time (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="53" column="12" bodyfile="include/acceleration/compute_graph.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_compute_graph_stats_1a9b59f9e77da3cb88e912a211cba8bb1a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::ComputeGraphStats::peak_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>peak_memory_bytes</name>
+        <qualifiedname>themis::acceleration::ComputeGraphStats::peak_memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Peak memory usage during execution (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_graph.h" line="54" column="12" bodyfile="include/acceleration/compute_graph.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_graph.h" line="50" column="1" bodyfile="include/acceleration/compute_graph.h" bodystart="50" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_compute_graph_stats_1aea6eccf6cccc1395d152fd3fe554415f" prot="public" virt="non-virtual"><scope>themis::acceleration::ComputeGraphStats</scope><name>kernel_fusions</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_compute_graph_stats_1ad88e23a1aaa83eddd82146cbc07930a9" prot="public" virt="non-virtual"><scope>themis::acceleration::ComputeGraphStats</scope><name>nodes_executed</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_compute_graph_stats_1a9b59f9e77da3cb88e912a211cba8bb1a" prot="public" virt="non-virtual"><scope>themis::acceleration::ComputeGraphStats</scope><name>peak_memory_bytes</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_compute_graph_stats_1ab17c13576ca860faf5ba373d7ff31b31" prot="public" virt="non-virtual"><scope>themis::acceleration::ComputeGraphStats</scope><name>total_execution_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

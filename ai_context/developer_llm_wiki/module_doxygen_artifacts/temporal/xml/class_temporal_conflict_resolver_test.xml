@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_temporal_conflict_resolver_test" kind="class" language="C++" prot="public">
+    <compoundname>TemporalConflictResolverTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_temporal_conflict_resolver_test_1aaf86eb57f372708cc2e46d62cf631915" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TemporalConflictResolverTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TemporalConflictResolverTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_conflict_resolver.cpp" line="16" column="10" bodyfile="tests/temporal/test_temporal_conflict_resolver.cpp" bodystart="16" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_temporal_conflict_resolver_test_1ada04e3f47d9c0c5edfac3652de01d8b6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" kindref="compound">TemporalSnapshot</ref></type>
+        <definition>TemporalSnapshot TemporalConflictResolverTest::createSnapshot</definition>
+        <argsstring>(const std::string &amp;id, uint64_t physical, uint32_t logical, const std::string &amp;node_id, const std::string &amp;value)</argsstring>
+        <name>createSnapshot</name>
+        <qualifiedname>TemporalConflictResolverTest::createSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>physical</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>logical</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_conflict_resolver.cpp" line="20" column="22" bodyfile="tests/temporal/test_temporal_conflict_resolver.cpp" bodystart="20" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TemporalConflictResolverTest</label>
+        <link refid="class_temporal_conflict_resolver_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TemporalConflictResolverTest</label>
+        <link refid="class_temporal_conflict_resolver_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/temporal/test_temporal_conflict_resolver.cpp" line="14" column="1" bodyfile="tests/temporal/test_temporal_conflict_resolver.cpp" bodystart="14" bodyend="37"/>
+    <listofallmembers>
+      <member refid="class_temporal_conflict_resolver_test_1ada04e3f47d9c0c5edfac3652de01d8b6" prot="protected" virt="non-virtual"><scope>TemporalConflictResolverTest</scope><name>createSnapshot</name></member>
+      <member refid="class_temporal_conflict_resolver_test_1aaf86eb57f372708cc2e46d62cf631915" prot="protected" virt="non-virtual"><scope>TemporalConflictResolverTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

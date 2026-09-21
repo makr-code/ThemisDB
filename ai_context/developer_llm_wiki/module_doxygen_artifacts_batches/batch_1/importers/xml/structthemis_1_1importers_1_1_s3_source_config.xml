@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_s3_source_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::S3SourceConfig</compoundname>
+    <includes refid="s3__importer_8h" local="no">s3_importer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_s3_source_config_1ac26ee30cf71313d90f3a3c10fd00bb93" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::S3SourceConfig::endpoint_url</definition>
+        <argsstring></argsstring>
+        <name>endpoint_url</name>
+        <qualifiedname>themis::importers::S3SourceConfig::endpoint_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/s3_importer.h" line="24" column="17" bodyfile="include/importers/s3_importer.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_s3_source_config_1a369796f73925b29705b6ab7798c5c0ef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::S3SourceConfig::region</definition>
+        <argsstring></argsstring>
+        <name>region</name>
+        <qualifiedname>themis::importers::S3SourceConfig::region</qualifiedname>
+        <initializer>= &quot;us-east-1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/s3_importer.h" line="26" column="17" bodyfile="include/importers/s3_importer.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_s3_source_config_1a2a77f8fbc8161d7a445245784a91be18" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::S3SourceConfig::access_key_id</definition>
+        <argsstring></argsstring>
+        <name>access_key_id</name>
+        <qualifiedname>themis::importers::S3SourceConfig::access_key_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/s3_importer.h" line="28" column="17" bodyfile="include/importers/s3_importer.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_s3_source_config_1af6405f14027bc81a7ea8b4917dbc7235" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::S3SourceConfig::secret_access_key</definition>
+        <argsstring></argsstring>
+        <name>secret_access_key</name>
+        <qualifiedname>themis::importers::S3SourceConfig::secret_access_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/s3_importer.h" line="30" column="17" bodyfile="include/importers/s3_importer.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_s3_source_config_1a1c6cc06790f0fb2cba5980c7e2c7de95" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::S3SourceConfig::session_token</definition>
+        <argsstring></argsstring>
+        <name>session_token</name>
+        <qualifiedname>themis::importers::S3SourceConfig::session_token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/s3_importer.h" line="32" column="17" bodyfile="include/importers/s3_importer.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_s3_source_config_1a42e4c9210222c8916ec23610865dc716" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::S3SourceConfig::path_style</definition>
+        <argsstring></argsstring>
+        <name>path_style</name>
+        <qualifiedname>themis::importers::S3SourceConfig::path_style</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/s3_importer.h" line="34" column="10" bodyfile="include/importers/s3_importer.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_s3_source_config_1a63531ba1ccf095d26e6262266437b330" prot="public" static="no" mutable="no">
+        <type>long</type>
+        <definition>long themis::importers::S3SourceConfig::connect_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>connect_timeout_ms</name>
+        <qualifiedname>themis::importers::S3SourceConfig::connect_timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/s3_importer.h" line="36" column="10" bodyfile="include/importers/s3_importer.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_s3_source_config_1a8846c1850bfa8e70583763876b8c6c1e" prot="public" static="no" mutable="no">
+        <type>long</type>
+        <definition>long themis::importers::S3SourceConfig::request_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>request_timeout_ms</name>
+        <qualifiedname>themis::importers::S3SourceConfig::request_timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/s3_importer.h" line="38" column="10" bodyfile="include/importers/s3_importer.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_s3_source_config_1a5505594dee142b38ba38706a04203df4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::importers::S3SourceConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::importers::S3SourceConfig::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/s3_importer.h" line="40" column="9" bodyfile="include/importers/s3_importer.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/s3_importer.h" line="23" column="1" bodyfile="include/importers/s3_importer.h" bodystart="23" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_s3_source_config_1a2a77f8fbc8161d7a445245784a91be18" prot="public" virt="non-virtual"><scope>themis::importers::S3SourceConfig</scope><name>access_key_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_s3_source_config_1a63531ba1ccf095d26e6262266437b330" prot="public" virt="non-virtual"><scope>themis::importers::S3SourceConfig</scope><name>connect_timeout_ms</name></member>
+      <member refid="structthemis_1_1importers_1_1_s3_source_config_1ac26ee30cf71313d90f3a3c10fd00bb93" prot="public" virt="non-virtual"><scope>themis::importers::S3SourceConfig</scope><name>endpoint_url</name></member>
+      <member refid="structthemis_1_1importers_1_1_s3_source_config_1a5505594dee142b38ba38706a04203df4" prot="public" virt="non-virtual"><scope>themis::importers::S3SourceConfig</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1importers_1_1_s3_source_config_1a42e4c9210222c8916ec23610865dc716" prot="public" virt="non-virtual"><scope>themis::importers::S3SourceConfig</scope><name>path_style</name></member>
+      <member refid="structthemis_1_1importers_1_1_s3_source_config_1a369796f73925b29705b6ab7798c5c0ef" prot="public" virt="non-virtual"><scope>themis::importers::S3SourceConfig</scope><name>region</name></member>
+      <member refid="structthemis_1_1importers_1_1_s3_source_config_1a8846c1850bfa8e70583763876b8c6c1e" prot="public" virt="non-virtual"><scope>themis::importers::S3SourceConfig</scope><name>request_timeout_ms</name></member>
+      <member refid="structthemis_1_1importers_1_1_s3_source_config_1af6405f14027bc81a7ea8b4917dbc7235" prot="public" virt="non-virtual"><scope>themis::importers::S3SourceConfig</scope><name>secret_access_key</name></member>
+      <member refid="structthemis_1_1importers_1_1_s3_source_config_1a1c6cc06790f0fb2cba5980c7e2c7de95" prot="public" virt="non-virtual"><scope>themis::importers::S3SourceConfig</scope><name>session_token</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

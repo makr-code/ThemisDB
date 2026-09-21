@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::EpisodicMemoryEntry</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1a080383b67d382e2fc0b07e8146b58fd8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EpisodicMemoryEntry::school_id</definition>
+        <argsstring></argsstring>
+        <name>school_id</name>
+        <qualifiedname>themis::plugins::ethics::EpisodicMemoryEntry::school_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="329" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1a70a596b6c789cc20eeed776fa50e7299" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::ethics::EpisodicMemoryEntry::from_round</definition>
+        <argsstring></argsstring>
+        <name>from_round</name>
+        <qualifiedname>themis::plugins::ethics::EpisodicMemoryEntry::from_round</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="330" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="330" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1a2fb29f7d51855523b440633cf3fe53f7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EpisodicMemoryEntry::compressed_position</definition>
+        <argsstring></argsstring>
+        <name>compressed_position</name>
+        <qualifiedname>themis::plugins::ethics::EpisodicMemoryEntry::compressed_position</qualifiedname>
+        <briefdescription>
+<para>≤ 50 tokens </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="331" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1ab75b72612667da07adea44c35dd01c1a" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::ethics::EpisodicMemoryEntry::dc_score</definition>
+        <argsstring></argsstring>
+        <name>dc_score</name>
+        <qualifiedname>themis::plugins::ethics::EpisodicMemoryEntry::dc_score</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="332" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="332" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1a8e94ba4cb3d82ef439ad5b093f9e58e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EpisodicMemoryEntry::strongest_tension</definition>
+        <argsstring></argsstring>
+        <name>strongest_tension</name>
+        <qualifiedname>themis::plugins::ethics::EpisodicMemoryEntry::strongest_tension</qualifiedname>
+        <briefdescription>
+<para>thesis_id pair &quot;own:thesis ↔ opponent:thesis&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="333" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1aad85a11d72c34d088b74f127fe665ed9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EpisodicMemoryEntry::cluster_a</definition>
+        <argsstring></argsstring>
+        <name>cluster_a</name>
+        <qualifiedname>themis::plugins::ethics::EpisodicMemoryEntry::cluster_a</qualifiedname>
+        <briefdescription>
+<para>First cluster in inter-cluster tension pair. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="336" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1ad18024166224f21738ddd019c4fed8c7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EpisodicMemoryEntry::cluster_b</definition>
+        <argsstring></argsstring>
+        <name>cluster_b</name>
+        <qualifiedname>themis::plugins::ethics::EpisodicMemoryEntry::cluster_b</qualifiedname>
+        <briefdescription>
+<para>Second cluster in inter-cluster tension pair. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="337" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1a419debfd39eeadd0f951ab383d28917d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EpisodicMemoryEntry::tension_axis</definition>
+        <argsstring></argsstring>
+        <name>tension_axis</name>
+        <qualifiedname>themis::plugins::ethics::EpisodicMemoryEntry::tension_axis</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;Kant↔Utilitarismus&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="338" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="338" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1a3d3f497e353e23cd1fb6961eca667e71" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EpisodicMemoryEntry::outcome_summary</definition>
+        <argsstring></argsstring>
+        <name>outcome_summary</name>
+        <qualifiedname>themis::plugins::ethics::EpisodicMemoryEntry::outcome_summary</qualifiedname>
+        <briefdescription>
+<para>Brief summary of the inter-cluster discourse outcome. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="339" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1ad77db41c41514f0ca71d95b456fc5eba" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::ethics::EpisodicMemoryEntry::round_number</definition>
+        <argsstring></argsstring>
+        <name>round_number</name>
+        <qualifiedname>themis::plugins::ethics::EpisodicMemoryEntry::round_number</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Ebene-2 discourse round (LDM-3). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="340" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="340" bodyend="340"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="327" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="327" bodyend="341"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1aad85a11d72c34d088b74f127fe665ed9" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EpisodicMemoryEntry</scope><name>cluster_a</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1ad18024166224f21738ddd019c4fed8c7" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EpisodicMemoryEntry</scope><name>cluster_b</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1a2fb29f7d51855523b440633cf3fe53f7" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EpisodicMemoryEntry</scope><name>compressed_position</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1ab75b72612667da07adea44c35dd01c1a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EpisodicMemoryEntry</scope><name>dc_score</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1a70a596b6c789cc20eeed776fa50e7299" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EpisodicMemoryEntry</scope><name>from_round</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1a3d3f497e353e23cd1fb6961eca667e71" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EpisodicMemoryEntry</scope><name>outcome_summary</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1ad77db41c41514f0ca71d95b456fc5eba" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EpisodicMemoryEntry</scope><name>round_number</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1a080383b67d382e2fc0b07e8146b58fd8" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EpisodicMemoryEntry</scope><name>school_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1a8e94ba4cb3d82ef439ad5b093f9e58e7" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EpisodicMemoryEntry</scope><name>strongest_tension</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_episodic_memory_entry_1a419debfd39eeadd0f951ab383d28917d" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EpisodicMemoryEntry</scope><name>tension_axis</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

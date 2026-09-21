@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_co_t_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::CoTConfig</compoundname>
+    <includes refid="chain__of__thought_8h" local="no">chain_of_thought.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_co_t_config_1a55c86d45a4f744e5ad300389db0aa5b1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::CoTConfig::step_prefix</definition>
+        <argsstring></argsstring>
+        <name>step_prefix</name>
+        <qualifiedname>themis::prompt_engineering::CoTConfig::step_prefix</qualifiedname>
+        <initializer>= &quot;Step &quot;</initializer>
+        <briefdescription>
+<para>Prefix for auto-numbered steps. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="35" column="17" bodyfile="include/prompt_engineering/chain_of_thought.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_co_t_config_1a5fb001e74bdd9c9de93151f4d6e2b6d6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::CoTConfig::step_delimiter</definition>
+        <argsstring></argsstring>
+        <name>step_delimiter</name>
+        <qualifiedname>themis::prompt_engineering::CoTConfig::step_delimiter</qualifiedname>
+        <initializer>= &quot;\n\n&quot;</initializer>
+        <briefdescription>
+<para>Separator inserted between steps. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="36" column="17" bodyfile="include/prompt_engineering/chain_of_thought.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_co_t_config_1a7c4fb1c2ed731160e9ad9b978729ecf5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::CoTConfig::number_steps</definition>
+        <argsstring></argsstring>
+        <name>number_steps</name>
+        <qualifiedname>themis::prompt_engineering::CoTConfig::number_steps</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Auto-number steps when label is empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="37" column="17" bodyfile="include/prompt_engineering/chain_of_thought.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_co_t_config_1a2d6e19f0f940f5fa4ee9509b26f8e641" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::CoTConfig::final_answer_label</definition>
+        <argsstring></argsstring>
+        <name>final_answer_label</name>
+        <qualifiedname>themis::prompt_engineering::CoTConfig::final_answer_label</qualifiedname>
+        <initializer>= &quot;Answer:&quot;</initializer>
+        <briefdescription>
+<para>Label for the final-answer section. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/chain_of_thought.h" line="38" column="17" bodyfile="include/prompt_engineering/chain_of_thought.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the <ref refid="classthemis_1_1prompt__engineering_1_1_chain_of_thought_builder" kindref="compound">ChainOfThoughtBuilder</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/chain_of_thought.h" line="34" column="1" bodyfile="include/prompt_engineering/chain_of_thought.h" bodystart="34" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_co_t_config_1a2d6e19f0f940f5fa4ee9509b26f8e641" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CoTConfig</scope><name>final_answer_label</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_co_t_config_1a7c4fb1c2ed731160e9ad9b978729ecf5" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CoTConfig</scope><name>number_steps</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_co_t_config_1a5fb001e74bdd9c9de93151f4d6e2b6d6" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CoTConfig</scope><name>step_delimiter</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_co_t_config_1a55c86d45a4f744e5ad300389db0aa5b1" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::CoTConfig</scope><name>step_prefix</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

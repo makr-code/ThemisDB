@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1safety_1_1_coordinator_state_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::safety::CoordinatorStateSnapshot</compoundname>
+    <includes refid="move__safety__helpers_8h" local="no">move_safety_helpers.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1safety_1_1_coordinator_state_snapshot_1a54e217b3183a2cd320a36c5171199339" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::safety::CoordinatorStateSnapshot::coordinator_id</definition>
+        <argsstring></argsstring>
+        <name>coordinator_id</name>
+        <qualifiedname>themis::safety::CoordinatorStateSnapshot::coordinator_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="222" column="17" bodyfile="include/security/move_safety_helpers.h" bodystart="222" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1safety_1_1_coordinator_state_snapshot_1a94b515ae0e6ee766061b859ad6e4a6d0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::safety::CoordinatorStateSnapshot::participants</definition>
+        <argsstring></argsstring>
+        <name>participants</name>
+        <qualifiedname>themis::safety::CoordinatorStateSnapshot::participants</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="223" column="17" bodyfile="include/security/move_safety_helpers.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1safety_1_1_coordinator_state_snapshot_1ae5eb082e943b37d8cfef7807a5ebc0a2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::safety::CoordinatorStateSnapshot::phase</definition>
+        <argsstring></argsstring>
+        <name>phase</name>
+        <qualifiedname>themis::safety::CoordinatorStateSnapshot::phase</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="224" column="17" bodyfile="include/security/move_safety_helpers.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1safety_1_1_coordinator_state_snapshot_1a39c01aee55fcb4fa74ae6552deed1eee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::safety::CoordinatorStateSnapshot::decision</definition>
+        <argsstring></argsstring>
+        <name>decision</name>
+        <qualifiedname>themis::safety::CoordinatorStateSnapshot::decision</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="225" column="17" bodyfile="include/security/move_safety_helpers.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1safety_1_1_coordinator_state_snapshot_1acf184e4683a02b45a4429b368c576659" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::safety::CoordinatorStateSnapshot::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::safety::CoordinatorStateSnapshot::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="226" column="13" bodyfile="include/security/move_safety_helpers.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1safety_1_1_coordinator_state_snapshot_1ae3884bbba457299601a6892c44df33ac" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::safety::CoordinatorStateSnapshot::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::safety::CoordinatorStateSnapshot::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/move_safety_helpers.h" line="228" column="10" bodyfile="include/security/move_safety_helpers.h" bodystart="228" bodyend="230"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1safety_1_1_coordinator_state_snapshot" kindref="compound">CoordinatorStateSnapshot</ref> - Safe reference to coordinator after move. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures coordinator state (participants, phase, decision) before move Allows safe queries by coordinator ID after move </para>
+    </detaileddescription>
+    <location file="include/security/move_safety_helpers.h" line="221" column="1" bodyfile="include/security/move_safety_helpers.h" bodystart="221" bodyend="231"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1safety_1_1_coordinator_state_snapshot_1a54e217b3183a2cd320a36c5171199339" prot="public" virt="non-virtual"><scope>themis::safety::CoordinatorStateSnapshot</scope><name>coordinator_id</name></member>
+      <member refid="structthemis_1_1safety_1_1_coordinator_state_snapshot_1a39c01aee55fcb4fa74ae6552deed1eee" prot="public" virt="non-virtual"><scope>themis::safety::CoordinatorStateSnapshot</scope><name>decision</name></member>
+      <member refid="structthemis_1_1safety_1_1_coordinator_state_snapshot_1ae3884bbba457299601a6892c44df33ac" prot="public" virt="non-virtual"><scope>themis::safety::CoordinatorStateSnapshot</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1safety_1_1_coordinator_state_snapshot_1a94b515ae0e6ee766061b859ad6e4a6d0" prot="public" virt="non-virtual"><scope>themis::safety::CoordinatorStateSnapshot</scope><name>participants</name></member>
+      <member refid="structthemis_1_1safety_1_1_coordinator_state_snapshot_1ae5eb082e943b37d8cfef7807a5ebc0a2" prot="public" virt="non-virtual"><scope>themis::safety::CoordinatorStateSnapshot</scope><name>phase</name></member>
+      <member refid="structthemis_1_1safety_1_1_coordinator_state_snapshot_1acf184e4683a02b45a4429b368c576659" prot="public" virt="non-virtual"><scope>themis::safety::CoordinatorStateSnapshot</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

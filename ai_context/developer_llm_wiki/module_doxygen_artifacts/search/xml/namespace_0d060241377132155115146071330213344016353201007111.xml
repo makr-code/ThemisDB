@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d060241377132155115146071330213344016353201007111" kind="namespace" language="C++">
+    <compoundname>@060241377132155115146071330213344016353201007111</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/search/hybrid_search.cpp" line="22" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::fi_test::CoordinatorFailureTest</compoundname>
+    <basecompoundref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_f_i_base" prot="public" virt="non-virtual">themisdb::sharding::fi_test::FIBase</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::fi_test::CoordinatorFailureTest</label>
+        <link refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::sharding::fi_test::FIBase</label>
+        <link refid="classthemisdb_1_1sharding_1_1fi__test_1_1_f_i_base"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::fi_test::CoordinatorFailureTest</label>
+        <link refid="classthemisdb_1_1sharding_1_1fi__test_1_1_coordinator_failure_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::sharding::fi_test::FIBase</label>
+        <link refid="classthemisdb_1_1sharding_1_1fi__test_1_1_f_i_base"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>wal_</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themisdb::sharding::fi_test::SimWAL</label>
+        <link refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="1427" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="1427" bodyend="1427"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_f_i_base_1a21bba77a7388b96d7891a6fa7d07fd91" prot="protected" virt="non-virtual"><scope>themisdb::sharding::fi_test::CoordinatorFailureTest</scope><name>makeParticipants</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_f_i_base_1a2edd1309c2b49e0eb0758b2cf4614026" prot="protected" virt="non-virtual"><scope>themisdb::sharding::fi_test::CoordinatorFailureTest</scope><name>txnId</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_f_i_base_1abb32563e38686bad45d36fb23800fa19" prot="protected" virt="non-virtual"><scope>themisdb::sharding::fi_test::CoordinatorFailureTest</scope><name>wal_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_835ce95d50d3d7f712095cdb473ed616" kind="dir">
+    <compoundname>tests/graph</compoundname>
+    <innerfile refid="test__category__b__parity__bfs_8cpp">test_category_b_parity_bfs.cpp</innerfile>
+    <innerfile refid="test__category__b__parity__dijkstra_8cpp">test_category_b_parity_dijkstra.cpp</innerfile>
+    <innerfile refid="test__entity__type__constraints_8cpp">test_entity_type_constraints.cpp</innerfile>
+    <innerfile refid="test__gpu__traversal_8cpp">test_gpu_traversal.cpp</innerfile>
+    <innerfile refid="test__graph__advanced__features_8cpp">test_graph_advanced_features.cpp</innerfile>
+    <innerfile refid="test__graph__analytics_8cpp">test_graph_analytics.cpp</innerfile>
+    <innerfile refid="test__graph__bfs__fix_8cpp">test_graph_bfs_fix.cpp</innerfile>
+    <innerfile refid="test__graph__cache__efficiency__phase3_8cpp">test_graph_cache_efficiency_phase3.cpp</innerfile>
+    <innerfile refid="test__graph__distributed_8cpp">test_graph_distributed.cpp</innerfile>
+    <innerfile refid="test__graph__edge__empty__fields__qw45_8cpp">test_graph_edge_empty_fields_qw45.cpp</innerfile>
+    <innerfile refid="test__graph__edge__encryption_8cpp">test_graph_edge_encryption.cpp</innerfile>
+    <innerfile refid="test__graph__error__taxonomy__phase1_8cpp">test_graph_error_taxonomy_phase1.cpp</innerfile>
+    <innerfile refid="test__graph__exact__traversal_8cpp">test_graph_exact_traversal.cpp</innerfile>
+    <innerfile refid="test__graph__highcardinality__stress_8cpp">test_graph_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__graph__index_8cpp">test_graph_index.cpp</innerfile>
+    <innerfile refid="test__graph__index__comprehensive_8cpp">test_graph_index_comprehensive.cpp</innerfile>
+    <innerfile refid="test__graph__load__balancing__phase3_8cpp">test_graph_load_balancing_phase3.cpp</innerfile>
+    <innerfile refid="test__graph__parallel__traversal_8cpp">test_graph_parallel_traversal.cpp</innerfile>
+    <innerfile refid="test__graph__phase3__optimization_8cpp">test_graph_phase3_optimization.cpp</innerfile>
+    <innerfile refid="test__graph__phase__gate__orchestration_8cpp">test_graph_phase_gate_orchestration.cpp</innerfile>
+    <innerfile refid="test__graph__plan__cache__hardening_8cpp">test_graph_plan_cache_hardening.cpp</innerfile>
+    <innerfile refid="test__graph__query__cache_8cpp">test_graph_query_cache.cpp</innerfile>
+    <innerfile refid="test__graph__query__optimizer_8cpp">test_graph_query_optimizer.cpp</innerfile>
+    <innerfile refid="test__graph__query__optimizer__phase3_8cpp">test_graph_query_optimizer_phase3.cpp</innerfile>
+    <innerfile refid="test__graph__query__rewriter_8cpp">test_graph_query_rewriter.cpp</innerfile>
+    <innerfile refid="test__graph__resource__pooling__phase3_8cpp">test_graph_resource_pooling_phase3.cpp</innerfile>
+    <innerfile refid="test__graph__type__filtering_8cpp">test_graph_type_filtering.cpp</innerfile>
+    <innerfile refid="test__graph__watermarking_8cpp">test_graph_watermarking.cpp</innerfile>
+    <innerfile refid="test__knowledge__graph__reasoner_8cpp">test_knowledge_graph_reasoner.cpp</innerfile>
+    <innerfile refid="test__ontology__manager_8cpp">test_ontology_manager.cpp</innerfile>
+    <innerfile refid="test__path__constraints__semantic_8cpp">test_path_constraints_semantic.cpp</innerfile>
+    <innerfile refid="test__query__explain_8cpp">test_query_explain.cpp</innerfile>
+    <innerfile refid="test__rotate__completion_8cpp">test_rotate_completion.cpp</innerfile>
+    <innerfile refid="test__rotate__completion__acceptance_8cpp">test_rotate_completion_acceptance.cpp</innerfile>
+    <innerfile refid="test__scheduled__edge__refresh_8cpp">test_scheduled_edge_refresh.cpp</innerfile>
+    <innerfile refid="test__tensor__fingerprint__graph_8cpp">test_tensor_fingerprint_graph.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/"/>
+  </compounddef>
+</doxygen>

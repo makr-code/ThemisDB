@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_secondary_index_manager_1_1_fulltext_config" kind="struct" language="C++" prot="public">
+    <compoundname>SecondaryIndexManager::FulltextConfig</compoundname>
+    <includes refid="secondary__index_8h" local="no">secondary_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_secondary_index_manager_1_1_fulltext_config_1aec582b710018df5ce0f71f7d100a50a8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::SecondaryIndexManager::FulltextConfig::stemming_enabled</definition>
+        <argsstring></argsstring>
+        <name>stemming_enabled</name>
+        <qualifiedname>SecondaryIndexManager::FulltextConfig::stemming_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index.h" line="137" column="14" bodyfile="include/index/secondary_index.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_secondary_index_manager_1_1_fulltext_config_1ab02c338f08ffa7e3fa60b7e4c6b42186" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SecondaryIndexManager::FulltextConfig::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>SecondaryIndexManager::FulltextConfig::language</qualifiedname>
+        <initializer>= &quot;none&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index.h" line="138" column="21" bodyfile="include/index/secondary_index.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_secondary_index_manager_1_1_fulltext_config_1a60e7fa756f9da9b3b80147b495df2d45" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::SecondaryIndexManager::FulltextConfig::stopwords_enabled</definition>
+        <argsstring></argsstring>
+        <name>stopwords_enabled</name>
+        <qualifiedname>SecondaryIndexManager::FulltextConfig::stopwords_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index.h" line="139" column="14" bodyfile="include/index/secondary_index.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_secondary_index_manager_1_1_fulltext_config_1a11c8c6fd5bdbb58b0a4aa6c1a9f6bd52" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::SecondaryIndexManager::FulltextConfig::stopwords</definition>
+        <argsstring></argsstring>
+        <name>stopwords</name>
+        <qualifiedname>SecondaryIndexManager::FulltextConfig::stopwords</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index.h" line="140" column="21" bodyfile="include/index/secondary_index.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_secondary_index_manager_1_1_fulltext_config_1a8dc7d01c8caaa4c9f5f0b5856714c950" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::SecondaryIndexManager::FulltextConfig::normalize_umlauts</definition>
+        <argsstring></argsstring>
+        <name>normalize_umlauts</name>
+        <qualifiedname>SecondaryIndexManager::FulltextConfig::normalize_umlauts</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index.h" line="141" column="14" bodyfile="include/index/secondary_index.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/secondary_index.h" line="136" column="5" bodyfile="include/index/secondary_index.h" bodystart="136" bodyend="142"/>
+    <listofallmembers>
+      <member refid="struct_secondary_index_manager_1_1_fulltext_config_1ab02c338f08ffa7e3fa60b7e4c6b42186" prot="public" virt="non-virtual"><scope>SecondaryIndexManager::FulltextConfig</scope><name>language</name></member>
+      <member refid="struct_secondary_index_manager_1_1_fulltext_config_1a8dc7d01c8caaa4c9f5f0b5856714c950" prot="public" virt="non-virtual"><scope>SecondaryIndexManager::FulltextConfig</scope><name>normalize_umlauts</name></member>
+      <member refid="struct_secondary_index_manager_1_1_fulltext_config_1aec582b710018df5ce0f71f7d100a50a8" prot="public" virt="non-virtual"><scope>SecondaryIndexManager::FulltextConfig</scope><name>stemming_enabled</name></member>
+      <member refid="struct_secondary_index_manager_1_1_fulltext_config_1a11c8c6fd5bdbb58b0a4aa6c1a9f6bd52" prot="public" virt="non-virtual"><scope>SecondaryIndexManager::FulltextConfig</scope><name>stopwords</name></member>
+      <member refid="struct_secondary_index_manager_1_1_fulltext_config_1a60e7fa756f9da9b3b80147b495df2d45" prot="public" virt="non-virtual"><scope>SecondaryIndexManager::FulltextConfig</scope><name>stopwords_enabled</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

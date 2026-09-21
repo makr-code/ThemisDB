@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_distributed_analytics_safety_test" kind="class" language="C++" prot="public">
+    <compoundname>DistributedAnalyticsSafetyTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_distributed_analytics_safety_test_1a7128a2711237e17f1b1cee53d7e99ecd" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding" kindref="compound">DistributedAnalyticsSharding</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;DistributedAnalyticsSharding&gt; DistributedAnalyticsSafetyTest::das_</definition>
+        <argsstring></argsstring>
+        <name>das_</name>
+        <qualifiedname>DistributedAnalyticsSafetyTest::das_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="111" column="21" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_distributed_analytics_safety_test_1a56353c7ca19ff5fd1fd200b8191a4542" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DistributedAnalyticsSafetyTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DistributedAnalyticsSafetyTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="95" column="10" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="95" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="class_distributed_analytics_safety_test_1a9cb89952b5da9a5718af63b0fb2d8621" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a8b47afb9dc74d79e986abd7e2c8eb334" kindref="member">OLAPQuery</ref></type>
+        <definition>OLAPQuery DistributedAnalyticsSafetyTest::makeSimpleQuery</definition>
+        <argsstring>()</argsstring>
+        <name>makeSimpleQuery</name>
+        <qualifiedname>DistributedAnalyticsSafetyTest::makeSimpleQuery</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="113" column="15" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="113" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Test fixture for distributed analytics coordinator safety. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DistributedAnalyticsSafetyTest</label>
+        <link refid="class_distributed_analytics_safety_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DistributedAnalyticsSafetyTest</label>
+        <link refid="class_distributed_analytics_safety_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" line="93" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_safety.cpp" bodystart="93" bodyend="124"/>
+    <listofallmembers>
+      <member refid="class_distributed_analytics_safety_test_1a7128a2711237e17f1b1cee53d7e99ecd" prot="protected" virt="non-virtual"><scope>DistributedAnalyticsSafetyTest</scope><name>das_</name></member>
+      <member refid="class_distributed_analytics_safety_test_1a9cb89952b5da9a5718af63b0fb2d8621" prot="protected" virt="non-virtual"><scope>DistributedAnalyticsSafetyTest</scope><name>makeSimpleQuery</name></member>
+      <member refid="class_distributed_analytics_safety_test_1a56353c7ca19ff5fd1fd200b8191a4542" prot="protected" virt="non-virtual"><scope>DistributedAnalyticsSafetyTest</scope><name>SetUp</name></member>
+      <member refid="classtesting_1_1_test_1a2889fd829b6c712d98fb3896d28f64a3" prot="protected" virt="non-virtual"><scope>DistributedAnalyticsSafetyTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -8,7 +8,7 @@
 
 | Datei | Zweck | Aktivierung |
 |-------|-------|-----------|
-| `.copilot-cross-compile-prompt.md` | Copilot System Prompt für automatische Reviews | VSCode Copilot Settings |
+| `.github/prompts/copilot-cross-compile-prompt.md` | Copilot System Prompt für automatische Reviews | VSCode Copilot Settings |
 | `.copilot-cross-compile-rules.json` | Regelwerk in JSON-Format | Programmatische Validierung |
 | `scripts/cross-compile-reviewer.py` | Python CLI-Tool für Reviews | CI/CD, Pre-Commit, Manual |
 | `.github/workflows/cross-compile-review.yml` | GitHub Actions Workflow | PR-Kommentare, automatische Checks |
@@ -51,14 +51,14 @@ ln -s ../../scripts/pre-commit-cross-compile.py .git/hooks/pre-commit
 ```json
 // .vscode/settings.json (erstellen, falls nicht vorhanden)
 {
-  "copilot.inlineChat.systemPrompt": "file://.copilot-cross-compile-prompt.md"
+  "copilot.inlineChat.systemPrompt": "file://.github/prompts/copilot-cross-compile-prompt.md"
 }
 ```
 
 Oder manuell konfigurieren:
 - VSCode öffnen → Settings → "copilot"
 - Suche: `copilot.inlineChat.systemPrompt`
-- Wert: `.copilot-cross-compile-prompt.md`
+- Wert: `.github/prompts/copilot-cross-compile-prompt.md`
 
 ---
 
@@ -101,7 +101,7 @@ Beim Schreiben von Code:
 ```
 1. Copilot Inline Chat öffnen (Ctrl+I / Cmd+I)
 2. Fragen: "Is this code cross-compile safe?"
-3. Copilot nutzt automatisch .copilot-cross-compile-prompt.md
+3. Copilot nutzt automatisch .github/prompts/copilot-cross-compile-prompt.md
 4. Erhält sofort Feedback
 ```
 
@@ -284,7 +284,7 @@ Nach Setup sollte Folgendes funktionieren:
 - [ ] `python3 scripts/cross-compile-reviewer.py --help` zeigt Hilfe
 - [ ] `git commit` mit problematischem Code wird blockiert
 - [ ] `git commit` mit gutem Code durchläuft Hook
-- [ ] VSCode Copilot kann `.copilot-cross-compile-prompt.md` laden
+- [ ] VSCode Copilot kann `.github/prompts/copilot-cross-compile-prompt.md` laden
 - [ ] GitHub Actions triggert auf PR-Updates
 - [ ] PR erhält Copilot-Review-Kommentar innerhalb 30 Sekunden
 

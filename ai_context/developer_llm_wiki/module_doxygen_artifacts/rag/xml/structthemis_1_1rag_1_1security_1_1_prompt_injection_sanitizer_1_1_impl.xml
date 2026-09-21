@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::security::PromptInjectionSanitizer::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1_1_impl_1a016963120b3a5e34cfc9d6746acb0c9f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1security_1_1_sanitizer_config" kindref="compound">SanitizerConfig</ref></type>
+        <definition>SanitizerConfig themis::rag::security::PromptInjectionSanitizer::Impl::sanitizer_config</definition>
+        <argsstring></argsstring>
+        <name>sanitizer_config</name>
+        <qualifiedname>themis::rag::security::PromptInjectionSanitizer::Impl::sanitizer_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/prompt_injection_detector.cpp" line="341" column="34" bodyfile="src/rag/prompt_injection_detector.cpp" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1_1_impl_1a47553dd4209205557042de60b1833d55" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector" kindref="compound">PromptInjectionDetector</ref></type>
+        <definition>PromptInjectionDetector themis::rag::security::PromptInjectionSanitizer::Impl::detector</definition>
+        <argsstring></argsstring>
+        <name>detector</name>
+        <qualifiedname>themis::rag::security::PromptInjectionSanitizer::Impl::detector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/prompt_injection_detector.cpp" line="342" column="34" bodyfile="src/rag/prompt_injection_detector.cpp" bodystart="342" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::rag::security::PromptInjectionDetector</label>
+        <link refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::security::PromptInjectionSanitizer::Impl</label>
+        <link refid="structthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>sanitizer_config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>detector</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::security::SanitizerConfig</label>
+        <link refid="structthemis_1_1rag_1_1security_1_1_sanitizer_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/prompt_injection_detector.cpp" line="340" column="1" bodyfile="src/rag/prompt_injection_detector.cpp" bodystart="340" bodyend="343"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1_1_impl_1a47553dd4209205557042de60b1833d55" prot="public" virt="non-virtual"><scope>themis::rag::security::PromptInjectionSanitizer::Impl</scope><name>detector</name></member>
+      <member refid="structthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer_1_1_impl_1a016963120b3a5e34cfc9d6746acb0c9f" prot="public" virt="non-virtual"><scope>themis::rag::security::PromptInjectionSanitizer::Impl</scope><name>sanitizer_config</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

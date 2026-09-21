@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1retrieval_1_1_0d172047165322366117002102055362132114162376037037" kind="namespace" language="C++">
+    <compoundname>themis::retrieval::@172047165322366117002102055362132114162376037037</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/retrieval/src/lora_package.cc" line="26" column="1"/>
+  </compounddef>
+</doxygen>

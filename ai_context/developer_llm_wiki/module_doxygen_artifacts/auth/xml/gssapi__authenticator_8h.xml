@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gssapi__authenticator_8h" kind="file" language="C++">
+    <compoundname>gssapi_authenticator.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="gssapi__authenticator_8cpp" local="yes">src/auth/gssapi_authenticator.cpp</includedby>
+    <includedby refid="test__auth__audit__logger_8cpp" local="yes">tests/auth/test_auth_audit_logger.cpp</includedby>
+    <includedby refid="test__auth__input__validation_8cpp" local="yes">tests/auth/test_auth_input_validation.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/auth/gssapi_authenticator.h</label>
+        <link refid="gssapi__authenticator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/auth/gssapi_authenticator.h</label>
+        <link refid="gssapi__authenticator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/auth/gssapi_authenticator.cpp</label>
+        <link refid="gssapi__authenticator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/auth/test_auth_audit_logger.cpp</label>
+        <link refid="test__auth__audit__logger_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/auth/test_auth_input_validation.cpp</label>
+        <link refid="test__auth__input__validation_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1auth_1_1_kerberos_config" prot="public">themis::auth::KerberosConfig</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_kerberos_config_1_1_principal_mapping" prot="public">themis::auth::KerberosConfig::PrincipalMapping</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result" prot="public">themis::auth::GSSAPIAuthResult</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator" prot="public">themis::auth::GSSAPIAuthenticator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="gssapi__authenticator_8h_1a41befd6c83d72f967b3ac669eec265a8" prot="public" static="no">
+        <name>THEMIS_HAVE_GSSAPI</name>
+        <initializer>0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="22" column="9" bodyfile="include/auth/gssapi_authenticator.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_HAVE_GSSAPI</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="gssapi__authenticator_8h_1a41befd6c83d72f967b3ac669eec265a8" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_HAVE_GSSAPI<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SECURITY_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;windows.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sspi.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(THEMIS_HAS_KERBEROS)<sp/>&amp;&amp;<sp/>THEMIS_HAS_KERBEROS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__has_include)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>__has_include(&lt;gssapi/gssapi.h&gt;)<sp/>&amp;&amp;<sp/>__has_include(&lt;gssapi/gssapi_krb5.h&gt;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#undef<sp/>THEMIS_HAVE_GSSAPI</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_HAVE_GSSAPI<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gssapi/gssapi.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gssapi/gssapi_krb5.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#undef<sp/>THEMIS_HAVE_GSSAPI</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_HAVE_GSSAPI<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gssapi/gssapi.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gssapi/gssapi_krb5.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">utils<sp/>{<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AuditLogger;<sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">auth<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Input<sp/>validation<sp/>limits<sp/>for<sp/>GSSAPI</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1auth_1aa3b70ccf6dce1d5295e5cab8ebc44920" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1auth_1aa3b70ccf6dce1d5295e5cab8ebc44920" kindref="member">MAX_GSSAPI_TOKEN_SIZE</ref><sp/>=<sp/>64<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>64KB<sp/>max<sp/>for<sp/>GSSAPI<sp/>tokens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1auth_1a503868caf45ea7eff701c8568956361d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1auth_1a503868caf45ea7eff701c8568956361d" kindref="member">MAX_KERBEROS_PRINCIPAL_LENGTH</ref><sp/>=<sp/>256;<sp/></highlight><highlight class="comment">//<sp/>256<sp/>chars<sp/>max<sp/>for<sp/>Kerberos<sp/>principals</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1auth_1ab8c2a9ffe5fe3e97c295c8323e6ec8cf" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1auth_1ab8c2a9ffe5fe3e97c295c8323e6ec8cf" kindref="member">DEFAULT_GSSAPI_CONTEXT_TIMEOUT</ref><sp/>=<sp/>30;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>30<sp/>second<sp/>timeout<sp/>for<sp/>GSSAPI<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1auth_1_1_kerberos_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_kerberos_config" kindref="compound">KerberosConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1auth_1_1_kerberos_config_1a28e359cd067c49e952ec16c2865ce74b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_config_1a28e359cd067c49e952ec16c2865ce74b" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1auth_1_1_kerberos_config_1a5c3a8f31e3caa1620b2a6485ec3d3ada" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_kerberos_config_1a5c3a8f31e3caa1620b2a6485ec3d3ada" kindref="member">service_principal</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;themisdb/hostname@REALM.COM&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1auth_1_1_kerberos_config_1a5b7b774d73b5c314ce80083e2f35db0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_kerberos_config_1a5b7b774d73b5c314ce80083e2f35db0f" kindref="member">keytab_file</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>to<sp/>keytab<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1auth_1_1_kerberos_config_1ac2eac0d214b5b70cf939442ee6e0aff3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_kerberos_config_1ac2eac0d214b5b70cf939442ee6e0aff3" kindref="member">krb5_config</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>to<sp/>krb5.conf<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1auth_1_1_kerberos_config_1a02f6c1d4775e290ca279a5e07e914b9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_config_1a02f6c1d4775e290ca279a5e07e914b9c" kindref="member">fallback_to_basic</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>fallback<sp/>to<sp/>basic<sp/>auth<sp/>if<sp/>Kerberos<sp/>fails</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1auth_1_1_kerberos_config_1a10a2b8c3457ef376e00c9cd76b048beb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_config_1a10a2b8c3457ef376e00c9cd76b048beb" kindref="member">context_timeout_seconds</ref>{<ref refid="namespacethemis_1_1auth_1ab8c2a9ffe5fe3e97c295c8323e6ec8cf" kindref="member">DEFAULT_GSSAPI_CONTEXT_TIMEOUT</ref>};<sp/></highlight><highlight class="comment">//<sp/>GSSAPI<sp/>context<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Principal<sp/>to<sp/>role<sp/>mapping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1auth_1_1_kerberos_config_1_1_principal_mapping" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_kerberos_config_1_1_principal_mapping" kindref="compound">PrincipalMapping</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1auth_1_1_kerberos_config_1_1_principal_mapping_1af00a1310bc6bed3712f66789fdef5a8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_kerberos_config_1_1_principal_mapping_1af00a1310bc6bed3712f66789fdef5a8c" kindref="member">principal_pattern</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Can<sp/>contain<sp/>wildcards<sp/>like<sp/>&quot;*@REALM.COM&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1auth_1_1_kerberos_config_1_1_principal_mapping_1add7e9cc4695ead78dc277fb95aea3c67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_kerberos_config_1_1_principal_mapping_1add7e9cc4695ead78dc277fb95aea3c67" kindref="member">role</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1auth_1_1_kerberos_config_1a310ec2a26f18b7a9dad8c720f51f2020" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PrincipalMapping&gt;<sp/><ref refid="structthemis_1_1auth_1_1_kerberos_config_1a310ec2a26f18b7a9dad8c720f51f2020" kindref="member">principal_mappings</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result" kindref="compound">GSSAPIAuthResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result_1a7d0ea6d734a6ae5d7968a9c12e8bfa5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result_1a7d0ea6d734a6ae5d7968a9c12e8bfa5f" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result_1a6df8b45e6b524a9a1faa9f258af0e675" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result_1a6df8b45e6b524a9a1faa9f258af0e675" kindref="member">principal_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Authenticated<sp/>Kerberos<sp/>principal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result_1aaf1167aab19445aa7ec48fadaa2f369c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result_1aaf1167aab19445aa7ec48fadaa2f369c" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result_1aee4a1474bf5c58cb47d2f95c901c80b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result_1aee4a1474bf5c58cb47d2f95c901c80b3" kindref="member">roles</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mapped<sp/>roles<sp/>from<sp/>principal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result_1aa3e3d37d668eba8eecbd48613d3ba84a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result" kindref="compound">GSSAPIAuthResult</ref><sp/><ref refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result_1aa3e3d37d668eba8eecbd48613d3ba84a" kindref="member">Success</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>principal,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/><ref refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result_1aee4a1474bf5c58cb47d2f95c901c80b3" kindref="member">roles</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>principal,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result_1aee4a1474bf5c58cb47d2f95c901c80b3" kindref="member">roles</ref>};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result_1ac4a516b0c29b5987dbd581d725843aee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result" kindref="compound">GSSAPIAuthResult</ref><sp/><ref refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result_1ac4a516b0c29b5987dbd581d725843aee" kindref="member">Failed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>error,<sp/>{}};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1aecc602928ae85ac3fc793086a428eab8" kindref="member">GSSAPIAuthenticator</ref><sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1aecc602928ae85ac3fc793086a428eab8" kindref="member">GSSAPIAuthenticator</ref>();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1ae7d1a9aa6d9147f91e510b836667520a" kindref="member">~GSSAPIAuthenticator</ref>();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy<sp/>and<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a796da6fff5904b178a2859d851971d36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a796da6fff5904b178a2859d851971d36" kindref="member">GSSAPIAuthenticator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1aecc602928ae85ac3fc793086a428eab8" kindref="member">GSSAPIAuthenticator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1afb991495e57047c575ced0cf3b69e21d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1aecc602928ae85ac3fc793086a428eab8" kindref="member">GSSAPIAuthenticator</ref>&amp;<sp/><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1afb991495e57047c575ced0cf3b69e21d" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1aecc602928ae85ac3fc793086a428eab8" kindref="member">GSSAPIAuthenticator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1ac6eae24ea12c395685c484ab3d74dfb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1ac6eae24ea12c395685c484ab3d74dfb6" kindref="member">GSSAPIAuthenticator</ref>(<ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1aecc602928ae85ac3fc793086a428eab8" kindref="member">GSSAPIAuthenticator</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a754e8581e710589b3d7bee72326bed8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1aecc602928ae85ac3fc793086a428eab8" kindref="member">GSSAPIAuthenticator</ref>&amp;<sp/><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a754e8581e710589b3d7bee72326bed8f" kindref="member">operator=</ref>(<ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1aecc602928ae85ac3fc793086a428eab8" kindref="member">GSSAPIAuthenticator</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1ae07cd9c2a17c932cb7597c0a622a99ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1ae07cd9c2a17c932cb7597c0a622a99ed" kindref="member">setAuditLogger</ref>(utils::AuditLogger*<sp/>logger)<sp/>{<sp/>audit_logger_<sp/>=<sp/>logger;<sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a7231c6565c6a551692b1278e5757a627" kindref="member">initialize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_config" kindref="compound">KerberosConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126" refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1ad03ee1dec66aeaad2461378dbbd288d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1ad03ee1dec66aeaad2461378dbbd288d7" kindref="member">isInitialized</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>initialized_;<sp/>}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_g_s_s_a_p_i_auth_result" kindref="compound">GSSAPIAuthResult</ref><sp/><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a5f28ac4b29f7aeb33692317599887b72" kindref="member">authenticateToken</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>token);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a2c18d90e01a04dc4fa45fa12eb1bced1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a2c18d90e01a04dc4fa45fa12eb1bced1" kindref="member">getServicePrincipal</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.service_principal;<sp/>}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1afbe77ef23a2f675df949fc6d2d32d2d0" kindref="member">mapPrincipalToRoles</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>principal)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a821e0319eeb2a74dccfcf566886101f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_config" kindref="compound">KerberosConfig</ref>&amp;<sp/><ref refid="classthemis_1_1auth_1_1_g_s_s_a_p_i_authenticator_1a821e0319eeb2a74dccfcf566886101f2" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initialized_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_kerberos_config" kindref="compound">KerberosConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>utils::AuditLogger*<sp/>audit_logger_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Windows<sp/>SSPI<sp/>handles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>CredHandle<sp/>server_creds_;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>TimeStamp<sp/>creds_expiry_;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="preprocessor">#elif<sp/>THEMIS_HAVE_GSSAPI</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unix<sp/>GSSAPI<sp/>handles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>gss_ctx_id_t<sp/>context_;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>gss_cred_id_t<sp/>server_creds_;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>gss_name_t<sp/>server_name_;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GSSAPI<sp/>headers<sp/>unavailable;<sp/>no<sp/>platform-specific<sp/>handle<sp/>state.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initializeServerCredentials();</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>acceptSecurityContext(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>input_token,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string&amp;<sp/>principal_name);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanup();</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>principalMatchesPattern(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>principal,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>pattern)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>getGSSAPIError(uint32_t<sp/>major_status,<sp/>uint32_t<sp/>minor_status)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>auth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/auth/gssapi_authenticator.h"/>
+  </compounddef>
+</doxygen>

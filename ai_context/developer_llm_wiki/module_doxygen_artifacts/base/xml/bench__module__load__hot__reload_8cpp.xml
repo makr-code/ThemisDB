@@ -1,0 +1,521 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__module__load__hot__reload_8cpp" kind="file" language="C++">
+    <compoundname>bench_module_load_hot_reload.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="yes">themis/base/module_loader.h</includes>
+    <includes local="yes">themis/base/hot_reload_manager.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/base/bench_module_load_hot_reload.cpp</label>
+        <link refid="bench__module__load__hot__reload_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="6">
+        <label>filesystem</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>themis/base/hot_reload_manager.h</label>
+      </node>
+      <node id="3">
+        <label>themis/base/module_loader.h</label>
+      </node>
+      <node id="8">
+        <label>thread</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_module_loader_fixture" prot="public">ModuleLoaderFixture</innerclass>
+    <innerclass refid="class_hot_reload_load_fixture" prot="public">HotReloadLoadFixture</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__module__load__hot__reload_8cpp_1afbd711e8affce539b2be589a3d0439c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(ModuleLoaderFixture, LoadModule_MissingFile)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_module_loader_fixture" kindref="compound">ModuleLoaderFixture</ref></type>
+        </param>
+        <param>
+          <type>LoadModule_MissingFile</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="52" column="1" bodyfile="benchmarks/base/bench_module_load_hot_reload.cpp" bodystart="52" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__module__load__hot__reload_8cpp_1af03a1a83efddfc8636fb711f47d74813" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(ModuleLoaderFixture, UnloadModule_Unknown)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_module_loader_fixture" kindref="compound">ModuleLoaderFixture</ref></type>
+        </param>
+        <param>
+          <type>UnloadModule_Unknown</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="65" column="1" bodyfile="benchmarks/base/bench_module_load_hot_reload.cpp" bodystart="65" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__module__load__hot__reload_8cpp_1afc441ae9f9f6b81ee5272de461c7a002" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(ModuleLoaderFixture, IsModuleLoaded_NotLoaded)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_module_loader_fixture" kindref="compound">ModuleLoaderFixture</ref></type>
+        </param>
+        <param>
+          <type>IsModuleLoaded_NotLoaded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="74" column="1" bodyfile="benchmarks/base/bench_module_load_hot_reload.cpp" bodystart="74" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__module__load__hot__reload_8cpp_1ab0e9368c7f349cfd056b631be739da4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(ModuleLoaderFixture, LoadAllModules_EmptyDir)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_module_loader_fixture" kindref="compound">ModuleLoaderFixture</ref></type>
+        </param>
+        <param>
+          <type>LoadAllModules_EmptyDir</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="84" column="1" bodyfile="benchmarks/base/bench_module_load_hot_reload.cpp" bodystart="84" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__module__load__hot__reload_8cpp_1ad17c6981513966bf50b07df248cc8b34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(ModuleLoaderFixture, GetMetrics)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_module_loader_fixture" kindref="compound">ModuleLoaderFixture</ref></type>
+        </param>
+        <param>
+          <type>GetMetrics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="99" column="1" bodyfile="benchmarks/base/bench_module_load_hot_reload.cpp" bodystart="99" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__module__load__hot__reload_8cpp_1a6c8626d684111d4b38434f161f45b69d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_GetAllLoadedModules_Growth</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_GetAllLoadedModules_Growth</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="114" column="13" bodyfile="benchmarks/base/bench_module_load_hot_reload.cpp" bodystart="114" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__module__load__hot__reload_8cpp_1af091ba376b9b28803f9a10841bfb7582" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_GetAllLoadedModules_Growth) -&gt; Arg(0) -&gt;Arg(10) -&gt;Arg(100) -&gt;Arg(1000)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_GetAllLoadedModules_Growth</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="132" column="1" declfile="benchmarks/base/bench_module_load_hot_reload.cpp" declline="132" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__module__load__hot__reload_8cpp_1a31710c186abdd1c5e749eb309e2231a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(HotReloadLoadFixture, Registration_Throughput)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_hot_reload_load_fixture" kindref="compound">HotReloadLoadFixture</ref></type>
+        </param>
+        <param>
+          <type>Registration_Throughput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="159" column="1" bodyfile="benchmarks/base/bench_module_load_hot_reload.cpp" bodystart="159" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__module__load__hot__reload_8cpp_1a4dbf042c2fdb112124e74f0abf0be9c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(HotReloadLoadFixture, RegisterReloadUnregister_Cycle)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_hot_reload_load_fixture" kindref="compound">HotReloadLoadFixture</ref></type>
+        </param>
+        <param>
+          <type>RegisterReloadUnregister_Cycle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="171" column="1" bodyfile="benchmarks/base/bench_module_load_hot_reload.cpp" bodystart="171" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__module__load__hot__reload_8cpp_1a7c6d2743fdcdf8bddcd16fc3f9b75cf3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(HotReloadLoadFixture, ConcurrentReload_Scalability)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_hot_reload_load_fixture" kindref="compound">HotReloadLoadFixture</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentReload_Scalability</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="185" column="1" bodyfile="benchmarks/base/bench_module_load_hot_reload.cpp" bodystart="185" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__module__load__hot__reload_8cpp_1a2e681d862dc1057b9ee81459c1fedc93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Arg</definition>
+        <argsstring>(1) -&gt; Arg(2) -&gt;Arg(4) -&gt;Arg(8) -&gt;Arg(16) -&gt;UseRealTime()</argsstring>
+        <name>Arg</name>
+        <param>
+          <type>1</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="218" column="5" declfile="benchmarks/base/bench_module_load_hot_reload.cpp" declline="218" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__module__load__hot__reload_8cpp_1a732019b768d5cfbf3027dc4dd8d6fe4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_F</definition>
+        <argsstring>(HotReloadLoadFixture, StatsLatency)(benchmark</argsstring>
+        <name>BENCHMARK_F</name>
+        <param>
+          <type><ref refid="class_hot_reload_load_fixture" kindref="compound">HotReloadLoadFixture</ref></type>
+        </param>
+        <param>
+          <type>StatsLatency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_module_load_hot_reload.cpp" line="223" column="1" bodyfile="benchmarks/base/bench_module_load_hot_reload.cpp" bodystart="223" bodyend="234"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Performance benchmarks for base module load and hot-reload cycles. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates: BASE-PHASE3-PLANNED: Performance benchmarks for module load and hot-reload cycles (Issue #1575)</para>
+<para>Scenarios:<itemizedlist>
+<listitem><para>ModuleLoader: loadModule() fast-fail (non-existent path) — overhead baseline</para>
+</listitem><listitem><para>ModuleLoader: unloadModule() on unknown name — overhead baseline</para>
+</listitem><listitem><para>ModuleLoader: loadAllModules() with empty directory</para>
+</listitem><listitem><para>ModuleLoader: getMetrics() query cost</para>
+</listitem><listitem><para>ModuleLoader: isLoaded() / isModuleLoaded() query throughput</para>
+</listitem><listitem><para>ModuleLoader: audit trail size growth</para>
+</listitem><listitem><para>HotReloadManager: registration + reload cycle (existing coverage extended)</para>
+</listitem><listitem><para>HotReloadManager: concurrent reload scalability (1..16 threads) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/base/module_loader.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/base/hot_reload_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1modules" kindref="compound">themis::modules</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>ModuleLoader<sp/>fixture<sp/>─────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="class_module_loader_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_module_loader_fixture" kindref="compound">ModuleLoaderFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_module_loader_fixture_1a9443260471e528055bb949a2b6d826a1" kindref="member">SetUp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*s*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_module_loader_fixture_1ac2a44478326abfac4c7ec4e460ecaa0e" kindref="member">loader</ref><sp/>=<sp/>std::make_unique&lt;ModuleLoader&gt;();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_module_loader_fixture_1ac2a44478326abfac4c7ec4e460ecaa0e" kindref="member">loader</ref>-&gt;setAllowUnsigned(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_module_loader_fixture_1a9e9df4d2ed66800d5d4696b88025095c" kindref="member">TearDown</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*s*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_module_loader_fixture_1ac2a44478326abfac4c7ec4e460ecaa0e" kindref="member">loader</ref>-&gt;unloadAllModules();</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_module_loader_fixture_1ac2a44478326abfac4c7ec4e460ecaa0e" kindref="member">loader</ref>.reset();</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ModuleLoader&gt;<sp/><ref refid="class_module_loader_fixture_1ac2a44478326abfac4c7ec4e460ecaa0e" kindref="member">loader</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>1.<sp/>loadModule()<sp/>fast-fail<sp/>(missing<sp/>file)<sp/>────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="bench__module__load__hot__reload_8cpp_1afbd711e8affce539b2be589a3d0439c2" kindref="member">BENCHMARK_F</ref>(<ref refid="class_module_loader_fixture" kindref="compound">ModuleLoaderFixture</ref>,<sp/>LoadModule_MissingFile)(benchmark::State&amp;<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>loader-&gt;loadModule(</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/tmp/bench_nonexistent_module_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(n++)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.so&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;bench_mod&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.success);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;loadModule()<sp/>fast-fail<sp/>(file<sp/>not<sp/>found)&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>2.<sp/>unloadModule()<sp/>on<sp/>unknown<sp/>name<sp/>───────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><ref refid="bench__module__load__hot__reload_8cpp_1afbd711e8affce539b2be589a3d0439c2" kindref="member">BENCHMARK_F</ref>(<ref refid="class_module_loader_fixture" kindref="compound">ModuleLoaderFixture</ref>,<sp/>UnloadModule_Unknown)(benchmark::State&amp;<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>loader-&gt;unloadModule(</highlight><highlight class="stringliteral">&quot;nonexistent_bench_module&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;unloadModule()<sp/>on<sp/>unregistered<sp/>name<sp/>—<sp/>early-return<sp/>cost&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>3.<sp/>isModuleLoaded()<sp/>query<sp/>—<sp/>always<sp/>false<sp/>path<sp/>───────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="bench__module__load__hot__reload_8cpp_1afbd711e8affce539b2be589a3d0439c2" kindref="member">BENCHMARK_F</ref>(<ref refid="class_module_loader_fixture" kindref="compound">ModuleLoaderFixture</ref>,<sp/>IsModuleLoaded_NotLoaded)(benchmark::State&amp;<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/>loader-&gt;isModuleLoaded(</highlight><highlight class="stringliteral">&quot;bench_nonexistent&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(loaded);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;isModuleLoaded()<sp/>negative<sp/>path&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>4.<sp/>loadAllModules()<sp/>on<sp/>empty<sp/>/<sp/>nonexistent<sp/>directory<sp/>───────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="bench__module__load__hot__reload_8cpp_1afbd711e8affce539b2be589a3d0439c2" kindref="member">BENCHMARK_F</ref>(<ref refid="class_module_loader_fixture" kindref="compound">ModuleLoaderFixture</ref>,<sp/>LoadAllModules_EmptyDir)(benchmark::State&amp;<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kEmptyDir<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/bench_empty_module_dir&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::create_directories(kEmptyDir);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>loader-&gt;loadAllModules(kEmptyDir);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(count);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::remove_all(kEmptyDir);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;loadAllModules()<sp/>on<sp/>empty<sp/>directory&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>5.<sp/>getMetrics()<sp/>overhead<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="bench__module__load__hot__reload_8cpp_1afbd711e8affce539b2be589a3d0439c2" kindref="member">BENCHMARK_F</ref>(<ref refid="class_module_loader_fixture" kindref="compound">ModuleLoaderFixture</ref>,<sp/>GetMetrics)(benchmark::State&amp;<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>a<sp/>few<sp/>load<sp/>attempts<sp/>to<sp/>populate<sp/>metrics.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>loader-&gt;loadModule(</highlight><highlight class="stringliteral">&quot;/tmp/bench_miss_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.so&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bench&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metrics<sp/>=<sp/>loader-&gt;getMetrics();</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(metrics.totalLoadAttempts);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;getMetrics()<sp/>after<sp/>10<sp/>failed<sp/>load<sp/>attempts&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>6.<sp/>getAllLoadedModules()<sp/>size-growth<sp/>overhead<sp/>───────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_GetAllLoadedModules_Growth(benchmark::State&amp;<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kEvents<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.range(0));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>ModuleLoader<sp/>loader;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>loader.setAllowUnsigned(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>load<sp/>attempts<sp/>(all<sp/>fail<sp/>fast<sp/>—<sp/>no<sp/>real<sp/>.so)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kEvents;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>loader.loadModule(</highlight><highlight class="stringliteral">&quot;/tmp/bench_growth_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.so&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bench_growth&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1modules" kindref="compound">modules</ref><sp/>=<sp/>loader.getAllLoadedModules();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(<ref refid="namespacethemis_1_1modules" kindref="compound">modules</ref>.size());</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;getAllLoadedModules()<sp/>after<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(kEvents)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>load<sp/>attempts&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="bench__module__load__hot__reload_8cpp_1af091ba376b9b28803f9a10841bfb7582" kindref="member">BENCHMARK</ref>(BM_GetAllLoadedModules_Growth)-&gt;Arg(0)-&gt;Arg(10)-&gt;Arg(100)-&gt;Arg(1000);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>HotReloadManager<sp/>fixtures<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="class_hot_reload_load_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_hot_reload_load_fixture" kindref="compound">HotReloadLoadFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_hot_reload_load_fixture_1ab7ac14dae9f7510f755af25d44eadc6e" kindref="member">SetUp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*s*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HotReloadManager::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.verifySignature<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.preserveState<sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.enableRollback<sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_hot_reload_load_fixture_1a4778e3d8f4641d83253ea529f040d134" kindref="member">mgr</ref><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;HotReloadManager&gt;(cfg);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_hot_reload_load_fixture_1a2bbff1ac76c94cea93c84b078c9cebd3" kindref="member">loader</ref><sp/>=<sp/>std::make_unique&lt;ModuleLoader&gt;();</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_hot_reload_load_fixture_1a2bbff1ac76c94cea93c84b078c9cebd3" kindref="member">loader</ref>-&gt;setAllowUnsigned(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_hot_reload_load_fixture_1abb870cea28eebfbd8cfddde004d3aa55" kindref="member">TearDown</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>benchmark::State&amp;<sp/></highlight><highlight class="comment">/*s*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_hot_reload_load_fixture_1a4778e3d8f4641d83253ea529f040d134" kindref="member">mgr</ref>.reset();</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_hot_reload_load_fixture_1a2bbff1ac76c94cea93c84b078c9cebd3" kindref="member">loader</ref>.reset();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;HotReloadManager&gt;<sp/><ref refid="class_hot_reload_load_fixture_1a4778e3d8f4641d83253ea529f040d134" kindref="member">mgr</ref>;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ModuleLoader&gt;<sp/><sp/><sp/><sp/><sp/><ref refid="class_hot_reload_load_fixture_1a2bbff1ac76c94cea93c84b078c9cebd3" kindref="member">loader</ref>;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>7.<sp/>Module<sp/>registration<sp/>throughput<sp/>───────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="bench__module__load__hot__reload_8cpp_1afbd711e8affce539b2be589a3d0439c2" kindref="member">BENCHMARK_F</ref>(<ref refid="class_hot_reload_load_fixture" kindref="compound">HotReloadLoadFixture</ref>,<sp/>Registration_Throughput)(benchmark::State&amp;<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench_reg_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(n++);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr-&gt;registerModule(name,<sp/>*loader);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(name);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;registerModule()<sp/>throughput&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>8.<sp/>Register<sp/>+<sp/>reload<sp/>+<sp/>unregister<sp/>cycle<sp/>─────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><ref refid="bench__module__load__hot__reload_8cpp_1afbd711e8affce539b2be589a3d0439c2" kindref="member">BENCHMARK_F</ref>(<ref refid="class_hot_reload_load_fixture" kindref="compound">HotReloadLoadFixture</ref>,<sp/>RegisterReloadUnregister_Cycle)(benchmark::State&amp;<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench_cycle_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(n++);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr-&gt;registerModule(name,<sp/>*loader);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr-&gt;reloadModule(name,<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent.so&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.success);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr-&gt;unregisterModule(name);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;register<sp/>→<sp/>reload(fast-fail)<sp/>→<sp/>unregister<sp/>cycle&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>9.<sp/>Concurrent<sp/>reload<sp/>scalability<sp/>────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="bench__module__load__hot__reload_8cpp_1afbd711e8affce539b2be589a3d0439c2" kindref="member">BENCHMARK_F</ref>(<ref refid="class_hot_reload_load_fixture" kindref="compound">HotReloadLoadFixture</ref>,<sp/>ConcurrentReload_Scalability)(benchmark::State&amp;<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.range(0));</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-register<sp/>modules</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr-&gt;registerModule(</highlight><highlight class="stringliteral">&quot;concurrent_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(t),<sp/>*loader);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>attempts{0};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.reserve(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kThreads));</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([</highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>t,<sp/>&amp;attempts]()<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;concurrent_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(t);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>0;<sp/>r<sp/>&lt;<sp/>4;<sp/>++r)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr-&gt;reloadModule(name,<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent.so&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>attempts.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)res;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(attempts.load());</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetItemsProcessed(<ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.iterations()<sp/>*<sp/>kThreads<sp/>*<sp/>4LL);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;concurrent<sp/>reload;<sp/>threads=&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(kThreads));</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><ref refid="bench__base__hot__paths_8cpp_1aa42abbd62b5b99792e8ec316486a465f" kindref="member">BENCHMARK_REGISTER_F</ref>(<ref refid="class_hot_reload_load_fixture" kindref="compound">HotReloadLoadFixture</ref>,<sp/>ConcurrentReload_Scalability)</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(1)-&gt;Arg(2)-&gt;Arg(4)-&gt;Arg(8)-&gt;Arg(16)</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;UseRealTime();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>10.<sp/>Hot-reload<sp/>stats<sp/>latency<sp/>────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><ref refid="bench__module__load__hot__reload_8cpp_1afbd711e8affce539b2be589a3d0439c2" kindref="member">BENCHMARK_F</ref>(<ref refid="class_hot_reload_load_fixture" kindref="compound">HotReloadLoadFixture</ref>,<sp/>StatsLatency)(benchmark::State&amp;<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr-&gt;registerModule(</highlight><highlight class="stringliteral">&quot;stats_target&quot;</highlight><highlight class="normal">,<sp/>*loader);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>20;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr-&gt;reloadModule(</highlight><highlight class="stringliteral">&quot;stats_target&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent.so&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>mgr-&gt;getStats();</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(s);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.SetLabel(</highlight><highlight class="stringliteral">&quot;getStats()<sp/>after<sp/>20<sp/>reload<sp/>attempts&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/base/bench_module_load_hot_reload.cpp"/>
+  </compounddef>
+</doxygen>

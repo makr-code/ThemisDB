@@ -1,0 +1,1207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_break_even_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::BreakEvenValidator</compoundname>
+    <includes refid="break__even__validator_8h" local="no">break_even_validator.h</includes>
+    <innerclass refid="structthemis_1_1acceleration_1_1_break_even_validator_1_1_cache_entry" prot="private">themis::acceleration::BreakEvenValidator::CacheEntry</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1acceleration_1_1_break_even_validator_1af9b582980908cf961c9969b2c628d000" prot="public" static="no">
+        <type>std::function&lt; std::optional&lt; std::chrono::milliseconds &gt;( const <ref refid="structthemis_1_1acceleration_1_1_workload_profile" kindref="compound">WorkloadProfile</ref> &amp;)&gt;</type>
+        <definition>using themis::acceleration::BreakEvenValidator::ProfileFn = std::function&lt;std::optional&lt;std::chrono::milliseconds&gt;(
+       const WorkloadProfile&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ProfileFn</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::ProfileFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="96" column="5" bodyfile="include/acceleration/break_even_validator.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1acceleration_1_1_break_even_validator_1a644ab7c2a982ae1bc2a9d02a48976f94" prot="public" static="no">
+        <type>std::function&lt; void( const <ref refid="structthemis_1_1acceleration_1_1_workload_profile" kindref="compound">WorkloadProfile</ref> &amp;, const <ref refid="structthemis_1_1acceleration_1_1_break_even_decision" kindref="compound">BreakEvenDecision</ref> &amp;)&gt;</type>
+        <definition>using themis::acceleration::BreakEvenValidator::MetricsSinkFn = std::function&lt;void(
+       const WorkloadProfile&amp;, const BreakEvenDecision&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>MetricsSinkFn</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::MetricsSinkFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="98" column="5" bodyfile="include/acceleration/break_even_validator.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_break_even_validator_1a8c51d4a0334e76636adbfc5c885527ad" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::acceleration::BreakEvenValidator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="271" column="24" bodyfile="include/acceleration/break_even_validator.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_break_even_validator_1a4276cd77958a565bd9235ce2bd8bb275" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, CacheEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, CacheEntry&gt; themis::acceleration::BreakEvenValidator::decision_cache_</definition>
+        <argsstring></argsstring>
+        <name>decision_cache_</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::decision_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="274" column="24" bodyfile="include/acceleration/break_even_validator.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_break_even_validator_1a80bb74f32cbecb5bcbc9ef1f177c3f09" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, float &gt;</type>
+        <definition>std::unordered_map&lt;int, float&gt; themis::acceleration::BreakEvenValidator::speedup_thresholds_</definition>
+        <argsstring></argsstring>
+        <name>speedup_thresholds_</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::speedup_thresholds_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="277" column="24" bodyfile="include/acceleration/break_even_validator.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_break_even_validator_1abf7fc7e4139dfce9d3637e842d7ec139" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, float &gt;</type>
+        <definition>std::unordered_map&lt;int, float&gt; themis::acceleration::BreakEvenValidator::latest_speedup_ratios_</definition>
+        <argsstring></argsstring>
+        <name>latest_speedup_ratios_</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::latest_speedup_ratios_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="280" column="24" bodyfile="include/acceleration/break_even_validator.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_break_even_validator_1a6e31a3e4d67ac315e4a14febbf931585" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::BreakEvenValidator::cache_hits_</definition>
+        <argsstring></argsstring>
+        <name>cache_hits_</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::cache_hits_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="283" column="12" bodyfile="include/acceleration/break_even_validator.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_break_even_validator_1a7c816c37d4cfbfeaf436f4a6831d45c2" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::BreakEvenValidator::cache_misses_</definition>
+        <argsstring></argsstring>
+        <name>cache_misses_</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::cache_misses_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="284" column="12" bodyfile="include/acceleration/break_even_validator.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_break_even_validator_1aa71680ced33f5369987606624b5d2478" prot="private" static="no" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::acceleration::BreakEvenValidator::cache_validity_duration_</definition>
+        <argsstring></argsstring>
+        <name>cache_validity_duration_</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::cache_validity_duration_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="287" column="24" bodyfile="include/acceleration/break_even_validator.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_break_even_validator_1a5c84d453243a4d1f2558f15f0393e9b4" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1af9b582980908cf961c9969b2c628d000" kindref="member">ProfileFn</ref></type>
+        <definition>ProfileFn themis::acceleration::BreakEvenValidator::cpu_profile_fn_</definition>
+        <argsstring></argsstring>
+        <name>cpu_profile_fn_</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::cpu_profile_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="290" column="15" bodyfile="include/acceleration/break_even_validator.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_break_even_validator_1ac7f985137ea3106f220a558a33d1c867" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1af9b582980908cf961c9969b2c628d000" kindref="member">ProfileFn</ref></type>
+        <definition>ProfileFn themis::acceleration::BreakEvenValidator::gpu_profile_fn_</definition>
+        <argsstring></argsstring>
+        <name>gpu_profile_fn_</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::gpu_profile_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="291" column="15" bodyfile="include/acceleration/break_even_validator.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_break_even_validator_1a3a49552e6c74b899106153c9974a0903" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a644ab7c2a982ae1bc2a9d02a48976f94" kindref="member">MetricsSinkFn</ref></type>
+        <definition>MetricsSinkFn themis::acceleration::BreakEvenValidator::metrics_sink_</definition>
+        <argsstring></argsstring>
+        <name>metrics_sink_</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::metrics_sink_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="292" column="19" bodyfile="include/acceleration/break_even_validator.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1a56bedc698b6aa14443d4aa8f3aa9b091" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::BreakEvenValidator::BreakEvenValidator</definition>
+        <argsstring>()</argsstring>
+        <name>BreakEvenValidator</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::BreakEvenValidator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="101" column="5" bodyfile="src/acceleration/break_even_validator.cc" bodystart="256" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1ac153b35a61a9e854630dcb0bfe7d1ff5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::BreakEvenValidator::~BreakEvenValidator</definition>
+        <argsstring>()</argsstring>
+        <name>~BreakEvenValidator</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::~BreakEvenValidator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="103" column="5" bodyfile="src/acceleration/break_even_validator_impl_fallback.cpp" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1a0544e8f33f052c724a4450a0d9e6f799" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_break_even_decision" kindref="compound">BreakEvenDecision</ref></type>
+        <definition>BreakEvenDecision themis::acceleration::BreakEvenValidator::ShouldUseGPU</definition>
+        <argsstring>(const WorkloadProfile &amp;profile)</argsstring>
+        <name>ShouldUseGPU</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::ShouldUseGPU</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_workload_profile" kindref="compound">WorkloadProfile</ref> &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <briefdescription>
+<para>Should Use GPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ToCacheKey(), lock(), find(), end(), IsExpired(), erase(), <ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a5930f471ecb211784a2f476598fd6901" kindref="member">Profile()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::milliseconds(), ToCacheKey(), lock(), find(), end(), <ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a5930f471ecb211784a2f476598fd6901" kindref="member">Profile()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="110" column="23" bodyfile="src/acceleration/break_even_validator.cc" bodystart="278" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1a5930f471ecb211784a2f476598fd6901" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_break_even_decision" kindref="compound">BreakEvenDecision</ref></type>
+        <definition>BreakEvenDecision themis::acceleration::BreakEvenValidator::Profile</definition>
+        <argsstring>(const WorkloadProfile &amp;profile)</argsstring>
+        <name>Profile</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::Profile</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_workload_profile" kindref="compound">WorkloadProfile</ref> &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <briefdescription>
+<para>Profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ProfileCPU(), ProfileGPU(), count(), <ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a4bef4ebe6ccc118ed7aa99d0570a2cd8" kindref="member">GetSpeedupThreshold()</ref>, lock(), ToCacheKey(), std::chrono::steady_clock::now(), metrics_sink().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a4bef4ebe6ccc118ed7aa99d0570a2cd8" kindref="member">GetSpeedupThreshold()</ref>, std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="117" column="23" bodyfile="src/acceleration/break_even_validator.cc" bodystart="328" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1a1d99fc7c4a21036a07e6f1345c91fd3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::BreakEvenValidator::SetSpeedupThreshold</definition>
+        <argsstring>(KernelType kernel, float threshold)</argsstring>
+        <name>SetSpeedupThreshold</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::SetSpeedupThreshold</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423" kindref="member">KernelType</ref></type>
+          <declname>kernel</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Set Speedup Threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kernel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kernel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::max().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kernel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="124" column="10" bodyfile="src/acceleration/break_even_validator.cc" bodystart="497" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1a4bef4ebe6ccc118ed7aa99d0570a2cd8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::acceleration::BreakEvenValidator::GetSpeedupThreshold</definition>
+        <argsstring>(KernelType kernel) const</argsstring>
+        <name>GetSpeedupThreshold</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::GetSpeedupThreshold</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423" kindref="member">KernelType</ref></type>
+          <declname>kernel</declname>
+        </param>
+        <briefdescription>
+<para>Get Speedup Threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kernel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="131" column="11" bodyfile="src/acceleration/break_even_validator.cc" bodystart="502" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1ad84db0b7fe55c09e74f1be8a175f53df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::BreakEvenValidator::ClearCache</definition>
+        <argsstring>()</argsstring>
+        <name>ClearCache</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::ClearCache</qualifiedname>
+        <briefdescription>
+<para>Clear Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="136" column="10" bodyfile="src/acceleration/break_even_validator.cc" bodystart="517" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1a6aea55a6182f822df80a12700e26fc16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::BreakEvenValidator::SetCacheValidityDuration</definition>
+        <argsstring>(std::chrono::hours duration)</argsstring>
+        <name>SetCacheValidityDuration</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::SetCacheValidityDuration</qualifiedname>
+        <param>
+          <type>std::chrono::hours</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Set Cache Validity Duration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="142" column="10" bodyfile="src/acceleration/break_even_validator.cc" bodystart="527" bodyend="530"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1abb290a23a7f4e56ce4e9e39d276d6f54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::BreakEvenValidator::SetCPUProfileFn</definition>
+        <argsstring>(ProfileFn fn)</argsstring>
+        <name>SetCPUProfileFn</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::SetCPUProfileFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1af9b582980908cf961c9969b2c628d000" kindref="member">ProfileFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set CPUProfile Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="148" column="10" bodyfile="src/acceleration/break_even_validator.cc" bodystart="537" bodyend="542"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1af2bbf02abdaee4bff4c42ec725e6f8a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::BreakEvenValidator::SetGPUProfileFn</definition>
+        <argsstring>(ProfileFn fn)</argsstring>
+        <name>SetGPUProfileFn</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::SetGPUProfileFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1af9b582980908cf961c9969b2c628d000" kindref="member">ProfileFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set GPUProfile Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="154" column="10" bodyfile="src/acceleration/break_even_validator.cc" bodystart="549" bodyend="554"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1a65ef300df988bd5243806de9bea87dc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::BreakEvenValidator::SetMetricsSink</definition>
+        <argsstring>(MetricsSinkFn fn)</argsstring>
+        <name>SetMetricsSink</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::SetMetricsSink</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_break_even_validator_1a644ab7c2a982ae1bc2a9d02a48976f94" kindref="member">MetricsSinkFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Metrics Sink. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="160" column="10" bodyfile="src/acceleration/break_even_validator.cc" bodystart="561" bodyend="564"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1a72a2a37cfde5df93462746427ec9dbd0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::acceleration::BreakEvenValidator::GetLatestBreakEvenRatio</definition>
+        <argsstring>(KernelType kernel) const</argsstring>
+        <name>GetLatestBreakEvenRatio</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::GetLatestBreakEvenRatio</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423" kindref="member">KernelType</ref></type>
+          <declname>kernel</declname>
+        </param>
+        <briefdescription>
+<para>Get Latest Break Even Ratio. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kernel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="167" column="11" bodyfile="src/acceleration/break_even_validator.cc" bodystart="566" bodyend="575"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1a6c7936b13a189abeab24e54ed58f7629" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::BreakEvenValidator::GetCacheHitCount</definition>
+        <argsstring>() const</argsstring>
+        <name>GetCacheHitCount</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::GetCacheHitCount</qualifiedname>
+        <briefdescription>
+<para>Get Cache Hit Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="173" column="12" bodyfile="src/acceleration/break_even_validator.cc" bodystart="577" bodyend="585"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1acb2d973cfc9cd45aefac065ed580de86" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::BreakEvenValidator::GetCacheMissCount</definition>
+        <argsstring>() const</argsstring>
+        <name>GetCacheMissCount</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::GetCacheMissCount</qualifiedname>
+        <briefdescription>
+<para>Get Cache Miss Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="179" column="12" bodyfile="src/acceleration/break_even_validator.cc" bodystart="587" bodyend="595"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1a2898f7ab144955b8d89060d934a283a1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::BreakEvenValidator::GetCacheSize</definition>
+        <argsstring>() const</argsstring>
+        <name>GetCacheSize</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::GetCacheSize</qualifiedname>
+        <briefdescription>
+<para>Get Cache Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="185" column="12" bodyfile="src/acceleration/break_even_validator.cc" bodystart="597" bodyend="605"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1ae83a113377cffa323281d17570ae57a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::BreakEvenValidator::KernelTypeToString</definition>
+        <argsstring>(KernelType kernel)</argsstring>
+        <name>KernelTypeToString</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::KernelTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423" kindref="member">KernelType</ref></type>
+          <declname>kernel</declname>
+        </param>
+        <briefdescription>
+<para>Kernel Type To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kernel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kernel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements KernelTypeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="192" column="24" bodyfile="src/acceleration/break_even_validator.cc" bodystart="678" bodyend="695"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1a421fabcfd857f78c673b05cd4c6dc818" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::BreakEvenValidator::DeviceTypeToString</definition>
+        <argsstring>(DeviceType device)</argsstring>
+        <name>DeviceTypeToString</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::DeviceTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82" kindref="member">DeviceType</ref></type>
+          <declname>device</declname>
+        </param>
+        <briefdescription>
+<para>Device Type To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements DeviceTypeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="199" column="24" bodyfile="src/acceleration/break_even_validator.cc" bodystart="703" bodyend="718"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1a268497e2e86ba21d80643733e4255dbf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::chrono::milliseconds &gt;</type>
+        <definition>std::optional&lt; std::chrono::milliseconds &gt; themis::acceleration::BreakEvenValidator::ProfileCPU</definition>
+        <argsstring>(const WorkloadProfile &amp;profile)</argsstring>
+        <name>ProfileCPU</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::ProfileCPU</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_workload_profile" kindref="compound">WorkloadProfile</ref> &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <briefdescription>
+<para>Profile CPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), profile_fn(), RequiresVectorDimension(), cpuThroughputUnitsPerMs(), EstimateWorkUnits(), MillisecondsFromEstimate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="207" column="19" bodyfile="src/acceleration/break_even_validator.cc" bodystart="401" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1a170b1b6be7dbee912c5910d95944a23f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::chrono::milliseconds &gt;</type>
+        <definition>std::optional&lt; std::chrono::milliseconds &gt; themis::acceleration::BreakEvenValidator::ProfileGPU</definition>
+        <argsstring>(const WorkloadProfile &amp;profile)</argsstring>
+        <name>ProfileGPU</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::ProfileGPU</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_workload_profile" kindref="compound">WorkloadProfile</ref> &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <briefdescription>
+<para>Profile GPU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), profile_fn(), RequiresVectorDimension(), IsGpuCapableDevice(), gpuThroughputUnitsPerMs(), effectiveBandwidthBytesPerMs(), EstimateWorkUnits(), clampSelectivity(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="215" column="19" bodyfile="src/acceleration/break_even_validator.cc" bodystart="442" bodyend="489"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1a8050cedf3f6ed4cc49d4435a973cbf6e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::BreakEvenValidator::RequiresVectorDimension</definition>
+        <argsstring>(KernelType kernel)</argsstring>
+        <name>RequiresVectorDimension</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::RequiresVectorDimension</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423" kindref="member">KernelType</ref></type>
+          <declname>kernel</declname>
+        </param>
+        <briefdescription>
+<para>Requires Vector Dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kernel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kernel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements RequiresVectorDimension without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="223" column="17" bodyfile="src/acceleration/break_even_validator.cc" bodystart="613" bodyend="615"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1ac4e449afe1411634fa1dc89958566a06" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::BreakEvenValidator::IsGpuCapableDevice</definition>
+        <argsstring>(DeviceType device)</argsstring>
+        <name>IsGpuCapableDevice</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::IsGpuCapableDevice</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82" kindref="member">DeviceType</ref></type>
+          <declname>device</declname>
+        </param>
+        <briefdescription>
+<para>Is Gpu Capable Device. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">device</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements IsGpuCapableDevice without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="229" column="17" bodyfile="src/acceleration/break_even_validator.cc" bodystart="623" bodyend="625"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1a69abd68e2f343073e88506c1674e4128" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::acceleration::BreakEvenValidator::EstimateWorkUnits</definition>
+        <argsstring>(const WorkloadProfile &amp;profile)</argsstring>
+        <name>EstimateWorkUnits</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::EstimateWorkUnits</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_workload_profile" kindref="compound">WorkloadProfile</ref> &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Work Units. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: normalizedDimension(), clampSelectivity(), std::max(), log2Scaled(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="235" column="19" bodyfile="src/acceleration/break_even_validator.cc" bodystart="633" bodyend="655"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1aa59b59b3d52b6092531503b8aa8a1576" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::chrono::milliseconds &gt;</type>
+        <definition>std::optional&lt; std::chrono::milliseconds &gt; themis::acceleration::BreakEvenValidator::MillisecondsFromEstimate</definition>
+        <argsstring>(double estimated_ms)</argsstring>
+        <name>MillisecondsFromEstimate</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::MillisecondsFromEstimate</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>estimated_ms</declname>
+        </param>
+        <briefdescription>
+<para>Milliseconds From Estimate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">estimated_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">estimated_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::isfinite(), std::ceil(), std::max(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="241" column="26" bodyfile="src/acceleration/break_even_validator.cc" bodystart="663" bodyend="670"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1a41bfbd82358c21c43b5defa802128aeb" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1ac33c29665a5dae070c3b811e74da4423" kindref="member">KernelType</ref></type>
+        <definition>KernelType themis::acceleration::BreakEvenValidator::StringToKernelType</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>StringToKernelType</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::StringToKernelType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>String To Kernel Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements StringToKernelType without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="249" column="23" bodyfile="src/acceleration/break_even_validator.cc" bodystart="726" bodyend="747"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_break_even_validator_1abf360139293530a5916041e12d02d2e9" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1a26d8584781d6babc5ab7ca1ee46ffa82" kindref="member">DeviceType</ref></type>
+        <definition>DeviceType themis::acceleration::BreakEvenValidator::StringToDeviceType</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>StringToDeviceType</name>
+        <qualifiedname>themis::acceleration::BreakEvenValidator::StringToDeviceType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>String To Device Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements StringToDeviceType without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/break_even_validator.h" line="256" column="23" bodyfile="src/acceleration/break_even_validator.cc" bodystart="755" bodyend="773"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/break_even_validator.h" line="94" column="1" bodyfile="include/acceleration/break_even_validator.h" bodystart="94" bodyend="293"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a56bedc698b6aa14443d4aa8f3aa9b091" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>BreakEvenValidator</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a6e31a3e4d67ac315e4a14febbf931585" prot="private" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>cache_hits_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a7c816c37d4cfbfeaf436f4a6831d45c2" prot="private" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>cache_misses_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1aa71680ced33f5369987606624b5d2478" prot="private" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>cache_validity_duration_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1ad84db0b7fe55c09e74f1be8a175f53df" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>ClearCache</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a5c84d453243a4d1f2558f15f0393e9b4" prot="private" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>cpu_profile_fn_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a4276cd77958a565bd9235ce2bd8bb275" prot="private" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>decision_cache_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a421fabcfd857f78c673b05cd4c6dc818" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>DeviceTypeToString</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a69abd68e2f343073e88506c1674e4128" prot="private" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>EstimateWorkUnits</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a6c7936b13a189abeab24e54ed58f7629" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>GetCacheHitCount</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1acb2d973cfc9cd45aefac065ed580de86" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>GetCacheMissCount</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a2898f7ab144955b8d89060d934a283a1" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>GetCacheSize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a72a2a37cfde5df93462746427ec9dbd0" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>GetLatestBreakEvenRatio</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a4bef4ebe6ccc118ed7aa99d0570a2cd8" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>GetSpeedupThreshold</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1ac7f985137ea3106f220a558a33d1c867" prot="private" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>gpu_profile_fn_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1ac4e449afe1411634fa1dc89958566a06" prot="private" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>IsGpuCapableDevice</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1ae83a113377cffa323281d17570ae57a7" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>KernelTypeToString</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1abf7fc7e4139dfce9d3637e842d7ec139" prot="private" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>latest_speedup_ratios_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a3a49552e6c74b899106153c9974a0903" prot="private" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>metrics_sink_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a644ab7c2a982ae1bc2a9d02a48976f94" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>MetricsSinkFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1aa59b59b3d52b6092531503b8aa8a1576" prot="private" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>MillisecondsFromEstimate</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a8c51d4a0334e76636adbfc5c885527ad" prot="private" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a5930f471ecb211784a2f476598fd6901" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>Profile</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a268497e2e86ba21d80643733e4255dbf" prot="private" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>ProfileCPU</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1af9b582980908cf961c9969b2c628d000" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>ProfileFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a170b1b6be7dbee912c5910d95944a23f" prot="private" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>ProfileGPU</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a8050cedf3f6ed4cc49d4435a973cbf6e" prot="private" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>RequiresVectorDimension</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a6aea55a6182f822df80a12700e26fc16" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>SetCacheValidityDuration</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1abb290a23a7f4e56ce4e9e39d276d6f54" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>SetCPUProfileFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1af2bbf02abdaee4bff4c42ec725e6f8a7" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>SetGPUProfileFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a65ef300df988bd5243806de9bea87dc2" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>SetMetricsSink</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a1d99fc7c4a21036a07e6f1345c91fd3a" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>SetSpeedupThreshold</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a0544e8f33f052c724a4450a0d9e6f799" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>ShouldUseGPU</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a80bb74f32cbecb5bcbc9ef1f177c3f09" prot="private" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>speedup_thresholds_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1abf360139293530a5916041e12d02d2e9" prot="private" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>StringToDeviceType</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1a41bfbd82358c21c43b5defa802128aeb" prot="private" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>StringToKernelType</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_break_even_validator_1ac153b35a61a9e854630dcb0bfe7d1ff5" prot="public" virt="non-virtual"><scope>themis::acceleration::BreakEvenValidator</scope><name>~BreakEvenValidator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacestubs" kind="namespace" language="C++">
+    <compoundname>stubs</compoundname>
+    <innerclass refid="structstubs_1_1_distributed_coordinator" prot="public">stubs::DistributedCoordinator</innerclass>
+    <innerclass refid="structstubs_1_1_task_registry" prot="public">stubs::TaskRegistry</innerclass>
+    <innerclass refid="structstubs_1_1_task_scheduler" prot="public">stubs::TaskScheduler</innerclass>
+    <innerclass refid="structstubs_1_1_trigger_engine" prot="public">stubs::TriggerEngine</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/scheduler/test_scheduler_highcardinality_stress.cpp" line="22" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_update_history_logger_test" kind="class" language="C++" prot="public">
+    <compoundname>UpdateHistoryLoggerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_update_history_logger_test_1a30f7229be47dbd41a6c9ad9248743680" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string UpdateHistoryLoggerTest::tmp_dir_</definition>
+        <argsstring></argsstring>
+        <name>tmp_dir_</name>
+        <qualifiedname>UpdateHistoryLoggerTest::tmp_dir_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="1594" column="17" bodyfile="tests/updates/test_updates_production.cpp" bodystart="1594" bodyend="1594"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_update_history_logger_test_1a732f92fa7d91d1951fee5ae78828f7e4" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string UpdateHistoryLoggerTest::log_file_</definition>
+        <argsstring></argsstring>
+        <name>log_file_</name>
+        <qualifiedname>UpdateHistoryLoggerTest::log_file_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="1595" column="17" bodyfile="tests/updates/test_updates_production.cpp" bodystart="1595" bodyend="1595"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_update_history_logger_test_1aa1e3015bad45cc7765ad5a92ed4acf18" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void UpdateHistoryLoggerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>UpdateHistoryLoggerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="1597" column="10" bodyfile="tests/updates/test_updates_production.cpp" bodystart="1597" bodyend="1602"/>
+      </memberdef>
+      <memberdef kind="function" id="class_update_history_logger_test_1a6659eaa7f831de135e2ffef316ac5ac7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void UpdateHistoryLoggerTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>UpdateHistoryLoggerTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_production.cpp" line="1604" column="10" bodyfile="tests/updates/test_updates_production.cpp" bodystart="1604" bodyend="1606"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>UpdateHistoryLoggerTest</label>
+        <link refid="class_update_history_logger_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>UpdateHistoryLoggerTest</label>
+        <link refid="class_update_history_logger_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/updates/test_updates_production.cpp" line="1592" column="1" bodyfile="tests/updates/test_updates_production.cpp" bodystart="1592" bodyend="1607"/>
+    <listofallmembers>
+      <member refid="class_update_history_logger_test_1a732f92fa7d91d1951fee5ae78828f7e4" prot="protected" virt="non-virtual"><scope>UpdateHistoryLoggerTest</scope><name>log_file_</name></member>
+      <member refid="class_update_history_logger_test_1aa1e3015bad45cc7765ad5a92ed4acf18" prot="protected" virt="non-virtual"><scope>UpdateHistoryLoggerTest</scope><name>SetUp</name></member>
+      <member refid="class_update_history_logger_test_1a6659eaa7f831de135e2ffef316ac5ac7" prot="protected" virt="non-virtual"><scope>UpdateHistoryLoggerTest</scope><name>TearDown</name></member>
+      <member refid="class_update_history_logger_test_1a30f7229be47dbd41a6c9ad9248743680" prot="protected" virt="non-virtual"><scope>UpdateHistoryLoggerTest</scope><name>tmp_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

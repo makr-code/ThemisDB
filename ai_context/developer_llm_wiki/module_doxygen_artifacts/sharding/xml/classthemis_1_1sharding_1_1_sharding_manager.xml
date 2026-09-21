@@ -1,0 +1,538 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_sharding_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardingManager</compoundname>
+    <includes refid="sharding__manager_8h" local="no">sharding_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_sharding_manager_1a846486feb5a48589600c493083e30380" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::ShardingManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::ShardingManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="129" column="24" bodyfile="include/sharding/sharding_manager.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_sharding_manager_1acf22ae8581a770d9e3283f9758abd745" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_node_info" kindref="compound">ShardNodeInfo</ref> &gt;</type>
+        <definition>std::vector&lt;ShardNodeInfo&gt; themis::sharding::ShardingManager::shard_nodes_</definition>
+        <argsstring></argsstring>
+        <name>shard_nodes_</name>
+        <qualifiedname>themis::sharding::ShardingManager::shard_nodes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="130" column="17" bodyfile="include/sharding/sharding_manager.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_sharding_manager_1a853ad7f32e45a65ce48605331da25236" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref></type>
+        <definition>ConsistentHashRing themis::sharding::ShardingManager::ring_</definition>
+        <argsstring></argsstring>
+        <name>ring_</name>
+        <qualifiedname>themis::sharding::ShardingManager::ring_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="135" column="24" bodyfile="include/sharding/sharding_manager.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_manager_1ae0e59f710062fc11e2f378980202544a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ShardingManager &amp;</type>
+        <definition>static ShardingManager &amp; themis::sharding::ShardingManager::GetInstance</definition>
+        <argsstring>()</argsstring>
+        <name>GetInstance</name>
+        <qualifiedname>themis::sharding::ShardingManager::GetInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="44" column="28" bodyfile="include/sharding/sharding_manager.h" bodystart="44" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_manager_1afc58bfda2ad3de2eda8925855bc59a9f" prot="public" static="yes" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>static constexpr int themis::sharding::ShardingManager::GetMaxShardNodes</definition>
+        <argsstring>()</argsstring>
+        <name>GetMaxShardNodes</name>
+        <qualifiedname>themis::sharding::ShardingManager::GetMaxShardNodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="50" column="26" bodyfile="include/sharding/sharding_manager.h" bodystart="50" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_manager_1a889d7fdd03096ef07e979f91f6318224" prot="public" static="yes" constexpr="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static constexpr bool themis::sharding::ShardingManager::IsShardingAvailable</definition>
+        <argsstring>()</argsstring>
+        <name>IsShardingAvailable</name>
+        <qualifiedname>themis::sharding::ShardingManager::IsShardingAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="55" column="27" bodyfile="include/sharding/sharding_manager.h" bodystart="55" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_manager_1ad17c43bdc814820cc64a19026f674572" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardingManager::AddShardNode</definition>
+        <argsstring>(const ShardNodeInfo &amp;node)</argsstring>
+        <name>AddShardNode</name>
+        <qualifiedname>themis::sharding::ShardingManager::AddShardNode</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_node_info" kindref="compound">ShardNodeInfo</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Add Shard Node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(), <ref refid="classthemis_1_1sharding_1_1_sharding_manager_1afc58bfda2ad3de2eda8925855bc59a9f" kindref="member">GetMaxShardNodes()</ref>, fmt::format(), push_back(), addShard(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="61" column="10" bodyfile="src/sharding/sharding_manager_edition.cpp" bodystart="33" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_manager_1abd5c6ac4e4f832cf59810999124ec6b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::ShardingManager::GetNodeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>GetNodeCount</name>
+        <qualifiedname>themis::sharding::ShardingManager::GetNodeCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="64" column="12" bodyfile="src/sharding/sharding_manager_edition.cpp" bodystart="47" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_manager_1a36994844884eb15371a1033625640b1b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::sharding::ShardingManager::GetRemainingNodeCapacity</definition>
+        <argsstring>() const</argsstring>
+        <name>GetRemainingNodeCapacity</name>
+        <qualifiedname>themis::sharding::ShardingManager::GetRemainingNodeCapacity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="67" column="9" bodyfile="src/sharding/sharding_manager_edition.cpp" bodystart="57" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_manager_1a8e3ee8ddde7889245965ce83f3a4737c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardingManager::ValidateNodeCount</definition>
+        <argsstring>(size_t requested_nodes)</argsstring>
+        <name>ValidateNodeCount</name>
+        <qualifiedname>themis::sharding::ShardingManager::ValidateNodeCount</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>requested_nodes</declname>
+        </param>
+        <briefdescription>
+<para>Validate Node Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">requested_nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1sharding_1_1_sharding_manager_1afc58bfda2ad3de2eda8925855bc59a9f" kindref="member">GetMaxShardNodes()</ref>, fmt::format(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="70" column="10" bodyfile="src/sharding/sharding_manager_edition.cpp" bodystart="75" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_manager_1a01727b06aee7afced493d557352e94d3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_node_info" kindref="compound">ShardNodeInfo</ref> &gt;</type>
+        <definition>std::vector&lt; ShardNodeInfo &gt; themis::sharding::ShardingManager::GetAllNodes</definition>
+        <argsstring>() const</argsstring>
+        <name>GetAllNodes</name>
+        <qualifiedname>themis::sharding::ShardingManager::GetAllNodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="73" column="17" bodyfile="src/sharding/sharding_manager_edition.cpp" bodystart="84" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_manager_1ac05479ce2bb6425f536b8aff1f9ed074" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::sharding::ShardingManager::GetHealthyNodeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>GetHealthyNodeCount</name>
+        <qualifiedname>themis::sharding::ShardingManager::GetHealthyNodeCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="76" column="9" bodyfile="src/sharding/sharding_manager_edition.cpp" bodystart="94" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_manager_1a1c562b90c3e223d492eab241b7c41a34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardingManager::RemoveShardNode</definition>
+        <argsstring>(uint32_t node_id)</argsstring>
+        <name>RemoveShardNode</name>
+        <qualifiedname>themis::sharding::ShardingManager::RemoveShardNode</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Shard Node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), begin(), end(), removeShard(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="79" column="10" bodyfile="src/sharding/sharding_manager_edition.cpp" bodystart="116" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_manager_1aa9797dd50a20d9fb1957612fd03a0a4a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardingManager::GetShardingCapabilityInfo</definition>
+        <argsstring>() const</argsstring>
+        <name>GetShardingCapabilityInfo</name>
+        <qualifiedname>themis::sharding::ShardingManager::GetShardingCapabilityInfo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="82" column="17" bodyfile="src/sharding/sharding_manager_edition.cpp" bodystart="128" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_manager_1aac9577fbce7c60215f1074fc4a707b9c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardingManager::GetShardForKey</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;key) const</argsstring>
+        <name>GetShardForKey</name>
+        <qualifiedname>themis::sharding::ShardingManager::GetShardForKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the shard responsible for a single document key.</para>
+<para>The routing key is formed as &quot;&lt;collection&gt;/&lt;key&gt;&quot; and resolved via the consistent-hash ring that is kept in sync with the node registry. Returns an empty string when no nodes are registered.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Collection name (used to namespace the key) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Document / partition key </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Shard identifier (node_address of the owning node), or &quot;&quot; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="99" column="17" bodyfile="src/sharding/sharding_manager_edition.cpp" bodystart="134" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_manager_1a5666735e5a2a1eed0acefed7ff57922d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::sharding::ShardingManager::GetShardsForKeyRange</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;min_key, const std::string &amp;max_key) const</argsstring>
+        <name>GetShardsForKeyRange</name>
+        <qualifiedname>themis::sharding::ShardingManager::GetShardsForKeyRange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>min_key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>max_key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return all shards that may hold keys in [min_key, max_key].</para>
+<para>Traverses the consistent-hash ring clockwise from the virtual node responsible for min_key to the one responsible for max_key and collects every unique shard encountered. When min and max map to the same shard, a single-element vector is returned. When no nodes are registered an empty vector is returned.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Collection name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lower bound of the key range (inclusive) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Upper bound of the key range (inclusive) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ordered list of unique shard identifiers </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="116" column="17" bodyfile="src/sharding/sharding_manager_edition.cpp" bodystart="148" bodyend="230"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_manager_1afc58d59abf6dc71d446260249d1b8729" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardingManager::ShardingManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>ShardingManager</name>
+        <qualifiedname>themis::sharding::ShardingManager::ShardingManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="122" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_manager_1afa5998e60c5a3ad4e88c0b4f91799e29" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardingManager::~ShardingManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ShardingManager</name>
+        <qualifiedname>themis::sharding::ShardingManager::~ShardingManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="123" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_manager_1a4d20299415dc33afe951ce26d66035a3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardingManager::ShardingManager</definition>
+        <argsstring>(const ShardingManager &amp;)=delete</argsstring>
+        <name>ShardingManager</name>
+        <qualifiedname>themis::sharding::ShardingManager::ShardingManager</qualifiedname>
+        <param>
+          <type>const ShardingManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="126" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_manager_1a4da1ca3bd42ac94bb658235a4e9fac89" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ShardingManager &amp;</type>
+        <definition>ShardingManager &amp; themis::sharding::ShardingManager::operator=</definition>
+        <argsstring>(const ShardingManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::ShardingManager::operator=</qualifiedname>
+        <param>
+          <type>const ShardingManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_manager.h" line="127" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>SHARDING MANAGER - EDITION-AWARE. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/sharding_manager.h" line="41" column="1" bodyfile="include/sharding/sharding_manager.h" bodystart="41" bodyend="136"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_sharding_manager_1ad17c43bdc814820cc64a19026f674572" prot="public" virt="non-virtual"><scope>themis::sharding::ShardingManager</scope><name>AddShardNode</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_manager_1a01727b06aee7afced493d557352e94d3" prot="public" virt="non-virtual"><scope>themis::sharding::ShardingManager</scope><name>GetAllNodes</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_manager_1ac05479ce2bb6425f536b8aff1f9ed074" prot="public" virt="non-virtual"><scope>themis::sharding::ShardingManager</scope><name>GetHealthyNodeCount</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_manager_1ae0e59f710062fc11e2f378980202544a" prot="public" virt="non-virtual"><scope>themis::sharding::ShardingManager</scope><name>GetInstance</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_manager_1afc58bfda2ad3de2eda8925855bc59a9f" prot="public" virt="non-virtual"><scope>themis::sharding::ShardingManager</scope><name>GetMaxShardNodes</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_manager_1abd5c6ac4e4f832cf59810999124ec6b4" prot="public" virt="non-virtual"><scope>themis::sharding::ShardingManager</scope><name>GetNodeCount</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_manager_1a36994844884eb15371a1033625640b1b" prot="public" virt="non-virtual"><scope>themis::sharding::ShardingManager</scope><name>GetRemainingNodeCapacity</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_manager_1aac9577fbce7c60215f1074fc4a707b9c" prot="public" virt="non-virtual"><scope>themis::sharding::ShardingManager</scope><name>GetShardForKey</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_manager_1aa9797dd50a20d9fb1957612fd03a0a4a" prot="public" virt="non-virtual"><scope>themis::sharding::ShardingManager</scope><name>GetShardingCapabilityInfo</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_manager_1a5666735e5a2a1eed0acefed7ff57922d" prot="public" virt="non-virtual"><scope>themis::sharding::ShardingManager</scope><name>GetShardsForKeyRange</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_manager_1a889d7fdd03096ef07e979f91f6318224" prot="public" virt="non-virtual"><scope>themis::sharding::ShardingManager</scope><name>IsShardingAvailable</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_manager_1a846486feb5a48589600c493083e30380" prot="private" virt="non-virtual"><scope>themis::sharding::ShardingManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_manager_1a4da1ca3bd42ac94bb658235a4e9fac89" prot="private" virt="non-virtual"><scope>themis::sharding::ShardingManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_manager_1a1c562b90c3e223d492eab241b7c41a34" prot="public" virt="non-virtual"><scope>themis::sharding::ShardingManager</scope><name>RemoveShardNode</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_manager_1a853ad7f32e45a65ce48605331da25236" prot="private" virt="non-virtual"><scope>themis::sharding::ShardingManager</scope><name>ring_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_manager_1acf22ae8581a770d9e3283f9758abd745" prot="private" virt="non-virtual"><scope>themis::sharding::ShardingManager</scope><name>shard_nodes_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_manager_1afc58d59abf6dc71d446260249d1b8729" prot="private" virt="non-virtual"><scope>themis::sharding::ShardingManager</scope><name>ShardingManager</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_manager_1a4d20299415dc33afe951ce26d66035a3" prot="private" virt="non-virtual"><scope>themis::sharding::ShardingManager</scope><name>ShardingManager</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_manager_1a8e3ee8ddde7889245965ce83f3a4737c" prot="public" virt="non-virtual"><scope>themis::sharding::ShardingManager</scope><name>ValidateNodeCount</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_manager_1afa5998e60c5a3ad4e88c0b4f91799e29" prot="private" virt="non-virtual"><scope>themis::sharding::ShardingManager</scope><name>~ShardingManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

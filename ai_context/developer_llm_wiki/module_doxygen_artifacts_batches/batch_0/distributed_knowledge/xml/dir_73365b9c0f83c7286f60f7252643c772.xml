@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_73365b9c0f83c7286f60f7252643c772" kind="dir">
+    <compoundname>src/distributed_knowledge</compoundname>
+    <innerfile refid="adapter__capability__announcement_8cpp">adapter_capability_announcement.cpp</innerfile>
+    <innerfile refid="cross__shard__feedback__sync_8cpp">cross_shard_feedback_sync.cpp</innerfile>
+    <innerfile refid="federated__distillation__coordinator_8cpp">federated_distillation_coordinator.cpp</innerfile>
+    <innerfile refid="federated__rag__merger_8cpp">federated_rag_merger.cpp</innerfile>
+    <innerfile refid="lora__federation__coordinator_8cpp">lora_federation_coordinator.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_knowledge/"/>
+  </compounddef>
+</doxygen>

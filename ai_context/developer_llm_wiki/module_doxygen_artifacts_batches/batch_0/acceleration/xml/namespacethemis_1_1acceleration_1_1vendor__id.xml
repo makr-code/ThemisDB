@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1acceleration_1_1vendor__id" kind="namespace" language="C++">
+    <compoundname>themis::acceleration::vendor_id</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1_1vendor__id_1a56931202f911414b2784f4c13f8ecef6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::vendor_id::NVIDIA</definition>
+        <argsstring></argsstring>
+        <name>NVIDIA</name>
+        <qualifiedname>themis::acceleration::vendor_id::NVIDIA</qualifiedname>
+        <initializer>= 0x10DE</initializer>
+        <briefdescription>
+<para>NVIDIA Corporation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="109" column="31" bodyfile="include/acceleration/compute_backend.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1_1vendor__id_1aaf34793abf32c9fb2cda58a80398e01e" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::vendor_id::AMD</definition>
+        <argsstring></argsstring>
+        <name>AMD</name>
+        <qualifiedname>themis::acceleration::vendor_id::AMD</qualifiedname>
+        <initializer>= 0x1002</initializer>
+        <briefdescription>
+<para>Advanced Micro Devices (AMD). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="110" column="31" bodyfile="include/acceleration/compute_backend.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1_1vendor__id_1a1f807ac71502874c75048133cc0e1806" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::vendor_id::INTEL</definition>
+        <argsstring></argsstring>
+        <name>INTEL</name>
+        <qualifiedname>themis::acceleration::vendor_id::INTEL</qualifiedname>
+        <initializer>= 0x8086</initializer>
+        <briefdescription>
+<para>Intel Corporation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="111" column="31" bodyfile="include/acceleration/compute_backend.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1_1vendor__id_1af68fd2a1815436ad89a50d4f8c83961a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::vendor_id::ARM</definition>
+        <argsstring></argsstring>
+        <name>ARM</name>
+        <qualifiedname>themis::acceleration::vendor_id::ARM</qualifiedname>
+        <initializer>= 0x13B5</initializer>
+        <briefdescription>
+<para>ARM Holdings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="112" column="31" bodyfile="include/acceleration/compute_backend.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1_1vendor__id_1a9322137dd4f0ad17dc907d6c73c36ae8" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::vendor_id::QUALCOMM</definition>
+        <argsstring></argsstring>
+        <name>QUALCOMM</name>
+        <qualifiedname>themis::acceleration::vendor_id::QUALCOMM</qualifiedname>
+        <initializer>= 0x5143</initializer>
+        <briefdescription>
+<para>Qualcomm Incorporated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="113" column="31" bodyfile="include/acceleration/compute_backend.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1acceleration_1_1vendor__id_1a3060af4a0d2d9fddaf461af06cf897e3" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::vendor_id::IMGTEC</definition>
+        <argsstring></argsstring>
+        <name>IMGTEC</name>
+        <qualifiedname>themis::acceleration::vendor_id::IMGTEC</qualifiedname>
+        <initializer>= 0x1010</initializer>
+        <briefdescription>
+<para>Imagination Technologies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="114" column="31" bodyfile="include/acceleration/compute_backend.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_backend.h" line="108" column="1"/>
+  </compounddef>
+</doxygen>

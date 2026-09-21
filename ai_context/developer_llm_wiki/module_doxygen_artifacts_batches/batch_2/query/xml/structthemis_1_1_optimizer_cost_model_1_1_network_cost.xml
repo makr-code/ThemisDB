@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_optimizer_cost_model_1_1_network_cost" kind="struct" language="C++" prot="public">
+    <compoundname>themis::OptimizerCostModel::NetworkCost</compoundname>
+    <includes refid="optimizer__cost__model_8h" local="no">optimizer_cost_model.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_network_cost_1a35c8914ba52e0291263225a54df35c8e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::NetworkCost::transferCost</definition>
+        <argsstring></argsstring>
+        <name>transferCost</name>
+        <qualifiedname>themis::OptimizerCostModel::NetworkCost::transferCost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="197" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_network_cost_1ad5c1020741439d749dae4ea86c41366a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::NetworkCost::latencyCost</definition>
+        <argsstring></argsstring>
+        <name>latencyCost</name>
+        <qualifiedname>themis::OptimizerCostModel::NetworkCost::latencyCost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="198" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_network_cost_1a8b7828f4334050bed97f7fd2ad6017c7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::OptimizerCostModel::NetworkCost::totalCost</definition>
+        <argsstring></argsstring>
+        <name>totalCost</name>
+        <qualifiedname>themis::OptimizerCostModel::NetworkCost::totalCost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="199" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_network_cost_1a925551ad0b6b37bda872f2543c58acf0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::NetworkCost::dataSize</definition>
+        <argsstring></argsstring>
+        <name>dataSize</name>
+        <qualifiedname>themis::OptimizerCostModel::NetworkCost::dataSize</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="200" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_optimizer_cost_model_1_1_network_cost_1aaa522fb1061d54334fa375e08c734388" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::OptimizerCostModel::NetworkCost::numHops</definition>
+        <argsstring></argsstring>
+        <name>numHops</name>
+        <qualifiedname>themis::OptimizerCostModel::NetworkCost::numHops</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="201" column="16" bodyfile="include/query/optimizer_cost_model.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/optimizer_cost_model.h" line="196" column="5" bodyfile="include/query/optimizer_cost_model.h" bodystart="196" bodyend="202"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_network_cost_1a925551ad0b6b37bda872f2543c58acf0" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::NetworkCost</scope><name>dataSize</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_network_cost_1ad5c1020741439d749dae4ea86c41366a" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::NetworkCost</scope><name>latencyCost</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_network_cost_1aaa522fb1061d54334fa375e08c734388" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::NetworkCost</scope><name>numHops</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_network_cost_1a8b7828f4334050bed97f7fd2ad6017c7" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::NetworkCost</scope><name>totalCost</name></member>
+      <member refid="structthemis_1_1_optimizer_cost_model_1_1_network_cost_1a35c8914ba52e0291263225a54df35c8e" prot="public" virt="non-virtual"><scope>themis::OptimizerCostModel::NetworkCost</scope><name>transferCost</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

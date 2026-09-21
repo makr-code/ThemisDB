@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_l_l_m_validator_test" kind="class" language="C++" prot="public">
+    <compoundname>LLMValidatorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_l_l_m_validator_test_1a70835508db0068f9693e2519916d6186" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_output_validator_1_1_config" kindref="compound">LLMOutputValidator::Config</ref></type>
+        <definition>LLMOutputValidator::Config LLMValidatorTest::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>LLMValidatorTest::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_validator.cpp" line="25" column="32" bodyfile="tests/llm/test_llm_validator.cpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_l_l_m_validator_test_1a9e67fd544a144e4fc157502c1ddb21f2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMValidatorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LLMValidatorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_validator.cpp" line="20" column="10" bodyfile="tests/llm/test_llm_validator.cpp" bodystart="20" bodyend="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LLMValidatorTest</label>
+        <link refid="class_l_l_m_validator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LLMValidatorTest</label>
+        <link refid="class_l_l_m_validator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::llm::LLMOutputValidator::Config</label>
+        <link refid="structthemis_1_1llm_1_1_l_l_m_output_validator_1_1_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_validator.cpp" line="18" column="1" bodyfile="tests/llm/test_llm_validator.cpp" bodystart="18" bodyend="26"/>
+    <listofallmembers>
+      <member refid="class_l_l_m_validator_test_1a70835508db0068f9693e2519916d6186" prot="protected" virt="non-virtual"><scope>LLMValidatorTest</scope><name>config_</name></member>
+      <member refid="class_l_l_m_validator_test_1a9e67fd544a144e4fc157502c1ddb21f2" prot="protected" virt="non-virtual"><scope>LLMValidatorTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

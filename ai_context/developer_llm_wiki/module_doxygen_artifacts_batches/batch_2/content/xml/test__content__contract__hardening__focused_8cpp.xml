@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__content__contract__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_content_contract_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="content__api__contract_8h" local="yes">content/content_api_contract.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>content/content_api_contract.h</label>
+        <link refid="content__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/content/test_content_contract_hardening_focused.cpp</label>
+        <link refid="test__content__contract__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__content__contract__hardening__focused_8cpp_1a9bbb0a384bb4b13d6dceaf118a3eb3a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentContractTest, CNT01_ErrorCodesUnique)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentContractTest</type>
+        </param>
+        <param>
+          <type>CNT01_ErrorCodesUnique</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_contract_hardening_focused.cpp" line="16" column="1" bodyfile="tests/content/test_content_contract_hardening_focused.cpp" bodystart="16" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__contract__hardening__focused_8cpp_1adb9f0da762e0bb4779ba5a435add3bcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentContractTest, CNT02_ErrorCodesInRange)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentContractTest</type>
+        </param>
+        <param>
+          <type>CNT02_ErrorCodesInRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_contract_hardening_focused.cpp" line="27" column="1" bodyfile="tests/content/test_content_contract_hardening_focused.cpp" bodystart="27" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__contract__hardening__focused_8cpp_1ad71a0c4f08b87493d13854124f64ece5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentContractTest, CNT03_ScanVerdictAllowIsZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentContractTest</type>
+        </param>
+        <param>
+          <type>CNT03_ScanVerdictAllowIsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_contract_hardening_focused.cpp" line="38" column="1" bodyfile="tests/content/test_content_contract_hardening_focused.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__contract__hardening__focused_8cpp_1a1a542f185a474b65bec765f2f9855bcc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentContractTest, CNT04_ScanVerdictBlockIsOne)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentContractTest</type>
+        </param>
+        <param>
+          <type>CNT04_ScanVerdictBlockIsOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_contract_hardening_focused.cpp" line="42" column="1" bodyfile="tests/content/test_content_contract_hardening_focused.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__contract__hardening__focused_8cpp_1a07464f115c03f7434b5b4053e5f1a12f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentContractTest, CNT05_ScanResultDefaultIsAllow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentContractTest</type>
+        </param>
+        <param>
+          <type>CNT05_ScanResultDefaultIsAllow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_contract_hardening_focused.cpp" line="46" column="1" bodyfile="tests/content/test_content_contract_hardening_focused.cpp" bodystart="46" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__contract__hardening__focused_8cpp_1acdcae8f170005934c34fea345dfcc881" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentContractTest, CNT06_BlockHasNonEmptyReason)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentContractTest</type>
+        </param>
+        <param>
+          <type>CNT06_BlockHasNonEmptyReason</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_contract_hardening_focused.cpp" line="52" column="1" bodyfile="tests/content/test_content_contract_hardening_focused.cpp" bodystart="52" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__contract__hardening__focused_8cpp_1a21ec8bb4c2fcce17dcdb354a89914087" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentContractTest, CNT07_ErrorSwitchDispatch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentContractTest</type>
+        </param>
+        <param>
+          <type>CNT07_ErrorSwitchDispatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_contract_hardening_focused.cpp" line="60" column="1" bodyfile="tests/content/test_content_contract_hardening_focused.cpp" bodystart="60" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__content__contract__hardening__focused_8cpp_1acaabf08177615cf6208139d173c8bc4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ContentContractTest, CNT08_VerdictSwitchDispatch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ContentContractTest</type>
+        </param>
+        <param>
+          <type>CNT08_VerdictSwitchDispatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_contract_hardening_focused.cpp" line="72" column="1" bodyfile="tests/content/test_content_contract_hardening_focused.cpp" bodystart="72" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 1–6 contract-hardening tests for the content module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Test IDs: CNT-01..CNT-08 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="content__api__contract_8h" kindref="compound">content/content_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">themis::content</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><ref refid="test__content__contract__hardening__focused_8cpp_1a9bbb0a384bb4b13d6dceaf118a3eb3a9" kindref="member">TEST</ref>(ContentContractTest,<sp/>CNT01_ErrorCodesUnique)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int32_t&gt;<sp/>codes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269a2d12f765aed55ac7e7bfc8d1eb2ce031" kindref="member">ContentError::kScanError</ref>),</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269ade81e89c9b82497c0e8b9db18a8ac03f" kindref="member">ContentError::kUnsupportedFormat</ref>),</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269a78b2eb4551d809d51674b01b2d166f9e" kindref="member">ContentError::kSizeLimit</ref>),</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269a5f2af10100e61106ebc84621e7db2e93" kindref="member">ContentError::kEncodingInvalid</ref>),</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(codes.begin(),<sp/>codes.end());</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::unique(codes.begin(),<sp/>codes.end()),<sp/>codes.end());</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="test__content__contract__hardening__focused_8cpp_1a9bbb0a384bb4b13d6dceaf118a3eb3a9" kindref="member">TEST</ref>(ContentContractTest,<sp/>CNT02_ErrorCodesInRange)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>check<sp/>=<sp/>[](<ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref><sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>v<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(e);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(v,<sp/>8000);<sp/>EXPECT_LE(v,<sp/>8099);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269a2d12f765aed55ac7e7bfc8d1eb2ce031" kindref="member">ContentError::kScanError</ref>);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269ade81e89c9b82497c0e8b9db18a8ac03f" kindref="member">ContentError::kUnsupportedFormat</ref>);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269a78b2eb4551d809d51674b01b2d166f9e" kindref="member">ContentError::kSizeLimit</ref>);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269a5f2af10100e61106ebc84621e7db2e93" kindref="member">ContentError::kEncodingInvalid</ref>);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="test__content__contract__hardening__focused_8cpp_1a9bbb0a384bb4b13d6dceaf118a3eb3a9" kindref="member">TEST</ref>(ContentContractTest,<sp/>CNT03_ScanVerdictAllowIsZero)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1content_1ad8a4c9866f0d22c6c7f96b41ea8bf855a734aa42737f7263b67032297f3965a94" kindref="member">ScanVerdict::kAllow</ref>),<sp/>0);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="test__content__contract__hardening__focused_8cpp_1a9bbb0a384bb4b13d6dceaf118a3eb3a9" kindref="member">TEST</ref>(ContentContractTest,<sp/>CNT04_ScanVerdictBlockIsOne)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1content_1ad8a4c9866f0d22c6c7f96b41ea8bf855aaf937713a39275d7c02a4a08b982d81a" kindref="member">ScanVerdict::kBlock</ref>),<sp/>1);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__content__contract__hardening__focused_8cpp_1a9bbb0a384bb4b13d6dceaf118a3eb3a9" kindref="member">TEST</ref>(ContentContractTest,<sp/>CNT05_ScanResultDefaultIsAllow)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_scan_result" kindref="compound">ScanResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.<ref refid="structthemis_1_1content_1_1_scan_result_1ad49248c4846c456275165c5bb64a6e37" kindref="member">verdict</ref>,<sp/><ref refid="namespacethemis_1_1content_1ad8a4c9866f0d22c6c7f96b41ea8bf855a734aa42737f7263b67032297f3965a94" kindref="member">ScanVerdict::kAllow</ref>);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.<ref refid="structthemis_1_1content_1_1_scan_result_1a3b7548d8f733299b41bdd7ca4c6f4d4a" kindref="member">reason</ref>.empty());</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="test__content__contract__hardening__focused_8cpp_1a9bbb0a384bb4b13d6dceaf118a3eb3a9" kindref="member">TEST</ref>(ContentContractTest,<sp/>CNT06_BlockHasNonEmptyReason)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_scan_result" kindref="compound">ScanResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1content_1_1_scan_result_1ad49248c4846c456275165c5bb64a6e37" kindref="member">verdict</ref><sp/>=<sp/><ref refid="namespacethemis_1_1content_1ad8a4c9866f0d22c6c7f96b41ea8bf855aaf937713a39275d7c02a4a08b982d81a" kindref="member">ScanVerdict::kBlock</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1content_1_1_scan_result_1a3b7548d8f733299b41bdd7ca4c6f4d4a" kindref="member">reason</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Prohibited<sp/>content<sp/>detected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.<ref refid="structthemis_1_1content_1_1_scan_result_1ad49248c4846c456275165c5bb64a6e37" kindref="member">verdict</ref>,<sp/><ref refid="namespacethemis_1_1content_1ad8a4c9866f0d22c6c7f96b41ea8bf855aaf937713a39275d7c02a4a08b982d81a" kindref="member">ScanVerdict::kBlock</ref>);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1content_1_1_scan_result_1a3b7548d8f733299b41bdd7ca4c6f4d4a" kindref="member">reason</ref>.empty());</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__content__contract__hardening__focused_8cpp_1a9bbb0a384bb4b13d6dceaf118a3eb3a9" kindref="member">TEST</ref>(ContentContractTest,<sp/>CNT07_ErrorSwitchDispatch)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref><sp/>err<sp/>=<sp/><ref refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269a78b2eb4551d809d51674b01b2d166f9e" kindref="member">ContentError::kSizeLimit</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>handled<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(err)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269a2d12f765aed55ac7e7bfc8d1eb2ce031" kindref="member">ContentError::kScanError</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269ade81e89c9b82497c0e8b9db18a8ac03f" kindref="member">ContentError::kUnsupportedFormat</ref>:<sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269a78b2eb4551d809d51674b01b2d166f9e" kindref="member">ContentError::kSizeLimit</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handled<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1aee889ab6e839656a8a87e9a1971a1269a5f2af10100e61106ebc84621e7db2e93" kindref="member">ContentError::kEncodingInvalid</ref>:<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(handled);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__content__contract__hardening__focused_8cpp_1a9bbb0a384bb4b13d6dceaf118a3eb3a9" kindref="member">TEST</ref>(ContentContractTest,<sp/>CNT08_VerdictSwitchDispatch)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1ad8a4c9866f0d22c6c7f96b41ea8bf855" kindref="member">ScanVerdict</ref><sp/>v<sp/>=<sp/><ref refid="namespacethemis_1_1content_1ad8a4c9866f0d22c6c7f96b41ea8bf855aaf937713a39275d7c02a4a08b982d81a" kindref="member">ScanVerdict::kBlock</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>blocked<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(v)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1ad8a4c9866f0d22c6c7f96b41ea8bf855a734aa42737f7263b67032297f3965a94" kindref="member">ScanVerdict::kAllow</ref>:<sp/>blocked<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1ad8a4c9866f0d22c6c7f96b41ea8bf855aaf937713a39275d7c02a4a08b982d81a" kindref="member">ScanVerdict::kBlock</ref>:<sp/>blocked<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(blocked);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/content/test_content_contract_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

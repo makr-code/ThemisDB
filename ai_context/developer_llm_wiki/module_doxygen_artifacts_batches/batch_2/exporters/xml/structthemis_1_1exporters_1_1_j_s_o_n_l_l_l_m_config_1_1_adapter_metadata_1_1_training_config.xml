@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_training_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig</compoundname>
+    <includes refid="jsonl__llm__exporter_8h" local="no">jsonl_llm_exporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_training_config_1af8e4a6923e88032b5c5cdc680a478ffe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig::dataset_name</definition>
+        <argsstring></argsstring>
+        <name>dataset_name</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig::dataset_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="108" column="25" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_training_config_1aeb8dbaf036e417d0216b7910bc1ee82d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig::num_samples</definition>
+        <argsstring></argsstring>
+        <name>num_samples</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig::num_samples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="109" column="20" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_training_config_1afa714525d3e825b570cfabc73a411c6a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig::epochs</definition>
+        <argsstring></argsstring>
+        <name>epochs</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig::epochs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="110" column="17" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_training_config_1a9693b4bc6ff7b844e037cb82ea42eea9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig::learning_rate</definition>
+        <argsstring></argsstring>
+        <name>learning_rate</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig::learning_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="111" column="20" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_training_config_1aa9aff29c6f812869fdb13d5393f84437" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig::lora_rank</definition>
+        <argsstring></argsstring>
+        <name>lora_rank</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig::lora_rank</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="112" column="17" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_training_config_1a2272b1390c7e22abd006d89645e1b321" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig::lora_alpha</definition>
+        <argsstring></argsstring>
+        <name>lora_alpha</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig::lora_alpha</qualifiedname>
+        <initializer>= 16.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="113" column="20" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_training_config_1ad4abf8e7eea9451b933abb73518a1267" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig::lora_dropout</definition>
+        <argsstring></argsstring>
+        <name>lora_dropout</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig::lora_dropout</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="114" column="20" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_training_config_1a8435f8083109f06987d780a919357a73" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig::target_modules</definition>
+        <argsstring></argsstring>
+        <name>target_modules</name>
+        <qualifiedname>themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig::target_modules</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/jsonl_llm_exporter.h" line="115" column="25" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/jsonl_llm_exporter.h" line="107" column="9" bodyfile="include/exporters/jsonl_llm_exporter.h" bodystart="107" bodyend="116"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_training_config_1af8e4a6923e88032b5c5cdc680a478ffe" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig</scope><name>dataset_name</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_training_config_1afa714525d3e825b570cfabc73a411c6a" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig</scope><name>epochs</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_training_config_1a9693b4bc6ff7b844e037cb82ea42eea9" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig</scope><name>learning_rate</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_training_config_1a2272b1390c7e22abd006d89645e1b321" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig</scope><name>lora_alpha</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_training_config_1ad4abf8e7eea9451b933abb73518a1267" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig</scope><name>lora_dropout</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_training_config_1aa9aff29c6f812869fdb13d5393f84437" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig</scope><name>lora_rank</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_training_config_1aeb8dbaf036e417d0216b7910bc1ee82d" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig</scope><name>num_samples</name></member>
+      <member refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config_1_1_adapter_metadata_1_1_training_config_1a8435f8083109f06987d780a919357a73" prot="public" virt="non-virtual"><scope>themis::exporters::JSONLLLMConfig::AdapterMetadata::TrainingConfig</scope><name>target_modules</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

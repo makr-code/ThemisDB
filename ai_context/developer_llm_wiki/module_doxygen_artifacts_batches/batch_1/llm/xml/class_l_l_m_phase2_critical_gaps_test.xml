@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_l_l_m_phase2_critical_gaps_test" kind="class" language="C++" prot="public">
+    <compoundname>LLMPhase2CriticalGapsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_l_l_m_phase2_critical_gaps_test_1aa73d234243ba9243b6d5d783156698f3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMPhase2CriticalGapsTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LLMPhase2CriticalGapsTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase2_critical_gaps.cpp" line="124" column="10" bodyfile="tests/llm/test_llm_phase2_critical_gaps.cpp" bodystart="124" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="class_l_l_m_phase2_critical_gaps_test_1aa49d54d29dd81dba84d7b21c9d108fe8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LLMPhase2CriticalGapsTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>LLMPhase2CriticalGapsTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_phase2_critical_gaps.cpp" line="127" column="10" bodyfile="tests/llm/test_llm_phase2_critical_gaps.cpp" bodystart="127" bodyend="130"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LLMPhase2CriticalGapsTest</label>
+        <link refid="class_l_l_m_phase2_critical_gaps_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LLMPhase2CriticalGapsTest</label>
+        <link refid="class_l_l_m_phase2_critical_gaps_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_phase2_critical_gaps.cpp" line="122" column="1" bodyfile="tests/llm/test_llm_phase2_critical_gaps.cpp" bodystart="122" bodyend="131"/>
+    <listofallmembers>
+      <member refid="class_l_l_m_phase2_critical_gaps_test_1aa73d234243ba9243b6d5d783156698f3" prot="protected" virt="non-virtual"><scope>LLMPhase2CriticalGapsTest</scope><name>SetUp</name></member>
+      <member refid="class_l_l_m_phase2_critical_gaps_test_1aa49d54d29dd81dba84d7b21c9d108fe8" prot="protected" virt="non-virtual"><scope>LLMPhase2CriticalGapsTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

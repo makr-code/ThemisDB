@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_a_q_l_bridge_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::AQLBridgeResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_bridge_result_1a6ae0387f9be37a8ce4bd6d3bff71d767" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::AQLBridgeResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::aql::AQLBridgeResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="49" column="10" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_bridge_result_1adfa99b03b6d31fe506073b09541c2c99" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLBridgeResult::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::aql::AQLBridgeResult::result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="50" column="17" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_bridge_result_1a5921ecd36274f8fb4f5e5c18c5339a6b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLBridgeResult::error_tag</definition>
+        <argsstring></argsstring>
+        <name>error_tag</name>
+        <qualifiedname>themis::aql::AQLBridgeResult::error_tag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="51" column="17" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_bridge_result_1a5b7ae07b906798cae4bb81319a9d9baa" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::aql::AQLBridgeResult::timeout_count</definition>
+        <argsstring></argsstring>
+        <name>timeout_count</name>
+        <qualifiedname>themis::aql::AQLBridgeResult::timeout_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="52" column="14" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_bridge_result_1a632c74fc422e77f8bf601de32a73868c" prot="public" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::aql::AQLBridgeResult::elapsed_us</definition>
+        <argsstring></argsstring>
+        <name>elapsed_us</name>
+        <qualifiedname>themis::aql::AQLBridgeResult::elapsed_us</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="53" column="31" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="53" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" line="48" column="1" bodyfile="benchmarks/aql/bench_aql_consistency_performance_gates.cpp" bodystart="48" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_bridge_result_1a632c74fc422e77f8bf601de32a73868c" prot="public" virt="non-virtual"><scope>themis::aql::AQLBridgeResult</scope><name>elapsed_us</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_bridge_result_1a5921ecd36274f8fb4f5e5c18c5339a6b" prot="public" virt="non-virtual"><scope>themis::aql::AQLBridgeResult</scope><name>error_tag</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_bridge_result_1adfa99b03b6d31fe506073b09541c2c99" prot="public" virt="non-virtual"><scope>themis::aql::AQLBridgeResult</scope><name>result</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_bridge_result_1a6ae0387f9be37a8ce4bd6d3bff71d767" prot="public" virt="non-virtual"><scope>themis::aql::AQLBridgeResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_bridge_result_1a5b7ae07b906798cae4bb81319a9d9baa" prot="public" virt="non-virtual"><scope>themis::aql::AQLBridgeResult</scope><name>timeout_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

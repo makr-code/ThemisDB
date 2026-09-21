@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_budget_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::BudgetSnapshot</compoundname>
+    <includes refid="rag__context__budget__manager_8h" local="no">rag_context_budget_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_budget_snapshot_1ac709d10eb25810b329aa1f24fcc16924" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::BudgetSnapshot::total_budget</definition>
+        <argsstring></argsstring>
+        <name>total_budget</name>
+        <qualifiedname>themis::prompt_engineering::BudgetSnapshot::total_budget</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total tokens configured for the manager. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="66" column="12" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_budget_snapshot_1ab41e0373c3db3d2ea55b172babca265a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::BudgetSnapshot::allocated</definition>
+        <argsstring></argsstring>
+        <name>allocated</name>
+        <qualifiedname>themis::prompt_engineering::BudgetSnapshot::allocated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Tokens currently allocated across all handles. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="67" column="12" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_budget_snapshot_1a6527090b7aca7a8609f351ee2b4c885d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::BudgetSnapshot::remaining</definition>
+        <argsstring></argsstring>
+        <name>remaining</name>
+        <qualifiedname>themis::prompt_engineering::BudgetSnapshot::remaining</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Tokens available for new allocations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="68" column="12" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_budget_snapshot_1a962d7c8bb2b403267ac6d0249fac618f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::BudgetSnapshot::allocation_count</definition>
+        <argsstring></argsstring>
+        <name>allocation_count</name>
+        <qualifiedname>themis::prompt_engineering::BudgetSnapshot::allocation_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total allocation calls since last reset(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rag_context_budget_manager.h" line="69" column="12" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Immutable point-in-time snapshot of the budget state. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Returned by <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_r_a_g_context_budget_manager_1a1d2eb8fad1cbaf3cbe44340184bdaae4" kindref="member">IRAGContextBudgetManager::snapshot()</ref></computeroutput> for observability. All fields are consistent but may not reflect concurrent in-flight allocations made after the snapshot was captured. </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/rag_context_budget_manager.h" line="65" column="1" bodyfile="include/prompt_engineering/rag_context_budget_manager.h" bodystart="65" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_budget_snapshot_1ab41e0373c3db3d2ea55b172babca265a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BudgetSnapshot</scope><name>allocated</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_budget_snapshot_1a962d7c8bb2b403267ac6d0249fac618f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BudgetSnapshot</scope><name>allocation_count</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_budget_snapshot_1a6527090b7aca7a8609f351ee2b4c885d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BudgetSnapshot</scope><name>remaining</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_budget_snapshot_1ac709d10eb25810b329aa1f24fcc16924" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::BudgetSnapshot</scope><name>total_budget</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

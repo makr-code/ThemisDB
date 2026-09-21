@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_phase3_policy_hardening_test_1_1_mock_r_l_s_constraint" kind="struct" language="C++" prot="protected">
+    <compoundname>Phase3PolicyHardeningTest::MockRLSConstraint</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_phase3_policy_hardening_test_1_1_mock_r_l_s_constraint_1ad21702504fa99b1631f81f695856bdc0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Phase3PolicyHardeningTest::MockRLSConstraint::column_name</definition>
+        <argsstring></argsstring>
+        <name>column_name</name>
+        <qualifiedname>Phase3PolicyHardeningTest::MockRLSConstraint::column_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase3_policy_hardening_focused.cpp" line="86" column="21" bodyfile="tests/security/test_security_phase3_policy_hardening_focused.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_phase3_policy_hardening_test_1_1_mock_r_l_s_constraint_1abe3298c1b74337ab55b75af52681a0ef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Phase3PolicyHardeningTest::MockRLSConstraint::operator_str</definition>
+        <argsstring></argsstring>
+        <name>operator_str</name>
+        <qualifiedname>Phase3PolicyHardeningTest::MockRLSConstraint::operator_str</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase3_policy_hardening_focused.cpp" line="87" column="21" bodyfile="tests/security/test_security_phase3_policy_hardening_focused.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_phase3_policy_hardening_test_1_1_mock_r_l_s_constraint_1a11ee6e6af1bc92cb7190e858605c0306" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string Phase3PolicyHardeningTest::MockRLSConstraint::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>Phase3PolicyHardeningTest::MockRLSConstraint::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase3_policy_hardening_focused.cpp" line="88" column="21" bodyfile="tests/security/test_security_phase3_policy_hardening_focused.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_phase3_policy_hardening_test_1_1_mock_r_l_s_constraint_1a4c913fe87d7b67dfc375703dc51e408a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool Phase3PolicyHardeningTest::MockRLSConstraint::negate</definition>
+        <argsstring></argsstring>
+        <name>negate</name>
+        <qualifiedname>Phase3PolicyHardeningTest::MockRLSConstraint::negate</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_phase3_policy_hardening_focused.cpp" line="89" column="14" bodyfile="tests/security/test_security_phase3_policy_hardening_focused.cpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock RLS constraint. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_security_phase3_policy_hardening_focused.cpp" line="85" column="5" bodyfile="tests/security/test_security_phase3_policy_hardening_focused.cpp" bodystart="85" bodyend="90"/>
+    <listofallmembers>
+      <member refid="struct_phase3_policy_hardening_test_1_1_mock_r_l_s_constraint_1ad21702504fa99b1631f81f695856bdc0" prot="public" virt="non-virtual"><scope>Phase3PolicyHardeningTest::MockRLSConstraint</scope><name>column_name</name></member>
+      <member refid="struct_phase3_policy_hardening_test_1_1_mock_r_l_s_constraint_1a4c913fe87d7b67dfc375703dc51e408a" prot="public" virt="non-virtual"><scope>Phase3PolicyHardeningTest::MockRLSConstraint</scope><name>negate</name></member>
+      <member refid="struct_phase3_policy_hardening_test_1_1_mock_r_l_s_constraint_1abe3298c1b74337ab55b75af52681a0ef" prot="public" virt="non-virtual"><scope>Phase3PolicyHardeningTest::MockRLSConstraint</scope><name>operator_str</name></member>
+      <member refid="struct_phase3_policy_hardening_test_1_1_mock_r_l_s_constraint_1a11ee6e6af1bc92cb7190e858605c0306" prot="public" virt="non-virtual"><scope>Phase3PolicyHardeningTest::MockRLSConstraint</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_lockout_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::LockoutInfo</compoundname>
+    <includes refid="auth__rate__limiter_8h" local="no">auth_rate_limiter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_lockout_info_1a32143bfb59137d0dfe8ec0a9107a52ac" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::LockoutInfo::is_locked</definition>
+        <argsstring></argsstring>
+        <name>is_locked</name>
+        <qualifiedname>themis::auth::LockoutInfo::is_locked</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="117" column="10" bodyfile="include/auth/auth_rate_limiter.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_lockout_info_1a5e2b8802b50b66c4dbdb45f562eb43ed" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::LockoutInfo::locked_until</definition>
+        <argsstring></argsstring>
+        <name>locked_until</name>
+        <qualifiedname>themis::auth::LockoutInfo::locked_until</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="118" column="43" bodyfile="include/auth/auth_rate_limiter.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_lockout_info_1abe39b7eca9a73e413eff71c3ac71d8e9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::LockoutInfo::failed_attempts</definition>
+        <argsstring></argsstring>
+        <name>failed_attempts</name>
+        <qualifiedname>themis::auth::LockoutInfo::failed_attempts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="119" column="12" bodyfile="include/auth/auth_rate_limiter.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_lockout_info_1a436de6311078a767638cd1392247dbc1" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::LockoutInfo::first_failure</definition>
+        <argsstring></argsstring>
+        <name>first_failure</name>
+        <qualifiedname>themis::auth::LockoutInfo::first_failure</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="120" column="43" bodyfile="include/auth/auth_rate_limiter.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_lockout_info_1af4cd5af43e5292ffea9d192db95b6ef0" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::LockoutInfo::last_failure</definition>
+        <argsstring></argsstring>
+        <name>last_failure</name>
+        <qualifiedname>themis::auth::LockoutInfo::last_failure</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="121" column="43" bodyfile="include/auth/auth_rate_limiter.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_lockout_info_1a9ad8c3ea3e81569f0fa7c01fe69ffbd2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1auth_1_1_failed_attempt" kindref="compound">FailedAttempt</ref> &gt;</type>
+        <definition>std::vector&lt;FailedAttempt&gt; themis::auth::LockoutInfo::recent_failures</definition>
+        <argsstring></argsstring>
+        <name>recent_failures</name>
+        <qualifiedname>themis::auth::LockoutInfo::recent_failures</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_rate_limiter.h" line="122" column="17" bodyfile="include/auth/auth_rate_limiter.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/auth_rate_limiter.h" line="116" column="1" bodyfile="include/auth/auth_rate_limiter.h" bodystart="116" bodyend="123"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_lockout_info_1abe39b7eca9a73e413eff71c3ac71d8e9" prot="public" virt="non-virtual"><scope>themis::auth::LockoutInfo</scope><name>failed_attempts</name></member>
+      <member refid="structthemis_1_1auth_1_1_lockout_info_1a436de6311078a767638cd1392247dbc1" prot="public" virt="non-virtual"><scope>themis::auth::LockoutInfo</scope><name>first_failure</name></member>
+      <member refid="structthemis_1_1auth_1_1_lockout_info_1a32143bfb59137d0dfe8ec0a9107a52ac" prot="public" virt="non-virtual"><scope>themis::auth::LockoutInfo</scope><name>is_locked</name></member>
+      <member refid="structthemis_1_1auth_1_1_lockout_info_1af4cd5af43e5292ffea9d192db95b6ef0" prot="public" virt="non-virtual"><scope>themis::auth::LockoutInfo</scope><name>last_failure</name></member>
+      <member refid="structthemis_1_1auth_1_1_lockout_info_1a5e2b8802b50b66c4dbdb45f562eb43ed" prot="public" virt="non-virtual"><scope>themis::auth::LockoutInfo</scope><name>locked_until</name></member>
+      <member refid="structthemis_1_1auth_1_1_lockout_info_1a9ad8c3ea3e81569f0fa7c01fe69ffbd2" prot="public" virt="non-virtual"><scope>themis::auth::LockoutInfo</scope><name>recent_failures</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

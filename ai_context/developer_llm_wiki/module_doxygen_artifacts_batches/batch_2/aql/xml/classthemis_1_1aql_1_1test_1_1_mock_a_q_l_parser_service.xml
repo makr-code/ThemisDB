@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::test::MockAQLParserService</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">query::AQLParserService</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">query::AQLParserService</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1a3bcd2b807e684e810890817b58db6974" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::test::MockAQLParserService::default_success_</definition>
+        <argsstring></argsstring>
+        <name>default_success_</name>
+        <qualifiedname>themis::aql::test::MockAQLParserService::default_success_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="71" column="10" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1a4447f18e60f0cf4aad56e8c204d9273d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::aql::test::MockAQLParserService::call_count_</definition>
+        <argsstring></argsstring>
+        <name>call_count_</name>
+        <qualifiedname>themis::aql::test::MockAQLParserService::call_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="72" column="17" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1a6cd1056c881f52beb7a8d807cec1b82b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::MockAQLParserService::MockAQLParserService</definition>
+        <argsstring>(bool default_success=true)</argsstring>
+        <name>MockAQLParserService</name>
+        <qualifiedname>themis::aql::test::MockAQLParserService::MockAQLParserService</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>default_success</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="38" column="5" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="38" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1a600496d152e32431e748a58ebbf1e69c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>query::ParseResult</type>
+        <definition>query::ParseResult themis::aql::test::MockAQLParserService::parse</definition>
+        <argsstring>(const std::string &amp;aql_query) override</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::aql::test::MockAQLParserService::parse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="41" column="24" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="41" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1ae1a08946f8eec8e324bae13d4e4b4114" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::test::MockAQLParserService::version</definition>
+        <argsstring>() const override</argsstring>
+        <name>version</name>
+        <qualifiedname>themis::aql::test::MockAQLParserService::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="62" column="17" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1ae1d3664b315ba389ae78d27d60ff6380" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::test::MockAQLParserService::supportsFeature</definition>
+        <argsstring>(const std::string &amp;feature) const override</argsstring>
+        <name>supportsFeature</name>
+        <qualifiedname>themis::aql::test::MockAQLParserService::supportsFeature</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>feature</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="64" column="10" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="64" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1ab5a3a4cb290e30c9a204b6c8ae113374" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::aql::test::MockAQLParserService::call_count</definition>
+        <argsstring>() const</argsstring>
+        <name>call_count</name>
+        <qualifiedname>themis::aql::test::MockAQLParserService::call_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="68" column="9" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1a63e241ca86e32c5cad5a871f598ab4e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::MockAQLParserService::MOCK_METHOD</definition>
+        <argsstring>(query::ParseResult, parse,(const std::string &amp;aql_query),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::aql::test::MockAQLParserService::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>query::ParseResult</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1a600496d152e32431e748a58ebbf1e69c" kindref="member">parse</ref></type>
+        </param>
+        <param>
+          <type>(const std::string &amp;aql_query)</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="34" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1ad840d7706141f152e94a28323342d11e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::MockAQLParserService::MOCK_METHOD</definition>
+        <argsstring>(std::string, getVersion,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::aql::test::MockAQLParserService::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::string</type>
+        </param>
+        <param>
+          <type>getVersion</type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="35" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1a9e6f425a65367593ac628fda5b7097d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::MockAQLParserService::MOCK_METHOD</definition>
+        <argsstring>(void, setFeatureFlags,(const query::FeatureFlags &amp;flags),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::aql::test::MockAQLParserService::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <param>
+          <type>setFeatureFlags</type>
+        </param>
+        <param>
+          <type>(const query::FeatureFlags &amp;flags)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1ab456e02167a773de3ba26e7c632ea9d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::MockAQLParserService::MOCK_METHOD</definition>
+        <argsstring>(query::FeatureFlags, getFeatureFlags,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::aql::test::MockAQLParserService::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>query::FeatureFlags</type>
+        </param>
+        <param>
+          <type>getFeatureFlags</type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="37" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock parser service for testing. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Mock AQL Parser Service for Phase 0.3 testing. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>query::AQLParserService</label>
+      </node>
+      <node id="1">
+        <label>themis::aql::test::MockAQLParserService</label>
+        <link refid="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>query::AQLParserService</label>
+      </node>
+      <node id="1">
+        <label>themis::aql::test::MockAQLParserService</label>
+        <link refid="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="36" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="36" bodyend="73"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1ab5a3a4cb290e30c9a204b6c8ae113374" prot="public" virt="non-virtual"><scope>themis::aql::test::MockAQLParserService</scope><name>call_count</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1a4447f18e60f0cf4aad56e8c204d9273d" prot="private" virt="non-virtual"><scope>themis::aql::test::MockAQLParserService</scope><name>call_count_</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1a3bcd2b807e684e810890817b58db6974" prot="private" virt="non-virtual"><scope>themis::aql::test::MockAQLParserService</scope><name>default_success_</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1a63e241ca86e32c5cad5a871f598ab4e6" prot="public" virt="non-virtual"><scope>themis::aql::test::MockAQLParserService</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1ad840d7706141f152e94a28323342d11e" prot="public" virt="non-virtual"><scope>themis::aql::test::MockAQLParserService</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1a9e6f425a65367593ac628fda5b7097d5" prot="public" virt="non-virtual"><scope>themis::aql::test::MockAQLParserService</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1ab456e02167a773de3ba26e7c632ea9d8" prot="public" virt="non-virtual"><scope>themis::aql::test::MockAQLParserService</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1a6cd1056c881f52beb7a8d807cec1b82b" prot="public" virt="non-virtual"><scope>themis::aql::test::MockAQLParserService</scope><name>MockAQLParserService</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1a600496d152e32431e748a58ebbf1e69c" prot="public" virt="non-virtual"><scope>themis::aql::test::MockAQLParserService</scope><name>parse</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1ae1d3664b315ba389ae78d27d60ff6380" prot="public" virt="non-virtual"><scope>themis::aql::test::MockAQLParserService</scope><name>supportsFeature</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service_1ae1a08946f8eec8e324bae13d4e4b4114" prot="public" virt="non-virtual"><scope>themis::aql::test::MockAQLParserService</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

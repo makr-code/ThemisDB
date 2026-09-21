@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__knowledge_1_1_federation_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_knowledge::FederationConfig</compoundname>
+    <includes refid="lora__federation__coordinator_8h" local="no">lora_federation_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_federation_config_1a3456accf27076c816b2eabc9ce84458a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::FederationConfig::min_participants</definition>
+        <argsstring></argsstring>
+        <name>min_participants</name>
+        <qualifiedname>themis::distributed_knowledge::FederationConfig::min_participants</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Minimum shards required for aggregation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="95" column="12" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_federation_config_1a008988391d53657527803ac372c0f431" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::FederationConfig::max_participants</definition>
+        <argsstring></argsstring>
+        <name>max_participants</name>
+        <qualifiedname>themis::distributed_knowledge::FederationConfig::max_participants</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Maximum shards tracked per round. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="96" column="12" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_federation_config_1a004b9caa582d08bd4912793eb3eef62c" prot="public" static="no" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::distributed_knowledge::FederationConfig::federation_interval</definition>
+        <argsstring></argsstring>
+        <name>federation_interval</name>
+        <qualifiedname>themis::distributed_knowledge::FederationConfig::federation_interval</qualifiedname>
+        <initializer>{24}</initializer>
+        <briefdescription>
+<para>Auto-trigger interval. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="97" column="24" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_federation_config_1ad9481f9011cd5a5172ee15e15219e58b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::FederationConfig::aggregation_algorithm</definition>
+        <argsstring></argsstring>
+        <name>aggregation_algorithm</name>
+        <qualifiedname>themis::distributed_knowledge::FederationConfig::aggregation_algorithm</qualifiedname>
+        <initializer>= &quot;FedAvg&quot;</initializer>
+        <briefdescription>
+<para>&quot;FedAvg&quot; | &quot;FedProx&quot; | &quot;median&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="100" column="17" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_federation_config_1a94bd749490dd5b8480409bd7635b60ba" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_knowledge::FederationConfig::weight_by_sample_count</definition>
+        <argsstring></argsstring>
+        <name>weight_by_sample_count</name>
+        <qualifiedname>themis::distributed_knowledge::FederationConfig::weight_by_sample_count</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Weight gradient by shard sample count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="101" column="10" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_federation_config_1a6b59c18592945cbc88500c957796d055" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::FederationConfig::dp_epsilon</definition>
+        <argsstring></argsstring>
+        <name>dp_epsilon</name>
+        <qualifiedname>themis::distributed_knowledge::FederationConfig::dp_epsilon</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+<para>Privacy budget ε spent <emphasis>per round</emphasis> (lower = more private). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="104" column="12" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_federation_config_1af2a03beff6c1824965877df7c624c01d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::FederationConfig::dp_delta</definition>
+        <argsstring></argsstring>
+        <name>dp_delta</name>
+        <qualifiedname>themis::distributed_knowledge::FederationConfig::dp_delta</qualifiedname>
+        <initializer>= 1e-5</initializer>
+        <briefdescription>
+<para>Failure probability δ </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="105" column="12" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_federation_config_1a3b77c6a498a304b21f4a93b2f16f7aa0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::FederationConfig::dp_sensitivity</definition>
+        <argsstring></argsstring>
+        <name>dp_sensitivity</name>
+        <qualifiedname>themis::distributed_knowledge::FederationConfig::dp_sensitivity</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>L2 sensitivity of gradient. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="106" column="12" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_federation_config_1ad0826d9036764098b846f057edd37d0e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::FederationConfig::max_rounds</definition>
+        <argsstring></argsstring>
+        <name>max_rounds</name>
+        <qualifiedname>themis::distributed_knowledge::FederationConfig::max_rounds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Maximum federation rounds (0 = unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="109" column="12" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_federation_config_1abb2085f7164ad6936d50bf6b765f028f" prot="public" static="no" mutable="no">
+        <type>std::chrono::minutes</type>
+        <definition>std::chrono::minutes themis::distributed_knowledge::FederationConfig::round_timeout</definition>
+        <argsstring></argsstring>
+        <name>round_timeout</name>
+        <qualifiedname>themis::distributed_knowledge::FederationConfig::round_timeout</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+<para>Max wait for all shards per round. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="112" column="26" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_federation_config_1ae93b43c605d01e0987f0aa08c4c34c31" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::FederationConfig::round_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>round_timeout_ms</name>
+        <qualifiedname>themis::distributed_knowledge::FederationConfig::round_timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+<para>Aggregation timeout in ms (DK-OR-B-1); 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="115" column="12" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__knowledge_1_1_federation_config_1ab5781d10097c7cbf5c60c89772827e80" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_knowledge::FederationConfig::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::distributed_knowledge::FederationConfig::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="118" column="11" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="118" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_knowledge/lora_federation_coordinator.h" line="93" column="1" bodyfile="include/distributed_knowledge/lora_federation_coordinator.h" bodystart="93" bodyend="125"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1ad9481f9011cd5a5172ee15e15219e58b" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederationConfig</scope><name>aggregation_algorithm</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1af2a03beff6c1824965877df7c624c01d" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederationConfig</scope><name>dp_delta</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1a6b59c18592945cbc88500c957796d055" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederationConfig</scope><name>dp_epsilon</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1a3b77c6a498a304b21f4a93b2f16f7aa0" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederationConfig</scope><name>dp_sensitivity</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1a004b9caa582d08bd4912793eb3eef62c" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederationConfig</scope><name>federation_interval</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1ab5781d10097c7cbf5c60c89772827e80" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederationConfig</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1a008988391d53657527803ac372c0f431" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederationConfig</scope><name>max_participants</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1ad0826d9036764098b846f057edd37d0e" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederationConfig</scope><name>max_rounds</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1a3456accf27076c816b2eabc9ce84458a" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederationConfig</scope><name>min_participants</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1abb2085f7164ad6936d50bf6b765f028f" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederationConfig</scope><name>round_timeout</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1ae93b43c605d01e0987f0aa08c4c34c31" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederationConfig</scope><name>round_timeout_ms</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_federation_config_1a94bd749490dd5b8480409bd7635b60ba" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::FederationConfig</scope><name>weight_by_sample_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

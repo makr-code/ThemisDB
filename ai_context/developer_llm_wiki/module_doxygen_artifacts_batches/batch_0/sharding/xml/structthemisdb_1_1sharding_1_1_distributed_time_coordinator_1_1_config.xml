@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_distributed_time_coordinator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::DistributedTimeCoordinator::Config</compoundname>
+    <includes refid="distributed__time__coordinator_8h" local="no">distributed_time_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_distributed_time_coordinator_1_1_config_1a659e17013cb6822e8fa6c5a4a3e67b48" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::sharding::DistributedTimeCoordinator::Config::base_uncertainty_ns</definition>
+        <argsstring></argsstring>
+        <name>base_uncertainty_ns</name>
+        <qualifiedname>themisdb::sharding::DistributedTimeCoordinator::Config::base_uncertainty_ns</qualifiedname>
+        <initializer>= 1000000</initializer>
+        <briefdescription>
+<para>Added uncertainty (default 1 ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_time_coordinator.h" line="52" column="17" bodyfile="include/sharding/distributed_time_coordinator.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_distributed_time_coordinator_1_1_config_1a7231f842f1d72ca4c5ddca7c950ed9ed" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::DistributedTimeCoordinator::Config::use_log_index_only</definition>
+        <argsstring></argsstring>
+        <name>use_log_index_only</name>
+        <qualifiedname>themisdb::sharding::DistributedTimeCoordinator::Config::use_log_index_only</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Use consensus log index as sole ordering source. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/distributed_time_coordinator.h" line="53" column="14" bodyfile="include/sharding/distributed_time_coordinator.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemisdb_1_1sharding_1_1_distributed_time_coordinator" kindref="compound">DistributedTimeCoordinator</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/distributed_time_coordinator.h" line="51" column="5" bodyfile="include/sharding/distributed_time_coordinator.h" bodystart="51" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_distributed_time_coordinator_1_1_config_1a659e17013cb6822e8fa6c5a4a3e67b48" prot="public" virt="non-virtual"><scope>themisdb::sharding::DistributedTimeCoordinator::Config</scope><name>base_uncertainty_ns</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_distributed_time_coordinator_1_1_config_1a7231f842f1d72ca4c5ddca7c950ed9ed" prot="public" virt="non-virtual"><scope>themisdb::sharding::DistributedTimeCoordinator::Config</scope><name>use_log_index_only</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

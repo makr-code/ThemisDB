@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_expanded_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ExpandedQuery</compoundname>
+    <includes refid="query__expander_8h" local="no">query_expander.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_expanded_query_1a5da931b706005509b9881bab4703f97b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ExpandedQuery::original</definition>
+        <argsstring></argsstring>
+        <name>original</name>
+        <qualifiedname>themis::ExpandedQuery::original</qualifiedname>
+        <briefdescription>
+<para>Original input query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="35" column="17" bodyfile="include/search/query_expander.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_expanded_query_1a0ef02619d1d5a9fbdf0d00526b1659f4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ExpandedQuery::corrected</definition>
+        <argsstring></argsstring>
+        <name>corrected</name>
+        <qualifiedname>themis::ExpandedQuery::corrected</qualifiedname>
+        <briefdescription>
+<para>Spelling-corrected query (empty if no correction). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="36" column="17" bodyfile="include/search/query_expander.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_expanded_query_1abb2ac595fdaeabd8955c63b53a6d9450" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ExpandedQuery::synonyms</definition>
+        <argsstring></argsstring>
+        <name>synonyms</name>
+        <qualifiedname>themis::ExpandedQuery::synonyms</qualifiedname>
+        <briefdescription>
+<para>Synonym terms added by expansion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="37" column="17" bodyfile="include/search/query_expander.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_expanded_query_1a62ba9539ae5f0d4ec5bb9b3e736c2901" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ExpandedQuery::relaxed_terms</definition>
+        <argsstring></argsstring>
+        <name>relaxed_terms</name>
+        <qualifiedname>themis::ExpandedQuery::relaxed_terms</qualifiedname>
+        <briefdescription>
+<para>Fallback tokens when query returns zero results. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="38" column="17" bodyfile="include/search/query_expander.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_expanded_query_1aa89496dbc4a4f6850cf7c635a347d9c4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ExpandedQuery::all_terms</definition>
+        <argsstring></argsstring>
+        <name>all_terms</name>
+        <qualifiedname>themis::ExpandedQuery::all_terms</qualifiedname>
+        <briefdescription>
+<para>Union of original tokens + synonyms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/query_expander.h" line="39" column="17" bodyfile="include/search/query_expander.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Expanded query produced by <ref refid="classthemis_1_1_query_expander_1a717d88766fbfbdfffa8fc816f96cfdd8" kindref="member">QueryExpander::expand()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/query_expander.h" line="34" column="1" bodyfile="include/search/query_expander.h" bodystart="34" bodyend="40"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_expanded_query_1aa89496dbc4a4f6850cf7c635a347d9c4" prot="public" virt="non-virtual"><scope>themis::ExpandedQuery</scope><name>all_terms</name></member>
+      <member refid="structthemis_1_1_expanded_query_1a0ef02619d1d5a9fbdf0d00526b1659f4" prot="public" virt="non-virtual"><scope>themis::ExpandedQuery</scope><name>corrected</name></member>
+      <member refid="structthemis_1_1_expanded_query_1a5da931b706005509b9881bab4703f97b" prot="public" virt="non-virtual"><scope>themis::ExpandedQuery</scope><name>original</name></member>
+      <member refid="structthemis_1_1_expanded_query_1a62ba9539ae5f0d4ec5bb9b3e736c2901" prot="public" virt="non-virtual"><scope>themis::ExpandedQuery</scope><name>relaxed_terms</name></member>
+      <member refid="structthemis_1_1_expanded_query_1abb2ac595fdaeabd8955c63b53a6d9450" prot="public" virt="non-virtual"><scope>themis::ExpandedQuery</scope><name>synonyms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

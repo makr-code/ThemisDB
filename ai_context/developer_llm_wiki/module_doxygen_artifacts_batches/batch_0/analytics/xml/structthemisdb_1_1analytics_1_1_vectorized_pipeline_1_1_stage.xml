@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_vectorized_pipeline_1_1_stage" kind="struct" language="C++" prot="private">
+    <compoundname>themisdb::analytics::VectorizedPipeline::Stage</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_vectorized_pipeline_1_1_stage_1a00e8cfb24ed6bdf820836ed5679a0acc" prot="public" static="no" mutable="no">
+        <type>StageType</type>
+        <definition>StageType themisdb::analytics::VectorizedPipeline::Stage::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::analytics::VectorizedPipeline::Stage::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="564" column="19" bodyfile="include/analytics/columnar_execution.h" bodystart="564" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_vectorized_pipeline_1_1_stage_1ae18408e540787f244384d165dd18f773" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_filter_operator" kindref="compound">FilterOperator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;FilterOperator&gt; themisdb::analytics::VectorizedPipeline::Stage::filter</definition>
+        <argsstring></argsstring>
+        <name>filter</name>
+        <qualifiedname>themisdb::analytics::VectorizedPipeline::Stage::filter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="565" column="28" bodyfile="include/analytics/columnar_execution.h" bodystart="565" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_vectorized_pipeline_1_1_stage_1a0f4626fd777f0f9e61e30df81a90ad88" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_project_operator" kindref="compound">ProjectOperator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ProjectOperator&gt; themisdb::analytics::VectorizedPipeline::Stage::project</definition>
+        <argsstring></argsstring>
+        <name>project</name>
+        <qualifiedname>themisdb::analytics::VectorizedPipeline::Stage::project</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="566" column="27" bodyfile="include/analytics/columnar_execution.h" bodystart="566" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_vectorized_pipeline_1_1_stage_1a684c2cc024c544e282da0707cc41d9e2" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_aggregate_operator" kindref="compound">AggregateOperator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AggregateOperator&gt; themisdb::analytics::VectorizedPipeline::Stage::aggregate</definition>
+        <argsstring></argsstring>
+        <name>aggregate</name>
+        <qualifiedname>themisdb::analytics::VectorizedPipeline::Stage::aggregate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="567" column="25" bodyfile="include/analytics/columnar_execution.h" bodystart="567" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_vectorized_pipeline_1_1_stage_1afde85f53a5006335cbd4f99d3db421b0" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_sort_operator" kindref="compound">SortOperator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SortOperator&gt; themisdb::analytics::VectorizedPipeline::Stage::sort</definition>
+        <argsstring></argsstring>
+        <name>sort</name>
+        <qualifiedname>themisdb::analytics::VectorizedPipeline::Stage::sort</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="568" column="30" bodyfile="include/analytics/columnar_execution.h" bodystart="568" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/columnar_execution.h" line="563" column="5" bodyfile="include/analytics/columnar_execution.h" bodystart="563" bodyend="569"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_vectorized_pipeline_1_1_stage_1a684c2cc024c544e282da0707cc41d9e2" prot="public" virt="non-virtual"><scope>themisdb::analytics::VectorizedPipeline::Stage</scope><name>aggregate</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_vectorized_pipeline_1_1_stage_1ae18408e540787f244384d165dd18f773" prot="public" virt="non-virtual"><scope>themisdb::analytics::VectorizedPipeline::Stage</scope><name>filter</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_vectorized_pipeline_1_1_stage_1a0f4626fd777f0f9e61e30df81a90ad88" prot="public" virt="non-virtual"><scope>themisdb::analytics::VectorizedPipeline::Stage</scope><name>project</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_vectorized_pipeline_1_1_stage_1afde85f53a5006335cbd4f99d3db421b0" prot="public" virt="non-virtual"><scope>themisdb::analytics::VectorizedPipeline::Stage</scope><name>sort</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_vectorized_pipeline_1_1_stage_1a00e8cfb24ed6bdf820836ed5679a0acc" prot="public" virt="non-virtual"><scope>themisdb::analytics::VectorizedPipeline::Stage</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1411 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_monitoring_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::MonitoringApiHandler</compoundname>
+    <includes refid="monitoring__api__handler_8h" local="no">monitoring_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_monitoring_api_handler_1a21145fd6204eae9a5b47926090b336e4" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::server::MonitoringApiHandler::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="262" column="21" bodyfile="include/server/monitoring_api_handler.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_monitoring_api_handler_1aecb6471111627bcf76240e875508614f" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AuthMiddleware&gt; themis::server::MonitoringApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="263" column="21" bodyfile="include/server/monitoring_api_handler.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_monitoring_api_handler_1a49a49d50025fc5c57c26cb5c5c741464" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt; *</type>
+        <definition>std::atomic&lt;uint64_t&gt;* themis::server::MonitoringApiHandler::request_count_</definition>
+        <argsstring></argsstring>
+        <name>request_count_</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::request_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="264" column="17" bodyfile="include/server/monitoring_api_handler.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_monitoring_api_handler_1a3738d466e9a83b59b56c688158e52945" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt; *</type>
+        <definition>std::atomic&lt;uint64_t&gt;* themis::server::MonitoringApiHandler::error_count_</definition>
+        <argsstring></argsstring>
+        <name>error_count_</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::error_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="265" column="17" bodyfile="include/server/monitoring_api_handler.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_monitoring_api_handler_1a3f1b161fcb0886fa2fd566ba60063445" prot="private" static="no" mutable="no">
+        <type>const std::chrono::steady_clock::time_point *</type>
+        <definition>const std::chrono::steady_clock::time_point* themis::server::MonitoringApiHandler::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="266" column="49" bodyfile="include/server/monitoring_api_handler.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_monitoring_api_handler_1a24f968e06e7774c4abd900c4975ed0c6" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;SecondaryIndexManager&gt; themis::server::MonitoringApiHandler::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="267" column="21" bodyfile="include/server/monitoring_api_handler.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_monitoring_api_handler_1a8c9e6323b1cb9e6c0f03835086e2b9a2" prot="private" static="no" mutable="no">
+        <type>::themis::SchemaManager *</type>
+        <definition>::themis::SchemaManager* themis::server::MonitoringApiHandler::schema_manager_</definition>
+        <argsstring></argsstring>
+        <name>schema_manager_</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::schema_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="268" column="29" bodyfile="include/server/monitoring_api_handler.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_monitoring_api_handler_1a527a59d2a1570a92232f9403a87d4b9e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_sharding_metrics_handler" kindref="compound">ShardingMetricsHandler</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardingMetricsHandler&gt; themis::server::MonitoringApiHandler::sharding_metrics_</definition>
+        <argsstring></argsstring>
+        <name>sharding_metrics_</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::sharding_metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="269" column="21" bodyfile="include/server/monitoring_api_handler.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_monitoring_api_handler_1a965a6e005960c409badcdf3a51103904" prot="private" static="no" mutable="no">
+        <type>const std::atomic&lt; bool &gt; *</type>
+        <definition>const std::atomic&lt;bool&gt;* themis::server::MonitoringApiHandler::is_running_</definition>
+        <argsstring></argsstring>
+        <name>is_running_</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::is_running_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="270" column="23" bodyfile="include/server/monitoring_api_handler.h" bodystart="270" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_monitoring_api_handler_1a727b6f9c102c93cdc4fd1c475f18869d" prot="private" static="no" mutable="no">
+        <type>const std::atomic&lt; uint64_t &gt; *</type>
+        <definition>const std::atomic&lt;uint64_t&gt;* themis::server::MonitoringApiHandler::active_requests_</definition>
+        <argsstring></argsstring>
+        <name>active_requests_</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::active_requests_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="271" column="23" bodyfile="include/server/monitoring_api_handler.h" bodystart="271" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_monitoring_api_handler_1aea7a1a190de414d830118ef31dee3f0e" prot="private" static="no" mutable="no">
+        <type>const std::atomic&lt; uint64_t &gt; *</type>
+        <definition>const std::atomic&lt;uint64_t&gt;* themis::server::MonitoringApiHandler::active_connections_</definition>
+        <argsstring></argsstring>
+        <name>active_connections_</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::active_connections_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="272" column="23" bodyfile="include/server/monitoring_api_handler.h" bodystart="272" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_monitoring_api_handler_1a2aeca801fab46b5e57a06a8836885561" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; core::concerns::ConcernsContext &gt;</type>
+        <definition>std::shared_ptr&lt;core::concerns::ConcernsContext&gt; themis::server::MonitoringApiHandler::concerns_</definition>
+        <argsstring></argsstring>
+        <name>concerns_</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::concerns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="273" column="21" bodyfile="include/server/monitoring_api_handler.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_monitoring_api_handler_1af4748e3f876f52bfcab6ac9c80415b41" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; observability::DefaultAlertmanager &gt;</type>
+        <definition>std::shared_ptr&lt;observability::DefaultAlertmanager&gt; themis::server::MonitoringApiHandler::alertmanager_</definition>
+        <argsstring></argsstring>
+        <name>alertmanager_</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::alertmanager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="274" column="21" bodyfile="include/server/monitoring_api_handler.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_monitoring_api_handler_1a0adf245d1db0ce01d1be05592c61659a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; observability::IProvenanceStore &gt;</type>
+        <definition>std::shared_ptr&lt;observability::IProvenanceStore&gt; themis::server::MonitoringApiHandler::provenance_store_</definition>
+        <argsstring></argsstring>
+        <name>provenance_store_</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::provenance_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="275" column="21" bodyfile="include/server/monitoring_api_handler.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_monitoring_api_handler_1a661cb84cf2a58693bb04498aae3161f5" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::rag::learning::ContinuousLearningOrchestrator &gt;</type>
+        <definition>std::shared_ptr&lt;themis::rag::learning::ContinuousLearningOrchestrator&gt; themis::server::MonitoringApiHandler::continuous_learning_orchestrator_</definition>
+        <argsstring></argsstring>
+        <name>continuous_learning_orchestrator_</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::continuous_learning_orchestrator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="277" column="9" bodyfile="include/server/monitoring_api_handler.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1ae40e30da5740044cf633ecc7860ab698" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::MonitoringApiHandler::MonitoringApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; AuthMiddleware &gt; auth, std::atomic&lt; uint64_t &gt; *request_count, std::atomic&lt; uint64_t &gt; *error_count, const std::chrono::steady_clock::time_point *start_time, std::shared_ptr&lt; SecondaryIndexManager &gt; secondary_index, ::themis::SchemaManager *schema_manager=nullptr, std::shared_ptr&lt; ShardingMetricsHandler &gt; sharding_metrics=nullptr, const std::atomic&lt; bool &gt; *is_running=nullptr, const std::atomic&lt; uint64_t &gt; *active_requests=nullptr, const std::atomic&lt; uint64_t &gt; *active_connections=nullptr, std::shared_ptr&lt; core::concerns::ConcernsContext &gt; concerns=nullptr)</argsstring>
+        <name>MonitoringApiHandler</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::MonitoringApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <param>
+          <type>std::atomic&lt; uint64_t &gt; *</type>
+          <declname>request_count</declname>
+        </param>
+        <param>
+          <type>std::atomic&lt; uint64_t &gt; *</type>
+          <declname>error_count</declname>
+        </param>
+        <param>
+          <type>const std::chrono::steady_clock::time_point *</type>
+          <declname>start_time</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+          <declname>secondary_index</declname>
+        </param>
+        <param>
+          <type>::themis::SchemaManager *</type>
+          <declname>schema_manager</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_sharding_metrics_handler" kindref="compound">ShardingMetricsHandler</ref> &gt;</type>
+          <declname>sharding_metrics</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>const std::atomic&lt; bool &gt; *</type>
+          <declname>is_running</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>const std::atomic&lt; uint64_t &gt; *</type>
+          <declname>active_requests</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>const std::atomic&lt; uint64_t &gt; *</type>
+          <declname>active_connections</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; core::concerns::ConcernsContext &gt;</type>
+          <declname>concerns</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="63" column="5" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="50" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1ac09ec3e1d9082b312d29edccbc32830b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::MonitoringApiHandler::handleHealthCheck</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleHealthCheck</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::handleHealthCheck</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Health Check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), std::chrono::steady_clock::now(), count(), themis::license::getEmbeddedLicense(), length(), substr(), themis::license::isLicenseValid(), themis::license::getDaysUntilExpiry(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="83" column="20" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="85" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1affa3a0d7b7f9f7b288a19dba1e6113fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::MonitoringApiHandler::handleLiveness</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleLiveness</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::handleLiveness</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Liveness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), load(), healthCheck(), buildConcernsJson(), makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="90" column="20" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="128" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1adcc6982e8ce85fbefb9549cd40af14c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::MonitoringApiHandler::handleReadiness</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleReadiness</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::handleReadiness</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Readiness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), load(), getRawDB(), what(), getrusage(), empty(), readinessCheck(), buildConcernsJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="97" column="20" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="160" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1a6484b2c3f331ee913238cbff0bc01683" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::MonitoringApiHandler::handleOpenApi</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleOpenApi</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::handleOpenApi</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Open Api. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), <ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1ae9f9de37721546433345f8741b0059ce" kindref="member">registerRoutes()</ref>, <ref refid="classthemis_1_1server_1_1_route_registry_1ac8695a9b59560ff201c07bce22767539" kindref="member">RouteRegistry::instance()</ref>, buildOpenApiSpec(), version(), set(), keep_alive(), body(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="104" column="20" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="420" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1a7498a2d5d96c9a09586eff9d71dc95ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::MonitoringApiHandler::handleVersion</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleVersion</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::handleVersion</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), themis::build_info::getBuildConfiguration(), themis::license::getEmbeddedLicense(), length(), substr(), themis::license::isLicenseValid(), themis::license::getDaysUntilExpiry(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="116" column="20" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="242" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1a2e69ae421017087b14029be04f0726d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::MonitoringApiHandler::handleStats</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleStats</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::handleStats</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), std::chrono::steady_clock::now(), count(), load(), getStats(), json::parse(), THEMIS_DEBUG(), serializeLoopContext(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="123" column="20" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="462" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1a449d238ecf8397f8cac9ae4252127ae5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::MonitoringApiHandler::handleCapabilities</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleCapabilities</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::handleCapabilities</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Capabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), themis::build_info::getBuildConfiguration(), THEMIS_WARN(), getCapabilitiesJSON(), contains(), makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="130" column="20" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="526" bodyend="641"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1a5b3b055260708487582db7284fc84795" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::MonitoringApiHandler::handleMetrics</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleMetrics</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::handleMetrics</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), std::chrono::steady_clock::now(), count(), load(), json::parse(), getStats(), THEMIS_DEBUG(), json::object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="137" column="20" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="649" bodyend="1059"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1ae8d1f310e2c85ea129e91d05772ebef3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::MonitoringApiHandler::handleMetricsHtml</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleMetricsHtml</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::handleMetricsHtml</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Metrics Html. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> /metrics/html – lightweight human-readable metrics dashboard ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prom_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="144" column="20" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="1727" bodyend="1949"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1acf79805dcd2bd9d657f38e3f88f5d17d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::MonitoringApiHandler::handlePluginMetrics</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handlePluginMetrics</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::handlePluginMetrics</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Plugin Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), themis::plugins::PluginManager::instance(), getMetrics(), getAllStats(), reserve(), size(), push_back(), std::sort(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="151" column="20" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="1067" bodyend="1117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1a4f54c634d33bdde2f8d397f0d5108ad4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::MonitoringApiHandler::handleShardingMetrics</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleShardingMetrics</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::handleShardingMetrics</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Sharding Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>==================== Phase 1.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+5: Sharding and SLO Endpoints ==================== Calls: Tracer::startSpan(), makeErrorResponse(), getMetrics(), getSLOMetrics(), empty(), version(), set(), keep_alive(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="158" column="20" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="1167" bodyend="1197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1a0e15e947041512f047d71859a5d5c493" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::MonitoringApiHandler::handleSLOStatus</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleSLOStatus</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::handleSLOStatus</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle SLOStatus. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), makeErrorResponse(), getSLOStatus(), makeResponse(), std::string(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="165" column="20" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="1205" bodyend="1222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1adb6f54865d25e71b36d1a2130d36de75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::MonitoringApiHandler::handleObservabilityAlerts</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleObservabilityAlerts</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::handleObservabilityAlerts</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Observability Alerts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Operator Observability REST API (Q1) ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="176" column="20" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="1331" bodyend="1412"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1a79188283538f3e5ee0e69a28f1420d1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::MonitoringApiHandler::handleObservabilityAlertSilence</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleObservabilityAlertSilence</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::handleObservabilityAlertSilence</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Observability Alert Silence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="184" column="20" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="1419" bodyend="1481"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1ab5e656564a085a938235b870e5b17a1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::MonitoringApiHandler::handleObservabilityHealth</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleObservabilityHealth</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::handleObservabilityHealth</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Observability Health. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="192" column="20" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="1488" bodyend="1545"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1afe1ad15c2a0556c804ed16b915178ead" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::MonitoringApiHandler::handleObservabilityProvenance</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleObservabilityProvenance</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::handleObservabilityProvenance</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Observability Provenance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="200" column="20" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="1552" bodyend="1719"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1a437355b319cb683af88643787e4d9b5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::MonitoringApiHandler::handleLicenseStatus</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleLicenseStatus</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::handleLicenseStatus</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle License Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================= GET /api/v1/license/status =============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), RuntimeLicenseGate::instance(), isInitialized(), licenseStatus(), graceDaysRemaining(), currentLicense(), getEmbeddedLicense(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="208" column="20" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="1958" bodyend="2000"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1aa99e59c2e4fcf62c0adea7d1e16fa00d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MonitoringApiHandler::setConcerns</definition>
+        <argsstring>(std::shared_ptr&lt; core::concerns::ConcernsContext &gt; concerns)</argsstring>
+        <name>setConcerns</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::setConcerns</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; core::concerns::ConcernsContext &gt;</type>
+          <declname>concerns</declname>
+        </param>
+        <briefdescription>
+<para>Set Concerns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">concerns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="216" column="10" bodyfile="include/server/monitoring_api_handler.h" bodystart="216" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1a8f483f94bf9ae14cdfd39a68c0c44475" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MonitoringApiHandler::setAlertmanager</definition>
+        <argsstring>(std::shared_ptr&lt; observability::DefaultAlertmanager &gt; alertmanager)</argsstring>
+        <name>setAlertmanager</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::setAlertmanager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; observability::DefaultAlertmanager &gt;</type>
+          <declname>alertmanager</declname>
+        </param>
+        <briefdescription>
+<para>Set Alertmanager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alertmanager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="225" column="10" bodyfile="include/server/monitoring_api_handler.h" bodystart="225" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1a76fa18c03524534a5f4f9d17a28f6638" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MonitoringApiHandler::setProvenanceStore</definition>
+        <argsstring>(std::shared_ptr&lt; observability::IProvenanceStore &gt; provenance_store)</argsstring>
+        <name>setProvenanceStore</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::setProvenanceStore</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; observability::IProvenanceStore &gt;</type>
+          <declname>provenance_store</declname>
+        </param>
+        <briefdescription>
+<para>Set Provenance Store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">provenance_store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="234" column="10" bodyfile="include/server/monitoring_api_handler.h" bodystart="234" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1abca95df78ff060465b1627a889ff5118" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MonitoringApiHandler::setShardingMetrics</definition>
+        <argsstring>(std::shared_ptr&lt; ShardingMetricsHandler &gt; sharding_metrics)</argsstring>
+        <name>setShardingMetrics</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::setShardingMetrics</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1server_1_1_sharding_metrics_handler" kindref="compound">ShardingMetricsHandler</ref> &gt;</type>
+          <declname>sharding_metrics</declname>
+        </param>
+        <briefdescription>
+<para>Set Sharding Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sharding_metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="243" column="10" bodyfile="include/server/monitoring_api_handler.h" bodystart="243" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1ac505291d7edc04a5f49f6dc1761e69aa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MonitoringApiHandler::setSchemaManager</definition>
+        <argsstring>(::themis::SchemaManager *schema_manager)</argsstring>
+        <name>setSchemaManager</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::setSchemaManager</qualifiedname>
+        <param>
+          <type>::themis::SchemaManager *</type>
+          <declname>schema_manager</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="247" column="10" bodyfile="include/server/monitoring_api_handler.h" bodystart="247" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1a84d84e6e9dce5a781b48b76c256849d9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MonitoringApiHandler::setContinuousLearningOrchestrator</definition>
+        <argsstring>(std::shared_ptr&lt; themis::rag::learning::ContinuousLearningOrchestrator &gt; orchestrator)</argsstring>
+        <name>setContinuousLearningOrchestrator</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::setContinuousLearningOrchestrator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::rag::learning::ContinuousLearningOrchestrator &gt;</type>
+          <declname>orchestrator</declname>
+        </param>
+        <briefdescription>
+<para>Set Continuous Learning Orchestrator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">orchestrator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="256" column="10" bodyfile="include/server/monitoring_api_handler.h" bodystart="256" bodyend="259"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1ae9f9de37721546433345f8741b0059ce" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MonitoringApiHandler::registerRoutes</definition>
+        <argsstring>()</argsstring>
+        <name>registerRoutes</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::registerRoutes</qualifiedname>
+        <briefdescription>
+<para>Register Routes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================= <ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1ae9f9de37721546433345f8741b0059ce" kindref="member">registerRoutes()</ref> – populate the global <ref refid="classthemis_1_1server_1_1_route_registry" kindref="compound">RouteRegistry</ref> with all monitoring handler endpoint annotations so that <ref refid="classthemis_1_1server_1_1_monitoring_api_handler_1a6484b2c3f331ee913238cbff0bc01683" kindref="member">handleOpenApi()</ref> can auto-generate the OpenAPI 3.</para>
+<para>1.0 spec without duplicating path information. ============================================================================= Calls: <ref refid="classthemis_1_1server_1_1_route_registry_1ac8695a9b59560ff201c07bce22767539" kindref="member">RouteRegistry::instance()</ref>, registerRoute(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="109" column="17" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="2007" bodyend="2494"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1a97ae02e626b29358eb16c8719769a835" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::MonitoringApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="286" column="20" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="1127" bodyend="1137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1ae0cac297319b1cf07f0616bfccffce9c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::MonitoringApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="295" column="20" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="1147" bodyend="1158"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_monitoring_api_handler_1abbf91c3b43a553616e803f9e5663436e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref></type>
+        <definition>json themis::server::MonitoringApiHandler::buildConcernsJson</definition>
+        <argsstring>(const core::concerns::HealthStatus &amp;status, bool &amp;ok)</argsstring>
+        <name>buildConcernsJson</name>
+        <qualifiedname>themis::server::MonitoringApiHandler::buildConcernsJson</qualifiedname>
+        <param>
+          <type>const core::concerns::HealthStatus &amp;</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>bool &amp;</type>
+          <declname>ok</declname>
+        </param>
+        <briefdescription>
+<para>Build Concerns Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ok</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/monitoring_api_handler.h" line="304" column="17" bodyfile="src/server/monitoring_api_handler.cpp" bodystart="1230" bodyend="1248"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/monitoring_api_handler.h" line="61" column="1" bodyfile="include/server/monitoring_api_handler.h" bodystart="61" bodyend="306"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1aea7a1a190de414d830118ef31dee3f0e" prot="private" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>active_connections_</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a727b6f9c102c93cdc4fd1c475f18869d" prot="private" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>active_requests_</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1af4748e3f876f52bfcab6ac9c80415b41" prot="private" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>alertmanager_</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1aecb6471111627bcf76240e875508614f" prot="private" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1abbf91c3b43a553616e803f9e5663436e" prot="private" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>buildConcernsJson</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a2aeca801fab46b5e57a06a8836885561" prot="private" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>concerns_</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a661cb84cf2a58693bb04498aae3161f5" prot="private" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>continuous_learning_orchestrator_</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a3738d466e9a83b59b56c688158e52945" prot="private" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>error_count_</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a449d238ecf8397f8cac9ae4252127ae5" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>handleCapabilities</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1ac09ec3e1d9082b312d29edccbc32830b" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>handleHealthCheck</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a437355b319cb683af88643787e4d9b5c" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>handleLicenseStatus</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1affa3a0d7b7f9f7b288a19dba1e6113fc" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>handleLiveness</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a5b3b055260708487582db7284fc84795" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>handleMetrics</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1ae8d1f310e2c85ea129e91d05772ebef3" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>handleMetricsHtml</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1adb6f54865d25e71b36d1a2130d36de75" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>handleObservabilityAlerts</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a79188283538f3e5ee0e69a28f1420d1d" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>handleObservabilityAlertSilence</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1ab5e656564a085a938235b870e5b17a1b" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>handleObservabilityHealth</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1afe1ad15c2a0556c804ed16b915178ead" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>handleObservabilityProvenance</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a6484b2c3f331ee913238cbff0bc01683" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>handleOpenApi</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1acf79805dcd2bd9d657f38e3f88f5d17d" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>handlePluginMetrics</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1adcc6982e8ce85fbefb9549cd40af14c5" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>handleReadiness</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a4f54c634d33bdde2f8d397f0d5108ad4" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>handleShardingMetrics</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a0e15e947041512f047d71859a5d5c493" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>handleSLOStatus</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a2e69ae421017087b14029be04f0726d1" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>handleStats</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a7498a2d5d96c9a09586eff9d71dc95ba" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>handleVersion</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a965a6e005960c409badcdf3a51103904" prot="private" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>is_running_</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a97ae02e626b29358eb16c8719769a835" prot="private" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1ae0cac297319b1cf07f0616bfccffce9c" prot="private" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1ae40e30da5740044cf633ecc7860ab698" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>MonitoringApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a0adf245d1db0ce01d1be05592c61659a" prot="private" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>provenance_store_</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1ae9f9de37721546433345f8741b0059ce" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>registerRoutes</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a49a49d50025fc5c57c26cb5c5c741464" prot="private" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>request_count_</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a8c9e6323b1cb9e6c0f03835086e2b9a2" prot="private" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>schema_manager_</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a24f968e06e7774c4abd900c4975ed0c6" prot="private" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>secondary_index_</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a8f483f94bf9ae14cdfd39a68c0c44475" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>setAlertmanager</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1aa99e59c2e4fcf62c0adea7d1e16fa00d" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>setConcerns</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a84d84e6e9dce5a781b48b76c256849d9" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>setContinuousLearningOrchestrator</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a76fa18c03524534a5f4f9d17a28f6638" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>setProvenanceStore</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1ac505291d7edc04a5f49f6dc1761e69aa" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>setSchemaManager</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1abca95df78ff060465b1627a889ff5118" prot="public" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>setShardingMetrics</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a527a59d2a1570a92232f9403a87d4b9e" prot="private" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>sharding_metrics_</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a3f1b161fcb0886fa2fd566ba60063445" prot="private" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1server_1_1_monitoring_api_handler_1a21145fd6204eae9a5b47926090b336e4" prot="private" virt="non-virtual"><scope>themis::server::MonitoringApiHandler</scope><name>storage_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_async_s_s_e_stream_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::AsyncSSEStreamConfig</compoundname>
+    <includes refid="changefeed__api__handler_8h" local="no">changefeed_api_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_async_s_s_e_stream_config_1a84d3bf0a119b68dbd082b3cfd7c53e40" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::AsyncSSEStreamConfig::max_buffered_events</definition>
+        <argsstring></argsstring>
+        <name>max_buffered_events</name>
+        <qualifiedname>themis::server::AsyncSSEStreamConfig::max_buffered_events</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="43" column="12" bodyfile="include/server/changefeed_api_handler.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_async_s_s_e_stream_config_1a19c7d276bf88b53124870be3745a260b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::AsyncSSEStreamConfig::heartbeat_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_interval_ms</name>
+        <qualifiedname>themis::server::AsyncSSEStreamConfig::heartbeat_interval_ms</qualifiedname>
+        <initializer>= 15000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="44" column="14" bodyfile="include/server/changefeed_api_handler.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_async_s_s_e_stream_config_1ab362abc83a1c75bb32f0d320320f8e38" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::AsyncSSEStreamConfig::max_duration_seconds</definition>
+        <argsstring></argsstring>
+        <name>max_duration_seconds</name>
+        <qualifiedname>themis::server::AsyncSSEStreamConfig::max_duration_seconds</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="45" column="14" bodyfile="include/server/changefeed_api_handler.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_async_s_s_e_stream_config_1a68375f4645e524cbc5aac382cae07018" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::AsyncSSEStreamConfig::drop_oldest_on_overflow</definition>
+        <argsstring></argsstring>
+        <name>drop_oldest_on_overflow</name>
+        <qualifiedname>themis::server::AsyncSSEStreamConfig::drop_oldest_on_overflow</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="46" column="10" bodyfile="include/server/changefeed_api_handler.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/changefeed_api_handler.h" line="42" column="1" bodyfile="include/server/changefeed_api_handler.h" bodystart="42" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_async_s_s_e_stream_config_1a68375f4645e524cbc5aac382cae07018" prot="public" virt="non-virtual"><scope>themis::server::AsyncSSEStreamConfig</scope><name>drop_oldest_on_overflow</name></member>
+      <member refid="structthemis_1_1server_1_1_async_s_s_e_stream_config_1a19c7d276bf88b53124870be3745a260b" prot="public" virt="non-virtual"><scope>themis::server::AsyncSSEStreamConfig</scope><name>heartbeat_interval_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_async_s_s_e_stream_config_1a84d3bf0a119b68dbd082b3cfd7c53e40" prot="public" virt="non-virtual"><scope>themis::server::AsyncSSEStreamConfig</scope><name>max_buffered_events</name></member>
+      <member refid="structthemis_1_1server_1_1_async_s_s_e_stream_config_1ab362abc83a1c75bb32f0d320320f8e38" prot="public" virt="non-virtual"><scope>themis::server::AsyncSSEStreamConfig</scope><name>max_duration_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

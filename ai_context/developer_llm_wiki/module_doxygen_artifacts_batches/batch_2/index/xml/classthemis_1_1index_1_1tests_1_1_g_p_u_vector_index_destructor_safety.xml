@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_destructor_safety" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::tests::GPUVectorIndexDestructorSafety</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_destructor_safety_1a32502e5824474a129d3b4bb495df0f92" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::tests::GPUVectorIndexDestructorSafety::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::index::tests::GPUVectorIndexDestructorSafety::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_destructor_safety.cpp" line="208" column="10" bodyfile="tests/index/test_index_destructor_safety.cpp" bodystart="208" bodyend="211"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::index::tests::GPUVectorIndexDestructorSafety</label>
+        <link refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_destructor_safety"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::index::tests::GPUVectorIndexDestructorSafety</label>
+        <link refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_destructor_safety"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/index/test_index_destructor_safety.cpp" line="206" column="1" bodyfile="tests/index/test_index_destructor_safety.cpp" bodystart="206" bodyend="212"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_destructor_safety_1a32502e5824474a129d3b4bb495df0f92" prot="protected" virt="non-virtual"><scope>themis::index::tests::GPUVectorIndexDestructorSafety</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::PairwiseComparator::Config</compoundname>
+    <includes refid="pairwise__comparator_8h" local="no">pairwise_comparator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config_1a7f36607cf9e722bf7ed7cbea8321d30a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1a539dcf7dc7a802c1e7efe049d4af9bea" kindref="member">BiasMitigationStrategy</ref></type>
+        <definition>BiasMitigationStrategy themis::rag::judge::PairwiseComparator::Config::bias_strategy</definition>
+        <argsstring></argsstring>
+        <name>bias_strategy</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparator::Config::bias_strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1rag_1_1judge_1a539dcf7dc7a802c1e7efe049d4af9beaafc28fd295778079207f3286c341f3628" kindref="member">BiasMitigationStrategy::FLIP_AND_AVERAGE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="90" column="32" bodyfile="include/rag/pairwise_comparator.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config_1a26d0abb131330eb1e6ba3b7c1e4c8362" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::PairwiseComparator::Config::tie_threshold</definition>
+        <argsstring></argsstring>
+        <name>tie_threshold</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparator::Config::tie_threshold</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+<para>Score difference for tie. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="91" column="16" bodyfile="include/rag/pairwise_comparator.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config_1a2c10f52be5e9f68c636ce5d14e444770" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::PairwiseComparator::Config::confidence_threshold</definition>
+        <argsstring></argsstring>
+        <name>confidence_threshold</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparator::Config::confidence_threshold</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+<para>Minimum confidence for decision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="92" column="16" bodyfile="include/rag/pairwise_comparator.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config_1aebb6d15f149942e583de7e372f5b4ac5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::PairwiseComparator::Config::num_samples</definition>
+        <argsstring></argsstring>
+        <name>num_samples</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparator::Config::num_samples</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>For MULTI_SAMPLE strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="93" column="13" bodyfile="include/rag/pairwise_comparator.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config_1a78a823e725533bd942cb952565232125" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::PairwiseComparator::Config::enable_per_dimension</definition>
+        <argsstring></argsstring>
+        <name>enable_per_dimension</name>
+        <qualifiedname>themis::rag::judge::PairwiseComparator::Config::enable_per_dimension</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Compare per dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="94" column="14" bodyfile="include/rag/pairwise_comparator.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for pairwise comparison. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/pairwise_comparator.h" line="89" column="5" bodyfile="include/rag/pairwise_comparator.h" bodystart="89" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config_1a7f36607cf9e722bf7ed7cbea8321d30a" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparator::Config</scope><name>bias_strategy</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config_1a2c10f52be5e9f68c636ce5d14e444770" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparator::Config</scope><name>confidence_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config_1a78a823e725533bd942cb952565232125" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparator::Config</scope><name>enable_per_dimension</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config_1aebb6d15f149942e583de7e372f5b4ac5" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparator::Config</scope><name>num_samples</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparator_1_1_config_1a26d0abb131330eb1e6ba3b7c1e4c8362" prot="public" virt="non-virtual"><scope>themis::rag::judge::PairwiseComparator::Config</scope><name>tie_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

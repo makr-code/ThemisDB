@@ -1,0 +1,474 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_tensor_mmap_bridge" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorMmapBridge</compoundname>
+    <includes refid="tensor__mmap__bridge_8h" local="no">tensor_mmap_bridge.h</includes>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_mmap_bridge_1_1_region" prot="private">themis::tensor::TensorMmapBridge::Region</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ad72a420bd8d2635b98b75add7c503514" prot="public" static="no">
+        <type>std::function&lt; void *(std::size_t bytes, std::size_t core_idx)&gt;</type>
+        <definition>using themis::tensor::TensorMmapBridge::SstMapFn = std::function&lt;void*(std::size_t bytes, std::size_t core_idx)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SstMapFn</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::SstMapFn</qualifiedname>
+        <briefdescription>
+<para>Injectable SST page-map function (STUB #270). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Signature: <computeroutput>void* fn(std::size_t bytes, std::size_t core_idx)</computeroutput>.</para>
+<para>When set, <computeroutput>buildFromTrain()</computeroutput> calls this function for each TT-core before falling back to <computeroutput>MAP_ANONYMOUS + memcpy</computeroutput>. The function should return a pointer to a readable memory region of exactly <computeroutput>bytes</computeroutput> bytes that is pre-populated with the core&apos;s float data (e.g. via MAP_SHARED on a RocksDB SST file page). Returning <computeroutput>nullptr</computeroutput> triggers the fallback for that core only.</para>
+<para>The bridge does NOT call <computeroutput>munmap</computeroutput> / <computeroutput>VirtualFree</computeroutput> on regions returned by this function (ownership remains with the caller of the fn). To signal that a region should be freed by the bridge destructor via the normal <computeroutput>freeRegion()</computeroutput> path, return the value from <computeroutput>allocRegion()</computeroutput>. For zero-copy MAP_SHARED regions the caller must unmap them separately.</para>
+<para>Thread-safety: set/clear are mutex-guarded; <computeroutput>buildFromTrain()</computeroutput> acquires the lock once per call to snapshot the fn. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="194" column="5" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1aefad485e166f3e4a30dfab8d4723c356" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class TensorIndexManager</definition>
+        <argsstring></argsstring>
+        <name>TensorIndexManager</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::TensorIndexManager</qualifiedname>
+        <param>
+          <type>TensorIndexManager</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="124" column="18" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a6bb5db07045f54df441dc04b7b64b43f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; Region &gt;</type>
+        <definition>std::vector&lt;Region&gt; themis::tensor::TensorMmapBridge::regions_</definition>
+        <argsstring></argsstring>
+        <name>regions_</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::regions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="213" column="24" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1aa324539f3fe00529c23df9a85273d6f5" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_mmap_core_slice" kindref="compound">MmapCoreSlice</ref> &gt;</type>
+        <definition>std::vector&lt;MmapCoreSlice&gt; themis::tensor::TensorMmapBridge::slices_</definition>
+        <argsstring></argsstring>
+        <name>slices_</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::slices_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="214" column="17" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ac6e7da4b7cfa8cb0d2ccd7c2f7ec76e1" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorMmapBridge::total_bytes_</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::total_bytes_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="215" column="32" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a0c53965ea363cce1c375ef01e75ab858" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorMmapBridge::locked_count_</definition>
+        <argsstring></argsstring>
+        <name>locked_count_</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::locked_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="216" column="32" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1aee05a714ba79d4cfe0dc034449bbd4b4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_mmap_core_slice" kindref="compound">MmapCoreSlice</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; MmapCoreSlice &gt; &amp; themis::tensor::TensorMmapBridge::slices</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>slices</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::slices</qualifiedname>
+        <briefdescription>
+<para>All pinned core slices, in TT-core order (core 0 … core d-1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="69" column="24" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="69" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a19b8548a4538330f5561263331e8095f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorMmapBridge::coreCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>coreCount</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::coreCount</qualifiedname>
+        <briefdescription>
+<para>Number of TT-cores (equals the order of the represented tensor). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="74" column="18" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="74" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1aa25f0ec241e96c20facd316144ac051b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorMmapBridge::totalBytes</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalBytes</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::totalBytes</qualifiedname>
+        <briefdescription>
+<para>Total bytes across all pinned regions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="79" column="18" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="79" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a44721be045def6829c73c1432ec30af4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::TensorMmapBridge::isLocked</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isLocked</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::isLocked</qualifiedname>
+        <briefdescription>
+<para>Whether <computeroutput>mlock()</computeroutput> succeeded for at least one region. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns false when running in environments where <computeroutput>RLIMIT_MEMLOCK</computeroutput> is 0 (e.g. unprivileged CI containers). Data pointers remain valid regardless; only swapability is affected. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="90" column="11" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a7079cb9b0ad6742ccb48005898bdbb0d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorMmapBridge::lockedRegions</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>lockedRegions</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::lockedRegions</qualifiedname>
+        <briefdescription>
+<para>Number of regions for which <computeroutput>mlock()</computeroutput> succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="93" column="18" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="93" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1af2f9ad4d0cc7422247bc2cf25218be98" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorMmapBridge::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::release</qualifiedname>
+        <briefdescription>
+<para>Release all pinned regions early. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>After <computeroutput><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1af2f9ad4d0cc7422247bc2cf25218be98" kindref="member">release()</ref></computeroutput>, all pointers from <computeroutput><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1aee05a714ba79d4cfe0dc034449bbd4b4" kindref="member">slices()</ref></computeroutput> are invalid. Calling <computeroutput><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1af2f9ad4d0cc7422247bc2cf25218be98" kindref="member">release()</ref></computeroutput> multiple times is safe. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="107" column="10" bodyfile="src/tensor/tensor_mmap_bridge.cpp" bodystart="325" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ac46c197e74a0de575cd138839adf0208" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TensorMmapBridge::~TensorMmapBridge</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~TensorMmapBridge</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::~TensorMmapBridge</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="113" column="5" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="113" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TensorMmapBridge::TensorMmapBridge</definition>
+        <argsstring>(const TensorMmapBridge &amp;)=delete</argsstring>
+        <name>TensorMmapBridge</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::TensorMmapBridge</qualifiedname>
+        <param>
+          <type>const TensorMmapBridge &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="115" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a339eb48af61a535128ed33882fb33594" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" kindref="member">TensorMmapBridge</ref> &amp;</type>
+        <definition>TensorMmapBridge &amp; themis::tensor::TensorMmapBridge::operator=</definition>
+        <argsstring>(const TensorMmapBridge &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" kindref="member">TensorMmapBridge</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="116" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a44f7e2dc1ffbb06041c0de495a0e3892" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TensorMmapBridge::TensorMmapBridge</definition>
+        <argsstring>(TensorMmapBridge &amp;&amp;) noexcept</argsstring>
+        <name>TensorMmapBridge</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::TensorMmapBridge</qualifiedname>
+        <param>
+          <type>TensorMmapBridge &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="118" column="5" bodyfile="src/tensor/tensor_mmap_bridge.cpp" bodystart="359" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a65ba9d4da85fb4f2389c7c5e3229a944" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" kindref="member">TensorMmapBridge</ref> &amp;</type>
+        <definition>TensorMmapBridge &amp; themis::tensor::TensorMmapBridge::operator=</definition>
+        <argsstring>(TensorMmapBridge &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" kindref="member">TensorMmapBridge</ref> &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="119" column="22" bodyfile="src/tensor/tensor_mmap_bridge.cpp" bodystart="368" bodyend="379"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a89fbb74fcd8f3c875aa8fb88e8481a4c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TensorMmapBridge::TensorMmapBridge</definition>
+        <argsstring>()=default</argsstring>
+        <name>TensorMmapBridge</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::TensorMmapBridge</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="126" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a9b58ab4d1363eeb86bdbc447816d8ba5" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" kindref="member">TensorMmapBridge</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; TensorMmapBridge &gt; themis::tensor::TensorMmapBridge::buildFromTrain</definition>
+        <argsstring>(const storage::TTTrain &amp;train)</argsstring>
+        <name>buildFromTrain</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::buildFromTrain</qualifiedname>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>train</declname>
+        </param>
+        <briefdescription>
+<para>Build a bridge from a TTTrain using MAP_ANONYMOUS + memcpy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Page-pins each TT-core array in an anonymous mmap region so that the GGML bridge can reference data pointers without holding the index lock. When an SST-map function is injected via <ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a306df8265797f185df6b40be00e45bba" kindref="member">setSstMapFn()</ref>, the zero-copy MAP_SHARED path is used for any core for which the function returns a non-null pointer.</para>
+<para>PERMANENT FALLBACK NOTE: This is the always-available fallback path. For zero-copy MAP_SHARED over real SST file pages, inject a <ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ad72a420bd8d2635b98b75add7c503514" kindref="member">SstMapFn</ref> via <ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a306df8265797f185df6b40be00e45bba" kindref="member">setSstMapFn()</ref> or use buildFromFd() when a backing file descriptor is available. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="143" column="5" bodyfile="src/tensor/tensor_mmap_bridge.cpp" bodystart="146" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1acf5522d67af459527a16a1537d91a252" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" kindref="member">TensorMmapBridge</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; TensorMmapBridge &gt; themis::tensor::TensorMmapBridge::buildFromFd</definition>
+        <argsstring>(const storage::TTTrain &amp;train, int fd, std::size_t byte_offset=0)</argsstring>
+        <name>buildFromFd</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::buildFromFd</qualifiedname>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>train</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>byte_offset</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Build a bridge using MAP_SHARED on a backing file descriptor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When <computeroutput>fd</computeroutput> is a valid open file descriptor (≥ 0) and the platform supports mmap(MAP_SHARED), each TT-core region is mapped directly from the file at the given <computeroutput>byte_offset</computeroutput> without any memcpy. This is the production zero-copy path for SST-resident TT-trains.</para>
+<para>Ownership: the caller retains ownership of <computeroutput>fd</computeroutput>; the bridge does not close it. Regions mapped with MAP_SHARED are tracked as <computeroutput>externally_owned = true</computeroutput> (the destructor calls munmap but NOT close).</para>
+<para>PERMANENT FALLBACK NOTE: When <computeroutput>fd</computeroutput> &lt; 0, or when the platform does not support mmap(MAP_SHARED), the call transparently falls back to buildFromTrain(train) (MAP_ANONYMOUS<itemizedlist>
+<listitem><para>memcpy).</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>train</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Decomposed TT-train whose float data populates the map. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Open read-only file descriptor for the backing SST file. Pass -1 to always use the MAP_ANONYMOUS fallback. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>byte_offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Byte offset inside <computeroutput>fd</computeroutput> where the TT data starts. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="168" column="5" bodyfile="src/tensor/tensor_mmap_bridge.cpp" bodystart="232" bodyend="323"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a306df8265797f185df6b40be00e45bba" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorMmapBridge::setSstMapFn</definition>
+        <argsstring>(SstMapFn fn)</argsstring>
+        <name>setSstMapFn</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::setSstMapFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ad72a420bd8d2635b98b75add7c503514" kindref="member">SstMapFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject the SST page-map backend (STUB #270). Thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), sstMapFnMutex(), sstMapFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="197" column="17" bodyfile="src/tensor/tensor_mmap_bridge.cpp" bodystart="58" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a1f3e93eb6b3d1785a6cefb74e9509663" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorMmapBridge::clearSstMapFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearSstMapFn</name>
+        <qualifiedname>themis::tensor::TensorMmapBridge::clearSstMapFn</qualifiedname>
+        <briefdescription>
+<para>Clear the SST page-map backend. Falls back to MAP_ANONYMOUS+memcpy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para>Calls: lk(), sstMapFnMutex(), sstMapFnStorage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_mmap_bridge.h" line="199" column="17" bodyfile="src/tensor/tensor_mmap_bridge.cpp" bodystart="67" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII owner of mmap-pinned TT-core pages. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Constructed exclusively by <computeroutput><ref refid="classthemis_1_1tensor_1_1_tensor_index_manager_1aac4009fd93deaa2878ed894531cf58b4" kindref="member">TensorIndexManager::mapCores()</ref></computeroutput>. Clients should hold this object as long as they need the pinned pointers; destruction frees all resources.</para>
+<para><programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bridge<sp/>=<sp/>mgr-&gt;mapCores(tenant,<sp/>coll,<sp/>field,<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!bridge)<sp/>{<sp/></highlight><highlight class="comment">//<sp/>vector<sp/>not<sp/>found</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>s<sp/>:<sp/>bridge-&gt;slices())<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>use<sp/>s.data[0..s.num_elems-1]</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>bridge<sp/>destructor<sp/>calls<sp/>munlock+munmap</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/tensor/tensor_mmap_bridge.h" line="62" column="1" bodyfile="include/tensor/tensor_mmap_bridge.h" bodystart="62" bodyend="217"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1acf5522d67af459527a16a1537d91a252" prot="private" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>buildFromFd</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a9b58ab4d1363eeb86bdbc447816d8ba5" prot="private" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>buildFromTrain</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a1f3e93eb6b3d1785a6cefb74e9509663" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>clearSstMapFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a19b8548a4538330f5561263331e8095f" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>coreCount</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a44721be045def6829c73c1432ec30af4" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>isLocked</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a0c53965ea363cce1c375ef01e75ab858" prot="private" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>locked_count_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a7079cb9b0ad6742ccb48005898bdbb0d" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>lockedRegions</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a339eb48af61a535128ed33882fb33594" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a65ba9d4da85fb4f2389c7c5e3229a944" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a6bb5db07045f54df441dc04b7b64b43f" prot="private" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>regions_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1af2f9ad4d0cc7422247bc2cf25218be98" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>release</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a306df8265797f185df6b40be00e45bba" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>setSstMapFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1aee05a714ba79d4cfe0dc034449bbd4b4" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>slices</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1aa324539f3fe00529c23df9a85273d6f5" prot="private" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>slices_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ad72a420bd8d2635b98b75add7c503514" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>SstMapFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1aefad485e166f3e4a30dfab8d4723c356" prot="private" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>TensorIndexManager</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ada8a6b69e531577f2c5a0818ddb142a7" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>TensorMmapBridge</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a44f7e2dc1ffbb06041c0de495a0e3892" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>TensorMmapBridge</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1a89fbb74fcd8f3c875aa8fb88e8481a4c" prot="private" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>TensorMmapBridge</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ac6e7da4b7cfa8cb0d2ccd7c2f7ec76e1" prot="private" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>total_bytes_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1aa25f0ec241e96c20facd316144ac051b" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>totalBytes</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_mmap_bridge_1ac46c197e74a0de575cd138839adf0208" prot="public" virt="non-virtual"><scope>themis::tensor::TensorMmapBridge</scope><name>~TensorMmapBridge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

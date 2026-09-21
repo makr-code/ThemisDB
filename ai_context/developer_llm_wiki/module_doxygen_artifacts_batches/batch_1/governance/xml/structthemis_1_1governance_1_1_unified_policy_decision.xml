@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_unified_policy_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::UnifiedPolicyDecision</compoundname>
+    <includes refid="policy__coordinator_8h" local="no">policy_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_unified_policy_decision_1ab47305f3615c4488a9a4c0048726505a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::UnifiedPolicyDecision::classification</definition>
+        <argsstring></argsstring>
+        <name>classification</name>
+        <qualifiedname>themis::governance::UnifiedPolicyDecision::classification</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_coordinator.h" line="29" column="17" bodyfile="include/governance/policy_coordinator.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_unified_policy_decision_1a1b1d44d38ee2793a2ae590217a5d7cb9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::UnifiedPolicyDecision::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::governance::UnifiedPolicyDecision::mode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_coordinator.h" line="30" column="17" bodyfile="include/governance/policy_coordinator.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_unified_policy_decision_1a962151f560cdf48b12d48453a166e90a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::UnifiedPolicyDecision::encrypt_logs</definition>
+        <argsstring></argsstring>
+        <name>encrypt_logs</name>
+        <qualifiedname>themis::governance::UnifiedPolicyDecision::encrypt_logs</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_coordinator.h" line="31" column="10" bodyfile="include/governance/policy_coordinator.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_unified_policy_decision_1acdcb69c03e468d1c11b07aa60d0b76a6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::UnifiedPolicyDecision::redaction</definition>
+        <argsstring></argsstring>
+        <name>redaction</name>
+        <qualifiedname>themis::governance::UnifiedPolicyDecision::redaction</qualifiedname>
+        <initializer>= &quot;standard&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_coordinator.h" line="32" column="17" bodyfile="include/governance/policy_coordinator.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_unified_policy_decision_1a6a22f9199391cc908cd7bc36d2a11f32" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::UnifiedPolicyDecision::ann_allowed</definition>
+        <argsstring></argsstring>
+        <name>ann_allowed</name>
+        <qualifiedname>themis::governance::UnifiedPolicyDecision::ann_allowed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_coordinator.h" line="33" column="10" bodyfile="include/governance/policy_coordinator.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_unified_policy_decision_1ac3e0614be990b4b4e8c2c899d7e2f550" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::UnifiedPolicyDecision::require_content_encryption</definition>
+        <argsstring></argsstring>
+        <name>require_content_encryption</name>
+        <qualifiedname>themis::governance::UnifiedPolicyDecision::require_content_encryption</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_coordinator.h" line="34" column="10" bodyfile="include/governance/policy_coordinator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_unified_policy_decision_1afb5bb1c63629e90ad8ca2263c3211bd3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::UnifiedPolicyDecision::rbac_allowed</definition>
+        <argsstring></argsstring>
+        <name>rbac_allowed</name>
+        <qualifiedname>themis::governance::UnifiedPolicyDecision::rbac_allowed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_coordinator.h" line="37" column="10" bodyfile="include/governance/policy_coordinator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_unified_policy_decision_1a9b8297b3282c490e7a322e782a9b3006" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::UnifiedPolicyDecision::require_encryption</definition>
+        <argsstring></argsstring>
+        <name>require_encryption</name>
+        <qualifiedname>themis::governance::UnifiedPolicyDecision::require_encryption</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_coordinator.h" line="38" column="10" bodyfile="include/governance/policy_coordinator.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_unified_policy_decision_1a7056fea6decfa198497dfb354cbc25c4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::UnifiedPolicyDecision::require_signature</definition>
+        <argsstring></argsstring>
+        <name>require_signature</name>
+        <qualifiedname>themis::governance::UnifiedPolicyDecision::require_signature</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_coordinator.h" line="39" column="10" bodyfile="include/governance/policy_coordinator.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_unified_policy_decision_1a0b49ff01f1b0610119c40062367a01f9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::UnifiedPolicyDecision::export_allowed</definition>
+        <argsstring></argsstring>
+        <name>export_allowed</name>
+        <qualifiedname>themis::governance::UnifiedPolicyDecision::export_allowed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_coordinator.h" line="42" column="10" bodyfile="include/governance/policy_coordinator.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_unified_policy_decision_1a1ed610f985d50b1ef88e7f8bb19cfeac" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::UnifiedPolicyDecision::cache_allowed</definition>
+        <argsstring></argsstring>
+        <name>cache_allowed</name>
+        <qualifiedname>themis::governance::UnifiedPolicyDecision::cache_allowed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_coordinator.h" line="43" column="10" bodyfile="include/governance/policy_coordinator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_unified_policy_decision_1a2f9f9adafc7ef3e4f436f4068fd03b03" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::UnifiedPolicyDecision::retention_days</definition>
+        <argsstring></argsstring>
+        <name>retention_days</name>
+        <qualifiedname>themis::governance::UnifiedPolicyDecision::retention_days</qualifiedname>
+        <initializer>= 365</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_coordinator.h" line="44" column="9" bodyfile="include/governance/policy_coordinator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_unified_policy_decision_1a36cc85e91b1d357e278bd754baaf6811" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::UnifiedPolicyDecision::audit_access</definition>
+        <argsstring></argsstring>
+        <name>audit_access</name>
+        <qualifiedname>themis::governance::UnifiedPolicyDecision::audit_access</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_coordinator.h" line="45" column="10" bodyfile="include/governance/policy_coordinator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_unified_policy_decision_1a09706be2027103183aa4b218ef94261b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::UnifiedPolicyDecision::audit_changes</definition>
+        <argsstring></argsstring>
+        <name>audit_changes</name>
+        <qualifiedname>themis::governance::UnifiedPolicyDecision::audit_changes</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_coordinator.h" line="46" column="10" bodyfile="include/governance/policy_coordinator.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_unified_policy_decision_1a69259572821ea6f01f0a98a8b6cce03b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::UnifiedPolicyDecision::applied_policy_rules</definition>
+        <argsstring></argsstring>
+        <name>applied_policy_rules</name>
+        <qualifiedname>themis::governance::UnifiedPolicyDecision::applied_policy_rules</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_coordinator.h" line="49" column="17" bodyfile="include/governance/policy_coordinator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_unified_policy_decision_1ad7f49076ff051a6770cd33fe066cd69f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::UnifiedPolicyDecision::applied_classification_profile</definition>
+        <argsstring></argsstring>
+        <name>applied_classification_profile</name>
+        <qualifiedname>themis::governance::UnifiedPolicyDecision::applied_classification_profile</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_coordinator.h" line="50" column="17" bodyfile="include/governance/policy_coordinator.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/policy_coordinator.h" line="27" column="1" bodyfile="include/governance/policy_coordinator.h" bodystart="27" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_unified_policy_decision_1a6a22f9199391cc908cd7bc36d2a11f32" prot="public" virt="non-virtual"><scope>themis::governance::UnifiedPolicyDecision</scope><name>ann_allowed</name></member>
+      <member refid="structthemis_1_1governance_1_1_unified_policy_decision_1ad7f49076ff051a6770cd33fe066cd69f" prot="public" virt="non-virtual"><scope>themis::governance::UnifiedPolicyDecision</scope><name>applied_classification_profile</name></member>
+      <member refid="structthemis_1_1governance_1_1_unified_policy_decision_1a69259572821ea6f01f0a98a8b6cce03b" prot="public" virt="non-virtual"><scope>themis::governance::UnifiedPolicyDecision</scope><name>applied_policy_rules</name></member>
+      <member refid="structthemis_1_1governance_1_1_unified_policy_decision_1a36cc85e91b1d357e278bd754baaf6811" prot="public" virt="non-virtual"><scope>themis::governance::UnifiedPolicyDecision</scope><name>audit_access</name></member>
+      <member refid="structthemis_1_1governance_1_1_unified_policy_decision_1a09706be2027103183aa4b218ef94261b" prot="public" virt="non-virtual"><scope>themis::governance::UnifiedPolicyDecision</scope><name>audit_changes</name></member>
+      <member refid="structthemis_1_1governance_1_1_unified_policy_decision_1a1ed610f985d50b1ef88e7f8bb19cfeac" prot="public" virt="non-virtual"><scope>themis::governance::UnifiedPolicyDecision</scope><name>cache_allowed</name></member>
+      <member refid="structthemis_1_1governance_1_1_unified_policy_decision_1ab47305f3615c4488a9a4c0048726505a" prot="public" virt="non-virtual"><scope>themis::governance::UnifiedPolicyDecision</scope><name>classification</name></member>
+      <member refid="structthemis_1_1governance_1_1_unified_policy_decision_1a962151f560cdf48b12d48453a166e90a" prot="public" virt="non-virtual"><scope>themis::governance::UnifiedPolicyDecision</scope><name>encrypt_logs</name></member>
+      <member refid="structthemis_1_1governance_1_1_unified_policy_decision_1a0b49ff01f1b0610119c40062367a01f9" prot="public" virt="non-virtual"><scope>themis::governance::UnifiedPolicyDecision</scope><name>export_allowed</name></member>
+      <member refid="structthemis_1_1governance_1_1_unified_policy_decision_1a1b1d44d38ee2793a2ae590217a5d7cb9" prot="public" virt="non-virtual"><scope>themis::governance::UnifiedPolicyDecision</scope><name>mode</name></member>
+      <member refid="structthemis_1_1governance_1_1_unified_policy_decision_1afb5bb1c63629e90ad8ca2263c3211bd3" prot="public" virt="non-virtual"><scope>themis::governance::UnifiedPolicyDecision</scope><name>rbac_allowed</name></member>
+      <member refid="structthemis_1_1governance_1_1_unified_policy_decision_1acdcb69c03e468d1c11b07aa60d0b76a6" prot="public" virt="non-virtual"><scope>themis::governance::UnifiedPolicyDecision</scope><name>redaction</name></member>
+      <member refid="structthemis_1_1governance_1_1_unified_policy_decision_1ac3e0614be990b4b4e8c2c899d7e2f550" prot="public" virt="non-virtual"><scope>themis::governance::UnifiedPolicyDecision</scope><name>require_content_encryption</name></member>
+      <member refid="structthemis_1_1governance_1_1_unified_policy_decision_1a9b8297b3282c490e7a322e782a9b3006" prot="public" virt="non-virtual"><scope>themis::governance::UnifiedPolicyDecision</scope><name>require_encryption</name></member>
+      <member refid="structthemis_1_1governance_1_1_unified_policy_decision_1a7056fea6decfa198497dfb354cbc25c4" prot="public" virt="non-virtual"><scope>themis::governance::UnifiedPolicyDecision</scope><name>require_signature</name></member>
+      <member refid="structthemis_1_1governance_1_1_unified_policy_decision_1a2f9f9adafc7ef3e4f436f4068fd03b03" prot="public" virt="non-virtual"><scope>themis::governance::UnifiedPolicyDecision</scope><name>retention_days</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

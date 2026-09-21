@@ -1,0 +1,519 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__p1__observability_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_p1_observability.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="llm__correlation__context_8h" local="yes">llm/llm_correlation_context.h</includes>
+    <includes refid="ai__decision__auditor_8h" local="yes">llm/ai_decision_auditor.h</includes>
+    <includes local="no">cctype</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="9">
+        <label>llm/ai_decision_auditor.h</label>
+        <link refid="ai__decision__auditor_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/llm_correlation_context.h</label>
+        <link refid="llm__correlation__context_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>llm/llm_interaction_store.h</label>
+        <link refid="llm__interaction__store_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_llm_p1_observability.cpp</label>
+        <link refid="test__llm__p1__observability_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>cctype</label>
+      </node>
+      <node id="16">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>iomanip</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>random</label>
+      </node>
+      <node id="6">
+        <label>sstream</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>utils/audit_logger.h</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_l_l_m_correlation_context" prot="public">LLMCorrelationContext</innerclass>
+    <innerclass refid="struct_a_i_decision_audit" prot="public">AIDecisionAudit</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__p1__observability_8cpp_1a6782a27dd9966bb78cef03e5a0ff68ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(P1CorrelationContext, GenerateProducesValidIds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>P1CorrelationContext</type>
+        </param>
+        <param>
+          <type>GenerateProducesValidIds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_p1_observability.cpp" line="32" column="1" bodyfile="tests/llm/test_llm_p1_observability.cpp" bodystart="32" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__p1__observability_8cpp_1a8ac29f91142ef3579d995ed362035a2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(P1CorrelationContext, TwoGeneratedContextsDiffer)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>P1CorrelationContext</type>
+        </param>
+        <param>
+          <type>TwoGeneratedContextsDiffer</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_p1_observability.cpp" line="51" column="1" bodyfile="tests/llm/test_llm_p1_observability.cpp" bodystart="51" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__p1__observability_8cpp_1a00d4d897ca6ca9ad7362cf8913d09d5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(P1CorrelationContext, FromTraceparentParsesValidHeader)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>P1CorrelationContext</type>
+        </param>
+        <param>
+          <type>FromTraceparentParsesValidHeader</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_p1_observability.cpp" line="58" column="1" bodyfile="tests/llm/test_llm_p1_observability.cpp" bodystart="58" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__p1__observability_8cpp_1a23c48d90dfcc2799bb345f9cac82bde2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(P1CorrelationContext, FromTraceparentInvalidInputReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>P1CorrelationContext</type>
+        </param>
+        <param>
+          <type>FromTraceparentInvalidInputReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_p1_observability.cpp" line="69" column="1" bodyfile="tests/llm/test_llm_p1_observability.cpp" bodystart="69" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__p1__observability_8cpp_1a9df201d9a7a6f278546f2b2a269ca83b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(P1CorrelationContext, EnsureReturnsSelfWhenValid)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>P1CorrelationContext</type>
+        </param>
+        <param>
+          <type>EnsureReturnsSelfWhenValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_p1_observability.cpp" line="76" column="1" bodyfile="tests/llm/test_llm_p1_observability.cpp" bodystart="76" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__p1__observability_8cpp_1a25c63bbbf9764b17749f2a8c4e22dd99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(P1CorrelationContext, EnsureGeneratesWhenInvalid)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>P1CorrelationContext</type>
+        </param>
+        <param>
+          <type>EnsureGeneratesWhenInvalid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_p1_observability.cpp" line="84" column="1" bodyfile="tests/llm/test_llm_p1_observability.cpp" bodystart="84" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__p1__observability_8cpp_1acd5a2b4333fef099a428f602ad7f71a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(P1CorrelationContext, ToTraceparentRoundTrips)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>P1CorrelationContext</type>
+        </param>
+        <param>
+          <type>ToTraceparentRoundTrips</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_p1_observability.cpp" line="93" column="1" bodyfile="tests/llm/test_llm_p1_observability.cpp" bodystart="93" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__p1__observability_8cpp_1acc41fa886222add43c25e1d126fc911d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(P1CorrelationContext, ToTraceparentEmptyForInvalidContext)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>P1CorrelationContext</type>
+        </param>
+        <param>
+          <type>ToTraceparentEmptyForInvalidContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_p1_observability.cpp" line="106" column="1" bodyfile="tests/llm/test_llm_p1_observability.cpp" bodystart="106" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__p1__observability_8cpp_1af66307a0caa4b2b26984f90c37ac9731" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(P1AuditCorrelation, ToJsonSerializesTraceFields)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>P1AuditCorrelation</type>
+        </param>
+        <param>
+          <type>ToJsonSerializesTraceFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_p1_observability.cpp" line="116" column="1" bodyfile="tests/llm/test_llm_p1_observability.cpp" bodystart="116" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__p1__observability_8cpp_1a2254bac9a1b791e5d282fa4d99ae479e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(P1AuditCorrelation, FromJsonDeserializesTraceFields)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>P1AuditCorrelation</type>
+        </param>
+        <param>
+          <type>FromJsonDeserializesTraceFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_p1_observability.cpp" line="130" column="1" bodyfile="tests/llm/test_llm_p1_observability.cpp" bodystart="130" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__p1__observability_8cpp_1aa53e11f844829727eb06a92004a7a708" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(P1AuditCorrelation, FromJsonToleratesMissingTraceFields)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>P1AuditCorrelation</type>
+        </param>
+        <param>
+          <type>FromJsonToleratesMissingTraceFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_p1_observability.cpp" line="146" column="1" bodyfile="tests/llm/test_llm_p1_observability.cpp" bodystart="146" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__p1__observability_8cpp_1a11bcbd1cfc56870b9b36dec632e1a2af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(P1AuditCorrelation, TraceFieldsRoundTripViaJson)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>P1AuditCorrelation</type>
+        </param>
+        <param>
+          <type>TraceFieldsRoundTripViaJson</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_p1_observability.cpp" line="163" column="1" bodyfile="tests/llm/test_llm_p1_observability.cpp" bodystart="163" bodyend="176"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>P1.3 observability and audit correlation tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test IDs: COR-01 — <ref refid="struct_l_l_m_correlation_context_1a5431c1bd5c81ecaa0df06e1f384f4ea1" kindref="member">LLMCorrelationContext::generate()</ref> produces valid W3C IDs COR-02 — fromTraceparent() parses a valid header COR-03 — fromTraceparent() returns invalid context for malformed input COR-04 — ensure() returns self when already valid; generates new when not COR-05 — toTraceparent() round-trips correctly AUD-01 — <ref refid="struct_a_i_decision_audit_1a755fabf9fdb0ed44e8ea10e0da8e8120" kindref="member">AIDecisionAudit::toJson()</ref> serialises trace_id and span_id AUD-02 — <ref refid="struct_a_i_decision_audit_1aeb176a233ade1e653b152459f4dd6af2" kindref="member">AIDecisionAudit::fromJson()</ref> deserialises trace_id and span_id AUD-03 — fromJson() tolerates missing trace fields (backward compat) AUD-04 — Trace fields survive a full to/from JSON round-trip </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__correlation__context_8h" kindref="compound">llm/llm_correlation_context.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ai__decision__auditor_8h" kindref="compound">llm/ai_decision_auditor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cctype&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_l_l_m_correlation_context" kindref="compound">themis::llm::LLMCorrelationContext</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit" kindref="compound">themis::llm::AIDecisionAudit</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>COR<sp/>—<sp/>LLMCorrelationContext<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><ref refid="test__llm__p1__observability_8cpp_1a6782a27dd9966bb78cef03e5a0ff68ba" kindref="member">TEST</ref>(P1CorrelationContext,<sp/>GenerateProducesValidIds)<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/><ref refid="struct_l_l_m_correlation_context_1a5431c1bd5c81ecaa0df06e1f384f4ea1" kindref="member">LLMCorrelationContext::generate</ref>();</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.isValid())</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Generated<sp/>context<sp/>must<sp/>be<sp/>valid<sp/>(trace_id=32<sp/>chars,<sp/>span_id=16<sp/>chars)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.trace_id.size(),<sp/>32u);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.span_id.size(),<sp/><sp/>16u);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>characters<sp/>must<sp/>be<sp/>lower-case<sp/>hex.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>c<sp/>:<sp/>ctx.trace_id)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::isxdigit(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(c))<sp/>!=<sp/>0)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Non-hex<sp/>char<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>c<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&apos;<sp/>in<sp/>trace_id&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>c<sp/>:<sp/>ctx.span_id)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::isxdigit(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(c))<sp/>!=<sp/>0)</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Non-hex<sp/>char<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>c<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&apos;<sp/>in<sp/>span_id&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__llm__p1__observability_8cpp_1a6782a27dd9966bb78cef03e5a0ff68ba" kindref="member">TEST</ref>(P1CorrelationContext,<sp/>TwoGeneratedContextsDiffer)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IDs<sp/>should<sp/>not<sp/>collide<sp/>in<sp/>practice;<sp/>verify<sp/>two<sp/>consecutive<sp/>calls<sp/>differ.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>a<sp/>=<sp/><ref refid="struct_l_l_m_correlation_context_1a5431c1bd5c81ecaa0df06e1f384f4ea1" kindref="member">LLMCorrelationContext::generate</ref>();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/><ref refid="struct_l_l_m_correlation_context_1a5431c1bd5c81ecaa0df06e1f384f4ea1" kindref="member">LLMCorrelationContext::generate</ref>();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(a.trace_id,<sp/>b.trace_id)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Consecutive<sp/>generated<sp/>trace<sp/>IDs<sp/>should<sp/>differ&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="test__llm__p1__observability_8cpp_1a6782a27dd9966bb78cef03e5a0ff68ba" kindref="member">TEST</ref>(P1CorrelationContext,<sp/>FromTraceparentParsesValidHeader)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>header<sp/>=</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/><ref refid="struct_l_l_m_correlation_context_1ac072efd60613769e4412ecd8d537c232" kindref="member">LLMCorrelationContext::fromTraceparent</ref>(header);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.isValid());</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.trace_id,<sp/></highlight><highlight class="stringliteral">&quot;4bf92f3577b34da6a3ce929d0e0e4736&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.span_id,<sp/><sp/></highlight><highlight class="stringliteral">&quot;00f067aa0ba902b7&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="test__llm__p1__observability_8cpp_1a6782a27dd9966bb78cef03e5a0ff68ba" kindref="member">TEST</ref>(P1CorrelationContext,<sp/>FromTraceparentInvalidInputReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Short/malformed<sp/>inputs<sp/>must<sp/>not<sp/>produce<sp/>a<sp/>valid<sp/>context.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="struct_l_l_m_correlation_context_1ac072efd60613769e4412ecd8d537c232" kindref="member">LLMCorrelationContext::fromTraceparent</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">).isValid());</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="struct_l_l_m_correlation_context_1ac072efd60613769e4412ecd8d537c232" kindref="member">LLMCorrelationContext::fromTraceparent</ref>(</highlight><highlight class="stringliteral">&quot;not-a-traceparent&quot;</highlight><highlight class="normal">).isValid());</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="struct_l_l_m_correlation_context_1ac072efd60613769e4412ecd8d537c232" kindref="member">LLMCorrelationContext::fromTraceparent</ref>(</highlight><highlight class="stringliteral">&quot;00-tooshort-abc-01&quot;</highlight><highlight class="normal">).isValid());</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__llm__p1__observability_8cpp_1a6782a27dd9966bb78cef03e5a0ff68ba" kindref="member">TEST</ref>(P1CorrelationContext,<sp/>EnsureReturnsSelfWhenValid)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/><ref refid="struct_l_l_m_correlation_context_1a5431c1bd5c81ecaa0df06e1f384f4ea1" kindref="member">LLMCorrelationContext::generate</ref>();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ensured<sp/>=<sp/>ctx.ensure();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.trace_id,<sp/>ensured.trace_id);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.span_id,<sp/><sp/>ensured.span_id);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="test__llm__p1__observability_8cpp_1a6782a27dd9966bb78cef03e5a0ff68ba" kindref="member">TEST</ref>(P1CorrelationContext,<sp/>EnsureGeneratesWhenInvalid)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_correlation_context" kindref="compound">LLMCorrelationContext</ref><sp/>empty;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(empty.<ref refid="structthemis_1_1llm_1_1_l_l_m_correlation_context_1a35a468290ee7b413c0f08cc2ff77ff56" kindref="member">isValid</ref>());</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ensured<sp/>=<sp/>empty.<ref refid="structthemis_1_1llm_1_1_l_l_m_correlation_context_1aa3e0253be6cebde4d3f28e801da78736" kindref="member">ensure</ref>();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ensured.isValid())</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ensure()<sp/>on<sp/>an<sp/>empty<sp/>context<sp/>must<sp/>produce<sp/>a<sp/>valid<sp/>generated<sp/>context&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="test__llm__p1__observability_8cpp_1a6782a27dd9966bb78cef03e5a0ff68ba" kindref="member">TEST</ref>(P1CorrelationContext,<sp/>ToTraceparentRoundTrips)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>original<sp/>=<sp/><ref refid="struct_l_l_m_correlation_context_1a5431c1bd5c81ecaa0df06e1f384f4ea1" kindref="member">LLMCorrelationContext::generate</ref>();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>header<sp/>=<sp/>original.toTraceparent();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(header.empty());</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(header.substr(0,<sp/>3),<sp/></highlight><highlight class="stringliteral">&quot;00-&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parsed<sp/>=<sp/><ref refid="struct_l_l_m_correlation_context_1ac072efd60613769e4412ecd8d537c232" kindref="member">LLMCorrelationContext::fromTraceparent</ref>(header);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(parsed.isValid());</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(parsed.trace_id,<sp/>original.trace_id);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(parsed.span_id,<sp/><sp/>original.span_id);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="test__llm__p1__observability_8cpp_1a6782a27dd9966bb78cef03e5a0ff68ba" kindref="member">TEST</ref>(P1CorrelationContext,<sp/>ToTraceparentEmptyForInvalidContext)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_correlation_context" kindref="compound">LLMCorrelationContext</ref><sp/>empty;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(empty.<ref refid="structthemis_1_1llm_1_1_l_l_m_correlation_context_1ad015667a0c795cf23ec5b7130f8acb2b" kindref="member">toTraceparent</ref>().empty())</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;An<sp/>invalid<sp/>context<sp/>must<sp/>produce<sp/>an<sp/>empty<sp/>traceparent<sp/>string&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AUD<sp/>—<sp/>AIDecisionAudit<sp/>trace<sp/>field<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="test__llm__p1__observability_8cpp_1a6782a27dd9966bb78cef03e5a0ff68ba" kindref="member">TEST</ref>(P1AuditCorrelation,<sp/>ToJsonSerializesTraceFields)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit" kindref="compound">AIDecisionAudit</ref><sp/>audit;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.<ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1aa8903f07b7a1317f411e686d3b180939" kindref="member">decision_id</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;d-001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.<ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1ac1f9baebec288e1ff63db9b2a1793dc9" kindref="member">trace_id</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;4bf92f3577b34da6a3ce929d0e0e4736&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.<ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1afdc045e6be2eac1a45acba3e48a039ef" kindref="member">span_id</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;00f067aa0ba902b7&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.<ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a70854b0d24d288623d76a9a63d7d508a" kindref="member">query</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test<sp/>query&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>audit.<ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1aba42b19605ccc18ba3670423c45ec917" kindref="member">response</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test<sp/>response&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>audit.<ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a755fabf9fdb0ed44e8ea10e0da8e8120" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j.value(</highlight><highlight class="stringliteral">&quot;trace_id&quot;</highlight><highlight class="normal">,<sp/>std::string{}),<sp/></highlight><highlight class="stringliteral">&quot;4bf92f3577b34da6a3ce929d0e0e4736&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j.value(</highlight><highlight class="stringliteral">&quot;span_id&quot;</highlight><highlight class="normal">,<sp/><sp/>std::string{}),<sp/></highlight><highlight class="stringliteral">&quot;00f067aa0ba902b7&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="test__llm__p1__observability_8cpp_1a6782a27dd9966bb78cef03e5a0ff68ba" kindref="member">TEST</ref>(P1AuditCorrelation,<sp/>FromJsonDeserializesTraceFields)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>j;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;decision_id&quot;</highlight><highlight class="normal">]<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;d-002&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;trace_id&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;aabbccddeeff00112233445566778899&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;span_id&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1122334455667788&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;response&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;latency_ms&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;token_count&quot;</highlight><highlight class="normal">]<sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit<sp/>=<sp/><ref refid="struct_a_i_decision_audit_1aeb176a233ade1e653b152459f4dd6af2" kindref="member">AIDecisionAudit::fromJson</ref>(j);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(audit.<ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1ac1f9baebec288e1ff63db9b2a1793dc9" kindref="member">trace_id</ref>,<sp/></highlight><highlight class="stringliteral">&quot;aabbccddeeff00112233445566778899&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(audit.<ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1afdc045e6be2eac1a45acba3e48a039ef" kindref="member">span_id</ref>,<sp/><sp/></highlight><highlight class="stringliteral">&quot;1122334455667788&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__llm__p1__observability_8cpp_1a6782a27dd9966bb78cef03e5a0ff68ba" kindref="member">TEST</ref>(P1AuditCorrelation,<sp/>FromJsonToleratesMissingTraceFields)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Older<sp/>audit<sp/>records<sp/>without<sp/>trace_id/span_id<sp/>must<sp/>deserialise<sp/>cleanly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>j;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;decision_id&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;d-003&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>j[</highlight><highlight class="stringliteral">&quot;response&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;r&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>no<sp/>&quot;trace_id&quot;<sp/>or<sp/>&quot;span_id&quot;<sp/>keys.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW({</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>audit<sp/>=<sp/><ref refid="struct_a_i_decision_audit_1aeb176a233ade1e653b152459f4dd6af2" kindref="member">AIDecisionAudit::fromJson</ref>(j);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(audit.<ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1ac1f9baebec288e1ff63db9b2a1793dc9" kindref="member">trace_id</ref>.empty())</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Missing<sp/>trace_id<sp/>in<sp/>JSON<sp/>must<sp/>default<sp/>to<sp/>empty<sp/>string&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(audit.<ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1afdc045e6be2eac1a45acba3e48a039ef" kindref="member">span_id</ref>.empty())</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Missing<sp/>span_id<sp/>in<sp/>JSON<sp/>must<sp/>default<sp/>to<sp/>empty<sp/>string&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="test__llm__p1__observability_8cpp_1a6782a27dd9966bb78cef03e5a0ff68ba" kindref="member">TEST</ref>(P1AuditCorrelation,<sp/>TraceFieldsRoundTripViaJson)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_a_i_decision_audit" kindref="compound">AIDecisionAudit</ref><sp/>original;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1aa8903f07b7a1317f411e686d3b180939" kindref="member">decision_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;d-004&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1ac1f9baebec288e1ff63db9b2a1793dc9" kindref="member">trace_id</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;deadbeefdeadbeefdeadbeefdeadbeef&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1afdc045e6be2eac1a45acba3e48a039ef" kindref="member">span_id</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;cafebabe12345678&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a70854b0d24d288623d76a9a63d7d508a" kindref="member">query</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;round-trip<sp/>check&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1aba42b19605ccc18ba3670423c45ec917" kindref="member">response</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>restored<sp/>=<sp/><ref refid="struct_a_i_decision_audit_1aeb176a233ade1e653b152459f4dd6af2" kindref="member">AIDecisionAudit::fromJson</ref>(original.<ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1a755fabf9fdb0ed44e8ea10e0da8e8120" kindref="member">toJson</ref>());</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.trace_id,<sp/>original.<ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1ac1f9baebec288e1ff63db9b2a1793dc9" kindref="member">trace_id</ref>);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.span_id,<sp/><sp/>original.<ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1afdc045e6be2eac1a45acba3e48a039ef" kindref="member">span_id</ref>);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.decision_id,<sp/>original.<ref refid="structthemis_1_1llm_1_1_a_i_decision_audit_1aa8903f07b7a1317f411e686d3b180939" kindref="member">decision_id</ref>);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_llm_p1_observability.cpp"/>
+  </compounddef>
+</doxygen>

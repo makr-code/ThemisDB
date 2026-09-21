@@ -1,0 +1,509 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_i_importer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::importers::IImporter</compoundname>
+    <derivedcompoundref refid="class_minimal_importer" prot="public" virt="non-virtual">MinimalImporter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer" prot="public" virt="non-virtual">themis::importers::DebeziumCDCImporter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1importers_1_1_elasticsearch_importer" prot="public" virt="non-virtual">themis::importers::ElasticsearchImporter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1importers_1_1_flat_file_importer" prot="public" virt="non-virtual">themis::importers::FlatFileImporter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1importers_1_1_importer_plugin_base" prot="public" virt="non-virtual">themis::importers::ImporterPluginBase</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1importers_1_1_kafka_importer" prot="public" virt="non-virtual">themis::importers::KafkaImporter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1importers_1_1_mongo_d_b_importer" prot="public" virt="non-virtual">themis::importers::MongoDBImporter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1importers_1_1_my_s_q_l_importer" prot="public" virt="non-virtual">themis::importers::MySQLImporter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1importers_1_1_oracle_importer" prot="public" virt="non-virtual">themis::importers::OracleImporter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer" prot="public" virt="non-virtual">themis::importers::PostgreSQLImporter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1importers_1_1_redis_importer" prot="public" virt="non-virtual">themis::importers::RedisImporter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1importers_1_1_s3_importer" prot="public" virt="non-virtual">themis::importers::S3Importer</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1importers_1_1_s_q_lite_importer" prot="public" virt="non-virtual">themis::importers::SQLiteImporter</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1importers_1_1_v1_importer_adapter" prot="public" virt="non-virtual">themis::importers::V1ImporterAdapter</derivedcompoundref>
+    <includes refid="importer__interface_8h" local="no">importer_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_i_importer_1a72b3cba1bf78aee41b2dfb19c8b91629" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::importers::IImporter::~IImporter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IImporter</name>
+        <qualifiedname>themis::importers::IImporter::~IImporter</qualifiedname>
+        <briefdescription>
+<para><ref refid="classthemis_1_1importers_1_1_i_importer" kindref="compound">IImporter</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="648" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_i_importer_1aa17b5c532ea2e9928379e77fe1385212" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const char *</type>
+        <definition>virtual const char * themis::importers::IImporter::getName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::importers::IImporter::getName</qualifiedname>
+        <reimplementedby refid="class_macro_test_importer_1a3f8045d26a233618d0924778a4496c91">getName</reimplementedby>
+        <reimplementedby refid="class_minimal_importer_1a1060f29a1ecc26e35c9ff850b3530e17">getName</reimplementedby>
+        <reimplementedby refid="class_stub_importer_1a2f8876735e032080018a7551a6128916">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a396b5facc39d07ba192dfad09d844616">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_elasticsearch_importer_1a31592c634cfbadfe429c4b089ddde94e">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_flat_file_importer_1aa27d5ac76cbe3ed3381003a235a5299a">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_kafka_importer_1aab9e094cbc7583808b98423dec370c14">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1ac54867c51e1723242d8662c9c8c1898a">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1afbb62daeb0661992158a814ae5ff3b88">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_oracle_importer_1af8db9fd5b47baa4d89119b704adf7a0e">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a012b0368ead0def37b09b2733173df78">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1a560dee31fa4c6a813d179d01c2a8438e">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_redis_importer_1a3dd7ab1e7e9b732857c953f9a92d8269">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_s3_importer_1a45ccde9407119f7d7a7d7ef1221bb423">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_s_q_lite_importer_1abcd807f2e8c9846c72da41c9aeb8cf34">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_v1_importer_adapter_1a1568c8a2338712de9d3e08ee712211f6">getName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_wikipedia_ingestion_plugin_1aa9d7597cde104c61fa10914cd1b43b4a">getName</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="650" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_i_importer_1a26a442906fade935ddfe41f8e91a15e6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::importers::IImporter::getSupportedTypes</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getSupportedTypes</name>
+        <qualifiedname>themis::importers::IImporter::getSupportedTypes</qualifiedname>
+        <reimplementedby refid="class_macro_test_importer_1a024e6160dfc8892453f24f4d86eebcef">getSupportedTypes</reimplementedby>
+        <reimplementedby refid="class_minimal_importer_1a1cc13827ec5713c024f754b49de80ab7">getSupportedTypes</reimplementedby>
+        <reimplementedby refid="class_stub_importer_1ac95effa202ae3efac6785f81b9800570">getSupportedTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1aac46b5d912c762077491c196a9393f63">getSupportedTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_elasticsearch_importer_1a3056f5980d5e89357e59aab7f7c12bed">getSupportedTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_flat_file_importer_1a415685d902c7598e4e05f623c45e38e6">getSupportedTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_kafka_importer_1abd7d828b5f42bb6805f8ca75f132bac6">getSupportedTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a69c3edb3ce11c19db0746a7956cf2383">getSupportedTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1ac45016301ada9a1e0b6fe8df47cab23a">getSupportedTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_oracle_importer_1ad08b980b92e64706a8ffcb4b6a85c64c">getSupportedTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1acdae4f7401afaca131b6fe35129e45da">getSupportedTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_redis_importer_1a8c06c1ba4396390cf7d62cd1bd20b016">getSupportedTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_s3_importer_1a555bc0463c65a0a0eac51934220a228f">getSupportedTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_s_q_lite_importer_1a868913383c7e7bafe1963e3ff7044610">getSupportedTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_v1_importer_adapter_1af5917804499ac75f9b64938a1d786782">getSupportedTypes</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_wikipedia_ingestion_plugin_1a78de1a8a9638dec062cfe327004d6cc5">getSupportedTypes</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="652" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_i_importer_1ae57ccf0cf0c3b0dbe9647f43be339afc" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::importers::IImporter::initialize</definition>
+        <argsstring>(const std::string &amp;config)=0</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::importers::IImporter::initialize</qualifiedname>
+        <reimplementedby refid="class_macro_test_importer_1ab200b9c9fa6bffe9203f90c5138d320f">initialize</reimplementedby>
+        <reimplementedby refid="class_minimal_importer_1adf2fb1f4ca1e0c5a0627447ea2bf16fa">initialize</reimplementedby>
+        <reimplementedby refid="class_stub_importer_1af7cd3a7d19a037521c1eef974472ad4e">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a0af3b4a8d4506d843f2beba588896c1b">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_elasticsearch_importer_1a7c8b1b7b8df1e95804bdc0c4db261f46">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_flat_file_importer_1a4a261d6a7a8f85b8c07676ee8f5ec444">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_importer_plugin_base_1ae57ccf0cf0c3b0dbe9647f43be339afc">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_kafka_importer_1a8d193817716f6633669f1ce5aab7193c">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a7714198e5f2e81409f19fff3c246a19d">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a17088d995160ab414360f0633af6a15d">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_oracle_importer_1ab138c67dd17454b7331e1e895629d174">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ae14ca8e9447b41d7e225115e47e2e28d">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_redis_importer_1ab4001391b2634bf7d81fb2c3b81a6bc5">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_s3_importer_1a33acd7657efff55928709dd7bdb2ef49">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_s_q_lite_importer_1a0a15b8579888bcd323c8f35a28d743a9">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_v1_importer_adapter_1a13c7a00f84ec7ac377db77ac91a3e68f">initialize</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_wikipedia_ingestion_plugin_1a6e75359d5acc1e2ff47f564aa0bf24c4">initialize</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="654" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_i_importer_1af2e09c4be51c0440e2ab1717ceeb2de5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::importers::IImporter::validateSource</definition>
+        <argsstring>(const std::string &amp;source_path, std::vector&lt; std::string &gt; &amp;errors)=0</argsstring>
+        <name>validateSource</name>
+        <qualifiedname>themis::importers::IImporter::validateSource</qualifiedname>
+        <reimplementedby refid="class_macro_test_importer_1afa02f227394f828b1ebeff6a3a02ba95">validateSource</reimplementedby>
+        <reimplementedby refid="class_minimal_importer_1a2a37400f62acf4d1de4e457a1e91b630">validateSource</reimplementedby>
+        <reimplementedby refid="class_stub_importer_1aa71156049529b97fe27e148834dac8e8">validateSource</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a6661dbf54a940720baf5242aa73d2afc">validateSource</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_elasticsearch_importer_1a88b067d4881abf62cced2e5559857c0a">validateSource</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_flat_file_importer_1a1c68775c1d674642ee4d7183c0444489">validateSource</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_kafka_importer_1a04a50f08ecb67ebbac70250209a45893">validateSource</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a783cabd801f9de2a365dcd3160d9dfe6">validateSource</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1aa71d43b1698d59b75e85ca9eb9cf3af5">validateSource</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_oracle_importer_1ad0942e4dc00eb4ef4e86b406a5b3942a">validateSource</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a05bcbe6f9e00075029116b7117d814db">validateSource</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_redis_importer_1aa51c1937039560bb6f3ade0528c4544a">validateSource</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_s3_importer_1a99533699805f448b85751f04a52f0675">validateSource</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_s_q_lite_importer_1a4c58a55724ffb9030980e20b7a35f1b4">validateSource</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_v1_importer_adapter_1aeb5d7a9b86ecb6472272c610a6c23130">validateSource</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_wikipedia_ingestion_plugin_1a8478f97d8fe3857c3fac78bae73695fe">validateSource</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="656" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_i_importer_1a93d10ab9f3f1d941d17ac2a54a5ddc02" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>virtual ImportStats themis::importers::IImporter::importData</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options, ProgressCallback progress_callback=nullptr)=0</argsstring>
+        <name>importData</name>
+        <qualifiedname>themis::importers::IImporter::importData</qualifiedname>
+        <reimplementedby refid="class_macro_test_importer_1acadcb892521c3359bc37ba4d70c9b29e">importData</reimplementedby>
+        <reimplementedby refid="class_minimal_importer_1a3ebde4ba8fbc4b3e93c211ca75a8d347">importData</reimplementedby>
+        <reimplementedby refid="class_stub_importer_1af26ae3ec7c94c0a3d1126f793c0b0378">importData</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a84fae081143b95d838b2f27c5572c93d">importData</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_elasticsearch_importer_1aa9c6e5ba167eec5ba19b32daeb2b6a1e">importData</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_flat_file_importer_1a6f1cf8749bbce82f99146b2442225b26">importData</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_kafka_importer_1a10df037853541a72192716fdf23fdd48">importData</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1ae3041175474015673e5e2593a9a1d95b">importData</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a3c3840346def8a55d13a984c41c4e0f5">importData</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_oracle_importer_1ab8559cbc6c98fbdbf0f50b09e59a24aa">importData</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1af5e9d718b1db740ba302d43075a3aade">importData</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m_1a5888e94d6ce778896c3ca55bbef9d1cb">importData</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_redis_importer_1ab612fc89f092c77ca0cc62c0cdf61e10">importData</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_s3_importer_1a0843bdc7717722b423a9e10ea17c08a2">importData</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_s_q_lite_importer_1a69cf1a08c53dddfcf28d8a17de31c8f1">importData</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_v1_importer_adapter_1a30f7eb92180907084b10d041ceb0eba5">importData</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_wikipedia_ingestion_plugin_1af02431b1eb96ebaeb2f3b88dc9ad9d55">importData</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="658" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_i_importer_1a0790bcc7450b9294f9d9d7ae891eed52" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>virtual ImportStats themis::importers::IImporter::importDataStreaming</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options, RowCallback row_callback)</argsstring>
+        <name>importDataStreaming</name>
+        <qualifiedname>themis::importers::IImporter::importDataStreaming</qualifiedname>
+        <reimplementedby refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1ad21b2167fc9bcb34df74afc3e4f6d74a">importDataStreaming</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1acb7a87a714267217a947b9c5c4b56398" kindref="member">RowCallback</ref></type>
+          <declname>row_callback</declname>
+        </param>
+        <briefdescription>
+<para>Import Data Streaming. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">row_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(), <ref refid="classthemis_1_1importers_1_1_i_importer_1a93d10ab9f3f1d941d17ac2a54a5ddc02" kindref="member">importData()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="672" column="25" bodyfile="include/importers/importer_interface.h" bodystart="672" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_i_importer_1af837fb18957347a51357191ee61a04a8" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &gt;</type>
+        <definition>virtual std::shared_ptr&lt; ImportHandle &gt; themis::importers::IImporter::importDataAsync</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options)=0</argsstring>
+        <name>importDataAsync</name>
+        <qualifiedname>themis::importers::IImporter::importDataAsync</qualifiedname>
+        <reimplementedby refid="class_macro_test_importer_1ad7340a2aed48d68b4ec80e469e34f3fa">importDataAsync</reimplementedby>
+        <reimplementedby refid="class_minimal_importer_1a2a5c5ca2209443b296e00b12f02fbdc9">importDataAsync</reimplementedby>
+        <reimplementedby refid="class_stub_importer_1a66edff6a7ce71f764eccbfbd42bbbf5d">importDataAsync</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a2f5bfe1e891f594a879d87c38b484b7e">importDataAsync</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_elasticsearch_importer_1a9edf8c9fcaff9ff1561613b22bc717c2">importDataAsync</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_flat_file_importer_1a7ae9a6d9619392bce85b965f3327e2c5">importDataAsync</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_kafka_importer_1ad9b304a21a63e77dcd5881ebe7a44aa3">importDataAsync</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a83e0799706ee00c901e1dfef6dd60743">importDataAsync</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1acf406222b8d84319daa9be21050f4a62">importDataAsync</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_oracle_importer_1a6e382fb4fd126798fdd8e7e1a93e679f">importDataAsync</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a2d880dcf2b0f80f870b7c3fda489a36f">importDataAsync</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_redis_importer_1a0cd9e0c99968f537ee166bef27ededbf">importDataAsync</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_s3_importer_1af6927c3f2281710b841e29e5435ad3c2">importDataAsync</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_s_q_lite_importer_1a4791bf7e8f755d1320418241e18d4682">importDataAsync</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_v1_importer_adapter_1a65e6716f3de3ac6c3653af980e771d14">importDataAsync</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_wikipedia_ingestion_plugin_1a55cc1fea82c3a5cca9228fdb04ad1bad">importDataAsync</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="682" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_i_importer_1abda4e925d1f832cbf0e07f294b96c526" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::importers::IImporter::cancel</definition>
+        <argsstring>()=0</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::importers::IImporter::cancel</qualifiedname>
+        <reimplementedby refid="class_macro_test_importer_1a0d9769fadf0fd9a5e30892dff47e87b2">cancel</reimplementedby>
+        <reimplementedby refid="class_minimal_importer_1a25d30adb75639f7148a422b0553c07aa">cancel</reimplementedby>
+        <reimplementedby refid="class_stub_importer_1a7adce30345ec92d54d75ba6a0ed82293">cancel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a5b205393a10b7aa30f86910c4c3a4b3d">cancel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_elasticsearch_importer_1a6361bca792be41d439d4dd47b37143c6">cancel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_flat_file_importer_1ac6e784f2471ce327f6b8b3f48f68f396">cancel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_kafka_importer_1a9604ff6a1a9773166eb7ebb8e2787225">cancel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a9e2057d5e7e4be4feca9dd4f29a05531">cancel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1a0aa2b5992dcc0f959e2e5431190ccd23">cancel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_oracle_importer_1ada2dc9c68cd4c507708ead5e9a4474a9">cancel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a1b95944589481cd843c5caac5aab8be8">cancel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_redis_importer_1a3917eebfc73f5d3ce7e852c428b8d26a">cancel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_s3_importer_1a5fc7ae32e1d6a10653c4752773ca44e8">cancel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_s_q_lite_importer_1a5d8b1170a6505b47919c19f7ace352d4">cancel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_v1_importer_adapter_1ac3b136f7457a3c4be52aef5dd706b5f4">cancel</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_wikipedia_ingestion_plugin_1a62ceb636d897da55692efc8a433c4380">cancel</reimplementedby>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="690" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_i_importer_1a45b011aef76cd697e53d1e847dac430a" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>virtual json themis::importers::IImporter::getSourceSchema</definition>
+        <argsstring>(const std::string &amp;source_path)=0</argsstring>
+        <name>getSourceSchema</name>
+        <qualifiedname>themis::importers::IImporter::getSourceSchema</qualifiedname>
+        <reimplementedby refid="class_macro_test_importer_1a5350c1f283ab80759f2c27233bdacef0">getSourceSchema</reimplementedby>
+        <reimplementedby refid="class_minimal_importer_1aa0755b8da053f93b94cc7ab21c1799d6">getSourceSchema</reimplementedby>
+        <reimplementedby refid="class_stub_importer_1a50e3005c8b2c11747c10ba790314f71f">getSourceSchema</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a67e475844a655703830fb7df1d4506e2">getSourceSchema</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_elasticsearch_importer_1af0f35f0daec46bacbf8c0c4998473a03">getSourceSchema</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_flat_file_importer_1a65476f987d7c9e1d7b6853890a973c4f">getSourceSchema</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_kafka_importer_1a3fe1cb0e0651444719a5cc7961a72c37">getSourceSchema</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a5171255677bd2fdafcfa59d35238f6b6">getSourceSchema</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_my_s_q_l_importer_1ae2bb2182211a59927aef60eb49055c70">getSourceSchema</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_oracle_importer_1aee6bcf826accaba98de01eaf03c6b731">getSourceSchema</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_1a54ec6a1a4c318d8b28f076b16d90e1c9">getSourceSchema</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_redis_importer_1a0044e37cc708bc7fb4190059342c52df">getSourceSchema</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_s3_importer_1abab75ec5f32e878afe5597e30f5964f1">getSourceSchema</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_s_q_lite_importer_1a8df249442c5dfb568e5c3f9bcc36f73a">getSourceSchema</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_v1_importer_adapter_1ae0668635cf32fe345f64d03151e06ea4">getSourceSchema</reimplementedby>
+        <reimplementedby refid="classthemis_1_1importers_1_1_wikipedia_ingestion_plugin_1aeaed726f70bf832fd99bc6d68e6f8f07">getSourceSchema</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_interface.h" line="692" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="7">
+        <label>MacroTestImporter</label>
+        <link refid="class_macro_test_importer"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>MinimalImporter</label>
+        <link refid="class_minimal_importer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>StubImporter</label>
+        <link refid="class_stub_importer"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::importers::DebeziumCDCImporter</label>
+        <link refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::importers::ElasticsearchImporter</label>
+        <link refid="classthemis_1_1importers_1_1_elasticsearch_importer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::importers::FlatFileImporter</label>
+        <link refid="classthemis_1_1importers_1_1_flat_file_importer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+      <node id="6">
+        <label>themis::importers::ImporterPluginBase</label>
+        <link refid="classthemis_1_1importers_1_1_importer_plugin_base"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>themis::importers::KafkaImporter</label>
+        <link refid="classthemis_1_1importers_1_1_kafka_importer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>themis::importers::MongoDBImporter</label>
+        <link refid="classthemis_1_1importers_1_1_mongo_d_b_importer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>themis::importers::MySQLImporter</label>
+        <link refid="classthemis_1_1importers_1_1_my_s_q_l_importer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>themis::importers::OracleImporter</label>
+        <link refid="classthemis_1_1importers_1_1_oracle_importer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>themis::importers::PostgreSQLImporter</label>
+        <link refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>themis::importers::PostgreSQLImporterWithMDM</label>
+        <link refid="classthemis_1_1importers_1_1_postgre_s_q_l_importer_with_m_d_m"/>
+        <childnode refid="14" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>themis::importers::RedisImporter</label>
+        <link refid="classthemis_1_1importers_1_1_redis_importer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>themis::importers::S3Importer</label>
+        <link refid="classthemis_1_1importers_1_1_s3_importer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>themis::importers::SQLiteImporter</label>
+        <link refid="classthemis_1_1importers_1_1_s_q_lite_importer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>themis::importers::V1ImporterAdapter</label>
+        <link refid="classthemis_1_1importers_1_1_v1_importer_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>themis::importers::WikipediaIngestionPlugin</label>
+        <link refid="classthemis_1_1importers_1_1_wikipedia_ingestion_plugin"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/importers/importer_interface.h" line="642" column="1" bodyfile="include/importers/importer_interface.h" bodystart="642" bodyend="693"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1abda4e925d1f832cbf0e07f294b96c526" prot="public" virt="pure-virtual"><scope>themis::importers::IImporter</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1aa17b5c532ea2e9928379e77fe1385212" prot="public" virt="pure-virtual"><scope>themis::importers::IImporter</scope><name>getName</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a45b011aef76cd697e53d1e847dac430a" prot="public" virt="pure-virtual"><scope>themis::importers::IImporter</scope><name>getSourceSchema</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a26a442906fade935ddfe41f8e91a15e6" prot="public" virt="pure-virtual"><scope>themis::importers::IImporter</scope><name>getSupportedTypes</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a93d10ab9f3f1d941d17ac2a54a5ddc02" prot="public" virt="pure-virtual"><scope>themis::importers::IImporter</scope><name>importData</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1af837fb18957347a51357191ee61a04a8" prot="public" virt="pure-virtual"><scope>themis::importers::IImporter</scope><name>importDataAsync</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a0790bcc7450b9294f9d9d7ae891eed52" prot="public" virt="virtual"><scope>themis::importers::IImporter</scope><name>importDataStreaming</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1ae57ccf0cf0c3b0dbe9647f43be339afc" prot="public" virt="pure-virtual"><scope>themis::importers::IImporter</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1af2e09c4be51c0440e2ab1717ceeb2de5" prot="public" virt="pure-virtual"><scope>themis::importers::IImporter</scope><name>validateSource</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a72b3cba1bf78aee41b2dfb19c8b91629" prot="public" virt="virtual"><scope>themis::importers::IImporter</scope><name>~IImporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

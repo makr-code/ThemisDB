@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_replication_topology_api_handler_no_repl_test" kind="class" language="C++" prot="public">
+    <compoundname>ReplicationTopologyApiHandlerNoReplTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_replication_topology_api_handler_no_repl_test_1a1b97a60bbef739ec76ad71ef34c4e062" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; ReplicationTopologyApiHandler &gt;</type>
+        <definition>std::unique_ptr&lt;ReplicationTopologyApiHandler&gt; ReplicationTopologyApiHandlerNoReplTest::handler_</definition>
+        <argsstring></argsstring>
+        <name>handler_</name>
+        <qualifiedname>ReplicationTopologyApiHandlerNoReplTest::handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_topology_api_handler.cpp" line="38" column="21" bodyfile="tests/replication/test_replication_topology_api_handler.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_replication_topology_api_handler_no_repl_test_1a32c30c203937578aa1109a107102ecb6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ReplicationTopologyApiHandlerNoReplTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ReplicationTopologyApiHandlerNoReplTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_topology_api_handler.cpp" line="40" column="10" bodyfile="tests/replication/test_replication_topology_api_handler.cpp" bodystart="40" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_replication_topology_api_handler_no_repl_test_1a7d524260e04cd1487d7cab59627559dc" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>http::request&lt; http::string_body &gt;</type>
+        <definition>http::request&lt; http::string_body &gt; ReplicationTopologyApiHandlerNoReplTest::makeGet</definition>
+        <argsstring>(const std::string &amp;target)</argsstring>
+        <name>makeGet</name>
+        <qualifiedname>ReplicationTopologyApiHandlerNoReplTest::makeGet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_topology_api_handler.cpp" line="46" column="19" bodyfile="tests/replication/test_replication_topology_api_handler.cpp" bodystart="46" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ReplicationTopologyApiHandlerNoReplTest</label>
+        <link refid="class_replication_topology_api_handler_no_repl_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ReplicationTopologyApiHandlerNoReplTest</label>
+        <link refid="class_replication_topology_api_handler_no_repl_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/replication/test_replication_topology_api_handler.cpp" line="36" column="1" bodyfile="tests/replication/test_replication_topology_api_handler.cpp" bodystart="36" bodyend="51"/>
+    <listofallmembers>
+      <member refid="class_replication_topology_api_handler_no_repl_test_1a1b97a60bbef739ec76ad71ef34c4e062" prot="protected" virt="non-virtual"><scope>ReplicationTopologyApiHandlerNoReplTest</scope><name>handler_</name></member>
+      <member refid="class_replication_topology_api_handler_no_repl_test_1a7d524260e04cd1487d7cab59627559dc" prot="protected" virt="non-virtual"><scope>ReplicationTopologyApiHandlerNoReplTest</scope><name>makeGet</name></member>
+      <member refid="class_replication_topology_api_handler_no_repl_test_1a32c30c203937578aa1109a107102ecb6" prot="protected" virt="non-virtual"><scope>ReplicationTopologyApiHandlerNoReplTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,865 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_mock_key_provider" kind="class" language="C++" prot="public">
+    <compoundname>themis::MockKeyProvider</compoundname>
+    <basecompoundref refid="classthemis_1_1_key_provider" prot="public" virt="virtual">themis::KeyProvider</basecompoundref>
+    <derivedcompoundref refid="class_test_key_provider" prot="public" virt="non-virtual">TestKeyProvider</derivedcompoundref>
+    <includes refid="mock__key__provider_8h" local="no">mock_key_provider.h</includes>
+    <innerclass refid="structthemis_1_1_mock_key_provider_1_1_key_entry" prot="private">themis::MockKeyProvider::KeyEntry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_mock_key_provider_1aba0008ef3db65d9b9751337d2fe34c6e" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::map&lt; uint32_t, KeyEntry &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::map&lt;uint32_t, KeyEntry&gt; &gt; themis::MockKeyProvider::keys_</definition>
+        <argsstring></argsstring>
+        <name>keys_</name>
+        <qualifiedname>themis::MockKeyProvider::keys_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/mock_key_provider.h" line="82" column="14" bodyfile="include/security/mock_key_provider.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_mock_key_provider_1abda54e07e202886475e69ba93578f953" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::MockKeyProvider::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::MockKeyProvider::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/mock_key_provider.h" line="84" column="24" bodyfile="include/security/mock_key_provider.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_mock_key_provider_1a40b8d01c646e758b94eaae22c2a136d7" prot="private" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 themis::MockKeyProvider::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>themis::MockKeyProvider::rng_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/mock_key_provider.h" line="85" column="18" bodyfile="include/security/mock_key_provider.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_mock_key_provider_1ab49d1a49177ddf1136e33f990de7dcd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>MockKeyProvider::MockKeyProvider</definition>
+        <argsstring>()</argsstring>
+        <name>MockKeyProvider</name>
+        <qualifiedname>themis::MockKeyProvider::MockKeyProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/mock_key_provider.h" line="23" column="5" bodyfile="src/security/mock_key_provider.cpp" bodystart="20" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_mock_key_provider_1a568a8863d711d3a8c9bab64673b3f1b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::MockKeyProvider::~MockKeyProvider</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~MockKeyProvider</name>
+        <qualifiedname>themis::MockKeyProvider::~MockKeyProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/mock_key_provider.h" line="24" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_mock_key_provider_1a78daaf3f5ca3c74f01fe0e7f8d40c5a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockKeyProvider::createKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version)</argsstring>
+        <name>createKey</name>
+        <qualifiedname>themis::MockKeyProvider::createKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Create Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), count(), std::to_string(), generateRandomKey(), getCurrentTimeMs(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/mock_key_provider.h" line="31" column="10" bodyfile="src/security/mock_key_provider.cpp" bodystart="46" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_mock_key_provider_1a00e1f2fc01b4a38f124a321d258777eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockKeyProvider::createKeyWithBytes</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version, const std::vector&lt; uint8_t &gt; &amp;key_bytes)</argsstring>
+        <name>createKeyWithBytes</name>
+        <qualifiedname>themis::MockKeyProvider::createKeyWithBytes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Create Key With Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), lock(), count(), std::to_string(), getCurrentTimeMs(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/mock_key_provider.h" line="39" column="10" bodyfile="src/security/mock_key_provider.cpp" bodystart="74" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_mock_key_provider_1a59113f0899ec042210ab749b2cc91923" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; MockKeyProvider::getKey</definition>
+        <argsstring>(const std::string &amp;key_id) override</argsstring>
+        <name>getKey</name>
+        <qualifiedname>themis::MockKeyProvider::getKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1add63db6d99568ab764123f07893cc7d1">getKey</reimplements>
+        <reimplementedby refid="class_test_key_provider_1a0ec382ba833597931f936d4f5b318e3d">getKey</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyNotFoundException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), count(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/mock_key_provider.h" line="44" column="17" bodyfile="src/security/mock_key_provider.cpp" bodystart="107" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_mock_key_provider_1ae517e60f95636724e9bc004cfd463e7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; MockKeyProvider::getKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version) override</argsstring>
+        <name>getKey</name>
+        <qualifiedname>themis::MockKeyProvider::getKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1ac16b28cd3ba6e684a92e7f4383e5ea58">getKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Get Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyNotFoundException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), count(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/mock_key_provider.h" line="46" column="17" bodyfile="src/security/mock_key_provider.cpp" bodystart="138" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_mock_key_provider_1a745bead2afd340df0368e98072ad6229" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t MockKeyProvider::rotateKey</definition>
+        <argsstring>(const std::string &amp;key_id) override</argsstring>
+        <name>rotateKey</name>
+        <qualifiedname>themis::MockKeyProvider::rotateKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1a21794661f33eafc159d0948ee3e204ae">rotateKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Rotate Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyNotFoundException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), count(), empty(), generateRandomKey(), getCurrentTimeMs(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/mock_key_provider.h" line="48" column="14" bodyfile="src/security/mock_key_provider.cpp" bodystart="161" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_mock_key_provider_1a2cb88836bfa990d873834cc244a163b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref> &gt;</type>
+        <definition>std::vector&lt; KeyMetadata &gt; MockKeyProvider::listKeys</definition>
+        <argsstring>() override</argsstring>
+        <name>listKeys</name>
+        <qualifiedname>themis::MockKeyProvider::listKeys</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1ab4d31df1258d4f7583fee68f77813810">listKeys</reimplements>
+        <briefdescription>
+<para>List Keys. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/mock_key_provider.h" line="50" column="17" bodyfile="src/security/mock_key_provider.cpp" bodystart="205" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_mock_key_provider_1afa00d95322e63b1d80bef373fcb72d22" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref></type>
+        <definition>KeyMetadata MockKeyProvider::getKeyMetadata</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version=0) override</argsstring>
+        <name>getKeyMetadata</name>
+        <qualifiedname>themis::MockKeyProvider::getKeyMetadata</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1a74f1a932e3aa36781382fb35f2e7c2e3">getKeyMetadata</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Get Key Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyNotFoundException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/mock_key_provider.h" line="52" column="17" bodyfile="src/security/mock_key_provider.cpp" bodystart="228" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_mock_key_provider_1a6ded819cb933c14825a5e122d1c2abf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void MockKeyProvider::deleteKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version) override</argsstring>
+        <name>deleteKey</name>
+        <qualifiedname>themis::MockKeyProvider::deleteKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1ab1381dbbc3f8af4308678d2324b51b99">deleteKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Delete Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>KeyNotFoundException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyOperationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), count(), std::to_string(), <ref refid="classthemis_1_1_mock_key_provider_1a3e98cccbe49d864aef98c75c35de8eff" kindref="member">clear()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/mock_key_provider.h" line="54" column="10" bodyfile="src/security/mock_key_provider.cpp" bodystart="265" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_mock_key_provider_1a1806079a6a98d28879e4d86bb254af48" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool MockKeyProvider::hasKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version=0) override</argsstring>
+        <name>hasKey</name>
+        <qualifiedname>themis::MockKeyProvider::hasKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1a24990fabb3111c177d5ea5be78446824">hasKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Has Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), count(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/mock_key_provider.h" line="56" column="10" bodyfile="src/security/mock_key_provider.cpp" bodystart="289" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_mock_key_provider_1a67f4e26c42dd2c9a4abb479393954825" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t MockKeyProvider::createKeyFromBytes</definition>
+        <argsstring>(const std::string &amp;key_id, const std::vector&lt; uint8_t &gt; &amp;key_bytes, const KeyMetadata &amp;metadata=KeyMetadata()) override</argsstring>
+        <name>createKeyFromBytes</name>
+        <qualifiedname>themis::MockKeyProvider::createKeyFromBytes</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1adb7353f54d3975fcf60572403a25c243">createKeyFromBytes</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key_bytes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+          <defval><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Create Key From Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), lock(), find(), end(), empty(), getCurrentTimeMs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/mock_key_provider.h" line="58" column="14" bodyfile="src/security/mock_key_provider.cpp" bodystart="310" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_mock_key_provider_1a213aad4ed08ad8b7d360ccf98cc9d48b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t MockKeyProvider::getLatestVersion</definition>
+        <argsstring>(const std::string &amp;key_id) const</argsstring>
+        <name>getLatestVersion</name>
+        <qualifiedname>themis::MockKeyProvider::getLatestVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Latest Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/mock_key_provider.h" line="68" column="14" bodyfile="src/security/mock_key_provider.cpp" bodystart="351" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_mock_key_provider_1a3e98cccbe49d864aef98c75c35de8eff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void MockKeyProvider::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::MockKeyProvider::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/mock_key_provider.h" line="73" column="10" bodyfile="src/security/mock_key_provider.cpp" bodystart="377" bodyend="380"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_mock_key_provider_1a33429caea0e61d2cac34b59c8b040909" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; MockKeyProvider::generateRandomKey</definition>
+        <argsstring>()</argsstring>
+        <name>generateRandomKey</name>
+        <qualifiedname>themis::MockKeyProvider::generateRandomKey</qualifiedname>
+        <briefdescription>
+<para>Generate Random Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: key(), dist(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/mock_key_provider.h" line="91" column="17" bodyfile="src/security/mock_key_provider.cpp" bodystart="387" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_mock_key_provider_1a25617cc0b909bed3861a726389495682" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string MockKeyProvider::makeKeyPath</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version) const</argsstring>
+        <name>makeKeyPath</name>
+        <qualifiedname>themis::MockKeyProvider::makeKeyPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Make Key Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/mock_key_provider.h" line="98" column="17" bodyfile="src/security/mock_key_provider.cpp" bodystart="398" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_mock_key_provider_1a686b13cd3638f29a95500ad85802fb2b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t MockKeyProvider::getCurrentTimeMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentTimeMs</name>
+        <qualifiedname>themis::MockKeyProvider::getCurrentTimeMs</qualifiedname>
+        <briefdescription>
+<para>Get Current Time Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/mock_key_provider.h" line="103" column="13" bodyfile="src/security/mock_key_provider.cpp" bodystart="402" bodyend="406"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>IKeyProvider</label>
+      </node>
+      <node id="4">
+        <label>TestKeyProvider</label>
+        <link refid="class_test_key_provider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::KeyProvider</label>
+        <link refid="classthemis_1_1_key_provider"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::MockKeyProvider</label>
+        <link refid="classthemis_1_1_mock_key_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>IKeyProvider</label>
+      </node>
+      <node id="2">
+        <label>themis::KeyProvider</label>
+        <link refid="classthemis_1_1_key_provider"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::MockKeyProvider</label>
+        <link refid="classthemis_1_1_mock_key_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/mock_key_provider.h" line="21" column="1" bodyfile="include/security/mock_key_provider.h" bodystart="21" bodyend="104"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_mock_key_provider_1a3e98cccbe49d864aef98c75c35de8eff" prot="public" virt="non-virtual"><scope>themis::MockKeyProvider</scope><name>clear</name></member>
+      <member refid="classthemis_1_1_mock_key_provider_1a78daaf3f5ca3c74f01fe0e7f8d40c5a2" prot="public" virt="non-virtual"><scope>themis::MockKeyProvider</scope><name>createKey</name></member>
+      <member refid="classthemis_1_1_mock_key_provider_1a67f4e26c42dd2c9a4abb479393954825" prot="public" virt="virtual"><scope>themis::MockKeyProvider</scope><name>createKeyFromBytes</name></member>
+      <member refid="classthemis_1_1_mock_key_provider_1a00e1f2fc01b4a38f124a321d258777eb" prot="public" virt="non-virtual"><scope>themis::MockKeyProvider</scope><name>createKeyWithBytes</name></member>
+      <member refid="classthemis_1_1_mock_key_provider_1a6ded819cb933c14825a5e122d1c2abf6" prot="public" virt="virtual"><scope>themis::MockKeyProvider</scope><name>deleteKey</name></member>
+      <member refid="classthemis_1_1_mock_key_provider_1a33429caea0e61d2cac34b59c8b040909" prot="private" virt="non-virtual"><scope>themis::MockKeyProvider</scope><name>generateRandomKey</name></member>
+      <member refid="classthemis_1_1_key_provider_1a9017c934ab52d6cc42fa7225d3add21e" prot="public" virt="non-virtual"><scope>themis::MockKeyProvider</scope><name>get_key</name></member>
+      <member refid="classthemis_1_1_mock_key_provider_1a686b13cd3638f29a95500ad85802fb2b" prot="private" virt="non-virtual"><scope>themis::MockKeyProvider</scope><name>getCurrentTimeMs</name></member>
+      <member refid="classthemis_1_1_key_provider_1aa9815c2d74023ab0fbd4a911b55b42f4" prot="public" virt="virtual"><scope>themis::MockKeyProvider</scope><name>getCurrentVersion</name></member>
+      <member refid="classthemis_1_1_mock_key_provider_1a59113f0899ec042210ab749b2cc91923" prot="public" virt="virtual"><scope>themis::MockKeyProvider</scope><name>getKey</name></member>
+      <member refid="classthemis_1_1_mock_key_provider_1ae517e60f95636724e9bc004cfd463e7d" prot="public" virt="virtual"><scope>themis::MockKeyProvider</scope><name>getKey</name></member>
+      <member refid="classthemis_1_1_mock_key_provider_1afa00d95322e63b1d80bef373fcb72d22" prot="public" virt="virtual"><scope>themis::MockKeyProvider</scope><name>getKeyMetadata</name></member>
+      <member refid="classthemis_1_1_mock_key_provider_1a213aad4ed08ad8b7d360ccf98cc9d48b" prot="public" virt="non-virtual"><scope>themis::MockKeyProvider</scope><name>getLatestVersion</name></member>
+      <member refid="classthemis_1_1_mock_key_provider_1a1806079a6a98d28879e4d86bb254af48" prot="public" virt="virtual"><scope>themis::MockKeyProvider</scope><name>hasKey</name></member>
+      <member refid="classthemis_1_1_key_provider_1a87c6e45572251fa2dd71ea8e4d4011fd" prot="public" virt="non-virtual"><scope>themis::MockKeyProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1a0489069eb96edc05fbef315bb529904f" prot="public" virt="non-virtual"><scope>themis::MockKeyProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1ad05f0c6aca228e305cbae15f1095ea9d" prot="public" virt="non-virtual"><scope>themis::MockKeyProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_mock_key_provider_1aba0008ef3db65d9b9751337d2fe34c6e" prot="private" virt="non-virtual"><scope>themis::MockKeyProvider</scope><name>keys_</name></member>
+      <member refid="classthemis_1_1_mock_key_provider_1a2cb88836bfa990d873834cc244a163b8" prot="public" virt="virtual"><scope>themis::MockKeyProvider</scope><name>listKeys</name></member>
+      <member refid="classthemis_1_1_mock_key_provider_1a25617cc0b909bed3861a726389495682" prot="private" virt="non-virtual"><scope>themis::MockKeyProvider</scope><name>makeKeyPath</name></member>
+      <member refid="classthemis_1_1_mock_key_provider_1ab49d1a49177ddf1136e33f990de7dcd1" prot="public" virt="non-virtual"><scope>themis::MockKeyProvider</scope><name>MockKeyProvider</name></member>
+      <member refid="classthemis_1_1_mock_key_provider_1abda54e07e202886475e69ba93578f953" prot="private" virt="non-virtual"><scope>themis::MockKeyProvider</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1_key_provider_1a2b066e3e2b46a13e8a196f4f497a9fc7" prot="public" virt="non-virtual"><scope>themis::MockKeyProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_key_provider_1a11404d5e39ec25310eb458e032f8aaf2" prot="public" virt="non-virtual"><scope>themis::MockKeyProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_mock_key_provider_1a40b8d01c646e758b94eaae22c2a136d7" prot="private" virt="non-virtual"><scope>themis::MockKeyProvider</scope><name>rng_</name></member>
+      <member refid="classthemis_1_1_key_provider_1adfb0562381565d524992c9128baa0464" prot="public" virt="non-virtual"><scope>themis::MockKeyProvider</scope><name>rotate_key</name></member>
+      <member refid="classthemis_1_1_mock_key_provider_1a745bead2afd340df0368e98072ad6229" prot="public" virt="virtual"><scope>themis::MockKeyProvider</scope><name>rotateKey</name></member>
+      <member refid="classthemis_1_1_key_provider_1a4a1126cba8c95254bcdefe5fe77d1fa5" prot="public" virt="non-virtual"><scope>themis::MockKeyProvider</scope><name>~KeyProvider</name></member>
+      <member refid="classthemis_1_1_mock_key_provider_1a568a8863d711d3a8c9bab64673b3f1b5" prot="public" virt="non-virtual"><scope>themis::MockKeyProvider</scope><name>~MockKeyProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

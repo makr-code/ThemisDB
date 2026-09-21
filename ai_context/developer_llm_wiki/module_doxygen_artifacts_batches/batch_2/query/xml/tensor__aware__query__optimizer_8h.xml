@@ -1,0 +1,461 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tensor__aware__query__optimizer_8h" kind="file" language="C++">
+    <compoundname>tensor_aware_query_optimizer.h</compoundname>
+    <includes local="yes">index/ann_frontdoor.h</includes>
+    <includes refid="query__plan__visualizer_8h" local="yes">query/query_plan_visualizer.h</includes>
+    <includes local="yes">themis/rag/kg/knowledge_graph_interface.h</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="tensor__aware__query__optimizer_8cpp" local="yes">src/query/tensor_aware_query_optimizer.cpp</includedby>
+    <includedby refid="test__query__phase__a__gap__fixes_8cpp" local="yes">tests/query/test_query_phase_a_gap_fixes.cpp</includedby>
+    <includedby refid="test__query__safety__fixes_8cpp" local="yes">tests/query/test_query_safety_fixes.cpp</includedby>
+    <includedby refid="test__wave1__critical__gap__fixes_8cpp" local="yes">tests/query/test_wave1_critical_gap_fixes.cpp</includedby>
+    <includedby refid="test__wave9__block3__fixes_8cpp" local="yes">tests/query/test_wave9_block3_fixes.cpp</includedby>
+    <incdepgraph>
+      <node id="23">
+        <label>query/adaptive_optimizer.h</label>
+        <link refid="adaptive__optimizer_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>query/optimizer_cost_model.h</label>
+        <link refid="optimizer__cost__model_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>query/query_engine.h</label>
+        <link refid="query__engine_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>query/query_optimizer.h</label>
+        <link refid="query__optimizer_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>query/query_plan_visualizer.h</label>
+        <link refid="query__plan__visualizer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/query/tensor_aware_query_optimizer.h</label>
+        <link refid="tensor__aware__query__optimizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>atomic</label>
+      </node>
+      <node id="16">
+        <label>chrono</label>
+      </node>
+      <node id="26">
+        <label>cstddef</label>
+      </node>
+      <node id="27">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>index/ann_frontdoor.h</label>
+      </node>
+      <node id="22">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="29">
+        <label>shared_mutex</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>string_view</label>
+      </node>
+      <node id="19">
+        <label>themis/base/interfaces/index_interface.h</label>
+      </node>
+      <node id="20">
+        <label>themis/base/interfaces/query_interface.h</label>
+      </node>
+      <node id="18">
+        <label>themis/base/interfaces/storage_interface.h</label>
+      </node>
+      <node id="28">
+        <label>themis/rag/kg/knowledge_graph_interface.h</label>
+      </node>
+      <node id="25">
+        <label>thread</label>
+      </node>
+      <node id="13">
+        <label>unordered_map</label>
+      </node>
+      <node id="30">
+        <label>unordered_set</label>
+      </node>
+      <node id="12">
+        <label>utility</label>
+      </node>
+      <node id="17">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/query/tensor_aware_query_optimizer.h</label>
+        <link refid="tensor__aware__query__optimizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/query/tensor_aware_query_optimizer.cpp</label>
+        <link refid="tensor__aware__query__optimizer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/query/test_query_phase_a_gap_fixes.cpp</label>
+        <link refid="test__query__phase__a__gap__fixes_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/query/test_query_safety_fixes.cpp</label>
+        <link refid="test__query__safety__fixes_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/query/test_wave1_critical_gap_fixes.cpp</label>
+        <link refid="test__wave1__critical__gap__fixes_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/query/test_wave9_block3_fixes.cpp</label>
+        <link refid="test__wave9__block3__fixes_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1_tensor_contraction_plan_node" prot="public">themis::query::TensorContractionPlanNode</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer" prot="public">themis::query::TensorAwareQueryOptimizer</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats" prot="public">themis::query::TensorAwareQueryOptimizer::RewriteStats</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_hybrid_ann_graph_query" prot="public">themis::query::HybridAnnGraphQuery</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_hybrid_ann_graph_result" prot="public">themis::query::HybridAnnGraphResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/ann_frontdoor.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__plan__visualizer_8h" kindref="compound">query/query_plan_visualizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/rag/kg/knowledge_graph_interface.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TensorContractionPlanNode<sp/>—<sp/>metadata<sp/>for<sp/>a<sp/>rewritten<sp/>tensor<sp/>node</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1query_1_1_tensor_contraction_plan_node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_tensor_contraction_plan_node" kindref="compound">TensorContractionPlanNode</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1query_1_1_tensor_contraction_plan_node_1a46462bae70ca40ae55f288a96daf38af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_tensor_contraction_plan_node_1a46462bae70ca40ae55f288a96daf38af" kindref="member">function_name</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1query_1_1_tensor_contraction_plan_node_1a6caa14e21e4d68c989e52299c8f4f419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_tensor_contraction_plan_node_1a6caa14e21e4d68c989e52299c8f4f419" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1query_1_1_tensor_contraction_plan_node_1abc7fc706db514851c7c15a073a9fc609" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_tensor_contraction_plan_node_1abc7fc706db514851c7c15a073a9fc609" kindref="member">estimated_cost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1query_1_1_tensor_contraction_plan_node_1afc92297506899d113070fdbe7ba3b2fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_tensor_contraction_plan_node_1afc92297506899d113070fdbe7ba3b2fa" kindref="member">baseline_cost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1query_1_1_tensor_contraction_plan_node_1a1d2df69341c84edfa87fecd90c294997" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_tensor_contraction_plan_node_1a1d2df69341c84edfa87fecd90c294997" kindref="member">rewritten</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TensorAwareQueryOptimizer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a83094a1b9f7a1cbaf14caea8e624522e" kindref="member">TensorAwareQueryOptimizer</ref><sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1ab73d27ddc43ea3b61b36c580ba56fa6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1ab73d27ddc43ea3b61b36c580ba56fa6c" kindref="member">TensorNodeDetectorFn</ref><sp/>=<sp/>std::function&lt;std::optional&lt;std::string&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a83094a1b9f7a1cbaf14caea8e624522e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a83094a1b9f7a1cbaf14caea8e624522e" kindref="member">TensorAwareQueryOptimizer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>AQL-IR<sp/>visitor<sp/>bridge<sp/>────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1af314d68cd5d52e6492bd775bc7ab5204" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1af314d68cd5d52e6492bd775bc7ab5204" kindref="member">IRVisitorFn</ref><sp/>=<sp/>std::function&lt;bool(<ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref>&amp;<sp/>node,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&amp;<sp/>baseline_cost_out)&gt;;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a27ba845ebb0ff9a8dfb66f529371c024" kindref="member">setIRVisitorFn</ref>(<ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1af314d68cd5d52e6492bd775bc7ab5204" kindref="member">IRVisitorFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a0b99b78009c9fbbb84d1ce93f55462e3" kindref="member">clearIRVisitorFn</ref>();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Plan<sp/>rewriting<sp/>───────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;QueryPlanNode&gt;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a1046aff04747267d643b7ff444f0409c" kindref="member">rewrite</ref>(std::shared_ptr&lt;QueryPlanNode&gt;<sp/>root);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Function<sp/>detection<sp/>───────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1ab63a16a50b73cb376afbee5a6198517b" kindref="member">isTensorFunction</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a9dee252104349dcdc850934a4b979982" kindref="member">estimateTTCost</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>function_name,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>order,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>mode_size,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>max_rank)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a75b663ecc54d850affd7a837f369664f" kindref="member">setTensorNodeDetectorFn</ref>(<ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1ab73d27ddc43ea3b61b36c580ba56fa6c" kindref="member">TensorNodeDetectorFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1aeddda17de5ce7bf08d4820606377c20a" kindref="member">clearTensorNodeDetectorFn</ref>();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Statistics<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats" kindref="compound">RewriteStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1adc4090753c119c69960b56ac7f21d7d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1adc4090753c119c69960b56ac7f21d7d1" kindref="member">nodes_visited</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1a20d8b71f4b75648dd3f381683e3055be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1a20d8b71f4b75648dd3f381683e3055be" kindref="member">nodes_rewritten</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1a195f7891888d6ec479041e17d52184f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1a195f7891888d6ec479041e17d52184f2" kindref="member">total_baseline_cost</ref><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1a5fc5990e5d34e9c90b3effea52076058" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1a5fc5990e5d34e9c90b3effea52076058" kindref="member">total_optimized_cost</ref><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1a499199e5f73330838b4a634fad713b78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1a499199e5f73330838b4a634fad713b78" kindref="member">costReductionFactor</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1a5fc5990e5d34e9c90b3effea52076058" kindref="member">total_optimized_cost</ref><sp/>&gt;<sp/>0.0</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/><ref refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1a195f7891888d6ec479041e17d52184f2" kindref="member">total_baseline_cost</ref><sp/>/<sp/><ref refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats_1a5fc5990e5d34e9c90b3effea52076058" kindref="member">total_optimized_cost</ref></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>1.0;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a262761e7d4b6802ceaac0777c3162860" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats" kindref="compound">RewriteStats</ref><sp/><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a262761e7d4b6802ceaac0777c3162860" kindref="member">lastStats</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>last_stats_;<sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>AST<sp/>visitor<sp/>bridge<sp/>(stub<sp/>#275)<sp/>──────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a52ff96095d24319ad255a0f1ff82f5f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a52ff96095d24319ad255a0f1ff82f5f2" kindref="member">AstVisitorFn</ref><sp/>=<sp/>std::function&lt;void(<ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a89e6428e464987900c9458cc06b64931" kindref="member">setAstVisitorFn</ref>(<ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1a52ff96095d24319ad255a0f1ff82f5f2" kindref="member">AstVisitorFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1afa91a92aac2251d9276779c106382cd2" kindref="member">clearAstVisitorFn</ref>();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>rewriteNode(<ref refid="structthemis_1_1query_1_1_query_plan_node" kindref="compound">QueryPlanNode</ref>&amp;<sp/>node);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_tensor_aware_query_optimizer_1_1_rewrite_stats" kindref="compound">RewriteStats</ref><sp/>last_stats_;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>detector_mutex_;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1ab73d27ddc43ea3b61b36c580ba56fa6c" kindref="member">TensorNodeDetectorFn</ref><sp/>tensor_node_detector_fn_;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>of<sp/>function<sp/>names<sp/>routed<sp/>to<sp/>TensorContractionEngine.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_set&lt;std::string&gt;<sp/>kTensorFunctions;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Static<sp/>IR<sp/>visitor<sp/>bridge<sp/>(process-wide,<sp/>guarded<sp/>by<sp/>ir_visitor_mutex_).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_tensor_aware_query_optimizer_1af314d68cd5d52e6492bd775bc7ab5204" kindref="member">IRVisitorFn</ref><sp/><sp/><sp/><sp/>ir_visitor_fn_;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/>ir_visitor_mutex_;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W9-12:<sp/>ANN+Graph<sp/>Hybrid<sp/>Planner<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">query<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1query_1_1_hybrid_ann_graph_query" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query" kindref="compound">HybridAnnGraphQuery</ref><sp/>{</highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a6ed96d796840806c79e32111e277cc21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a6ed96d796840806c79e32111e277cc21" kindref="member">query_vector</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1aca71d5f6971011b032ec4abceefeabf5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1aca71d5f6971011b032ec4abceefeabf5" kindref="member">ann_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100;<sp/></highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a5b5ea8ada381fe2c2d899a44d077b101" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a5b5ea8ada381fe2c2d899a44d077b101" kindref="member">graph_max_depth</ref><sp/><sp/><sp/><sp/>=<sp/>1;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163" refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1abdb973dea400d845c3de4e48f7a36bec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1abdb973dea400d845c3de4e48f7a36bec" kindref="member">graph_max_nodes</ref><sp/><sp/><sp/><sp/>=<sp/>50;<sp/><sp/></highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a2f578c63f72efb9db73ae68fa06b59f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a2f578c63f72efb9db73ae68fa06b59f2" kindref="member">graph_min_edge_weight</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a3ec130897cfc7a44dfecc157fd6b33c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a3ec130897cfc7a44dfecc157fd6b33c6" kindref="member">top_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>20;<sp/><sp/></highlight></codeline>
+<codeline lineno="166" refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1af3896e1492e5d827bac690a7f8305353" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1af3896e1492e5d827bac690a7f8305353" kindref="member">rrf_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>60.0;<sp/></highlight></codeline>
+<codeline lineno="167" refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a7baaf3bfc99bbe1c966487f249ed22f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>index::AnnQueryContext<sp/><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a7baaf3bfc99bbe1c966487f249ed22f3" kindref="member">ann_context</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168" refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1ad84902b593f009289f2f7249e87c1268" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1ad84902b593f009289f2f7249e87c1268" kindref="member">timeout_ms</ref>{500};<sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1query_1_1_hybrid_ann_graph_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_result" kindref="compound">HybridAnnGraphResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1query_1_1_hybrid_ann_graph_result_1a95d72adba2392fe38d5dcee50d64376e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_result_1a95d72adba2392fe38d5dcee50d64376e" kindref="member">node_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1query_1_1_hybrid_ann_graph_result_1a807dfd4e92cad85d4d7670c12c606b0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_result_1a807dfd4e92cad85d4d7670c12c606b0e" kindref="member">rrf_score</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1query_1_1_hybrid_ann_graph_result_1aa83b1590df31e9163900f2faf0cfbf56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_result_1aa83b1590df31e9163900f2faf0cfbf56" kindref="member">ann_rank</ref><sp/><sp/>=<sp/>-1;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175" refid="structthemis_1_1query_1_1_hybrid_ann_graph_result_1a8f1011ba1f0a691aa53f80ea86d84a01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_result_1a8f1011ba1f0a691aa53f80ea86d84a01" kindref="member">graph_rank</ref><sp/>=<sp/>-1;<sp/><sp/></highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1query_1_1_hybrid_ann_graph_result_1ae7b43304dfdc648f9fdfc20cd6275fe9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_result_1ae7b43304dfdc648f9fdfc20cd6275fe9" kindref="member">from_graph</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal">[[nodiscard]]<sp/>std::vector&lt;HybridAnnGraphResult&gt;<sp/><ref refid="namespacethemis_1_1query_1a2076da117fc4259be0afddba114be209" kindref="member">planAnnGraphHybrid</ref>(</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query" kindref="compound">HybridAnnGraphQuery</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>index::AnnFrontdoor*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>frontdoor,</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>themis::rag::kg::IKnowledgeGraph*<sp/>kg);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/tensor_aware_query_optimizer.h"/>
+  </compounddef>
+</doxygen>

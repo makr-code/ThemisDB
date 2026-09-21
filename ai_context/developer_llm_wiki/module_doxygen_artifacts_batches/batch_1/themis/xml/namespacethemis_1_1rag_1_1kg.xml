@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rag_1_1kg" kind="namespace" language="C++">
+    <compoundname>themis::rag::kg</compoundname>
+    <innerclass refid="classthemis_1_1rag_1_1kg_1_1_i_knowledge_graph" prot="public">themis::rag::kg::IKnowledgeGraph</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1rag_1_1kg_1a2970f0c8e21060f995c39248c88e5c92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1kg_1_1_i_knowledge_graph" kindref="compound">IKnowledgeGraph</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IKnowledgeGraph &gt; themis::rag::kg::makeIKnowledgeGraph</definition>
+        <argsstring>(const KnowledgeGraph &amp;kg)</argsstring>
+        <name>makeIKnowledgeGraph</name>
+        <qualifiedname>themis::rag::kg::makeIKnowledgeGraph</qualifiedname>
+        <param>
+          <type>const KnowledgeGraph &amp;</type>
+          <declname>kg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/rag/kg/knowledge_graph_interface.h" line="30" column="21" declfile="include/themis/rag/kg/knowledge_graph_interface.h" declline="30" declcolumn="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/rag/kg/knowledge_graph_interface.h" line="11" column="1"/>
+  </compounddef>
+</doxygen>

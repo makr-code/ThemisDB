@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_merge_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::MergeResult</compoundname>
+    <includes refid="prompt__version__control_8h" local="no">prompt_version_control.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_merge_result_1a8079b7e0898c21478f219dd555e917f0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::MergeResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::prompt_engineering::MergeResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether merge succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="94" column="10" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_merge_result_1aa3cbb35b5ecec9cb3d367478152ded56" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::MergeResult::merged_version_id</definition>
+        <argsstring></argsstring>
+        <name>merged_version_id</name>
+        <qualifiedname>themis::prompt_engineering::MergeResult::merged_version_id</qualifiedname>
+        <briefdescription>
+<para>New version ID if successful. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="95" column="17" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_merge_result_1a269beea46cec181e8a579e083569eaca" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::MergeResult::conflicts</definition>
+        <argsstring></argsstring>
+        <name>conflicts</name>
+        <qualifiedname>themis::prompt_engineering::MergeResult::conflicts</qualifiedname>
+        <briefdescription>
+<para>Conflict descriptions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="96" column="17" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_merge_result_1a146aa7b6c9324a2c1bd676f37ebd1400" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::MergeResult::merged_content</definition>
+        <argsstring></argsstring>
+        <name>merged_content</name>
+        <qualifiedname>themis::prompt_engineering::MergeResult::merged_content</qualifiedname>
+        <briefdescription>
+<para>Merged content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="97" column="17" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_merge_result_1ad1658f420818fd10f87b88c158c605b3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::MergeResult::strategy_used</definition>
+        <argsstring></argsstring>
+        <name>strategy_used</name>
+        <qualifiedname>themis::prompt_engineering::MergeResult::strategy_used</qualifiedname>
+        <briefdescription>
+<para>Merge strategy (&quot;ours&quot;, &quot;theirs&quot;, &quot;auto&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="98" column="17" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_merge_result_1a4d5390be8679fce11afabc093861c99c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::MergeResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::MergeResult::toJson</qualifiedname>
+        <briefdescription>
+<para>Convert to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_version_control.h" line="103" column="20" bodyfile="src/prompt_engineering/prompt_version_control.cpp" bodystart="112" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Merge result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_version_control.h" line="93" column="1" bodyfile="include/prompt_engineering/prompt_version_control.h" bodystart="93" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_merge_result_1a269beea46cec181e8a579e083569eaca" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::MergeResult</scope><name>conflicts</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_merge_result_1a146aa7b6c9324a2c1bd676f37ebd1400" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::MergeResult</scope><name>merged_content</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_merge_result_1aa3cbb35b5ecec9cb3d367478152ded56" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::MergeResult</scope><name>merged_version_id</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_merge_result_1ad1658f420818fd10f87b88c158c605b3" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::MergeResult</scope><name>strategy_used</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_merge_result_1a8079b7e0898c21478f219dd555e917f0" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::MergeResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_merge_result_1a4d5390be8679fce11afabc093861c99c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::MergeResult</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

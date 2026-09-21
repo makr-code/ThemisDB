@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_subject_attributes" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::SubjectAttributes</compoundname>
+    <includes refid="authorization__policy_8h" local="no">authorization_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_subject_attributes_1aa97ccca17991084ad6813570b3563e1e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SubjectAttributes::subject_id</definition>
+        <argsstring></argsstring>
+        <name>subject_id</name>
+        <qualifiedname>themis::auth::SubjectAttributes::subject_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="30" column="17" bodyfile="include/auth/authorization_policy.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_subject_attributes_1a60ca3067659fca20913cece86cd1375b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SubjectAttributes::role</definition>
+        <argsstring></argsstring>
+        <name>role</name>
+        <qualifiedname>themis::auth::SubjectAttributes::role</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="31" column="17" bodyfile="include/auth/authorization_policy.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_subject_attributes_1af8ed17b6212d5253ff53b85afa0f2828" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::SubjectAttributes::groups</definition>
+        <argsstring></argsstring>
+        <name>groups</name>
+        <qualifiedname>themis::auth::SubjectAttributes::groups</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="32" column="17" bodyfile="include/auth/authorization_policy.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_subject_attributes_1adae56c5a25d1d2aae089e034377b4819" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::auth::SubjectAttributes::attributes</definition>
+        <argsstring></argsstring>
+        <name>attributes</name>
+        <qualifiedname>themis::auth::SubjectAttributes::attributes</qualifiedname>
+        <briefdescription>
+<para>Custom key=value attributes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="33" column="14" bodyfile="include/auth/authorization_policy.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_subject_attributes_1a00cb92efe7f20ab777109ea317f5e9fe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SubjectAttributes::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::auth::SubjectAttributes::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="34" column="17" bodyfile="include/auth/authorization_policy.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_subject_attributes_1aaab92b370ebea39ab8298754807cdbc3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SubjectAttributes::clearance_level</definition>
+        <argsstring></argsstring>
+        <name>clearance_level</name>
+        <qualifiedname>themis::auth::SubjectAttributes::clearance_level</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;confidential&quot;, &quot;secret&quot;, &quot;top_secret&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/authorization_policy.h" line="35" column="17" bodyfile="include/auth/authorization_policy.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/authorization_policy.h" line="29" column="1" bodyfile="include/auth/authorization_policy.h" bodystart="29" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_subject_attributes_1adae56c5a25d1d2aae089e034377b4819" prot="public" virt="non-virtual"><scope>themis::auth::SubjectAttributes</scope><name>attributes</name></member>
+      <member refid="structthemis_1_1auth_1_1_subject_attributes_1aaab92b370ebea39ab8298754807cdbc3" prot="public" virt="non-virtual"><scope>themis::auth::SubjectAttributes</scope><name>clearance_level</name></member>
+      <member refid="structthemis_1_1auth_1_1_subject_attributes_1af8ed17b6212d5253ff53b85afa0f2828" prot="public" virt="non-virtual"><scope>themis::auth::SubjectAttributes</scope><name>groups</name></member>
+      <member refid="structthemis_1_1auth_1_1_subject_attributes_1a60ca3067659fca20913cece86cd1375b" prot="public" virt="non-virtual"><scope>themis::auth::SubjectAttributes</scope><name>role</name></member>
+      <member refid="structthemis_1_1auth_1_1_subject_attributes_1aa97ccca17991084ad6813570b3563e1e" prot="public" virt="non-virtual"><scope>themis::auth::SubjectAttributes</scope><name>subject_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_subject_attributes_1a00cb92efe7f20ab777109ea317f5e9fe" prot="public" virt="non-virtual"><scope>themis::auth::SubjectAttributes</scope><name>tenant_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_document_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::DocumentSummary</compoundname>
+    <includes refid="document__summarizer_8h" local="no">document_summarizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_summary_1a6438cd4cb8e1271fac81d0dc452a55f4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::DocumentSummary::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::rag::DocumentSummary::document_id</qualifiedname>
+        <briefdescription>
+<para>Identifier of the source document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="73" column="17" bodyfile="include/rag/document_summarizer.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_summary_1a2925a3f0c0e7a5c72d410c64f244b65a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::DocumentSummary::summary</definition>
+        <argsstring></argsstring>
+        <name>summary</name>
+        <qualifiedname>themis::rag::DocumentSummary::summary</qualifiedname>
+        <briefdescription>
+<para>Condensed text for this document. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="74" column="17" bodyfile="include/rag/document_summarizer.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_summary_1aeccf8c6390e6633bf9c6de48ba88dcb0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::DocumentSummary::coverage_score</definition>
+        <argsstring></argsstring>
+        <name>coverage_score</name>
+        <qualifiedname>themis::rag::DocumentSummary::coverage_score</qualifiedname>
+        <briefdescription>
+<para>Fraction of distinct sentences included [0,1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="75" column="17" bodyfile="include/rag/document_summarizer.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_document_summary_1a4e6885fcb77e2341fc121fd8707a261c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::DocumentSummary::used_llm</definition>
+        <argsstring></argsstring>
+        <name>used_llm</name>
+        <qualifiedname>themis::rag::DocumentSummary::used_llm</qualifiedname>
+        <briefdescription>
+<para>True when abstractive (LLM) path was taken. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/document_summarizer.h" line="76" column="17" bodyfile="include/rag/document_summarizer.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Summary produced for a single document. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/document_summarizer.h" line="72" column="1" bodyfile="include/rag/document_summarizer.h" bodystart="72" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_document_summary_1aeccf8c6390e6633bf9c6de48ba88dcb0" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummary</scope><name>coverage_score</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_summary_1a6438cd4cb8e1271fac81d0dc452a55f4" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummary</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_summary_1a2925a3f0c0e7a5c72d410c64f244b65a" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummary</scope><name>summary</name></member>
+      <member refid="structthemis_1_1rag_1_1_document_summary_1a4e6885fcb77e2341fc121fd8707a261c" prot="public" virt="non-virtual"><scope>themis::rag::DocumentSummary</scope><name>used_llm</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

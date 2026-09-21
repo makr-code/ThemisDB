@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1llm__hp_1_1_stub_model_selector" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::llm_hp::StubModelSelector</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1llm__hp_1_1_stub_model_selector_1a439f0f33f343be67d3aa72fe64d93ead" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::bench::llm_hp::StubModelSelector::registry_</definition>
+        <argsstring></argsstring>
+        <name>registry_</name>
+        <qualifiedname>themis::bench::llm_hp::StubModelSelector::registry_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="195" column="24" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="195" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1llm__hp_1_1_stub_model_selector_1af7ee211b455890b2d759b456491fd72c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::llm_hp::StubModelSelector::StubModelSelector</definition>
+        <argsstring>(int num_models)</argsstring>
+        <name>StubModelSelector</name>
+        <qualifiedname>themis::bench::llm_hp::StubModelSelector::StubModelSelector</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num_models</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="185" column="14" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="185" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1llm__hp_1_1_stub_model_selector_1a45bb3f7caeac6f1888ac53d3461215ce" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::bench::llm_hp::StubModelSelector::select</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>select</name>
+        <qualifiedname>themis::bench::llm_hp::StubModelSelector::select</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="190" column="9" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="190" bodyend="193"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub model selector (routing decision). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="183" column="1" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="183" bodyend="196"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_model_selector_1a439f0f33f343be67d3aa72fe64d93ead" prot="private" virt="non-virtual"><scope>themis::bench::llm_hp::StubModelSelector</scope><name>registry_</name></member>
+      <member refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_model_selector_1a45bb3f7caeac6f1888ac53d3461215ce" prot="public" virt="non-virtual"><scope>themis::bench::llm_hp::StubModelSelector</scope><name>select</name></member>
+      <member refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_model_selector_1af7ee211b455890b2d759b456491fd72c" prot="public" virt="non-virtual"><scope>themis::bench::llm_hp::StubModelSelector</scope><name>StubModelSelector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

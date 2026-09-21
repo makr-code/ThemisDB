@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_checkpoint_info" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::CheckpointInfo</compoundname>
+    <includes refid="shard__durability_8h" local="no">shard_durability.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_checkpoint_info_1ae10fa13edbcb88dd526862487a2b116e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CheckpointInfo::checkpoint_id</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_id</name>
+        <qualifiedname>themisdb::sharding::CheckpointInfo::checkpoint_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="47" column="17" bodyfile="include/sharding/shard_durability.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_checkpoint_info_1a9d6f1cd3c5ee8bd34160597a84ce2641" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CheckpointInfo::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themisdb::sharding::CheckpointInfo::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="48" column="17" bodyfile="include/sharding/shard_durability.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_checkpoint_info_1a7ca7dc2b3adb15707d0c9407a6f982e0" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::sharding::CheckpointInfo::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themisdb::sharding::CheckpointInfo::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="49" column="43" bodyfile="include/sharding/shard_durability.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_checkpoint_info_1a92cc89636f87ac8d6ca07c46a1a3462d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::CheckpointInfo::sequence_number</definition>
+        <argsstring></argsstring>
+        <name>sequence_number</name>
+        <qualifiedname>themisdb::sharding::CheckpointInfo::sequence_number</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="50" column="14" bodyfile="include/sharding/shard_durability.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_checkpoint_info_1a538b0dd5637cd32360f69a6b07686b98" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::CheckpointInfo::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themisdb::sharding::CheckpointInfo::size_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="51" column="14" bodyfile="include/sharding/shard_durability.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_checkpoint_info_1a788f888782cba3dad20af3c0f4f9de24" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CheckpointInfo::is_valid</definition>
+        <argsstring></argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themisdb::sharding::CheckpointInfo::is_valid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="52" column="10" bodyfile="include/sharding/shard_durability.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Checkpoint metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/shard_durability.h" line="46" column="1" bodyfile="include/sharding/shard_durability.h" bodystart="46" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_checkpoint_info_1ae10fa13edbcb88dd526862487a2b116e" prot="public" virt="non-virtual"><scope>themisdb::sharding::CheckpointInfo</scope><name>checkpoint_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_checkpoint_info_1a7ca7dc2b3adb15707d0c9407a6f982e0" prot="public" virt="non-virtual"><scope>themisdb::sharding::CheckpointInfo</scope><name>created_at</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_checkpoint_info_1a788f888782cba3dad20af3c0f4f9de24" prot="public" virt="non-virtual"><scope>themisdb::sharding::CheckpointInfo</scope><name>is_valid</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_checkpoint_info_1a9d6f1cd3c5ee8bd34160597a84ce2641" prot="public" virt="non-virtual"><scope>themisdb::sharding::CheckpointInfo</scope><name>path</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_checkpoint_info_1a92cc89636f87ac8d6ca07c46a1a3462d" prot="public" virt="non-virtual"><scope>themisdb::sharding::CheckpointInfo</scope><name>sequence_number</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_checkpoint_info_1a538b0dd5637cd32360f69a6b07686b98" prot="public" virt="non-virtual"><scope>themisdb::sharding::CheckpointInfo</scope><name>size_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

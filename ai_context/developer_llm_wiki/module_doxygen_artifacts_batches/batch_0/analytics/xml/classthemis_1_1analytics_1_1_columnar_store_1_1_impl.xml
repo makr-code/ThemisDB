@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1_columnar_store_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::ColumnarStore::Impl</compoundname>
+    <innerclass refid="structthemis_1_1analytics_1_1_columnar_store_1_1_impl_1_1_column" prot="public">themis::analytics::ColumnarStore::Impl::Column</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_columnar_store_1_1_impl_1a6d7578efd13b8a6ace5c0bd140a6fc1d" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1analytics_1_1_columnar_store_1_1_impl_1_1_column" kindref="compound">Column</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Column&gt; themis::analytics::ColumnarStore::Impl::columns</definition>
+        <argsstring></argsstring>
+        <name>columns</name>
+        <qualifiedname>themis::analytics::ColumnarStore::Impl::columns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1387" column="24" bodyfile="src/analytics/olap.cpp" bodystart="1387" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_columnar_store_1_1_impl_1ac195d7877ca241985cd1b1f6f46c5258" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::ColumnarStore::Impl::row_count</definition>
+        <argsstring></argsstring>
+        <name>row_count</name>
+        <qualifiedname>themis::analytics::ColumnarStore::Impl::row_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1388" column="12" bodyfile="src/analytics/olap.cpp" bodystart="1388" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1_columnar_store_1_1_impl_1a126c44955ddeccb8319c38c549783a62" prot="public" static="no" mutable="yes">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::analytics::ColumnarStore::Impl::simd_buffer</definition>
+        <argsstring></argsstring>
+        <name>simd_buffer</name>
+        <qualifiedname>themis::analytics::ColumnarStore::Impl::simd_buffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1392" column="25" bodyfile="src/analytics/olap.cpp" bodystart="1392" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1_columnar_store_1_1_impl_1acc020c0705934926bb4694f2a4972476" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::pair&lt; const double *, size_t &gt;</type>
+        <definition>static std::pair&lt; const double *, size_t &gt; themis::analytics::ColumnarStore::Impl::extractDoubles</definition>
+        <argsstring>(const Column &amp;col, std::vector&lt; double &gt; &amp;buf)</argsstring>
+        <name>extractDoubles</name>
+        <qualifiedname>themis::analytics::ColumnarStore::Impl::extractDoubles</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_columnar_store_1_1_impl_1_1_column" kindref="compound">Column</ref> &amp;</type>
+          <declname>col</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="1396" column="22" bodyfile="src/analytics/olap.cpp" bodystart="1396" bodyend="1407"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/analytics/olap.cpp" line="1379" column="1" bodyfile="src/analytics/olap.cpp" bodystart="1379" bodyend="1408"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1_1_impl_1a6d7578efd13b8a6ace5c0bd140a6fc1d" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore::Impl</scope><name>columns</name></member>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1_1_impl_1acc020c0705934926bb4694f2a4972476" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore::Impl</scope><name>extractDoubles</name></member>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1_1_impl_1ac195d7877ca241985cd1b1f6f46c5258" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore::Impl</scope><name>row_count</name></member>
+      <member refid="classthemis_1_1analytics_1_1_columnar_store_1_1_impl_1a126c44955ddeccb8319c38c549783a62" prot="public" virt="non-virtual"><scope>themis::analytics::ColumnarStore::Impl</scope><name>simd_buffer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

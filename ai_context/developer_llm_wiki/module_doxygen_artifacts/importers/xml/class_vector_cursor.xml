@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_vector_cursor" kind="class" language="C++" prot="public">
+    <compoundname>VectorCursor</compoundname>
+    <basecompoundref refid="classthemis_1_1importers_1_1_i_incremental_import_cursor" prot="public" virt="non-virtual">themis::importers::IIncrementalImportCursor</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_vector_cursor_1a26748675cdbb682355f03449c1120054" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string VectorCursor::table_</definition>
+        <argsstring></argsstring>
+        <name>table_</name>
+        <qualifiedname>VectorCursor::table_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="240" column="24" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_vector_cursor_1a6bca9ee3a3ce8a68210a2144a99cb4c4" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt;json&gt; VectorCursor::records_</definition>
+        <argsstring></argsstring>
+        <name>records_</name>
+        <qualifiedname>VectorCursor::records_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="241" column="18" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_vector_cursor_1a88652bcc9d874a687c450d577f161e21" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t VectorCursor::cursor_</definition>
+        <argsstring></argsstring>
+        <name>cursor_</name>
+        <qualifiedname>VectorCursor::cursor_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="242" column="24" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_vector_cursor_1a0dc85f1e09dcf9869654322b9ac3865c" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool VectorCursor::closed_</definition>
+        <argsstring></argsstring>
+        <name>closed_</name>
+        <qualifiedname>VectorCursor::closed_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="243" column="24" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="243" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_vector_cursor_1a0540fef7b8b6f15430d6463a53d61036" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>VectorCursor::VectorCursor</definition>
+        <argsstring>(std::string table, std::vector&lt; json &gt; records)</argsstring>
+        <name>VectorCursor</name>
+        <qualifiedname>VectorCursor::VectorCursor</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &gt;</type>
+          <declname>records</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="212" column="5" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="212" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="class_vector_cursor_1a9ca1f82783c654968d3f4e3c4f983eba" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1importers_1aa6876d3119325870071bb2469f098656" kindref="member">CursorStatus</ref></type>
+        <definition>CursorStatus VectorCursor::next</definition>
+        <argsstring>(ImportBatch &amp;batch) override</argsstring>
+        <name>next</name>
+        <qualifiedname>VectorCursor::next</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_incremental_import_cursor_1a67f519f5feb312a9407c4bb4fb86ee4f">next</reimplements>
+        <param>
+          <type><ref refid="structthemis_1_1importers_1_1_import_batch" kindref="compound">ImportBatch</ref> &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="215" column="18" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="215" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="class_vector_cursor_1a33aa648644f49d84cc30343c8992d1db" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classthemis_1_1importers_1_1_checkpoint_token" kindref="compound">CheckpointToken</ref></type>
+        <definition>CheckpointToken VectorCursor::checkpoint</definition>
+        <argsstring>() const override</argsstring>
+        <name>checkpoint</name>
+        <qualifiedname>VectorCursor::checkpoint</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_incremental_import_cursor_1aee44330a8d3303dc6bf48161f51f139a">checkpoint</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="229" column="21" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="229" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="class_vector_cursor_1ade222757bcce6dfd5eee841fc0b399e9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>int64_t</type>
+        <definition>int64_t VectorCursor::estimatedRemainingRows</definition>
+        <argsstring>() const override</argsstring>
+        <name>estimatedRemainingRows</name>
+        <qualifiedname>VectorCursor::estimatedRemainingRows</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_incremental_import_cursor_1abe56f21c7ca887fa6e1db793646f62e2">estimatedRemainingRows</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="233" column="13" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="233" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="class_vector_cursor_1a05d8c4cc5413e8bf56a4ed3646349feb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void VectorCursor::close</definition>
+        <argsstring>() override</argsstring>
+        <name>close</name>
+        <qualifiedname>VectorCursor::close</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_incremental_import_cursor_1a87cfd12c405c9be66298257c5d3409f6">close</reimplements>
+        <briefdescription>
+<para>Close. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="237" column="10" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="237" bodyend="237"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>VectorCursor</label>
+        <link refid="class_vector_cursor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::IIncrementalImportCursor</label>
+        <link refid="classthemis_1_1importers_1_1_i_incremental_import_cursor"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>VectorCursor</label>
+        <link refid="class_vector_cursor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::IIncrementalImportCursor</label>
+        <link refid="classthemis_1_1importers_1_1_i_incremental_import_cursor"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/importers/test_importer_interfaces.cpp" line="210" column="1" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="210" bodyend="244"/>
+    <listofallmembers>
+      <member refid="class_vector_cursor_1a33aa648644f49d84cc30343c8992d1db" prot="public" virt="virtual"><scope>VectorCursor</scope><name>checkpoint</name></member>
+      <member refid="class_vector_cursor_1a05d8c4cc5413e8bf56a4ed3646349feb" prot="public" virt="virtual"><scope>VectorCursor</scope><name>close</name></member>
+      <member refid="class_vector_cursor_1a0dc85f1e09dcf9869654322b9ac3865c" prot="private" virt="non-virtual"><scope>VectorCursor</scope><name>closed_</name></member>
+      <member refid="class_vector_cursor_1a88652bcc9d874a687c450d577f161e21" prot="private" virt="non-virtual"><scope>VectorCursor</scope><name>cursor_</name></member>
+      <member refid="class_vector_cursor_1ade222757bcce6dfd5eee841fc0b399e9" prot="public" virt="virtual"><scope>VectorCursor</scope><name>estimatedRemainingRows</name></member>
+      <member refid="class_vector_cursor_1a9ca1f82783c654968d3f4e3c4f983eba" prot="public" virt="virtual"><scope>VectorCursor</scope><name>next</name></member>
+      <member refid="class_vector_cursor_1a6bca9ee3a3ce8a68210a2144a99cb4c4" prot="private" virt="non-virtual"><scope>VectorCursor</scope><name>records_</name></member>
+      <member refid="class_vector_cursor_1a26748675cdbb682355f03449c1120054" prot="private" virt="non-virtual"><scope>VectorCursor</scope><name>table_</name></member>
+      <member refid="class_vector_cursor_1a0540fef7b8b6f15430d6463a53d61036" prot="public" virt="non-virtual"><scope>VectorCursor</scope><name>VectorCursor</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_incremental_import_cursor_1a979f0da89782f52e20c6483a2c2f740f" prot="public" virt="virtual"><scope>VectorCursor</scope><name>~IIncrementalImportCursor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

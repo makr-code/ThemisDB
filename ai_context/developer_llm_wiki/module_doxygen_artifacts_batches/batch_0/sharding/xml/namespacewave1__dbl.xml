@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacewave1__dbl" kind="namespace" language="C++">
+    <compoundname>wave1_dbl</compoundname>
+    <innerclass refid="structwave1__dbl_1_1_mock_connection_deleter" prot="public">wave1_dbl::MockConnectionDeleter</innerclass>
+    <innerclass refid="structwave1__dbl_1_1_pending_write_stub" prot="public">wave1_dbl::PendingWriteStub</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacewave1__dbl_1ac29cad822b1a18c9c6cd2e3fece42537" prot="public" static="no">
+        <type>std::unique_ptr&lt; int, <ref refid="structwave1__dbl_1_1_mock_connection_deleter" kindref="compound">MockConnectionDeleter</ref> &gt;</type>
+        <definition>using wave1_dbl::MockConn = std::unique_ptr&lt;int, MockConnectionDeleter&gt;</definition>
+        <argsstring></argsstring>
+        <name>MockConn</name>
+        <qualifiedname>wave1_dbl::MockConn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="356" column="1" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="356" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacewave1__dbl_1afd1c8966d4c3fc3c79a4a5750165daff" prot="public" static="yes" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; wave1_dbl::s_open_connections</definition>
+        <argsstring></argsstring>
+        <name>s_open_connections</name>
+        <qualifiedname>wave1_dbl::s_open_connections</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="345" column="20" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="345" bodyend="345"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacewave1__dbl_1a07bc63e1a3122a7fcf1a67949974edcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacewave1__dbl_1ac29cad822b1a18c9c6cd2e3fece42537" kindref="member">MockConn</ref></type>
+        <definition>MockConn wave1_dbl::acquireConnection</definition>
+        <argsstring>()</argsstring>
+        <name>acquireConnection</name>
+        <qualifiedname>wave1_dbl::acquireConnection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="358" column="10" bodyfile="tests/sharding/test_sharding_wave1_critical_closure.cpp" bodystart="358" bodyend="361"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="342" column="1"/>
+  </compounddef>
+</doxygen>

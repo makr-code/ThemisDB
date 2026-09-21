@@ -1,0 +1,401 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gpu__compression_8h" kind="file" language="C++">
+    <compoundname>gpu_compression.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="compression__strategy_8h" local="yes">include/storage/compression_strategy.h</includedby>
+    <includedby refid="gpu__compression_8cpp" local="yes">src/storage/gpu_compression.cpp</includedby>
+    <includedby refid="test__wave1__critical__fixes_8cpp" local="yes">tests/storage/test_wave1_critical_fixes.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/storage/gpu_compression.h</label>
+        <link refid="gpu__compression_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>include/storage/compressed_storage.h</label>
+        <link refid="compressed__storage_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/storage/compression_strategy.h</label>
+        <link refid="compression__strategy_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/storage/gpu_compression.h</label>
+        <link refid="gpu__compression_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/storage/compressed_storage.cpp</label>
+        <link refid="compressed__storage_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/storage/compression_strategy.cpp</label>
+        <link refid="compression__strategy_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/storage/gpu_compression.cpp</label>
+        <link refid="gpu__compression_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/storage/test_wave1_critical_fixes.cpp</label>
+        <link refid="test__wave1__critical__fixes_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1storage_1_1_gpu_compression_config" prot="public">themis::storage::GpuCompressionConfig</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_gpu_compression_result" prot="public">themis::storage::GpuCompressionResult</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_gpu_compression_manager" prot="public">themis::storage::GpuCompressionManager</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats" prot="public">themis::storage::GpuCompressionManager::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1storage">themis::storage</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="gpu__compression_8h_1ae8b9a1ea2273aae09c3e7e93cfbf516b" prot="public" static="no">
+        <name>THEMIS_CUDA_CHECK</name>
+        <param><defname>call</defname></param>
+        <initializer>static_cast&lt;void&gt;(0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ThemisDB GPU-Accelerated Compression</para>
+<para>Provides GPU-accelerated compression/decompression using CUDA (NVIDIA nvCOMP) and HIP (ROCm) for the following algorithms:<itemizedlist>
+<listitem><para>Zstd (NVIDIA nvCOMP / CPU fallback)</para>
+</listitem><listitem><para>Snappy (nvCOMP Snappy variant / CPU fallback)</para>
+</listitem><listitem><para>LZ4 (nvCOMP parallel decompress / CPU fallback)</para>
+</listitem></itemizedlist>
+</para>
+<para>Expected improvement: 5-10× compression throughput vs. CPU-only path. Automatic CPU fallback when no GPU is available or when data is too small to amortise device-transfer overhead.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="72" column="12" bodyfile="include/storage/gpu_compression.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THEMIS_CUDA_CHECK<sp/>—<sp/>fail-closed<sp/>CUDA<sp/>error<sp/>checking<sp/>macro</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wraps<sp/>any<sp/>CUDA<sp/>API<sp/>call<sp/>and<sp/>throws<sp/>std::runtime_error<sp/>(logging<sp/>the<sp/>error)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>when<sp/>the<sp/>call<sp/>does<sp/>not<sp/>return<sp/>cudaSuccess.<sp/><sp/>This<sp/>satisfies<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>unchecked_cuda_call<sp/>gap<sp/>class:<sp/>every<sp/>cuda*()<sp/>call<sp/>that<sp/>affects<sp/>correctness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>or<sp/>resource<sp/>ownership<sp/>MUST<sp/>be<sp/>wrapped<sp/>with<sp/>this<sp/>macro<sp/>rather<sp/>than<sp/>ignoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>the<sp/>return<sp/>value.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Usage:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>THEMIS_CUDA_CHECK(cudaMalloc(&amp;ptr,<sp/>size));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>THEMIS_CUDA_CHECK(cudaMemcpyAsync(dst,<sp/>src,<sp/>n,<sp/>kind,<sp/>stream));</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>macro<sp/>is<sp/>a<sp/>no-op<sp/>when<sp/>THEMIS_ENABLE_CUDA<sp/>is<sp/>not<sp/>defined.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_CUDA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>include<sp/>&lt;cuda_runtime.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Requires<sp/>THEMIS_ERROR<sp/>(utils/logger.h)<sp/>to<sp/>be<sp/>available<sp/>at<sp/>the<sp/>call<sp/>site.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>ifndef<sp/>THEMIS_CUDA_CHECK</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/><sp/><sp/>define<sp/>THEMIS_CUDA_CHECK(call)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="59"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>do<sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="60"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cudaError_t<sp/>_themis_cuda_err<sp/>=<sp/>(call);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="61"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>(_themis_cuda_err<sp/>!=<sp/>cudaSuccess)<sp/>{<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="62"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>THEMIS_ERROR(&quot;CUDA<sp/>error<sp/>at<sp/>{}:{}:<sp/>{}&quot;,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="63"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__FILE__,<sp/>__LINE__,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="64"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cudaGetErrorString(_themis_cuda_err));<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="65"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>throw<sp/>std::runtime_error(<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="66"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string(&quot;CUDA<sp/>error:<sp/>&quot;)<sp/>+<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="67"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cudaGetErrorString(_themis_cuda_err));<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="68"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="69"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/>while<sp/>(0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>endif<sp/></highlight><highlight class="comment">//<sp/>THEMIS_CUDA_CHECK</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="gpu__compression_8h_1ae8b9a1ea2273aae09c3e7e93cfbf516b" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>define<sp/>THEMIS_CUDA_CHECK(call)<sp/>static_cast&lt;void&gt;(0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>THEMIS_ENABLE_CUDA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">storage<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GPU<sp/>Acceleration<sp/>Type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58" kindref="member">GpuAccelerationType</ref><sp/>{</highlight></codeline>
+<codeline lineno="86" refid="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58a9393911bc06bdfb0c3663d541246e15a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58a9393911bc06bdfb0c3663d541246e15a" kindref="member">CPU_ONLY</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58aa33b7755e5f9b504d2d038eaca4ff28d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58aa33b7755e5f9b504d2d038eaca4ff28d" kindref="member">CUDA</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58a5e4576beae2ab86d6ad1b8b1700d2e11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58a5e4576beae2ab86d6ad1b8b1700d2e11" kindref="member">HIP</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58ae1f2d5134ed2543d38a0de9751cf75d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">AUTO</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Supported<sp/>GPU-accelerated<sp/>algorithms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="namespacethemis_1_1storage_1aa8354c33a977b5a40343459b6aa3e68b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1storage_1aa8354c33a977b5a40343459b6aa3e68b" kindref="member">GpuCompressionAlgorithm</ref><sp/>{</highlight></codeline>
+<codeline lineno="104" refid="namespacethemis_1_1storage_1aa8354c33a977b5a40343459b6aa3e68ba8406cc2302e19183037b61249546b234" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1aa8354c33a977b5a40343459b6aa3e68ba8406cc2302e19183037b61249546b234" kindref="member">ZSTD</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105" refid="namespacethemis_1_1storage_1aa8354c33a977b5a40343459b6aa3e68ba2069e5c0aea54224dcd6b9b6c78c4902" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a01c8e5f6b41952138ad7d33fa726f7c7a2069e5c0aea54224dcd6b9b6c78c4902" kindref="member">SNAPPY</ref>,<sp/></highlight></codeline>
+<codeline lineno="106" refid="namespacethemis_1_1storage_1aa8354c33a977b5a40343459b6aa3e68baca0c64c0de8f56bc573828ea6d764594" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a01c8e5f6b41952138ad7d33fa726f7c7aca0c64c0de8f56bc573828ea6d764594" kindref="member">LZ4</ref><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1storage_1_1_gpu_compression_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_gpu_compression_config" kindref="compound">GpuCompressionConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1storage_1_1_gpu_compression_config_1ad1f19037c8c2ffac403ac377172bb8bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58" kindref="member">GpuAccelerationType</ref><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_config_1ad1f19037c8c2ffac403ac377172bb8bf" kindref="member">accel_type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">GpuAccelerationType::AUTO</ref>;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1storage_1_1_gpu_compression_config_1a9955b3d8ca84f6bba633badf833bca8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_config_1a9955b3d8ca84f6bba633badf833bca8a" kindref="member">device_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1storage_1_1_gpu_compression_config_1a92b55f9692cb6e87d8d35d99c683b5ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_config_1a92b55f9692cb6e87d8d35d99c683b5ba" kindref="member">fallback_cpu</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1storage_1_1_gpu_compression_config_1a36ce0915ab569040c593784e2a559414" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_config_1a36ce0915ab569040c593784e2a559414" kindref="member">async_compute</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1storage_1_1_gpu_compression_config_1ae008deb4a0ca13cbade73755af5481df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_config_1ae008deb4a0ca13cbade73755af5481df" kindref="member">min_size_for_gpu</ref><sp/><sp/>=<sp/>256<sp/>*<sp/>1024;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>256<sp/>KB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1storage_1_1_gpu_compression_config_1a9f0a70a2f267abb38491977d19bcaf67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_config_1a9f0a70a2f267abb38491977d19bcaf67" kindref="member">chunk_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>64<sp/>*<sp/>1024;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>64<sp/>KB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1storage_1_1_gpu_compression_config_1ac5f9c3e5a9a9d9a1a3c0d20a5e851a29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_config_1ac5f9c3e5a9a9d9a1a3c0d20a5e851a29" kindref="member">zstd_level</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1storage_1_1_gpu_compression_config_1ab9f36e26c3b2570def3b59583d8c0b74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_config_1ab9f36e26c3b2570def3b59583d8c0b74" kindref="member">max_gpu_memory_mb</ref><sp/>=<sp/>2048;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Result<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1storage_1_1_gpu_compression_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_gpu_compression_result_1acdf50f0691a6d97a786c3e23f2ebf2df" kindref="member">GpuCompressionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1storage_1_1_gpu_compression_result_1a558d6f5f519477e372d55591c5c1fab0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_result_1a558d6f5f519477e372d55591c5c1fab0" kindref="member">data</ref>;</highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1storage_1_1_gpu_compression_result_1a3ef9d0a00d2c39ae28f40c331871847d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1aa8354c33a977b5a40343459b6aa3e68b" kindref="member">GpuCompressionAlgorithm</ref><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_result_1a3ef9d0a00d2c39ae28f40c331871847d" kindref="member">algorithm</ref>;</highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1storage_1_1_gpu_compression_result_1a59bb37a07ae27637534ac458313b7cb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_result_1a59bb37a07ae27637534ac458313b7cb3" kindref="member">used_gpu</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1storage_1_1_gpu_compression_result_1a604b7853c16f95b613c418e5b433c82f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_result_1a604b7853c16f95b613c418e5b433c82f" kindref="member">original_size</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1storage_1_1_gpu_compression_result_1a790d42da85d1949893b95a3a200c6ce9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_result_1a790d42da85d1949893b95a3a200c6ce9" kindref="member">compression_ratio</ref><sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1storage_1_1_gpu_compression_result_1a439e96086eed4f87fb199fed8bc15cb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_result_1a439e96086eed4f87fb199fed8bc15cb6" kindref="member">success</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1storage_1_1_gpu_compression_result_1a5c4cb986460c0c0a34048c0b0d14ac5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_result_1a5c4cb986460c0c0a34048c0b0d14ac5d" kindref="member">error_message</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1storage_1_1_gpu_compression_result_1acdf50f0691a6d97a786c3e23f2ebf2df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_result_1acdf50f0691a6d97a786c3e23f2ebf2df" kindref="member">GpuCompressionResult</ref>()<sp/>:<sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_result_1a3ef9d0a00d2c39ae28f40c331871847d" kindref="member">algorithm</ref>(<ref refid="namespacethemis_1_1storage_1aa8354c33a977b5a40343459b6aa3e68b" kindref="member">GpuCompressionAlgorithm</ref>::<ref refid="namespacethemis_1_1storage_1a01c8e5f6b41952138ad7d33fa726f7c7aca0c64c0de8f56bc573828ea6d764594" kindref="member">LZ4</ref>)<sp/>{}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration<sp/>for<sp/>platform-specific<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">GpuCompressionImpl;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GpuCompressionManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200" refid="classthemis_1_1storage_1_1_gpu_compression_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1ae3a93fc117807b663a2ca71f46e70805" kindref="member">GpuCompressionManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1ae3a93fc117807b663a2ca71f46e70805" kindref="member">GpuCompressionManager</ref>(</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_config" kindref="compound">GpuCompressionConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_config" kindref="compound">GpuCompressionConfig</ref>{}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206" refid="classthemis_1_1storage_1_1_gpu_compression_manager_1a3d9c9a3800281de65de0e89286ef19aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1a3d9c9a3800281de65de0e89286ef19aa" kindref="member">~GpuCompressionManager</ref>();</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable<sp/>(due<sp/>to<sp/>mutable<sp/>std::mutex)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="classthemis_1_1storage_1_1_gpu_compression_manager_1a906b1a85a13b3bfe610096e0b7510ab0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1a906b1a85a13b3bfe610096e0b7510ab0" kindref="member">GpuCompressionManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1ae3a93fc117807b663a2ca71f46e70805" kindref="member">GpuCompressionManager</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210" refid="classthemis_1_1storage_1_1_gpu_compression_manager_1a4038880f649e09eb1221658ee88e4e96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1ae3a93fc117807b663a2ca71f46e70805" kindref="member">GpuCompressionManager</ref>&amp;<sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1a4038880f649e09eb1221658ee88e4e96" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1ae3a93fc117807b663a2ca71f46e70805" kindref="member">GpuCompressionManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211" refid="classthemis_1_1storage_1_1_gpu_compression_manager_1a5826b54026ba74b9983e23c86d532743" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1a5826b54026ba74b9983e23c86d532743" kindref="member">GpuCompressionManager</ref>(<ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1ae3a93fc117807b663a2ca71f46e70805" kindref="member">GpuCompressionManager</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="212" refid="classthemis_1_1storage_1_1_gpu_compression_manager_1abbba37d545a70cd3ddf307ba3996ef67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1ae3a93fc117807b663a2ca71f46e70805" kindref="member">GpuCompressionManager</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1ae3a93fc117807b663a2ca71f46e70805" kindref="member">GpuCompressionManager</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compress<sp/>/<sp/>Decompress</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_result" kindref="compound">GpuCompressionResult</ref><sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1a09f5f39c774abb221d2ced31da2648e0" kindref="member">compress</ref>(</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;uint8_t&gt;&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1aa8354c33a977b5a40343459b6aa3e68b" kindref="member">GpuCompressionAlgorithm</ref><sp/>algorithm</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_result" kindref="compound">GpuCompressionResult</ref><sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1a09f5f39c774abb221d2ced31da2648e0" kindref="member">compress</ref>(</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>uint8_t*<sp/>data,</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1aa8354c33a977b5a40343459b6aa3e68b" kindref="member">GpuCompressionAlgorithm</ref><sp/>algorithm</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1adfa6e455062785518505395f138fd142" kindref="member">decompress</ref>(</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;uint8_t&gt;&amp;<sp/>compressed_data,</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1aa8354c33a977b5a40343459b6aa3e68b" kindref="member">GpuCompressionAlgorithm</ref><sp/>algorithm,</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>original_size<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Batch<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;<ref refid="structthemis_1_1storage_1_1_gpu_compression_result" kindref="compound">GpuCompressionResult</ref>&gt;<sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1af101f82a76c25e0d527d40af67b935b7" kindref="member">compress_batch</ref>(</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;<ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;uint8_t&gt;&gt;&amp;<sp/>buffers,</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1aa8354c33a977b5a40343459b6aa3e68b" kindref="member">GpuCompressionAlgorithm</ref><sp/>algorithm</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;<ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1a96fdf16c53b2267b76f9c741c880cf2e" kindref="member">decompress_batch</ref>(</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;<ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;uint8_t&gt;&gt;&amp;<sp/>compressed_buffers,</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1aa8354c33a977b5a40343459b6aa3e68b" kindref="member">GpuCompressionAlgorithm</ref><sp/>algorithm,</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="namespacestd" kindref="compound">std</ref>::vector&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">&gt;&amp;<sp/>original_sizes<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Runtime<sp/>introspection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1a45cbed5cb089081f17496e554392eea0" kindref="member">is_gpu_available</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58" kindref="member">GpuAccelerationType</ref><sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1a0ec6759d23bf7892e8103a7eb6f82ce6" kindref="member">active_accel_type</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1a52ab84363184b8e59cabb9fc3782ac91" kindref="member">force_cpu_fallback</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304" refid="classthemis_1_1storage_1_1_gpu_compression_manager_1a66f0bc94af356c8160af7d122e729318" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_config" kindref="compound">GpuCompressionConfig</ref>&amp;<sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1a66f0bc94af356c8160af7d122e729318" kindref="member">get_config</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(mu_);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1a682294288a6d19503de5679c7efcaf3d" kindref="member">set_config</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_config" kindref="compound">GpuCompressionConfig</ref>&amp;<sp/>cfg);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317" refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="318" refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1ad264bad06a1952322f4dd0346de5017c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1ad264bad06a1952322f4dd0346de5017c" kindref="member">total_compress_ops</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="319" refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1aad2947e4f710ed88cd4808a8a7e073d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1aad2947e4f710ed88cd4808a8a7e073d6" kindref="member">gpu_compress_ops</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="320" refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a0039ca2ecf1c9a4c4ae07171c598dafa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a0039ca2ecf1c9a4c4ae07171c598dafa" kindref="member">total_decompress_ops</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="321" refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a5caab524426d7d9cbf340e4da8854f26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a5caab524426d7d9cbf340e4da8854f26" kindref="member">gpu_decompress_ops</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="322" refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a5bedc6b004dc0eda85a67a771c558769" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a5bedc6b004dc0eda85a67a771c558769" kindref="member">cpu_fallbacks</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="323" refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1ac330de5971265b562361c7f6f8b60d56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1ac330de5971265b562361c7f6f8b60d56" kindref="member">bytes_in</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="324" refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a804b67f929f47f70a9b8dd992f611d07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a804b67f929f47f70a9b8dd992f611d07" kindref="member">bytes_out</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="325" refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a2af9dbdafca95d8adee0fed94d02a524" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a2af9dbdafca95d8adee0fed94d02a524" kindref="member">avg_gpu_compress_ms</ref><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="326" refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a656cd6d695725b2989a75c7f56084d4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a656cd6d695725b2989a75c7f56084d4e" kindref="member">avg_cpu_compress_ms</ref><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="327" refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a134df5b12e779d9ce014c65b02b3f97d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a134df5b12e779d9ce014c65b02b3f97d" kindref="member">avg_gpu_decompress_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="328" refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a718f9bf1895ebf21b456f703d5245d81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats_1a718f9bf1895ebf21b456f703d5245d81" kindref="member">avg_cpu_decompress_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331" refid="classthemis_1_1storage_1_1_gpu_compression_manager_1ae4fcfb99d1341e79b375a39a290bf535" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_manager_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1ae4fcfb99d1341e79b375a39a290bf535" kindref="member">get_stats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(mu_);<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1ac0a59c48a2f96d09c5ab8967e6fb1cbe" kindref="member">reset_stats</ref>();</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1a61909d364a0c727bee2cfca147d91095" kindref="member">algorithm_to_string</ref>(<ref refid="namespacethemis_1_1storage_1aa8354c33a977b5a40343459b6aa3e68b" kindref="member">GpuCompressionAlgorithm</ref><sp/>algorithm);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager_1a9dd95a2049a6b529a0e64a9bd90a3a8d" kindref="member">accel_type_to_string</ref>(<ref refid="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58" kindref="member">GpuAccelerationType</ref><sp/>type);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>init_gpu();</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>should_use_gpu(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>data_size)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CPU<sp/>fallback<sp/>implementations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_result" kindref="compound">GpuCompressionResult</ref><sp/>cpu_compress_zstd(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_result" kindref="compound">GpuCompressionResult</ref><sp/>cpu_compress_snappy(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_result" kindref="compound">GpuCompressionResult</ref><sp/>cpu_compress_lz4(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size);</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>cpu_decompress_zstd(</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>original_size);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>cpu_decompress_snappy(</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>original_size);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>cpu_decompress_lz4(</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>original_size);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>cpu_decompress_gpu_container(</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>compressed,</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1aa8354c33a977b5a40343459b6aa3e68b" kindref="member">GpuCompressionAlgorithm</ref><sp/>algorithm);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>State</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mu_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_gpu_compression_config" kindref="compound">GpuCompressionConfig</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58" kindref="member">GpuAccelerationType</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>active_accel_<sp/>=<sp/><ref refid="namespacethemis_1_1storage_1a98497364a5af649d35af67972930ce58a9393911bc06bdfb0c3663d541246e15a" kindref="member">GpuAccelerationType::CPU_ONLY</ref>;</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>force_cpu_<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;GpuCompressionImpl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>Stats<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stats_;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Factory<sp/>helper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal">std::unique_ptr&lt;GpuCompressionManager&gt;<sp/><ref refid="namespacethemis_1_1storage_1a87e3845ce60ee3c0426a5d2ce8a5b736" kindref="member">create_gpu_compression_manager</ref>(</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GpuCompressionConfig&amp;<sp/>config<sp/>=<sp/>GpuCompressionConfig{}</highlight></codeline>
+<codeline lineno="391"><highlight class="normal">);</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/storage/gpu_compression.h"/>
+  </compounddef>
+</doxygen>

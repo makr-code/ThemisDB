@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="storage__parquet__exporter_8h" kind="file" language="C++">
+    <compoundname>storage_parquet_exporter.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstdint</includes>
+    <includes refid="columnar__format_8h" local="yes">storage/columnar_format.h</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includedby refid="storage__parquet__exporter_8cpp" local="yes">src/storage/storage_parquet_exporter.cpp</includedby>
+    <includedby refid="test__storage__parquet__exporter_8cpp" local="yes">tests/storage/test_storage_parquet_exporter.cpp</includedby>
+    <incdepgraph>
+      <node id="5">
+        <label>storage/columnar_format.h</label>
+        <link refid="columnar__format_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/storage/storage_parquet_exporter.h</label>
+        <link refid="storage__parquet__exporter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/storage/storage_parquet_exporter.h</label>
+        <link refid="storage__parquet__exporter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/storage/storage_parquet_exporter.cpp</label>
+        <link refid="storage__parquet__exporter_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/storage/test_storage_parquet_exporter.cpp</label>
+        <link refid="test__storage__parquet__exporter_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1storage_1_1_parquet_column_desc" prot="public">themis::storage::ParquetColumnDesc</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_parquet_export_config" prot="public">themis::storage::ParquetExportConfig</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_storage_parquet_exporter" prot="public">themis::storage::StorageParquetExporter</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats" prot="public">themis::storage::StorageParquetExporter::ExportStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1storage">themis::storage</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.10 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="columnar__format_8h" kindref="compound">storage/columnar_format.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Schema<sp/>descriptor<sp/>for<sp/>a<sp/>ColumnarFormat<sp/>table<sp/>export</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1storage_1_1_parquet_column_desc" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_parquet_column_desc" kindref="compound">ParquetColumnDesc</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1storage_1_1_parquet_column_desc_1aea7c0d2678f334061118838ea766cf9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_parquet_column_desc_1aea7c0d2678f334061118838ea766cf9c" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1storage_1_1_parquet_column_desc_1aa9813e386796f420ce00e693045226a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1a57463fe268e434865fe09aee81ab29f0" kindref="member">ColumnType</ref><sp/><sp/><ref refid="structthemis_1_1storage_1_1_parquet_column_desc_1aa9813e386796f420ce00e693045226a7" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1storage_1_1_parquet_export_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_parquet_export_config" kindref="compound">ParquetExportConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1storage_1_1_parquet_export_config_1a5fe2b27ae68eb3701718f90e82863dd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ParquetColumnDesc&gt;<sp/><ref refid="structthemis_1_1storage_1_1_parquet_export_config_1a5fe2b27ae68eb3701718f90e82863dd1" kindref="member">columns</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1storage_1_1_parquet_export_config_1a655cf6458101e305b7e571e0007694eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_parquet_export_config_1a655cf6458101e305b7e571e0007694eb" kindref="member">compression</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;SNAPPY&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1storage_1_1_parquet_export_config_1a721e9db9bb0abe482f4fa3e3b3cedf20" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_parquet_export_config_1a721e9db9bb0abe482f4fa3e3b3cedf20" kindref="member">row_group_size</ref><sp/>=<sp/>1&apos;048&apos;576;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>StorageParquetExporter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1storage_1_1_storage_parquet_exporter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_storage_parquet_exporter_1a32d84cbaf8067720353f027291d68cd8" kindref="member">StorageParquetExporter</ref><sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1storage_1_1_storage_parquet_exporter_1a32d84cbaf8067720353f027291d68cd8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_storage_parquet_exporter_1a32d84cbaf8067720353f027291d68cd8" kindref="member">StorageParquetExporter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1storage_1_1_storage_parquet_exporter_1a8e6c523e643a1d3e39b382447e15bae8" kindref="member">exportToFile</ref>(</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;ColumnSegment&gt;&gt;&amp;<sp/>column_segments,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_parquet_export_config" kindref="compound">ParquetExportConfig</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>output_path);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="classthemis_1_1storage_1_1_storage_parquet_exporter_1a81f5bc4b63f9b5cc9e2b71d9f1d539f2" kindref="member">exportToBuffer</ref>(</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;ColumnSegment&gt;&gt;&amp;<sp/>column_segments,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_parquet_export_config" kindref="compound">ParquetExportConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats" kindref="compound">ExportStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats_1ae58a9ab7e9969343062665b1b1095f7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats_1ae58a9ab7e9969343062665b1b1095f7e" kindref="member">rows_written</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats_1a76603c0ca0e7a0b2497a08fb7ae70e33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats_1a76603c0ca0e7a0b2497a08fb7ae70e33" kindref="member">columns_written</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats_1a69be528b30ecc757ae2d747b09ffa7d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats_1a69be528b30ecc757ae2d747b09ffa7d0" kindref="member">bytes_written</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats_1a3cb9eabba444ceab1e1210109538c462" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats_1a3cb9eabba444ceab1e1210109538c462" kindref="member">elapsed_us</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats_1a4e04c19511975deebc2d411ab8a7b404" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats_1a4e04c19511975deebc2d411ab8a7b404" kindref="member">arrow_used</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1storage_1_1_storage_parquet_exporter_1a3eadb2c6b0cd809b41cbd50c1090a1c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_storage_parquet_exporter_1_1_export_stats" kindref="compound">ExportStats</ref>&amp;<sp/><ref refid="classthemis_1_1storage_1_1_storage_parquet_exporter_1a3eadb2c6b0cd809b41cbd50c1090a1c5" kindref="member">lastStats</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>ExportStats<sp/>stats_;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::vector&lt;uint8_t&gt;&gt;<sp/>buildParquet(</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;ColumnSegment&gt;&gt;&amp;<sp/>column_segments,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_parquet_export_config" kindref="compound">ParquetExportConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/storage/storage_parquet_exporter.h"/>
+  </compounddef>
+</doxygen>

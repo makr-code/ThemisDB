@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1gguf__blocks_1_1_q4_k_block" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::gguf_blocks::Q4KBlock</compoundname>
+    <includes refid="gguf__converter_8h" local="no">gguf_converter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1gguf__blocks_1_1_q4_k_block_1af8e8355466c864b7efd1a0df3127790a" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::llm::lora::gguf_blocks::Q4KBlock::qs[128]</definition>
+        <argsstring>[128]</argsstring>
+        <name>qs</name>
+        <qualifiedname>themis::llm::lora::gguf_blocks::Q4KBlock::qs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gguf_converter.h" line="152" column="17" bodyfile="include/llm/lora_framework/gguf_converter.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1gguf__blocks_1_1_q4_k_block_1a008c6721e95c8c31dc1daa2f78626381" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::llm::lora::gguf_blocks::Q4KBlock::scales[12]</definition>
+        <argsstring>[12]</argsstring>
+        <name>scales</name>
+        <qualifiedname>themis::llm::lora::gguf_blocks::Q4KBlock::scales</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gguf_converter.h" line="153" column="17" bodyfile="include/llm/lora_framework/gguf_converter.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1gguf__blocks_1_1_q4_k_block_1a1c5bdadca10824148d8d319f2845a993" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::llm::lora::gguf_blocks::Q4KBlock::d</definition>
+        <argsstring></argsstring>
+        <name>d</name>
+        <qualifiedname>themis::llm::lora::gguf_blocks::Q4KBlock::d</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gguf_converter.h" line="154" column="18" bodyfile="include/llm/lora_framework/gguf_converter.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1gguf__blocks_1_1_q4_k_block_1a70e7ef56738772fdbaac2ab683dddf3d" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::llm::lora::gguf_blocks::Q4KBlock::dmin</definition>
+        <argsstring></argsstring>
+        <name>dmin</name>
+        <qualifiedname>themis::llm::lora::gguf_blocks::Q4KBlock::dmin</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/gguf_converter.h" line="155" column="18" bodyfile="include/llm/lora_framework/gguf_converter.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/gguf_converter.h" line="151" column="5" bodyfile="include/llm/lora_framework/gguf_converter.h" bodystart="151" bodyend="156"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1gguf__blocks_1_1_q4_k_block_1a1c5bdadca10824148d8d319f2845a993" prot="public" virt="non-virtual"><scope>themis::llm::lora::gguf_blocks::Q4KBlock</scope><name>d</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1gguf__blocks_1_1_q4_k_block_1a70e7ef56738772fdbaac2ab683dddf3d" prot="public" virt="non-virtual"><scope>themis::llm::lora::gguf_blocks::Q4KBlock</scope><name>dmin</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1gguf__blocks_1_1_q4_k_block_1af8e8355466c864b7efd1a0df3127790a" prot="public" virt="non-virtual"><scope>themis::llm::lora::gguf_blocks::Q4KBlock</scope><name>qs</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1gguf__blocks_1_1_q4_k_block_1a008c6721e95c8c31dc1daa2f78626381" prot="public" virt="non-virtual"><scope>themis::llm::lora::gguf_blocks::Q4KBlock</scope><name>scales</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

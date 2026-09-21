@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_gateway" kind="class" language="C++" prot="public">
+    <compoundname>StubGateway</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbc" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PartitionHalf</name>
+        <qualifiedname>StubGateway::PartitionHalf</qualifiedname>
+        <enumvalue id="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbcab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbcae31b87921374f3adf50b786759689d98" prot="public">
+          <name>PARTITION_A</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbca247328f0e63ce4a499efd8f0da717de6" prot="public">
+          <name>PARTITION_B</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="92" column="5" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="92" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_gateway_1af25752420c75e1619b30d1818a7779f2" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_fake_cluster_quorum" kindref="compound">FakeClusterQuorum</ref></type>
+        <definition>FakeClusterQuorum StubGateway::quorum_</definition>
+        <argsstring></argsstring>
+        <name>quorum_</name>
+        <qualifiedname>StubGateway::quorum_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="153" column="23" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_gateway_1aad98bf51b8018b5142528160147974ec" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool StubGateway::is_leader_</definition>
+        <argsstring></argsstring>
+        <name>is_leader_</name>
+        <qualifiedname>StubGateway::is_leader_</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="154" column="23" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="154" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_gateway_1aac6f4faade846d6aac734cc29d5c7037" prot="private" static="no" mutable="no">
+        <type><ref refid="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbc" kindref="member">PartitionHalf</ref></type>
+        <definition>PartitionHalf StubGateway::partition_half_</definition>
+        <argsstring></argsstring>
+        <name>partition_half_</name>
+        <qualifiedname>StubGateway::partition_half_</qualifiedname>
+        <initializer>{<ref refid="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbcab50339a10e1de285ac99d4c3990b8693" kindref="member">PartitionHalf::NONE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="155" column="23" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="155" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_gateway_1a2b7ac61c5e903b0ad1d9068089dd9f9c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubGateway::StubGateway</definition>
+        <argsstring>(int cluster_size)</argsstring>
+        <name>StubGateway</name>
+        <qualifiedname>StubGateway::StubGateway</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>cluster_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="94" column="14" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="94" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_gateway_1aceb1a0e5d69bbff8e1bb31e97ec3f537" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="test__server__gateway__resilience__focused_8cpp_1a9ad1be8d3d7183566ac631d51fde5977" kindref="member">WriteResult</ref></type>
+        <definition>WriteResult StubGateway::write</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;) const noexcept</argsstring>
+        <name>write</name>
+        <qualifiedname>StubGateway::write</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+<para>Simulate a cluster write request. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="98" column="18" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="98" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_gateway_1a3fc12a5bda78cbc6fbe09283135f1532" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubGateway::proposeConfig</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>proposeConfig</name>
+        <qualifiedname>StubGateway::proposeConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulate a config mutation (Raft propose). Returns false when quorum is unavailable or when not leader. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="112" column="11" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="112" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_gateway_1ad8a00097388047f94f4176575d49168a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubGateway::simulateNodeLoss</definition>
+        <argsstring>(int count)</argsstring>
+        <name>simulateNodeLoss</name>
+        <qualifiedname>StubGateway::simulateNodeLoss</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="116" column="10" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="116" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_gateway_1a9536afb7cb6a4c96328031fb5207ca57" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubGateway::simulateNodeRejoin</definition>
+        <argsstring>(int count)</argsstring>
+        <name>simulateNodeRejoin</name>
+        <qualifiedname>StubGateway::simulateNodeRejoin</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="121" column="10" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="121" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_gateway_1aaf2d2272d5c24a70db7bd03d8bde1a4b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubGateway::simulateSplitBrain</definition>
+        <argsstring>(PartitionHalf half) noexcept</argsstring>
+        <name>simulateSplitBrain</name>
+        <qualifiedname>StubGateway::simulateSplitBrain</qualifiedname>
+        <param>
+          <type><ref refid="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbc" kindref="member">PartitionHalf</ref></type>
+          <declname>half</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="126" column="10" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="126" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_gateway_1a81b0dffb0fe2491640b7e0bdf67a2b26" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubGateway::simulateRejoin</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>simulateRejoin</name>
+        <qualifiedname>StubGateway::simulateRejoin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="134" column="10" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="134" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_gateway_1a0fa94a693a91c9e05872db443f90d9f6" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubGateway::setLeader</definition>
+        <argsstring>(bool is_leader) noexcept</argsstring>
+        <name>setLeader</name>
+        <qualifiedname>StubGateway::setLeader</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>is_leader</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="138" column="10" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_gateway_1a3bb0f7e45d349bd0662311d4ff603b3f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubGateway::hasQuorum</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasQuorum</name>
+        <qualifiedname>StubGateway::hasQuorum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="140" column="11" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="140" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_gateway_1a41f5ababee86235ae2ed9fbb58dc6423" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubGateway::isLeader</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isLeader</name>
+        <qualifiedname>StubGateway::isLeader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="141" column="11" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="141" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_gateway_1aaeb2c8c3a042c57b97cc598a0ef8b68b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string StubGateway::simulateLeaderElection</definition>
+        <argsstring>(uint32_t round) const noexcept</argsstring>
+        <name>simulateLeaderElection</name>
+        <qualifiedname>StubGateway::simulateLeaderElection</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>round</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulate a rapid leader election sequence; returns the routing key used for the current leader (must remain stable/non-empty after any number of elections). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="146" column="17" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="146" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub gateway that enforces the quorum-safe write contract. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_gateway_resilience_focused.cpp" line="90" column="1" bodyfile="tests/server/test_server_gateway_resilience_focused.cpp" bodystart="90" bodyend="156"/>
+    <listofallmembers>
+      <member refid="class_stub_gateway_1a3bb0f7e45d349bd0662311d4ff603b3f" prot="public" virt="non-virtual"><scope>StubGateway</scope><name>hasQuorum</name></member>
+      <member refid="class_stub_gateway_1aad98bf51b8018b5142528160147974ec" prot="private" virt="non-virtual"><scope>StubGateway</scope><name>is_leader_</name></member>
+      <member refid="class_stub_gateway_1a41f5ababee86235ae2ed9fbb58dc6423" prot="public" virt="non-virtual"><scope>StubGateway</scope><name>isLeader</name></member>
+      <member refid="class_stub_gateway_1aac6f4faade846d6aac734cc29d5c7037" prot="private" virt="non-virtual"><scope>StubGateway</scope><name>partition_half_</name></member>
+      <member refid="class_stub_gateway_1ad27d0901adfcb79f2cff4fb2c6fc7bbc" prot="public" virt="non-virtual"><scope>StubGateway</scope><name>PartitionHalf</name></member>
+      <member refid="class_stub_gateway_1a3fc12a5bda78cbc6fbe09283135f1532" prot="public" virt="non-virtual"><scope>StubGateway</scope><name>proposeConfig</name></member>
+      <member refid="class_stub_gateway_1af25752420c75e1619b30d1818a7779f2" prot="private" virt="non-virtual"><scope>StubGateway</scope><name>quorum_</name></member>
+      <member refid="class_stub_gateway_1a0fa94a693a91c9e05872db443f90d9f6" prot="public" virt="non-virtual"><scope>StubGateway</scope><name>setLeader</name></member>
+      <member refid="class_stub_gateway_1aaeb2c8c3a042c57b97cc598a0ef8b68b" prot="public" virt="non-virtual"><scope>StubGateway</scope><name>simulateLeaderElection</name></member>
+      <member refid="class_stub_gateway_1ad8a00097388047f94f4176575d49168a" prot="public" virt="non-virtual"><scope>StubGateway</scope><name>simulateNodeLoss</name></member>
+      <member refid="class_stub_gateway_1a9536afb7cb6a4c96328031fb5207ca57" prot="public" virt="non-virtual"><scope>StubGateway</scope><name>simulateNodeRejoin</name></member>
+      <member refid="class_stub_gateway_1a81b0dffb0fe2491640b7e0bdf67a2b26" prot="public" virt="non-virtual"><scope>StubGateway</scope><name>simulateRejoin</name></member>
+      <member refid="class_stub_gateway_1aaf2d2272d5c24a70db7bd03d8bde1a4b" prot="public" virt="non-virtual"><scope>StubGateway</scope><name>simulateSplitBrain</name></member>
+      <member refid="class_stub_gateway_1a2b7ac61c5e903b0ad1d9068089dd9f9c" prot="public" virt="non-virtual"><scope>StubGateway</scope><name>StubGateway</name></member>
+      <member refid="class_stub_gateway_1aceb1a0e5d69bbff8e1bb31e97ec3f537" prot="public" virt="non-virtual"><scope>StubGateway</scope><name>write</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

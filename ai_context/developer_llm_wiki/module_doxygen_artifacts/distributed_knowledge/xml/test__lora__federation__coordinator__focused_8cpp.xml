@@ -1,0 +1,591 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__lora__federation__coordinator__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_lora_federation_coordinator_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">gmock/gmock.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes refid="lora__federation__coordinator_8h" local="yes">distributed_knowledge/lora_federation_coordinator.h</includes>
+    <incdepgraph>
+      <node id="9">
+        <label>distributed_knowledge/adapter_capability_announcement.h</label>
+        <link refid="adapter__capability__announcement_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>distributed_knowledge/lora_federation_coordinator.h</label>
+        <link refid="lora__federation__coordinator_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp</label>
+        <link refid="test__lora__federation__coordinator__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="16">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>gmock/gmock.h</label>
+      </node>
+      <node id="13">
+        <label>governance/cross_border_transfer.h</label>
+      </node>
+      <node id="12">
+        <label>governance/gdpr_subject_rights.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="14">
+        <label>llm/decision_record_yaml_processor.h</label>
+      </node>
+      <node id="15">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="17">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_lo_r_a_federation_coordinator_test" prot="public">LoRAFederationCoordinatorTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__lora__federation__coordinator__focused_8cpp_1a681c49f98e493b826988479fbcad4d17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAFederationCoordinatorTest, ValidConfigReportsValid)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>ValidConfigReportsValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000066"><xreftitle>Test</xreftitle><xrefdescription><para>LFC-01: <ref refid="structthemis_1_1distributed__knowledge_1_1_federation_config" kindref="compound">FederationConfig</ref> validation — valid config.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that a properly constructed <ref refid="structthemis_1_1distributed__knowledge_1_1_federation_config" kindref="compound">FederationConfig</ref> reports isValid() == true. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" line="66" column="1" bodyfile="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" bodystart="66" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__federation__coordinator__focused_8cpp_1af29d961ff5ac02b21e3f660cccf8fab9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAFederationCoordinatorTest, InvalidEpsilonRejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>InvalidEpsilonRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000067"><xreftitle>Test</xreftitle><xrefdescription><para>LFC-02: <ref refid="structthemis_1_1distributed__knowledge_1_1_federation_config" kindref="compound">FederationConfig</ref> validation — invalid epsilon rejected.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that a config with dp_epsilon == 0 is rejected by isValid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" line="75" column="1" bodyfile="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" bodystart="75" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__federation__coordinator__focused_8cpp_1a6596f26099a7b443ba566783db73fe84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAFederationCoordinatorTest, CoordinatorInitialState)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>CoordinatorInitialState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000068"><xreftitle>Test</xreftitle><xrefdescription><para>LFC-03: Coordinator initial state — round 0, no submissions.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that a freshly constructed coordinator starts at round 0 with no pending gradients and no completed delta. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" line="86" column="1" bodyfile="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" bodystart="86" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__federation__coordinator__focused_8cpp_1af08b40ca9c5a126976a4c35362e7e528" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAFederationCoordinatorTest, SubmitGradientIncrementsCount)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>SubmitGradientIncrementsCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000069"><xreftitle>Test</xreftitle><xrefdescription><para>LFC-04: submitGradient() increments submittedCount.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that submitting a gradient for round 0 increments submittedCount(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" line="103" column="1" bodyfile="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" bodystart="103" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__federation__coordinator__focused_8cpp_1a19722f23170dc3720c14de005beb2297" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAFederationCoordinatorTest, DuplicateGradientIsIdempotent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>DuplicateGradientIsIdempotent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000070"><xreftitle>Test</xreftitle><xrefdescription><para>LFC-05: Duplicate gradient submission is idempotent.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that submitting two gradients from the same shard for the same round only counts once (idempotency contract). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" line="116" column="1" bodyfile="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" bodystart="116" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__federation__coordinator__focused_8cpp_1a016f523a75c309df6db88a037d356adb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAFederationCoordinatorTest, TwoShardSubmissionsCountedCorrectly)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>TwoShardSubmissionsCountedCorrectly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000071"><xreftitle>Test</xreftitle><xrefdescription><para>LFC-06: Multiple distinct shard submissions are counted correctly.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that two distinct shards contributing gradients results in submittedCount() == 2. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" line="130" column="1" bodyfile="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" bodystart="130" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__federation__coordinator__focused_8cpp_1a4249e5071d2086d2b0f8cad023020cb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAFederationCoordinatorTest, AggregationThrowsBelowMinParticipants)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>AggregationThrowsBelowMinParticipants</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000072"><xreftitle>Test</xreftitle><xrefdescription><para>LFC-07: triggerAggregation() throws when below min_participants.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that calling triggerAggregation() with only one gradient submitted (min_participants == 2) throws std::runtime_error. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" line="148" column="1" bodyfile="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" bodystart="148" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__federation__coordinator__focused_8cpp_1a5141ce0ac61c09b3d5bdbc1db9a5b3e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAFederationCoordinatorTest, AggregationSucceedsWithMinParticipants)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>AggregationSucceedsWithMinParticipants</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000073"><xreftitle>Test</xreftitle><xrefdescription><para>LFC-08: triggerAggregation() succeeds with min_participants met.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that with two gradients submitted (== min_participants), triggerAggregation() returns a valid <ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta" kindref="compound">GlobalAdapterDelta</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" line="161" column="1" bodyfile="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" bodystart="161" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__federation__coordinator__focused_8cpp_1a224db27273a03c24d5fb3a3653e3c67e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAFederationCoordinatorTest, AggregationAdvancesRound)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>AggregationAdvancesRound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000074"><xreftitle>Test</xreftitle><xrefdescription><para>LFC-09: Successful aggregation advances the round counter.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that after triggerAggregation() succeeds, currentRound() is 1. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" line="178" column="1" bodyfile="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" bodystart="178" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__federation__coordinator__focused_8cpp_1a6268c308f91ee4461b6e4f9ee10ccb8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAFederationCoordinatorTest, AggregationTimeoutHandling)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>AggregationTimeoutHandling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000075"><xreftitle>Test</xreftitle><xrefdescription><para>LFC-10: triggerAggregation() with timeout_ms=1 throws on zero-gradient round.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies timeout error handling: when no gradients are submitted and a 1 ms timeout is requested, a std::runtime_error is thrown. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" line="194" column="1" bodyfile="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" bodystart="194" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__federation__coordinator__focused_8cpp_1ad51ae943ae362ff99598ae6e030810c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAFederationCoordinatorTest, MultipleConsecutiveRounds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleConsecutiveRounds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000076"><xreftitle>Test</xreftitle><xrefdescription><para>LFC-11: Multiple consecutive aggregation rounds.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that the coordinator correctly handles two sequential rounds, advancing round counter with each successful aggregation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" line="210" column="1" bodyfile="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" bodystart="210" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__federation__coordinator__focused_8cpp_1a812044e9d769c4ea89e477ec469a0bd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LoRAFederationCoordinatorTest, GlobalAdapterDeltaSerializationRoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref></type>
+        </param>
+        <param>
+          <type>GlobalAdapterDeltaSerializationRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000077"><xreftitle>Test</xreftitle><xrefdescription><para>LFC-12: <ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta" kindref="compound">GlobalAdapterDelta</ref> JSON serialization round-trip.</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that <ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta" kindref="compound">GlobalAdapterDelta</ref> serialises to JSON and deserialises back with consistent field values. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" line="228" column="1" bodyfile="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp" bodystart="228" bodyend="245"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Focused unit tests for LoRA federated aggregation coordination. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests the core distributed knowledge LoRA federation paths against the actual production API surface:<itemizedlist>
+<listitem><para><ref refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient" kindref="compound">EncryptedGradient</ref> submission and round tracking</para>
+</listitem><listitem><para>triggerAggregation() state machine and error conditions</para>
+</listitem><listitem><para><ref refid="structthemis_1_1distributed__knowledge_1_1_federation_config" kindref="compound">FederationConfig</ref> validation and coordinator lifecycle</para>
+</listitem><listitem><para>timeout semantics and partial-failure handling</para>
+</listitem></itemizedlist>
+</para>
+<para>Target: Production readiness validation for federated LoRA layer. Q3 2026 Hardening: timeout semantics, aggregation merge contracts, determinism. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gmock/gmock.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__federation__coordinator_8h" kindref="compound">distributed_knowledge/lora_federation_coordinator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__knowledge" kindref="compound">themis::distributed_knowledge</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="test__adapter__capability__announcement__focused_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="class_lo_r_a_federation_coordinator_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_lo_r_a_federation_coordinator_test_1a5e0ce3c1a639505d4f4d552155f01ae9" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lo_r_a_federation_coordinator_test_1a63ce4a615e0883e6247653f326106e90" kindref="member">cfg_</ref>.min_participants<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lo_r_a_federation_coordinator_test_1a63ce4a615e0883e6247653f326106e90" kindref="member">cfg_</ref>.max_participants<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lo_r_a_federation_coordinator_test_1a63ce4a615e0883e6247653f326106e90" kindref="member">cfg_</ref>.dp_epsilon<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lo_r_a_federation_coordinator_test_1a63ce4a615e0883e6247653f326106e90" kindref="member">cfg_</ref>.dp_delta<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1e-5;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lo_r_a_federation_coordinator_test_1a63ce4a615e0883e6247653f326106e90" kindref="member">cfg_</ref>.dp_sensitivity<sp/><sp/><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_lo_r_a_federation_coordinator_test_1a63ce4a615e0883e6247653f326106e90" kindref="member">cfg_</ref>.max_rounds<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>unlimited</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_federation_config" kindref="compound">FederationConfig</ref><sp/><ref refid="class_lo_r_a_federation_coordinator_test_1a63ce4a615e0883e6247653f326106e90" kindref="member">cfg_</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient" kindref="compound">EncryptedGradient</ref><sp/><ref refid="class_lo_r_a_federation_coordinator_test_1ac9becce27b970be8ef0189e2610f45a7" kindref="member">makeGradient</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,<sp/>uint64_t<sp/>round,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>samples<sp/>=<sp/>100)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient" kindref="compound">EncryptedGradient</ref><sp/>g;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient_1a415475ae9c6a4b6359ab753515bb24be" kindref="member">shard_id</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>shard_id;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient_1afe16b0feca405d063fa55e3481a22b7c" kindref="member">round</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>round;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient_1abeacf6d828d3a44ffdb04210dad24a7c" kindref="member">sample_count</ref><sp/>=<sp/>samples;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>g.<ref refid="structthemis_1_1distributed__knowledge_1_1_encrypted_gradient_1af874c478c4dcc9cd60f096922ae97d74" kindref="member">data</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;w0&quot;</highlight><highlight class="normal">,<sp/>0.01},<sp/>{</highlight><highlight class="stringliteral">&quot;w1&quot;</highlight><highlight class="normal">,<sp/>-0.02}};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>g;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration<sp/>and<sp/>Lifecycle<sp/>Tests<sp/>(LFC-01..LFC-03)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="test__lora__federation__coordinator__focused_8cpp_1a681c49f98e493b826988479fbcad4d17" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>,<sp/>ValidConfigReportsValid)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg_.isValid());</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="test__lora__federation__coordinator__focused_8cpp_1a681c49f98e493b826988479fbcad4d17" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>,<sp/>InvalidEpsilonRejected)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg_.dp_epsilon<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg_.isValid());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__lora__federation__coordinator__focused_8cpp_1a681c49f98e493b826988479fbcad4d17" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>,<sp/>CoordinatorInitialState)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator" kindref="compound">LoRAFederationCoordinator</ref><sp/>coordinator(cfg_);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(coordinator.currentRound(),<sp/>0u);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(coordinator.submittedCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(coordinator.lastDelta().has_value());</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gradient<sp/>Submission<sp/>Tests<sp/>(LFC-04..LFC-06)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__lora__federation__coordinator__focused_8cpp_1a681c49f98e493b826988479fbcad4d17" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>,<sp/>SubmitGradientIncrementsCount)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator" kindref="compound">LoRAFederationCoordinator</ref><sp/>coordinator(cfg_);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.submitGradient(makeGradient(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>0));</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(coordinator.submittedCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="test__lora__federation__coordinator__focused_8cpp_1a681c49f98e493b826988479fbcad4d17" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>,<sp/>DuplicateGradientIsIdempotent)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator" kindref="compound">LoRAFederationCoordinator</ref><sp/>coordinator(cfg_);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.submitGradient(makeGradient(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>0));</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.submitGradient(makeGradient(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>0));<sp/><sp/></highlight><highlight class="comment">//<sp/>duplicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(coordinator.submittedCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="test__lora__federation__coordinator__focused_8cpp_1a681c49f98e493b826988479fbcad4d17" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>,<sp/>TwoShardSubmissionsCountedCorrectly)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator" kindref="compound">LoRAFederationCoordinator</ref><sp/>coordinator(cfg_);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.submitGradient(makeGradient(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>0));</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.submitGradient(makeGradient(</highlight><highlight class="stringliteral">&quot;shard-002&quot;</highlight><highlight class="normal">,<sp/>0));</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(coordinator.submittedCount(),<sp/>2u);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Aggregation<sp/>Tests<sp/>(LFC-07..LFC-10)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><ref refid="test__lora__federation__coordinator__focused_8cpp_1a681c49f98e493b826988479fbcad4d17" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>,<sp/>AggregationThrowsBelowMinParticipants)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator" kindref="compound">LoRAFederationCoordinator</ref><sp/>coordinator(cfg_);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.submitGradient(makeGradient(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>0));</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(coordinator.triggerAggregation(),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="test__lora__federation__coordinator__focused_8cpp_1a681c49f98e493b826988479fbcad4d17" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>,<sp/>AggregationSucceedsWithMinParticipants)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator" kindref="compound">LoRAFederationCoordinator</ref><sp/>coordinator(cfg_);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.submitGradient(makeGradient(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>0));</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.submitGradient(makeGradient(</highlight><highlight class="stringliteral">&quot;shard-002&quot;</highlight><highlight class="normal">,<sp/>0));</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW({</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta" kindref="compound">GlobalAdapterDelta</ref><sp/>delta<sp/>=<sp/>coordinator.triggerAggregation();</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(delta.<ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a13eb98484fc297027f6d815880bd62fa" kindref="member">participants</ref>,<sp/>2u);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(delta.<ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a13f53c9dd921d87a5a97471c59ea3e93" kindref="member">version</ref>.empty());</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="test__lora__federation__coordinator__focused_8cpp_1a681c49f98e493b826988479fbcad4d17" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>,<sp/>AggregationAdvancesRound)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator" kindref="compound">LoRAFederationCoordinator</ref><sp/>coordinator(cfg_);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.submitGradient(makeGradient(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>0));</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.submitGradient(makeGradient(</highlight><highlight class="stringliteral">&quot;shard-002&quot;</highlight><highlight class="normal">,<sp/>0));</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.triggerAggregation();</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(coordinator.currentRound(),<sp/>1u);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(coordinator.lastDelta().has_value());</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__lora__federation__coordinator__focused_8cpp_1a681c49f98e493b826988479fbcad4d17" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>,<sp/>AggregationTimeoutHandling)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator" kindref="compound">LoRAFederationCoordinator</ref><sp/>coordinator(cfg_);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>gradients<sp/>submitted<sp/>—<sp/>aggregation<sp/>should<sp/>fail<sp/>with<sp/>a<sp/>meaningful<sp/>error.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(coordinator.triggerAggregation(1u),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Multiple<sp/>Rounds<sp/>and<sp/>Serialization<sp/>Tests<sp/>(LFC-11..LFC-12)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="test__lora__federation__coordinator__focused_8cpp_1a681c49f98e493b826988479fbcad4d17" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>,<sp/>MultipleConsecutiveRounds)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__knowledge_1_1_lo_r_a_federation_coordinator" kindref="compound">LoRAFederationCoordinator</ref><sp/>coordinator(cfg_);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint64_t<sp/>round<sp/>=<sp/>0;<sp/>round<sp/>&lt;<sp/>2;<sp/>++round)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator.submitGradient(makeGradient(</highlight><highlight class="stringliteral">&quot;shard-001&quot;</highlight><highlight class="normal">,<sp/>round));</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>coordinator.submitGradient(makeGradient(</highlight><highlight class="stringliteral">&quot;shard-002&quot;</highlight><highlight class="normal">,<sp/>round));</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(coordinator.triggerAggregation());</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(coordinator.currentRound(),<sp/>2u);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><ref refid="test__lora__federation__coordinator__focused_8cpp_1a681c49f98e493b826988479fbcad4d17" kindref="member">TEST_F</ref>(<ref refid="class_lo_r_a_federation_coordinator_test" kindref="compound">LoRAFederationCoordinatorTest</ref>,<sp/>GlobalAdapterDeltaSerializationRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta" kindref="compound">GlobalAdapterDelta</ref><sp/>delta;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>delta.<ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a4685afe2b986fde078cdcc2c6f55ed7f" kindref="member">round</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>delta.<ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a13f53c9dd921d87a5a97471c59ea3e93" kindref="member">version</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;global-v3&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>delta.<ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a13eb98484fc297027f6d815880bd62fa" kindref="member">participants</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>delta.<ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a58661a6170cfb1f0cac62ea596c48fa3" kindref="member">algorithm</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FedAvg&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>delta.<ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1afe0eb122efdf05a7885c3ea690fd851d" kindref="member">epsilon_spent</ref><sp/>=<sp/>0.1;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>delta.<ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a618aca5bc6817a5f9924434ae114e197" kindref="member">delta</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;w0&quot;</highlight><highlight class="normal">,<sp/>0.005}};</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__adapter__capability__announcement__focused_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>j<sp/>=<sp/>delta.<ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a8196ebc5aaa34ac93483281c170208ed" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta" kindref="compound">GlobalAdapterDelta</ref><sp/>restored<sp/>=<sp/><ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a479ba76bb165fd7922d3994af98e7f3f" kindref="member">GlobalAdapterDelta::fromJson</ref>(j);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.<ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a4685afe2b986fde078cdcc2c6f55ed7f" kindref="member">round</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>delta.<ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a4685afe2b986fde078cdcc2c6f55ed7f" kindref="member">round</ref>);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.<ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a13f53c9dd921d87a5a97471c59ea3e93" kindref="member">version</ref>,<sp/><sp/><sp/><sp/><sp/><sp/>delta.<ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a13f53c9dd921d87a5a97471c59ea3e93" kindref="member">version</ref>);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.<ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a13eb98484fc297027f6d815880bd62fa" kindref="member">participants</ref>,<sp/>delta.<ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a13eb98484fc297027f6d815880bd62fa" kindref="member">participants</ref>);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.<ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a58661a6170cfb1f0cac62ea596c48fa3" kindref="member">algorithm</ref>,<sp/><sp/><sp/><sp/>delta.<ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1a58661a6170cfb1f0cac62ea596c48fa3" kindref="member">algorithm</ref>);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(restored.<ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1afe0eb122efdf05a7885c3ea690fd851d" kindref="member">epsilon_spent</ref>,<sp/>delta.<ref refid="structthemis_1_1distributed__knowledge_1_1_global_adapter_delta_1afe0eb122efdf05a7885c3ea690fd851d" kindref="member">epsilon_spent</ref>);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Summary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="252"><highlight class="comment"><sp/>*<sp/>Test<sp/>Coverage<sp/>Summary<sp/>(LFC-01..LFC-12):</highlight></codeline>
+<codeline lineno="253"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="254"><highlight class="comment"><sp/>*<sp/>LFC-01:<sp/>Valid<sp/>FederationConfig<sp/>reports<sp/>isValid()</highlight></codeline>
+<codeline lineno="255"><highlight class="comment"><sp/>*<sp/>LFC-02:<sp/>Invalid<sp/>epsilon<sp/>rejected<sp/>by<sp/>isValid()</highlight></codeline>
+<codeline lineno="256"><highlight class="comment"><sp/>*<sp/>LFC-03:<sp/>Coordinator<sp/>initial<sp/>state<sp/>(round=0,<sp/>no<sp/>submissions)</highlight></codeline>
+<codeline lineno="257"><highlight class="comment"><sp/>*<sp/>LFC-04:<sp/>submitGradient()<sp/>increments<sp/>submittedCount</highlight></codeline>
+<codeline lineno="258"><highlight class="comment"><sp/>*<sp/>LFC-05:<sp/>Duplicate<sp/>gradient<sp/>submission<sp/>is<sp/>idempotent</highlight></codeline>
+<codeline lineno="259"><highlight class="comment"><sp/>*<sp/>LFC-06:<sp/>Two<sp/>distinct<sp/>shard<sp/>submissions<sp/>counted<sp/>correctly</highlight></codeline>
+<codeline lineno="260"><highlight class="comment"><sp/>*<sp/>LFC-07:<sp/>triggerAggregation()<sp/>throws<sp/>below<sp/>min_participants</highlight></codeline>
+<codeline lineno="261"><highlight class="comment"><sp/>*<sp/>LFC-08:<sp/>triggerAggregation()<sp/>succeeds<sp/>with<sp/>min_participants<sp/>met</highlight></codeline>
+<codeline lineno="262"><highlight class="comment"><sp/>*<sp/>LFC-09:<sp/>Successful<sp/>aggregation<sp/>advances<sp/>round<sp/>counter</highlight></codeline>
+<codeline lineno="263"><highlight class="comment"><sp/>*<sp/>LFC-10:<sp/>Timeout<sp/>error<sp/>handling<sp/>(triggerAggregation<sp/>with<sp/>1ms)</highlight></codeline>
+<codeline lineno="264"><highlight class="comment"><sp/>*<sp/>LFC-11:<sp/>Multiple<sp/>consecutive<sp/>aggregation<sp/>rounds</highlight></codeline>
+<codeline lineno="265"><highlight class="comment"><sp/>*<sp/>LFC-12:<sp/>GlobalAdapterDelta<sp/>JSON<sp/>serialization<sp/>round-trip</highlight></codeline>
+<codeline lineno="266"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="267"><highlight class="comment"><sp/>*<sp/>Target:<sp/>Q3<sp/>2026<sp/>Hardening<sp/>-<sp/>aggregation<sp/>coordination,<sp/>merge<sp/>contracts,<sp/>timeout<sp/>semantics.</highlight></codeline>
+<codeline lineno="268"><highlight class="comment"><sp/>*<sp/>Status:<sp/>Focused<sp/>unit<sp/>test<sp/>suite<sp/>for<sp/>LoRA<sp/>federation<sp/>coordination<sp/>layer.</highlight></codeline>
+<codeline lineno="269"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp"/>
+  </compounddef>
+</doxygen>

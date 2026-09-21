@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_security_headers" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::SecurityHeaders</compoundname>
+    <includes refid="output__encoding_8h" local="no">output_encoding.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_headers_1ae79c444b7c7221d92c93a805e49c8d9a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>static std::unordered_map&lt; std::string, std::string &gt; themis::security::SecurityHeaders::apiHeaders</definition>
+        <argsstring>()</argsstring>
+        <name>apiHeaders</name>
+        <qualifiedname>themis::security::SecurityHeaders::apiHeaders</qualifiedname>
+        <briefdescription>
+<para>Get standard security headers for API responses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/output_encoding.h" line="324" column="31" bodyfile="include/security/output_encoding.h" bodystart="324" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_security_headers_1a595605ed27f7bc44400d6d23661db3c8" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>static std::unordered_map&lt; std::string, std::string &gt; themis::security::SecurityHeaders::webHeaders</definition>
+        <argsstring>()</argsstring>
+        <name>webHeaders</name>
+        <qualifiedname>themis::security::SecurityHeaders::webHeaders</qualifiedname>
+        <briefdescription>
+<para>Get standard security headers for web responses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/output_encoding.h" line="338" column="31" bodyfile="include/security/output_encoding.h" bodystart="338" bodyend="347"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Security headers helper. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides recommended security headers for HTTP responses. </para>
+    </detaileddescription>
+    <location file="include/security/output_encoding.h" line="319" column="1" bodyfile="include/security/output_encoding.h" bodystart="319" bodyend="348"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_security_headers_1ae79c444b7c7221d92c93a805e49c8d9a" prot="public" virt="non-virtual"><scope>themis::security::SecurityHeaders</scope><name>apiHeaders</name></member>
+      <member refid="classthemis_1_1security_1_1_security_headers_1a595605ed27f7bc44400d6d23661db3c8" prot="public" virt="non-virtual"><scope>themis::security::SecurityHeaders</scope><name>webHeaders</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

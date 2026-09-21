@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1testing_1_1_command_injection_test_class" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::testing::CommandInjectionTestClass</compoundname>
+    <basecompoundref refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base" prot="public" virt="non-virtual">themis::prompt_engineering::testing::AdversarialPromptTestBase</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1testing_1_1_command_injection_test_class_1a8a4a3b10a2348c45e8c2e3255ac149b6" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::prompt_engineering::testing::CommandInjectionTestClass::TEST_CLASS_ID</definition>
+        <argsstring></argsstring>
+        <name>TEST_CLASS_ID</name>
+        <qualifiedname>themis::prompt_engineering::testing::CommandInjectionTestClass::TEST_CLASS_ID</qualifiedname>
+        <initializer>= &quot;PE-ADV-02&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="150" column="33" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="150" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Command injection pattern detection (8+ payloads). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>testing::Test</label>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::testing::AdversarialPromptTestBase</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::testing::CommandInjectionTestClass</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_command_injection_test_class"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>testing::Test</label>
+      </node>
+      <node id="5">
+        <label>themis::prompt_engineering::PromptInjectionDetector</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_prompt_injection_detector"/>
+      </node>
+      <node id="4">
+        <label>themis::prompt_engineering::PromptManager</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_prompt_manager"/>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::testing::AdversarialPromptTestBase</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>manager_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>detector_</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::testing::CommandInjectionTestClass</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1testing_1_1_command_injection_test_class"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" line="148" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_adversarial_focused.cpp" bodystart="148" bodyend="151"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1add7b9b2c5ebe1420c27668c5e5e95f06" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::testing::CommandInjectionTestClass</scope><name>AdversarialPromptTestBase</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1a4f70f9d1b844f207c739475bfd9b5a8d" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::testing::CommandInjectionTestClass</scope><name>assertPayloadBenign</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1af16acd752ce06d6e677ba5a02c0f34cf" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::testing::CommandInjectionTestClass</scope><name>assertPayloadDetected</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1a399475a4ed74d00891eee56db952ee09" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::testing::CommandInjectionTestClass</scope><name>detector_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1a6dfa9bf4194d883991fe54184e84cb5c" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::testing::CommandInjectionTestClass</scope><name>manager_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1testing_1_1_command_injection_test_class_1a8a4a3b10a2348c45e8c2e3255ac149b6" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::testing::CommandInjectionTestClass</scope><name>TEST_CLASS_ID</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1testing_1_1_adversarial_prompt_test_base_1a40d775ee6ac38129c82dc1c6e78f2c76" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::testing::CommandInjectionTestClass</scope><name>validateTemplate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

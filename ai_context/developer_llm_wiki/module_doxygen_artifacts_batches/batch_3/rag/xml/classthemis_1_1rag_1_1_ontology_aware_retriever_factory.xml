@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_ontology_aware_retriever_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::OntologyAwareRetrieverFactory</compoundname>
+    <includes refid="ontology__aware__retriever_8h" local="no">ontology_aware_retriever.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_ontology_aware_retriever_factory_1a605313bc06874ae899047c8dadeb1ea0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever" kindref="compound">OntologyAwareRetriever</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; OntologyAwareRetriever &gt; themis::rag::OntologyAwareRetrieverFactory::createShallow</definition>
+        <argsstring>(const kg::KnowledgeGraph &amp;graph, const graph::OntologyManager &amp;ontology)</argsstring>
+        <name>createShallow</name>
+        <qualifiedname>themis::rag::OntologyAwareRetrieverFactory::createShallow</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">kg::KnowledgeGraph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const graph::OntologyManager &amp;</type>
+          <declname>ontology</declname>
+        </param>
+        <briefdescription>
+<para>Shallow: 1-hop, low KG weight (0.2), edge-type filtering disabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="194" column="28" bodyfile="src/rag/ontology_aware_retriever.cpp" bodystart="295" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_ontology_aware_retriever_factory_1aa55783128f552151c3af3b65194e1683" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever" kindref="compound">OntologyAwareRetriever</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; OntologyAwareRetriever &gt; themis::rag::OntologyAwareRetrieverFactory::createShallow</definition>
+        <argsstring>(std::shared_ptr&lt; kg::IKnowledgeGraph &gt; graph, const graph::OntologyManager &amp;ontology)</argsstring>
+        <name>createShallow</name>
+        <qualifiedname>themis::rag::OntologyAwareRetrieverFactory::createShallow</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; kg::IKnowledgeGraph &gt;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const graph::OntologyManager &amp;</type>
+          <declname>ontology</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="198" column="28" bodyfile="src/rag/ontology_aware_retriever.cpp" bodystart="307" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_ontology_aware_retriever_factory_1a856491a10fb26dcfed76dd051e1c3888" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever" kindref="compound">OntologyAwareRetriever</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; OntologyAwareRetriever &gt; themis::rag::OntologyAwareRetrieverFactory::createBalanced</definition>
+        <argsstring>(const kg::KnowledgeGraph &amp;graph, const graph::OntologyManager &amp;ontology)</argsstring>
+        <name>createBalanced</name>
+        <qualifiedname>themis::rag::OntologyAwareRetrieverFactory::createBalanced</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">kg::KnowledgeGraph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const graph::OntologyManager &amp;</type>
+          <declname>ontology</declname>
+        </param>
+        <briefdescription>
+<para>Balanced: 2-hop, moderate KG weight (0.3), edge-type filtering enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="205" column="28" bodyfile="src/rag/ontology_aware_retriever.cpp" bodystart="320" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_ontology_aware_retriever_factory_1a74fc71ba620d8900d5878fca513ecbc1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever" kindref="compound">OntologyAwareRetriever</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; OntologyAwareRetriever &gt; themis::rag::OntologyAwareRetrieverFactory::createBalanced</definition>
+        <argsstring>(std::shared_ptr&lt; kg::IKnowledgeGraph &gt; graph, const graph::OntologyManager &amp;ontology)</argsstring>
+        <name>createBalanced</name>
+        <qualifiedname>themis::rag::OntologyAwareRetrieverFactory::createBalanced</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; kg::IKnowledgeGraph &gt;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const graph::OntologyManager &amp;</type>
+          <declname>ontology</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="209" column="28" bodyfile="src/rag/ontology_aware_retriever.cpp" bodystart="332" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_ontology_aware_retriever_factory_1a85ef2178cdabd486493a5c7810b91fbb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever" kindref="compound">OntologyAwareRetriever</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; OntologyAwareRetriever &gt; themis::rag::OntologyAwareRetrieverFactory::createDeep</definition>
+        <argsstring>(const kg::KnowledgeGraph &amp;graph, const graph::OntologyManager &amp;ontology)</argsstring>
+        <name>createDeep</name>
+        <qualifiedname>themis::rag::OntologyAwareRetrieverFactory::createDeep</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">kg::KnowledgeGraph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const graph::OntologyManager &amp;</type>
+          <declname>ontology</declname>
+        </param>
+        <briefdescription>
+<para>Deep: 3-hop, higher KG weight (0.45), edge-type filtering enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="216" column="28" bodyfile="src/rag/ontology_aware_retriever.cpp" bodystart="345" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_ontology_aware_retriever_factory_1a1057fccf772018161f66cf2fd09092b4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever" kindref="compound">OntologyAwareRetriever</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; OntologyAwareRetriever &gt; themis::rag::OntologyAwareRetrieverFactory::createDeep</definition>
+        <argsstring>(std::shared_ptr&lt; kg::IKnowledgeGraph &gt; graph, const graph::OntologyManager &amp;ontology)</argsstring>
+        <name>createDeep</name>
+        <qualifiedname>themis::rag::OntologyAwareRetrieverFactory::createDeep</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; kg::IKnowledgeGraph &gt;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const graph::OntologyManager &amp;</type>
+          <declname>ontology</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="220" column="28" bodyfile="src/rag/ontology_aware_retriever.cpp" bodystart="358" bodyend="368"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory helpers for common <ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever" kindref="compound">OntologyAwareRetriever</ref> configurations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/ontology_aware_retriever.h" line="189" column="1" bodyfile="include/rag/ontology_aware_retriever.h" bodystart="189" bodyend="223"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_factory_1a856491a10fb26dcfed76dd051e1c3888" prot="public" virt="non-virtual"><scope>themis::rag::OntologyAwareRetrieverFactory</scope><name>createBalanced</name></member>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_factory_1a74fc71ba620d8900d5878fca513ecbc1" prot="public" virt="non-virtual"><scope>themis::rag::OntologyAwareRetrieverFactory</scope><name>createBalanced</name></member>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_factory_1a85ef2178cdabd486493a5c7810b91fbb" prot="public" virt="non-virtual"><scope>themis::rag::OntologyAwareRetrieverFactory</scope><name>createDeep</name></member>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_factory_1a1057fccf772018161f66cf2fd09092b4" prot="public" virt="non-virtual"><scope>themis::rag::OntologyAwareRetrieverFactory</scope><name>createDeep</name></member>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_factory_1a605313bc06874ae899047c8dadeb1ea0" prot="public" virt="non-virtual"><scope>themis::rag::OntologyAwareRetrieverFactory</scope><name>createShallow</name></member>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_factory_1aa55783128f552151c3af3b65194e1683" prot="public" virt="non-virtual"><scope>themis::rag::OntologyAwareRetrieverFactory</scope><name>createShallow</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

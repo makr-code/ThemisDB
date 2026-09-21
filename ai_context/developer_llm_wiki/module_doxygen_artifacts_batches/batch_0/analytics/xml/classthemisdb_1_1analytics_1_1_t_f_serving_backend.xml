@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_t_f_serving_backend" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::TFServingBackend</compoundname>
+    <basecompoundref refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend" prot="public" virt="non-virtual">themisdb::analytics::IMLServingBackend</basecompoundref>
+    <includes refid="ml__serving_8h" local="no">ml_serving.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_t_f_serving_backend_1_1_impl" prot="public">themisdb::analytics::TFServingBackend::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_t_f_serving_backend_1a40de4eaa4486d44d3cc74c6c9127ab3b" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemisdb_1_1analytics_1_1_t_f_serving_backend_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themisdb::analytics::TFServingBackend::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themisdb::analytics::TFServingBackend::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="192" column="21" bodyfile="include/analytics/ml_serving.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_t_f_serving_backend_1a3123fe2aa54bb0faa3c6f466992ed302" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TFServingBackend::TFServingBackend</definition>
+        <argsstring>(const TFServingConfig &amp;config={})</argsstring>
+        <name>TFServingBackend</name>
+        <qualifiedname>themisdb::analytics::TFServingBackend::TFServingBackend</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_t_f_serving_config" kindref="compound">TFServingConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="183" column="14" bodyfile="src/analytics/ml_serving.cpp" bodystart="674" bodyend="674"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_t_f_serving_backend_1abba2079d621edd25dfaa16b232da8582" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::TFServingBackend::~TFServingBackend</definition>
+        <argsstring>() override</argsstring>
+        <name>~TFServingBackend</name>
+        <qualifiedname>themisdb::analytics::TFServingBackend::~TFServingBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="184" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_t_f_serving_backend_1a38930b47ab1980f0c2f295a2e6b0226b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::TFServingBackend::backendName</definition>
+        <argsstring>() const override</argsstring>
+        <name>backendName</name>
+        <qualifiedname>themisdb::analytics::TFServingBackend::backendName</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend_1ab0ce459c0a7f9878648f5011adadb905">backendName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="186" column="17" bodyfile="src/analytics/ml_serving.cpp" bodystart="678" bodyend="684"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_t_f_serving_backend_1a22bd852d845c3479b7d8bea64f088192" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::TFServingBackend::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themisdb::analytics::TFServingBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend_1ab7267e20a652b9d582cb52081fca4289">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="187" column="17" bodyfile="src/analytics/ml_serving.cpp" bodystart="686" bodyend="688"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_t_f_serving_backend_1ad4592a70ebd720cea36eea6b95e7d562" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_response" kindref="compound">MLServingResponse</ref></type>
+        <definition>MLServingResponse themisdb::analytics::TFServingBackend::infer</definition>
+        <argsstring>(const MLServingRequest &amp;req) override</argsstring>
+        <name>infer</name>
+        <qualifiedname>themisdb::analytics::TFServingBackend::infer</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend_1a04af437d7078da76b9e31176869472d8">infer</reimplements>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_m_l_serving_request" kindref="compound">MLServingRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/ml_serving.h" line="188" column="23" bodyfile="src/analytics/ml_serving.cpp" bodystart="690" bodyend="706"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themisdb::analytics::IMLServingBackend</label>
+        <link refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::TFServingBackend</label>
+        <link refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::analytics::IMLServingBackend</label>
+        <link refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::TFServingBackend</label>
+        <link refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/ml_serving.h" line="181" column="1" bodyfile="include/analytics/ml_serving.h" bodystart="181" bodyend="193"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend_1a38930b47ab1980f0c2f295a2e6b0226b" prot="public" virt="virtual"><scope>themisdb::analytics::TFServingBackend</scope><name>backendName</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend_1a40de4eaa4486d44d3cc74c6c9127ab3b" prot="private" virt="non-virtual"><scope>themisdb::analytics::TFServingBackend</scope><name>impl_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend_1ad4592a70ebd720cea36eea6b95e7d562" prot="public" virt="virtual"><scope>themisdb::analytics::TFServingBackend</scope><name>infer</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend_1a22bd852d845c3479b7d8bea64f088192" prot="public" virt="virtual"><scope>themisdb::analytics::TFServingBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend_1a3123fe2aa54bb0faa3c6f466992ed302" prot="public" virt="non-virtual"><scope>themisdb::analytics::TFServingBackend</scope><name>TFServingBackend</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_i_m_l_serving_backend_1a9ab47d57e701d58dabe01bce5c712fe7" prot="public" virt="virtual"><scope>themisdb::analytics::TFServingBackend</scope><name>~IMLServingBackend</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_t_f_serving_backend_1abba2079d621edd25dfaa16b232da8582" prot="public" virt="non-virtual"><scope>themisdb::analytics::TFServingBackend</scope><name>~TFServingBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

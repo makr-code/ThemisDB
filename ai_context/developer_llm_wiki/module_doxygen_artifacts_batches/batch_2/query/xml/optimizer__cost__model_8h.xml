@@ -1,0 +1,626 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="optimizer__cost__model_8h" kind="file" language="C++">
+    <compoundname>optimizer_cost_model.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="query__optimizer_8h" local="yes">include/query/query_optimizer.h</includedby>
+    <includedby refid="tensor__rag__cost__model_8h" local="yes">include/query/tensor_rag_cost_model.h</includedby>
+    <includedby refid="optimizer__cost__model_8cpp" local="yes">src/query/optimizer_cost_model.cpp</includedby>
+    <includedby refid="test__query__optimizer__regression_8cpp" local="yes">tests/query/test_query_optimizer_regression.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/optimizer_cost_model.h</label>
+        <link refid="optimizer__cost__model_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>cstddef</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>thread</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/query/optimizer_cost_model.h</label>
+        <link refid="optimizer__cost__model_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/query/plan_cache.h</label>
+        <link refid="plan__cache_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/query/query_federation.h</label>
+        <link refid="query__federation_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/query/query_optimizer.h</label>
+        <link refid="query__optimizer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/query/query_plan_visualizer.h</label>
+        <link refid="query__plan__visualizer_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/query/tensor_aware_query_optimizer.h</label>
+        <link refid="tensor__aware__query__optimizer_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>include/query/tensor_rag_cost_model.h</label>
+        <link refid="tensor__rag__cost__model_8h"/>
+      </node>
+      <node id="21">
+        <label>src/query/aql_runner.cpp</label>
+        <link refid="aql__runner_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/query/optimizer_cost_model.cpp</label>
+        <link refid="optimizer__cost__model_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/query/plan_cache.cpp</label>
+        <link refid="plan__cache_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/query/query_engine.cpp</label>
+        <link refid="query__engine_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/query/query_federation.cpp</label>
+        <link refid="query__federation_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/query/query_optimizer.cpp</label>
+        <link refid="query__optimizer_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/query/query_plan_visualizer.cpp</label>
+        <link refid="query__plan__visualizer_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/query/tensor_aware_query_optimizer.cpp</label>
+        <link refid="tensor__aware__query__optimizer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/query/test_query_cross_feature_matrix.cpp</label>
+        <link refid="test__query__cross__feature__matrix_8cpp"/>
+      </node>
+      <node id="26">
+        <label>tests/query/test_query_engine.cpp</label>
+        <link refid="test__query__engine_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/query/test_query_federation.cpp</label>
+        <link refid="test__query__federation_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/query/test_query_federation_routing.cpp</label>
+        <link refid="test__query__federation__routing_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/query/test_query_federation_scope_safety.cpp</label>
+        <link refid="test__query__federation__scope__safety_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/query/test_query_optimizer_regression.cpp</label>
+        <link refid="test__query__optimizer__regression_8cpp"/>
+      </node>
+      <node id="27">
+        <label>tests/query/test_query_optimizer_scope_bounds.cpp</label>
+        <link refid="test__query__optimizer__scope__bounds_8cpp"/>
+      </node>
+      <node id="28">
+        <label>tests/query/test_query_optimizer_statistics.cpp</label>
+        <link refid="test__query__optimizer__statistics_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/query/test_query_optimizer_thread_safety.cpp</label>
+        <link refid="test__query__optimizer__thread__safety_8cpp"/>
+      </node>
+      <node id="29">
+        <label>tests/query/test_query_optimizer_vector_geo.cpp</label>
+        <link refid="test__query__optimizer__vector__geo_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/query/test_query_phase_a_gap_fixes.cpp</label>
+        <link refid="test__query__phase__a__gap__fixes_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/query/test_query_plan_caching.cpp</label>
+        <link refid="test__query__plan__caching_8cpp"/>
+      </node>
+      <node id="24">
+        <label>tests/query/test_query_plan_visualizer.cpp</label>
+        <link refid="test__query__plan__visualizer_8cpp"/>
+      </node>
+      <node id="30">
+        <label>tests/query/test_query_planner_fallback.cpp</label>
+        <link refid="test__query__planner__fallback_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/query/test_query_safety_fixes.cpp</label>
+        <link refid="test__query__safety__fixes_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/query/test_wave1_critical_gap_fixes.cpp</label>
+        <link refid="test__wave1__critical__gap__fixes_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/query/test_wave9_block3_fixes.cpp</label>
+        <link refid="test__wave9__block3__fixes_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_optimizer_cost_model" prot="public">themis::OptimizerCostModel</innerclass>
+    <innerclass refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics" prot="public">themis::OptimizerCostModel::TableStatistics</innerclass>
+    <innerclass refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics" prot="public">themis::OptimizerCostModel::ColumnStatistics</innerclass>
+    <innerclass refid="structthemis_1_1_optimizer_cost_model_1_1_index_statistics" prot="public">themis::OptimizerCostModel::IndexStatistics</innerclass>
+    <innerclass refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants" prot="public">themis::OptimizerCostModel::CostConstants</innerclass>
+    <innerclass refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice" prot="public">themis::OptimizerCostModel::SerializationAdvice</innerclass>
+    <innerclass refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost" prot="public">themis::OptimizerCostModel::ScanCost</innerclass>
+    <innerclass refid="structthemis_1_1_optimizer_cost_model_1_1_filter_cost" prot="public">themis::OptimizerCostModel::FilterCost</innerclass>
+    <innerclass refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost" prot="public">themis::OptimizerCostModel::JoinCost</innerclass>
+    <innerclass refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost" prot="public">themis::OptimizerCostModel::AggregationCost</innerclass>
+    <innerclass refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost" prot="public">themis::OptimizerCostModel::SortCost</innerclass>
+    <innerclass refid="structthemis_1_1_optimizer_cost_model_1_1_network_cost" prot="public">themis::OptimizerCostModel::NetworkCost</innerclass>
+    <innerclass refid="classthemis_1_1_statistics_manager" prot="public">themis::StatisticsManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1a10ce323676f202709c131425cf4113b4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1a10ce323676f202709c131425cf4113b4" kindref="member">WorkloadType</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1a10ce323676f202709c131425cf4113b4a03523a4f43fe52611c40598a1ebf1567" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a10ce323676f202709c131425cf4113b4a03523a4f43fe52611c40598a1ebf1567" kindref="member">DOCUMENT_CRUD</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1a10ce323676f202709c131425cf4113b4a4939a0c5f946aa98a33244d2f3cfef58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a10ce323676f202709c131425cf4113b4a4939a0c5f946aa98a33244d2f3cfef58" kindref="member">VECTOR_SEARCH</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1a10ce323676f202709c131425cf4113b4aad4c3e05f2231c91e9aac474a631742b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a10ce323676f202709c131425cf4113b4aad4c3e05f2231c91e9aac474a631742b" kindref="member">ANALYTICS_OLAP</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1a10ce323676f202709c131425cf4113b4abef0d5c8ef807774bcd2e457dcdc0672" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a10ce323676f202709c131425cf4113b4abef0d5c8ef807774bcd2e457dcdc0672" kindref="member">CDC_STREAM</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1a10ce323676f202709c131425cf4113b4a23d6d2057e17c0ec319a61953bdd63bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a10ce323676f202709c131425cf4113b4a23d6d2057e17c0ec319a61953bdd63bb" kindref="member">CACHE_REPL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1a10ce323676f202709c131425cf4113b4a06979a01ee5afe06e4c936d6fd06f43a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a10ce323676f202709c131425cf4113b4a06979a01ee5afe06e4c936d6fd06f43a" kindref="member">TENSOR_RAG</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1_optimizer_cost_model" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_optimizer_cost_model_1a405db7e87bebeff78cfa35d36a5ff303" kindref="member">OptimizerCostModel</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=============================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics<sp/>Structures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=============================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics" kindref="compound">TableStatistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1ab094b98f1a5eb9e86a6440d30042ce7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1ab094b98f1a5eb9e86a6440d30042ce7e" kindref="member">tableName</ref>;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1abed460b4b451476c343f77a5e423c5da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1abed460b4b451476c343f77a5e423c5da" kindref="member">rowCount</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1a8f47f905b764e7461c01227a280d0f49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1a8f47f905b764e7461c01227a280d0f49" kindref="member">pageCount</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1a36dd574a9c2ec91d45806b34b5474002" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1a36dd574a9c2ec91d45806b34b5474002" kindref="member">avgRowSize</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1a5647270fbf2f0474172a68e208ae515d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1a5647270fbf2f0474172a68e208ae515d" kindref="member">isStale</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1a08589a7824f9445abf99fe7a01f1b137" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics_1a08589a7824f9445abf99fe7a01f1b137" kindref="member">lastUpdated</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Unix<sp/>timestamp<sp/>in<sp/>seconds<sp/>(epoch<sp/>time)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics" kindref="compound">ColumnStatistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1a8638a5bb9248994364da0bc2c4a2e228" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1a8638a5bb9248994364da0bc2c4a2e228" kindref="member">columnName</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1a5855dd409f3390eb3c302b409d9fd889" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1a5855dd409f3390eb3c302b409d9fd889" kindref="member">distinctValues</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1a120647ff00af7ba080b92506c1203902" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1a120647ff00af7ba080b92506c1203902" kindref="member">nullFraction</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1ab85c4c3e750bab3e625353baf66d5201" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1ab85c4c3e750bab3e625353baf66d5201" kindref="member">minValue</ref>;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1a4f0adec711f5114b2e874f7574aff0f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1a4f0adec711f5114b2e874f7574aff0f3" kindref="member">maxValue</ref>;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1a56d4dc29497221cf0ed29732aa5a2dfa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics_1a56d4dc29497221cf0ed29732aa5a2dfa" kindref="member">valueDistribution</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>value<sp/>-&gt;<sp/>frequency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1_optimizer_cost_model_1_1_index_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_optimizer_cost_model_1_1_index_statistics" kindref="compound">IndexStatistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1_optimizer_cost_model_1_1_index_statistics_1ad4244d39888718cbaa6a7de87f88df54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_index_statistics_1ad4244d39888718cbaa6a7de87f88df54" kindref="member">indexName</ref>;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1_optimizer_cost_model_1_1_index_statistics_1af20c64b9724ab3f43d265ff31dae957d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_index_statistics_1af20c64b9724ab3f43d265ff31dae957d" kindref="member">indexType</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;btree&quot;,<sp/>&quot;hash&quot;,<sp/>&quot;spatial&quot;,<sp/>&quot;vector&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1_optimizer_cost_model_1_1_index_statistics_1ab961e98b701c3aadc95e976dd6039829" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_index_statistics_1ab961e98b701c3aadc95e976dd6039829" kindref="member">entryCount</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1_optimizer_cost_model_1_1_index_statistics_1a6dbb84c721894725b557410a42418c17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_index_statistics_1a6dbb84c721894725b557410a42418c17" kindref="member">levels</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>tree<sp/>depth<sp/>for<sp/>btree</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1_optimizer_cost_model_1_1_index_statistics_1a646ee9ab49795c5752910ed931119fc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_index_statistics_1a646ee9ab49795c5752910ed931119fc1" kindref="member">selectivity</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=============================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cost<sp/>Model<sp/>Constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=============================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants" kindref="compound">CostConstants</ref><sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CPU<sp/>costs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1adce2a798cac517d2137d64a959775229" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1adce2a798cac517d2137d64a959775229" kindref="member">cpuCostPerRow</ref><sp/>=<sp/>0.01;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Base<sp/>CPU<sp/>cost<sp/>per<sp/>row</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a4b5187b9656d6e82513297a2ff93d26a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a4b5187b9656d6e82513297a2ff93d26a" kindref="member">cpuCostPerPredicate</ref><sp/>=<sp/>0.001;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Predicate<sp/>evaluation<sp/>cost</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a49f9a0795e1575150c3b389a45d4cd03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a49f9a0795e1575150c3b389a45d4cd03" kindref="member">cpuCostPerHash</ref><sp/>=<sp/>0.005;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hash<sp/>computation<sp/>cost</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a1eec93ae7e3364c27edc93911a58b8ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a1eec93ae7e3364c27edc93911a58b8ea" kindref="member">cpuCostPerSort</ref><sp/>=<sp/>0.02;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sort<sp/>comparison<sp/>cost</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>I/O<sp/>costs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a3fef459e419535c984355833b132cc92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a3fef459e419535c984355833b132cc92" kindref="member">pageReadCost</ref><sp/>=<sp/>1.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sequential<sp/>page<sp/>read</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a18d92b7811b491c362107bcfd795803f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a18d92b7811b491c362107bcfd795803f" kindref="member">randomPageReadCost</ref><sp/>=<sp/>4.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Random<sp/>page<sp/>read</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a50103be267d139ed434ab37925a92815" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a50103be267d139ed434ab37925a92815" kindref="member">pageWriteCost</ref><sp/>=<sp/>2.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Page<sp/>write<sp/>cost</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a7bc46d98d48ef8c9bc57713e3dcdf837" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a7bc46d98d48ef8c9bc57713e3dcdf837" kindref="member">pageSize</ref><sp/>=<sp/>8192.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>page<sp/>size<sp/>in<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>costs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1add5d2e16f227e2a3514583494080ff67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1add5d2e16f227e2a3514583494080ff67" kindref="member">memoryPenaltyFactor</ref><sp/>=<sp/>0.1;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Penalty<sp/>when<sp/>exceeding<sp/>available<sp/>memory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1ac339d7ef72d00bf8c3a3ed42e141bcee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1ac339d7ef72d00bf8c3a3ed42e141bcee" kindref="member">availableMemory</ref><sp/>=<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>1GB<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a7ce9b9939bd83617384b5fd49387d473" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a7ce9b9939bd83617384b5fd49387d473" kindref="member">memoryThresholdRatio</ref><sp/>=<sp/>0.8;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>external<sp/>sort<sp/>at<sp/>80%<sp/>memory<sp/>usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Network<sp/>costs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a7b254e9e2e1aa59a89a57660aaf0b0bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a7b254e9e2e1aa59a89a57660aaf0b0bc" kindref="member">networkBandwidth</ref><sp/>=<sp/>1000.0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MB/s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1aa212bbf9815521741be2fc1da177b0c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1aa212bbf9815521741be2fc1da177b0c6" kindref="member">networkLatency</ref><sp/>=<sp/>0.5;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ms<sp/>per<sp/>hop</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1ab64a77f14904cd7d7ecd279c5e982f4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1ab64a77f14904cd7d7ecd279c5e982f4b" kindref="member">defaultHops</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Operation<sp/>overhead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1ad842b6da5faa6c0f1471569b46667877" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1ad842b6da5faa6c0f1471569b46667877" kindref="member">scanOverhead</ref><sp/>=<sp/>10.0;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a34b77343bd151b18b24a368c09d6b18a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a34b77343bd151b18b24a368c09d6b18a" kindref="member">joinOverhead</ref><sp/>=<sp/>50.0;</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a419758d054a7d7097c068a47bc697241" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a419758d054a7d7097c068a47bc697241" kindref="member">aggregationOverhead</ref><sp/>=<sp/>20.0;</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a7a082fa2cfc54a0e18a3d75ee36685e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a7a082fa2cfc54a0e18a3d75ee36685e3" kindref="member">sortOverhead</ref><sp/>=<sp/>30.0;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hash<sp/>table<sp/>constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a96a62138af237a8bdff114d9abf37c97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a96a62138af237a8bdff114d9abf37c97" kindref="member">hashTableKeySize</ref><sp/>=<sp/>8;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>hash<sp/>key<sp/>size<sp/>in<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a661542251bbd08870872204b7107e49e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a661542251bbd08870872204b7107e49e" kindref="member">hashTablePointerSize</ref><sp/>=<sp/>8;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pointer<sp/>size<sp/>(use<sp/>sizeof(void*)<sp/>on<sp/>target<sp/>platform)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a487d8771cea9e7981cf8ba0f69f11840" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a487d8771cea9e7981cf8ba0f69f11840" kindref="member">hashTableGroupOverhead</ref><sp/>=<sp/>64;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Overhead<sp/>per<sp/>group<sp/>in<sp/>aggregation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>/<sp/>Serialization<sp/>thresholds<sp/>(kalibrierbar<sp/>via<sp/>calibrateCosts<sp/>/<sp/>updateConstant)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a4e0c925bcdd8f8ae86129ab1e61ef741" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a4e0c925bcdd8f8ae86129ab1e61ef741" kindref="member">gpu_row_threshold_low</ref><sp/><sp/>=<sp/>50&apos;000;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a44de056d1d7a46f2083403d814f6fa27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a44de056d1d7a46f2083403d814f6fa27" kindref="member">gpu_row_threshold_high</ref><sp/>=<sp/>500&apos;000;<sp/><sp/></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a8cd9e7d668858c3d6c1189b35dd2df12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a8cd9e7d668858c3d6c1189b35dd2df12" kindref="member">vram_safety_factor</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>1.5;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1acb87342ba0ac31a85caf3275b7360871" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1acb87342ba0ac31a85caf3275b7360871" kindref="member">cpu_batch_thread_low</ref><sp/><sp/><sp/>=<sp/>4;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1ab5bcfa46ce42afe03c2b08c63b6434b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1ab5bcfa46ce42afe03c2b08c63b6434b9" kindref="member">cpu_batch_thread_high</ref><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a3f8b923190acfeca138a2799906cdec6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants_1a3f8b923190acfeca138a2799906cdec6" kindref="member">msgpack_row_threshold</ref><sp/><sp/>=<sp/>1&apos;000;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=============================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serialization<sp/>Strategy<sp/>Advisor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=============================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice" kindref="compound">SerializationAdvice</ref><sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>On-wire<sp/>encoding<sp/>for<sp/>result<sp/>rows.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612db" kindref="member">Format</ref><sp/>{</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612dbaee444747baf0a3f384a21115bea6fdf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612dbaee444747baf0a3f384a21115bea6fdf2" kindref="member">SF_JSON_TEXT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Standard<sp/>JSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612dba7f30ebbd0f3e8dd222cad868dffabd56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612dba7f30ebbd0f3e8dd222cad868dffabd56" kindref="member">SF_BINARY_CUSTOM</ref>,<sp/><sp/></highlight><highlight class="comment">//<sp/>Compact<sp/>custom<sp/>binary</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612dba79075fb00ef9d6a4ee2318b9cd3ea7b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612dba79075fb00ef9d6a4ee2318b9cd3ea7b6" kindref="member">SF_MSGPACK_CBOR</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MessagePack<sp/>/<sp/>CBOR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612dba0fb35e3297b5c1d6e498ca447255b9f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612dba0fb35e3297b5c1d6e498ca447255b9f5" kindref="member">SF_ARROW_IPC</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Apache<sp/>Arrow<sp/>IPC<sp/>stream</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612dba6204e8717a97c9339a9bcca1e2fc87e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612dba6204e8717a97c9339a9bcca1e2fc87e8" kindref="member">SF_PROTOBUF_WIRE</ref><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Protocol<sp/>Buffers<sp/>for<sp/>internal/gRPC<sp/>paths</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Execution<sp/>path<sp/>for<sp/>compute.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a3a84dec71c1d1cba40393e76c24e40a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a3a84dec71c1d1cba40393e76c24e40a8" kindref="member">ExecutionPath</ref><sp/>{</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a3a84dec71c1d1cba40393e76c24e40a8afa585c09ba2545d12bfc54cedb50cc36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a3a84dec71c1d1cba40393e76c24e40a8afa585c09ba2545d12bfc54cedb50cc36" kindref="member">CPU_SINGLE</ref>,</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a3a84dec71c1d1cba40393e76c24e40a8a7b530e86336ad7f76ba92c602d2ec6b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a3a84dec71c1d1cba40393e76c24e40a8a7b530e86336ad7f76ba92c602d2ec6b5" kindref="member">CPU_THREADED_BATCH</ref>,</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a3a84dec71c1d1cba40393e76c24e40a8a61e36ee296dca51fc39ff6e40a068f0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a3a84dec71c1d1cba40393e76c24e40a8a61e36ee296dca51fc39ff6e40a068f0e" kindref="member">GPU_VRAM</ref></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a1a8ae5719cc8b26ab7bbc1e3c40c11b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612db" kindref="member">Format</ref><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a1a8ae5719cc8b26ab7bbc1e3c40c11b1" kindref="member">wire_format</ref><sp/>=<sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a25876c1d98aca6873a248925d70612dbaee444747baf0a3f384a21115bea6fdf2" kindref="member">Format::SF_JSON_TEXT</ref>;</highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a70dacd44b801cad2374b09e46df01b8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a3a84dec71c1d1cba40393e76c24e40a8" kindref="member">ExecutionPath</ref><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a70dacd44b801cad2374b09e46df01b8d" kindref="member">exec_path</ref><sp/>=<sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a3a84dec71c1d1cba40393e76c24e40a8afa585c09ba2545d12bfc54cedb50cc36" kindref="member">ExecutionPath::CPU_SINGLE</ref>;</highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1aeae09f65994dfe979f7eefa0dd89c4b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1aeae09f65994dfe979f7eefa0dd89c4b9" kindref="member">recommended_batch_size</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1ae0f204fa6650f7b3b848c0b68fca7e60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1ae0f204fa6650f7b3b848c0b68fca7e60" kindref="member">recommended_thread_count</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a8bcb4e39e423d2ae8453e247657557e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a8bcb4e39e423d2ae8453e247657557e3" kindref="member">use_vram_pinned_memory</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a419c346251244c48d7d1f392cba51879" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice_1a419c346251244c48d7d1f392cba51879" kindref="member">rationale</ref>;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=============================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cost<sp/>Estimation<sp/>Results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=============================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost" kindref="compound">ScanCost</ref><sp/>{</highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1a507ddb36b043169cf7ab1630c907c227a6a19fc08fc3cb7b8f4a4ccf7a8386f8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1a507ddb36b043169cf7ab1630c907c227" kindref="member">ScanType</ref><sp/>{<sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1a507ddb36b043169cf7ab1630c907c227abfcac11bd9eb85fdadad132dc077cbe1" kindref="member">TABLE_SCAN</ref>,<sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1a507ddb36b043169cf7ab1630c907c227afd6e2b3ea2d9a9fba7e559ba2da7ba20" kindref="member">INDEX_SCAN</ref>,<sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1a507ddb36b043169cf7ab1630c907c227a6a19fc08fc3cb7b8f4a4ccf7a8386f8c" kindref="member">INDEX_ONLY_SCAN</ref><sp/>};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1aec287f782a6b58f3b293d523cc13896e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1a507ddb36b043169cf7ab1630c907c227" kindref="member">ScanType</ref><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1aec287f782a6b58f3b293d523cc13896e" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1ae857490cb8febcac7ab524dd4e49aaed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1ae857490cb8febcac7ab524dd4e49aaed" kindref="member">cpuCost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1a4c183859cccb438464e5acc429635a54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1a4c183859cccb438464e5acc429635a54" kindref="member">ioCost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1a84cd4171565b7af010ead6fabe60546f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1a84cd4171565b7af010ead6fabe60546f" kindref="member">totalCost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1aca158b9fa548a5d1e7ae47672f54e369" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1aca158b9fa548a5d1e7ae47672f54e369" kindref="member">estimatedRows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1ac4761269ac2b7088775eb08ac3680d67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost_1ac4761269ac2b7088775eb08ac3680d67" kindref="member">pagesRead</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1_optimizer_cost_model_1_1_filter_cost" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_optimizer_cost_model_1_1_filter_cost" kindref="compound">FilterCost</ref><sp/>{</highlight></codeline>
+<codeline lineno="159" refid="structthemis_1_1_optimizer_cost_model_1_1_filter_cost_1a365cf4b097115aa71e83a8b70b9d3709" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_filter_cost_1a365cf4b097115aa71e83a8b70b9d3709" kindref="member">cpuCost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1_optimizer_cost_model_1_1_filter_cost_1a602a614e1b5fa2d27dfc22227c1a64f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_filter_cost_1a602a614e1b5fa2d27dfc22227c1a64f7" kindref="member">selectivity</ref><sp/>=<sp/>1.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>0.0<sp/>to<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1_optimizer_cost_model_1_1_filter_cost_1aca476e5188104fffd2342923dc9768e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_filter_cost_1aca476e5188104fffd2342923dc9768e2" kindref="member">inputRows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1_optimizer_cost_model_1_1_filter_cost_1a43e0cbe2bc18f02e92c5fede8a9aa282" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_filter_cost_1a43e0cbe2bc18f02e92c5fede8a9aa282" kindref="member">outputRows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165" refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost" kindref="compound">JoinCost</ref><sp/>{</highlight></codeline>
+<codeline lineno="166" refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1a771f0c4d86ed809196041441cec6ca1da2e0fc921614e47e1e6ee456f454c73a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1a771f0c4d86ed809196041441cec6ca1d" kindref="member">JoinType</ref><sp/>{<sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1a771f0c4d86ed809196041441cec6ca1dae1d6cffc1b83d86eaed53873a0063fd9" kindref="member">NESTED_LOOP</ref>,<sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1a771f0c4d86ed809196041441cec6ca1da2e0fc921614e47e1e6ee456f454c73a1" kindref="member">HASH_JOIN</ref>,<sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1a771f0c4d86ed809196041441cec6ca1da797a784e0cb8a6fd4c59e03164cb2c00" kindref="member">SORT_MERGE</ref><sp/>};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168" refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1af6e37167465f56c6e424fdc845eeb45c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1a771f0c4d86ed809196041441cec6ca1d" kindref="member">JoinType</ref><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1af6e37167465f56c6e424fdc845eeb45c" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="169" refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1a70dec1e684e2fbebb3641a7858ceb5c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1a70dec1e684e2fbebb3641a7858ceb5c4" kindref="member">cpuCost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1ac5f9bef70d6cb735c9202e72995cf2c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1ac5f9bef70d6cb735c9202e72995cf2c1" kindref="member">ioCost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1a5d9b7eb69a684daacde60201e475ed1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1a5d9b7eb69a684daacde60201e475ed1b" kindref="member">memoryCost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1ab4358036088557dc0d6d1650443ed096" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1ab4358036088557dc0d6d1650443ed096" kindref="member">totalCost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1ae4fee51fe94f84d8e5d33cde15f058fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1ae4fee51fe94f84d8e5d33cde15f058fd" kindref="member">estimatedRows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1ad3e1ab9407b60410a4772e8f23b7b038" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1ad3e1ab9407b60410a4772e8f23b7b038" kindref="member">leftRows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="175" refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1a733266ac6b0ae387677b5eacf78f7cdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost_1a733266ac6b0ae387677b5eacf78f7cdc" kindref="member">rightRows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178" refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost" kindref="compound">AggregationCost</ref><sp/>{</highlight></codeline>
+<codeline lineno="179" refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a53e18cb4e359cbde54177d7df048b44e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a53e18cb4e359cbde54177d7df048b44e" kindref="member">cpuCost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a65f5ebdf1733471f27566ce652d61204" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a65f5ebdf1733471f27566ce652d61204" kindref="member">memoryCost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="181" refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a2dcd578d11e2de0ba27053dde821e6de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a2dcd578d11e2de0ba27053dde821e6de" kindref="member">totalCost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="182" refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a48ff93cc6304015f501459a98d3fb94a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a48ff93cc6304015f501459a98d3fb94a" kindref="member">inputRows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="183" refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a951f9a3635df3b8dbc05487d88e81cc8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a951f9a3635df3b8dbc05487d88e81cc8" kindref="member">outputRows</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="184" refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a849b6dbaa67bcdb47261114e0346b85a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost_1a849b6dbaa67bcdb47261114e0346b85a" kindref="member">numGroups</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187" refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost" kindref="compound">SortCost</ref><sp/>{</highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1ad7687ba9118b94068c6a891121585117" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1ad7687ba9118b94068c6a891121585117" kindref="member">cpuCost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1ae9675e7c952f94082e4cc0b23199bb4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1ae9675e7c952f94082e4cc0b23199bb4c" kindref="member">ioCost</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>external<sp/>sort</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1a8779b56d66ed37d0e8fd33839f3a1308" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1a8779b56d66ed37d0e8fd33839f3a1308" kindref="member">memoryCost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="191" refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1aad400acd15be51f18d885a39c4606962" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1aad400acd15be51f18d885a39c4606962" kindref="member">totalCost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="192" refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1aa8592a6c5cec5a8f6f1921e528720342" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1aa8592a6c5cec5a8f6f1921e528720342" kindref="member">rowCount</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="193" refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1a6c20f9d2d694bdd23ea8d1e1a94dc7e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost_1a6c20f9d2d694bdd23ea8d1e1a94dc7e8" kindref="member">isExternalSort</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196" refid="structthemis_1_1_optimizer_cost_model_1_1_network_cost" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_optimizer_cost_model_1_1_network_cost" kindref="compound">NetworkCost</ref><sp/>{</highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1_optimizer_cost_model_1_1_network_cost_1a35c8914ba52e0291263225a54df35c8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_network_cost_1a35c8914ba52e0291263225a54df35c8e" kindref="member">transferCost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1_optimizer_cost_model_1_1_network_cost_1ad5c1020741439d749dae4ea86c41366a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_network_cost_1ad5c1020741439d749dae4ea86c41366a" kindref="member">latencyCost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="199" refid="structthemis_1_1_optimizer_cost_model_1_1_network_cost_1a8b7828f4334050bed97f7fd2ad6017c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_network_cost_1a8b7828f4334050bed97f7fd2ad6017c7" kindref="member">totalCost</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="200" refid="structthemis_1_1_optimizer_cost_model_1_1_network_cost_1a925551ad0b6b37bda872f2543c58acf0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_network_cost_1a925551ad0b6b37bda872f2543c58acf0" kindref="member">dataSize</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1_optimizer_cost_model_1_1_network_cost_1aaa522fb1061d54334fa375e08c734388" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_network_cost_1aaa522fb1061d54334fa375e08c734388" kindref="member">numHops</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=============================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Public<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=============================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_optimizer_cost_model_1a405db7e87bebeff78cfa35d36a5ff303" kindref="member">OptimizerCostModel</ref>();</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_optimizer_cost_model_1a405db7e87bebeff78cfa35d36a5ff303" kindref="member">OptimizerCostModel</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants" kindref="compound">CostConstants</ref>&amp;<sp/>constants);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cost<sp/>estimation<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost" kindref="compound">ScanCost</ref><sp/><ref refid="classthemis_1_1_optimizer_cost_model_1ae9d8d44693ff620cc4fa4eb2083b0dcc" kindref="member">estimateTableScan</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics" kindref="compound">TableStatistics</ref>&amp;<sp/>table)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_scan_cost" kindref="compound">ScanCost</ref><sp/><ref refid="classthemis_1_1_optimizer_cost_model_1a1f46332f8e1fd18b142f174c4a75a5e3" kindref="member">estimateIndexScan</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics" kindref="compound">TableStatistics</ref>&amp;<sp/>table,<sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_index_statistics" kindref="compound">IndexStatistics</ref>&amp;<sp/><ref refid="namespacethemis_1_1index" kindref="compound">index</ref>,</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>selectivity)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_filter_cost" kindref="compound">FilterCost</ref><sp/><ref refid="classthemis_1_1_optimizer_cost_model_1af6ecb4edd70160f36de954dc11468bf9" kindref="member">estimateFilter</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>inputRows,<sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>predicates,</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>ColumnStatistics&gt;&amp;<sp/>columnStats)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost" kindref="compound">JoinCost</ref><sp/><ref refid="classthemis_1_1_optimizer_cost_model_1a5c3860c2745de8aa1a557307539f94c4" kindref="member">estimateNestedLoopJoin</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>leftRows,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>rightRows,<sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>selectivity)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost" kindref="compound">JoinCost</ref><sp/><ref refid="classthemis_1_1_optimizer_cost_model_1a417c301de1241a4d4a27ca90ff9fc015" kindref="member">estimateHashJoin</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>leftRows,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>rightRows,<sp/></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>selectivity,</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>hashKeySize<sp/>=<sp/>8)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_join_cost" kindref="compound">JoinCost</ref><sp/><ref refid="classthemis_1_1_optimizer_cost_model_1a7a2406d23611ab24a31248f0f038eb8e" kindref="member">estimateSortMergeJoin</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>leftRows,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>rightRows,</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>selectivity)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_aggregation_cost" kindref="compound">AggregationCost</ref><sp/><ref refid="classthemis_1_1_optimizer_cost_model_1a57b1a1bec22072e3cad96b19a73f1388" kindref="member">estimateAggregation</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>inputRows,<sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>estimatedGroups,</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>numAggregates)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_sort_cost" kindref="compound">SortCost</ref><sp/><ref refid="classthemis_1_1_optimizer_cost_model_1af7eaa7ef114d477d0c2ea52706aafb7c" kindref="member">estimateSort</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>rowCount,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>rowSize)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_network_cost" kindref="compound">NetworkCost</ref><sp/><ref refid="classthemis_1_1_optimizer_cost_model_1a89d4484ccb3178c397a6fdbb256aaa51" kindref="member">estimateNetworkTransfer</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dataSize,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>numHops<sp/>=<sp/>1)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Selectivity<sp/>estimation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_optimizer_cost_model_1ab0760f4bd1c61c5a16f097b9e987775a" kindref="member">estimateSelectivity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>predicate,</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics" kindref="compound">ColumnStatistics</ref>&amp;<sp/>columnStats)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_optimizer_cost_model_1a567f74f9dae5b0940a35f1c13b3cc912" kindref="member">estimateJoinSelectivity</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics" kindref="compound">ColumnStatistics</ref>&amp;<sp/>leftCol,</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics" kindref="compound">ColumnStatistics</ref>&amp;<sp/>rightCol)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cost<sp/>calibration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_optimizer_cost_model_1ac668715451bd31b336faaf745018799d" kindref="member">calibrateCosts</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>double&gt;&amp;<sp/>measurements);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_optimizer_cost_model_1a6aec691b0be6c6a6809e0991492f57d6" kindref="member">updateConstant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice" kindref="compound">SerializationAdvice</ref><sp/><ref refid="classthemis_1_1_optimizer_cost_model_1aa4a6cc85cdd7b20171b80d56fd31b2c3" kindref="member">adviseSerializationStrategy</ref>(</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>estimated_row_count,</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>avg_row_bytes,</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>gpu_available,</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vram_free_bytes,</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1a10ce323676f202709c131425cf4113b4" kindref="member">WorkloadType</ref><sp/>workload)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Accessors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325" refid="classthemis_1_1_optimizer_cost_model_1a141c0e77cb282ff76e993af3f5dc730c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants" kindref="compound">CostConstants</ref>&amp;<sp/><ref refid="classthemis_1_1_optimizer_cost_model_1a141c0e77cb282ff76e993af3f5dc730c" kindref="member">getConstants</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>constants_;<sp/>}</highlight></codeline>
+<codeline lineno="331" refid="classthemis_1_1_optimizer_cost_model_1aa30cf57384213f8b0ba39724b720fa5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_optimizer_cost_model_1aa30cf57384213f8b0ba39724b720fa5a" kindref="member">setConstants</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_cost_constants" kindref="compound">CostConstants</ref>&amp;<sp/>constants)<sp/>{<sp/>constants_<sp/>=<sp/>constants;<sp/>}</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>CostConstants<sp/>constants_;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>calculateCpuCost(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>rowsProcessed,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>costPerRow)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>calculateIoCost(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>pagesRead,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>sequential<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>calculateMemoryCost(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>memoryUsed)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>estimateCardinality(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>baseRows,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>selectivity)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>needsExternalSort(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>rowCount,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>rowSize)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="365"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367" refid="classthemis_1_1_statistics_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_statistics_manager_1abc83d767c070dadfb54049a03952620c" kindref="member">StatisticsManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Provider<sp/>injection<sp/>—<sp/>callers<sp/>set<sp/>these<sp/>before<sp/>the<sp/>first<sp/>collect/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>refresh<sp/>call<sp/>so<sp/>that<sp/>collectTableStatistics()<sp/>/<sp/>collectColumnStatistics()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>/<sp/>collectIndexStatistics()<sp/>can<sp/>query<sp/>real<sp/>storage-engine<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>instead<sp/>of<sp/>returning<sp/>zero-initialised<sp/>defaults.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376" refid="classthemis_1_1_statistics_manager_1a18e21ecf933d72946b8da976dc13713d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_statistics_manager_1a18e21ecf933d72946b8da976dc13713d" kindref="member">TableScanProvider</ref><sp/>=</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;<ref refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics" kindref="compound">OptimizerCostModel::TableStatistics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379" refid="classthemis_1_1_statistics_manager_1a1b6d42232b33b7bf2eafda5bc63ae271" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_statistics_manager_1a1b6d42232b33b7bf2eafda5bc63ae271" kindref="member">ColumnScanProvider</ref><sp/>=</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;<ref refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics" kindref="compound">OptimizerCostModel::ColumnStatistics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;;</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382" refid="classthemis_1_1_statistics_manager_1afefc5163ab85d18844517c8841155d4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_statistics_manager_1afefc5163ab85d18844517c8841155d4d" kindref="member">IndexScanProvider</ref><sp/>=</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;<ref refid="structthemis_1_1_optimizer_cost_model_1_1_index_statistics" kindref="compound">OptimizerCostModel::IndexStatistics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="385" refid="classthemis_1_1_statistics_manager_1abc83d767c070dadfb54049a03952620c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_statistics_manager_1abc83d767c070dadfb54049a03952620c" kindref="member">StatisticsManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="392" refid="classthemis_1_1_statistics_manager_1aff051ba2cd0c69a5ce0d05e9de87900d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_statistics_manager_1aff051ba2cd0c69a5ce0d05e9de87900d" kindref="member">setTableScanProvider</ref>(<ref refid="classthemis_1_1_statistics_manager_1a18e21ecf933d72946b8da976dc13713d" kindref="member">TableScanProvider</ref><sp/>fn)<sp/>{<sp/>table_scan_provider_<sp/>=<sp/>std::move(fn);<sp/>}</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight></codeline>
+<codeline lineno="399" refid="classthemis_1_1_statistics_manager_1aacfd18bed3d0ae3e7f9eb74c03b90219" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_statistics_manager_1aacfd18bed3d0ae3e7f9eb74c03b90219" kindref="member">setColumnScanProvider</ref>(<ref refid="classthemis_1_1_statistics_manager_1a1b6d42232b33b7bf2eafda5bc63ae271" kindref="member">ColumnScanProvider</ref><sp/>fn)<sp/>{<sp/>column_scan_provider_<sp/>=<sp/>std::move(fn);<sp/>}</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"></highlight></codeline>
+<codeline lineno="406" refid="classthemis_1_1_statistics_manager_1a1b49d17e77fdae45e2c895f525af4e50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_statistics_manager_1a1b49d17e77fdae45e2c895f525af4e50" kindref="member">setIndexScanProvider</ref>(<ref refid="classthemis_1_1_statistics_manager_1afefc5163ab85d18844517c8841155d4d" kindref="member">IndexScanProvider</ref><sp/>fn)<sp/>{<sp/>index_scan_provider_<sp/>=<sp/>std::move(fn);<sp/>}</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"></highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics<sp/>collection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_statistics_manager_1a85c31f7b0db86b6d8d6c3a3aa1252df2" kindref="member">collectTableStatistics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tableName);</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_statistics_manager_1ae314954b917beb5fb45286f5d70839fc" kindref="member">collectColumnStatistics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tableName,<sp/></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>columnName);</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_statistics_manager_1aa4090ac919fbb7b24d1bc5d492285801" kindref="member">collectIndexStatistics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>indexName);</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics<sp/>refresh</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_statistics_manager_1aaeb55b8c62179d023485fe8d27aa25cb" kindref="member">refreshAllStatistics</ref>();</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_statistics_manager_1a4a1d0d126566307afdedf705ada78410" kindref="member">refreshStaleStatistics</ref>();</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics<sp/>retrieval</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics" kindref="compound">OptimizerCostModel::TableStatistics</ref><sp/><ref refid="classthemis_1_1_statistics_manager_1a344b538e955122cd236f97e75d574a5b" kindref="member">getTableStatistics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tableName)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_column_statistics" kindref="compound">OptimizerCostModel::ColumnStatistics</ref><sp/><ref refid="classthemis_1_1_statistics_manager_1a67af8ad6fda66e21470ac9f3520b88af" kindref="member">getColumnStatistics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tableName,</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>columnName)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_index_statistics" kindref="compound">OptimizerCostModel::IndexStatistics</ref><sp/><ref refid="classthemis_1_1_statistics_manager_1a44b414ae795dc79b9bc987c92a4a489f" kindref="member">getIndexStatistics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>indexName)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_statistics_manager_1abb33d3db4c0a2bad9d371d591f0f95ce" kindref="member">invalidateStatistics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tableName);</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_statistics_manager_1ab09a624865cf34dfe691925791b28e2b" kindref="member">areStatisticsStale</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tableName,<sp/>int64_t<sp/>threshold)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Manual<sp/>update</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_statistics_manager_1a8ecbf69a29b7d04b5381e4ad7b3b05fd" kindref="member">updateTableStatistics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tableName,</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_optimizer_cost_model_1_1_table_statistics" kindref="compound">OptimizerCostModel::TableStatistics</ref>&amp;<sp/>stats);</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="482"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>OptimizerCostModel::TableStatistics&gt;<sp/>tableStats_;</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::map&lt;std::string,<sp/>OptimizerCostModel::ColumnStatistics&gt;&gt;<sp/>columnStats_;</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>OptimizerCostModel::IndexStatistics&gt;<sp/>indexStats_;</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TableScanProvider&gt;<sp/><sp/>table_scan_provider_;</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ColumnScanProvider&gt;<sp/>column_scan_provider_;</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;IndexScanProvider&gt;<sp/><sp/>index_scan_provider_;</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"></highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>getCurrentTimestamp()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="496"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"></highlight></codeline>
+<codeline lineno="498"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/optimizer_cost_model.h"/>
+  </compounddef>
+</doxygen>

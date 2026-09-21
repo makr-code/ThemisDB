@@ -1,0 +1,749 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1resource_1_1_adaptive_connection_pool" kind="class" language="C++" prot="public">
+    <compoundname>themis::resource::AdaptiveConnectionPool</compoundname>
+    <includes refid="resource__pool__manager_8h" local="no">resource_pool_manager.h</includes>
+    <innerclass refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_config" prot="public">themis::resource::AdaptiveConnectionPool::Config</innerclass>
+    <innerclass refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics" prot="public">themis::resource::AdaptiveConnectionPool::Statistics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1a0702593677c3133d0289db7c1b6a58da" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::resource::AdaptiveConnectionPool::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="133" column="31" bodyfile="include/base/resource_pool_manager.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1afc8735a8d7bde1eb6ab26561f29ba693" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::resource::AdaptiveConnectionPool::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="134" column="31" bodyfile="include/base/resource_pool_manager.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1ae18f82f42bd64979ab50eaa2ae81ed9f" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::resource::AdaptiveConnectionPool::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="135" column="31" bodyfile="include/base/resource_pool_manager.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1acb67dc8034123a082648c77709f66bb9" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::resource::AdaptiveConnectionPool::available_slots_</definition>
+        <argsstring></argsstring>
+        <name>available_slots_</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::available_slots_</qualifiedname>
+        <briefdescription>
+<para>Free-list of slot IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="137" column="26" bodyfile="include/base/resource_pool_manager.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1a82d31f6cec6ec7b9841338fa9291efd4" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::AdaptiveConnectionPool::pool_size_</definition>
+        <argsstring></argsstring>
+        <name>pool_size_</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::pool_size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total allocated slots. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="138" column="31" bodyfile="include/base/resource_pool_manager.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1acd86e353378f01b56d7a0461cfd4b189" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::resource::AdaptiveConnectionPool::next_id_</definition>
+        <argsstring></argsstring>
+        <name>next_id_</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::next_id_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Monotonically increasing slot ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="139" column="31" bodyfile="include/base/resource_pool_manager.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1aa0fbc7f35ce65a25be62583ebc84146b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::resource::AdaptiveConnectionPool::shutdown_</definition>
+        <argsstring></argsstring>
+        <name>shutdown_</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::shutdown_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="141" column="25" bodyfile="include/base/resource_pool_manager.h" bodystart="141" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1ab954cf50f6e04c9330194b3857729079" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::AdaptiveConnectionPool::total_acquires_</definition>
+        <argsstring></argsstring>
+        <name>total_acquires_</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::total_acquires_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="144" column="17" bodyfile="include/base/resource_pool_manager.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1a613d3768eb550233c84b8300f17f3200" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::AdaptiveConnectionPool::total_timeouts_</definition>
+        <argsstring></argsstring>
+        <name>total_timeouts_</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::total_timeouts_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="145" column="17" bodyfile="include/base/resource_pool_manager.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1ada62969bac318d33c47689005633f668" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::AdaptiveConnectionPool::scale_up_events_</definition>
+        <argsstring></argsstring>
+        <name>scale_up_events_</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::scale_up_events_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="146" column="17" bodyfile="include/base/resource_pool_manager.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1a0ab3105ed9dcb8a0bb066c5e63703715" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::AdaptiveConnectionPool::scale_down_events_</definition>
+        <argsstring></argsstring>
+        <name>scale_down_events_</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::scale_down_events_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="147" column="17" bodyfile="include/base/resource_pool_manager.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1a4588f0c82058156fa935d0c4b4c83eb1" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::resource::AdaptiveConnectionPool::peak_utilization_</definition>
+        <argsstring></argsstring>
+        <name>peak_utilization_</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::peak_utilization_</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="148" column="17" bodyfile="include/base/resource_pool_manager.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1a2c742635ce25b58959781d5552cde82b" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::resource::AdaptiveConnectionPool::last_wait_start_</definition>
+        <argsstring></argsstring>
+        <name>last_wait_start_</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::last_wait_start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="151" column="43" bodyfile="include/base/resource_pool_manager.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1a70ae042437e598bf9dfcbd2a02c4a193" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::resource::AdaptiveConnectionPool::cumulative_wait_ms_</definition>
+        <argsstring></argsstring>
+        <name>cumulative_wait_ms_</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::cumulative_wait_ms_</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="152" column="17" bodyfile="include/base/resource_pool_manager.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1a514ee1747ea3e55ff976d800b5b78149" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::AdaptiveConnectionPool::wait_samples_</definition>
+        <argsstring></argsstring>
+        <name>wait_samples_</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::wait_samples_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="153" column="17" bodyfile="include/base/resource_pool_manager.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1a2e3be3bc9d3c864050669f26981eca95" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::AdaptiveConnectionPool::idle_periods_</definition>
+        <argsstring></argsstring>
+        <name>idle_periods_</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::idle_periods_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="154" column="17" bodyfile="include/base/resource_pool_manager.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1a22f619450cb0451e2c8a422f7d8c7900" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::resource::AdaptiveConnectionPool::AdaptiveConnectionPool</definition>
+        <argsstring>()</argsstring>
+        <name>AdaptiveConnectionPool</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::AdaptiveConnectionPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="66" column="5" bodyfile="src/base/resource_pool_manager.cpp" bodystart="21" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1af5a29645b57d948e3c27b49b8394750d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::resource::AdaptiveConnectionPool::AdaptiveConnectionPool</definition>
+        <argsstring>(const Config &amp;cfg)</argsstring>
+        <name>AdaptiveConnectionPool</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::AdaptiveConnectionPool</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Adaptive Connection Pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="73" column="14" bodyfile="src/base/resource_pool_manager.cpp" bodystart="24" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1a9900a6bafd3b303f0af4c051eee7cf46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::resource::AdaptiveConnectionPool::~AdaptiveConnectionPool</definition>
+        <argsstring>()</argsstring>
+        <name>~AdaptiveConnectionPool</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::~AdaptiveConnectionPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="75" column="5" bodyfile="src/base/resource_pool_manager.cpp" bodystart="35" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1a8462beb8bf4d162a0f111f4eebe4301a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::resource::AdaptiveConnectionPool::AdaptiveConnectionPool</definition>
+        <argsstring>(const AdaptiveConnectionPool &amp;)=delete</argsstring>
+        <name>AdaptiveConnectionPool</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::AdaptiveConnectionPool</qualifiedname>
+        <param>
+          <type>const AdaptiveConnectionPool &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="78" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1a55a15f46f042d1e323d40c9a5124ed82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a22f619450cb0451e2c8a422f7d8c7900" kindref="member">AdaptiveConnectionPool</ref> &amp;</type>
+        <definition>AdaptiveConnectionPool &amp; themis::resource::AdaptiveConnectionPool::operator=</definition>
+        <argsstring>(const AdaptiveConnectionPool &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a22f619450cb0451e2c8a422f7d8c7900" kindref="member">AdaptiveConnectionPool</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="79" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1a4efc8a0ff5b718faa0e845faabcc5e09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::resource::AdaptiveConnectionPool::acquire</definition>
+        <argsstring>(std::chrono::milliseconds timeout, int &amp;slot_id)</argsstring>
+        <name>acquire</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::acquire</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>slot_id</declname>
+        </param>
+        <briefdescription>
+<para>Acquire. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">slot_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the slot. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">slot_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the slot. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), std::chrono::steady_clock::now(), lk(), wait_until(), empty(), count(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="87" column="10" bodyfile="src/base/resource_pool_manager.cpp" bodystart="86" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1ad49a988b8561777a511f6d1ae86664b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::resource::AdaptiveConnectionPool::release</definition>
+        <argsstring>(int slot_id)</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::release</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>slot_id</declname>
+        </param>
+        <briefdescription>
+<para>Release. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">slot_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the slot.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">slot_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the slot.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), push_back(), <ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1ae15f066dc5d8b7fd112921e52eba488c" kindref="member">size()</ref>, shrinkLocked(), notify_one(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="93" column="10" bodyfile="src/base/resource_pool_manager.cpp" bodystart="150" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1ae15f066dc5d8b7fd112921e52eba488c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::AdaptiveConnectionPool::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="95" column="18" bodyfile="src/base/resource_pool_manager.cpp" bodystart="175" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1aeebfa5dca3ee9d7f76250acab9513d02" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::AdaptiveConnectionPool::available</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>available</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::available</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="96" column="18" bodyfile="src/base/resource_pool_manager.cpp" bodystart="185" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1aebab910641b3042f7640652c65c7dbf4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::resource::AdaptiveConnectionPool::in_use</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>in_use</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::in_use</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="97" column="18" bodyfile="src/base/resource_pool_manager.cpp" bodystart="195" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1a66944dae9ed00a116a69897382a6e258" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1resource_1_1_adaptive_connection_pool_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>AdaptiveConnectionPool::Statistics themis::resource::AdaptiveConnectionPool::statistics</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>statistics</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::statistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="99" column="17" bodyfile="src/base/resource_pool_manager.cpp" bodystart="206" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1a67a0398ab745630b619f38dbf6154663" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::resource::AdaptiveConnectionPool::is_shutdown</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_shutdown</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::is_shutdown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="101" column="11" bodyfile="include/base/resource_pool_manager.h" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1a2136605303774c94ad871d37406ea9ec" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::resource::AdaptiveConnectionPool::shutdown</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="109" column="10" bodyfile="src/base/resource_pool_manager.cpp" bodystart="225" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1ab572cb5500cf96b1cadf8fb158d14b5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::resource::AdaptiveConnectionPool::forceScaleUp</definition>
+        <argsstring>()</argsstring>
+        <name>forceScaleUp</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::forceScaleUp</qualifiedname>
+        <briefdescription>
+<para>Force Scale Up. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), growLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="114" column="10" bodyfile="src/base/resource_pool_manager.cpp" bodystart="234" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1aeacf3de6432a5d51637696c2f5ed19a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::resource::AdaptiveConnectionPool::forceScaleDown</definition>
+        <argsstring>()</argsstring>
+        <name>forceScaleDown</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::forceScaleDown</qualifiedname>
+        <briefdescription>
+<para>Force Scale Down. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), shrinkLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="119" column="10" bodyfile="src/base/resource_pool_manager.cpp" bodystart="243" bodyend="248"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1a976730e0b16f411a24353ede19c91f10" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::resource::AdaptiveConnectionPool::growLocked</definition>
+        <argsstring>(std::size_t count)</argsstring>
+        <name>growLocked</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::growLocked</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Grow Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> grow / shrink (caller must hold mutex_) ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. Grow pool (caller holds lock).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::min(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="126" column="10" bodyfile="src/base/resource_pool_manager.cpp" bodystart="45" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1resource_1_1_adaptive_connection_pool_1a47512a77af58a1f651c19be347ec4bce" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::resource::AdaptiveConnectionPool::shrinkLocked</definition>
+        <argsstring>(std::size_t count)</argsstring>
+        <name>shrinkLocked</name>
+        <qualifiedname>themis::resource::AdaptiveConnectionPool::shrinkLocked</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Shrink Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. Shrink pool (caller holds lock).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::max(), std::min(), <ref refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1ae15f066dc5d8b7fd112921e52eba488c" kindref="member">size()</ref>, pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/base/resource_pool_manager.h" line="131" column="10" bodyfile="src/base/resource_pool_manager.cpp" bodystart="62" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/base/resource_pool_manager.h" line="45" column="1" bodyfile="include/base/resource_pool_manager.h" bodystart="45" bodyend="155"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a4efc8a0ff5b718faa0e845faabcc5e09" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>acquire</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a22f619450cb0451e2c8a422f7d8c7900" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>AdaptiveConnectionPool</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1af5a29645b57d948e3c27b49b8394750d" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>AdaptiveConnectionPool</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a8462beb8bf4d162a0f111f4eebe4301a" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>AdaptiveConnectionPool</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1aeebfa5dca3ee9d7f76250acab9513d02" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>available</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1acb67dc8034123a082648c77709f66bb9" prot="private" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>available_slots_</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a0702593677c3133d0289db7c1b6a58da" prot="private" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a70ae042437e598bf9dfcbd2a02c4a193" prot="private" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>cumulative_wait_ms_</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1ae18f82f42bd64979ab50eaa2ae81ed9f" prot="private" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1aeacf3de6432a5d51637696c2f5ed19a3" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>forceScaleDown</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1ab572cb5500cf96b1cadf8fb158d14b5c" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>forceScaleUp</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a976730e0b16f411a24353ede19c91f10" prot="private" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>growLocked</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a2e3be3bc9d3c864050669f26981eca95" prot="private" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>idle_periods_</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1aebab910641b3042f7640652c65c7dbf4" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>in_use</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a67a0398ab745630b619f38dbf6154663" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>is_shutdown</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a2c742635ce25b58959781d5552cde82b" prot="private" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>last_wait_start_</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1afc8735a8d7bde1eb6ab26561f29ba693" prot="private" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1acd86e353378f01b56d7a0461cfd4b189" prot="private" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>next_id_</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a55a15f46f042d1e323d40c9a5124ed82" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a4588f0c82058156fa935d0c4b4c83eb1" prot="private" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>peak_utilization_</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a82d31f6cec6ec7b9841338fa9291efd4" prot="private" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>pool_size_</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1ad49a988b8561777a511f6d1ae86664b2" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>release</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a0ab3105ed9dcb8a0bb066c5e63703715" prot="private" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>scale_down_events_</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1ada62969bac318d33c47689005633f668" prot="private" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>scale_up_events_</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a47512a77af58a1f651c19be347ec4bce" prot="private" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>shrinkLocked</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a2136605303774c94ad871d37406ea9ec" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1aa0fbc7f35ce65a25be62583ebc84146b" prot="private" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>shutdown_</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1ae15f066dc5d8b7fd112921e52eba488c" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>size</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a66944dae9ed00a116a69897382a6e258" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>statistics</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1ab954cf50f6e04c9330194b3857729079" prot="private" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>total_acquires_</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a613d3768eb550233c84b8300f17f3200" prot="private" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>total_timeouts_</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a514ee1747ea3e55ff976d800b5b78149" prot="private" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>wait_samples_</name></member>
+      <member refid="classthemis_1_1resource_1_1_adaptive_connection_pool_1a9900a6bafd3b303f0af4c051eee7cf46" prot="public" virt="non-virtual"><scope>themis::resource::AdaptiveConnectionPool</scope><name>~AdaptiveConnectionPool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

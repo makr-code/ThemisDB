@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_ai_operation_guard_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::AiOperationGuard::Config</compoundname>
+    <includes refid="ai__operation__guard_8h" local="no">ai_operation_guard.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1ab90dd4e5b4efadc5e804177492aa6af8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AiOperationGuard::Config::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::security::AiOperationGuard::Config::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="119" column="14" bodyfile="include/security/ai_operation_guard.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1abdb69f2a88c799599e05efc317e7a977" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72" kindref="member">OperationClass</ref></type>
+        <definition>OperationClass themis::security::AiOperationGuard::Config::approval_threshold</definition>
+        <argsstring></argsstring>
+        <name>approval_threshold</name>
+        <qualifiedname>themis::security::AiOperationGuard::Config::approval_threshold</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72a097089d52775e5518152edde5edbf418" kindref="member">OperationClass::DESTRUCTIVE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="121" column="24" bodyfile="include/security/ai_operation_guard.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1accb2dfe9be1dd07ca1e6d8580fb04782" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::AiOperationGuard::Config::approval_timeout_s</definition>
+        <argsstring></argsstring>
+        <name>approval_timeout_s</name>
+        <qualifiedname>themis::security::AiOperationGuard::Config::approval_timeout_s</qualifiedname>
+        <initializer>= 60</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="123" column="13" bodyfile="include/security/ai_operation_guard.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1a5a3438a406d7604647f8fce9882ead7b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AiOperationGuard::Config::auto_snapshot</definition>
+        <argsstring></argsstring>
+        <name>auto_snapshot</name>
+        <qualifiedname>themis::security::AiOperationGuard::Config::auto_snapshot</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="125" column="14" bodyfile="include/security/ai_operation_guard.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1aa4814cd4a65a40af37019007cb913047" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AiOperationGuard::Config::snapshot_dir</definition>
+        <argsstring></argsstring>
+        <name>snapshot_dir</name>
+        <qualifiedname>themis::security::AiOperationGuard::Config::snapshot_dir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="127" column="21" bodyfile="include/security/ai_operation_guard.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1ae1401dba6bc62fe796e7e408dd3a3e81" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AiOperationGuard::Config::dry_run_preview</definition>
+        <argsstring></argsstring>
+        <name>dry_run_preview</name>
+        <qualifiedname>themis::security::AiOperationGuard::Config::dry_run_preview</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="129" column="14" bodyfile="include/security/ai_operation_guard.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1a45719d9ede2095f9c70d1e9f0e953882" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AiOperationGuard::Config::environment</definition>
+        <argsstring></argsstring>
+        <name>environment</name>
+        <qualifiedname>themis::security::AiOperationGuard::Config::environment</qualifiedname>
+        <initializer>= &quot;development&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="132" column="34" bodyfile="include/security/ai_operation_guard.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1a66c1ccdf0b17f53974b6cd2fdccd2788" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::AiOperationGuard::Config::block_critical_in_prod</definition>
+        <argsstring></argsstring>
+        <name>block_critical_in_prod</name>
+        <qualifiedname>themis::security::AiOperationGuard::Config::block_critical_in_prod</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="133" column="34" bodyfile="include/security/ai_operation_guard.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1ad0fd04a95947d4551e44dd8c9f90acac" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::AiOperationGuard::Config::denied_collections</definition>
+        <argsstring></argsstring>
+        <name>denied_collections</name>
+        <qualifiedname>themis::security::AiOperationGuard::Config::denied_collections</qualifiedname>
+        <briefdescription>
+<para>Always hard-block. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="134" column="21" bodyfile="include/security/ai_operation_guard.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1a75ce868c67730c1cfe24a1a5d63e1e5a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::security::AiOperationGuard::Config::allowed_collections</definition>
+        <argsstring></argsstring>
+        <name>allowed_collections</name>
+        <qualifiedname>themis::security::AiOperationGuard::Config::allowed_collections</qualifiedname>
+        <briefdescription>
+<para>Empty = all allowed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="135" column="21" bodyfile="include/security/ai_operation_guard.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1af194ebb824dc4926b1ffc00741094955" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::AiOperationGuard::Config::critical_ops_role</definition>
+        <argsstring></argsstring>
+        <name>critical_ops_role</name>
+        <qualifiedname>themis::security::AiOperationGuard::Config::critical_ops_role</qualifiedname>
+        <initializer>= &quot;AI_DESTRUCTIVE_PRODUCTION_OPS&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="136" column="34" bodyfile="include/security/ai_operation_guard.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1a79be0d36d13203f3c80b293fa81db8f7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::AiOperationGuard::Config::Config</definition>
+        <argsstring>()</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::security::AiOperationGuard::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="138" column="9" bodyfile="include/security/ai_operation_guard.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/ai_operation_guard.h" line="118" column="5" bodyfile="include/security/ai_operation_guard.h" bodystart="118" bodyend="139"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1a75ce868c67730c1cfe24a1a5d63e1e5a" prot="public" virt="non-virtual"><scope>themis::security::AiOperationGuard::Config</scope><name>allowed_collections</name></member>
+      <member refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1abdb69f2a88c799599e05efc317e7a977" prot="public" virt="non-virtual"><scope>themis::security::AiOperationGuard::Config</scope><name>approval_threshold</name></member>
+      <member refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1accb2dfe9be1dd07ca1e6d8580fb04782" prot="public" virt="non-virtual"><scope>themis::security::AiOperationGuard::Config</scope><name>approval_timeout_s</name></member>
+      <member refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1a5a3438a406d7604647f8fce9882ead7b" prot="public" virt="non-virtual"><scope>themis::security::AiOperationGuard::Config</scope><name>auto_snapshot</name></member>
+      <member refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1a66c1ccdf0b17f53974b6cd2fdccd2788" prot="public" virt="non-virtual"><scope>themis::security::AiOperationGuard::Config</scope><name>block_critical_in_prod</name></member>
+      <member refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1a79be0d36d13203f3c80b293fa81db8f7" prot="public" virt="non-virtual"><scope>themis::security::AiOperationGuard::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1af194ebb824dc4926b1ffc00741094955" prot="public" virt="non-virtual"><scope>themis::security::AiOperationGuard::Config</scope><name>critical_ops_role</name></member>
+      <member refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1ad0fd04a95947d4551e44dd8c9f90acac" prot="public" virt="non-virtual"><scope>themis::security::AiOperationGuard::Config</scope><name>denied_collections</name></member>
+      <member refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1ae1401dba6bc62fe796e7e408dd3a3e81" prot="public" virt="non-virtual"><scope>themis::security::AiOperationGuard::Config</scope><name>dry_run_preview</name></member>
+      <member refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1ab90dd4e5b4efadc5e804177492aa6af8" prot="public" virt="non-virtual"><scope>themis::security::AiOperationGuard::Config</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1a45719d9ede2095f9c70d1e9f0e953882" prot="public" virt="non-virtual"><scope>themis::security::AiOperationGuard::Config</scope><name>environment</name></member>
+      <member refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config_1aa4814cd4a65a40af37019007cb913047" prot="public" virt="non-virtual"><scope>themis::security::AiOperationGuard::Config</scope><name>snapshot_dir</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

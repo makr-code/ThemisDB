@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="self__healing__plugin_8h" kind="file" language="C++">
+    <compoundname>self_healing_plugin.h</compoundname>
+    <includedby refid="plugin__health__monitor_8h" local="yes">include/plugins/plugin_health_monitor.h</includedby>
+    <includedby refid="plugin__manager_8cpp" local="yes">src/plugins/plugin_manager.cpp</includedby>
+    <includedby refid="test__plugin__health__monitor_8cpp" local="yes">tests/plugins/test_plugin_health_monitor.cpp</includedby>
+    <includedby refid="test__plugin__manager__comprehensive_8cpp" local="yes">tests/plugins/test_plugin_manager_comprehensive.cpp</includedby>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/plugins/plugin_health_monitor.h</label>
+        <link refid="plugin__health__monitor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/plugins/self_healing_plugin.h</label>
+        <link refid="self__healing__plugin_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/plugins/plugin_health_monitor.cpp</label>
+        <link refid="plugin__health__monitor_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/plugins/plugin_manager.cpp</label>
+        <link refid="plugin__manager_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/plugins/test_plugin_health_monitor.cpp</label>
+        <link refid="test__plugin__health__monitor_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/plugins/test_plugin_manager_comprehensive.cpp</label>
+        <link refid="test__plugin__manager__comprehensive_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1plugins_1_1_plugin_diagnostics" prot="public">themis::plugins::PluginDiagnostics</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1_i_self_healing_plugin" prot="public">themis::plugins::ISelfHealingPlugin</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1_recovery_result" prot="public">themis::plugins::RecoveryResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 97/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606" kindref="member">PluginHealthStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="20" refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606af068ebe4133e3e6563080836268ea979" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606af068ebe4133e3e6563080836268ea979" kindref="member">HEALTHY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="21" refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606a0021017005f0e5134b204c2e69d3d4ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606a0021017005f0e5134b204c2e69d3d4ed" kindref="member">DEGRADED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="22" refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606a7438a7e4e4f36f04fda32fa100121e47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606a7438a7e4e4f36f04fda32fa100121e47" kindref="member">UNHEALTHY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606a99cd1c61610c76a57cb8d10d6df6b870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">CRITICAL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606abdfbb6f2aa06fd5d4c2cc0072f960254" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606abdfbb6f2aa06fd5d4c2cc0072f960254" kindref="member">RECOVERING</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1plugins_1_1_plugin_diagnostics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics" kindref="compound">PluginDiagnostics</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1af1a9d82f6af4ca05c30f572f04747959" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606" kindref="member">PluginHealthStatus</ref><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1af1a9d82f6af4ca05c30f572f04747959" kindref="member">status</ref><sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606af068ebe4133e3e6563080836268ea979" kindref="member">PluginHealthStatus::HEALTHY</ref>;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a268790c042aa44f84882ba7ff56469ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a268790c042aa44f84882ba7ff56469ae" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1ab37df4bffa93f22e8e2b87ae8d32250e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1ab37df4bffa93f22e8e2b87ae8d32250e" kindref="member">error_code</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a0a3088b37885f76db49fff7e02056df6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a0a3088b37885f76db49fff7e02056df6" kindref="member">error_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a049fc80f36992c8de2eeb3b772cc51d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a049fc80f36992c8de2eeb3b772cc51d0" kindref="member">recovery_attempts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a2b92b6a464870faa3180594f3b16f6cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a2b92b6a464870faa3180594f3b16f6cd" kindref="member">successful_recoveries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a2b2b37290c748c7c0e362beb2d723b12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a2b2b37290c748c7c0e362beb2d723b12" kindref="member">failed_recoveries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a86cfff0ece7155d1b3b112eb23233fa9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a86cfff0ece7155d1b3b112eb23233fa9" kindref="member">memory_usage_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1afe5312275cc9412d4126931636b07fe5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1afe5312275cc9412d4126931636b07fe5" kindref="member">cpu_usage_percent</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a3f6bd107b623dbcc1785ae1307da7d8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a3f6bd107b623dbcc1785ae1307da7d8e" kindref="member">open_file_handles</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a3393f4272259e159aaf4a45c94cd989f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a3393f4272259e159aaf4a45c94cd989f" kindref="member">active_connections</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Recent<sp/>errors<sp/>(max<sp/>10)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1ac402f0d7bb772d2d6c9b11529b39c2a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1ac402f0d7bb772d2d6c9b11529b39c2a3" kindref="member">recent_errors</ref>;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1affaf85ff72fe2cf02201c3b656b8cee1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1affaf85ff72fe2cf02201c3b656b8cee1" kindref="member">last_error_time</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Recovery<sp/>recommendation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a16c53ccafbef4134282b59fc4bfa974f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a16c53ccafbef4134282b59fc4bfa974f" kindref="member">suggested_recovery_action</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a888004850e2fd712a1473b3837dbb34b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a888004850e2fd712a1473b3837dbb34b" kindref="member">available_recovery_strategies</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1abc07a9867ff9f80353ada36e87e25f4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1abc07a9867ff9f80353ada36e87e25f4b" kindref="member">average_response_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a710de381b8470f60abac595a1e61b5dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a710de381b8470f60abac595a1e61b5dd" kindref="member">total_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a92d8bccd3dc327f25f9588fd98a6c419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a92d8bccd3dc327f25f9588fd98a6c419" kindref="member">failed_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a07b76d12293d7c60f7aa4f1d20492459" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a07b76d12293d7c60f7aa4f1d20492459" kindref="member">getErrorRate</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a710de381b8470f60abac595a1e61b5dd" kindref="member">total_requests</ref><sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.0;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a92d8bccd3dc327f25f9588fd98a6c419" kindref="member">failed_requests</ref>)<sp/>/<sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a710de381b8470f60abac595a1e61b5dd" kindref="member">total_requests</ref>;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1ac5c55c6fe152bcbc772f979757aad71d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1ac5c55c6fe152bcbc772f979757aad71d" kindref="member">needsImmediateAttention</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1af1a9d82f6af4ca05c30f572f04747959" kindref="member">status</ref><sp/>==<sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606a99cd1c61610c76a57cb8d10d6df6b870" kindref="member">PluginHealthStatus::CRITICAL</ref><sp/>||<sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1af1a9d82f6af4ca05c30f572f04747959" kindref="member">status</ref><sp/>==<sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606abdfbb6f2aa06fd5d4c2cc0072f960254" kindref="member">PluginHealthStatus::RECOVERING</ref><sp/>||</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics_1a07b76d12293d7c60f7aa4f1d20492459" kindref="member">getErrorRate</ref>()<sp/>&gt;<sp/>0.5;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1d" kindref="member">RecoveryAction</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1dab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1dab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1da97c72aba842ef984c5a90c3687130f1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1da97c72aba842ef984c5a90c3687130f1a" kindref="member">CLEANUP_RESOURCES</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1da435d743b35551ea7106af41c4a308c01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1da435d743b35551ea7106af41c4a308c01" kindref="member">RECONNECT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1da27ae90752d293413c2806d8f288cc0a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1da27ae90752d293413c2806d8f288cc0a9" kindref="member">RELOAD_CONFIG</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1da13f74f892031cea0f5fe3c2acd763105" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1da13f74f892031cea0f5fe3c2acd763105" kindref="member">ROLLBACK_STATE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1dadb95e162e0f51597da37aaf2d9c15e41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1dadb95e162e0f51597da37aaf2d9c15e41" kindref="member">RESTART_PLUGIN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1da1a3060e1f7e261bab90c7d6491d2afb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1da1a3060e1f7e261bab90c7d6491d2afb9" kindref="member">SWITCH_TO_BACKUP</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1daf1492e72efda601f128ce505dad7ef3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1daf1492e72efda601f128ce505dad7ef3d" kindref="member">NOTIFY_ADMIN</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1plugins_1_1_i_self_healing_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin" kindref="compound">ISelfHealingPlugin</ref><sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a76c5b6410cd09452d6636e9d0a050de0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a76c5b6410cd09452d6636e9d0a050de0" kindref="member">~ISelfHealingPlugin</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120" refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a7a80178dbbffb1965eb386422decd5b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics" kindref="compound">PluginDiagnostics</ref><sp/><ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a7a80178dbbffb1965eb386422decd5b7" kindref="member">performHealthCheck</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a92b2ff7289f6fddaac735eeeba88034b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a92b2ff7289f6fddaac735eeeba88034b" kindref="member">attemptSelfRepair</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics" kindref="compound">PluginDiagnostics</ref>&amp;<sp/>diagnostics)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1af9dd0f9b69b25723b0ea4d1e379e7f2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1af9dd0f9b69b25723b0ea4d1e379e7f2b" kindref="member">cleanupResources</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168" refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a9bd6726e007f05c865377682973466be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a9bd6726e007f05c865377682973466be" kindref="member">rollbackToLastGoodState</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186" refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1ab8f2da2da737f9360323851302ae1b5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1ab8f2da2da737f9360323851302ae1b5e" kindref="member">saveCheckpoint</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195" refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a1dc5399b90e6b6eadb6bc793d79da6b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;RecoveryAction&gt;<sp/><ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a1dc5399b90e6b6eadb6bc793d79da6b9" kindref="member">getRecoveryStrategies</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="204" refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1ab96fbfa4585d99ec38f52a1e4851d752" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1ab96fbfa4585d99ec38f52a1e4851d752" kindref="member">executeRecoveryAction</ref>(<ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1d" kindref="member">RecoveryAction</ref><sp/>action)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>implementation<sp/>delegates<sp/>to<sp/>existing<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(action)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1da97c72aba842ef984c5a90c3687130f1a" kindref="member">RecoveryAction::CLEANUP_RESOURCES</ref>:</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1af9dd0f9b69b25723b0ea4d1e379e7f2b" kindref="member">cleanupResources</ref>();</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1da13f74f892031cea0f5fe3c2acd763105" kindref="member">RecoveryAction::ROLLBACK_STATE</ref>:</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a9bd6726e007f05c865377682973466be" kindref="member">rollbackToLastGoodState</ref>();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="229" refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a59292c66e40c5096821ab9f065f2db68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a59292c66e40c5096821ab9f065f2db68" kindref="member">getRecoveryConfiguration</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>R</highlight><highlight class="stringliteral">&quot;({</highlight></codeline>
+<codeline lineno="231"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;max_recovery_attempts&quot;:<sp/>3,</highlight></codeline>
+<codeline lineno="232"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;recovery_timeout_seconds&quot;:<sp/>30,</highlight></codeline>
+<codeline lineno="233"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;backoff_strategy&quot;:<sp/>&quot;exponential&quot;,</highlight></codeline>
+<codeline lineno="234"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;notify_admin_on_failure&quot;:<sp/>true</highlight></codeline>
+<codeline lineno="235"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})&quot;;</highlight></codeline>
+<codeline lineno="236"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="237"><highlight class="stringliteral">};</highlight></codeline>
+<codeline lineno="238"><highlight class="stringliteral"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242" refid="structthemis_1_1plugins_1_1_recovery_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1_recovery_result" kindref="compound">RecoveryResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="243" refid="structthemis_1_1plugins_1_1_recovery_result_1a88939c6172d7a11673043dc21e10df7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_recovery_result_1a88939c6172d7a11673043dc21e10df7e" kindref="member">successful</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244" refid="structthemis_1_1plugins_1_1_recovery_result_1a1ffff7b10e354f90ed6675b0d06d8fac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1d" kindref="member">RecoveryAction</ref><sp/><ref refid="structthemis_1_1plugins_1_1_recovery_result_1a1ffff7b10e354f90ed6675b0d06d8fac" kindref="member">action_taken</ref><sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1dab50339a10e1de285ac99d4c3990b8693" kindref="member">RecoveryAction::NONE</ref>;</highlight></codeline>
+<codeline lineno="245" refid="structthemis_1_1plugins_1_1_recovery_result_1a78df3591b74a1f13593aa0e925655b7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1plugins_1_1_recovery_result_1a78df3591b74a1f13593aa0e925655b7b" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="246" refid="structthemis_1_1plugins_1_1_recovery_result_1a8ac7ba4a490c81a813965f0b2dcb01e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1plugins_1_1_recovery_result_1a8ac7ba4a490c81a813965f0b2dcb01e2" kindref="member">duration</ref>{0};</highlight></codeline>
+<codeline lineno="247" refid="structthemis_1_1plugins_1_1_recovery_result_1a73638a07a775dd7f12b045aa23e5a062" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606" kindref="member">PluginHealthStatus</ref><sp/><ref refid="structthemis_1_1plugins_1_1_recovery_result_1a73638a07a775dd7f12b045aa23e5a062" kindref="member">status_after_recovery</ref><sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606a7438a7e4e4f36f04fda32fa100121e47" kindref="member">PluginHealthStatus::UNHEALTHY</ref>;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253" refid="namespacethemis_1_1plugins_1a37e5bef1af84b5ff1b61d20e05e79fe5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1a37e5bef1af84b5ff1b61d20e05e79fe5" kindref="member">RecoveryEventCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>plugin_name,</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1_recovery_result" kindref="compound">RecoveryResult</ref>&amp;<sp/>result</highlight></codeline>
+<codeline lineno="256"><highlight class="normal">)&gt;;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/plugins/self_healing_plugin.h"/>
+  </compounddef>
+</doxygen>

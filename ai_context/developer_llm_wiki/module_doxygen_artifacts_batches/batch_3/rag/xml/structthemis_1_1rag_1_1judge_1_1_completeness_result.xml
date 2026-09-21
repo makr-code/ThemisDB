@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_completeness_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::CompletenessResult</compoundname>
+    <includes refid="completeness__evaluator_8h" local="no">completeness_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_completeness_result_1a6f5cbbfbd43047a7bf9beb2c9971d0fe" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CompletenessResult::completeness_score</definition>
+        <argsstring></argsstring>
+        <name>completeness_score</name>
+        <qualifiedname>themis::rag::judge::CompletenessResult::completeness_score</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Overall score 0-1. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="43" column="12" bodyfile="include/rag/completeness_evaluator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_completeness_result_1a29230a3ee7e36d9ceb3241b5b23ca6ee" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_query_aspect" kindref="compound">QueryAspect</ref> &gt;</type>
+        <definition>std::vector&lt;QueryAspect&gt; themis::rag::judge::CompletenessResult::aspects</definition>
+        <argsstring></argsstring>
+        <name>aspects</name>
+        <qualifiedname>themis::rag::judge::CompletenessResult::aspects</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="44" column="17" bodyfile="include/rag/completeness_evaluator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_completeness_result_1aadb8ab9e1c0cd3a86a7912c054086822" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::CompletenessResult::covered_aspects_count</definition>
+        <argsstring></argsstring>
+        <name>covered_aspects_count</name>
+        <qualifiedname>themis::rag::judge::CompletenessResult::covered_aspects_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="45" column="12" bodyfile="include/rag/completeness_evaluator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_completeness_result_1aa0ee3b9c0605177ec934d1324486d775" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::CompletenessResult::total_aspects_count</definition>
+        <argsstring></argsstring>
+        <name>total_aspects_count</name>
+        <qualifiedname>themis::rag::judge::CompletenessResult::total_aspects_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="46" column="12" bodyfile="include/rag/completeness_evaluator.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_completeness_result_1a7d00497ae3aa1a27e1d634ea38ef0653" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CompletenessResult::weighted_coverage_score</definition>
+        <argsstring></argsstring>
+        <name>weighted_coverage_score</name>
+        <qualifiedname>themis::rag::judge::CompletenessResult::weighted_coverage_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="47" column="12" bodyfile="include/rag/completeness_evaluator.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_completeness_result_1af99cbd38363db49ca683e592a42e111a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1a39c94c98e8bf51c2b32898a6ac7bd9de" kindref="member">DepthLevel</ref></type>
+        <definition>DepthLevel themis::rag::judge::CompletenessResult::depth_level</definition>
+        <argsstring></argsstring>
+        <name>depth_level</name>
+        <qualifiedname>themis::rag::judge::CompletenessResult::depth_level</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="48" column="16" bodyfile="include/rag/completeness_evaluator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_completeness_result_1ade1bbb257a851bf41b2cc8407348ac12" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CompletenessResult::depth_score</definition>
+        <argsstring></argsstring>
+        <name>depth_score</name>
+        <qualifiedname>themis::rag::judge::CompletenessResult::depth_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="49" column="12" bodyfile="include/rag/completeness_evaluator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_completeness_result_1ab2a44b3467a7eed5f4a7df87c7cbb754" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::CompletenessResult::missing_information</definition>
+        <argsstring></argsstring>
+        <name>missing_information</name>
+        <qualifiedname>themis::rag::judge::CompletenessResult::missing_information</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="50" column="17" bodyfile="include/rag/completeness_evaluator.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_completeness_result_1a1cfba5c08b87b73014ae9a247fff2f33" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::CompletenessResult::explanation</definition>
+        <argsstring></argsstring>
+        <name>explanation</name>
+        <qualifiedname>themis::rag::judge::CompletenessResult::explanation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="51" column="17" bodyfile="include/rag/completeness_evaluator.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Completeness evaluation result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/completeness_evaluator.h" line="42" column="1" bodyfile="include/rag/completeness_evaluator.h" bodystart="42" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_result_1a29230a3ee7e36d9ceb3241b5b23ca6ee" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessResult</scope><name>aspects</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_result_1a6f5cbbfbd43047a7bf9beb2c9971d0fe" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessResult</scope><name>completeness_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_result_1aadb8ab9e1c0cd3a86a7912c054086822" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessResult</scope><name>covered_aspects_count</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_result_1af99cbd38363db49ca683e592a42e111a" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessResult</scope><name>depth_level</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_result_1ade1bbb257a851bf41b2cc8407348ac12" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessResult</scope><name>depth_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_result_1a1cfba5c08b87b73014ae9a247fff2f33" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessResult</scope><name>explanation</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_result_1ab2a44b3467a7eed5f4a7df87c7cbb754" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessResult</scope><name>missing_information</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_result_1aa0ee3b9c0605177ec934d1324486d775" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessResult</scope><name>total_aspects_count</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_completeness_result_1a7d00497ae3aa1a27e1d634ea38ef0653" prot="public" virt="non-virtual"><scope>themis::rag::judge::CompletenessResult</scope><name>weighted_coverage_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

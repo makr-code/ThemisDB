@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_14697921966748f9300a90d29092db5c" kind="dir">
+    <compoundname>benchmarks/performance</compoundname>
+    <innerfile refid="bench__performance__release__gates_8cpp">bench_performance_release_gates.cpp</innerfile>
+    <innerfile refid="bench__random__access__prefetch_8cpp">bench_random_access_prefetch.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/performance/"/>
+  </compounddef>
+</doxygen>

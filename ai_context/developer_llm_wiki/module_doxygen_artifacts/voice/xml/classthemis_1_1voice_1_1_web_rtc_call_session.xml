@@ -1,0 +1,771 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_web_rtc_call_session" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::WebRtcCallSession</compoundname>
+    <includes refid="voice__telephony_8h" local="no">voice_telephony.h</includes>
+    <innerclass refid="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config" prot="public">themis::voice::WebRtcCallSession::Config</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_impl" prot="public">themis::voice::WebRtcCallSession::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1voice_1_1_web_rtc_call_session_1a3b1ef797b65a2c4b718e4539e065ab76" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1voice_1_1_call_transcript" kindref="compound">CallTranscript</ref> &amp;)&gt;</type>
+        <definition>using themis::voice::WebRtcCallSession::TranscriptCb = std::function&lt;void(const CallTranscript&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TranscriptCb</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::TranscriptCb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="441" column="5" bodyfile="include/voice/voice_telephony.h" bodystart="441" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1voice_1_1_web_rtc_call_session_1aa30e50ff664056bc7012005a55609703" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1voice_1_1_dtmf_event" kindref="compound">DtmfEvent</ref> &amp;)&gt;</type>
+        <definition>using themis::voice::WebRtcCallSession::DtmfCb = std::function&lt;void(const DtmfEvent&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>DtmfCb</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::DtmfCb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="442" column="5" bodyfile="include/voice/voice_telephony.h" bodystart="442" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1voice_1_1_web_rtc_call_session_1ae649a84f7256a9099b7c5dba281e9217" prot="public" static="no">
+        <type>std::function&lt; void(<ref refid="namespacethemis_1_1voice_1af24c401441bb95b17f0893e73cc02c10" kindref="member">CallState</ref>)&gt;</type>
+        <definition>using themis::voice::WebRtcCallSession::StateCb = std::function&lt;void(CallState)&gt;</definition>
+        <argsstring></argsstring>
+        <name>StateCb</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::StateCb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="443" column="5" bodyfile="include/voice/voice_telephony.h" bodystart="443" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1voice_1_1_web_rtc_call_session_1a4c950013af16a96f8558d14904089191" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+        <definition>using themis::voice::WebRtcCallSession::ErrorCb = std::function&lt;void(const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ErrorCb</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::ErrorCb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="444" column="5" bodyfile="include/voice/voice_telephony.h" bodystart="444" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1voice_1_1_web_rtc_call_session_1a6a608b54f2430732e835d293bc024e05" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;candidate_json)&gt;</type>
+        <definition>using themis::voice::WebRtcCallSession::IceCandidateCb = std::function&lt;void(const std::string&amp; candidate_json)&gt;</definition>
+        <argsstring></argsstring>
+        <name>IceCandidateCb</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::IceCandidateCb</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="445" column="5" bodyfile="include/voice/voice_telephony.h" bodystart="445" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_web_rtc_call_session_1a97752393ff306b9fa900fd144747c8fa" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::voice::WebRtcCallSession::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="466" column="21" bodyfile="include/voice/voice_telephony.h" bodystart="466" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1ae3d7bb8ea138bada6ec4c49061c0979b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1voice_1_1_web_rtc_call_session_1acb70dbda54feaedf8fc72b375bb0b5ad" kindref="member">WebRtcCallSession</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; WebRtcCallSession &gt; themis::voice::WebRtcCallSession::create</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::create</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Factory: construct and return a new WebRTC session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if config is invalid.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1voice_1_1_web_rtc_call_session_1acb70dbda54feaedf8fc72b375bb0b5ad" kindref="member">WebRtcCallSession()</ref>, std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="353" column="28" bodyfile="src/voice/voice_telephony.cpp" bodystart="700" bodyend="702"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1aeb06f10547d2358eb0093592b0cda9b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::WebRtcCallSession::~WebRtcCallSession</definition>
+        <argsstring>()</argsstring>
+        <name>~WebRtcCallSession</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::~WebRtcCallSession</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="355" column="5" bodyfile="src/voice/voice_telephony.cpp" bodystart="682" bodyend="692"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1acb70dbda54feaedf8fc72b375bb0b5ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::WebRtcCallSession::WebRtcCallSession</definition>
+        <argsstring>(const WebRtcCallSession &amp;)=delete</argsstring>
+        <name>WebRtcCallSession</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::WebRtcCallSession</qualifiedname>
+        <param>
+          <type>const WebRtcCallSession &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="358" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1aaf328e820d119bcb25c3c2dfafbf7621" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1voice_1_1_web_rtc_call_session_1acb70dbda54feaedf8fc72b375bb0b5ad" kindref="member">WebRtcCallSession</ref> &amp;</type>
+        <definition>WebRtcCallSession &amp; themis::voice::WebRtcCallSession::operator=</definition>
+        <argsstring>(const WebRtcCallSession &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1voice_1_1_web_rtc_call_session_1acb70dbda54feaedf8fc72b375bb0b5ad" kindref="member">WebRtcCallSession</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="359" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1aed2c02b7df20c517c4179a38300534cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::WebRtcCallSession::processOffer</definition>
+        <argsstring>(const std::string &amp;sdp_offer)</argsstring>
+        <name>processOffer</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::processOffer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sdp_offer</declname>
+        </param>
+        <briefdescription>
+<para>Process an SDP offer from the remote peer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Process Offer.</para>
+<para>Selects the best matching codec from the offer, generates an SDP answer, and prepares ICE/DTLS parameters.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sdp_offer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SDP string from the remote WebRTC client. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>SDP answer string to be returned to the peer. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if SDP cannot be parsed or no codec matches.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sdp_offer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), parseSdpCodec(), generateCallId(), buildSdpAnswer(), setState(), on_local_ice(), str(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="373" column="17" bodyfile="src/voice/voice_telephony.cpp" bodystart="711" bodyend="730"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1aed7fdf3d5ca102b003142567cd85fdb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::WebRtcCallSession::addIceCandidate</definition>
+        <argsstring>(const std::string &amp;candidate_json)</argsstring>
+        <name>addIceCandidate</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::addIceCandidate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>candidate_json</declname>
+        </param>
+        <briefdescription>
+<para>Add a remote ICE candidate (from the trickle-ICE exchange). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Ice Candidate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>candidate_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON object with &quot;candidate&quot;, &quot;sdpMid&quot;, &quot;sdpMLineIndex&quot; keys (as produced by the browser).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">candidate_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="381" column="10" bodyfile="src/voice/voice_telephony.cpp" bodystart="737" bodyend="740"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1a4e30dc4fa118e65556df6a9b366b6b64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1abfcd586292b48c60ed80b6cbe575e22f" kindref="member">CallID</ref></type>
+        <definition>CallID themis::voice::WebRtcCallSession::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::start</qualifiedname>
+        <briefdescription>
+<para>Start the session after ICE/DTLS negotiation completes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para><simplesect kind="return"><para>The session&apos;s unique <ref refid="namespacethemis_1_1voice_1abfcd586292b48c60ed80b6cbe575e22f" kindref="member">CallID</ref>.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), generateCallId(), telephonyNowMs(), setState(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="389" column="12" bodyfile="src/voice/voice_telephony.cpp" bodystart="747" bodyend="759"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1a5d321e5f5f4ffec7cb9715d101654a9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::WebRtcCallSession::end</definition>
+        <argsstring>()</argsstring>
+        <name>end</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::end</qualifiedname>
+        <briefdescription>
+<para>Terminate the WebRTC connection and flush STT buffers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>End.</para>
+<para>Calls: empty(), runCallStt(), clear(), on_transcript(), setState(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="394" column="10" bodyfile="src/voice/voice_telephony.cpp" bodystart="765" bodyend="781"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1a62690f4e70ec53859b5d74d068683acb" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::WebRtcCallSession::isActive</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isActive</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::isActive</qualifiedname>
+        <briefdescription>
+<para>True while the connection is active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="397" column="10" bodyfile="src/voice/voice_telephony.cpp" bodystart="783" bodyend="786"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1aa45ad48723e72102f921031f8ae5027d" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1af24c401441bb95b17f0893e73cc02c10" kindref="member">CallState</ref></type>
+        <definition>CallState themis::voice::WebRtcCallSession::state</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>state</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::state</qualifiedname>
+        <briefdescription>
+<para>Current call state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="400" column="15" bodyfile="src/voice/voice_telephony.cpp" bodystart="788" bodyend="790"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1a7e37ad3816e8485278b98d7f024f0ce4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_call_transcript" kindref="compound">CallTranscript</ref></type>
+        <definition>CallTranscript themis::voice::WebRtcCallSession::receiveAudioFrame</definition>
+        <argsstring>(const std::vector&lt; int16_t &gt; &amp;pcm_samples)</argsstring>
+        <name>receiveAudioFrame</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::receiveAudioFrame</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int16_t &gt; &amp;</type>
+          <declname>pcm_samples</declname>
+        </param>
+        <briefdescription>
+<para>Feed a decoded PCM audio frame from the DTLS-SRTP stack. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Receive Audio Frame.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pcm_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>16-bit signed PCM at the negotiated sample rate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Incremental <ref refid="structthemis_1_1voice_1_1_call_transcript" kindref="compound">CallTranscript</ref>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pcm_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: telephonyNowMs(), THEMIS_WARN(), <ref refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a5d321e5f5f4ffec7cb9715d101654a9d" kindref="member">end()</ref>, insert(), begin(), size(), runCallStt(), on_transcript(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="410" column="20" bodyfile="src/voice/voice_telephony.cpp" bodystart="798" bodyend="823"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1a29c78fe0b82a338aa9b4f64105342d68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::WebRtcCallSession::injectDtmf</definition>
+        <argsstring>(const DtmfEvent &amp;event)</argsstring>
+        <name>injectDtmf</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::injectDtmf</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_dtmf_event" kindref="compound">DtmfEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Inject a DTMF event decoded from the media track. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Inject Dtmf.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_INFO(), on_dtmf(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="415" column="10" bodyfile="src/voice/voice_telephony.cpp" bodystart="830" bodyend="839"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1a36189b155d9cd39d3bcdded973ad1b04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; uint8_t &gt; &gt; themis::voice::WebRtcCallSession::synthesizeTts</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>synthesizeTts</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::synthesizeTts</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Synthesise <computeroutput>text</computeroutput> and return Opus-encoded RTP packets. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When a TTS backend has been injected via <ref refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a57fd5827ddff8f9beeabc6719df4b078" kindref="member">setTtsBackend()</ref>, delegates synthesis to that backend and wraps each returned frame with a minimal Opus RTP header (PT=111). Without an injected backend the previous stub behaviour (raw text bytes in an RTP packet) is retained for compatibility. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="427" column="17" bodyfile="src/voice/voice_telephony.cpp" bodystart="842" bodyend="888"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1a57fd5827ddff8f9beeabc6719df4b078" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::WebRtcCallSession::setTtsBackend</definition>
+        <argsstring>(std::shared_ptr&lt; ITtsBackend &gt; backend)</argsstring>
+        <name>setTtsBackend</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::setTtsBackend</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1voice_1_1_i_tts_backend" kindref="compound">ITtsBackend</ref> &gt;</type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para>Inject a TTS backend for real Opus audio synthesis. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Tts Backend.</para>
+<para>When set, <computeroutput><ref refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a36189b155d9cd39d3bcdded973ad1b04" kindref="member">synthesizeTts()</ref></computeroutput> delegates to this backend. Pass <computeroutput>nullptr</computeroutput> to revert to the stub (raw-text) fallback.</para>
+<para>Thread safety: must be called before the first <computeroutput><ref refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a36189b155d9cd39d3bcdded973ad1b04" kindref="member">synthesizeTts()</ref></computeroutput> call.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="437" column="10" bodyfile="src/voice/voice_telephony.cpp" bodystart="895" bodyend="897"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1af039eee6bc6b7f828526b73ea0561ea1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::WebRtcCallSession::onTranscript</definition>
+        <argsstring>(TranscriptCb cb)</argsstring>
+        <name>onTranscript</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::onTranscript</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a3b1ef797b65a2c4b718e4539e065ab76" kindref="member">TranscriptCb</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>On Transcript. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="447" column="10" bodyfile="src/voice/voice_telephony.cpp" bodystart="904" bodyend="904"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1aad1246a23fe8402d6b7588b73f1fd047" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::WebRtcCallSession::onDtmf</definition>
+        <argsstring>(DtmfCb cb)</argsstring>
+        <name>onDtmf</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::onDtmf</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1_web_rtc_call_session_1aa30e50ff664056bc7012005a55609703" kindref="member">DtmfCb</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>On Dtmf. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="448" column="10" bodyfile="src/voice/voice_telephony.cpp" bodystart="910" bodyend="910"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1a78fa57ae6ffa30d3c1638766f42c431d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::WebRtcCallSession::onStateChange</definition>
+        <argsstring>(StateCb cb)</argsstring>
+        <name>onStateChange</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::onStateChange</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1_web_rtc_call_session_1ae649a84f7256a9099b7c5dba281e9217" kindref="member">StateCb</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>On State Change. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="449" column="10" bodyfile="src/voice/voice_telephony.cpp" bodystart="916" bodyend="916"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1af1d2bd2c7fcbbe657c51019bdbb88fb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::WebRtcCallSession::onError</definition>
+        <argsstring>(ErrorCb cb)</argsstring>
+        <name>onError</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::onError</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a4c950013af16a96f8558d14904089191" kindref="member">ErrorCb</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>On Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="450" column="10" bodyfile="src/voice/voice_telephony.cpp" bodystart="922" bodyend="922"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1a8ac5c8c3cad5150661c5e9fae67e2a9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::WebRtcCallSession::onLocalIceCandidate</definition>
+        <argsstring>(IceCandidateCb cb)</argsstring>
+        <name>onLocalIceCandidate</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::onLocalIceCandidate</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a6a608b54f2430732e835d293bc024e05" kindref="member">IceCandidateCb</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Called when the local ICE candidate is ready to be sent to the peer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On Local Ice Candidate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="452" column="10" bodyfile="src/voice/voice_telephony.cpp" bodystart="928" bodyend="928"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1a59609280f3c47430b84d8fc73bc1952d" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1abfcd586292b48c60ed80b6cbe575e22f" kindref="member">CallID</ref></type>
+        <definition>CallID themis::voice::WebRtcCallSession::callId</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>callId</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::callId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="456" column="23" bodyfile="src/voice/voice_telephony.cpp" bodystart="930" bodyend="930"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1a80cf11820fe551f1580921c6cc7d403a" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const WebRtcCallSession::Config &amp; themis::voice::WebRtcCallSession::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="457" column="22" bodyfile="src/voice/voice_telephony.cpp" bodystart="931" bodyend="931"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1a4e83404bf54f757d7c969e48199d6829" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::WebRtcCallSession::startedAtMs</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>startedAtMs</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::startedAtMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="458" column="23" bodyfile="src/voice/voice_telephony.cpp" bodystart="932" bodyend="932"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1ae29ca824c97e6631eb8cc8d1daab1199" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::voice::WebRtcCallSession::bytesReceived</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>bytesReceived</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::bytesReceived</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="459" column="23" bodyfile="src/voice/voice_telephony.cpp" bodystart="933" bodyend="933"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1adb3a74d717a4e014d41f4d8171951305" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::WebRtcCallSession::negotiatedSdp</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>negotiatedSdp</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::negotiatedSdp</qualifiedname>
+        <briefdescription>
+<para>SDP answer used. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="460" column="23" bodyfile="src/voice/voice_telephony.cpp" bodystart="934" bodyend="934"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_web_rtc_call_session_1a37d5bc07415078816ac6211ae67fc05d" prot="private" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::WebRtcCallSession::WebRtcCallSession</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>WebRtcCallSession</name>
+        <qualifiedname>themis::voice::WebRtcCallSession::WebRtcCallSession</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1voice_1_1_web_rtc_call_session_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_telephony.h" line="463" column="14" bodyfile="src/voice/voice_telephony.cpp" bodystart="672" bodyend="680"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages one WebRTC peer-connection session within the voice pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Handles the WebRTC offer/answer exchange (SDP), DTLS-SRTP media, Opus audio decoding, ICE candidate processing, DTMF, and STT forwarding.</para>
+<sect1 id="classthemis_1_1voice_1_1_web_rtc_call_session_1autotoc_md37_1s1"><sect2 id="classthemis_1_1voice_1_1_web_rtc_call_session_1autotoc_md37">
+<title>Typical browser-initiated flow</title><para><programlisting filename=".cpp"><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>session<sp/>=<sp/><ref refid="classthemis_1_1voice_1_1_web_rtc_call_session_1ae3d7bb8ea138bada6ec4c49061c0979b" kindref="member">WebRtcCallSession::create</ref>(<ref refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a80cf11820fe551f1580921c6cc7d403a" kindref="member">config</ref>);</highlight></codeline>
+<codeline><highlight class="normal">session-&gt;onTranscript([](</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t){<sp/></highlight><highlight class="comment">//<sp/>process</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>answer_sdp<sp/>=<sp/>session-&gt;processOffer(offer_sdp);</highlight></codeline>
+<codeline><highlight class="normal">session-&gt;start();</highlight></codeline>
+<codeline><highlight class="normal">session-&gt;addIceCandidate(ice_json);</highlight></codeline>
+<codeline><highlight class="normal">session-&gt;receiveAudioFrame(pcm);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>called<sp/>by<sp/>DTLS-SRTP<sp/>stack</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">session-&gt;end();</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/voice/voice_telephony.h" line="332" column="1" bodyfile="include/voice/voice_telephony.h" bodystart="332" bodyend="467"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1aed7fdf3d5ca102b003142567cd85fdb6" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>addIceCandidate</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1ae29ca824c97e6631eb8cc8d1daab1199" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>bytesReceived</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a59609280f3c47430b84d8fc73bc1952d" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>callId</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a80cf11820fe551f1580921c6cc7d403a" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>config</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1ae3d7bb8ea138bada6ec4c49061c0979b" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>create</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1aa30e50ff664056bc7012005a55609703" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>DtmfCb</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a5d321e5f5f4ffec7cb9715d101654a9d" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>end</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a4c950013af16a96f8558d14904089191" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>ErrorCb</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a6a608b54f2430732e835d293bc024e05" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>IceCandidateCb</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a97752393ff306b9fa900fd144747c8fa" prot="private" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a29c78fe0b82a338aa9b4f64105342d68" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>injectDtmf</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a62690f4e70ec53859b5d74d068683acb" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>isActive</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1adb3a74d717a4e014d41f4d8171951305" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>negotiatedSdp</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1aad1246a23fe8402d6b7588b73f1fd047" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>onDtmf</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1af1d2bd2c7fcbbe657c51019bdbb88fb5" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>onError</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a8ac5c8c3cad5150661c5e9fae67e2a9a" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>onLocalIceCandidate</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a78fa57ae6ffa30d3c1638766f42c431d" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>onStateChange</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1af039eee6bc6b7f828526b73ea0561ea1" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>onTranscript</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1aaf328e820d119bcb25c3c2dfafbf7621" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1aed2c02b7df20c517c4179a38300534cb" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>processOffer</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a7e37ad3816e8485278b98d7f024f0ce4" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>receiveAudioFrame</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a57fd5827ddff8f9beeabc6719df4b078" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>setTtsBackend</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a4e30dc4fa118e65556df6a9b366b6b64" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>start</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a4e83404bf54f757d7c969e48199d6829" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>startedAtMs</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1aa45ad48723e72102f921031f8ae5027d" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>state</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1ae649a84f7256a9099b7c5dba281e9217" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>StateCb</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a36189b155d9cd39d3bcdded973ad1b04" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>synthesizeTts</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a3b1ef797b65a2c4b718e4539e065ab76" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>TranscriptCb</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1acb70dbda54feaedf8fc72b375bb0b5ad" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>WebRtcCallSession</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1a37d5bc07415078816ac6211ae67fc05d" prot="private" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>WebRtcCallSession</name></member>
+      <member refid="classthemis_1_1voice_1_1_web_rtc_call_session_1aeb06f10547d2358eb0093592b0cda9b7" prot="public" virt="non-virtual"><scope>themis::voice::WebRtcCallSession</scope><name>~WebRtcCallSession</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

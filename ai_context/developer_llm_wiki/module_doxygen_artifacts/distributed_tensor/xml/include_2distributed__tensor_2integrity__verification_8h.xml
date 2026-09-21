@@ -1,0 +1,321 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="include_2distributed__tensor_2integrity__verification_8h" kind="file" language="C++">
+    <compoundname>integrity_verification.h</compoundname>
+    <includes refid="include_2distributed__tensor_2artifact__manifest_8h" local="yes">distributed_tensor/artifact_manifest.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="integrity__verification_8cc" local="yes">src/distributed_tensor/integrity_verification.cc</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>distributed_tensor/artifact_manifest.h</label>
+        <link refid="include_2distributed__tensor_2artifact__manifest_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/distributed_tensor/integrity_verification.h</label>
+        <link refid="include_2distributed__tensor_2integrity__verification_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>distributed_tensor/tensor_artifact_classes.h</label>
+        <link refid="include_2distributed__tensor_2tensor__artifact__classes_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/distributed_tensor/integrity_verification.h</label>
+        <link refid="include_2distributed__tensor_2integrity__verification_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/distributed_tensor/integrity_verification.cc</label>
+        <link refid="integrity__verification_8cc"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_merkle_tree_node" prot="public">themis::distributed_tensor::MerkleTreeNode</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt" prot="public">themis::distributed_tensor::IntegrityVerificationReceipt</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine" prot="public">themis::distributed_tensor::IntegrityVerificationEngine</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine" prot="public">themis::distributed_tensor::DefaultIntegrityVerificationEngine</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1distributed__tensor">themis::distributed_tensor</innernamespace>
+    <briefdescription>
+<para>Integrity verification for distributed tensor artifacts. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides cryptographic hash verification for individual shards and full artifact manifests to detect corruption during transfer or storage. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2026<sp/>ThemisDB<sp/>Team</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="include_2distributed__tensor_2artifact__manifest_8h" kindref="compound">distributed_tensor/artifact_manifest.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__tensor" kindref="compound">distributed_tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27" kindref="member">HashAlgorithm</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27ab505df5aa812b4f320420b8a952f20e5" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27ab505df5aa812b4f320420b8a952f20e5" kindref="member">SHA256</ref>,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27a021508d03d4b477e1a922f793599d69f" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27a021508d03d4b477e1a922f793599d69f" kindref="member">BLAKE3</ref>,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27af5478d64c1261687e75c7df6077268c2" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27af5478d64c1261687e75c7df6077268c2" kindref="member">BLAKE2B</ref>,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27a0bff498c6dfc387bd350ffee848cc864" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27a0bff498c6dfc387bd350ffee848cc864" kindref="member">SHA3_256</ref>,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1distributed__tensor_1_1_merkle_tree_node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_merkle_tree_node" kindref="compound">MerkleTreeNode</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1distributed__tensor_1_1_merkle_tree_node_1a779e46b0a3fb424112540485d4af8261" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_merkle_tree_node_1a779e46b0a3fb424112540485d4af8261" kindref="member">hash</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1distributed__tensor_1_1_merkle_tree_node_1a19be1dfbf9509cdb4de1b0c809944f83" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_merkle_tree_node_1a19be1dfbf9509cdb4de1b0c809944f83" kindref="member">level</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1distributed__tensor_1_1_merkle_tree_node_1aeb51c325f1972efb6c0fe9c5f3c03fa5" refkind="member"><highlight class="normal"><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_merkle_tree_node_1aeb51c325f1972efb6c0fe9c5f3c03fa5" kindref="member">index</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1distributed__tensor_1_1_merkle_tree_node_1a9e6127f1e36ff3bf9d23d571d04768a6" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_merkle_tree_node_1a9e6127f1e36ff3bf9d23d571d04768a6" kindref="member">children_hashes</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1distributed__tensor_1_1_merkle_tree_node_1a315ae94bd858a205579c6bafccc55fa6" refkind="member"><highlight class="normal"><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_merkle_tree_node_1a315ae94bd858a205579c6bafccc55fa6" kindref="member">custom_metadata</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a4cd150ecb5e9a52c4a82c6474b2750a3" kindref="member">IntegrityVerificationReceipt</ref><sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a4cd150ecb5e9a52c4a82c6474b2750a3" kindref="member">IntegrityVerificationReceipt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a89476836913faaa19810ed84dab82278" kindref="member">artifact_id</ref>,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27" kindref="member">HashAlgorithm</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a8a96f4313f3d1f47bb34f07a2031e028" kindref="member">algorithm</ref>);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1ab72247741c123051a8ac94279d6d057d" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1ab72247741c123051a8ac94279d6d057d" kindref="member">IntegrityVerificationReceipt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a4cd150ecb5e9a52c4a82c6474b2750a3" kindref="member">IntegrityVerificationReceipt</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a72de63b2fdcbab89a787ca2035c1dcfb" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a72de63b2fdcbab89a787ca2035c1dcfb" kindref="member">IntegrityVerificationReceipt</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a4cd150ecb5e9a52c4a82c6474b2750a3" kindref="member">IntegrityVerificationReceipt</ref>&amp;&amp;)<sp/>noexcept<sp/>=</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>default;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a7a5cbd1f80fc108ab4697f4929d7fd81" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a4cd150ecb5e9a52c4a82c6474b2750a3" kindref="member">IntegrityVerificationReceipt</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a4cd150ecb5e9a52c4a82c6474b2750a3" kindref="member">IntegrityVerificationReceipt</ref>&amp;)<sp/>=</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>delete;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1af597328c27a0f957c1bd04dbcd009fbc" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a4cd150ecb5e9a52c4a82c6474b2750a3" kindref="member">IntegrityVerificationReceipt</ref>&amp;<sp/>operator=(</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a4cd150ecb5e9a52c4a82c6474b2750a3" kindref="member">IntegrityVerificationReceipt</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a200e4a981cd8f04cae4cd7a9a9585c75" refkind="member"><highlight class="normal"><sp/><sp/>~<ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a4cd150ecb5e9a52c4a82c6474b2750a3" kindref="member">IntegrityVerificationReceipt</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a89476836913faaa19810ed84dab82278" refkind="member"><highlight class="normal"><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a89476836913faaa19810ed84dab82278" kindref="member">artifact_id</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>artifact_id_;<sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a8a96f4313f3d1f47bb34f07a2031e028" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27" kindref="member">HashAlgorithm</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a8a96f4313f3d1f47bb34f07a2031e028" kindref="member">algorithm</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>algorithm_;<sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a6a53b2c03add15d06e1f8f90b8b88eb2" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a6a53b2c03add15d06e1f8f90b8b88eb2" kindref="member">merkle_root_hash</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>merkle_root_hash_;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1aa2b7cc5f0870de66458518fa95411132" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1aa2b7cc5f0870de66458518fa95411132" kindref="member">set_merkle_root_hash</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>hash)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>merkle_root_hash_<sp/>=<sp/>hash;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a516bece054395708ecd3847c4ac7af18" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a516bece054395708ecd3847c4ac7af18" kindref="member">add_shard_hash</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>hash)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>shard_hashes_[shard_id]<sp/>=<sp/>hash;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a2b13eb909acd19add89daa5e4794fcd2" refkind="member"><highlight class="normal"><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a2b13eb909acd19add89daa5e4794fcd2" kindref="member">get_shard_hash</ref>(</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>shard_hashes_.find(shard_id);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>!=<sp/>shard_hashes_.end())<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>it-&gt;second;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1acca7d4698520ac6204883893e29ca1b6" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1acca7d4698520ac6204883893e29ca1b6" kindref="member">shard_hashes</ref>()</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>shard_hashes_;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1abef1a93b8b195abf4247770b5fad499d" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1abef1a93b8b195abf4247770b5fad499d" kindref="member">add_merkle_tree_node</ref>(<ref refid="structthemis_1_1distributed__tensor_1_1_merkle_tree_node" kindref="compound">MerkleTreeNode</ref><sp/>node)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>merkle_tree_nodes_.push_back(std::move(node));</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1abee3cb23a435f96a17c558ceff548c68" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;MerkleTreeNode&gt;&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1abee3cb23a435f96a17c558ceff548c68" kindref="member">merkle_tree_nodes</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>merkle_tree_nodes_;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a1669c40fe8247e22c433d3807fccb92c" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a1669c40fe8247e22c433d3807fccb92c" kindref="member">mark_verified</ref>()<sp/>noexcept<sp/>{<sp/>is_verified_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a879bea6888d3ff1a4a78ded650327f61" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a879bea6888d3ff1a4a78ded650327f61" kindref="member">mark_failed</ref>(std::string<sp/>error)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>is_verified_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>verification_error_<sp/>=<sp/>std::move(error);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a225b995beef4b2870e2f1252501486b0" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1a225b995beef4b2870e2f1252501486b0" kindref="member">is_verified</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>is_verified_;<sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1af4a189932a6e8f36c78a6b1a7a735d64" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1af4a189932a6e8f36c78a6b1a7a735d64" kindref="member">verified_at</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>verified_at_;<sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1abedb761142d2bc91bb61990572c9153c" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1abedb761142d2bc91bb61990572c9153c" kindref="member">set_verified_at</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>timestamp)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>verified_at_<sp/>=<sp/>timestamp;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1acefc52a9e70d7674c83f59c9c101a0c9" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt_1acefc52a9e70d7674c83f59c9c101a0c9" kindref="member">verification_error</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>verification_error_;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/>std::string<sp/>artifact_id_;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27" kindref="member">HashAlgorithm</ref><sp/>algorithm_;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/>std::string<sp/>merkle_root_hash_;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>shard_hashes_;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/>std::vector&lt;MerkleTreeNode&gt;<sp/>merkle_tree_nodes_;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_verified_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/>std::string<sp/>verified_at_;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/>std::string<sp/>verification_error_;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a8e52b8d957fe3c255db2d59aa6931fb9" kindref="member">IntegrityVerificationEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a8e52b8d957fe3c255db2d59aa6931fb9" kindref="member">IntegrityVerificationEngine</ref>();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a8e52b8d957fe3c255db2d59aa6931fb9" kindref="member">IntegrityVerificationEngine</ref>(<ref refid="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27" kindref="member">HashAlgorithm</ref><sp/>algorithm);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a2ef2a4660f003981d258ea9e31bb1317" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a2ef2a4660f003981d258ea9e31bb1317" kindref="member">IntegrityVerificationEngine</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a8e52b8d957fe3c255db2d59aa6931fb9" kindref="member">IntegrityVerificationEngine</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a885692721e583fec4c81fe2ab0479f5d" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a885692721e583fec4c81fe2ab0479f5d" kindref="member">IntegrityVerificationEngine</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a8e52b8d957fe3c255db2d59aa6931fb9" kindref="member">IntegrityVerificationEngine</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1afa0a731cdd979b239dcdb66fb2d8b3f2" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a8e52b8d957fe3c255db2d59aa6931fb9" kindref="member">IntegrityVerificationEngine</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a8e52b8d957fe3c255db2d59aa6931fb9" kindref="member">IntegrityVerificationEngine</ref>&amp;)<sp/>=</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>delete;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1ac0cc462049b4a51479c6b7532d44a57f" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a8e52b8d957fe3c255db2d59aa6931fb9" kindref="member">IntegrityVerificationEngine</ref>&amp;<sp/>operator=(</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a8e52b8d957fe3c255db2d59aa6931fb9" kindref="member">IntegrityVerificationEngine</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a34d81bdd68df0e64f3ce5653bf7d51e8" refkind="member"><highlight class="normal"><sp/><sp/>virtual<sp/>~<ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a8e52b8d957fe3c255db2d59aa6931fb9" kindref="member">IntegrityVerificationEngine</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a66a3c995225d0a2ccdd6426c5fde0744" refkind="member"><highlight class="normal"><sp/><sp/>virtual<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt" kindref="compound">IntegrityVerificationReceipt</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a66a3c995225d0a2ccdd6426c5fde0744" kindref="member">compute_verification</ref>(</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest)<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1aafe0a00f070a8ffce0a3a35f59a69512" refkind="member"><highlight class="normal"><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1aafe0a00f070a8ffce0a3a35f59a69512" kindref="member">verify_integrity</ref>(const<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest,</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt" kindref="compound">IntegrityVerificationReceipt</ref>&amp;<sp/>receipt)</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a8299932437acb78292c4a71f666136fc" refkind="member"><highlight class="normal"><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a8299932437acb78292c4a71f666136fc" kindref="member">verify_shard</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>shard_data,</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>expected_hash)<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/>protected:</highlight></codeline>
+<codeline lineno="200" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a96569ee94c5b3ae4f4e19c2954ddbdfe" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27" kindref="member">HashAlgorithm</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a96569ee94c5b3ae4f4e19c2954ddbdfe" kindref="member">algorithm_</ref>;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208" refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1aa87ba4da3614763a85d18046ddd29985" refkind="member"><highlight class="normal"><sp/><sp/>virtual<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1aa87ba4da3614763a85d18046ddd29985" kindref="member">compute_hash</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>data)<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211" refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1aad00dbfe72ddde5846e02737ce8575a8" kindref="member">DefaultIntegrityVerificationEngine</ref><sp/>:<sp/>public<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine_1a8e52b8d957fe3c255db2d59aa6931fb9" kindref="member">IntegrityVerificationEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1aad00dbfe72ddde5846e02737ce8575a8" kindref="member">DefaultIntegrityVerificationEngine</ref>();</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1aad00dbfe72ddde5846e02737ce8575a8" kindref="member">DefaultIntegrityVerificationEngine</ref>(<ref refid="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27" kindref="member">HashAlgorithm</ref><sp/>algorithm);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1a3c71727243876586fd4b415a9662d949" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1a3c71727243876586fd4b415a9662d949" kindref="member">DefaultIntegrityVerificationEngine</ref>(</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1aad00dbfe72ddde5846e02737ce8575a8" kindref="member">DefaultIntegrityVerificationEngine</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225" refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1ad8c35d6b5dd983a1e0cecf20720466b5" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1aad00dbfe72ddde5846e02737ce8575a8" kindref="member">DefaultIntegrityVerificationEngine</ref>&amp;<sp/>operator=(</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1aad00dbfe72ddde5846e02737ce8575a8" kindref="member">DefaultIntegrityVerificationEngine</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1a8cddc36a7be81c43d6b209f59baad917" refkind="member"><highlight class="normal"><sp/><sp/>~<ref refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1aad00dbfe72ddde5846e02737ce8575a8" kindref="member">DefaultIntegrityVerificationEngine</ref>()<sp/>override<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt" kindref="compound">IntegrityVerificationReceipt</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1a00096b25e3f91dc2839e33bc344938c6" kindref="member">compute_verification</ref>(</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest)<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1a108e0634a4acae950d691a92c95cec31" kindref="member">verify_integrity</ref>(const<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest,</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt" kindref="compound">IntegrityVerificationReceipt</ref>&amp;<sp/>receipt)<sp/>const</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine_1a2e6d1d92b7b27812c067ca635402014f" kindref="member">verify_shard</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>shard_data,</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>expected_hash)<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/>private:</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>compute_hash(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>data)<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1distributed__tensor_1_1_merkle_tree_node" kindref="compound">MerkleTreeNode</ref>&gt;<sp/>build_merkle_tree(</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;std::pair&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;&gt;&amp;<sp/>shard_hashes)</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>distributed_tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/distributed_tensor/integrity_verification.h"/>
+  </compounddef>
+</doxygen>

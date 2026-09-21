@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::test::MockConnectionPool</compoundname>
+    <innerclass refid="structthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1_1_config" prot="public">themis::analytics::test::MockConnectionPool::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1ac4040a30dad2220df040709e82055b1d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::analytics::test::MockConnectionPool::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::analytics::test::MockConnectionPool::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="179" column="12" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1a2f6c8172c3e279f87338c8b3665f384d" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1analytics_1_1test_1_1_mock_connection" kindref="compound">MockConnection</ref> &gt; &gt;</type>
+        <definition>std::queue&lt;std::unique_ptr&lt;MockConnection&gt; &gt; themis::analytics::test::MockConnectionPool::available_</definition>
+        <argsstring></argsstring>
+        <name>available_</name>
+        <qualifiedname>themis::analytics::test::MockConnectionPool::available_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="180" column="16" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1a05f1acbd74132afbdc94937a47001cb0" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::analytics::test::MockConnectionPool::total_created_</definition>
+        <argsstring></argsstring>
+        <name>total_created_</name>
+        <qualifiedname>themis::analytics::test::MockConnectionPool::total_created_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="181" column="9" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1aa48afc26fca3b8bc80e2cd22cb1fa403" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::analytics::test::MockConnectionPool::active_count_</definition>
+        <argsstring></argsstring>
+        <name>active_count_</name>
+        <qualifiedname>themis::analytics::test::MockConnectionPool::active_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="182" column="9" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1a3d20f2fbae449dae3bf1e07a2a833827" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::analytics::test::MockConnectionPool::mtx_</definition>
+        <argsstring></argsstring>
+        <name>mtx_</name>
+        <qualifiedname>themis::analytics::test::MockConnectionPool::mtx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="183" column="24" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="183" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1afaa55651b7be0f57b49f9f83322a0240" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::MockConnectionPool::MockConnectionPool</definition>
+        <argsstring>(const Config &amp;cfg)</argsstring>
+        <name>MockConnectionPool</name>
+        <qualifiedname>themis::analytics::test::MockConnectionPool::MockConnectionPool</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="131" column="14" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="131" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1ade99b76f79d8ee5c0b791d3ca20a9e0b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::pair&lt; <ref refid="namespacethemis_1_1analytics_1_1test_1a7f0ae0c7f285d56017395e5703c3e6ea" kindref="member">PoolErrorCode</ref>, std::unique_ptr&lt; <ref refid="classthemis_1_1analytics_1_1test_1_1_mock_connection" kindref="compound">MockConnection</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; PoolErrorCode, std::unique_ptr&lt; MockConnection &gt; &gt; themis::analytics::test::MockConnectionPool::acquire</definition>
+        <argsstring>()</argsstring>
+        <name>acquire</name>
+        <qualifiedname>themis::analytics::test::MockConnectionPool::acquire</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="133" column="15" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="133" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1a9c92095774b81caf7039b7af7fef479a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1analytics_1_1test_1a7f0ae0c7f285d56017395e5703c3e6ea" kindref="member">PoolErrorCode</ref></type>
+        <definition>PoolErrorCode themis::analytics::test::MockConnectionPool::release</definition>
+        <argsstring>(std::unique_ptr&lt; MockConnection &gt; conn)</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::analytics::test::MockConnectionPool::release</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1analytics_1_1test_1_1_mock_connection" kindref="compound">MockConnection</ref> &gt;</type>
+          <declname>conn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="153" column="19" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="153" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1a4a6728abce11fb6f0435977fac6dcab8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::analytics::test::MockConnectionPool::getActiveCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getActiveCount</name>
+        <qualifiedname>themis::analytics::test::MockConnectionPool::getActiveCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="163" column="9" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="163" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1a1a5cce55ead6c70c4decf5515e8c2cab" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::analytics::test::MockConnectionPool::getTotalCreated</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalCreated</name>
+        <qualifiedname>themis::analytics::test::MockConnectionPool::getTotalCreated</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="168" column="9" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="168" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1a9ab1a6a87b33d4f33d6ec7e8e1ee852b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::analytics::test::MockConnectionPool::getAvailableCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getAvailableCount</name>
+        <qualifiedname>themis::analytics::test::MockConnectionPool::getAvailableCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="173" column="9" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="173" bodyend="176"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simple connection pool mock. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_analytics_resource_pooling_focused.cpp" line="125" column="1" bodyfile="tests/analytics/test_analytics_resource_pooling_focused.cpp" bodystart="125" bodyend="184"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1ade99b76f79d8ee5c0b791d3ca20a9e0b" prot="public" virt="non-virtual"><scope>themis::analytics::test::MockConnectionPool</scope><name>acquire</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1aa48afc26fca3b8bc80e2cd22cb1fa403" prot="private" virt="non-virtual"><scope>themis::analytics::test::MockConnectionPool</scope><name>active_count_</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1a2f6c8172c3e279f87338c8b3665f384d" prot="private" virt="non-virtual"><scope>themis::analytics::test::MockConnectionPool</scope><name>available_</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1ac4040a30dad2220df040709e82055b1d" prot="private" virt="non-virtual"><scope>themis::analytics::test::MockConnectionPool</scope><name>config_</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1a4a6728abce11fb6f0435977fac6dcab8" prot="public" virt="non-virtual"><scope>themis::analytics::test::MockConnectionPool</scope><name>getActiveCount</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1a9ab1a6a87b33d4f33d6ec7e8e1ee852b" prot="public" virt="non-virtual"><scope>themis::analytics::test::MockConnectionPool</scope><name>getAvailableCount</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1a1a5cce55ead6c70c4decf5515e8c2cab" prot="public" virt="non-virtual"><scope>themis::analytics::test::MockConnectionPool</scope><name>getTotalCreated</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1afaa55651b7be0f57b49f9f83322a0240" prot="public" virt="non-virtual"><scope>themis::analytics::test::MockConnectionPool</scope><name>MockConnectionPool</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1a3d20f2fbae449dae3bf1e07a2a833827" prot="private" virt="non-virtual"><scope>themis::analytics::test::MockConnectionPool</scope><name>mtx_</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1a9c92095774b81caf7039b7af7fef479a" prot="public" virt="non-virtual"><scope>themis::analytics::test::MockConnectionPool</scope><name>release</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_mock_connection_pool_1a05f1acbd74132afbdc94937a47001cb0" prot="private" virt="non-virtual"><scope>themis::analytics::test::MockConnectionPool</scope><name>total_created_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

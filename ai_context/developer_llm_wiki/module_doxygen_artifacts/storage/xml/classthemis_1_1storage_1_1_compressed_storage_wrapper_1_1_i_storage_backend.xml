@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_compressed_storage_wrapper_1_1_i_storage_backend" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::storage::CompressedStorageWrapper::IStorageBackend</compoundname>
+    <includes refid="compressed__storage_8h" local="no">compressed_storage.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_compressed_storage_wrapper_1_1_i_storage_backend_1a7d47cc0fc92e6b7bdaab6feab51b30e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::storage::CompressedStorageWrapper::IStorageBackend::~IStorageBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IStorageBackend</name>
+        <qualifiedname>themis::storage::CompressedStorageWrapper::IStorageBackend::~IStorageBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="58" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_compressed_storage_wrapper_1_1_i_storage_backend_1a42ae6a2e42615c0c593ab4fb06594cc1" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::storage::CompressedStorageWrapper::IStorageBackend::put</definition>
+        <argsstring>(const std::string &amp;key, const std::vector&lt; uint8_t &gt; &amp;value)=0</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::storage::CompressedStorageWrapper::IStorageBackend::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="60" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_compressed_storage_wrapper_1_1_i_storage_backend_1a5790ab078fb1ced4ed60b34e98c43ebe" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>virtual std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::storage::CompressedStorageWrapper::IStorageBackend::get</definition>
+        <argsstring>(const std::string &amp;key)=0</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::storage::CompressedStorageWrapper::IStorageBackend::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="61" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_compressed_storage_wrapper_1_1_i_storage_backend_1ad123e39a94f44da05e901f67cbfee9aa" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::storage::CompressedStorageWrapper::IStorageBackend::del</definition>
+        <argsstring>(const std::string &amp;key)=0</argsstring>
+        <name>del</name>
+        <qualifiedname>themis::storage::CompressedStorageWrapper::IStorageBackend::del</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="62" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_compressed_storage_wrapper_1_1_i_storage_backend_1a943248f2a5f77660713baf700e6cbd72" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::storage::CompressedStorageWrapper::IStorageBackend::exists</definition>
+        <argsstring>(const std::string &amp;key)=0</argsstring>
+        <name>exists</name>
+        <qualifiedname>themis::storage::CompressedStorageWrapper::IStorageBackend::exists</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compressed_storage.h" line="63" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Storage backend interface. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implement this for your specific storage backend (RocksDB, LevelDB, etc.) </para>
+    </detaileddescription>
+    <location file="include/storage/compressed_storage.h" line="56" column="5" bodyfile="include/storage/compressed_storage.h" bodystart="56" bodyend="64"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1_1_i_storage_backend_1ad123e39a94f44da05e901f67cbfee9aa" prot="public" virt="pure-virtual"><scope>themis::storage::CompressedStorageWrapper::IStorageBackend</scope><name>del</name></member>
+      <member refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1_1_i_storage_backend_1a943248f2a5f77660713baf700e6cbd72" prot="public" virt="pure-virtual"><scope>themis::storage::CompressedStorageWrapper::IStorageBackend</scope><name>exists</name></member>
+      <member refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1_1_i_storage_backend_1a5790ab078fb1ced4ed60b34e98c43ebe" prot="public" virt="pure-virtual"><scope>themis::storage::CompressedStorageWrapper::IStorageBackend</scope><name>get</name></member>
+      <member refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1_1_i_storage_backend_1a42ae6a2e42615c0c593ab4fb06594cc1" prot="public" virt="pure-virtual"><scope>themis::storage::CompressedStorageWrapper::IStorageBackend</scope><name>put</name></member>
+      <member refid="classthemis_1_1storage_1_1_compressed_storage_wrapper_1_1_i_storage_backend_1a7d47cc0fc92e6b7bdaab6feab51b30e8" prot="public" virt="virtual"><scope>themis::storage::CompressedStorageWrapper::IStorageBackend</scope><name>~IStorageBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

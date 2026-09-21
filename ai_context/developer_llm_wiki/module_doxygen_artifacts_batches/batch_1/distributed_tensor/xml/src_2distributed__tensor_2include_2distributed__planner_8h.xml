@@ -1,0 +1,303 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="src_2distributed__tensor_2include_2distributed__planner_8h" kind="file" language="C++">
+    <compoundname>distributed_planner.h</compoundname>
+    <includes local="yes">tensor/tensor_summary_types.h</includes>
+    <includes local="yes">rag/graph_truth_validator.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">chrono</includes>
+    <includedby refid="src_2distributed__planner_8cc" local="yes">src/distributed_tensor/src/distributed_planner.cc</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>src/distributed_tensor/include/distributed_planner.h</label>
+        <link refid="src_2distributed__tensor_2include_2distributed__planner_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>rag/graph_truth_validator.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>tensor/tensor_summary_types.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>src/distributed_tensor/include/distributed_planner.h</label>
+        <link refid="src_2distributed__tensor_2include_2distributed__planner_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/distributed_tensor/src/distributed_planner.cc</label>
+        <link refid="src_2distributed__planner_8cc"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_routing_summary" prot="public">themis::distributed_tensor::RoutingSummary</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request" prot="public">themis::distributed_tensor::FragmentLoadRequest</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_fragment_load_result" prot="public">themis::distributed_tensor::FragmentLoadResult</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan" prot="public">themis::distributed_tensor::TensorRetrievalPlan</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner" prot="public">themis::distributed_tensor::DistributedTensorPlanner</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config" prot="public">themis::distributed_tensor::DistributedTensorPlanner::Config</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher" prot="public">themis::distributed_tensor::IFragmentFetcher</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1distributed__tensor">themis::distributed_tensor</innernamespace>
+    <briefdescription>
+<para>Distributed tensor retrieval planner with summary-first, exact-on-demand, graph-verified finalization. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements the core workflow:<orderedlist>
+<listitem><para>Summary-first routing (use advisory summaries to select shards)</para>
+</listitem><listitem><para>Exact-on-demand fragment loading (fetch actual tensor data from selected shards)</para>
+</listitem><listitem><para>Graph-verified finalization (validate results against graph truth before output)</para>
+</listitem></orderedlist>
+</para>
+<para>Enforces the &quot;no-summary-only-truth&quot; rule: distributed tensor summaries can never be the sole source of truth for query results. All outputs must be validated against exact graph data. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;tensor/tensor_summary_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;rag/graph_truth_validator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__tensor" kindref="compound">distributed_tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher" kindref="compound">IFragmentFetcher</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">IGraphValidator;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RoutingSummary<sp/>—<sp/>advisory<sp/>summary<sp/>for<sp/>planner<sp/>routing<sp/>decisions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_routing_summary" kindref="compound">RoutingSummary</ref><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_routing_summary_1a2088bdf7621839e3f97cc437de25e9fa" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>tensor::SummaryFreshnessState<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_routing_summary_1a32325f8fcd3214c699c396c73e5b04de" kindref="member">freshness_state</ref><sp/>=<sp/>tensor::SummaryFreshnessState::FRESH;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_routing_summary_1a92173ef19a885e77a00eafaa5fa0aa9b" kindref="member">shard_relevance</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_routing_summary_1a6a7120888f5b77ea5089d61546eb459a" kindref="member">routing_confidence</ref><sp/>=<sp/>0.8f;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_routing_summary_1a86347df188dece98d8f06b3b4787849c" kindref="member">routing_reason</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_routing_summary_1af13019903148f6a0b0564984aa403360" kindref="member">rejected_as_stale</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_routing_summary_1ad07bfcfbdd73fb79a68408caf8b4d186" kindref="member">rejected_as_unhealthy</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FragmentLoadRequest<sp/>—<sp/>request<sp/>for<sp/>exact<sp/>tensor<sp/>fragment<sp/>loading</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request" kindref="compound">FragmentLoadRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request_1a1dd21341cf54635bae10b442dbf158c6" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request_1a1993ea88596addb6048ab8dccace02e8" kindref="member">artifact_id</ref>;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request_1a0a698d75ddb3f5bc1ee3365427f33e08" kindref="member">expedited</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request_1a26dd53c7b2072b5b8a0662d9033ec6fe" kindref="member">timeout_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request_1a38be327f3b7ac8bb98e8b1b569d51230" kindref="member">codec_hint</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FragmentLoadResult<sp/>—<sp/>result<sp/>of<sp/>exact<sp/>fragment<sp/>loading</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_result" kindref="compound">FragmentLoadResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_result_1a1e10f63bd1077d2c677c18c7e158fe42" kindref="member">shard_id</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_result_1a68fabe485c1c3f61ee9e1755680c98c0" kindref="member">artifact_id</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_result_1a055cde105bac058021bea21beeb2a2dd" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_result_1a8b6903bc793c40f275e947d930dd4d9f" kindref="member">error_reason</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_result_1a0ffc7b488dc7b2011223b0bbf025a22e" kindref="member">fragment_data</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_result_1ac816b7fd64cfc01ad714f2d1f924caf1" kindref="member">content_hash</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_result_1ac03a4df8021f10f0676f9a6551d53bc9" kindref="member">load_latency_ms</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_result_1a5cdb2e4db34b86c07668617040e3de21" kindref="member">loaded_at</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TensorRetrievalPlan<sp/>—<sp/>comprehensive<sp/>retrieval<sp/>plan</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan" kindref="compound">TensorRetrievalPlan</ref><sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan_1a003c290e558659346399e3555e21a63d" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RoutingSummary&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan_1afa2b1a5772e1c6557e448c8a8b0c67f1" kindref="member">routing_summaries</ref>;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;FragmentLoadRequest&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan_1aa472c4e1fcd19d7ac40ecfaed3be19d0" kindref="member">fragment_requests</ref>;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;FragmentLoadResult&gt;<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan_1ae7b61f57bafd81f2cb9d5ec725d92d1e" kindref="member">fragment_results</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan_1a0d7f55c74484a7aaae29a7003a164055" kindref="member">all_summaries_fresh</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan_1a316899c32c74fbd73010f47843c19679" kindref="member">stale_shards_rejected</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan_1a8fd44493c4d606718d4d457c6fbfd5c6" kindref="member">passed_graph_validation</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>rag::GraphTruthValidationResult<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan_1a7e40cb10b7ef157fb0e7f8fc2bb2cdf0" kindref="member">validation_result</ref>;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan_1ad4444a21821a089e15cc10c7811f4406" kindref="member">plan_reason</ref>;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan_1a0a78084a23f1187cc8b2b6dd83e97e9f" kindref="member">fallback_routing</ref>;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan_1a77ebe6eeb867245219995eaf37c4e54c" kindref="member">is_fallback</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DistributedTensorPlanner<sp/>—<sp/>main<sp/>planner<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner" kindref="compound">DistributedTensorPlanner</ref><sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a02bc6ab10cc826b7b0dc8766c6acc718" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a02bc6ab10cc826b7b0dc8766c6acc718" kindref="member">DistributedTensorPlanner</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129" refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a012a5f46a1fc75aa7ed7a0e1ec2b210f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a012a5f46a1fc75aa7ed7a0e1ec2b210f" kindref="member">~DistributedTensorPlanner</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copies<sp/>and<sp/>moves<sp/>(may<sp/>contain<sp/>internal<sp/>state)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a6beeabc12bab9a6f9d984c1639de06cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a6beeabc12bab9a6f9d984c1639de06cd" kindref="member">DistributedTensorPlanner</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a02bc6ab10cc826b7b0dc8766c6acc718" kindref="member">DistributedTensorPlanner</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a770a222622c2d7d0987ca5f2b10c2470" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a02bc6ab10cc826b7b0dc8766c6acc718" kindref="member">DistributedTensorPlanner</ref>&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a770a222622c2d7d0987ca5f2b10c2470" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a02bc6ab10cc826b7b0dc8766c6acc718" kindref="member">DistributedTensorPlanner</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134" refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a97a6b18c009b0e8f862fb11757136bf9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a97a6b18c009b0e8f862fb11757136bf9" kindref="member">DistributedTensorPlanner</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a02bc6ab10cc826b7b0dc8766c6acc718" kindref="member">DistributedTensorPlanner</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a8314142136bd813747ba15ad4b4e3949" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a02bc6ab10cc826b7b0dc8766c6acc718" kindref="member">DistributedTensorPlanner</ref>&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a8314142136bd813747ba15ad4b4e3949" kindref="member">operator=</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a02bc6ab10cc826b7b0dc8766c6acc718" kindref="member">DistributedTensorPlanner</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a648a87477259a7fa2c6328fd07ad9f0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a648a87477259a7fa2c6328fd07ad9f0d" kindref="member">setFragmentFetcher</ref>(std::shared_ptr&lt;IFragmentFetcher&gt;<sp/>fetcher)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a968f801c7c9e5c03394adf1514903277" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a968f801c7c9e5c03394adf1514903277" kindref="member">setGraphValidator</ref>(std::shared_ptr&lt;rag::GraphTruthValidator&gt;<sp/>validator)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Core<sp/>Planning<sp/>Methods<sp/>─────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a3d5d9ac4b7570e3e14293a479317a1d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;RoutingSummary&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a3d5d9ac4b7570e3e14293a479317a1d9" kindref="member">planSummaryFirstRouting</ref>(</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;tensor::ShardSummary&gt;&amp;<sp/>summaries,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>correlation_id<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>freshness_ttl_s<sp/>=<sp/>3600)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a32c9e88398b95faa8c263150999a79a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;FragmentLoadRequest&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a32c9e88398b95faa8c263150999a79a4" kindref="member">planExactOnDemandLoading</ref>(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;RoutingSummary&gt;&amp;<sp/>routing_summaries,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_context<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>correlation_id<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1ac4952eca34c978acf9a5e86c592e9872" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan" kindref="compound">TensorRetrievalPlan</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1ac4952eca34c978acf9a5e86c592e9872" kindref="member">buildRetrievalPlan</ref>(</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;tensor::ShardSummary&gt;&amp;<sp/>summaries,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_context<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>correlation_id<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Fragment<sp/>Loading<sp/>&amp;<sp/>Validation<sp/>────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1aecff156b422bc9a47c8219c1f02958f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;FragmentLoadResult&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1aecff156b422bc9a47c8219c1f02958f7" kindref="member">executeFragmentLoads</ref>(</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;FragmentLoadRequest&gt;&amp;<sp/>requests,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>correlation_id<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1afd69cd1307550cd3158569b40d2c65cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>rag::GraphTruthValidationResult<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1afd69cd1307550cd3158569b40d2c65cd" kindref="member">validateAgainstGraphTruth</ref>(</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan" kindref="compound">TensorRetrievalPlan</ref>&amp;<sp/>plan,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>rag::GraphTruthValidatorConfig&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a5698fe91fd30a10caad9040fb44b23ef" kindref="member">config</ref><sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a73f24486ae73fdda637cc3fc90678ef8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a73f24486ae73fdda637cc3fc90678ef8" kindref="member">isValidFinalPlan</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan" kindref="compound">TensorRetrievalPlan</ref>&amp;<sp/>plan)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Configuration<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config_1acc15428a1bd7938e84e0b7b8847516ee" kindref="member">max_summary_ttl_seconds</ref><sp/>=<sp/>3600;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config_1ad0e20a61a428ca83ba77408cdb4bdd19" kindref="member">min_fragment_success_rate</ref><sp/>=<sp/>0.8f;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config_1aea4654b97fa81efeaf07dcf8bdc2fc8f" kindref="member">enable_fallback_routing</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config_1a413ba69769dbc664c4c3c0567c18b325" kindref="member">fragment_load_timeout_ms</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config_1a37fec4dad063f302b5555f4b26563731" kindref="member">strict_graph_validation</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a8a1e1ce46ed5d5781d918961c20c1d98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a8a1e1ce46ed5d5781d918961c20c1d98" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1a5698fe91fd30a10caad9040fb44b23ef" kindref="member">config</ref>)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1aa3ff044a60e4c743f1704b3f87d5a0ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1aa3ff044a60e4c743f1704b3f87d5a0ec" kindref="member">config</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher" kindref="compound">IFragmentFetcher</ref>&gt;<sp/>fragment_fetcher_;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;rag::GraphTruthValidator&gt;<sp/>graph_validator_;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>validateSummaryFreshness(</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>tensor::ShardSummary&amp;<sp/>summary)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>computeRoutingRelevance(</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>tensor::ShardSummary&amp;<sp/>summary)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/>buildFallbackRouting(</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;tensor::ShardSummary&gt;&amp;<sp/>summaries)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IFragmentFetcher<sp/>—<sp/>abstract<sp/>interface<sp/>for<sp/>fragment<sp/>loading</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal">class<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher" kindref="compound">IFragmentFetcher</ref><sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="231" refid="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher_1a253509ad65667aec783cda27b3fe17c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher_1a253509ad65667aec783cda27b3fe17c3" kindref="member">~IFragmentFetcher</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233" refid="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher_1adec68f6dfd3369a1f7fe1bcccdb2c0fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_result" kindref="compound">FragmentLoadResult</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher_1adec68f6dfd3369a1f7fe1bcccdb2c0fd" kindref="member">fetchFragment</ref>(</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request" kindref="compound">FragmentLoadRequest</ref>&amp;<sp/>request,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>correlation_id<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237" refid="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher_1a45eacf749aedc9338fae576250fd0eda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;FragmentLoadResult&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher_1a45eacf749aedc9338fae576250fd0eda" kindref="member">fetchFragments</ref>(</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;FragmentLoadRequest&gt;&amp;<sp/>requests,</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>correlation_id<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>distributed_tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/distributed_tensor/include/distributed_planner.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1metadata_1_1_column_ref_hash" kind="struct" language="C++" prot="public">
+    <compoundname>themis::metadata::ColumnRefHash</compoundname>
+    <includes refid="column__lineage_8h" local="no">column_lineage.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1metadata_1_1_column_ref_hash_1a5b8e6e0f09e25201948e9a4c7f5d4633" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::metadata::ColumnRefHash::operator()</definition>
+        <argsstring>(const ColumnRef &amp;ref) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::metadata::ColumnRefHash::operator()</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/column_lineage.h" line="60" column="17" bodyfile="src/metadata/column_lineage.cpp" bodystart="53" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Hash support so <ref refid="structthemis_1_1metadata_1_1_column_ref" kindref="compound">ColumnRef</ref> can be used as an unordered_map key. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/column_lineage.h" line="59" column="1" bodyfile="include/metadata/column_lineage.h" bodystart="59" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1metadata_1_1_column_ref_hash_1a5b8e6e0f09e25201948e9a4c7f5d4633" prot="public" virt="non-virtual"><scope>themis::metadata::ColumnRefHash</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_cache_warmup_test" kind="class" language="C++" prot="public">
+    <compoundname>CacheWarmupTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_cache_warmup_test_1a277a99641b5b16a40fae3a66cbdaa0af" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string CacheWarmupTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>CacheWarmupTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_warmup.cpp" line="115" column="17" bodyfile="tests/cache/test_cache_warmup.cpp" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cache_warmup_test_1aa3e2cb52cf0dec8fe7ff3be475ae6e32" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string CacheWarmupTest::log_path_</definition>
+        <argsstring></argsstring>
+        <name>log_path_</name>
+        <qualifiedname>CacheWarmupTest::log_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_warmup.cpp" line="116" column="17" bodyfile="tests/cache/test_cache_warmup.cpp" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cache_warmup_test_1a7e39c3e47bd2c8947e3fdf3a5cbefd9b" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string CacheWarmupTest::snap_path_</definition>
+        <argsstring></argsstring>
+        <name>snap_path_</name>
+        <qualifiedname>CacheWarmupTest::snap_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_warmup.cpp" line="117" column="17" bodyfile="tests/cache/test_cache_warmup.cpp" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_cache_warmup_test_1a1145db01e3d7aed7810ecc61722a6068" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CacheWarmupTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CacheWarmupTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_warmup.cpp" line="97" column="10" bodyfile="tests/cache/test_cache_warmup.cpp" bodystart="97" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cache_warmup_test_1a0eb7d953cccd131eb2ff9dd263ed9d68" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CacheWarmupTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CacheWarmupTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_warmup.cpp" line="106" column="10" bodyfile="tests/cache/test_cache_warmup.cpp" bodystart="106" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="class_cache_warmup_test_1a41cc75cd9fa450e7e4a23dd84391d8ad" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_adaptive_query_cache_1_1_config" kindref="compound">AdaptiveQueryCache::Config</ref></type>
+        <definition>AdaptiveQueryCache::Config CacheWarmupTest::cfg</definition>
+        <argsstring>()</argsstring>
+        <name>cfg</name>
+        <qualifiedname>CacheWarmupTest::cfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_warmup.cpp" line="113" column="32" bodyfile="tests/cache/test_cache_warmup.cpp" bodystart="113" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CacheWarmupTest</label>
+        <link refid="class_cache_warmup_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CacheWarmupTest</label>
+        <link refid="class_cache_warmup_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_cache_warmup.cpp" line="95" column="1" bodyfile="tests/cache/test_cache_warmup.cpp" bodystart="95" bodyend="118"/>
+    <listofallmembers>
+      <member refid="class_cache_warmup_test_1a41cc75cd9fa450e7e4a23dd84391d8ad" prot="protected" virt="non-virtual"><scope>CacheWarmupTest</scope><name>cfg</name></member>
+      <member refid="class_cache_warmup_test_1a277a99641b5b16a40fae3a66cbdaa0af" prot="protected" virt="non-virtual"><scope>CacheWarmupTest</scope><name>db_path_</name></member>
+      <member refid="class_cache_warmup_test_1aa3e2cb52cf0dec8fe7ff3be475ae6e32" prot="protected" virt="non-virtual"><scope>CacheWarmupTest</scope><name>log_path_</name></member>
+      <member refid="class_cache_warmup_test_1a1145db01e3d7aed7810ecc61722a6068" prot="protected" virt="non-virtual"><scope>CacheWarmupTest</scope><name>SetUp</name></member>
+      <member refid="class_cache_warmup_test_1a7e39c3e47bd2c8947e3fdf3a5cbefd9b" prot="protected" virt="non-virtual"><scope>CacheWarmupTest</scope><name>snap_path_</name></member>
+      <member refid="class_cache_warmup_test_1a0eb7d953cccd131eb2ff9dd263ed9d68" prot="protected" virt="non-virtual"><scope>CacheWarmupTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::testing::BreakEvenValidatorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test_1a4e0f5c63ad709f9a708bb72349fd0ff2" prot="protected" static="no" mutable="no">
+        <type>BreakEvenValidator</type>
+        <definition>BreakEvenValidator themis::acceleration::testing::BreakEvenValidatorTest::validator_</definition>
+        <argsstring></argsstring>
+        <name>validator_</name>
+        <qualifiedname>themis::acceleration::testing::BreakEvenValidatorTest::validator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="32" column="24" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test_1ab8f4ae5e73641b4533180481912141b6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>WorkloadProfile</type>
+        <definition>WorkloadProfile themis::acceleration::testing::BreakEvenValidatorTest::MakeProfile</definition>
+        <argsstring>(KernelType kernel, size_t input_size, float selectivity=1.0f, DeviceType device=DeviceType::kNVIDIA_RTX)</argsstring>
+        <name>MakeProfile</name>
+        <qualifiedname>themis::acceleration::testing::BreakEvenValidatorTest::MakeProfile</qualifiedname>
+        <param>
+          <type>KernelType</type>
+          <declname>kernel</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>input_size</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>selectivity</declname>
+          <defval>1.0f</defval>
+        </param>
+        <param>
+          <type>DeviceType</type>
+          <declname>device</declname>
+          <defval>DeviceType::kNVIDIA_RTX</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a standard workload profile for testing. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="37" column="21" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="37" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test_1afb2639335e67215758ed67a7c1fac4e0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::testing::BreakEvenValidatorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::acceleration::testing::BreakEvenValidatorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_break_even_validation.cpp" line="51" column="10" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="51" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::testing::BreakEvenValidatorTest</label>
+        <link refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::testing::BreakEvenValidatorTest</label>
+        <link refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_break_even_validation.cpp" line="30" column="1" bodyfile="tests/gpu/test_break_even_validation.cpp" bodystart="30" bodyend="55"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test_1ab8f4ae5e73641b4533180481912141b6" prot="protected" virt="non-virtual"><scope>themis::acceleration::testing::BreakEvenValidatorTest</scope><name>MakeProfile</name></member>
+      <member refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test_1afb2639335e67215758ed67a7c1fac4e0" prot="protected" virt="non-virtual"><scope>themis::acceleration::testing::BreakEvenValidatorTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1acceleration_1_1testing_1_1_break_even_validator_test_1a4e0f5c63ad709f9a708bb72349fd0ff2" prot="protected" virt="non-virtual"><scope>themis::acceleration::testing::BreakEvenValidatorTest</scope><name>validator_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

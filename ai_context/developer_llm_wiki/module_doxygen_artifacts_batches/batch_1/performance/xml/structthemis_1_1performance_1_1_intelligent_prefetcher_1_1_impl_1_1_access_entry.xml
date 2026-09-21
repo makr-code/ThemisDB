@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1_1_access_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::IntelligentPrefetcher::Impl::AccessEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1_1_access_entry_1ae788c6c0904ebaab3d3bf91702834fb3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::IntelligentPrefetcher::Impl::AccessEntry::address</definition>
+        <argsstring></argsstring>
+        <name>address</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::AccessEntry::address</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="94" column="18" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1_1_access_entry_1a0e7d5f69b512433bb27e81af6ca01b37" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::IntelligentPrefetcher::Impl::AccessEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::performance::IntelligentPrefetcher::Impl::AccessEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/intelligent_prefetcher.cpp" line="95" column="18" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/performance/intelligent_prefetcher.cpp" line="93" column="5" bodyfile="src/performance/intelligent_prefetcher.cpp" bodystart="93" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1_1_access_entry_1ae788c6c0904ebaab3d3bf91702834fb3" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl::AccessEntry</scope><name>address</name></member>
+      <member refid="structthemis_1_1performance_1_1_intelligent_prefetcher_1_1_impl_1_1_access_entry_1a0e7d5f69b512433bb27e81af6ca01b37" prot="public" virt="non-virtual"><scope>themis::performance::IntelligentPrefetcher::Impl::AccessEntry</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

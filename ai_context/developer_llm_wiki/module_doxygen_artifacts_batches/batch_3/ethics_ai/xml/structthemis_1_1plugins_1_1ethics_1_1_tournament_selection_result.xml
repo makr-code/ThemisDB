@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_tournament_selection_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::TournamentSelectionResult</compoundname>
+    <includes refid="tournament__mode__selector_8h" local="no">tournament_mode_selector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_tournament_selection_result_1aea1176ef4dca9fc3200b7b25cbd4e76d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::TournamentSelectionResult::own_school_id</definition>
+        <argsstring></argsstring>
+        <name>own_school_id</name>
+        <qualifiedname>themis::plugins::ethics::TournamentSelectionResult::own_school_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/tournament_mode_selector.h" line="38" column="30" bodyfile="include/ethics_ai/tournament_mode_selector.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_tournament_selection_result_1ada3528229a2237eddd499a65d9658ba1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::TournamentSelectionResult::primary_opponents</definition>
+        <argsstring></argsstring>
+        <name>primary_opponents</name>
+        <qualifiedname>themis::plugins::ethics::TournamentSelectionResult::primary_opponents</qualifiedname>
+        <briefdescription>
+<para>Fully-injected opponent school IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/tournament_mode_selector.h" line="39" column="17" bodyfile="include/ethics_ai/tournament_mode_selector.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_tournament_selection_result_1a6bf73cc415bf4a7231605245d44bde60" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::TournamentSelectionResult::secondary_opponents</definition>
+        <argsstring></argsstring>
+        <name>secondary_opponents</name>
+        <qualifiedname>themis::plugins::ethics::TournamentSelectionResult::secondary_opponents</qualifiedname>
+        <briefdescription>
+<para>Headline-only opponent school IDs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/tournament_mode_selector.h" line="40" column="17" bodyfile="include/ethics_ai/tournament_mode_selector.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_tournament_selection_result_1ac29b36680d975f7a52fc25da97478335" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::TournamentSelectionResult::assembled_context</definition>
+        <argsstring></argsstring>
+        <name>assembled_context</name>
+        <qualifiedname>themis::plugins::ethics::TournamentSelectionResult::assembled_context</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/tournament_mode_selector.h" line="41" column="17" bodyfile="include/ethics_ai/tournament_mode_selector.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_tournament_selection_result_1a86e930e70777925df0eebacc6f9d1eca" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::ethics::TournamentSelectionResult::total_tokens_estimated</definition>
+        <argsstring></argsstring>
+        <name>total_tokens_estimated</name>
+        <qualifiedname>themis::plugins::ethics::TournamentSelectionResult::total_tokens_estimated</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Estimated token count of assembled_context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/tournament_mode_selector.h" line="42" column="17" bodyfile="include/ethics_ai/tournament_mode_selector.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/tournament_mode_selector.h" line="37" column="1" bodyfile="include/ethics_ai/tournament_mode_selector.h" bodystart="37" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_selection_result_1ac29b36680d975f7a52fc25da97478335" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::TournamentSelectionResult</scope><name>assembled_context</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_selection_result_1aea1176ef4dca9fc3200b7b25cbd4e76d" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::TournamentSelectionResult</scope><name>own_school_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_selection_result_1ada3528229a2237eddd499a65d9658ba1" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::TournamentSelectionResult</scope><name>primary_opponents</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_selection_result_1a6bf73cc415bf4a7231605245d44bde60" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::TournamentSelectionResult</scope><name>secondary_opponents</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_tournament_selection_result_1a86e930e70777925df0eebacc6f9d1eca" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::TournamentSelectionResult</scope><name>total_tokens_estimated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

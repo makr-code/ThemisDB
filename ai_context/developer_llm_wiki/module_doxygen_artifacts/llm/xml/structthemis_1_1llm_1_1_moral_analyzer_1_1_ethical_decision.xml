@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::MoralAnalyzer::EthicalDecision</compoundname>
+    <includes refid="moral__analyzer_8h" local="no">moral_analyzer.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics" prot="public">themis::llm::MoralAnalyzer::EthicalDecision::Metrics</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1ab746749e4315469a0dd64736e279f6ee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MoralAnalyzer::EthicalDecision::decision_id</definition>
+        <argsstring></argsstring>
+        <name>decision_id</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::EthicalDecision::decision_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="70" column="21" bodyfile="include/llm/moral_analyzer.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a50f96ed972e4d1b68005736f8bceb02c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MoralAnalyzer::EthicalDecision::scenario_id</definition>
+        <argsstring></argsstring>
+        <name>scenario_id</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::EthicalDecision::scenario_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="71" column="21" bodyfile="include/llm/moral_analyzer.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1ae1cb8fa86de442e05c6d90bfb2604ee4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MoralAnalyzer::EthicalDecision::philosophy</definition>
+        <argsstring></argsstring>
+        <name>philosophy</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::EthicalDecision::philosophy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="72" column="21" bodyfile="include/llm/moral_analyzer.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1af13fb890bed7e004ff99ed1237f9b886" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MoralAnalyzer::EthicalDecision::recommended_action</definition>
+        <argsstring></argsstring>
+        <name>recommended_action</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::EthicalDecision::recommended_action</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="73" column="21" bodyfile="include/llm/moral_analyzer.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1ad3bbf36904d9551e81586a3e85ebf9e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MoralAnalyzer::EthicalDecision::reasoning</definition>
+        <argsstring></argsstring>
+        <name>reasoning</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::EthicalDecision::reasoning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="74" column="21" bodyfile="include/llm/moral_analyzer.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a7d7b6194c66257010e6cbe702a92f3c2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::MoralAnalyzer::EthicalDecision::principle_citations</definition>
+        <argsstring></argsstring>
+        <name>principle_citations</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::EthicalDecision::principle_citations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="75" column="21" bodyfile="include/llm/moral_analyzer.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a980a3135e9b984256ba1a73b0d5be6d9" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path" kindref="compound">ReasoningPath</ref></type>
+        <definition>ReasoningPath themis::llm::MoralAnalyzer::EthicalDecision::reasoning_path</definition>
+        <argsstring></argsstring>
+        <name>reasoning_path</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::EthicalDecision::reasoning_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="76" column="23" bodyfile="include/llm/moral_analyzer.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a08d817f4a5c67bb693a6fd327f2eb805" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::MoralAnalyzer::EthicalDecision::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::EthicalDecision::confidence</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="77" column="16" bodyfile="include/llm/moral_analyzer.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a6c6b26ffbbc6fbb32118e0d72e6571df" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::llm::MoralAnalyzer::EthicalDecision::alternative_perspectives</definition>
+        <argsstring></argsstring>
+        <name>alternative_perspectives</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::EthicalDecision::alternative_perspectives</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="78" column="18" bodyfile="include/llm/moral_analyzer.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a647117eb4374f3c1671bec59a1050bb9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MoralAnalyzer::EthicalDecision::graph_id</definition>
+        <argsstring></argsstring>
+        <name>graph_id</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::EthicalDecision::graph_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="79" column="21" bodyfile="include/llm/moral_analyzer.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a2ae6d49460de05724de1fbf8380d65a2" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics" kindref="compound">themis::llm::MoralAnalyzer::EthicalDecision::Metrics</ref></type>
+        <definition>struct themis::llm::MoralAnalyzer::EthicalDecision::Metrics themis::llm::MoralAnalyzer::EthicalDecision::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::llm::MoralAnalyzer::EthicalDecision::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/moral_analyzer.h" line="88" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::MoralAnalyzer::EthicalDecision</label>
+        <link refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>reasoning_path</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>metrics</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::MoralAnalyzer::EthicalDecision::Metrics</label>
+        <link refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1_1_metrics"/>
+      </node>
+      <node id="2">
+        <label>themis::llm::MoralAnalyzer::ReasoningPath</label>
+        <link refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_reasoning_path"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/moral_analyzer.h" line="69" column="5" bodyfile="include/llm/moral_analyzer.h" bodystart="69" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a6c6b26ffbbc6fbb32118e0d72e6571df" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer::EthicalDecision</scope><name>alternative_perspectives</name></member>
+      <member refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a08d817f4a5c67bb693a6fd327f2eb805" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer::EthicalDecision</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1ab746749e4315469a0dd64736e279f6ee" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer::EthicalDecision</scope><name>decision_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a647117eb4374f3c1671bec59a1050bb9" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer::EthicalDecision</scope><name>graph_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a2ae6d49460de05724de1fbf8380d65a2" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer::EthicalDecision</scope><name>metrics</name></member>
+      <member refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1ae1cb8fa86de442e05c6d90bfb2604ee4" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer::EthicalDecision</scope><name>philosophy</name></member>
+      <member refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a7d7b6194c66257010e6cbe702a92f3c2" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer::EthicalDecision</scope><name>principle_citations</name></member>
+      <member refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1ad3bbf36904d9551e81586a3e85ebf9e7" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer::EthicalDecision</scope><name>reasoning</name></member>
+      <member refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a980a3135e9b984256ba1a73b0d5be6d9" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer::EthicalDecision</scope><name>reasoning_path</name></member>
+      <member refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1af13fb890bed7e004ff99ed1237f9b886" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer::EthicalDecision</scope><name>recommended_action</name></member>
+      <member refid="structthemis_1_1llm_1_1_moral_analyzer_1_1_ethical_decision_1a50f96ed972e4d1b68005736f8bceb02c" prot="public" virt="non-virtual"><scope>themis::llm::MoralAnalyzer::EthicalDecision</scope><name>scenario_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

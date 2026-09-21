@@ -1,0 +1,443 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_tensor_core_storage_bridge" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorCoreStorageBridge</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">ingestion::ITensorCoreBridge</basecompoundref>
+    <includes refid="tensor__core__bridge_8h" local="no">tensor_core_bridge.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1a4bba759af1e263f7e858a1bd2af79cb3" prot="public" static="no">
+        <type>std::function&lt; std::shared_ptr&lt; storage::ITensorStorageBackend &gt;()&gt;</type>
+        <definition>using themis::tensor::TensorCoreStorageBridge::BackendFactory = 
+std::function&lt;std::shared_ptr&lt;storage::ITensorStorageBackend&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>BackendFactory</name>
+        <qualifiedname>themis::tensor::TensorCoreStorageBridge::BackendFactory</qualifiedname>
+        <briefdescription>
+<para>Injectable factory for the default storage backend (STUB #269). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Signature: <computeroutput>std::shared_ptr&lt;ITensorStorageBackend&gt; factory()</computeroutput>.</para>
+<para>When set, the factory is called during <computeroutput><ref refid="classthemis_1_1tensor_1_1_tensor_core_storage_bridge" kindref="compound">TensorCoreStorageBridge</ref></computeroutput> construction whenever no explicit backend is provided. This allows the production bootstrap to inject a <computeroutput>RocksDBTensorBackend</computeroutput> without every call site needing to know the concrete type.</para>
+<para>Typical production bootstrap (main_server.cpp): <programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1a99f8409f2d33fabb7a2a616cb5253af7" kindref="member">TensorCoreStorageBridge::setDefaultBackendFactory</ref>([&amp;]<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;RocksDBTensorBackend&gt;(db_handle);</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+</programlisting></para>
+<para>Tests that need an in-memory backend simply omit this call (factory is null → constructor falls back to <computeroutput>InMemoryTensorBackend</computeroutput>). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_core_bridge.h" line="99" column="5" bodyfile="include/tensor/tensor_core_bridge.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1a6c5886089c7906699bc3b8646e117089" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; storage::ITensorStorageBackend &gt;</type>
+        <definition>std::shared_ptr&lt;storage::ITensorStorageBackend&gt; themis::tensor::TensorCoreStorageBridge::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themis::tensor::TensorCoreStorageBridge::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_core_bridge.h" line="145" column="21" bodyfile="include/tensor/tensor_core_bridge.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1a348834cd470732a548dce0fb8759af84" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::size_t &gt;</type>
+        <definition>std::atomic&lt;std::size_t&gt; themis::tensor::TensorCoreStorageBridge::write_count_</definition>
+        <argsstring></argsstring>
+        <name>write_count_</name>
+        <qualifiedname>themis::tensor::TensorCoreStorageBridge::write_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_core_bridge.h" line="146" column="40" bodyfile="include/tensor/tensor_core_bridge.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1aa27e780146669d826919c1148c4ad2ff" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TensorCoreStorageBridge::TensorCoreStorageBridge</definition>
+        <argsstring>(std::shared_ptr&lt; storage::ITensorStorageBackend &gt; backend=nullptr)</argsstring>
+        <name>TensorCoreStorageBridge</name>
+        <qualifiedname>themis::tensor::TensorCoreStorageBridge::TensorCoreStorageBridge</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; storage::ITensorStorageBackend &gt;</type>
+          <declname>backend</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct with an injectable storage backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>KV-store backend. Uses <computeroutput>InMemoryTensorBackend</computeroutput> when nullptr. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if backend is explicitly constructed but null. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_core_bridge.h" line="49" column="14" bodyfile="src/tensor/tensor_core_bridge.cpp" bodystart="90" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1a4d8e30747226757d06fa2255dcf6dd36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::tensor::TensorCoreStorageBridge::write</definition>
+        <argsstring>(const ingestion::TensorCoreRecord &amp;record, const std::string &amp;tenant_id) override</argsstring>
+        <name>write</name>
+        <qualifiedname>themis::tensor::TensorCoreStorageBridge::write</qualifiedname>
+        <param>
+          <type>const ingestion::TensorCoreRecord &amp;</type>
+          <declname>record</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Persist one <computeroutput>TensorCoreRecord</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── ITensorCoreBridge::write ─────────────────────────────────────────────────────────────────────────────</para>
+<para>The <computeroutput>serialized_train</computeroutput> bytes are stored under the structured key: <computeroutput>__ttcore__:&lt;tenant_id&gt;:&lt;source_file_id&gt;:&lt;chunk_id&gt;</computeroutput></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pre-computed TT-core record. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant scope; must be non-empty and free of &apos;/&apos; and &apos;\0&apos;. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Error on invalid input or backend write failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_core_bridge.h" line="64" column="12" bodyfile="src/tensor/tensor_core_bridge.cpp" bodystart="169" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1a365d83e037d57ff79a37c438e419eeac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorCoreStorageBridge::writeCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>writeCount</name>
+        <qualifiedname>themis::tensor::TensorCoreStorageBridge::writeCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_core_bridge.h" line="67" column="17" bodyfile="src/tensor/tensor_core_bridge.cpp" bodystart="230" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1af2da414bafa22af27303669f1e02d91b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const storage::ITensorStorageBackend &amp;</type>
+        <definition>const storage::ITensorStorageBackend &amp; themis::tensor::TensorCoreStorageBridge::backend</definition>
+        <argsstring>() const</argsstring>
+        <name>backend</name>
+        <qualifiedname>themis::tensor::TensorCoreStorageBridge::backend</qualifiedname>
+        <briefdescription>
+<para>Backend used for storage (for inspection in tests). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_core_bridge.h" line="72" column="42" bodyfile="include/tensor/tensor_core_bridge.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1a44ee30b833ef1a5f2ff20c2bb88fbab0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::tensor::TensorCoreStorageBridge::getRaw</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::string &amp;source_file_id, const std::string &amp;chunk_id) const</argsstring>
+        <name>getRaw</name>
+        <qualifiedname>themis::tensor::TensorCoreStorageBridge::getRaw</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_file_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve raw bytes for a given tenant + chunk_id (returns empty when absent). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_core_bridge.h" line="75" column="19" bodyfile="src/tensor/tensor_core_bridge.cpp" bodystart="235" bodyend="249"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1a99f8409f2d33fabb7a2a616cb5253af7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorCoreStorageBridge::setDefaultBackendFactory</definition>
+        <argsstring>(BackendFactory fn)</argsstring>
+        <name>setDefaultBackendFactory</name>
+        <qualifiedname>themis::tensor::TensorCoreStorageBridge::setDefaultBackendFactory</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1a4bba759af1e263f7e858a1bd2af79cb3" kindref="member">BackendFactory</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set the process-wide default backend factory (STUB #269 bridge). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para>Thread-safe. Replaces any previously set factory.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), backendFactoryMutex(), backendFactoryStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_core_bridge.h" line="107" column="17" bodyfile="src/tensor/tensor_core_bridge.cpp" bodystart="72" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1aa919718d137400fbeb14603e3614b746" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorCoreStorageBridge::clearDefaultBackendFactory</definition>
+        <argsstring>()</argsstring>
+        <name>clearDefaultBackendFactory</name>
+        <qualifiedname>themis::tensor::TensorCoreStorageBridge::clearDefaultBackendFactory</qualifiedname>
+        <briefdescription>
+<para>Clear the default backend factory (STUB #269 bridge). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para>After this call the constructor falls back to <computeroutput>InMemoryTensorBackend</computeroutput>.</para>
+<para>Calls: lk(), backendFactoryMutex(), backendFactoryStorage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_core_bridge.h" line="114" column="17" bodyfile="src/tensor/tensor_core_bridge.cpp" bodystart="81" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1a9313691a78d36037e4784faf9aca0a4e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::TensorCoreStorageBridge::makeKey</definition>
+        <argsstring>(const std::string &amp;tenant_id, const std::string &amp;source_file_id, const std::string &amp;chunk_id)</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::tensor::TensorCoreStorageBridge::makeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_file_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_id</declname>
+        </param>
+        <briefdescription>
+<para>Build the storage key for a TT-core record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Make Key.</para>
+<para>Format: <computeroutput>__ttcore__:&lt;tenant_id&gt;:&lt;source_file_id&gt;:&lt;chunk_id&gt;</computeroutput></para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>when any argument is empty or contains &apos;/&apos;.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_file_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the source file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the chunk. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: validateTenantId(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_core_bridge.h" line="140" column="24" bodyfile="src/tensor/tensor_core_bridge.cpp" bodystart="149" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1a4d1546e5dbd6320cb3716f370ec7e2af" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorCoreStorageBridge::validateTenantId</definition>
+        <argsstring>(const std::string &amp;tenant_id)</argsstring>
+        <name>validateTenantId</name>
+        <qualifiedname>themis::tensor::TensorCoreStorageBridge::validateTenantId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Validate Tenant Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), find(), std::any_of(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_core_bridge.h" line="148" column="17" bodyfile="src/tensor/tensor_core_bridge.cpp" bodystart="122" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Production <computeroutput>ITensorCoreBridge</computeroutput> backed by <computeroutput>ITensorStorageBackend</computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Stores each <computeroutput>TensorCoreRecord::serialized_train</computeroutput> byte-vector under the key: <computeroutput>__ttcore__:&lt;tenant&gt;:&lt;source_file_id&gt;:&lt;chunk_id&gt;</computeroutput></para>
+<para>Re-ingesting the same <computeroutput>tenant</computeroutput> + <computeroutput>chunk_id</computeroutput> overwrites the existing entry (upsert semantics via backend <computeroutput>put()</computeroutput>).</para>
+<para><heading level="3">STUB NOTE (STUB_INVENTORY #160)</heading>
+</para>
+<para>The production path uses <computeroutput>InMemoryTensorBackend</computeroutput> as the default when no RocksDB-backed backend is injected. Full RocksDB wiring is planned for Q4 2026 (see <computeroutput>FUTURE_ENHANCEMENTS.md</computeroutput> Phase 10).</para>
+<para><simplesect kind="see"><para><computeroutput>include/storage/tensor_network_storage_engine.h</computeroutput> for <computeroutput>ITensorStorageBackend</computeroutput> </para>
+</simplesect>
+<simplesect kind="see"><para><computeroutput>include/ingestion/ingestion_sinks.h</computeroutput> for <computeroutput>ITensorCoreBridge</computeroutput> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ingestion::ITensorCoreBridge</label>
+      </node>
+      <node id="1">
+        <label>themis::tensor::TensorCoreStorageBridge</label>
+        <link refid="classthemis_1_1tensor_1_1_tensor_core_storage_bridge"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>ingestion::ITensorCoreBridge</label>
+      </node>
+      <node id="1">
+        <label>themis::tensor::TensorCoreStorageBridge</label>
+        <link refid="classthemis_1_1tensor_1_1_tensor_core_storage_bridge"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/tensor_core_bridge.h" line="39" column="1" bodyfile="include/tensor/tensor_core_bridge.h" bodystart="39" bodyend="149"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1af2da414bafa22af27303669f1e02d91b" prot="public" virt="non-virtual"><scope>themis::tensor::TensorCoreStorageBridge</scope><name>backend</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1a6c5886089c7906699bc3b8646e117089" prot="private" virt="non-virtual"><scope>themis::tensor::TensorCoreStorageBridge</scope><name>backend_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1a4bba759af1e263f7e858a1bd2af79cb3" prot="public" virt="non-virtual"><scope>themis::tensor::TensorCoreStorageBridge</scope><name>BackendFactory</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1aa919718d137400fbeb14603e3614b746" prot="public" virt="non-virtual"><scope>themis::tensor::TensorCoreStorageBridge</scope><name>clearDefaultBackendFactory</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1a44ee30b833ef1a5f2ff20c2bb88fbab0" prot="public" virt="non-virtual"><scope>themis::tensor::TensorCoreStorageBridge</scope><name>getRaw</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1a9313691a78d36037e4784faf9aca0a4e" prot="public" virt="non-virtual"><scope>themis::tensor::TensorCoreStorageBridge</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1a99f8409f2d33fabb7a2a616cb5253af7" prot="public" virt="non-virtual"><scope>themis::tensor::TensorCoreStorageBridge</scope><name>setDefaultBackendFactory</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1aa27e780146669d826919c1148c4ad2ff" prot="public" virt="non-virtual"><scope>themis::tensor::TensorCoreStorageBridge</scope><name>TensorCoreStorageBridge</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1a4d1546e5dbd6320cb3716f370ec7e2af" prot="private" virt="non-virtual"><scope>themis::tensor::TensorCoreStorageBridge</scope><name>validateTenantId</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1a4d8e30747226757d06fa2255dcf6dd36" prot="public" virt="non-virtual"><scope>themis::tensor::TensorCoreStorageBridge</scope><name>write</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1a348834cd470732a548dce0fb8759af84" prot="private" virt="non-virtual"><scope>themis::tensor::TensorCoreStorageBridge</scope><name>write_count_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_core_storage_bridge_1a365d83e037d57ff79a37c438e419eeac" prot="public" virt="non-virtual"><scope>themis::tensor::TensorCoreStorageBridge</scope><name>writeCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

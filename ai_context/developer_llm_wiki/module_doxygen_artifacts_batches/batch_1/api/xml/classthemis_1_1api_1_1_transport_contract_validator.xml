@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1api_1_1_transport_contract_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::api::TransportContractValidator</compoundname>
+    <includes refid="api__transport__contracts_8h" local="no">api_transport_contracts.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_transport_contract_validator_1a97301ed43e09391c772566d1c93dcc68" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::api::TransportContractValidator::isSupportedVersion</definition>
+        <argsstring>(std::string_view version) noexcept</argsstring>
+        <name>isSupportedVersion</name>
+        <qualifiedname>themis::api::TransportContractValidator::isSupportedVersion</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_contracts.h" line="142" column="18" bodyfile="include/api/api_transport_contracts.h" bodystart="142" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_transport_contract_validator_1a0e6a7461197db015fc95f2cc1cc59389" prot="public" static="yes" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static constexpr bool themis::api::TransportContractValidator::isPayloadWithinLimit</definition>
+        <argsstring>(std::size_t payload_bytes) noexcept</argsstring>
+        <name>isPayloadWithinLimit</name>
+        <qualifiedname>themis::api::TransportContractValidator::isPayloadWithinLimit</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>payload_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_contracts.h" line="154" column="28" bodyfile="include/api/api_transport_contracts.h" bodystart="154" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_transport_contract_validator_1a7b37c1f4f0b5696272107ba9c768db9f" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::api::TransportContractValidator::requiresContentType</definition>
+        <argsstring>(std::string_view method) noexcept</argsstring>
+        <name>requiresContentType</name>
+        <qualifiedname>themis::api::TransportContractValidator::requiresContentType</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>method</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_contracts.h" line="159" column="18" bodyfile="include/api/api_transport_contracts.h" bodystart="159" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_transport_contract_validator_1aebce03204d3c3ade8f60107fac40041e" prot="public" static="yes" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static constexpr bool themis::api::TransportContractValidator::isPathLengthValid</definition>
+        <argsstring>(std::string_view path) noexcept</argsstring>
+        <name>isPathLengthValid</name>
+        <qualifiedname>themis::api::TransportContractValidator::isPathLengthValid</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_contracts.h" line="163" column="28" bodyfile="include/api/api_transport_contracts.h" bodystart="163" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_transport_contract_validator_1a207650e893fd3449f1bf3b26cd838ebf" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5" kindref="member">TransportFailureClass</ref></type>
+        <definition>static TransportFailureClass themis::api::TransportContractValidator::validate</definition>
+        <argsstring>(std::string_view method, std::string_view path, std::string_view content_type, std::size_t payload_bytes, std::string_view api_version) noexcept</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::api::TransportContractValidator::validate</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>content_type</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>payload_bytes</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>api_version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_contracts.h" line="168" column="35" bodyfile="include/api/api_transport_contracts.h" bodystart="168" bodyend="191"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/api_transport_contracts.h" line="140" column="1" bodyfile="include/api/api_transport_contracts.h" bodystart="140" bodyend="192"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1api_1_1_transport_contract_validator_1aebce03204d3c3ade8f60107fac40041e" prot="public" virt="non-virtual"><scope>themis::api::TransportContractValidator</scope><name>isPathLengthValid</name></member>
+      <member refid="classthemis_1_1api_1_1_transport_contract_validator_1a0e6a7461197db015fc95f2cc1cc59389" prot="public" virt="non-virtual"><scope>themis::api::TransportContractValidator</scope><name>isPayloadWithinLimit</name></member>
+      <member refid="classthemis_1_1api_1_1_transport_contract_validator_1a97301ed43e09391c772566d1c93dcc68" prot="public" virt="non-virtual"><scope>themis::api::TransportContractValidator</scope><name>isSupportedVersion</name></member>
+      <member refid="classthemis_1_1api_1_1_transport_contract_validator_1a7b37c1f4f0b5696272107ba9c768db9f" prot="public" virt="non-virtual"><scope>themis::api::TransportContractValidator</scope><name>requiresContentType</name></member>
+      <member refid="classthemis_1_1api_1_1_transport_contract_validator_1a207650e893fd3449f1bf3b26cd838ebf" prot="public" virt="non-virtual"><scope>themis::api::TransportContractValidator</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacewave1__nto" kind="namespace" language="C++">
+    <compoundname>wave1_nto</compoundname>
+    <innerclass refid="classwave1__nto_1_1_stub_timed_lock_operation" prot="public">wave1_nto::StubTimedLockOperation</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_wave1_critical_closure.cpp" line="212" column="1"/>
+  </compounddef>
+</doxygen>

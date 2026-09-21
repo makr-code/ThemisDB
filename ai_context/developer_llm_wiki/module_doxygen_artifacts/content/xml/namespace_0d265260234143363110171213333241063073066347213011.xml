@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d265260234143363110171213333241063073066347213011" kind="namespace" language="C++">
+    <compoundname>@265260234143363110171213333241063073066347213011</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespace_0d265260234143363110171213333241063073066347213011_1addeb92d0f17cdceeb854df12ca010c0e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ValidationResult</name>
+        <qualifiedname>@265260234143363110171213333241063073066347213011::ValidationResult</qualifiedname>
+        <enumvalue id="namespace_0d265260234143363110171213333241063073066347213011_1addeb92d0f17cdceeb854df12ca010c0ea7a95bf926a0333f57705aeac07a362a2" prot="public">
+          <name>PASS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d265260234143363110171213333241063073066347213011_1addeb92d0f17cdceeb854df12ca010c0ea4c9577d8bedd559f2e4d3a64556bbd5c" prot="public">
+          <name>REJECT_EMPTY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d265260234143363110171213333241063073066347213011_1addeb92d0f17cdceeb854df12ca010c0ea71f6f34e04af7dfce6c2ea95eb461f85" prot="public">
+          <name>REJECT_TOO_LARGE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_0d265260234143363110171213333241063073066347213011_1addeb92d0f17cdceeb854df12ca010c0eac4c98f06f5b14049b40e551813a70985" prot="public">
+          <name>REJECT_MALFORMED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates the content validation gate result for a given payload. Mirrors the fail-closed logic in <ref refid="content__validator_8cpp" kindref="compound">content_validator.cpp</ref>:<itemizedlist>
+<listitem><para>Rejects empty payloads</para>
+</listitem><listitem><para>Rejects payloads exceeding MAX_PAYLOAD_BYTES</para>
+</listitem><listitem><para>Rejects payloads with a simulated malformed MIME pattern </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_soak.cpp" line="80" column="1" bodyfile="tests/content/test_content_soak.cpp" bodystart="80" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/content/test_content_soak.cpp" line="41" column="1"/>
+  </compounddef>
+</doxygen>

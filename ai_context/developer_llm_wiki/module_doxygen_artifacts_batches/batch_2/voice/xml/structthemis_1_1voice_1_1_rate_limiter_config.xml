@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_rate_limiter_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::RateLimiterConfig</compoundname>
+    <includes refid="voice__security_8h" local="no">voice_security.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_rate_limiter_config_1a8dac38d408fa87540d5a5a2ea7e48235" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::RateLimiterConfig::max_failures</definition>
+        <argsstring></argsstring>
+        <name>max_failures</name>
+        <qualifiedname>themis::voice::RateLimiterConfig::max_failures</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="150" column="9" bodyfile="include/voice/voice_security.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_rate_limiter_config_1ab087ee087aa6bb8cf1a3c2f6d2aa0f38" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::RateLimiterConfig::lockout_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>lockout_duration_ms</name>
+        <qualifiedname>themis::voice::RateLimiterConfig::lockout_duration_ms</qualifiedname>
+        <initializer>= 60000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="151" column="13" bodyfile="include/voice/voice_security.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_rate_limiter_config_1ad278d23e6187efa534c7a09260d5ff3c" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::RateLimiterConfig::failure_window_ms</definition>
+        <argsstring></argsstring>
+        <name>failure_window_ms</name>
+        <qualifiedname>themis::voice::RateLimiterConfig::failure_window_ms</qualifiedname>
+        <initializer>= 600000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="152" column="13" bodyfile="include/voice/voice_security.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_security.h" line="149" column="1" bodyfile="include/voice/voice_security.h" bodystart="149" bodyend="153"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_rate_limiter_config_1ad278d23e6187efa534c7a09260d5ff3c" prot="public" virt="non-virtual"><scope>themis::voice::RateLimiterConfig</scope><name>failure_window_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_rate_limiter_config_1ab087ee087aa6bb8cf1a3c2f6d2aa0f38" prot="public" virt="non-virtual"><scope>themis::voice::RateLimiterConfig</scope><name>lockout_duration_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_rate_limiter_config_1a8dac38d408fa87540d5a5a2ea7e48235" prot="public" virt="non-virtual"><scope>themis::voice::RateLimiterConfig</scope><name>max_failures</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

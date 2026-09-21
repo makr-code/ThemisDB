@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_plugin_manager_1_1_plugin_error_state" kind="struct" language="C++" prot="private">
+    <compoundname>themis::plugins::PluginManager::PluginErrorState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_manager_1_1_plugin_error_state_1a85c9175b512f02a2208672a03cadacdd" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" kindref="member">PluginsError</ref></type>
+        <definition>PluginsError themis::plugins::PluginManager::PluginErrorState::last_error</definition>
+        <argsstring></argsstring>
+        <name>last_error</name>
+        <qualifiedname>themis::plugins::PluginManager::PluginErrorState::last_error</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a8c632159fa131f09d04f94e3cbcd8782" kindref="member">PluginsError::kSuccess</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="387" column="22" bodyfile="include/plugins/plugin_manager.h" bodystart="387" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_manager_1_1_plugin_error_state_1a488ccf987f950f6bf930b07d3f14d62f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::PluginManager::PluginErrorState::last_error_message</definition>
+        <argsstring></argsstring>
+        <name>last_error_message</name>
+        <qualifiedname>themis::plugins::PluginManager::PluginErrorState::last_error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="388" column="21" bodyfile="include/plugins/plugin_manager.h" bodystart="388" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_manager_1_1_plugin_error_state_1ac920ba05c63d1bb27a1a100e2964a764" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::plugins::PluginManager::PluginErrorState::last_error_time</definition>
+        <argsstring></argsstring>
+        <name>last_error_time</name>
+        <qualifiedname>themis::plugins::PluginManager::PluginErrorState::last_error_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="389" column="47" bodyfile="include/plugins/plugin_manager.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_manager_1_1_plugin_error_state_1afed76263f6f68d2a003eab55a4d607a2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::PluginManager::PluginErrorState::error_count</definition>
+        <argsstring></argsstring>
+        <name>error_count</name>
+        <qualifiedname>themis::plugins::PluginManager::PluginErrorState::error_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_manager.h" line="390" column="13" bodyfile="include/plugins/plugin_manager.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Error state tracking for diagnostics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/plugin_manager.h" line="386" column="5" bodyfile="include/plugins/plugin_manager.h" bodystart="386" bodyend="391"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manager_1_1_plugin_error_state_1afed76263f6f68d2a003eab55a4d607a2" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager::PluginErrorState</scope><name>error_count</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manager_1_1_plugin_error_state_1a85c9175b512f02a2208672a03cadacdd" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager::PluginErrorState</scope><name>last_error</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manager_1_1_plugin_error_state_1a488ccf987f950f6bf930b07d3f14d62f" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager::PluginErrorState</scope><name>last_error_message</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manager_1_1_plugin_error_state_1ac920ba05c63d1bb27a1a100e2964a764" prot="public" virt="non-virtual"><scope>themis::plugins::PluginManager::PluginErrorState</scope><name>last_error_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

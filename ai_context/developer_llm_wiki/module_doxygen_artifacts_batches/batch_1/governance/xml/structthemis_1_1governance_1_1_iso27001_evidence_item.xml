@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_iso27001_evidence_item" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::Iso27001EvidenceItem</compoundname>
+    <includes refid="iso27001__rules_8h" local="no">iso27001_rules.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_evidence_item_1a8431533f072f4b09fa6745857cee3969" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Iso27001EvidenceItem::evidence_id</definition>
+        <argsstring></argsstring>
+        <name>evidence_id</name>
+        <qualifiedname>themis::governance::Iso27001EvidenceItem::evidence_id</qualifiedname>
+        <briefdescription>
+<para>Unique evidence identifier (uuid-like). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="29" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_evidence_item_1ad88b475e3f86661f610756e34400f921" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Iso27001EvidenceItem::control_id</definition>
+        <argsstring></argsstring>
+        <name>control_id</name>
+        <qualifiedname>themis::governance::Iso27001EvidenceItem::control_id</qualifiedname>
+        <briefdescription>
+<para>ISO 27001 control this evidences (e.g., &quot;A.9.1.2&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="30" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_evidence_item_1aa5f29121f7f6034c0dc07d1cb177691d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Iso27001EvidenceItem::evidence_type</definition>
+        <argsstring></argsstring>
+        <name>evidence_type</name>
+        <qualifiedname>themis::governance::Iso27001EvidenceItem::evidence_type</qualifiedname>
+        <briefdescription>
+<para>&quot;policy_rule&quot;, &quot;access_log&quot;, &quot;encryption_status&quot;, &quot;retention_policy&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="31" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_evidence_item_1a5c9f011e77eec4d59970375f619406ec" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::Iso27001EvidenceItem::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::governance::Iso27001EvidenceItem::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Collection time (Unix epoch milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="32" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_evidence_item_1a56a270c4b344cb884f36c3439173000d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Iso27001EvidenceItem::resource</definition>
+        <argsstring></argsstring>
+        <name>resource</name>
+        <qualifiedname>themis::governance::Iso27001EvidenceItem::resource</qualifiedname>
+        <briefdescription>
+<para>Resource covered by this evidence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="33" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_evidence_item_1aa1567199f8194fae9b4e01d215c67f91" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Iso27001EvidenceItem::principal</definition>
+        <argsstring></argsstring>
+        <name>principal</name>
+        <qualifiedname>themis::governance::Iso27001EvidenceItem::principal</qualifiedname>
+        <briefdescription>
+<para>Principal (user/role) involved, if applicable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="34" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_evidence_item_1aafd6b11718031059cfc3c3f748bd2d61" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Iso27001EvidenceItem::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::governance::Iso27001EvidenceItem::action</qualifiedname>
+        <briefdescription>
+<para>Action performed, if applicable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="35" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_evidence_item_1a126af2eb29b3bb0d967741e4f074ef81" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::Iso27001EvidenceItem::control_met</definition>
+        <argsstring></argsstring>
+        <name>control_met</name>
+        <qualifiedname>themis::governance::Iso27001EvidenceItem::control_met</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the control was satisfied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="36" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_evidence_item_1ac2f6d07214d76453703351c5a87f3200" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Iso27001EvidenceItem::detail</definition>
+        <argsstring></argsstring>
+        <name>detail</name>
+        <qualifiedname>themis::governance::Iso27001EvidenceItem::detail</qualifiedname>
+        <briefdescription>
+<para>Human-readable evidence description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="37" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_evidence_item_1a6e7978a538f5dedfd5bb48ef7fa72831" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::Iso27001EvidenceItem::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::governance::Iso27001EvidenceItem::metadata</qualifiedname>
+        <briefdescription>
+<para>Additional structured metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="38" column="20" bodyfile="include/governance/iso27001_rules.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_iso27001_evidence_item_1a600a97aedf157c694babf637952a331e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::Iso27001EvidenceItem::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::Iso27001EvidenceItem::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="44" column="20" bodyfile="src/governance/iso27001_rules.cpp" bodystart="62" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/iso27001_rules.h" line="28" column="1" bodyfile="include/governance/iso27001_rules.h" bodystart="28" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_iso27001_evidence_item_1aafd6b11718031059cfc3c3f748bd2d61" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001EvidenceItem</scope><name>action</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_evidence_item_1ad88b475e3f86661f610756e34400f921" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001EvidenceItem</scope><name>control_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_evidence_item_1a126af2eb29b3bb0d967741e4f074ef81" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001EvidenceItem</scope><name>control_met</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_evidence_item_1ac2f6d07214d76453703351c5a87f3200" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001EvidenceItem</scope><name>detail</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_evidence_item_1a8431533f072f4b09fa6745857cee3969" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001EvidenceItem</scope><name>evidence_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_evidence_item_1aa5f29121f7f6034c0dc07d1cb177691d" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001EvidenceItem</scope><name>evidence_type</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_evidence_item_1a6e7978a538f5dedfd5bb48ef7fa72831" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001EvidenceItem</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_evidence_item_1aa1567199f8194fae9b4e01d215c67f91" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001EvidenceItem</scope><name>principal</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_evidence_item_1a56a270c4b344cb884f36c3439173000d" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001EvidenceItem</scope><name>resource</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_evidence_item_1a5c9f011e77eec4d59970375f619406ec" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001EvidenceItem</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_evidence_item_1a600a97aedf157c694babf637952a331e" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001EvidenceItem</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

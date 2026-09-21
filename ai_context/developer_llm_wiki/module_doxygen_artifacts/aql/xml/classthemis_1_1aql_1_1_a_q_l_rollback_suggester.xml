@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_a_q_l_rollback_suggester" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::AQLRollbackSuggester</compoundname>
+    <basecompoundref refid="classthemis_1_1aql_1_1_i_a_q_l_rollback_suggester" prot="public" virt="non-virtual">themis::aql::IAQLRollbackSuggester</basecompoundref>
+    <includes refid="aql__rollback__suggester_8h" local="no">aql_rollback_suggester.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_rollback_suggester_1a657d5f988a73e0488ffb5d4d85d3c9fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLRollbackSuggester::AQLRollbackSuggester</definition>
+        <argsstring>()=default</argsstring>
+        <name>AQLRollbackSuggester</name>
+        <qualifiedname>themis::aql::AQLRollbackSuggester::AQLRollbackSuggester</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_rollback_suggester.h" line="65" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_rollback_suggester_1a9c0c2c1f45e60cda0756349302a8ee4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::AQLRollbackSuggester::~AQLRollbackSuggester</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~AQLRollbackSuggester</name>
+        <qualifiedname>themis::aql::AQLRollbackSuggester::~AQLRollbackSuggester</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_rollback_suggester.h" line="66" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_a_q_l_rollback_suggester_1a047118ec7757aafbc02accf01df64074" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_rollback_suggestion" kindref="compound">RollbackSuggestion</ref></type>
+        <definition>RollbackSuggestion themis::aql::AQLRollbackSuggester::suggest</definition>
+        <argsstring>(const std::string &amp;aql_query) const override</argsstring>
+        <name>suggest</name>
+        <qualifiedname>themis::aql::AQLRollbackSuggester::suggest</qualifiedname>
+        <reimplements refid="classthemis_1_1aql_1_1_i_a_q_l_rollback_suggester_1af103f3def2d97ddd69d05ac4bb854a9b">suggest</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_query</declname>
+        </param>
+        <briefdescription>
+<para>Suggest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_rollback_suggester.h" line="68" column="24" bodyfile="src/aql/aql_rollback_suggester.cpp" bodystart="167" bodyend="346"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::aql::AQLRollbackSuggester</label>
+        <link refid="classthemis_1_1aql_1_1_a_q_l_rollback_suggester"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::aql::IAQLRollbackSuggester</label>
+        <link refid="classthemis_1_1aql_1_1_i_a_q_l_rollback_suggester"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::aql::AQLRollbackSuggester</label>
+        <link refid="classthemis_1_1aql_1_1_a_q_l_rollback_suggester"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::aql::IAQLRollbackSuggester</label>
+        <link refid="classthemis_1_1aql_1_1_i_a_q_l_rollback_suggester"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/aql/aql_rollback_suggester.h" line="63" column="1" bodyfile="include/aql/aql_rollback_suggester.h" bodystart="63" bodyend="69"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_rollback_suggester_1a657d5f988a73e0488ffb5d4d85d3c9fa" prot="public" virt="non-virtual"><scope>themis::aql::AQLRollbackSuggester</scope><name>AQLRollbackSuggester</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_rollback_suggester_1a047118ec7757aafbc02accf01df64074" prot="public" virt="virtual"><scope>themis::aql::AQLRollbackSuggester</scope><name>suggest</name></member>
+      <member refid="classthemis_1_1aql_1_1_a_q_l_rollback_suggester_1a9c0c2c1f45e60cda0756349302a8ee4e" prot="public" virt="non-virtual"><scope>themis::aql::AQLRollbackSuggester</scope><name>~AQLRollbackSuggester</name></member>
+      <member refid="classthemis_1_1aql_1_1_i_a_q_l_rollback_suggester_1ac90488896c8b93957789485f53692dc3" prot="public" virt="virtual"><scope>themis::aql::AQLRollbackSuggester</scope><name>~IAQLRollbackSuggester</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="replication__api__contract_8h" kind="file" language="C++">
+    <compoundname>replication_api_contract.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string_view</includes>
+    <includedby refid="bench__replication__release__gates_8cpp" local="yes">benchmarks/replication/bench_replication_release_gates.cpp</includedby>
+    <includedby refid="test__replication__contract__hardening__focused_8cpp" local="yes">tests/replication/test_replication_contract_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/replication/replication_api_contract.h</label>
+        <link refid="replication__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/replication/bench_replication_release_gates.cpp</label>
+        <link refid="bench__replication__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/replication/replication_api_contract.h</label>
+        <link refid="replication__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>tests/replication/test_replication_contract_hardening_focused.cpp</label>
+        <link refid="test__replication__contract__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1replication">themis::replication</innernamespace>
+    <briefdescription>
+<para>Frozen replication runtime contract semantics for the active v1.x line. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header defines the normative contract for all replication module components, covering logical replication, CRDT operations, conflict resolution, change-stream delivery, and Kafka integration.</para>
+<sect1 id="replication__api__contract_8h_1autotoc_md0_1s1"><sect2 id="replication__api__contract_8h_1autotoc_md0">
+<title>Contract Scope</title><para>The contracts below are binding for all components in the ThemisDB replication pipeline:<itemizedlist>
+<listitem><para>Logical replication (WAL event ordering, idempotent apply)</para>
+</listitem><listitem><para>CRDT types (GCounter, PNCounter, LWWRegister, ORSet)</para>
+</listitem><listitem><para>Conflict resolution (LWW, field-level merge, tombstone)</para>
+</listitem><listitem><para>Change streams (partition-ordered, at-least-once delivery)</para>
+</listitem><listitem><para>Kafka integration (acks=all, offset commit after successful apply)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="replication__api__contract_8h_1autotoc_md1_1s1"><sect2 id="replication__api__contract_8h_1autotoc_md1">
+<title>Versioning</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump with migration notes and a CHANGELOG entry.</para>
+<para><simplesect kind="see"><para>src/replication/ROADMAP.md — Phase 1 contract item </para>
+</simplesect>
+<simplesect kind="see"><para>include/replication/ROADMAP.md — Phase 6 documentation item </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1replication" kindref="compound">replication</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Logical<sp/>replication<sp/>/<sp/>WAL<sp/>ordering<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WAL<sp/>event<sp/>ordering<sp/>guarantee:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Events<sp/>are<sp/>assigned<sp/>monotonically<sp/>increasing<sp/>Log<sp/>Sequence<sp/>Numbers<sp/>(LSNs).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>An<sp/>apply<sp/>operation<sp/>MUST<sp/>honour<sp/>LSN<sp/>order;<sp/>applying<sp/>an<sp/>event<sp/>with<sp/>a<sp/>lower</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>LSN<sp/>after<sp/>a<sp/>higher<sp/>LSN<sp/>has<sp/>already<sp/>been<sp/>applied<sp/>returns<sp/>APPLY_FAILED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Idempotent<sp/>apply:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Replaying<sp/>an<sp/>already-applied<sp/>WAL<sp/>event<sp/>(same<sp/>LSN,<sp/>same<sp/>content)<sp/>is<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>no-op;<sp/>no<sp/>error<sp/>is<sp/>raised<sp/>and<sp/>the<sp/>data<sp/>state<sp/>is<sp/>unchanged.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gap<sp/>detection:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>A<sp/>gap<sp/>in<sp/>the<sp/>received<sp/>LSN<sp/>sequence<sp/>(LSN[n+1]<sp/>&gt;<sp/>LSN[n]<sp/>+<sp/>1)<sp/>is<sp/>flagged<sp/>as</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>REPLICATION_LAG_EXCEEDED;<sp/>the<sp/>apply<sp/>pipeline<sp/>MUST<sp/>pause<sp/>and<sp/>signal<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>operator<sp/>rather<sp/>than<sp/>applying<sp/>events<sp/>across<sp/>the<sp/>gap.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1replication_1a7a401299a3fa72e037aedbc7a401e911" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::int64_t<sp/><ref refid="namespacethemis_1_1replication_1a7a401299a3fa72e037aedbc7a401e911" kindref="member">kMaxReplicationLagBytes</ref><sp/>=<sp/>512LL<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/></highlight><highlight class="comment">//<sp/>512<sp/>MiB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1replication_1aa4ab49edffd005128d0653efd58ec7b3" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1replication_1aa4ab49edffd005128d0653efd58ec7b3" kindref="member">kMaxPendingWalEvents</ref><sp/>=<sp/>100&apos;000u;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>CRDT<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Merge<sp/>commutativity:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>For<sp/>any<sp/>two<sp/>CRDT<sp/>states<sp/>A<sp/>and<sp/>B,<sp/>merge(A,<sp/>B)<sp/>==<sp/>merge(B,<sp/>A).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Merge<sp/>associativity:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>merge(merge(A,<sp/>B),<sp/>C)<sp/>==<sp/>merge(A,<sp/>merge(B,<sp/>C)).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Idempotency:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>merge(A,<sp/>A)<sp/>==<sp/>A.<sp/><sp/>Repeated<sp/>application<sp/>of<sp/>the<sp/>same<sp/>delta<sp/>is<sp/>safe.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Type<sp/>safety:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Merging<sp/>two<sp/>CRDT<sp/>instances<sp/>of<sp/>incompatible<sp/>types<sp/>raises<sp/>CRDT_TYPE_MISMATCH.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>No<sp/>silent<sp/>type<sp/>coercion<sp/>or<sp/>data<sp/>corruption<sp/>occurs.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Conflict<sp/>resolution<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LWW<sp/>(Last-Write-Wins)<sp/>determinism:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Given<sp/>two<sp/>conflicting<sp/>versions<sp/>V1<sp/>(timestamp<sp/>T1)<sp/>and<sp/>V2<sp/>(timestamp<sp/>T2),</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>the<sp/>winner<sp/>is<sp/>always<sp/>the<sp/>version<sp/>with<sp/>the<sp/>greater<sp/>timestamp<sp/>value.<sp/><sp/>The</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>result<sp/>is<sp/>deterministic:<sp/>same<sp/>inputs<sp/>always<sp/>produce<sp/>the<sp/>same<sp/>winner.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tie-break<sp/>rule:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>When<sp/>T1<sp/>==<sp/>T2,<sp/>the<sp/>version<sp/>from<sp/>the<sp/>node<sp/>with<sp/>the<sp/>lexicographically<sp/>greater</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>node-ID<sp/>wins.<sp/><sp/>This<sp/>rule<sp/>is<sp/>applied<sp/>consistently<sp/>across<sp/>all<sp/>nodes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tombstone<sp/>wins:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>A<sp/>delete<sp/>tombstone<sp/>always<sp/>wins<sp/>over<sp/>a<sp/>concurrent<sp/>update<sp/>when<sp/>both<sp/>carry<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>same<sp/>timestamp.<sp/><sp/>This<sp/>prevents<sp/>resurrection<sp/>of<sp/>deleted<sp/>entries.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Change<sp/>stream<sp/>delivery<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>At-least-once<sp/>delivery:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Every<sp/>committed<sp/>database<sp/>event<sp/>MUST<sp/>be<sp/>delivered<sp/>to<sp/>all<sp/>registered<sp/>stream</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>consumers<sp/>at<sp/>least<sp/>once.<sp/><sp/>Loss<sp/>of<sp/>a<sp/>committed<sp/>event<sp/>is<sp/>a<sp/>contract<sp/>violation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Partition<sp/>ordering:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Events<sp/>within<sp/>a<sp/>single<sp/>partition<sp/>are<sp/>delivered<sp/>in<sp/>commit<sp/>order.<sp/><sp/>Cross-</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>partition<sp/>ordering<sp/>is<sp/>not<sp/>guaranteed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Redelivery<sp/>idempotency:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Consumer<sp/>implementations<sp/>MUST<sp/>be<sp/>idempotent;<sp/>a<sp/>redelivered<sp/>event<sp/>must</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>produce<sp/>the<sp/>same<sp/>final<sp/>state<sp/>as<sp/>the<sp/>original<sp/>delivery.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Kafka<sp/>integration<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Producer<sp/>acks=all:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>All<sp/>Kafka<sp/>producers<sp/>writing<sp/>replication<sp/>events<sp/>MUST<sp/>use<sp/>acks=all.<sp/><sp/>Using</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>acks=1<sp/>or<sp/>acks=0<sp/>is<sp/>a<sp/>contract<sp/>violation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Offset<sp/>commit<sp/>timing:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Consumer<sp/>offset<sp/>commits<sp/>are<sp/>performed<sp/>AFTER<sp/>successful<sp/>apply<sp/>of<sp/>the<sp/>event.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>Pre-apply<sp/>offset<sp/>commits<sp/>are<sp/>prohibited;<sp/>they<sp/>risk<sp/>silent<sp/>data<sp/>loss<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>consumer<sp/>restart.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="namespacethemis_1_1replication_1a601e490ccda63db8dcbaf0a4ada9ca84" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/><ref refid="namespacethemis_1_1replication_1a601e490ccda63db8dcbaf0a4ada9ca84" kindref="member">kKafkaRequiredAcks</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;all&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Error<sp/>taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954f" kindref="member">ReplicationErrorCode</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="138" refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa12804f95a24349bb240f8a4fa37a1043" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa12804f95a24349bb240f8a4fa37a1043" kindref="member">REPLICATION_LAG_EXCEEDED</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>200,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa7f2ba9f1d809839e5f1365966a074a61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa7f2ba9f1d809839e5f1365966a074a61" kindref="member">CONFLICT_UNRESOLVABLE</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>201,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa9285e9f6e47556cdfec9d6518a6734e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa9285e9f6e47556cdfec9d6518a6734e3" kindref="member">CRDT_TYPE_MISMATCH</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>202,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954faebb58019a2cda331fbfe89c980c45292" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954faebb58019a2cda331fbfe89c980c45292" kindref="member">STREAM_OFFSET_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>203,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa1b38fa0e143ea5a9020f7b528e422856" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa1b38fa0e143ea5a9020f7b528e422856" kindref="member">APPLY_FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>204,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa344178161dbf485993ffe1fb6a87a529" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa344178161dbf485993ffe1fb6a87a529" kindref="member">KAFKA_BROKER_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>205,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954faed0b266cab538e8e9c18c12757f3ba93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954faed0b266cab538e8e9c18c12757f3ba93" kindref="member">SLOT_INVALIDATED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>206,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>299,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="namespacethemis_1_1replication_1afdaa07c6f40670121a7f888e35cd3d62" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1replication_1afdaa07c6f40670121a7f888e35cd3d62" kindref="member">isHardReplicationError</ref>(<ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954f" kindref="member">ReplicationErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa7f2ba9f1d809839e5f1365966a074a61" kindref="member">ReplicationErrorCode::CONFLICT_UNRESOLVABLE</ref></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa9285e9f6e47556cdfec9d6518a6734e3" kindref="member">ReplicationErrorCode::CRDT_TYPE_MISMATCH</ref></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa1b38fa0e143ea5a9020f7b528e422856" kindref="member">ReplicationErrorCode::APPLY_FAILED</ref></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954faed0b266cab538e8e9c18c12757f3ba93" kindref="member">ReplicationErrorCode::SLOT_INVALIDATED</ref></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fae8c0c70879b5895c615677261d64a1ee" kindref="member">ReplicationErrorCode::INTERNAL_ERROR</ref>;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="namespacethemis_1_1replication_1a63f4c206777cfb66d1238f69e0711822" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1replication_1a63f4c206777cfb66d1238f69e0711822" kindref="member">isLagError</ref>(<ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954f" kindref="member">ReplicationErrorCode</ref><sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954fa12804f95a24349bb240f8a4fa37a1043" kindref="member">ReplicationErrorCode::REPLICATION_LAG_EXCEEDED</ref></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>code<sp/>==<sp/><ref refid="namespacethemis_1_1replication_1abfc8ef27e0913e38fd9ce8e65dc7954faebb58019a2cda331fbfe89c980c45292" kindref="member">ReplicationErrorCode::STREAM_OFFSET_ERROR</ref>;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>7<sp/><sp/>Node<sp/>identity<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Every<sp/>participating<sp/>replication<sp/>node<sp/>MUST<sp/>have<sp/>a<sp/>non-empty,<sp/>cluster-unique</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>node<sp/>identifier.<sp/><sp/>The<sp/>node-ID<sp/>is<sp/>used<sp/>as<sp/>the<sp/>LWW<sp/>tie-break<sp/>key<sp/>and<sp/>must</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>remain<sp/>stable<sp/>across<sp/>node<sp/>restarts.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="namespacethemis_1_1replication_1ad36a20aff8f7d0cda1c43ba7b2de6368" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1replication_1ad36a20aff8f7d0cda1c43ba7b2de6368" kindref="member">kMaxNodeIdBytes</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="namespacethemis_1_1replication_1a50b7430f3830a974472edf3fa9368786" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1replication_1a50b7430f3830a974472edf3fa9368786" kindref="member">kMaxReplicaCount</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>replication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/replication/replication_api_contract.h"/>
+  </compounddef>
+</doxygen>

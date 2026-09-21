@@ -1,0 +1,422 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="policy__engine_8h" kind="file" language="C++">
+    <compoundname>policy_engine.h</compoundname>
+    <includes local="no">filesystem</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">unordered_set</includes>
+    <includes refid="data__masker_8h" local="yes">governance/data_masker.h</includes>
+    <includes refid="governance__diagnostics_8h" local="yes">governance/governance_diagnostics.h</includes>
+    <includedby refid="bench__governance__policy__latency_8cpp" local="yes">benchmarks/governance/bench_governance_policy_latency.cpp</includedby>
+    <includedby refid="opa__adapter_8h" local="yes">include/governance/opa_adapter.h</includedby>
+    <includedby refid="policy__coordinator_8h" local="yes">include/governance/policy_coordinator.h</includedby>
+    <includedby refid="policy__engine_8cpp" local="yes">src/governance/policy_engine.cpp</includedby>
+    <includedby refid="policy__file__watcher_8cpp" local="yes">src/governance/policy_file_watcher.cpp</includedby>
+    <includedby refid="test__governance__llm__policy__focused_8cpp" local="yes">tests/governance/test_governance_llm_policy_focused.cpp</includedby>
+    <includedby refid="test__governance__opa__adapter_8cpp" local="yes">tests/governance/test_governance_opa_adapter.cpp</includedby>
+    <includedby refid="test__governance__phase2b__phase3a__focused_8cpp" local="yes">tests/governance/test_governance_phase2b_phase3a_focused.cpp</includedby>
+    <includedby refid="test__governance__phase3b__extended__focused_8cpp" local="yes">tests/governance/test_governance_phase3b_extended_focused.cpp</includedby>
+    <includedby refid="test__governance__policy__hot__reload_8cpp" local="yes">tests/governance/test_governance_policy_hot_reload.cpp</includedby>
+    <includedby refid="test__governance__policy__simulation_8cpp" local="yes">tests/governance/test_governance_policy_simulation.cpp</includedby>
+    <incdepgraph>
+      <node id="9">
+        <label>governance/data_masker.h</label>
+        <link refid="data__masker_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>governance/governance_diagnostics.h</label>
+        <link refid="governance__diagnostics_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/governance/policy_engine.h</label>
+        <link refid="policy__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>filesystem</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>themis/export.h</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>unordered_set</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/governance/bench_governance_policy_latency.cpp</label>
+        <link refid="bench__governance__policy__latency_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/governance/opa_adapter.h</label>
+        <link refid="opa__adapter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/governance/policy_coordinator.h</label>
+        <link refid="policy__coordinator_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/governance/policy_engine.h</label>
+        <link refid="policy__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/governance/opa_adapter.cpp</label>
+        <link refid="opa__adapter_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/governance/policy_coordinator.cpp</label>
+        <link refid="policy__coordinator_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/governance/policy_engine.cpp</label>
+        <link refid="policy__engine_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/governance/policy_file_watcher.cpp</label>
+        <link refid="policy__file__watcher_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/governance/test_governance_llm_policy_focused.cpp</label>
+        <link refid="test__governance__llm__policy__focused_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/governance/test_governance_opa_adapter.cpp</label>
+        <link refid="test__governance__opa__adapter_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/governance/test_governance_phase2_phase3_focused.cpp</label>
+        <link refid="test__governance__phase2__phase3__focused_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/governance/test_governance_phase2b_phase3a_focused.cpp</label>
+        <link refid="test__governance__phase2b__phase3a__focused_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/governance/test_governance_phase3b_extended_focused.cpp</label>
+        <link refid="test__governance__phase3b__extended__focused_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/governance/test_governance_policy_hot_reload.cpp</label>
+        <link refid="test__governance__policy__hot__reload_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/governance/test_governance_policy_simulation.cpp</label>
+        <link refid="test__governance__policy__simulation_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1governance_1_1_classification_profile" prot="public">themis::governance::ClassificationProfile</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_decision" prot="public">themis::governance::PolicyDecision</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_simulation_request" prot="public">themis::governance::SimulationRequest</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_simulation_result" prot="public">themis::governance::SimulationResult</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_query_permission_result" prot="public">themis::governance::QueryPermissionResult</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_inference_permission_result" prot="public">themis::governance::InferencePermissionResult</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_policy_engine" prot="public">themis::governance::PolicyEngine</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator" prot="public">themis::governance::PolicyEngine::IPolicyEvaluator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance">themis::governance</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="data__masker_8h" kindref="compound">governance/data_masker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="governance__diagnostics_8h" kindref="compound">governance/governance_diagnostics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward-declare<sp/>ModelGovernancePolicy<sp/>so<sp/>policy_engine.h<sp/>stays<sp/>lean</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(full<sp/>type<sp/>only<sp/>needed<sp/>in<sp/>policy_engine.cpp)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1governance" kindref="compound">governance</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1governance_1_1_model_governance_policy" kindref="compound">ModelGovernancePolicy</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_model_training_export_request" kindref="compound">ModelTrainingExportRequest</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_model_governance_decision" kindref="compound">ModelGovernanceDecision</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1governance_1_1_safe_access_validator" kindref="compound">SafeAccessValidator</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_access_request" kindref="compound">AccessRequest</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_safe_access_result" kindref="compound">SafeAccessResult</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>governance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AuditLogger;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1governance" kindref="compound">governance</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1governance_1_1_classification_profile" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_classification_profile" kindref="compound">ClassificationProfile</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1governance_1_1_classification_profile_1aaa20b2ad171ef98c508d199172b97af8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_classification_profile_1aaa20b2ad171ef98c508d199172b97af8" kindref="member">level</ref>;<sp/></highlight><highlight class="comment">//<sp/>offen,<sp/>vs-nfd,<sp/>geheim,<sp/>streng-geheim</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1governance_1_1_classification_profile_1a945e2de006113e2867d1e436b01cf589" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_classification_profile_1a945e2de006113e2867d1e436b01cf589" kindref="member">encryption_required</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1governance_1_1_classification_profile_1ade9fa1c28246affc535090eae5a46a4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_classification_profile_1ade9fa1c28246affc535090eae5a46a4c" kindref="member">ann_allowed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1governance_1_1_classification_profile_1a70d4ffd57c30219984c342b89bdf00c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_classification_profile_1a70d4ffd57c30219984c342b89bdf00c8" kindref="member">export_allowed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1governance_1_1_classification_profile_1ad8b630526071ec63e231c5f4707da9a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_classification_profile_1ad8b630526071ec63e231c5f4707da9a9" kindref="member">cache_allowed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1governance_1_1_classification_profile_1a53e9ba36c48f6612f782e9cb93a48c78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_classification_profile_1a53e9ba36c48f6612f782e9cb93a48c78" kindref="member">redaction_level</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;standard&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1governance_1_1_classification_profile_1a4b3da86f68654968d16eb0dea4e0c7eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_classification_profile_1a4b3da86f68654968d16eb0dea4e0c7eb" kindref="member">retention_days</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>365;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1governance_1_1_classification_profile_1a91f2aa9f8a85d124cb0cc56a0be9d4e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_classification_profile_1a91f2aa9f8a85d124cb0cc56a0be9d4e1" kindref="member">log_encryption</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1governance_1_1_policy_decision" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_policy_decision" kindref="compound">PolicyDecision</ref><sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Normalized<sp/>classification:<sp/>&quot;offen&quot;,<sp/>&quot;vs-nfd&quot;,<sp/>&quot;geheim&quot;,<sp/>&quot;streng-geheim&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1governance_1_1_policy_decision_1a6c3e042e4ef220b687c584a82d7aced0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_policy_decision_1a6c3e042e4ef220b687c584a82d7aced0" kindref="member">classification</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mode:<sp/>&quot;enforce&quot;<sp/>|<sp/>&quot;observe&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1governance_1_1_policy_decision_1ab652165a2e2882932ea684b90eeb40ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_policy_decision_1ab652165a2e2882932ea684b90eeb40ef" kindref="member">mode</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>logs<sp/>must<sp/>be<sp/>encrypted<sp/>(Encrypt-then-Sign<sp/>handled<sp/>by<sp/>logger)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1governance_1_1_policy_decision_1a524235c1360ef8ffd98a51a40f714cbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_decision_1a524235c1360ef8ffd98a51a40f714cbe" kindref="member">encrypt_logs</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Redaction<sp/>profile:<sp/>&quot;none&quot;<sp/>|<sp/>&quot;standard&quot;<sp/>|<sp/>&quot;strict&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1governance_1_1_policy_decision_1a758c56fe14b6079d145f353fad7aed3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_policy_decision_1a758c56fe14b6079d145f353fad7aed3a" kindref="member">redaction</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;standard&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Derived,<sp/>route-relevant<sp/>decisions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1governance_1_1_policy_decision_1a2386acce8ecfa9cee8931d2654a26017" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_decision_1a2386acce8ecfa9cee8931d2654a26017" kindref="member">ann_allowed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Approximate<sp/>NN<sp/>allowed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1governance_1_1_policy_decision_1a5bab3313ea53e9f983877e5fa22ed1c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_decision_1a5bab3313ea53e9f983877e5fa22ed1c3" kindref="member">require_content_encryption</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Content<sp/>blobs<sp/>must<sp/>be<sp/>encrypted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1governance_1_1_policy_decision_1ad9eabc4f55936682ad836a721df6be94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_decision_1ad9eabc4f55936682ad836a721df6be94" kindref="member">export_allowed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1governance_1_1_policy_decision_1a3a6f5f962fcb05b712831598722be259" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_decision_1a3a6f5f962fcb05b712831598722be259" kindref="member">cache_allowed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1governance_1_1_policy_decision_1ac8ecf7b79af4742e9f0604815e134204" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_decision_1ac8ecf7b79af4742e9f0604815e134204" kindref="member">retention_days</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>365;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CCPA/CPRA:<sp/>set<sp/>to<sp/>true<sp/>when<sp/>the<sp/>data<sp/>subject<sp/>has<sp/>opted<sp/>out<sp/>of<sp/>data<sp/>sale.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>true,<sp/>callers<sp/>must<sp/>not<sp/>share<sp/>or<sp/>export<sp/>this<sp/>subject&apos;s<sp/>data<sp/>to<sp/>third</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>parties.<sp/><sp/>PolicyEngine::evaluate()<sp/>sets<sp/>this<sp/>flag<sp/>automatically<sp/>when<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>subject<sp/>ID<sp/>is<sp/>present<sp/>in<sp/>the<sp/>headers<sp/>and<sp/>the<sp/>subject<sp/>is<sp/>registered<sp/>in<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>opt-out<sp/>registry<sp/>via<sp/>setCcpaOptOutSubjects().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1governance_1_1_policy_decision_1adf2ee560b1c011cc17451a43a61d4371" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_decision_1adf2ee560b1c011cc17451a43a61d4371" kindref="member">ccpa_opted_out</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1governance_1_1_simulation_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_simulation_request" kindref="compound">SimulationRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1governance_1_1_simulation_request_1abaf644dd28fa305475c9b79e249591c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1governance_1_1_simulation_request_1abaf644dd28fa305475c9b79e249591c0" kindref="member">headers</ref>;</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1governance_1_1_simulation_request_1aff2cb8f8202869dd50f23e8c7b802830" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_simulation_request_1aff2cb8f8202869dd50f23e8c7b802830" kindref="member">route</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1governance_1_1_simulation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_simulation_result" kindref="compound">SimulationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1governance_1_1_simulation_result_1a8bdc8d67a6078815584bb82754080f4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_policy_decision" kindref="compound">PolicyDecision</ref><sp/><ref refid="structthemis_1_1governance_1_1_simulation_result_1a8bdc8d67a6078815584bb82754080f4c" kindref="member">decision</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>computed<sp/>access<sp/>decision</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1governance_1_1_simulation_result_1ae0eebc9c980d3e14692dfac373948eeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_simulation_result_1ae0eebc9c980d3e14692dfac373948eeb" kindref="member">matched_profile</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Classification<sp/>profile<sp/>used<sp/>(&quot;&quot;<sp/>=<sp/>heuristic<sp/>fallback)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1governance_1_1_simulation_result_1a7253354365b2b3537a918e9fd12021d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_simulation_result_1a7253354365b2b3537a918e9fd12021d6" kindref="member">matched_resource</ref>;<sp/></highlight><highlight class="comment">//<sp/>Resource-mapping<sp/>key<sp/>that<sp/>resolved<sp/>the<sp/>classification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1governance_1_1_simulation_result_1a81b36efcd0a158395d4067fa3371c8f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_simulation_result_1a81b36efcd0a158395d4067fa3371c8f4" kindref="member">dry_run</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Always<sp/>true;<sp/>confirms<sp/>no<sp/>audit<sp/>entry<sp/>was<sp/>written</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1governance_1_1_query_permission_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_query_permission_result" kindref="compound">QueryPermissionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1governance_1_1_query_permission_result_1ad46eded80bed72538f7ad05aa3d49cab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_policy_decision" kindref="compound">PolicyDecision</ref><sp/><ref refid="structthemis_1_1governance_1_1_query_permission_result_1ad46eded80bed72538f7ad05aa3d49cab" kindref="member">decision</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1governance_1_1_query_permission_result_1a32a9fa9afe764840163d790a1cff9c64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_field_masking_policy" kindref="compound">FieldMaskingPolicy</ref><sp/><ref refid="structthemis_1_1governance_1_1_query_permission_result_1a32a9fa9afe764840163d790a1cff9c64" kindref="member">masking_policy</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1governance_1_1_inference_permission_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_inference_permission_result" kindref="compound">InferencePermissionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1governance_1_1_inference_permission_result_1a02f9f3d7b39b8156c9a206e0c9e682b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_inference_permission_result_1a02f9f3d7b39b8156c9a206e0c9e682b8" kindref="member">allowed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1governance_1_1_inference_permission_result_1a4ae52c0af2a0cae5becaa83ce489666f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_inference_permission_result_1a4ae52c0af2a0cae5becaa83ce489666f" kindref="member">http_status</ref><sp/>=<sp/>401;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1governance_1_1_inference_permission_result_1aa9b36f71e467f80ed2953c4076c3cfc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_inference_permission_result_1aa9b36f71e467f80ed2953c4076c3cfc6" kindref="member">denial_reason</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1governance_1_1_inference_permission_result_1a5de8ae3f4d80b8a55de2fcfeb9eb1344" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_policy_decision" kindref="compound">PolicyDecision</ref><sp/><ref refid="structthemis_1_1governance_1_1_inference_permission_result_1a5de8ae3f4d80b8a55de2fcfeb9eb1344" kindref="member">decision</ref>;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1governance_1_1_policy_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1governance_1_1_policy_engine_1aa57c5f02a7f123af12bb8ef00ddd7b50" kindref="member">PolicyEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator" kindref="compound">IPolicyEvaluator</ref><sp/>{</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator_1ae86099018349e7b645da68e03b3180ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator_1ae86099018349e7b645da68e03b3180ef" kindref="member">~IPolicyEvaluator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator_1aeb1a647df9236310efc5e93e6a703364" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;PolicyDecision&gt;<sp/><ref refid="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator_1aeb1a647df9236310efc5e93e6a703364" kindref="member">evaluate</ref>(</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>headers,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>route)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1governance_1_1_policy_engine_1aa57c5f02a7f123af12bb8ef00ddd7b50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine_1aa57c5f02a7f123af12bb8ef00ddd7b50" kindref="member">PolicyEngine</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine_1a8d798e64bd152ecc9b888c31412202da" kindref="member">loadFromYAML</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;yaml_path);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine_1a5005f4213fc73c8bb1215737fe644a46" kindref="member">reloadIfChanged</ref>(std::string<sp/>*err<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1governance_1_1_policy_engine_1a9f769269f46687a9b657dc332a7ba203" kindref="member">getLoadedFilePath</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine_1ac7a83a8575ca35ffc91724e7d723c703" kindref="member">setAuditLogger</ref>(std::shared_ptr&lt;themis::utils::AuditLogger&gt;<sp/>logger);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine_1ad61501778809438dac0844aec888d038" kindref="member">setOpaEvaluator</ref>(<ref refid="structthemis_1_1governance_1_1_policy_engine_1_1_i_policy_evaluator" kindref="compound">IPolicyEvaluator</ref>*<sp/>evaluator);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine_1af6ec636c9f7f564c3ccf80d5cddde7d4" kindref="member">setCcpaOptOutSubjects</ref>(std::shared_ptr&lt;std::unordered_set&lt;std::string&gt;&gt;<sp/>opt_out_registry);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine_1ab0edeb300ad7866e66ec2e2dc1eae0fe" kindref="member">isCcpaOptedOut</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;subject_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine_1a4e95c26b124a8534b9c33bf283a23add" kindref="member">setModelGovernancePolicy</ref>(std::shared_ptr&lt;ModelGovernancePolicy&gt;<sp/>policy);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_model_governance_decision" kindref="compound">ModelGovernanceDecision</ref><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine_1ac6c273f559ff5d5943f762f9fb634e75" kindref="member">checkExportPermission</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_model_training_export_request" kindref="compound">ModelTrainingExportRequest</ref><sp/>&amp;request)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Evaluate<sp/>headers<sp/>for<sp/>a<sp/>given<sp/>route<sp/>key<sp/>(e.g.,<sp/>&quot;/vector/search&quot;<sp/>or<sp/>handler<sp/>name)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>audit<sp/>logger<sp/>is<sp/>set<sp/>and<sp/>mode<sp/>is<sp/>&quot;enforce&quot;,<sp/>logs<sp/>the<sp/>policy<sp/>decision</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_policy_decision" kindref="compound">PolicyDecision</ref><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine_1a8c85e0829c879e03bdebed57a2f6c527" kindref="member">evaluate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>&amp;headers,</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;route)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_query_permission_result" kindref="compound">QueryPermissionResult</ref><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine_1a047f168dc46ca29de387fdcf74b65aeb" kindref="member">checkQueryPermission</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>&amp;headers,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;route)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_inference_permission_result" kindref="compound">InferencePermissionResult</ref><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine_1a0c191551779ca1de04f58893550c330a" kindref="member">checkInferencePermission</ref>(</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>headers)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_field_masking_policy" kindref="compound">FieldMaskingPolicy</ref><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine_1aed7d1d895439757b498b8c8e17bfffe0" kindref="member">getMaskingPolicy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_simulation_result" kindref="compound">SimulationResult</ref><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine_1a41ce8c770060eb2d5b63c7fc80dcc09c" kindref="member">simulateDecision</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_simulation_request" kindref="compound">SimulationRequest</ref><sp/>&amp;request)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_safe_access_result" kindref="compound">SafeAccessResult</ref><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine_1ab9573376caa65418811f718ec3787da2" kindref="member">validateAccessSafety</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_access_request" kindref="compound">AccessRequest</ref>&amp;<sp/>request);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_safe_access_validator" kindref="compound">SafeAccessValidator</ref>&amp;<sp/><ref refid="classthemis_1_1governance_1_1_policy_engine_1a2a5334c7fcce60c6e56aa7f78fa70f07" kindref="member">getSafeAccessValidator</ref>();</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ClassificationProfile&gt;<sp/><ref refid="classthemis_1_1governance_1_1_policy_engine_1a1985d21e6510286032cbdaa2fa761850" kindref="member">getClassificationProfile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;level)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine_1a25ee11434c524c2306c1de6a7d580198" kindref="member">isStrictClass</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;cls);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>ClassificationProfile&gt;<sp/>classification_profiles_;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>resource_mapping_;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>default_mode_<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;enforce&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::utils::AuditLogger&gt;<sp/>audit_logger_;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hot-reload<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>loaded_yaml_path_;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::file_time_type<sp/>last_loaded_mtime_{};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CCPA/CPRA<sp/>opt-out<sp/>registry<sp/>(may<sp/>be<sp/>null<sp/>–<sp/>treated<sp/>as<sp/>empty)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;std::unordered_set&lt;std::string&gt;&gt;<sp/>ccpa_opt_out_subjects_;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AI/ML<sp/>model<sp/>governance<sp/>policy<sp/>(optional;<sp/>used<sp/>by<sp/>checkExportPermission())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ModelGovernancePolicy&gt;<sp/>model_governance_policy_;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>masking<sp/>rules<sp/>loaded<sp/>from<sp/>the<sp/>YAML<sp/>`data_masking`<sp/>section.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_field_masking_policy" kindref="compound">FieldMaskingPolicy</ref><sp/>masking_rules_;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>External<sp/>OPA<sp/>evaluator<sp/>(optional;<sp/>raw<sp/>non-owning<sp/>pointer).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>IPolicyEvaluator*<sp/>opa_evaluator_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Safety<sp/>validator<sp/>for<sp/>Phase<sp/>3B<sp/>Extended<sp/>(fail-closed<sp/>access<sp/>checks)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;SafeAccessValidator&gt;<sp/>safety_validator_;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>normalize(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;s);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>governance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/governance/policy_engine.h"/>
+  </compounddef>
+</doxygen>

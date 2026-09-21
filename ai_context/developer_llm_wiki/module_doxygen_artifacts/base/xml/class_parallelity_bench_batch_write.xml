@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_parallelity_bench_batch_write" kind="class" language="C++" prot="public">
+    <compoundname>ParallelityBenchBatchWrite</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_parallelity_bench_batch_write_1aa0693b2d17fa4f668a24027fab89b9c1" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; DatabaseFixture &gt;</type>
+        <definition>std::unique_ptr&lt;DatabaseFixture&gt; ParallelityBenchBatchWrite::fixture_</definition>
+        <argsstring></argsstring>
+        <name>fixture_</name>
+        <qualifiedname>ParallelityBenchBatchWrite::fixture_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2674" column="21" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2674" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallelity_bench_batch_write_1a899e718d22fdfc6c0aca0d15c39ef85b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; ParallelityBenchBatchWrite::sim_</definition>
+        <argsstring></argsstring>
+        <name>sim_</name>
+        <qualifiedname>ParallelityBenchBatchWrite::sim_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2675" column="21" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2675" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_parallelity_bench_batch_write_1a98618514d4d3c8b9a5b80e7d94e51319" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelityBenchBatchWrite::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ParallelityBenchBatchWrite::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2662" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2662" bodyend="2666"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parallelity_bench_batch_write_1a31ea2e24e4ecf37248f7e82f221c9603" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelityBenchBatchWrite::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ParallelityBenchBatchWrite::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2668" column="10" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2668" bodyend="2671"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Phase 4: Test WriteBatch API for amortized lock overhead</para>
+<para>Strategy: Batch multiple writes together to reduce lock acquisitions</para>
+<para>Key insight:<itemizedlist>
+<listitem><para>Individual Put(): 1 record = 1 lock acquisition</para>
+</listitem><listitem><para>WriteBatch: 100 records = 1 lock acquisition</para>
+</listitem><listitem><para>Amortization factor: 100x fewer lock contentions!</para>
+</listitem></itemizedlist>
+</para>
+<para>Expected Gain: +100-500% (linear with batch size) </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ParallelityBenchBatchWrite</label>
+        <link refid="class_parallelity_bench_batch_write"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ParallelityBenchBatchWrite</label>
+        <link refid="class_parallelity_bench_batch_write"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/base/bench_advanced_patterns.cpp" line="2660" column="1" bodyfile="benchmarks/base/bench_advanced_patterns.cpp" bodystart="2660" bodyend="2676"/>
+    <listofallmembers>
+      <member refid="class_parallelity_bench_batch_write_1aa0693b2d17fa4f668a24027fab89b9c1" prot="protected" virt="non-virtual"><scope>ParallelityBenchBatchWrite</scope><name>fixture_</name></member>
+      <member refid="class_parallelity_bench_batch_write_1a98618514d4d3c8b9a5b80e7d94e51319" prot="protected" virt="non-virtual"><scope>ParallelityBenchBatchWrite</scope><name>SetUp</name></member>
+      <member refid="class_parallelity_bench_batch_write_1a899e718d22fdfc6c0aca0d15c39ef85b" prot="protected" virt="non-virtual"><scope>ParallelityBenchBatchWrite</scope><name>sim_</name></member>
+      <member refid="class_parallelity_bench_batch_write_1a31ea2e24e4ecf37248f7e82f221c9603" prot="protected" virt="non-virtual"><scope>ParallelityBenchBatchWrite</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

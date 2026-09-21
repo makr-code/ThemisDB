@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1test_1_1_retry_storm_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::test::RetryStormTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1test_1_1_retry_storm_test_1ae98830f61afa0ef5860d4a4ff946b3c3" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_s_a_g_a_orchestrator" kindref="compound">SAGAOrchestrator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SAGAOrchestrator&gt; themis::transaction::test::RetryStormTest::saga_orchestrator_</definition>
+        <argsstring></argsstring>
+        <name>saga_orchestrator_</name>
+        <qualifiedname>themis::transaction::test::RetryStormTest::saga_orchestrator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_saga_orchestration_hardening.cpp" line="484" column="19" bodyfile="tests/transaction/test_saga_orchestration_hardening.cpp" bodystart="484" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_retry_storm_test_1a32c98dc203aa11c0164b64034c6d21f7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::test::RetryStormTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::transaction::test::RetryStormTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_saga_orchestration_hardening.cpp" line="476" column="8" bodyfile="tests/transaction/test_saga_orchestration_hardening.cpp" bodystart="476" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_retry_storm_test_1ade51348437e80f4575d617f370b38e67" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::test::RetryStormTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::transaction::test::RetryStormTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_saga_orchestration_hardening.cpp" line="480" column="8" bodyfile="tests/transaction/test_saga_orchestration_hardening.cpp" bodystart="480" bodyend="482"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::transaction::test::RetryStormTest</label>
+        <link refid="classthemis_1_1transaction_1_1test_1_1_retry_storm_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::transaction::test::RetryStormTest</label>
+        <link refid="classthemis_1_1transaction_1_1test_1_1_retry_storm_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_saga_orchestration_hardening.cpp" line="474" column="1" bodyfile="tests/transaction/test_saga_orchestration_hardening.cpp" bodystart="474" bodyend="485"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_retry_storm_test_1ae98830f61afa0ef5860d4a4ff946b3c3" prot="protected" virt="non-virtual"><scope>themis::transaction::test::RetryStormTest</scope><name>saga_orchestrator_</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_retry_storm_test_1a32c98dc203aa11c0164b64034c6d21f7" prot="protected" virt="non-virtual"><scope>themis::transaction::test::RetryStormTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_retry_storm_test_1ade51348437e80f4575d617f370b38e67" prot="protected" virt="non-virtual"><scope>themis::transaction::test::RetryStormTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,288 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="office__processor_8h" kind="file" language="C++">
+    <compoundname>office_processor.h</compoundname>
+    <includes refid="content__processor_8h" local="yes">content/content_processor.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">map</includes>
+    <includedby refid="office__processor_8cpp" local="yes">src/content/office_processor.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>content/content_processor.h</label>
+        <link refid="content__processor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>content/content_type.h</label>
+        <link refid="content__type_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/content/office_processor.h</label>
+        <link refid="office__processor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/content/office_processor.h</label>
+        <link refid="office__processor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/content/office_processor.cpp</label>
+        <link refid="office__processor_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1content_1_1_word_document_info" prot="public">themis::content::WordDocumentInfo</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_excel_workbook_info" prot="public">themis::content::ExcelWorkbookInfo</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet" prot="public">themis::content::ExcelWorkbookInfo::Sheet</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_power_point_info" prot="public">themis::content::PowerPointInfo</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_power_point_info_1_1_slide" prot="public">themis::content::PowerPointInfo::Slide</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_office_metadata" prot="public">themis::content::OfficeMetadata</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_office_processor" prot="public">themis::content::OfficeProcessor</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_office_processor_1_1_config" prot="public">themis::content::OfficeProcessor::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content">themis::content</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="content__processor_8h" kindref="compound">content/content_processor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">content</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1_content_metrics" kindref="compound">ContentMetrics</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>forward<sp/>declaration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276" kindref="member">OfficeDocumentType</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a058d7577898653642b076c9030195e2ca696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref>,</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a7cfd9a9f0f8957f851d1f18224e85cfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a7cfd9a9f0f8957f851d1f18224e85cfe" kindref="member">DOCX</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Word<sp/>2007+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a3f191d96d6c2c6bc91e4f271801221a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a3f191d96d6c2c6bc91e4f271801221a0" kindref="member">XLSX</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Excel<sp/>2007+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a6c6b5c05d51726fe23e2045ad9f5dcec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a6c6b5c05d51726fe23e2045ad9f5dcec" kindref="member">PPTX</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PowerPoint<sp/>2007+</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a2e09a5b01eac28408404f266726d465c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a2e09a5b01eac28408404f266726d465c" kindref="member">DOC</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Legacy<sp/>Word<sp/>(not<sp/>fully<sp/>supported)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276aa995d055dd6053590daad9cc5bd6922f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276aa995d055dd6053590daad9cc5bd6922f" kindref="member">XLS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Legacy<sp/>Excel<sp/>(not<sp/>fully<sp/>supported)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a5be8fca867cdc28890b877c74efb06fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a5be8fca867cdc28890b877c74efb06fc" kindref="member">PPT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Legacy<sp/>PowerPoint<sp/>(not<sp/>fully<sp/>supported)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a23adbb49bffc45a4ca19a19eb1fc8328" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a23adbb49bffc45a4ca19a19eb1fc8328" kindref="member">ODT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OpenDocument<sp/>Text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a03bca049e84ba7d10ef0e3ec7529f301" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a03bca049e84ba7d10ef0e3ec7529f301" kindref="member">ODS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OpenDocument<sp/>Spreadsheet</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a949d00be963a55903b669b09e2f7ad6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a949d00be963a55903b669b09e2f7ad6d" kindref="member">ODP</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OpenDocument<sp/>Presentation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a7da7adb1d98a6ee0f69281084f9ea9b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276a7da7adb1d98a6ee0f69281084f9ea9b2" kindref="member">RTF</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rich<sp/>Text<sp/>Format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1content_1_1_word_document_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_word_document_info" kindref="compound">WordDocumentInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1content_1_1_word_document_info_1a9d33f3d13d9927b4b55942c3606814aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_word_document_info_1a9d33f3d13d9927b4b55942c3606814aa" kindref="member">text</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1content_1_1_word_document_info_1a177d6dab95ff582249200a3be3a7e1ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1content_1_1_word_document_info_1a177d6dab95ff582249200a3be3a7e1ec" kindref="member">paragraphs</ref>;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1content_1_1_word_document_info_1a9fbe2fb4cd82dffdb82fa9154ed71b28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1content_1_1_word_document_info_1a9fbe2fb4cd82dffdb82fa9154ed71b28" kindref="member">headings</ref>;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1content_1_1_word_document_info_1abe873c34aa2c7393473971c24cc05eb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="structthemis_1_1content_1_1_word_document_info_1abe873c34aa2c7393473971c24cc05eb2" kindref="member">comments</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>author,<sp/>text</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1content_1_1_word_document_info_1a926ea4b37ff9e05facf226a168dce955" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_word_document_info_1a926ea4b37ff9e05facf226a168dce955" kindref="member">word_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1content_1_1_word_document_info_1a15a8b25265bbef9ffc442999a68000ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_word_document_info_1a15a8b25265bbef9ffc442999a68000ec" kindref="member">paragraph_count</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1content_1_1_word_document_info_1a623876ff4425b6634da3b0e6aae121f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_word_document_info_1a623876ff4425b6634da3b0e6aae121f5" kindref="member">page_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1content_1_1_excel_workbook_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_excel_workbook_info" kindref="compound">ExcelWorkbookInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet" kindref="compound">Sheet</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet_1af09bbc7f6cead7e8c0b37a45c0ad7c3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet_1af09bbc7f6cead7e8c0b37a45c0ad7c3e" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet_1a7ef862014698e23e1e9bf68db753c051" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet_1a7ef862014698e23e1e9bf68db753c051" kindref="member">row_count</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet_1a040da06f1f7ac5caaf4e736c02814ac3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet_1a040da06f1f7ac5caaf4e736c02814ac3" kindref="member">col_count</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet_1a8673120e62c02a3a934bae809075bc32" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;std::string&gt;&gt;<sp/><ref refid="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet_1a8673120e62c02a3a934bae809075bc32" kindref="member">cells</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>row-major</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet_1ac86e0bb473efb856d371f6fba7e7e836" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1content_1_1_excel_workbook_info_1_1_sheet_1ac86e0bb473efb856d371f6fba7e7e836" kindref="member">formulas</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1content_1_1_excel_workbook_info_1aefad4c8241e72c2374226737130615d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Sheet&gt;<sp/><ref refid="structthemis_1_1content_1_1_excel_workbook_info_1aefad4c8241e72c2374226737130615d4" kindref="member">sheets</ref>;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1content_1_1_excel_workbook_info_1ae5df7d3d49209eeaa1520224e5ec9e32" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1content_1_1_excel_workbook_info_1ae5df7d3d49209eeaa1520224e5ec9e32" kindref="member">defined_names</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1content_1_1_power_point_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_power_point_info" kindref="compound">PowerPointInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1content_1_1_power_point_info_1_1_slide" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_power_point_info_1_1_slide" kindref="compound">Slide</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1content_1_1_power_point_info_1_1_slide_1a9cb301e16c3238c5420d8da0b1799ca8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_power_point_info_1_1_slide_1a9cb301e16c3238c5420d8da0b1799ca8" kindref="member">slide_number</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1content_1_1_power_point_info_1_1_slide_1a3d7a69a5d0e6bf38def23c81f720cf16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_power_point_info_1_1_slide_1a3d7a69a5d0e6bf38def23c81f720cf16" kindref="member">title</ref>;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1content_1_1_power_point_info_1_1_slide_1a0f3027bbe4cee37536edd83bc5319317" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_power_point_info_1_1_slide_1a0f3027bbe4cee37536edd83bc5319317" kindref="member">text</ref>;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1content_1_1_power_point_info_1_1_slide_1a201d319c4e698519d206bfc800397c14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1content_1_1_power_point_info_1_1_slide_1a201d319c4e698519d206bfc800397c14" kindref="member">notes</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1content_1_1_power_point_info_1ae47ed90b4908ff0d7f772999883cf03f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Slide&gt;<sp/><ref refid="structthemis_1_1content_1_1_power_point_info_1ae47ed90b4908ff0d7f772999883cf03f" kindref="member">slides</ref>;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1content_1_1_power_point_info_1a6fb64115765170665830e2837e11ba02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_power_point_info_1a6fb64115765170665830e2837e11ba02" kindref="member">slide_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1content_1_1_office_metadata" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_office_metadata" kindref="compound">OfficeMetadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1content_1_1_office_metadata_1a7636d051b8afa9a86f56f3fc2dcd5b7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_office_metadata_1a7636d051b8afa9a86f56f3fc2dcd5b7f" kindref="member">title</ref>;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1content_1_1_office_metadata_1aec9e3f39f2b17d7843c1bafa213e10c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_office_metadata_1aec9e3f39f2b17d7843c1bafa213e10c7" kindref="member">author</ref>;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1content_1_1_office_metadata_1a68c7c418b1b90a72f3b3e26222c54842" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_office_metadata_1a68c7c418b1b90a72f3b3e26222c54842" kindref="member">last_modified_by</ref>;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1content_1_1_office_metadata_1a83008e5eb3da1795479cc372fabe0483" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_office_metadata_1a83008e5eb3da1795479cc372fabe0483" kindref="member">subject</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1content_1_1_office_metadata_1a10d917d842851e7b4431f235821bb100" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_office_metadata_1a10d917d842851e7b4431f235821bb100" kindref="member">keywords</ref>;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1content_1_1_office_metadata_1af678b3a43314ea650f3d72f760ab0162" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_office_metadata_1af678b3a43314ea650f3d72f760ab0162" kindref="member">category</ref>;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1content_1_1_office_metadata_1a7c2a72eb63d1af612977d24206ccf2ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_office_metadata_1a7c2a72eb63d1af612977d24206ccf2ec" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1content_1_1_office_metadata_1a8f4b3e60f52df5ff643698a7a113a51d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_office_metadata_1a8f4b3e60f52df5ff643698a7a113a51d" kindref="member">created_date</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ISO<sp/>8601</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1content_1_1_office_metadata_1a75148046a518462b6f945a0d175711bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_office_metadata_1a75148046a518462b6f945a0d175711bd" kindref="member">modified_date</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ISO<sp/>8601</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1content_1_1_office_metadata_1aa2a2a32c98933b4a4012f78a8da84cd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_office_metadata_1aa2a2a32c98933b4a4012f78a8da84cd3" kindref="member">application</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;Microsoft<sp/>Word<sp/>2019&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1content_1_1_office_metadata_1a3efcd2e44c8a40b8043be55a027579b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_office_metadata_1a3efcd2e44c8a40b8043be55a027579b7" kindref="member">revision</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1content_1_1_office_metadata_1a4b137020fba19791ff046ecec14b09dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_office_metadata_1a4b137020fba19791ff046ecec14b09dc" kindref="member">edit_time_minutes</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1content_1_1_office_processor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1_office_processor_1a7993524e171eeb42e303f1dde135e6c3" kindref="member">OfficeProcessor</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_i_content_processor" kindref="compound">IContentProcessor</ref><sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1content_1_1_office_processor_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_office_processor_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1content_1_1_office_processor_1_1_config_1a0083b2452eee32f06f73d3900b914fab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_office_processor_1_1_config_1a0083b2452eee32f06f73d3900b914fab" kindref="member">extract_text</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1content_1_1_office_processor_1_1_config_1ac7d1338271879851ec8188b42ddf33c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_office_processor_1_1_config_1ac7d1338271879851ec8188b42ddf33c6" kindref="member">extract_metadata</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1content_1_1_office_processor_1_1_config_1a2989078fa385c07af186e8e7915bc39b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_office_processor_1_1_config_1a2989078fa385c07af186e8e7915bc39b" kindref="member">extract_comments</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1content_1_1_office_processor_1_1_config_1a885e6239593738da6f2ef83a073aaee3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_office_processor_1_1_config_1a885e6239593738da6f2ef83a073aaee3" kindref="member">extract_formulas</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>XLSX<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1content_1_1_office_processor_1_1_config_1af79fd0c34c6287e1baa3fb9f770248f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_office_processor_1_1_config_1af79fd0c34c6287e1baa3fb9f770248f7" kindref="member">extract_speaker_notes</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>PPTX<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1content_1_1_office_processor_1_1_config_1a12a8c40bfac7e9ad049bf6f000b37954" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_office_processor_1_1_config_1a12a8c40bfac7e9ad049bf6f000b37954" kindref="member">include_hidden_text</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1content_1_1_office_processor_1_1_config_1a5608537be2c2671c65bf82d08164fd3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_office_processor_1_1_config_1a5608537be2c2671c65bf82d08164fd3b" kindref="member">max_cell_count</ref><sp/>=<sp/>1000000;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>XLSX:<sp/>limit<sp/>cells<sp/>to<sp/>extract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1content_1_1_office_processor_1_1_config_1a09c813c561b667dbdf68f6039ab6175a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_office_processor_1_1_config_1a09c813c561b667dbdf68f6039ab6175a" kindref="member">password</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>encrypted<sp/>documents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1content_1_1_office_processor_1_1_config_1aa6060400453c715d14a9cf534dec1427" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_content_metrics" kindref="compound">ContentMetrics</ref>*<sp/><ref refid="structthemis_1_1content_1_1_office_processor_1_1_config_1aa6060400453c715d14a9cf534dec1427" kindref="member">metrics</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Optional:<sp/>report<sp/>office_extracted<sp/>/<sp/>extract_error<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LibreOffice<sp/>headless<sp/>fallback<sp/>(DOC/XLS/PPT<sp/>legacy<sp/>formats).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sandboxing<sp/>relies<sp/>on<sp/>POSIX_SPAWN_RESETIDS<sp/>(drops<sp/>SUID/SGID<sp/>bits)<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>POSIX_SPAWN_SETPGROUP<sp/>(isolated<sp/>process<sp/>group<sp/>for<sp/>clean<sp/>kill<sp/>on<sp/>timeout).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>additional<sp/>OS-level<sp/>isolation<sp/>run<sp/>the<sp/>ThemisDB<sp/>process<sp/>itself<sp/>under</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>a<sp/>restricted<sp/>system<sp/>account<sp/>with<sp/>no<sp/>write<sp/>access<sp/>to<sp/>the<sp/>data<sp/>directory.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1content_1_1_office_processor_1_1_config_1aaa505ddc66a80f3439b8248368965171" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_office_processor_1_1_config_1aaa505ddc66a80f3439b8248368965171" kindref="member">libreoffice_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Absolute<sp/>path<sp/>to<sp/>soffice<sp/>binary;<sp/>default:<sp/>/usr/bin/soffice</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1content_1_1_office_processor_1_1_config_1ad37d2d8c2f0bfbdc4e190da7ffec169c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_office_processor_1_1_config_1ad37d2d8c2f0bfbdc4e190da7ffec169c" kindref="member">libreoffice_timeout_seconds</ref><sp/>=<sp/>30;<sp/><sp/></highlight><highlight class="comment">//<sp/>Hard<sp/>timeout<sp/>in<sp/>seconds;<sp/>subprocess<sp/>is<sp/>killed<sp/>on<sp/>expiry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_office_processor_1a7993524e171eeb42e303f1dde135e6c3" kindref="member">OfficeProcessor</ref>();</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_office_processor_1a7993524e171eeb42e303f1dde135e6c3" kindref="member">OfficeProcessor</ref>(<ref refid="structthemis_1_1content_1_1_office_processor_1_1_config" kindref="compound">Config</ref><sp/>config);</highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1content_1_1_office_processor_1a79e70b59becdab24b2b57794ac1ddc47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1_office_processor_1a79e70b59becdab24b2b57794ac1ddc47" kindref="member">~OfficeProcessor</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref><sp/><ref refid="classthemis_1_1content_1_1_office_processor_1a855b391bdd81d643e26088c17ffa4ab1" kindref="member">extract</ref>(</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>blob,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref>&amp;<sp/>content_type</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;json&gt;<sp/><ref refid="classthemis_1_1content_1_1_office_processor_1a07ad189328cb393fa145f3ef6e626809" kindref="member">chunk</ref>(</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref>&amp;<sp/>extraction_result,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>chunk_size,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>overlap</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1content_1_1_office_processor_1acdbffe4b2480f4defc4cc501c6309700" kindref="member">generateEmbedding</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>chunk_data)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1content_1_1_office_processor_1a697cd9cf1654319f11ae657077b2f5d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1content_1_1_office_processor_1a697cd9cf1654319f11ae657077b2f5d9" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;OfficeProcessor&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1content_1_1_office_processor_1a6da377fb95f269ea0b2b32c75c65f766" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ContentCategory&gt;<sp/><ref refid="classthemis_1_1content_1_1_office_processor_1a6da377fb95f269ea0b2b32c75c65f766" kindref="member">getSupportedCategories</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{<ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">ContentCategory::TEXT</ref>,<sp/><ref refid="namespacethemis_1_1content_1a45c91c6922d43dc4a8384782a89894e5af3657f7b18c7809b92f317c5f3b53421" kindref="member">ContentCategory::STRUCTURED</ref>};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_office_processor_1a372041eabfddb293f52bcd522a108dfb" kindref="member">isAvailable</ref>();</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276" kindref="member">OfficeDocumentType</ref><sp/><ref refid="classthemis_1_1content_1_1_office_processor_1a32801b39e5b455ff9c47f98ba51cbd98" kindref="member">detectDocumentType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>blob);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Type-specific<sp/>extractors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref><sp/>extractDOCX(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>blob);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref><sp/>extractXLSX(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>blob);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref><sp/>extractPPTX(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>blob);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref><sp/>extractODF(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>blob,<sp/><ref refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276" kindref="member">OfficeDocumentType</ref><sp/>type);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_extraction_result" kindref="compound">ExtractionResult</ref><sp/>extractLegacyViaLibreOffice(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>blob,<sp/><ref refid="namespacethemis_1_1content_1ad59249c63908557dc4ffdb0b5daee276" kindref="member">OfficeDocumentType</ref><sp/>doc_type);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OOXML<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>readZipEntry(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>zip_blob,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>entry_path);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_office_metadata" kindref="compound">OfficeMetadata</ref><sp/>extractOOXMLMetadata(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>zip_blob);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>listZipEntries(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>zip_blob);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>XML<sp/>text<sp/>extraction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>extractTextFromXML(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>xml_content);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>extractParagraphsFromXML(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>xml_content);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Token<sp/>counting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1af5b4c2d5e4f47a70645a225a95de29f8" kindref="member">countTokens</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isValidOOXML(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>blob);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isValidODF(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>blob);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal">std::unique_ptr&lt;IContentProcessor&gt;<sp/><ref refid="namespacethemis_1_1content_1a5331e92ca2a45030c714e72cd63cbb88" kindref="member">createOfficeProcessor</ref>();</highlight></codeline>
+<codeline lineno="255"><highlight class="normal">std::unique_ptr&lt;IContentProcessor&gt;<sp/><ref refid="namespacethemis_1_1content_1a5331e92ca2a45030c714e72cd63cbb88" kindref="member">createOfficeProcessor</ref>(</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>OfficeProcessor::Config<sp/>config</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/content/office_processor.h"/>
+  </compounddef>
+</doxygen>

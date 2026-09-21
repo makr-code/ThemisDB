@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d350022270242115020161077341250022001177212006216" kind="namespace" language="C++">
+    <compoundname>@350022270242115020161077341250022001177212006216</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_pki_shard_certificate.cpp" line="10" column="1"/>
+  </compounddef>
+</doxygen>

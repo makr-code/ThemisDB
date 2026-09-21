@@ -1,0 +1,422 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__metadata__schema__churn__stress__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_metadata_schema_churn_stress_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="schema__manager_8h" local="yes">metadata/schema_manager.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>metadata/schema_manager.h</label>
+        <link refid="schema__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/metadata/test_metadata_schema_churn_stress_focused.cpp</label>
+        <link refid="test__metadata__schema__churn__stress__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>deque</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>map</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="14">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="12">
+        <label>shared_mutex</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>string_view</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__metadata__schema__churn__stress__focused_8cpp_1a3a181b0601aa744d5572de53380691dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataSchemaChurnStressTest, MCHS01_MinimalSchemaNameIsStableMutationKey)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataSchemaChurnStressTest</type>
+        </param>
+        <param>
+          <type>MCHS01_MinimalSchemaNameIsStableMutationKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_schema_churn_stress_focused.cpp" line="68" column="1" bodyfile="tests/metadata/test_metadata_schema_churn_stress_focused.cpp" bodystart="68" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__schema__churn__stress__focused_8cpp_1ac3865cea771b39d1c3a750a07fe4ca4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataSchemaChurnStressTest, MCHS02_AdaptiveTTLConfigDefaults)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataSchemaChurnStressTest</type>
+        </param>
+        <param>
+          <type>MCHS02_AdaptiveTTLConfigDefaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_schema_churn_stress_focused.cpp" line="79" column="1" bodyfile="tests/metadata/test_metadata_schema_churn_stress_focused.cpp" bodystart="79" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__schema__churn__stress__focused_8cpp_1a76dd110c33360a4745eb4f1488ede946" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataSchemaChurnStressTest, MCHS03_AdaptiveTTLConfigInvariantAfterMutation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataSchemaChurnStressTest</type>
+        </param>
+        <param>
+          <type>MCHS03_AdaptiveTTLConfigInvariantAfterMutation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_schema_churn_stress_focused.cpp" line="91" column="1" bodyfile="tests/metadata/test_metadata_schema_churn_stress_focused.cpp" bodystart="91" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__schema__churn__stress__focused_8cpp_1a4787e9cb91890999b1352e7f8e04fab7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataSchemaChurnStressTest, MCHS04_TableSchemaJsonRoundTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataSchemaChurnStressTest</type>
+        </param>
+        <param>
+          <type>MCHS04_TableSchemaJsonRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_schema_churn_stress_focused.cpp" line="106" column="1" bodyfile="tests/metadata/test_metadata_schema_churn_stress_focused.cpp" bodystart="106" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__schema__churn__stress__focused_8cpp_1a6e2741b91ae8363ef997854d1cbf1c9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataSchemaChurnStressTest, MCHS05_TableSchemaJsonContainsType)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataSchemaChurnStressTest</type>
+        </param>
+        <param>
+          <type>MCHS05_TableSchemaJsonContainsType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_schema_churn_stress_focused.cpp" line="121" column="1" bodyfile="tests/metadata/test_metadata_schema_churn_stress_focused.cpp" bodystart="121" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__schema__churn__stress__focused_8cpp_1a39baa6646e861d2de3fed5205e47336d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataSchemaChurnStressTest, MCHS06_PropertyInfoJsonRoundTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataSchemaChurnStressTest</type>
+        </param>
+        <param>
+          <type>MCHS06_PropertyInfoJsonRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_schema_churn_stress_focused.cpp" line="134" column="1" bodyfile="tests/metadata/test_metadata_schema_churn_stress_focused.cpp" bodystart="134" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__schema__churn__stress__focused_8cpp_1a3901ddb20a59bb06fcd861cb6be9bf4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataSchemaChurnStressTest, MCHS07_IndexInfoJsonRoundTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataSchemaChurnStressTest</type>
+        </param>
+        <param>
+          <type>MCHS07_IndexInfoJsonRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_schema_churn_stress_focused.cpp" line="152" column="1" bodyfile="tests/metadata/test_metadata_schema_churn_stress_focused.cpp" bodystart="152" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__schema__churn__stress__focused_8cpp_1a185679dae63e36daaaab077ff9d402d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataSchemaChurnStressTest, MCHS08_MultiplePropertiesPreserveOrder)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataSchemaChurnStressTest</type>
+        </param>
+        <param>
+          <type>MCHS08_MultiplePropertiesPreserveOrder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_schema_churn_stress_focused.cpp" line="169" column="1" bodyfile="tests/metadata/test_metadata_schema_churn_stress_focused.cpp" bodystart="169" bodyend="189"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase A: Deterministic Churn-Hardening tests for <ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Test IDs: MCH-S01..MCH-S08</para>
+</simplesect>
+Validates that <ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref> handles concurrent mutation, cache invalidation, and adaptive-TTL control correctly under high-churn load:</para>
+<para>MCH-S01 Minimal schema names remain valid mutation keys for churn-related callers MCH-S02 enableAdaptiveTTL() / disableAdaptiveTTL() round-trips without crash MCH-S03 setCacheTTL() to a very short value is reflected by getEffectiveTTL() MCH-S04 refreshCache() on a <ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref> with no tables completes without crash MCH-S05 getTable() for unknown name returns std::nullopt MCH-S06 setTableSchema() / deleteTableSchema() round-trips for a simple schema MCH-S07 validateSchema() returns an empty error string for a valid schema MCH-S08 parseTableSchema() round-trips through toJSON()</para>
+<para>All tests are self-contained: no real RocksDB, no network I/O. The <ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref> is constructed with a NullDB mock injected via the same stub approach used in existing focused tests. Canonical PRNG seed: kChurnSeed = 42 (declared; unused here).</para>
+<para><simplesect kind="see"><para><ref refid="schema__manager_8h" kindref="compound">include/metadata/schema_manager.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/metadata/ROADMAP.md — Phase A churn-stress items </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="schema__manager_8h" kindref="compound">metadata/schema_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">[[maybe_unused]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kChurnSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>minimal<sp/>in-memory<sp/>TableSchema<sp/>for<sp/>testing<sp/>purposes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref><sp/>makeMinimalSchema(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_table&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref><sp/>schema;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>schema.<ref refid="structthemis_1_1_schema_manager_1_1_table_schema_1a6b4c1d0652b1b08f0e5e7523ac99c9c3" kindref="member">name</ref><sp/>=<sp/>name;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>schema.<ref refid="structthemis_1_1_schema_manager_1_1_table_schema_1ac8dbecaf7e33861d7acdfe967f749283" kindref="member">type</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>schema.<ref refid="structthemis_1_1_schema_manager_1_1_table_schema_1a7e39421d0c53176af457e08e5b50c1ce" kindref="member">estimated_row_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_schema_manager_1_1_property_info" kindref="compound">SchemaManager::PropertyInfo</ref><sp/>prop;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>prop.<ref refid="structthemis_1_1_schema_manager_1_1_property_info_1a72638179465ba329bc40d136f9faa218" kindref="member">name</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>prop.<ref refid="structthemis_1_1_schema_manager_1_1_property_info_1a7afd3536032e8224b6d2696c0be87c69" kindref="member">type</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>prop.<ref refid="structthemis_1_1_schema_manager_1_1_property_info_1af5f992f85a43bfdd540b7fcd4a7844e1" kindref="member">indexed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>prop.<ref refid="structthemis_1_1_schema_manager_1_1_property_info_1a21065c64cb1ef17c77f149a03bc2f3b6" kindref="member">nullable</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>schema.<ref refid="structthemis_1_1_schema_manager_1_1_table_schema_1aa026c87a390275400814b6eb20a6136b" kindref="member">properties</ref>.push_back(prop);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>schema;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-S01:<sp/>Minimal<sp/>schema<sp/>names<sp/>remain<sp/>valid<sp/>mutation<sp/>keys</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__metadata__schema__churn__stress__focused_8cpp_1a3a181b0601aa744d5572de53380691dd" kindref="member">TEST</ref>(MetadataSchemaChurnStressTest,<sp/>MCHS01_MinimalSchemaNameIsStableMutationKey)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref><sp/>schema<sp/>=<sp/>makeMinimalSchema(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Churn-related<sp/>callers<sp/>pass<sp/>the<sp/>schema<sp/>name<sp/>as<sp/>the<sp/>mutation<sp/>key;<sp/>this</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>focused<sp/>test<sp/>verifies<sp/>the<sp/>helper<sp/>produces<sp/>a<sp/>stable<sp/>non-empty<sp/>name.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(schema.<ref refid="structthemis_1_1_schema_manager_1_1_table_schema_1a6b4c1d0652b1b08f0e5e7523ac99c9c3" kindref="member">name</ref>.empty());</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(schema.<ref refid="structthemis_1_1_schema_manager_1_1_table_schema_1a6b4c1d0652b1b08f0e5e7523ac99c9c3" kindref="member">name</ref>,<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-S02:<sp/>AdaptiveTTLConfig<sp/>has<sp/>valid<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__metadata__schema__churn__stress__focused_8cpp_1a3a181b0601aa744d5572de53380691dd" kindref="member">TEST</ref>(MetadataSchemaChurnStressTest,<sp/>MCHS02_AdaptiveTTLConfigDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_adaptive_t_t_l_config" kindref="compound">AdaptiveTTLConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(cfg.<ref refid="structthemis_1_1_adaptive_t_t_l_config_1a4e427440817eb7425fc951c7d5b564c5" kindref="member">min_ttl</ref>.count(),<sp/>cfg.<ref refid="structthemis_1_1_adaptive_t_t_l_config_1a7440a365f633e53fb47c2310aa391a27" kindref="member">max_ttl</ref>.count())</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;min_ttl<sp/>must<sp/>be<sp/>&lt;=<sp/>max_ttl&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1_adaptive_t_t_l_config_1a7440a365f633e53fb47c2310aa391a27" kindref="member">max_ttl</ref>.count(),<sp/>0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;max_ttl<sp/>must<sp/>be<sp/>positive&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cfg.<ref refid="structthemis_1_1_adaptive_t_t_l_config_1aa33c2d156d6c28be0d98690675c790d6" kindref="member">window</ref>.count(),<sp/>0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;measurement<sp/>window<sp/>must<sp/>be<sp/>positive&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(cfg.<ref refid="structthemis_1_1_adaptive_t_t_l_config_1aa8f01eadf1a433e0c34e2fbdfe14a52e" kindref="member">scale_factor</ref>,<sp/>0.0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;scale_factor<sp/>must<sp/>be<sp/>non-negative&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-S03:<sp/>AdaptiveTTLConfig<sp/>min/max<sp/>ordering<sp/>invariant<sp/>holds<sp/>after<sp/>mutation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="test__metadata__schema__churn__stress__focused_8cpp_1a3a181b0601aa744d5572de53380691dd" kindref="member">TEST</ref>(MetadataSchemaChurnStressTest,<sp/>MCHS03_AdaptiveTTLConfigInvariantAfterMutation)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_adaptive_t_t_l_config" kindref="compound">AdaptiveTTLConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_adaptive_t_t_l_config_1a4e427440817eb7425fc951c7d5b564c5" kindref="member">min_ttl</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>10s;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_adaptive_t_t_l_config_1a7440a365f633e53fb47c2310aa391a27" kindref="member">max_ttl</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>300s;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_adaptive_t_t_l_config_1aa8f01eadf1a433e0c34e2fbdfe14a52e" kindref="member">scale_factor</ref><sp/>=<sp/>2.0;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(cfg.<ref refid="structthemis_1_1_adaptive_t_t_l_config_1a4e427440817eb7425fc951c7d5b564c5" kindref="member">min_ttl</ref>,<sp/>cfg.<ref refid="structthemis_1_1_adaptive_t_t_l_config_1a7440a365f633e53fb47c2310aa391a27" kindref="member">max_ttl</ref>);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1_adaptive_t_t_l_config_1aa8f01eadf1a433e0c34e2fbdfe14a52e" kindref="member">scale_factor</ref>,<sp/>2.0);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1_adaptive_t_t_l_config_1a4e427440817eb7425fc951c7d5b564c5" kindref="member">min_ttl</ref>.count(),<sp/>10);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1_adaptive_t_t_l_config_1a7440a365f633e53fb47c2310aa391a27" kindref="member">max_ttl</ref>.count(),<sp/>300);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-S04:<sp/>TableSchema<sp/>toJSON()<sp/>/<sp/>parseTableSchema()<sp/>round-trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="test__metadata__schema__churn__stress__focused_8cpp_1a3a181b0601aa744d5572de53380691dd" kindref="member">TEST</ref>(MetadataSchemaChurnStressTest,<sp/>MCHS04_TableSchemaJsonRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>original<sp/>=<sp/>makeMinimalSchema(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>original.toJSON();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>restored<sp/>=<sp/><ref refid="classthemis_1_1_schema_manager_1abcacb07337af1f6ae7bafeaa3d9dca4a" kindref="member">SchemaManager::parseTableSchema</ref>(j);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.name,<sp/>original.name);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(restored.type,<sp/>original.type);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-S05:<sp/>TableSchema<sp/>toJSON()<sp/>contains<sp/>&quot;type&quot;<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="test__metadata__schema__churn__stress__focused_8cpp_1a3a181b0601aa744d5572de53380691dd" kindref="member">TEST</ref>(MetadataSchemaChurnStressTest,<sp/>MCHS05_TableSchemaJsonContainsType)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>schema<sp/>=<sp/>makeMinimalSchema(</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>schema.toJSON();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">)<sp/>||<sp/>j.contains(</highlight><highlight class="stringliteral">&quot;collection_type&quot;</highlight><highlight class="normal">)<sp/>||</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>j.contains(</highlight><highlight class="stringliteral">&quot;kind&quot;</highlight><highlight class="normal">)<sp/>||<sp/>j.contains(</highlight><highlight class="stringliteral">&quot;estimated_row_count&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;JSON<sp/>must<sp/>contain<sp/>at<sp/>least<sp/>basic<sp/>schema<sp/>metadata&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-S06:<sp/>PropertyInfo<sp/>toJSON()<sp/>round-trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="test__metadata__schema__churn__stress__focused_8cpp_1a3a181b0601aa744d5572de53380691dd" kindref="member">TEST</ref>(MetadataSchemaChurnStressTest,<sp/>MCHS06_PropertyInfoJsonRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_schema_manager_1_1_property_info" kindref="compound">SchemaManager::PropertyInfo</ref><sp/>prop;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>prop.<ref refid="structthemis_1_1_schema_manager_1_1_property_info_1a72638179465ba329bc40d136f9faa218" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>prop.<ref refid="structthemis_1_1_schema_manager_1_1_property_info_1a7afd3536032e8224b6d2696c0be87c69" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>prop.<ref refid="structthemis_1_1_schema_manager_1_1_property_info_1af5f992f85a43bfdd540b7fcd4a7844e1" kindref="member">indexed</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>prop.<ref refid="structthemis_1_1_schema_manager_1_1_property_info_1ab5c598ddceb1f1c42c8056d49da114fe" kindref="member">index_type</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;regular&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>prop.<ref refid="structthemis_1_1_schema_manager_1_1_property_info_1a21065c64cb1ef17c77f149a03bc2f3b6" kindref="member">nullable</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>prop.<ref refid="structthemis_1_1_schema_manager_1_1_property_info_1aff537e21fd597d9c3a822d26ea20fc1e" kindref="member">toJSON</ref>();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-S07:<sp/>IndexInfo<sp/>toJSON()<sp/>round-trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__metadata__schema__churn__stress__focused_8cpp_1a3a181b0601aa744d5572de53380691dd" kindref="member">TEST</ref>(MetadataSchemaChurnStressTest,<sp/>MCHS07_IndexInfoJsonRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_schema_manager_1_1_index_info" kindref="compound">SchemaManager::IndexInfo</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="structthemis_1_1_schema_manager_1_1_index_info_1a715654fdc58bd3b5918371d5bc4fb32f" kindref="member">name</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;idx_email&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="structthemis_1_1_schema_manager_1_1_index_info_1a52228e0967fed9a160ff256a047b201b" kindref="member">type</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;regular&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="structthemis_1_1_schema_manager_1_1_index_info_1a9ccca2392c0af0bab85291c4392d6c55" kindref="member">columns</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="structthemis_1_1_schema_manager_1_1_index_info_1a298558009fb53e3fad581fe898328d30" kindref="member">unique</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>idx.<ref refid="structthemis_1_1_schema_manager_1_1_index_info_1a93e755fbcc72019f912870e1ab09f98b" kindref="member">toJSON</ref>();</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(j[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;idx_email&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j.contains(</highlight><highlight class="stringliteral">&quot;unique&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(j[</highlight><highlight class="stringliteral">&quot;unique&quot;</highlight><highlight class="normal">].get&lt;bool&gt;());</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MCH-S08:<sp/>Multiple<sp/>PropertyInfo<sp/>in<sp/>schema<sp/>preserve<sp/>order<sp/>through<sp/>toJSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><ref refid="test__metadata__schema__churn__stress__focused_8cpp_1a3a181b0601aa744d5572de53380691dd" kindref="member">TEST</ref>(MetadataSchemaChurnStressTest,<sp/>MCHS08_MultiplePropertiesPreserveOrder)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>schema<sp/>=<sp/>makeMinimalSchema(</highlight><highlight class="stringliteral">&quot;events&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_schema_manager_1_1_property_info" kindref="compound">SchemaManager::PropertyInfo</ref><sp/>p2;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>p2.<ref refid="structthemis_1_1_schema_manager_1_1_property_info_1a72638179465ba329bc40d136f9faa218" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ts&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>p2.<ref refid="structthemis_1_1_schema_manager_1_1_property_info_1a7afd3536032e8224b6d2696c0be87c69" kindref="member">type</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;integer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>schema.properties.push_back(p2);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_schema_manager_1_1_property_info" kindref="compound">SchemaManager::PropertyInfo</ref><sp/>p3;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>p3.<ref refid="structthemis_1_1_schema_manager_1_1_property_info_1a72638179465ba329bc40d136f9faa218" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>p3.<ref refid="structthemis_1_1_schema_manager_1_1_property_info_1a7afd3536032e8224b6d2696c0be87c69" kindref="member">type</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>schema.properties.push_back(p3);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(schema.properties.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(schema.properties[0].name,<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(schema.properties[1].name,<sp/></highlight><highlight class="stringliteral">&quot;ts&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(schema.properties[2].name,<sp/></highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>schema.toJSON();</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(j.empty());</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/metadata/test_metadata_schema_churn_stress_focused.cpp"/>
+  </compounddef>
+</doxygen>

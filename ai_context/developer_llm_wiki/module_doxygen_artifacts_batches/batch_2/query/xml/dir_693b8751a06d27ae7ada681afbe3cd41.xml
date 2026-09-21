@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_693b8751a06d27ae7ada681afbe3cd41" kind="dir">
+    <compoundname>include/query/functions</compoundname>
+    <innerfile refid="ai__ml__functions_8h">ai_ml_functions.h</innerfile>
+    <innerfile refid="array__functions_8h">array_functions.h</innerfile>
+    <innerfile refid="collection__functions_8h">collection_functions.h</innerfile>
+    <innerfile refid="crs__functions_8h">crs_functions.h</innerfile>
+    <innerfile refid="date__functions_8h">date_functions.h</innerfile>
+    <innerfile refid="document__functions_8h">document_functions.h</innerfile>
+    <innerfile refid="ethics__functions_8h">ethics_functions.h</innerfile>
+    <innerfile refid="file__functions_8h">file_functions.h</innerfile>
+    <innerfile refid="fulltext__functions_8h">fulltext_functions.h</innerfile>
+    <innerfile refid="function__adapter_8h">function_adapter.h</innerfile>
+    <innerfile refid="function__registry_8h">function_registry.h</innerfile>
+    <innerfile refid="geo__functions_8h">geo_functions.h</innerfile>
+    <innerfile refid="graph__extensions_8h">graph_extensions.h</innerfile>
+    <innerfile refid="graph__functions_8h">graph_functions.h</innerfile>
+    <innerfile refid="graphql__functions_8h">graphql_functions.h</innerfile>
+    <innerfile refid="holiday__provider_8h">holiday_provider.h</innerfile>
+    <innerfile refid="json__path__functions_8h">json_path_functions.h</innerfile>
+    <innerfile refid="lora__functions_8h">lora_functions.h</innerfile>
+    <innerfile refid="math__functions_8h">math_functions.h</innerfile>
+    <innerfile refid="process__functions_8h">process_functions.h</innerfile>
+    <innerfile refid="process__mining__functions_8h">process_mining_functions.h</innerfile>
+    <innerfile refid="relational__functions_8h">relational_functions.h</innerfile>
+    <innerfile refid="retention__functions_8h">retention_functions.h</innerfile>
+    <innerfile refid="security__functions_8h">security_functions.h</innerfile>
+    <innerfile refid="string__functions_8h">string_functions.h</innerfile>
+    <innerfile refid="tensor__functions_8h">tensor_functions.h</innerfile>
+    <innerfile refid="udf__registry_8h">udf_registry.h</innerfile>
+    <innerfile refid="vector__functions_8h">vector_functions.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/functions/"/>
+  </compounddef>
+</doxygen>

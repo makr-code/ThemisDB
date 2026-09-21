@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::TrainingTriggerPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin" prot="public" virt="non-virtual">themis::llm::lora::BaseFeedbackPlugin</basecompoundref>
+    <includes refid="feedback__plugin_8h" local="no">feedback_plugin.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config" prot="public">themis::llm::lora::TrainingTriggerPlugin::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1a0b8f3c9a6c136444c2ee9f9a9e17ef56" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::llm::lora::TrainingTriggerPlugin::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::lora::TrainingTriggerPlugin::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="128" column="12" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1ab276877cb323ff169caf6401e9e0a0cd" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::TrainingTriggerPlugin::TrainingTriggerPlugin</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>TrainingTriggerPlugin</name>
+        <qualifiedname>themis::llm::lora::TrainingTriggerPlugin::TrainingTriggerPlugin</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Training Trigger Plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="118" column="14" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="118" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1acaa73beda1ef846eaa28c9dd57100243" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::TrainingTriggerPlugin::TrainingTriggerPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>TrainingTriggerPlugin</name>
+        <qualifiedname>themis::llm::lora::TrainingTriggerPlugin::TrainingTriggerPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="121" column="5" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1a724a310e76961b18aaa385e2f58be511" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::TrainingTriggerPlugin::~TrainingTriggerPlugin</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~TrainingTriggerPlugin</name>
+        <qualifiedname>themis::llm::lora::TrainingTriggerPlugin::~TrainingTriggerPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="122" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1a24f0457751499cf67275bf6fef926ac7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::TrainingTriggerPlugin::onTrainingTrigger</definition>
+        <argsstring>(const std::vector&lt; Feedback &gt; &amp;batch) const override</argsstring>
+        <name>onTrainingTrigger</name>
+        <qualifiedname>themis::llm::lora::TrainingTriggerPlugin::onTrainingTrigger</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a65ab7213e5ed159aa019a0b5294abe5d">onTrainingTrigger</reimplements>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref> &gt; &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="124" column="10" bodyfile="src/llm/lora_framework/feedback_plugin.cpp" bodystart="198" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1ae0bec248d96a5b3c692b47048f107d30" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::TrainingTriggerPlugin::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::llm::lora::TrainingTriggerPlugin::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a7e5acd991ac8a9d81b2fa500caac48c0">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="125" column="17" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1a49aa8f89b816519b31526313f9864c53" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::TrainingTriggerPlugin::calculateAverageRating</definition>
+        <argsstring>(const std::vector&lt; Feedback &gt; &amp;batch) const</argsstring>
+        <name>calculateAverageRating</name>
+        <qualifiedname>themis::llm::lora::TrainingTriggerPlugin::calculateAverageRating</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_feedback" kindref="compound">Feedback</ref> &gt; &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Average Rating. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="134" column="11" bodyfile="src/llm/lora_framework/feedback_plugin.cpp" bodystart="230" bodyend="241"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::lora::BaseFeedbackPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::lora::FeedbackPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::TrainingTriggerPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::lora::BaseFeedbackPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::lora::FeedbackPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::lora::TrainingTriggerPlugin</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/feedback_plugin.h" line="104" column="1" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="104" bodyend="135"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1a49aa8f89b816519b31526313f9864c53" prot="private" virt="non-virtual"><scope>themis::llm::lora::TrainingTriggerPlugin</scope><name>calculateAverageRating</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1a0b8f3c9a6c136444c2ee9f9a9e17ef56" prot="private" virt="non-virtual"><scope>themis::llm::lora::TrainingTriggerPlugin</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1ae0bec248d96a5b3c692b47048f107d30" prot="public" virt="virtual"><scope>themis::llm::lora::TrainingTriggerPlugin</scope><name>getName</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1a24f0457751499cf67275bf6fef926ac7" prot="public" virt="virtual"><scope>themis::llm::lora::TrainingTriggerPlugin</scope><name>onTrainingTrigger</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a7d3d8625b623aa482e2db4d8773ed51a" prot="public" virt="virtual"><scope>themis::llm::lora::TrainingTriggerPlugin</scope><name>process</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1ab276877cb323ff169caf6401e9e0a0cd" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingTriggerPlugin</scope><name>TrainingTriggerPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1acaa73beda1ef846eaa28c9dd57100243" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingTriggerPlugin</scope><name>TrainingTriggerPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1a1bfad4661bb7411cfce7ce0989f4696e" prot="public" virt="virtual"><scope>themis::llm::lora::TrainingTriggerPlugin</scope><name>validate</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_base_feedback_plugin_1afe83ca0c780ba5f6b3802898bd688c68" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingTriggerPlugin</scope><name>~BaseFeedbackPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_feedback_plugin_1a389b7d5762d2f99a345aa3a11b76eb4c" prot="public" virt="virtual"><scope>themis::llm::lora::TrainingTriggerPlugin</scope><name>~FeedbackPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1a724a310e76961b18aaa385e2f58be511" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingTriggerPlugin</scope><name>~TrainingTriggerPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

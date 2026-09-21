@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="branch__api__handler_8h" kind="file" language="C++">
+    <compoundname>branch_api_handler.h</compoundname>
+    <includes local="yes">transaction/branch_manager.h</includes>
+    <includes local="no">httplib.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="branch__api__handler_8cpp" local="yes">src/server/branch_api_handler.cpp</includedby>
+    <includedby refid="http__server_8cpp" local="yes">src/server/http_server.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/server/branch_api_handler.h</label>
+        <link refid="branch__api__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>httplib.h</label>
+      </node>
+      <node id="4">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="2">
+        <label>transaction/branch_manager.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/server/branch_api_handler.h</label>
+        <link refid="branch__api__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/server/branch_api_handler.cpp</label>
+        <link refid="branch__api__handler_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/server/http_server.cpp</label>
+        <link refid="http__server_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1server_1_1_branch_api_handler" prot="public">themis::server::BranchApiHandler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server">themis::server</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;transaction/branch_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;httplib.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">server</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="classthemis_1_1server_1_1_branch_api_handler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1server_1_1_branch_api_handler_1a75d5d902ae672c88e5062cc8c4f95135" kindref="member">BranchApiHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_branch_api_handler_1a75d5d902ae672c88e5062cc8c4f95135" kindref="member">BranchApiHandler</ref>(transaction::BranchManager&amp;<sp/>branch_manager);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_branch_api_handler_1a598e3cf21057c3e83266293dc20b6ed6" kindref="member">registerRoutes</ref>(httplib::Server&amp;<sp/><ref refid="namespacethemis_1_1server" kindref="compound">server</ref>);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Route<sp/>handlers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_branch_api_handler_1a85ca2940c413f82dae9ffa02856869dd" kindref="member">handleCreateBranch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_branch_api_handler_1a7463e30e79a4e4769a0722cbdcb2ab1b" kindref="member">handleListBranches</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_branch_api_handler_1a851e26235bcd586b325d7b33cf454304" kindref="member">handleGetBranch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_branch_api_handler_1a98141357f24d0255bacd6781a1f342e2" kindref="member">handleSwitchBranch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_branch_api_handler_1acd8101ac85aca8c1c8080163607a46ea" kindref="member">handleMergeBranches</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_branch_api_handler_1a236a25385dd719d4655b3f8ed0724ea5" kindref="member">handleDeleteBranch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_branch_api_handler_1a72301354f6f8f7100f44d59779ff4074" kindref="member">handleGetStats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_branch_api_handler_1a3e45041666bda21ec4791461254337b9" kindref="member">handleGetActiveBranch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_branch_api_handler_1a982214a0cfc3d965518a46eaa166ddfe" kindref="member">handlePreviewMergeBranches</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_branch_api_handler_1aeaa0b3a0ef460c8d952c6dfaf9863401" kindref="member">handleResolveMergeBranches</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/>httplib::Response&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>transaction::BranchManager&amp;<sp/>branch_manager_;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sendJson(httplib::Response&amp;<sp/>res,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref>&amp;<sp/>data,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status_code<sp/>=<sp/>200);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sendError(httplib::Response&amp;<sp/>res,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>status_code,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>parseJsonBody(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>httplib::Request&amp;<sp/>req,<sp/><ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref>&amp;<sp/>out,<sp/>httplib::Response&amp;<sp/>res);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/server/branch_api_handler.h"/>
+  </compounddef>
+</doxygen>

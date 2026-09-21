@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1user__storage_1_1_health_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::user_storage::HealthStatus</compoundname>
+    <includes refid="user__models_8hpp" local="no">user_models.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_health_status_1af13b0799b5003dae5fc8d852374efa17" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::user_storage::HealthStatus::healthy</definition>
+        <argsstring></argsstring>
+        <name>healthy</name>
+        <qualifiedname>themis::plugins::user_storage::HealthStatus::healthy</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_models.hpp" line="64" column="10" bodyfile="include/user_storage_encrypted/user_models.hpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_health_status_1a3082bb4075049cdb8e7637c512416782" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::HealthStatus::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::plugins::user_storage::HealthStatus::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_models.hpp" line="65" column="17" bodyfile="include/user_storage_encrypted/user_models.hpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_health_status_1a1630a467e9f36158000b96e0e5f0bd52" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::user_storage::HealthStatus::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::plugins::user_storage::HealthStatus::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_models.hpp" line="66" column="17" bodyfile="include/user_storage_encrypted/user_models.hpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_health_status_1a86bdab924d919863d895dd4f7d3a1d94" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::plugins::user_storage::HealthStatus::checked_at_ms</definition>
+        <argsstring></argsstring>
+        <name>checked_at_ms</name>
+        <qualifiedname>themis::plugins::user_storage::HealthStatus::checked_at_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_models.hpp" line="67" column="13" bodyfile="include/user_storage_encrypted/user_models.hpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1user__storage_1_1_health_status_1a39d56c1e6b68261ba7a1ad74615821f9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::user_storage::HealthStatus::HealthStatus</definition>
+        <argsstring>()</argsstring>
+        <name>HealthStatus</name>
+        <qualifiedname>themis::plugins::user_storage::HealthStatus::HealthStatus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/user_models.hpp" line="69" column="5" bodyfile="include/user_storage_encrypted/user_models.hpp" bodystart="69" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Health status for storage containers. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/user_storage_encrypted/user_models.hpp" line="63" column="1" bodyfile="include/user_storage_encrypted/user_models.hpp" bodystart="63" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_health_status_1a86bdab924d919863d895dd4f7d3a1d94" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::HealthStatus</scope><name>checked_at_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_health_status_1a1630a467e9f36158000b96e0e5f0bd52" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::HealthStatus</scope><name>errors</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_health_status_1a39d56c1e6b68261ba7a1ad74615821f9" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::HealthStatus</scope><name>HealthStatus</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_health_status_1af13b0799b5003dae5fc8d852374efa17" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::HealthStatus</scope><name>healthy</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_health_status_1a3082bb4075049cdb8e7637c512416782" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::HealthStatus</scope><name>message</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

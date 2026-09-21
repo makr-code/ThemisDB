@@ -1,0 +1,451 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="oidc__provider_8h" kind="file" language="C++">
+    <compoundname>oidc_provider.h</compoundname>
+    <includes refid="jwt__validator_8h" local="yes">auth/jwt_validator.h</includes>
+    <includes refid="oauth__device__flow_8h" local="yes">auth/oauth_device_flow.h</includes>
+    <includes refid="auth__error_8h" local="yes">auth/auth_error.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">optional</includes>
+    <includedby refid="bench__auth__hotpaths_8cpp" local="yes">benchmarks/auth/bench_auth_hotpaths.cpp</includedby>
+    <includedby refid="federated__identity__manager_8h" local="yes">include/auth/federated_identity_manager.h</includedby>
+    <includedby refid="oidc__provider_8cpp" local="yes">src/auth/oidc_provider.cpp</includedby>
+    <includedby refid="test__auth__wavec__federation__providers_8cpp" local="yes">tests/auth/test_auth_wavec_federation_providers.cpp</includedby>
+    <incdepgraph>
+      <node id="28">
+        <label>auth/auth_error.h</label>
+        <link refid="auth__error_8h"/>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>auth/auth_worker_thread_pool.h</label>
+        <link refid="auth__worker__thread__pool_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>auth/jwt_validator.h</label>
+        <link refid="jwt__validator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>auth/oauth_device_flow.h</label>
+        <link refid="oauth__device__flow_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/auth/oidc_provider.h</label>
+        <link refid="oidc__provider_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>auth/token_blacklist.h</label>
+        <link refid="token__blacklist_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>algorithm</label>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>condition_variable</label>
+      </node>
+      <node id="17">
+        <label>cstdint</label>
+      </node>
+      <node id="18">
+        <label>functional</label>
+      </node>
+      <node id="13">
+        <label>future</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="3">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="22">
+        <label>queue</label>
+      </node>
+      <node id="9">
+        <label>shared_mutex</label>
+      </node>
+      <node id="23">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="24">
+        <label>thread</label>
+      </node>
+      <node id="25">
+        <label>tuple</label>
+      </node>
+      <node id="26">
+        <label>type_traits</label>
+      </node>
+      <node id="16">
+        <label>unordered_map</label>
+      </node>
+      <node id="15">
+        <label>unordered_set</label>
+      </node>
+      <node id="19">
+        <label>utility</label>
+      </node>
+      <node id="29">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/auth/bench_auth_hotpaths.cpp</label>
+        <link refid="bench__auth__hotpaths_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/auth/federated_identity_manager.h</label>
+        <link refid="federated__identity__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/auth/oidc_provider.h</label>
+        <link refid="oidc__provider_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/auth/federated_identity_manager.cpp</label>
+        <link refid="federated__identity__manager_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/auth/oidc_provider.cpp</label>
+        <link refid="oidc__provider_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/auth/test_auth_hardening_revocation_federation.cpp</label>
+        <link refid="test__auth__hardening__revocation__federation_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/auth/test_auth_protocol_matrix_regression.cpp</label>
+        <link refid="test__auth__protocol__matrix__regression_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/auth/test_auth_soak.cpp</label>
+        <link refid="test__auth__soak_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/auth/test_auth_wavec_federation_providers.cpp</label>
+        <link refid="test__auth__wavec__federation__providers_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/auth/test_wave4b_auth_hardening.cpp</label>
+        <link refid="test__wave4b__auth__hardening_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/auth/test_wave4b_auth_hardening2.cpp</label>
+        <link refid="test__wave4b__auth__hardening2_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/auth/test_wave7_auth_ldap_federated.cpp</label>
+        <link refid="test__wave7__auth__ldap__federated_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/auth/test_wave8_auth_hardening.cpp</label>
+        <link refid="test__wave8__auth__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document" prot="public">themis::auth::OIDCDiscoveryDocument</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config" prot="public">themis::auth::OIDCProviderConfig</innerclass>
+    <innerclass refid="classthemis_1_1auth_1_1_o_i_d_c_provider" prot="public">themis::auth::OIDCProvider</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1auth">themis::auth</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="jwt__validator_8h" kindref="compound">auth/jwt_validator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="oauth__device__flow_8h" kindref="compound">auth/oauth_device_flow.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="auth__error_8h" kindref="compound">auth/auth_error.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document" kindref="compound">OIDCDiscoveryDocument</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a7790b7cd02728b6d122e4084a00dacaa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a7790b7cd02728b6d122e4084a00dacaa" kindref="member">issuer</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a0f42f720b61bbd51f18021dc26d03e06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a0f42f720b61bbd51f18021dc26d03e06" kindref="member">jwks_uri</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a551a3a8b93637a15863cbe539ddcd613" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a551a3a8b93637a15863cbe539ddcd613" kindref="member">token_endpoint</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1afbf10034d1646cc54767d2da971d7cc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1afbf10034d1646cc54767d2da971d7cc0" kindref="member">revocation_endpoint</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1af20469bfdc774aeb7461d77a9d49e9aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1af20469bfdc774aeb7461d77a9d49e9aa" kindref="member">authorization_endpoint</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a176c8834b4225cdbee9a7447816ee091" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a176c8834b4225cdbee9a7447816ee091" kindref="member">device_authorization_endpoint</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1ae59867414f157e90cf6d649c909a2b67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1ae59867414f157e90cf6d649c909a2b67" kindref="member">userinfo_endpoint</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1acfe15c6287d5d2a229d35f697521cb9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1acfe15c6287d5d2a229d35f697521cb9f" kindref="member">id_token_signing_alg_values_supported</ref>;<sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a7b67344e748214b3c9494888a92ab5fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a7b67344e748214b3c9494888a92ab5fb" kindref="member">response_types_supported</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a83990a4fe3b1e109fa3ff5919ab43ad1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1a83990a4fe3b1e109fa3ff5919ab43ad1" kindref="member">grant_types_supported</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1aca8fd207699bd4a71a836732b04e0381" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document_1aca8fd207699bd4a71a836732b04e0381" kindref="member">scopes_supported</ref>;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config" kindref="compound">OIDCProviderConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a08ab5fea9538bd44066eebfcb0074bb8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a08ab5fea9538bd44066eebfcb0074bb8" kindref="member">issuer_url</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1ab043cb4e8d3d2fd8e761fdbc0e18d155" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1ab043cb4e8d3d2fd8e761fdbc0e18d155" kindref="member">client_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a0586e6ea48c27dbc8ce9b9724428ddc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a0586e6ea48c27dbc8ce9b9724428ddc1" kindref="member">client_secret</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a0c9fd44edb61de42eed5f2aedc130b8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a0c9fd44edb61de42eed5f2aedc130b8d" kindref="member">scopes</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a6a959a78bed2d8839f712782a79cbbcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a6a959a78bed2d8839f712782a79cbbcd" kindref="member">expected_audience</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1ae260bb644c1ac1a9de8defd5aaa09c50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1ae260bb644c1ac1a9de8defd5aaa09c50" kindref="member">jwks_cache_ttl</ref>{600};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a6dece772218b7181ada33a8b6b9cfd9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a6dece772218b7181ada33a8b6b9cfd9b" kindref="member">clock_skew</ref>{60};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1af34e98490ce6898dc4f029bb2c8efe34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1af34e98490ce6898dc4f029bb2c8efe34" kindref="member">http_timeout_seconds</ref>{10};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="classthemis_1_1auth_1_1_o_i_d_c_provider" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1aaad77849a1a1170de42a96c2468a2669" kindref="member">OIDCProvider</ref><sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1aaad77849a1a1170de42a96c2468a2669" kindref="member">OIDCProvider</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config" kindref="compound">OIDCProviderConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable<sp/>(owns<sp/>curl<sp/>state<sp/>and<sp/>cached<sp/>document)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a4e8f9ce7d35a452975405e215c924210" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a4e8f9ce7d35a452975405e215c924210" kindref="member">OIDCProvider</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1aaad77849a1a1170de42a96c2468a2669" kindref="member">OIDCProvider</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1ad61f7852dbe03ee2092d9c7f4f86c986" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1aaad77849a1a1170de42a96c2468a2669" kindref="member">OIDCProvider</ref>&amp;<sp/><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1ad61f7852dbe03ee2092d9c7f4f86c986" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1aaad77849a1a1170de42a96c2468a2669" kindref="member">OIDCProvider</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a7e7d3a69c9dbb535cc95c0a3e6c9208a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a7e7d3a69c9dbb535cc95c0a3e6c9208a" kindref="member">OIDCProvider</ref>(<ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1aaad77849a1a1170de42a96c2468a2669" kindref="member">OIDCProvider</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1ae12a30434e56968a967f8d8b74af4a2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1aaad77849a1a1170de42a96c2468a2669" kindref="member">OIDCProvider</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1aaad77849a1a1170de42a96c2468a2669" kindref="member">OIDCProvider</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Discovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a84447ad6ae7e0b4558d15406eea3949d" kindref="member">discover</ref>();</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document" kindref="compound">OIDCDiscoveryDocument</ref>&amp;<sp/><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a80dc792516a8dcf5ff22ada646c0a258" kindref="member">discoveryDocument</ref>();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Token<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref><sp/><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1aa31d16da371a53711fe33c533b40edfc" kindref="member">validateToken</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>token);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref>&amp;<sp/><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a565b311a4bd4c10579e5e528e5557ee9" kindref="member">validator</ref>();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Device<sp/>flow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_o_auth_device_flow" kindref="compound">OAuthDeviceFlow</ref><sp/><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a7bcb65500bcfb66ac2f9b57ef05c0508" kindref="member">createDeviceFlow</ref>();</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>accessors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1ad705f0a2f6a4b8733a59dfce24e6321d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1ad705f0a2f6a4b8733a59dfce24e6321d" kindref="member">clientId</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.client_id;<sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a33d0160418ed74dadb143c901a7a387b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a33d0160418ed74dadb143c901a7a387b" kindref="member">clientSecret</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.client_secret;<sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Testing<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a804d40463aea5374516ffb7496fd03aa" kindref="member">setDiscoveryDocumentForTesting</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document" kindref="compound">OIDCDiscoveryDocument</ref>&amp;<sp/>doc);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider_1a8ef597a9dc7f6f80afe113836bcd113f" kindref="member">setHttpGetForTesting</ref>(</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url)&gt;<sp/>fn</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config" kindref="compound">OIDCProviderConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Discovered<sp/>document<sp/>(nullopt<sp/>=<sp/>not<sp/>yet<sp/>fetched)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;OIDCDiscoveryDocument&gt;<sp/>discovery_doc_;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validator<sp/>is<sp/>(re-)created<sp/>after<sp/>each<sp/>successful<sp/>discovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;JWTValidator&gt;<sp/>validator_;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>injection<sp/>hook</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url)&gt;<sp/>http_get_fn_;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>httpGet(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>url)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_discovery_document" kindref="compound">OIDCDiscoveryDocument</ref><sp/>parseDiscovery(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>json_body);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref><sp/>buildValidatorConfig()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>auth</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/auth/oidc_provider.h"/>
+  </compounddef>
+</doxygen>

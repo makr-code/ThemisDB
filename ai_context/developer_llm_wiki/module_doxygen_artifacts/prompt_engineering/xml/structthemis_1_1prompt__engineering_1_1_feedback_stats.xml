@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_feedback_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::FeedbackStats</compoundname>
+    <includes refid="feedback__collector_8h" local="no">feedback_collector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a01c7b401270275dc8473f21f109303d3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::FeedbackStats::prompt_id</definition>
+        <argsstring></argsstring>
+        <name>prompt_id</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackStats::prompt_id</qualifiedname>
+        <briefdescription>
+<para>Prompt template ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="94" column="17" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a73662771ffa1110aa95db83bd4a4a87c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::FeedbackStats::total_feedback</definition>
+        <argsstring></argsstring>
+        <name>total_feedback</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackStats::total_feedback</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total feedback entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="95" column="12" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a7a68f350bc553d5ba708910bc60f9427" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1prompt__engineering_1ab58d571d5d6053286da415de2af42469" kindref="member">FeedbackType</ref>, size_t &gt;</type>
+        <definition>std::unordered_map&lt;FeedbackType, size_t&gt; themis::prompt_engineering::FeedbackStats::counts_by_type</definition>
+        <argsstring></argsstring>
+        <name>counts_by_type</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackStats::counts_by_type</qualifiedname>
+        <briefdescription>
+<para>Count per type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="96" column="24" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_feedback_stats_1ab8ab8ba0becac0374d5fa13603dddecc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::FeedbackStats::positive_ratio</definition>
+        <argsstring></argsstring>
+        <name>positive_ratio</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackStats::positive_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Positive feedback ratio. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="97" column="12" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a9688db6ba70a8ed0d62265e28c8984f5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::FeedbackStats::negative_ratio</definition>
+        <argsstring></argsstring>
+        <name>negative_ratio</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackStats::negative_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Negative feedback ratio. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="98" column="12" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_feedback_stats_1ad6699b5c7451c36697abf9f8a131d83a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::FeedbackStats::hallucination_count</definition>
+        <argsstring></argsstring>
+        <name>hallucination_count</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackStats::hallucination_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of hallucinations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="99" column="12" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a3312b3bbc3054145bcc2011eb7ae82d9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::FeedbackStats::error_count</definition>
+        <argsstring></argsstring>
+        <name>error_count</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackStats::error_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of errors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="100" column="12" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a28bd5b72b96a01bd3d369a12ab0eaab6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::FeedbackStats::common_issues</definition>
+        <argsstring></argsstring>
+        <name>common_issues</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackStats::common_issues</qualifiedname>
+        <briefdescription>
+<para>Most common issues. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="101" column="17" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a93bb268528f06485402b3554f9f45d13" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::prompt_engineering::FeedbackStats::last_feedback</definition>
+        <argsstring></argsstring>
+        <name>last_feedback</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackStats::last_feedback</qualifiedname>
+        <briefdescription>
+<para>Most recent feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="102" column="43" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a6bc4c9f0cf7bea69de6095db6232ccce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::FeedbackStats::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::FeedbackStats::toJson</qualifiedname>
+        <briefdescription>
+<para>Convert stats to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/feedback_collector.h" line="107" column="20" bodyfile="src/prompt_engineering/feedback_collector.cpp" bodystart="164" bodyend="184"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated feedback statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/feedback_collector.h" line="93" column="1" bodyfile="include/prompt_engineering/feedback_collector.h" bodystart="93" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a28bd5b72b96a01bd3d369a12ab0eaab6" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackStats</scope><name>common_issues</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a7a68f350bc553d5ba708910bc60f9427" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackStats</scope><name>counts_by_type</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a3312b3bbc3054145bcc2011eb7ae82d9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackStats</scope><name>error_count</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1ad6699b5c7451c36697abf9f8a131d83a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackStats</scope><name>hallucination_count</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a93bb268528f06485402b3554f9f45d13" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackStats</scope><name>last_feedback</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a9688db6ba70a8ed0d62265e28c8984f5" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackStats</scope><name>negative_ratio</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1ab8ab8ba0becac0374d5fa13603dddecc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackStats</scope><name>positive_ratio</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a01c7b401270275dc8473f21f109303d3" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackStats</scope><name>prompt_id</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a6bc4c9f0cf7bea69de6095db6232ccce" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackStats</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_feedback_stats_1a73662771ffa1110aa95db83bd4a4a87c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::FeedbackStats</scope><name>total_feedback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

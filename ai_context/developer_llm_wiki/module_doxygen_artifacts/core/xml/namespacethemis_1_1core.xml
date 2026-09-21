@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1core" kind="namespace" language="C++">
+    <compoundname>themis::core</compoundname>
+    <innerclass refid="structthemis_1_1core_1_1_aggregate_health_report" prot="public">themis::core::AggregateHealthReport</innerclass>
+    <innerclass refid="structthemis_1_1core_1_1_config_change" prot="public">themis::core::ConfigChange</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1_config_validator" prot="public">themis::core::ConfigValidator</innerclass>
+    <innerclass refid="structthemis_1_1core_1_1_health_check_result" prot="public">themis::core::HealthCheckResult</innerclass>
+    <innerclass refid="structthemis_1_1core_1_1_hot_reload_result" prot="public">themis::core::HotReloadResult</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1_i_config_hot_reloader" prot="public">themis::core::IConfigHotReloader</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1_i_health_probe" prot="public">themis::core::IHealthProbe</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1_i_health_probe_registry" prot="public">themis::core::IHealthProbeRegistry</innerclass>
+    <innerclass refid="classthemis_1_1core_1_1_production_mode" prot="public">themis::core::ProductionMode</innerclass>
+    <innernamespace refid="namespacethemis_1_1core_1_1concerns">themis::core::concerns</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1core_1afd438f16b6cfdc373bc6e460aad74005" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConfigChangeType</name>
+        <qualifiedname>themis::core::ConfigChangeType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1core_1afd438f16b6cfdc373bc6e460aad74005a98690bf632c29c17c9e4c5a64069903c" prot="public">
+          <name>CREATED</name>
+          <briefdescription>
+<para>A new key/file appeared. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1core_1afd438f16b6cfdc373bc6e460aad74005a40e3819215b52841e19a7cac06b5f065" prot="public">
+          <name>MODIFIED</name>
+          <briefdescription>
+<para>An existing key/file changed value. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1core_1afd438f16b6cfdc373bc6e460aad74005a63c2867fdcae0e8e8413d7ac21b69b59" prot="public">
+          <name>DELETED</name>
+          <briefdescription>
+<para>A key/file was removed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1core_1afd438f16b6cfdc373bc6e460aad74005aa3a5811879f61b8ac4cab7cf8f0d8c77" prot="public">
+          <name>RELOADED</name>
+          <briefdescription>
+<para>A force-reload was triggered (may bundle multiple changes). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/config_hot_reloader.h" line="25" column="1" bodyfile="include/core/config_hot_reloader.h" bodystart="25" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>HealthStatus</name>
+        <qualifiedname>themis::core::HealthStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2eaf068ebe4133e3e6563080836268ea979" prot="public">
+          <name>HEALTHY</name>
+          <briefdescription>
+<para>Component is fully operational. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2ea0021017005f0e5134b204c2e69d3d4ed" prot="public">
+          <name>DEGRADED</name>
+          <briefdescription>
+<para>Component is partially impaired but still serving traffic. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2ea7438a7e4e4f36f04fda32fa100121e47" prot="public">
+          <name>UNHEALTHY</name>
+          <briefdescription>
+<para>Component cannot serve traffic; restart or intervention needed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1core_1a7992984c08e074a47c4cda1a09105b2ea696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+<para>Status has not been determined yet (e.g., startup in progress). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/health_probe.h" line="26" column="1" bodyfile="include/core/health_probe.h" bodystart="26" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1core_1a92727d38d64981c6adfb1132a2dca5d8" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1core_1_1_config_change" kindref="compound">ConfigChange</ref> &amp;)&gt;</type>
+        <definition>using themis::core::ConfigChangeCallback = std::function&lt;void(const ConfigChange&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ConfigChangeCallback</name>
+        <qualifiedname>themis::core::ConfigChangeCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/config_hot_reloader.h" line="48" column="1" bodyfile="include/core/config_hot_reloader.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/config_hot_reloader.h" line="19" column="1"/>
+  </compounddef>
+</doxygen>

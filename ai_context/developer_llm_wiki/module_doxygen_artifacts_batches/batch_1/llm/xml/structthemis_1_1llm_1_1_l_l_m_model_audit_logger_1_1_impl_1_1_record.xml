@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_l_l_m_model_audit_logger_1_1_impl_1_1_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LLMModelAuditLogger::Impl::Record</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_audit_logger_1_1_impl_1_1_record_1a52a11599e3aa8eeec6075ea00d093048" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::LLMModelAuditLogger::Impl::Record::ts</definition>
+        <argsstring></argsstring>
+        <name>ts</name>
+        <qualifiedname>themis::llm::LLMModelAuditLogger::Impl::Record::ts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/llm_model_audit_logger.cpp" line="164" column="47" bodyfile="src/llm/llm_model_audit_logger.cpp" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_audit_logger_1_1_impl_1_1_record_1ae755041077afc4918b2fec900769fadf" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a2180d242c2e201ca4e1edf58c20448b1" kindref="member">LLMModelAuditEventType</ref></type>
+        <definition>LLMModelAuditEventType themis::llm::LLMModelAuditLogger::Impl::Record::event_type</definition>
+        <argsstring></argsstring>
+        <name>event_type</name>
+        <qualifiedname>themis::llm::LLMModelAuditLogger::Impl::Record::event_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/llm_model_audit_logger.cpp" line="165" column="47" bodyfile="src/llm/llm_model_audit_logger.cpp" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_audit_logger_1_1_impl_1_1_record_1a99921b8ecea30f1cb0da6d31ba7556d6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LLMModelAuditLogger::Impl::Record::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::LLMModelAuditLogger::Impl::Record::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/llm_model_audit_logger.cpp" line="166" column="47" bodyfile="src/llm/llm_model_audit_logger.cpp" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_l_l_m_model_audit_logger_1_1_impl_1_1_record_1a3244f5cb0e8f19a6cbd1d4383db5d49f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::LLMModelAuditLogger::Impl::Record::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themis::llm::LLMModelAuditLogger::Impl::Record::details</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/llm_model_audit_logger.cpp" line="167" column="47" bodyfile="src/llm/llm_model_audit_logger.cpp" bodystart="167" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/llm_model_audit_logger.cpp" line="163" column="5" bodyfile="src/llm/llm_model_audit_logger.cpp" bodystart="163" bodyend="168"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_audit_logger_1_1_impl_1_1_record_1a3244f5cb0e8f19a6cbd1d4383db5d49f" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelAuditLogger::Impl::Record</scope><name>details</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_audit_logger_1_1_impl_1_1_record_1ae755041077afc4918b2fec900769fadf" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelAuditLogger::Impl::Record</scope><name>event_type</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_audit_logger_1_1_impl_1_1_record_1a99921b8ecea30f1cb0da6d31ba7556d6" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelAuditLogger::Impl::Record</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_l_l_m_model_audit_logger_1_1_impl_1_1_record_1a52a11599e3aa8eeec6075ea00d093048" prot="public" virt="non-virtual"><scope>themis::llm::LLMModelAuditLogger::Impl::Record</scope><name>ts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_i_exemplar_sampler" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::observability::IExemplarSampler</compoundname>
+    <includes refid="otlp__exemplar_8h" local="no">otlp_exemplar.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_exemplar_sampler_1a0f540cd7774960b612f745b3c4e7e4b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::observability::IExemplarSampler::~IExemplarSampler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IExemplarSampler</name>
+        <qualifiedname>themis::observability::IExemplarSampler::~IExemplarSampler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/otlp_exemplar.h" line="68" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_exemplar_sampler_1aca667e18b77741b1a3edcbe45bdb00ae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::observability::IExemplarSampler::shouldSample</definition>
+        <argsstring>(const OTLPTraceContext &amp;ctx) const =0</argsstring>
+        <name>shouldSample</name>
+        <qualifiedname>themis::observability::IExemplarSampler::shouldSample</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_o_t_l_p_trace_context" kindref="compound">OTLPTraceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/otlp_exemplar.h" line="69" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_i_exemplar_sampler_1ac738449633d1c9cbb99a869e6404e202" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::observability::IExemplarSampler::recordMeasurement</definition>
+        <argsstring>(double value, const OTLPTraceContext &amp;ctx, const std::map&lt; std::string, std::string &gt; &amp;attrs)=0</argsstring>
+        <name>recordMeasurement</name>
+        <qualifiedname>themis::observability::IExemplarSampler::recordMeasurement</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_o_t_l_p_trace_context" kindref="compound">OTLPTraceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>attrs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/otlp_exemplar.h" line="70" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>I exemplar sampler. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/otlp_exemplar.h" line="66" column="1" bodyfile="include/observability/otlp_exemplar.h" bodystart="66" bodyend="72"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_i_exemplar_sampler_1ac738449633d1c9cbb99a869e6404e202" prot="public" virt="pure-virtual"><scope>themis::observability::IExemplarSampler</scope><name>recordMeasurement</name></member>
+      <member refid="classthemis_1_1observability_1_1_i_exemplar_sampler_1aca667e18b77741b1a3edcbe45bdb00ae" prot="public" virt="pure-virtual"><scope>themis::observability::IExemplarSampler</scope><name>shouldSample</name></member>
+      <member refid="classthemis_1_1observability_1_1_i_exemplar_sampler_1a0f540cd7774960b612f745b3c4e7e4b8" prot="public" virt="virtual"><scope>themis::observability::IExemplarSampler</scope><name>~IExemplarSampler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

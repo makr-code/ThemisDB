@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_history_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::HistoryRecord</compoundname>
+    <includes refid="history__manager_8h" local="no">history_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_history_record_1aacb5dd66109d16426022c764cc5971b7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::HistoryRecord::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::HistoryRecord::version</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+<para>Format version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="44" column="17" bodyfile="include/storage/history_manager.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_history_record_1a37cd4b789382228601595679de95a623" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::HistoryRecord::base_key</definition>
+        <argsstring></argsstring>
+        <name>base_key</name>
+        <qualifiedname>themis::HistoryRecord::base_key</qualifiedname>
+        <briefdescription>
+<para>Live key (e.g. &quot;entity:users:u1&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="45" column="17" bodyfile="include/storage/history_manager.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_history_record_1ac3acfac737f2d4f45f7bfc7cae789153" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+        <definition>HLCTimestamp themis::HistoryRecord::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::HistoryRecord::timestamp</qualifiedname>
+        <briefdescription>
+<para>HLC timestamp of the write. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="46" column="18" bodyfile="include/storage/history_manager.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_history_record_1acba39b6616e3f1667ff47e20cf1926e5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::HistoryRecord::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::HistoryRecord::op</qualifiedname>
+        <briefdescription>
+<para>&quot;put&quot; or &quot;del&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="47" column="17" bodyfile="include/storage/history_manager.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_history_record_1ae6024bd2c23a0fb9938b0160555459b7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::HistoryRecord::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::HistoryRecord::value</qualifiedname>
+        <briefdescription>
+<para>Written bytes (empty for &quot;del&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="48" column="17" bodyfile="include/storage/history_manager.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_history_record_1a6c50e0b845298e419e72f792a8345a62" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::HistoryRecord::txn_id</definition>
+        <argsstring></argsstring>
+        <name>txn_id</name>
+        <qualifiedname>themis::HistoryRecord::txn_id</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Originating transaction ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/history_manager.h" line="49" column="14" bodyfile="include/storage/history_manager.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One immutable version entry in the history keyspace. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Serialised as JSON with format version 1. Fields: v – format version (always 1) base_key – live key that was written/deleted ts – HLC timestamp (raw uint64 value) op – &quot;put&quot; or &quot;del&quot; value – hex-encoded bytes for &quot;put&quot;, empty for &quot;del&quot; txn_id – originating transaction ID (0 if unknown) </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::HLCTimestamp</label>
+        <link refid="structthemis_1_1_h_l_c_timestamp"/>
+      </node>
+      <node id="1">
+        <label>themis::HistoryRecord</label>
+        <link refid="structthemis_1_1_history_record"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>timestamp</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/history_manager.h" line="43" column="1" bodyfile="include/storage/history_manager.h" bodystart="43" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_history_record_1a37cd4b789382228601595679de95a623" prot="public" virt="non-virtual"><scope>themis::HistoryRecord</scope><name>base_key</name></member>
+      <member refid="structthemis_1_1_history_record_1acba39b6616e3f1667ff47e20cf1926e5" prot="public" virt="non-virtual"><scope>themis::HistoryRecord</scope><name>op</name></member>
+      <member refid="structthemis_1_1_history_record_1ac3acfac737f2d4f45f7bfc7cae789153" prot="public" virt="non-virtual"><scope>themis::HistoryRecord</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1_history_record_1a6c50e0b845298e419e72f792a8345a62" prot="public" virt="non-virtual"><scope>themis::HistoryRecord</scope><name>txn_id</name></member>
+      <member refid="structthemis_1_1_history_record_1ae6024bd2c23a0fb9938b0160555459b7" prot="public" virt="non-virtual"><scope>themis::HistoryRecord</scope><name>value</name></member>
+      <member refid="structthemis_1_1_history_record_1aacb5dd66109d16426022c764cc5971b7" prot="public" virt="non-virtual"><scope>themis::HistoryRecord</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

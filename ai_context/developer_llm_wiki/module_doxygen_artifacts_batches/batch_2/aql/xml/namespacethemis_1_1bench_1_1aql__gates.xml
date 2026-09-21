@@ -1,0 +1,430 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1aql__gates" kind="namespace" language="C++">
+    <compoundname>themis::bench::aql_gates</compoundname>
+    <innerclass refid="classthemis_1_1bench_1_1aql__gates_1_1_mock_a_q_l_translator" prot="public">themis::bench::aql_gates::MockAQLTranslator</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1aql__gates_1_1_mock_a_q_l_validator" prot="public">themis::bench::aql_gates::MockAQLValidator</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1aql__gates_1_1_mock_token_estimator" prot="public">themis::bench::aql_gates::MockTokenEstimator</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1aql__gates_1a850455ee880e27deb265fc150b6bf10b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::aql_gates::kW7CanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kW7CanonicalSeed</name>
+        <qualifiedname>themis::bench::aql_gates::kW7CanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for deterministic behavior. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="61" column="27" bodyfile="benchmarks/aql/bench_aql_assistance_gates.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1aql__gates_1af0b77d1415ac3340e5ba21c783aea407" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::aql_gates::kWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kWarmupIterations</name>
+        <qualifiedname>themis::bench::aql_gates::kWarmupIterations</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Warmup iterations before gate measurement. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="64" column="22" bodyfile="benchmarks/aql/bench_aql_assistance_gates.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1aql__gates_1aebe3d4bb48cf16cd1d24ebd6a5f90a8a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::aql_gates::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::aql_gates::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Repetitions per gate benchmark for variance estimation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="67" column="22" bodyfile="benchmarks/aql/bench_aql_assistance_gates.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1aql__gates_1a1eacc66f54b1bafc84926eee9cd03f20" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::aql_gates::kAG4_TranslationP95_ms</definition>
+        <argsstring></argsstring>
+        <name>kAG4_TranslationP95_ms</name>
+        <qualifiedname>themis::bench::aql_gates::kAG4_TranslationP95_ms</qualifiedname>
+        <initializer>= 2.0</initializer>
+        <briefdescription>
+<para>AG-4: NL→AQL translation p95 gate (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="74" column="25" bodyfile="benchmarks/aql/bench_aql_assistance_gates.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1aql__gates_1a3fc3435356941888fbea15ce0bcdfebc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::aql_gates::kAG4_LockedBaseline_ms</definition>
+        <argsstring></argsstring>
+        <name>kAG4_LockedBaseline_ms</name>
+        <qualifiedname>themis::bench::aql_gates::kAG4_LockedBaseline_ms</qualifiedname>
+        <initializer>= 1.89</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="75" column="25" bodyfile="benchmarks/aql/bench_aql_assistance_gates.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1aql__gates_1a40074d02a19eeaf7eb7ff8576e173491" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::aql_gates::kAG5_ValidationThroughput_qps</definition>
+        <argsstring></argsstring>
+        <name>kAG5_ValidationThroughput_qps</name>
+        <qualifiedname>themis::bench::aql_gates::kAG5_ValidationThroughput_qps</qualifiedname>
+        <initializer>= 100000.0</initializer>
+        <briefdescription>
+<para>AG-5: AQL validation batch throughput gate (queries/second). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="78" column="25" bodyfile="benchmarks/aql/bench_aql_assistance_gates.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1aql__gates_1aa7ab61d8655ffafc48bd973d7c5adc67" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::aql_gates::kAG5_LockedBaseline_qps</definition>
+        <argsstring></argsstring>
+        <name>kAG5_LockedBaseline_qps</name>
+        <qualifiedname>themis::bench::aql_gates::kAG5_LockedBaseline_qps</qualifiedname>
+        <initializer>= 112500.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="79" column="25" bodyfile="benchmarks/aql/bench_aql_assistance_gates.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1aql__gates_1a8cf312c71997a87fcf3def723c5c9708" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::aql_gates::kAG6_TokenEstP95_us</definition>
+        <argsstring></argsstring>
+        <name>kAG6_TokenEstP95_us</name>
+        <qualifiedname>themis::bench::aql_gates::kAG6_TokenEstP95_us</qualifiedname>
+        <initializer>= 50.0</initializer>
+        <briefdescription>
+<para>AG-6: Token estimation p95 gate (microseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="82" column="25" bodyfile="benchmarks/aql/bench_aql_assistance_gates.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1aql__gates_1aee6012ce224a8f865276cb14ae00cfc4" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::bench::aql_gates::kAG6_LockedBaseline_us</definition>
+        <argsstring></argsstring>
+        <name>kAG6_LockedBaseline_us</name>
+        <qualifiedname>themis::bench::aql_gates::kAG6_LockedBaseline_us</qualifiedname>
+        <initializer>= 42.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="83" column="25" bodyfile="benchmarks/aql/bench_aql_assistance_gates.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__gates_1aac3bcc818635917349d4deb203c83760" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::aql_gates::BM_AG4_TranslationSimple</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AG4_TranslationSimple</name>
+        <qualifiedname>themis::bench::aql_gates::BM_AG4_TranslationSimple</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Gate AG-4: NL→AQL translation p95 ≤ 2.0 ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that simple NL→AQL translation overhead stays within budget.<itemizedlist>
+<listitem><para>Locked baseline: 1.89 ms (5.5% margin)</para>
+</listitem><listitem><para>Test: Mock translation pipeline with validation</para>
+</listitem><listitem><para>Status: 🔒 LOCKED </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="192" column="13" bodyfile="benchmarks/aql/bench_aql_assistance_gates.cpp" bodystart="192" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__gates_1af205cfd8d62f17d535cc906c243a33ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::aql_gates::BENCHMARK</definition>
+        <argsstring>(BM_AG4_TranslationSimple) -&gt; UseRealTime() -&gt;Repetitions(kRepetitions)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::aql_gates::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_AG4_TranslationSimple</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="215" column="1" declfile="benchmarks/aql/bench_aql_assistance_gates.cpp" declline="215" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__gates_1a2fa3f4abfaf7304c8c9686a059a69968" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::aql_gates::BM_AG4_TranslationComplex</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AG4_TranslationComplex</name>
+        <qualifiedname>themis::bench::aql_gates::BM_AG4_TranslationComplex</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Gate AG-4 Complex: NL→AQL complex translation p95 ≤ 5.0 ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="220" column="13" bodyfile="benchmarks/aql/bench_aql_assistance_gates.cpp" bodystart="220" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__gates_1a6b71221fd8c9905bd3989b333c0cdfa1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::aql_gates::BENCHMARK</definition>
+        <argsstring>(BM_AG4_TranslationComplex) -&gt; UseRealTime() -&gt;Repetitions(kRepetitions)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::aql_gates::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_AG4_TranslationComplex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="235" column="1" declfile="benchmarks/aql/bench_aql_assistance_gates.cpp" declline="235" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__gates_1aef08e88d1cb1900f3793fbc9009022ab" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::aql_gates::BM_AG5_ValidationBatch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AG5_ValidationBatch</name>
+        <qualifiedname>themis::bench::aql_gates::BM_AG5_ValidationBatch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Gate AG-5: AQL validation batch throughput ≥ 100,000 q/s. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that batch validation maintains required throughput.<itemizedlist>
+<listitem><para>Locked baseline: 112,500 q/s (12.8k q/s buffer)</para>
+</listitem><listitem><para>Test: Batch validation of 32 queries</para>
+</listitem><listitem><para>Status: 🔒 LOCKED </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="249" column="13" bodyfile="benchmarks/aql/bench_aql_assistance_gates.cpp" bodystart="249" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__gates_1af436c2909f7a2136dc7bf0d87edbcdc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::aql_gates::BENCHMARK</definition>
+        <argsstring>(BM_AG5_ValidationBatch) -&gt; UseRealTime() -&gt;Repetitions(kRepetitions)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::aql_gates::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_AG5_ValidationBatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="282" column="1" declfile="benchmarks/aql/bench_aql_assistance_gates.cpp" declline="282" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__gates_1a7fa879cc74245270f7d492397e778eb8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::aql_gates::BM_AG5_ValidationSingle</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AG5_ValidationSingle</name>
+        <qualifiedname>themis::bench::aql_gates::BM_AG5_ValidationSingle</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Gate AG-5 Single: Single query validation p95 ≤ 200 µs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="287" column="13" bodyfile="benchmarks/aql/bench_aql_assistance_gates.cpp" bodystart="287" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__gates_1af5495df30e8e81e9d2f2965e032b56da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::aql_gates::BENCHMARK</definition>
+        <argsstring>(BM_AG5_ValidationSingle) -&gt; UseRealTime() -&gt;Repetitions(kRepetitions)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::aql_gates::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_AG5_ValidationSingle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="302" column="1" declfile="benchmarks/aql/bench_aql_assistance_gates.cpp" declline="302" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__gates_1abe4bcf1f6cfb5156312c37aa15687b86" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::aql_gates::BM_AG6_TokenEstimation_20turns</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AG6_TokenEstimation_20turns</name>
+        <qualifiedname>themis::bench::aql_gates::BM_AG6_TokenEstimation_20turns</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Gate AG-6: Token estimation p95 ≤ 50 µs for 20-turn history. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that token estimation for conversation history stays within budget.<itemizedlist>
+<listitem><para>Locked baseline: 42.5 µs (17% safety margin)</para>
+</listitem><listitem><para>Test: Estimate tokens for 20-turn conversation</para>
+</listitem><listitem><para>Status: 🔒 LOCKED </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="316" column="13" bodyfile="benchmarks/aql/bench_aql_assistance_gates.cpp" bodystart="316" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__gates_1a67a084e8a3ffe0ad7a21a5aa328bcc10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::aql_gates::BENCHMARK</definition>
+        <argsstring>(BM_AG6_TokenEstimation_20turns) -&gt; UseRealTime() -&gt;Repetitions(kRepetitions)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::aql_gates::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_AG6_TokenEstimation_20turns</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="341" column="1" declfile="benchmarks/aql/bench_aql_assistance_gates.cpp" declline="341" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__gates_1a21605dd4c58a1cee9ef9cff475be6e0e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::aql_gates::BM_AG6_TokenEstimation_1turn</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AG6_TokenEstimation_1turn</name>
+        <qualifiedname>themis::bench::aql_gates::BM_AG6_TokenEstimation_1turn</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Gate AG-6 Single: Token estimation for single turn. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="346" column="13" bodyfile="benchmarks/aql/bench_aql_assistance_gates.cpp" bodystart="346" bodyend="362"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__gates_1abfdb2803a46f947b31322462b41b8c2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::aql_gates::BENCHMARK</definition>
+        <argsstring>(BM_AG6_TokenEstimation_1turn) -&gt; UseRealTime() -&gt;Repetitions(kRepetitions)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::aql_gates::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_AG6_TokenEstimation_1turn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="363" column="1" declfile="benchmarks/aql/bench_aql_assistance_gates.cpp" declline="363" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__gates_1a3f00b3d4ed72f665ea758d7acc0cdd75" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::aql_gates::BM_AllGates_Sequential</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_AllGates_Sequential</name>
+        <qualifiedname>themis::bench::aql_gates::BM_AllGates_Sequential</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Consolidated gate verification: run all gates sequentially. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This benchmark exercises all three release gates in sequence to verify that they all pass within their locked baselines. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="375" column="13" bodyfile="benchmarks/aql/bench_aql_assistance_gates.cpp" bodystart="375" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1aql__gates_1a54e41e9f111922699278e6e790fd4605" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::aql_gates::BENCHMARK</definition>
+        <argsstring>(BM_AllGates_Sequential) -&gt; UseRealTime() -&gt;Repetitions(kRepetitions)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::bench::aql_gates::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_AllGates_Sequential</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="409" column="1" declfile="benchmarks/aql/bench_aql_assistance_gates.cpp" declline="409" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/aql/bench_aql_assistance_gates.cpp" line="54" column="1"/>
+  </compounddef>
+</doxygen>

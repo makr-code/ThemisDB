@@ -1,0 +1,1091 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__wiki__crossdep__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_wiki_crossdep_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="wiki__index__store_8h" local="yes">llm/wiki_index_store.h</includes>
+    <includes local="yes">llm_wiki/workspace_state_manager.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="39">
+        <label>llm/block_table.h</label>
+        <link refid="block__table_8h"/>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>llm/continuous_batch_scheduler.h</label>
+        <link refid="continuous__batch__scheduler_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>llm/embedded_llm.h</label>
+        <link refid="embedded__llm_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="51">
+        <label>llm/ethical_guidelines_manager.h</label>
+        <link refid="ethical__guidelines__manager_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>llm/grafana_metrics.h</label>
+        <link refid="grafana__metrics_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+      </node>
+      <node id="48">
+        <label>llm/grammar.h</label>
+        <link refid="grammar_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>llm/grammar_cache.h</label>
+        <link refid="grammar__cache_8h"/>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>llm/llama_wrapper.h</label>
+        <link refid="llama__wrapper_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="50">
+        <label>llm/llamacpp_inference_engine.h</label>
+        <link refid="llamacpp__inference__engine_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>llm/llm_model_audit_logger.h</label>
+        <link refid="llm__model__audit__logger_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>llm/llm_prefix_cache.h</label>
+        <link refid="llm__prefix__cache_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>llm/llm_response_cache.h</label>
+        <link refid="llm__response__cache_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>llm/lora_certificate_store.h</label>
+        <link refid="lora__certificate__store_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>llm/lora_security_validator.h</label>
+        <link refid="lora__security__validator_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>llm/model_loader.h</label>
+        <link refid="model__loader_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>llm/multi_lora_manager.h</label>
+        <link refid="multi__lora__manager_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>llm/paged_block_manager.h</label>
+        <link refid="paged__block__manager_8h"/>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>llm/paged_kv_cache.h</label>
+        <link refid="paged__kv__cache_8h"/>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>llm/token_quota_manager.h</label>
+        <link refid="token__quota__manager_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/wiki_index_store.h</label>
+        <link refid="wiki__index__store_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_wiki_crossdep_focused.cpp</label>
+        <link refid="test__wiki__crossdep__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>atomic</label>
+      </node>
+      <node id="22">
+        <label>chrono</label>
+      </node>
+      <node id="34">
+        <label>condition_variable</label>
+      </node>
+      <node id="56">
+        <label>cstddef</label>
+      </node>
+      <node id="15">
+        <label>cstdint</label>
+      </node>
+      <node id="53">
+        <label>ethics_ai/ethics_ai_types.h</label>
+      </node>
+      <node id="58">
+        <label>filesystem</label>
+      </node>
+      <node id="16">
+        <label>functional</label>
+      </node>
+      <node id="23">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="5">
+        <label>index/vector_index.h</label>
+      </node>
+      <node id="43">
+        <label>list</label>
+      </node>
+      <node id="57">
+        <label>llm_wiki/workspace_state_manager.h</label>
+      </node>
+      <node id="52">
+        <label>map</label>
+      </node>
+      <node id="17">
+        <label>memory</label>
+      </node>
+      <node id="19">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="29">
+        <label>ostream</label>
+      </node>
+      <node id="14">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="42">
+        <label>queue</label>
+      </node>
+      <node id="54">
+        <label>rag/hybrid_retriever.h</label>
+      </node>
+      <node id="31">
+        <label>regex</label>
+      </node>
+      <node id="33">
+        <label>shared_mutex</label>
+      </node>
+      <node id="55">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="45">
+        <label>thread</label>
+      </node>
+      <node id="24">
+        <label>unordered_map</label>
+      </node>
+      <node id="32">
+        <label>unordered_set</label>
+      </node>
+      <node id="28">
+        <label>utils/audit_logger.h</label>
+      </node>
+      <node id="36">
+        <label>utils/clock.h</label>
+      </node>
+      <node id="41">
+        <label>utils/concurrent_cache.h</label>
+      </node>
+      <node id="21">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__wiki__crossdep__focused_8cpp_1a91fcb13a29e00c1a2a333c47160c0a30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WikiCrossDepConfig, WCD_01_PersistentCacheDefaultFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WikiCrossDepConfig</type>
+        </param>
+        <param>
+          <type>WCD_01_PersistentCacheDefaultFalse</type>
+        </param>
+        <briefdescription>
+<para>WCD-01: WikiIndexConfig default has enable_persistent_cache=false [standalone]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_crossdep_focused.cpp" line="90" column="1" bodyfile="tests/llm/test_wiki_crossdep_focused.cpp" bodystart="90" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__crossdep__focused_8cpp_1abd94f3450f0d22356729df30447ea7b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WikiCrossDepIntegration, WCD_02_PersistentCacheHitAvoidsReembed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WikiCrossDepIntegration</type>
+        </param>
+        <param>
+          <type>WCD_02_PersistentCacheHitAvoidsReembed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>WCD-02: Re-ingest same chunk avoids embed call when persistent cache is on. [integration] Requires full library; skipped in standalone build. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_crossdep_focused.cpp" line="98" column="1" bodyfile="tests/llm/test_wiki_crossdep_focused.cpp" bodystart="98" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__crossdep__focused_8cpp_1aa16e16b300f36c38d16c7507c882fb2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WikiCrossDepIntegration, WCD_03_DistinctChunksEachEmbedOnce)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WikiCrossDepIntegration</type>
+        </param>
+        <param>
+          <type>WCD_03_DistinctChunksEachEmbedOnce</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>WCD-03: Two different chunk_ids each produce exactly one embed call. [integration] Requires full library; skipped in standalone build. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_crossdep_focused.cpp" line="106" column="1" bodyfile="tests/llm/test_wiki_crossdep_focused.cpp" bodystart="106" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__crossdep__focused_8cpp_1a44086a18dbd82fd82bc8f2b7cd834c3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WikiCrossDepIntegration, WCD_04_PrePopulatedEmbeddingBypassesLLM)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WikiCrossDepIntegration</type>
+        </param>
+        <param>
+          <type>WCD_04_PrePopulatedEmbeddingBypassesLLM</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>WCD-04: Pre-populated embedding bypasses LLM regardless of cache flag. [integration] Requires full library; skipped in standalone build. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_crossdep_focused.cpp" line="112" column="1" bodyfile="tests/llm/test_wiki_crossdep_focused.cpp" bodystart="112" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__crossdep__focused_8cpp_1af896017429f424f33e3500fa33c41480" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WikiCrossDepIntegration, WCD_05_WriteBatchEmptyNoThrow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WikiCrossDepIntegration</type>
+        </param>
+        <param>
+          <type>WCD_05_WriteBatchEmptyNoThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>WCD-05: writeBatch with empty input completes without throwing. [integration] Requires full library; skipped in standalone build. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_crossdep_focused.cpp" line="122" column="1" bodyfile="tests/llm/test_wiki_crossdep_focused.cpp" bodystart="122" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__crossdep__focused_8cpp_1a9c18cb077e9bd282a9da4db7b793697f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WikiCrossDepIntegration, WCD_06_WriteBatchSingleChunkQueryable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WikiCrossDepIntegration</type>
+        </param>
+        <param>
+          <type>WCD_06_WriteBatchSingleChunkQueryable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>WCD-06: writeBatch single chunk is queryable. [integration] Requires full library; skipped in standalone build. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_crossdep_focused.cpp" line="128" column="1" bodyfile="tests/llm/test_wiki_crossdep_focused.cpp" bodystart="128" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__crossdep__focused_8cpp_1a39454a09001b3207c378530b6a4bfcb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WikiCrossDepIntegration, WCD_07_WriteBatchMultiDocQueryable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WikiCrossDepIntegration</type>
+        </param>
+        <param>
+          <type>WCD_07_WriteBatchMultiDocQueryable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>WCD-07: writeBatch multiple chunks across two doc_ids — all found. [integration] Requires full library; skipped in standalone build. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_crossdep_focused.cpp" line="134" column="1" bodyfile="tests/llm/test_wiki_crossdep_focused.cpp" bodystart="134" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__crossdep__focused_8cpp_1af77595efe7ac54a0ef63f36bbf643e9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WikiCrossDepIntegration, WCD_08_WriteBatchPreEmbeddedNoLLM)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WikiCrossDepIntegration</type>
+        </param>
+        <param>
+          <type>WCD_08_WriteBatchPreEmbeddedNoLLM</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>WCD-08: writeBatch with all pre-populated embeddings — LLM not called. [integration] Requires full library; skipped in standalone build. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_crossdep_focused.cpp" line="140" column="1" bodyfile="tests/llm/test_wiki_crossdep_focused.cpp" bodystart="140" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__crossdep__focused_8cpp_1a34cacaee50e5e91ff7ec080ac5b7c2ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WikiCrossDepIntegration, WCD_09_NoAuditLoggerNocrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WikiCrossDepIntegration</type>
+        </param>
+        <param>
+          <type>WCD_09_NoAuditLoggerNocrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>WCD-09: No audit logger set → writeChunk completes without crash. [integration] Requires full library; skipped in standalone build. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_crossdep_focused.cpp" line="150" column="1" bodyfile="tests/llm/test_wiki_crossdep_focused.cpp" bodystart="150" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__crossdep__focused_8cpp_1a7fc271ab7812a01b599b405fc1cd6ddd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WikiCrossDepIntegration, WCD_10_AuditLoggerWriteChunkEmitsPut)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WikiCrossDepIntegration</type>
+        </param>
+        <param>
+          <type>WCD_10_AuditLoggerWriteChunkEmitsPut</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>WCD-10: setAuditLogger → writeChunk emits exactly one PUT entry. [integration] Requires full library; skipped in standalone build. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_crossdep_focused.cpp" line="156" column="1" bodyfile="tests/llm/test_wiki_crossdep_focused.cpp" bodystart="156" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__crossdep__focused_8cpp_1a57c7fd8cfe5a57759aa8a5714a053141" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WikiCrossDepIntegration, WCD_11_AuditLoggerWriteBatchTwoDocIds)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WikiCrossDepIntegration</type>
+        </param>
+        <param>
+          <type>WCD_11_AuditLoggerWriteBatchTwoDocIds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>WCD-11: writeBatch with 3 chunks in 2 doc_ids → 2 audit entries. [integration] Requires full library; skipped in standalone build. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_crossdep_focused.cpp" line="162" column="1" bodyfile="tests/llm/test_wiki_crossdep_focused.cpp" bodystart="162" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__crossdep__focused_8cpp_1ab686f3309eb4a1a106a28b6c7fa404a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WikiCrossDepIntegration, WCD_12_AuditLoggerWriteBatchEmptyNoEntries)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WikiCrossDepIntegration</type>
+        </param>
+        <param>
+          <type>WCD_12_AuditLoggerWriteBatchEmptyNoEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>WCD-12: writeBatch with empty input → zero audit entries. [integration] Requires full library; skipped in standalone build. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_crossdep_focused.cpp" line="168" column="1" bodyfile="tests/llm/test_wiki_crossdep_focused.cpp" bodystart="168" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__crossdep__focused_8cpp_1aa3a5bd312f2c67b6e5e9dd38c376d9e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WikiCrossDepWorkspace, WCD_13_SavePersistsWorkspaceState)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WikiCrossDepWorkspace</type>
+        </param>
+        <param>
+          <type>WCD_13_SavePersistsWorkspaceState</type>
+        </param>
+        <briefdescription>
+<para>WCD-13: save() persists a workspace state using the current contract. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_crossdep_focused.cpp" line="177" column="1" bodyfile="tests/llm/test_wiki_crossdep_focused.cpp" bodystart="177" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__crossdep__focused_8cpp_1aac1660290bb194d49bfa324e634b75fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WikiCrossDepWorkspace, WCD_14_ValidateChecksumAfterSave)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WikiCrossDepWorkspace</type>
+        </param>
+        <param>
+          <type>WCD_14_ValidateChecksumAfterSave</type>
+        </param>
+        <briefdescription>
+<para>WCD-14: validateChecksum() succeeds for a file written by save(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_crossdep_focused.cpp" line="187" column="1" bodyfile="tests/llm/test_wiki_crossdep_focused.cpp" bodystart="187" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__crossdep__focused_8cpp_1aa284420ff6a235a9c07e1675fe70714b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WikiCrossDepWorkspace, WCD_15_SaveLoadRoundtrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WikiCrossDepWorkspace</type>
+        </param>
+        <param>
+          <type>WCD_15_SaveLoadRoundtrip</type>
+        </param>
+        <briefdescription>
+<para>WCD-15: save() + load() roundtrip preserves workspace state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_crossdep_focused.cpp" line="201" column="1" bodyfile="tests/llm/test_wiki_crossdep_focused.cpp" bodystart="201" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wiki__crossdep__focused_8cpp_1a527d601ee08daeb490c9b2635b9393ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WikiCrossDepWorkspace, WCD_16_LoadMissingStateReturnsError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WikiCrossDepWorkspace</type>
+        </param>
+        <param>
+          <type>WCD_16_LoadMissingStateReturnsError</type>
+        </param>
+        <briefdescription>
+<para>WCD-16: load() returns an error when the workspace state is absent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_wiki_crossdep_focused.cpp" line="223" column="1" bodyfile="tests/llm/test_wiki_crossdep_focused.cpp" bodystart="223" bodyend="230"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cross-dependency focused tests (WCD-01..16) covering the four LLM-Wiki ↔ ThemisDB RocksDB integration phases. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests: Phase B — Persistent embedding cache default=false WCD-01: WikiIndexConfig default has enable_persistent_cache=false [standalone] WCD-02: Re-ingest of same chunk avoids EmbeddedLLM::embed [integration] WCD-03: Different chunk IDs each trigger exactly one embed call [integration] WCD-04: Pre-populated embedding bypasses LLM regardless of flag [integration]</para>
+<para>Phase F — writeBatch uses putBatch + addBatch (atomic RocksDB WriteBatch) WCD-05: writeBatch() with empty input completes without throw [integration] WCD-06: writeBatch() single chunk — query finds it [integration] WCD-07: writeBatch() multiple chunks across multiple doc_ids [integration] WCD-08: writeBatch() with pre-populated embeddings — LLM not called [integration]</para>
+<para>Phase D — optional StorageAuditLogger injection WCD-09: setAuditLogger not called → no crash in writeChunk [integration] WCD-10: setAuditLogger: writeChunk emits one logPut call [integration] WCD-11: setAuditLogger: writeBatch 3 chunks 2 doc_ids → 2 entries [integration] WCD-12: setAuditLogger: writeBatch empty input → zero entries [integration]</para>
+<para>Phase A — WorkspaceStateManager optional RocksDB backend WCD-13: hasRocksDB() returns false before useRocksDB() is called [standalone] WCD-14: hasRocksDB() returns true after useRocksDB() is called [standalone] WCD-15: save() + load() roundtrip via RocksDB preserves state [standalone] WCD-16: load() returns Error when key not found in fresh DB [standalone]</para>
+<para>NOTE: WCD-02..12 (marked [integration]) require the full ThemisDB library (themis_core with SecondaryIndexManager, VectorIndexManager, EmbeddedLLM). In the standalone focused-test build these tests call GTEST_SKIP(). They are exercised automatically when the target is built as part of the full library CMake configuration.</para>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟡 BETA — Phase B/D/F/A cross-dependency delivery </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wiki__index__store_8h" kindref="compound">llm/wiki_index_store.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llm_wiki/workspace_state_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Shared<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal">std::string<sp/>makeTmpDbPath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tag)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts<sp/>=<sp/>std::chrono::high_resolution_clock::now().time_since_epoch().count();</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(fs::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;wiki_crossdep_&quot;</highlight><highlight class="normal"><sp/>+<sp/>tag<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(ts)))</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.string();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal">themis::llm_wiki::WorkspaceState<sp/>makeWorkspaceState(</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>root<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/test_workspace&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::llm_wiki::WorkspaceState<sp/>s;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>s.version<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>s.created_at<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;2026-08-10T10:00:00Z&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>s.last_updated<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;2026-08-10T12:00:00Z&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>s.workspace_root<sp/>=<sp/>root;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>s.links[</highlight><highlight class="stringliteral">&quot;pageA&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;pageB&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;pageC&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>s.tasks[</highlight><highlight class="stringliteral">&quot;task1&quot;</highlight><highlight class="normal">]<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;review&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;open&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>s;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Phase<sp/>B<sp/>—<sp/>Persistent<sp/>embedding<sp/>cache<sp/>default<sp/>=<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="test__wiki__crossdep__focused_8cpp_1a91fcb13a29e00c1a2a333c47160c0a30" kindref="member">TEST</ref>(WikiCrossDepConfig,<sp/>WCD_01_PersistentCacheDefaultFalse)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_wiki_index_config" kindref="compound">themis::llm::WikiIndexConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.<ref refid="structthemis_1_1llm_1_1_wiki_index_config_1aee5beb381cbd0f0351c41fd82f8d6e30" kindref="member">enable_persistent_cache</ref>)</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;enable_persistent_cache<sp/>must<sp/>default<sp/>to<sp/>false<sp/>(in-memory<sp/>cache<sp/>by<sp/>default)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="test__wiki__crossdep__focused_8cpp_1a91fcb13a29e00c1a2a333c47160c0a30" kindref="member">TEST</ref>(WikiCrossDepIntegration,<sp/>WCD_02_PersistentCacheHitAvoidsReembed)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[WCD-02]<sp/>Integration<sp/>test<sp/>—<sp/>requires<sp/>full<sp/>ThemisDB<sp/>library<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;(SecondaryIndexManager<sp/>+<sp/>VectorIndexManager<sp/>+<sp/>EmbeddedLLM).<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Run<sp/>with<sp/>themis_core<sp/>linked.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="test__wiki__crossdep__focused_8cpp_1a91fcb13a29e00c1a2a333c47160c0a30" kindref="member">TEST</ref>(WikiCrossDepIntegration,<sp/>WCD_03_DistinctChunksEachEmbedOnce)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[WCD-03]<sp/>Integration<sp/>test<sp/>—<sp/>requires<sp/>full<sp/>ThemisDB<sp/>library.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__wiki__crossdep__focused_8cpp_1a91fcb13a29e00c1a2a333c47160c0a30" kindref="member">TEST</ref>(WikiCrossDepIntegration,<sp/>WCD_04_PrePopulatedEmbeddingBypassesLLM)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[WCD-04]<sp/>Integration<sp/>test<sp/>—<sp/>requires<sp/>full<sp/>ThemisDB<sp/>library.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Phase<sp/>F<sp/>—<sp/>writeBatch<sp/>uses<sp/>putBatch<sp/>+<sp/>addBatch<sp/>(atomic<sp/>WriteBatch)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="test__wiki__crossdep__focused_8cpp_1a91fcb13a29e00c1a2a333c47160c0a30" kindref="member">TEST</ref>(WikiCrossDepIntegration,<sp/>WCD_05_WriteBatchEmptyNoThrow)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[WCD-05]<sp/>Integration<sp/>test<sp/>—<sp/>requires<sp/>full<sp/>ThemisDB<sp/>library.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><ref refid="test__wiki__crossdep__focused_8cpp_1a91fcb13a29e00c1a2a333c47160c0a30" kindref="member">TEST</ref>(WikiCrossDepIntegration,<sp/>WCD_06_WriteBatchSingleChunkQueryable)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[WCD-06]<sp/>Integration<sp/>test<sp/>—<sp/>requires<sp/>full<sp/>ThemisDB<sp/>library.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="test__wiki__crossdep__focused_8cpp_1a91fcb13a29e00c1a2a333c47160c0a30" kindref="member">TEST</ref>(WikiCrossDepIntegration,<sp/>WCD_07_WriteBatchMultiDocQueryable)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[WCD-07]<sp/>Integration<sp/>test<sp/>—<sp/>requires<sp/>full<sp/>ThemisDB<sp/>library.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="test__wiki__crossdep__focused_8cpp_1a91fcb13a29e00c1a2a333c47160c0a30" kindref="member">TEST</ref>(WikiCrossDepIntegration,<sp/>WCD_08_WriteBatchPreEmbeddedNoLLM)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[WCD-08]<sp/>Integration<sp/>test<sp/>—<sp/>requires<sp/>full<sp/>ThemisDB<sp/>library.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Phase<sp/>D<sp/>—<sp/>optional<sp/>StorageAuditLogger<sp/>injection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="test__wiki__crossdep__focused_8cpp_1a91fcb13a29e00c1a2a333c47160c0a30" kindref="member">TEST</ref>(WikiCrossDepIntegration,<sp/>WCD_09_NoAuditLoggerNocrash)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[WCD-09]<sp/>Integration<sp/>test<sp/>—<sp/>requires<sp/>full<sp/>ThemisDB<sp/>library.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__wiki__crossdep__focused_8cpp_1a91fcb13a29e00c1a2a333c47160c0a30" kindref="member">TEST</ref>(WikiCrossDepIntegration,<sp/>WCD_10_AuditLoggerWriteChunkEmitsPut)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[WCD-10]<sp/>Integration<sp/>test<sp/>—<sp/>requires<sp/>full<sp/>ThemisDB<sp/>library.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><ref refid="test__wiki__crossdep__focused_8cpp_1a91fcb13a29e00c1a2a333c47160c0a30" kindref="member">TEST</ref>(WikiCrossDepIntegration,<sp/>WCD_11_AuditLoggerWriteBatchTwoDocIds)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[WCD-11]<sp/>Integration<sp/>test<sp/>—<sp/>requires<sp/>full<sp/>ThemisDB<sp/>library.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="test__wiki__crossdep__focused_8cpp_1a91fcb13a29e00c1a2a333c47160c0a30" kindref="member">TEST</ref>(WikiCrossDepIntegration,<sp/>WCD_12_AuditLoggerWriteBatchEmptyNoEntries)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[WCD-12]<sp/>Integration<sp/>test<sp/>—<sp/>requires<sp/>full<sp/>ThemisDB<sp/>library.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Phase<sp/>A<sp/>—<sp/>WorkspaceStateManager<sp/>optional<sp/>RocksDB<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="test__wiki__crossdep__focused_8cpp_1a91fcb13a29e00c1a2a333c47160c0a30" kindref="member">TEST</ref>(WikiCrossDepWorkspace,<sp/>WCD_13_SavePersistsWorkspaceState)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>workspace_root<sp/>=<sp/>makeTmpDbPath(</highlight><highlight class="stringliteral">&quot;wcd13_ws&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::llm_wiki::WorkspaceStateManager<sp/>mgr(workspace_root);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>state<sp/>=<sp/>makeWorkspaceState(workspace_root);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>save_status<sp/>=<sp/>mgr.save(state);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(save_status.ok())<sp/>&lt;&lt;<sp/>save_status.message;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="test__wiki__crossdep__focused_8cpp_1a91fcb13a29e00c1a2a333c47160c0a30" kindref="member">TEST</ref>(WikiCrossDepWorkspace,<sp/>WCD_14_ValidateChecksumAfterSave)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>workspace_root<sp/>=<sp/>makeTmpDbPath(</highlight><highlight class="stringliteral">&quot;wcd14_ws&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::llm_wiki::WorkspaceStateManager<sp/>mgr(workspace_root);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>state<sp/>=<sp/>makeWorkspaceState(workspace_root);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>save_status<sp/>=<sp/>mgr.save(state);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(save_status.ok())<sp/>&lt;&lt;<sp/>save_status.message;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>checksum_status<sp/>=<sp/>themis::llm_wiki::WorkspaceStateManager::validateChecksum(</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::path(workspace_root)<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;wiki&quot;</highlight><highlight class="normal"><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;state.json&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(checksum_status.ok())<sp/>&lt;&lt;<sp/>checksum_status.message;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><ref refid="test__wiki__crossdep__focused_8cpp_1a91fcb13a29e00c1a2a333c47160c0a30" kindref="member">TEST</ref>(WikiCrossDepWorkspace,<sp/>WCD_15_SaveLoadRoundtrip)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>workspace_root<sp/>=<sp/>makeTmpDbPath(</highlight><highlight class="stringliteral">&quot;wcd15_ws&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::llm_wiki::WorkspaceStateManager<sp/>mgr(workspace_root);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>state<sp/>=<sp/>makeWorkspaceState(workspace_root);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>save_status<sp/>=<sp/>mgr.save(state);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(save_status.ok())<sp/>&lt;&lt;<sp/>save_status.message;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::llm_wiki::WorkspaceState<sp/>loaded;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>load_status<sp/>=<sp/>mgr.load(loaded);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(load_status.ok())<sp/>&lt;&lt;<sp/>load_status.message;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded.version,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state.version);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded.workspace_root,<sp/>state.workspace_root);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded.created_at,<sp/><sp/><sp/><sp/><sp/>state.created_at);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded.last_updated,<sp/><sp/><sp/>state.last_updated);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(loaded.links.count(</highlight><highlight class="stringliteral">&quot;pageA&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loaded.links.at(</highlight><highlight class="stringliteral">&quot;pageA&quot;</highlight><highlight class="normal">),<sp/>state.links.at(</highlight><highlight class="stringliteral">&quot;pageA&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(loaded.tasks.count(</highlight><highlight class="stringliteral">&quot;task1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><ref refid="test__wiki__crossdep__focused_8cpp_1a91fcb13a29e00c1a2a333c47160c0a30" kindref="member">TEST</ref>(WikiCrossDepWorkspace,<sp/>WCD_16_LoadMissingStateReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>workspace_root<sp/>=<sp/>makeTmpDbPath(</highlight><highlight class="stringliteral">&quot;wcd16_ws&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::llm_wiki::WorkspaceStateManager<sp/>mgr(workspace_root);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::llm_wiki::WorkspaceState<sp/>loaded;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>load_status<sp/>=<sp/>mgr.load(loaded);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(load_status.ok());</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_wiki_crossdep_focused.cpp"/>
+  </compounddef>
+</doxygen>

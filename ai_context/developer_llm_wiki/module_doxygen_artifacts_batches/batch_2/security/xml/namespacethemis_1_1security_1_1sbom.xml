@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1security_1_1sbom" kind="namespace" language="C++">
+    <compoundname>themis::security::sbom</compoundname>
+    <innerclass refid="classthemis_1_1security_1_1sbom_1_1_hash_computer" prot="public">themis::security::sbom::HashComputer</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1sbom_1_1_s_b_o_m_parser" prot="public">themis::security::sbom::SBOMParser</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1sbom_1afa8ee8a7053de12412e4c17953860ea2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::sbom::BM_SBOMParsing_100Dependencies</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SBOMParsing_100Dependencies</name>
+        <qualifiedname>themis::security::sbom::BM_SBOMParsing_100Dependencies</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Benchmark: SBOM parsing time for 100 dependencies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_sbom_verification_gates.cpp" line="104" column="13" bodyfile="benchmarks/security/bench_sbom_verification_gates.cpp" bodystart="104" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1sbom_1a7e2c0e125f96a5d446aeee9328c14ea4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::sbom::BENCHMARK</definition>
+        <argsstring>(BM_SBOMParsing_100Dependencies) -&gt; Unit(benchmark::kMillisecond)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::security::sbom::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_SBOMParsing_100Dependencies</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_sbom_verification_gates.cpp" line="121" column="1" declfile="benchmarks/security/bench_sbom_verification_gates.cpp" declline="121" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1sbom_1a0d78bf007727babf067d14b48748346c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::sbom::BM_SBOMParsing_500Dependencies</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SBOMParsing_500Dependencies</name>
+        <qualifiedname>themis::security::sbom::BM_SBOMParsing_500Dependencies</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Benchmark: SBOM parsing time for 500 dependencies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_sbom_verification_gates.cpp" line="124" column="13" bodyfile="benchmarks/security/bench_sbom_verification_gates.cpp" bodystart="124" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1sbom_1a80a96e7dddb2d089ff166d21c40bbae4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::sbom::BENCHMARK</definition>
+        <argsstring>(BM_SBOMParsing_500Dependencies) -&gt; Unit(benchmark::kMillisecond)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::security::sbom::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_SBOMParsing_500Dependencies</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_sbom_verification_gates.cpp" line="141" column="1" declfile="benchmarks/security/bench_sbom_verification_gates.cpp" declline="141" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1sbom_1a09e68322cb9de7e0a40833cb227bc469" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::sbom::BM_HashComputation_10Artifacts</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_HashComputation_10Artifacts</name>
+        <qualifiedname>themis::security::sbom::BM_HashComputation_10Artifacts</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Benchmark: Hash computation per artifact (10 artifacts). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_sbom_verification_gates.cpp" line="144" column="13" bodyfile="benchmarks/security/bench_sbom_verification_gates.cpp" bodystart="144" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1sbom_1abbe913d14151e5617e1734383a6c089e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::sbom::BENCHMARK</definition>
+        <argsstring>(BM_HashComputation_10Artifacts) -&gt; Unit(benchmark::kMillisecond)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::security::sbom::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_HashComputation_10Artifacts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_sbom_verification_gates.cpp" line="165" column="1" declfile="benchmarks/security/bench_sbom_verification_gates.cpp" declline="165" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1sbom_1a98f5852985c7cdc953e0f463f5dd528b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::sbom::BM_HashComputation_50Artifacts</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_HashComputation_50Artifacts</name>
+        <qualifiedname>themis::security::sbom::BM_HashComputation_50Artifacts</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Benchmark: Hash computation per artifact (50 artifacts). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_sbom_verification_gates.cpp" line="168" column="13" bodyfile="benchmarks/security/bench_sbom_verification_gates.cpp" bodystart="168" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1sbom_1abcbd905f39cd98962c44c6d824358296" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::sbom::BENCHMARK</definition>
+        <argsstring>(BM_HashComputation_50Artifacts) -&gt; Unit(benchmark::kMillisecond)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::security::sbom::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_HashComputation_50Artifacts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_sbom_verification_gates.cpp" line="183" column="1" declfile="benchmarks/security/bench_sbom_verification_gates.cpp" declline="183" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1sbom_1aa7b5ffb2892863ead2d1ac438afa8463" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::sbom::BM_FullSBOMVerification_100Dependencies</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_FullSBOMVerification_100Dependencies</name>
+        <qualifiedname>themis::security::sbom::BM_FullSBOMVerification_100Dependencies</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Benchmark: Full SBOM verification cycle (parsing + hashing 100 deps). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_sbom_verification_gates.cpp" line="186" column="13" bodyfile="benchmarks/security/bench_sbom_verification_gates.cpp" bodystart="186" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1sbom_1a880f9a99ef3bf11b73a8ced90b77c2b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::sbom::BENCHMARK</definition>
+        <argsstring>(BM_FullSBOMVerification_100Dependencies) -&gt; Unit(benchmark::kMillisecond)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::security::sbom::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_FullSBOMVerification_100Dependencies</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_sbom_verification_gates.cpp" line="221" column="1" declfile="benchmarks/security/bench_sbom_verification_gates.cpp" declline="221" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1sbom_1a8db7406507d0be7b8a0da06608de9624" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::security::sbom::BM_FullSBOMVerification_500Dependencies</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_FullSBOMVerification_500Dependencies</name>
+        <qualifiedname>themis::security::sbom::BM_FullSBOMVerification_500Dependencies</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Benchmark: Full SBOM verification cycle (parsing + hashing 500 deps). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_sbom_verification_gates.cpp" line="224" column="13" bodyfile="benchmarks/security/bench_sbom_verification_gates.cpp" bodystart="224" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1sbom_1a256e4a344880d9e96a590ef3174d1d84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::sbom::BENCHMARK</definition>
+        <argsstring>(BM_FullSBOMVerification_500Dependencies) -&gt; Unit(benchmark::kMillisecond)</argsstring>
+        <name>BENCHMARK</name>
+        <qualifiedname>themis::security::sbom::BENCHMARK</qualifiedname>
+        <param>
+          <type>BM_FullSBOMVerification_500Dependencies</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_sbom_verification_gates.cpp" line="259" column="1" declfile="benchmarks/security/bench_sbom_verification_gates.cpp" declline="259" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/security/bench_sbom_verification_gates.cpp" line="18" column="1"/>
+  </compounddef>
+</doxygen>

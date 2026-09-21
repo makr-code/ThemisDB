@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_evaluation_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::EvaluationEntry</compoundname>
+    <includes refid="learning__metrics_8h" local="no">learning_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1ae4ca9a533ad65384f97e33170574d82a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::EvaluationEntry::overall_score</definition>
+        <argsstring></argsstring>
+        <name>overall_score</name>
+        <qualifiedname>themis::rag::learning::EvaluationEntry::overall_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="181" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1a2e753170ce8f4414ea209764bcd97842" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::EvaluationEntry::faithfulness_score</definition>
+        <argsstring></argsstring>
+        <name>faithfulness_score</name>
+        <qualifiedname>themis::rag::learning::EvaluationEntry::faithfulness_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="182" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1aae2b6af86c8a96017fef454f4fecbb61" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::EvaluationEntry::relevance_score</definition>
+        <argsstring></argsstring>
+        <name>relevance_score</name>
+        <qualifiedname>themis::rag::learning::EvaluationEntry::relevance_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="183" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1a42b556965a718cc30189777e801572c9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::EvaluationEntry::completeness_score</definition>
+        <argsstring></argsstring>
+        <name>completeness_score</name>
+        <qualifiedname>themis::rag::learning::EvaluationEntry::completeness_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="184" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1abe8be3429e5370d6c981daf797941dff" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::EvaluationEntry::coherence_score</definition>
+        <argsstring></argsstring>
+        <name>coherence_score</name>
+        <qualifiedname>themis::rag::learning::EvaluationEntry::coherence_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="185" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1a470d3bffac0842e3d49758e91c45e391" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::rag::learning::EvaluationEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::rag::learning::EvaluationEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="186" column="43" bodyfile="include/rag/learning_metrics.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Recorded entry for a single RAG evaluation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/learning_metrics.h" line="180" column="1" bodyfile="include/rag/learning_metrics.h" bodystart="180" bodyend="187"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1abe8be3429e5370d6c981daf797941dff" prot="public" virt="non-virtual"><scope>themis::rag::learning::EvaluationEntry</scope><name>coherence_score</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1a42b556965a718cc30189777e801572c9" prot="public" virt="non-virtual"><scope>themis::rag::learning::EvaluationEntry</scope><name>completeness_score</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1a2e753170ce8f4414ea209764bcd97842" prot="public" virt="non-virtual"><scope>themis::rag::learning::EvaluationEntry</scope><name>faithfulness_score</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1ae4ca9a533ad65384f97e33170574d82a" prot="public" virt="non-virtual"><scope>themis::rag::learning::EvaluationEntry</scope><name>overall_score</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1aae2b6af86c8a96017fef454f4fecbb61" prot="public" virt="non-virtual"><scope>themis::rag::learning::EvaluationEntry</scope><name>relevance_score</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_evaluation_entry_1a470d3bffac0842e3d49758e91c45e391" prot="public" virt="non-virtual"><scope>themis::rag::learning::EvaluationEntry</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

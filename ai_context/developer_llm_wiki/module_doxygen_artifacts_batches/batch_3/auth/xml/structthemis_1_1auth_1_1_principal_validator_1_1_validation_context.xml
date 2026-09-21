@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::PrincipalValidator::ValidationContext</compoundname>
+    <includes refid="principal__validator_8h" local="no">principal_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context_1acd75c2b02a3c0de72d3ef29b5e1f9a83" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::auth::PrincipalValidator::ValidationContext::ip_address</definition>
+        <argsstring></argsstring>
+        <name>ip_address</name>
+        <qualifiedname>themis::auth::PrincipalValidator::ValidationContext::ip_address</qualifiedname>
+        <briefdescription>
+<para>Client IP address. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="58" column="23" bodyfile="include/auth/principal_validator.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context_1a251c233465487991acc230e08740f30a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::auth::PrincipalValidator::ValidationContext::user_agent</definition>
+        <argsstring></argsstring>
+        <name>user_agent</name>
+        <qualifiedname>themis::auth::PrincipalValidator::ValidationContext::user_agent</qualifiedname>
+        <briefdescription>
+<para>HTTP User-Agent header. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="59" column="23" bodyfile="include/auth/principal_validator.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context_1a6330787dfe7e3e41151ddd6de63c5e6b" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::auth::PrincipalValidator::ValidationContext::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::auth::PrincipalValidator::ValidationContext::action</qualifiedname>
+        <briefdescription>
+<para>Action being performed (default: &quot;authenticate&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="60" column="23" bodyfile="include/auth/principal_validator.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context_1a2165b5672a15aab7617b0fce64ae7ac7" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::auth::PrincipalValidator::ValidationContext::resource</definition>
+        <argsstring></argsstring>
+        <name>resource</name>
+        <qualifiedname>themis::auth::PrincipalValidator::ValidationContext::resource</qualifiedname>
+        <briefdescription>
+<para>Resource being accessed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="61" column="23" bodyfile="include/auth/principal_validator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context_1abe40c793b923e318f582b356f1f0390e" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::auth::PrincipalValidator::ValidationContext::attributes</definition>
+        <argsstring></argsstring>
+        <name>attributes</name>
+        <qualifiedname>themis::auth::PrincipalValidator::ValidationContext::attributes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/principal_validator.h" line="62" column="28" bodyfile="include/auth/principal_validator.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/principal_validator.h" line="57" column="5" bodyfile="include/auth/principal_validator.h" bodystart="57" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context_1a6330787dfe7e3e41151ddd6de63c5e6b" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::ValidationContext</scope><name>action</name></member>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context_1abe40c793b923e318f582b356f1f0390e" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::ValidationContext</scope><name>attributes</name></member>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context_1acd75c2b02a3c0de72d3ef29b5e1f9a83" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::ValidationContext</scope><name>ip_address</name></member>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context_1a2165b5672a15aab7617b0fce64ae7ac7" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::ValidationContext</scope><name>resource</name></member>
+      <member refid="structthemis_1_1auth_1_1_principal_validator_1_1_validation_context_1a251c233465487991acc230e08740f30a" prot="public" virt="non-virtual"><scope>themis::auth::PrincipalValidator::ValidationContext</scope><name>user_agent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

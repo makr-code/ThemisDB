@@ -1,0 +1,341 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="temporal__migrator_8h" kind="file" language="C++">
+    <compoundname>temporal_migrator.h</compoundname>
+    <includes refid="temporal__types_8h" local="yes">temporal/temporal_types.h</includes>
+    <includes refid="system__versioned__table_8h" local="yes">temporal/system_versioned_table.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="temporal__migrator_8cpp" local="yes">src/temporal/temporal_migrator.cpp</includedby>
+    <includedby refid="test__temporal__migrator_8cpp" local="yes">tests/temporal/test_temporal_migrator.cpp</includedby>
+    <incdepgraph>
+      <node id="8">
+        <label>temporal/system_versioned_table.h</label>
+        <link refid="system__versioned__table_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/temporal/temporal_migrator.h</label>
+        <link refid="temporal__migrator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>temporal/temporal_types.h</label>
+        <link refid="temporal__types_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>limits</label>
+      </node>
+      <node id="10">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>unordered_map</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/temporal/temporal_migrator.h</label>
+        <link refid="temporal__migrator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/temporal/temporal_migrator.cpp</label>
+        <link refid="temporal__migrator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/temporal/test_temporal_migrator.cpp</label>
+        <link refid="test__temporal__migrator_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_column_info" prot="public">themisdb::temporal::ColumnInfo</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_migration_plan" prot="public">themisdb::temporal::MigrationPlan</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_migration_stats" prot="public">themisdb::temporal::MigrationStats</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_validation_result" prot="public">themisdb::temporal::ValidationResult</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_migration_report" prot="public">themisdb::temporal::MigrationReport</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_temporal_migrator" prot="public">themisdb::temporal::TemporalMigrator</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1temporal">themisdb::temporal</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.10 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="temporal__types_8h" kindref="compound">temporal/temporal_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="system__versioned__table_8h" kindref="compound">temporal/system_versioned_table.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal" kindref="compound">temporal</ref><sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MigrationStatus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916" kindref="member">MigrationStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="70" refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916ac69f06e1a9b016d133907b4e5f5864d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">PENDING</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916adb5bd93b8153dc2898de98e205c29478" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916adb5bd93b8153dc2898de98e205c29478" kindref="member">ANALYZING</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916ac36add926b1f9baaecf45c04dc407098" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916ac36add926b1f9baaecf45c04dc407098" kindref="member">MIGRATING</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916a4ea687957de9caaad1e098e3e95aae9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916a4ea687957de9caaad1e098e3e95aae9e" kindref="member">VERIFYING</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916a3de44296982e58199afc513a715b12ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916a3de44296982e58199afc513a715b12ba" kindref="member">COMPLETE</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916ab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916ab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ColumnInfo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemisdb_1_1temporal_1_1_column_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1temporal_1_1_column_info" kindref="compound">ColumnInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="90" refid="structthemisdb_1_1temporal_1_1_column_info_1ace518de4c0b08f63d7d9ef0a7ced53a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1temporal_1_1_column_info_1ace518de4c0b08f63d7d9ef0a7ced53a3" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="structthemisdb_1_1temporal_1_1_column_info_1aeec377b11c7962dae8d7c04eed40abc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1temporal_1_1_column_info_1aeec377b11c7962dae8d7c04eed40abc6" kindref="member">inferred_type</ref>;<sp/></highlight></codeline>
+<codeline lineno="92" refid="structthemisdb_1_1temporal_1_1_column_info_1a5d17192dff430d3703c44f59f954fefb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_column_info_1a5d17192dff430d3703c44f59f954fefb" kindref="member">nullable</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemisdb_1_1temporal_1_1_column_info_1a0cc56adfbc36f2951fcd7fef5f8762e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1temporal_1_1_column_info_1a0cc56adfbc36f2951fcd7fef5f8762e2" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_column_info_1ace518de4c0b08f63d7d9ef0a7ced53a3" kindref="member">name</ref>},<sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_column_info_1aeec377b11c7962dae8d7c04eed40abc6" kindref="member">inferred_type</ref>},<sp/>{</highlight><highlight class="stringliteral">&quot;nullable&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_column_info_1a5d17192dff430d3703c44f59f954fefb" kindref="member">nullable</ref>}};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MigrationPlan</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemisdb_1_1temporal_1_1_migration_plan" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1temporal_1_1_migration_plan" kindref="compound">MigrationPlan</ref><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Source<sp/>description<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemisdb_1_1temporal_1_1_migration_plan_1a9a9675f4df2587a9fecad8849d83ca22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_plan_1a9a9675f4df2587a9fecad8849d83ca22" kindref="member">source_table_name</ref>;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemisdb_1_1temporal_1_1_migration_plan_1aaec17032c4b8b8b549d8877fe780f1ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_plan_1aaec17032c4b8b8b549d8877fe780f1ae" kindref="member">source_row_count</ref>{0};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemisdb_1_1temporal_1_1_migration_plan_1a705df4205e79eb6663580722142cbebf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ColumnInfo&gt;<sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_plan_1a705df4205e79eb6663580722142cbebf" kindref="member">columns</ref>;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Target<sp/>configuration<sp/>──────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemisdb_1_1temporal_1_1_migration_plan_1a947acae3a3880819c6bc32bdb4a75b3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config" kindref="compound">SystemVersionedTable::Config</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_plan_1a947acae3a3880819c6bc32bdb4a75b3e" kindref="member">versioned_config</ref>;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="structthemisdb_1_1temporal_1_1_migration_plan_1a3ead62adc7b93c704113e7b956abec6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_plan_1a3ead62adc7b93c704113e7b956abec6b" kindref="member">baseline_timestamp</ref>{0};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="structthemisdb_1_1temporal_1_1_migration_plan_1a893875fb37a901083563f2c098607320" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_plan_1a893875fb37a901083563f2c098607320" kindref="member">has_history_to_backfill</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Validation<sp/>flags<sp/>──────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="structthemisdb_1_1temporal_1_1_migration_plan_1a4c2bbc6befff3261ec07842509d94b2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_plan_1a4c2bbc6befff3261ec07842509d94b2e" kindref="member">keys_are_unique</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="structthemisdb_1_1temporal_1_1_migration_plan_1a8ab4152d5b908f0bf4fce8e66ecb119a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_plan_1a8ab4152d5b908f0bf4fce8e66ecb119a" kindref="member">has_empty_documents</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_plan_1afd7e7dc51396bbdd3641365191778a2f" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MigrationStats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="structthemisdb_1_1temporal_1_1_migration_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1temporal_1_1_migration_stats" kindref="compound">MigrationStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="160" refid="structthemisdb_1_1temporal_1_1_migration_stats_1ae0f66e6f3e04aea3480907608a07f310" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_stats_1ae0f66e6f3e04aea3480907608a07f310" kindref="member">rows_migrated</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161" refid="structthemisdb_1_1temporal_1_1_migration_stats_1aee6acc1f3e26b7c4b6901312f35643bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_stats_1aee6acc1f3e26b7c4b6901312f35643bd" kindref="member">versions_backfilled</ref>{0};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162" refid="structthemisdb_1_1temporal_1_1_migration_stats_1a85e56ab3d744559575d66145d4ac7315" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_stats_1a85e56ab3d744559575d66145d4ac7315" kindref="member">rows_skipped</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163" refid="structthemisdb_1_1temporal_1_1_migration_stats_1a6b6938e17989dbd0c9a9ec19a7edc4ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_stats_1a6b6938e17989dbd0c9a9ec19a7edc4ea" kindref="member">validation_errors</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164" refid="structthemisdb_1_1temporal_1_1_migration_stats_1af18e8f8e2eb9ebb97b3c1414e49f9c04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_stats_1af18e8f8e2eb9ebb97b3c1414e49f9c04" kindref="member">elapsed_ms</ref>{0};<sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="structthemisdb_1_1temporal_1_1_migration_stats_1a92b6ea46a71855d260a664d6f488a0d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_stats_1a92b6ea46a71855d260a664d6f488a0d9" kindref="member">errors</ref>;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_stats_1a8ec201614bf5f24e52f3d0afebd5193a" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ValidationResult</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="structthemisdb_1_1temporal_1_1_validation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1temporal_1_1_validation_result" kindref="compound">ValidationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="178" refid="structthemisdb_1_1temporal_1_1_validation_result_1ad13800539b0b8f2ab716caaf969b4613" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1temporal_1_1_validation_result_1ad13800539b0b8f2ab716caaf969b4613" kindref="member">check_name</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="179" refid="structthemisdb_1_1temporal_1_1_validation_result_1a59ec2045ed6185259101301a01d0827c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_validation_result_1a59ec2045ed6185259101301a01d0827c" kindref="member">passed</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="180" refid="structthemisdb_1_1temporal_1_1_validation_result_1a71660ee3c541336776bb405d8a995e81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1temporal_1_1_validation_result_1a71660ee3c541336776bb405d8a995e81" kindref="member">detail</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="structthemisdb_1_1temporal_1_1_validation_result_1a787ead0f4fd84ba56449f30e552166a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1temporal_1_1_validation_result_1a787ead0f4fd84ba56449f30e552166a1" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{{</highlight><highlight class="stringliteral">&quot;check&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_validation_result_1ad13800539b0b8f2ab716caaf969b4613" kindref="member">check_name</ref>},<sp/>{</highlight><highlight class="stringliteral">&quot;passed&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_validation_result_1a59ec2045ed6185259101301a01d0827c" kindref="member">passed</ref>},<sp/>{</highlight><highlight class="stringliteral">&quot;detail&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1temporal_1_1_validation_result_1a71660ee3c541336776bb405d8a995e81" kindref="member">detail</ref>}};</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MigrationReport</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="structthemisdb_1_1temporal_1_1_migration_report" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1temporal_1_1_migration_report" kindref="compound">MigrationReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="197" refid="structthemisdb_1_1temporal_1_1_migration_report_1abef0b8cf88143be1bd3835de55854edc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_report_1abef0b8cf88143be1bd3835de55854edc" kindref="member">success</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="198" refid="structthemisdb_1_1temporal_1_1_migration_report_1a69f5fd04cb8b911e1d2643763f234d07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_report_1a69f5fd04cb8b911e1d2643763f234d07" kindref="member">table_name</ref>;</highlight></codeline>
+<codeline lineno="199" refid="structthemisdb_1_1temporal_1_1_migration_report_1a9b958d55feb9d4c8619f1f06533ade8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_stats" kindref="compound">MigrationStats</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_report_1a9b958d55feb9d4c8619f1f06533ade8f" kindref="member">stats</ref>;</highlight></codeline>
+<codeline lineno="200" refid="structthemisdb_1_1temporal_1_1_migration_report_1a50d9813fdbb29e9600fe6b3400d0f19d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ValidationResult&gt;<sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_report_1a50d9813fdbb29e9600fe6b3400d0f19d" kindref="member">checks</ref>;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_report_1a9f101797ee51eb809bc9385837eedf91" kindref="member">failedCheckCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_report_1ac1d3355e8c459403b3dca9caf358afc5" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TemporalMigrator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233" refid="classthemisdb_1_1temporal_1_1_temporal_migrator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a3bbcc9136ce7e5ab9b52119e77941981" kindref="member">TemporalMigrator</ref><sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="235" refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a02ed8af122c9e8bc321230138f15c8a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a02ed8af122c9e8bc321230138f15c8a4" kindref="member">ProgressCallback</ref><sp/>=<sp/>std::function&lt;void(<ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916" kindref="member">MigrationStatus</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)&gt;;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237" refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a3bbcc9136ce7e5ab9b52119e77941981" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a3bbcc9136ce7e5ab9b52119e77941981" kindref="member">TemporalMigrator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable;<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240" refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a3f9c80c9a173dca83b871e918581e748" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a3f9c80c9a173dca83b871e918581e748" kindref="member">TemporalMigrator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a3bbcc9136ce7e5ab9b52119e77941981" kindref="member">TemporalMigrator</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241" refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1ac5bf57875e994aa124a526bd9d6a5c05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a3bbcc9136ce7e5ab9b52119e77941981" kindref="member">TemporalMigrator</ref>&amp;<sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1ac5bf57875e994aa124a526bd9d6a5c05" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a3bbcc9136ce7e5ab9b52119e77941981" kindref="member">TemporalMigrator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="242" refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a50922040f01e4e85e80a48e41e36c24b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a50922040f01e4e85e80a48e41e36c24b" kindref="member">TemporalMigrator</ref>(<ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a3bbcc9136ce7e5ab9b52119e77941981" kindref="member">TemporalMigrator</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="243" refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1aecde3212eb09d1805d4eae484147e467" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a3bbcc9136ce7e5ab9b52119e77941981" kindref="member">TemporalMigrator</ref>&amp;<sp/>operator=(<ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a3bbcc9136ce7e5ab9b52119e77941981" kindref="member">TemporalMigrator</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Configuration<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1ad90b57888320d071b2d07e9f9bde2c2e" kindref="member">setProgressCallback</ref>(<ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a02ed8af122c9e8bc321230138f15c8a4" kindref="member">ProgressCallback</ref><sp/>cb);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Step<sp/>1:<sp/>Analyse<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_plan" kindref="compound">MigrationPlan</ref><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1ab8c5c282dfd858ad9b26c038d7a4a048" kindref="member">analyzeMigration</ref>(</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>table_name,</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::unordered_map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref>&gt;&amp;<sp/>source_docs);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Step<sp/>2:<sp/>Migrate<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>std::pair&lt;<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref>,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a6c1a0bb10807f0aab6d351509419309b" kindref="member">migrateToTemporal</ref>(</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_plan" kindref="compound">MigrationPlan</ref>&amp;<sp/>plan,</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::unordered_map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref>&gt;&amp;<sp/>source_docs);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Step<sp/>3:<sp/>Backfill<sp/>history<sp/>(optional)<sp/>───────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a84650bd3de9ef8d74bd7aed64f9e8e73" kindref="member">backfillHistory</ref>(</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref>&amp;<sp/>table,</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref>&gt;&amp;<sp/>history_entries);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Step<sp/>4:<sp/>Verify<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_report" kindref="compound">MigrationReport</ref><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1ab2fda21724b84b2d6f0207115b0a23dc" kindref="member">verifyMigration</ref>(const<sp/><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref>&amp;<sp/>table);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Status<sp/>/<sp/>diagnostics<sp/>──────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329" refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a1051e5f341dd1e9174c8fad29d3d1792" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916" kindref="member">MigrationStatus</ref><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a1051e5f341dd1e9174c8fad29d3d1792" kindref="member">getStatus</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>status_;<sp/>}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332" refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1ab3dc7b31c84afc3159ec47449db8cf70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_stats" kindref="compound">MigrationStats</ref>&amp;<sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1ab3dc7b31c84afc3159ec47449db8cf70" kindref="member">getStats</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339" refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a58fe526b717eae06aa2f113371577c45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_migration_report" kindref="compound">MigrationReport</ref>&amp;<sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a58fe526b717eae06aa2f113371577c45" kindref="member">getLastReport</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>last_report_;<sp/>}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Static<sp/>helpers<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a1b9f8c4258dc78db6e3353cee710aa8f" kindref="member">statusName</ref>(<ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916" kindref="member">MigrationStatus</ref><sp/>s);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916" kindref="member">MigrationStatus</ref><sp/><sp/>status_{<ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">MigrationStatus::PENDING</ref>};</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>MigrationStats<sp/><sp/><sp/>stats_;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>MigrationReport<sp/><sp/>last_report_;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>MigrationPlan<sp/><sp/><sp/><sp/>last_plan_;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_temporal_migrator_1a02ed8af122c9e8bc321230138f15c8a4" kindref="member">ProgressCallback</ref><sp/>progress_cb_;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setStatus(<ref refid="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916" kindref="member">MigrationStatus</ref><sp/>s,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>msg<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;ColumnInfo&gt;<sp/>inferColumns(</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>Document&gt;&amp;<sp/>docs);</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>inferType(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>temporal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/temporal/temporal_migrator.h"/>
+  </compounddef>
+</doxygen>

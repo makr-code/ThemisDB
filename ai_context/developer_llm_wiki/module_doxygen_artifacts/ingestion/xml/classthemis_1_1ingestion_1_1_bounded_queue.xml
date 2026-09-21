@@ -1,0 +1,555 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_bounded_queue" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::BoundedQueue</compoundname>
+    <includes refid="bounded__queue_8h" local="no">bounded_queue.h</includes>
+    <innerclass refid="structthemis_1_1ingestion_1_1_bounded_queue_1_1_enqueue_result" prot="public">themis::ingestion::BoundedQueue::EnqueueResult</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_bounded_queue_1a9c0b00ab1f6bd64bc7f6b8e01cc47c62" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::ingestion::BoundedQueue&lt; T &gt;::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="425" column="24" bodyfile="include/ingestion/bounded_queue.h" bodystart="425" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_bounded_queue_1aaebd64cd775daaf696b921f6f21879eb" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::ingestion::BoundedQueue&lt; T &gt;::condition_var_</definition>
+        <argsstring></argsstring>
+        <name>condition_var_</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::condition_var_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="426" column="29" bodyfile="include/ingestion/bounded_queue.h" bodystart="426" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_bounded_queue_1aa5d6b14ffacd0fb1a118259874f3e2ca" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; T &gt;</type>
+        <definition>std::deque&lt;T&gt; themis::ingestion::BoundedQueue&lt; T &gt;::queue_</definition>
+        <argsstring></argsstring>
+        <name>queue_</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="427" column="16" bodyfile="include/ingestion/bounded_queue.h" bodystart="427" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_bounded_queue_1a85a7cfc8c015f30dc6d232276218e22c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_queue_resource_limit_config" kindref="compound">QueueResourceLimitConfig</ref></type>
+        <definition>QueueResourceLimitConfig themis::ingestion::BoundedQueue&lt; T &gt;::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="428" column="30" bodyfile="include/ingestion/bounded_queue.h" bodystart="428" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_bounded_queue_1ad6887781581b4662d28b0d882c70de20" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::BoundedQueue&lt; T &gt;::current_memory_bytes_</definition>
+        <argsstring></argsstring>
+        <name>current_memory_bytes_</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::current_memory_bytes_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="429" column="17" bodyfile="include/ingestion/bounded_queue.h" bodystart="429" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_bounded_queue_1a272b329957d875e549e268c26a21dee2" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_queue_resource_stats" kindref="compound">QueueResourceStats</ref></type>
+        <definition>QueueResourceStats themis::ingestion::BoundedQueue&lt; T &gt;::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="430" column="24" bodyfile="include/ingestion/bounded_queue.h" bodystart="430" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bounded_queue_1a019d70ae756fcf70ba45415ada973c8b" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::BoundedQueue&lt; T &gt;::BoundedQueue</definition>
+        <argsstring>(const QueueResourceLimitConfig &amp;config={})</argsstring>
+        <name>BoundedQueue</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::BoundedQueue</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_queue_resource_limit_config" kindref="compound">QueueResourceLimitConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct a bounded queue with the given resource limits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Resource limit configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="215" column="14" bodyfile="include/ingestion/bounded_queue.h" bodystart="215" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bounded_queue_1a869f5c6e70df75fdfdc4e2526da73faf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::BoundedQueue&lt; T &gt;::~BoundedQueue</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BoundedQueue</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::~BoundedQueue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="218" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bounded_queue_1a394c24dfcdd7ed082607b380a1c5fd2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::BoundedQueue&lt; T &gt;::BoundedQueue</definition>
+        <argsstring>(const BoundedQueue &amp;)=delete</argsstring>
+        <name>BoundedQueue</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::BoundedQueue</qualifiedname>
+        <param>
+          <type>const BoundedQueue &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="221" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bounded_queue_1a8855125508f97e52b1a601c081bb61f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_bounded_queue_1a019d70ae756fcf70ba45415ada973c8b" kindref="member">BoundedQueue</ref> &amp;</type>
+        <definition>BoundedQueue &amp; themis::ingestion::BoundedQueue&lt; T &gt;::operator=</definition>
+        <argsstring>(const BoundedQueue &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1ingestion_1_1_bounded_queue_1a019d70ae756fcf70ba45415ada973c8b" kindref="member">BoundedQueue</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="222" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bounded_queue_1a9971b6e75b8804ef2aae67ff2a51e699" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_bounded_queue_1_1_enqueue_result" kindref="compound">EnqueueResult</ref></type>
+        <definition>EnqueueResult themis::ingestion::BoundedQueue&lt; T &gt;::enqueue</definition>
+        <argsstring>(T item, bool allow_block=true)</argsstring>
+        <name>enqueue</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::enqueue</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>item</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>allow_block</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Attempt to enqueue an item. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>item</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Item to enqueue </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>allow_block</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, block until space is available (up to timeout). If false, return immediately on saturation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1ingestion_1_1_bounded_queue_1_1_enqueue_result" kindref="compound">EnqueueResult</ref> describing success or failure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="234" column="19" bodyfile="include/ingestion/bounded_queue.h" bodystart="234" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bounded_queue_1a56468f50434b49a31e2a6b33f7105958" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; T &gt;</type>
+        <definition>std::optional&lt; T &gt; themis::ingestion::BoundedQueue&lt; T &gt;::tryDequeue</definition>
+        <argsstring>()</argsstring>
+        <name>tryDequeue</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::tryDequeue</qualifiedname>
+        <briefdescription>
+<para>Attempt to dequeue an item (non-blocking). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>std::optional containing the item if available, std::nullopt otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="287" column="19" bodyfile="include/ingestion/bounded_queue.h" bodystart="287" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bounded_queue_1a3119e1d52288168fa469a10e37141b8b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; T &gt;</type>
+        <definition>std::optional&lt; T &gt; themis::ingestion::BoundedQueue&lt; T &gt;::dequeueWithTimeout</definition>
+        <argsstring>(std::chrono::milliseconds timeout)</argsstring>
+        <name>dequeueWithTimeout</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::dequeueWithTimeout</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+<para>Dequeue an item with timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Blocks until an item is available or the timeout expires. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum time to wait </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>std::optional containing the item if available, std::nullopt on timeout </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="308" column="19" bodyfile="include/ingestion/bounded_queue.h" bodystart="308" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bounded_queue_1a6ec362602effdfca0caffaf7a3e33796" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>T</type>
+        <definition>T themis::ingestion::BoundedQueue&lt; T &gt;::dequeue</definition>
+        <argsstring>()</argsstring>
+        <name>dequeue</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::dequeue</qualifiedname>
+        <briefdescription>
+<para>Dequeue an item (blocks indefinitely until available). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Item from the front of the queue </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="327" column="7" bodyfile="include/ingestion/bounded_queue.h" bodystart="327" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bounded_queue_1a431c06a7c32edb92789dac548f880621" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_queue_resource_stats" kindref="compound">QueueResourceStats</ref></type>
+        <definition>QueueResourceStats themis::ingestion::BoundedQueue&lt; T &gt;::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::getStats</qualifiedname>
+        <briefdescription>
+<para>Get current queue and resource statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="337" column="24" bodyfile="include/ingestion/bounded_queue.h" bodystart="337" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bounded_queue_1a4ee3a02d60f9312ec243751583b616a3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1ingestion_1aa83216e8fac562e6287d60ad69e592be" kindref="member">QueueSaturationState</ref></type>
+        <definition>QueueSaturationState themis::ingestion::BoundedQueue&lt; T &gt;::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::getState</qualifiedname>
+        <briefdescription>
+<para>Get current saturation state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="345" column="26" bodyfile="include/ingestion/bounded_queue.h" bodystart="345" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bounded_queue_1a5c482741ebe32121be58160432e02efc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::BoundedQueue&lt; T &gt;::isSaturated</definition>
+        <argsstring>() const</argsstring>
+        <name>isSaturated</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::isSaturated</qualifiedname>
+        <briefdescription>
+<para>Check if the queue is saturated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="353" column="10" bodyfile="include/ingestion/bounded_queue.h" bodystart="353" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bounded_queue_1ad3d5b5cc84250ea284e5acef9f8c4d69" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::BoundedQueue&lt; T &gt;::isWarningThresholdExceeded</definition>
+        <argsstring>() const</argsstring>
+        <name>isWarningThresholdExceeded</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::isWarningThresholdExceeded</qualifiedname>
+        <briefdescription>
+<para>Check if saturation warning threshold is exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="362" column="10" bodyfile="include/ingestion/bounded_queue.h" bodystart="362" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bounded_queue_1a13cb5bc8dd638608fc0519eb9784e164" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::BoundedQueue&lt; T &gt;::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::size</qualifiedname>
+        <briefdescription>
+<para>Get current number of items in queue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="372" column="17" bodyfile="include/ingestion/bounded_queue.h" bodystart="372" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bounded_queue_1a3da7feb05ff268dafe595467c88fc7b3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::BoundedQueue&lt; T &gt;::empty</definition>
+        <argsstring>() const</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::empty</qualifiedname>
+        <briefdescription>
+<para>Check if queue is empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="380" column="10" bodyfile="include/ingestion/bounded_queue.h" bodystart="380" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bounded_queue_1af35c0cdfbb2e2faf4912bacc77f4c4f3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::BoundedQueue&lt; T &gt;::currentMemoryBytes</definition>
+        <argsstring>() const</argsstring>
+        <name>currentMemoryBytes</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::currentMemoryBytes</qualifiedname>
+        <briefdescription>
+<para>Get current memory usage in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="388" column="17" bodyfile="include/ingestion/bounded_queue.h" bodystart="388" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bounded_queue_1a67741b600b12d2cfbc5d16f1f712e223" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::BoundedQueue&lt; T &gt;::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::clear</qualifiedname>
+        <briefdescription>
+<para>Clear all items from the queue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="396" column="10" bodyfile="include/ingestion/bounded_queue.h" bodystart="396" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bounded_queue_1a5df6abce53a8fb42ab6d3d7abe4e5611" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_queue_resource_limit_config" kindref="compound">QueueResourceLimitConfig</ref></type>
+        <definition>QueueResourceLimitConfig themis::ingestion::BoundedQueue&lt; T &gt;::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get the resource limit configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="409" column="30" bodyfile="include/ingestion/bounded_queue.h" bodystart="409" bodyend="412"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bounded_queue_1a2867517f7d1dbcaa094f38a398bb509f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::BoundedQueue&lt; T &gt;::setConfig</definition>
+        <argsstring>(const QueueResourceLimitConfig &amp;new_config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_queue_resource_limit_config" kindref="compound">QueueResourceLimitConfig</ref> &amp;</type>
+          <declname>new_config</declname>
+        </param>
+        <briefdescription>
+<para>Update the resource limit configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Takes effect on the next enqueue operation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="419" column="10" bodyfile="include/ingestion/bounded_queue.h" bodystart="419" bodyend="422"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bounded_queue_1ac9c53390f1e1b16917dde1695c9b6e49" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_bounded_queue_1_1_enqueue_result" kindref="compound">EnqueueResult</ref></type>
+        <definition>EnqueueResult themis::ingestion::BoundedQueue&lt; T &gt;::waitForSpace</definition>
+        <argsstring>(std::unique_lock&lt; std::mutex &gt; &amp;lock, T item, std::size_t item_size)</argsstring>
+        <name>waitForSpace</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::waitForSpace</qualifiedname>
+        <param>
+          <type>std::unique_lock&lt; std::mutex &gt; &amp;</type>
+          <declname>lock</declname>
+        </param>
+        <param>
+          <type>T</type>
+          <declname>item</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>item_size</declname>
+        </param>
+        <briefdescription>
+<para>Wait for space to become available in the queue. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Blocks until either the queue has space or the timeout expires. <simplesect kind="return"><para><ref refid="structthemis_1_1ingestion_1_1_bounded_queue_1_1_enqueue_result" kindref="compound">EnqueueResult</ref> with success=true if space became available, or success=false with is_timeout=true if timeout expired </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="439" column="19" bodyfile="include/ingestion/bounded_queue.h" bodystart="439" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_bounded_queue_1a0e31b117bbdaa86f273bd2cba95d0542" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::BoundedQueue&lt; T &gt;::updateStats</definition>
+        <argsstring>()</argsstring>
+        <name>updateStats</name>
+        <qualifiedname>themis::ingestion::BoundedQueue::updateStats</qualifiedname>
+        <briefdescription>
+<para>Update current saturation state based on queue occupancy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called after enqueue or dequeue to recalculate the saturation state. Must be called while holding the lock. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/bounded_queue.h" line="481" column="10" bodyfile="include/ingestion/bounded_queue.h" bodystart="481" bodyend="508"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe bounded queue with saturation detection and memory limits. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Enforces both item-count and memory-based capacity limits. Provides blocking semantics for backpressure and explicit saturation state tracking.</para>
+<para>Example usage: <programlisting><codeline><highlight class="normal">QueueResourceLimitConfig<sp/>config;</highlight></codeline>
+<codeline><highlight class="normal">config.max_queue_size<sp/>=<sp/>5000;</highlight></codeline>
+<codeline><highlight class="normal">config.max_memory_bytes<sp/>=<sp/>100<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/></highlight><highlight class="comment">//<sp/>100<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1ingestion_1_1_bounded_queue_1a019d70ae756fcf70ba45415ada973c8b" kindref="member">BoundedQueue&lt;std::string&gt;</ref><sp/>queue(config);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Enqueue<sp/>(blocks<sp/>if<sp/>saturated)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>queue.enqueue(some_item,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.success)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.is_saturation)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cerr<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Queue<sp/>saturated:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>result.error_message<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Check<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>state<sp/>=<sp/>queue.getState();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(state.current_state<sp/>==<sp/><ref refid="namespacethemis_1_1ingestion_1aa83216e8fac562e6287d60ad69e592beae06c94d641877afac0c2581c3097de3d" kindref="member">QueueSaturationState::SATURATION_WARNING</ref>)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Take<sp/>preemptive<sp/>action</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Dequeue<sp/>with<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>item_opt<sp/>=<sp/>queue.dequeueWithTimeout(std::chrono::seconds(1));</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(item_opt)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Process<sp/>item</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/ingestion/bounded_queue.h" line="198" column="1" bodyfile="include/ingestion/bounded_queue.h" bodystart="198" bodyend="509"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1a019d70ae756fcf70ba45415ada973c8b" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>BoundedQueue</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1a394c24dfcdd7ed082607b380a1c5fd2f" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>BoundedQueue</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1a67741b600b12d2cfbc5d16f1f712e223" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>clear</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1aaebd64cd775daaf696b921f6f21879eb" prot="private" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>condition_var_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1a85a7cfc8c015f30dc6d232276218e22c" prot="private" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>config_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1ad6887781581b4662d28b0d882c70de20" prot="private" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>current_memory_bytes_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1af35c0cdfbb2e2faf4912bacc77f4c4f3" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>currentMemoryBytes</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1a6ec362602effdfca0caffaf7a3e33796" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>dequeue</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1a3119e1d52288168fa469a10e37141b8b" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>dequeueWithTimeout</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1a3da7feb05ff268dafe595467c88fc7b3" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>empty</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1a9971b6e75b8804ef2aae67ff2a51e699" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>enqueue</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1a5df6abce53a8fb42ab6d3d7abe4e5611" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1a4ee3a02d60f9312ec243751583b616a3" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>getState</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1a431c06a7c32edb92789dac548f880621" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1a5c482741ebe32121be58160432e02efc" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>isSaturated</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1ad3d5b5cc84250ea284e5acef9f8c4d69" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>isWarningThresholdExceeded</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1a9c0b00ab1f6bd64bc7f6b8e01cc47c62" prot="private" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1a8855125508f97e52b1a601c081bb61f7" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1aa5d6b14ffacd0fb1a118259874f3e2ca" prot="private" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>queue_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1a2867517f7d1dbcaa094f38a398bb509f" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1a13cb5bc8dd638608fc0519eb9784e164" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>size</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1a272b329957d875e549e268c26a21dee2" prot="private" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1a56468f50434b49a31e2a6b33f7105958" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>tryDequeue</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1a0e31b117bbdaa86f273bd2cba95d0542" prot="private" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>updateStats</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1ac9c53390f1e1b16917dde1695c9b6e49" prot="private" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>waitForSpace</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_bounded_queue_1a869f5c6e70df75fdfdc4e2526da73faf" prot="public" virt="non-virtual"><scope>themis::ingestion::BoundedQueue</scope><name>~BoundedQueue</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

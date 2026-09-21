@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_final_layer_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::FinalLayerRequest</compoundname>
+    <includes refid="final__layer__orchestrator_8h" local="no">final_layer_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_request_1a87929b230547b3a93ab125e77fa05230" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerRequest::prompt</definition>
+        <argsstring></argsstring>
+        <name>prompt</name>
+        <qualifiedname>themis::llm::FinalLayerRequest::prompt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="61" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_request_1a4f80ee6097313edd1e566b5be59f94c7" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::FinalLayerRequest::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::llm::FinalLayerRequest::metadata</qualifiedname>
+        <initializer>= nlohmann::json::object()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="62" column="20" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_request_1afdd5259eff48ceba1b8545051cc3c7ca" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerRequest::requested_package_id</definition>
+        <argsstring></argsstring>
+        <name>requested_package_id</name>
+        <qualifiedname>themis::llm::FinalLayerRequest::requested_package_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="63" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_request_1a30c4f6dd30c1a3db9fd6c68a908016db" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerRequest::base_model_name</definition>
+        <argsstring></argsstring>
+        <name>base_model_name</name>
+        <qualifiedname>themis::llm::FinalLayerRequest::base_model_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="64" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_request_1a74b3845ba11b090124efea2013c082a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerRequest::base_model_version</definition>
+        <argsstring></argsstring>
+        <name>base_model_version</name>
+        <qualifiedname>themis::llm::FinalLayerRequest::base_model_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="65" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_request_1ac85c02e57b65466d81de22313cf51a59" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerRequest::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::llm::FinalLayerRequest::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="66" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_request_1a8ccfbf37541c121bac5ed56d275a7206" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerRequest::confidence_policy_version</definition>
+        <argsstring></argsstring>
+        <name>confidence_policy_version</name>
+        <qualifiedname>themis::llm::FinalLayerRequest::confidence_policy_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="67" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_request_1aace118613f7e423b364cdf123db18e12" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerRequest::confidence_threshold_key</definition>
+        <argsstring></argsstring>
+        <name>confidence_threshold_key</name>
+        <qualifiedname>themis::llm::FinalLayerRequest::confidence_threshold_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="68" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_request_1aa29fe5b8ce16b8752f8f032606b621c0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerRequest::upstream_routing_reason_code</definition>
+        <argsstring></argsstring>
+        <name>upstream_routing_reason_code</name>
+        <qualifiedname>themis::llm::FinalLayerRequest::upstream_routing_reason_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="69" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_request_1a53a4d214ef270b7d13df28493a8644dc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::FinalLayerRequest::escalation_source_layer</definition>
+        <argsstring></argsstring>
+        <name>escalation_source_layer</name>
+        <qualifiedname>themis::llm::FinalLayerRequest::escalation_source_layer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="70" column="17" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_final_layer_request_1a019d07ff156f3a80400d8788eff9e3af" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::FinalLayerRequest::allow_draft_adapter</definition>
+        <argsstring></argsstring>
+        <name>allow_draft_adapter</name>
+        <qualifiedname>themis::llm::FinalLayerRequest::allow_draft_adapter</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/final_layer_orchestrator.h" line="71" column="10" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/final_layer_orchestrator.h" line="60" column="1" bodyfile="include/llm/final_layer_orchestrator.h" bodystart="60" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_final_layer_request_1a019d07ff156f3a80400d8788eff9e3af" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerRequest</scope><name>allow_draft_adapter</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_request_1a30c4f6dd30c1a3db9fd6c68a908016db" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerRequest</scope><name>base_model_name</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_request_1a74b3845ba11b090124efea2013c082a3" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerRequest</scope><name>base_model_version</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_request_1a8ccfbf37541c121bac5ed56d275a7206" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerRequest</scope><name>confidence_policy_version</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_request_1aace118613f7e423b364cdf123db18e12" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerRequest</scope><name>confidence_threshold_key</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_request_1ac85c02e57b65466d81de22313cf51a59" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerRequest</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_request_1a53a4d214ef270b7d13df28493a8644dc" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerRequest</scope><name>escalation_source_layer</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_request_1a4f80ee6097313edd1e566b5be59f94c7" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerRequest</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_request_1a87929b230547b3a93ab125e77fa05230" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerRequest</scope><name>prompt</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_request_1afdd5259eff48ceba1b8545051cc3c7ca" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerRequest</scope><name>requested_package_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_final_layer_request_1aa29fe5b8ce16b8752f8f032606b621c0" prot="public" virt="non-virtual"><scope>themis::llm::FinalLayerRequest</scope><name>upstream_routing_reason_code</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

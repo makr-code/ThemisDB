@@ -1,0 +1,1341 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1sharding_1_1test" kind="namespace" language="C++">
+    <compoundname>themisdb::sharding::test</compoundname>
+    <innerclass refid="structthemisdb_1_1sharding_1_1test_1_1_wal_entry" prot="public">themisdb::sharding::test::WalEntry</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l" prot="public">themisdb::sharding::test::SimWAL</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant" prot="public">themisdb::sharding::test::SimParticipant</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator2_p_c" prot="public">themisdb::sharding::test::Coordinator2PC</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c" prot="public">themisdb::sharding::test::Coordinator3PC</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1test_1_1_saga_step" prot="public">themisdb::sharding::test::SagaStep</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1test_1_1_saga_result" prot="public">themisdb::sharding::test::SagaResult</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1test_1_1_saga_executor" prot="public">themisdb::sharding::test::SagaExecutor</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1test_1_1_partition_monitor" prot="public">themisdb::sharding::test::PartitionMonitor</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1test_1_1_percolator_lock_registry" prot="public">themisdb::sharding::test::PercolatorLockRegistry</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1test_1_1_phase6_base" prot="public">themisdb::sharding::test::Phase6Base</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1test_1_1_two_phase_consistency_test" prot="public">themisdb::sharding::test::TwoPhaseConsistencyTest</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1test_1_1_three_phase_consistency_test" prot="public">themisdb::sharding::test::ThreePhaseConsistencyTest</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" prot="public">themisdb::sharding::test::FailoverRecoveryTest</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1_1test_1a8b9605012c220e554d3995b3334ba7cd" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SimParticipantState</name>
+        <qualifiedname>themisdb::sharding::test::SimParticipantState</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a8b9605012c220e554d3995b3334ba7cdaa5daf7f2ebbba4975d61dab1c40188c7" prot="public">
+          <name>IDLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a8b9605012c220e554d3995b3334ba7cda6bbfc22048d63183dd626a026e63e497" prot="public">
+          <name>PREPARED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a8b9605012c220e554d3995b3334ba7cdade9bc61e8eb601346b91c684ca96d16f" prot="public">
+          <name>PRECOMMITTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a8b9605012c220e554d3995b3334ba7cda1c372d13f50af5ca9a935ebc78006e82" prot="public">
+          <name>COMMITTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a8b9605012c220e554d3995b3334ba7cda4e6c860e5da10e31c5fd9cb76ddc2025" prot="public">
+          <name>ABORTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="128" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="128" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1_1test_1aad80460880a0aa7790de8af770d30b42" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Coord2PCState</name>
+        <qualifiedname>themisdb::sharding::test::Coord2PCState</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1aad80460880a0aa7790de8af770d30b42afaee4ca3c30ee18148ce3ada37466498" prot="public">
+          <name>INIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1aad80460880a0aa7790de8af770d30b42abd6a3a60251e4e52cdc9c393f33cbe10" prot="public">
+          <name>PREPARING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1aad80460880a0aa7790de8af770d30b42a001d8fa76b26eee4f6d7c8a8d44c73ef" prot="public">
+          <name>COMMITTING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1aad80460880a0aa7790de8af770d30b42a0f7fb3ad9bfa0a293be603d57f9fa02c" prot="public">
+          <name>ABORTING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1aad80460880a0aa7790de8af770d30b42a1c372d13f50af5ca9a935ebc78006e82" prot="public">
+          <name>COMMITTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1aad80460880a0aa7790de8af770d30b42a4e6c860e5da10e31c5fd9cb76ddc2025" prot="public">
+          <name>ABORTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="319" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="319" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1_1test_1a85ca1d9510bc325dd1775ec81b8d7d9b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Coord3PCState</name>
+        <qualifiedname>themisdb::sharding::test::Coord3PCState</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a85ca1d9510bc325dd1775ec81b8d7d9bafaee4ca3c30ee18148ce3ada37466498" prot="public">
+          <name>INIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a85ca1d9510bc325dd1775ec81b8d7d9ba437c88dea0209d4704537a9314eb8a86" prot="public">
+          <name>WAITING_PREPARE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a85ca1d9510bc325dd1775ec81b8d7d9ba1a815d61dc539f219b2d8aa173341d36" prot="public">
+          <name>WAITING_PRECOMMIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a85ca1d9510bc325dd1775ec81b8d7d9ba001d8fa76b26eee4f6d7c8a8d44c73ef" prot="public">
+          <name>COMMITTING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a85ca1d9510bc325dd1775ec81b8d7d9ba1c372d13f50af5ca9a935ebc78006e82" prot="public">
+          <name>COMMITTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a85ca1d9510bc325dd1775ec81b8d7d9ba0f7fb3ad9bfa0a293be603d57f9fa02c" prot="public">
+          <name>ABORTING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a85ca1d9510bc325dd1775ec81b8d7d9ba4e6c860e5da10e31c5fd9cb76ddc2025" prot="public">
+          <name>ABORTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="448" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="448" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1sharding_1_1test_1a9631e7ca382c7f7c359d1fa7f241c8ba" prot="public" static="no" strong="yes">
+        <type>uint32_t</type>
+        <name>ShardingErrorCode</name>
+        <qualifiedname>themisdb::sharding::test::ShardingErrorCode</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a9631e7ca382c7f7c359d1fa7f241c8baa070a0fb40f6c308ab544b227660aadff" prot="public">
+          <name>TIMEOUT</name>
+          <initializer>= 0x60001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a9631e7ca382c7f7c359d1fa7f241c8baade6c0f000883f49324e9d21bb8a80c09" prot="public">
+          <name>PARTICIPANT_ABORT</name>
+          <initializer>= 0x60002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a9631e7ca382c7f7c359d1fa7f241c8baa78bba5f6faf802ec8d8074dd812738c2" prot="public">
+          <name>COORDINATOR_CRASH</name>
+          <initializer>= 0x60003</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a9631e7ca382c7f7c359d1fa7f241c8baada19344a533702044bc1336d0d8bb870" prot="public">
+          <name>PARTITION_DETECTED</name>
+          <initializer>= 0x60004</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a9631e7ca382c7f7c359d1fa7f241c8baac4120f844c8e2e80a0a382f2987c1de9" prot="public">
+          <name>WAL_CORRUPTION</name>
+          <initializer>= 0x60005</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a9631e7ca382c7f7c359d1fa7f241c8baa8f35b656de87c54e18710fc94d73a614" prot="public">
+          <name>DEADLOCK</name>
+          <initializer>= 0x60006</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a9631e7ca382c7f7c359d1fa7f241c8baa21dd13f8a5f42019828bd8beb5faaabd" prot="public">
+          <name>ORPHANED_LOCK</name>
+          <initializer>= 0x60007</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a9631e7ca382c7f7c359d1fa7f241c8baa823bca578a8ce69707647aad45f8694a" prot="public">
+          <name>PRECOMMIT_FAILED</name>
+          <initializer>= 0x60008</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a9631e7ca382c7f7c359d1fa7f241c8baa14ea77cc87c95442e7c27fa6e98eebf4" prot="public">
+          <name>INDOUBT_UNRESOLVED</name>
+          <initializer>= 0x60009</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1sharding_1_1test_1a9631e7ca382c7f7c359d1fa7f241c8baab07197d1313ceab5e8055b9ba139345c" prot="public">
+          <name>SAGA_COMPENSATION</name>
+          <initializer>= 0x6000A</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="720" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="720" bodyend="731"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemisdb_1_1sharding_1_1test_1ab6b2aa2b9db7ea0e0e30048b80a7db2b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::test::kCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalSeed</name>
+        <qualifiedname>themisdb::sharding::test::kCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical seed used for all deterministic randomness in Phase 6 tests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="46" column="20" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a64efdaea94a5012da831eab57c724a6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(TwoPhaseConsistencyTest, TXC01_AllPreparedVotesSucceed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_two_phase_consistency_test" kindref="compound">TwoPhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC01_AllPreparedVotesSucceed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="776" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="776" bodyend="783"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a10689d493506b7d4338ee9789ba50564" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(TwoPhaseConsistencyTest, TXC02_AbortWhenAnyParticipantVotesAbort)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_two_phase_consistency_test" kindref="compound">TwoPhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC02_AbortWhenAnyParticipantVotesAbort</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="786" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="786" bodyend="792"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a5079b9b8d61c3c38e4932d414d530253" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(TwoPhaseConsistencyTest, TXC03_AbortOnCoordinatorTimeoutDuringPrepare)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_two_phase_consistency_test" kindref="compound">TwoPhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC03_AbortOnCoordinatorTimeoutDuringPrepare</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="795" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="795" bodyend="801"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a09deff7f4c6795719519033609a19918" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(TwoPhaseConsistencyTest, TXC04_CoordinatorRedriveFromWALOnRestart)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_two_phase_consistency_test" kindref="compound">TwoPhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC04_CoordinatorRedriveFromWALOnRestart</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="804" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="804" bodyend="816"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1acdf5e2bca4001450043424c73b4c875f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(TwoPhaseConsistencyTest, TXC05_IdempotentCommitDelivery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_two_phase_consistency_test" kindref="compound">TwoPhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC05_IdempotentCommitDelivery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="819" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="819" bodyend="827"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a47974213630ba32aec1d1e89da2f31fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(TwoPhaseConsistencyTest, TXC06_IdempotentAbortDelivery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_two_phase_consistency_test" kindref="compound">TwoPhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC06_IdempotentAbortDelivery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="830" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="830" bodyend="839"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1acbf9aa498fbd8ed7b40dc60d7c377a56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(TwoPhaseConsistencyTest, TXC07_DeterministicOutcomeOver100Repetitions)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_two_phase_consistency_test" kindref="compound">TwoPhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC07_DeterministicOutcomeOver100Repetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="842" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="842" bodyend="865"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1ab5469f93ca92d45a8f4d104c4818529d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(TwoPhaseConsistencyTest, TXC08_ParticipantWALRecordsPreparedBeforeCommit)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_two_phase_consistency_test" kindref="compound">TwoPhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC08_ParticipantWALRecordsPreparedBeforeCommit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="868" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="868" bodyend="888"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a5f16b289b65b030d68246296d50fe5ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(TwoPhaseConsistencyTest, TXC09_AllParticipantsReachCommittedWithinTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_two_phase_consistency_test" kindref="compound">TwoPhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC09_AllParticipantsReachCommittedWithinTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="891" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="891" bodyend="899"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a3202fe15307b32e2150ee2fadb558993" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(TwoPhaseConsistencyTest, TXC10_AbortPropagatedToSlowParticipant)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_two_phase_consistency_test" kindref="compound">TwoPhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC10_AbortPropagatedToSlowParticipant</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="902" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="902" bodyend="911"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a7447eb7f39289b6527c5d8c83b8c37a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(TwoPhaseConsistencyTest, TXC11_SingleParticipantSucceedsTrivially)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_two_phase_consistency_test" kindref="compound">TwoPhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC11_SingleParticipantSucceedsTrivially</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="914" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="914" bodyend="918"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a89fe9cdabc712a83ed44ab9af561005c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(TwoPhaseConsistencyTest, TXC12_FiveParticipantsAllYesCommit)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_two_phase_consistency_test" kindref="compound">TwoPhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC12_FiveParticipantsAllYesCommit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="921" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="921" bodyend="927"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1aba4217f6d6732d426a94e2600f47a2cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(TwoPhaseConsistencyTest, TXC13_FiveParticipantsOneAbortBroadcastsAbortToAll)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_two_phase_consistency_test" kindref="compound">TwoPhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC13_FiveParticipantsOneAbortBroadcastsAbortToAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="930" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="930" bodyend="937"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1aa34b223bf3e2489f5718a16dda9ea506" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(TwoPhaseConsistencyTest, TXC14_CoordinatorCrashAfterPrepareWALRedriven)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_two_phase_consistency_test" kindref="compound">TwoPhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC14_CoordinatorCrashAfterPrepareWALRedriven</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="940" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="940" bodyend="952"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a6d024daf85fb81660b47f8e2bc873561" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(TwoPhaseConsistencyTest, TXC15_NoDirtyReadsBeforeCommit)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_two_phase_consistency_test" kindref="compound">TwoPhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC15_NoDirtyReadsBeforeCommit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="955" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="955" bodyend="969"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1acc24f53c036123e0dd71171395a98b2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(TwoPhaseConsistencyTest, TXC16_GateSelfCheck_AllTwoPC_InvariantsPass)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_two_phase_consistency_test" kindref="compound">TwoPhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC16_GateSelfCheck_AllTwoPC_InvariantsPass</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="972" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="972" bodyend="1010"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a6c140e096e623b54221e0798ffa98785" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(ThreePhaseConsistencyTest, TXC17_ThreePhaseCommitCompletesFullSequence)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_three_phase_consistency_test" kindref="compound">ThreePhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC17_ThreePhaseCommitCompletesFullSequence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1039" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1039" bodyend="1045"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a6b724564630f9aec27f76cf63e1b9b1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(ThreePhaseConsistencyTest, TXC18_AbortDuringPreparePhase)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_three_phase_consistency_test" kindref="compound">ThreePhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC18_AbortDuringPreparePhase</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1048" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1048" bodyend="1053"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a832c6148ce47ec9beee8e728b8f27f64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(ThreePhaseConsistencyTest, TXC19_TimeoutInPreCommitPhaseAborts)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_three_phase_consistency_test" kindref="compound">ThreePhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC19_TimeoutInPreCommitPhaseAborts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1056" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1056" bodyend="1066"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a869b894a0bb4f29c6ac1446e4894743a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(ThreePhaseConsistencyTest, TXC20_NonBlockingOnCoordinatorFailureInPreCommit)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_three_phase_consistency_test" kindref="compound">ThreePhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC20_NonBlockingOnCoordinatorFailureInPreCommit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1069" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1069" bodyend="1081"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1ac1722f9b49f2300f3d60662afec198a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(ThreePhaseConsistencyTest, TXC21_NetworkDelayStillConvergesWithinTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_three_phase_consistency_test" kindref="compound">ThreePhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC21_NetworkDelayStillConvergesWithinTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1084" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1084" bodyend="1091"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a72b12d8ee05a67362a8390ecca861465" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(ThreePhaseConsistencyTest, TXC22_PreCommitCallbackReturnsFalseAbortsDeterministically)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_three_phase_consistency_test" kindref="compound">ThreePhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC22_PreCommitCallbackReturnsFalseAbortsDeterministically</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1094" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1094" bodyend="1104"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1aa71ad6982e6481574ce6e7a160142651" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(ThreePhaseConsistencyTest, TXC23_IdempotentPrepareDelivery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_three_phase_consistency_test" kindref="compound">ThreePhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC23_IdempotentPrepareDelivery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1107" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1107" bodyend="1113"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a8325716f9390f0129c54a0ae5023c7f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(ThreePhaseConsistencyTest, TXC24_IdempotentCommitDelivery3PC)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_three_phase_consistency_test" kindref="compound">ThreePhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC24_IdempotentCommitDelivery3PC</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1116" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1116" bodyend="1123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a65a65620c64f3ffbf31932e2e6d2b53f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(ThreePhaseConsistencyTest, TXC25_WALRecordsAllThreePhases)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_three_phase_consistency_test" kindref="compound">ThreePhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC25_WALRecordsAllThreePhases</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1126" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1126" bodyend="1150"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1aec0f299a0446c56923b0e6a996b5d9e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(ThreePhaseConsistencyTest, TXC26_DeterministicOutcomeOver100Repetitions3PC)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_three_phase_consistency_test" kindref="compound">ThreePhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC26_DeterministicOutcomeOver100Repetitions3PC</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1153" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1153" bodyend="1174"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1ad6721f971f54d5744d80415f8bc3a9bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(ThreePhaseConsistencyTest, TXC27_PreCommitCallbackThrowsFailsClosed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_three_phase_consistency_test" kindref="compound">ThreePhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC27_PreCommitCallbackThrowsFailsClosed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1177" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1177" bodyend="1187"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a17bf182ad57fcc70f31606eff26c7097" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(ThreePhaseConsistencyTest, TXC28_AbortWhenDeferredPreCommitFails)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_three_phase_consistency_test" kindref="compound">ThreePhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC28_AbortWhenDeferredPreCommitFails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1190" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1190" bodyend="1200"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a9cc979e2a7028c33e2c2e688a7be8c70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(ThreePhaseConsistencyTest, TXC29_StateMachineTransitionsCorrectOrder)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_three_phase_consistency_test" kindref="compound">ThreePhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC29_StateMachineTransitionsCorrectOrder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1203" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1203" bodyend="1213"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1aa2845eaa930e2d01f72cde9f065ad7e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(ThreePhaseConsistencyTest, TXC30_Concurrent2PCand3PCDoNotInterfere)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_three_phase_consistency_test" kindref="compound">ThreePhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC30_Concurrent2PCand3PCDoNotInterfere</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1216" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1216" bodyend="1244"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1adcf5affeb17ec0237fb56af2c2ce9254" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(ThreePhaseConsistencyTest, TXC31_CompletesWithinTenMilliseconds)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_three_phase_consistency_test" kindref="compound">ThreePhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC31_CompletesWithinTenMilliseconds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1247" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1247" bodyend="1257"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1aba31fccd6ff46e4ddf8e48522699a5cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(ThreePhaseConsistencyTest, TXC32_GateSelfCheck_AllThreePC_InvariantsPass)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_three_phase_consistency_test" kindref="compound">ThreePhaseConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>TXC32_GateSelfCheck_AllThreePC_InvariantsPass</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1260" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1260" bodyend="1290"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a7190c83ba82dfe994293819e0735cba0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(FailoverRecoveryTest, FLR01_WALReplayRecoversAllInDoubtTransactions)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kindref="compound">FailoverRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>FLR01_WALReplayRecoversAllInDoubtTransactions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1299" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1299" bodyend="1324"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a36b432853278a5c92b9e6a90f4564684" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(FailoverRecoveryTest, FLR02_ParticipantWALReplayRedrivesPreparedState)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kindref="compound">FailoverRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>FLR02_ParticipantWALReplayRedrivesPreparedState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1327" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1327" bodyend="1340"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1ab47bcfbd0b41423a9a2267f50a560a9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(FailoverRecoveryTest, FLR03_InDoubtTransactionResolvedByCoordinatorRedrive)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kindref="compound">FailoverRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>FLR03_InDoubtTransactionResolvedByCoordinatorRedrive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1343" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1343" bodyend="1357"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a3ff2f7a8ec4e3324da4f959bcdaa3c11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(FailoverRecoveryTest, FLR04_OrphanedLockCleanupAfterCoordinatorFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kindref="compound">FailoverRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>FLR04_OrphanedLockCleanupAfterCoordinatorFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1360" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1360" bodyend="1370"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1ae18291b77faf3bcac6e222dcae0d7671" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(FailoverRecoveryTest, FLR05_FailoverDoesNotLoseCommittedTransactions)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kindref="compound">FailoverRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>FLR05_FailoverDoesNotLoseCommittedTransactions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1373" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1373" bodyend="1382"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a38b1c7c05d6937f443b58769268c4933" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(FailoverRecoveryTest, FLR06_FailoverDoesNotExposeUncommittedData)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kindref="compound">FailoverRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>FLR06_FailoverDoesNotExposeUncommittedData</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1385" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1385" bodyend="1396"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a974935e606717424d938560b12a8d3ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(FailoverRecoveryTest, FLR07_SAGACompensationInReverseOrder)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kindref="compound">FailoverRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>FLR07_SAGACompensationInReverseOrder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1399" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1399" bodyend="1421"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a2c19bd81acb24ee0d663cdea1f7a1a83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(FailoverRecoveryTest, FLR08_SAGACompensationRecordedInWAL)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kindref="compound">FailoverRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>FLR08_SAGACompensationRecordedInWAL</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1424" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1424" bodyend="1437"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a3c4b3195bf456e034d37155d74c3715f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(FailoverRecoveryTest, FLR09_SAGAFiveStepsThreeRolledBackCorrectState)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kindref="compound">FailoverRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>FLR09_SAGAFiveStepsThreeRolledBackCorrectState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1440" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1440" bodyend="1460"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1aae0cab0053338421dd1796d827cb8f99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(FailoverRecoveryTest, FLR10_WALReplayIdempotency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kindref="compound">FailoverRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>FLR10_WALReplayIdempotency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1463" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1463" bodyend="1487"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a3333de2c4dd2820b7a4e1169e35bd133" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(FailoverRecoveryTest, FLR11_PartitionDetectedWithinTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kindref="compound">FailoverRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>FLR11_PartitionDetectedWithinTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1490" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1490" bodyend="1498"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1ab2e25f83458f479e7d93933511656b44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(FailoverRecoveryTest, FLR12_AfterPartitionHealedNewTransactionProceeds)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kindref="compound">FailoverRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>FLR12_AfterPartitionHealedNewTransactionProceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1501" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1501" bodyend="1518"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1af89834db93acbc380107d61fc5443824" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(FailoverRecoveryTest, FLR13_PercolatorOrphanDetectorCleansStaleLocks)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kindref="compound">FailoverRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>FLR13_PercolatorOrphanDetectorCleansStaleLocks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1521" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1521" bodyend="1534"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a724e2a51a77eef13180587d122464368" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(FailoverRecoveryTest, FLR14_MultipleConcurrentFailuresNoCauseDeadlock)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kindref="compound">FailoverRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>FLR14_MultipleConcurrentFailuresNoCauseDeadlock</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1537" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1537" bodyend="1566"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a683349469aa04babb0e66becb7c8a33a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(FailoverRecoveryTest, FLR15_SnapshotRecoveryFasterThanFullWALReplay)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kindref="compound">FailoverRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>FLR15_SnapshotRecoveryFasterThanFullWALReplay</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1569" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1569" bodyend="1592"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a6df2313f9bf864dd817a6c949d9491c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(FailoverRecoveryTest, FLR16_RecoveryLogsAllDecisionsToWAL)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kindref="compound">FailoverRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>FLR16_RecoveryLogsAllDecisionsToWAL</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1595" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1595" bodyend="1609"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1ad27c2a8c28102636796d66855516d815" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(FailoverRecoveryTest, FLR17_InDoubtCountReachesZeroAfterWALRedrive)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kindref="compound">FailoverRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>FLR17_InDoubtCountReachesZeroAfterWALRedrive</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1612" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1612" bodyend="1633"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1ae2cc2e4347d2155d4c3a1243438cb6e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(FailoverRecoveryTest, FLR18_RoundTripPrepareCrashRestartCommitConfirmed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kindref="compound">FailoverRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>FLR18_RoundTripPrepareCrashRestartCommitConfirmed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1636" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1636" bodyend="1658"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a94a65bb263025f8830e7ad3a6e02ed33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(FailoverRecoveryTest, FLR19_ErrorTaxonomyEachFailureClassUnique)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kindref="compound">FailoverRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>FLR19_ErrorTaxonomyEachFailureClassUnique</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1661" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1661" bodyend="1684"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1sharding_1_1test_1a02f7703154b5cafe7572babfb2e81711" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::TEST_F</definition>
+        <argsstring>(FailoverRecoveryTest, FLR20_GateSelfCheck_AllFLR_InvariantsPass)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::sharding::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_failover_recovery_test" kindref="compound">FailoverRecoveryTest</ref></type>
+        </param>
+        <param>
+          <type>FLR20_GateSelfCheck_AllFLR_InvariantsPass</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="1687" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="1687" bodyend="1745"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="39" column="35"/>
+  </compounddef>
+</doxygen>

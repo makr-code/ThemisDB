@@ -1,0 +1,321 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gpu__memory__oversubscription_8h" kind="file" language="C++">
+    <compoundname>gpu_memory_oversubscription.h</compoundname>
+    <includes local="yes">themis/gpu/unified_memory.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="gpu__vector__index_8h" local="yes">include/index/gpu_vector_index.h</includedby>
+    <includedby refid="gpu__memory__oversubscription_8cpp" local="yes">src/index/gpu_memory_oversubscription.cpp</includedby>
+    <includedby refid="gpu__vector__index_8cpp" local="yes">src/index/gpu_vector_index.cpp</includedby>
+    <includedby refid="test__gpu__memory__oversubscription_8cpp" local="yes">tests/index/test_gpu_memory_oversubscription.cpp</includedby>
+    <includedby refid="test__index__gpu__oversubscription__raii_8cpp" local="yes">tests/index/test_index_gpu_oversubscription_raii.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/index/gpu_memory_oversubscription.h</label>
+        <link refid="gpu__memory__oversubscription_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>themis/gpu/unified_memory.h</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/index/gpu_memory_oversubscription.h</label>
+        <link refid="gpu__memory__oversubscription_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/index/gpu_vector_index.h</label>
+        <link refid="gpu__vector__index_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/index/gpu_vector_index_vulkan.h</label>
+        <link refid="gpu__vector__index__vulkan_8h"/>
+      </node>
+      <node id="4">
+        <label>include/index/multi_gpu_vector_index.h</label>
+        <link refid="multi__gpu__vector__index_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>src/index/gpu_memory_oversubscription.cpp</label>
+        <link refid="gpu__memory__oversubscription_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/index/gpu_vector_index.cpp</label>
+        <link refid="gpu__vector__index_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/index/gpu_vector_index_vulkan.cpp</label>
+        <link refid="gpu__vector__index__vulkan_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/index/multi_gpu_vector_index.cpp</label>
+        <link refid="multi__gpu__vector__index_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/index/test_gpu_memory_oversubscription.cpp</label>
+        <link refid="test__gpu__memory__oversubscription_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/index/test_gpu_vector_index_llm_paths_focused.cpp</label>
+        <link refid="test__gpu__vector__index__llm__paths__focused_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/index/test_index_destructor_safety.cpp</label>
+        <link refid="test__index__destructor__safety_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/index/test_index_gpu_memory_safety.cpp</label>
+        <link refid="test__index__gpu__memory__safety_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/index/test_index_gpu_oversubscription_raii.cpp</label>
+        <link refid="test__index__gpu__oversubscription__raii_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/index/test_index_iterator_validity.cpp</label>
+        <link refid="test__index__iterator__validity_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager" prot="public">themis::index::GPUMemoryOversubscriptionManager</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config" prot="public">themis::index::GPUMemoryOversubscriptionManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_partition_info" prot="public">themis::index::GPUMemoryOversubscriptionManager::PartitionInfo</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats" prot="public">themis::index::GPUMemoryOversubscriptionManager::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1index">themis::index</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/unified_memory.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1index" kindref="compound">index</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2" kindref="member">PrefetchStrategy</ref><sp/>{</highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2a875ecb34f6d21d13d4b9fd4980a8b5af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2a875ecb34f6d21d13d4b9fd4980a8b5af" kindref="member">LRU</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2ad1e1549939d3bdc1caa10f65876dba6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2ad1e1549939d3bdc1caa10f65876dba6c" kindref="member">MRU</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2a39403cd282d944abcd4f14996cb71bcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2a39403cd282d944abcd4f14996cb71bcb" kindref="member">SEQUENTIAL</ref><sp/><sp/></highlight></codeline>
+<codeline lineno="29"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1abcc738df5718e6ff46480d9a952795c6" kindref="member">GPUMemoryOversubscriptionManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a0ea04f37eeabcbb5feac0dea2c30a832" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a0ea04f37eeabcbb5feac0dea2c30a832" kindref="member">enable_oversubscription</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a5a665ff478c366d811473f86a19f7d98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a5a665ff478c366d811473f86a19f7d98" kindref="member">vram_budget_mb</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a14fcb15dc9f5bd5a554ec30a7f1352b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a14fcb15dc9f5bd5a554ec30a7f1352b2" kindref="member">host_ram_budget_mb</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a174251e161a0230e62b633899046a324" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a174251e161a0230e62b633899046a324" kindref="member">partition_vectors</ref><sp/>=<sp/>65536;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a0e86129fa98b4427cea8af7912da8149" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2" kindref="member">PrefetchStrategy</ref><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a0e86129fa98b4427cea8af7912da8149" kindref="member">prefetch_strategy</ref><sp/>=<sp/><ref refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2a875ecb34f6d21d13d4b9fd4980a8b5af" kindref="member">PrefetchStrategy::LRU</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a7289cb05023d6dcf738841e2257e4024" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config_1a7289cb05023d6dcf738841e2257e4024" kindref="member">use_unified_memory</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-partition<sp/>information<sp/>(read-only<sp/>view)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_partition_info" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_partition_info" kindref="compound">PartitionInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_partition_info_1a8e4aee3b7965950a8439a3bcdaad973e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_partition_info_1a8e4aee3b7965950a8439a3bcdaad973e" kindref="member">partition_id</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_partition_info_1aed32a98de632232ca455414fae7e635c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_partition_info_1aed32a98de632232ca455414fae7e635c" kindref="member">num_vectors</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_partition_info_1a0e1fd9262b2f3732094357474a020f5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_partition_info_1a0e1fd9262b2f3732094357474a020f5e" kindref="member">dimension</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_partition_info_1a74c608a3a1dbc0b651bae384acf644ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_partition_info_1a74c608a3a1dbc0b651bae384acf644ff" kindref="member">in_vram</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_partition_info_1a145fe0cb577bd4e027dd417969e96f3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_partition_info_1a145fe0cb577bd4e027dd417969e96f3b" kindref="member">last_access_ns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_partition_info_1a403aeb47ea9def703d4674e51d08cf69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_partition_info_1a403aeb47ea9def703d4674e51d08cf69" kindref="member">access_count</ref><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_partition_info_1a754c393790d8e240740cc9bdd5bee258" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_partition_info_1a754c393790d8e240740cc9bdd5bee258" kindref="member">tag</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Aggregate<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1a7a70a4d038df826f3b09d52803ae32f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1a7a70a4d038df826f3b09d52803ae32f9" kindref="member">total_partitions</ref><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1a8c5bcb34825c699eae8c1ca1f6c9d9a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1a8c5bcb34825c699eae8c1ca1f6c9d9a3" kindref="member">hot_partitions</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1aed1ac97f32c529d81eca24332c0c9e44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1aed1ac97f32c529d81eca24332c0c9e44" kindref="member">cold_partitions</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1a5d3d527b49fab72ff3461dc0beeda831" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1a5d3d527b49fab72ff3461dc0beeda831" kindref="member">vram_used_bytes</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1a17d01fbb7af744856216fc9d5193ccca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1a17d01fbb7af744856216fc9d5193ccca" kindref="member">host_ram_used_bytes</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1a61248c55923d515a692cdef12db8b25e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1a61248c55923d515a692cdef12db8b25e" kindref="member">vram_budget_bytes</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1a347f1c4a6242f09a50de5641e924a14d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1a347f1c4a6242f09a50de5641e924a14d" kindref="member">evictions</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1ae16d8a3334992c024678919ab0a51766" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1ae16d8a3334992c024678919ab0a51766" kindref="member">loads</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1abfa49e0ee8978980667aed39e31db187" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1abfa49e0ee8978980667aed39e31db187" kindref="member">prefetch_requests</ref><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1acfccfc4e6271cd631e79503f39fc4962" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1acfccfc4e6271cd631e79503f39fc4962" kindref="member">prefetch_hits</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1a527b8d56e7ddb1ec191b5a9127fae1ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats_1a527b8d56e7ddb1ec191b5a9127fae1ac" kindref="member">prefetch_hit_rate</ref><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Constructors<sp/>/<sp/>Destructor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1abcc738df5718e6ff46480d9a952795c6" kindref="member">GPUMemoryOversubscriptionManager</ref>();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1abcc738df5718e6ff46480d9a952795c6" kindref="member">GPUMemoryOversubscriptionManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a4bcff5b0c753751ea4e45609d45513c7" kindref="member">~GPUMemoryOversubscriptionManager</ref>();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a8404e5b32c3a26f0882569229aa8133a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a8404e5b32c3a26f0882569229aa8133a" kindref="member">GPUMemoryOversubscriptionManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1abcc738df5718e6ff46480d9a952795c6" kindref="member">GPUMemoryOversubscriptionManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a7bbbd535587fe7517ed9fd069faa4d4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1abcc738df5718e6ff46480d9a952795c6" kindref="member">GPUMemoryOversubscriptionManager</ref>&amp;<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a7bbbd535587fe7517ed9fd069faa4d4b" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1abcc738df5718e6ff46480d9a952795c6" kindref="member">GPUMemoryOversubscriptionManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Partition<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a4da5067fcd079e49245e682ce8de29e7" kindref="member">addPartition</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>flat_data,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_vectors,</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dimension,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tag<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a693e436f4e2179eb6ea52823f2d7f944" kindref="member">removePartition</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>partition_id);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1ae3a13f5c7985244d4317fd442f100f41" kindref="member">accessPartition</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>partition_id);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1ab75e73893b8c4f8926132f4badeaaf4a" kindref="member">evictPartition</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>partition_id);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>access<sp/>(read-only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;*<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1addc771482c6e6f08a8388a0b73155ff3" kindref="member">getPartitionData</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>partition_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a9d02d8fed1754f86f9dd2f94696671db" kindref="member">getPartitionVectorCount</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>partition_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a0cd0fd38988dff03797ed31cc3264df3" kindref="member">isPartitionInVRAM</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>partition_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a8517fc9629ccb74e017044ebbf362656" kindref="member">getHotPartitions</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1ad781bea923a1c4a5b9a7259455126126" kindref="member">getColdPartitions</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a87ff76f21d6f0142163194c90c5e8631" kindref="member">getAllPartitionIds</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prefetch<sp/>control</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a692de8b81941e2c93e95b0c9c004bdf3" kindref="member">prefetchPartition</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>partition_id);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a52bb206ae6e699a466e3b98a359c5d2b" kindref="member">setPrefetchStrategy</ref>(<ref refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2" kindref="member">PrefetchStrategy</ref><sp/>strategy);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2" kindref="member">PrefetchStrategy</ref><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a65f220d05f799bad3eaaafcb7d19ab05" kindref="member">getPrefetchStrategy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Budget<sp/>control</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a0c5f78c6049eb32b2935c76c457d8226" kindref="member">setVRAMBudgetMB</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>mb);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a21012c177173719042c70855044c3784" kindref="member">getVRAMBudgetBytes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1aec7e28571fdb907dd89621ff97c3cb5d" kindref="member">getVRAMUsedBytes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Diagnostics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1ae7fa668ae942f3975960e9350b78c6ed" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_partition_info" kindref="compound">PartitionInfo</ref><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a7c811f7e520c8ef7ef4f2391b8a3a4ac" kindref="member">getPartitionInfo</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>partition_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1ae4ce990087dc09355783b3a4c36a1f96" kindref="member">partitionCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>pImpl_;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/index/gpu_memory_oversubscription.h"/>
+  </compounddef>
+</doxygen>

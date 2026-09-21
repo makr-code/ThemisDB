@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_signed_manifest" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::SignedManifest</compoundname>
+    <includes refid="binary__manifest_8h" local="no">binary_manifest.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_signed_manifest_1a8aab9de31461a6f8a5cf3700c0d2740b" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1security_1_1_binary_manifest" kindref="compound">BinaryManifest</ref></type>
+        <definition>BinaryManifest themis::security::SignedManifest::manifest</definition>
+        <argsstring></argsstring>
+        <name>manifest</name>
+        <qualifiedname>themis::security::SignedManifest::manifest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="103" column="20" bodyfile="include/security/binary_manifest.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_signed_manifest_1a6300bdc149a762bd84adae048382874d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::SignedManifest::signature_base64</definition>
+        <argsstring></argsstring>
+        <name>signature_base64</name>
+        <qualifiedname>themis::security::SignedManifest::signature_base64</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="104" column="17" bodyfile="include/security/binary_manifest.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_signed_manifest_1a7f32757883df1b44954b0f3ad0db10a6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::SignedManifest::signature_algorithm</definition>
+        <argsstring></argsstring>
+        <name>signature_algorithm</name>
+        <qualifiedname>themis::security::SignedManifest::signature_algorithm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="105" column="17" bodyfile="include/security/binary_manifest.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_signed_manifest_1ae781b7aafd395141feb79f0cc4455451" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::SignedManifest::signer_id</definition>
+        <argsstring></argsstring>
+        <name>signer_id</name>
+        <qualifiedname>themis::security::SignedManifest::signer_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="106" column="17" bodyfile="include/security/binary_manifest.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_signed_manifest_1ab750a3f0634ed33bdae54aa4877d0983" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::security::SignedManifest::to_json</definition>
+        <argsstring>() const</argsstring>
+        <name>to_json</name>
+        <qualifiedname>themis::security::SignedManifest::to_json</qualifiedname>
+        <briefdescription>
+<para>To json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="112" column="20" bodyfile="src/security/binary_manifest.cpp" bodystart="125" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1_signed_manifest_1a80f4cca6216f9dc4ea316e2b080d1a2d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::SignedManifest::saveToFile</definition>
+        <argsstring>(const std::string &amp;path) const</argsstring>
+        <name>saveToFile</name>
+        <qualifiedname>themis::security::SignedManifest::saveToFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Save To File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="125" column="10" bodyfile="src/security/binary_manifest.cpp" bodystart="149" bodyend="172"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_signed_manifest_1a374b7402e2f77568c59b39e0772674bf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_signed_manifest" kindref="compound">SignedManifest</ref></type>
+        <definition>SignedManifest themis::security::SignedManifest::from_json</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>from_json</name>
+        <qualifiedname>themis::security::SignedManifest::from_json</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: at(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="118" column="27" bodyfile="src/security/binary_manifest.cpp" bodystart="140" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1security_1_1_signed_manifest_1a32179d7400c3bdbe3c5cea6eb6cd1035" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_signed_manifest" kindref="compound">SignedManifest</ref></type>
+        <definition>SignedManifest themis::security::SignedManifest::loadFromFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadFromFile</name>
+        <qualifiedname>themis::security::SignedManifest::loadFromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load From File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: file(), is_open(), close(), <ref refid="structthemis_1_1security_1_1_signed_manifest_1a374b7402e2f77568c59b39e0772674bf" kindref="member">SignedManifest::from_json()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/binary_manifest.h" line="132" column="27" bodyfile="src/security/binary_manifest.cpp" bodystart="181" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::security::BinaryManifest</label>
+        <link refid="classthemis_1_1security_1_1_binary_manifest"/>
+      </node>
+      <node id="1">
+        <label>themis::security::SignedManifest</label>
+        <link refid="structthemis_1_1security_1_1_signed_manifest"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>manifest</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/binary_manifest.h" line="102" column="1" bodyfile="include/security/binary_manifest.h" bodystart="102" bodyend="133"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_signed_manifest_1a374b7402e2f77568c59b39e0772674bf" prot="public" virt="non-virtual"><scope>themis::security::SignedManifest</scope><name>from_json</name></member>
+      <member refid="structthemis_1_1security_1_1_signed_manifest_1a32179d7400c3bdbe3c5cea6eb6cd1035" prot="public" virt="non-virtual"><scope>themis::security::SignedManifest</scope><name>loadFromFile</name></member>
+      <member refid="structthemis_1_1security_1_1_signed_manifest_1a8aab9de31461a6f8a5cf3700c0d2740b" prot="public" virt="non-virtual"><scope>themis::security::SignedManifest</scope><name>manifest</name></member>
+      <member refid="structthemis_1_1security_1_1_signed_manifest_1a80f4cca6216f9dc4ea316e2b080d1a2d" prot="public" virt="non-virtual"><scope>themis::security::SignedManifest</scope><name>saveToFile</name></member>
+      <member refid="structthemis_1_1security_1_1_signed_manifest_1a7f32757883df1b44954b0f3ad0db10a6" prot="public" virt="non-virtual"><scope>themis::security::SignedManifest</scope><name>signature_algorithm</name></member>
+      <member refid="structthemis_1_1security_1_1_signed_manifest_1a6300bdc149a762bd84adae048382874d" prot="public" virt="non-virtual"><scope>themis::security::SignedManifest</scope><name>signature_base64</name></member>
+      <member refid="structthemis_1_1security_1_1_signed_manifest_1ae781b7aafd395141feb79f0cc4455451" prot="public" virt="non-virtual"><scope>themis::security::SignedManifest</scope><name>signer_id</name></member>
+      <member refid="structthemis_1_1security_1_1_signed_manifest_1ab750a3f0634ed33bdae54aa4877d0983" prot="public" virt="non-virtual"><scope>themis::security::SignedManifest</scope><name>to_json</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

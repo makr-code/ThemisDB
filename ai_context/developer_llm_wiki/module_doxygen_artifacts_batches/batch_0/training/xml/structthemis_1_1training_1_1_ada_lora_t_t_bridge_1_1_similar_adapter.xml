@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_similar_adapter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::AdaLoraTTBridge::SimilarAdapter</compoundname>
+    <includes refid="adalora__tt__bridge_8h" local="no">adalora_tt_bridge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_similar_adapter_1a64a1eb14a0e5f4573177b3077a7548e2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::AdaLoraTTBridge::SimilarAdapter::adapter_name</definition>
+        <argsstring></argsstring>
+        <name>adapter_name</name>
+        <qualifiedname>themis::training::AdaLoraTTBridge::SimilarAdapter::adapter_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="291" column="22" bodyfile="include/training/adalora_tt_bridge.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_similar_adapter_1a51f9a15722b4594591c5830ea502e154" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::AdaLoraTTBridge::SimilarAdapter::layer_name</definition>
+        <argsstring></argsstring>
+        <name>layer_name</name>
+        <qualifiedname>themis::training::AdaLoraTTBridge::SimilarAdapter::layer_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="292" column="22" bodyfile="include/training/adalora_tt_bridge.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_similar_adapter_1adc5d05f7f43b2818eb5f1e55af407656" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::AdaLoraTTBridge::SimilarAdapter::similarity</definition>
+        <argsstring></argsstring>
+        <name>similarity</name>
+        <qualifiedname>themis::training::AdaLoraTTBridge::SimilarAdapter::similarity</qualifiedname>
+        <briefdescription>
+<para>TT-cosine similarity (0–1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/adalora_tt_bridge.h" line="293" column="22" bodyfile="include/training/adalora_tt_bridge.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/adalora_tt_bridge.h" line="290" column="5" bodyfile="include/training/adalora_tt_bridge.h" bodystart="290" bodyend="294"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_similar_adapter_1a64a1eb14a0e5f4573177b3077a7548e2" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridge::SimilarAdapter</scope><name>adapter_name</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_similar_adapter_1a51f9a15722b4594591c5830ea502e154" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridge::SimilarAdapter</scope><name>layer_name</name></member>
+      <member refid="structthemis_1_1training_1_1_ada_lora_t_t_bridge_1_1_similar_adapter_1adc5d05f7f43b2818eb5f1e55af407656" prot="public" virt="non-virtual"><scope>themis::training::AdaLoraTTBridge::SimilarAdapter</scope><name>similarity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

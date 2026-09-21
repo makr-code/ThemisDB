@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_synopsis_tuple" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SynopsisTuple</compoundname>
+    <includes refid="synopsis__store_8h" local="no">synopsis_store.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_synopsis_tuple_1a929ce002144801a6a9913c4094077a31" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::SynopsisTuple::event_ts_us</definition>
+        <argsstring></argsstring>
+        <name>event_ts_us</name>
+        <qualifiedname>themis::query::SynopsisTuple::event_ts_us</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Event timestamp in microseconds since epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/synopsis_store.h" line="25" column="17" bodyfile="include/query/synopsis_store.h" bodystart="25" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_synopsis_tuple_1a0a9d101095bd5c409fa56462263d4fe3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SynopsisTuple::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themis::query::SynopsisTuple::payload</qualifiedname>
+        <briefdescription>
+<para>JSON-serialised tuple data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/synopsis_store.h" line="26" column="17" bodyfile="include/query/synopsis_store.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/synopsis_store.h" line="24" column="1" bodyfile="include/query/synopsis_store.h" bodystart="24" bodyend="27"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_synopsis_tuple_1a929ce002144801a6a9913c4094077a31" prot="public" virt="non-virtual"><scope>themis::query::SynopsisTuple</scope><name>event_ts_us</name></member>
+      <member refid="structthemis_1_1query_1_1_synopsis_tuple_1a0a9d101095bd5c409fa56462263d4fe3" prot="public" virt="non-virtual"><scope>themis::query::SynopsisTuple</scope><name>payload</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

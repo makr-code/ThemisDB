@@ -1,0 +1,320 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1plugins_1_1rpc" kind="namespace" language="C++">
+    <compoundname>themis::plugins::rpc</compoundname>
+    <innerclass refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_method_handler" prot="public">themis::plugins::rpc::IRPCMethodHandler</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_plugin" prot="public">themis::plugins::rpc::IRPCPlugin</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1rpc_1_1_i_r_p_c_server" prot="public">themis::plugins::rpc::IRPCServer</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_request_context" prot="public">themis::plugins::rpc::RPCRequestContext</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_config" prot="public">themis::plugins::rpc::RPCServerConfig</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1rpc_1_1_r_p_c_server_stats" prot="public">themis::plugins::rpc::RPCServerStats</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry" prot="public">themis::plugins::rpc::RPCServiceRegistry</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1rpc_1_1_r_p_c_service_registry_impl" prot="public">themis::plugins::rpc::RPCServiceRegistryImpl</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RPCProtocol</name>
+        <qualifiedname>themis::plugins::rpc::RPCProtocol</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940a2c1276969f5525ad4cf2dbd0e8676f96" prot="public">
+          <name>GRPC</name>
+          <briefdescription>
+<para>Google gRPC. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940ab050fafa2c27f6810d055a4933d7e3d0" prot="public">
+          <name>THRIFT</name>
+          <briefdescription>
+<para>Apache Thrift. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940a42d8d55a84e8ecfd215e207de7e04e8b" prot="public">
+          <name>JSON_RPC</name>
+          <briefdescription>
+<para>JSON-RPC 2.0. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940a175c12c41c12306bc47d287fa54d6a9e" prot="public">
+          <name>MSGPACK_RPC</name>
+          <briefdescription>
+<para>MessagePack-RPC. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940aba06b0898013d3676c6da33ff078f505" prot="public">
+          <name>WIRE_PROTOCOL</name>
+          <briefdescription>
+<para>ThemisDB Wire Protocol v1. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940a72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+<para>Custom implementations. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>RPC Protocol Types. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="29" column="1" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="29" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RPCErrorCode</name>
+        <qualifiedname>themis::plugins::rpc::RPCErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a589b1e3a3d0a06a04b8167f1593d5c17" prot="public">
+          <name>AUTHENTICATION_FAILED</name>
+          <initializer>= 1000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062adce1442cd971edf5002db43b36fffa35" prot="public">
+          <name>AUTHORIZATION_FAILED</name>
+          <initializer>= 1001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a506556a229186f5b45f364032625ff5b" prot="public">
+          <name>INVALID_TOKEN</name>
+          <initializer>= 1002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062af176f376303fb90181de7f63f2b11a28" prot="public">
+          <name>TOKEN_EXPIRED</name>
+          <initializer>= 1003</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a1ab4e637edc3b093ebbf6544441e5759" prot="public">
+          <name>ENTITY_NOT_FOUND</name>
+          <initializer>= 2000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a89d6b2618f7cdf68ed61b457fb67e1cb" prot="public">
+          <name>ENTITY_ALREADY_EXISTS</name>
+          <initializer>= 2001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a66fbe5a405526eed54ab691091b77e1e" prot="public">
+          <name>VERSION_CONFLICT</name>
+          <initializer>= 2002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ae0b28d557287434a37397e4c5050142d" prot="public">
+          <name>INVALID_QUERY</name>
+          <initializer>= 3000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a0e37b0e1d53bd8ff19b39d596c3c428f" prot="public">
+          <name>QUERY_TIMEOUT</name>
+          <initializer>= 3001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a457f6695d27b7258d272b6d1e56b1006" prot="public">
+          <name>INVALID_PARAMETERS</name>
+          <initializer>= 3002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ad8b5ed74e48bb7fa6430b97d0801380d" prot="public">
+          <name>TRANSACTION_CONFLICT</name>
+          <initializer>= 4000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062acbc105d7c0998520bf5abeccbe52f761" prot="public">
+          <name>TRANSACTION_ABORTED</name>
+          <initializer>= 4001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 5000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a4a739fa42dcdbdb8dfe5a5e4d9c5a627" prot="public">
+          <name>RESOURCE_EXHAUSTED</name>
+          <initializer>= 5001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a321504743197244f08c01a4fd2df88b5" prot="public">
+          <name>SERVICE_UNAVAILABLE</name>
+          <initializer>= 5002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a3e860a081575fc82cc7b6ed2ca602947" prot="public">
+          <name>NOT_IMPLEMENTED</name>
+          <initializer>= 5003</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ab8c9d7ce4c399c56136475f36309020f" prot="public">
+          <name>INVALID_REQUEST</name>
+          <initializer>= 6000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062aa20fa2fa305b9cce6dc017f008da36c8" prot="public">
+          <name>METHOD_NOT_FOUND</name>
+          <initializer>= 6001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a551530ec1af53eaa77c1bde0ca457b4b" prot="public">
+          <name>PARSE_ERROR</name>
+          <initializer>= 6002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062a6b03470e24be0d9a73494f9491575db3" prot="public">
+          <name>SERIALIZATION_ERROR</name>
+          <initializer>= 6003</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062ad5396b5bf47321267f6db180394b4582" prot="public">
+          <name>RATE_LIMIT_EXCEEDED</name>
+          <initializer>= 7000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062acdc10d343f42477661cf7fd3e475fee9" prot="public">
+          <name>CONNECTION_LIMIT_EXCEEDED</name>
+          <initializer>= 7001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>RPC Error Codes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Standard error codes for RPC operations. Based on ThemisDB error codes and extended for RPC. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="332" column="1" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="332" bodyend="370"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1rpc_1a7c8735814fb58a89bc4d11bd34a09fa9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::plugins::rpc::rpcProtocolToString</definition>
+        <argsstring>(RPCProtocol protocol)</argsstring>
+        <name>rpcProtocolToString</name>
+        <qualifiedname>themis::plugins::rpc::rpcProtocolToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940" kindref="member">RPCProtocol</ref></type>
+          <declname>protocol</declname>
+        </param>
+        <briefdescription>
+<para>Convert <ref refid="namespacethemis_1_1plugins_1_1rpc_1a1e2ffbef33323ea6826ba5faccccb940" kindref="member">RPCProtocol</ref> to string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="41" column="19" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="41" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1plugins_1_1rpc_1a22b38508c246292f92d6f831a46d9741" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::plugins::rpc::rpcErrorCodeToString</definition>
+        <argsstring>(RPCErrorCode code)</argsstring>
+        <name>rpcErrorCodeToString</name>
+        <qualifiedname>themis::plugins::rpc::rpcErrorCodeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1rpc_1a0dcbbcfee4a6cbdd1f2af963d66b6062" kindref="member">RPCErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Convert RPC error code to string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/rpc_plugin_interface.h" line="375" column="19" bodyfile="include/plugins/rpc_plugin_interface.h" bodystart="375" bodyend="390"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/rpc_plugin_interface.h" line="24" column="1"/>
+  </compounddef>
+</doxygen>

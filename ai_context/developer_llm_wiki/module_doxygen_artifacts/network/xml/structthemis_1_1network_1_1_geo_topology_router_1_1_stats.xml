@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_geo_topology_router_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::GeoTopologyRouter::Stats</compoundname>
+    <includes refid="geo__topology__router_8h" local="no">geo_topology_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_geo_topology_router_1_1_stats_1a47f0736400231299a6f2d3b9363b340a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::GeoTopologyRouter::Stats::requests_routed</definition>
+        <argsstring></argsstring>
+        <name>requests_routed</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::Stats::requests_routed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total successful routing decisions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="134" column="18" bodyfile="include/network/geo_topology_router.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_geo_topology_router_1_1_stats_1a715e8930640d89c75e349578bbdcd4c1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::GeoTopologyRouter::Stats::local_region_hits</definition>
+        <argsstring></argsstring>
+        <name>local_region_hits</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::Stats::local_region_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Requests served by local region. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="135" column="18" bodyfile="include/network/geo_topology_router.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_geo_topology_router_1_1_stats_1ae9632271322ac805e6418fde77404cad" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::GeoTopologyRouter::Stats::cross_region_fallbacks</definition>
+        <argsstring></argsstring>
+        <name>cross_region_fallbacks</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::Stats::cross_region_fallbacks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Requests forwarded to remote region. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="136" column="18" bodyfile="include/network/geo_topology_router.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_geo_topology_router_1_1_stats_1a56cae537171b6b8ebb5eb14796bf0812" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::GeoTopologyRouter::Stats::routing_failures</definition>
+        <argsstring></argsstring>
+        <name>routing_failures</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::Stats::routing_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Requests with no suitable shard found. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="137" column="18" bodyfile="include/network/geo_topology_router.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/geo_topology_router.h" line="133" column="5" bodyfile="include/network/geo_topology_router.h" bodystart="133" bodyend="138"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_geo_topology_router_1_1_stats_1ae9632271322ac805e6418fde77404cad" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter::Stats</scope><name>cross_region_fallbacks</name></member>
+      <member refid="structthemis_1_1network_1_1_geo_topology_router_1_1_stats_1a715e8930640d89c75e349578bbdcd4c1" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter::Stats</scope><name>local_region_hits</name></member>
+      <member refid="structthemis_1_1network_1_1_geo_topology_router_1_1_stats_1a47f0736400231299a6f2d3b9363b340a" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter::Stats</scope><name>requests_routed</name></member>
+      <member refid="structthemis_1_1network_1_1_geo_topology_router_1_1_stats_1a56cae537171b6b8ebb5eb14796bf0812" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter::Stats</scope><name>routing_failures</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

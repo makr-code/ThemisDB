@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structsharding_1_1_transaction_w_a_l_entry" kind="struct" language="C++" prot="public">
+    <compoundname>sharding::TransactionWALEntry</compoundname>
+    <includes refid="transaction__wal_8h" local="no">transaction_wal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsharding_1_1_transaction_w_a_l_entry_1ae7ddefc2fe3b965e4d1283533b9477e3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacesharding_1aaa073ca87add131a1679dac974a0ab01" kindref="member">LSN</ref></type>
+        <definition>LSN sharding::TransactionWALEntry::lsn</definition>
+        <argsstring></argsstring>
+        <name>lsn</name>
+        <qualifiedname>sharding::TransactionWALEntry::lsn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="50" column="9" bodyfile="include/sharding/transaction_wal.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_transaction_w_a_l_entry_1a3b5623b4f1ce4fe3bd5e63e91e5f6d69" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacesharding_1af481fb57c4d9897481eccc170c6a7087" kindref="member">TransactionWALEntryType</ref></type>
+        <definition>TransactionWALEntryType sharding::TransactionWALEntry::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>sharding::TransactionWALEntry::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="51" column="29" bodyfile="include/sharding/transaction_wal.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_transaction_w_a_l_entry_1a9182892f06b24b56c8fe70deaa41bfb8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t sharding::TransactionWALEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>sharding::TransactionWALEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="52" column="14" bodyfile="include/sharding/transaction_wal.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_transaction_w_a_l_entry_1a0093aa56d31b1de2cea78198e5c41b24" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string sharding::TransactionWALEntry::transaction_id</definition>
+        <argsstring></argsstring>
+        <name>transaction_id</name>
+        <qualifiedname>sharding::TransactionWALEntry::transaction_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="53" column="17" bodyfile="include/sharding/transaction_wal.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_transaction_w_a_l_entry_1ab4fc2f21f910d648df9b7906e1129927" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacesharding_1a52dab72ab076f10f582422ce080e3afe" kindref="member">TransactionProtocol</ref></type>
+        <definition>TransactionProtocol sharding::TransactionWALEntry::protocol</definition>
+        <argsstring></argsstring>
+        <name>protocol</name>
+        <qualifiedname>sharding::TransactionWALEntry::protocol</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="54" column="25" bodyfile="include/sharding/transaction_wal.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_transaction_w_a_l_entry_1adf75e066667bcaf66c7368e58d4fed5a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; sharding::TransactionWALEntry::participants</definition>
+        <argsstring></argsstring>
+        <name>participants</name>
+        <qualifiedname>sharding::TransactionWALEntry::participants</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="55" column="17" bodyfile="include/sharding/transaction_wal.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_transaction_w_a_l_entry_1aa4d1d6d3a55799c1a37e178f79e8e8f7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string sharding::TransactionWALEntry::participant_id</definition>
+        <argsstring></argsstring>
+        <name>participant_id</name>
+        <qualifiedname>sharding::TransactionWALEntry::participant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="56" column="17" bodyfile="include/sharding/transaction_wal.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_transaction_w_a_l_entry_1a17b5ebd20364d5e071b691b95930dd0b" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json sharding::TransactionWALEntry::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>sharding::TransactionWALEntry::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="57" column="20" bodyfile="include/sharding/transaction_wal.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_transaction_w_a_l_entry_1a12523729bb4fd1b92158673ace86e414" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sharding::TransactionWALEntry::vote</definition>
+        <argsstring></argsstring>
+        <name>vote</name>
+        <qualifiedname>sharding::TransactionWALEntry::vote</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="58" column="10" bodyfile="include/sharding/transaction_wal.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsharding_1_1_transaction_w_a_l_entry_1aa00d238df1cf28610c10ff0b65618a9c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string sharding::TransactionWALEntry::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>sharding::TransactionWALEntry::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="59" column="17" bodyfile="include/sharding/transaction_wal.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structsharding_1_1_transaction_w_a_l_entry_1a02cb0523f1630f04d6625b40471c6bd8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>sharding::TransactionWALEntry::TransactionWALEntry</definition>
+        <argsstring>()</argsstring>
+        <name>TransactionWALEntry</name>
+        <qualifiedname>sharding::TransactionWALEntry::TransactionWALEntry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/transaction_wal.h" line="61" column="5" bodyfile="include/sharding/transaction_wal.h" bodystart="61" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical transaction WAL payload after decode from base WAL entry. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>sharding::TransactionWALEntry</label>
+        <link refid="structsharding_1_1_transaction_w_a_l_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>lsn</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::LSN</label>
+        <link refid="structthemis_1_1sharding_1_1_l_s_n"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/transaction_wal.h" line="49" column="1" bodyfile="include/sharding/transaction_wal.h" bodystart="49" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structsharding_1_1_transaction_w_a_l_entry_1a17b5ebd20364d5e071b691b95930dd0b" prot="public" virt="non-virtual"><scope>sharding::TransactionWALEntry</scope><name>data</name></member>
+      <member refid="structsharding_1_1_transaction_w_a_l_entry_1ae7ddefc2fe3b965e4d1283533b9477e3" prot="public" virt="non-virtual"><scope>sharding::TransactionWALEntry</scope><name>lsn</name></member>
+      <member refid="structsharding_1_1_transaction_w_a_l_entry_1aa4d1d6d3a55799c1a37e178f79e8e8f7" prot="public" virt="non-virtual"><scope>sharding::TransactionWALEntry</scope><name>participant_id</name></member>
+      <member refid="structsharding_1_1_transaction_w_a_l_entry_1adf75e066667bcaf66c7368e58d4fed5a" prot="public" virt="non-virtual"><scope>sharding::TransactionWALEntry</scope><name>participants</name></member>
+      <member refid="structsharding_1_1_transaction_w_a_l_entry_1ab4fc2f21f910d648df9b7906e1129927" prot="public" virt="non-virtual"><scope>sharding::TransactionWALEntry</scope><name>protocol</name></member>
+      <member refid="structsharding_1_1_transaction_w_a_l_entry_1aa00d238df1cf28610c10ff0b65618a9c" prot="public" virt="non-virtual"><scope>sharding::TransactionWALEntry</scope><name>reason</name></member>
+      <member refid="structsharding_1_1_transaction_w_a_l_entry_1a9182892f06b24b56c8fe70deaa41bfb8" prot="public" virt="non-virtual"><scope>sharding::TransactionWALEntry</scope><name>timestamp</name></member>
+      <member refid="structsharding_1_1_transaction_w_a_l_entry_1a0093aa56d31b1de2cea78198e5c41b24" prot="public" virt="non-virtual"><scope>sharding::TransactionWALEntry</scope><name>transaction_id</name></member>
+      <member refid="structsharding_1_1_transaction_w_a_l_entry_1a02cb0523f1630f04d6625b40471c6bd8" prot="public" virt="non-virtual"><scope>sharding::TransactionWALEntry</scope><name>TransactionWALEntry</name></member>
+      <member refid="structsharding_1_1_transaction_w_a_l_entry_1a3b5623b4f1ce4fe3bd5e63e91e5f6d69" prot="public" virt="non-virtual"><scope>sharding::TransactionWALEntry</scope><name>type</name></member>
+      <member refid="structsharding_1_1_transaction_w_a_l_entry_1a12523729bb4fd1b92158673ace86e414" prot="public" virt="non-virtual"><scope>sharding::TransactionWALEntry</scope><name>vote</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

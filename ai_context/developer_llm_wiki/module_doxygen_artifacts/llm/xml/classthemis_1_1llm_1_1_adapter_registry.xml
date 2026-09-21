@@ -1,0 +1,1461 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_adapter_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::AdapterRegistry</compoundname>
+    <includes refid="adapter__registry_8h" local="no">adapter_registry.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_adapter_registry_1_1_validation_result" prot="public">themis::llm::AdapterRegistry::ValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_adapter_registry_1_1_search_criteria" prot="public">themis::llm::AdapterRegistry::SearchCriteria</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_adapter_registry_1_1_registry_stats" prot="public">themis::llm::AdapterRegistry::RegistryStats</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_adapter_registry_1_1_impl" prot="public">themis::llm::AdapterRegistry::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_adapter_registry_1a6bd6669ecd675b50bf78051271310681" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;adapter_id, const std::string &amp;weights_path, float scale)&gt;</type>
+        <definition>using themis::llm::AdapterRegistry::HotLoadCallback = std::function&lt;void(const std::string&amp; adapter_id,
+                                              const std::string&amp; weights_path,
+                                              float scale)&gt;</definition>
+        <argsstring></argsstring>
+        <name>HotLoadCallback</name>
+        <qualifiedname>themis::llm::AdapterRegistry::HotLoadCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="446" column="5" bodyfile="include/llm/adapter_registry.h" bodystart="446" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adapter_registry_1a54f8a2afaf12b34acec6b73e262c1e51" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; storage::SecuritySignatureManager &gt;</type>
+        <definition>std::shared_ptr&lt;storage::SecuritySignatureManager&gt; themis::llm::AdapterRegistry::sig_manager_</definition>
+        <argsstring></argsstring>
+        <name>sig_manager_</name>
+        <qualifiedname>themis::llm::AdapterRegistry::sig_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="506" column="21" bodyfile="include/llm/adapter_registry.h" bodystart="506" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adapter_registry_1a9cc3a10a3b8bdf82b53734eb84fca5a0" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_manager" kindref="compound">lora::LoRAProvenanceManager</ref></type>
+        <definition>lora::LoRAProvenanceManager themis::llm::AdapterRegistry::provenance_mgr_</definition>
+        <argsstring></argsstring>
+        <name>provenance_mgr_</name>
+        <qualifiedname>themis::llm::AdapterRegistry::provenance_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="512" column="33" bodyfile="include/llm/adapter_registry.h" bodystart="512" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adapter_registry_1ad25232a707c95508b56a307d3420bed1" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1llm_1_1_adapter_registry_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::AdapterRegistry::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::AdapterRegistry::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="516" column="21" bodyfile="include/llm/adapter_registry.h" bodystart="516" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adapter_registry_1ae62bf7367f35b7c3cfe03b1d5b55d701" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::llm::AdapterRegistry::ADAPTER_KEY_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>ADAPTER_KEY_PREFIX</name>
+        <qualifiedname>themis::llm::AdapterRegistry::ADAPTER_KEY_PREFIX</qualifiedname>
+        <initializer>= &quot;adapter:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="507" column="33" bodyfile="include/llm/adapter_registry.h" bodystart="507" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adapter_registry_1a8e7255f0f6ad16999594bcbeec36a520" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::llm::AdapterRegistry::BASE_MODEL_INDEX_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>BASE_MODEL_INDEX_PREFIX</name>
+        <qualifiedname>themis::llm::AdapterRegistry::BASE_MODEL_INDEX_PREFIX</qualifiedname>
+        <initializer>= &quot;adapter_by_base_model:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="508" column="33" bodyfile="include/llm/adapter_registry.h" bodystart="508" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_adapter_registry_1ad132b2be93821fd6894a6d64aedc522f" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::llm::AdapterRegistry::DOMAIN_INDEX_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>DOMAIN_INDEX_PREFIX</name>
+        <qualifiedname>themis::llm::AdapterRegistry::DOMAIN_INDEX_PREFIX</qualifiedname>
+        <initializer>= &quot;adapter_by_domain:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="509" column="33" bodyfile="include/llm/adapter_registry.h" bodystart="509" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1a103b8afe2469623bd20475d9fbf1ca4c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::AdapterRegistry::AdapterRegistry</definition>
+        <argsstring>(std::shared_ptr&lt; storage::SecuritySignatureManager &gt; sig_manager)</argsstring>
+        <name>AdapterRegistry</name>
+        <qualifiedname>themis::llm::AdapterRegistry::AdapterRegistry</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; storage::SecuritySignatureManager &gt;</type>
+          <declname>sig_manager</declname>
+        </param>
+        <briefdescription>
+<para>Adapter Registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sig_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="261" column="14" bodyfile="src/llm/adapter_registry.cpp" bodystart="186" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1a6cc5c9915c0d07f4b4d0e47234e72078" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::AdapterRegistry::~AdapterRegistry</definition>
+        <argsstring>()</argsstring>
+        <name>~AdapterRegistry</name>
+        <qualifiedname>themis::llm::AdapterRegistry::~AdapterRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="262" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1a47bd3ab98514b6535070291c96336a72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterRegistry::registerAdapter</definition>
+        <argsstring>(const AdapterMetadata &amp;metadata)</argsstring>
+        <name>registerAdapter</name>
+        <qualifiedname>themis::llm::AdapterRegistry::registerAdapter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Register Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), spdlog::error(), lock(), count(), spdlog::warn(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="271" column="10" bodyfile="src/llm/adapter_registry.cpp" bodystart="233" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1a2d7e45430b820582d0eef4b5d4cebcbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterMetadata &gt; themis::llm::AdapterRegistry::getAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>getAdapter</name>
+        <qualifiedname>themis::llm::AdapterRegistry::getAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="278" column="19" bodyfile="src/llm/adapter_registry.cpp" bodystart="255" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1af9d694a74b41ae68a59bce458a8945b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterRegistry::updateAdapter</definition>
+        <argsstring>(const AdapterMetadata &amp;metadata)</argsstring>
+        <name>updateAdapter</name>
+        <qualifiedname>themis::llm::AdapterRegistry::updateAdapter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Update Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), spdlog::error(), lock(), find(), end(), spdlog::warn(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="285" column="10" bodyfile="src/llm/adapter_registry.cpp" bodystart="270" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1a219111b192db68bf8a1f1b9197d90760" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterRegistry::deleteAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>deleteAdapter</name>
+        <qualifiedname>themis::llm::AdapterRegistry::deleteAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), erase(), spdlog::warn(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="292" column="10" bodyfile="src/llm/adapter_registry.cpp" bodystart="293" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1a278a0848d2ed35eac16bd5b258da4a88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &gt;</type>
+        <definition>std::vector&lt; AdapterMetadata &gt; themis::llm::AdapterRegistry::listAdapters</definition>
+        <argsstring>()</argsstring>
+        <name>listAdapters</name>
+        <qualifiedname>themis::llm::AdapterRegistry::listAdapters</qualifiedname>
+        <briefdescription>
+<para>List Adapters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="298" column="17" bodyfile="src/llm/adapter_registry.cpp" bodystart="310" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1ac7245220491787925de79e84142195ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &gt;</type>
+        <definition>std::vector&lt; AdapterMetadata &gt; themis::llm::AdapterRegistry::listAdaptersByBaseModel</definition>
+        <argsstring>(const std::string &amp;base_model)</argsstring>
+        <name>listAdaptersByBaseModel</name>
+        <qualifiedname>themis::llm::AdapterRegistry::listAdaptersByBaseModel</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model</declname>
+        </param>
+        <briefdescription>
+<para>List Adapters By Base Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="305" column="17" bodyfile="src/llm/adapter_registry.cpp" bodystart="327" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1a994788f5938009caac4dd11aebadf938" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &gt;</type>
+        <definition>std::vector&lt; AdapterMetadata &gt; themis::llm::AdapterRegistry::listAdaptersByDomain</definition>
+        <argsstring>(const std::string &amp;domain)</argsstring>
+        <name>listAdaptersByDomain</name>
+        <qualifiedname>themis::llm::AdapterRegistry::listAdaptersByDomain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <briefdescription>
+<para>List Adapters By Domain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="312" column="17" bodyfile="src/llm/adapter_registry.cpp" bodystart="347" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1a2ee08d2a36feaa388966d8624749860b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &gt;</type>
+        <definition>std::vector&lt; AdapterMetadata &gt; themis::llm::AdapterRegistry::listAdaptersByRole</definition>
+        <argsstring>(AdapterRole role)</argsstring>
+        <name>listAdaptersByRole</name>
+        <qualifiedname>themis::llm::AdapterRegistry::listAdaptersByRole</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a9f604bf28b2d7f38ea021637b73ee781" kindref="member">AdapterRole</ref></type>
+          <declname>role</declname>
+        </param>
+        <briefdescription>
+<para>List Adapters By Role. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="319" column="17" bodyfile="src/llm/adapter_registry.cpp" bodystart="367" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1ad62dd0eda6657768e4aaf5bca7e0a544" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterMetadata &gt; themis::llm::AdapterRegistry::findDraftAdapterForFamily</definition>
+        <argsstring>(const std::string &amp;model_family)</argsstring>
+        <name>findDraftAdapterForFamily</name>
+        <qualifiedname>themis::llm::AdapterRegistry::findDraftAdapterForFamily</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_family</declname>
+        </param>
+        <briefdescription>
+<para>Find Draft Adapter For Family. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_family</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_family</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::transform(), begin(), end(), std::tolower(), lock(), find(), has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="326" column="19" bodyfile="src/llm/adapter_registry.cpp" bodystart="385" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1a41f6888b492ed62fb0a02087336d96e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_registry_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>AdapterRegistry::ValidationResult themis::llm::AdapterRegistry::validateCompatibility</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;base_model, const std::string &amp;model_version)</argsstring>
+        <name>validateCompatibility</name>
+        <qualifiedname>themis::llm::AdapterRegistry::validateCompatibility</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_version</declname>
+        </param>
+        <briefdescription>
+<para>Validate Compatibility. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">model_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_adapter_registry_1a2d7e45430b820582d0eef4b5d4cebcbb" kindref="member">getAdapter()</ref>, push_back(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="350" column="22" bodyfile="src/llm/adapter_registry.cpp" bodystart="462" bodyend="493"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1a1f7867647a55a52e8d955a66d5e16dbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterRegistry::signAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;private_key)</argsstring>
+        <name>signAdapter</name>
+        <qualifiedname>themis::llm::AdapterRegistry::signAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>private_key</declname>
+        </param>
+        <briefdescription>
+<para>Sign Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">private_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">private_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), count(), spdlog::warn(), storage::SecuritySignatureManager::computeFileHash(), std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), std::strftime(), std::gmtime(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="364" column="10" bodyfile="src/llm/adapter_registry.cpp" bodystart="506" bodyend="598"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1a734e01c67515c0ddba67474b437de06d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterRegistry::verifySignature</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>verifySignature</name>
+        <qualifiedname>themis::llm::AdapterRegistry::verifySignature</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Verify Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::debug(), storage::SecuritySignatureManager::computeFileHash(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="371" column="10" bodyfile="src/llm/adapter_registry.cpp" bodystart="606" bodyend="620"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1ad7899c23397b6afb8ac8d2594c8f785c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_adapter_signature" kindref="compound">AdapterSignature</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterSignature &gt; themis::llm::AdapterRegistry::getSignature</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>getSignature</name>
+        <qualifiedname>themis::llm::AdapterRegistry::getSignature</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="378" column="19" bodyfile="src/llm/adapter_registry.cpp" bodystart="628" bodyend="635"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1a7ebe6ee5eb1568b5607f50164402c3ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterMetadata &gt; themis::llm::AdapterRegistry::getLatestVersion</definition>
+        <argsstring>(const std::string &amp;adapter_base_id)</argsstring>
+        <name>getLatestVersion</name>
+        <qualifiedname>themis::llm::AdapterRegistry::getLatestVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_base_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Latest Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_base_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter base. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_base_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter base. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_adapter_registry_1abd98b9a4a4ee000017bdf953bbec7032" kindref="member">listVersions()</ref>, empty(), back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="387" column="19" bodyfile="src/llm/adapter_registry.cpp" bodystart="647" bodyend="656"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1ada9c33aaab3b645221d08322454c2abd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterMetadata &gt; themis::llm::AdapterRegistry::getVersion</definition>
+        <argsstring>(const std::string &amp;adapter_base_id, const AdapterVersion &amp;version)</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::llm::AdapterRegistry::getVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_base_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_version" kindref="compound">AdapterVersion</ref> &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Get Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_base_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter base. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_base_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter base. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), rfind(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="395" column="19" bodyfile="src/llm/adapter_registry.cpp" bodystart="665" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1abd98b9a4a4ee000017bdf953bbec7032" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &gt;</type>
+        <definition>std::vector&lt; AdapterMetadata &gt; themis::llm::AdapterRegistry::listVersions</definition>
+        <argsstring>(const std::string &amp;adapter_base_id)</argsstring>
+        <name>listVersions</name>
+        <qualifiedname>themis::llm::AdapterRegistry::listVersions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_base_id</declname>
+        </param>
+        <briefdescription>
+<para>List Versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_base_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter base. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_base_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter base. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), rfind(), push_back(), std::sort(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="402" column="17" bodyfile="src/llm/adapter_registry.cpp" bodystart="688" bodyend="707"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1a64eeff8fe68fe9ae36a79036cb4a6ee4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &gt;</type>
+        <definition>std::vector&lt; AdapterMetadata &gt; themis::llm::AdapterRegistry::searchAdapters</definition>
+        <argsstring>(const SearchCriteria &amp;criteria)</argsstring>
+        <name>searchAdapters</name>
+        <qualifiedname>themis::llm::AdapterRegistry::searchAdapters</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_registry_1_1_search_criteria" kindref="compound">SearchCriteria</ref> &amp;</type>
+          <declname>criteria</declname>
+        </param>
+        <briefdescription>
+<para>Search Adapters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">criteria</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">criteria</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="419" column="17" bodyfile="src/llm/adapter_registry.cpp" bodystart="719" bodyend="744"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1ae33417c8119247e67fa0b191bc828a7a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_registry_1_1_registry_stats" kindref="compound">RegistryStats</ref></type>
+        <definition>AdapterRegistry::RegistryStats themis::llm::AdapterRegistry::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::AdapterRegistry::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="442" column="19" bodyfile="src/llm/adapter_registry.cpp" bodystart="750" bodyend="770"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1a577d4d814c55a6cfbac1d4521f3517d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterRegistry::hotLoad</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;weights_path, const AdapterMetadata &amp;metadata, float scale=1.0f)</argsstring>
+        <name>hotLoad</name>
+        <qualifiedname>themis::llm::AdapterRegistry::hotLoad</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>weights_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scale</declname>
+          <defval>1.0f</defval>
+        </param>
+        <briefdescription>
+<para>Hot Load. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weights_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the weights. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scale</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), spdlog::error(), lock(), count(), spdlog::debug(), cb(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="450" column="10" bodyfile="src/llm/adapter_registry.cpp" bodystart="837" bodyend="882"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1a20001c536084c6e4a460b2c56e4cb390" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::AdapterRegistry::addHotLoadObserver</definition>
+        <argsstring>(HotLoadCallback callback)</argsstring>
+        <name>addHotLoadObserver</name>
+        <qualifiedname>themis::llm::AdapterRegistry::addHotLoadObserver</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_adapter_registry_1a6bd6669ecd675b50bf78051271310681" kindref="member">HotLoadCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Add Hot Load Observer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::warn(), lock(), push_back(), std::move(), spdlog::debug(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="459" column="10" bodyfile="src/llm/adapter_registry.cpp" bodystart="889" bodyend="898"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1ae66f953dd86dc062a2667d23b7ad0882" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterRegistry::attachProvenance</definition>
+        <argsstring>(const std::string &amp;adapter_id, const lora::LoRAProvenanceRecord &amp;record)</argsstring>
+        <name>attachProvenance</name>
+        <qualifiedname>themis::llm::AdapterRegistry::attachProvenance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record" kindref="compound">lora::LoRAProvenanceRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>Attach Provenance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), count(), spdlog::warn(), storeProvenance(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="469" column="10" bodyfile="src/llm/adapter_registry.cpp" bodystart="783" bodyend="795"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1af6e38a76035f32b2c235e79b80af4012" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record" kindref="compound">lora::LoRAProvenanceRecord</ref> &gt;</type>
+        <definition>std::optional&lt; lora::LoRAProvenanceRecord &gt; themis::llm::AdapterRegistry::getProvenanceRecord</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>getProvenanceRecord</name>
+        <qualifiedname>themis::llm::AdapterRegistry::getProvenanceRecord</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Provenance Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="477" column="19" bodyfile="src/llm/adapter_registry.cpp" bodystart="797" bodyend="800"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1a8fb1ae0ca599465123987a379c9f45f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_inference_audit_entry" kindref="compound">lora::InferenceAuditEntry</ref></type>
+        <definition>lora::InferenceAuditEntry themis::llm::AdapterRegistry::recordInferenceAudit</definition>
+        <argsstring>(const std::string &amp;adapter_id, lora::InferenceAuditEntry entry)</argsstring>
+        <name>recordInferenceAudit</name>
+        <qualifiedname>themis::llm::AdapterRegistry::recordInferenceAudit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_inference_audit_entry" kindref="compound">lora::InferenceAuditEntry</ref></type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Record Inference Audit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: appendAuditEntry(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="486" column="31" bodyfile="src/llm/adapter_registry.cpp" bodystart="809" bodyend="813"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1ac8a39be53f068762db688cb2fa078da5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_inference_audit_entry" kindref="compound">lora::InferenceAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt; lora::InferenceAuditEntry &gt; themis::llm::AdapterRegistry::getInferenceAuditLog</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>getInferenceAuditLog</name>
+        <qualifiedname>themis::llm::AdapterRegistry::getInferenceAuditLog</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Inference Audit Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="495" column="17" bodyfile="src/llm/adapter_registry.cpp" bodystart="815" bodyend="818"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1ac8c162b86dd948b6922bad9439880e54" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::AdapterRegistry::verifyAuditChain</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>verifyAuditChain</name>
+        <qualifiedname>themis::llm::AdapterRegistry::verifyAuditChain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Verify Audit Chain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="503" column="10" bodyfile="src/llm/adapter_registry.cpp" bodystart="820" bodyend="822"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1a68407691412aa1f1b2f38abddba6d600" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterRegistry::makeAdapterKey</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>makeAdapterKey</name>
+        <qualifiedname>themis::llm::AdapterRegistry::makeAdapterKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Make Adapter Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="523" column="17" bodyfile="src/llm/adapter_registry.cpp" bodystart="200" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1ada3c18824114b1ed569a91e8abb4e9ba" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterRegistry::makeBaseModelIndexKey</definition>
+        <argsstring>(const std::string &amp;base_model) const</argsstring>
+        <name>makeBaseModelIndexKey</name>
+        <qualifiedname>themis::llm::AdapterRegistry::makeBaseModelIndexKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model</declname>
+        </param>
+        <briefdescription>
+<para>Make Base Model Index Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="529" column="17" bodyfile="src/llm/adapter_registry.cpp" bodystart="204" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1a07bfcbf032fb809da8bf625ba46b256c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterRegistry::makeDomainIndexKey</definition>
+        <argsstring>(const std::string &amp;domain) const</argsstring>
+        <name>makeDomainIndexKey</name>
+        <qualifiedname>themis::llm::AdapterRegistry::makeDomainIndexKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <briefdescription>
+<para>Make Domain Index Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="535" column="17" bodyfile="src/llm/adapter_registry.cpp" bodystart="208" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_adapter_registry_1aeb6de2399e23b11963f5121b0b9c837e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::AdapterRegistry::updateIndices</definition>
+        <argsstring>(const AdapterMetadata &amp;metadata, bool remove=false)</argsstring>
+        <name>updateIndices</name>
+        <qualifiedname>themis::llm::AdapterRegistry::updateIndices</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>remove</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Update Indices. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bool</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements updateIndices without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="538" column="10" bodyfile="src/llm/adapter_registry.cpp" bodystart="221" bodyend="221"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_registry.h" line="254" column="1" bodyfile="include/llm/adapter_registry.h" bodystart="254" bodyend="539"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1ae62bf7367f35b7c3cfe03b1d5b55d701" prot="private" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>ADAPTER_KEY_PREFIX</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a103b8afe2469623bd20475d9fbf1ca4c" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>AdapterRegistry</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a20001c536084c6e4a460b2c56e4cb390" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>addHotLoadObserver</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1ae66f953dd86dc062a2667d23b7ad0882" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>attachProvenance</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a8e7255f0f6ad16999594bcbeec36a520" prot="private" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>BASE_MODEL_INDEX_PREFIX</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a219111b192db68bf8a1f1b9197d90760" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>deleteAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1ad132b2be93821fd6894a6d64aedc522f" prot="private" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>DOMAIN_INDEX_PREFIX</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1ad62dd0eda6657768e4aaf5bca7e0a544" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>findDraftAdapterForFamily</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a2d7e45430b820582d0eef4b5d4cebcbb" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>getAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1ac8a39be53f068762db688cb2fa078da5" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>getInferenceAuditLog</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a7ebe6ee5eb1568b5607f50164402c3ae" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>getLatestVersion</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1af6e38a76035f32b2c235e79b80af4012" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>getProvenanceRecord</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1ad7899c23397b6afb8ac8d2594c8f785c" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>getSignature</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1ae33417c8119247e67fa0b191bc828a7a" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1ada9c33aaab3b645221d08322454c2abd" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a577d4d814c55a6cfbac1d4521f3517d8" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>hotLoad</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a6bd6669ecd675b50bf78051271310681" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>HotLoadCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1ad25232a707c95508b56a307d3420bed1" prot="private" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a278a0848d2ed35eac16bd5b258da4a88" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>listAdapters</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1ac7245220491787925de79e84142195ec" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>listAdaptersByBaseModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a994788f5938009caac4dd11aebadf938" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>listAdaptersByDomain</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a2ee08d2a36feaa388966d8624749860b" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>listAdaptersByRole</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1abd98b9a4a4ee000017bdf953bbec7032" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>listVersions</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a68407691412aa1f1b2f38abddba6d600" prot="private" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>makeAdapterKey</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1ada3c18824114b1ed569a91e8abb4e9ba" prot="private" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>makeBaseModelIndexKey</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a07bfcbf032fb809da8bf625ba46b256c" prot="private" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>makeDomainIndexKey</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a9cc3a10a3b8bdf82b53734eb84fca5a0" prot="private" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>provenance_mgr_</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a8fb1ae0ca599465123987a379c9f45f6" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>recordInferenceAudit</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a47bd3ab98514b6535070291c96336a72" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>registerAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a64eeff8fe68fe9ae36a79036cb4a6ee4" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>searchAdapters</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a54f8a2afaf12b34acec6b73e262c1e51" prot="private" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>sig_manager_</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a1f7867647a55a52e8d955a66d5e16dbf" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>signAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1af9d694a74b41ae68a59bce458a8945b3" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>updateAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1aeb6de2399e23b11963f5121b0b9c837e" prot="private" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>updateIndices</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a41f6888b492ed62fb0a02087336d96e3" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>validateCompatibility</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1ac8c162b86dd948b6922bad9439880e54" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>verifyAuditChain</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a734e01c67515c0ddba67474b437de06d" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>verifySignature</name></member>
+      <member refid="classthemis_1_1llm_1_1_adapter_registry_1a6cc5c9915c0d07f4b4d0e47234e72078" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry</scope><name>~AdapterRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

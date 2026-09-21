@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1benchmark_1_1_ocel_parser" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::OcelParser</compoundname>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_ocel_parser_1_1_ocel_log" prot="public">themis::process::benchmark::OcelParser::OcelLog</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_ocel_parser_1a8723323e32fb4e3d5269f296921e6c97" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1benchmark_1_1_ocel_parser_1_1_ocel_log" kindref="compound">OcelLog</ref></type>
+        <definition>static OcelLog themis::process::benchmark::OcelParser::parse</definition>
+        <argsstring>(const std::string &amp;json_content)</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::process::benchmark::OcelParser::parse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="216" column="20" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="216" bodyend="237"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>OCEL (Object-Centric <ref refid="structthemis_1_1process_1_1benchmark_1_1_event" kindref="compound">Event</ref> Log) Parser. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_parser_gates.cpp" line="207" column="1" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="207" bodyend="238"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_ocel_parser_1a8723323e32fb4e3d5269f296921e6c97" prot="public" virt="non-virtual"><scope>themis::process::benchmark::OcelParser</scope><name>parse</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

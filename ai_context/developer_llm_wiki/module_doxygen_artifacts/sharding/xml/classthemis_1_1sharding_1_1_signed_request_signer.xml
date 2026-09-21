@@ -1,0 +1,287 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_signed_request_signer" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::SignedRequestSigner</compoundname>
+    <includes refid="signed__request_8h" local="no">signed_request.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_signed_request_signer_1_1_config" prot="public">themis::sharding::SignedRequestSigner::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_signed_request_signer_1adad2e93d7b30e20491c195169b5e643e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_signed_request_signer_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::SignedRequestSigner::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::SignedRequestSigner::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="127" column="12" bodyfile="include/sharding/signed_request.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_signed_request_signer_1a12a4c03f1fedfda89f328aa13be39404" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SignedRequestSigner::cert_serial_</definition>
+        <argsstring></argsstring>
+        <name>cert_serial_</name>
+        <qualifiedname>themis::sharding::SignedRequestSigner::cert_serial_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="128" column="17" bodyfile="include/sharding/signed_request.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_signed_request_signer_1ae3e86baddd1327157737a291707610c2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::SignedRequestSigner::SignedRequestSigner</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>SignedRequestSigner</name>
+        <qualifiedname>themis::sharding::SignedRequestSigner::SignedRequestSigner</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_signed_request_signer_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct signer with certificate/private-key configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Signer configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="106" column="14" bodyfile="src/sharding/signed_request.cpp" bodystart="237" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_signed_request_signer_1a10a5de16f65ffebc7640bc18393c5457" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::SignedRequestSigner::sign</definition>
+        <argsstring>(SignedRequest &amp;request)</argsstring>
+        <name>sign</name>
+        <qualifiedname>themis::sharding::SignedRequestSigner::sign</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_signed_request" kindref="compound">SignedRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Populate metadata and sign request in place. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sign.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request to sign; modified with timestamp/nonce/signature fields. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when signing succeeds; false when key material or signing fails.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getCurrentTimestampMs(), generateNonce(), getCanonicalString(), signData(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="113" column="10" bodyfile="src/sharding/signed_request.cpp" bodystart="252" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_signed_request_signer_1a481fc109928ba690964976dccaeaf20d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_signed_request" kindref="compound">SignedRequest</ref></type>
+        <definition>SignedRequest themis::sharding::SignedRequestSigner::createSignedRequest</definition>
+        <argsstring>(const std::string &amp;operation, const std::string &amp;path, const nlohmann::json &amp;body=nlohmann::json{})</argsstring>
+        <name>createSignedRequest</name>
+        <qualifiedname>themis::sharding::SignedRequestSigner::createSignedRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>body</declname>
+          <defval>nlohmann::json{}</defval>
+        </param>
+        <briefdescription>
+<para>Build and sign a request in one call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Signed Request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HTTP verb. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Request path. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON payload. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Signed request object (signature fields may be empty if signing failed).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1sharding_1_1_signed_request_signer_1a10a5de16f65ffebc7640bc18393c5457" kindref="member">sign()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="122" column="19" bodyfile="src/sharding/signed_request.cpp" bodystart="288" bodyend="298"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_signed_request_signer_1a7dceb6f5e3de22e8064e3be5f9e08377" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SignedRequestSigner::generateNonce</definition>
+        <argsstring>() const</argsstring>
+        <name>generateNonce</name>
+        <qualifiedname>themis::sharding::SignedRequestSigner::generateNonce</qualifiedname>
+        <briefdescription>
+<para>Generate nonce value used for replay protection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="131" column="14" bodyfile="src/sharding/signed_request.cpp" bodystart="300" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_signed_request_signer_1a41c05d06321b8c5a68ea90bc8680f559" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SignedRequestSigner::getCurrentTimestampMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentTimestampMs</name>
+        <qualifiedname>themis::sharding::SignedRequestSigner::getCurrentTimestampMs</qualifiedname>
+        <briefdescription>
+<para>Return current wall-clock time in milliseconds since epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="134" column="14" bodyfile="src/sharding/signed_request.cpp" bodystart="307" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_signed_request_signer_1a76977b6ae31576be28284c1172d339fa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::sharding::SignedRequestSigner::signData</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>signData</name>
+        <qualifiedname>themis::sharding::SignedRequestSigner::signData</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Sign canonical request string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sign Data.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Canonical string to sign. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Base64-encoded signature on success, std::nullopt on cryptographic failure.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fopen(), c_str(), empty(), PEM_read_PrivateKey(), fclose(), utils::EVPKeyPtr(), utils::make_evp_md_ctx(), EVP_DigestSignInit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/signed_request.h" line="141" column="19" bodyfile="src/sharding/signed_request.cpp" bodystart="319" bodyend="370"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Creates signatures for outbound shard requests. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/signed_request.h" line="92" column="1" bodyfile="include/sharding/signed_request.h" bodystart="92" bodyend="142"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_signed_request_signer_1a12a4c03f1fedfda89f328aa13be39404" prot="private" virt="non-virtual"><scope>themis::sharding::SignedRequestSigner</scope><name>cert_serial_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_signed_request_signer_1adad2e93d7b30e20491c195169b5e643e" prot="private" virt="non-virtual"><scope>themis::sharding::SignedRequestSigner</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_signed_request_signer_1a481fc109928ba690964976dccaeaf20d" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequestSigner</scope><name>createSignedRequest</name></member>
+      <member refid="classthemis_1_1sharding_1_1_signed_request_signer_1a7dceb6f5e3de22e8064e3be5f9e08377" prot="private" virt="non-virtual"><scope>themis::sharding::SignedRequestSigner</scope><name>generateNonce</name></member>
+      <member refid="classthemis_1_1sharding_1_1_signed_request_signer_1a41c05d06321b8c5a68ea90bc8680f559" prot="private" virt="non-virtual"><scope>themis::sharding::SignedRequestSigner</scope><name>getCurrentTimestampMs</name></member>
+      <member refid="classthemis_1_1sharding_1_1_signed_request_signer_1a10a5de16f65ffebc7640bc18393c5457" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequestSigner</scope><name>sign</name></member>
+      <member refid="classthemis_1_1sharding_1_1_signed_request_signer_1a76977b6ae31576be28284c1172d339fa" prot="private" virt="non-virtual"><scope>themis::sharding::SignedRequestSigner</scope><name>signData</name></member>
+      <member refid="classthemis_1_1sharding_1_1_signed_request_signer_1ae3e86baddd1327157737a291707610c2" prot="public" virt="non-virtual"><scope>themis::sharding::SignedRequestSigner</scope><name>SignedRequestSigner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

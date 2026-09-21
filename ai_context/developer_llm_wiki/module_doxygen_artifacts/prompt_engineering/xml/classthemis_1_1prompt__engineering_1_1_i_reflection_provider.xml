@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_i_reflection_provider" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::prompt_engineering::IReflectionProvider</compoundname>
+    <derivedcompoundref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter" prot="public" virt="non-virtual">themis::prompt_engineering::ILLMProviderReflectionAdapter</derivedcompoundref>
+    <includes refid="reflection__tuner_8h" local="no">reflection_tuner.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_reflection_provider_1a563121b1617f18a08e0a0ba9c68f3072" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::prompt_engineering::IReflectionProvider::~IReflectionProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IReflectionProvider</name>
+        <qualifiedname>themis::prompt_engineering::IReflectionProvider::~IReflectionProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="226" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_reflection_provider_1a192547c130b35136e9305ce56a3675ae" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::prompt_engineering::IReflectionProvider::generate</definition>
+        <argsstring>(const std::string &amp;prompt) const =0</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::prompt_engineering::IReflectionProvider::generate</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1af8f94b37614cba09c4f73638d826a665">generate</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Generate an initial response to <computeroutput>prompt</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="229" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_reflection_provider_1ad46b78567b678e61f33098ef6e5db9cd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::prompt_engineering::IReflectionProvider::critique</definition>
+        <argsstring>(const std::string &amp;original_prompt, const std::string &amp;response) const =0</argsstring>
+        <name>critique</name>
+        <qualifiedname>themis::prompt_engineering::IReflectionProvider::critique</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a471518b667a37a2bbfbc46e964544b69">critique</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original_prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Critique <computeroutput>response</computeroutput> in the context of <computeroutput>original_prompt</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Critique text (actionable feedback). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="235" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_reflection_provider_1a37fc95c346a058b4fa7e539d71a32361" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::prompt_engineering::IReflectionProvider::revise</definition>
+        <argsstring>(const std::string &amp;original_prompt, const std::string &amp;response, const std::string &amp;critique) const =0</argsstring>
+        <name>revise</name>
+        <qualifiedname>themis::prompt_engineering::IReflectionProvider::revise</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a32dfa37b5dd0ca73482d2fde4265fa17">revise</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original_prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>critique</declname>
+        </param>
+        <briefdescription>
+<para>Revise <computeroutput>response</computeroutput> by applying <computeroutput>critique</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Improved response text. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="242" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_reflection_provider_1ab88b65385d3f34f4a3dc659f956b04a2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>double</type>
+        <definition>virtual double themis::prompt_engineering::IReflectionProvider::score</definition>
+        <argsstring>(const std::string &amp;prompt, const std::string &amp;response) const =0</argsstring>
+        <name>score</name>
+        <qualifiedname>themis::prompt_engineering::IReflectionProvider::score</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a5bd9515575ef8085ddb5b9609abfdca8">score</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate the quality of <computeroutput>response</computeroutput> for <computeroutput>prompt</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Quality score in [0.0, 1.0]. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="250" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_reflection_provider_1a8c8a2c31b209375448dc9c3de7e30426" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::prompt_engineering::IReflectionProvider::name</definition>
+        <argsstring>() const =0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::prompt_engineering::IReflectionProvider::name</qualifiedname>
+        <reimplementedby refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a181c6b51db1d7de77f116dec5c380aeb">name</reimplementedby>
+        <briefdescription>
+<para>Human-readable provider name (for logs and metadata). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="254" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for a reflection-capable LLM backend. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implement this to integrate any LLM that can generate, critique, and revise text. A single LLM can implement all four methods by forwarding to its <computeroutput>complete()</computeroutput> endpoint with appropriately constructed prompts — use <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder" kindref="compound">DynamicReflectionPromptBuilder</ref></computeroutput> to construct those prompts.</para>
+<para><programlisting><codeline><highlight class="keyword">class<sp/></highlight><highlight class="normal">MyLLMReflectionAdapter<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>IReflectionProvider<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>DynamicReflectionPromptBuilder<sp/>builder_;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>MyLLM<sp/>llm_;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>llm_.complete(prompt);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>critique(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>p,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>r)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>llm_.complete(builder_.buildCritiquePrompt(p,<sp/>r));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>revise(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>p,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>r,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>c)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>llm_.complete(builder_.buildRevisionPrompt(p,<sp/>r,<sp/>c));</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>r)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>implement<sp/>quality<sp/>heuristic<sp/>or<sp/>call<sp/>a<sp/>judge<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r.empty()<sp/>?<sp/>0.0<sp/>:<sp/>0.7;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>name()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;my-llm&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::prompt_engineering::ILLMProviderReflectionAdapter</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::IReflectionProvider</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/prompt_engineering/reflection_tuner.h" line="224" column="1" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="224" bodyend="255"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider_1ad46b78567b678e61f33098ef6e5db9cd" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IReflectionProvider</scope><name>critique</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider_1a192547c130b35136e9305ce56a3675ae" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IReflectionProvider</scope><name>generate</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider_1a8c8a2c31b209375448dc9c3de7e30426" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IReflectionProvider</scope><name>name</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider_1a37fc95c346a058b4fa7e539d71a32361" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IReflectionProvider</scope><name>revise</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider_1ab88b65385d3f34f4a3dc659f956b04a2" prot="public" virt="pure-virtual"><scope>themis::prompt_engineering::IReflectionProvider</scope><name>score</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider_1a563121b1617f18a08e0a0ba9c68f3072" prot="public" virt="virtual"><scope>themis::prompt_engineering::IReflectionProvider</scope><name>~IReflectionProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

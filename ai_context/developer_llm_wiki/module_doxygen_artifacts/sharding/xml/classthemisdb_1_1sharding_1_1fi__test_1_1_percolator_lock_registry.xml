@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::fi_test::PercolatorLockRegistry</compoundname>
+    <innerclass refid="structthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1_1_lock_entry" prot="private">themisdb::sharding::fi_test::PercolatorLockRegistry::LockEntry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1ae61952cb0c91110bce47a787e0272a0c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::fi_test::PercolatorLockRegistry::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themisdb::sharding::fi_test::PercolatorLockRegistry::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="987" column="50" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="987" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1a225efa837431124cf6f039d54fd0e575" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, LockEntry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, LockEntry&gt; themisdb::sharding::fi_test::PercolatorLockRegistry::locks_</definition>
+        <argsstring></argsstring>
+        <name>locks_</name>
+        <qualifiedname>themisdb::sharding::fi_test::PercolatorLockRegistry::locks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="988" column="26" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="988" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1aa3964bd049676bef1006f51df4909fbb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::fi_test::PercolatorLockRegistry::tryAcquire</definition>
+        <argsstring>(const std::string &amp;txn_id, const std::string &amp;key, std::chrono::steady_clock::time_point expiry)</argsstring>
+        <name>tryAcquire</name>
+        <qualifiedname>themisdb::sharding::fi_test::PercolatorLockRegistry::tryAcquire</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::chrono::steady_clock::time_point</type>
+          <declname>expiry</declname>
+        </param>
+        <briefdescription>
+<para>Try to acquire primary lock on <computeroutput>key</computeroutput> for <computeroutput>txn_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if lock acquired, false if already held by a live txn. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="939" column="10" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="939" bodyend="950"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1a884c308997aa89c7ffc5e948b2098f80" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::fi_test::PercolatorLockRegistry::cleanAndAcquire</definition>
+        <argsstring>(const std::string &amp;new_txn_id, const std::string &amp;key, std::chrono::steady_clock::time_point expiry)</argsstring>
+        <name>cleanAndAcquire</name>
+        <qualifiedname>themisdb::sharding::fi_test::PercolatorLockRegistry::cleanAndAcquire</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::chrono::steady_clock::time_point</type>
+          <declname>expiry</declname>
+        </param>
+        <briefdescription>
+<para>Force-cleanup of expired lock then acquire for new txn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if cleanup+acquire succeeded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="956" column="10" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="956" bodyend="967"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1a1475210d73d1ecda9d1d9dd5b48247a7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::fi_test::PercolatorLockRegistry::lockCount</definition>
+        <argsstring>() const</argsstring>
+        <name>lockCount</name>
+        <qualifiedname>themisdb::sharding::fi_test::PercolatorLockRegistry::lockCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="969" column="12" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="969" bodyend="972"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1a2c3939f00dad9c7746f50d4cc341957c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::fi_test::PercolatorLockRegistry::holderOf</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>holderOf</name>
+        <qualifiedname>themisdb::sharding::fi_test::PercolatorLockRegistry::holderOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="974" column="17" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="974" bodyend="978"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1ab65021026b53dcf3d5424b717d06ebdc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::fi_test::PercolatorLockRegistry::release</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>release</name>
+        <qualifiedname>themisdb::sharding::fi_test::PercolatorLockRegistry::release</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="980" column="10" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="980" bodyend="983"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal Percolator-style primary-lock registry. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks which txn_id holds the primary lock on each key and when it expires. A new transaction may steal an expired lock via <ref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1a884c308997aa89c7ffc5e948b2098f80" kindref="member">cleanAndAcquire()</ref>. </para>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="933" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="933" bodyend="989"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1a884c308997aa89c7ffc5e948b2098f80" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::PercolatorLockRegistry</scope><name>cleanAndAcquire</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1a2c3939f00dad9c7746f50d4cc341957c" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::PercolatorLockRegistry</scope><name>holderOf</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1a1475210d73d1ecda9d1d9dd5b48247a7" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::PercolatorLockRegistry</scope><name>lockCount</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1a225efa837431124cf6f039d54fd0e575" prot="private" virt="non-virtual"><scope>themisdb::sharding::fi_test::PercolatorLockRegistry</scope><name>locks_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1ae61952cb0c91110bce47a787e0272a0c" prot="private" virt="non-virtual"><scope>themisdb::sharding::fi_test::PercolatorLockRegistry</scope><name>mu_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1ab65021026b53dcf3d5424b717d06ebdc" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::PercolatorLockRegistry</scope><name>release</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_percolator_lock_registry_1aa3964bd049676bef1006f51df4909fbb" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::PercolatorLockRegistry</scope><name>tryAcquire</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_geospatial_benchmark" kind="class" language="C++" prot="public">
+    <compoundname>GeospatialBenchmark</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_geospatial_benchmark_1a965209585c5af7ed07f5d4a0d96aea7c" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t GeospatialBenchmark::NUM_POINTS_LARGE</definition>
+        <argsstring></argsstring>
+        <name>NUM_POINTS_LARGE</name>
+        <qualifiedname>GeospatialBenchmark::NUM_POINTS_LARGE</qualifiedname>
+        <initializer>= 1000000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="36" column="29" bodyfile="benchmarks/query/bench_geospatial_phase2.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_geospatial_benchmark_1a7a88663ef80af7b8045b2c894542476c" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t GeospatialBenchmark::NUM_POLYGONS</definition>
+        <argsstring></argsstring>
+        <name>NUM_POLYGONS</name>
+        <qualifiedname>GeospatialBenchmark::NUM_POLYGONS</qualifiedname>
+        <initializer>= 100000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="39" column="29" bodyfile="benchmarks/query/bench_geospatial_phase2.cpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_geospatial_benchmark_1a29d9c7704e3e532a3f3cb15afa686e1b" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_spatial_histogram" kindref="compound">SpatialHistogram</ref></type>
+        <definition>SpatialHistogram GeospatialBenchmark::globalHistogram</definition>
+        <argsstring></argsstring>
+        <name>globalHistogram</name>
+        <qualifiedname>GeospatialBenchmark::globalHistogram</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="42" column="22" bodyfile="benchmarks/query/bench_geospatial_phase2.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_geospatial_benchmark_1a2eac7071693d733b9c9e1283779a3b14" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GeospatialBenchmark::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GeospatialBenchmark::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="44" column="10" bodyfile="benchmarks/query/bench_geospatial_phase2.cpp" bodystart="44" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GeospatialBenchmark</label>
+        <link refid="class_geospatial_benchmark"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GeospatialBenchmark</label>
+        <link refid="class_geospatial_benchmark"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>globalHistogram</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::query::SpatialHistogram</label>
+        <link refid="structthemis_1_1query_1_1_spatial_histogram"/>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/query/bench_geospatial_phase2.cpp" line="33" column="1" bodyfile="benchmarks/query/bench_geospatial_phase2.cpp" bodystart="33" bodyend="60"/>
+    <listofallmembers>
+      <member refid="class_geospatial_benchmark_1a29d9c7704e3e532a3f3cb15afa686e1b" prot="protected" virt="non-virtual"><scope>GeospatialBenchmark</scope><name>globalHistogram</name></member>
+      <member refid="class_geospatial_benchmark_1a965209585c5af7ed07f5d4a0d96aea7c" prot="protected" virt="non-virtual"><scope>GeospatialBenchmark</scope><name>NUM_POINTS_LARGE</name></member>
+      <member refid="class_geospatial_benchmark_1a7a88663ef80af7b8045b2c894542476c" prot="protected" virt="non-virtual"><scope>GeospatialBenchmark</scope><name>NUM_POLYGONS</name></member>
+      <member refid="class_geospatial_benchmark_1a2eac7071693d733b9c9e1283779a3b14" prot="protected" virt="non-virtual"><scope>GeospatialBenchmark</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

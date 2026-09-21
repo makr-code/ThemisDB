@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_ranger_client_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::RangerClientConfig</compoundname>
+    <includes refid="ranger__adapter_8h" local="no">ranger_adapter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_ranger_client_config_1ad97db1acb34c2419f16ebf89359fb3fa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::RangerClientConfig::base_url</definition>
+        <argsstring></argsstring>
+        <name>base_url</name>
+        <qualifiedname>themis::server::RangerClientConfig::base_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ranger_adapter.h" line="24" column="17" bodyfile="include/server/ranger_adapter.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_ranger_client_config_1a9cfd35a3af3494bbbdbcbe1de02b4dcf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::RangerClientConfig::policies_path</definition>
+        <argsstring></argsstring>
+        <name>policies_path</name>
+        <qualifiedname>themis::server::RangerClientConfig::policies_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ranger_adapter.h" line="25" column="17" bodyfile="include/server/ranger_adapter.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_ranger_client_config_1a495a2c836f3c8def50715f27e0ff6b02" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::RangerClientConfig::service_name</definition>
+        <argsstring></argsstring>
+        <name>service_name</name>
+        <qualifiedname>themis::server::RangerClientConfig::service_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ranger_adapter.h" line="26" column="17" bodyfile="include/server/ranger_adapter.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_ranger_client_config_1a314bd906c2b61225e74042db9a3c74c3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::RangerClientConfig::bearer_token</definition>
+        <argsstring></argsstring>
+        <name>bearer_token</name>
+        <qualifiedname>themis::server::RangerClientConfig::bearer_token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ranger_adapter.h" line="27" column="17" bodyfile="include/server/ranger_adapter.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_ranger_client_config_1a66e837cbf77d5130159389e455645139" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::RangerClientConfig::tls_verify</definition>
+        <argsstring></argsstring>
+        <name>tls_verify</name>
+        <qualifiedname>themis::server::RangerClientConfig::tls_verify</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ranger_adapter.h" line="28" column="10" bodyfile="include/server/ranger_adapter.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_ranger_client_config_1a19fb55eeb5cc41be7f4611282e726cc6" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::server::RangerClientConfig::ca_cert_path</definition>
+        <argsstring></argsstring>
+        <name>ca_cert_path</name>
+        <qualifiedname>themis::server::RangerClientConfig::ca_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ranger_adapter.h" line="29" column="19" bodyfile="include/server/ranger_adapter.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_ranger_client_config_1a74c39532c52fc2a93bc0a37af2c2e8ca" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::server::RangerClientConfig::client_cert_path</definition>
+        <argsstring></argsstring>
+        <name>client_cert_path</name>
+        <qualifiedname>themis::server::RangerClientConfig::client_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ranger_adapter.h" line="30" column="19" bodyfile="include/server/ranger_adapter.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_ranger_client_config_1a110f49dbdf4f7fd21327b2ad8f3fca4d" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::server::RangerClientConfig::client_key_path</definition>
+        <argsstring></argsstring>
+        <name>client_key_path</name>
+        <qualifiedname>themis::server::RangerClientConfig::client_key_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ranger_adapter.h" line="31" column="19" bodyfile="include/server/ranger_adapter.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_ranger_client_config_1a3ac7b51d071ec9e88eea41112761c02d" prot="public" static="no" mutable="no">
+        <type>long</type>
+        <definition>long themis::server::RangerClientConfig::connect_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>connect_timeout_ms</name>
+        <qualifiedname>themis::server::RangerClientConfig::connect_timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ranger_adapter.h" line="33" column="10" bodyfile="include/server/ranger_adapter.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_ranger_client_config_1a5078a94194a658b829ddedcf7e3b7f31" prot="public" static="no" mutable="no">
+        <type>long</type>
+        <definition>long themis::server::RangerClientConfig::request_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>request_timeout_ms</name>
+        <qualifiedname>themis::server::RangerClientConfig::request_timeout_ms</qualifiedname>
+        <initializer>= 15000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ranger_adapter.h" line="34" column="10" bodyfile="include/server/ranger_adapter.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_ranger_client_config_1aa2cd7c9683ab3ca04d71ae412271155c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::server::RangerClientConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::server::RangerClientConfig::max_retries</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ranger_adapter.h" line="36" column="9" bodyfile="include/server/ranger_adapter.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_ranger_client_config_1a542cca5d33b72114e641b0b21acaad1c" prot="public" static="no" mutable="no">
+        <type>long</type>
+        <definition>long themis::server::RangerClientConfig::retry_backoff_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_backoff_ms</name>
+        <qualifiedname>themis::server::RangerClientConfig::retry_backoff_ms</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/ranger_adapter.h" line="37" column="10" bodyfile="include/server/ranger_adapter.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/ranger_adapter.h" line="23" column="1" bodyfile="include/server/ranger_adapter.h" bodystart="23" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_ranger_client_config_1ad97db1acb34c2419f16ebf89359fb3fa" prot="public" virt="non-virtual"><scope>themis::server::RangerClientConfig</scope><name>base_url</name></member>
+      <member refid="structthemis_1_1server_1_1_ranger_client_config_1a314bd906c2b61225e74042db9a3c74c3" prot="public" virt="non-virtual"><scope>themis::server::RangerClientConfig</scope><name>bearer_token</name></member>
+      <member refid="structthemis_1_1server_1_1_ranger_client_config_1a19fb55eeb5cc41be7f4611282e726cc6" prot="public" virt="non-virtual"><scope>themis::server::RangerClientConfig</scope><name>ca_cert_path</name></member>
+      <member refid="structthemis_1_1server_1_1_ranger_client_config_1a74c39532c52fc2a93bc0a37af2c2e8ca" prot="public" virt="non-virtual"><scope>themis::server::RangerClientConfig</scope><name>client_cert_path</name></member>
+      <member refid="structthemis_1_1server_1_1_ranger_client_config_1a110f49dbdf4f7fd21327b2ad8f3fca4d" prot="public" virt="non-virtual"><scope>themis::server::RangerClientConfig</scope><name>client_key_path</name></member>
+      <member refid="structthemis_1_1server_1_1_ranger_client_config_1a3ac7b51d071ec9e88eea41112761c02d" prot="public" virt="non-virtual"><scope>themis::server::RangerClientConfig</scope><name>connect_timeout_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_ranger_client_config_1aa2cd7c9683ab3ca04d71ae412271155c" prot="public" virt="non-virtual"><scope>themis::server::RangerClientConfig</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1server_1_1_ranger_client_config_1a9cfd35a3af3494bbbdbcbe1de02b4dcf" prot="public" virt="non-virtual"><scope>themis::server::RangerClientConfig</scope><name>policies_path</name></member>
+      <member refid="structthemis_1_1server_1_1_ranger_client_config_1a5078a94194a658b829ddedcf7e3b7f31" prot="public" virt="non-virtual"><scope>themis::server::RangerClientConfig</scope><name>request_timeout_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_ranger_client_config_1a542cca5d33b72114e641b0b21acaad1c" prot="public" virt="non-virtual"><scope>themis::server::RangerClientConfig</scope><name>retry_backoff_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_ranger_client_config_1a495a2c836f3c8def50715f27e0ff6b02" prot="public" virt="non-virtual"><scope>themis::server::RangerClientConfig</scope><name>service_name</name></member>
+      <member refid="structthemis_1_1server_1_1_ranger_client_config_1a66e837cbf77d5130159389e455645139" prot="public" virt="non-virtual"><scope>themis::server::RangerClientConfig</scope><name>tls_verify</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

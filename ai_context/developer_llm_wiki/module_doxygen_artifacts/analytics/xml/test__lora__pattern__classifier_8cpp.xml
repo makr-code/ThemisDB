@@ -1,0 +1,753 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__lora__pattern__classifier_8cpp" kind="file" language="C++">
+    <compoundname>test_lora_pattern_classifier.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes refid="lora__pattern__classifier_8h" local="yes">analytics/lora_pattern_classifier.h</includes>
+    <incdepgraph>
+      <node id="12">
+        <label>analytics/anomaly_detection.h</label>
+        <link refid="anomaly__detection_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>analytics/lora_pattern_classifier.h</label>
+        <link refid="lora__pattern__classifier_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/analytics/test_lora_pattern_classifier.cpp</label>
+        <link refid="test__lora__pattern__classifier_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>algorithm</label>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="14">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cmath</label>
+      </node>
+      <node id="15">
+        <label>deque</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="16">
+        <label>map</label>
+      </node>
+      <node id="17">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="18">
+        <label>optional</label>
+      </node>
+      <node id="19">
+        <label>shared_mutex</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>thread</label>
+      </node>
+      <node id="20">
+        <label>variant</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__lora__pattern__classifier_8cpp_1aa93c864f2df80fea4f93c5a9c00f7787" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref></type>
+        <definition>static DataPoint makeEvent</definition>
+        <argsstring>(const std::string &amp;id, double value=1.0)</argsstring>
+        <name>makeEvent</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_lora_pattern_classifier.cpp" line="23" column="18" bodyfile="tests/analytics/test_lora_pattern_classifier.cpp" bodystart="23" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__pattern__classifier_8cpp_1a211c074a21abdbb731f9f02a8a94b292" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_adapter_domain" kindref="compound">AdapterDomain</ref></type>
+        <definition>static AdapterDomain makeDomain</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;domain, std::vector&lt; double &gt; emb)</argsstring>
+        <name>makeDomain</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt;</type>
+          <declname>emb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_lora_pattern_classifier.cpp" line="31" column="22" bodyfile="tests/analytics/test_lora_pattern_classifier.cpp" bodystart="31" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__pattern__classifier_8cpp_1a7267fdb1b2f8fbd2e1049bfcbc1124af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRAPatternClassifierTest, LPC01_RegistersAdapterDomain)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRAPatternClassifierTest</type>
+        </param>
+        <param>
+          <type>LPC01_RegistersAdapterDomain</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_lora_pattern_classifier.cpp" line="41" column="1" bodyfile="tests/analytics/test_lora_pattern_classifier.cpp" bodystart="41" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__pattern__classifier_8cpp_1a379e7f79fc893aac2c190285c8b36703" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRAPatternClassifierTest, LPC02_FallbackWhenNoInferenceFn)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRAPatternClassifierTest</type>
+        </param>
+        <param>
+          <type>LPC02_FallbackWhenNoInferenceFn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_lora_pattern_classifier.cpp" line="47" column="1" bodyfile="tests/analytics/test_lora_pattern_classifier.cpp" bodystart="47" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__pattern__classifier_8cpp_1a31b5dc7f7135794a3c1f63c8eecfa009" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRAPatternClassifierTest, LPC03_UsesInjectedInferenceFn)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRAPatternClassifierTest</type>
+        </param>
+        <param>
+          <type>LPC03_UsesInjectedInferenceFn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_lora_pattern_classifier.cpp" line="58" column="1" bodyfile="tests/analytics/test_lora_pattern_classifier.cpp" bodystart="58" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__pattern__classifier_8cpp_1ae5887026888ef0090411bc7f3d2c5472" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRAPatternClassifierTest, LPC04_ParsesLabelAndConfidenceFromJson)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRAPatternClassifierTest</type>
+        </param>
+        <param>
+          <type>LPC04_ParsesLabelAndConfidenceFromJson</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_lora_pattern_classifier.cpp" line="69" column="1" bodyfile="tests/analytics/test_lora_pattern_classifier.cpp" bodystart="69" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__pattern__classifier_8cpp_1aad721a6f45dfbb62c7350b049613de77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRAPatternClassifierTest, LPC05_ClassifyWithEmptyAdapterIdSelectsBest)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRAPatternClassifierTest</type>
+        </param>
+        <param>
+          <type>LPC05_ClassifyWithEmptyAdapterIdSelectsBest</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_lora_pattern_classifier.cpp" line="81" column="1" bodyfile="tests/analytics/test_lora_pattern_classifier.cpp" bodystart="81" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__pattern__classifier_8cpp_1a2ec66a566d3c2611f9c0a5786e7a2b25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRAPatternClassifierTest, LPC06_BatchClassifyReturnsOneResultPerEvent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRAPatternClassifierTest</type>
+        </param>
+        <param>
+          <type>LPC06_BatchClassifyReturnsOneResultPerEvent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_lora_pattern_classifier.cpp" line="96" column="1" bodyfile="tests/analytics/test_lora_pattern_classifier.cpp" bodystart="96" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__pattern__classifier_8cpp_1a40576c160fbecd874d077c402a8856c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRAPatternClassifierTest, LPC07_BatchClassifyPreservesOrder)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRAPatternClassifierTest</type>
+        </param>
+        <param>
+          <type>LPC07_BatchClassifyPreservesOrder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_lora_pattern_classifier.cpp" line="109" column="1" bodyfile="tests/analytics/test_lora_pattern_classifier.cpp" bodystart="109" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__pattern__classifier_8cpp_1acb8e7c5d269c992dac55d8d7db309d67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRAPatternClassifierTest, LPC08_BatchClassifyEmptyInputReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRAPatternClassifierTest</type>
+        </param>
+        <param>
+          <type>LPC08_BatchClassifyEmptyInputReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_lora_pattern_classifier.cpp" line="128" column="1" bodyfile="tests/analytics/test_lora_pattern_classifier.cpp" bodystart="128" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__pattern__classifier_8cpp_1a01616df7f5132fd8d5f6c62c1ea37055" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRAPatternClassifierTest, LPC09_SelectAdapterReturnsEmptyWhenNoDomains)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRAPatternClassifierTest</type>
+        </param>
+        <param>
+          <type>LPC09_SelectAdapterReturnsEmptyWhenNoDomains</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_lora_pattern_classifier.cpp" line="138" column="1" bodyfile="tests/analytics/test_lora_pattern_classifier.cpp" bodystart="138" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__pattern__classifier_8cpp_1af4993d4a241108bed205a45ada458ef2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRAPatternClassifierTest, LPC10_SelectAdapterReturnsFirstWhenNoEmbeddingFn)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRAPatternClassifierTest</type>
+        </param>
+        <param>
+          <type>LPC10_SelectAdapterReturnsFirstWhenNoEmbeddingFn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_lora_pattern_classifier.cpp" line="143" column="1" bodyfile="tests/analytics/test_lora_pattern_classifier.cpp" bodystart="143" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__pattern__classifier_8cpp_1a3f45ee1c9925af18971af4ff524cdeeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRAPatternClassifierTest, LPC11_SelectAdapterPicksHighestCosineSimilarity)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRAPatternClassifierTest</type>
+        </param>
+        <param>
+          <type>LPC11_SelectAdapterPicksHighestCosineSimilarity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_lora_pattern_classifier.cpp" line="150" column="1" bodyfile="tests/analytics/test_lora_pattern_classifier.cpp" bodystart="150" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__pattern__classifier_8cpp_1a3050a6967cad4a906e961c038c1f9bb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRAPatternClassifierTest, LPC12_HasInferenceFnReturnsFalseBeforeInjection)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRAPatternClassifierTest</type>
+        </param>
+        <param>
+          <type>LPC12_HasInferenceFnReturnsFalseBeforeInjection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_lora_pattern_classifier.cpp" line="170" column="1" bodyfile="tests/analytics/test_lora_pattern_classifier.cpp" bodystart="170" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__pattern__classifier_8cpp_1aebdf620c2f81687d887210d187b4447d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRAPatternClassifierTest, LPC13_HasInferenceFnReturnsTrueAfterInjection)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRAPatternClassifierTest</type>
+        </param>
+        <param>
+          <type>LPC13_HasInferenceFnReturnsTrueAfterInjection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_lora_pattern_classifier.cpp" line="175" column="1" bodyfile="tests/analytics/test_lora_pattern_classifier.cpp" bodystart="175" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__pattern__classifier_8cpp_1aaa12758ecf8ead89711b108e00a454a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRAPatternClassifierTest, LPC14_RegisteredAdapterCountMatchesDomains)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRAPatternClassifierTest</type>
+        </param>
+        <param>
+          <type>LPC14_RegisteredAdapterCountMatchesDomains</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_lora_pattern_classifier.cpp" line="183" column="1" bodyfile="tests/analytics/test_lora_pattern_classifier.cpp" bodystart="183" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__pattern__classifier_8cpp_1a2057cc26b66a6221583cc8b434326939" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRAPatternClassifierTest, LPC15_ConcurrentBatchClassifyFrom4ThreadsIsSafe)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRAPatternClassifierTest</type>
+        </param>
+        <param>
+          <type>LPC15_ConcurrentBatchClassifyFrom4ThreadsIsSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_lora_pattern_classifier.cpp" line="196" column="1" bodyfile="tests/analytics/test_lora_pattern_classifier.cpp" bodystart="196" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="test__lora__pattern__classifier_8cpp_1a694f342033a7d27620a7052544c80bcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LoRAPatternClassifierTest, LPC16_FallbackConfidenceAdaptsToEventSignal)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LoRAPatternClassifierTest</type>
+        </param>
+        <param>
+          <type>LPC16_FallbackConfidenceAdaptsToEventSignal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_lora_pattern_classifier.cpp" line="226" column="1" bodyfile="tests/analytics/test_lora_pattern_classifier.cpp" bodystart="226" bodyend="261"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Tests:<sp/>LoRAPatternClassifier<sp/>(LPC-01..LPC-15)</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>Copyright<sp/>(c)<sp/>2025<sp/>VCC-URN<sp/>Project<sp/>—<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__pattern__classifier_8h" kindref="compound">analytics/lora_pattern_classifier.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics" kindref="compound">themisdb::analytics</ref>;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref><sp/>makeEvent(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value<sp/>=<sp/>1.0)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref><sp/>dp;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>dp.<ref refid="structthemisdb_1_1analytics_1_1_data_point_1a4c367048e348b446bd76a8743c1d910d" kindref="member">id</ref><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>dp.<ref refid="structthemisdb_1_1analytics_1_1_data_point_1a718bf92345f090db2c7bdf52805abdfe" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>dp.<ref refid="structthemisdb_1_1analytics_1_1_data_point_1a425a177c9ca79a0101733ce8ea79b243" kindref="member">set</ref>(</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">,<sp/>value);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dp;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_adapter_domain" kindref="compound">AdapterDomain</ref><sp/>makeDomain(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>domain,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>emb)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_adapter_domain" kindref="compound">AdapterDomain</ref>{adapter_id,<sp/>domain,<sp/>std::move(emb)};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LPC-01..LPC-05:<sp/>Single-event<sp/>classification<sp/>+<sp/>registration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__lora__pattern__classifier_8cpp_1a7267fdb1b2f8fbd2e1049bfcbc1124af" kindref="member">TEST</ref>(LoRAPatternClassifierTest,<sp/>LPC01_RegistersAdapterDomain)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier" kindref="compound">LoRAPatternClassifier</ref><sp/>clf;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7eedccea29705ed09066e5c5f8d7fa98" kindref="member">registerAdapterDomain</ref>(makeDomain(</highlight><highlight class="stringliteral">&quot;ada1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fraud&quot;</highlight><highlight class="normal">,<sp/>{1.0,<sp/>0.0}));</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a1fe5c33f2bc5864b96b7f44b3904e9dc" kindref="member">registeredAdapterCount</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="test__lora__pattern__classifier_8cpp_1a7267fdb1b2f8fbd2e1049bfcbc1124af" kindref="member">TEST</ref>(LoRAPatternClassifierTest,<sp/>LPC02_FallbackWhenNoInferenceFn)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier" kindref="compound">LoRAPatternClassifier</ref><sp/>clf;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7eedccea29705ed09066e5c5f8d7fa98" kindref="member">registerAdapterDomain</ref>(makeDomain(</highlight><highlight class="stringliteral">&quot;ada1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fraud&quot;</highlight><highlight class="normal">,<sp/>{1.0,<sp/>0.0}));</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ae23e668fc09afd1579143f83db659758" kindref="member">classify</ref>({makeEvent(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">)},<sp/></highlight><highlight class="stringliteral">&quot;ada1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.used_fallback);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.adapter_id,<sp/></highlight><highlight class="stringliteral">&quot;ada1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.label,<sp/></highlight><highlight class="stringliteral">&quot;fraud&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.confidence,<sp/>0.0);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.confidence,<sp/>1.0);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="test__lora__pattern__classifier_8cpp_1a7267fdb1b2f8fbd2e1049bfcbc1124af" kindref="member">TEST</ref>(LoRAPatternClassifierTest,<sp/>LPC03_UsesInjectedInferenceFn)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier" kindref="compound">LoRAPatternClassifier</ref><sp/>clf;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7eedccea29705ed09066e5c5f8d7fa98" kindref="member">registerAdapterDomain</ref>(makeDomain(</highlight><highlight class="stringliteral">&quot;ada1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fraud&quot;</highlight><highlight class="normal">,<sp/>{1.0,<sp/>0.0}));</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1acfb294a538b4c35cb56707d8e5977603" kindref="member">setInferenceFn</ref>([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*adapter_id*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*prompt*/</highlight><highlight class="normal">)<sp/>-&gt;<sp/>std::string<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;label&quot;:&quot;fraud_sequence&quot;,&quot;confidence&quot;:0.92})&quot;;</highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ae23e668fc09afd1579143f83db659758" kindref="member">classify</ref>({makeEvent(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">)},<sp/></highlight><highlight class="stringliteral">&quot;ada1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.used_fallback);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="test__lora__pattern__classifier_8cpp_1a7267fdb1b2f8fbd2e1049bfcbc1124af" kindref="member">TEST</ref>(LoRAPatternClassifierTest,<sp/>LPC04_ParsesLabelAndConfidenceFromJson)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier" kindref="compound">LoRAPatternClassifier</ref><sp/>clf;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7eedccea29705ed09066e5c5f8d7fa98" kindref="member">registerAdapterDomain</ref>(makeDomain(</highlight><highlight class="stringliteral">&quot;ada1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fraud&quot;</highlight><highlight class="normal">,<sp/>{1.0,<sp/>0.0}));</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1acfb294a538b4c35cb56707d8e5977603" kindref="member">setInferenceFn</ref>([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>-&gt;<sp/>std::string<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;label&quot;:&quot;fraud_sequence&quot;,&quot;confidence&quot;:0.92})&quot;;</highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="75"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ae23e668fc09afd1579143f83db659758" kindref="member">classify</ref>({makeEvent(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">)},<sp/></highlight><highlight class="stringliteral">&quot;ada1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.label,<sp/></highlight><highlight class="stringliteral">&quot;fraud_sequence&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(result.confidence,<sp/>0.92,<sp/>0.01);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.adapter_id,<sp/></highlight><highlight class="stringliteral">&quot;ada1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__lora__pattern__classifier_8cpp_1a7267fdb1b2f8fbd2e1049bfcbc1124af" kindref="member">TEST</ref>(LoRAPatternClassifierTest,<sp/>LPC05_ClassifyWithEmptyAdapterIdSelectsBest)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier" kindref="compound">LoRAPatternClassifier</ref><sp/>clf;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7eedccea29705ed09066e5c5f8d7fa98" kindref="member">registerAdapterDomain</ref>(makeDomain(</highlight><highlight class="stringliteral">&quot;ada1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fraud&quot;</highlight><highlight class="normal">,<sp/>{1.0,<sp/>0.0}));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1acfb294a538b4c35cb56707d8e5977603" kindref="member">setInferenceFn</ref>([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*adapter_id*/</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;label&quot;:&quot;ok&quot;,&quot;confidence&quot;:0.8})&quot;;</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>adapter_id<sp/>→<sp/>selectAdapter()<sp/>is<sp/>called.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ae23e668fc09afd1579143f83db659758" kindref="member">classify</ref>({makeEvent(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">)},<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.adapter_id.empty());</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LPC-06..LPC-08:<sp/>batchClassify</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__lora__pattern__classifier_8cpp_1a7267fdb1b2f8fbd2e1049bfcbc1124af" kindref="member">TEST</ref>(LoRAPatternClassifierTest,<sp/>LPC06_BatchClassifyReturnsOneResultPerEvent)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier" kindref="compound">LoRAPatternClassifier</ref><sp/>clf;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7eedccea29705ed09066e5c5f8d7fa98" kindref="member">registerAdapterDomain</ref>(makeDomain(</highlight><highlight class="stringliteral">&quot;ada1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fraud&quot;</highlight><highlight class="normal">,<sp/>{1.0,<sp/>0.0}));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1acfb294a538b4c35cb56707d8e5977603" kindref="member">setInferenceFn</ref>([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;label&quot;:&quot;fraud&quot;,&quot;confidence&quot;:0.9})&quot;;</highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="102"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DataPoint&gt;<sp/>events<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEvent(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">),<sp/>makeEvent(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">),<sp/>makeEvent(</highlight><highlight class="stringliteral">&quot;e3&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a8a27f160e931ce603f323c22691b9549" kindref="member">batchClassify</ref>(events);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__lora__pattern__classifier_8cpp_1a7267fdb1b2f8fbd2e1049bfcbc1124af" kindref="member">TEST</ref>(LoRAPatternClassifierTest,<sp/>LPC07_BatchClassifyPreservesOrder)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier" kindref="compound">LoRAPatternClassifier</ref><sp/>clf;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7eedccea29705ed09066e5c5f8d7fa98" kindref="member">registerAdapterDomain</ref>(makeDomain(</highlight><highlight class="stringliteral">&quot;ada1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>{1.0,<sp/>0.0}));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>call_index<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1acfb294a538b4c35cb56707d8e5977603" kindref="member">setInferenceFn</ref>([&amp;call_index](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>idx<sp/>=<sp/>call_index++;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;label&quot;:&quot;label)&quot;<sp/>+<sp/>std::to_string(idx)<sp/>+<sp/>R</highlight><highlight class="stringliteral">&quot;(&quot;,&quot;confidence&quot;:0.5})&quot;;</highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DataPoint&gt;<sp/>events<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEvent(</highlight><highlight class="stringliteral">&quot;e0&quot;</highlight><highlight class="normal">),<sp/>makeEvent(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">),<sp/>makeEvent(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEvent(</highlight><highlight class="stringliteral">&quot;e3&quot;</highlight><highlight class="normal">),<sp/>makeEvent(</highlight><highlight class="stringliteral">&quot;e4&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a8a27f160e931ce603f323c22691b9549" kindref="member">batchClassify</ref>(events);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>5u);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>result<sp/>must<sp/>have<sp/>a<sp/>non-empty<sp/>label.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>results)</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.label.empty());</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><ref refid="test__lora__pattern__classifier_8cpp_1a7267fdb1b2f8fbd2e1049bfcbc1124af" kindref="member">TEST</ref>(LoRAPatternClassifierTest,<sp/>LPC08_BatchClassifyEmptyInputReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier" kindref="compound">LoRAPatternClassifier</ref><sp/>clf;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a8a27f160e931ce603f323c22691b9549" kindref="member">batchClassify</ref>({});</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results.empty());</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LPC-09..LPC-11:<sp/>selectAdapter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><ref refid="test__lora__pattern__classifier_8cpp_1a7267fdb1b2f8fbd2e1049bfcbc1124af" kindref="member">TEST</ref>(LoRAPatternClassifierTest,<sp/>LPC09_SelectAdapterReturnsEmptyWhenNoDomains)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier" kindref="compound">LoRAPatternClassifier</ref><sp/>clf;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1aed5621b5dd81d5130e6056f59085708a" kindref="member">selectAdapter</ref>(</highlight><highlight class="stringliteral">&quot;some<sp/>context&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="test__lora__pattern__classifier_8cpp_1a7267fdb1b2f8fbd2e1049bfcbc1124af" kindref="member">TEST</ref>(LoRAPatternClassifierTest,<sp/>LPC10_SelectAdapterReturnsFirstWhenNoEmbeddingFn)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier" kindref="compound">LoRAPatternClassifier</ref><sp/>clf;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7eedccea29705ed09066e5c5f8d7fa98" kindref="member">registerAdapterDomain</ref>(makeDomain(</highlight><highlight class="stringliteral">&quot;first&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;domain1&quot;</highlight><highlight class="normal">,<sp/>{1.0,<sp/>0.0}));</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7eedccea29705ed09066e5c5f8d7fa98" kindref="member">registerAdapterDomain</ref>(makeDomain(</highlight><highlight class="stringliteral">&quot;second&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;domain2&quot;</highlight><highlight class="normal">,<sp/>{0.0,<sp/>1.0}));</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1aed5621b5dd81d5130e6056f59085708a" kindref="member">selectAdapter</ref>(</highlight><highlight class="stringliteral">&quot;context&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;first&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="test__lora__pattern__classifier_8cpp_1a7267fdb1b2f8fbd2e1049bfcbc1124af" kindref="member">TEST</ref>(LoRAPatternClassifierTest,<sp/>LPC11_SelectAdapterPicksHighestCosineSimilarity)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier" kindref="compound">LoRAPatternClassifier</ref><sp/>clf;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Three<sp/>adapters<sp/>with<sp/>orthogonal<sp/>embeddings.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7eedccea29705ed09066e5c5f8d7fa98" kindref="member">registerAdapterDomain</ref>(makeDomain(</highlight><highlight class="stringliteral">&quot;fraud_adapter&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;fraud&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/>{1.0,<sp/>0.0,<sp/>0.0}));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7eedccea29705ed09066e5c5f8d7fa98" kindref="member">registerAdapterDomain</ref>(makeDomain(</highlight><highlight class="stringliteral">&quot;anomaly_adapter&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;anomaly&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>{0.0,<sp/>1.0,<sp/>0.0}));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7eedccea29705ed09066e5c5f8d7fa98" kindref="member">registerAdapterDomain</ref>(makeDomain(</highlight><highlight class="stringliteral">&quot;compliance_adapter&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;compliance&quot;</highlight><highlight class="normal">,{0.0,<sp/>0.0,<sp/>1.0}));</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inject<sp/>embedding<sp/>fn<sp/>that<sp/>returns<sp/>the<sp/>embedding<sp/>for<sp/>the<sp/>&quot;anomaly&quot;<sp/>domain.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a8ec71bb3b79abf80ec1d15009b686b20" kindref="member">setEmbeddingFn</ref>([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>-&gt;<sp/>std::vector&lt;double&gt;<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{0.0,<sp/>1.0,<sp/>0.0};<sp/><sp/></highlight><highlight class="comment">//<sp/>closest<sp/>to<sp/>anomaly_adapter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1aed5621b5dd81d5130e6056f59085708a" kindref="member">selectAdapter</ref>(</highlight><highlight class="stringliteral">&quot;any<sp/>context&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;anomaly_adapter&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LPC-12..LPC-14:<sp/>State<sp/>queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__lora__pattern__classifier_8cpp_1a7267fdb1b2f8fbd2e1049bfcbc1124af" kindref="member">TEST</ref>(LoRAPatternClassifierTest,<sp/>LPC12_HasInferenceFnReturnsFalseBeforeInjection)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier" kindref="compound">LoRAPatternClassifier</ref><sp/>clf;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a36ef4fec9f3743590b2b4ab200b660d3" kindref="member">hasInferenceFn</ref>());</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="test__lora__pattern__classifier_8cpp_1a7267fdb1b2f8fbd2e1049bfcbc1124af" kindref="member">TEST</ref>(LoRAPatternClassifierTest,<sp/>LPC13_HasInferenceFnReturnsTrueAfterInjection)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier" kindref="compound">LoRAPatternClassifier</ref><sp/>clf;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1acfb294a538b4c35cb56707d8e5977603" kindref="member">setInferenceFn</ref>([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;label&quot;:&quot;ok&quot;,&quot;confidence&quot;:0.8})&quot;;</highlight></codeline>
+<codeline lineno="179"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="180"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_TRUE(clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a36ef4fec9f3743590b2b4ab200b660d3" kindref="member">hasInferenceFn</ref>());</highlight></codeline>
+<codeline lineno="181"><highlight class="stringliteral">}</highlight></codeline>
+<codeline lineno="182"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="183"><highlight class="stringliteral"><ref refid="test__lora__pattern__classifier_8cpp_1a7267fdb1b2f8fbd2e1049bfcbc1124af" kindref="member">TEST</ref>(LoRAPatternClassifierTest,<sp/>LPC14_RegisteredAdapterCountMatchesDomains)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier" kindref="compound">LoRAPatternClassifier</ref><sp/>clf;</highlight></codeline>
+<codeline lineno="185"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>EXPECT_EQ(clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a1fe5c33f2bc5864b96b7f44b3904e9dc" kindref="member">registeredAdapterCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="186"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7eedccea29705ed09066e5c5f8d7fa98" kindref="member">registerAdapterDomain</ref>(makeDomain(</highlight><highlight class="stringliteral">&quot;a1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d1&quot;</highlight><highlight class="normal">,<sp/>{1.0}));</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a1fe5c33f2bc5864b96b7f44b3904e9dc" kindref="member">registeredAdapterCount</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7eedccea29705ed09066e5c5f8d7fa98" kindref="member">registerAdapterDomain</ref>(makeDomain(</highlight><highlight class="stringliteral">&quot;a2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d2&quot;</highlight><highlight class="normal">,<sp/>{0.0}));</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a1fe5c33f2bc5864b96b7f44b3904e9dc" kindref="member">registeredAdapterCount</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LPC-15:<sp/>Concurrency<sp/>safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><ref refid="test__lora__pattern__classifier_8cpp_1a7267fdb1b2f8fbd2e1049bfcbc1124af" kindref="member">TEST</ref>(LoRAPatternClassifierTest,<sp/>LPC15_ConcurrentBatchClassifyFrom4ThreadsIsSafe)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier" kindref="compound">LoRAPatternClassifier</ref><sp/>clf;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7eedccea29705ed09066e5c5f8d7fa98" kindref="member">registerAdapterDomain</ref>(makeDomain(</highlight><highlight class="stringliteral">&quot;ada1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fraud&quot;</highlight><highlight class="normal">,<sp/>{1.0,<sp/>0.0}));</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>call_count{0};</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1acfb294a538b4c35cb56707d8e5977603" kindref="member">setInferenceFn</ref>([&amp;call_count](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++call_count;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;label&quot;:&quot;fraud&quot;,&quot;confidence&quot;:0.9})&quot;;</highlight></codeline>
+<codeline lineno="203"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="204"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="205"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DataPoint&gt;<sp/>events<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEvent(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">),<sp/>makeEvent(</highlight><highlight class="stringliteral">&quot;e2&quot;</highlight><highlight class="normal">),<sp/>makeEvent(</highlight><highlight class="stringliteral">&quot;e3&quot;</highlight><highlight class="normal">),<sp/>makeEvent(</highlight><highlight class="stringliteral">&quot;e4&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeEvent(</highlight><highlight class="stringliteral">&quot;e5&quot;</highlight><highlight class="normal">),<sp/>makeEvent(</highlight><highlight class="stringliteral">&quot;e6&quot;</highlight><highlight class="normal">),<sp/>makeEvent(</highlight><highlight class="stringliteral">&quot;e7&quot;</highlight><highlight class="normal">),<sp/>makeEvent(</highlight><highlight class="stringliteral">&quot;e8&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(kThreads);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;clf,<sp/>&amp;events]()<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a8a27f160e931ce603f323c22691b9549" kindref="member">batchClassify</ref>(events);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>events.size());</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>crashes<sp/>and<sp/>all<sp/>calls<sp/>accounted<sp/>for.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(call_count.load(),<sp/>1);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="test__lora__pattern__classifier_8cpp_1a7267fdb1b2f8fbd2e1049bfcbc1124af" kindref="member">TEST</ref>(LoRAPatternClassifierTest,<sp/>LPC16_FallbackConfidenceAdaptsToEventSignal)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier" kindref="compound">LoRAPatternClassifier</ref><sp/>clf;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7eedccea29705ed09066e5c5f8d7fa98" kindref="member">registerAdapterDomain</ref>(makeDomain(</highlight><highlight class="stringliteral">&quot;ada1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;anomaly&quot;</highlight><highlight class="normal">,<sp/>{1.0,<sp/>0.0}));</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref><sp/>low_signal;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>low_signal.<ref refid="structthemisdb_1_1analytics_1_1_data_point_1a4c367048e348b446bd76a8743c1d910d" kindref="member">id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;low&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>low_signal.<ref refid="structthemisdb_1_1analytics_1_1_data_point_1a718bf92345f090db2c7bdf52805abdfe" kindref="member">timestamp_ms</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>low_signal.<ref refid="structthemisdb_1_1analytics_1_1_data_point_1a425a177c9ca79a0101733ce8ea79b243" kindref="member">set</ref>(</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref><sp/>high_signal_1;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>high_signal_1.<ref refid="structthemisdb_1_1analytics_1_1_data_point_1a4c367048e348b446bd76a8743c1d910d" kindref="member">id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;high_1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>high_signal_1.<ref refid="structthemisdb_1_1analytics_1_1_data_point_1a718bf92345f090db2c7bdf52805abdfe" kindref="member">timestamp_ms</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>high_signal_1.<ref refid="structthemisdb_1_1analytics_1_1_data_point_1a425a177c9ca79a0101733ce8ea79b243" kindref="member">set</ref>(</highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">,<sp/>10.0);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>high_signal_1.<ref refid="structthemisdb_1_1analytics_1_1_data_point_1a425a177c9ca79a0101733ce8ea79b243" kindref="member">set</ref>(</highlight><highlight class="stringliteral">&quot;count&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(5));</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>high_signal_1.<ref refid="structthemisdb_1_1analytics_1_1_data_point_1a425a177c9ca79a0101733ce8ea79b243" kindref="member">set</ref>(</highlight><highlight class="stringliteral">&quot;flag&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref><sp/>high_signal_2;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>high_signal_2.<ref refid="structthemisdb_1_1analytics_1_1_data_point_1a4c367048e348b446bd76a8743c1d910d" kindref="member">id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;high_2&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>high_signal_2.<ref refid="structthemisdb_1_1analytics_1_1_data_point_1a718bf92345f090db2c7bdf52805abdfe" kindref="member">timestamp_ms</ref><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>high_signal_2.<ref refid="structthemisdb_1_1analytics_1_1_data_point_1a425a177c9ca79a0101733ce8ea79b243" kindref="member">set</ref>(</highlight><highlight class="stringliteral">&quot;amount&quot;</highlight><highlight class="normal">,<sp/>120.0);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>high_signal_2.<ref refid="structthemisdb_1_1analytics_1_1_data_point_1a425a177c9ca79a0101733ce8ea79b243" kindref="member">set</ref>(</highlight><highlight class="stringliteral">&quot;count&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(50));</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>high_signal_2.<ref refid="structthemisdb_1_1analytics_1_1_data_point_1a425a177c9ca79a0101733ce8ea79b243" kindref="member">set</ref>(</highlight><highlight class="stringliteral">&quot;flag&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>low<sp/>=<sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ae23e668fc09afd1579143f83db659758" kindref="member">classify</ref>({low_signal},<sp/></highlight><highlight class="stringliteral">&quot;ada1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>high<sp/>=<sp/>clf.<ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ae23e668fc09afd1579143f83db659758" kindref="member">classify</ref>({high_signal_1,<sp/>high_signal_2},<sp/></highlight><highlight class="stringliteral">&quot;ada1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(low.used_fallback);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(high.used_fallback);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(low.label,<sp/></highlight><highlight class="stringliteral">&quot;anomaly&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(high.label,<sp/></highlight><highlight class="stringliteral">&quot;anomaly&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(low.confidence,<sp/>0.0);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(low.confidence,<sp/>1.0);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(high.confidence,<sp/>0.0);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(high.confidence,<sp/>1.0);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(high.confidence,<sp/>low.confidence);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/analytics/test_lora_pattern_classifier.cpp"/>
+  </compounddef>
+</doxygen>

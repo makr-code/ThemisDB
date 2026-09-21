@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_simulation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::SimulationResult</compoundname>
+    <includes refid="policy__engine_8h" local="no">policy_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_simulation_result_1a8bdc8d67a6078815584bb82754080f4c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1governance_1_1_policy_decision" kindref="compound">PolicyDecision</ref></type>
+        <definition>PolicyDecision themis::governance::SimulationResult::decision</definition>
+        <argsstring></argsstring>
+        <name>decision</name>
+        <qualifiedname>themis::governance::SimulationResult::decision</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="87" column="20" bodyfile="include/governance/policy_engine.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_simulation_result_1ae0eebc9c980d3e14692dfac373948eeb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::SimulationResult::matched_profile</definition>
+        <argsstring></argsstring>
+        <name>matched_profile</name>
+        <qualifiedname>themis::governance::SimulationResult::matched_profile</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="88" column="17" bodyfile="include/governance/policy_engine.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_simulation_result_1a7253354365b2b3537a918e9fd12021d6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::SimulationResult::matched_resource</definition>
+        <argsstring></argsstring>
+        <name>matched_resource</name>
+        <qualifiedname>themis::governance::SimulationResult::matched_resource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="89" column="17" bodyfile="include/governance/policy_engine.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_simulation_result_1a81b36efcd0a158395d4067fa3371c8f4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::SimulationResult::dry_run</definition>
+        <argsstring></argsstring>
+        <name>dry_run</name>
+        <qualifiedname>themis::governance::SimulationResult::dry_run</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/policy_engine.h" line="90" column="10" bodyfile="include/governance/policy_engine.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::governance::PolicyDecision</label>
+        <link refid="structthemis_1_1governance_1_1_policy_decision"/>
+      </node>
+      <node id="1">
+        <label>themis::governance::SimulationResult</label>
+        <link refid="structthemis_1_1governance_1_1_simulation_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>decision</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/governance/policy_engine.h" line="86" column="1" bodyfile="include/governance/policy_engine.h" bodystart="86" bodyend="91"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_simulation_result_1a8bdc8d67a6078815584bb82754080f4c" prot="public" virt="non-virtual"><scope>themis::governance::SimulationResult</scope><name>decision</name></member>
+      <member refid="structthemis_1_1governance_1_1_simulation_result_1a81b36efcd0a158395d4067fa3371c8f4" prot="public" virt="non-virtual"><scope>themis::governance::SimulationResult</scope><name>dry_run</name></member>
+      <member refid="structthemis_1_1governance_1_1_simulation_result_1ae0eebc9c980d3e14692dfac373948eeb" prot="public" virt="non-virtual"><scope>themis::governance::SimulationResult</scope><name>matched_profile</name></member>
+      <member refid="structthemis_1_1governance_1_1_simulation_result_1a7253354365b2b3537a918e9fd12021d6" prot="public" virt="non-virtual"><scope>themis::governance::SimulationResult</scope><name>matched_resource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

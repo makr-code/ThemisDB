@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_publication_filter" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::PublicationFilter</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_publication_filter_1a13325acfc4e7b4348cf749cadc2e3c16" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::replication::PublicationFilter::include_collections</definition>
+        <argsstring></argsstring>
+        <name>include_collections</name>
+        <qualifiedname>themisdb::replication::PublicationFilter::include_collections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1634" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1634" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_publication_filter_1a50bb4cf1191673db3eeabc943b564317" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::replication::PublicationFilter::include_operations</definition>
+        <argsstring></argsstring>
+        <name>include_operations</name>
+        <qualifiedname>themisdb::replication::PublicationFilter::include_operations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1635" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1635" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1replication_1_1_publication_filter_1a22524f4138dd34b943efc5a3cc0c0a43" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::PublicationFilter::matches</definition>
+        <argsstring>(const WALEntry &amp;entry) const</argsstring>
+        <name>matches</name>
+        <qualifiedname>themisdb::replication::PublicationFilter::matches</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1638" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="6420" bodyend="6440"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="structthemisdb_1_1replication_1_1_publication_filter" kindref="compound">PublicationFilter</ref></para>
+<para>Specifies which WAL entries are forwarded to remote cluster subscribers. An empty filter (default) matches every entry. </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="1633" column="1" bodyfile="include/replication/replication_manager.h" bodystart="1633" bodyend="1639"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_publication_filter_1a13325acfc4e7b4348cf749cadc2e3c16" prot="public" virt="non-virtual"><scope>themisdb::replication::PublicationFilter</scope><name>include_collections</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_publication_filter_1a50bb4cf1191673db3eeabc943b564317" prot="public" virt="non-virtual"><scope>themisdb::replication::PublicationFilter</scope><name>include_operations</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_publication_filter_1a22524f4138dd34b943efc5a3cc0c0a43" prot="public" virt="non-virtual"><scope>themisdb::replication::PublicationFilter</scope><name>matches</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

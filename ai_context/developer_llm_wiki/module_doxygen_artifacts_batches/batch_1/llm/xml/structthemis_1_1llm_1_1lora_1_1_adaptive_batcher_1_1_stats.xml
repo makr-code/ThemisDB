@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::AdaptiveBatcher::Stats</compoundname>
+    <includes refid="adaptive__batcher_8h" local="no">adaptive_batcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats_1ac779647b0620882e76213505b862d3b3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::AdaptiveBatcher::Stats::current_batch_size</definition>
+        <argsstring></argsstring>
+        <name>current_batch_size</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::Stats::current_batch_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="68" column="16" bodyfile="include/llm/lora_framework/adaptive_batcher.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats_1abc05566002fdbe3785b3cad69211f2b6" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::AdaptiveBatcher::Stats::vram_utilization_pct</definition>
+        <argsstring></argsstring>
+        <name>vram_utilization_pct</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::Stats::vram_utilization_pct</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="69" column="15" bodyfile="include/llm/lora_framework/adaptive_batcher.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats_1a7d64f5b87636aae5ff376efaffe921d3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::AdaptiveBatcher::Stats::oom_events</definition>
+        <argsstring></argsstring>
+        <name>oom_events</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::Stats::oom_events</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="70" column="13" bodyfile="include/llm/lora_framework/adaptive_batcher.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats_1a1c9c4d3a71b29df04fb2d13b6ca6dca4" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::AdaptiveBatcher::Stats::avg_gpu_utilization</definition>
+        <argsstring></argsstring>
+        <name>avg_gpu_utilization</name>
+        <qualifiedname>themis::llm::lora::AdaptiveBatcher::Stats::avg_gpu_utilization</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/adaptive_batcher.h" line="71" column="15" bodyfile="include/llm/lora_framework/adaptive_batcher.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/adaptive_batcher.h" line="67" column="5" bodyfile="include/llm/lora_framework/adaptive_batcher.h" bodystart="67" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats_1a1c9c4d3a71b29df04fb2d13b6ca6dca4" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher::Stats</scope><name>avg_gpu_utilization</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats_1ac779647b0620882e76213505b862d3b3" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher::Stats</scope><name>current_batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats_1a7d64f5b87636aae5ff376efaffe921d3" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher::Stats</scope><name>oom_events</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats_1abc05566002fdbe3785b3cad69211f2b6" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdaptiveBatcher::Stats</scope><name>vram_utilization_pct</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_epoch_fencing_manager_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::EpochFencingManager::Metrics</compoundname>
+    <includes refid="epoch__fencing_8h" local="no">epoch_fencing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_epoch_fencing_manager_1_1_metrics_1a7f2b544b9cf435349bd89963f5e3ea2a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::EpochFencingManager::Metrics::epoch_bumps</definition>
+        <argsstring></argsstring>
+        <name>epoch_bumps</name>
+        <qualifiedname>themis::sharding::EpochFencingManager::Metrics::epoch_bumps</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="339" column="18" bodyfile="include/sharding/epoch_fencing.h" bodystart="339" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_epoch_fencing_manager_1_1_metrics_1a0f894db0ec6d58db62bdcc479549aef0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::EpochFencingManager::Metrics::allowed_writes</definition>
+        <argsstring></argsstring>
+        <name>allowed_writes</name>
+        <qualifiedname>themis::sharding::EpochFencingManager::Metrics::allowed_writes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="340" column="18" bodyfile="include/sharding/epoch_fencing.h" bodystart="340" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_epoch_fencing_manager_1_1_metrics_1a359df02079db70d8abe3d19c466d54f5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::EpochFencingManager::Metrics::stale_rejections</definition>
+        <argsstring></argsstring>
+        <name>stale_rejections</name>
+        <qualifiedname>themis::sharding::EpochFencingManager::Metrics::stale_rejections</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="341" column="18" bodyfile="include/sharding/epoch_fencing.h" bodystart="341" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_epoch_fencing_manager_1_1_metrics_1a0996f68ade387d2e52b301d95de64578" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::EpochFencingManager::Metrics::stonith_issued</definition>
+        <argsstring></argsstring>
+        <name>stonith_issued</name>
+        <qualifiedname>themis::sharding::EpochFencingManager::Metrics::stonith_issued</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="342" column="18" bodyfile="include/sharding/epoch_fencing.h" bodystart="342" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_epoch_fencing_manager_1_1_metrics_1aff9196f552b64da86fa68450c9e0d75e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::EpochFencingManager::Metrics::stonith_failed</definition>
+        <argsstring></argsstring>
+        <name>stonith_failed</name>
+        <qualifiedname>themis::sharding::EpochFencingManager::Metrics::stonith_failed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="343" column="18" bodyfile="include/sharding/epoch_fencing.h" bodystart="343" bodyend="343"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/epoch_fencing.h" line="338" column="5" bodyfile="include/sharding/epoch_fencing.h" bodystart="338" bodyend="344"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_epoch_fencing_manager_1_1_metrics_1a0f894db0ec6d58db62bdcc479549aef0" prot="public" virt="non-virtual"><scope>themis::sharding::EpochFencingManager::Metrics</scope><name>allowed_writes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_epoch_fencing_manager_1_1_metrics_1a7f2b544b9cf435349bd89963f5e3ea2a" prot="public" virt="non-virtual"><scope>themis::sharding::EpochFencingManager::Metrics</scope><name>epoch_bumps</name></member>
+      <member refid="structthemis_1_1sharding_1_1_epoch_fencing_manager_1_1_metrics_1a359df02079db70d8abe3d19c466d54f5" prot="public" virt="non-virtual"><scope>themis::sharding::EpochFencingManager::Metrics</scope><name>stale_rejections</name></member>
+      <member refid="structthemis_1_1sharding_1_1_epoch_fencing_manager_1_1_metrics_1aff9196f552b64da86fa68450c9e0d75e" prot="public" virt="non-virtual"><scope>themis::sharding::EpochFencingManager::Metrics</scope><name>stonith_failed</name></member>
+      <member refid="structthemis_1_1sharding_1_1_epoch_fencing_manager_1_1_metrics_1a0996f68ade387d2e52b301d95de64578" prot="public" virt="non-virtual"><scope>themis::sharding::EpochFencingManager::Metrics</scope><name>stonith_issued</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

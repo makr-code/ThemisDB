@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::MultiGPULoRALayer::Stats</compoundname>
+    <includes refid="multi__gpu__lora__layer_8h" local="no">multi_gpu_lora_layer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1_1_stats_1a5ba0cf0eea4869a860b35c866005849c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::MultiGPULoRALayer::Stats::communication_time_ms</definition>
+        <argsstring></argsstring>
+        <name>communication_time_ms</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::Stats::communication_time_ms</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="102" column="15" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1_1_stats_1acf5910f795e92287271ee961b91f6b54" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::MultiGPULoRALayer::Stats::computation_time_ms</definition>
+        <argsstring></argsstring>
+        <name>computation_time_ms</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::Stats::computation_time_ms</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="103" column="15" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1_1_stats_1a22d279f67e3dde4f2d0b51a6fcbd5911" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::MultiGPULoRALayer::Stats::bytes_communicated</definition>
+        <argsstring></argsstring>
+        <name>bytes_communicated</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::Stats::bytes_communicated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="104" column="16" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1_1_stats_1a0db033866c0f2580b4d88a7daba54fca" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::MultiGPULoRALayer::Stats::num_syncs</definition>
+        <argsstring></argsstring>
+        <name>num_syncs</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::Stats::num_syncs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="105" column="13" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1_1_stats_1afeae65e84fb0c1a88f29840a704d0fd1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::MultiGPULoRALayer::Stats::efficiency</definition>
+        <argsstring>() const</argsstring>
+        <name>efficiency</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::Stats::efficiency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="107" column="15" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="107" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="101" column="5" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="101" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1_1_stats_1a22d279f67e3dde4f2d0b51a6fcbd5911" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer::Stats</scope><name>bytes_communicated</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1_1_stats_1a5ba0cf0eea4869a860b35c866005849c" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer::Stats</scope><name>communication_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1_1_stats_1acf5910f795e92287271ee961b91f6b54" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer::Stats</scope><name>computation_time_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1_1_stats_1afeae65e84fb0c1a88f29840a704d0fd1" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer::Stats</scope><name>efficiency</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1_1_stats_1a0db033866c0f2580b4d88a7daba54fca" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer::Stats</scope><name>num_syncs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

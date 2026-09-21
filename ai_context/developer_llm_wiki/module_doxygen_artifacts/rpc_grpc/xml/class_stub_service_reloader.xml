@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_service_reloader" kind="class" language="C++" prot="public">
+    <compoundname>StubServiceReloader</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_service_reloader_1a7427f5be5312e7a2ef9ab60f98c90ba0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubServiceReloader::reloads_</definition>
+        <argsstring></argsstring>
+        <name>reloads_</name>
+        <qualifiedname>StubServiceReloader::reloads_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" line="81" column="17" bodyfile="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" bodystart="81" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_service_reloader_1ade07c5c9c2ed936f83883f9bf5c61c51" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubServiceReloader::reload</definition>
+        <argsstring>(const std::string &amp;service_name) noexcept</argsstring>
+        <name>reload</name>
+        <qualifiedname>StubServiceReloader::reload</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>service_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" line="74" column="10" bodyfile="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" bodystart="74" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_service_reloader_1aed7eace9d90082ed3689ecf5d9e3cdba" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubServiceReloader::reloads</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>reloads</name>
+        <qualifiedname>StubServiceReloader::reloads</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" line="79" column="14" bodyfile="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" bodystart="79" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" line="72" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp" bodystart="72" bodyend="82"/>
+    <listofallmembers>
+      <member refid="class_stub_service_reloader_1ade07c5c9c2ed936f83883f9bf5c61c51" prot="public" virt="non-virtual"><scope>StubServiceReloader</scope><name>reload</name></member>
+      <member refid="class_stub_service_reloader_1aed7eace9d90082ed3689ecf5d9e3cdba" prot="public" virt="non-virtual"><scope>StubServiceReloader</scope><name>reloads</name></member>
+      <member refid="class_stub_service_reloader_1a7427f5be5312e7a2ef9ab60f98c90ba0" prot="private" virt="non-virtual"><scope>StubServiceReloader</scope><name>reloads_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

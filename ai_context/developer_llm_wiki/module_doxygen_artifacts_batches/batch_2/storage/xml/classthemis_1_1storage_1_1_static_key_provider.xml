@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_static_key_provider" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::storage::StaticKeyProvider</compoundname>
+    <basecompoundref refid="classthemis_1_1storage_1_1_i_encryption_key_provider" prot="public" virt="non-virtual">themis::storage::IEncryptionKeyProvider</basecompoundref>
+    <includes refid="encrypted__blob__backend_8h" local="no">encrypted_blob_backend.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_static_key_provider_1a70ca002ad852cd328f3a35a5c6b94011" prot="private" static="no" mutable="no">
+        <type>std::array&lt; uint8_t, 32 &gt;</type>
+        <definition>std::array&lt;uint8_t, 32&gt; themis::storage::StaticKeyProvider::key_</definition>
+        <argsstring></argsstring>
+        <name>key_</name>
+        <qualifiedname>themis::storage::StaticKeyProvider::key_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="80" column="16" bodyfile="include/storage/encrypted_blob_backend.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_static_key_provider_1a51909954207f4fa39ebe51ed2cd8af74" prot="public" static="no" const="no" explicit="yes" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::StaticKeyProvider::StaticKeyProvider</definition>
+        <argsstring>(std::array&lt; uint8_t, 32 &gt; key) noexcept</argsstring>
+        <name>StaticKeyProvider</name>
+        <qualifiedname>themis::storage::StaticKeyProvider::StaticKeyProvider</qualifiedname>
+        <param>
+          <type>std::array&lt; uint8_t, 32 &gt;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Construct with a fixed 32-byte key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>256-bit key material. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="73" column="14" bodyfile="src/storage/encrypted_blob_backend.cpp" bodystart="40" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_static_key_provider_1afd4c895d1be6f5acad162a4eba53c2bc" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::array&lt; uint8_t, 32 &gt;</type>
+        <definition>std::array&lt; uint8_t, 32 &gt; themis::storage::StaticKeyProvider::currentKey</definition>
+        <argsstring>() const override</argsstring>
+        <name>currentKey</name>
+        <qualifiedname>themis::storage::StaticKeyProvider::currentKey</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_encryption_key_provider_1a7d8f80b503660d0e9c05b7780ade2946">currentKey</reimplements>
+        <briefdescription>
+<para>Return the current 256-bit (32-byte) encryption key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The returned array must remain valid for the duration of the encryption/decryption call. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="75" column="17" bodyfile="src/storage/encrypted_blob_backend.cpp" bodystart="44" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_static_key_provider_1af5b762c219fa8d2d2ec649351cafe021" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::StaticKeyProvider::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::storage::StaticKeyProvider::name</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_encryption_key_provider_1adf0533670b032969c7796a2ef5a3502c">name</reimplements>
+        <briefdescription>
+<para>Human-readable key provider name (e.g., &quot;static&quot;, &quot;kms&quot;, &quot;hsm&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/encrypted_blob_backend.h" line="77" column="18" bodyfile="include/storage/encrypted_blob_backend.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simple key provider backed by a fixed 256-bit key. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Suitable for unit tests and single-node deployments. For production use provide a custom <computeroutput><ref refid="classthemis_1_1storage_1_1_i_encryption_key_provider" kindref="compound">IEncryptionKeyProvider</ref></computeroutput> that retrieves key material from a secrets management service.</para>
+<para>Thread-safe: <computeroutput><ref refid="classthemis_1_1storage_1_1_static_key_provider_1afd4c895d1be6f5acad162a4eba53c2bc" kindref="member">currentKey()</ref></computeroutput> is const and reads an immutable field. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::storage::IEncryptionKeyProvider</label>
+        <link refid="classthemis_1_1storage_1_1_i_encryption_key_provider"/>
+      </node>
+      <node id="1">
+        <label>themis::storage::StaticKeyProvider</label>
+        <link refid="classthemis_1_1storage_1_1_static_key_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::storage::IEncryptionKeyProvider</label>
+        <link refid="classthemis_1_1storage_1_1_i_encryption_key_provider"/>
+      </node>
+      <node id="1">
+        <label>themis::storage::StaticKeyProvider</label>
+        <link refid="classthemis_1_1storage_1_1_static_key_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/encrypted_blob_backend.h" line="67" column="1" bodyfile="include/storage/encrypted_blob_backend.h" bodystart="67" bodyend="81"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_static_key_provider_1afd4c895d1be6f5acad162a4eba53c2bc" prot="public" virt="virtual"><scope>themis::storage::StaticKeyProvider</scope><name>currentKey</name></member>
+      <member refid="classthemis_1_1storage_1_1_static_key_provider_1a70ca002ad852cd328f3a35a5c6b94011" prot="private" virt="non-virtual"><scope>themis::storage::StaticKeyProvider</scope><name>key_</name></member>
+      <member refid="classthemis_1_1storage_1_1_static_key_provider_1af5b762c219fa8d2d2ec649351cafe021" prot="public" virt="virtual"><scope>themis::storage::StaticKeyProvider</scope><name>name</name></member>
+      <member refid="classthemis_1_1storage_1_1_static_key_provider_1a51909954207f4fa39ebe51ed2cd8af74" prot="public" virt="non-virtual"><scope>themis::storage::StaticKeyProvider</scope><name>StaticKeyProvider</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_encryption_key_provider_1abfea4632f61f2d81a48f9555483002c0" prot="public" virt="virtual"><scope>themis::storage::StaticKeyProvider</scope><name>~IEncryptionKeyProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

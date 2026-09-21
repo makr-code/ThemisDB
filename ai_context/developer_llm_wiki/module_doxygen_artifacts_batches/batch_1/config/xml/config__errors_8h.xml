@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="config__errors_8h" kind="file" language="C++">
+    <compoundname>config_errors.h</compoundname>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="config__path__resolver_8h" local="yes">include/config/config_path_resolver.h</includedby>
+    <includedby refid="config__schema__validator_8h" local="yes">include/config/config_schema_validator.h</includedby>
+    <includedby refid="config__path__resolver_8cpp" local="yes">src/config/config_path_resolver.cpp</includedby>
+    <includedby refid="config__schema__validator_8cpp" local="yes">src/config/config_schema_validator.cpp</includedby>
+    <includedby refid="test__config__coverage_8cpp" local="yes">tests/config/test_config_coverage.cpp</includedby>
+    <includedby refid="test__config__hardening__resolver__validator_8cpp" local="yes">tests/config/test_config_hardening_resolver_validator.cpp</includedby>
+    <includedby refid="test__config__hardening__watcher__store_8cpp" local="yes">tests/config/test_config_hardening_watcher_store.cpp</includedby>
+    <includedby refid="test__config__path__resolver_8cpp" local="yes">tests/config/test_config_path_resolver.cpp</includedby>
+    <includedby refid="test__config__schema__validator_8cpp" local="yes">tests/config/test_config_schema_validator.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/config/config_errors.h</label>
+        <link refid="config__errors_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="6">
+        <label>benchmarks/config/bench_config_migration_scanner.cpp</label>
+        <link refid="bench__config__migration__scanner_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/config/bench_config_path_resolver.cpp</label>
+        <link refid="bench__config__path__resolver_8cpp"/>
+      </node>
+      <node id="4">
+        <label>benchmarks/config/bench_config_release_gates.cpp</label>
+        <link refid="bench__config__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/config/config_errors.h</label>
+        <link refid="config__errors_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/config/config_migration_scanner_impl.h</label>
+        <link refid="config__migration__scanner__impl_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/config/config_path_resolver.h</label>
+        <link refid="config__path__resolver_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/config/config_schema_validator.h</label>
+        <link refid="config__schema__validator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>src/config/config_metrics_exporter.cpp</label>
+        <link refid="config__metrics__exporter_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/config/config_path_resolver.cpp</label>
+        <link refid="config__path__resolver_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/config/config_schema_validator.cpp</label>
+        <link refid="config__schema__validator_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/config/test_config_coverage.cpp</label>
+        <link refid="test__config__coverage_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/config/test_config_file_watcher.cpp</label>
+        <link refid="test__config__file__watcher_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/config/test_config_hardening_resolver_validator.cpp</label>
+        <link refid="test__config__hardening__resolver__validator_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/config/test_config_hardening_watcher_store.cpp</label>
+        <link refid="test__config__hardening__watcher__store_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/config/test_config_metrics_scrape.cpp</label>
+        <link refid="test__config__metrics__scrape_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/config/test_config_migration_scanner.cpp</label>
+        <link refid="test__config__migration__scanner_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/config/test_config_path_resolver.cpp</label>
+        <link refid="test__config__path__resolver_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/config/test_config_schema_validator.cpp</label>
+        <link refid="test__config__schema__validator_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1config_1_1_config_exception" prot="public">themis::config::ConfigException</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_config_not_found_exception" prot="public">themis::config::ConfigNotFoundException</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_mapping_not_found_exception" prot="public">themis::config::MappingNotFoundException</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_invalid_path_exception" prot="public">themis::config::InvalidPathException</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_config_permission_exception" prot="public">themis::config::ConfigPermissionException</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_schema_validation_exception" prot="public">themis::config::SchemaValidationException</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1config">themis::config</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.10 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1config" kindref="compound">config</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="classthemis_1_1config_1_1_config_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1config_1_1_config_exception_1a56f7a3624a61e29e784109994afcb56c" kindref="member">ConfigException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::exception<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23" refid="classthemis_1_1config_1_1_config_exception_1a56f7a3624a61e29e784109994afcb56c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_exception_1a56f7a3624a61e29e784109994afcb56c" kindref="member">ConfigException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/>:<sp/><ref refid="classthemis_1_1config_1_1_config_exception_1afc6d49065e72d36b1cedc527c69388b6" kindref="member">message_</ref>(message)<sp/>{}</highlight></codeline>
+<codeline lineno="24" refid="classthemis_1_1config_1_1_config_exception_1ac4a99ca1654cc6da57fb914c162bee1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1config_1_1_config_exception_1ac4a99ca1654cc6da57fb914c162bee1b" kindref="member">what</ref>()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_exception_1afc6d49065e72d36b1cedc527c69388b6" kindref="member">message_</ref>.c_str();<sp/>}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1config_1_1_config_exception_1afc6d49065e72d36b1cedc527c69388b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1config_1_1_config_exception_1afc6d49065e72d36b1cedc527c69388b6" kindref="member">message_</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1config_1_1_config_not_found_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1config_1_1_config_not_found_exception_1a6852a76a9c24dfdb46c5848b3397846a" kindref="member">ConfigNotFoundException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_exception_1a56f7a3624a61e29e784109994afcb56c" kindref="member">ConfigException</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1config_1_1_config_not_found_exception_1a6852a76a9c24dfdb46c5848b3397846a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1_config_not_found_exception_1a6852a76a9c24dfdb46c5848b3397846a" kindref="member">ConfigNotFoundException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,<sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/><ref refid="classthemis_1_1config_1_1_config_not_found_exception_1a40b5e606fc2dab3b442f3ee21117cd6b" kindref="member">attempted_paths</ref>)</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="classthemis_1_1config_1_1_config_exception_1a56f7a3624a61e29e784109994afcb56c" kindref="member">ConfigException</ref>(buildMessage(path,<sp/><ref refid="classthemis_1_1config_1_1_config_not_found_exception_1a40b5e606fc2dab3b442f3ee21117cd6b" kindref="member">attempted_paths</ref>)),</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>requested_path_(path),</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>attempted_paths_(<ref refid="classthemis_1_1config_1_1_config_not_found_exception_1a40b5e606fc2dab3b442f3ee21117cd6b" kindref="member">attempted_paths</ref>)<sp/>{}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1config_1_1_config_not_found_exception_1aedb1865655c7ad1e67b9e851f6566d86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1config_1_1_config_not_found_exception_1aedb1865655c7ad1e67b9e851f6566d86" kindref="member">requested_path</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>requested_path_;<sp/>}</highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1config_1_1_config_not_found_exception_1a40b5e606fc2dab3b442f3ee21117cd6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/><ref refid="classthemis_1_1config_1_1_config_not_found_exception_1a40b5e606fc2dab3b442f3ee21117cd6b" kindref="member">attempted_paths</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>attempted_paths_;<sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>requested_path_<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>attempted_paths_;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>buildMessage(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>attempted)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>msg<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Config<sp/>file<sp/>not<sp/>found:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>path;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!attempted.empty())<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;\nAttempted<sp/>paths:&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>:<sp/>attempted)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>msg<sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;\n<sp/><sp/>-<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>p;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>msg;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1config_1_1_mapping_not_found_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1config_1_1_mapping_not_found_exception_1a7e6d964f4972e04b33c1169dc7c5f190" kindref="member">MappingNotFoundException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_exception_1a56f7a3624a61e29e784109994afcb56c" kindref="member">ConfigException</ref><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1config_1_1_mapping_not_found_exception_1a7e6d964f4972e04b33c1169dc7c5f190" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_mapping_not_found_exception_1a7e6d964f4972e04b33c1169dc7c5f190" kindref="member">MappingNotFoundException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="classthemis_1_1config_1_1_config_exception_1a56f7a3624a61e29e784109994afcb56c" kindref="member">ConfigException</ref>(</highlight><highlight class="stringliteral">&quot;No<sp/>mapping<sp/>found<sp/>for<sp/>legacy<sp/>path:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>path),</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>legacy_path_(path)<sp/>{}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1config_1_1_mapping_not_found_exception_1a34dadea1f24762cd5f3a5857f9369ff9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1config_1_1_mapping_not_found_exception_1a34dadea1f24762cd5f3a5857f9369ff9" kindref="member">legacy_path</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>legacy_path_;<sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>legacy_path_;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1config_1_1_invalid_path_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1config_1_1_invalid_path_exception_1adc21403252edf0eaffbbd4027d5eb9c4" kindref="member">InvalidPathException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_exception_1a56f7a3624a61e29e784109994afcb56c" kindref="member">ConfigException</ref><sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1config_1_1_invalid_path_exception_1adc21403252edf0eaffbbd4027d5eb9c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1_invalid_path_exception_1adc21403252edf0eaffbbd4027d5eb9c4" kindref="member">InvalidPathException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1config_1_1_invalid_path_exception_1a8245b9e99d0fa01385c0d114ff9d6b9d" kindref="member">reason</ref>)</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="classthemis_1_1config_1_1_config_exception_1a56f7a3624a61e29e784109994afcb56c" kindref="member">ConfigException</ref>(</highlight><highlight class="stringliteral">&quot;Invalid<sp/>config<sp/>path:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>path<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>(&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="classthemis_1_1config_1_1_invalid_path_exception_1a8245b9e99d0fa01385c0d114ff9d6b9d" kindref="member">reason</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>invalid_path_(path),</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reason_(<ref refid="classthemis_1_1config_1_1_invalid_path_exception_1a8245b9e99d0fa01385c0d114ff9d6b9d" kindref="member">reason</ref>)<sp/>{}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1config_1_1_invalid_path_exception_1acc08d4b973a0f2ec378577a0bd8d5e2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1config_1_1_invalid_path_exception_1acc08d4b973a0f2ec378577a0bd8d5e2f" kindref="member">invalid_path</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>invalid_path_;<sp/>}</highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1config_1_1_invalid_path_exception_1a8245b9e99d0fa01385c0d114ff9d6b9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1config_1_1_invalid_path_exception_1a8245b9e99d0fa01385c0d114ff9d6b9d" kindref="member">reason</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>reason_;<sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>invalid_path_;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>reason_;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1config_1_1_config_permission_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1config_1_1_config_permission_exception_1a5daad9f1548f1b9e4d6ee2d078c260d0" kindref="member">ConfigPermissionException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_exception_1a56f7a3624a61e29e784109994afcb56c" kindref="member">ConfigException</ref><sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1config_1_1_config_permission_exception_1a5daad9f1548f1b9e4d6ee2d078c260d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_permission_exception_1a5daad9f1548f1b9e4d6ee2d078c260d0" kindref="member">ConfigPermissionException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="classthemis_1_1config_1_1_config_exception_1a56f7a3624a61e29e784109994afcb56c" kindref="member">ConfigException</ref>(</highlight><highlight class="stringliteral">&quot;Permission<sp/>denied<sp/>accessing<sp/>config:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>path),</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_path_(path)<sp/>{}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1config_1_1_config_permission_exception_1afca9a486971b408a3e4928412b5cb021" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1config_1_1_config_permission_exception_1afca9a486971b408a3e4928412b5cb021" kindref="member">config_path</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_path_;<sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>config_path_;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1config_1_1_schema_validation_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1config_1_1_schema_validation_exception_1a3161acade3a74c2133a0bad8c4afca1d" kindref="member">SchemaValidationException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_exception_1a56f7a3624a61e29e784109994afcb56c" kindref="member">ConfigException</ref><sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1config_1_1_schema_validation_exception_1a3161acade3a74c2133a0bad8c4afca1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1_schema_validation_exception_1a3161acade3a74c2133a0bad8c4afca1d" kindref="member">SchemaValidationException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1config_1_1_schema_validation_exception_1a71c6ff237bd63917056333ba8d9e6916" kindref="member">file_path</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1config_1_1_schema_validation_exception_1a7fc3da6a0be965bedbc3f789da25f2e8" kindref="member">reason</ref>)</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="classthemis_1_1config_1_1_config_exception_1a56f7a3624a61e29e784109994afcb56c" kindref="member">ConfigException</ref>(</highlight><highlight class="stringliteral">&quot;Schema<sp/>validation<sp/>error<sp/>for<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="classthemis_1_1config_1_1_schema_validation_exception_1a71c6ff237bd63917056333ba8d9e6916" kindref="member">file_path</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;&apos;:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="classthemis_1_1config_1_1_schema_validation_exception_1a7fc3da6a0be965bedbc3f789da25f2e8" kindref="member">reason</ref>),</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>file_path_(<ref refid="classthemis_1_1config_1_1_schema_validation_exception_1a71c6ff237bd63917056333ba8d9e6916" kindref="member">file_path</ref>),</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reason_(<ref refid="classthemis_1_1config_1_1_schema_validation_exception_1a7fc3da6a0be965bedbc3f789da25f2e8" kindref="member">reason</ref>)<sp/>{}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1config_1_1_schema_validation_exception_1a71c6ff237bd63917056333ba8d9e6916" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1config_1_1_schema_validation_exception_1a71c6ff237bd63917056333ba8d9e6916" kindref="member">file_path</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>file_path_;<sp/>}</highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1config_1_1_schema_validation_exception_1a7fc3da6a0be965bedbc3f789da25f2e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1config_1_1_schema_validation_exception_1a7fc3da6a0be965bedbc3f789da25f2e8" kindref="member">reason</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>reason_;<sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>file_path_;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>reason_;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/config/config_errors.h"/>
+  </compounddef>
+</doxygen>

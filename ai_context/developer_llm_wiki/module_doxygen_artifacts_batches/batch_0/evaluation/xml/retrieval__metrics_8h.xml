@@ -1,0 +1,392 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="retrieval__metrics_8h" kind="file" language="C++">
+    <compoundname>retrieval_metrics.h</compoundname>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="ablation__framework_8h" local="yes">src/evaluation/include/ablation_framework.h</includedby>
+    <includedby refid="retrieval__metrics_8cc" local="yes">src/evaluation/src/retrieval_metrics.cc</includedby>
+    <includedby refid="test__evaluation__ablation__framework__focused_8cpp" local="yes">tests/evaluation/test_evaluation_ablation_framework_focused.cpp</includedby>
+    <includedby refid="test__evaluation__retrieval__metrics__focused_8cpp" local="yes">tests/evaluation/test_evaluation_retrieval_metrics_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>src/evaluation/include/retrieval_metrics.h</label>
+        <link refid="retrieval__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>algorithm</label>
+      </node>
+      <node id="3">
+        <label>cmath</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>stdexcept</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>string_view</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>src/evaluation/include/ablation_framework.h</label>
+        <link refid="ablation__framework_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/evaluation/include/retrieval_metrics.h</label>
+        <link refid="retrieval__metrics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/evaluation/src/ablation_framework.cc</label>
+        <link refid="ablation__framework_8cc"/>
+      </node>
+      <node id="5">
+        <label>src/evaluation/src/retrieval_metrics.cc</label>
+        <link refid="retrieval__metrics_8cc"/>
+      </node>
+      <node id="4">
+        <label>tests/evaluation/test_evaluation_ablation_framework_focused.cpp</label>
+        <link refid="test__evaluation__ablation__framework__focused_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/evaluation/test_evaluation_retrieval_metrics_focused.cpp</label>
+        <link refid="test__evaluation__retrieval__metrics__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1evaluation_1_1_metric_error" prot="public">themis::evaluation::MetricError</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_ranked_result" prot="public">themis::evaluation::RankedResult</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics" prot="public">themis::evaluation::RetrievalQualityMetrics</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_evidence_quality_metrics" prot="public">themis::evaluation::EvidenceQualityMetrics</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_provenance_assertion" prot="public">themis::evaluation::ProvenanceAssertion</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_provenance_quality_metrics" prot="public">themis::evaluation::ProvenanceQualityMetrics</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_compression_metrics" prot="public">themis::evaluation::CompressionMetrics</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics" prot="public">themis::evaluation::LlmAnswerQualityMetrics</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics" prot="public">themis::evaluation::DistributedEfficiencyMetrics</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics" prot="public">themis::evaluation::TensorGraphRuntimeMetrics</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot" prot="public">themis::evaluation::TensorGraphSnapshot</innerclass>
+    <innerclass refid="classthemis_1_1evaluation_1_1_metric_collector" prot="public">themis::evaluation::MetricCollector</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1evaluation">themis::evaluation</innernamespace>
+    <briefdescription>
+<para>Evaluation metrics for the layered hybrid retrieval architecture. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines the typed contract for collecting, computing, and reporting retrieval quality metrics across all layers of the ThemisDB retrieval stack: ANN, tensor mid-layer, graph validation, LLM/LoRA grounded generation, and distributed cross-shard execution.</para>
+<sect1 id="retrieval__metrics_8h_1autotoc_md10_1s1"><sect2 id="retrieval__metrics_8h_1autotoc_md10">
+<title>Metric domains</title><para><orderedlist>
+<listitem><para><bold>Retrieval quality</bold> — Recall@k, Precision@k, NDCG, MRR, candidate reduction effectiveness.</para>
+</listitem><listitem><para><bold>Evidence quality</bold> — coverage, completeness, relevance, multi-hop support.</para>
+</listitem><listitem><para><bold>Provenance quality</bold> — fidelity, source traceability, trust correctness.</para>
+</listitem><listitem><para><bold>Compression / tensor</bold> — compression ratio, approximation loss, redundancy elimination.</para>
+</listitem><listitem><para><bold>LLM answer quality</bold> — faithfulness, groundedness, hallucination rate, prompt token cost, answer support density.</para>
+</listitem><listitem><para><bold>Distributed efficiency</bold> — cross-shard requests, bytes, summary-first selectivity.</para>
+</listitem><listitem><para><bold>Tensor-graph runtime</bold> — artifact freshness, delta lag, residual / approximation error, rank growth, rebuild frequency, exact fallback frequency, summary-first false-negative rate, graph-verified finalization pass rate.</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="retrieval__metrics_8h_1autotoc_md11_1s1"><sect2 id="retrieval__metrics_8h_1autotoc_md11">
+<title>Design constraints</title><para><itemizedlist>
+<listitem><para>All metric structs are value types; no heap ownership or virtual dispatch.</para>
+</listitem><listitem><para>Computation functions are stateless and <computeroutput>[[nodiscard]]</computeroutput>; results are never silently discarded.</para>
+</listitem><listitem><para>Invalid inputs (NaN, negative counts, empty ground-truth sets) are detected and reported via MetricError; no silent numeric failure.</para>
+</listitem><listitem><para>Thread safety: individual metric value types are immutable after construction. MetricCollector is NOT thread-safe; callers must synchronize externally.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para>EVALUATION_FRAMEWORK.md </para>
+</simplesect>
+<simplesect kind="see"><para>docs/EPIC2_QUERY_PLANNER.md </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="query__planner_8h" kindref="compound">src/evaluation/include/query_planner.h</ref> </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1evaluation" kindref="compound">evaluation</ref><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>reporting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7" kindref="member">MetricErrorKind</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7aeef25089cff60a497bfad633196f143c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7aeef25089cff60a497bfad633196f143c" kindref="member">EmptyGroundTruth</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7a62f8017bdad8c34179b416fa34e107f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7a62f8017bdad8c34179b416fa34e107f9" kindref="member">InvalidK</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7a21ae32494c3baf76d7a186e0086b45d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7a21ae32494c3baf76d7a186e0086b45d3" kindref="member">NonFiniteInput</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7aefcb4954ae74945cf0eba28983e28b6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7aefcb4954ae74945cf0eba28983e28b6e" kindref="member">InvalidRange</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7a0399549e1d8624c81e1861fee9438f26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7a0399549e1d8624c81e1861fee9438f26" kindref="member">DuplicateEntries</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7ae36c5525b73a21d250a5f57bad1aaadb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7ae36c5525b73a21d250a5f57bad1aaadb" kindref="member">MissingGroundTruthLabels</ref><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7ac625fc07928707117b1f8f15de501ec8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7ac625fc07928707117b1f8f15de501ec8" kindref="member">DoubleCountedItems</ref><sp/>=<sp/>7,</highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7a51017b10ba8591ea01c2cb4cb146477b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7a51017b10ba8591ea01c2cb4cb146477b" kindref="member">SummaryFirstFalseNegativeNoFallback</ref><sp/>=<sp/>8,</highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7ac57ac2c219c709a77e00018b6dbff53e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7ac57ac2c219c709a77e00018b6dbff53e" kindref="member">ResidualTooHighForPlanner</ref><sp/>=<sp/>9,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1evaluation_1_1_metric_error" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1evaluation_1_1_metric_error_1a600336526c7d9dba9beca5abd3849931" kindref="member">MetricError</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::runtime_error<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1evaluation_1_1_metric_error_1a600336526c7d9dba9beca5abd3849931" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1evaluation_1_1_metric_error_1a600336526c7d9dba9beca5abd3849931" kindref="member">MetricError</ref>(<ref refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7" kindref="member">MetricErrorKind</ref><sp/><ref refid="classthemis_1_1evaluation_1_1_metric_error_1aa17ea3b56cbf044bf70a250f7c0ae174" kindref="member">kind</ref>,<sp/>std::string_view<sp/>what)</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>std::runtime_error(std::string{what}),<sp/>kind_(<ref refid="classthemis_1_1evaluation_1_1_metric_error_1aa17ea3b56cbf044bf70a250f7c0ae174" kindref="member">kind</ref>)<sp/>{}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1evaluation_1_1_metric_error_1aa17ea3b56cbf044bf70a250f7c0ae174" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7" kindref="member">MetricErrorKind</ref><sp/><ref refid="classthemis_1_1evaluation_1_1_metric_error_1aa17ea3b56cbf044bf70a250f7c0ae174" kindref="member">kind</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>kind_;<sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7" kindref="member">MetricErrorKind</ref><sp/>kind_;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Retrieval<sp/>quality<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1evaluation_1_1_ranked_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1evaluation_1_1_ranked_result" kindref="compound">RankedResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1evaluation_1_1_ranked_result_1a1ffa2ed4935b03b01027e68b3b0b8c6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1evaluation_1_1_ranked_result_1a1ffa2ed4935b03b01027e68b3b0b8c6a" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1evaluation_1_1_ranked_result_1aa98ad637c203c6fb8e0e9be1e589146e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_ranked_result_1aa98ad637c203c6fb8e0e9be1e589146e" kindref="member">score</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics" kindref="compound">RetrievalQualityMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1a6d8b28388c11d77d09fd9e2ffe1bfea8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1a6d8b28388c11d77d09fd9e2ffe1bfea8" kindref="member">recall_at_k</ref>{0.0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1ae935f4b6fff14f598247f7d1878391ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1ae935f4b6fff14f598247f7d1878391ce" kindref="member">precision_at_k</ref>{0.0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1af1904eb62b6a47a7e4ecf10f00e82ae8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1af1904eb62b6a47a7e4ecf10f00e82ae8" kindref="member">ndcg_at_k</ref>{0.0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1a792e6b836d677a4f305f62df6655618d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1a792e6b836d677a4f305f62df6655618d" kindref="member">mrr</ref>{0.0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1a5320b354c978d93a0421ec5c9b1ce0f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics_1a5320b354c978d93a0421ec5c9b1ce0f5" kindref="member">candidate_reduction_ratio</ref>{0.0};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal">[[nodiscard]]<sp/>RetrievalQualityMetrics<sp/><ref refid="namespacethemis_1_1evaluation_1a1ec04aaaf0ce841c811f026d0de3cf5f" kindref="member">computeRetrievalQuality</ref>(</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;RankedResult&gt;&amp;<sp/>ranked,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/><sp/>ground_truth,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>k,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_candidates<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Evidence<sp/>quality<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1evaluation_1_1_evidence_quality_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1evaluation_1_1_evidence_quality_metrics" kindref="compound">EvidenceQualityMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1evaluation_1_1_evidence_quality_metrics_1a0063a8a3676a1f1e4a496e83a37a4595" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_evidence_quality_metrics_1a0063a8a3676a1f1e4a496e83a37a4595" kindref="member">coverage_rate</ref>{0.0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1evaluation_1_1_evidence_quality_metrics_1a34706203625416154715f8ea489f11a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_evidence_quality_metrics_1a34706203625416154715f8ea489f11a7" kindref="member">evidence_precision</ref>{0.0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1evaluation_1_1_evidence_quality_metrics_1a793951dd20f0b64c760f476ec4af1824" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_evidence_quality_metrics_1a793951dd20f0b64c760f476ec4af1824" kindref="member">multi_hop_support</ref>{0.0};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">[[nodiscard]]<sp/>EvidenceQualityMetrics<sp/><ref refid="namespacethemis_1_1evaluation_1a001499e7402ac77eef88306c2e2df397" kindref="member">computeEvidenceQuality</ref>(</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>returned_evidence_ids,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>required_evidence_ids,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hop_chain_lengths<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Provenance<sp/>quality<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1evaluation_1_1_provenance_assertion" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1evaluation_1_1_provenance_assertion" kindref="compound">ProvenanceAssertion</ref><sp/>{</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1evaluation_1_1_provenance_assertion_1abc6f2ffd4c589af7293dc086f5e59dcf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1evaluation_1_1_provenance_assertion_1abc6f2ffd4c589af7293dc086f5e59dcf" kindref="member">claim_id</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1evaluation_1_1_provenance_assertion_1a889b2cf13254f08a0b7676aa73966dbf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1evaluation_1_1_provenance_assertion_1a889b2cf13254f08a0b7676aa73966dbf" kindref="member">source_id</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1evaluation_1_1_provenance_assertion_1a259b51ae77b5c7712b556954b10f2329" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_provenance_assertion_1a259b51ae77b5c7712b556954b10f2329" kindref="member">confidence</ref>;<sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1evaluation_1_1_provenance_quality_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1evaluation_1_1_provenance_quality_metrics" kindref="compound">ProvenanceQualityMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1evaluation_1_1_provenance_quality_metrics_1af8f97931ead35d9b065e27941a7d58f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_provenance_quality_metrics_1af8f97931ead35d9b065e27941a7d58f3" kindref="member">fidelity_score</ref>{0.0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1evaluation_1_1_provenance_quality_metrics_1abb713a9cd07d4f85aaf8848d7ce3068d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_provenance_quality_metrics_1abb713a9cd07d4f85aaf8848d7ce3068d" kindref="member">source_attribution_completeness</ref>{0.0};<sp/></highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1evaluation_1_1_provenance_quality_metrics_1afc01ff4764ee3fab47e00d547faf52e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_provenance_quality_metrics_1afc01ff4764ee3fab47e00d547faf52e8" kindref="member">trust_signal_correctness</ref>{0.0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal">[[nodiscard]]<sp/>ProvenanceQualityMetrics<sp/><ref refid="namespacethemis_1_1evaluation_1af096c24f110831a0f6ea6acba30061a5" kindref="member">computeProvenanceQuality</ref>(</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ProvenanceAssertion&gt;&amp;<sp/>returned,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ProvenanceAssertion&gt;&amp;<sp/>ground_truth);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Compression<sp/>/<sp/>tensor<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1evaluation_1_1_compression_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1evaluation_1_1_compression_metrics" kindref="compound">CompressionMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1evaluation_1_1_compression_metrics_1a789f5372b12e077afdd4be90e9e36c43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_compression_metrics_1a789f5372b12e077afdd4be90e9e36c43" kindref="member">compression_ratio</ref>{0.0};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1evaluation_1_1_compression_metrics_1acb341e01d6d4eb09f2b3824d4fe1f4b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_compression_metrics_1acb341e01d6d4eb09f2b3824d4fe1f4b4" kindref="member">approximation_loss</ref>{0.0};<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1evaluation_1_1_compression_metrics_1a6ebf12cbd198e965b948fe74af5c9b36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_compression_metrics_1a6ebf12cbd198e965b948fe74af5c9b36" kindref="member">redundancy_elimination</ref>{0.0};<sp/></highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1evaluation_1_1_compression_metrics_1aca10121c38b7f28b0d52264a113b1a46" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_compression_metrics_1aca10121c38b7f28b0d52264a113b1a46" kindref="member">residual_error</ref>{0.0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1evaluation_1_1_compression_metrics_1aae08a13ff07a031bf6cc7706d9fd4824" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_compression_metrics_1aae08a13ff07a031bf6cc7706d9fd4824" kindref="member">rank_growth_rate</ref>{0.0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal">[[nodiscard]]<sp/>CompressionMetrics<sp/><ref refid="namespacethemis_1_1evaluation_1a8499ffac1ddde63a29158d96b836c446" kindref="member">computeCompressionMetrics</ref>(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>original_size_bytes,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compressed_size_bytes,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/><sp/><sp/><sp/>approximation_errors,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>rank_samples<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>LLM<sp/>answer<sp/>quality<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics" kindref="compound">LlmAnswerQualityMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics_1ab819589173afc82127ed8ff1620e7470" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics_1ab819589173afc82127ed8ff1620e7470" kindref="member">faithfulness_score</ref>{0.0};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics_1ad0cfae9091a753e2916e0fb3523422e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics_1ad0cfae9091a753e2916e0fb3523422e6" kindref="member">hallucination_rate</ref>{0.0};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics_1a561f5d4e48698d0a1b70e460ee187f18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics_1a561f5d4e48698d0a1b70e460ee187f18" kindref="member">groundedness_score</ref>{0.0};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics_1aece6c8bf3069feb1e0a213eab7c4ad14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics_1aece6c8bf3069feb1e0a213eab7c4ad14" kindref="member">answer_support_density</ref>{0.0};<sp/><sp/></highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics_1afef12e29d0c681cdfd7b3a960c832848" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics_1afef12e29d0c681cdfd7b3a960c832848" kindref="member">prompt_token_count</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal">[[nodiscard]]<sp/>LlmAnswerQualityMetrics<sp/><ref refid="namespacethemis_1_1evaluation_1a9118a2961c1c0ac5ba3c45f3b6e64c5e" kindref="member">computeLlmAnswerQuality</ref>(</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>supported_claims,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>total_claims,</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>evidence_tokens<sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/>prompt_token_count<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Distributed<sp/>/<sp/>shard<sp/>efficiency<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics" kindref="compound">DistributedEfficiencyMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="188" refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1a357f3c60b968059db1843c530534b648" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1a357f3c60b968059db1843c530534b648" kindref="member">shard_fan_out</ref>{0.0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1a74b99aca8e6c22a5f1f2f574825de7b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1a74b99aca8e6c22a5f1f2f574825de7b1" kindref="member">bytes_per_query</ref>{0.0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190" refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1af4914ec77e5f391b857734d50ace09f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1af4914ec77e5f391b857734d50ace09f5" kindref="member">summary_first_selectivity</ref>{0.0};<sp/><sp/></highlight></codeline>
+<codeline lineno="191" refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1a719b3261f6c478008cee1b0796fdc19f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1a719b3261f6c478008cee1b0796fdc19f" kindref="member">selective_exact_load</ref>{0.0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192" refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1abed9e170d33d9a15d18c302282413cfa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1abed9e170d33d9a15d18c302282413cfa" kindref="member">total_queries</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal">[[nodiscard]]<sp/>DistributedEfficiencyMetrics<sp/><ref refid="namespacethemis_1_1evaluation_1a40fae84fd82855a0552a8d2ed282636b" kindref="member">computeDistributedEfficiency</ref>(</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint32_t&gt;&amp;<sp/>per_query_shard_counts,</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/><sp/><sp/>per_query_bytes,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint32_t&gt;&amp;<sp/>summary_skipped_shards,</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_shards);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>7<sp/><sp/>Tensor-graph<sp/>runtime<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205" refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics" kindref="compound">TensorGraphRuntimeMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="206" refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1ad234b28ab9d30b5c7cb079e7bd0ce4f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1ad234b28ab9d30b5c7cb079e7bd0ce4f1" kindref="member">mean_artifact_age_ms</ref>{0.0};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208" refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a50704c43bda311009b7536ef6fb355f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a50704c43bda311009b7536ef6fb355f1" kindref="member">mean_delta_lag</ref>{0.0};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210" refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a58e9bffb606be6902cbb5c274fdb9c45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a58e9bffb606be6902cbb5c274fdb9c45" kindref="member">mean_residual_error</ref>{0.0};</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a1e386e1cd5c0dff1d1f8d6c02544fbac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a1e386e1cd5c0dff1d1f8d6c02544fbac" kindref="member">rank_growth_fraction</ref>{0.0};</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a4043165a2055f428c5292a4d633cfe06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a4043165a2055f428c5292a4d633cfe06" kindref="member">rebuild_frequency</ref>{0.0};</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216" refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a7ad5123a1490fa6f204821ca4102ba87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a7ad5123a1490fa6f204821ca4102ba87" kindref="member">exact_fallback_frequency</ref>{0.0};</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1af344bff17b1d9b516cd56ef1ebfabf86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1af344bff17b1d9b516cd56ef1ebfabf86" kindref="member">summary_first_false_negative_rate</ref>{0.0};</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220" refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a8a9aba63f6f9317d4e1502fc99ad67d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a8a9aba63f6f9317d4e1502fc99ad67d2" kindref="member">graph_verified_finalization_pass_rate</ref>{0.0};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223" refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot" kindref="compound">TensorGraphSnapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="224" refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a85acae21dd9a65c18f39b608d684fa1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a85acae21dd9a65c18f39b608d684fa1a" kindref="member">artifact_age_ms</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225" refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a3cb74ffc1d87be971ab4aa462ea11c7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a3cb74ffc1d87be971ab4aa462ea11c7d" kindref="member">delta_lag</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="226" refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a90c5f7e2d1112e73975ae672ffb64dd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a90c5f7e2d1112e73975ae672ffb64dd3" kindref="member">residual_error</ref>{0.0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227" refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a53740e91f2b96dfb5cbc9cae449aa13c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a53740e91f2b96dfb5cbc9cae449aa13c" kindref="member">rank_cap_used</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="228" refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a88d1bf5839b6a2e022c775fbd54d100c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a88d1bf5839b6a2e022c775fbd54d100c" kindref="member">rank_cap_limit</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="229" refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a57eb884191d159c13f9145330a1f74e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a57eb884191d159c13f9145330a1f74e2" kindref="member">rebuild_triggered</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230" refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1aa5518f5e07e6ee580b2aeeea2d467e52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1aa5518f5e07e6ee580b2aeeea2d467e52" kindref="member">exact_fallback_used</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/></highlight></codeline>
+<codeline lineno="231" refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1afdf3bf0fe05d0ced56840453d6416b3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1afdf3bf0fe05d0ced56840453d6416b3a" kindref="member">summary_first_false_negative</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/></highlight></codeline>
+<codeline lineno="232" refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1acca289aad580b2fc84011fd98d4015a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1acca289aad580b2fc84011fd98d4015a2" kindref="member">graph_finalization_passed</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233" refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a7a28b0279cd0e556ca83bfd4df3e1ee8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a7a28b0279cd0e556ca83bfd4df3e1ee8" kindref="member">summary_first_routing_used</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235" refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a22f21a893e8457571a8d1dc9c7ebfc5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a22f21a893e8457571a8d1dc9c7ebfc5f" kindref="member">isUnrecoveredFalseNegative</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1afdf3bf0fe05d0ced56840453d6416b3a" kindref="member">summary_first_false_negative</ref><sp/>&amp;&amp;<sp/>!<ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1aa5518f5e07e6ee580b2aeeea2d467e52" kindref="member">exact_fallback_used</ref>;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239" refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1ab791d9a7d64dae9c887dc0120586ee8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1ab791d9a7d64dae9c887dc0120586ee8c" kindref="member">isResidualUnsafe</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>max_residual_error)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot_1a90c5f7e2d1112e73975ae672ffb64dd3" kindref="member">residual_error</ref><sp/>&gt;<sp/>max_residual_error;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal">[[nodiscard]]<sp/>TensorGraphRuntimeMetrics<sp/><ref refid="namespacethemis_1_1evaluation_1a69400ea30de03cc98147030206c9084c" kindref="member">computeTensorGraphRuntimeMetrics</ref>(</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;TensorGraphSnapshot&gt;&amp;<sp/>snapshots,</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max_residual_error<sp/>=<sp/>0.10);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>8<sp/><sp/>MetricCollector<sp/>—<sp/>aggregating<sp/>collector<sp/>across<sp/>queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252" refid="classthemis_1_1evaluation_1_1_metric_collector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1evaluation_1_1_metric_collector_1ae51f7cb09588636ad3e43677aafa0e9c" kindref="member">MetricCollector</ref><sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="254" refid="classthemis_1_1evaluation_1_1_metric_collector_1ae51f7cb09588636ad3e43677aafa0e9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_metric_collector_1ae51f7cb09588636ad3e43677aafa0e9c" kindref="member">MetricCollector</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable<sp/>but<sp/>movable<sp/>(snapshots<sp/>vector<sp/>may<sp/>be<sp/>large).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257" refid="classthemis_1_1evaluation_1_1_metric_collector_1a749e0cc38ada3e212f0aad872e9e7e82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_metric_collector_1a749e0cc38ada3e212f0aad872e9e7e82" kindref="member">MetricCollector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1evaluation_1_1_metric_collector_1ae51f7cb09588636ad3e43677aafa0e9c" kindref="member">MetricCollector</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="258" refid="classthemis_1_1evaluation_1_1_metric_collector_1ab457c7b0c06255ed4d87cdc0c97d0c5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_metric_collector_1ae51f7cb09588636ad3e43677aafa0e9c" kindref="member">MetricCollector</ref>&amp;<sp/><ref refid="classthemis_1_1evaluation_1_1_metric_collector_1ab457c7b0c06255ed4d87cdc0c97d0c5c" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1evaluation_1_1_metric_collector_1ae51f7cb09588636ad3e43677aafa0e9c" kindref="member">MetricCollector</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="259" refid="classthemis_1_1evaluation_1_1_metric_collector_1a79cbb82c116466e29d89207b2ebf3bb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_metric_collector_1a79cbb82c116466e29d89207b2ebf3bb5" kindref="member">MetricCollector</ref>(<ref refid="classthemis_1_1evaluation_1_1_metric_collector_1ae51f7cb09588636ad3e43677aafa0e9c" kindref="member">MetricCollector</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260" refid="classthemis_1_1evaluation_1_1_metric_collector_1af81f5f46b287b362207e47dd72f9e362" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_metric_collector_1ae51f7cb09588636ad3e43677aafa0e9c" kindref="member">MetricCollector</ref>&amp;<sp/><ref refid="classthemis_1_1evaluation_1_1_metric_collector_1af81f5f46b287b362207e47dd72f9e362" kindref="member">operator=</ref>(<ref refid="classthemis_1_1evaluation_1_1_metric_collector_1ae51f7cb09588636ad3e43677aafa0e9c" kindref="member">MetricCollector</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1evaluation_1_1_metric_collector_1a7118858c739ad6f9f63baa1ff2d05396" kindref="member">recordSnapshot</ref>(<ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot" kindref="compound">TensorGraphSnapshot</ref><sp/>snapshot);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1evaluation_1_1_metric_collector_1a4ac7218be07eb7d4577ddfd81d819771" kindref="member">recordShardQuery</ref>(uint32_t<sp/>shard_count,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>bytes,<sp/>uint32_t<sp/>skipped);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::size_t<sp/><ref refid="classthemis_1_1evaluation_1_1_metric_collector_1abaef883fe410bdd2fc7259691a113811" kindref="member">snapshotCount</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics" kindref="compound">TensorGraphRuntimeMetrics</ref><sp/><ref refid="classthemis_1_1evaluation_1_1_metric_collector_1a8c012fc6ad48dec23fb8ba234d271328" kindref="member">summarizeTensorGraph</ref>(</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>max_residual_error<sp/>=<sp/>0.10)<sp/>const;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics" kindref="compound">DistributedEfficiencyMetrics</ref><sp/><ref refid="classthemis_1_1evaluation_1_1_metric_collector_1ac701d6afee319ef61a57d4ef186f165f" kindref="member">summarizeDistributed</ref>(</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>total_shards)<sp/>const;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1evaluation_1_1_metric_collector_1a53f0ffa14b8c21907a5829f2a038532e" kindref="member">reset</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot" kindref="compound">TensorGraphSnapshot</ref>&gt;<sp/>snapshots_;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint32_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard_counts_;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard_bytes_;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint32_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard_skipped_;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>evaluation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/evaluation/include/retrieval_metrics.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_inverted_index_1_1_search_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::InvertedIndex::SearchResult</compoundname>
+    <includes refid="inverted__index_8h" local="no">inverted_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_inverted_index_1_1_search_result_1a3313f5fed04f4814504308f070208cf8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::InvertedIndex::SearchResult::pk</definition>
+        <argsstring></argsstring>
+        <name>pk</name>
+        <qualifiedname>themis::InvertedIndex::SearchResult::pk</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="64" column="21" bodyfile="include/index/inverted_index.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_inverted_index_1_1_search_result_1a9aae7046d83054dcefb37d569efc14b4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::InvertedIndex::SearchResult::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::InvertedIndex::SearchResult::score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/inverted_index.h" line="65" column="16" bodyfile="include/index/inverted_index.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>A single search hit returned by search / searchPhrase / searchFuzzy. </para>
+    </detaileddescription>
+    <location file="include/index/inverted_index.h" line="63" column="5" bodyfile="include/index/inverted_index.h" bodystart="63" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_inverted_index_1_1_search_result_1a3313f5fed04f4814504308f070208cf8" prot="public" virt="non-virtual"><scope>themis::InvertedIndex::SearchResult</scope><name>pk</name></member>
+      <member refid="structthemis_1_1_inverted_index_1_1_search_result_1a9aae7046d83054dcefb37d569efc14b4" prot="public" virt="non-virtual"><scope>themis::InvertedIndex::SearchResult</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1354 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_j_w_t_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::JWTValidator</compoundname>
+    <includes refid="jwt__validator_8h" local="no">jwt_validator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_validator_1a306f35ad1fa0d72f20bb07d1ca76b1be" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref></type>
+        <definition>JWTValidatorConfig themis::auth::JWTValidator::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::auth::JWTValidator::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="248" column="24" bodyfile="include/auth/jwt_validator.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_validator_1aec6327e1d9842412432d1a6bde886133" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::JWTValidator::jwks_url_</definition>
+        <argsstring></argsstring>
+        <name>jwks_url_</name>
+        <qualifiedname>themis::auth::JWTValidator::jwks_url_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="249" column="17" bodyfile="include/auth/jwt_validator.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_validator_1a6e231ae8315188cd9340b6d3a8328ca9" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::auth::JWTValidator::jwks_cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>jwks_cache_mutex_</name>
+        <qualifiedname>themis::auth::JWTValidator::jwks_cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="250" column="31" bodyfile="include/auth/jwt_validator.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_validator_1a8c9d505803ad97aa2d507607ee87bbd6" prot="private" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::auth::JWTValidator::jwks_cache_</definition>
+        <argsstring></argsstring>
+        <name>jwks_cache_</name>
+        <qualifiedname>themis::auth::JWTValidator::jwks_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="251" column="20" bodyfile="include/auth/jwt_validator.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_validator_1ae6a23844eb3cd349d699f43f9fe96d02" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::JWTValidator::jwks_cache_time_</definition>
+        <argsstring></argsstring>
+        <name>jwks_cache_time_</name>
+        <qualifiedname>themis::auth::JWTValidator::jwks_cache_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="252" column="43" bodyfile="include/auth/jwt_validator.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_validator_1a7dfa8d2977e0b05a276b1627c449738c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::JWTValidator::revoked_kids_runtime_</definition>
+        <argsstring></argsstring>
+        <name>revoked_kids_runtime_</name>
+        <qualifiedname>themis::auth::JWTValidator::revoked_kids_runtime_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="253" column="17" bodyfile="include/auth/jwt_validator.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_validator_1aed90025d1042510fe091817dc0cf4f45" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_token_blacklist" kindref="compound">TokenBlacklist</ref> *</type>
+        <definition>TokenBlacklist* themis::auth::JWTValidator::token_blacklist_</definition>
+        <argsstring></argsstring>
+        <name>token_blacklist_</name>
+        <qualifiedname>themis::auth::JWTValidator::token_blacklist_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="254" column="20" bodyfile="include/auth/jwt_validator.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_validator_1a771a60e4d5cf9d4ada56284289625ad2" prot="private" static="no" mutable="no">
+        <type>utils::AuditLogger *</type>
+        <definition>utils::AuditLogger* themis::auth::JWTValidator::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::auth::JWTValidator::audit_logger_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="255" column="24" bodyfile="include/auth/jwt_validator.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_validator_1a4371e5b27c7b29859a59cffcf3c81409" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::auth::JWTValidator::warned_blacklist_no_jti_</definition>
+        <argsstring></argsstring>
+        <name>warned_blacklist_no_jti_</name>
+        <qualifiedname>themis::auth::JWTValidator::warned_blacklist_no_jti_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="256" column="25" bodyfile="include/auth/jwt_validator.h" bodystart="256" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_validator_1aec9fee7a689d1c655468fc90f32b7b60" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::auth::JWTValidator::jwks_refresh_mutex_</definition>
+        <argsstring></argsstring>
+        <name>jwks_refresh_mutex_</name>
+        <qualifiedname>themis::auth::JWTValidator::jwks_refresh_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="258" column="24" bodyfile="include/auth/jwt_validator.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_validator_1ae26491046d7944019caa1af1ce582edc" prot="private" static="no" mutable="yes">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::auth::JWTValidator::jwks_refresh_cv_</definition>
+        <argsstring></argsstring>
+        <name>jwks_refresh_cv_</name>
+        <qualifiedname>themis::auth::JWTValidator::jwks_refresh_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="259" column="37" bodyfile="include/auth/jwt_validator.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_validator_1a298d1cd938cd2af651169481cb40cbaf" prot="private" static="no" mutable="yes">
+        <type>bool</type>
+        <definition>bool themis::auth::JWTValidator::jwks_refreshing_</definition>
+        <argsstring></argsstring>
+        <name>jwks_refreshing_</name>
+        <qualifiedname>themis::auth::JWTValidator::jwks_refreshing_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="260" column="18" bodyfile="include/auth/jwt_validator.h" bodystart="260" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_j_w_t_validator_1af9bfd9bede011b665319268edd2d1c75" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1auth_1_1_auth_worker_thread_pool" kindref="compound">AuthWorkerThreadPool</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AuthWorkerThreadPool&gt; themis::auth::JWTValidator::worker_pool_</definition>
+        <argsstring></argsstring>
+        <name>worker_pool_</name>
+        <qualifiedname>themis::auth::JWTValidator::worker_pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="262" column="21" bodyfile="include/auth/jwt_validator.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1aaf5fafd2e7ae8adc2584042b114504a3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::JWTValidator::JWTValidator</definition>
+        <argsstring>(const std::string &amp;jwks_url)</argsstring>
+        <name>JWTValidator</name>
+        <qualifiedname>themis::auth::JWTValidator::JWTValidator</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>jwks_url</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jwks_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="82" column="14" bodyfile="src/auth/jwt_validator.cpp" bodystart="59" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1a7d3a97580dff65b5f0319311aec648a9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::JWTValidator::JWTValidator</definition>
+        <argsstring>(const JWTValidatorConfig &amp;cfg)</argsstring>
+        <name>JWTValidator</name>
+        <qualifiedname>themis::auth::JWTValidator::JWTValidator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1auth_1_1_j_w_t_validator" kindref="compound">JWTValidator</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="89" column="14" bodyfile="src/auth/jwt_validator.cpp" bodystart="74" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1aa0e704fbcdb4afaf9a806c1778715d0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref></type>
+        <definition>JWTClaims themis::auth::JWTValidator::parseAndValidate</definition>
+        <argsstring>(const std::string &amp;token)</argsstring>
+        <name>parseAndValidate</name>
+        <qualifiedname>themis::auth::JWTValidator::parseAndValidate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Parse And Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: rfind(), substr(), size(), utils::Logger::warn(), logSecurityEvent(), empty(), ss(), std::getline(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="96" column="15" bodyfile="src/auth/jwt_validator.cpp" bodystart="768" bodyend="1054"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1aefd730b0d0a24ed4e1f56507bd548e24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref> &gt;</type>
+        <definition>std::future&lt; JWTClaims &gt; themis::auth::JWTValidator::validateAsync</definition>
+        <argsstring>(const std::string &amp;token)</argsstring>
+        <name>validateAsync</name>
+        <qualifiedname>themis::auth::JWTValidator::validateAsync</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Validate Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: submit(), <ref refid="classthemis_1_1auth_1_1_j_w_t_validator_1aa0e704fbcdb4afaf9a806c1778715d0b" kindref="member">parseAndValidate()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="103" column="17" bodyfile="src/auth/jwt_validator.cpp" bodystart="1131" bodyend="1137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1a76ed9453a63cc86c5b2890622dfc5b33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::JWTValidator::setTokenBlacklist</definition>
+        <argsstring>(TokenBlacklist *bl)</argsstring>
+        <name>setTokenBlacklist</name>
+        <qualifiedname>themis::auth::JWTValidator::setTokenBlacklist</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_token_blacklist" kindref="compound">TokenBlacklist</ref> *</type>
+          <declname>bl</declname>
+        </param>
+        <briefdescription>
+<para>Set Token Blacklist. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">bl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">bl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setTokenBlacklist without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="130" column="10" bodyfile="src/auth/jwt_validator.cpp" bodystart="1095" bodyend="1097"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1a7d4173ee9dba70ccc71ca0c82173ddd2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::JWTValidator::setAuditLogger</definition>
+        <argsstring>(utils::AuditLogger *logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::auth::JWTValidator::setAuditLogger</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAuditLogger without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="137" column="10" bodyfile="include/auth/jwt_validator.h" bodystart="137" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1a2e6f1805863f224b5ef447baca1ec0dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::JWTValidator::revokeKid</definition>
+        <argsstring>(const std::string &amp;kid)</argsstring>
+        <name>revokeKid</name>
+        <qualifiedname>themis::auth::JWTValidator::revokeKid</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kid</declname>
+        </param>
+        <briefdescription>
+<para>Revoke Kid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), utils::Logger::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="143" column="10" bodyfile="src/auth/jwt_validator.cpp" bodystart="1104" bodyend="1107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1a695ed93deebe067326e73ec2d3a43034" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::JWTValidator::isKidRevoked</definition>
+        <argsstring>(const std::string &amp;kid) const</argsstring>
+        <name>isKidRevoked</name>
+        <qualifiedname>themis::auth::JWTValidator::isKidRevoked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kid</declname>
+        </param>
+        <briefdescription>
+<para>Is Kid Revoked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">kid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="150" column="10" bodyfile="src/auth/jwt_validator.cpp" bodystart="1109" bodyend="1123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1a9724ddf40de6944eb4d5671f77f0829c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::JWTValidator::setJWKSForTesting</definition>
+        <argsstring>(const nlohmann::json &amp;jwks, std::chrono::system_clock::time_point t=std::chrono::system_clock::now())</argsstring>
+        <name>setJWKSForTesting</name>
+        <qualifiedname>themis::auth::JWTValidator::setJWKSForTesting</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>jwks</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>t</declname>
+          <defval>std::chrono::system_clock::now()</defval>
+        </param>
+        <briefdescription>
+<para>Set JWKSFor Testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jwks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="245" column="10" bodyfile="src/auth/jwt_validator.cpp" bodystart="755" bodyend="759"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1a4a3ee8df29b95aed4b0114b577577538" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::auth::JWTValidator::deriveUserKey</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;dek, const JWTClaims &amp;claims, const std::string &amp;field_name)</argsstring>
+        <name>deriveUserKey</name>
+        <qualifiedname>themis::auth::JWTValidator::deriveUserKey</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>dek</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref> &amp;</type>
+          <declname>claims</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Derive User Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dek</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claims</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dek</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">claims</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: salt(), begin(), end(), themis::utils::HKDFHelper::derive(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="112" column="24" bodyfile="src/auth/jwt_validator.cpp" bodystart="1064" bodyend="1069"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1a78ff7d6ccff48d32de978683be8ec8bb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::JWTValidator::hasAccess</definition>
+        <argsstring>(const JWTClaims &amp;claims, const std::string &amp;encryption_context)</argsstring>
+        <name>hasAccess</name>
+        <qualifiedname>themis::auth::JWTValidator::hasAccess</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_j_w_t_claims" kindref="compound">JWTClaims</ref> &amp;</type>
+          <declname>claims</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>encryption_context</declname>
+        </param>
+        <briefdescription>
+<para>Has Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">claims</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">encryption_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">claims</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">encryption_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements hasAccess without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="124" column="17" bodyfile="src/auth/jwt_validator.cpp" bodystart="1078" bodyend="1088"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1ae74e374d2c3a246be3775ca3bf673b7f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::auth::JWTValidator::decodeBase64Url</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>decodeBase64Url</name>
+        <qualifiedname>themis::auth::JWTValidator::decodeBase64Url</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Decode Base64 Url. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::replace(), begin(), end(), size(), BIO_new_mem_buf(), data(), BIO_new(), BIO_f_base64(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="158" column="17" bodyfile="src/auth/jwt_validator.cpp" bodystart="106" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1a8f3298ad9882b091e4fb0a311beccc30" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::JWTValidator::decodeBase64UrlToString</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>decodeBase64UrlToString</name>
+        <qualifiedname>themis::auth::JWTValidator::decodeBase64UrlToString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Decode Base64 Url To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: decodeBase64Url(), std::string(), data(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="165" column="17" bodyfile="src/auth/jwt_validator.cpp" bodystart="141" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1a973a68154e9d93864d784ad9d20d67fc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::auth::JWTValidator::fetchJWKS</definition>
+        <argsstring>()</argsstring>
+        <name>fetchJWKS</name>
+        <qualifiedname>themis::auth::JWTValidator::fetchJWKS</qualifiedname>
+        <briefdescription>
+<para>Fetch JWKS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), read_lock(), empty(), refresh_lock(), wait_for(), THEMIS_WARN(), count(), ScopedRefreshReset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="171" column="20" bodyfile="src/auth/jwt_validator.cpp" bodystart="152" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1a3a17b1fd96322a5ed7f2a361a6ad6678" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const nlohmann::json *</type>
+        <definition>const nlohmann::json * themis::auth::JWTValidator::findJwkForKid</definition>
+        <argsstring>(const nlohmann::json &amp;jwks, const std::string &amp;kid) const</argsstring>
+        <name>findJwkForKid</name>
+        <qualifiedname>themis::auth::JWTValidator::findJwkForKid</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>jwks</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kid</declname>
+        </param>
+        <briefdescription>
+<para>Find Jwk For Kid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jwks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="179" column="26" bodyfile="src/auth/jwt_validator.cpp" bodystart="344" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1a6edc6a556aa89215cc426b303efbf9a6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::JWTValidator::verifySignatureRS256</definition>
+        <argsstring>(const std::string &amp;header_payload, const std::vector&lt; uint8_t &gt; &amp;signature, const nlohmann::json &amp;jwk)</argsstring>
+        <name>verifySignatureRS256</name>
+        <qualifiedname>themis::auth::JWTValidator::verifySignatureRS256</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>header_payload</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>signature</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>jwk</declname>
+        </param>
+        <briefdescription>
+<para>Verify Signature RS256. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">header_payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">jwk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">header_payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">jwk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: verifySignatureRSA(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="188" column="10" bodyfile="src/auth/jwt_validator.cpp" bodystart="395" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1a606812b6c9b2fc6c2857ada62dbea177" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::JWTValidator::verifySignatureRSA</definition>
+        <argsstring>(const std::string &amp;header_payload, const std::vector&lt; uint8_t &gt; &amp;signature, const nlohmann::json &amp;jwk, const std::string &amp;alg)</argsstring>
+        <name>verifySignatureRSA</name>
+        <qualifiedname>themis::auth::JWTValidator::verifySignatureRSA</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>header_payload</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>signature</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>jwk</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>alg</declname>
+        </param>
+        <briefdescription>
+<para>Verify Signature RSA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">header_payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">jwk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">header_payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">jwk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: value(), empty(), decodeBase64Url(), utils::BIGNUMPtr(), BN_bin2bn(), data(), size(), utils::make_evp_key(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="199" column="10" bodyfile="src/auth/jwt_validator.cpp" bodystart="409" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1a354f3a95375ab7e705e9068603aae61b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::JWTValidator::verifySignatureES256</definition>
+        <argsstring>(const std::string &amp;header_payload, const std::vector&lt; uint8_t &gt; &amp;signature, const nlohmann::json &amp;jwk)</argsstring>
+        <name>verifySignatureES256</name>
+        <qualifiedname>themis::auth::JWTValidator::verifySignatureES256</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>header_payload</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>signature</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>jwk</declname>
+        </param>
+        <briefdescription>
+<para>Verify Signature ES256. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">header_payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">jwk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">header_payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">jwk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: verifySignatureEC(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="210" column="10" bodyfile="src/auth/jwt_validator.cpp" bodystart="495" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1a3a2f32ad9550a3ceb7f96ee10328d8c1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::JWTValidator::verifySignatureEC</definition>
+        <argsstring>(const std::string &amp;header_payload, const std::vector&lt; uint8_t &gt; &amp;signature, const nlohmann::json &amp;jwk, const std::string &amp;alg)</argsstring>
+        <name>verifySignatureEC</name>
+        <qualifiedname>themis::auth::JWTValidator::verifySignatureEC</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>header_payload</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>signature</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>jwk</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>alg</declname>
+        </param>
+        <briefdescription>
+<para>Verify Signature EC. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">header_payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">jwk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">header_payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">jwk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">alg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: value(), EVP_sha256(), EVP_sha384(), EVP_sha512(), empty(), decodeBase64Url(), size(), group(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="221" column="10" bodyfile="src/auth/jwt_validator.cpp" bodystart="509" bodyend="655"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1a82ac654dbd61951efe7e2bd62ea779cf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::JWTValidator::verifySignatureEdDSA</definition>
+        <argsstring>(const std::string &amp;header_payload, const std::vector&lt; uint8_t &gt; &amp;signature, const nlohmann::json &amp;jwk)</argsstring>
+        <name>verifySignatureEdDSA</name>
+        <qualifiedname>themis::auth::JWTValidator::verifySignatureEdDSA</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>header_payload</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>signature</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>jwk</declname>
+        </param>
+        <briefdescription>
+<para>Verify Signature Ed DSA. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">header_payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">jwk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">header_payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">jwk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), decodeBase64Url(), size(), EVP_PKEY_new_raw_public_key(), data(), pkey(), EVP_MD_CTX_new(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="232" column="10" bodyfile="src/auth/jwt_validator.cpp" bodystart="665" bodyend="702"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_j_w_t_validator_1a86d031cf37bb413aa1f2b627c322cb54" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::JWTValidator::checkAudience</definition>
+        <argsstring>(const nlohmann::json &amp;payload) const</argsstring>
+        <name>checkAudience</name>
+        <qualifiedname>themis::auth::JWTValidator::checkAudience</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Check Audience. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwt_validator.h" line="241" column="10" bodyfile="src/auth/jwt_validator.cpp" bodystart="704" bodyend="747"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/jwt_validator.h" line="75" column="1" bodyfile="include/auth/jwt_validator.h" bodystart="75" bodyend="263"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a771a60e4d5cf9d4ada56284289625ad2" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a306f35ad1fa0d72f20bb07d1ca76b1be" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a86d031cf37bb413aa1f2b627c322cb54" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>checkAudience</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1ae74e374d2c3a246be3775ca3bf673b7f" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>decodeBase64Url</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a8f3298ad9882b091e4fb0a311beccc30" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>decodeBase64UrlToString</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a4a3ee8df29b95aed4b0114b577577538" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>deriveUserKey</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a973a68154e9d93864d784ad9d20d67fc" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>fetchJWKS</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a3a17b1fd96322a5ed7f2a361a6ad6678" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>findJwkForKid</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a78ff7d6ccff48d32de978683be8ec8bb" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>hasAccess</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a695ed93deebe067326e73ec2d3a43034" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>isKidRevoked</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a8c9d505803ad97aa2d507607ee87bbd6" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>jwks_cache_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a6e231ae8315188cd9340b6d3a8328ca9" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>jwks_cache_mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1ae6a23844eb3cd349d699f43f9fe96d02" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>jwks_cache_time_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1ae26491046d7944019caa1af1ce582edc" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>jwks_refresh_cv_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1aec9fee7a689d1c655468fc90f32b7b60" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>jwks_refresh_mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a298d1cd938cd2af651169481cb40cbaf" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>jwks_refreshing_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1aec6327e1d9842412432d1a6bde886133" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>jwks_url_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1aaf5fafd2e7ae8adc2584042b114504a3" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>JWTValidator</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a7d3a97580dff65b5f0319311aec648a9" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>JWTValidator</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1aa0e704fbcdb4afaf9a806c1778715d0b" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>parseAndValidate</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a7dfa8d2977e0b05a276b1627c449738c" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>revoked_kids_runtime_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a2e6f1805863f224b5ef447baca1ec0dd" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>revokeKid</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a7d4173ee9dba70ccc71ca0c82173ddd2" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a9724ddf40de6944eb4d5671f77f0829c" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>setJWKSForTesting</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a76ed9453a63cc86c5b2890622dfc5b33" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>setTokenBlacklist</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1aed90025d1042510fe091817dc0cf4f45" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>token_blacklist_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1aefd730b0d0a24ed4e1f56507bd548e24" prot="public" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>validateAsync</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a3a2f32ad9550a3ceb7f96ee10328d8c1" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>verifySignatureEC</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a82ac654dbd61951efe7e2bd62ea779cf" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>verifySignatureEdDSA</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a354f3a95375ab7e705e9068603aae61b" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>verifySignatureES256</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a6edc6a556aa89215cc426b303efbf9a6" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>verifySignatureRS256</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a606812b6c9b2fc6c2857ada62dbea177" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>verifySignatureRSA</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1a4371e5b27c7b29859a59cffcf3c81409" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>warned_blacklist_no_jti_</name></member>
+      <member refid="classthemis_1_1auth_1_1_j_w_t_validator_1af9bfd9bede011b665319268edd2d1c75" prot="private" virt="non-virtual"><scope>themis::auth::JWTValidator</scope><name>worker_pool_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

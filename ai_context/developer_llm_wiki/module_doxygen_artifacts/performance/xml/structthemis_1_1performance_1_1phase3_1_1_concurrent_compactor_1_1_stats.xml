@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::ConcurrentCompactor::Stats</compoundname>
+    <includes refid="splinterdb_8h" local="no">splinterdb.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1_1_stats_1afaaaa4be6ebc5affe700b2e84ecf0833" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::ConcurrentCompactor::Stats::compactions_completed</definition>
+        <argsstring></argsstring>
+        <name>compactions_completed</name>
+        <qualifiedname>themis::performance::phase3::ConcurrentCompactor::Stats::compactions_completed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/splinterdb.h" line="48" column="16" bodyfile="include/performance/phase3/splinterdb.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1_1_stats_1a6d791f2378758a76cd06a0f9ebedb1c1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::ConcurrentCompactor::Stats::compactions_in_progress</definition>
+        <argsstring></argsstring>
+        <name>compactions_in_progress</name>
+        <qualifiedname>themis::performance::phase3::ConcurrentCompactor::Stats::compactions_in_progress</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/splinterdb.h" line="49" column="16" bodyfile="include/performance/phase3/splinterdb.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1_1_stats_1a6611cb654e288d6c13e4ae8799bcc20b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::phase3::ConcurrentCompactor::Stats::avg_compaction_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_compaction_time_ms</name>
+        <qualifiedname>themis::performance::phase3::ConcurrentCompactor::Stats::avg_compaction_time_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/splinterdb.h" line="50" column="16" bodyfile="include/performance/phase3/splinterdb.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase3/splinterdb.h" line="47" column="5" bodyfile="include/performance/phase3/splinterdb.h" bodystart="47" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1_1_stats_1a6611cb654e288d6c13e4ae8799bcc20b" prot="public" virt="non-virtual"><scope>themis::performance::phase3::ConcurrentCompactor::Stats</scope><name>avg_compaction_time_ms</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1_1_stats_1afaaaa4be6ebc5affe700b2e84ecf0833" prot="public" virt="non-virtual"><scope>themis::performance::phase3::ConcurrentCompactor::Stats</scope><name>compactions_completed</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_concurrent_compactor_1_1_stats_1a6d791f2378758a76cd06a0f9ebedb1c1" prot="public" virt="non-virtual"><scope>themis::performance::phase3::ConcurrentCompactor::Stats</scope><name>compactions_in_progress</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,984 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1access__model_1_1_mock_access_tier" kind="class" language="C++" prot="public">
+    <compoundname>themis::access_model::MockAccessTier</compoundname>
+    <basecompoundref refid="classthemis_1_1access__model_1_1_access_tier" prot="public" virt="non-virtual">themis::access_model::AccessTier</basecompoundref>
+    <basecompoundref refid="classthemis_1_1access__model_1_1_access_tier" prot="public" virt="non-virtual">themis::access_model::AccessTier</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a9ea3fc09f844dd6247df61ebeed5be6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(TierGetResult, get,(std::string_view, const TierAccessOptions &amp;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1access__model_1_1_tier_get_result" kindref="compound">TierGetResult</ref></type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1af173828192bcc994351d6b0a50d09315" kindref="member">get</ref></type>
+        </param>
+        <param>
+          <type>(std::string_view, const <ref refid="structthemis_1_1access__model_1_1_tier_access_options" kindref="compound">TierAccessOptions</ref> &amp;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="42" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1af797a26c3b977b740eb9bd94b330602a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(TierPutResult, put,(std::string_view, std::string_view, const TierAccessOptions &amp;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1access__model_1_1_tier_put_result" kindref="compound">TierPutResult</ref></type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1a1455867bc15c7d68c0391620421ee69e" kindref="member">put</ref></type>
+        </param>
+        <param>
+          <type>(std::string_view, std::string_view, const <ref refid="structthemis_1_1access__model_1_1_tier_access_options" kindref="compound">TierAccessOptions</ref> &amp;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="44" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a80040444c888ada1c44635327bcbc94c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(bool, invalidate,(std::string_view),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1a063ef41b196c41bea599781955055a6e" kindref="member">invalidate</ref></type>
+        </param>
+        <param>
+          <type>(std::string_view)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="47" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a68990aa42d4503863be406883bf9c5b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(TierLevel, getTierLevel,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1a99c39b9c734ae89dc21b51765a0af6ea" kindref="member">getTierLevel</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="48" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a608591c1a12c8a95e5e63d828af63e76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(std::string, getTierName,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::string</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1a901d52fe25fbad584eb0c896f1a4ff61" kindref="member">getTierName</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="49" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a884d1635d8e3b1c5c880c97b3eafc009" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(bool, hasKey,(std::string_view),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1a84f6d8d775cb0b99523c7d0c69734ae4" kindref="member">hasKey</ref></type>
+        </param>
+        <param>
+          <type>(std::string_view)</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="50" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a1c5257db745b1809ab884b0b48a34ddc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(std::size_t, getCurrentSizeBytes,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1a18594d41a44fa636b51408a06a3711a0" kindref="member">getCurrentSizeBytes</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="51" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1ad2260701d43d7b6026e8bd5c56666ed9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(std::size_t, getMaxCapacityBytes,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1afffbb65c3afd17527519fcd7967199e0" kindref="member">getMaxCapacityBytes</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a9359ef21b2fd6bb3eb73b2f6650c30f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(std::size_t, getEntryCount,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1ad43b3cf5c803244a909dfa980e64ced0" kindref="member">getEntryCount</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="53" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1ac163fc845a70c4fcc9a81cab0ce1e056" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(double, getHitRate,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>double</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1ae151b7d6876527192943d063e23f9822" kindref="member">getHitRate</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="54" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a826010a315fed026732cb685175f0ae7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(std::chrono::microseconds, getAverageGetLatency,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::chrono::microseconds</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1a68817c58f49b57b9a06f0ea46dff77c9" kindref="member">getAverageGetLatency</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="55" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a4c1156c274974c504a80baef84ae1556" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(std::chrono::microseconds, getAveragePutLatency,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::chrono::microseconds</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1a781a7eb5be86fcbfba796a21b8a12e49" kindref="member">getAveragePutLatency</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="57" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a4a15737e6e4a6fe95ba8b4ce4d360aac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(uint64_t, getAccessCount,(std::string_view),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1a89a8539b30f47bbbc756178a79253f92" kindref="member">getAccessCount</ref></type>
+        </param>
+        <param>
+          <type>(std::string_view)</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="59" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a67d8a25de4cfc8b7acaa865f5402d756" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(std::chrono::seconds, getKeyAge,(std::string_view),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1abc3d42797a1d4d30de31a7b4824acce8" kindref="member">getKeyAge</ref></type>
+        </param>
+        <param>
+          <type>(std::string_view)</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="60" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1ab82c3252e99665a7fed72560c46c672a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(bool, initialize,(),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1ad4aaff0fc6705db4dcdd8987af210700" kindref="member">initialize</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="62" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a9520c8ac377915904518c3014a132a8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(void, shutdown,(),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1ab2090f08400001ef177b8df0bcb15805" kindref="member">shutdown</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="63" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a49b5d626ecfb164b1925fbcc75668cb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(bool, isHealthy,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1a02a5612c90bf6e7cbcd7de7cc963509c" kindref="member">isHealthy</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="64" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a9ea3fc09f844dd6247df61ebeed5be6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(TierGetResult, get,(std::string_view, const TierAccessOptions &amp;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1access__model_1_1_tier_get_result" kindref="compound">TierGetResult</ref></type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1af173828192bcc994351d6b0a50d09315" kindref="member">get</ref></type>
+        </param>
+        <param>
+          <type>(std::string_view, const <ref refid="structthemis_1_1access__model_1_1_tier_access_options" kindref="compound">TierAccessOptions</ref> &amp;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="41" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1af797a26c3b977b740eb9bd94b330602a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(TierPutResult, put,(std::string_view, std::string_view, const TierAccessOptions &amp;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1access__model_1_1_tier_put_result" kindref="compound">TierPutResult</ref></type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1a1455867bc15c7d68c0391620421ee69e" kindref="member">put</ref></type>
+        </param>
+        <param>
+          <type>(std::string_view, std::string_view, const <ref refid="structthemis_1_1access__model_1_1_tier_access_options" kindref="compound">TierAccessOptions</ref> &amp;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="43" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a80040444c888ada1c44635327bcbc94c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(bool, invalidate,(std::string_view),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1a063ef41b196c41bea599781955055a6e" kindref="member">invalidate</ref></type>
+        </param>
+        <param>
+          <type>(std::string_view)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="46" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a68990aa42d4503863be406883bf9c5b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(TierLevel, getTierLevel,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1a99c39b9c734ae89dc21b51765a0af6ea" kindref="member">getTierLevel</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="47" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a608591c1a12c8a95e5e63d828af63e76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(std::string, getTierName,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::string</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1a901d52fe25fbad584eb0c896f1a4ff61" kindref="member">getTierName</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="48" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a884d1635d8e3b1c5c880c97b3eafc009" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(bool, hasKey,(std::string_view),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1a84f6d8d775cb0b99523c7d0c69734ae4" kindref="member">hasKey</ref></type>
+        </param>
+        <param>
+          <type>(std::string_view)</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="49" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a1c5257db745b1809ab884b0b48a34ddc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(std::size_t, getCurrentSizeBytes,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1a18594d41a44fa636b51408a06a3711a0" kindref="member">getCurrentSizeBytes</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="50" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1ad2260701d43d7b6026e8bd5c56666ed9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(std::size_t, getMaxCapacityBytes,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1afffbb65c3afd17527519fcd7967199e0" kindref="member">getMaxCapacityBytes</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="51" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a9359ef21b2fd6bb3eb73b2f6650c30f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(std::size_t, getEntryCount,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1ad43b3cf5c803244a909dfa980e64ced0" kindref="member">getEntryCount</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1ac163fc845a70c4fcc9a81cab0ce1e056" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(double, getHitRate,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>double</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1ae151b7d6876527192943d063e23f9822" kindref="member">getHitRate</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="53" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a826010a315fed026732cb685175f0ae7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(std::chrono::microseconds, getAverageGetLatency,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::chrono::microseconds</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1a68817c58f49b57b9a06f0ea46dff77c9" kindref="member">getAverageGetLatency</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="54" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a4c1156c274974c504a80baef84ae1556" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(std::chrono::microseconds, getAveragePutLatency,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::chrono::microseconds</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1a781a7eb5be86fcbfba796a21b8a12e49" kindref="member">getAveragePutLatency</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="56" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a4a15737e6e4a6fe95ba8b4ce4d360aac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(uint64_t, getAccessCount,(std::string_view),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1a89a8539b30f47bbbc756178a79253f92" kindref="member">getAccessCount</ref></type>
+        </param>
+        <param>
+          <type>(std::string_view)</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="58" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a67d8a25de4cfc8b7acaa865f5402d756" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(std::chrono::seconds, getKeyAge,(std::string_view),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1abc3d42797a1d4d30de31a7b4824acce8" kindref="member">getKeyAge</ref></type>
+        </param>
+        <param>
+          <type>(std::string_view)</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="59" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1ab82c3252e99665a7fed72560c46c672a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(bool, initialize,(),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1ad4aaff0fc6705db4dcdd8987af210700" kindref="member">initialize</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="61" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a9520c8ac377915904518c3014a132a8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(void, shutdown,(),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1ab2090f08400001ef177b8df0bcb15805" kindref="member">shutdown</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="62" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1_mock_access_tier_1a49b5d626ecfb164b1925fbcc75668cb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::MockAccessTier::MOCK_METHOD</definition>
+        <argsstring>(bool, isHealthy,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themis::access_model::MockAccessTier::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1_access_tier_1a02a5612c90bf6e7cbcd7de7cc963509c" kindref="member">isHealthy</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_coordination_concurrency.cpp" line="63" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::access_model::AccessTier</label>
+        <link refid="classthemis_1_1access__model_1_1_access_tier"/>
+      </node>
+      <node id="1">
+        <label>themis::access_model::MockAccessTier</label>
+        <link refid="classthemis_1_1access__model_1_1_mock_access_tier"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::access_model::AccessTier</label>
+        <link refid="classthemis_1_1access__model_1_1_access_tier"/>
+      </node>
+      <node id="1">
+        <label>themis::access_model::MockAccessTier</label>
+        <link refid="classthemis_1_1access__model_1_1_mock_access_tier"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/access_model/test_access_model_e2e.cpp" line="40" column="1" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="40" bodyend="65"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1aa156a10e059767a51aa854522b0d8473" prot="public" virt="virtual"><scope>themis::access_model::MockAccessTier</scope><name>estimatePromotionLatency</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1af173828192bcc994351d6b0a50d09315" prot="public" virt="pure-virtual"><scope>themis::access_model::MockAccessTier</scope><name>get</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1a89a8539b30f47bbbc756178a79253f92" prot="public" virt="pure-virtual"><scope>themis::access_model::MockAccessTier</scope><name>getAccessCount</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1a68817c58f49b57b9a06f0ea46dff77c9" prot="public" virt="pure-virtual"><scope>themis::access_model::MockAccessTier</scope><name>getAverageGetLatency</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1a781a7eb5be86fcbfba796a21b8a12e49" prot="public" virt="pure-virtual"><scope>themis::access_model::MockAccessTier</scope><name>getAveragePutLatency</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1a18594d41a44fa636b51408a06a3711a0" prot="public" virt="pure-virtual"><scope>themis::access_model::MockAccessTier</scope><name>getCurrentSizeBytes</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1ad43b3cf5c803244a909dfa980e64ced0" prot="public" virt="pure-virtual"><scope>themis::access_model::MockAccessTier</scope><name>getEntryCount</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1ae151b7d6876527192943d063e23f9822" prot="public" virt="pure-virtual"><scope>themis::access_model::MockAccessTier</scope><name>getHitRate</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1abc3d42797a1d4d30de31a7b4824acce8" prot="public" virt="pure-virtual"><scope>themis::access_model::MockAccessTier</scope><name>getKeyAge</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1afffbb65c3afd17527519fcd7967199e0" prot="public" virt="pure-virtual"><scope>themis::access_model::MockAccessTier</scope><name>getMaxCapacityBytes</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1a99c39b9c734ae89dc21b51765a0af6ea" prot="public" virt="pure-virtual"><scope>themis::access_model::MockAccessTier</scope><name>getTierLevel</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1a901d52fe25fbad584eb0c896f1a4ff61" prot="public" virt="pure-virtual"><scope>themis::access_model::MockAccessTier</scope><name>getTierName</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1a84f6d8d775cb0b99523c7d0c69734ae4" prot="public" virt="pure-virtual"><scope>themis::access_model::MockAccessTier</scope><name>hasKey</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1ad4aaff0fc6705db4dcdd8987af210700" prot="public" virt="pure-virtual"><scope>themis::access_model::MockAccessTier</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1a063ef41b196c41bea599781955055a6e" prot="public" virt="pure-virtual"><scope>themis::access_model::MockAccessTier</scope><name>invalidate</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1a02a5612c90bf6e7cbcd7de7cc963509c" prot="public" virt="pure-virtual"><scope>themis::access_model::MockAccessTier</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a9ea3fc09f844dd6247df61ebeed5be6c" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1af797a26c3b977b740eb9bd94b330602a" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a80040444c888ada1c44635327bcbc94c" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a68990aa42d4503863be406883bf9c5b1" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a608591c1a12c8a95e5e63d828af63e76" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a884d1635d8e3b1c5c880c97b3eafc009" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a1c5257db745b1809ab884b0b48a34ddc" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1ad2260701d43d7b6026e8bd5c56666ed9" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a9359ef21b2fd6bb3eb73b2f6650c30f6" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1ac163fc845a70c4fcc9a81cab0ce1e056" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a826010a315fed026732cb685175f0ae7" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a4c1156c274974c504a80baef84ae1556" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a4a15737e6e4a6fe95ba8b4ce4d360aac" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a67d8a25de4cfc8b7acaa865f5402d756" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1ab82c3252e99665a7fed72560c46c672a" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a9520c8ac377915904518c3014a132a8d" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a49b5d626ecfb164b1925fbcc75668cb1" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a9ea3fc09f844dd6247df61ebeed5be6c" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1af797a26c3b977b740eb9bd94b330602a" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a80040444c888ada1c44635327bcbc94c" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a68990aa42d4503863be406883bf9c5b1" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a608591c1a12c8a95e5e63d828af63e76" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a884d1635d8e3b1c5c880c97b3eafc009" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a1c5257db745b1809ab884b0b48a34ddc" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1ad2260701d43d7b6026e8bd5c56666ed9" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a9359ef21b2fd6bb3eb73b2f6650c30f6" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1ac163fc845a70c4fcc9a81cab0ce1e056" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a826010a315fed026732cb685175f0ae7" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a4c1156c274974c504a80baef84ae1556" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a4a15737e6e4a6fe95ba8b4ce4d360aac" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a67d8a25de4cfc8b7acaa865f5402d756" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1ab82c3252e99665a7fed72560c46c672a" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a9520c8ac377915904518c3014a132a8d" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_mock_access_tier_1a49b5d626ecfb164b1925fbcc75668cb1" prot="public" virt="non-virtual"><scope>themis::access_model::MockAccessTier</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1a1455867bc15c7d68c0391620421ee69e" prot="public" virt="pure-virtual"><scope>themis::access_model::MockAccessTier</scope><name>put</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1ab2090f08400001ef177b8df0bcb15805" prot="public" virt="pure-virtual"><scope>themis::access_model::MockAccessTier</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1ae249b13187604a00077477e87ce1e0ca" prot="public" virt="virtual"><scope>themis::access_model::MockAccessTier</scope><name>supportsDemotion</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1a483c291cbc019a0eaf019927879f84b1" prot="public" virt="virtual"><scope>themis::access_model::MockAccessTier</scope><name>supportsPromotion</name></member>
+      <member refid="classthemis_1_1access__model_1_1_access_tier_1a5913db5708822b06081eae64d4c60eac" prot="public" virt="virtual"><scope>themis::access_model::MockAccessTier</scope><name>~AccessTier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

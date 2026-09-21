@@ -1,0 +1,1261 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="structthemis_1_1_faceted_search_1_1_active_facet" kind="struct"><name>themis::FacetedSearch::ActiveFacet</name>
+    <member refid="structthemis_1_1_faceted_search_1_1_active_facet_1a8197fdc049a04111767ac99ffbe18717" kind="variable"><name>field</name></member>
+    <member refid="structthemis_1_1_faceted_search_1_1_active_facet_1aeb571d21d1ad59588ef5ea4c8b209d06" kind="variable"><name>value</name></member>
+  </compound>
+  <compound refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test" kind="class"><name>themis::search::testing::AnalyticsEdgeCasesTest</name>
+    <member refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test_1a9926d3b3bf6069417dcf7cda601cd591" kind="variable"><name>kCanonicalRngSeed</name></member>
+    <member refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test_1acdfaec20a3ab38478bd8930b92dfb4ff" kind="function"><name>SetUp</name></member>
+  </compound>
+  <compound refid="structthemis_1_1search_1_1_ann_layer_candidate" kind="struct"><name>themis::search::AnnLayerCandidate</name>
+    <member refid="structthemis_1_1search_1_1_ann_layer_candidate_1a1f5b59f2d84e64b30803ab07825e860b" kind="variable"><name>id</name></member>
+    <member refid="structthemis_1_1search_1_1_ann_layer_candidate_1a658366db66d46464e718cdc50ef4b08c" kind="variable"><name>distance</name></member>
+    <member refid="structthemis_1_1search_1_1_ann_layer_candidate_1a338ce212a30040b19660b42268e69df9" kind="variable"><name>score</name></member>
+  </compound>
+  <compound refid="classthemis_1_1_autocomplete_engine" kind="class"><name>themis::AutocompleteEngine</name>
+    <member refid="classthemis_1_1_autocomplete_engine_1a975186346e256e4a32f43fee34d7e7ea" kind="variable"><name>index_</name></member>
+    <member refid="classthemis_1_1_autocomplete_engine_1a16e6b02748768f4c9c1a48cdc308cad7" kind="variable"><name>analytics_</name></member>
+    <member refid="classthemis_1_1_autocomplete_engine_1aab1ed399ae51b4345d95d6a743c1fcad" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1_autocomplete_engine_1a3149be7f64843d1b9c9ec38e90c51696" kind="function"><name>AutocompleteEngine</name></member>
+    <member refid="classthemis_1_1_autocomplete_engine_1a32f27fc734105230dad33e4eeda5ca5e" kind="function"><name>AutocompleteEngine</name></member>
+    <member refid="classthemis_1_1_autocomplete_engine_1ae3f3b647f27f7b9641ed552cacc03a45" kind="function"><name>suggest</name></member>
+    <member refid="classthemis_1_1_autocomplete_engine_1a625644cb92194db9def11dd8557e6bc2" kind="function"><name>suggestByPrefix</name></member>
+    <member refid="classthemis_1_1_autocomplete_engine_1ac307fce6968b83a121c6aa896cefb40c" kind="function"><name>suggestPopular</name></member>
+    <member refid="classthemis_1_1_autocomplete_engine_1a13656d642ca35d0e785918322382842e" kind="function"><name>getConfig</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_click_event" kind="struct"><name>themis::ClickEvent</name>
+    <member refid="structthemis_1_1_click_event_1a776e56b74a551e1e3714e0f82a30c434" kind="variable"><name>query</name></member>
+    <member refid="structthemis_1_1_click_event_1a195ef7f57d1e8e5805b26d80e2f72fcd" kind="variable"><name>document_id</name></member>
+    <member refid="structthemis_1_1_click_event_1a4b4690429a57996fd45e7f649f229f62" kind="variable"><name>result_position</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_autocomplete_engine_1_1_config" kind="struct"><name>themis::AutocompleteEngine::Config</name>
+    <member refid="structthemis_1_1_autocomplete_engine_1_1_config_1a35faeb207be873a396943170d25a3e16" kind="variable"><name>max_suggestions</name></member>
+    <member refid="structthemis_1_1_autocomplete_engine_1_1_config_1aff37f38020044fb631c96e5c105e23dd" kind="variable"><name>min_prefix_length</name></member>
+    <member refid="structthemis_1_1_autocomplete_engine_1_1_config_1ac2b1ffcbdc57806b6050017bddd3ff41" kind="variable"><name>popular_boost</name></member>
+    <member refid="structthemis_1_1_autocomplete_engine_1_1_config_1a8b31cdd6930e596aa86605d5cd2667eb" kind="variable"><name>include_popular</name></member>
+    <member refid="structthemis_1_1_autocomplete_engine_1_1_config_1aca5944643dad37185f832d80dc44bf84" kind="variable"><name>include_prefix</name></member>
+    <member refid="structthemis_1_1_autocomplete_engine_1_1_config_1aff0a11430510083a4290f2ba4616c438" kind="variable"><name>deduplicate</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_conversational_search_1_1_config" kind="struct"><name>themis::ConversationalSearch::Config</name>
+    <member refid="structthemis_1_1_conversational_search_1_1_config_1ad90d74eb25959b696ea3faba8bc6b57e" kind="variable"><name>context_window</name></member>
+    <member refid="structthemis_1_1_conversational_search_1_1_config_1ae4f14b5d784882e796d2b94201075358" kind="variable"><name>max_history</name></member>
+    <member refid="structthemis_1_1_conversational_search_1_1_config_1a676a2a5bb5ff62f798c7fc89a98d936a" kind="variable"><name>context_separator</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_cross_lingual_search_1_1_config" kind="struct"><name>themis::CrossLingualSearch::Config</name>
+    <member refid="structthemis_1_1_cross_lingual_search_1_1_config_1ad1679f31c14dcd3102649dd898dc50fd" kind="variable"><name>k</name></member>
+    <member refid="structthemis_1_1_cross_lingual_search_1_1_config_1a541de2e1e791a933d755f2418d9f24e0" kind="variable"><name>candidates</name></member>
+    <member refid="structthemis_1_1_cross_lingual_search_1_1_config_1a137b6afc14c13cbaea7bf461d0de31c2" kind="variable"><name>score_threshold</name></member>
+    <member refid="structthemis_1_1_cross_lingual_search_1_1_config_1af22e02c6362175346b4f2db47cfc8a75" kind="variable"><name>rrf_k</name></member>
+    <member refid="structthemis_1_1_cross_lingual_search_1_1_config_1ac4036bf6a80458b3d3d2fb67a37491a9" kind="variable"><name>max_k</name></member>
+    <member refid="structthemis_1_1_cross_lingual_search_1_1_config_1a9977bf8bc2e5e89179b494ceb382369d" kind="variable"><name>max_candidates</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_distributed_hybrid_search_1_1_config" kind="struct"><name>themis::DistributedHybridSearch::Config</name>
+    <member refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1ae7a942cf2f4e18cbe9a8f901c8426c3a" kind="variable"><name>k</name></member>
+    <member refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1ab043b98a05201430b83a0f5d530dba75" kind="variable"><name>rrf_k</name></member>
+    <member refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1afe5230c0be6fb6c370ead1c5d151a858" kind="variable"><name>shard_timeout_ms</name></member>
+    <member refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1a3bc92d10d4a6e6ba8c365abe12244037" kind="variable"><name>max_concurrent_shards</name></member>
+    <member refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1adbf8a097320c2cd5eb9f929531fe7edb" kind="variable"><name>skip_failed_shards</name></member>
+    <member refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1ac76a7a48c5e52fbd6aeddb98568dca79" kind="variable"><name>local_shard_id</name></member>
+    <member refid="structthemis_1_1_distributed_hybrid_search_1_1_config_1ad5b53116edc353378fff6ba2dcbc1e6a" kind="variable"><name>search_endpoint</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_federated_search_1_1_config" kind="struct"><name>themis::FederatedSearch::Config</name>
+    <member refid="structthemis_1_1_federated_search_1_1_config_1a5a5df660424bf4fd21a2cdc6529be3e8" kind="variable"><name>k</name></member>
+    <member refid="structthemis_1_1_federated_search_1_1_config_1a91a61c421daafe3de2ee32cad951a0ab" kind="variable"><name>rrf_k</name></member>
+    <member refid="structthemis_1_1_federated_search_1_1_config_1a68ef965c144ac585fab4eccfb7fcbd7f" kind="variable"><name>skip_null_tenants</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_fuzzy_matcher_1_1_config" kind="struct"><name>themis::FuzzyMatcher::Config</name>
+    <member refid="structthemis_1_1_fuzzy_matcher_1_1_config_1afbee4a6748c4e0d9852b768ab46b3ac5" kind="variable"><name>algorithm</name></member>
+    <member refid="structthemis_1_1_fuzzy_matcher_1_1_config_1a1c98ecbce83c33ba208a6c8910bf3435" kind="variable"><name>max_distance</name></member>
+    <member refid="structthemis_1_1_fuzzy_matcher_1_1_config_1a7f75e1fbf555915d81c02cdfa53ffd3b" kind="variable"><name>ngram_size</name></member>
+    <member refid="structthemis_1_1_fuzzy_matcher_1_1_config_1a3fc762aeaa0cc61553603d4e52734258" kind="variable"><name>phonetic_prefilter</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_hybrid_search_1_1_config" kind="struct"><name>themis::HybridSearch::Config</name>
+    <member refid="structthemis_1_1_hybrid_search_1_1_config_1a2a2d50c357b090968e989c6c0e2fa62f" kind="variable"><name>bm25_weight</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_config_1aba9141f4a87f8c7d522e9053b7b41bc4" kind="variable"><name>vector_weight</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_config_1a4a5dba6b00d1667b394279ca33afe11e" kind="variable"><name>k</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_config_1a738a3d9d327054ca9b663465c7729fe5" kind="variable"><name>k_bm25</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_config_1ae1c7b448d6a4844e8507626955bf7926" kind="variable"><name>k_vector</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_config_1a5e333c5dee7f7a950b0b48bfbb2201dc" kind="variable"><name>use_rrf</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_config_1a97852878b845fd1802c4756dc5c8740b" kind="variable"><name>rrf_k</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_config_1a9a768ccbe400703661083e15e62eba6f" kind="variable"><name>normalize_scores</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_config_1a0f219c83c2f163fd527b0208236fc18d" kind="variable"><name>max_k</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_config_1a82ff68429f754936fa9dfa206a179b1f" kind="variable"><name>max_candidates</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_config_1ac34d8e628ce281a43752ba6d364a1052" kind="variable"><name>default_table</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_config_1a27c8ec736f8681b5e772963293223bc7" kind="variable"><name>default_column</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_config_1ada8b8ab3146fe97a06399d96777f66ef" kind="variable"><name>vector_metric</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_learning_to_rank_1_1_config" kind="struct"><name>themis::LearningToRank::Config</name>
+    <member refid="structthemis_1_1_learning_to_rank_1_1_config_1af52950b9e31e7264859286b7eef9e0a0" kind="variable"><name>learning_rate</name></member>
+    <member refid="structthemis_1_1_learning_to_rank_1_1_config_1af9045c05ff0d6701523b83bc98a8d824" kind="variable"><name>max_click_buffer</name></member>
+    <member refid="structthemis_1_1_learning_to_rank_1_1_config_1a9cce6383c204b7bccd5674042483e86d" kind="variable"><name>regularization</name></member>
+    <member refid="structthemis_1_1_learning_to_rank_1_1_config_1ab08d7b49567c2cad3e0bb36d2b119feb" kind="function"><name>defaults</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_llm_query_rewriter_1_1_config" kind="struct"><name>themis::LlmQueryRewriter::Config</name>
+    <member refid="structthemis_1_1_llm_query_rewriter_1_1_config_1a2f330c0dbf0c85f7c34b546a03568e59" kind="variable"><name>num_rewrites</name></member>
+    <member refid="structthemis_1_1_llm_query_rewriter_1_1_config_1af1f29112f478cb9b7387c0d970ea769e" kind="variable"><name>max_tokens</name></member>
+    <member refid="structthemis_1_1_llm_query_rewriter_1_1_config_1a08ec293267a38756762d3e6e7450a865" kind="variable"><name>temperature</name></member>
+    <member refid="structthemis_1_1_llm_query_rewriter_1_1_config_1acee374bc7fa6b2f0c0a5dce7cc97888c" kind="variable"><name>fallback_to_original</name></member>
+    <member refid="structthemis_1_1_llm_query_rewriter_1_1_config_1a375fbfcc4b02e524b5b9431bb3dbf481" kind="variable"><name>max_rewrite_length</name></member>
+    <member refid="structthemis_1_1_llm_query_rewriter_1_1_config_1a5d552549979e6eed07cc7c430bf16888" kind="variable"><name>min_token_overlap_ratio</name></member>
+    <member refid="structthemis_1_1_llm_query_rewriter_1_1_config_1ab280fb5179b15b95d16b9f8953ffec3b" kind="function"><name>defaults</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_llm_reranker_1_1_config" kind="struct"><name>themis::LlmReranker::Config</name>
+    <member refid="structthemis_1_1_llm_reranker_1_1_config_1abaec7937dfd9bdd24cbaf7017219869d" kind="variable"><name>batch_size</name></member>
+    <member refid="structthemis_1_1_llm_reranker_1_1_config_1a57feeab9dafd50fd99942e3db578926a" kind="variable"><name>llm_weight</name></member>
+    <member refid="structthemis_1_1_llm_reranker_1_1_config_1a292cc1165080a2492808f68c48459722" kind="variable"><name>max_snippet_length</name></member>
+    <member refid="structthemis_1_1_llm_reranker_1_1_config_1a83c28cfcd2ec51b36eef2ffb6d5b6e05" kind="variable"><name>fallback_to_original</name></member>
+    <member refid="structthemis_1_1_llm_reranker_1_1_config_1a5faa6021efd5824960028b3fd98f5e05" kind="variable"><name>max_tokens</name></member>
+    <member refid="structthemis_1_1_llm_reranker_1_1_config_1a8d534ba0e4479c1277634e5879a975f9" kind="variable"><name>temperature</name></member>
+    <member refid="structthemis_1_1_llm_reranker_1_1_config_1a27288ae97b139962396eafce64fc74b2" kind="variable"><name>min_score_threshold</name></member>
+    <member refid="structthemis_1_1_llm_reranker_1_1_config_1a83db049a61e70339633b96f1faf3041f" kind="function"><name>defaults</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_multi_field_boosted_search_1_1_config" kind="struct"><name>themis::MultiFieldBoostedSearch::Config</name>
+    <member refid="structthemis_1_1_multi_field_boosted_search_1_1_config_1a5b61cb62b3c938a55babd415cab79311" kind="variable"><name>k</name></member>
+    <member refid="structthemis_1_1_multi_field_boosted_search_1_1_config_1ac770adccd83b80674d1e348c64c9c800" kind="variable"><name>candidates_per_field</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_multi_modal_search_1_1_config" kind="struct"><name>themis::MultiModalSearch::Config</name>
+    <member refid="structthemis_1_1_multi_modal_search_1_1_config_1aa32459a03f8213a96492cfec73aa0ce7" kind="variable"><name>k</name></member>
+    <member refid="structthemis_1_1_multi_modal_search_1_1_config_1a181323eaa72a4c3dd7f5b08322c1949a" kind="variable"><name>rrf_k</name></member>
+    <member refid="structthemis_1_1_multi_modal_search_1_1_config_1ac5ac72d3508904009551bc67ad698dcd" kind="variable"><name>candidates_per_modal</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_negative_keyword_filter_1_1_config" kind="struct"><name>themis::NegativeKeywordFilter::Config</name>
+    <member refid="structthemis_1_1_negative_keyword_filter_1_1_config_1ac1e690ef20cb80952bc75be7dfbcfe5c" kind="variable"><name>max_exclude_scan</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_neural_sparse_retrieval_1_1_config" kind="struct"><name>themis::NeuralSparseRetrieval::Config</name>
+    <member refid="structthemis_1_1_neural_sparse_retrieval_1_1_config_1aeec5bba3aead4194d7c4bd59e498f684" kind="variable"><name>k</name></member>
+    <member refid="structthemis_1_1_neural_sparse_retrieval_1_1_config_1a7f9999fc9f3e1f3d96dd9294b5a63c87" kind="variable"><name>max_terms_per_doc</name></member>
+    <member refid="structthemis_1_1_neural_sparse_retrieval_1_1_config_1a3764a9b760191b4e823d97037a43b722" kind="variable"><name>score_threshold</name></member>
+    <member refid="structthemis_1_1_neural_sparse_retrieval_1_1_config_1a5b8502c5c19b8ec6015e4071f09aa9dd" kind="variable"><name>normalize_scores</name></member>
+    <member refid="structthemis_1_1_neural_sparse_retrieval_1_1_config_1a82f7f50921e45d77ae33805ba98d00a3" kind="function"><name>defaults</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_personalized_ranker_1_1_config" kind="struct"><name>themis::PersonalizedRanker::Config</name>
+    <member refid="structthemis_1_1_personalized_ranker_1_1_config_1a7cd685f2f6aa2e1ae9ed3ad930911a1b" kind="variable"><name>decay_rate</name></member>
+    <member refid="structthemis_1_1_personalized_ranker_1_1_config_1acded9b0cd93660a6d3312343b74c5d93" kind="variable"><name>max_interactions_per_user</name></member>
+    <member refid="structthemis_1_1_personalized_ranker_1_1_config_1a0a15bb5362cc93a66a0d12453137020f" kind="variable"><name>boost_weight</name></member>
+    <member refid="structthemis_1_1_personalized_ranker_1_1_config_1a86b8742abfd8241c5e6eb88c992842c9" kind="function"><name>defaults</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_query_expander_1_1_config" kind="struct"><name>themis::QueryExpander::Config</name>
+    <member refid="structthemis_1_1_query_expander_1_1_config_1aecb7458c54cc20bb8ffe3a4a768887d4" kind="variable"><name>use_synonyms</name></member>
+    <member refid="structthemis_1_1_query_expander_1_1_config_1a67d2468edc7c842979620dd0e0c544b3" kind="variable"><name>correct_spelling</name></member>
+    <member refid="structthemis_1_1_query_expander_1_1_config_1a009085c3323fb0d99a1d4cebebeab443" kind="variable"><name>detect_phrases</name></member>
+    <member refid="structthemis_1_1_query_expander_1_1_config_1a8fce5775195f44abc71b2f7b789edbed" kind="variable"><name>synonym_weight</name></member>
+    <member refid="structthemis_1_1_query_expander_1_1_config_1a1550013e632d11fbe34e1a1a5aeb99da" kind="variable"><name>frequency_weight</name></member>
+    <member refid="structthemis_1_1_query_expander_1_1_config_1ade2872217578417c65db6bf869e83fd2" kind="variable"><name>max_expansions</name></member>
+    <member refid="structthemis_1_1_query_expander_1_1_config_1ae22cbd9d6a1f8b5b7a5ef63ce53b9cd3" kind="variable"><name>max_edit_distance</name></member>
+    <member refid="structthemis_1_1_query_expander_1_1_config_1ad8849114bb559d01b767dd6558b33968" kind="function"><name>defaults</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_search_analytics_1_1_config" kind="struct"><name>themis::SearchAnalytics::Config</name>
+    <member refid="structthemis_1_1_search_analytics_1_1_config_1a861e3155fb36545e10e88ec788d95d53" kind="variable"><name>max_events</name></member>
+    <member refid="structthemis_1_1_search_analytics_1_1_config_1a06839303391062cdf9c74e0d3d0a3fdb" kind="function"><name>defaults</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_search_highlighter_1_1_config" kind="struct"><name>themis::SearchHighlighter::Config</name>
+    <member refid="structthemis_1_1_search_highlighter_1_1_config_1af938e63bcfe7b1dba48369a638340f2b" kind="variable"><name>highlight_open</name></member>
+    <member refid="structthemis_1_1_search_highlighter_1_1_config_1a8ab7d089edf594941fbae4c86cbc58fe" kind="variable"><name>highlight_close</name></member>
+    <member refid="structthemis_1_1_search_highlighter_1_1_config_1a9c296b17d30048aa07b3cdca828e128b" kind="variable"><name>ellipsis</name></member>
+    <member refid="structthemis_1_1_search_highlighter_1_1_config_1a6e480048a527828d808d719e88e9780f" kind="variable"><name>min_window</name></member>
+    <member refid="structthemis_1_1_search_highlighter_1_1_config_1ab498074b6136cf50b0711b78546c226d" kind="variable"><name>max_snippet_len</name></member>
+    <member refid="structthemis_1_1_search_highlighter_1_1_config_1a6595af2cc8ab55e9617c922657501d2d" kind="variable"><name>case_insensitive</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_search_result_stream_1_1_config" kind="struct"><name>themis::SearchResultStream::Config</name>
+    <member refid="structthemis_1_1_search_result_stream_1_1_config_1ad94d8f9cc90af1f29e56606ae568a6d0" kind="variable"><name>total_k</name></member>
+    <member refid="structthemis_1_1_search_result_stream_1_1_config_1a4b4d73f160d53cf788a9e6ecbc81d651" kind="variable"><name>page_size</name></member>
+    <member refid="structthemis_1_1_search_result_stream_1_1_config_1a1c66ffab7301592c7a4ded580da3e73b" kind="variable"><name>open_timeout_ms</name></member>
+  </compound>
+  <compound refid="classthemis_1_1_conversational_search" kind="class"><name>themis::ConversationalSearch</name>
+    <member refid="classthemis_1_1_conversational_search_1a62ece65f7ca40a024acd03f55f81b955" kind="variable"><name>hybrid_search_</name></member>
+    <member refid="classthemis_1_1_conversational_search_1a0a702927b7fd91529bedccafca49091c" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1_conversational_search_1a24e7cb70cb7e752688e47640b7744719" kind="variable"><name>history_</name></member>
+    <member refid="classthemis_1_1_conversational_search_1ab96c07d771b4341b0a8041c271377858" kind="function"><name>ConversationalSearch</name></member>
+    <member refid="classthemis_1_1_conversational_search_1a771e613b59cb78ec6cc08f2517e0e725" kind="function"><name>ConversationalSearch</name></member>
+    <member refid="classthemis_1_1_conversational_search_1ab4e685fccc837a5dc39ad36e05e4ce15" kind="function"><name>search</name></member>
+    <member refid="classthemis_1_1_conversational_search_1a121d309437251fd529f219e73432731d" kind="function"><name>reformulate</name></member>
+    <member refid="classthemis_1_1_conversational_search_1afd1d0e65184cd339eb36176a8603f33b" kind="function"><name>getHistory</name></member>
+    <member refid="classthemis_1_1_conversational_search_1a19e4ab2127050caa08eed5daffde6945" kind="function"><name>historySize</name></member>
+    <member refid="classthemis_1_1_conversational_search_1a0b9ee09849137838b040e0695f31e3a8" kind="function"><name>clearHistory</name></member>
+    <member refid="classthemis_1_1_conversational_search_1adad07adb4b5cb03bbbb0a52c621e9bfa" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1_conversational_search_1afd3bcd9f1ff2d5a5fb744c0f64ee98d5" kind="function"><name>setConfig</name></member>
+  </compound>
+  <compound refid="classthemis_1_1_cross_lingual_search" kind="class"><name>themis::CrossLingualSearch</name>
+    <member refid="classthemis_1_1_cross_lingual_search_1a211df67e5cbd4671231958044132adcb" kind="variable"><name>vec_index_</name></member>
+    <member refid="classthemis_1_1_cross_lingual_search_1a07f56ba4777dac23e9938b0c12dbf8a9" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1_cross_lingual_search_1a4da672c75a9344024f05de04bd79d6a2" kind="variable"><name>lang_map_</name></member>
+    <member refid="classthemis_1_1_cross_lingual_search_1af9722cf7dc7904b0923ad86e93f7f6d5" kind="function"><name>CrossLingualSearch</name></member>
+    <member refid="classthemis_1_1_cross_lingual_search_1a8b6cc0b416bbb61a7967d228c82e4011" kind="function"><name>CrossLingualSearch</name></member>
+    <member refid="classthemis_1_1_cross_lingual_search_1a8150dc026f6ee766d3f584cb526e2bdd" kind="function"><name>setLanguageMap</name></member>
+    <member refid="classthemis_1_1_cross_lingual_search_1a78f0a64eed3578b170e56044fd914e1e" kind="function"><name>search</name></member>
+    <member refid="classthemis_1_1_cross_lingual_search_1ae9594d54f85da5d3b60b69c646e5db14" kind="function"><name>searchMultiEmbedding</name></member>
+    <member refid="classthemis_1_1_cross_lingual_search_1ad957adcff999f9ed5a05a7e6675b7656" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1_cross_lingual_search_1aa29a008e81b767f042350de02d7ee095" kind="function"><name>setConfig</name></member>
+    <member refid="classthemis_1_1_cross_lingual_search_1a80dbbcdb1d0748e813e387b0e5461a8f" kind="function"><name>executeKnn</name></member>
+    <member refid="classthemis_1_1_cross_lingual_search_1aab5e5651cc2185e81530f561937776a7" kind="function"><name>applyHintsAndFinalize</name></member>
+  </compound>
+  <compound refid="classthemis_1_1_distributed_hybrid_search" kind="class"><name>themis::DistributedHybridSearch</name>
+    <member refid="classthemis_1_1_distributed_hybrid_search_1a6cc0802864ba4afd601edd6a084adfeb" kind="variable"><name>local_search_</name></member>
+    <member refid="classthemis_1_1_distributed_hybrid_search_1a288992b3afe57b7716271bc2f6d7ee75" kind="variable"><name>resolver_</name></member>
+    <member refid="classthemis_1_1_distributed_hybrid_search_1a64717d9aab11f86383d959ed9a2d5fa1" kind="variable"><name>executor_</name></member>
+    <member refid="classthemis_1_1_distributed_hybrid_search_1aac49ffc459ba77ad89bd0122cf3d3034" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1_distributed_hybrid_search_1ac4b21023b03a3f67270723386c07ff7c" kind="variable"><name>total_searches_</name></member>
+    <member refid="classthemis_1_1_distributed_hybrid_search_1a456a017396b06c18f94f8426108e927e" kind="variable"><name>total_shards_queried_</name></member>
+    <member refid="classthemis_1_1_distributed_hybrid_search_1ae0408201e16e2ba335e23b70b0257124" kind="variable"><name>total_shard_failures_</name></member>
+    <member refid="classthemis_1_1_distributed_hybrid_search_1ab144dd0d66942164bc4a7fde895c632d" kind="function"><name>DistributedHybridSearch</name></member>
+    <member refid="classthemis_1_1_distributed_hybrid_search_1a1a89b38dabbc1b7fc754820b0e8e2400" kind="function"><name>DistributedHybridSearch</name></member>
+    <member refid="classthemis_1_1_distributed_hybrid_search_1aefb074cc0631bf1dd03b849a07f1adf5" kind="function"><name>search</name></member>
+    <member refid="classthemis_1_1_distributed_hybrid_search_1ae34f91464f77b2f1c840d5c2a5da597f" kind="function"><name>mergeShardResults</name></member>
+    <member refid="classthemis_1_1_distributed_hybrid_search_1a245f465b1b7314d79eb9a0390082f1b7" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1_distributed_hybrid_search_1a78a558bea48ef1841265b6a51074f5e2" kind="function"><name>setConfig</name></member>
+    <member refid="classthemis_1_1_distributed_hybrid_search_1a366314bf13fbff8fb7d3c56e688a8bb2" kind="function"><name>parseShardResponse</name></member>
+    <member refid="classthemis_1_1_distributed_hybrid_search_1a67ccf19d000e7a4de6de2cef178d86b0" kind="function"><name>searchRemoteShard</name></member>
+  </compound>
+  <compound refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kind="class"><name>themis::search::testing::DistributedSearchEdgeCasesTest</name>
+    <member refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test_1a4a96d4b06b6b5db92f6490f630af3de6" kind="variable"><name>kCanonicalRngSeed</name></member>
+    <member refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test_1a63aaa589ba2bff18180ce01ccdbd33fd" kind="function"><name>SetUp</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_cross_lingual_search_1_1_embedding_query" kind="struct"><name>themis::CrossLingualSearch::EmbeddingQuery</name>
+    <member refid="structthemis_1_1_cross_lingual_search_1_1_embedding_query_1ad896ec4003674bf289cf63f438402f5a" kind="variable"><name>embedding</name></member>
+    <member refid="structthemis_1_1_cross_lingual_search_1_1_embedding_query_1a5372949cfd1dbcbcd4a33f3195e52272" kind="variable"><name>weight</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_expanded_query" kind="struct"><name>themis::ExpandedQuery</name>
+    <member refid="structthemis_1_1_expanded_query_1a5da931b706005509b9881bab4703f97b" kind="variable"><name>original</name></member>
+    <member refid="structthemis_1_1_expanded_query_1a0ef02619d1d5a9fbdf0d00526b1659f4" kind="variable"><name>corrected</name></member>
+    <member refid="structthemis_1_1_expanded_query_1abb2ac595fdaeabd8955c63b53a6d9450" kind="variable"><name>synonyms</name></member>
+    <member refid="structthemis_1_1_expanded_query_1a62ba9539ae5f0d4ec5bb9b3e736c2901" kind="variable"><name>relaxed_terms</name></member>
+    <member refid="structthemis_1_1_expanded_query_1aa89496dbc4a4f6850cf7c635a347d9c4" kind="variable"><name>all_terms</name></member>
+  </compound>
+  <compound refid="classthemis_1_1_faceted_search" kind="class"><name>themis::FacetedSearch</name>
+    <member refid="classthemis_1_1_faceted_search_1a21ba1b57b90ad1e9874fa71a0a033a7f" kind="variable"><name>index_</name></member>
+    <member refid="classthemis_1_1_faceted_search_1a240ea270f0a5b4fcb7aa0dcfd91f6793" kind="function"><name>FacetedSearch</name></member>
+    <member refid="classthemis_1_1_faceted_search_1a50dda5048ae73f57db1c98d34f35ad63" kind="function"><name>computeFacet</name></member>
+    <member refid="classthemis_1_1_faceted_search_1a4a14283faf8df1c86915467f9c38b053" kind="function"><name>computeFacets</name></member>
+    <member refid="classthemis_1_1_faceted_search_1a9e4092a9d5ea9a6984487dd15dc6438b" kind="function"><name>computeRangeFacet</name></member>
+    <member refid="classthemis_1_1_faceted_search_1a7844127893235ad74d3d7b6c796590dc" kind="function"><name>applyFacetFilters</name></member>
+    <member refid="classthemis_1_1_faceted_search_1af14369b47cb7ce8ad6fa1ab6cbd31e73" kind="function"><name>discoverFacetableColumns</name></member>
+    <member refid="classthemis_1_1_faceted_search_1a65dcb3cc333ab24286fa709c23dc758f" kind="function"><name>computeDynamicFacets</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_facet_result" kind="struct"><name>themis::FacetResult</name>
+    <member refid="structthemis_1_1_facet_result_1a7a05c4d7722687aa4347a5fc9ad9b7e8" kind="variable"><name>field</name></member>
+    <member refid="structthemis_1_1_facet_result_1ab86d0979e16e1038c2c3b58dec89aa51" kind="variable"><name>value_counts</name></member>
+    <member refid="structthemis_1_1_facet_result_1a33c8d3ee80e5c0fd6971d06b6495ef72" kind="variable"><name>total_docs</name></member>
+  </compound>
+  <compound refid="classthemis_1_1_federated_search" kind="class"><name>themis::FederatedSearch</name>
+    <member refid="classthemis_1_1_federated_search_1a03af440b412dfa39a82040b67331c19f" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1_federated_search_1ad45bb20629798836b8405e186ea9c17f" kind="variable"><name>tenants_</name></member>
+    <member refid="classthemis_1_1_federated_search_1a8ac3b353524b66aca5c87d8cb89b8820" kind="variable"><name>tenant_weights_</name></member>
+    <member refid="classthemis_1_1_federated_search_1a77d9750b5c4d7f752edf1e44d1567e2c" kind="function"><name>FederatedSearch</name></member>
+    <member refid="classthemis_1_1_federated_search_1a9142c7cc02e0a5067ea72fba4d9d17dc" kind="function"><name>FederatedSearch</name></member>
+    <member refid="classthemis_1_1_federated_search_1a8cb5d92bf9920715bf331c3189348a8e" kind="function"><name>registerTenant</name></member>
+    <member refid="classthemis_1_1_federated_search_1a3535bc47f1a44dc61e4092dbdecadef5" kind="function"><name>removeTenant</name></member>
+    <member refid="classthemis_1_1_federated_search_1a309ca6f4bd0b1c13c5978a5737508127" kind="function"><name>setTenantWeight</name></member>
+    <member refid="classthemis_1_1_federated_search_1ab3ce864e7987cc3318ed1d67e17d04c3" kind="function"><name>getTenantWeight</name></member>
+    <member refid="classthemis_1_1_federated_search_1a14bca756df6dd1431d3309df6736a735" kind="function"><name>tenantCount</name></member>
+    <member refid="classthemis_1_1_federated_search_1ad496b7f7b452afaec754b8b208efc4b1" kind="function"><name>search</name></member>
+    <member refid="classthemis_1_1_federated_search_1aabd3e83bdfe3779a057ad8d610f9ee65" kind="function"><name>mergeTenantResults</name></member>
+    <member refid="classthemis_1_1_federated_search_1abf0063b4113b3b5cce31f55fce8dc485" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1_federated_search_1a5c6253684c3d85ac0ce6df9508931354" kind="function"><name>setConfig</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_multi_field_boosted_search_1_1_field_config" kind="struct"><name>themis::MultiFieldBoostedSearch::FieldConfig</name>
+    <member refid="structthemis_1_1_multi_field_boosted_search_1_1_field_config_1a49c3ecb38a7293f08ff81e286014448b" kind="variable"><name>table</name></member>
+    <member refid="structthemis_1_1_multi_field_boosted_search_1_1_field_config_1ac7a44dcb9bdc8b2c46636d45876e962b" kind="variable"><name>column</name></member>
+    <member refid="structthemis_1_1_multi_field_boosted_search_1_1_field_config_1a109c6541088a7d26b6428a51c01de53a" kind="variable"><name>boost</name></member>
+  </compound>
+  <compound refid="struct_stress_stub_facet_filter_1_1_filter_result" kind="struct"><name>StressStubFacetFilter::FilterResult</name>
+    <member refid="struct_stress_stub_facet_filter_1_1_filter_result_1a528eb60e2dbd9e9f908aa8c3495ed6c9" kind="variable"><name>ok</name></member>
+    <member refid="struct_stress_stub_facet_filter_1_1_filter_result_1ad955c39ec7f05d71acb9ff657c124e08" kind="variable"><name>matched</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_fuzzy_match" kind="struct"><name>themis::FuzzyMatch</name>
+    <member refid="structthemis_1_1_fuzzy_match_1ae7c8c9e831095163fe9ba48bc5b6af80" kind="variable"><name>document_id</name></member>
+    <member refid="structthemis_1_1_fuzzy_match_1ac410895d3a46275c43e555c5b56fbeba" kind="variable"><name>matched_token</name></member>
+    <member refid="structthemis_1_1_fuzzy_match_1a76bd5f80cb899234e5569e847fc4733e" kind="variable"><name>score</name></member>
+    <member refid="structthemis_1_1_fuzzy_match_1a3c3bfcca98782d4a86a26177c10c2566" kind="variable"><name>edit_distance</name></member>
+  </compound>
+  <compound refid="classthemis_1_1_fuzzy_matcher" kind="class"><name>themis::FuzzyMatcher</name>
+    <member refid="classthemis_1_1_fuzzy_matcher_1ade872a1e213d619ab6d65988306428aa" kind="enum"><name>Algorithm</name></member>
+    <member refid="classthemis_1_1_fuzzy_matcher_1ade872a1e213d619ab6d65988306428aaa676541db1e06e88852a9c8cf5b458898" kind="enumvalue"><name>LEVENSHTEIN</name></member>
+    <member refid="classthemis_1_1_fuzzy_matcher_1ade872a1e213d619ab6d65988306428aaae2744e955416ab9e8325be7ab73e7dbf" kind="enumvalue"><name>SOUNDEX</name></member>
+    <member refid="classthemis_1_1_fuzzy_matcher_1ade872a1e213d619ab6d65988306428aaabc78ab5e0f31955033ec303e5f187ecb" kind="enumvalue"><name>METAPHONE</name></member>
+    <member refid="classthemis_1_1_fuzzy_matcher_1ade872a1e213d619ab6d65988306428aaa5f342f7fd378ae64ff475384e1ece8b7" kind="enumvalue"><name>NGRAM</name></member>
+    <member refid="classthemis_1_1_fuzzy_matcher_1abf6c77fdfe68475b2c41c86b619fcefd" kind="variable"><name>index_</name></member>
+    <member refid="classthemis_1_1_fuzzy_matcher_1a42304bf789d49c153fccf334b635b34c" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1_fuzzy_matcher_1a7db889c624da50c81448f6bea80c2d07" kind="function"><name>FuzzyMatcher</name></member>
+    <member refid="classthemis_1_1_fuzzy_matcher_1a08f644ae2cf8a40fa05ba07de259eb89" kind="function"><name>FuzzyMatcher</name></member>
+    <member refid="classthemis_1_1_fuzzy_matcher_1a716125c313fff5669def6009a64a64be" kind="function"><name>search</name></member>
+    <member refid="classthemis_1_1_fuzzy_matcher_1ae9415ca0677bfbe40e846db7a482b959" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1_fuzzy_matcher_1aaedf9d28bf6c99062ae0d6838d24051f" kind="function"><name>levenshtein</name></member>
+    <member refid="classthemis_1_1_fuzzy_matcher_1a46f41d65aab5d04959474266669e93d4" kind="function"><name>soundex</name></member>
+    <member refid="classthemis_1_1_fuzzy_matcher_1af02deb17c865263a72f886ee952d9009" kind="function"><name>metaphone</name></member>
+    <member refid="classthemis_1_1_fuzzy_matcher_1afa07e1e0410a348a054296b768497c6b" kind="function"><name>ngramSimilarity</name></member>
+    <member refid="classthemis_1_1_fuzzy_matcher_1aeea317e205a6d56cc54d9d11d57a51ae" kind="function"><name>distanceToScore</name></member>
+  </compound>
+  <compound refid="classthemis_1_1_hybrid_search" kind="class"><name>themis::HybridSearch</name>
+    <member refid="classthemis_1_1_hybrid_search_1a5e09d253eaaa1d266ea913834f3c61ce" kind="variable"><name>fulltext_index_</name></member>
+    <member refid="classthemis_1_1_hybrid_search_1ac9a2727203451938fd8f449be31502d0" kind="variable"><name>vector_index_</name></member>
+    <member refid="classthemis_1_1_hybrid_search_1af6c5e0d4cd865db3523d9f9cd0cbe8e7" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1_hybrid_search_1a31587b812efb40799d8e02e1d0e7fa80" kind="variable"><name>ann_frontdoor_</name></member>
+    <member refid="classthemis_1_1_hybrid_search_1ab4b8ac86cdb33c12d181f21af82f0a9b" kind="variable"><name>reranker_</name></member>
+    <member refid="classthemis_1_1_hybrid_search_1acb85d97d2901fb9cae1d6e566af7c07c" kind="function"><name>HybridSearch</name></member>
+    <member refid="classthemis_1_1_hybrid_search_1ae834c50fbcb06e73012e595f886b2c8b" kind="function"><name>~HybridSearch</name></member>
+    <member refid="classthemis_1_1_hybrid_search_1a1e19e389db4ce3b877f171d5f66fec14" kind="function"><name>HybridSearch</name></member>
+    <member refid="classthemis_1_1_hybrid_search_1aa9cd20a5762e662b63d2e53a7f4b8a6d" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1_hybrid_search_1a799157e103c2058933deccd4e86334cc" kind="function"><name>HybridSearch</name></member>
+    <member refid="classthemis_1_1_hybrid_search_1a8c9fb345248945cd6c00c7cf93733f9e" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1_hybrid_search_1a21e278c43125f175a8e646a0d4d482ac" kind="function"><name>search</name></member>
+    <member refid="classthemis_1_1_hybrid_search_1a85906e3c62830c1c27be9c25a8d64f44" kind="function"><name>reciprocalRankFusion</name></member>
+    <member refid="classthemis_1_1_hybrid_search_1a84f9ecb8e73d0188c36907e17386597c" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1_hybrid_search_1aa9bd98d5af53b31de18115a58c80d51b" kind="function"><name>setConfig</name></member>
+    <member refid="classthemis_1_1_hybrid_search_1a5ddf7f141be20560c68381ae87798cfb" kind="function"><name>setAnnFrontdoor</name></member>
+    <member refid="classthemis_1_1_hybrid_search_1ade6dbb88c0126f4363c8509659519f6e" kind="function"><name>setReranker</name></member>
+    <member refid="classthemis_1_1_hybrid_search_1ae9d18b157e2a438a5903f434ccc3dcca" kind="function"><name>normalizeScores</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_cross_lingual_search_1_1_language_hint" kind="struct"><name>themis::CrossLingualSearch::LanguageHint</name>
+    <member refid="structthemis_1_1_cross_lingual_search_1_1_language_hint_1aa5d433b21d60face12fe6bc5f1dc47cd" kind="variable"><name>language_code</name></member>
+    <member refid="structthemis_1_1_cross_lingual_search_1_1_language_hint_1a529e37fe777f9f8a8c34246821436374" kind="variable"><name>boost</name></member>
+  </compound>
+  <compound refid="structthemis_1_1search_1_1_layer_decision_record" kind="struct"><name>themis::search::LayerDecisionRecord</name>
+    <member refid="structthemis_1_1search_1_1_layer_decision_record_1accb04a9b033eb84f2c531ef0b5512b8f" kind="variable"><name>layer_name</name></member>
+    <member refid="structthemis_1_1search_1_1_layer_decision_record_1abfe84a6f9ce16cb2413f042aa2a3699d" kind="variable"><name>decision</name></member>
+    <member refid="structthemis_1_1search_1_1_layer_decision_record_1afd63f3a8400aa3b3a4ff8690d70a8a34" kind="variable"><name>detail</name></member>
+    <member refid="structthemis_1_1search_1_1_layer_decision_record_1a0b558b9cbc93500647e2ff7731256ee7" kind="variable"><name>latency_ms</name></member>
+    <member refid="structthemis_1_1search_1_1_layer_decision_record_1ace9feca4a1f1f1e4e161e9fe415bd744" kind="variable"><name>input_count</name></member>
+    <member refid="structthemis_1_1search_1_1_layer_decision_record_1a9ede64a7e4493c0b338c1f5acc5e4f6b" kind="variable"><name>output_count</name></member>
+  </compound>
+  <compound refid="structthemis_1_1search_1_1_layered_retrieval_config" kind="struct"><name>themis::search::LayeredRetrievalConfig</name>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_config_1a6a8d844cdc506390c1ccdb6b03d5210f" kind="variable"><name>ann_enabled</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_config_1a7ce92e9d398211512ee33096851d6781" kind="variable"><name>tensor_enabled</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_config_1aa6bf6ef5c0b944d02337ef8799de2523" kind="variable"><name>graph_enabled</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_config_1a62bfbc8e5b1741afe519400a83ed8a7c" kind="variable"><name>llm_enabled</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_config_1abbce03a0b2d4e5373ca720c61338d0f8" kind="variable"><name>layer_timeout_ms</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_config_1a221344e6f14a591f8cc32ef2894cf9ff" kind="variable"><name>ann_top_k</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_config_1af8bca756298b715f186df1ce82504336" kind="variable"><name>graph_max_hops</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_config_1aa53d8883ad7ced853fd9a1f7a7953c57" kind="variable"><name>guardrails</name></member>
+  </compound>
+  <compound refid="structthemis_1_1search_1_1_layered_retrieval_context" kind="struct"><name>themis::search::LayeredRetrievalContext</name>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_context_1aaf9ed009e322eb3c784839456b093b9a" kind="variable"><name>query</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_context_1aed66489daa7e8ed6333191fc420d00c3" kind="variable"><name>query_vector</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_context_1a3b1427eef43ae39e9cce772216254d95" kind="variable"><name>tensor_query_key</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_context_1addc066773051ab4174ea54a1f08e7a34" kind="variable"><name>graph_subject_id</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_context_1adcaf345313373f8e7a20c48d4e2e6829" kind="variable"><name>correlation_id</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_context_1a83092872ae6a59b202512fe1668e4831" kind="variable"><name>llm_prompt_prefix</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_context_1ac1533020c07e4c93bfc5532af868024e" kind="variable"><name>lora_adapter_id</name></member>
+  </compound>
+  <compound refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator" kind="class"><name>themis::search::LayeredRetrievalOrchestrator</name>
+    <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1aae9fa15fa3cf21530e64425f2744aa30" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a438ea0828de3a96d78b3aacdcef072d3" kind="variable"><name>ann_index_</name></member>
+    <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1ab814af93f422685bc12653ecb34bd522" kind="variable"><name>tensor_graph_</name></member>
+    <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a4fbf8416e2552eececc1a83219fd8964" kind="variable"><name>graph_reasoner_</name></member>
+    <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1abe1e9b638be031e788728b4ea0341d19" kind="variable"><name>llm_client_</name></member>
+    <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1ace5ac9f0cfb0236cffe490bc53f1c6bd" kind="variable"><name>tracer_</name></member>
+    <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1afcd1ff5a18dc96b387aa38c70de6d460" kind="function"><name>LayeredRetrievalOrchestrator</name></member>
+    <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1adabb26faa3ee7a253c86b013970b5ec3" kind="function"><name>setAnnIndex</name></member>
+    <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a73c1d47a303e7e4f5c61acf0f161fe0e" kind="function"><name>setTensorGraph</name></member>
+    <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a8056fe9ee461415cc48bc56541929259" kind="function"><name>setGraphReasoner</name></member>
+    <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a3eb2304301627668204bc6c3bee45f67" kind="function"><name>setLlmClient</name></member>
+    <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a426faceb9c96ca0f3c08e8b1c9d6a186" kind="function"><name>setTracer</name></member>
+    <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a2609bb223b8f7176cb851143dd9b79d2" kind="function"><name>setConfig</name></member>
+    <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1a416bcce3e510d2872721406bd606ec99" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1search_1_1_layered_retrieval_orchestrator_1add81c2716af9c80aba9ef601e943daa2" kind="function"><name>execute</name></member>
+  </compound>
+  <compound refid="structthemis_1_1search_1_1_layered_retrieval_result" kind="struct"><name>themis::search::LayeredRetrievalResult</name>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_result_1a8ad760e1c7d6450a1676c5226ac37402" kind="variable"><name>ann_candidates</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_result_1a797f29fa8edb979a3351c6f36b5770c0" kind="variable"><name>tensor_candidates</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_result_1a7bed776c5c7ae1f8fcad892a9b916daf" kind="variable"><name>provenance</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_result_1ace4075faa313768d9c24256864dfe8d8" kind="variable"><name>final_answer</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_result_1a778a817b64d5ceac0780e5ca04c11ef4" kind="variable"><name>routing_decisions</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_result_1a798e024c5ac623c13408b9efcc866276" kind="variable"><name>layer_latencies</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_result_1aaa9a3165385b3fb22948bbb24d32f721" kind="variable"><name>diagnostics</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_result_1af079d2c474489dcf239f4a80c2f0ebf9" kind="variable"><name>timed_out</name></member>
+    <member refid="structthemis_1_1search_1_1_layered_retrieval_result_1a6279f681986650cedd9c79638d970035" kind="variable"><name>guardrail_pruned</name></member>
+  </compound>
+  <compound refid="classthemis_1_1_learning_to_rank" kind="class"><name>themis::LearningToRank</name>
+    <member refid="classthemis_1_1_learning_to_rank_1a9c59db35c28238dea5c31d553868a855" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1_learning_to_rank_1a356a0d676fde833f6d83e11bcd364dbe" kind="variable"><name>weights_</name></member>
+    <member refid="classthemis_1_1_learning_to_rank_1ae6195a07e654697f0dceb721d44f4210" kind="variable"><name>clicks_</name></member>
+    <member refid="classthemis_1_1_learning_to_rank_1a64a09718ef2ebff32700c93958d955e1" kind="variable"><name>variants_</name></member>
+    <member refid="classthemis_1_1_learning_to_rank_1a6d78ae4af013bf326f53b0bcef68f6e8" kind="function"><name>LearningToRank</name></member>
+    <member refid="classthemis_1_1_learning_to_rank_1a7766a90e4cdffafaa4a7e16edde0a6c4" kind="function"><name>rerank</name></member>
+    <member refid="classthemis_1_1_learning_to_rank_1a50338ada91233fd0e2cd33cc6ddfd150" kind="function"><name>rerankWithVariant</name></member>
+    <member refid="classthemis_1_1_learning_to_rank_1a1ea11d2372dea500b1245339d7f463fe" kind="function"><name>recordClick</name></member>
+    <member refid="classthemis_1_1_learning_to_rank_1abb9c6e88b3a0597ef6ccdad26eb391a5" kind="function"><name>train</name></member>
+    <member refid="classthemis_1_1_learning_to_rank_1a51e9a0fdcee41159d94e128bba1135cd" kind="function"><name>getWeights</name></member>
+    <member refid="classthemis_1_1_learning_to_rank_1ab8b76e514181b802f852f5cbcebb2203" kind="function"><name>setWeights</name></member>
+    <member refid="classthemis_1_1_learning_to_rank_1a7bc727d2d662712f0936e0d238b24b87" kind="function"><name>registerVariant</name></member>
+    <member refid="classthemis_1_1_learning_to_rank_1a49d636fee815be3ed9cb7c42dd7f422f" kind="function"><name>selectVariant</name></member>
+    <member refid="classthemis_1_1_learning_to_rank_1a0c338506024bd5255ed1c6ca0308f830" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1_learning_to_rank_1a88abe5fa614c8602d414aae3edf66471" kind="function"><name>score</name></member>
+    <member refid="classthemis_1_1_learning_to_rank_1a7bb2f31140132e135a6855592a100657" kind="function"><name>dot</name></member>
+    <member refid="classthemis_1_1_learning_to_rank_1acac25f267d31553d86e1691c22a85bb1" kind="function"><name>gradient</name></member>
+    <member refid="classthemis_1_1_learning_to_rank_1a2053aa2f06249f786ace8bbee1126a19" kind="function"><name>addScaled</name></member>
+    <member refid="classthemis_1_1_learning_to_rank_1a0d31178e08e1a92d87542646e2d77961" kind="function"><name>regularize</name></member>
+  </compound>
+  <compound refid="classthemis_1_1_llm_query_rewriter" kind="class"><name>themis::LlmQueryRewriter</name>
+    <member refid="classthemis_1_1_llm_query_rewriter_1ad38ca583cf7c55f0cf0a14ca899b2915" kind="typedef"><name>LlmBackend</name></member>
+    <member refid="classthemis_1_1_llm_query_rewriter_1a0512d1889ec7d1e09ede1ac2db3d28f6" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1_llm_query_rewriter_1af5ac3f945f611465e24ffb8790b11a34" kind="variable"><name>backend_</name></member>
+    <member refid="classthemis_1_1_llm_query_rewriter_1a5679ea18220c6230d3ce37bd9f7347e1" kind="function"><name>LlmQueryRewriter</name></member>
+    <member refid="classthemis_1_1_llm_query_rewriter_1a063030e49e7696e32f3187568fae91ca" kind="function"><name>LlmQueryRewriter</name></member>
+    <member refid="classthemis_1_1_llm_query_rewriter_1a272b2a8664a9a4ed532fd2971110ee09" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1_llm_query_rewriter_1a2ed277ad4fe8057fcf1a21be26d9a849" kind="function"><name>LlmQueryRewriter</name></member>
+    <member refid="classthemis_1_1_llm_query_rewriter_1ac9c1ab9d73914a1a84b8fdeb7cadf51e" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1_llm_query_rewriter_1aae5fb8c95ea9ebde00638c45707ae117" kind="function"><name>setBackend</name></member>
+    <member refid="classthemis_1_1_llm_query_rewriter_1a8d44b5c1db836cf2926b96b79d2dc73b" kind="function"><name>rewrite</name></member>
+    <member refid="classthemis_1_1_llm_query_rewriter_1aa4387f9f90431f6c987ab926493939d6" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1_llm_query_rewriter_1a7a5c0b9d2faff83bba4abdf62c865d6b" kind="function"><name>buildPrompt</name></member>
+    <member refid="classthemis_1_1_llm_query_rewriter_1a75953ff622be6b7ceb951e0099a39442" kind="function"><name>parseRewrites</name></member>
+    <member refid="classthemis_1_1_llm_query_rewriter_1a1a139636c7bfe623f248be41e1ce59f1" kind="function"><name>applyOverlapFilter</name></member>
+    <member refid="classthemis_1_1_llm_query_rewriter_1aea375b54f7061690b61d616b1ba223ac" kind="function"><name>jaccardTokenOverlap</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_llm_rerank_candidate" kind="struct"><name>themis::LlmRerankCandidate</name>
+    <member refid="structthemis_1_1_llm_rerank_candidate_1a28f1e3ba7a36819e391678a15c969a58" kind="variable"><name>document_id</name></member>
+    <member refid="structthemis_1_1_llm_rerank_candidate_1a2c7a7b1bfbbf02f75309a183b124c102" kind="variable"><name>content</name></member>
+    <member refid="structthemis_1_1_llm_rerank_candidate_1a1855bb3c07e4e099c1b52abc73bc24ee" kind="variable"><name>initial_score</name></member>
+  </compound>
+  <compound refid="classthemis_1_1_llm_reranker" kind="class"><name>themis::LlmReranker</name>
+    <member refid="classthemis_1_1_llm_reranker_1a1997004f4f0d774dc0c0f4902488bb29" kind="typedef"><name>LlmBackend</name></member>
+    <member refid="classthemis_1_1_llm_reranker_1a95b88bec58d1a09848780247f69ff526" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1_llm_reranker_1a1a3af754142ef9324dced02b052e8ac7" kind="variable"><name>backend_</name></member>
+    <member refid="classthemis_1_1_llm_reranker_1a21b7685f49074e5f733198db5c11f79e" kind="function"><name>LlmReranker</name></member>
+    <member refid="classthemis_1_1_llm_reranker_1a9243c2afd3a183dfff060c649d457b02" kind="function"><name>LlmReranker</name></member>
+    <member refid="classthemis_1_1_llm_reranker_1a68ef7704f00d26eb218ab6f3bb79c022" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1_llm_reranker_1a164834ca027a24ee94071e45ba1537be" kind="function"><name>LlmReranker</name></member>
+    <member refid="classthemis_1_1_llm_reranker_1a319c41119b7e7e26b084b7d6ec15cc40" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1_llm_reranker_1a7f503c952a9d723004cf9d7ebc114eed" kind="function"><name>setBackend</name></member>
+    <member refid="classthemis_1_1_llm_reranker_1aa3ec250cb512a1a5c51cb6b5e49e8804" kind="function"><name>rerank</name></member>
+    <member refid="classthemis_1_1_llm_reranker_1afc9579fb026200d2e17d16835ff7da81" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1_llm_reranker_1abc29be2db89786cd5fe086b7e1444489" kind="function"><name>toClickEvents</name></member>
+    <member refid="classthemis_1_1_llm_reranker_1a1e7b405e170c965250b617136e705a7e" kind="function"><name>buildPrompt</name></member>
+    <member refid="classthemis_1_1_llm_reranker_1a4a5f0e29f00f08c7e4d0e2b1552e0000" kind="function"><name>parseScores</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_llm_rerank_result" kind="struct"><name>themis::LlmRerankResult</name>
+    <member refid="structthemis_1_1_llm_rerank_result_1ae08e1c66a19b6389f254f9d5fe9aa9f1" kind="variable"><name>document_id</name></member>
+    <member refid="structthemis_1_1_llm_rerank_result_1a90b3314a08a13786510f0e1c8f717d10" kind="variable"><name>llm_score</name></member>
+    <member refid="structthemis_1_1_llm_rerank_result_1a96d87175ce352a1572447dd01193cc2f" kind="variable"><name>initial_score</name></member>
+    <member refid="structthemis_1_1_llm_rerank_result_1ad75b9b122fd8543f6376a5319558cf03" kind="variable"><name>final_score</name></member>
+    <member refid="structthemis_1_1_llm_rerank_result_1a55edc0fb290e5bd47b3c9ab84ea7c6e3" kind="variable"><name>llm_scored</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_modal_query" kind="struct"><name>themis::ModalQuery</name>
+    <member refid="structthemis_1_1_modal_query_1a093768fc2d7d3d5e44587e0685a77b71" kind="variable"><name>modality</name></member>
+    <member refid="structthemis_1_1_modal_query_1affbfe1abbf633773be645067bc37be97" kind="variable"><name>text</name></member>
+    <member refid="structthemis_1_1_modal_query_1a392a8bc8ff773cd6eade4a08b468fb73" kind="variable"><name>embedding</name></member>
+    <member refid="structthemis_1_1_modal_query_1a492817386a371dc0ca22952718c00870" kind="variable"><name>embedding_namespace</name></member>
+    <member refid="structthemis_1_1_modal_query_1a5f9a41cb7c50788a5fa5a955921fc0a8" kind="variable"><name>weight</name></member>
+  </compound>
+  <compound refid="classthemis_1_1_multi_field_boosted_search" kind="class"><name>themis::MultiFieldBoostedSearch</name>
+    <member refid="classthemis_1_1_multi_field_boosted_search_1a7e9211c4822f6760582aa2a6735a46a2" kind="variable"><name>index_</name></member>
+    <member refid="classthemis_1_1_multi_field_boosted_search_1ad74b367ad2f3eeb6206464fb5d53d269" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1_multi_field_boosted_search_1a0f4c3dfd389d3ed69c3052e1bb20f968" kind="function"><name>MultiFieldBoostedSearch</name></member>
+    <member refid="classthemis_1_1_multi_field_boosted_search_1a6dcec5f324f192a67ae383c99a2fe85d" kind="function"><name>MultiFieldBoostedSearch</name></member>
+    <member refid="classthemis_1_1_multi_field_boosted_search_1a4f33191f64b3cec3e03cb99ed22630bc" kind="function"><name>search</name></member>
+    <member refid="classthemis_1_1_multi_field_boosted_search_1a6dcd2a72b8fa8edc0ee5ed0d115de937" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1_multi_field_boosted_search_1a1b802cd511602ee819922d07ebf1c798" kind="function"><name>setConfig</name></member>
+    <member refid="classthemis_1_1_multi_field_boosted_search_1a2e9f956b9512417154e5db137aaf6381" kind="function"><name>defaultFields</name></member>
+    <member refid="classthemis_1_1_multi_field_boosted_search_1abe570e544417877443380a919fc65a75" kind="function"><name>normalizeScores</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_multi_modal_result" kind="struct"><name>themis::MultiModalResult</name>
+    <member refid="structthemis_1_1_multi_modal_result_1afbe3d41bf3e019c7f150f340fbd5e4f2" kind="variable"><name>document_id</name></member>
+    <member refid="structthemis_1_1_multi_modal_result_1a853c0fb534db3ab3a547eb7239f7790f" kind="variable"><name>score</name></member>
+    <member refid="structthemis_1_1_multi_modal_result_1ad1631838fb71f85271e4a256735a446b" kind="variable"><name>matched_modality</name></member>
+  </compound>
+  <compound refid="classthemis_1_1_multi_modal_search" kind="class"><name>themis::MultiModalSearch</name>
+    <member refid="classthemis_1_1_multi_modal_search_1ad8152196ef6172dc36ac3fbe53e87840" kind="variable"><name>sec_index_</name></member>
+    <member refid="classthemis_1_1_multi_modal_search_1a51d306a8fc03f45efb95462ef3fcb4c7" kind="variable"><name>vec_index_</name></member>
+    <member refid="classthemis_1_1_multi_modal_search_1a84bb9c3acef5ed56f33a6d3fe43cdde5" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1_multi_modal_search_1a404bb11fbc688170d9ee8d11261e7281" kind="function"><name>MultiModalSearch</name></member>
+    <member refid="classthemis_1_1_multi_modal_search_1a8fb579badc3bfd9123b227bac1000b03" kind="function"><name>MultiModalSearch</name></member>
+    <member refid="classthemis_1_1_multi_modal_search_1acec8e0ce438b60baad134a6b3b3f1fd7" kind="function"><name>search</name></member>
+    <member refid="classthemis_1_1_multi_modal_search_1ac5dcd404c650c38c681b426e1cda7203" kind="function"><name>searchTextAndImage</name></member>
+    <member refid="classthemis_1_1_multi_modal_search_1aa54cd066e1f4b0a4bfa13916058e435a" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1_multi_modal_search_1abc92f32fcb91e3b35e034929d194ac89" kind="function"><name>executeModal</name></member>
+    <member refid="classthemis_1_1_multi_modal_search_1a3fd13ef94b8c62a229219a1efdc7c807" kind="function"><name>fuseRRF</name></member>
+  </compound>
+  <compound refid="classthemis_1_1_negative_keyword_filter" kind="class"><name>themis::NegativeKeywordFilter</name>
+    <member refid="classthemis_1_1_negative_keyword_filter_1ace6ce32c8b143c2604d1a4cb8cfb9734" kind="variable"><name>index_</name></member>
+    <member refid="classthemis_1_1_negative_keyword_filter_1a994980098c254164576270622307f0a8" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1_negative_keyword_filter_1a27d9412295b3f9c29a55e4a15b1357c5" kind="function"><name>NegativeKeywordFilter</name></member>
+    <member refid="classthemis_1_1_negative_keyword_filter_1ad81027e57bc1ca6f3c2cd377bf77d1e9" kind="function"><name>NegativeKeywordFilter</name></member>
+    <member refid="classthemis_1_1_negative_keyword_filter_1a1a826dddef64263c3d8060b3ae0207ef" kind="function"><name>filter</name></member>
+    <member refid="classthemis_1_1_negative_keyword_filter_1ad686f433fe798a1953437328a8710472" kind="function"><name>getIndex</name></member>
+    <member refid="classthemis_1_1_negative_keyword_filter_1ae8b7dd879175d73be1b460ff014c8eab" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1_negative_keyword_filter_1ad9e3e59666bbbdba4297b1fc7df1c5e8" kind="function"><name>parseQuery</name></member>
+  </compound>
+  <compound refid="classthemis_1_1_neural_sparse_retrieval" kind="class"><name>themis::NeuralSparseRetrieval</name>
+    <member refid="classthemis_1_1_neural_sparse_retrieval_1a51940cf920302bf4086f8fefc3b29af9" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1_neural_sparse_retrieval_1aeca9362fe6b755f110d78bd84302672c" kind="variable"><name>encoder_</name></member>
+    <member refid="classthemis_1_1_neural_sparse_retrieval_1a57b20672130ae6179a930b0ccd1e8b05" kind="variable"><name>inverted_index_</name></member>
+    <member refid="classthemis_1_1_neural_sparse_retrieval_1ab8b5a1913c3cdaaf7be5adb3fe542a51" kind="variable"><name>forward_index_</name></member>
+    <member refid="classthemis_1_1_neural_sparse_retrieval_1a6eda5978f37e98acc4aae2d0ba0837e8" kind="function"><name>NeuralSparseRetrieval</name></member>
+    <member refid="classthemis_1_1_neural_sparse_retrieval_1ab2dad1afd643704ff0d012da7c8a2f47" kind="function"><name>setEncoder</name></member>
+    <member refid="classthemis_1_1_neural_sparse_retrieval_1a6f7033d1c7697c74f908db0aea50341d" kind="function"><name>addDocument</name></member>
+    <member refid="classthemis_1_1_neural_sparse_retrieval_1a831c14bc5ea56f5af59b3ff8589f1b28" kind="function"><name>addDocumentText</name></member>
+    <member refid="classthemis_1_1_neural_sparse_retrieval_1a2c5dc69fc750589873ef2c789458bf18" kind="function"><name>removeDocument</name></member>
+    <member refid="classthemis_1_1_neural_sparse_retrieval_1a1d3be2cddb5855dc14e005811e2481d8" kind="function"><name>clear</name></member>
+    <member refid="classthemis_1_1_neural_sparse_retrieval_1a8842c5246ecaf97494124e10d38aefb9" kind="function"><name>search</name></member>
+    <member refid="classthemis_1_1_neural_sparse_retrieval_1ad4735c123c693d0184b07909d58dafb6" kind="function"><name>searchText</name></member>
+    <member refid="classthemis_1_1_neural_sparse_retrieval_1abb33d70b38b88870c210044aafd36aee" kind="function"><name>size</name></member>
+    <member refid="classthemis_1_1_neural_sparse_retrieval_1a61c8d8b02ceb69f55db8849aa24f9866" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1_neural_sparse_retrieval_1ab4d6e46d1c3f1e82a1375ca0b5880d08" kind="function"><name>setConfig</name></member>
+    <member refid="classthemis_1_1_neural_sparse_retrieval_1a1f6d3901c585a80050926a2dc8500d1a" kind="function"><name>normalizeScores</name></member>
+    <member refid="classthemis_1_1_neural_sparse_retrieval_1a61ef6cd32565261d73ee0164c0867093" kind="function"><name>insertVector</name></member>
+    <member refid="classthemis_1_1_neural_sparse_retrieval_1a56ed9f28c3b6c249a230dda78d0e6210" kind="function"><name>eraseFromIndex</name></member>
+    <member refid="classthemis_1_1_neural_sparse_retrieval_1a49b96b129f1ddd3baba64c7f195a6f48" kind="function"><name>sanitize</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_negative_keyword_filter_1_1_parsed_query" kind="struct"><name>themis::NegativeKeywordFilter::ParsedQuery</name>
+    <member refid="structthemis_1_1_negative_keyword_filter_1_1_parsed_query_1a6ee9fb89cde6e2b5c027a56d49b2faf1" kind="variable"><name>positive_query</name></member>
+    <member refid="structthemis_1_1_negative_keyword_filter_1_1_parsed_query_1a494ab9799f37f96f18c57f6fd819996f" kind="variable"><name>negative_terms</name></member>
+  </compound>
+  <compound refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails" kind="struct"><name>themis::search::PerQueryRetrievalGuardrails</name>
+    <member refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1a31e030f7dbc595f6a1dab6541f8c71f9" kind="variable"><name>enabled</name></member>
+    <member refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1af2e40249f023baa9361340dc07f3e123" kind="variable"><name>max_ann_candidates</name></member>
+    <member refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1a43df49fc3b3664a93d016349948967c5" kind="variable"><name>max_tensor_candidates</name></member>
+    <member refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1a8058dff6e7374627d15f260c391cfd11" kind="variable"><name>max_graph_edges</name></member>
+    <member refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1af8810276489c4b9a6ba015e2abc80ba9" kind="variable"><name>max_prompt_chars</name></member>
+    <member refid="structthemis_1_1search_1_1_per_query_retrieval_guardrails_1ac17e523c1391bb4e80bdf444cde34ccf" kind="variable"><name>max_layers</name></member>
+  </compound>
+  <compound refid="classthemis_1_1_personalized_ranker" kind="class"><name>themis::PersonalizedRanker</name>
+    <member refid="classthemis_1_1_personalized_ranker_1a199e072877d3f78456cf598cbd05c6c5" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1_personalized_ranker_1a1afc088eb37f349e9d8992131698ab66" kind="variable"><name>history_</name></member>
+    <member refid="classthemis_1_1_personalized_ranker_1a5d35c0bbd017307f83fefe817d6832fd" kind="variable"><name>mu_</name></member>
+    <member refid="classthemis_1_1_personalized_ranker_1aa74b45bfacd8ba4a8e61aa755b518bbc" kind="function"><name>PersonalizedRanker</name></member>
+    <member refid="classthemis_1_1_personalized_ranker_1a34197985df6cd6d85407e483ec688758" kind="function"><name>recordInteraction</name></member>
+    <member refid="classthemis_1_1_personalized_ranker_1acf0b0aaa4827817ef09ef681cd5fa60d" kind="function"><name>computeScore</name></member>
+    <member refid="classthemis_1_1_personalized_ranker_1aa725dde65bd54530e6e2ab34b9b9e198" kind="function"><name>applyPersonalization</name></member>
+    <member refid="classthemis_1_1_personalized_ranker_1a2e9d4d5c484fb5423b535749c6cd6d93" kind="function"><name>getUserInteractions</name></member>
+    <member refid="classthemis_1_1_personalized_ranker_1ad9f54d95b840fb72706d3aafbe930991" kind="function"><name>userCount</name></member>
+    <member refid="classthemis_1_1_personalized_ranker_1a3774e4eda9c3cf69916e1ad7fbd32315" kind="function"><name>clearUser</name></member>
+    <member refid="classthemis_1_1_personalized_ranker_1a2d50a393f502eaf4bbaac49490719f21" kind="function"><name>clear</name></member>
+    <member refid="classthemis_1_1_personalized_ranker_1a9c2725a2ff93fb649b958f0668311845" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1_personalized_ranker_1a18610479ffb83d3266a7b09f47c46aad" kind="function"><name>typeWeight</name></member>
+    <member refid="classthemis_1_1_personalized_ranker_1ad1c461d611f127c479a4eee8176fdf59" kind="function"><name>computeScoreUnlocked</name></member>
+  </compound>
+  <compound refid="structthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1_1_pipeline_result" kind="struct"><name>themis::search::testing::SearchIntegrationPhase4Test::PipelineResult</name>
+    <member refid="structthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1_1_pipeline_result_1ab1c5b1531b0de2c6b31d3a1eaa4f7f6f" kind="variable"><name>results</name></member>
+    <member refid="structthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1_1_pipeline_result_1ad547c86f29468d15e5f37662706e6f60" kind="variable"><name>total_latency_ms</name></member>
+    <member refid="structthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1_1_pipeline_result_1a98d6af557cb1664364376408c8602c61" kind="variable"><name>errors_encountered</name></member>
+    <member refid="structthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1_1_pipeline_result_1acd5776b74333c641f621be6028cd6b0e" kind="variable"><name>partial</name></member>
+  </compound>
+  <compound refid="structthemis_1_1search_1_1_provenance_entry" kind="struct"><name>themis::search::ProvenanceEntry</name>
+    <member refid="structthemis_1_1search_1_1_provenance_entry_1a88cae892de5f44885ba8926580be9b9d" kind="variable"><name>subject</name></member>
+    <member refid="structthemis_1_1search_1_1_provenance_entry_1af72e3161cb70e77e727bd3b4e14f774b" kind="variable"><name>predicate</name></member>
+    <member refid="structthemis_1_1search_1_1_provenance_entry_1ad8ce81ebb4a30f5cb1633330aee1da19" kind="variable"><name>object</name></member>
+    <member refid="structthemis_1_1search_1_1_provenance_entry_1ad8ee2800518b80d6405f4a48be8d6f1e" kind="variable"><name>rule_id</name></member>
+    <member refid="structthemis_1_1search_1_1_provenance_entry_1af363ab4829ac5f2fd2f537afd21d575a" kind="variable"><name>lora_score</name></member>
+  </compound>
+  <compound refid="classthemis_1_1_query_expander" kind="class"><name>themis::QueryExpander</name>
+    <member refid="classthemis_1_1_query_expander_1a7ea483d40671148e6e88a3e861a57a09" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1_query_expander_1aae5b1794dbac5d5efc84eb4431c66eee" kind="variable"><name>synonyms_</name></member>
+    <member refid="classthemis_1_1_query_expander_1abdce328f6fd957bb2a29bf02d6120d97" kind="variable"><name>vocabulary_</name></member>
+    <member refid="classthemis_1_1_query_expander_1aba271b8e31576e7140bd69a237924486" kind="variable"><name>word_frequencies_</name></member>
+    <member refid="classthemis_1_1_query_expander_1a8ebfd6c676351bf9beb6b5ecf9b4e6d2" kind="function"><name>QueryExpander</name></member>
+    <member refid="classthemis_1_1_query_expander_1a9062c7c26daf59c10803f8ed136315c8" kind="function"><name>QueryExpander</name></member>
+    <member refid="classthemis_1_1_query_expander_1a3b3f7395f9d26d3d020036188fb984df" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1_query_expander_1a0a5b039cd1764f1445d5a17a34b42919" kind="function"><name>QueryExpander</name></member>
+    <member refid="classthemis_1_1_query_expander_1a2fa310c9ccfcb190b5edfdfeaae1870e" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1_query_expander_1af410992ef60b6ca13d51247c3e7f51de" kind="function"><name>addSynonyms</name></member>
+    <member refid="classthemis_1_1_query_expander_1a19d3c2a73fae00d0f767b925c2090d7f" kind="function"><name>addVocabulary</name></member>
+    <member refid="classthemis_1_1_query_expander_1ae02689a5e8210804590979e55e895a31" kind="function"><name>addVocabularyWithFrequencies</name></member>
+    <member refid="classthemis_1_1_query_expander_1a717d88766fbfbdfffa8fc816f96cfdd8" kind="function"><name>expand</name></member>
+    <member refid="classthemis_1_1_query_expander_1a46bf2193b6af57cab0a43f461b084225" kind="function"><name>correctSpelling</name></member>
+    <member refid="classthemis_1_1_query_expander_1ad2b2a0d7477782f353405d5253064e01" kind="function"><name>suggestSpellingCorrections</name></member>
+    <member refid="classthemis_1_1_query_expander_1aec390513127222e79f524728348f645d" kind="function"><name>suggestQueryCorrections</name></member>
+    <member refid="classthemis_1_1_query_expander_1ade5d61eb244d130c7e82d36fd88783ce" kind="function"><name>suggestAlternatives</name></member>
+    <member refid="classthemis_1_1_query_expander_1ad0b33f626b55cebf66e5a573c5993a68" kind="function"><name>relaxQuery</name></member>
+    <member refid="classthemis_1_1_query_expander_1a15d882b663422ccb47168535eb9193f7" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1_query_expander_1a1413932a20ebf54d2cfede75f7bb91d4" kind="function"><name>tokenize</name></member>
+    <member refid="classthemis_1_1_query_expander_1aca924563a72c3b0886ea5dc15f35de57" kind="function"><name>toLower</name></member>
+    <member refid="classthemis_1_1_query_expander_1a286f402d7ccc32c18278e377675180e1" kind="function"><name>editDistance</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_faceted_search_1_1_range_bucket" kind="struct"><name>themis::FacetedSearch::RangeBucket</name>
+    <member refid="structthemis_1_1_faceted_search_1_1_range_bucket_1adf98a3889a7e65b98331d6929e19f5fe" kind="variable"><name>label</name></member>
+    <member refid="structthemis_1_1_faceted_search_1_1_range_bucket_1a2b196a7a12a4d860eb208338e3026996" kind="variable"><name>low</name></member>
+    <member refid="structthemis_1_1_faceted_search_1_1_range_bucket_1ae357c478dffbe48c836c8131291d083b" kind="variable"><name>high</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_ranked_result" kind="struct"><name>themis::RankedResult</name>
+    <member refid="structthemis_1_1_ranked_result_1aa1d1c86accb305c3ff2335319c2b4028" kind="variable"><name>document_id</name></member>
+    <member refid="structthemis_1_1_ranked_result_1a0830caef1b4f604da39ecda9ee252d71" kind="variable"><name>features</name></member>
+    <member refid="structthemis_1_1_ranked_result_1a4660a39f0c2aa1a7c82d0ea2a8b2dc3f" kind="variable"><name>final_score</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_ranking_features" kind="struct"><name>themis::RankingFeatures</name>
+    <member refid="structthemis_1_1_ranking_features_1a38c405a531c95f179b02f2d62549f29f" kind="variable"><name>bm25_score</name></member>
+    <member refid="structthemis_1_1_ranking_features_1acd7f8c6f9bde6479587cde2432089165" kind="variable"><name>vector_score</name></member>
+    <member refid="structthemis_1_1_ranking_features_1a8b5f98d88716b6eaac48fe4dfe2a5503" kind="variable"><name>rrf_score</name></member>
+    <member refid="structthemis_1_1_ranking_features_1ac610ce1c57602d77f8c17f7d7540825a" kind="variable"><name>recency</name></member>
+    <member refid="structthemis_1_1_ranking_features_1a2d23df90a64518800e0722b80e32600f" kind="variable"><name>click_count</name></member>
+    <member refid="structthemis_1_1_ranking_features_1a13f6301feb9ead4d12e1e35ed2639cbb" kind="variable"><name>popularity</name></member>
+  </compound>
+  <compound refid="struct_stress_stub_ranker_1_1_rank_result" kind="struct"><name>StressStubRanker::RankResult</name>
+    <member refid="struct_stress_stub_ranker_1_1_rank_result_1a271acae29302785e0b33b8ae3ceaba2f" kind="variable"><name>ok</name></member>
+    <member refid="struct_stress_stub_ranker_1_1_rank_result_1a8b6acee75a6a12d80c691176b2bc61b6" kind="variable"><name>score</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_cross_lingual_search_1_1_result" kind="struct"><name>themis::CrossLingualSearch::Result</name>
+    <member refid="structthemis_1_1_cross_lingual_search_1_1_result_1a27348e4c332b4aa532ceab7412265b16" kind="variable"><name>document_id</name></member>
+    <member refid="structthemis_1_1_cross_lingual_search_1_1_result_1a9d11b30da7e1a4e8583cd58cf9538d98" kind="variable"><name>score</name></member>
+    <member refid="structthemis_1_1_cross_lingual_search_1_1_result_1aaa2c02e3b9dab6201a2067ccecf0419c" kind="variable"><name>language</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_federated_search_1_1_result" kind="struct"><name>themis::FederatedSearch::Result</name>
+    <member refid="structthemis_1_1_federated_search_1_1_result_1abe6bc593cf82ce072ca312ea5366901f" kind="variable"><name>document_id</name></member>
+    <member refid="structthemis_1_1_federated_search_1_1_result_1aaff5643888aaebfe2ab34b429933dbbe" kind="variable"><name>tenant_id</name></member>
+    <member refid="structthemis_1_1_federated_search_1_1_result_1a1e74e47d61bc08838dd78bef1848b235" kind="variable"><name>score</name></member>
+    <member refid="structthemis_1_1_federated_search_1_1_result_1a39b28ab5ca0bbfaa8ceb79618e55d637" kind="variable"><name>bm25_score</name></member>
+    <member refid="structthemis_1_1_federated_search_1_1_result_1a628542c543b870076a315a34de59919c" kind="variable"><name>vector_score</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_hybrid_search_1_1_result" kind="struct"><name>themis::HybridSearch::Result</name>
+    <member refid="structthemis_1_1_hybrid_search_1_1_result_1a5f98f4a5ae5e0b6136e5748854649cb8" kind="variable"><name>document_id</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_result_1a4c7f6f683c9aa48a467ecd0634a955eb" kind="variable"><name>bm25_score</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_result_1a9efb285ce451e53a0599494f96bebe25" kind="variable"><name>vector_score</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_result_1a5af5cc78f00a97e73c08c53e1b3803af" kind="variable"><name>hybrid_score</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_result_1a890e8eb9ec9d2d6a0ca79d6adfd0f791" kind="variable"><name>bm25_rank</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_result_1a2dcf839e1974d770f8fc2fe5b7a8c46e" kind="variable"><name>vector_rank</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_result_1a9cae698ec67a3289295acc26d61122f7" kind="variable"><name>content</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_result_1a80889b95aac8b0c168d944b291f5117c" kind="variable"><name>geo_distance</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_multi_field_boosted_search_1_1_result" kind="struct"><name>themis::MultiFieldBoostedSearch::Result</name>
+    <member refid="structthemis_1_1_multi_field_boosted_search_1_1_result_1a9b5fb037a3f3a701905509c439af24fb" kind="variable"><name>document_id</name></member>
+    <member refid="structthemis_1_1_multi_field_boosted_search_1_1_result_1a19a792882a4689c405592063a271ede2" kind="variable"><name>score</name></member>
+    <member refid="structthemis_1_1_multi_field_boosted_search_1_1_result_1a40ef87185ced344b9367731f07e95a91" kind="variable"><name>field_scores</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_neural_sparse_retrieval_1_1_result" kind="struct"><name>themis::NeuralSparseRetrieval::Result</name>
+    <member refid="structthemis_1_1_neural_sparse_retrieval_1_1_result_1a2be20c791a10d08ef17da84a0214a0d2" kind="variable"><name>document_id</name></member>
+    <member refid="structthemis_1_1_neural_sparse_retrieval_1_1_result_1abdaff2591c3d4763d5fb1cc40bd86fbd" kind="variable"><name>score</name></member>
+    <member refid="structthemis_1_1_neural_sparse_retrieval_1_1_result_1af38530727e219c915ff748757f330f2d" kind="variable"><name>raw_score</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_rewritten_query" kind="struct"><name>themis::RewrittenQuery</name>
+    <member refid="structthemis_1_1_rewritten_query_1a3a735e4deadf1b477468cc414a2c74f1" kind="variable"><name>original</name></member>
+    <member refid="structthemis_1_1_rewritten_query_1a55ad7d49e60c5898758ef330bd3d5df5" kind="variable"><name>rewrites</name></member>
+    <member refid="structthemis_1_1_rewritten_query_1af987a4868d94c939b8105a72122a551a" kind="variable"><name>llm_used</name></member>
+    <member refid="structthemis_1_1_rewritten_query_1a1e8518146797f758ec0d56a95915e0db" kind="variable"><name>quality</name></member>
+  </compound>
+  <compound refid="classthemis_1_1_search_analytics" kind="class"><name>themis::SearchAnalytics</name>
+    <member refid="classthemis_1_1_search_analytics_1ae6b149e0292adc628daa92b66c9a41c2" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1_search_analytics_1a0125b44dc9ad463b2d8f66050fc528ff" kind="variable"><name>mu_</name></member>
+    <member refid="classthemis_1_1_search_analytics_1a3aa969b96b5d374ce3d488f4f74210b0" kind="variable"><name>events_</name></member>
+    <member refid="classthemis_1_1_search_analytics_1aa705ab36693a8143ca471a613a1bd319" kind="function"><name>SearchAnalytics</name></member>
+    <member refid="classthemis_1_1_search_analytics_1a75f6f675784897c35f25644aa981daf9" kind="function"><name>record</name></member>
+    <member refid="classthemis_1_1_search_analytics_1a4366a0921d3b86412f442302c1a30057" kind="function"><name>getZeroResultQueries</name></member>
+    <member refid="classthemis_1_1_search_analytics_1aea725a83140030fbba357e4aa56f7835" kind="function"><name>getRecentEvents</name></member>
+    <member refid="classthemis_1_1_search_analytics_1a90ca74162980990a1d1887d17945767b" kind="function"><name>getTopQueries</name></member>
+    <member refid="classthemis_1_1_search_analytics_1a6e8ecf2b640e66eec38b4281682866df" kind="function"><name>computeMetrics</name></member>
+    <member refid="classthemis_1_1_search_analytics_1aca11d45852957e4332af85ee57aa4ad4" kind="function"><name>eventCount</name></member>
+    <member refid="classthemis_1_1_search_analytics_1ab5b5be1598359545a68ee50fff0199d9" kind="function"><name>clear</name></member>
+    <member refid="classthemis_1_1_search_analytics_1aa8de4b58428a4e9990d9e3f89c38d5b1" kind="function"><name>getConfig</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_search_event" kind="struct"><name>themis::SearchEvent</name>
+    <member refid="structthemis_1_1_search_event_1a7c1edfc7b621a733fbe7587fe82c870a" kind="variable"><name>query</name></member>
+    <member refid="structthemis_1_1_search_event_1a27d10743caea04bf4cbae0a0d424ef91" kind="variable"><name>ts</name></member>
+    <member refid="structthemis_1_1_search_event_1a949d53eadfa8cb4cb84ab96b21c5e54c" kind="variable"><name>result_count</name></member>
+    <member refid="structthemis_1_1_search_event_1adb5d52e60725c16cd3b466c1110f9572" kind="variable"><name>latency_ms</name></member>
+    <member refid="structthemis_1_1_search_event_1adc77a3f3ab6019bd30ff3d97a1954eca" kind="variable"><name>is_zero_result</name></member>
+  </compound>
+  <compound refid="classthemis_1_1_search_highlighter" kind="class"><name>themis::SearchHighlighter</name>
+    <member refid="classthemis_1_1_search_highlighter_1ac9755002c0d1e9b4d94475a6c60117ba" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1_search_highlighter_1abad608317d2c62dc85a3884a73acb01e" kind="function"><name>SearchHighlighter</name></member>
+    <member refid="classthemis_1_1_search_highlighter_1a6888e9bfcae62a3bf49c2da76ff19fdd" kind="function"><name>SearchHighlighter</name></member>
+    <member refid="classthemis_1_1_search_highlighter_1a6738e95615772f58f1c1f5adb95a77b4" kind="function"><name>highlight</name></member>
+    <member refid="classthemis_1_1_search_highlighter_1ab15fb4473d40ed6ba2fe384670c478eb" kind="function"><name>snippet</name></member>
+    <member refid="classthemis_1_1_search_highlighter_1a0b450b2caf5058d352426b4f112c337b" kind="function"><name>tokenize</name></member>
+    <member refid="classthemis_1_1_search_highlighter_1aecea2125d2c4ea086405afb370e81dff" kind="function"><name>applyHighlight</name></member>
+    <member refid="classthemis_1_1_search_highlighter_1a39b4754ba143262772814766ec4040f3" kind="function"><name>bestWindowOffset</name></member>
+    <member refid="classthemis_1_1_search_highlighter_1a608e98340b8bdbed3fa8c932595b8892" kind="function"><name>findMatchRanges</name></member>
+  </compound>
+  <compound refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test" kind="class"><name>themis::search::testing::SearchIntegrationPhase4Test</name>
+    <member refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1aad926cac24762a9bcedb9bb9283e3e25" kind="variable"><name>kCanonicalRngSeed</name></member>
+    <member refid="classthemis_1_1search_1_1testing_1_1_search_integration_phase4_test_1acb721ee7b413d684c0d1bb6981563f2b" kind="function"><name>SetUp</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_search_metrics" kind="struct"><name>themis::SearchMetrics</name>
+    <member refid="structthemis_1_1_search_metrics_1a81f4e16a8c22da740567130b64ea205d" kind="variable"><name>total_queries</name></member>
+    <member refid="structthemis_1_1_search_metrics_1a0f94d06d45e81185e718e8d86621c940" kind="variable"><name>zero_result_queries</name></member>
+    <member refid="structthemis_1_1_search_metrics_1ab3f7f9f01b8f5fc38c49bedc1ad2b823" kind="variable"><name>avg_latency_ms</name></member>
+    <member refid="structthemis_1_1_search_metrics_1a7cb3f172a90a4325f4bb24e0f624e308" kind="variable"><name>p95_latency_ms</name></member>
+    <member refid="structthemis_1_1_search_metrics_1a6b0db8a93911c1d3301ee7c0f45faf19" kind="variable"><name>p99_latency_ms</name></member>
+    <member refid="structthemis_1_1_search_metrics_1a1e30eaaa8d0d15e08f1ae21f0524b21c" kind="variable"><name>zero_result_rate</name></member>
+    <member refid="structthemis_1_1_search_metrics_1a2b16f7695719c48b4c2f2461e8543b6a" kind="variable"><name>top_queries</name></member>
+  </compound>
+  <compound refid="classthemis_1_1_search_result_stream" kind="class"><name>themis::SearchResultStream</name>
+    <member refid="classthemis_1_1_search_result_stream_1a535d2b29d99191941c0601297133f6fe" kind="typedef"><name>ResultCallback</name></member>
+    <member refid="classthemis_1_1_search_result_stream_1accdfc01d47e6f27671951c953a8ef263" kind="variable"><name>hybrid_search_</name></member>
+    <member refid="classthemis_1_1_search_result_stream_1a10a316715b835dac8ed31667bd176066" kind="variable"><name>config_</name></member>
+    <member refid="classthemis_1_1_search_result_stream_1ac786e7a18d3b9301bc5521049c38eba0" kind="variable"><name>results_</name></member>
+    <member refid="classthemis_1_1_search_result_stream_1a3892300b545b310b66579285f033b973" kind="variable"><name>cursor_</name></member>
+    <member refid="classthemis_1_1_search_result_stream_1a225d77965d35b5b5af34c7182af7c86c" kind="function"><name>SearchResultStream</name></member>
+    <member refid="classthemis_1_1_search_result_stream_1aead6dd24dae1c2fbaf7841a9af348cae" kind="function"><name>SearchResultStream</name></member>
+    <member refid="classthemis_1_1_search_result_stream_1af2b1d021f107c15ad6a351935fde5fe8" kind="function"><name>open</name></member>
+    <member refid="classthemis_1_1_search_result_stream_1aee32214d609b881b3c253f02e7baa4c6" kind="function"><name>nextPage</name></member>
+    <member refid="classthemis_1_1_search_result_stream_1acf6c234d45a0f80526d0a308966e10ba" kind="function"><name>hasMore</name></member>
+    <member refid="classthemis_1_1_search_result_stream_1ad8ebd319f5c13fc90a306bec1cd515a8" kind="function"><name>reset</name></member>
+    <member refid="classthemis_1_1_search_result_stream_1a62fb6ebe0af4123d0688fbd24bdc55ba" kind="function"><name>close</name></member>
+    <member refid="classthemis_1_1_search_result_stream_1abb265200c8c2e4ed9a3a0b55b7e777b9" kind="function"><name>forEachResult</name></member>
+    <member refid="classthemis_1_1_search_result_stream_1a1728e8cd8398b881446540ef52521205" kind="function"><name>totalResults</name></member>
+    <member refid="classthemis_1_1_search_result_stream_1abc17d881a8646e092f65adadaf7508d4" kind="function"><name>cursorPosition</name></member>
+    <member refid="classthemis_1_1_search_result_stream_1a9324d1b65a76bd45e2fdfe2ccf8a579d" kind="function"><name>getConfig</name></member>
+    <member refid="classthemis_1_1_search_result_stream_1a4e79ac3defa57919ccf007fb97ae93a4" kind="function"><name>setConfig</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats" kind="struct"><name>themis::DistributedHybridSearch::SearchStats</name>
+    <member refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1aeff4639e260d6bbd3f56fda89d856c94" kind="variable"><name>shards_queried</name></member>
+    <member refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a7814e045a0d0663a8ea6f12dc80195db" kind="variable"><name>shards_succeeded</name></member>
+    <member refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a90365a29ddf7da2f0a10e8bbee9758b2" kind="variable"><name>shards_failed</name></member>
+    <member refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a9f7ffd5f9be5853a0ae5efa668d25bca" kind="variable"><name>partial_result</name></member>
+    <member refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a011903a9a8f618159f44af52a8931760" kind="variable"><name>merge_underflow</name></member>
+    <member refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a9e648dfc65e6baa2900ca84806b9d681" kind="variable"><name>high_overlap_variance</name></member>
+    <member refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a4f31d88f9bcaa9d3f878fbe9debaebf6" kind="variable"><name>ranking_conflict</name></member>
+    <member refid="structthemis_1_1_distributed_hybrid_search_1_1_search_stats_1a45f60c1dccab6665ea76b1113acbc091" kind="variable"><name>failed_shard_reasons</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_hybrid_search_1_1_search_stats" kind="struct"><name>themis::HybridSearch::SearchStats</name>
+    <member refid="structthemis_1_1_hybrid_search_1_1_search_stats_1aa201a5ba0145dc0f327195dc5ddab5f9" kind="variable"><name>bm25_ok</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_search_stats_1ace8966371dad88603d662e1c9e0ff987" kind="variable"><name>vector_ok</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_search_stats_1aa1f1ecce8871f88fbe67be2929b1dd9d" kind="variable"><name>partial_result</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_search_stats_1a11a54a3a94b3e593e88c795554e7f4a8" kind="variable"><name>bm25_count</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_search_stats_1a45dc8b18d43bca0b8ddaa88a3bd03286" kind="variable"><name>vector_count</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_search_stats_1ac96e6ca5a22247ffd0fdc3fb73979d55" kind="variable"><name>primary_error_code</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_search_stats_1a3e297d4523bdffe2d3d0fd0361789d95" kind="variable"><name>fusion_failed</name></member>
+    <member refid="structthemis_1_1_hybrid_search_1_1_search_stats_1afb7653f3af2cd8a06e03b349518ed1d5" kind="variable"><name>rerank_fallback</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result" kind="struct"><name>themis::DistributedHybridSearch::ShardSearchResult</name>
+    <member refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result_1a7087b1baa35f766b3089b5f7fd403dad" kind="variable"><name>shard_id</name></member>
+    <member refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result_1a691d98356adee68c115c2817c789428f" kind="variable"><name>results</name></member>
+    <member refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result_1a8c6a2dd6d589ea4698ce8044d608c4cd" kind="variable"><name>success</name></member>
+    <member refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result_1a0d2878a8ba5e7a83b587b0ca826facda" kind="variable"><name>error_msg</name></member>
+    <member refid="structthemis_1_1_distributed_hybrid_search_1_1_shard_search_result_1a83c6bfcdeae5d33918043b6adb2f8053" kind="variable"><name>execution_time_ms</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_spelling_correction" kind="struct"><name>themis::SpellingCorrection</name>
+    <member refid="structthemis_1_1_spelling_correction_1afe2a0e6563e730a69f9396f08df60b44" kind="variable"><name>suggestion</name></member>
+    <member refid="structthemis_1_1_spelling_correction_1a957458354ecc7d604500c2d0c546c78b" kind="variable"><name>edit_distance</name></member>
+    <member refid="structthemis_1_1_spelling_correction_1ac350b7d0f24299734e5e70980da12d0e" kind="variable"><name>confidence</name></member>
+  </compound>
+  <compound refid="class_stress_stub_document_indexer" kind="class"><name>StressStubDocumentIndexer</name>
+    <member refid="class_stress_stub_document_indexer_1ab90f77072cc41a98f3e4557984558c10" kind="variable"><name>count_</name></member>
+    <member refid="class_stress_stub_document_indexer_1aad8952d79a9e83403b6adeec15036b72" kind="function"><name>index</name></member>
+    <member refid="class_stress_stub_document_indexer_1a7d483e6043b0c25f28f6d92026a9edeb" kind="function"><name>count</name></member>
+  </compound>
+  <compound refid="class_stress_stub_facet_filter" kind="class"><name>StressStubFacetFilter</name>
+    <member refid="class_stress_stub_facet_filter_1aab4e92e0bd84f0ac47e0293a2a9894e0" kind="variable"><name>total_</name></member>
+    <member refid="class_stress_stub_facet_filter_1ad4c1ebc16036d245dee9dac76c6d4b3b" kind="function"><name>filter</name></member>
+    <member refid="class_stress_stub_facet_filter_1a8fff5b664888f0acab72ea5cd6aa17ea" kind="function"><name>total</name></member>
+  </compound>
+  <compound refid="class_stress_stub_ranker" kind="class"><name>StressStubRanker</name>
+    <member refid="class_stress_stub_ranker_1ac41450eb4447440f5f2301947d457cce" kind="variable"><name>total_</name></member>
+    <member refid="class_stress_stub_ranker_1a498993e107dabf39be8f88ba3e02e8f9" kind="function"><name>rank</name></member>
+    <member refid="class_stress_stub_ranker_1a94869e359377d9d731bcbd30e94920cb" kind="function"><name>total</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_suggestion" kind="struct"><name>themis::Suggestion</name>
+    <member refid="structthemis_1_1_suggestion_1a6d3dcce660fea8fd18aee41c18b94bfd" kind="variable"><name>text</name></member>
+    <member refid="structthemis_1_1_suggestion_1a33b328d0306381da297254f71bc93a0c" kind="variable"><name>score</name></member>
+    <member refid="structthemis_1_1_suggestion_1a9b42a220a16bdaee54894c7c71e0cc97" kind="variable"><name>is_popular</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_federated_search_1_1_tenant_stats" kind="struct"><name>themis::FederatedSearch::TenantStats</name>
+    <member refid="structthemis_1_1_federated_search_1_1_tenant_stats_1a9b9741f0ec91a8c9621097fadae914d6" kind="variable"><name>tenant_id</name></member>
+    <member refid="structthemis_1_1_federated_search_1_1_tenant_stats_1a94518ab6505d3e048ad52bc569cc6803" kind="variable"><name>results_count</name></member>
+    <member refid="structthemis_1_1_federated_search_1_1_tenant_stats_1a00319415ed10c400d82aa88ad184b8ac" kind="variable"><name>skipped</name></member>
+  </compound>
+  <compound refid="structthemis_1_1search_1_1_tensor_layer_candidate" kind="struct"><name>themis::search::TensorLayerCandidate</name>
+    <member refid="structthemis_1_1search_1_1_tensor_layer_candidate_1ae10b3f2352610cf5405f8b55278b5ecb" kind="variable"><name>adapter_key</name></member>
+    <member refid="structthemis_1_1search_1_1_tensor_layer_candidate_1a8bf87024409d66e29f2a6c24d41cb3dd" kind="variable"><name>domain</name></member>
+    <member refid="structthemis_1_1search_1_1_tensor_layer_candidate_1a19a3aab1d85a2c5b7e2acd39be46fb0f" kind="variable"><name>base_model_id</name></member>
+    <member refid="structthemis_1_1search_1_1_tensor_layer_candidate_1adde68d1f6faefbc56e01e89ad09266b6" kind="variable"><name>score</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_conversational_search_1_1_turn" kind="struct"><name>themis::ConversationalSearch::Turn</name>
+    <member refid="structthemis_1_1_conversational_search_1_1_turn_1a342127e5ca9fa783cb1b6aba3dbd804d" kind="variable"><name>query</name></member>
+    <member refid="structthemis_1_1_conversational_search_1_1_turn_1a4684a1d7111c1969fc89280787ef53cc" kind="variable"><name>reformulated_query</name></member>
+    <member refid="structthemis_1_1_conversational_search_1_1_turn_1ad756571c35ae9f82da28b4fa9213d1a6" kind="variable"><name>results</name></member>
+  </compound>
+  <compound refid="structthemis_1_1_user_interaction" kind="struct"><name>themis::UserInteraction</name>
+    <member refid="structthemis_1_1_user_interaction_1a68073b2e7867a3a953e4149c8f426817" kind="variable"><name>user_id</name></member>
+    <member refid="structthemis_1_1_user_interaction_1abc4640dd6ec78fb206c86db443b86434" kind="variable"><name>document_id</name></member>
+    <member refid="structthemis_1_1_user_interaction_1a9719046730274b923d0ae76f989a8dd6" kind="variable"><name>type</name></member>
+    <member refid="structthemis_1_1_user_interaction_1a8ffc5f25b4f60ce3a79c84f5181296b4" kind="variable"><name>timestamp</name></member>
+  </compound>
+  <compound refid="classthemis_1_1search_1_1testing_1_1_utility_component_edge_cases_test" kind="class"><name>themis::search::testing::UtilityComponentEdgeCasesTest</name>
+  </compound>
+  <compound refid="structthemis_1_1_learning_to_rank_1_1_variant" kind="struct"><name>themis::LearningToRank::Variant</name>
+    <member refid="structthemis_1_1_learning_to_rank_1_1_variant_1aecf877a32a2878eb70154f15b593590e" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1_learning_to_rank_1_1_variant_1a6d91c5bb3821f27dc35f4b4eb6c40bc5" kind="variable"><name>scorer</name></member>
+    <member refid="structthemis_1_1_learning_to_rank_1_1_variant_1a76f5105a0afca52ce2702263648f5de6" kind="variable"><name>traffic_fraction</name></member>
+  </compound>
+  <compound refid="namespace_0d000163036045331030135104221113306377122350064260" kind="namespace"><name>@000163036045331030135104221113306377122350064260</name>
+  </compound>
+  <compound refid="namespace_0d024306217135200301016025052207234344211353220334" kind="namespace"><name>@024306217135200301016025052207234344211353220334</name>
+  </compound>
+  <compound refid="namespace_0d060241377132155115146071330213344016353201007111" kind="namespace"><name>@060241377132155115146071330213344016353201007111</name>
+  </compound>
+  <compound refid="namespace_0d152071335267021160302374304121140305373235162207" kind="namespace"><name>@152071335267021160302374304121140305373235162207</name>
+  </compound>
+  <compound refid="namespace_0d274335230211266320167307200057155122015254374315" kind="namespace"><name>@274335230211266320167307200057155122015254374315</name>
+  </compound>
+  <compound refid="namespace_0d300320352250064045220100377105176226113021245162" kind="namespace"><name>@300320352250064045220100377105176226113021245162</name>
+  </compound>
+  <compound refid="namespace_0d301130260036330354070015175041333171341027011074" kind="namespace"><name>@301130260036330354070015175041333171341027011074</name>
+  </compound>
+  <compound refid="namespacetesting" kind="namespace"><name>testing</name>
+  </compound>
+  <compound refid="namespacethemis" kind="namespace"><name>themis</name>
+    <member refid="namespacethemis_1a04c672cfc338b5fb98f1a59cb77950f4" kind="enum"><name>RewriteQuality</name></member>
+    <member refid="namespacethemis_1a04c672cfc338b5fb98f1a59cb77950f4ae0aa021e21dddbd6d8cecec71e9cf564" kind="enumvalue"><name>OK</name></member>
+    <member refid="namespacethemis_1a04c672cfc338b5fb98f1a59cb77950f4af35b388d8d4adeab05bce916c73d7a72" kind="enumvalue"><name>FALLBACK</name></member>
+    <member refid="namespacethemis_1a8b5c83169730b83ecc8747d7800ba517" kind="enum"><name>Modality</name></member>
+    <member refid="namespacethemis_1a8b5c83169730b83ecc8747d7800ba517a61a96ffcb251bb9bf0abf8fec19d0ea8" kind="enumvalue"><name>TEXT</name></member>
+    <member refid="namespacethemis_1a8b5c83169730b83ecc8747d7800ba517a23a12f67f614b5518c7f1c2465bf95e3" kind="enumvalue"><name>IMAGE</name></member>
+    <member refid="namespacethemis_1a8b5c83169730b83ecc8747d7800ba517ae423b8bde9bfbfd7e9409b23b23aed91" kind="enumvalue"><name>AUDIO</name></member>
+    <member refid="namespacethemis_1a8b5c83169730b83ecc8747d7800ba517a72baef04098f035e8a320b03ad197818" kind="enumvalue"><name>CUSTOM</name></member>
+    <member refid="namespacethemis_1a810d63722a91d86aeb83f5d3568ca15f" kind="enum"><name>InteractionType</name></member>
+    <member refid="namespacethemis_1a810d63722a91d86aeb83f5d3568ca15fa5824b315fdbb0f42abfe1bb03f78c270" kind="enumvalue"><name>VIEW</name></member>
+    <member refid="namespacethemis_1a810d63722a91d86aeb83f5d3568ca15fa40600390b96d1c218ae0d475f977e25b" kind="enumvalue"><name>CLICK</name></member>
+    <member refid="namespacethemis_1a810d63722a91d86aeb83f5d3568ca15fa6a56405ceb50e3bd98d866439ae374ab" kind="enumvalue"><name>BOOKMARK</name></member>
+    <member refid="namespacethemis_1a810d63722a91d86aeb83f5d3568ca15faa7598964efa10e649f92662b79e8d4d3" kind="enumvalue"><name>LIKE</name></member>
+    <member refid="namespacethemis_1a810d63722a91d86aeb83f5d3568ca15fae6c5b4ba483da6a89dd7d1f58b62d19b" kind="enumvalue"><name>DISLIKE</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1ed" kind="enum"><name>SearchErrorCode</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edad0749aaba8b833466dfcbb0428e4f89c" kind="enumvalue"><name>SUCCESS</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda19f97e6f53e6e387aa51e8ecabff560a" kind="enumvalue"><name>BM25_NO_RESULTS</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edafbc25c4084cf2f1950b32ed8aee5bc8f" kind="enumvalue"><name>VECTOR_NO_RESULTS</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda6dc4aaf4cc5dbca27bfc97bc6b84c1eb" kind="enumvalue"><name>BOTH_BACKENDS_EMPTY</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda75ba1dc6d1326679b1e19a06c1e243e8" kind="enumvalue"><name>BM25_BACKEND_UNAVAILABLE</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda21155176002013a456016f838dfd876d" kind="enumvalue"><name>VECTOR_BACKEND_UNAVAILABLE</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edaa188a4c09abb241f50d3507a28d22fca" kind="enumvalue"><name>BM25_PARTIAL_RESULTS</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edae2c8000315dbc4cd37e909957210dccd" kind="enumvalue"><name>VECTOR_PARTIAL_RESULTS</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edaf7b60a1ed8a1404e1dd8e39fd96f4c27" kind="enumvalue"><name>RRF_FUSION_FAILED</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda43ae750171f68589114878b8527aa95d" kind="enumvalue"><name>SCORE_NORMALIZATION_FAILED</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda80e2a1b94e3c92cc33d184ff18eb84e5" kind="enumvalue"><name>LINEAR_FUSION_FAILED</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda1952a953b30c7dbc00aa364d1c15a0b0" kind="enumvalue"><name>FUSION_PRODUCED_EMPTY_SET</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edae077219d84779101003f401ed461cd18" kind="enumvalue"><name>SCORE_NORMALIZATION_FALLBACK</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda85e8cb24e1d413ef772d0ef903955516" kind="enumvalue"><name>SHARD_TIMEOUT</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda02f4aaba3f2d5d668cb9576c2f999a3e" kind="enumvalue"><name>SHARD_HTTP_ERROR</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda2c9620f6406996a3ff1bc966bde596d2" kind="enumvalue"><name>SHARD_UNREACHABLE</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda7dfe93b66d4ba6c2c521c607531c3dfa" kind="enumvalue"><name>ALL_SHARDS_FAILED</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda3c9a89be675e3805e283b641217d9eec" kind="enumvalue"><name>PARTIAL_SHARD_FAILURE</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda63414df40399e0cac01f313c8e2d246f" kind="enumvalue"><name>MERGE_CANDIDATE_DEFICIT</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edab517c2d5b6337808374cd2984a3d12df" kind="enumvalue"><name>HIGH_CARDINALITY_OVERLAP</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda8497857c3cb332712625bbc19e3d44dd" kind="enumvalue"><name>SHARD_RANKING_CONFLICT</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda86c95a19043e6034a30b481911bc4f18" kind="enumvalue"><name>EXPANSION_LIMIT_EXCEEDED</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edabd74348469e20543d2cc60db18430e62" kind="enumvalue"><name>FUZZY_MATCHING_FALLBACK</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edaba06e482c857c5ba49421a2a17cca500" kind="enumvalue"><name>FACET_CARDINALITY_LIMIT</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edafe82abf6ce77ff7c7d5e3d2d1bae1836" kind="enumvalue"><name>RERANKER_BACKEND_UNAVAILABLE</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda204f9e75078ba563b2b160267d1d2713" kind="enumvalue"><name>RERANKER_TIMEOUT</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda006229578129e2d0bfa1aa3c789b3780" kind="enumvalue"><name>RERANKER_INVALID_SCORES</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda1ae1a6b851cb0e116d1e6faa76bdc310" kind="enumvalue"><name>QUERY_REWRITER_FAILED</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda1b369d4231f9f2e69bd5f6aee4342fec" kind="enumvalue"><name>HIGHLIGHTING_PARTIAL_FAILURE</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda3a69ec7b88a7af6500d2b6692d8ee080" kind="enumvalue"><name>STREAM_CURSOR_OUT_OF_BOUNDS</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda66fd97287f6d3e1d4706a9c5050f7097" kind="enumvalue"><name>ANALYTICS_BUFFER_FULL</name></member>
+    <member refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edab766cc89750bf2564e229c87477b774d" kind="enumvalue"><name>ANALYTICS_RECORD_FAILED</name></member>
+    <member refid="namespacethemis_1a3b7144a3e1721ebdce0f21b8dce7a0cf" kind="typedef"><name>SparseVector</name></member>
+    <member refid="namespacethemis_1a8aa9f5686a38b01b69c36deb4e1b7ce5" kind="typedef"><name>SparseEncoderBackend</name></member>
+    <member refid="namespacethemis_1a8856cac7af9f34286e873cb0dfb163f6" kind="function"><name>searchErrorCodeToString</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1_0d232340204116061053346164335207053257367245116137" kind="namespace"><name>themis::@232340204116061053346164335207053257367245116137</name>
+  </compound>
+  <compound refid="namespacethemis_1_1core" kind="namespace"><name>themis::core</name>
+  </compound>
+  <compound refid="namespacethemis_1_1core_1_1concerns" kind="namespace"><name>themis::core::concerns</name>
+  </compound>
+  <compound refid="namespacethemis_1_1graph" kind="namespace"><name>themis::graph</name>
+  </compound>
+  <compound refid="namespacethemis_1_1index" kind="namespace"><name>themis::index</name>
+  </compound>
+  <compound refid="namespacethemis_1_1llm" kind="namespace"><name>themis::llm</name>
+  </compound>
+  <compound refid="namespacethemis_1_1search" kind="namespace"><name>themis::search</name>
+    <member refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5de" kind="enum"><name>LayerRoutingDecision</name></member>
+    <member refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5deaca966251f856595642d61bfa4026b086" kind="enumvalue"><name>EXECUTED</name></member>
+    <member refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5deaf35b388d8d4adeab05bce916c73d7a72" kind="enumvalue"><name>FALLBACK</name></member>
+    <member refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5deab623c91c0df090278c43eb244d2772f1" kind="enumvalue"><name>TIMEOUT_SKIP</name></member>
+    <member refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5dea610226906a8f2ac886012fa86f45325c" kind="enumvalue"><name>GUARDRAIL_SKIP</name></member>
+    <member refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5dea055c1a591abb0e8cd86dc969727bcc0b" kind="enumvalue"><name>DISABLED</name></member>
+    <member refid="namespacethemis_1_1search_1a0c234cd3b0c0002008532e6772d66320" kind="typedef"><name>LlmRerankerFactory</name></member>
+    <member refid="namespacethemis_1_1search_1a6040b72391f38a5be5b61354bef984a8" kind="variable"><name>g_reranker_factory</name></member>
+    <member refid="namespacethemis_1_1search_1ae45adc05962993830182f8807c53f642" kind="function"><name>registerLlmRerankerFactory</name></member>
+    <member refid="namespacethemis_1_1search_1a04040bd946c965f7444aaad5ff87e4b9" kind="function"><name>createLlmReranker</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1search_1_1_0d053140342072134231156275124310033035311175237016" kind="namespace"><name>themis::search::@053140342072134231156275124310033035311175237016</name>
+  </compound>
+  <compound refid="namespacethemis_1_1search_1_1_0d200044150074115130121036030055041211010163140245" kind="namespace"><name>themis::search::@200044150074115130121036030055041211010163140245</name>
+  </compound>
+  <compound refid="namespacethemis_1_1search_1_1_0d220130331046231040257244135106162114016120146213" kind="namespace"><name>themis::search::@220130331046231040257244135106162114016120146213</name>
+  </compound>
+  <compound refid="namespacethemis_1_1search_1_1_0d231343072072152161115021156021171006225154270066" kind="namespace"><name>themis::search::@231343072072152161115021156021171006225154270066</name>
+    <member refid="namespacethemis_1_1search_1_1_0d231343072072152161115021156021171006225154270066_1a23d6580c0501fbac9a4668595790f69f" kind="enum"><name>DeadlineState</name></member>
+    <member refid="namespacethemis_1_1search_1_1_0d231343072072152161115021156021171006225154270066_1a23d6580c0501fbac9a4668595790f69fa07ca5050e697392c9ed47e6453f1453f" kind="enumvalue"><name>Completed</name></member>
+    <member refid="namespacethemis_1_1search_1_1_0d231343072072152161115021156021171006225154270066_1a23d6580c0501fbac9a4668595790f69fa9541eb2348d883dd8e32ae0420274c4c" kind="enumvalue"><name>TimedOut</name></member>
+    <member refid="namespacethemis_1_1search_1_1_0d231343072072152161115021156021171006225154270066_1a23d6580c0501fbac9a4668595790f69fad7c8c85bf79bbe1b7188497c32c3b0ca" kind="enumvalue"><name>Failed</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1search_1_1_0d251176075124374124367243053125162230077006355062" kind="namespace"><name>themis::search::@251176075124374124367243053125162230077006355062</name>
+  </compound>
+  <compound refid="namespacethemis_1_1search_1_1testing" kind="namespace"><name>themis::search::testing</name>
+    <member refid="namespacethemis_1_1search_1_1testing_1a02766dcdf2b3f8e37d97e0d471a3e9b7" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a6670f24c0a290542c52419e680501ba9" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a2c3ce813db5eb631b794cb7a89b6fda6" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1af57d89afb529c08ad7cc8c4f8a448bc1" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1ac564f8739a79be3e9e25e0bbbf42b7ab" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a8582b3cb50677f8f51fd6a5391f9fa00" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a478d49ac28659f003080985f2e07fab9" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a8da812f9aee8b8b602b3f3b5932bef58" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a76b619862083dd9bf5974bc2b74536b0" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a6fe8f0c20a50a3c8bfe500aca91d9fd3" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a64a3fb73bcc479e65dbc2550c243b867" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a5c5e31e3fa3a4bdb2bd941a97e542607" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1ab009b17c3cd0ed325a8693aae17e76c0" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1ada5fb071f6c59140ba55f530d8b13800" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a857693c9f3250c918872de59a2e5b259" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a3c9cf5786452a1d27835b6fa56a02a29" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a541de44512d0ab235298daf8694f0c1b" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1aeebf9cddfcb45be070b5e514017aad4d" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1ac27c8fa8408ba19522c0850c98d7bb21" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1ae82a0592dffd841102e1db8cf15dbc63" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a45026bd4daa63a2936fa4ec014e4ae79" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1abb7b002468f6c695115f50bdb57d0230" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a72c63002c82c15d73bab561ab55e96b9" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1ac12134f22e9a71d9418aa278c649eeda" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a09a6c7cffa22e15373b95a6d9d3a4345" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a7584ba2f6713ebd51260d61d59385035" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a8bce106f731f0a742cec2bad467239ca" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1ac66186befe0570701930c8f02b589053" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1afd99808978c908a6fd87369b4dd1d7a7" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a0e1136873954bb689e7d864a40438cdc" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1abf412b5156fed7b399dbd03ba9438998" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a8d0f66d1d2a62705795227b24542ea93" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1addf66680a9890a28a4b173f35ff61961" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a757d9d20e4d8df29787531425b52fe7d" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1adbaac539117caafcc54cec081997cd46" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a00857ac27525e1374027f83de9acc562" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1af252925291f7e6babe20eb5bfd1921f0" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a3b9cc371630410fce475f5af2103bc33" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1adf94385c545c8e0ad870e39954bf8f7b" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1ae79b421d0acf9d5d5a69cde4e398115a" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a46f8ce93196414dfc928ebe1872e17dd" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a1ed4d9386609fe26a52f560987696bf2" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1ad5b04a2bc500fc56a1876bc44489e395" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a55cd9ee107e69de31530b544a5414ff4" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a9964303df765c8c538ee4098cf0b82af" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a2cde4d50bbcaa2e71db02c60e4d8928a" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1aec16a205ee5d14921ab6aeeef4853ec8" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a4abbd4f697c0306b29036f26aa983e7e" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1aaf594408ee2394bfbe1d61b310c0138f" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1afaa5aa94223893e06490a83720f0c839" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1af5d6e7839bc491c4297d7ad02fb17e09" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a72074903822ad3969dea77d95c82e880" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1ad6d4b29bce241c0d6ed96904882af6af" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a47bfac3e252d49160709ee263e44e0f5" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a34dd19e0c68f13e84b884d1a1bcfc0cb" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1ae30cb15bfb9092edf898614ccfa72fed" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a02c796b514f9d93aadfba58e73422a0a" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a19e557bd4cbe6e38fa065fd054f22917" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a373d890680519fd6889607e4c623f4b7" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1ab8bf6a6fe44385f69312a603b8ac8b5e" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a7e2381ba819d5e73060d4ab20779b322" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a1c0e1df5cad06f480e47b31e6b3a3768" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a833a4b71fffe804aa73ccd29665f0eb7" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1af4c6d161ab0fb2d1cf118cc2754ca101" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1af44cf3f722f1dabfb185c5d901db3377" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1ace6b73c68657e654b718d9194b5c60c9" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1ad1b657c1f79b94fdc04565514090884f" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1af6b1eff71adabb06c6103f69d925ea80" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a28e31012b7105de3c082b7114a4a2ac9" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1ab994a98801c9e779d492e1a351004aba" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a2314b8a5e6429e15fecc8fa27a4f1210" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1acc0bf149e3fc2a3c67500492b0b453de" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a04692c2651fd5437470a3970e95e4226" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1aa15d03ad03f256753eb70be53c404273" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a92ac39c410a9d16b6499b189fefbbe66" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a61618d23d4d46cda826280ad29df8db9" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1aec340eb431591263b8b70110b975c5c7" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1search_1_1testing_1a5f6af2723ec19b61c510e0ca2e186cca" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1search_1_1testing_1_1_0d013213072011044375104107202312275362216266215247" kind="namespace"><name>themis::search::testing::@013213072011044375104107202312275362216266215247</name>
+  </compound>
+  <compound refid="namespacethemis_1_1tensor" kind="namespace"><name>themis::tensor</name>
+  </compound>
+  <compound refid="bench__advanced__scenarios_8cpp" kind="file"><name>bench_advanced_scenarios.cpp</name>
+  </compound>
+  <compound refid="bench__approximate__radius__search_8cpp" kind="file"><name>bench_approximate_radius_search.cpp</name>
+    <member refid="bench__approximate__radius__search_8cpp_1a8dc7c86fe76ab1c21995395bcad91ea1" kind="function"><name>BM_RadiusSearch_DatasetSize</name></member>
+    <member refid="bench__approximate__radius__search_8cpp_1ab84999fa701ea5a34c121e01d25821c5" kind="function"><name>Args</name></member>
+    <member refid="bench__approximate__radius__search_8cpp_1a112d4edb83cd41228d0b589366abc77f" kind="function"><name>BM_RadiusSearch_RadiusVariation</name></member>
+    <member refid="bench__approximate__radius__search_8cpp_1ace22417c0a639cc16ea4c7e0690b35ae" kind="function"><name>Arg</name></member>
+    <member refid="bench__approximate__radius__search_8cpp_1ab0c02336c4a06282328d76f4f956946b" kind="function"><name>BM_RadiusSearch_BatchSearch</name></member>
+    <member refid="bench__approximate__radius__search_8cpp_1ada32a79bc8a63121f47112ebdf4673c4" kind="function"><name>Arg</name></member>
+    <member refid="bench__approximate__radius__search_8cpp_1af76e686e9fbea0d9baaebfad189cf5e5" kind="function"><name>BM_RadiusSearch_TargetCount</name></member>
+    <member refid="bench__approximate__radius__search_8cpp_1a4a04638a3bc5283612e2ca9acc483879" kind="function"><name>Arg</name></member>
+    <member refid="bench__approximate__radius__search_8cpp_1a66cd689d11cd8585a1ba354be44648cb" kind="function"><name>BM_RadiusSearch_EstimateCount</name></member>
+    <member refid="bench__approximate__radius__search_8cpp_1a6a4fc1b2217c40b63b3004c5d8dcd422" kind="function"><name>Arg</name></member>
+    <member refid="bench__approximate__radius__search_8cpp_1ab4f211dde938a5d668feae59bc0c95ce" kind="function"><name>BM_RadiusSearch_SearchById</name></member>
+    <member refid="bench__approximate__radius__search_8cpp_1afad6b80f3206049f3d4d4a670658e523" kind="function"><name>Unit</name></member>
+    <member refid="bench__approximate__radius__search_8cpp_1a13b7b8c525c40fcdce28c1bbb52c124f" kind="function"><name>BM_RadiusSearch_Metrics</name></member>
+    <member refid="bench__approximate__radius__search_8cpp_1a1c354c397cafff7cdeed2489eda56162" kind="function"><name>Arg</name></member>
+    <member refid="bench__approximate__radius__search_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__distributed__merge__gates_8cpp" kind="file"><name>bench_distributed_merge_gates.cpp</name>
+  </compound>
+  <compound refid="bench__hybrid__fusion__gates_8cpp" kind="file"><name>bench_hybrid_fusion_gates.cpp</name>
+  </compound>
+  <compound refid="bench__layered__retrieval__phase5_8cpp" kind="file"><name>bench_layered_retrieval_phase5.cpp</name>
+  </compound>
+  <compound refid="bench__search__dedicated__gates_8cpp" kind="file"><name>bench_search_dedicated_gates.cpp</name>
+    <member refid="bench__search__dedicated__gates_8cpp_1a57d305d368ceb35f17413a52d9ba03f0" kind="variable"><name>kSearchTerms</name></member>
+    <member refid="bench__search__dedicated__gates_8cpp_1aa8824b8fe03fa9daf98c593af8de4cec" kind="function"><name>stub_fts_search</name></member>
+    <member refid="bench__search__dedicated__gates_8cpp_1afc6b03ecd07f05fc51b8be349f8811f0" kind="function"><name>stub_rank</name></member>
+    <member refid="bench__search__dedicated__gates_8cpp_1a74ec01859167e5e81acf93a1c2ea99ad" kind="function"><name>stub_facet_filter</name></member>
+    <member refid="bench__search__dedicated__gates_8cpp_1ac22a3d79879f1c3569318427ae6a45f7" kind="function"><name>BM_Search_FTSQueryP95</name></member>
+    <member refid="bench__search__dedicated__gates_8cpp_1a9d6ad2c28a99b8cc751ecf9374ff6b69" kind="function"><name>Name</name></member>
+    <member refid="bench__search__dedicated__gates_8cpp_1a1f466262d20fccadcec723c3d037695e" kind="function"><name>BM_Search_RankingP95</name></member>
+    <member refid="bench__search__dedicated__gates_8cpp_1a758add6b8d5d9011ef740a64dead9657" kind="function"><name>Name</name></member>
+    <member refid="bench__search__dedicated__gates_8cpp_1a9ec2ab57c643a8d771d9402b7e413029" kind="function"><name>BM_Search_FacetFilterP95</name></member>
+    <member refid="bench__search__dedicated__gates_8cpp_1a7007eddc6bf4838e584514def9d2d5ec" kind="function"><name>Name</name></member>
+    <member refid="bench__search__dedicated__gates_8cpp_1abd83601270ec9bc25371974f9613d21e" kind="function"><name>BM_Search_ConcurrentThroughput</name></member>
+    <member refid="bench__search__dedicated__gates_8cpp_1a092028164c1af0725ec735643a4944c0" kind="function"><name>Name</name></member>
+    <member refid="bench__search__dedicated__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__search__release__gates_8cpp" kind="file"><name>bench_search_release_gates.cpp</name>
+  </compound>
+  <compound refid="bench__vector__search__gates_8cpp" kind="file"><name>bench_vector_search_gates.cpp</name>
+  </compound>
+  <compound refid="benchmark__distributed__hybrid__search_8cpp" kind="file"><name>benchmark_distributed_hybrid_search.cpp</name>
+    <member refid="benchmark__distributed__hybrid__search_8cpp_1a51a51bc3dbcfa77a2ccf39d0058f9fb8" kind="function"><name>makeCfg</name></member>
+    <member refid="benchmark__distributed__hybrid__search_8cpp_1ad4b52d9cf47d8c554a9b9e0acf73f042" kind="function"><name>makeShardResult</name></member>
+    <member refid="benchmark__distributed__hybrid__search_8cpp_1ad2ecb7013b8390882e7ebbd48dcaad3d" kind="function"><name>BM_MergeShardResults_ShardCount</name></member>
+    <member refid="benchmark__distributed__hybrid__search_8cpp_1a018136ac06ecbdbf06756bbe164dca07" kind="function"><name>Arg</name></member>
+    <member refid="benchmark__distributed__hybrid__search_8cpp_1a3e76ab1870f9435e7cb016234f60448e" kind="function"><name>BM_MergeShardResults_ResultsPerShard</name></member>
+    <member refid="benchmark__distributed__hybrid__search_8cpp_1a80617d49f4b829c3598cc05116303ec5" kind="function"><name>Arg</name></member>
+    <member refid="benchmark__distributed__hybrid__search_8cpp_1ab7be3c8f2dafa6914854d0fe5e6980d9" kind="function"><name>BM_MergeShardResults_Overlap</name></member>
+    <member refid="benchmark__distributed__hybrid__search_8cpp_1a5e536df13c2399ec3f6005680378a8a7" kind="function"><name>Arg</name></member>
+    <member refid="benchmark__distributed__hybrid__search_8cpp_1aa7abe7a3c85abdf7bbe6e1d0380b76e7" kind="function"><name>BM_MergeShardResults_KLimit</name></member>
+    <member refid="benchmark__distributed__hybrid__search_8cpp_1ae0b7eef7ca6adb3a89acb2b81ba1c37e" kind="function"><name>Arg</name></member>
+    <member refid="benchmark__distributed__hybrid__search_8cpp_1a0dae388a65d446d416d98d6f6ff376d3" kind="function"><name>BM_MergeShardResults_WithFailures</name></member>
+    <member refid="benchmark__distributed__hybrid__search_8cpp_1a016312f075d423f37da7c0580f462c3c" kind="function"><name>BM_ConfigConstruction</name></member>
+    <member refid="benchmark__distributed__hybrid__search_8cpp_1ae218afd7ffb0f8dc1a406a34d33d92c4" kind="function"><name>BENCHMARK</name></member>
+    <member refid="benchmark__distributed__hybrid__search_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="benchmark__hybrid__search_8cpp" kind="file"><name>benchmark_hybrid_search.cpp</name>
+    <member refid="benchmark__hybrid__search_8cpp_1ab30efc490f8e7f2267c0c683d642c1d7" kind="function"><name>makeCandidates</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1a6f88030271c115e9319b84e36a08bddc" kind="function"><name>makeOverlappingCandidates</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1ae238e13731e30c18b88c25cb31d54a2c" kind="function"><name>BM_RRF_BM25Only</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1a4f812375c39c67f1352f66f2dafdfdd7" kind="function"><name>BENCHMARK</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1a87dec553fc321308471059a2d6b9fbf5" kind="function"><name>BM_RRF_VectorOnly</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1a8fe0929b305c30c1a7c1f8c943e70f0e" kind="function"><name>BENCHMARK</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1ad7af8aba0db6211555aaa02634fce16d" kind="function"><name>BM_RRF_Hybrid_NoOverlap</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1abdca13ea0fbd998215e5bb3c0751e90a" kind="function"><name>BENCHMARK</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1ab861be8b45d2cb549fca5452d47b3fd5" kind="function"><name>BM_RRF_Hybrid_50PctOverlap</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1a252899748f956a265306321a9d41b5ba" kind="function"><name>BENCHMARK</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1aa496637ae949b8ec14a985ba3bca8d25" kind="function"><name>BM_RRF_Hybrid_FullOverlap</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1ad2dd008f318e58140ec97310074a725a" kind="function"><name>BENCHMARK</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1a371e38db60ecff10bb56a409ab869bd9" kind="function"><name>BM_Linear_Hybrid</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1ab8bf7bf95d240a219fc5d8556541bba3" kind="function"><name>BENCHMARK</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1ac5cac858c9c78bc33578fbeabb93b92d" kind="function"><name>BM_NormalizeScores_BM25</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1ade00c04671fa20eff8e936a8bd0e05d8" kind="function"><name>BENCHMARK</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1ac8cdbafa835747b51b2ac12d879cc2db" kind="function"><name>BM_NormalizeScores_Vector</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1ac2ceb5d83af93d158fe91c67e20f21d6" kind="function"><name>BENCHMARK</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1a016312f075d423f37da7c0580f462c3c" kind="function"><name>BM_ConfigConstruction</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1ae218afd7ffb0f8dc1a406a34d33d92c4" kind="function"><name>BENCHMARK</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1aa11b4d7242e3db5c3f058f665f484349" kind="function"><name>BM_RRF_VaryingRrfK</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1ac09cd87ff53e7742d51973a15090fe3e" kind="function"><name>BENCHMARK</name></member>
+    <member refid="benchmark__hybrid__search_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="autocomplete_8h" kind="file"><name>autocomplete.h</name>
+  </compound>
+  <compound refid="conversational__search_8h" kind="file"><name>conversational_search.h</name>
+  </compound>
+  <compound refid="cross__lingual__search_8h" kind="file"><name>cross_lingual_search.h</name>
+  </compound>
+  <compound refid="distributed__hybrid__search_8h" kind="file"><name>distributed_hybrid_search.h</name>
+  </compound>
+  <compound refid="faceted__search_8h" kind="file"><name>faceted_search.h</name>
+  </compound>
+  <compound refid="federated__search_8h" kind="file"><name>federated_search.h</name>
+  </compound>
+  <compound refid="fuzzy__matcher_8h" kind="file"><name>fuzzy_matcher.h</name>
+  </compound>
+  <compound refid="hybrid__search_8h" kind="file"><name>hybrid_search.h</name>
+  </compound>
+  <compound refid="layered__retrieval__orchestrator_8h" kind="file"><name>layered_retrieval_orchestrator.h</name>
+  </compound>
+  <compound refid="learning__to__rank_8h" kind="file"><name>learning_to_rank.h</name>
+  </compound>
+  <compound refid="llm__query__rewriter_8h" kind="file"><name>llm_query_rewriter.h</name>
+  </compound>
+  <compound refid="llm__reranker_8h" kind="file"><name>llm_reranker.h</name>
+  </compound>
+  <compound refid="multi__field__search_8h" kind="file"><name>multi_field_search.h</name>
+  </compound>
+  <compound refid="multi__modal__search_8h" kind="file"><name>multi_modal_search.h</name>
+  </compound>
+  <compound refid="negative__keyword__filter_8h" kind="file"><name>negative_keyword_filter.h</name>
+  </compound>
+  <compound refid="neural__sparse__retrieval_8h" kind="file"><name>neural_sparse_retrieval.h</name>
+  </compound>
+  <compound refid="personalized__ranker_8h" kind="file"><name>personalized_ranker.h</name>
+  </compound>
+  <compound refid="query__expander_8h" kind="file"><name>query_expander.h</name>
+  </compound>
+  <compound refid="search__analytics_8h" kind="file"><name>search_analytics.h</name>
+  </compound>
+  <compound refid="search__error__codes_8h" kind="file"><name>search_error_codes.h</name>
+  </compound>
+  <compound refid="search__highlighter_8h" kind="file"><name>search_highlighter.h</name>
+  </compound>
+  <compound refid="search__result__stream_8h" kind="file"><name>search_result_stream.h</name>
+  </compound>
+  <compound refid="autocomplete_8cpp" kind="file"><name>autocomplete.cpp</name>
+  </compound>
+  <compound refid="conversational__search_8cpp" kind="file"><name>conversational_search.cpp</name>
+  </compound>
+  <compound refid="cross__lingual__search_8cpp" kind="file"><name>cross_lingual_search.cpp</name>
+  </compound>
+  <compound refid="distributed__hybrid__search_8cpp" kind="file"><name>distributed_hybrid_search.cpp</name>
+  </compound>
+  <compound refid="faceted__search_8cpp" kind="file"><name>faceted_search.cpp</name>
+  </compound>
+  <compound refid="federated__search_8cpp" kind="file"><name>federated_search.cpp</name>
+  </compound>
+  <compound refid="fuzzy__matcher_8cpp" kind="file"><name>fuzzy_matcher.cpp</name>
+  </compound>
+  <compound refid="hybrid__search_8cpp" kind="file"><name>hybrid_search.cpp</name>
+  </compound>
+  <compound refid="layered__retrieval__orchestrator_8cpp" kind="file"><name>layered_retrieval_orchestrator.cpp</name>
+  </compound>
+  <compound refid="learning__to__rank_8cpp" kind="file"><name>learning_to_rank.cpp</name>
+  </compound>
+  <compound refid="llm__query__rewriter_8cpp" kind="file"><name>llm_query_rewriter.cpp</name>
+  </compound>
+  <compound refid="llm__reranker_8cpp" kind="file"><name>llm_reranker.cpp</name>
+  </compound>
+  <compound refid="llm__reranker__factory__stub_8cpp" kind="file"><name>llm_reranker_factory_stub.cpp</name>
+  </compound>
+  <compound refid="multi__field__search_8cpp" kind="file"><name>multi_field_search.cpp</name>
+  </compound>
+  <compound refid="multi__modal__search_8cpp" kind="file"><name>multi_modal_search.cpp</name>
+  </compound>
+  <compound refid="negative__keyword__filter_8cpp" kind="file"><name>negative_keyword_filter.cpp</name>
+  </compound>
+  <compound refid="neural__sparse__retrieval_8cpp" kind="file"><name>neural_sparse_retrieval.cpp</name>
+  </compound>
+  <compound refid="personalized__ranker_8cpp" kind="file"><name>personalized_ranker.cpp</name>
+  </compound>
+  <compound refid="query__expander_8cpp" kind="file"><name>query_expander.cpp</name>
+  </compound>
+  <compound refid="search__analytics_8cpp" kind="file"><name>search_analytics.cpp</name>
+  </compound>
+  <compound refid="search__highlighter_8cpp" kind="file"><name>search_highlighter.cpp</name>
+  </compound>
+  <compound refid="search__result__stream_8cpp" kind="file"><name>search_result_stream.cpp</name>
+  </compound>
+  <compound refid="test__layered__retrieval__integration__phase4_8cpp" kind="file"><name>test_layered_retrieval_integration_phase4.cpp</name>
+  </compound>
+  <compound refid="test__search__analytics_8cpp" kind="file"><name>test_search_analytics.cpp</name>
+    <member refid="test__search__analytics_8cpp_1aa7412a2af5b56f079dc4edb0f2ea6780" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1a34365c01ba18f37df0558a13f7115fd1" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1a8c2899662121036b8030f0a2a78426b2" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1ab891c2f0036a97c5fd4299c1fe54b362" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1a0fa591670d21ed8fff5c05a63a07bc82" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1aac0007ab052837b3b31b6eba6768ff8d" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1a46eee641d44028289a2c30cc6ec46c4a" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1ac7450e1a3297b9e674b7c212786b0db8" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1a23e72cf0093da0bebe3666385131d1c3" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1a6e3fc8fec16c8869d3c612c7be565254" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1a5219fb8204261b1800948580ffe6ca06" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1ab94df3bf50cbca6e9e3edbfc733c9e03" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1a13a6aa2058f5b8c9686c4cd6bfe37f3d" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1aacf9b08170e70e3392b02cd448a417a8" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1a3ee2f2c9d073a944e466d3c84a7d248a" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1a581e25232a38b1ff416d68ba6f9ce19f" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1a94c369ef653f44ac1ea0188749ff3efb" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1a5232c38b6739ec68a116870d59c495bd" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1afd54e223db65b55aa031adffbda6dd8c" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1a2ee7b70d218e6f5807c413b01194a8aa" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1a4b5e257edb1a5a53a49f7cce82e10f92" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1a65ef55381888f539b5ee592e7fb07262" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1af4958c39b5c5ca35993a6b1fadf18bd6" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1a879d80c7fc2442b26a0573d75033dd80" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1a028c02daff32180c45c5789ba599d78e" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1a5e6d8ae64c3d6856351590530147238c" kind="function"><name>TEST</name></member>
+    <member refid="test__search__analytics_8cpp_1a7fad76b4f40156a375f202433cde908b" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__search__distributed__merge__phase2_8cpp" kind="file"><name>test_search_distributed_merge_phase2.cpp</name>
+  </compound>
+  <compound refid="test__search__distributed__merge__stress_8cpp" kind="file"><name>test_search_distributed_merge_stress.cpp</name>
+  </compound>
+  <compound refid="test__search__edge__cases__analytics_8cpp" kind="file"><name>test_search_edge_cases_analytics.cpp</name>
+  </compound>
+  <compound refid="test__search__edge__cases__distributed_8cpp" kind="file"><name>test_search_edge_cases_distributed.cpp</name>
+  </compound>
+  <compound refid="test__search__edge__cases__fusion_8cpp" kind="file"><name>test_search_edge_cases_fusion.cpp</name>
+  </compound>
+  <compound refid="test__search__edge__cases__phase3_8cpp" kind="file"><name>test_search_edge_cases_phase3.cpp</name>
+  </compound>
+  <compound refid="test__search__edge__cases__retrieval_8cpp" kind="file"><name>test_search_edge_cases_retrieval.cpp</name>
+  </compound>
+  <compound refid="test__search__edge__cases__utility_8cpp" kind="file"><name>test_search_edge_cases_utility.cpp</name>
+  </compound>
+  <compound refid="test__search__future__interfaces_8cpp" kind="file"><name>test_search_future_interfaces.cpp</name>
+    <member refid="test__search__future__interfaces_8cpp_1a46bb2df565cd48aaeb7ec3c49d27b172" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a3349476c3b06677879f8fb26157add9f" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1acbbd93228a95004c88ed1d7d5eaa26e3" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a5c27c1ab8c4667a36bce56db87d09841" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a94c6f37920d52c03b3b47107aa6a7608" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1ad19d13461f4206e866a6381894d35c93" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a98b9b3dac973a750f48e90f1a69858cb" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a28c4beca97c0cde6c8e632caf2f10f37" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a5d8fd0102b52419da22bb3a8959f2f90" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a033bf9fc874b2628f8fd28cd030a383d" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1ae7acfdd1f4c4ae27d6a121ec0c52f6cc" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a92344b25d3124fc55948ab91bcb66092" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1ad16f3698a5f569bdf644a6b0912c7ab4" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1ab0971a8d74c32d67ad6d2d30e2d54674" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a911ecc9566d3d3ca4bf8c1b469f2c68a" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a1a2f30bf20ec26ca9f6f82e06ec4d881" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a47407577118973d4d86afa4a9884a8b0" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1af22873d9bb29b2269f7c46926a7aaf30" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a171714c43f0af5d533459a240b78b11a" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a13f95dc9e69daa4fe8996aafbda03aee" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a0bf579a4542794109af3ef2523b57854" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a15eb0580d9f71f77b944eb2dca1b6c3a" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a20c0f476085cd91226a309327f6e2adb" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1ad3ed556ff95a82eaeadf59ac8891405a" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1afa953ceeace2fd12d985dd1d1015915d" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a486ab4496a5a7521781d987ac4917fd8" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a22f6abc26b88f0e1afe63f019e9ac47b" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1ac56fba76f356a69e03c9e2ffc70e2b0a" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a72d307b6b5c2f466ecfba9a22f70f10e" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1ab3c17da3125b1d80a69997ed3997a3bd" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1aab502e550db198fc68316129d753df4b" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a6435886f2d2c70cfa5810361d18a729d" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a553ea2fea2c1c45f0493b2eb86d83cb0" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a598bd74dfea5cef0ac4d068e6bb777e2" kind="function"><name>makeHSResult</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1ae6a560164fbcae2f92a82c2db2d49fd0" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a5f9834a4761eccb9a99e10b67382c471" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a1615f5ed8aad366105a0bc7c3a9d5767" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a5402a81644b4ea0f73aec6e102ec42a2" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1aa485ffa51998f672c9ddc419d96be918" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a242ce362a2358d57047351da5e2ea0e7" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a172bef7df4b9fe468fc190f769bc42ef" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a62e86dd75e0147195698e8a21c022da7" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a5c308cec165f854f80a3d2ddc420004a" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1adf953402ed4a7a3a4e7ba8a9dd1bc8f0" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1abc4f2fcf63319ddf440099b2380ef2ee" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1ace5990f5550c8a6bf3e733e09c01a78c" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a00e545f066029afc7f16eacaf560b869" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1af0d121051e488bcc9934ade39f360708" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1ab3633dd40a427f488f976379cf07bf7f" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1af711f78dffbe95b1994d71711f4a6104" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a82cd0755d2facaa33559c9ec6bcefa00" kind="function"><name>TEST</name></member>
+    <member refid="test__search__future__interfaces_8cpp_1a7f931822732a969987255df4e6d8a18b" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__search__highcardinality__stress_8cpp" kind="file"><name>test_search_highcardinality_stress.cpp</name>
+    <member refid="test__search__highcardinality__stress_8cpp_1a4f008d942af2990f7784688adb289253" kind="function"><name>TEST</name></member>
+    <member refid="test__search__highcardinality__stress_8cpp_1a9cd6afd348e45b5eb285f5bb17d2c6a2" kind="function"><name>TEST</name></member>
+    <member refid="test__search__highcardinality__stress_8cpp_1a145089f548403581773e802e787893ff" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__search__highlighter_8cpp" kind="file"><name>test_search_highlighter.cpp</name>
+  </compound>
+  <compound refid="test__search__hybrid__degradation__phase2_8cpp" kind="file"><name>test_search_hybrid_degradation_phase2.cpp</name>
+  </compound>
+  <compound refid="test__search__integration__phase4_8cpp" kind="file"><name>test_search_integration_phase4.cpp</name>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_12ae96074bb7ba3904060897a65c4efc" kind="dir"><name>benchmarks/search</name>
+  </compound>
+  <compound refid="dir_2ab7ad9e86ff0e4c92d707b7bffee438" kind="dir"><name>include/search</name>
+  </compound>
+  <compound refid="dir_5e53e25df8c865d23c4f0f620d3a69fb" kind="dir"><name>src/search</name>
+  </compound>
+  <compound refid="dir_02636680b420b18ca9bff5385f125677" kind="dir"><name>tests/search</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+</doxygenindex>

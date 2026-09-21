@@ -1,0 +1,777 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__toolbox__contract__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_toolbox_contract_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="toolbox__api__contract_8h" local="yes">toolbox/toolbox_api_contract.h</includes>
+    <includes refid="toolbox__builder_8h" local="yes">toolbox/toolbox_builder.h</includes>
+    <includes refid="toolbox__registry_8h" local="yes">toolbox/toolbox_registry.h</includes>
+    <includes refid="content__toolbox__bridge_8h" local="yes">toolbox/content_toolbox_bridge.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">random</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="22">
+        <label>toolbox/content_toolbox_bridge.h</label>
+        <link refid="content__toolbox__bridge_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>toolbox/ingestion_toolbox.h</label>
+        <link refid="ingestion__toolbox_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>toolbox/toolbox_api_contract.h</label>
+        <link refid="toolbox__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>toolbox/toolbox_builder.h</label>
+        <link refid="toolbox__builder_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>toolbox/toolbox_registry.h</label>
+        <link refid="toolbox__registry_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/toolbox/test_toolbox_contract_hardening_focused.cpp</label>
+        <link refid="test__toolbox__contract__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>algorithm</label>
+      </node>
+      <node id="5">
+        <label>array</label>
+      </node>
+      <node id="16">
+        <label>atomic</label>
+      </node>
+      <node id="23">
+        <label>content/content_manager.h</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="13">
+        <label>ingestion/base_entity.h</label>
+      </node>
+      <node id="11">
+        <label>ingestion/builtin_step_factories.h</label>
+      </node>
+      <node id="14">
+        <label>ingestion/extraction_context.h</label>
+      </node>
+      <node id="15">
+        <label>ingestion/file_manifest.h</label>
+      </node>
+      <node id="19">
+        <label>ingestion/format_extractor.h</label>
+      </node>
+      <node id="12">
+        <label>ingestion/inference_backend.h</label>
+      </node>
+      <node id="18">
+        <label>ingestion/ingestion_sinks.h</label>
+      </node>
+      <node id="10">
+        <label>ingestion/workflow_engine.h</label>
+      </node>
+      <node id="17">
+        <label>memory</label>
+      </node>
+      <node id="26">
+        <label>random</label>
+      </node>
+      <node id="24">
+        <label>span</label>
+      </node>
+      <node id="21">
+        <label>stdexcept</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_toolbox_contract_test" prot="public">ToolboxContractTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__toolbox__contract__hardening__focused_8cpp_1ad37b9541649ffffdc85abf32e033c2eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ToolboxContractTest, TBX01_ErrorCodesUnique)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref></type>
+        </param>
+        <param>
+          <type>TBX01_ErrorCodesUnique</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" line="26" column="1" bodyfile="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" bodystart="26" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__contract__hardening__focused_8cpp_1a61096bcf5ef2eb43d1e755ffe9f52012" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ToolboxContractTest, TBX02_ErrorCodesInRange)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref></type>
+        </param>
+        <param>
+          <type>TBX02_ErrorCodesInRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" line="37" column="1" bodyfile="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" bodystart="37" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__contract__hardening__focused_8cpp_1a9520dfb6cb6e058d9401608b274c78db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ToolboxContractTest, TBX03_FingerprintSizeIs32)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref></type>
+        </param>
+        <param>
+          <type>TBX03_FingerprintSizeIs32</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" line="48" column="1" bodyfile="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" bodystart="48" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__contract__hardening__focused_8cpp_1af801e37e822eadd6f1bd2ce6e3e628c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ToolboxContractTest, TBX04_FingerprintDefaultAllZero)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref></type>
+        </param>
+        <param>
+          <type>TBX04_FingerprintDefaultAllZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" line="53" column="1" bodyfile="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" bodystart="53" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__contract__hardening__focused_8cpp_1ab629afeaf7492a0d995981ece9f1ae9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ToolboxContractTest, TBX05_FingerprintCanBeSet)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref></type>
+        </param>
+        <param>
+          <type>TBX05_FingerprintCanBeSet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" line="60" column="1" bodyfile="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" bodystart="60" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__contract__hardening__focused_8cpp_1a625db95e4d2ad01006047540619cca29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ToolboxContractTest, TBX06_EmptyInputDistinctFromNoProcessor)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref></type>
+        </param>
+        <param>
+          <type>TBX06_EmptyInputDistinctFromNoProcessor</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" line="67" column="1" bodyfile="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" bodystart="67" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__contract__hardening__focused_8cpp_1a79536b34ec572bcedf103d8aa7fe81f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ToolboxContractTest, TBX07_ErrorSwitchDispatch)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref></type>
+        </param>
+        <param>
+          <type>TBX07_ErrorSwitchDispatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" line="72" column="1" bodyfile="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" bodystart="72" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__contract__hardening__focused_8cpp_1af18e82bc7b7645028033692746fe6f97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ToolboxContractTest, TBX08_RandomisedFingerprintCoverage)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref></type>
+        </param>
+        <param>
+          <type>TBX08_RandomisedFingerprintCoverage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" line="84" column="1" bodyfile="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" bodystart="84" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__contract__hardening__focused_8cpp_1aaef1d2c056aafdc6ec4ae9affcf97c4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ToolboxContractTest, IT13_BuilderMixedContentTextOnly)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref></type>
+        </param>
+        <param>
+          <type>IT13_BuilderMixedContentTextOnly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000001"><xreftitle>Test</xreftitle><xrefdescription><para>IT-13: Builder mixed-content scenario — text-only validation</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that <ref refid="classthemis_1_1toolbox_1_1_toolbox_builder" kindref="compound">ToolboxBuilder</ref> handles mixed-content scenarios correctly when only text content is provided.</para>
+<para>Pass condition:<itemizedlist>
+<listitem><para>build() succeeds</para>
+</listitem><listitem><para>no null pointers in returned toolbox</para>
+</listitem><listitem><para>text-only extraction does not crash </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" line="107" column="1" bodyfile="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" bodystart="107" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__contract__hardening__focused_8cpp_1afa43db057990be7c7c0ffb0cd6594bae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ToolboxContractTest, IT14_BuilderReusePrevention)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref></type>
+        </param>
+        <param>
+          <type>IT14_BuilderReusePrevention</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000002"><xreftitle>Test</xreftitle><xrefdescription><para>IT-14: Builder reuse error handling</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that calling build() a second time on the same builder throws std::logic_error (single-use pattern enforcement).</para>
+<para>Pass condition:<itemizedlist>
+<listitem><para>First build() succeeds</para>
+</listitem><listitem><para>Second build() throws std::logic_error with meaningful message </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" line="129" column="1" bodyfile="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" bodystart="129" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__contract__hardening__focused_8cpp_1a9b88556a13e68c3275186a32f1e01282" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ToolboxContractTest, IT15_RegistryDoubleInitialization)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref></type>
+        </param>
+        <param>
+          <type>IT15_RegistryDoubleInitialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000003"><xreftitle>Test</xreftitle><xrefdescription><para>IT-15: Registry double-initialization behavior</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that calling initialize() twice replaces the previous instance (last-write-wins semantics for live reconfiguration).</para>
+<para>Pass condition:<itemizedlist>
+<listitem><para>First initialize() sets instance</para>
+</listitem><listitem><para>Second initialize() replaces instance without throwing</para>
+</listitem><listitem><para>Third retrieve returns the second instance </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" line="153" column="1" bodyfile="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" bodystart="153" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__contract__hardening__focused_8cpp_1a85084e648e8c307c2142835a8deec28c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ToolboxContractTest, IT16_BridgeNullOptionalWriters)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref></type>
+        </param>
+        <param>
+          <type>IT16_BridgeNullOptionalWriters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000004"><xreftitle>Test</xreftitle><xrefdescription><para>IT-16: Bridge with null optional writers</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that <ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge" kindref="compound">ContentToolboxBridge</ref> accepts null graph_writer and vector_writer (optional soft-fail behavior).</para>
+<para>Pass condition:<itemizedlist>
+<listitem><para>Constructor succeeds with null writers</para>
+</listitem><listitem><para>Accessors return null pointers for unset writers</para>
+</listitem><listitem><para>No exceptions thrown during construction </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" line="188" column="1" bodyfile="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" bodystart="188" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__contract__hardening__focused_8cpp_1a70c3fd68fbd0b77773c28441f61e965b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ToolboxContractTest, IT17_BridgeEmptyExtractionHandling)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref></type>
+        </param>
+        <param>
+          <type>IT17_BridgeEmptyExtractionHandling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000005"><xreftitle>Test</xreftitle><xrefdescription><para>IT-17: Bridge empty content extraction handling</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that the bridge correctly handles empty extracted text (binary-only content scenarios).</para>
+<para>Pass condition:<itemizedlist>
+<listitem><para>No exception thrown for empty content</para>
+</listitem><listitem><para>Result returns ok=true with empty entities/vectors</para>
+</listitem><listitem><para>No crashes in soft-fail paths </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" line="216" column="1" bodyfile="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" bodystart="216" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__contract__hardening__focused_8cpp_1aaf3ed2f84e2a31ea683f0732aecb2ba9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ToolboxContractTest, IT18_StreamingBoundaryConditions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref></type>
+        </param>
+        <param>
+          <type>IT18_StreamingBoundaryConditions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000006"><xreftitle>Test</xreftitle><xrefdescription><para>IT-18: Streaming boundary conditions</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that streaming and batching operations respect edge cases (empty batches, single items, boundary sizes).</para>
+<para>Pass condition:<itemizedlist>
+<listitem><para>Operations complete without error for all boundary cases</para>
+</listitem><listitem><para>Metrics are recorded correctly</para>
+</listitem><listitem><para>No buffer overflows or underflows </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" line="232" column="1" bodyfile="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" bodystart="232" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__contract__hardening__focused_8cpp_1addc1d7f76b5153806d033da4e9942d4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ToolboxContractTest, IT19_CompositeRoutingFallback)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref></type>
+        </param>
+        <param>
+          <type>IT19_CompositeRoutingFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000007"><xreftitle>Test</xreftitle><xrefdescription><para>IT-19: Composite routing fallback behavior</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that composite routing falls back gracefully when a step is unavailable (e.g., null backends).</para>
+<para>Pass condition:<itemizedlist>
+<listitem><para>No exception on missing steps</para>
+</listitem><listitem><para>Degraded behavior (empty result or partial enrichment) is acceptable</para>
+</listitem><listitem><para>Pipeline continues for available steps </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" line="254" column="1" bodyfile="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" bodystart="254" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="test__toolbox__contract__hardening__focused_8cpp_1a4cc6f0bf1e5b856b7033d775fe9ec05d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ToolboxContractTest, IT20_EmptyInputEdgeCases)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref></type>
+        </param>
+        <param>
+          <type>IT20_EmptyInputEdgeCases</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000008"><xreftitle>Test</xreftitle><xrefdescription><para>IT-20: Empty input edge cases</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that all toolbox entry points handle empty input gracefully (empty strings, empty spans, empty collections).</para>
+<para>Pass condition:<itemizedlist>
+<listitem><para>Empty input does not cause crashes</para>
+</listitem><listitem><para>Appropriate errors are returned (not silently ignored)</para>
+</listitem><listitem><para>Metrics track empty-input cases</para>
+</listitem><listitem><para>No undefined behavior or buffer access </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" line="275" column="1" bodyfile="tests/toolbox/test_toolbox_contract_hardening_focused.cpp" bodystart="275" bodyend="286"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 1–6 contract-hardening tests for the toolbox module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Test IDs: TBX-01..TBX-08 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="toolbox__api__contract_8h" kindref="compound">toolbox/toolbox_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="toolbox__builder_8h" kindref="compound">toolbox/toolbox_builder.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="toolbox__registry_8h" kindref="compound">toolbox/toolbox_registry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="content__toolbox__bridge_8h" kindref="compound">toolbox/content_toolbox_bridge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1toolbox" kindref="compound">themis::toolbox</ref>;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="class_toolbox_contract_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="class_toolbox_contract_test_1aeb5e53ffb2c71d77ecb88fa6bca1dc69" kindref="member">kSeed</ref><sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/><ref refid="class_toolbox_contract_test_1ac1265f858a6b88c4990882ec302f1200" kindref="member">rng_</ref>{<ref refid="class_toolbox_contract_test_1aeb5e53ffb2c71d77ecb88fa6bca1dc69" kindref="member">kSeed</ref>};</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><ref refid="test__toolbox__contract__hardening__focused_8cpp_1ad37b9541649ffffdc85abf32e033c2eb" kindref="member">TEST_F</ref>(<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>,<sp/>TBX01_ErrorCodesUnique)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int32_t&gt;<sp/>codes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0afb2ee636ad459e1dfe9bb4b5b80a0eb7" kindref="member">ToolboxError::kEmptyInput</ref>),</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0a012944a30eae324fe3f2960a2dc11e58" kindref="member">ToolboxError::kNoProcessor</ref>),</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0aae0c906a9b5bb20c5d805d703066ab71" kindref="member">ToolboxError::kProcessorFailed</ref>),</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0a05dc7201754c396a6809f06299467ad9" kindref="member">ToolboxError::kEncodingUnsupported</ref>),</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(codes.begin(),<sp/>codes.end());</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::unique(codes.begin(),<sp/>codes.end()),<sp/>codes.end());</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><ref refid="test__toolbox__contract__hardening__focused_8cpp_1ad37b9541649ffffdc85abf32e033c2eb" kindref="member">TEST_F</ref>(<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>,<sp/>TBX02_ErrorCodesInRange)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>check<sp/>=<sp/>[](<ref refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0" kindref="member">ToolboxError</ref><sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>v<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(e);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(v,<sp/>7500);<sp/>EXPECT_LE(v,<sp/>7599);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0afb2ee636ad459e1dfe9bb4b5b80a0eb7" kindref="member">ToolboxError::kEmptyInput</ref>);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0a012944a30eae324fe3f2960a2dc11e58" kindref="member">ToolboxError::kNoProcessor</ref>);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0aae0c906a9b5bb20c5d805d703066ab71" kindref="member">ToolboxError::kProcessorFailed</ref>);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0a05dc7201754c396a6809f06299467ad9" kindref="member">ToolboxError::kEncodingUnsupported</ref>);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="test__toolbox__contract__hardening__focused_8cpp_1ad37b9541649ffffdc85abf32e033c2eb" kindref="member">TEST_F</ref>(<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>,<sp/>TBX03_FingerprintSizeIs32)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1toolbox_1a1578ba52bfd7a53bf13df76cca2cb666" kindref="member">Fingerprint</ref><sp/>fp{};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fp.size(),<sp/>32u);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="test__toolbox__contract__hardening__focused_8cpp_1ad37b9541649ffffdc85abf32e033c2eb" kindref="member">TEST_F</ref>(<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>,<sp/>TBX04_FingerprintDefaultAllZero)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1toolbox_1a1578ba52bfd7a53bf13df76cca2cb666" kindref="member">Fingerprint</ref><sp/>fp{};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>:<sp/>fp)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(b,<sp/>0u);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__toolbox__contract__hardening__focused_8cpp_1ad37b9541649ffffdc85abf32e033c2eb" kindref="member">TEST_F</ref>(<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>,<sp/>TBX05_FingerprintCanBeSet)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1toolbox_1a1578ba52bfd7a53bf13df76cca2cb666" kindref="member">Fingerprint</ref><sp/>fp{};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>fp[0]<sp/>=<sp/>0xDE;<sp/>fp[31]<sp/>=<sp/>0xAD;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fp[0],<sp/><sp/>0xDE);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fp[31],<sp/>0xAD);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__toolbox__contract__hardening__focused_8cpp_1ad37b9541649ffffdc85abf32e033c2eb" kindref="member">TEST_F</ref>(<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>,<sp/>TBX06_EmptyInputDistinctFromNoProcessor)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0afb2ee636ad459e1dfe9bb4b5b80a0eb7" kindref="member">ToolboxError::kEmptyInput</ref>),</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0a012944a30eae324fe3f2960a2dc11e58" kindref="member">ToolboxError::kNoProcessor</ref>));</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__toolbox__contract__hardening__focused_8cpp_1ad37b9541649ffffdc85abf32e033c2eb" kindref="member">TEST_F</ref>(<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>,<sp/>TBX07_ErrorSwitchDispatch)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0" kindref="member">ToolboxError</ref><sp/>err<sp/>=<sp/><ref refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0aae0c906a9b5bb20c5d805d703066ab71" kindref="member">ToolboxError::kProcessorFailed</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>handled<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(err)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0afb2ee636ad459e1dfe9bb4b5b80a0eb7" kindref="member">ToolboxError::kEmptyInput</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0a012944a30eae324fe3f2960a2dc11e58" kindref="member">ToolboxError::kNoProcessor</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0aae0c906a9b5bb20c5d805d703066ab71" kindref="member">ToolboxError::kProcessorFailed</ref>:<sp/><sp/><sp/><sp/><sp/>handled<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1toolbox_1aca6fcfd2227a3d5aaf6e811fb3cb5cf0a05dc7201754c396a6809f06299467ad9" kindref="member">ToolboxError::kEncodingUnsupported</ref>:<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(handled);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="test__toolbox__contract__hardening__focused_8cpp_1ad37b9541649ffffdc85abf32e033c2eb" kindref="member">TEST_F</ref>(<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>,<sp/>TBX08_RandomisedFingerprintCoverage)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>32;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1toolbox_1a1578ba52bfd7a53bf13df76cca2cb666" kindref="member">Fingerprint</ref><sp/>fp{};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fp[i]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(rng_()<sp/>&amp;<sp/>0xFF);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(fp[i],<sp/>0u);<sp/><sp/></highlight><highlight class="comment">//<sp/>extremely<sp/>unlikely<sp/>to<sp/>be<sp/>zero</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IT-13..IT-20:<sp/>Phase<sp/>2<sp/>Hardening<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__toolbox__contract__hardening__focused_8cpp_1ad37b9541649ffffdc85abf32e033c2eb" kindref="member">TEST_F</ref>(<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>,<sp/>IT13_BuilderMixedContentTextOnly)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>the<sp/>builder<sp/>can<sp/>handle<sp/>text-only<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>which<sp/>is<sp/>a<sp/>valid<sp/>mixed-content<sp/>scenario</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref><sp/>=<sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder" kindref="compound">themis::toolbox::ToolboxBuilder</ref>()</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1abe12d5d8811cf497a458e352780aa69a" kindref="member">build</ref>();</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(<ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FAIL()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Builder<sp/>failed<sp/>for<sp/>text-only<sp/>scenario:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>e.what();</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="test__toolbox__contract__hardening__focused_8cpp_1ad37b9541649ffffdc85abf32e033c2eb" kindref="member">TEST_F</ref>(<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>,<sp/>IT14_BuilderReusePrevention)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_builder" kindref="compound">themis::toolbox::ToolboxBuilder</ref><sp/>builder;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>build<sp/>should<sp/>succeed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>toolbox1<sp/>=<sp/>builder.<ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1abe12d5d8811cf497a458e352780aa69a" kindref="member">build</ref>();</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(toolbox1,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>build<sp/>should<sp/>throw<sp/>logic_error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>toolbox2<sp/>=<sp/>builder.<ref refid="classthemis_1_1toolbox_1_1_toolbox_builder_1abe12d5d8811cf497a458e352780aa69a" kindref="member">build</ref>();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>},<sp/>std::logic_error);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><ref refid="test__toolbox__contract__hardening__focused_8cpp_1ad37b9541649ffffdc85abf32e033c2eb" kindref="member">TEST_F</ref>(<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>,<sp/>IT15_RegistryDoubleInitialization)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clean<sp/>up<sp/>from<sp/>any<sp/>prior<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1a3e1a423464c39da80ad6a5ebe9b898ec" kindref="member">themis::toolbox::ToolboxRegistry::reset</ref>();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>toolbox1<sp/>=<sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kindref="member">themis::toolbox::IngestionToolbox::createDefault</ref>();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>toolbox2<sp/>=<sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kindref="member">themis::toolbox::IngestionToolbox::createDefault</ref>();</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>initialize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1ac351bdd30bd3869f83420897d748733d" kindref="member">themis::toolbox::ToolboxRegistry::initialize</ref>(toolbox1);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1ad6d50180e0bd79623aada230beb59278" kindref="member">themis::toolbox::ToolboxRegistry::isInitialized</ref>());</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retrieved1<sp/>=<sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1a63324a8845db86eb485ef20c2ea0cb9f" kindref="member">themis::toolbox::ToolboxRegistry::instance</ref>();</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved1.get(),<sp/>toolbox1.get());</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>initialize<sp/>(should<sp/>replace)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1ac351bdd30bd3869f83420897d748733d" kindref="member">themis::toolbox::ToolboxRegistry::initialize</ref>(toolbox2);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retrieved2<sp/>=<sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1a63324a8845db86eb485ef20c2ea0cb9f" kindref="member">themis::toolbox::ToolboxRegistry::instance</ref>();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved2.get(),<sp/>toolbox2.get());</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(retrieved2.get(),<sp/>toolbox1.get());</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clean<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_toolbox_registry_1a3e1a423464c39da80ad6a5ebe9b898ec" kindref="member">themis::toolbox::ToolboxRegistry::reset</ref>();</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="test__toolbox__contract__hardening__focused_8cpp_1ad37b9541649ffffdc85abf32e033c2eb" kindref="member">TEST_F</ref>(<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>,<sp/>IT16_BridgeNullOptionalWriters)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref><sp/>=<sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kindref="member">themis::toolbox::IngestionToolbox::createDefault</ref>();</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>minimal<sp/>ContentManager<sp/>stub<sp/>would<sp/>require<sp/>more<sp/>setup,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>so<sp/>we&apos;ll<sp/>test<sp/>the<sp/>constructor&apos;s<sp/>null-check<sp/>logic<sp/>instead</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>by<sp/>verifying<sp/>it<sp/>throws<sp/>for<sp/>required<sp/>null<sp/>parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_content_toolbox_bridge" kindref="compound">themis::toolbox::ContentToolboxBridge</ref><sp/>bridge(</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>null<sp/>toolbox<sp/>—<sp/>required</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>null<sp/>content_manager<sp/>—<sp/>required</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>null<sp/>graph_writer<sp/>—<sp/>optional</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>null<sp/>vector_writer<sp/>—<sp/>optional</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>},<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><ref refid="test__toolbox__contract__hardening__focused_8cpp_1ad37b9541649ffffdc85abf32e033c2eb" kindref="member">TEST_F</ref>(<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>,<sp/>IT17_BridgeEmptyExtractionHandling)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Requires<sp/>ContentManager<sp/>+<sp/>ContentToolboxBridge<sp/>wiring<sp/>not<sp/>available<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;in<sp/>this<sp/>focused<sp/>unit<sp/>target;<sp/>covered<sp/>by<sp/>integration<sp/>tests.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="test__toolbox__contract__hardening__focused_8cpp_1ad37b9541649ffffdc85abf32e033c2eb" kindref="member">TEST_F</ref>(<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>,<sp/>IT18_StreamingBoundaryConditions)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref><sp/>=<sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kindref="member">themis::toolbox::IngestionToolbox::createDefault</ref>();</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(<ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref>-&gt;extractEntities(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entity_set<sp/>=</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref>-&gt;extractEntitySet(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;boundary.txt&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><ref refid="test__toolbox__contract__hardening__focused_8cpp_1ad37b9541649ffffdc85abf32e033c2eb" kindref="member">TEST_F</ref>(<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>,<sp/>IT19_CompositeRoutingFallback)<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref><sp/>=<sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kindref="member">themis::toolbox::IngestionToolbox::createDefault</ref>();</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(<ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref>-&gt;extractEntities(</highlight><highlight class="stringliteral">&quot;test<sp/>text&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><ref refid="test__toolbox__contract__hardening__focused_8cpp_1ad37b9541649ffffdc85abf32e033c2eb" kindref="member">TEST_F</ref>(<ref refid="class_toolbox_contract_test" kindref="compound">ToolboxContractTest</ref>,<sp/>IT20_EmptyInputEdgeCases)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref><sp/>=<sp/><ref refid="classthemis_1_1toolbox_1_1_ingestion_toolbox_1a49622a75716aa4535acdf5e84c5aa871" kindref="member">themis::toolbox::IngestionToolbox::createDefault</ref>();</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(<ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref>,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entities<sp/>=<sp/><ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref>-&gt;extractEntities(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entity_set<sp/>=<sp/><ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref>-&gt;extractEntitySet(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text/plain&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;empty.txt&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(entities.empty());</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(entity_set.nodes.empty());</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(entity_set.chunks.empty());</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/toolbox/test_toolbox_contract_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

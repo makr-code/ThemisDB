@@ -1,0 +1,543 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_c_p_u_geo_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::CPUGeoBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1acceleration_1_1_i_geo_backend" prot="public" virt="non-virtual">themis::acceleration::IGeoBackend</basecompoundref>
+    <derivedcompoundref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_m_t" prot="public" virt="non-virtual">themis::acceleration::CPUGeoBackendMT</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_t_b_b" prot="public" virt="non-virtual">themis::acceleration::CPUGeoBackendTBB</derivedcompoundref>
+    <includes refid="cpu__backend_8h" local="no">cpu_backend.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1aa1cc8be4647bcd7a6fe78c4e5373dd71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::CPUGeoBackend::CPUGeoBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>CPUGeoBackend</name>
+        <qualifiedname>themis::acceleration::CPUGeoBackend::CPUGeoBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="145" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1ac063f3330874464f2cd0ade878096c9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::CPUGeoBackend::~CPUGeoBackend</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~CPUGeoBackend</name>
+        <qualifiedname>themis::acceleration::CPUGeoBackend::~CPUGeoBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="146" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a0dac011d0501d5b03b4580d57ca64be0" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::acceleration::CPUGeoBackend::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::CPUGeoBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1aca60979713738bb41faae1df17bf95ab">name</reimplements>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_m_t_1a2e667e5371f1ba7ef16553faa173fe62">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_t_b_b_1ae391ee31db0850ddddbafa1632656527">name</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="149" column="16" bodyfile="include/acceleration/cpu_backend.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1ae0b5369d7f4752f4f07b13233ccc48de" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+        <definition>BackendType themis::acceleration::CPUGeoBackend::type</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::acceleration::CPUGeoBackend::type</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1afce7fde620b139ede841934eee0b7a22">type</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="150" column="17" bodyfile="include/acceleration/cpu_backend.h" bodystart="150" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1aa2c62d12cf22743554624e75ed292d13" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::CPUGeoBackend::isAvailable</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::acceleration::CPUGeoBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae8b5e9f9fa96ab7961ae4997e2364b6f">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="151" column="10" bodyfile="include/acceleration/cpu_backend.h" bodystart="151" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a28292cfa34ff59c862ce32af9a40eabd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref></type>
+        <definition>BackendCapabilities themis::acceleration::CPUGeoBackend::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::acceleration::CPUGeoBackend::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6e97c4f28084a2379171a122791f8ae6">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="153" column="25" bodyfile="include/acceleration/cpu_backend.h" bodystart="153" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a5536eac2738632fe189ef2ef5ed61fc0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::CPUGeoBackend::initialize</definition>
+        <argsstring>() override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::acceleration::CPUGeoBackend::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a0c71b239cf3e7171519659059e40d9fa">initialize</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="166" column="10" bodyfile="include/acceleration/cpu_backend.h" bodystart="166" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a0300243229ab2435ebb0a613cce56302" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::CPUGeoBackend::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::acceleration::CPUGeoBackend::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a67fbea87cf18ac0c37457c61f30a2c00">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="170" column="10" bodyfile="include/acceleration/cpu_backend.h" bodystart="170" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1af700be959bcd830ff82d2a6415ecbdc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::acceleration::CPUGeoBackend::batchDistances</definition>
+        <argsstring>(const double *latitudes1, const double *longitudes1, const double *latitudes2, const double *longitudes2, size_t count, bool useHaversine=true) override</argsstring>
+        <name>batchDistances</name>
+        <qualifiedname>themis::acceleration::CPUGeoBackend::batchDistances</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_geo_backend_1ae34e694d046de8d04e9d4bc5a6f9bf20">batchDistances</reimplements>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_m_t_1accfa82f0d37bcbc2fa8d7ec759a72ba1">batchDistances</reimplementedby>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_t_b_b_1a270d9c7d02406e911bef820e163dbd1a">batchDistances</reimplementedby>
+        <param>
+          <type>const double *</type>
+          <declname>latitudes1</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>longitudes1</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>latitudes2</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>longitudes2</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useHaversine</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Batch Distances. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latitudes1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">longitudes1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latitudes2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">longitudes2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">useHaversine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError()</ref>, <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" kindref="member">setError()</ref>, std::move(), <ref refid="structthemis_1_1acceleration_1_1_batch_validator_1a01d511d41ba796140c329ad2429180bf" kindref="member">BatchValidator::validateGeoBatch()</ref>, <ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a0dac011d0501d5b03b4580d57ca64be0" kindref="member">name()</ref>, distances(), <ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a46e1882cb0e4471f2f6c020fb9f9235b" kindref="member">haversineDistance()</ref>, <ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1aed7a675853116d1c602ba146a308eada" kindref="member">vincentyDistance()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="173" column="17" bodyfile="src/acceleration/cpu_backend.cpp" bodystart="330" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a0629a4e124b9a6282f476993a4416258" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; bool &gt;</type>
+        <definition>std::vector&lt; bool &gt; themis::acceleration::CPUGeoBackend::batchPointInPolygon</definition>
+        <argsstring>(const double *pointLats, const double *pointLons, size_t numPoints, const double *polygonCoords, size_t numPolygonVertices) override</argsstring>
+        <name>batchPointInPolygon</name>
+        <qualifiedname>themis::acceleration::CPUGeoBackend::batchPointInPolygon</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_geo_backend_1aa209021f6690e6716d739ce59b6e3b38">batchPointInPolygon</reimplements>
+        <reimplementedby refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_t_b_b_1a5153b8bbcf7c7c205e334745041082f2">batchPointInPolygon</reimplementedby>
+        <param>
+          <type>const double *</type>
+          <declname>pointLats</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>pointLons</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numPoints</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>polygonCoords</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numPolygonVertices</declname>
+        </param>
+        <briefdescription>
+<para>Batch Point In Polygon. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pointLats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pointLons</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numPoints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">polygonCoords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numPolygonVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError()</ref>, <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" kindref="member">setError()</ref>, std::move(), <ref refid="structthemis_1_1acceleration_1_1_batch_validator_1a2e92c6c7430eb8c441b77b90d3c15150" kindref="member">BatchValidator::validatePointInPolygonBatch()</ref>, <ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a0dac011d0501d5b03b4580d57ca64be0" kindref="member">name()</ref>, results(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="182" column="17" bodyfile="src/acceleration/cpu_backend.cpp" bodystart="363" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1acf6ee8586facd86740508c6d82351585" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" kindref="compound">GeoKernelDispatch</ref></type>
+        <definition>GeoKernelDispatch themis::acceleration::CPUGeoBackend::populateGeoDispatch</definition>
+        <argsstring>() const override</argsstring>
+        <name>populateGeoDispatch</name>
+        <qualifiedname>themis::acceleration::CPUGeoBackend::populateGeoDispatch</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_geo_backend_1add9612e93b771a0133e09e91a7baa0e5">populateGeoDispatch</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="190" column="23" bodyfile="src/acceleration/cpu_backend.cpp" bodystart="629" bodyend="634"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a46e1882cb0e4471f2f6c020fb9f9235b" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::acceleration::CPUGeoBackend::haversineDistance</definition>
+        <argsstring>(double lat1, double lon1, double lat2, double lon2) const</argsstring>
+        <name>haversineDistance</name>
+        <qualifiedname>themis::acceleration::CPUGeoBackend::haversineDistance</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lat1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lon1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lon2</declname>
+        </param>
+        <briefdescription>
+<para>Haversine Distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lat1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lon1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lat2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lon2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="201" column="12" bodyfile="src/acceleration/cpu_backend.cpp" bodystart="309" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1aed7a675853116d1c602ba146a308eada" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::acceleration::CPUGeoBackend::vincentyDistance</definition>
+        <argsstring>(double lat1, double lon1, double lat2, double lon2) const</argsstring>
+        <name>vincentyDistance</name>
+        <qualifiedname>themis::acceleration::CPUGeoBackend::vincentyDistance</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lat1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lon1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lon2</declname>
+        </param>
+        <briefdescription>
+<para>Vincenty Distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lat1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lon1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lat2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lon2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cpu_backend.h" line="210" column="12" bodyfile="src/acceleration/cpu_backend.cpp" bodystart="313" bodyend="317"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::acceleration::CPUGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::acceleration::CPUGeoBackendMT</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_m_t"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::acceleration::CPUGeoBackendTBB</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_t_b_b"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_geo_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::acceleration::CPUGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_geo_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/cpu_backend.h" line="143" column="1" bodyfile="include/acceleration/cpu_backend.h" bodystart="143" bodyend="211"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1af700be959bcd830ff82d2a6415ecbdc6" prot="public" virt="virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>batchDistances</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a0629a4e124b9a6282f476993a4416258" prot="public" virt="virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>batchPointInPolygon</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" prot="protected" virt="non-virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>clearError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1aa1cc8be4647bcd7a6fe78c4e5373dd71" prot="public" virt="non-virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>CPUGeoBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a28292cfa34ff59c862ce32af9a40eabd" prot="public" virt="virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a1a62710d8b6ee25ae1be9b182cb14064" prot="public" virt="virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6ecbdaf61153101bf0e7f8f09e0c955a" prot="public" virt="virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a46e1882cb0e4471f2f6c020fb9f9235b" prot="protected" virt="non-virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>haversineDistance</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a5536eac2738632fe189ef2ef5ed61fc0" prot="public" virt="virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1aa2c62d12cf22743554624e75ed292d13" prot="public" virt="virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a8e66d56d685a8c64ee04d8176f74cd3c" prot="protected" virt="non-virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>lastError_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a0dac011d0501d5b03b4580d57ca64be0" prot="public" virt="virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1acf6ee8586facd86740508c6d82351585" prot="public" virt="virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>populateGeoDispatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" prot="protected" virt="non-virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>setError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1a0300243229ab2435ebb0a613cce56302" prot="public" virt="virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a299cbf558f35506afc464bee7bbc4135" prot="public" virt="virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>submitSimilarityKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1ae0b5369d7f4752f4f07b13233ccc48de" prot="public" virt="virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1aed7a675853116d1c602ba146a308eada" prot="protected" virt="non-virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>vincentyDistance</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend_1ac063f3330874464f2cd0ade878096c9c" prot="public" virt="non-virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>~CPUGeoBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a7d830292d3c90abbf3bbc6a54dd01b91" prot="public" virt="virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>~IComputeBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_geo_backend_1ab1b7cba05606ee8ec1ae8cf06a24dc8f" prot="public" virt="virtual"><scope>themis::acceleration::CPUGeoBackend</scope><name>~IGeoBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

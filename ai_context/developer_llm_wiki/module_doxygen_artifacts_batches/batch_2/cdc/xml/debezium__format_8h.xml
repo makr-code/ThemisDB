@@ -1,0 +1,372 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="debezium__format_8h" kind="file" language="C++">
+    <compoundname>debezium_format.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="changefeed_8h" local="yes">cdc/changefeed.h</includes>
+    <includedby refid="kafka__cdc__producer_8h" local="yes">include/cdc/kafka_cdc_producer.h</includedby>
+    <includedby refid="test__cdc__debezium__format_8cpp" local="yes">tests/cdc/test_cdc_debezium_format.cpp</includedby>
+    <includedby refid="test__cdc__kafka__producer_8cpp" local="yes">tests/cdc/test_cdc_kafka_producer.cpp</includedby>
+    <incdepgraph>
+      <node id="4">
+        <label>cdc/changefeed.h</label>
+        <link refid="changefeed_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/cdc/debezium_format.h</label>
+        <link refid="debezium__format_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="13">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>condition_variable</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="15">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="3">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>set</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+      <node id="16">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/cdc/debezium_format.h</label>
+        <link refid="debezium__format_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/cdc/kafka_cdc_producer.h</label>
+        <link refid="kafka__cdc__producer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>tests/cdc/test_cdc_debezium_format.cpp</label>
+        <link refid="test__cdc__debezium__format_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/cdc/test_cdc_kafka_producer.cpp</label>
+        <link refid="test__cdc__kafka__producer_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1cdc_1_1_debezium_source" prot="public">themis::cdc::DebeziumSource</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_debezium_envelope" prot="public">themis::cdc::DebeziumEnvelope</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_debezium_formatter" prot="public">themis::cdc::DebeziumFormatter</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config" prot="public">themis::cdc::DebeziumFormatter::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1cdc">themis::cdc</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="changefeed_8h" kindref="compound">cdc/changefeed.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cdc" kindref="compound">cdc</ref><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5d" kindref="member">DebeziumOp</ref><sp/>{</highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da294ce20cdefa29be3be0735cb62e715d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da294ce20cdefa29be3be0735cb62e715d" kindref="member">CREATE</ref><sp/>=<sp/></highlight><highlight class="charliteral">&apos;c&apos;</highlight><highlight class="normal">,<sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da15a8022d0ed9cd9c2a2e756822703eb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da15a8022d0ed9cd9c2a2e756822703eb4" kindref="member">UPDATE</ref><sp/>=<sp/></highlight><highlight class="charliteral">&apos;u&apos;</highlight><highlight class="normal">,<sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da32f68a60cef40faedbc6af20298c1a1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da32f68a60cef40faedbc6af20298c1a1e" kindref="member">DELETE</ref><sp/>=<sp/></highlight><highlight class="charliteral">&apos;d&apos;</highlight><highlight class="normal">,<sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da3466fab4975481651940ed328aa990e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da3466fab4975481651940ed328aa990e4" kindref="member">READ</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="charliteral">&apos;r&apos;</highlight><highlight class="normal">,<sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1cdc_1ac3bfee44882ecc1ae76c6cd62f7a96f7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1cdc_1ac3bfee44882ecc1ae76c6cd62f7a96f7" kindref="member">debeziumOpString</ref>(<ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5d" kindref="member">DebeziumOp</ref><sp/>op)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(1,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(op));</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1cdc_1_1_debezium_source" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cdc_1_1_debezium_source" kindref="compound">DebeziumSource</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1cdc_1_1_debezium_source_1a054b26cdfa2d7bd6b0f42cf03383e061" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cdc_1_1_debezium_source_1a054b26cdfa2d7bd6b0f42cf03383e061" kindref="member">version</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.5.0-dev&quot;</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1cdc_1_1_debezium_source_1a904773bfed243ecf94532afcfe79e461" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cdc_1_1_debezium_source_1a904773bfed243ecf94532afcfe79e461" kindref="member">connector</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themisdb&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1cdc_1_1_debezium_source_1a1351fd47cfa1005b49b67a6ef6054cea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cdc_1_1_debezium_source_1a1351fd47cfa1005b49b67a6ef6054cea" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1cdc_1_1_debezium_source_1a50b5c96044c5590cc7a70586cdef1688" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_debezium_source_1a50b5c96044c5590cc7a70586cdef1688" kindref="member">ts_ms</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1cdc_1_1_debezium_source_1aec5e9fcf11ad6288f136580f330fafc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cdc_1_1_debezium_source_1aec5e9fcf11ad6288f136580f330fafc4" kindref="member">snapshot</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;false&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1cdc_1_1_debezium_source_1a480746e834fb553b114c7d0329dc0093" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cdc_1_1_debezium_source_1a480746e834fb553b114c7d0329dc0093" kindref="member">db</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themisdb&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1cdc_1_1_debezium_source_1aefdaf39626b4b225bbe38b11cdb41eae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cdc_1_1_debezium_source_1aefdaf39626b4b225bbe38b11cdb41eae" kindref="member">table</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1cdc_1_1_debezium_source_1a91d5705b03f5de9aef06e2894226c84d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_debezium_source_1a91d5705b03f5de9aef06e2894226c84d" kindref="member">sequence</ref><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1cdc_1_1_debezium_source_1af6d7c1c9fe6cd42fa3305170560ac5ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1cdc_1_1_debezium_source_1af6d7c1c9fe6cd42fa3305170560ac5ee" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_debezium_source_1a054b26cdfa2d7bd6b0f42cf03383e061" kindref="member">version</ref>},</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;connector&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_debezium_source_1a904773bfed243ecf94532afcfe79e461" kindref="member">connector</ref>},</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_debezium_source_1a1351fd47cfa1005b49b67a6ef6054cea" kindref="member">name</ref>},</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;ts_ms&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_debezium_source_1a50b5c96044c5590cc7a70586cdef1688" kindref="member">ts_ms</ref>},</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;snapshot&quot;</highlight><highlight class="normal">,<sp/><sp/><ref refid="structthemis_1_1cdc_1_1_debezium_source_1aec5e9fcf11ad6288f136580f330fafc4" kindref="member">snapshot</ref>},</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;db&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_debezium_source_1a480746e834fb553b114c7d0329dc0093" kindref="member">db</ref>},</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;table&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_debezium_source_1aefdaf39626b4b225bbe38b11cdb41eae" kindref="member">table</ref>},</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;sequence&quot;</highlight><highlight class="normal">,<sp/><sp/><ref refid="structthemis_1_1cdc_1_1_debezium_source_1a91d5705b03f5de9aef06e2894226c84d" kindref="member">sequence</ref>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1cdc_1_1_debezium_envelope" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cdc_1_1_debezium_envelope" kindref="compound">DebeziumEnvelope</ref><sp/>{</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1cdc_1_1_debezium_envelope_1abb72913ce010366b0abce6c5a78294b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5d" kindref="member">DebeziumOp</ref><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1abb72913ce010366b0abce6c5a78294b6" kindref="member">op</ref><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da3466fab4975481651940ed328aa990e4" kindref="member">DebeziumOp::READ</ref>;</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1cdc_1_1_debezium_envelope_1ac4477ddd1a6cac7016eccac9fdb7ee41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ac4477ddd1a6cac7016eccac9fdb7ee41" kindref="member">before</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1cdc_1_1_debezium_envelope_1a629008fa4930ec5869a3d4e703d94fcc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1a629008fa4930ec5869a3d4e703d94fcc" kindref="member">after</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1cdc_1_1_debezium_envelope_1ad245e273bf88b3b36a8d45f3f65ce8e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_debezium_source" kindref="compound">DebeziumSource</ref><sp/><ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ad245e273bf88b3b36a8d45f3f65ce8e7" kindref="member">source</ref>;</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1cdc_1_1_debezium_envelope_1ade4fa3a868a9d83c3e80d1b3763ddd8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ade4fa3a868a9d83c3e80d1b3763ddd8a" kindref="member">ts_ms</ref><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1cdc_1_1_debezium_envelope_1ad2c908ea646609c0c9c9aab8fad8ffe0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ad2c908ea646609c0c9c9aab8fad8ffe0" kindref="member">toJson</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>include_schema<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>payload<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;before&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ac4477ddd1a6cac7016eccac9fdb7ee41" kindref="member">before</ref>},</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;after&quot;</highlight><highlight class="normal">,<sp/><sp/><ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1a629008fa4930ec5869a3d4e703d94fcc" kindref="member">after</ref>},</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ad245e273bf88b3b36a8d45f3f65ce8e7" kindref="member">source</ref>.toJson()},</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cdc_1ac3bfee44882ecc1ae76c6cd62f7a96f7" kindref="member">debeziumOpString</ref>(<ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1abb72913ce010366b0abce6c5a78294b6" kindref="member">op</ref>)},</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;ts_ms&quot;</highlight><highlight class="normal">,<sp/><sp/><ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ade4fa3a868a9d83c3e80d1b3763ddd8a" kindref="member">ts_ms</ref>},</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;transaction&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/>result;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::move(payload);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(include_schema)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result[</highlight><highlight class="stringliteral">&quot;schema&quot;</highlight><highlight class="normal">]<sp/>=<sp/>buildSchema(<ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ad245e273bf88b3b36a8d45f3f65ce8e7" kindref="member">source</ref>.name,<sp/><ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ad245e273bf88b3b36a8d45f3f65ce8e7" kindref="member">source</ref>.table);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>nlohmann::json<sp/>buildSchema(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>server_name,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>table)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>value_schema_name<sp/>=</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>server_name<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>table<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.Value&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>envelope_name<sp/>=</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>server_name<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>table<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.Envelope&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>makeValueField<sp/>=<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field_name)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>nlohmann::json{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;struct&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;fields&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>nlohmann::json::array({</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;_document&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;optional&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})},</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;optional&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/>value_schema_name},</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>field_name}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;struct&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;optional&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/>envelope_name},</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;fields&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>nlohmann::json::array({</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeValueField(</highlight><highlight class="stringliteral">&quot;before&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeValueField(</highlight><highlight class="stringliteral">&quot;after&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;struct&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;optional&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;io.debezium.connector.themisdb.Source&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;source&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;fields&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>nlohmann::json::array({</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;optional&quot;</highlight><highlight class="normal">,</highlight><highlight class="keyword">false</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;connector&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;optional&quot;</highlight><highlight class="normal">,</highlight><highlight class="keyword">false</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;optional&quot;</highlight><highlight class="normal">,</highlight><highlight class="keyword">false</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;ts_ms&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;int64&quot;</highlight><highlight class="normal">},<sp/><sp/>{</highlight><highlight class="stringliteral">&quot;optional&quot;</highlight><highlight class="normal">,</highlight><highlight class="keyword">false</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;snapshot&quot;</highlight><highlight class="normal">},<sp/><sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;optional&quot;</highlight><highlight class="normal">,</highlight><highlight class="keyword">true</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;db&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;optional&quot;</highlight><highlight class="normal">,</highlight><highlight class="keyword">false</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;table&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;optional&quot;</highlight><highlight class="normal">,</highlight><highlight class="keyword">false</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;sequence&quot;</highlight><highlight class="normal">},<sp/><sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;int64&quot;</highlight><highlight class="normal">},<sp/><sp/>{</highlight><highlight class="stringliteral">&quot;optional&quot;</highlight><highlight class="normal">,</highlight><highlight class="keyword">false</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})}},</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;optional&quot;</highlight><highlight class="normal">,</highlight><highlight class="keyword">false</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;op&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;int64&quot;</highlight><highlight class="normal">},<sp/><sp/>{</highlight><highlight class="stringliteral">&quot;optional&quot;</highlight><highlight class="normal">,</highlight><highlight class="keyword">true</highlight><highlight class="normal">},<sp/><sp/>{</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;ts_ms&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;struct&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;optional&quot;</highlight><highlight class="normal">,</highlight><highlight class="keyword">true</highlight><highlight class="normal">},<sp/><sp/>{</highlight><highlight class="stringliteral">&quot;field&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;transaction&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="classthemis_1_1cdc_1_1_debezium_formatter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a5e1bfa85fc2e0f658705578571deb77f" kindref="member">DebeziumFormatter</ref><sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="195" refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="196" refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a556035d0993db42ecd112eeb55ceaad1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a556035d0993db42ecd112eeb55ceaad1" kindref="member">server_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a2869b9a62a674b70d4158be993efcd96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a2869b9a62a674b70d4158be993efcd96" kindref="member">db_name</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themisdb&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a2fd9ab3d460ced0c18bcbfc2d3fd9a7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config_1a2fd9ab3d460ced0c18bcbfc2d3fd9a7b" kindref="member">version</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.5.0-dev&quot;</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205" refid="classthemis_1_1cdc_1_1_debezium_formatter_1a5e1bfa85fc2e0f658705578571deb77f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a5e1bfa85fc2e0f658705578571deb77f" kindref="member">DebeziumFormatter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206" refid="classthemis_1_1cdc_1_1_debezium_formatter_1a3b949eeb0103845c0d594d2d90acd18e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a3b949eeb0103845c0d594d2d90acd18e" kindref="member">DebeziumFormatter</ref>(<ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config" kindref="compound">Config</ref><sp/>cfg)<sp/>:<sp/>cfg_(std::move(cfg))<sp/>{}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208" refid="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_debezium_envelope" kindref="compound">DebeziumEnvelope</ref><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" kindref="member">toEnvelope</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref>&amp;<sp/>event,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_debezium_envelope" kindref="compound">DebeziumEnvelope</ref><sp/>env;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>env.<ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1abb72913ce010366b0abce6c5a78294b6" kindref="member">op</ref><sp/><sp/><sp/><sp/>=<sp/>opFromEvent(event);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>env.<ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ade4fa3a868a9d83c3e80d1b3763ddd8a" kindref="member">ts_ms</ref><sp/>=<sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal">.timestamp_ms;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Populate<sp/>before<sp/>/<sp/>after<sp/>JSON<sp/>from<sp/>snapshot<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(event.<ref refid="structthemis_1_1_changefeed_1_1_change_event_1a8cdedbb4b3efa725c6c5ad3cadf115e5" kindref="member">before_snapshot</ref>.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>env.<ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ac4477ddd1a6cac7016eccac9fdb7ee41" kindref="member">before</ref><sp/>=<sp/>parseDocument(*event.<ref refid="structthemis_1_1_changefeed_1_1_change_event_1a8cdedbb4b3efa725c6c5ad3cadf115e5" kindref="member">before_snapshot</ref>);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(event.<ref refid="structthemis_1_1_changefeed_1_1_change_event_1a59249b3094f85b3b51bc8f4dc024546a" kindref="member">after_snapshot</ref>.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>env.<ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1a629008fa4930ec5869a3d4e703d94fcc" kindref="member">after</ref><sp/>=<sp/>parseDocument(*event.<ref refid="structthemis_1_1_changefeed_1_1_change_event_1a59249b3094f85b3b51bc8f4dc024546a" kindref="member">after_snapshot</ref>);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>PUT<sp/>events,<sp/>also<sp/>use<sp/>the<sp/>value<sp/>field<sp/>as<sp/>the<sp/>&quot;after&quot;<sp/>document</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>when<sp/>after_snapshot<sp/>is<sp/>not<sp/>set.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(event.<ref refid="structthemis_1_1_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" kindref="member">type</ref><sp/>==<sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a6cb4b5ef33ab335211f73af9fbd56d3b" kindref="member">Changefeed::ChangeEventType::EVENT_PUT</ref><sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!event.<ref refid="structthemis_1_1_changefeed_1_1_change_event_1a59249b3094f85b3b51bc8f4dc024546a" kindref="member">after_snapshot</ref>.has_value()<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>event.<ref refid="structthemis_1_1_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" kindref="member">value</ref>.has_value())</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>env.<ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1a629008fa4930ec5869a3d4e703d94fcc" kindref="member">after</ref><sp/>=<sp/>parseDocument(*event.<ref refid="structthemis_1_1_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" kindref="member">value</ref>);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>source<sp/>block</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>env.<ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ad245e273bf88b3b36a8d45f3f65ce8e7" kindref="member">source</ref>.<ref refid="structthemis_1_1cdc_1_1_debezium_source_1a054b26cdfa2d7bd6b0f42cf03383e061" kindref="member">version</ref><sp/><sp/><sp/>=<sp/>cfg_.version;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>env.<ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ad245e273bf88b3b36a8d45f3f65ce8e7" kindref="member">source</ref>.<ref refid="structthemis_1_1cdc_1_1_debezium_source_1a904773bfed243ecf94532afcfe79e461" kindref="member">connector</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themisdb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>env.<ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ad245e273bf88b3b36a8d45f3f65ce8e7" kindref="member">source</ref>.<ref refid="structthemis_1_1cdc_1_1_debezium_source_1a1351fd47cfa1005b49b67a6ef6054cea" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>cfg_.server_name;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>env.<ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ad245e273bf88b3b36a8d45f3f65ce8e7" kindref="member">source</ref>.<ref refid="structthemis_1_1cdc_1_1_debezium_source_1a50b5c96044c5590cc7a70586cdef1688" kindref="member">ts_ms</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal">.timestamp_ms;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>env.<ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ad245e273bf88b3b36a8d45f3f65ce8e7" kindref="member">source</ref>.<ref refid="structthemis_1_1cdc_1_1_debezium_source_1a480746e834fb553b114c7d0329dc0093" kindref="member">db</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>cfg_.db_name;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>env.<ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ad245e273bf88b3b36a8d45f3f65ce8e7" kindref="member">source</ref>.<ref refid="structthemis_1_1cdc_1_1_debezium_source_1aefdaf39626b4b225bbe38b11cdb41eae" kindref="member">table</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>collection.empty()</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/>collectionFromKey(event.<ref refid="structthemis_1_1_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref>)</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>collection;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>env.<ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ad245e273bf88b3b36a8d45f3f65ce8e7" kindref="member">source</ref>.<ref refid="structthemis_1_1cdc_1_1_debezium_source_1a91d5705b03f5de9aef06e2894226c84d" kindref="member">sequence</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal">.sequence;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Propagate<sp/>redaction<sp/>marker<sp/>into<sp/>source<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(event.<ref refid="structthemis_1_1_changefeed_1_1_change_event_1a8dfec24ed688e258491d681018b24945" kindref="member">redacted</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>snapshot<sp/>field<sp/>encodes<sp/>the<sp/>redacted<sp/>state<sp/>for<sp/>audit<sp/>consumers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>env.<ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ad245e273bf88b3b36a8d45f3f65ce8e7" kindref="member">source</ref>.<ref refid="structthemis_1_1cdc_1_1_debezium_source_1aec5e9fcf11ad6288f136580f330fafc4" kindref="member">snapshot</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;redacted&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>env;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251" refid="classthemis_1_1cdc_1_1_debezium_formatter_1a670a4e50985a73d22beb297d33e02787" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a670a4e50985a73d22beb297d33e02787" kindref="member">toJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref>&amp;<sp/>event,</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" kindref="member">toEnvelope</ref>(event,<sp/>collection).<ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ad2c908ea646609c0c9c9aab8fad8ffe0" kindref="member">toJson</ref>(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256" refid="classthemis_1_1cdc_1_1_debezium_formatter_1acaf7883d867ac2ac63bd6b67c837744c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1acaf7883d867ac2ac63bd6b67c837744c" kindref="member">toJsonWithSchema</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref>&amp;<sp/>event,</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_debezium_formatter_1a93a7a772609028499732b0b1c00e4809" kindref="member">toEnvelope</ref>(event,<sp/>collection).<ref refid="structthemis_1_1cdc_1_1_debezium_envelope_1ad2c908ea646609c0c9c9aab8fad8ffe0" kindref="member">toJson</ref>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>cfg_;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5d" kindref="member">DebeziumOp</ref><sp/>opFromEvent(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref>&amp;<sp/>event)<sp/>{</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(event.<ref refid="structthemis_1_1_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" kindref="member">type</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a6cb4b5ef33ab335211f73af9fbd56d3b" kindref="member">Changefeed::ChangeEventType::EVENT_PUT</ref>:</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal">.before_snapshot.has_value()</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/><ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da15a8022d0ed9cd9c2a2e756822703eb4" kindref="member">DebeziumOp::UPDATE</ref></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da294ce20cdefa29be3be0735cb62e715d" kindref="member">DebeziumOp::CREATE</ref>;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0abe731652dcbe388ce5fb20e99b57029f" kindref="member">Changefeed::ChangeEventType::EVENT_DELETE</ref>:</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da32f68a60cef40faedbc6af20298c1a1e" kindref="member">DebeziumOp::DELETE</ref>;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cdc_1a1f5bfbfd63244d0f76498d19f66b7b5da3466fab4975481651940ed328aa990e4" kindref="member">DebeziumOp::READ</ref>;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>collectionFromKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pos<sp/>=<sp/>key.find(</highlight><highlight class="charliteral">&apos;:&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pos<sp/>!=<sp/>std::string::npos<sp/>?<sp/>key.substr(0,<sp/>pos)<sp/>:<sp/>key;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>nlohmann::json<sp/>parseDocument(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s)<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>nlohmann::json::parse(s);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json::parse_error&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{{</highlight><highlight class="stringliteral">&quot;_raw&quot;</highlight><highlight class="normal">,<sp/>s}};</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>cdc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/cdc/debezium_format.h"/>
+  </compounddef>
+</doxygen>

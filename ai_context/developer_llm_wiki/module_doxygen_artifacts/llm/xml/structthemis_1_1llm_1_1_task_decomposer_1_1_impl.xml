@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_task_decomposer_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::TaskDecomposer::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_task_decomposer_1_1_impl_1a1247d47710a63e901c5ce6c5d461f4dd" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_task_decomposer_config" kindref="compound">TaskDecomposerConfig</ref></type>
+        <definition>TaskDecomposerConfig themis::llm::TaskDecomposer::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::llm::TaskDecomposer::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/task_decomposer.cpp" line="741" column="39" bodyfile="src/llm/task_decomposer.cpp" bodystart="741" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_task_decomposer_1_1_impl_1ab80bba9a40d9c8f76f1dab2a33a527fd" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; ILLMPlugin &gt;</type>
+        <definition>std::shared_ptr&lt;ILLMPlugin&gt; themis::llm::TaskDecomposer::Impl::plugin</definition>
+        <argsstring></argsstring>
+        <name>plugin</name>
+        <qualifiedname>themis::llm::TaskDecomposer::Impl::plugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/task_decomposer.cpp" line="742" column="27" bodyfile="src/llm/task_decomposer.cpp" bodystart="742" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_task_decomposer_1_1_impl_1aaded03d29fb15ea2f3d153f039e4b7c0" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::TaskDecomposer::Impl::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <qualifiedname>themis::llm::TaskDecomposer::Impl::mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/task_decomposer.cpp" line="743" column="39" bodyfile="src/llm/task_decomposer.cpp" bodystart="743" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::TaskDecomposer::Impl</label>
+        <link refid="structthemis_1_1llm_1_1_task_decomposer_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::TaskDecomposerConfig</label>
+        <link refid="structthemis_1_1llm_1_1_task_decomposer_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/llm/task_decomposer.cpp" line="740" column="1" bodyfile="src/llm/task_decomposer.cpp" bodystart="740" bodyend="744"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_task_decomposer_1_1_impl_1a1247d47710a63e901c5ce6c5d461f4dd" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposer::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1llm_1_1_task_decomposer_1_1_impl_1aaded03d29fb15ea2f3d153f039e4b7c0" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposer::Impl</scope><name>mu</name></member>
+      <member refid="structthemis_1_1llm_1_1_task_decomposer_1_1_impl_1ab80bba9a40d9c8f76f1dab2a33a527fd" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposer::Impl</scope><name>plugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

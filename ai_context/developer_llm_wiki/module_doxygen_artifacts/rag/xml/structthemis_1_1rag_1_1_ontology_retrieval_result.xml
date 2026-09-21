@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_ontology_retrieval_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::OntologyRetrievalResult</compoundname>
+    <includes refid="ontology__aware__retriever_8h" local="no">ontology_aware_retriever.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_ontology_retrieval_result_1a9f294a763c1c5404f64da273443b1810" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1kg_1_1_k_g_augmented_document" kindref="compound">kg::KGAugmentedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;kg::KGAugmentedDocument&gt; themis::rag::OntologyRetrievalResult::documents</definition>
+        <argsstring></argsstring>
+        <name>documents</name>
+        <qualifiedname>themis::rag::OntologyRetrievalResult::documents</qualifiedname>
+        <briefdescription>
+<para>Re-scored candidate documents, sorted by final_score DESC. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="57" column="17" bodyfile="include/rag/ontology_aware_retriever.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_ontology_retrieval_result_1ac13308b99d1e2ee7824104d6123c7d68" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1kg_1_1_entity_linking_match" kindref="compound">kg::EntityLinkingMatch</ref> &gt;</type>
+        <definition>std::vector&lt;kg::EntityLinkingMatch&gt; themis::rag::OntologyRetrievalResult::query_entity_links</definition>
+        <argsstring></argsstring>
+        <name>query_entity_links</name>
+        <qualifiedname>themis::rag::OntologyRetrievalResult::query_entity_links</qualifiedname>
+        <briefdescription>
+<para>Query entity links (same as KGRetrievalResult::query_entity_links). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="60" column="17" bodyfile="include/rag/ontology_aware_retriever.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_ontology_retrieval_result_1a030c2f312b1db5244c15ea8f32d749ab" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::rag::OntologyRetrievalResult::expanded_concepts</definition>
+        <argsstring></argsstring>
+        <name>expanded_concepts</name>
+        <qualifiedname>themis::rag::OntologyRetrievalResult::expanded_concepts</qualifiedname>
+        <briefdescription>
+<para>Concept IDs found for query entities after ontology expansion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="63" column="24" bodyfile="include/rag/ontology_aware_retriever.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_ontology_retrieval_result_1a927c0d5de22700869aa485c3eae65fb4" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themis::rag::OntologyRetrievalResult::visited_nodes</definition>
+        <argsstring></argsstring>
+        <name>visited_nodes</name>
+        <qualifiedname>themis::rag::OntologyRetrievalResult::visited_nodes</qualifiedname>
+        <briefdescription>
+<para>KG node IDs visited during traversal. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="66" column="24" bodyfile="include/rag/ontology_aware_retriever.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_ontology_retrieval_result_1a0d889ee9bd60767cefabd90e12fcdcfe" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::OntologyRetrievalResult::entity_linking_coverage</definition>
+        <argsstring></argsstring>
+        <name>entity_linking_coverage</name>
+        <qualifiedname>themis::rag::OntologyRetrievalResult::entity_linking_coverage</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Fraction of query entities that matched a KG node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="69" column="12" bodyfile="include/rag/ontology_aware_retriever.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_ontology_retrieval_result_1a65fa07f7f99be240abda9b0302cfd5ca" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::OntologyRetrievalResult::elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>elapsed_ms</name>
+        <qualifiedname>themis::rag::OntologyRetrievalResult::elapsed_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Wall-clock time for the full pass (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="72" column="12" bodyfile="include/rag/ontology_aware_retriever.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Augmented retrieval result from <ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever" kindref="compound">OntologyAwareRetriever</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/ontology_aware_retriever.h" line="55" column="1" bodyfile="include/rag/ontology_aware_retriever.h" bodystart="55" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_ontology_retrieval_result_1a9f294a763c1c5404f64da273443b1810" prot="public" virt="non-virtual"><scope>themis::rag::OntologyRetrievalResult</scope><name>documents</name></member>
+      <member refid="structthemis_1_1rag_1_1_ontology_retrieval_result_1a65fa07f7f99be240abda9b0302cfd5ca" prot="public" virt="non-virtual"><scope>themis::rag::OntologyRetrievalResult</scope><name>elapsed_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1_ontology_retrieval_result_1a0d889ee9bd60767cefabd90e12fcdcfe" prot="public" virt="non-virtual"><scope>themis::rag::OntologyRetrievalResult</scope><name>entity_linking_coverage</name></member>
+      <member refid="structthemis_1_1rag_1_1_ontology_retrieval_result_1a030c2f312b1db5244c15ea8f32d749ab" prot="public" virt="non-virtual"><scope>themis::rag::OntologyRetrievalResult</scope><name>expanded_concepts</name></member>
+      <member refid="structthemis_1_1rag_1_1_ontology_retrieval_result_1ac13308b99d1e2ee7824104d6123c7d68" prot="public" virt="non-virtual"><scope>themis::rag::OntologyRetrievalResult</scope><name>query_entity_links</name></member>
+      <member refid="structthemis_1_1rag_1_1_ontology_retrieval_result_1a927c0d5de22700869aa485c3eae65fb4" prot="public" virt="non-virtual"><scope>themis::rag::OntologyRetrievalResult</scope><name>visited_nodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

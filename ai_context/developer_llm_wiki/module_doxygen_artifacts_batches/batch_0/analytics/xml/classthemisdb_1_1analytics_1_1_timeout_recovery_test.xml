@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_timeout_recovery_test" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::TimeoutRecoveryTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_timeout_recovery_test_1a83683e442dce0222afd5f17e2f676498" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding" kindref="compound">DistributedAnalyticsSharding</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;DistributedAnalyticsSharding&gt; themisdb::analytics::TimeoutRecoveryTest::coordinator</definition>
+        <argsstring></argsstring>
+        <name>coordinator</name>
+        <qualifiedname>themisdb::analytics::TimeoutRecoveryTest::coordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="333" column="21" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_timeout_recovery_test_1a4e114d67addf301e227895310997e7a3" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_mock_shard_executor" kindref="compound">MockShardExecutor</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MockShardExecutor&gt; themisdb::analytics::TimeoutRecoveryTest::executor</definition>
+        <argsstring></argsstring>
+        <name>executor</name>
+        <qualifiedname>themisdb::analytics::TimeoutRecoveryTest::executor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="334" column="21" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="334" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_timeout_recovery_test_1a8bdb059dca1822f5d9400b1b08a7c9d3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::TimeoutRecoveryTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themisdb::analytics::TimeoutRecoveryTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="320" column="10" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="320" bodyend="331"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::TimeoutRecoveryTest</label>
+        <link refid="classthemisdb_1_1analytics_1_1_timeout_recovery_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::TimeoutRecoveryTest</label>
+        <link refid="classthemisdb_1_1analytics_1_1_timeout_recovery_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" line="318" column="1" bodyfile="tests/analytics/test_analytics_distributed_coordinator_focused.cpp" bodystart="318" bodyend="335"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_timeout_recovery_test_1a83683e442dce0222afd5f17e2f676498" prot="protected" virt="non-virtual"><scope>themisdb::analytics::TimeoutRecoveryTest</scope><name>coordinator</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_timeout_recovery_test_1a4e114d67addf301e227895310997e7a3" prot="protected" virt="non-virtual"><scope>themisdb::analytics::TimeoutRecoveryTest</scope><name>executor</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_timeout_recovery_test_1a8bdb059dca1822f5d9400b1b08a7c9d3" prot="protected" virt="non-virtual"><scope>themisdb::analytics::TimeoutRecoveryTest</scope><name>SetUp</name></member>
+      <member refid="classtesting_1_1_test_1a2889fd829b6c712d98fb3896d28f64a3" prot="protected" virt="non-virtual"><scope>themisdb::analytics::TimeoutRecoveryTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

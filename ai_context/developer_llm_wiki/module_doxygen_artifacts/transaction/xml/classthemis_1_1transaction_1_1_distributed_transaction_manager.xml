@@ -1,0 +1,1801 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1_distributed_transaction_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::DistributedTransactionManager</compoundname>
+    <basecompoundref refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator" prot="public" virt="non-virtual">themis::transaction::IRecoverableTwoPhaseCoordinator</basecompoundref>
+    <includes refid="distributed__transaction__manager_8h" local="no">distributed_transaction_manager.h</includes>
+    <innerclass refid="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_statistics" prot="public">themis::transaction::DistributedTransactionManager::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_batch_prepare_entry" prot="private">themis::transaction::DistributedTransactionManager::BatchPrepareEntry</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af5a7e7a47b0149ae7a6216d775a3537c" prot="public" static="no">
+        <type>std::string</type>
+        <definition>using themis::transaction::DistributedTransactionManager::TransactionId = std::string</definition>
+        <argsstring></argsstring>
+        <name>TransactionId</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::TransactionId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="256" column="5" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1aa9c4b27b50851fc90fb17b9419c99a12" prot="public" static="no">
+        <type>std::function&lt; void( const std::string &amp;endpoint, const <ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af5a7e7a47b0149ae7a6216d775a3537c" kindref="member">TransactionId</ref> &amp;txn_id, bool do_commit)&gt;</type>
+        <definition>using themis::transaction::DistributedTransactionManager::RemotePhase2Fn = std::function&lt;void(
+       const std::string&amp; endpoint,
+       const TransactionId&amp; txn_id,
+       bool do_commit
+   )&gt;</definition>
+        <argsstring></argsstring>
+        <name>RemotePhase2Fn</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::RemotePhase2Fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="356" column="5" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="356" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a97bf8dc0da7c049c87ae8db6974b49fc" prot="public" static="no">
+        <type>std::function&lt; void(const std::string &amp;node_id, const std::string &amp;txn_id, bool do_commit)&gt;</type>
+        <definition>using themis::transaction::DistributedTransactionManager::RpcPhase2Fn = std::function&lt;void(const std::string&amp; node_id,
+                                          const std::string&amp; txn_id,
+                                          bool               do_commit)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RpcPhase2Fn</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::RpcPhase2Fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="403" column="5" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a92aa1963812e16cd85ca4fd9279c3236" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;node_id, const std::string &amp;txn_id, const std::set&lt; std::string &gt; &amp;affected_keys)&gt;</type>
+        <definition>using themis::transaction::DistributedTransactionManager::RpcPhase1Fn = std::function&lt;bool(const std::string&amp; node_id,
+                                          const std::string&amp; txn_id,
+                                          const std::set&lt;std::string&gt;&amp; affected_keys)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RpcPhase1Fn</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::RpcPhase1Fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="420" column="5" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="420" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a4ea56342e66ffd208492f0976e2a1e6b" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;node_id, const std::string &amp;endpoint)&gt;</type>
+        <definition>using themis::transaction::DistributedTransactionManager::StaticLivenessCheckFn = std::function&lt;bool(const std::string&amp; node_id,
+                                                     const std::string&amp; endpoint)&gt;</definition>
+        <argsstring></argsstring>
+        <name>StaticLivenessCheckFn</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::StaticLivenessCheckFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="437" column="5" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="437" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a368fe73e00e9b74f37be180a7e2e99fa" prot="private" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string themis::transaction::DistributedTransactionManager::coordinator_id_</definition>
+        <argsstring></argsstring>
+        <name>coordinator_id_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::coordinator_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="550" column="35" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="550" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a2bd53333c77a2ee43f599248d34e28b7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config" kindref="compound">DistributedTxnManagerConfig</ref></type>
+        <definition>DistributedTxnManagerConfig themis::transaction::DistributedTransactionManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="551" column="35" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="551" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1afc55d2297c2527e11a99cc9ecbead9d5" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::transaction::DistributedTransactionManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="553" column="63" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="553" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a63f73bac66a2a78ba3937cea47a8db70" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::transaction::DistributedTransactionManager::vote_cv_</definition>
+        <argsstring></argsstring>
+        <name>vote_cv_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::vote_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="554" column="63" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="554" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a47d2454b17cb786f30690c5cdf3c42ce" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af5a7e7a47b0149ae7a6216d775a3537c" kindref="member">TransactionId</ref>, <ref refid="structthemis_1_1transaction_1_1_distributed_transaction" kindref="compound">DistributedTransaction</ref> &gt;</type>
+        <definition>std::unordered_map&lt;TransactionId, DistributedTransaction&gt; themis::transaction::DistributedTransactionManager::transactions_</definition>
+        <argsstring></argsstring>
+        <name>transactions_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::transactions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="555" column="24" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="555" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1ad0e6722ccb24349a5c2368868fa3cd88" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::sharding::WALManager &gt;</type>
+        <definition>std::unique_ptr&lt;themis::sharding::WALManager&gt; themis::transaction::DistributedTransactionManager::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::wal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="557" column="28" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="557" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a4f8391b2e2c9f4f6f342a764933e5b8b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::transaction::DistributedTransactionManager::stat_total_</definition>
+        <argsstring></argsstring>
+        <name>stat_total_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::stat_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="560" column="17" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="560" bodyend="560"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1aa0b6cf121a888b0710998cb058120961" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::transaction::DistributedTransactionManager::stat_committed_</definition>
+        <argsstring></argsstring>
+        <name>stat_committed_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::stat_committed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="561" column="17" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="561" bodyend="561"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a048faa2083d98cd0a11b14b3966d6b32" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::transaction::DistributedTransactionManager::stat_aborted_</definition>
+        <argsstring></argsstring>
+        <name>stat_aborted_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::stat_aborted_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="562" column="17" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="562" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1aeedbd70e32ff918a2d934ba1ccf853d1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::transaction::DistributedTransactionManager::stat_timeout_aborts_</definition>
+        <argsstring></argsstring>
+        <name>stat_timeout_aborts_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::stat_timeout_aborts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="563" column="17" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="563" bodyend="563"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1aadcbd5234ac6a3bbfd67feec0b8fe981" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::transaction::DistributedTransactionManager::stat_recovered_</definition>
+        <argsstring></argsstring>
+        <name>stat_recovered_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::stat_recovered_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="564" column="17" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="564" bodyend="564"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af7abe537ad6facc5c53f3a663ccfb7e4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::transaction::DistributedTransactionManager::txn_counter_</definition>
+        <argsstring></argsstring>
+        <name>txn_counter_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::txn_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="566" column="17" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="566" bodyend="566"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a3ac846b75c49ba96e41d5c7df0835b5c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::thread &gt;</type>
+        <definition>std::vector&lt;std::thread&gt; themis::transaction::DistributedTransactionManager::worker_threads_</definition>
+        <argsstring></argsstring>
+        <name>worker_threads_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::worker_threads_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="569" column="30" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="569" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a03adc473a88e480c52eac4386d5ba644" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; std::function&lt; void()&gt; &gt;</type>
+        <definition>std::queue&lt;std::function&lt;void()&gt; &gt; themis::transaction::DistributedTransactionManager::task_queue_</definition>
+        <argsstring></argsstring>
+        <name>task_queue_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::task_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="570" column="20" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="570" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a79e70573cd2164a286222ad0ce5f990b" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::transaction::DistributedTransactionManager::pool_mutex_</definition>
+        <argsstring></argsstring>
+        <name>pool_mutex_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::pool_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="571" column="43" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="571" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a33986c6b6a142590ffeab61149ab9bb6" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::transaction::DistributedTransactionManager::pool_cv_</definition>
+        <argsstring></argsstring>
+        <name>pool_cv_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::pool_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="572" column="43" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="572" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a2145db14739b89140ec3cf50aa48fb37" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::DistributedTransactionManager::pool_stop_</definition>
+        <argsstring></argsstring>
+        <name>pool_stop_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::pool_stop_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="573" column="43" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="573" bodyend="573"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a55e4fa87244ebdbdd5270367ceb26de3" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::transaction::DistributedTransactionManager::batch_mutex_</definition>
+        <argsstring></argsstring>
+        <name>batch_mutex_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::batch_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="576" column="43" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="576" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1ab49cc1bb737edb0f8598587ac2ff3593" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::transaction::DistributedTransactionManager::batch_cv_</definition>
+        <argsstring></argsstring>
+        <name>batch_cv_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::batch_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="577" column="43" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="577" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a366f9dce1dbb9ad2b65b9a20dcce097a" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; BatchPrepareEntry &gt;</type>
+        <definition>std::vector&lt;BatchPrepareEntry&gt; themis::transaction::DistributedTransactionManager::batch_queue_</definition>
+        <argsstring></argsstring>
+        <name>batch_queue_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::batch_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="578" column="24" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="578" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a77977c7c293775d88ce38211e1477298" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::transaction::DistributedTransactionManager::batch_flush_thread_</definition>
+        <argsstring></argsstring>
+        <name>batch_flush_thread_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::batch_flush_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="579" column="43" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="579" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a3a674384b7bafe2c4f2a8c14c1c77cd7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::transaction::DistributedTransactionManager::batch_stop_</definition>
+        <argsstring></argsstring>
+        <name>batch_stop_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::batch_stop_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="580" column="37" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="580" bodyend="580"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a618dc8dec18705415af24a797f3a08cb" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1aa9c4b27b50851fc90fb17b9419c99a12" kindref="member">RemotePhase2Fn</ref> &gt;</type>
+        <definition>std::optional&lt;RemotePhase2Fn&gt; themis::transaction::DistributedTransactionManager::remote_phase2_fn_</definition>
+        <argsstring></argsstring>
+        <name>remote_phase2_fn_</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::remote_phase2_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="583" column="27" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="583" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a745ee0a8f331d28a6f91279eec1cd7eb" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::DistributedTransactionManager::DistributedTransactionManager</definition>
+        <argsstring>(std::string coordinator_id, DistributedTxnManagerConfig config={})</argsstring>
+        <name>DistributedTransactionManager</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::DistributedTransactionManager</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>coordinator_id</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1transaction_1_1_distributed_txn_manager_config" kindref="compound">DistributedTxnManagerConfig</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="267" column="14" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="267" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a4eb3f867e5db1f1f73a3738d58a6a227" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::DistributedTransactionManager::~DistributedTransactionManager</definition>
+        <argsstring>()</argsstring>
+        <name>~DistributedTransactionManager</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::~DistributedTransactionManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="272" column="5" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="314" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af8d8feec82c98b9fe7c8ce7b4fd95de1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::DistributedTransactionManager::DistributedTransactionManager</definition>
+        <argsstring>(const DistributedTransactionManager &amp;)=delete</argsstring>
+        <name>DistributedTransactionManager</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::DistributedTransactionManager</qualifiedname>
+        <param>
+          <type>const DistributedTransactionManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="275" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a803209b24eeb1d69bec7668b36b09853" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a745ee0a8f331d28a6f91279eec1cd7eb" kindref="member">DistributedTransactionManager</ref> &amp;</type>
+        <definition>DistributedTransactionManager &amp; themis::transaction::DistributedTransactionManager::operator=</definition>
+        <argsstring>(const DistributedTransactionManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a745ee0a8f331d28a6f91279eec1cd7eb" kindref="member">DistributedTransactionManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="276" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a371b69b21012be8cdb3316fbc783794a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::DistributedTransactionManager::DistributedTransactionManager</definition>
+        <argsstring>(DistributedTransactionManager &amp;&amp;)=delete</argsstring>
+        <name>DistributedTransactionManager</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::DistributedTransactionManager</qualifiedname>
+        <param>
+          <type>DistributedTransactionManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="277" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a31f9376a3634e4a9a2d534151a894d44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a745ee0a8f331d28a6f91279eec1cd7eb" kindref="member">DistributedTransactionManager</ref> &amp;</type>
+        <definition>DistributedTransactionManager &amp; themis::transaction::DistributedTransactionManager::operator=</definition>
+        <argsstring>(DistributedTransactionManager &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a745ee0a8f331d28a6f91279eec1cd7eb" kindref="member">DistributedTransactionManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="278" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a14ef523dd7e8be898796bcecb7fd751f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af5a7e7a47b0149ae7a6216d775a3537c" kindref="member">TransactionId</ref></type>
+        <definition>DistributedTransactionManager::TransactionId themis::transaction::DistributedTransactionManager::beginDistributed</definition>
+        <argsstring>(const std::vector&lt; Participant &gt; &amp;participants)</argsstring>
+        <name>beginDistributed</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::beginDistributed</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1transaction_1_1_participant" kindref="compound">Participant</ref> &gt; &amp;</type>
+          <declname>participants</declname>
+        </param>
+        <briefdescription>
+<para>Begin Distributed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">participants</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="286" column="19" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="358" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1afa9c0d4429cfcc32aa66320a00e7acfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_distributed_txn_status" kindref="compound">DistributedTxnStatus</ref></type>
+        <definition>DistributedTxnStatus themis::transaction::DistributedTransactionManager::prepareDistributed</definition>
+        <argsstring>(const TransactionId &amp;txn_id)</argsstring>
+        <name>prepareDistributed</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::prepareDistributed</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af5a7e7a47b0149ae7a6216d775a3537c" kindref="member">TransactionId</ref> &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Prepare Distributed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Blk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="293" column="26" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="410" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a73c91f6d4a9f723f71b61a58a08d60a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_distributed_txn_status" kindref="compound">DistributedTxnStatus</ref></type>
+        <definition>DistributedTxnStatus themis::transaction::DistributedTransactionManager::commitDistributed</definition>
+        <argsstring>(const TransactionId &amp;txn_id)</argsstring>
+        <name>commitDistributed</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::commitDistributed</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af5a7e7a47b0149ae7a6216d775a3537c" kindref="member">TransactionId</ref> &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Commit Distributed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="300" column="26" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="513" bodyend="577"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1aff1aef368bfafdf748a4b9ac0c972d18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::DistributedTransactionManager::abortDistributed</definition>
+        <argsstring>(const TransactionId &amp;txn_id)</argsstring>
+        <name>abortDistributed</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::abortDistributed</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af5a7e7a47b0149ae7a6216d775a3537c" kindref="member">TransactionId</ref> &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Abort Distributed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), findTransaction(), THEMIS_DEBUG(), logToWAL(), flush(), unlock(), runPhase2Unlocked(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="306" column="10" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="584" bodyend="640"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1ab03184c35d57032057bf0af4fe01df98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_distributed_txn_status" kindref="compound">DistributedTxnStatus</ref></type>
+        <definition>DistributedTxnStatus themis::transaction::DistributedTransactionManager::voteOnPrepare</definition>
+        <argsstring>(const TransactionId &amp;txn_id, const std::string &amp;node_id, bool can_commit)</argsstring>
+        <name>voteOnPrepare</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::voteOnPrepare</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af5a7e7a47b0149ae7a6216d775a3537c" kindref="member">TransactionId</ref> &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>can_commit</declname>
+        </param>
+        <briefdescription>
+<para>Vote On Prepare. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">can_commit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">can_commit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), findTransaction(), <ref refid="structthemis_1_1transaction_1_1_distributed_txn_status_1a9de30f25bb346148f2086b9f98a583c3" kindref="member">DistributedTxnStatus::Error()</ref>, notify_all(), <ref refid="structthemis_1_1transaction_1_1_distributed_txn_status_1a3cd1be12c8c530a8a0f828598f3ac06d" kindref="member">DistributedTxnStatus::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="316" column="26" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="654" bodyend="678"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1ac1fd8c4a4f2feb3c8baf1581a79c8ba1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_distributed_txn_status" kindref="compound">DistributedTxnStatus</ref></type>
+        <definition>DistributedTxnStatus themis::transaction::DistributedTransactionManager::applyCommit</definition>
+        <argsstring>(const TransactionId &amp;txn_id)</argsstring>
+        <name>applyCommit</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::applyCommit</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af5a7e7a47b0149ae7a6216d775a3537c" kindref="member">TransactionId</ref> &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Apply Commit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), findTransaction(), <ref refid="structthemis_1_1transaction_1_1_distributed_txn_status_1a9de30f25bb346148f2086b9f98a583c3" kindref="member">DistributedTxnStatus::Error()</ref>, THEMIS_DEBUG(), <ref refid="structthemis_1_1transaction_1_1_distributed_txn_status_1a3cd1be12c8c530a8a0f828598f3ac06d" kindref="member">DistributedTxnStatus::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="327" column="26" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="686" bodyend="699"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a047ad0a3458669a00e9d8dd70fda1eff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_distributed_txn_status" kindref="compound">DistributedTxnStatus</ref></type>
+        <definition>DistributedTxnStatus themis::transaction::DistributedTransactionManager::applyAbort</definition>
+        <argsstring>(const TransactionId &amp;txn_id)</argsstring>
+        <name>applyAbort</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::applyAbort</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af5a7e7a47b0149ae7a6216d775a3537c" kindref="member">TransactionId</ref> &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Apply Abort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), findTransaction(), <ref refid="structthemis_1_1transaction_1_1_distributed_txn_status_1a9de30f25bb346148f2086b9f98a583c3" kindref="member">DistributedTxnStatus::Error()</ref>, THEMIS_DEBUG(), <ref refid="structthemis_1_1transaction_1_1_distributed_txn_status_1a3cd1be12c8c530a8a0f828598f3ac06d" kindref="member">DistributedTxnStatus::OK()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="334" column="26" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="707" bodyend="717"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a49b0deaa44277c19d8db1cc50b7ec704" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::DistributedTransactionManager::recoverInDoubtTransactions</definition>
+        <argsstring>() override</argsstring>
+        <name>recoverInDoubtTransactions</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::recoverInDoubtTransactions</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator_1a1508f43768f357c83c88521a440a8194">recoverInDoubtTransactions</reimplements>
+        <briefdescription>
+<para>Recover In Doubt Transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: runPhase2Unlocked(), lock(), findTransaction(), THEMIS_DEBUG(), push_back(), finalizeRecovery(), THEMIS_INFO(), getOldestLSN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="338" column="12" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="728" bodyend="920"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a5883a826a7a3b2869220c47d535c7e7b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::DistributedTransactionManager::recoveryCoordinatorName</definition>
+        <argsstring>() const override</argsstring>
+        <name>recoveryCoordinatorName</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::recoveryCoordinatorName</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a6aaf8efa06e194acfa2590ada2449700">recoveryCoordinatorName</reimplements>
+        <briefdescription>
+<para>Return a stable coordinator identifier for recovery reports. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable coordinator type name (e.g. &quot;TwoPhaseCommitCoordinator&quot;). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="340" column="18" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="922" bodyend="924"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a70001a754da311f46d82616ee231fee8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::DistributedTransactionManager::recoveryBackendName</definition>
+        <argsstring>() const override</argsstring>
+        <name>recoveryBackendName</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::recoveryBackendName</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a2d4aedbbba89842774501e3b4f15ad50">recoveryBackendName</reimplements>
+        <briefdescription>
+<para>Return the durable backend used by this coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Backend name such as &quot;WAL&quot;, &quot;WAL/snapshot&quot;, or &quot;disabled&quot;. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="342" column="18" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="926" bodyend="928"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1ac30f96ede5750f41c60f38283ed2b662" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_transaction" kindref="compound">RecoverableTwoPhaseTransaction</ref> &gt;</type>
+        <definition>std::vector&lt; RecoverableTwoPhaseTransaction &gt; themis::transaction::DistributedTransactionManager::getRecoverableTransactions</definition>
+        <argsstring>() const override</argsstring>
+        <name>getRecoverableTransactions</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::getRecoverableTransactions</qualifiedname>
+        <reimplements refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a9a0c50bc7f8da31d51b9f44f1c7e7cb1">getRecoverableTransactions</reimplements>
+        <briefdescription>
+<para>Return the currently known recoverable/non-final transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The returned snapshot reflects the coordinator&apos;s view at the time of the call. Non-final means any state except COMPLETED.</para>
+<para><simplesect kind="return"><para>Canonical recovery snapshot for global orchestration. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="345" column="5" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="931" bodyend="979"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1afea79554701b7714eb45f3730dd3e42e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::DistributedTransactionManager::checkTimeouts</definition>
+        <argsstring>()</argsstring>
+        <name>checkTimeouts</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::checkTimeouts</qualifiedname>
+        <briefdescription>
+<para>Check Timeouts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), lock(), push_back(), THEMIS_WARN(), findTransaction(), <ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1aff1aef368bfafdf748a4b9ac0c972d18" kindref="member">abortDistributed()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="352" column="12" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="990" bodyend="1029"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a42c550b90cbfc07655bc89356fbeb66a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::DistributedTransactionManager::setRemotePhase2Fn</definition>
+        <argsstring>(RemotePhase2Fn fn)</argsstring>
+        <name>setRemotePhase2Fn</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::setRemotePhase2Fn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1aa9c4b27b50851fc90fb17b9419c99a12" kindref="member">RemotePhase2Fn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Remote Phase2 Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="368" column="10" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="368" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a576f6a4520e08d3204c5837d2749857d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::DistributedTransactionManager::isParticipantAlive</definition>
+        <argsstring>(const std::string &amp;node_id) const</argsstring>
+        <name>isParticipantAlive</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::isParticipantAlive</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Is <ref refid="structthemis_1_1transaction_1_1_participant" kindref="compound">Participant</ref> Alive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="379" column="10" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="1035" bodyend="1147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1ae4080a17f58462f82bd37fda8f3e5e8b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1transaction_1_1_distributed_transaction" kindref="compound">DistributedTransaction</ref> &gt;</type>
+        <definition>std::optional&lt; DistributedTransaction &gt; themis::transaction::DistributedTransactionManager::getTransaction</definition>
+        <argsstring>(const TransactionId &amp;txn_id) const</argsstring>
+        <name>getTransaction</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::getTransaction</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af5a7e7a47b0149ae7a6216d775a3537c" kindref="member">TransactionId</ref> &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="387" column="19" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="1154" bodyend="1166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1afd5702acabbbbc5536a1cdb3b50b723e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>DistributedTransactionManager::Statistics themis::transaction::DistributedTransactionManager::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Count in-doubt (PREPARING or PREPARED) transactions. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="393" column="16" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="1169" bodyend="1191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1aa9dbfb447b86e3b8d3c6a924c26a18f7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::DistributedTransactionManager::activeTransactionCount</definition>
+        <argsstring>() const</argsstring>
+        <name>activeTransactionCount</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::activeTransactionCount</qualifiedname>
+        <briefdescription>
+<para>Active Transaction Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="399" column="12" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="1193" bodyend="1208"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a41bbdde61b6b2747ffedf7f58eb675b6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::DistributedTransactionManager::setRpcPhase2Fn</definition>
+        <argsstring>(RpcPhase2Fn fn)</argsstring>
+        <name>setRpcPhase2Fn</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::setRpcPhase2Fn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a97bf8dc0da7c049c87ae8db6974b49fc" kindref="member">RpcPhase2Fn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Rpc Phase2 Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="411" column="17" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="92" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a54365416ea3c681e47b599a4819abb02" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::DistributedTransactionManager::clearRpcPhase2Fn</definition>
+        <argsstring>()</argsstring>
+        <name>clearRpcPhase2Fn</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::clearRpcPhase2Fn</qualifiedname>
+        <briefdescription>
+<para>Clear Rpc Phase2 Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="416" column="17" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="101" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1ad65b328c8a05c251b128ac80558bf0a6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::DistributedTransactionManager::setRpcPhase1Fn</definition>
+        <argsstring>(RpcPhase1Fn fn)</argsstring>
+        <name>setRpcPhase1Fn</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::setRpcPhase1Fn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a92aa1963812e16cd85ca4fd9279c3236" kindref="member">RpcPhase1Fn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Rpc Phase1 Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="428" column="17" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="136" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a9b3d641d161590958f4d10a74f9986f2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::DistributedTransactionManager::clearRpcPhase1Fn</definition>
+        <argsstring>()</argsstring>
+        <name>clearRpcPhase1Fn</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::clearRpcPhase1Fn</qualifiedname>
+        <briefdescription>
+<para>Clear Rpc Phase1 Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="433" column="17" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="145" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1abf95ad9246d088879fa1ad198e6294a2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::DistributedTransactionManager::setLivenessCheckFn</definition>
+        <argsstring>(StaticLivenessCheckFn fn)</argsstring>
+        <name>setLivenessCheckFn</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::setLivenessCheckFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a4ea56342e66ffd208492f0976e2a1e6b" kindref="member">StaticLivenessCheckFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Liveness Check Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="444" column="17" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="174" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a3daeb8aa4968441bfb21100b64b15327" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::DistributedTransactionManager::clearLivenessCheckFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearLivenessCheckFn</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::clearLivenessCheckFn</qualifiedname>
+        <briefdescription>
+<para>Clear Liveness Check Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="449" column="17" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="183" bodyend="186"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a487e2cb1272af38943de6e56c02920a7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::DistributedTransactionManager::generateTransactionId</definition>
+        <argsstring>()</argsstring>
+        <name>generateTransactionId</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::generateTransactionId</qualifiedname>
+        <briefdescription>
+<para>Generate Transaction Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="457" column="17" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="1219" bodyend="1228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a086edcda71c91aa359259f00b233d8d6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::DistributedTransactionManager::logToWAL</definition>
+        <argsstring>(themis::sharding::WALEntryType type, const std::string &amp;txn_id, const std::string &amp;data=&quot;&quot;)</argsstring>
+        <name>logToWAL</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::logToWAL</qualifiedname>
+        <param>
+          <type>themis::sharding::WALEntryType</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Log To WAL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), empty(), append(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="459" column="10" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="1237" bodyend="1269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a91406c6530e88d99a81dd2eafe00dde1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::DistributedTransactionManager::runPhase1Unlocked</definition>
+        <argsstring>(const TransactionId &amp;txn_id)</argsstring>
+        <name>runPhase1Unlocked</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::runPhase1Unlocked</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af5a7e7a47b0149ae7a6216d775a3537c" kindref="member">TransactionId</ref> &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Run Phase1 Unlocked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── Phase 1: send PREPARE to all participants (without holding the mutex) ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), findTransaction(), std::chrono::steady_clock::now(), reserve(), size(), empty(), THEMIS_ERROR(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="470" column="10" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="1290" bodyend="1480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a8ce62cf932af585a877eeb622f5dbeb9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::transaction::DistributedTransactionManager::runPhase2Unlocked</definition>
+        <argsstring>(const TransactionId &amp;txn_id, const std::vector&lt; Participant &gt; &amp;parts, bool do_commit)</argsstring>
+        <name>runPhase2Unlocked</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::runPhase2Unlocked</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af5a7e7a47b0149ae7a6216d775a3537c" kindref="member">TransactionId</ref> &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1transaction_1_1_participant" kindref="compound">Participant</ref> &gt; &amp;</type>
+          <declname>parts</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>do_commit</declname>
+        </param>
+        <briefdescription>
+<para>Run Phase2 Unlocked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── Phase 2: send COMMIT or ABORT to all participants (without holding the mutex) ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">do_commit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">parts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">do_commit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), reserve(), size(), empty(), THEMIS_ERROR(), push_back(), submitTask(), <ref refid="namespacethemis_1_1transaction_1a654e690d0ca5ab96feb5d5a12e9b8618" kindref="member">deliverPhase2WithRetry()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="479" column="10" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="1491" bodyend="1634"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a451cc565eaa9123b1d8eac66fab3c9ce" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_distributed_transaction" kindref="compound">DistributedTransaction</ref> *</type>
+        <definition>DistributedTransaction * themis::transaction::DistributedTransactionManager::findTransaction</definition>
+        <argsstring>(const TransactionId &amp;txn_id)</argsstring>
+        <name>findTransaction</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::findTransaction</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af5a7e7a47b0149ae7a6216d775a3537c" kindref="member">TransactionId</ref> &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Find Transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="490" column="28" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="1272" bodyend="1275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a0b1ef87422512d23808b2b74c965661b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1transaction_1_1_distributed_transaction" kindref="compound">DistributedTransaction</ref> *</type>
+        <definition>const DistributedTransaction * themis::transaction::DistributedTransactionManager::findTransaction</definition>
+        <argsstring>(const TransactionId &amp;txn_id) const</argsstring>
+        <name>findTransaction</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::findTransaction</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af5a7e7a47b0149ae7a6216d775a3537c" kindref="member">TransactionId</ref> &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Find Transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">txn_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the txn. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="496" column="34" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="1278" bodyend="1281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1ae394e95e49b33f47a70d9f5994a7002b" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class F</type>
+          </param>
+        </templateparamlist>
+        <type>std::future&lt; decltype(f())&gt;</type>
+        <definition>std::future&lt; decltype(f())&gt; themis::transaction::DistributedTransactionManager::submitTask</definition>
+        <argsstring>(F &amp;&amp;f)</argsstring>
+        <name>submitTask</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::submitTask</qualifiedname>
+        <param>
+          <type>F &amp;&amp;</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pool_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="501" column="10" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="501" bodyend="526"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a3017ba2b05c1b7d40c05e66270b1fcba" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::DistributedTransactionManager::startThreadPool</definition>
+        <argsstring>()</argsstring>
+        <name>startThreadPool</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::startThreadPool</qualifiedname>
+        <briefdescription>
+<para>Start Thread Pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: reserve(), emplace_back(), void(), lock(), wait_for(), std::chrono::seconds(), empty(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="531" column="10" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="1644" bodyend="1690"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af9f826a993650fa73947747de3244230" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::DistributedTransactionManager::stopThreadPool</definition>
+        <argsstring>()</argsstring>
+        <name>stopThreadPool</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::stopThreadPool</qualifiedname>
+        <briefdescription>
+<para>Stop Thread Pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), notify_all(), joinable(), join(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="536" column="10" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="1696" bodyend="1708"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a07a5f4836e723740c74143b9e3b22e0a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::DistributedTransactionManager::batchFlushLoop</definition>
+        <argsstring>()</argsstring>
+        <name>batchFlushLoop</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::batchFlushLoop</qualifiedname>
+        <briefdescription>
+<para>Batch Flush Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── Batch-prepare flush loop (PERF-D4) ─────────────────────────────────────────────────────────────────────────────</para>
+<para>Calls: load(), lock(), wait_for(), empty(), swap(), THEMIS_DEBUG(), size(), runPhase1Unlocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="548" column="10" bodyfile="src/transaction/distributed_transaction_manager.cpp" bodystart="1715" bodyend="1766"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::transaction::DistributedTransactionManager</label>
+        <link refid="classthemis_1_1transaction_1_1_distributed_transaction_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::transaction::IInDoubtRecoveryCoordinator</label>
+        <link refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator"/>
+      </node>
+      <node id="2">
+        <label>themis::transaction::IRecoverableTwoPhaseCoordinator</label>
+        <link refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::transaction::DistributedTransactionManager</label>
+        <link refid="classthemis_1_1transaction_1_1_distributed_transaction_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::transaction::IInDoubtRecoveryCoordinator</label>
+        <link refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator"/>
+      </node>
+      <node id="2">
+        <label>themis::transaction::IRecoverableTwoPhaseCoordinator</label>
+        <link refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/transaction/distributed_transaction_manager.h" line="254" column="1" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="254" bodyend="584"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1aff1aef368bfafdf748a4b9ac0c972d18" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>abortDistributed</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1aa9dbfb447b86e3b8d3c6a924c26a18f7" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>activeTransactionCount</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a047ad0a3458669a00e9d8dd70fda1eff" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>applyAbort</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1ac1fd8c4a4f2feb3c8baf1581a79c8ba1" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>applyCommit</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1ab49cc1bb737edb0f8598587ac2ff3593" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>batch_cv_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a77977c7c293775d88ce38211e1477298" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>batch_flush_thread_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a55e4fa87244ebdbdd5270367ceb26de3" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>batch_mutex_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a366f9dce1dbb9ad2b65b9a20dcce097a" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>batch_queue_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a3a674384b7bafe2c4f2a8c14c1c77cd7" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>batch_stop_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a07a5f4836e723740c74143b9e3b22e0a" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>batchFlushLoop</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a14ef523dd7e8be898796bcecb7fd751f" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>beginDistributed</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1afea79554701b7714eb45f3730dd3e42e" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>checkTimeouts</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a3daeb8aa4968441bfb21100b64b15327" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>clearLivenessCheckFn</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a9b3d641d161590958f4d10a74f9986f2" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>clearRpcPhase1Fn</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a54365416ea3c681e47b599a4819abb02" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>clearRpcPhase2Fn</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a73c91f6d4a9f723f71b61a58a08d60a8" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>commitDistributed</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a2bd53333c77a2ee43f599248d34e28b7" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a368fe73e00e9b74f37be180a7e2e99fa" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>coordinator_id_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a745ee0a8f331d28a6f91279eec1cd7eb" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>DistributedTransactionManager</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af8d8feec82c98b9fe7c8ce7b4fd95de1" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>DistributedTransactionManager</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a371b69b21012be8cdb3316fbc783794a" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>DistributedTransactionManager</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a451cc565eaa9123b1d8eac66fab3c9ce" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>findTransaction</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a0b1ef87422512d23808b2b74c965661b" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>findTransaction</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a487e2cb1272af38943de6e56c02920a7" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>generateTransactionId</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1ac30f96ede5750f41c60f38283ed2b662" prot="public" virt="virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>getRecoverableTransactions</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1afd5702acabbbbc5536a1cdb3b50b723e" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1ae4080a17f58462f82bd37fda8f3e5e8b" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>getTransaction</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a576f6a4520e08d3204c5837d2749857d" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>isParticipantAlive</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a086edcda71c91aa359259f00b233d8d6" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>logToWAL</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1afc55d2297c2527e11a99cc9ecbead9d5" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a803209b24eeb1d69bec7668b36b09853" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a31f9376a3634e4a9a2d534151a894d44" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a33986c6b6a142590ffeab61149ab9bb6" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>pool_cv_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a79e70573cd2164a286222ad0ce5f990b" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>pool_mutex_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a2145db14739b89140ec3cf50aa48fb37" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>pool_stop_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1afa9c0d4429cfcc32aa66320a00e7acfd" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>prepareDistributed</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a49b0deaa44277c19d8db1cc50b7ec704" prot="public" virt="virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>recoverInDoubtTransactions</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a70001a754da311f46d82616ee231fee8" prot="public" virt="virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>recoveryBackendName</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a5883a826a7a3b2869220c47d535c7e7b" prot="public" virt="virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>recoveryCoordinatorName</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a618dc8dec18705415af24a797f3a08cb" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>remote_phase2_fn_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1aa9c4b27b50851fc90fb17b9419c99a12" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>RemotePhase2Fn</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a92aa1963812e16cd85ca4fd9279c3236" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>RpcPhase1Fn</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a97bf8dc0da7c049c87ae8db6974b49fc" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>RpcPhase2Fn</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a91406c6530e88d99a81dd2eafe00dde1" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>runPhase1Unlocked</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a8ce62cf932af585a877eeb622f5dbeb9" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>runPhase2Unlocked</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1abf95ad9246d088879fa1ad198e6294a2" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>setLivenessCheckFn</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a42c550b90cbfc07655bc89356fbeb66a" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>setRemotePhase2Fn</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1ad65b328c8a05c251b128ac80558bf0a6" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>setRpcPhase1Fn</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a41bbdde61b6b2747ffedf7f58eb675b6" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>setRpcPhase2Fn</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a3017ba2b05c1b7d40c05e66270b1fcba" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>startThreadPool</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a048faa2083d98cd0a11b14b3966d6b32" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>stat_aborted_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1aa0b6cf121a888b0710998cb058120961" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>stat_committed_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1aadcbd5234ac6a3bbfd67feec0b8fe981" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>stat_recovered_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1aeedbd70e32ff918a2d934ba1ccf853d1" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>stat_timeout_aborts_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a4f8391b2e2c9f4f6f342a764933e5b8b" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>stat_total_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a4ea56342e66ffd208492f0976e2a1e6b" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>StaticLivenessCheckFn</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af9f826a993650fa73947747de3244230" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>stopThreadPool</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1ae394e95e49b33f47a70d9f5994a7002b" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>submitTask</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a03adc473a88e480c52eac4386d5ba644" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>task_queue_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af5a7e7a47b0149ae7a6216d775a3537c" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>TransactionId</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a47d2454b17cb786f30690c5cdf3c42ce" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>transactions_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1af7abe537ad6facc5c53f3a663ccfb7e4" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>txn_counter_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a63f73bac66a2a78ba3937cea47a8db70" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>vote_cv_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1ab03184c35d57032057bf0af4fe01df98" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>voteOnPrepare</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1ad0e6722ccb24349a5c2368868fa3cd88" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>wal_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a3ac846b75c49ba96e41d5c7df0835b5c" prot="private" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>worker_threads_</name></member>
+      <member refid="classthemis_1_1transaction_1_1_distributed_transaction_manager_1a4eb3f867e5db1f1f73a3738d58a6a227" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>~DistributedTransactionManager</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_in_doubt_recovery_coordinator_1a2bf59187a7b469b2af380a9b45244e1b" prot="public" virt="virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>~IInDoubtRecoveryCoordinator</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_recoverable_two_phase_coordinator_1a7ce953ae55f220fd6ed76521d7a829c6" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager</scope><name>~IRecoverableTwoPhaseCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

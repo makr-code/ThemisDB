@@ -1,0 +1,496 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_catalog_exporter" kind="class" language="C++" prot="public">
+    <compoundname>themis::CatalogExporter</compoundname>
+    <includes refid="catalog__exporter_8h" local="no">catalog_exporter.h</includes>
+    <innerclass refid="structthemis_1_1_catalog_exporter_1_1_config" prot="public">themis::CatalogExporter::Config</innerclass>
+    <innerclass refid="structthemis_1_1_catalog_exporter_1_1_publish_result" prot="public">themis::CatalogExporter::PublishResult</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_catalog_exporter_1a927533c832463859a14f5dde8908e244" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CatalogType</name>
+        <qualifiedname>themis::CatalogExporter::CatalogType</qualifiedname>
+        <enumvalue id="classthemis_1_1_catalog_exporter_1a927533c832463859a14f5dde8908e244a713d46904efb720f9d248084ca2cdb25" prot="public">
+          <name>APACHE_ATLAS</name>
+          <briefdescription>
+<para>Apache Atlas v2 REST API. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_catalog_exporter_1a927533c832463859a14f5dde8908e244a0c7a21fa993126962784647121beeb9f" prot="public">
+          <name>DATAHUB</name>
+          <briefdescription>
+<para>DataHub GMS REST API. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Catalog target type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="60" column="5" bodyfile="include/metadata/catalog_exporter.h" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1_catalog_exporter_1aed3358b0b44606a1abc0783179b9343a" prot="public" static="no">
+        <type>std::function&lt; int( const std::string &amp;url, const std::string &amp;body, const std::string &amp;auth_header, std::string &amp; response_body)&gt;</type>
+        <definition>using themis::CatalogExporter::HttpPostFn = std::function&lt;int(
+       const std::string&amp; url,
+       const std::string&amp; body,
+       const std::string&amp; auth_header,
+       std::string&amp;       response_body
+   )&gt;</definition>
+        <argsstring></argsstring>
+        <name>HttpPostFn</name>
+        <qualifiedname>themis::CatalogExporter::HttpPostFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Signature of the injectable HTTP POST function. Returns the HTTP status code; writes the response body to <computeroutput>response_body</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="103" column="5" bodyfile="include/metadata/catalog_exporter.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_catalog_exporter_1a5cab50add4827a2bf8a70d94dc716d93" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_catalog_exporter_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::CatalogExporter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::CatalogExporter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="187" column="16" bodyfile="include/metadata/catalog_exporter.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_catalog_exporter_1ac6fa7ce9883ec42d3dc587f87d534904" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_catalog_exporter_1aed3358b0b44606a1abc0783179b9343a" kindref="member">HttpPostFn</ref></type>
+        <definition>HttpPostFn themis::CatalogExporter::http_post_fn_</definition>
+        <argsstring></argsstring>
+        <name>http_post_fn_</name>
+        <qualifiedname>themis::CatalogExporter::http_post_fn_</qualifiedname>
+        <briefdescription>
+<para>Optional test double; empty = use libcurl. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="188" column="16" bodyfile="include/metadata/catalog_exporter.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_catalog_exporter_1a0555bc9cad08a8b052c837f0b8f57cf1" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::CatalogExporter::CatalogExporter</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>CatalogExporter</name>
+        <qualifiedname>themis::CatalogExporter::CatalogExporter</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_catalog_exporter_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Catalog connection parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="115" column="14" bodyfile="src/metadata/catalog_exporter.cpp" bodystart="109" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_catalog_exporter_1a4688ba2ff9b4fb3fcfdc1e702a89b246" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::CatalogExporter::~CatalogExporter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~CatalogExporter</name>
+        <qualifiedname>themis::CatalogExporter::~CatalogExporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="117" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_catalog_exporter_1a3d16c673a63c839cb47f896be46f24e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::CatalogExporter::CatalogExporter</definition>
+        <argsstring>(const CatalogExporter &amp;)=delete</argsstring>
+        <name>CatalogExporter</name>
+        <qualifiedname>themis::CatalogExporter::CatalogExporter</qualifiedname>
+        <param>
+          <type>const CatalogExporter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="120" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_catalog_exporter_1ab5f64ce56df4e73408e58d40808a8800" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_catalog_exporter_1a0555bc9cad08a8b052c837f0b8f57cf1" kindref="member">CatalogExporter</ref> &amp;</type>
+        <definition>CatalogExporter &amp; themis::CatalogExporter::operator=</definition>
+        <argsstring>(const CatalogExporter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::CatalogExporter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_catalog_exporter_1a0555bc9cad08a8b052c837f0b8f57cf1" kindref="member">CatalogExporter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="121" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_catalog_exporter_1ad2bf40de5523dd5198fcc7b5d74732cc" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::CatalogExporter::CatalogExporter</definition>
+        <argsstring>(CatalogExporter &amp;&amp;) noexcept=default</argsstring>
+        <name>CatalogExporter</name>
+        <qualifiedname>themis::CatalogExporter::CatalogExporter</qualifiedname>
+        <param>
+          <type>CatalogExporter &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="122" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_catalog_exporter_1ac9559f17d6eb5f6f28aecdf5f2275818" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_catalog_exporter_1a0555bc9cad08a8b052c837f0b8f57cf1" kindref="member">CatalogExporter</ref> &amp;</type>
+        <definition>CatalogExporter &amp; themis::CatalogExporter::operator=</definition>
+        <argsstring>(CatalogExporter &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::CatalogExporter::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_catalog_exporter_1a0555bc9cad08a8b052c837f0b8f57cf1" kindref="member">CatalogExporter</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="123" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_catalog_exporter_1a492acdf557e2efe8a04c51fb7d3a087d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_catalog_exporter_1_1_publish_result" kindref="compound">PublishResult</ref></type>
+        <definition>CatalogExporter::PublishResult themis::CatalogExporter::publishSchema</definition>
+        <argsstring>(const std::vector&lt; SchemaManager::TableSchema &gt; &amp;tables)</argsstring>
+        <name>publishSchema</name>
+        <qualifiedname>themis::CatalogExporter::publishSchema</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref> &gt; &amp;</type>
+          <declname>tables</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Publish all tables to the configured catalog.</para>
+<para>For Apache Atlas: creates/updates <computeroutput>rdbms_db</computeroutput> + <computeroutput>rdbms_table</computeroutput> + <computeroutput>rdbms_column</computeroutput> entities in a single bulk call.</para>
+<para>For DataHub: emits one <computeroutput>MetadataChangeProposal</computeroutput> per table with <computeroutput>datasetProperties</computeroutput> and <computeroutput>schemaMetadata</computeroutput> aspects.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tables</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tables to export (typically from <ref refid="classthemis_1_1_schema_manager_1a6b7f46cd431ceff6052d470ee1bcf7a3" kindref="member">SchemaManager::getAllTables()</ref>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_catalog_exporter_1_1_publish_result" kindref="compound">PublishResult</ref> with success flag and entity count </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="139" column="19" bodyfile="src/metadata/catalog_exporter.cpp" bodystart="117" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_catalog_exporter_1a120494292a1829fae0940dbe0a01efdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_catalog_exporter_1_1_publish_result" kindref="compound">PublishResult</ref></type>
+        <definition>CatalogExporter::PublishResult themis::CatalogExporter::publishTable</definition>
+        <argsstring>(const SchemaManager::TableSchema &amp;table)</argsstring>
+        <name>publishTable</name>
+        <qualifiedname>themis::CatalogExporter::publishTable</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Publish a single table to the configured catalog. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table schema to export </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_catalog_exporter_1_1_publish_result" kindref="compound">PublishResult</ref> with success flag and entity count </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="144" column="19" bodyfile="src/metadata/catalog_exporter.cpp" bodystart="137" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_catalog_exporter_1abe765c3249593c06d0bf72b7e190b396" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::CatalogExporter::setHttpPostForTesting</definition>
+        <argsstring>(HttpPostFn fn)</argsstring>
+        <name>setHttpPostForTesting</name>
+        <qualifiedname>themis::CatalogExporter::setHttpPostForTesting</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_catalog_exporter_1aed3358b0b44606a1abc0783179b9343a" kindref="member">HttpPostFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Http Post For Testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Replace the real libcurl implementation with a test double. Pass an empty <ref refid="classthemis_1_1_catalog_exporter_1aed3358b0b44606a1abc0783179b9343a" kindref="member">HttpPostFn</ref>{} to restore the real implementation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="148" column="10" bodyfile="src/metadata/catalog_exporter.cpp" bodystart="146" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_catalog_exporter_1ae67458a770930cf6b0d59f579f04338a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::CatalogExporter::buildAtlasPayload</definition>
+        <argsstring>(const std::vector&lt; SchemaManager::TableSchema &gt; &amp;tables) const</argsstring>
+        <name>buildAtlasPayload</name>
+        <qualifiedname>themis::CatalogExporter::buildAtlasPayload</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref> &gt; &amp;</type>
+          <declname>tables</declname>
+        </param>
+        <briefdescription>
+<para>Build the Atlas bulk-entity JSON payload for a list of tables. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="156" column="10" bodyfile="src/metadata/catalog_exporter.cpp" bodystart="154" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_catalog_exporter_1a368eae740eaf4bf79f7e2b69fed0dc25" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_catalog_exporter_1_1_publish_result" kindref="compound">PublishResult</ref></type>
+        <definition>CatalogExporter::PublishResult themis::CatalogExporter::sendToAtlas</definition>
+        <argsstring>(const json &amp;payload)</argsstring>
+        <name>sendToAtlas</name>
+        <qualifiedname>themis::CatalogExporter::sendToAtlas</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref> &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+<para>Publish entity payload to Atlas; returns the publish result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Send To Atlas.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), dump(), spdlog::info(), httpPost(), json::parse(), contains(), items(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="159" column="19" bodyfile="src/metadata/catalog_exporter.cpp" bodystart="232" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_catalog_exporter_1a7458f11ceb41501f657c231ba3b9e09e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::CatalogExporter::buildDataHubProposals</definition>
+        <argsstring>(const std::vector&lt; SchemaManager::TableSchema &gt; &amp;tables) const</argsstring>
+        <name>buildDataHubProposals</name>
+        <qualifiedname>themis::CatalogExporter::buildDataHubProposals</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref> &gt; &amp;</type>
+          <declname>tables</declname>
+        </param>
+        <briefdescription>
+<para>Build an array of MetadataChangeProposal JSON objects (one per table). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="166" column="10" bodyfile="src/metadata/catalog_exporter.cpp" bodystart="311" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_catalog_exporter_1a6334a19b38a1db1eafa01ff163371374" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_catalog_exporter_1_1_publish_result" kindref="compound">PublishResult</ref></type>
+        <definition>CatalogExporter::PublishResult themis::CatalogExporter::sendToDataHub</definition>
+        <argsstring>(const json &amp;proposals)</argsstring>
+        <name>sendToDataHub</name>
+        <qualifiedname>themis::CatalogExporter::sendToDataHub</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref> &amp;</type>
+          <declname>proposals</declname>
+        </param>
+        <briefdescription>
+<para>Post each proposal to the DataHub GMS ingest endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="169" column="19" bodyfile="src/metadata/catalog_exporter.cpp" bodystart="388" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_catalog_exporter_1a148ce497261bc75d0e3d7800a72b4af3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::CatalogExporter::httpPost</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;body, const std::string &amp;auth_header, std::string &amp;response_body)</argsstring>
+        <name>httpPost</name>
+        <qualifiedname>themis::CatalogExporter::httpPost</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>auth_header</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>response_body</declname>
+        </param>
+        <briefdescription>
+<para>Http Post. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute an HTTP POST request. Delegates to the injected test function when set; otherwise uses libcurl. <simplesect kind="return"><para>HTTP status code (0 on transport error)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">auth_header</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response_body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: http_post_fn_(), curlHttpPost(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/catalog_exporter.h" line="178" column="9" bodyfile="src/metadata/catalog_exporter.cpp" bodystart="444" bodyend="452"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_catalog_exporter" kindref="compound">CatalogExporter</ref> - Integration with External Data Catalogs</para>
+<para>Publishes ThemisDB schema metadata to external data governance and catalog systems: Apache Atlas and DataHub.</para>
+<para>Supported targets:<itemizedlist>
+<listitem><para>Apache Atlas (v2 REST API): entity creation via /api/atlas/v2/entity/bulk</para>
+</listitem><listitem><para>DataHub GMS (REST API): metadata ingestion via /aspects?action=ingestProposal</para>
+</listitem></itemizedlist>
+</para>
+<para>Architecture: <ref refid="classthemis_1_1_catalog_exporter" kindref="compound">CatalogExporter</ref> ├─→ <ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref> (input) ├─→ Apache Atlas entity serializer (buildAtlasEntities) └─→ DataHub MetadataChangeProposal serializer (buildDataHubProposals)</para>
+<para>Thread-Safety:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1_catalog_exporter_1a492acdf557e2efe8a04c51fb7d3a087d" kindref="member">publishSchema()</ref> and <ref refid="classthemis_1_1_catalog_exporter_1a120494292a1829fae0940dbe0a01efdb" kindref="member">publishTable()</ref> are thread-safe when called with different <ref refid="structthemis_1_1_catalog_exporter_1_1_config" kindref="compound">Config</ref> instances; do not share a single <ref refid="classthemis_1_1_catalog_exporter" kindref="compound">CatalogExporter</ref> instance across threads without external synchronization.</para>
+</listitem></itemizedlist>
+</para>
+<para>Usage: <ref refid="structthemis_1_1_catalog_exporter_1_1_config" kindref="compound">CatalogExporter::Config</ref> cfg; cfg.type = <ref refid="classthemis_1_1_catalog_exporter_1a927533c832463859a14f5dde8908e244a713d46904efb720f9d248084ca2cdb25" kindref="member">CatalogExporter::CatalogType::APACHE_ATLAS</ref>; cfg.endpoint = &quot;http://atlas-host:21000&quot;; cfg.username = &quot;admin&quot;; cfg.password = &quot;admin&quot;;</para>
+<para><ref refid="classthemis_1_1_catalog_exporter" kindref="compound">CatalogExporter</ref> exporter(cfg); auto result = exporter.publishSchema(schema_mgr.getAllTables()); if (!result.success) { /* handle error *<zwj/>/ }</para>
+<para>Issue: makr-code/ThemisDB#2414 </para>
+    </detaileddescription>
+    <location file="include/metadata/catalog_exporter.h" line="57" column="1" bodyfile="include/metadata/catalog_exporter.h" bodystart="57" bodyend="189"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_catalog_exporter_1ae67458a770930cf6b0d59f579f04338a" prot="private" virt="non-virtual"><scope>themis::CatalogExporter</scope><name>buildAtlasPayload</name></member>
+      <member refid="classthemis_1_1_catalog_exporter_1a7458f11ceb41501f657c231ba3b9e09e" prot="private" virt="non-virtual"><scope>themis::CatalogExporter</scope><name>buildDataHubProposals</name></member>
+      <member refid="classthemis_1_1_catalog_exporter_1a0555bc9cad08a8b052c837f0b8f57cf1" prot="public" virt="non-virtual"><scope>themis::CatalogExporter</scope><name>CatalogExporter</name></member>
+      <member refid="classthemis_1_1_catalog_exporter_1a3d16c673a63c839cb47f896be46f24e7" prot="public" virt="non-virtual"><scope>themis::CatalogExporter</scope><name>CatalogExporter</name></member>
+      <member refid="classthemis_1_1_catalog_exporter_1ad2bf40de5523dd5198fcc7b5d74732cc" prot="public" virt="non-virtual"><scope>themis::CatalogExporter</scope><name>CatalogExporter</name></member>
+      <member refid="classthemis_1_1_catalog_exporter_1a927533c832463859a14f5dde8908e244" prot="public" virt="non-virtual"><scope>themis::CatalogExporter</scope><name>CatalogType</name></member>
+      <member refid="classthemis_1_1_catalog_exporter_1a5cab50add4827a2bf8a70d94dc716d93" prot="private" virt="non-virtual"><scope>themis::CatalogExporter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_catalog_exporter_1ac6fa7ce9883ec42d3dc587f87d534904" prot="private" virt="non-virtual"><scope>themis::CatalogExporter</scope><name>http_post_fn_</name></member>
+      <member refid="classthemis_1_1_catalog_exporter_1a148ce497261bc75d0e3d7800a72b4af3" prot="private" virt="non-virtual"><scope>themis::CatalogExporter</scope><name>httpPost</name></member>
+      <member refid="classthemis_1_1_catalog_exporter_1aed3358b0b44606a1abc0783179b9343a" prot="public" virt="non-virtual"><scope>themis::CatalogExporter</scope><name>HttpPostFn</name></member>
+      <member refid="classthemis_1_1_catalog_exporter_1ab5f64ce56df4e73408e58d40808a8800" prot="public" virt="non-virtual"><scope>themis::CatalogExporter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_catalog_exporter_1ac9559f17d6eb5f6f28aecdf5f2275818" prot="public" virt="non-virtual"><scope>themis::CatalogExporter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_catalog_exporter_1a492acdf557e2efe8a04c51fb7d3a087d" prot="public" virt="non-virtual"><scope>themis::CatalogExporter</scope><name>publishSchema</name></member>
+      <member refid="classthemis_1_1_catalog_exporter_1a120494292a1829fae0940dbe0a01efdb" prot="public" virt="non-virtual"><scope>themis::CatalogExporter</scope><name>publishTable</name></member>
+      <member refid="classthemis_1_1_catalog_exporter_1a368eae740eaf4bf79f7e2b69fed0dc25" prot="private" virt="non-virtual"><scope>themis::CatalogExporter</scope><name>sendToAtlas</name></member>
+      <member refid="classthemis_1_1_catalog_exporter_1a6334a19b38a1db1eafa01ff163371374" prot="private" virt="non-virtual"><scope>themis::CatalogExporter</scope><name>sendToDataHub</name></member>
+      <member refid="classthemis_1_1_catalog_exporter_1abe765c3249593c06d0bf72b7e190b396" prot="public" virt="non-virtual"><scope>themis::CatalogExporter</scope><name>setHttpPostForTesting</name></member>
+      <member refid="classthemis_1_1_catalog_exporter_1a4688ba2ff9b4fb3fcfdc1e702a89b246" prot="public" virt="non-virtual"><scope>themis::CatalogExporter</scope><name>~CatalogExporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

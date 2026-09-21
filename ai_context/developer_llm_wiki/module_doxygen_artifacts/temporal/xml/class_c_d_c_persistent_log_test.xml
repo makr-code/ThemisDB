@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_c_d_c_persistent_log_test" kind="class" language="C++" prot="public">
+    <compoundname>CDCPersistentLogTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_c_d_c_persistent_log_test_1ac725e909e2157a7bfcef3bbe1d2ab79a" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string CDCPersistentLogTest::tmp_dir_</definition>
+        <argsstring></argsstring>
+        <name>tmp_dir_</name>
+        <qualifiedname>CDCPersistentLogTest::tmp_dir_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="262" column="17" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="262" bodyend="262"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_c_d_c_persistent_log_test_1a6545171071f2cb72bbd342cd72cec5ef" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CDCPersistentLogTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CDCPersistentLogTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="264" column="10" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="264" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_d_c_persistent_log_test_1ac961c31633d9e5ffbe58e7fa8bb6a4a5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CDCPersistentLogTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CDCPersistentLogTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="267" column="10" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="267" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_d_c_persistent_log_test_1a88a776b5a66e98a6417f16ac21759708" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref></type>
+        <definition>ChangeEvent CDCPersistentLogTest::makeEvent</definition>
+        <argsstring>(const std::string &amp;table, const std::string &amp;key)</argsstring>
+        <name>makeEvent</name>
+        <qualifiedname>CDCPersistentLogTest::makeEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_cdc.cpp" line="271" column="17" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="271" bodyend="279"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CDCPersistentLogTest</label>
+        <link refid="class_c_d_c_persistent_log_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CDCPersistentLogTest</label>
+        <link refid="class_c_d_c_persistent_log_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/temporal/test_temporal_cdc.cpp" line="260" column="1" bodyfile="tests/temporal/test_temporal_cdc.cpp" bodystart="260" bodyend="280"/>
+    <listofallmembers>
+      <member refid="class_c_d_c_persistent_log_test_1a88a776b5a66e98a6417f16ac21759708" prot="protected" virt="non-virtual"><scope>CDCPersistentLogTest</scope><name>makeEvent</name></member>
+      <member refid="class_c_d_c_persistent_log_test_1a6545171071f2cb72bbd342cd72cec5ef" prot="protected" virt="non-virtual"><scope>CDCPersistentLogTest</scope><name>SetUp</name></member>
+      <member refid="class_c_d_c_persistent_log_test_1ac961c31633d9e5ffbe58e7fa8bb6a4a5" prot="protected" virt="non-virtual"><scope>CDCPersistentLogTest</scope><name>TearDown</name></member>
+      <member refid="class_c_d_c_persistent_log_test_1ac725e909e2157a7bfcef3bbe1d2ab79a" prot="protected" virt="non-virtual"><scope>CDCPersistentLogTest</scope><name>tmp_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

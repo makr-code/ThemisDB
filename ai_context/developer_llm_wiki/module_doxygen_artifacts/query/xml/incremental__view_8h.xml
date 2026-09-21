@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="incremental__view_8h" kind="file" language="C++">
+    <compoundname>incremental_view.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/incremental_view.h</label>
+        <link refid="incremental__view_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1_view_definition" prot="public">themis::query::ViewDefinition</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_view_refresh_stats" prot="public">themis::query::ViewRefreshStats</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_i_incremental_view_maintainer" prot="public">themis::query::IIncrementalViewMaintainer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Incremental<sp/>view<sp/>maintenance<sp/>for<sp/>materialized<sp/>views</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="structthemis_1_1query_1_1_view_definition" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_view_definition" kindref="compound">ViewDefinition</ref><sp/>{</highlight></codeline>
+<codeline lineno="21" refid="structthemis_1_1query_1_1_view_definition_1add6593ab0cdf5f5177a2464e1cb951cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_view_definition_1add6593ab0cdf5f5177a2464e1cb951cd" kindref="member">view_id</ref>;</highlight></codeline>
+<codeline lineno="22" refid="structthemis_1_1query_1_1_view_definition_1aa0c6a952e05b725cfa77583b31367686" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_view_definition_1aa0c6a952e05b725cfa77583b31367686" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1query_1_1_view_definition_1a94e58d07eaf4ce324f6859db630eae36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_view_definition_1a94e58d07eaf4ce324f6859db630eae36" kindref="member">query</ref>;</highlight></codeline>
+<codeline lineno="24" refid="structthemis_1_1query_1_1_view_definition_1a9614f81d2897a5ae374c272323b6342f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_view_definition_1a9614f81d2897a5ae374c272323b6342f" kindref="member">is_materialized</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1query_1_1_view_definition_1aedb22d0de6dc63aab5bea7d9a53e4412" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1query_1_1_view_definition_1aedb22d0de6dc63aab5bea7d9a53e4412" kindref="member">refresh_interval</ref>{0};</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1query_1_1_view_definition_1a35a5009cbed5db683e601550ec6af499" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_view_definition_1a35a5009cbed5db683e601550ec6af499" kindref="member">source_collections</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1query_1a4c946cfc99dcc6184f4fd9fc5259106e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a4c946cfc99dcc6184f4fd9fc5259106e" kindref="member">ViewRefreshMode</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1query_1a4c946cfc99dcc6184f4fd9fc5259106eae35884a2445bc4ae2df52f188763273c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a4c946cfc99dcc6184f4fd9fc5259106eae35884a2445bc4ae2df52f188763273c" kindref="member">IMMEDIATE</ref>,</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1query_1a4c946cfc99dcc6184f4fd9fc5259106eae3d9a2ed4146353ae729818f8bcc329d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a4c946cfc99dcc6184f4fd9fc5259106eae3d9a2ed4146353ae729818f8bcc329d" kindref="member">DEFERRED</ref>,</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1query_1a4c946cfc99dcc6184f4fd9fc5259106eaf8b192d38bbbbb85ba880bd85e66a88e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a4c946cfc99dcc6184f4fd9fc5259106eaf8b192d38bbbbb85ba880bd85e66a88e" kindref="member">ON_DEMAND</ref>,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1query_1_1_view_refresh_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_view_refresh_stats" kindref="compound">ViewRefreshStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1query_1_1_view_refresh_stats_1a1f15a9350588781de985345b3b96e1b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1query_1_1_view_refresh_stats_1a1f15a9350588781de985345b3b96e1b4" kindref="member">last_refresh</ref>;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1query_1_1_view_refresh_stats_1acd6c9a7ab517debc8b5927b4d30659e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_view_refresh_stats_1acd6c9a7ab517debc8b5927b4d30659e9" kindref="member">last_refresh_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1query_1_1_view_refresh_stats_1ab39a8be7084ccd808c16153a26bd6e96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_view_refresh_stats_1ab39a8be7084ccd808c16153a26bd6e96" kindref="member">rows_updated</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1query_1_1_view_refresh_stats_1ab93baebb0814125a874390481e815a08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_view_refresh_stats_1ab93baebb0814125a874390481e815a08" kindref="member">rows_deleted</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1query_1_1_view_refresh_stats_1a228a0eacee56a7d55192a89451f11f0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_view_refresh_stats_1a228a0eacee56a7d55192a89451f11f0b" kindref="member">rows_inserted</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1query_1_1_view_refresh_stats_1a9fe5da50782ba62bd5644c2b58d49860" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_view_refresh_stats_1a9fe5da50782ba62bd5644c2b58d49860" kindref="member">is_stale</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="classthemis_1_1query_1_1_i_incremental_view_maintainer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_i_incremental_view_maintainer" kindref="compound">IIncrementalViewMaintainer</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1ad579f8486d5e42f6be734c8875634d4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1ad579f8486d5e42f6be734c8875634d4f" kindref="member">~IIncrementalViewMaintainer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1aabda5281981f483b7f9c1d8c8a3ebea4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1aabda5281981f483b7f9c1d8c8a3ebea4" kindref="member">createView</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_view_definition" kindref="compound">ViewDefinition</ref>&amp;<sp/>def)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a8ee069670f0d33696831fac8d4fccb40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a8ee069670f0d33696831fac8d4fccb40" kindref="member">dropView</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>view_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a7647cb4621ef11b7e1083019662172d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_view_refresh_stats" kindref="compound">ViewRefreshStats</ref><sp/><ref refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a7647cb4621ef11b7e1083019662172d0" kindref="member">refreshView</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>view_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a1a7278b9d2f6bb764a78eb521245e0c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_view_refresh_stats" kindref="compound">ViewRefreshStats</ref><sp/><ref refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a1a7278b9d2f6bb764a78eb521245e0c5" kindref="member">getStats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>view_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a7977ae6a3f08dd4769667642c920c9c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a7977ae6a3f08dd4769667642c920c9c6" kindref="member">setRefreshMode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>view_id,<sp/><ref refid="namespacethemis_1_1query_1a4c946cfc99dcc6184f4fd9fc5259106e" kindref="member">ViewRefreshMode</ref><sp/>mode)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a342283605afbb470c3acbc471933dd67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;ViewDefinition&gt;<sp/><ref refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a342283605afbb470c3acbc471933dd67" kindref="member">listViews</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a4e6f111833446cce9743b5ae0f29f708" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_incremental_view_maintainer_1a4e6f111833446cce9743b5ae0f29f708" kindref="member">isStale</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>view_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::query</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/incremental_view.h"/>
+  </compounddef>
+</doxygen>

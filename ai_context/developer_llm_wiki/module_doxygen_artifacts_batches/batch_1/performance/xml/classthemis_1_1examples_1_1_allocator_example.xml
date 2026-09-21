@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1examples_1_1_allocator_example" kind="class" language="C++" prot="public">
+    <compoundname>themis::examples::AllocatorExample</compoundname>
+    <includes refid="feature__flags__examples_8h" local="no">feature_flags_examples.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1examples_1_1_allocator_example_1a18ba98ac534430f70a585af373a94e2c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>static void * themis::examples::AllocatorExample::allocate</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::examples::AllocatorExample::allocate</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/feature_flags_examples.h" line="38" column="17" bodyfile="include/performance/feature_flags_examples.h" bodystart="38" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1examples_1_1_allocator_example_1a78f290cc11aeb41c863dfdaee9dc7748" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::examples::AllocatorExample::deallocate</definition>
+        <argsstring>(void *ptr)</argsstring>
+        <name>deallocate</name>
+        <qualifiedname>themis::examples::AllocatorExample::deallocate</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/feature_flags_examples.h" line="53" column="17" bodyfile="include/performance/feature_flags_examples.h" bodystart="53" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Based on: &quot;Mimalloc: Free List Sharding in Action&quot; (ISMM&apos;19). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/feature_flags_examples.h" line="36" column="1" bodyfile="include/performance/feature_flags_examples.h" bodystart="36" bodyend="64"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1examples_1_1_allocator_example_1a18ba98ac534430f70a585af373a94e2c" prot="public" virt="non-virtual"><scope>themis::examples::AllocatorExample</scope><name>allocate</name></member>
+      <member refid="classthemis_1_1examples_1_1_allocator_example_1a78f290cc11aeb41c863dfdaee9dc7748" prot="public" virt="non-virtual"><scope>themis::examples::AllocatorExample</scope><name>deallocate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

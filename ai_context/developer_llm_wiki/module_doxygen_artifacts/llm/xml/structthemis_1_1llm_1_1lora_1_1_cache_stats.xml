@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_cache_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::CacheStats</compoundname>
+    <includes refid="lora__config_8h" local="no">lora_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_cache_stats_1a2265ea47c88cc9b4bc9fbd7bb81ac26a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::CacheStats::total_loads</definition>
+        <argsstring></argsstring>
+        <name>total_loads</name>
+        <qualifiedname>themis::llm::lora::CacheStats::total_loads</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_config.h" line="329" column="12" bodyfile="include/llm/lora_framework/lora_config.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_cache_stats_1ad8e332c1f4b7062b1370cf136e52fcff" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::CacheStats::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::llm::lora::CacheStats::cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_config.h" line="330" column="12" bodyfile="include/llm/lora_framework/lora_config.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_cache_stats_1af3765757b4bab2cc58aa92a5f49e3a0b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::CacheStats::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themis::llm::lora::CacheStats::cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_config.h" line="331" column="12" bodyfile="include/llm/lora_framework/lora_config.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_cache_stats_1a097ad4d060cdfbac27737d0f805ce297" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::CacheStats::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::llm::lora::CacheStats::evictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_config.h" line="332" column="12" bodyfile="include/llm/lora_framework/lora_config.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_cache_stats_1a2838505e306dccc31b3e07bcf1e5e703" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::CacheStats::current_size</definition>
+        <argsstring></argsstring>
+        <name>current_size</name>
+        <qualifiedname>themis::llm::lora::CacheStats::current_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_config.h" line="333" column="12" bodyfile="include/llm/lora_framework/lora_config.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_cache_stats_1ab038d5897920d438f15a6b7706362359" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::CacheStats::max_size</definition>
+        <argsstring></argsstring>
+        <name>max_size</name>
+        <qualifiedname>themis::llm::lora::CacheStats::max_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_config.h" line="334" column="12" bodyfile="include/llm/lora_framework/lora_config.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_cache_stats_1a283c2f503b70e25157107d59aa5003aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::CacheStats::~CacheStats</definition>
+        <argsstring>()=default</argsstring>
+        <name>~CacheStats</name>
+        <qualifiedname>themis::llm::lora::CacheStats::~CacheStats</qualifiedname>
+        <briefdescription>
+<para>Cache Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_config.h" line="328" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_cache_stats_1aa8e96c1f66c850397fcb0c3ec1d06993" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::lora::CacheStats::hitRate</definition>
+        <argsstring>() const</argsstring>
+        <name>hitRate</name>
+        <qualifiedname>themis::llm::lora::CacheStats::hitRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_config.h" line="336" column="11" bodyfile="include/llm/lora_framework/lora_config.h" bodystart="336" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_cache_stats_1a7b81da1eef40d0dd512e056d28592c94" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::CacheStats::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::CacheStats::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_config.h" line="343" column="10" bodyfile="include/llm/lora_framework/lora_config.h" bodystart="343" bodyend="353"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_config.h" line="323" column="1" bodyfile="include/llm/lora_framework/lora_config.h" bodystart="323" bodyend="354"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_cache_stats_1ad8e332c1f4b7062b1370cf136e52fcff" prot="public" virt="non-virtual"><scope>themis::llm::lora::CacheStats</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_cache_stats_1af3765757b4bab2cc58aa92a5f49e3a0b" prot="public" virt="non-virtual"><scope>themis::llm::lora::CacheStats</scope><name>cache_misses</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_cache_stats_1a2838505e306dccc31b3e07bcf1e5e703" prot="public" virt="non-virtual"><scope>themis::llm::lora::CacheStats</scope><name>current_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_cache_stats_1a097ad4d060cdfbac27737d0f805ce297" prot="public" virt="non-virtual"><scope>themis::llm::lora::CacheStats</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_cache_stats_1aa8e96c1f66c850397fcb0c3ec1d06993" prot="public" virt="non-virtual"><scope>themis::llm::lora::CacheStats</scope><name>hitRate</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_cache_stats_1ab038d5897920d438f15a6b7706362359" prot="public" virt="non-virtual"><scope>themis::llm::lora::CacheStats</scope><name>max_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_cache_stats_1a7b81da1eef40d0dd512e056d28592c94" prot="public" virt="non-virtual"><scope>themis::llm::lora::CacheStats</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_cache_stats_1a2265ea47c88cc9b4bc9fbd7bb81ac26a" prot="public" virt="non-virtual"><scope>themis::llm::lora::CacheStats</scope><name>total_loads</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_cache_stats_1a283c2f503b70e25157107d59aa5003aa" prot="public" virt="virtual"><scope>themis::llm::lora::CacheStats</scope><name>~CacheStats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

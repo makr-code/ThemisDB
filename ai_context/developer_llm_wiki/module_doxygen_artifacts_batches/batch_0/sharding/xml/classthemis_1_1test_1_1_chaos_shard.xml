@@ -1,0 +1,333 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1test_1_1_chaos_shard" kind="class" language="C++" prot="public">
+    <compoundname>themis::test::ChaosShard</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1test_1_1_chaos_shard_1a124c72ef96be8061be4b6635d9ecb000" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>State</name>
+        <qualifiedname>themis::test::ChaosShard::State</qualifiedname>
+        <enumvalue id="classthemis_1_1test_1_1_chaos_shard_1a124c72ef96be8061be4b6635d9ecb000af068ebe4133e3e6563080836268ea979" prot="public">
+          <name>HEALTHY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_chaos_shard_1a124c72ef96be8061be4b6635d9ecb000a0e3066cbbd284dce8b76e7c4620d6d75" prot="public">
+          <name>SLOW</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_chaos_shard_1a124c72ef96be8061be4b6635d9ecb000a44c98f91eb8d3d58eda8b38501db52b3" prot="public">
+          <name>PARTITIONED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_chaos_shard_1a124c72ef96be8061be4b6635d9ecb000ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_chaos_shard_1a124c72ef96be8061be4b6635d9ecb000abdfbb6f2aa06fd5d4c2cc0072f960254" prot="public">
+          <name>RECOVERING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="33" column="5" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="33" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_chaos_shard_1a6e82f5c3e6c9a1ed618ab519c56e270b" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::test::ChaosShard::shard_id_</definition>
+        <argsstring></argsstring>
+        <name>shard_id_</name>
+        <qualifiedname>themis::test::ChaosShard::shard_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="112" column="9" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_chaos_shard_1a845352ee56a50d67a0a099da36dc8935" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1test_1_1_chaos_shard_1a124c72ef96be8061be4b6635d9ecb000" kindref="member">State</ref></type>
+        <definition>State themis::test::ChaosShard::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::test::ChaosShard::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="113" column="11" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_chaos_shard_1a016628f342a8b866d30b6a484125fb53" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::test::ChaosShard::request_count_</definition>
+        <argsstring></argsstring>
+        <name>request_count_</name>
+        <qualifiedname>themis::test::ChaosShard::request_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="114" column="17" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_chaos_shard_1a6076d4b29e61f6957a957e4253676ebb" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::test::ChaosShard::error_count_</definition>
+        <argsstring></argsstring>
+        <name>error_count_</name>
+        <qualifiedname>themis::test::ChaosShard::error_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="115" column="17" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_chaos_shard_1aa01664cbbdb8b5ad7a7a11d8fd4be7ee" prot="private" static="no" mutable="yes">
+        <type>std::unique_ptr&lt; std::mutex &gt;</type>
+        <definition>std::unique_ptr&lt;std::mutex&gt; themis::test::ChaosShard::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::test::ChaosShard::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="116" column="29" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_chaos_shard_1a95d19e18a6f62f7450c772129108c537" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::ChaosShard::ChaosShard</definition>
+        <argsstring>(int id)</argsstring>
+        <name>ChaosShard</name>
+        <qualifiedname>themis::test::ChaosShard::ChaosShard</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="41" column="14" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="41" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_chaos_shard_1ab05dcc982c7c3c271c08285b793f52cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::ChaosShard::ChaosShard</definition>
+        <argsstring>(const ChaosShard &amp;)=delete</argsstring>
+        <name>ChaosShard</name>
+        <qualifiedname>themis::test::ChaosShard::ChaosShard</qualifiedname>
+        <param>
+          <type>const ChaosShard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="47" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_chaos_shard_1a341e528d434a18c05e16f0cd88124257" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1test_1_1_chaos_shard_1a95d19e18a6f62f7450c772129108c537" kindref="member">ChaosShard</ref> &amp;</type>
+        <definition>ChaosShard &amp; themis::test::ChaosShard::operator=</definition>
+        <argsstring>(const ChaosShard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::test::ChaosShard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1test_1_1_chaos_shard_1a95d19e18a6f62f7450c772129108c537" kindref="member">ChaosShard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="48" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_chaos_shard_1a76243b66684253b7e7bb1ed71db7e019" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::ChaosShard::ChaosShard</definition>
+        <argsstring>(ChaosShard &amp;&amp;other) noexcept</argsstring>
+        <name>ChaosShard</name>
+        <qualifiedname>themis::test::ChaosShard::ChaosShard</qualifiedname>
+        <param>
+          <type>ChaosShard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="50" column="5" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="50" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_chaos_shard_1aefbdc5ba43949849bc1fe86546dc3643" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1test_1_1_chaos_shard_1a95d19e18a6f62f7450c772129108c537" kindref="member">ChaosShard</ref> &amp;</type>
+        <definition>ChaosShard &amp; themis::test::ChaosShard::operator=</definition>
+        <argsstring>(ChaosShard &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::test::ChaosShard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_chaos_shard_1a95d19e18a6f62f7450c772129108c537" kindref="member">ChaosShard</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="57" column="16" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="57" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_chaos_shard_1a3e60ad706038e0254864d52cdbc6ada3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::ChaosShard::processRequest</definition>
+        <argsstring>(const std::string &amp;)</argsstring>
+        <name>processRequest</name>
+        <qualifiedname>themis::test::ChaosShard::processRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="68" column="10" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="68" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_chaos_shard_1a6eefd21b408ebc3d2de02c190b8e2277" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::ChaosShard::setState</definition>
+        <argsstring>(State new_state)</argsstring>
+        <name>setState</name>
+        <qualifiedname>themis::test::ChaosShard::setState</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_chaos_shard_1a124c72ef96be8061be4b6635d9ecb000" kindref="member">State</ref></type>
+          <declname>new_state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="97" column="10" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="97" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_chaos_shard_1aac47ee26197b3423bc697bcc6b65ed7d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1test_1_1_chaos_shard_1a124c72ef96be8061be4b6635d9ecb000" kindref="member">State</ref></type>
+        <definition>State themis::test::ChaosShard::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::test::ChaosShard::getState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="102" column="11" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="102" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_chaos_shard_1ab758cabce747db12fcd4fecee82c5c06" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::ChaosShard::getRequestCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getRequestCount</name>
+        <qualifiedname>themis::test::ChaosShard::getRequestCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="107" column="9" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_chaos_shard_1a22373cee513c2fe1eb66c036b712f1ee" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::ChaosShard::getErrorCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getErrorCount</name>
+        <qualifiedname>themis::test::ChaosShard::getErrorCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="108" column="9" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_chaos_shard_1a0984020e575de6a78c10d81a2bbc3819" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::test::ChaosShard::getId</definition>
+        <argsstring>() const</argsstring>
+        <name>getId</name>
+        <qualifiedname>themis::test::ChaosShard::getId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_chaos.cpp" line="109" column="9" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="109" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock distributed shard for chaos testing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_chaos.cpp" line="31" column="1" bodyfile="tests/sharding/test_sharding_chaos.cpp" bodystart="31" bodyend="117"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1test_1_1_chaos_shard_1a95d19e18a6f62f7450c772129108c537" prot="public" virt="non-virtual"><scope>themis::test::ChaosShard</scope><name>ChaosShard</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_shard_1ab05dcc982c7c3c271c08285b793f52cd" prot="public" virt="non-virtual"><scope>themis::test::ChaosShard</scope><name>ChaosShard</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_shard_1a76243b66684253b7e7bb1ed71db7e019" prot="public" virt="non-virtual"><scope>themis::test::ChaosShard</scope><name>ChaosShard</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_shard_1a6076d4b29e61f6957a957e4253676ebb" prot="private" virt="non-virtual"><scope>themis::test::ChaosShard</scope><name>error_count_</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_shard_1a22373cee513c2fe1eb66c036b712f1ee" prot="public" virt="non-virtual"><scope>themis::test::ChaosShard</scope><name>getErrorCount</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_shard_1a0984020e575de6a78c10d81a2bbc3819" prot="public" virt="non-virtual"><scope>themis::test::ChaosShard</scope><name>getId</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_shard_1ab758cabce747db12fcd4fecee82c5c06" prot="public" virt="non-virtual"><scope>themis::test::ChaosShard</scope><name>getRequestCount</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_shard_1aac47ee26197b3423bc697bcc6b65ed7d" prot="public" virt="non-virtual"><scope>themis::test::ChaosShard</scope><name>getState</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_shard_1aa01664cbbdb8b5ad7a7a11d8fd4be7ee" prot="private" virt="non-virtual"><scope>themis::test::ChaosShard</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_shard_1a341e528d434a18c05e16f0cd88124257" prot="public" virt="non-virtual"><scope>themis::test::ChaosShard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_shard_1aefbdc5ba43949849bc1fe86546dc3643" prot="public" virt="non-virtual"><scope>themis::test::ChaosShard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_shard_1a3e60ad706038e0254864d52cdbc6ada3" prot="public" virt="non-virtual"><scope>themis::test::ChaosShard</scope><name>processRequest</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_shard_1a016628f342a8b866d30b6a484125fb53" prot="private" virt="non-virtual"><scope>themis::test::ChaosShard</scope><name>request_count_</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_shard_1a6eefd21b408ebc3d2de02c190b8e2277" prot="public" virt="non-virtual"><scope>themis::test::ChaosShard</scope><name>setState</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_shard_1a6e82f5c3e6c9a1ed618ab519c56e270b" prot="private" virt="non-virtual"><scope>themis::test::ChaosShard</scope><name>shard_id_</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_shard_1a124c72ef96be8061be4b6635d9ecb000" prot="public" virt="non-virtual"><scope>themis::test::ChaosShard</scope><name>State</name></member>
+      <member refid="classthemis_1_1test_1_1_chaos_shard_1a845352ee56a50d67a0a099da36dc8935" prot="private" virt="non-virtual"><scope>themis::test::ChaosShard</scope><name>state_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,293 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__rpc__grpc__integration__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_rpc_grpc_integration_focused.cpp</compoundname>
+    <includes local="yes">gtest/gtest.h</includes>
+    <includes refid="grpc__plugin_8h" local="yes">rpc_grpc/grpc_plugin.h</includes>
+    <includes local="yes">plugins/rpc_plugin_interface.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>rpc_grpc/grpc_plugin.h</label>
+        <link refid="grpc__plugin_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp</label>
+        <link refid="test__rpc__grpc__integration__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>grpcpp/grpcpp.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>plugins/rpc_plugin_interface.h</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>thread</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1rpc">themis::plugins::rpc</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin">themis::plugins::rpc::grpc_plugin</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test">themis::plugins::rpc::grpc_plugin::test</innernamespace>
+    <briefdescription>
+<para>gRPC plugin integration tests: server start, loopback call, graceful shutdown. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test IDs: GRPC-INT-01 through GRPC-INT-08</para>
+<para>These tests exercise the GRPCServer and GRPCPlugin lifecycle without requiring a real network connection. When gRPC is available, a loopback server is started on an OS-assigned port; calls go through the gRPC runtime on 127.0.0.1. All tests are deterministic and require no external state.</para>
+<para>Compile-time guard: if THEMIS_ENABLE_GRPC is not defined, the tests fall back to interface-only lifecycle assertions that compile without the gRPC runtime.</para>
+<para><simplesect kind="see"><para><ref refid="grpc__plugin_8cpp" kindref="compound">src/rpc_grpc/grpc_plugin.cpp</ref> — implementation under test </para>
+</simplesect>
+<simplesect kind="see"><para>plugins/rpc/ROADMAP.md — Phase 1 integration-test gate </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/gtest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="grpc__plugin_8h" kindref="compound">rpc_grpc/grpc_plugin.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;plugins/rpc_plugin_interface.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1rpc" kindref="compound">rpc</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin" kindref="compound">grpc_plugin</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">RPCServerConfig<sp/>makeLoopbackConfig()<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>RPCServerConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.host<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.port<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>=<sp/>OS-assigned<sp/>ephemeral<sp/>port</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.tls_enabled<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.auth_required<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_connections<sp/><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.thread_pool_size<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.connection_timeout_ms<sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.request_timeout_ms<sp/><sp/><sp/><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRPC-INT-01<sp/>—<sp/>GRPCPlugin<sp/>factory<sp/>creates<sp/>a<sp/>non-null<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1a3dde38cd7861c2b1f96f9a6200cbf8ae" kindref="member">TEST</ref>(GrpcPluginIntegration,<sp/>INT01_PluginCreatesServer)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin" kindref="compound">GRPCPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>server<sp/>=<sp/>plugin.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1af81ce32b955f42cc0cf9f61db78f5d76" kindref="member">createServer</ref>();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(server,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(server-&gt;getProtocol(),<sp/>RPCProtocol::GRPC);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRPC-INT-02<sp/>—<sp/>Plugin<sp/>metadata<sp/>is<sp/>non-empty<sp/>and<sp/>consistent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1a3dde38cd7861c2b1f96f9a6200cbf8ae" kindref="member">TEST</ref>(GrpcPluginIntegration,<sp/>INT02_PluginMetadata)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin" kindref="compound">GRPCPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STRNE(plugin.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1af8953cde0b6c4d09084d171fc4158d2c" kindref="member">getName</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STRNE(plugin.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1afcca03b282dc86092e7f74f71b298788" kindref="member">getVersion</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plugin.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1a1183135ae2cd51491dd8a751d3bc5976" kindref="member">getProtocol</ref>(),<sp/>RPCProtocol::GRPC);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(plugin.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1afdabb4baaf4881d1354fdd6648efcac5" kindref="member">getDefaultPort</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STRNE(plugin.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1a3e333f1298bb85a2d44da92135d9e671" kindref="member">getProtocolDescription</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRPC-INT-03<sp/>—<sp/>GRPCPlugin<sp/>initialize<sp/>/<sp/>shutdown<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1a3dde38cd7861c2b1f96f9a6200cbf8ae" kindref="member">TEST</ref>(GrpcPluginIntegration,<sp/>INT03_PluginInitializeShutdown)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin" kindref="compound">GRPCPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1a813e8dbde95a5881488a98db5326648a" kindref="member">initialize</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>plugin.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1acbde2ff6a2d184e92484ff7e71fea2bf" kindref="member">shutdown</ref>();</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-initialize<sp/>after<sp/>shutdown<sp/>must<sp/>succeed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plugin.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1a813e8dbde95a5881488a98db5326648a" kindref="member">initialize</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>plugin.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_plugin_1acbde2ff6a2d184e92484ff7e71fea2bf" kindref="member">shutdown</ref>();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRPC-INT-04<sp/>—<sp/>GRPCServer<sp/>initial<sp/>state:<sp/>not<sp/>running,<sp/>empty<sp/>address</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1a3dde38cd7861c2b1f96f9a6200cbf8ae" kindref="member">TEST</ref>(GrpcPluginIntegration,<sp/>INT04_ServerInitialState)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server" kindref="compound">GRPCServer</ref><sp/>server;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a5d02ac591fb6b2b64e47df24c5e20468" kindref="member">isRunning</ref>());</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a86d0cc1b224cb24ad2bfa2262d4c78d1" kindref="member">getAddress</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRPC-INT-05<sp/>—<sp/>initialize()<sp/>returns<sp/>true<sp/>for<sp/>a<sp/>valid<sp/>insecure<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1a3dde38cd7861c2b1f96f9a6200cbf8ae" kindref="member">TEST</ref>(GrpcPluginIntegration,<sp/>INT05_ServerInitializeInsecure)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server" kindref="compound">GRPCServer</ref><sp/>server;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeLoopbackConfig();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1afff74513b7b6bc5484127b2062d42309" kindref="member">initialize</ref>(cfg));</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>initialize<sp/>the<sp/>server<sp/>must<sp/>still<sp/>not<sp/>be<sp/>running.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a5d02ac591fb6b2b64e47df24c5e20468" kindref="member">isRunning</ref>());</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRPC-INT-06<sp/>—<sp/>initialize()<sp/>rejects<sp/>TLS<sp/>config<sp/>with<sp/>missing<sp/>cert<sp/>files<sp/>(fail-closed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1a3dde38cd7861c2b1f96f9a6200cbf8ae" kindref="member">TEST</ref>(GrpcPluginIntegration,<sp/>INT06_InitializeFailClosedMissingCerts)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server" kindref="compound">GRPCServer</ref><sp/>server;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>RPCServerConfig<sp/>cfg<sp/>=<sp/>makeLoopbackConfig();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.tls_enabled<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.tls_cert_path<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent/server.crt&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.tls_key_path<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent/server.key&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.tls_ca_cert_path=<sp/></highlight><highlight class="stringliteral">&quot;/nonexistent/ca.crt&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>initialize()<sp/>must<sp/>return<sp/>false<sp/>when<sp/>cert<sp/>files<sp/>cannot<sp/>be<sp/>read.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1afff74513b7b6bc5484127b2062d42309" kindref="member">initialize</ref>(cfg));</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a5d02ac591fb6b2b64e47df24c5e20468" kindref="member">isRunning</ref>());</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRPC-INT-07<sp/>—<sp/>start()<sp/>/<sp/>stop()<sp/>cycle;<sp/>isRunning()<sp/>tracks<sp/>state<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1a3dde38cd7861c2b1f96f9a6200cbf8ae" kindref="member">TEST</ref>(GrpcPluginIntegration,<sp/>INT07_StartStopCycle)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server" kindref="compound">GRPCServer</ref><sp/>server;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeLoopbackConfig();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1afff74513b7b6bc5484127b2062d42309" kindref="member">initialize</ref>(cfg));</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(THEMIS_ENABLE_GRPC)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>the<sp/>gRPC<sp/>runtime<sp/>available,<sp/>start<sp/>a<sp/>real<sp/>in-process<sp/>server.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a189c67ab2820f04817ee979f95b82188" kindref="member">start</ref>());</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a5d02ac591fb6b2b64e47df24c5e20468" kindref="member">isRunning</ref>());</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>non-empty<sp/>address<sp/>is<sp/>returned<sp/>once<sp/>the<sp/>server<sp/>is<sp/>bound.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a86d0cc1b224cb24ad2bfa2262d4c78d1" kindref="member">getAddress</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Brief<sp/>settling<sp/>time<sp/>to<sp/>let<sp/>the<sp/>gRPC<sp/>completion<sp/>queue<sp/>thread<sp/>start.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(20));</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a9d21c8a638542208d940a5ea8bfcf94b" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a5d02ac591fb6b2b64e47df24c5e20468" kindref="member">isRunning</ref>());</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Without<sp/>gRPC<sp/>runtime,<sp/>verify<sp/>that<sp/>the<sp/>state<sp/>stays<sp/>consistent.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>start()<sp/>may<sp/>fail<sp/>gracefully<sp/>if<sp/>the<sp/>gRPC<sp/>library<sp/>is<sp/>unavailable<sp/>at<sp/>link</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>time;<sp/>what<sp/>matters<sp/>is<sp/>that<sp/>it<sp/>does<sp/>not<sp/>throw<sp/>and<sp/>isRunning()<sp/>is<sp/>accurate.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>started<sp/>=<sp/>server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a189c67ab2820f04817ee979f95b82188" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(started)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a5d02ac591fb6b2b64e47df24c5e20468" kindref="member">isRunning</ref>());</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a9d21c8a638542208d940a5ea8bfcf94b" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a5d02ac591fb6b2b64e47df24c5e20468" kindref="member">isRunning</ref>());</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a5d02ac591fb6b2b64e47df24c5e20468" kindref="member">isRunning</ref>());</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRPC-INT-08<sp/>—<sp/>Double<sp/>stop()<sp/>is<sp/>a<sp/>no-op<sp/>(idempotent<sp/>shutdown)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1test_1a3dde38cd7861c2b1f96f9a6200cbf8ae" kindref="member">TEST</ref>(GrpcPluginIntegration,<sp/>INT08_DoubleStopIsIdempotent)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server" kindref="compound">GRPCServer</ref><sp/>server;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cfg<sp/>=<sp/>makeLoopbackConfig();</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1afff74513b7b6bc5484127b2062d42309" kindref="member">initialize</ref>(cfg));</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(THEMIS_ENABLE_GRPC)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a189c67ab2820f04817ee979f95b82188" kindref="member">start</ref>());</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a5d02ac591fb6b2b64e47df24c5e20468" kindref="member">isRunning</ref>());</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a9d21c8a638542208d940a5ea8bfcf94b" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a5d02ac591fb6b2b64e47df24c5e20468" kindref="member">isRunning</ref>());</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>stop()<sp/>must<sp/>not<sp/>throw<sp/>or<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a9d21c8a638542208d940a5ea8bfcf94b" kindref="member">stop</ref>());</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a5d02ac591fb6b2b64e47df24c5e20468" kindref="member">isRunning</ref>());</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>started<sp/>=<sp/>server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a189c67ab2820f04817ee979f95b82188" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(started)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a9d21c8a638542208d940a5ea8bfcf94b" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a9d21c8a638542208d940a5ea8bfcf94b" kindref="member">stop</ref>());</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(server.<ref refid="classthemis_1_1plugins_1_1rpc_1_1grpc__plugin_1_1_g_r_p_c_server_1a5d02ac591fb6b2b64e47df24c5e20468" kindref="member">isRunning</ref>());</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>grpc_plugin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>rpc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp"/>
+  </compounddef>
+</doxygen>

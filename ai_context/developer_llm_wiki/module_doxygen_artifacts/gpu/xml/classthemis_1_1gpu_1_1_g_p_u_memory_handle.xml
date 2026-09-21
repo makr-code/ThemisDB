@@ -1,0 +1,301 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_memory_handle" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUMemoryHandle</compoundname>
+    <includes refid="gpu__raii__wrappers_8hpp" local="no">gpu_raii_wrappers.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+        <defval>void</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a3662991bc2ec0cf9074c41e0ef91a080" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::gpu::GPUMemoryHandle&lt; T &gt;::ptr_</definition>
+        <argsstring></argsstring>
+        <name>ptr_</name>
+        <qualifiedname>themis::gpu::GPUMemoryHandle::ptr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="155" column="10" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a36fad06dac928c520b6eacfe132cdf8e" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryHandle&lt; T &gt;::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>themis::gpu::GPUMemoryHandle::size_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="156" column="12" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="156" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a7d2096e5abc70bf173c43fb7094701ba" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryHandle&lt; T &gt;::count_</definition>
+        <argsstring></argsstring>
+        <name>count_</name>
+        <qualifiedname>themis::gpu::GPUMemoryHandle::count_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="157" column="12" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="157" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1aac8bc333ed6a3511bf1c3b376eed405e" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUMemoryHandle&lt; T &gt;::GPUMemoryHandle</definition>
+        <argsstring>(size_t count)</argsstring>
+        <name>GPUMemoryHandle</name>
+        <qualifiedname>themis::gpu::GPUMemoryHandle::GPUMemoryHandle</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="75" column="14" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="75" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a6d4264067f927728723be54564439610" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUMemoryHandle&lt; T &gt;::GPUMemoryHandle</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>GPUMemoryHandle</name>
+        <qualifiedname>themis::gpu::GPUMemoryHandle::GPUMemoryHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="97" column="5" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1aa7d630f35effce28cbc9c5bd26b6f537" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUMemoryHandle&lt; T &gt;::~GPUMemoryHandle</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~GPUMemoryHandle</name>
+        <qualifiedname>themis::gpu::GPUMemoryHandle::~GPUMemoryHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="99" column="5" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="99" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a5e94830d121424170cad41fd8fda55bb" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUMemoryHandle&lt; T &gt;::GPUMemoryHandle</definition>
+        <argsstring>(GPUMemoryHandle &amp;&amp;other) noexcept</argsstring>
+        <name>GPUMemoryHandle</name>
+        <qualifiedname>themis::gpu::GPUMemoryHandle::GPUMemoryHandle</qualifiedname>
+        <param>
+          <type>GPUMemoryHandle &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="105" column="5" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="105" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1ae6b8707f282acae1a4722decbce281d7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1aac8bc333ed6a3511bf1c3b376eed405e" kindref="member">GPUMemoryHandle</ref> &amp;</type>
+        <definition>GPUMemoryHandle &amp; themis::gpu::GPUMemoryHandle&lt; T &gt;::operator=</definition>
+        <argsstring>(GPUMemoryHandle &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::GPUMemoryHandle::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1aac8bc333ed6a3511bf1c3b376eed405e" kindref="member">GPUMemoryHandle</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="110" column="21" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="110" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a3ec7885d2ad054b6b1f0a288b9636d3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUMemoryHandle&lt; T &gt;::GPUMemoryHandle</definition>
+        <argsstring>(const GPUMemoryHandle &amp;)=delete</argsstring>
+        <name>GPUMemoryHandle</name>
+        <qualifiedname>themis::gpu::GPUMemoryHandle::GPUMemoryHandle</qualifiedname>
+        <param>
+          <type>const GPUMemoryHandle &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="122" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1acdecc419951fb9a75189daf1f952ea6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1aac8bc333ed6a3511bf1c3b376eed405e" kindref="member">GPUMemoryHandle</ref> &amp;</type>
+        <definition>GPUMemoryHandle &amp; themis::gpu::GPUMemoryHandle&lt; T &gt;::operator=</definition>
+        <argsstring>(const GPUMemoryHandle &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::GPUMemoryHandle::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1aac8bc333ed6a3511bf1c3b376eed405e" kindref="member">GPUMemoryHandle</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="124" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1ac5d40b78ebdee5ddafd82fb38aad8f5f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::gpu::GPUMemoryHandle&lt; T &gt;::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::gpu::GPUMemoryHandle::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="128" column="10" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="128" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a640bdfddaf972d69e265bb0c7ef2b78f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>T *</type>
+        <definition>T * themis::gpu::GPUMemoryHandle&lt; T &gt;::getTyped</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getTyped</name>
+        <qualifiedname>themis::gpu::GPUMemoryHandle::getTyped</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="132" column="7" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="132" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a331108a781635068a8d0071d4d389bd1" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryHandle&lt; T &gt;::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::gpu::GPUMemoryHandle::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="136" column="12" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="136" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a3e35fb87d1be1db4aa90435248d092d5" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryHandle&lt; T &gt;::count</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>count</name>
+        <qualifiedname>themis::gpu::GPUMemoryHandle::count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="140" column="12" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="140" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1aeda54d88ea3bb3a8342dce826495c23a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUMemoryHandle&lt; T &gt;::isValid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::gpu::GPUMemoryHandle::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="144" column="10" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="144" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a204e65f7ef2bb48f9394ea770227b2a2" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::gpu::GPUMemoryHandle&lt; T &gt;::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::gpu::GPUMemoryHandle::release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="148" column="10" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="148" bodyend="152"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a7b173b555cc17148fe3ae1fa3ffd2192" prot="private" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUMemoryHandle&lt; T &gt;::destroy</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>destroy</name>
+        <qualifiedname>themis::gpu::GPUMemoryHandle::destroy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_raii_wrappers.hpp" line="159" column="10" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="159" bodyend="169"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/gpu_raii_wrappers.hpp" line="73" column="1" bodyfile="include/gpu/gpu_raii_wrappers.hpp" bodystart="73" bodyend="170"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a3e35fb87d1be1db4aa90435248d092d5" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryHandle</scope><name>count</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a7d2096e5abc70bf173c43fb7094701ba" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryHandle</scope><name>count_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a7b173b555cc17148fe3ae1fa3ffd2192" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryHandle</scope><name>destroy</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1ac5d40b78ebdee5ddafd82fb38aad8f5f" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryHandle</scope><name>get</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a640bdfddaf972d69e265bb0c7ef2b78f" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryHandle</scope><name>getTyped</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1aac8bc333ed6a3511bf1c3b376eed405e" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryHandle</scope><name>GPUMemoryHandle</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a6d4264067f927728723be54564439610" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryHandle</scope><name>GPUMemoryHandle</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a5e94830d121424170cad41fd8fda55bb" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryHandle</scope><name>GPUMemoryHandle</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a3ec7885d2ad054b6b1f0a288b9636d3c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryHandle</scope><name>GPUMemoryHandle</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1aeda54d88ea3bb3a8342dce826495c23a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryHandle</scope><name>isValid</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1ae6b8707f282acae1a4722decbce281d7" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1acdecc419951fb9a75189daf1f952ea6f" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryHandle</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a3662991bc2ec0cf9074c41e0ef91a080" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryHandle</scope><name>ptr_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a204e65f7ef2bb48f9394ea770227b2a2" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryHandle</scope><name>release</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a331108a781635068a8d0071d4d389bd1" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryHandle</scope><name>size</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1a36fad06dac928c520b6eacfe132cdf8e" prot="private" virt="non-virtual"><scope>themis::gpu::GPUMemoryHandle</scope><name>size_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_memory_handle_1aa7d630f35effce28cbc9c5bd26b6f537" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryHandle</scope><name>~GPUMemoryHandle</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

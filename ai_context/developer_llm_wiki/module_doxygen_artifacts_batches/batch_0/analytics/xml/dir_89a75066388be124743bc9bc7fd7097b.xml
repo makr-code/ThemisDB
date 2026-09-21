@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_89a75066388be124743bc9bc7fd7097b" kind="dir">
+    <compoundname>benchmarks/analytics</compoundname>
+    <innerfile refid="bench__analytics__critical__paths__focused_8cpp">bench_analytics_critical_paths_focused.cpp</innerfile>
+    <innerfile refid="bench__analytics__dedicated__gates_8cpp">bench_analytics_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__analytics__distributed__coordinator_8cpp">bench_analytics_distributed_coordinator.cpp</innerfile>
+    <innerfile refid="bench__analytics__gap__closure_8cpp">bench_analytics_gap_closure.cpp</innerfile>
+    <innerfile refid="bench__analytics__operability__paths_8cpp">bench_analytics_operability_paths.cpp</innerfile>
+    <innerfile refid="bench__analytics__release__gates_8cpp">bench_analytics_release_gates.cpp</innerfile>
+    <innerfile refid="bench__diff__engine_8cpp">bench_diff_engine.cpp</innerfile>
+    <innerfile refid="bench__olap__analytics_8cpp">bench_olap_analytics.cpp</innerfile>
+    <innerfile refid="bench__olap__performance_8cpp">bench_olap_performance.cpp</innerfile>
+    <innerfile refid="bench__streaming__window_8cpp">bench_streaming_window.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/analytics/"/>
+  </compounddef>
+</doxygen>

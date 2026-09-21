@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_compression_timer" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::CompressionTimer</compoundname>
+    <includes refid="compression__metrics_8h" local="no">compression_metrics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_compression_timer_1ae788ff82cfb045dcb53026e7847c0756" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::CompressionTimer::method_</definition>
+        <argsstring></argsstring>
+        <name>method_</name>
+        <qualifiedname>themis::utils::CompressionTimer::method_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/compression_metrics.h" line="129" column="17" bodyfile="include/utils/compression_metrics.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_compression_timer_1a13fbb0ee820abb2dcadb929cbc52cb3a" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::CompressionTimer::input_size_</definition>
+        <argsstring></argsstring>
+        <name>input_size_</name>
+        <qualifiedname>themis::utils::CompressionTimer::input_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/compression_metrics.h" line="130" column="12" bodyfile="include/utils/compression_metrics.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_compression_timer_1a34a5b617aad278b8ea8ca1f86de21ec8" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::CompressionTimer::is_compression_</definition>
+        <argsstring></argsstring>
+        <name>is_compression_</name>
+        <qualifiedname>themis::utils::CompressionTimer::is_compression_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/compression_metrics.h" line="131" column="10" bodyfile="include/utils/compression_metrics.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_compression_timer_1a7fd32d61e80e752fed341164431df76c" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::utils::CompressionTimer::start_</definition>
+        <argsstring></argsstring>
+        <name>start_</name>
+        <qualifiedname>themis::utils::CompressionTimer::start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/compression_metrics.h" line="132" column="43" bodyfile="include/utils/compression_metrics.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_compression_timer_1af06545206258c6c8707b262a68563639" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::CompressionTimer::CompressionTimer</definition>
+        <argsstring>(const std::string &amp;method, size_t input_size, bool is_compression=true)</argsstring>
+        <name>CompressionTimer</name>
+        <qualifiedname>themis::utils::CompressionTimer::CompressionTimer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>input_size</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_compression</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/compression_metrics.h" line="102" column="5" bodyfile="include/utils/compression_metrics.h" bodystart="102" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_compression_timer_1a7652ac9e2cd1be00b742de717491130f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::CompressionTimer::~CompressionTimer</definition>
+        <argsstring>()</argsstring>
+        <name>~CompressionTimer</name>
+        <qualifiedname>themis::utils::CompressionTimer::~CompressionTimer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/compression_metrics.h" line="109" column="5" bodyfile="include/utils/compression_metrics.h" bodystart="109" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_compression_timer_1a0b0d6126017a5f1ff75ba14aea0966d8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::CompressionTimer::finish</definition>
+        <argsstring>(size_t output_size)</argsstring>
+        <name>finish</name>
+        <qualifiedname>themis::utils::CompressionTimer::finish</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>output_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/compression_metrics.h" line="113" column="10" bodyfile="include/utils/compression_metrics.h" bodystart="113" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII helper for measuring compression operations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/compression_metrics.h" line="100" column="1" bodyfile="include/utils/compression_metrics.h" bodystart="100" bodyend="133"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_compression_timer_1af06545206258c6c8707b262a68563639" prot="public" virt="non-virtual"><scope>themis::utils::CompressionTimer</scope><name>CompressionTimer</name></member>
+      <member refid="classthemis_1_1utils_1_1_compression_timer_1a0b0d6126017a5f1ff75ba14aea0966d8" prot="public" virt="non-virtual"><scope>themis::utils::CompressionTimer</scope><name>finish</name></member>
+      <member refid="classthemis_1_1utils_1_1_compression_timer_1a13fbb0ee820abb2dcadb929cbc52cb3a" prot="private" virt="non-virtual"><scope>themis::utils::CompressionTimer</scope><name>input_size_</name></member>
+      <member refid="classthemis_1_1utils_1_1_compression_timer_1a34a5b617aad278b8ea8ca1f86de21ec8" prot="private" virt="non-virtual"><scope>themis::utils::CompressionTimer</scope><name>is_compression_</name></member>
+      <member refid="classthemis_1_1utils_1_1_compression_timer_1ae788ff82cfb045dcb53026e7847c0756" prot="private" virt="non-virtual"><scope>themis::utils::CompressionTimer</scope><name>method_</name></member>
+      <member refid="classthemis_1_1utils_1_1_compression_timer_1a7fd32d61e80e752fed341164431df76c" prot="private" virt="non-virtual"><scope>themis::utils::CompressionTimer</scope><name>start_</name></member>
+      <member refid="classthemis_1_1utils_1_1_compression_timer_1a7652ac9e2cd1be00b742de717491130f" prot="public" virt="non-virtual"><scope>themis::utils::CompressionTimer</scope><name>~CompressionTimer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

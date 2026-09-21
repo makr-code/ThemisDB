@@ -1,0 +1,242 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_replication_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::ReplicationStats</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_stats_1a75d49624ed469d1cff868a0e56d68f77" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::ReplicationStats::entries_replicated</definition>
+        <argsstring></argsstring>
+        <name>entries_replicated</name>
+        <qualifiedname>themisdb::replication::ReplicationStats::entries_replicated</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="306" column="17" bodyfile="include/replication/replication_manager.h" bodystart="306" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_stats_1acf7d7bf56b1de81aeda40d7ee0b2a1f4" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::ReplicationStats::bytes_replicated</definition>
+        <argsstring></argsstring>
+        <name>bytes_replicated</name>
+        <qualifiedname>themisdb::replication::ReplicationStats::bytes_replicated</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="307" column="17" bodyfile="include/replication/replication_manager.h" bodystart="307" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_stats_1a50bb53be3ffd9988a90c9735f533cee8" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::ReplicationStats::replication_errors</definition>
+        <argsstring></argsstring>
+        <name>replication_errors</name>
+        <qualifiedname>themisdb::replication::ReplicationStats::replication_errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="308" column="17" bodyfile="include/replication/replication_manager.h" bodystart="308" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_stats_1aa7ae0dab8e1c54c0dda4ef6d3813a90d" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::ReplicationStats::leader_elections</definition>
+        <argsstring></argsstring>
+        <name>leader_elections</name>
+        <qualifiedname>themisdb::replication::ReplicationStats::leader_elections</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="309" column="17" bodyfile="include/replication/replication_manager.h" bodystart="309" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_stats_1a9d45f7f97f718392d72e4e76ea7e33f2" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::ReplicationStats::conflicts_resolved</definition>
+        <argsstring></argsstring>
+        <name>conflicts_resolved</name>
+        <qualifiedname>themisdb::replication::ReplicationStats::conflicts_resolved</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="310" column="17" bodyfile="include/replication/replication_manager.h" bodystart="310" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_stats_1a1d67b8958c4302f0b4366b76945e6b6f" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themisdb::replication::ReplicationStats::max_replication_lag_ms</definition>
+        <argsstring></argsstring>
+        <name>max_replication_lag_ms</name>
+        <qualifiedname>themisdb::replication::ReplicationStats::max_replication_lag_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="311" column="17" bodyfile="include/replication/replication_manager.h" bodystart="311" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_stats_1ac3b0a3d7c9cb6193a77e90dcd019eb68" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themisdb::replication::ReplicationStats::avg_replication_lag_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_replication_lag_ms</name>
+        <qualifiedname>themisdb::replication::ReplicationStats::avg_replication_lag_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="312" column="17" bodyfile="include/replication/replication_manager.h" bodystart="312" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_stats_1a7ce7d675618830bbd7bf80c748c013d1" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::ReplicationStats::automatic_failovers</definition>
+        <argsstring></argsstring>
+        <name>automatic_failovers</name>
+        <qualifiedname>themisdb::replication::ReplicationStats::automatic_failovers</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="313" column="17" bodyfile="include/replication/replication_manager.h" bodystart="313" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_stats_1a01cc5b49468117aabb53e31d5d71fbe3" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::ReplicationStats::manual_failovers</definition>
+        <argsstring></argsstring>
+        <name>manual_failovers</name>
+        <qualifiedname>themisdb::replication::ReplicationStats::manual_failovers</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="314" column="17" bodyfile="include/replication/replication_manager.h" bodystart="314" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_stats_1afe24727633619d0a3cd4a173738291b6" prot="public" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::ReplicationStats::replica_failures_detected</definition>
+        <argsstring></argsstring>
+        <name>replica_failures_detected</name>
+        <qualifiedname>themisdb::replication::ReplicationStats::replica_failures_detected</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="315" column="25" bodyfile="include/replication/replication_manager.h" bodystart="315" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_stats_1abe422fccb5956dc9e871a5039bd39201" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::ReplicationStats::network_partitions_detected</definition>
+        <argsstring></argsstring>
+        <name>network_partitions_detected</name>
+        <qualifiedname>themisdb::replication::ReplicationStats::network_partitions_detected</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="316" column="17" bodyfile="include/replication/replication_manager.h" bodystart="316" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_stats_1a3f444a4ebd5e6e6b46589b173380b721" prot="public" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::ReplicationStats::lease_reads_served</definition>
+        <argsstring></argsstring>
+        <name>lease_reads_served</name>
+        <qualifiedname>themisdb::replication::ReplicationStats::lease_reads_served</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="318" column="25" bodyfile="include/replication/replication_manager.h" bodystart="318" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_replication_stats_1ad14ccdbe567ff4360742eb7b7ed87502" prot="public" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::ReplicationStats::lease_reads_rejected</definition>
+        <argsstring></argsstring>
+        <name>lease_reads_rejected</name>
+        <qualifiedname>themisdb::replication::ReplicationStats::lease_reads_rejected</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="319" column="25" bodyfile="include/replication/replication_manager.h" bodystart="319" bodyend="319"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1replication_1_1_replication_stats_1affb5ec25d7d3ac6476985f56c1390e30" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::ReplicationStats::toPrometheusFormat</definition>
+        <argsstring>() const</argsstring>
+        <name>toPrometheusFormat</name>
+        <qualifiedname>themisdb::replication::ReplicationStats::toPrometheusFormat</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="322" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="393" bodyend="446"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Replication Statistics </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="305" column="1" bodyfile="include/replication/replication_manager.h" bodystart="305" bodyend="323"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_replication_stats_1a7ce7d675618830bbd7bf80c748c013d1" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStats</scope><name>automatic_failovers</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_stats_1ac3b0a3d7c9cb6193a77e90dcd019eb68" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStats</scope><name>avg_replication_lag_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_stats_1acf7d7bf56b1de81aeda40d7ee0b2a1f4" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStats</scope><name>bytes_replicated</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_stats_1a9d45f7f97f718392d72e4e76ea7e33f2" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStats</scope><name>conflicts_resolved</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_stats_1a75d49624ed469d1cff868a0e56d68f77" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStats</scope><name>entries_replicated</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_stats_1aa7ae0dab8e1c54c0dda4ef6d3813a90d" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStats</scope><name>leader_elections</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_stats_1ad14ccdbe567ff4360742eb7b7ed87502" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStats</scope><name>lease_reads_rejected</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_stats_1a3f444a4ebd5e6e6b46589b173380b721" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStats</scope><name>lease_reads_served</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_stats_1a01cc5b49468117aabb53e31d5d71fbe3" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStats</scope><name>manual_failovers</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_stats_1a1d67b8958c4302f0b4366b76945e6b6f" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStats</scope><name>max_replication_lag_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_stats_1abe422fccb5956dc9e871a5039bd39201" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStats</scope><name>network_partitions_detected</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_stats_1afe24727633619d0a3cd4a173738291b6" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStats</scope><name>replica_failures_detected</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_stats_1a50bb53be3ffd9988a90c9735f533cee8" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStats</scope><name>replication_errors</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_replication_stats_1affb5ec25d7d3ac6476985f56c1390e30" prot="public" virt="non-virtual"><scope>themisdb::replication::ReplicationStats</scope><name>toPrometheusFormat</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

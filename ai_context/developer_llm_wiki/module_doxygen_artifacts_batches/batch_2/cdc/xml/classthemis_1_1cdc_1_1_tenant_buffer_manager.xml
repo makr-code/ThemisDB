@@ -1,0 +1,893 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_tenant_buffer_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::TenantBufferManager</compoundname>
+    <includes refid="tenant__buffer__manager_8h" local="no">tenant_buffer_manager.h</includes>
+    <innerclass refid="structthemis_1_1cdc_1_1_tenant_buffer_manager_1_1_tenant_buffer_state" prot="private">themis::cdc::TenantBufferManager::TenantBufferState</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1ae0cdb9f3f68b47c3448468e56892bb98" prot="private" static="no" mutable="no">
+        <type><ref refid="class_changefeed" kindref="compound">Changefeed</ref> *</type>
+        <definition>Changefeed* themis::cdc::TenantBufferManager::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="214" column="16" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1ab4a16127a16f5b205e6e51c6f5f7e0b6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_changefeed_buffer_config" kindref="compound">ChangefeedBufferConfig</ref></type>
+        <definition>ChangefeedBufferConfig themis::cdc::TenantBufferManager::default_config_</definition>
+        <argsstring></argsstring>
+        <name>default_config_</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::default_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="215" column="28" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1aa5c87d9ddcccbdf9ff7fec0fe5ba528e" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, TenantBufferState &gt;</type>
+        <definition>std::map&lt;std::string, TenantBufferState&gt; themis::cdc::TenantBufferManager::tenant_buffers_</definition>
+        <argsstring></argsstring>
+        <name>tenant_buffers_</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::tenant_buffers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="218" column="14" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a2061b6299ef9baa89fbad6c50243665e" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cdc::TenantBufferManager::buffers_mutex_</definition>
+        <argsstring></argsstring>
+        <name>buffers_mutex_</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::buffers_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="219" column="24" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a46ea239c645b8101b5d518b85f7db1da" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::cdc::TenantBufferManager::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="222" column="17" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="222" bodyend="222"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a20b833135855182640dc69862bb99686" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::TenantBufferManager::TenantBufferManager</definition>
+        <argsstring>(Changefeed *changefeed, const ChangefeedBufferConfig &amp;default_config=ChangefeedBufferConfig())</argsstring>
+        <name>TenantBufferManager</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::TenantBufferManager</qualifiedname>
+        <param>
+          <type><ref refid="class_changefeed" kindref="compound">Changefeed</ref> *</type>
+          <declname>changefeed</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_changefeed_buffer_config" kindref="compound">ChangefeedBufferConfig</ref> &amp;</type>
+          <declname>default_config</declname>
+          <defval><ref refid="structthemis_1_1_changefeed_buffer_config" kindref="compound">ChangefeedBufferConfig</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="101" column="5" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="28" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a191e7684094168fb0994ad9d906cd899" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::TenantBufferManager::~TenantBufferManager</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~TenantBufferManager</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::~TenantBufferManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="104" column="5" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="35" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a3caf44f22c324fa445a3f46aa8abae76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::TenantBufferManager::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: exchange(), THEMIS_WARN(), lock(), THEMIS_INFO(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="109" column="10" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="47" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a0fda2a4e4aab2a27559321a9d37fbe26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::TenantBufferManager::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: exchange(), lock(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="114" column="10" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="67" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a911898039cbd159330548c98f3876b3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref></type>
+        <definition>Changefeed::ChangeEvent themis::cdc::TenantBufferManager::recordEvent</definition>
+        <argsstring>(const std::string &amp;tenant_id, Changefeed::ChangeEvent event)</argsstring>
+        <name>recordEvent</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::recordEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Record Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>CDCException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error::invalidArgument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), getOrCreateTenantBuffer(), checkTenantQuota(), std::move(), std::chrono::steady_clock::now(), updateTenantStats(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="122" column="29" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="93" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a3af99f1193e01d4fc00c79ae4662edb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::TenantBufferManager::flushTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id)</argsstring>
+        <name>flushTenant</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::flushTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Flush Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), flush(), updateTenantStats(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="130" column="12" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="151" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a8d617c21ee7ef5e1cd73c30cf01fc054" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::TenantBufferManager::flushAll</definition>
+        <argsstring>()</argsstring>
+        <name>flushAll</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::flushAll</qualifiedname>
+        <briefdescription>
+<para>Flush All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), flush(), updateTenantStats(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="136" column="12" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="176" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1aab27eaa80f3a721f5619488d25336d07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::TenantBufferManager::configureTenant</definition>
+        <argsstring>(const TenantConfig &amp;config)</argsstring>
+        <name>configureTenant</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::configureTenant</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cdc_1_1_tenant_config" kindref="compound">TenantConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Configure Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>error::invalidArgument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), find(), end(), THEMIS_INFO(), <ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a3caf44f22c324fa445a3f46aa8abae76" kindref="member">start()</ref>, try_emplace(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="142" column="10" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="198" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a17e53dffc333d5a6789e5859032e98c2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1cdc_1_1_tenant_config" kindref="compound">TenantConfig</ref> &gt;</type>
+        <definition>std::optional&lt; TenantConfig &gt; themis::cdc::TenantBufferManager::getTenantConfig</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getTenantConfig</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::getTenantConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Tenant Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="149" column="19" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="232" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a7a77243e94cdd8abca8c7a07867b6e62" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1cdc_1_1_tenant_stats" kindref="compound">TenantStats</ref> &gt;</type>
+        <definition>std::optional&lt; TenantStats &gt; themis::cdc::TenantBufferManager::getTenantStats</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getTenantStats</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::getTenantStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Tenant Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="156" column="19" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="247" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a8104a55c55f658e1fd3b7df02d9f5901" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::reference_wrapper&lt; const <ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics" kindref="compound">CDCMetrics</ref> &gt; &gt;</type>
+        <definition>std::optional&lt; std::reference_wrapper&lt; const CDCMetrics &gt; &gt; themis::cdc::TenantBufferManager::getTenantMetrics</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getTenantMetrics</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::getTenantMetrics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Tenant Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="163" column="19" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="263" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a301e755463dddd9ba18e7282e5b09867" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::TenantBufferManager::getGlobalMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getGlobalMetrics</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::getGlobalMetrics</qualifiedname>
+        <briefdescription>
+<para>Get Global Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="169" column="24" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="278" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a5d2f4c4b7d211278a81f46fe3f785fe2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1cdc_1_1_tenant_stats" kindref="compound">TenantStats</ref> &gt;</type>
+        <definition>std::map&lt; std::string, TenantStats &gt; themis::cdc::TenantBufferManager::getAllTenantStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllTenantStats</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::getAllTenantStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="171" column="14" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="323" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a9cd6f434543a431b39af63cd055b3a7a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::cdc::TenantBufferManager::getActiveTenants</definition>
+        <argsstring>() const</argsstring>
+        <name>getActiveTenants</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::getActiveTenants</qualifiedname>
+        <briefdescription>
+<para>Get Active Tenants. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="177" column="17" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="340" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a6b3d28db58c8dce6e567aa16360236fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::TenantBufferManager::hasTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>hasTenant</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::hasTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Has Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="184" column="10" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="361" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1ac2fc6c6374437fd06c59a31348ef8e7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::TenantBufferManager::disableTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id)</argsstring>
+        <name>disableTenant</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::disableTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Disable Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), <ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a0fda2a4e4aab2a27559321a9d37fbe26" kindref="member">stop()</ref>, THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="190" column="10" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="376" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a2c2ce4d0cb392763b2177a267f40bd13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::TenantBufferManager::enableTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id)</argsstring>
+        <name>enableTenant</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::enableTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Enable Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), <ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a3caf44f22c324fa445a3f46aa8abae76" kindref="member">start()</ref>, THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="196" column="10" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="397" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1aced5c825e51aec021ceee059c740b888" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::TenantBufferManager::removeTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id)</argsstring>
+        <name>removeTenant</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::removeTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), flush(), <ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a0fda2a4e4aab2a27559321a9d37fbe26" kindref="member">stop()</ref>, erase(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="202" column="10" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="418" bodyend="433"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a0a94fbf633534372a5b91b3a220f7ac1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TenantBufferState &amp;</type>
+        <definition>TenantBufferManager::TenantBufferState &amp; themis::cdc::TenantBufferManager::getOrCreateTenantBuffer</definition>
+        <argsstring>(const std::string &amp;tenant_id)</argsstring>
+        <name>getOrCreateTenantBuffer</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::getOrCreateTenantBuffer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Or Create Tenant Buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="230" column="23" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="437" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a6143d6b5035eedc00a73777b83b65df5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::TenantBufferManager::checkTenantQuota</definition>
+        <argsstring>(const std::string &amp;tenant_id, TenantBufferState &amp;state)</argsstring>
+        <name>checkTenantQuota</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::checkTenantQuota</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>TenantBufferState &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Check Tenant Quota. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getStats(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="237" column="10" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="470" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_tenant_buffer_manager_1ad5951057bed7a342cefc63533206bfa4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::TenantBufferManager::updateTenantStats</definition>
+        <argsstring>(const std::string &amp;tenant_id, TenantBufferState &amp;state)</argsstring>
+        <name>updateTenantStats</name>
+        <qualifiedname>themis::cdc::TenantBufferManager::updateTenantStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>TenantBufferState &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Update Tenant Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getStats(), getMetrics(), eventsPerSecond(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/tenant_buffer_manager.h" line="243" column="10" bodyfile="src/cdc/tenant_buffer_manager.cpp" bodystart="509" bodyend="531"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/tenant_buffer_manager.h" line="99" column="1" bodyfile="include/cdc/tenant_buffer_manager.h" bodystart="99" bodyend="244"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a2061b6299ef9baa89fbad6c50243665e" prot="private" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>buffers_mutex_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1ae0cdb9f3f68b47c3448468e56892bb98" prot="private" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>changefeed_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a6143d6b5035eedc00a73777b83b65df5" prot="private" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>checkTenantQuota</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1aab27eaa80f3a721f5619488d25336d07" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>configureTenant</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1ab4a16127a16f5b205e6e51c6f5f7e0b6" prot="private" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>default_config_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1ac2fc6c6374437fd06c59a31348ef8e7c" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>disableTenant</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a2c2ce4d0cb392763b2177a267f40bd13" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>enableTenant</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a8d617c21ee7ef5e1cd73c30cf01fc054" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>flushAll</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a3af99f1193e01d4fc00c79ae4662edb7" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>flushTenant</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a9cd6f434543a431b39af63cd055b3a7a" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>getActiveTenants</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a5d2f4c4b7d211278a81f46fe3f785fe2" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>getAllTenantStats</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a301e755463dddd9ba18e7282e5b09867" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>getGlobalMetrics</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a0a94fbf633534372a5b91b3a220f7ac1" prot="private" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>getOrCreateTenantBuffer</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a17e53dffc333d5a6789e5859032e98c2" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>getTenantConfig</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a8104a55c55f658e1fd3b7df02d9f5901" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>getTenantMetrics</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a7a77243e94cdd8abca8c7a07867b6e62" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>getTenantStats</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a6b3d28db58c8dce6e567aa16360236fc" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>hasTenant</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a911898039cbd159330548c98f3876b3b" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>recordEvent</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1aced5c825e51aec021ceee059c740b888" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>removeTenant</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a46ea239c645b8101b5d518b85f7db1da" prot="private" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>running_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a3caf44f22c324fa445a3f46aa8abae76" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>start</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a0fda2a4e4aab2a27559321a9d37fbe26" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>stop</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1aa5c87d9ddcccbdf9ff7fec0fe5ba528e" prot="private" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>tenant_buffers_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a20b833135855182640dc69862bb99686" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>TenantBufferManager</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1ad5951057bed7a342cefc63533206bfa4" prot="private" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>updateTenantStats</name></member>
+      <member refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a191e7684094168fb0994ad9d906cd899" prot="public" virt="non-virtual"><scope>themis::cdc::TenantBufferManager</scope><name>~TenantBufferManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

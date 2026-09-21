@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_field_diagnostics_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::FieldDiagnosticsConfig</compoundname>
+    <includes refid="field__diagnostics__collector_8h" local="no">field_diagnostics_collector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_field_diagnostics_config_1a453fefcfe014f019c8fc63d3fc5d3e6d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::FieldDiagnosticsConfig::max_buffer_size</definition>
+        <argsstring></argsstring>
+        <name>max_buffer_size</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsConfig::max_buffer_size</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+<para>Maximum number of events to buffer in memory. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="56" column="12" bodyfile="include/observability/field_diagnostics_collector.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_field_diagnostics_config_1af641b7ad16aef1663781205754431d66" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::FieldDiagnosticsConfig::enable_pii_masking</definition>
+        <argsstring></argsstring>
+        <name>enable_pii_masking</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsConfig::enable_pii_masking</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Enable automatic PII masking (default: true). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="59" column="10" bodyfile="include/observability/field_diagnostics_collector.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_field_diagnostics_config_1ae052df88a938df1600801e020f07daff" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::FieldDiagnosticsConfig::enable_metrics_emission</definition>
+        <argsstring></argsstring>
+        <name>enable_metrics_emission</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsConfig::enable_metrics_emission</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Enable Prometheus metrics emission (default: true). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="62" column="10" bodyfile="include/observability/field_diagnostics_collector.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_field_diagnostics_config_1a47b91fa8d2d96b13df02214935261c73" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::FieldDiagnosticsConfig::enable_batching</definition>
+        <argsstring></argsstring>
+        <name>enable_batching</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsConfig::enable_batching</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Batch events for export (default: true). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="65" column="10" bodyfile="include/observability/field_diagnostics_collector.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_field_diagnostics_config_1abcf7ee7f6aa34c499e2fabda4580d60d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::FieldDiagnosticsConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsConfig::batch_size</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+<para>Maximum events per batch before export. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="68" column="12" bodyfile="include/observability/field_diagnostics_collector.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_field_diagnostics_config_1a613249e29f61cbf6a65955c1dca9ca57" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::FieldDiagnosticsConfig::batch_flush_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>batch_flush_interval_ms</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsConfig::batch_flush_interval_ms</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+<para>Interval to flush batched events (milliseconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="71" column="13" bodyfile="include/observability/field_diagnostics_collector.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_field_diagnostics_config_1ab178f7a5af6ef2928f408420e18c804a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::FieldDiagnosticsConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::observability::FieldDiagnosticsConfig::enabled</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Enable collection (can be toggled at runtime). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/field_diagnostics_collector.h" line="74" column="10" bodyfile="include/observability/field_diagnostics_collector.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1observability_1_1_field_diagnostics_collector" kindref="compound">FieldDiagnosticsCollector</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/field_diagnostics_collector.h" line="54" column="1" bodyfile="include/observability/field_diagnostics_collector.h" bodystart="54" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_field_diagnostics_config_1a613249e29f61cbf6a65955c1dca9ca57" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsConfig</scope><name>batch_flush_interval_ms</name></member>
+      <member refid="structthemis_1_1observability_1_1_field_diagnostics_config_1abcf7ee7f6aa34c499e2fabda4580d60d" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1observability_1_1_field_diagnostics_config_1a47b91fa8d2d96b13df02214935261c73" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsConfig</scope><name>enable_batching</name></member>
+      <member refid="structthemis_1_1observability_1_1_field_diagnostics_config_1ae052df88a938df1600801e020f07daff" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsConfig</scope><name>enable_metrics_emission</name></member>
+      <member refid="structthemis_1_1observability_1_1_field_diagnostics_config_1af641b7ad16aef1663781205754431d66" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsConfig</scope><name>enable_pii_masking</name></member>
+      <member refid="structthemis_1_1observability_1_1_field_diagnostics_config_1ab178f7a5af6ef2928f408420e18c804a" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1observability_1_1_field_diagnostics_config_1a453fefcfe014f019c8fc63d3fc5d3e6d" prot="public" virt="non-virtual"><scope>themis::observability::FieldDiagnosticsConfig</scope><name>max_buffer_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

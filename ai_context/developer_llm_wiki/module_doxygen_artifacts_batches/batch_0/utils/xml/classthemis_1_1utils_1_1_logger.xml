@@ -1,0 +1,1149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_logger" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::Logger</compoundname>
+    <includes refid="logger_8h" local="no">logger.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Level</name>
+        <qualifiedname>themis::utils::Logger::Level</qualifiedname>
+        <enumvalue id="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482a2d3e4144aa384b18849ab9a8abad74d6" prot="public">
+          <name>TRACE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482adc30ec20708ef7b0f641ef78b7880a15" prot="public">
+          <name>DEBUG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482a551b723eafd6a31d444fcb2f5920fbd3" prot="public">
+          <name>INFO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482a32bd8a1db2275458673903bdb84cb277" prot="public">
+          <name>WARN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482abb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="82" column="5" bodyfile="include/utils/logger.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_logger_1a69dfb6786abd55369d2a0565597dc8ab" prot="private" static="yes" mutable="no">
+        <type>std::shared_ptr&lt; spdlog::logger &gt;</type>
+        <definition>std::shared_ptr&lt;spdlog::logger&gt; themis::utils::Logger::logger_</definition>
+        <argsstring></argsstring>
+        <name>logger_</name>
+        <qualifiedname>themis::utils::Logger::logger_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="188" column="35" bodyfile="include/utils/logger.h" bodystart="188" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_logger_1a847ec9fbe1157b996fcf4cd409531795" prot="private" static="yes" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_log_metrics" kindref="compound">LogMetrics</ref></type>
+        <definition>LogMetrics themis::utils::Logger::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::utils::Logger::metrics_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="189" column="23" bodyfile="include/utils/logger.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_logger_1a50496ea2a4cab6d0b56091a1e9e59cf6" prot="private" static="yes" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::Logger::trace_context_</definition>
+        <argsstring></argsstring>
+        <name>trace_context_</name>
+        <qualifiedname>themis::utils::Logger::trace_context_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="190" column="31" bodyfile="include/utils/logger.h" bodystart="190" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_logger_1ae07392c5770a7d21e5b103af13b89932" prot="private" static="yes" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::Logger::trace_context_mu_</definition>
+        <argsstring></argsstring>
+        <name>trace_context_mu_</name>
+        <qualifiedname>themis::utils::Logger::trace_context_mu_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="191" column="30" bodyfile="include/utils/logger.h" bodystart="191" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_logger_1a48b68a8ce04b773d0a8afcf230cc0001" prot="private" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::Logger::json_mode_</definition>
+        <argsstring></argsstring>
+        <name>json_mode_</name>
+        <qualifiedname>themis::utils::Logger::json_mode_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="192" column="24" bodyfile="include/utils/logger.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1a5a266ac2fe847ad2b5c97cdf585ab704" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Logger::init</definition>
+        <argsstring>(const std::string &amp;log_file=&quot;vccdb.log&quot;, Level level=Level::INFO)</argsstring>
+        <name>init</name>
+        <qualifiedname>themis::utils::Logger::init</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>log_file</declname>
+          <defval>&quot;vccdb.log&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482" kindref="member">Level</ref></type>
+          <declname>level</declname>
+          <defval><ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482a551b723eafd6a31d444fcb2f5920fbd3" kindref="member">Level::INFO</ref></defval>
+        </param>
+        <briefdescription>
+<para>Initialize logger with console + file sinks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Init.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>log_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the log file (default: &quot;vccdb.log&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum log level to emit (default: INFO)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+@error_contract <table rows="2" cols="5"><row>
+<entry thead="yes"><para>Condition  </para>
+</entry><entry thead="yes"><para><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref>  </para>
+</entry><entry thead="yes"><para>Severity  </para>
+</entry><entry thead="yes"><para>Logging  </para>
+</entry><entry thead="yes"><para>Recovery  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>spdlog sink initialization fails (disk full, invalid path)  </para>
+</entry><entry thead="no"><para>LOG_INITIALIZATION_FAILED (9023)  </para>
+</entry><entry thead="no"><para><ref refid="classthemis_1_1_error" kindref="compound">Error</ref>  </para>
+</entry><entry thead="no"><para>log_file, error  </para>
+</entry><entry thead="no"><para>Emit structured diagnostic; fall back to stderr (fail-open)  </para>
+</entry></row>
+</table>
+</para>
+<para>@degradation fail-open – sink failure is logged to stderr; logger continues usable <simplesect kind="see"><para><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref> 9020-9029 for logging <ref refid="classthemis_1_1utils_1_1_logger_1aab5d06ab245c132b742848f1711a5633" kindref="member">error</ref> taxonomy</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: begin(), end(), set_level(), toSpdlogLevel(), set_pattern(), spdlog::set_default_logger(), <ref refid="classthemis_1_1utils_1_1_logger_1a7070a0eef299c1d01c7ddd3a7f503282" kindref="member">info()</ref>, <ref refid="namespacethemis_1_1utils_1aba772fbe54adf8b16188ebcadf696949" kindref="member">themis::utils::makeErrorContext()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="98" column="17" bodyfile="src/utils/logger.cpp" bodystart="102" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1a91e41e1fbf431b8bca5681563a313e6f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Logger::initJson</definition>
+        <argsstring>(const std::string &amp;log_file=&quot;vccdb.json.log&quot;, Level level=Level::INFO)</argsstring>
+        <name>initJson</name>
+        <qualifiedname>themis::utils::Logger::initJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>log_file</declname>
+          <defval>&quot;vccdb.json.log&quot;</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482" kindref="member">Level</ref></type>
+          <declname>level</declname>
+          <defval><ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482a551b723eafd6a31d444fcb2f5920fbd3" kindref="member">Level::INFO</ref></defval>
+        </param>
+        <briefdescription>
+<para>Initialize logger with JSON-structured output. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Init Json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>log_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the JSON log file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum log level to emit</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+@error_contract <table rows="2" cols="5"><row>
+<entry thead="yes"><para>Condition  </para>
+</entry><entry thead="yes"><para><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref>  </para>
+</entry><entry thead="yes"><para>Severity  </para>
+</entry><entry thead="yes"><para>Logging  </para>
+</entry><entry thead="yes"><para>Recovery  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>spdlog JSON sink initialization fails  </para>
+</entry><entry thead="no"><para>LOG_INITIALIZATION_FAILED (9023)  </para>
+</entry><entry thead="no"><para><ref refid="classthemis_1_1_error" kindref="compound">Error</ref>  </para>
+</entry><entry thead="no"><para>log_file, error  </para>
+</entry><entry thead="no"><para>Emit structured diagnostic; fall back to stderr (fail-open)  </para>
+</entry></row>
+</table>
+</para>
+<para>@degradation fail-open – never silently loses log events</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: begin(), end(), set_level(), toSpdlogLevel(), set_pattern(), spdlog::set_default_logger(), <ref refid="classthemis_1_1utils_1_1_logger_1a7070a0eef299c1d01c7ddd3a7f503282" kindref="member">info()</ref>, <ref refid="namespacethemis_1_1utils_1aba772fbe54adf8b16188ebcadf696949" kindref="member">themis::utils::makeErrorContext()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="113" column="17" bodyfile="src/utils/logger.cpp" bodystart="141" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1af84724441500249842ab4e2d1cd7eaae" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Logger::initRotating</definition>
+        <argsstring>(const std::string &amp;log_file=&quot;vccdb.log&quot;, std::size_t max_file_size=10 *1024 *1024, std::size_t max_files=5, Level level=Level::INFO)</argsstring>
+        <name>initRotating</name>
+        <qualifiedname>themis::utils::Logger::initRotating</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>log_file</declname>
+          <defval>&quot;vccdb.log&quot;</defval>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_file_size</declname>
+          <defval>10 *1024 *1024</defval>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_files</declname>
+          <defval>5</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482" kindref="member">Level</ref></type>
+          <declname>level</declname>
+          <defval><ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482a551b723eafd6a31d444fcb2f5920fbd3" kindref="member">Level::INFO</ref></defval>
+        </param>
+        <briefdescription>
+<para>Initialize logger with rotating file sink. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Init Rotating.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>log_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the rotating log file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_file_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum size per file in bytes (default: 10 MiB) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_files</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of rotated files to retain (default: 5) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum log level to emit</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+@error_contract <table rows="2" cols="5"><row>
+<entry thead="yes"><para>Condition  </para>
+</entry><entry thead="yes"><para><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref>  </para>
+</entry><entry thead="yes"><para>Severity  </para>
+</entry><entry thead="yes"><para>Logging  </para>
+</entry><entry thead="yes"><para>Recovery  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Rotating sink initialization fails  </para>
+</entry><entry thead="no"><para>LOG_INITIALIZATION_FAILED (9023)  </para>
+</entry><entry thead="no"><para><ref refid="classthemis_1_1_error" kindref="compound">Error</ref>  </para>
+</entry><entry thead="no"><para>log_file, error  </para>
+</entry><entry thead="no"><para>Emit structured diagnostic; fall back to stderr (fail-open)  </para>
+</entry></row>
+</table>
+</para>
+<para>@degradation fail-open – never silently drops events on sink failure</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_file_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_files</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: begin(), end(), set_level(), toSpdlogLevel(), set_pattern(), spdlog::set_default_logger(), <ref refid="classthemis_1_1utils_1_1_logger_1a7070a0eef299c1d01c7ddd3a7f503282" kindref="member">info()</ref>, <ref refid="namespacethemis_1_1utils_1aba772fbe54adf8b16188ebcadf696949" kindref="member">themis::utils::makeErrorContext()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="130" column="17" bodyfile="src/utils/logger.cpp" bodystart="184" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1a407f02a743f93d003b36f08ed0c794a8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Logger::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::utils::Logger::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: flush(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="135" column="17" bodyfile="src/utils/logger.cpp" bodystart="226" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1a38289597568b4131c3d5c025acf4abcb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; spdlog::logger &gt;</type>
+        <definition>std::shared_ptr&lt; spdlog::logger &gt; themis::utils::Logger::get</definition>
+        <argsstring>()</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::utils::Logger::get</qualifiedname>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1utils_1_1_logger_1a5a266ac2fe847ad2b5c97cdf585ab704" kindref="member">init()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="136" column="28" bodyfile="src/utils/logger.cpp" bodystart="241" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1a411c57056fe528ee0b04f35a9867a9b5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Logger::setLevel</definition>
+        <argsstring>(Level level)</argsstring>
+        <name>setLevel</name>
+        <qualifiedname>themis::utils::Logger::setLevel</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482" kindref="member">Level</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Set <ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482" kindref="member">Level</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1utils_1_1_logger_1a5a266ac2fe847ad2b5c97cdf585ab704" kindref="member">init()</ref>, set_level(), toSpdlogLevel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="138" column="17" bodyfile="src/utils/logger.cpp" bodystart="253" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1aff016ef62064284a8c4f41ffc6c61d90" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482" kindref="member">Level</ref></type>
+        <definition>Logger::Level themis::utils::Logger::getLevel</definition>
+        <argsstring>()</argsstring>
+        <name>getLevel</name>
+        <qualifiedname>themis::utils::Logger::getLevel</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482" kindref="member">Level</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1utils_1_1_logger_1a5a266ac2fe847ad2b5c97cdf585ab704" kindref="member">init()</ref>, level(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="139" column="18" bodyfile="src/utils/logger.cpp" bodystart="263" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1a0fef19f76d1ff242e8b2f3144caf3597" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Logger::setPattern</definition>
+        <argsstring>(const std::string &amp;pattern)</argsstring>
+        <name>setPattern</name>
+        <qualifiedname>themis::utils::Logger::setPattern</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+<para>Set Pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1utils_1_1_logger_1a5a266ac2fe847ad2b5c97cdf585ab704" kindref="member">init()</ref>, set_pattern(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="140" column="17" bodyfile="src/utils/logger.cpp" bodystart="281" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1a715b3af811e44d11b0075fd50091ae90" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Logger::setTraceContext</definition>
+        <argsstring>(const std::string &amp;trace_id)</argsstring>
+        <name>setTraceContext</name>
+        <qualifiedname>themis::utils::Logger::setTraceContext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>trace_id</declname>
+        </param>
+        <briefdescription>
+<para>Set Trace Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">trace_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the trace.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), empty(), set_pattern(), jsonEscapeTraceId(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="141" column="17" bodyfile="src/utils/logger.cpp" bodystart="291" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1a9630e0eca8c3ff0511d5a5d13bb534f1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::Logger::getTraceContext</definition>
+        <argsstring>()</argsstring>
+        <name>getTraceContext</name>
+        <qualifiedname>themis::utils::Logger::getTraceContext</qualifiedname>
+        <briefdescription>
+<para>Get Trace Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="142" column="24" bodyfile="src/utils/logger.cpp" bodystart="321" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1a73d6ee487f159cc60277240439cb5c56" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482" kindref="member">Level</ref></type>
+        <definition>Logger::Level themis::utils::Logger::levelFromString</definition>
+        <argsstring>(const std::string &amp;lvl)</argsstring>
+        <name>levelFromString</name>
+        <qualifiedname>themis::utils::Logger::levelFromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>lvl</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482" kindref="member">Level</ref> From String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lvl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: tolower(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="144" column="18" bodyfile="src/utils/logger.cpp" bodystart="351" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1a8e7c973b2b32bbac94358d7668e7e4d1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::utils::Logger::levelToString</definition>
+        <argsstring>(Level lvl)</argsstring>
+        <name>levelToString</name>
+        <qualifiedname>themis::utils::Logger::levelToString</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482" kindref="member">Level</ref></type>
+          <declname>lvl</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482" kindref="member">Level</ref> To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lvl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements levelToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="145" column="23" bodyfile="src/utils/logger.cpp" bodystart="383" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1a2b78f1e1d9093089b489595703d2afc9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1utils_1_1_log_metrics" kindref="compound">LogMetrics</ref> &amp;</type>
+        <definition>const LogMetrics &amp; themis::utils::Logger::getMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::utils::Logger::getMetrics</qualifiedname>
+        <briefdescription>
+<para>Get Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: metricsStorage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="147" column="29" bodyfile="src/utils/logger.cpp" bodystart="332" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1a3d0f5fb98f55964689cffca224d59077" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Logger::resetMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>resetMetrics</name>
+        <qualifiedname>themis::utils::Logger::resetMetrics</qualifiedname>
+        <briefdescription>
+<para>Reset Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: metricsStorage(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="148" column="17" bodyfile="src/utils/logger.cpp" bodystart="340" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1a8dc3a03fd3d93fbe9e9440cda76811f5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename FormatString</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void themis::utils::Logger::trace</definition>
+        <argsstring>(FormatString &amp;&amp;fmt, Args &amp;&amp;... args)</argsstring>
+        <name>trace</name>
+        <qualifiedname>themis::utils::Logger::trace</qualifiedname>
+        <param>
+          <type>FormatString &amp;&amp;</type>
+          <declname>fmt</declname>
+        </param>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="151" column="17" bodyfile="include/utils/logger_impl.h" bodystart="21" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1ac9caf5cadc0d32978ea63616f1561b9a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename FormatString</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void themis::utils::Logger::debug</definition>
+        <argsstring>(FormatString &amp;&amp;fmt, Args &amp;&amp;... args)</argsstring>
+        <name>debug</name>
+        <qualifiedname>themis::utils::Logger::debug</qualifiedname>
+        <param>
+          <type>FormatString &amp;&amp;</type>
+          <declname>fmt</declname>
+        </param>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="154" column="17" bodyfile="include/utils/logger_impl.h" bodystart="31" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1a7070a0eef299c1d01c7ddd3a7f503282" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename FormatString</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void themis::utils::Logger::info</definition>
+        <argsstring>(FormatString &amp;&amp;fmt, Args &amp;&amp;... args)</argsstring>
+        <name>info</name>
+        <qualifiedname>themis::utils::Logger::info</qualifiedname>
+        <param>
+          <type>FormatString &amp;&amp;</type>
+          <declname>fmt</declname>
+        </param>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="157" column="17" bodyfile="include/utils/logger_impl.h" bodystart="41" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1a15d42312f4b96a350eb1cf80379ff15c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename FormatString</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void themis::utils::Logger::warn</definition>
+        <argsstring>(FormatString &amp;&amp;fmt, Args &amp;&amp;... args)</argsstring>
+        <name>warn</name>
+        <qualifiedname>themis::utils::Logger::warn</qualifiedname>
+        <param>
+          <type>FormatString &amp;&amp;</type>
+          <declname>fmt</declname>
+        </param>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="160" column="17" bodyfile="include/utils/logger_impl.h" bodystart="51" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1aab5d06ab245c132b742848f1711a5633" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename FormatString</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void themis::utils::Logger::error</definition>
+        <argsstring>(FormatString &amp;&amp;fmt, Args &amp;&amp;... args)</argsstring>
+        <name>error</name>
+        <qualifiedname>themis::utils::Logger::error</qualifiedname>
+        <param>
+          <type>FormatString &amp;&amp;</type>
+          <declname>fmt</declname>
+        </param>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="163" column="17" bodyfile="include/utils/logger_impl.h" bodystart="61" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1a3adaf63419c76fdb429f3aaf2461d3aa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename FormatString</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void themis::utils::Logger::critical</definition>
+        <argsstring>(FormatString &amp;&amp;fmt, Args &amp;&amp;... args)</argsstring>
+        <name>critical</name>
+        <qualifiedname>themis::utils::Logger::critical</qualifiedname>
+        <param>
+          <type>FormatString &amp;&amp;</type>
+          <declname>fmt</declname>
+        </param>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="166" column="17" bodyfile="include/utils/logger_impl.h" bodystart="71" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1a25008587734e34dec7c271d734bbd532" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename FormatString</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>static void themis::utils::Logger::Trace</definition>
+        <argsstring>(FormatString &amp;&amp;fmt, Args &amp;&amp;... args)</argsstring>
+        <name>Trace</name>
+        <qualifiedname>themis::utils::Logger::Trace</qualifiedname>
+        <param>
+          <type>FormatString &amp;&amp;</type>
+          <declname>fmt</declname>
+        </param>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="170" column="17" bodyfile="include/utils/logger.h" bodystart="170" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1a3cee136d1711ee6842ea8cadaf3b6092" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename FormatString</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>static void themis::utils::Logger::Debug</definition>
+        <argsstring>(FormatString &amp;&amp;fmt, Args &amp;&amp;... args)</argsstring>
+        <name>Debug</name>
+        <qualifiedname>themis::utils::Logger::Debug</qualifiedname>
+        <param>
+          <type>FormatString &amp;&amp;</type>
+          <declname>fmt</declname>
+        </param>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="173" column="17" bodyfile="include/utils/logger.h" bodystart="173" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1afbb8fed370a1b151e1bb80d90cc1941a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename FormatString</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>static void themis::utils::Logger::Info</definition>
+        <argsstring>(FormatString &amp;&amp;fmt, Args &amp;&amp;... args)</argsstring>
+        <name>Info</name>
+        <qualifiedname>themis::utils::Logger::Info</qualifiedname>
+        <param>
+          <type>FormatString &amp;&amp;</type>
+          <declname>fmt</declname>
+        </param>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="176" column="17" bodyfile="include/utils/logger.h" bodystart="176" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1ac2284ba51397cca53ffaf356963e0b7c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename FormatString</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>static void themis::utils::Logger::Warn</definition>
+        <argsstring>(FormatString &amp;&amp;fmt, Args &amp;&amp;... args)</argsstring>
+        <name>Warn</name>
+        <qualifiedname>themis::utils::Logger::Warn</qualifiedname>
+        <param>
+          <type>FormatString &amp;&amp;</type>
+          <declname>fmt</declname>
+        </param>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="179" column="17" bodyfile="include/utils/logger.h" bodystart="179" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1a633c030969a25cdc65531095850eab0b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename FormatString</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>static void themis::utils::Logger::Error</definition>
+        <argsstring>(FormatString &amp;&amp;fmt, Args &amp;&amp;... args)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::utils::Logger::Error</qualifiedname>
+        <param>
+          <type>FormatString &amp;&amp;</type>
+          <declname>fmt</declname>
+        </param>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="182" column="17" bodyfile="include/utils/logger.h" bodystart="182" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1a3196659d746987ff1837676b9cd7bdac" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename FormatString</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>static void themis::utils::Logger::Critical</definition>
+        <argsstring>(FormatString &amp;&amp;fmt, Args &amp;&amp;... args)</argsstring>
+        <name>Critical</name>
+        <qualifiedname>themis::utils::Logger::Critical</qualifiedname>
+        <param>
+          <type>FormatString &amp;&amp;</type>
+          <declname>fmt</declname>
+        </param>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="185" column="17" bodyfile="include/utils/logger.h" bodystart="185" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1af958517311786e0f725f71b7d3a7b722" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_log_metrics" kindref="compound">LogMetrics</ref> &amp;</type>
+        <definition>LogMetrics &amp; themis::utils::Logger::metricsStorage</definition>
+        <argsstring>()</argsstring>
+        <name>metricsStorage</name>
+        <qualifiedname>themis::utils::Logger::metricsStorage</qualifiedname>
+        <briefdescription>
+<para>Metrics Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements metricsStorage without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="194" column="23" bodyfile="src/utils/logger.cpp" bodystart="91" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_logger_1ad141c13ac1e74169ea061801e61c365e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>spdlog::level::level_enum</type>
+        <definition>spdlog::level::level_enum themis::utils::Logger::toSpdlogLevel</definition>
+        <argsstring>(Level level)</argsstring>
+        <name>toSpdlogLevel</name>
+        <qualifiedname>themis::utils::Logger::toSpdlogLevel</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482" kindref="member">Level</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>To Spdlog <ref refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482" kindref="member">Level</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements toSpdlogLevel without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="195" column="38" bodyfile="src/utils/logger.cpp" bodystart="74" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1utils_1_1_logger" kindref="compound">Logger</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/logger.h" line="80" column="1" bodyfile="include/utils/logger.h" bodystart="80" bodyend="196"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_logger_1a3196659d746987ff1837676b9cd7bdac" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>Critical</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a3adaf63419c76fdb429f3aaf2461d3aa" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>critical</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a3cee136d1711ee6842ea8cadaf3b6092" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>Debug</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1ac9caf5cadc0d32978ea63616f1561b9a" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>debug</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a633c030969a25cdc65531095850eab0b" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>Error</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1aab5d06ab245c132b742848f1711a5633" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>error</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a38289597568b4131c3d5c025acf4abcb" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>get</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1aff016ef62064284a8c4f41ffc6c61d90" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>getLevel</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a2b78f1e1d9093089b489595703d2afc9" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a9630e0eca8c3ff0511d5a5d13bb534f1" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>getTraceContext</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1afbb8fed370a1b151e1bb80d90cc1941a" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>Info</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a7070a0eef299c1d01c7ddd3a7f503282" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>info</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a5a266ac2fe847ad2b5c97cdf585ab704" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>init</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a91e41e1fbf431b8bca5681563a313e6f" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>initJson</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1af84724441500249842ab4e2d1cd7eaae" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>initRotating</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a48b68a8ce04b773d0a8afcf230cc0001" prot="private" virt="non-virtual"><scope>themis::utils::Logger</scope><name>json_mode_</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1ab442e2646ba5c2713266bc43405c2482" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>Level</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a73d6ee487f159cc60277240439cb5c56" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>levelFromString</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a8e7c973b2b32bbac94358d7668e7e4d1" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>levelToString</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a69dfb6786abd55369d2a0565597dc8ab" prot="private" virt="non-virtual"><scope>themis::utils::Logger</scope><name>logger_</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a847ec9fbe1157b996fcf4cd409531795" prot="private" virt="non-virtual"><scope>themis::utils::Logger</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1af958517311786e0f725f71b7d3a7b722" prot="private" virt="non-virtual"><scope>themis::utils::Logger</scope><name>metricsStorage</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a3d0f5fb98f55964689cffca224d59077" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>resetMetrics</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a411c57056fe528ee0b04f35a9867a9b5" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>setLevel</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a0fef19f76d1ff242e8b2f3144caf3597" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>setPattern</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a715b3af811e44d11b0075fd50091ae90" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>setTraceContext</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a407f02a743f93d003b36f08ed0c794a8" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1ad141c13ac1e74169ea061801e61c365e" prot="private" virt="non-virtual"><scope>themis::utils::Logger</scope><name>toSpdlogLevel</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a25008587734e34dec7c271d734bbd532" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>Trace</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a8dc3a03fd3d93fbe9e9440cda76811f5" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>trace</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a50496ea2a4cab6d0b56091a1e9e59cf6" prot="private" virt="non-virtual"><scope>themis::utils::Logger</scope><name>trace_context_</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1ae07392c5770a7d21e5b103af13b89932" prot="private" virt="non-virtual"><scope>themis::utils::Logger</scope><name>trace_context_mu_</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1ac2284ba51397cca53ffaf356963e0b7c" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>Warn</name></member>
+      <member refid="classthemis_1_1utils_1_1_logger_1a15d42312f4b96a350eb1cf80379ff15c" prot="public" virt="non-virtual"><scope>themis::utils::Logger</scope><name>warn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__tensor_1_1_receipt_chain" kind="class" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::ReceiptChain</compoundname>
+    <includes refid="src_2distributed__tensor_2include_2integrity__verification_8h" local="no">integrity_verification.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1distributed__tensor_1_1_receipt_chain_1af05b64c45e2d1aba8058ed308bed4c22" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_verification_receipt" kindref="compound">VerificationReceipt</ref> &gt;</type>
+        <definition>std::vector&lt;VerificationReceipt&gt; themis::distributed_tensor::ReceiptChain::receipts_</definition>
+        <argsstring></argsstring>
+        <name>receipts_</name>
+        <qualifiedname>themis::distributed_tensor::ReceiptChain::receipts_</qualifiedname>
+        <briefdescription>
+<para>Receipts from oldest to newest. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="153" column="17" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_receipt_chain_1a5eec51b28cf9eab9cb29785e9a4b150d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::distributed_tensor::ReceiptChain::ReceiptChain</definition>
+        <argsstring>()=default</argsstring>
+        <name>ReceiptChain</name>
+        <qualifiedname>themis::distributed_tensor::ReceiptChain::ReceiptChain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="125" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_receipt_chain_1a60eb184555c1e7ac3f2ffc1e411a3cb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_verification_receipt" kindref="compound">VerificationReceipt</ref></type>
+        <definition>VerificationReceipt themis::distributed_tensor::ReceiptChain::appendReceipt</definition>
+        <argsstring>(VerificationReceipt receipt)</argsstring>
+        <name>appendReceipt</name>
+        <qualifiedname>themis::distributed_tensor::ReceiptChain::appendReceipt</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1distributed__tensor_1_1_verification_receipt" kindref="compound">VerificationReceipt</ref></type>
+          <declname>receipt</declname>
+        </param>
+        <briefdescription>
+<para>Append Receipt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">receipt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">receipt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1distributed__tensor_1_1_receipt_chain_1a2ce983f9efccae52859b2d3a8ea8dc84" kindref="member">empty()</ref>, back(), computeContentHash(), push_back(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="132" column="25" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="336" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_receipt_chain_1aca6d450fa7c4d70ec5dc2faf741564e1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_verification_receipt" kindref="compound">VerificationReceipt</ref> &gt;</type>
+        <definition>std::vector&lt; VerificationReceipt &gt; themis::distributed_tensor::ReceiptChain::getAllReceipts</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllReceipts</name>
+        <qualifiedname>themis::distributed_tensor::ReceiptChain::getAllReceipts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="134" column="18" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="358" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_receipt_chain_1a7c5dbb1e1efe2d9327b3f7bd2308178e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_verification_receipt" kindref="compound">VerificationReceipt</ref> &gt;</type>
+        <definition>std::optional&lt; VerificationReceipt &gt; themis::distributed_tensor::ReceiptChain::getHeadReceipt</definition>
+        <argsstring>() const</argsstring>
+        <name>getHeadReceipt</name>
+        <qualifiedname>themis::distributed_tensor::ReceiptChain::getHeadReceipt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="136" column="20" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="362" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_receipt_chain_1af4056e8b783abb7de7b22b4ab96bddbe" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_verification_receipt" kindref="compound">VerificationReceipt</ref> &gt;</type>
+        <definition>std::optional&lt; VerificationReceipt &gt; themis::distributed_tensor::ReceiptChain::getGenesisReceipt</definition>
+        <argsstring>() const</argsstring>
+        <name>getGenesisReceipt</name>
+        <qualifiedname>themis::distributed_tensor::ReceiptChain::getGenesisReceipt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="138" column="20" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="369" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_receipt_chain_1a3f18628d44b7d1b1871ae10549a6ddb7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ReceiptChain::verifyChainIntegrity</definition>
+        <argsstring>() const</argsstring>
+        <name>verifyChainIntegrity</name>
+        <qualifiedname>themis::distributed_tensor::ReceiptChain::verifyChainIntegrity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="140" column="11" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="376" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_receipt_chain_1a17c1be0cc93ccd7527007538623d178d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_tensor::ReceiptChain::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::distributed_tensor::ReceiptChain::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="142" column="13" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="415" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_receipt_chain_1a2ce983f9efccae52859b2d3a8ea8dc84" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::ReceiptChain::empty</definition>
+        <argsstring>() const</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::distributed_tensor::ReceiptChain::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="144" column="11" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_receipt_chain_1a2ea1f4e26c53a80dffb31dd43967433f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a8eadada81999a0abd98d5379955e1533" kindref="member">json</ref></type>
+        <definition>json themis::distributed_tensor::ReceiptChain::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::distributed_tensor::ReceiptChain::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="146" column="11" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="419" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_receipt_chain_1a3e1d48f1d89e7f2af11ac9c80ef3a064" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a8eadada81999a0abd98d5379955e1533" kindref="member">json</ref></type>
+        <definition>json themis::distributed_tensor::ReceiptChain::toManifestMetadataJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toManifestMetadataJSON</name>
+        <qualifiedname>themis::distributed_tensor::ReceiptChain::toManifestMetadataJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="148" column="11" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="432" bodyend="443"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__tensor_1_1_receipt_chain_1ae626d20523c552fa9d06e39e154f9a3a" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="classthemis_1_1distributed__tensor_1_1_receipt_chain_1a5eec51b28cf9eab9cb29785e9a4b150d" kindref="member">ReceiptChain</ref> &gt;</type>
+        <definition>std::optional&lt; ReceiptChain &gt; themis::distributed_tensor::ReceiptChain::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::distributed_tensor::ReceiptChain::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1distributed__tensor_1a8eadada81999a0abd98d5379955e1533" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), find(), end(), is_array(), has_value(), push_back(), std::move(), <ref refid="classthemis_1_1distributed__tensor_1_1_receipt_chain_1a3f18628d44b7d1b1871ae10549a6ddb7" kindref="member">verifyChainIntegrity()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="150" column="27" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="451" bodyend="479"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/integrity_verification.h" line="123" column="1" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="123" bodyend="154"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__tensor_1_1_receipt_chain_1a60eb184555c1e7ac3f2ffc1e411a3cb6" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ReceiptChain</scope><name>appendReceipt</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_receipt_chain_1a2ce983f9efccae52859b2d3a8ea8dc84" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ReceiptChain</scope><name>empty</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_receipt_chain_1ae626d20523c552fa9d06e39e154f9a3a" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ReceiptChain</scope><name>fromJSON</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_receipt_chain_1aca6d450fa7c4d70ec5dc2faf741564e1" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ReceiptChain</scope><name>getAllReceipts</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_receipt_chain_1af4056e8b783abb7de7b22b4ab96bddbe" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ReceiptChain</scope><name>getGenesisReceipt</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_receipt_chain_1a7c5dbb1e1efe2d9327b3f7bd2308178e" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ReceiptChain</scope><name>getHeadReceipt</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_receipt_chain_1a5eec51b28cf9eab9cb29785e9a4b150d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ReceiptChain</scope><name>ReceiptChain</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_receipt_chain_1af05b64c45e2d1aba8058ed308bed4c22" prot="private" virt="non-virtual"><scope>themis::distributed_tensor::ReceiptChain</scope><name>receipts_</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_receipt_chain_1a17c1be0cc93ccd7527007538623d178d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ReceiptChain</scope><name>size</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_receipt_chain_1a2ea1f4e26c53a80dffb31dd43967433f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ReceiptChain</scope><name>toJSON</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_receipt_chain_1a3e1d48f1d89e7f2af11ac9c80ef3a064" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ReceiptChain</scope><name>toManifestMetadataJSON</name></member>
+      <member refid="classthemis_1_1distributed__tensor_1_1_receipt_chain_1a3f18628d44b7d1b1871ae10549a6ddb7" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ReceiptChain</scope><name>verifyChainIntegrity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

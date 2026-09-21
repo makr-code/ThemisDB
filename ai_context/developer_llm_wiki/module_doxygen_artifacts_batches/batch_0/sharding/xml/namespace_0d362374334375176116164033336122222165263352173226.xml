@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d362374334375176116164033336122222165263352173226" kind="namespace" language="C++">
+    <compoundname>@362374334375176116164033336122222165263352173226</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_phase5_lora_distribution.cpp" line="31" column="1"/>
+  </compounddef>
+</doxygen>

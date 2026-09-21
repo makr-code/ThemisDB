@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_snapshot_manager_1_1_retention_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::SnapshotManager::RetentionPolicy</compoundname>
+    <includes refid="snapshot__manager_8h" local="no">snapshot_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_snapshot_manager_1_1_retention_policy_1a806b3727c27cd4eccdacc828e3f1e295" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::SnapshotManager::RetentionPolicy::max_snapshots</definition>
+        <argsstring></argsstring>
+        <name>max_snapshots</name>
+        <qualifiedname>themis::transaction::SnapshotManager::RetentionPolicy::max_snapshots</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>0 = unlimited </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="143" column="17" bodyfile="include/transaction/snapshot_manager.h" bodystart="143" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_snapshot_manager_1_1_retention_policy_1a0dd8db6e46219ed123837acb4547f7a8" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::transaction::SnapshotManager::RetentionPolicy::max_age_ms</definition>
+        <argsstring></argsstring>
+        <name>max_age_ms</name>
+        <qualifiedname>themis::transaction::SnapshotManager::RetentionPolicy::max_age_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>0 = unlimited; prune older than this </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="144" column="17" bodyfile="include/transaction/snapshot_manager.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_snapshot_manager_1_1_retention_policy_1a7e1410b2107ab275b42bf67a42091103" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::SnapshotManager::RetentionPolicy::protect_latest</definition>
+        <argsstring></argsstring>
+        <name>protect_latest</name>
+        <qualifiedname>themis::transaction::SnapshotManager::RetentionPolicy::protect_latest</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Never prune the newest snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/snapshot_manager.h" line="145" column="17" bodyfile="include/transaction/snapshot_manager.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/snapshot_manager.h" line="142" column="5" bodyfile="include/transaction/snapshot_manager.h" bodystart="142" bodyend="146"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_retention_policy_1a0dd8db6e46219ed123837acb4547f7a8" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager::RetentionPolicy</scope><name>max_age_ms</name></member>
+      <member refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_retention_policy_1a806b3727c27cd4eccdacc828e3f1e295" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager::RetentionPolicy</scope><name>max_snapshots</name></member>
+      <member refid="structthemis_1_1transaction_1_1_snapshot_manager_1_1_retention_policy_1a7e1410b2107ab275b42bf67a42091103" prot="public" virt="non-virtual"><scope>themis::transaction::SnapshotManager::RetentionPolicy</scope><name>protect_latest</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

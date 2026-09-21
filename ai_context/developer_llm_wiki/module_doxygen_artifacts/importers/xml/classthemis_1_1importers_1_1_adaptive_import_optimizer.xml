@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_adaptive_import_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::AdaptiveImportOptimizer</compoundname>
+    <includes refid="adaptive__import_8h" local="no">adaptive_import.h</includes>
+    <innerclass refid="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_import_plan" prot="public">themis::importers::AdaptiveImportOptimizer::ImportPlan</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_runtime_metrics" prot="public">themis::importers::AdaptiveImportOptimizer::RuntimeMetrics</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_predicted_metrics" prot="public">themis::importers::AdaptiveImportOptimizer::PredictedMetrics</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_performance_predictor" prot="public">themis::importers::AdaptiveImportOptimizer::PerformancePredictor</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_adaptive_import_optimizer_1a7fd73d26dce7a84c240364caba3d75b3" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::AdaptiveImportOptimizer::batch_multiplier_</definition>
+        <argsstring></argsstring>
+        <name>batch_multiplier_</name>
+        <qualifiedname>themis::importers::AdaptiveImportOptimizer::batch_multiplier_</qualifiedname>
+        <initializer>{1.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/adaptive_import.h" line="77" column="12" bodyfile="include/importers/adaptive_import.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_adaptive_import_optimizer_1aaa43ebae3b14a90dfd4549edc9e30922" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_import_plan" kindref="compound">ImportPlan</ref></type>
+        <definition>AdaptiveImportOptimizer::ImportPlan themis::importers::AdaptiveImportOptimizer::optimizeImportPlan</definition>
+        <argsstring>(const std::vector&lt; InferenceTableSchema &gt; &amp;schemas, const std::map&lt; std::string, ColumnStatistics &gt; &amp;stats={})</argsstring>
+        <name>optimizeImportPlan</name>
+        <qualifiedname>themis::importers::AdaptiveImportOptimizer::optimizeImportPlan</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1importers_1_1_inference_table_schema" kindref="compound">InferenceTableSchema</ref> &gt; &amp;</type>
+          <declname>schemas</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="structthemis_1_1importers_1_1_column_statistics" kindref="compound">ColumnStatistics</ref> &gt; &amp;</type>
+          <declname>stats</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/adaptive_import.h" line="35" column="16" bodyfile="src/importers/adaptive_import.cpp" bodystart="90" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_adaptive_import_optimizer_1ae364c3e879eb0e7a982c96bd6a41b2a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::AdaptiveImportOptimizer::adaptBatchSize</definition>
+        <argsstring>(const RuntimeMetrics &amp;metrics)</argsstring>
+        <name>adaptBatchSize</name>
+        <qualifiedname>themis::importers::AdaptiveImportOptimizer::adaptBatchSize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_runtime_metrics" kindref="compound">RuntimeMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Adapt Batch Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::max(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/adaptive_import.h" line="54" column="10" bodyfile="src/importers/adaptive_import.cpp" bodystart="136" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_adaptive_import_optimizer_1ab090152b7a2db86cc92ccfe526b5dec2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::importers::AdaptiveImportOptimizer::currentBatchMultiplier</definition>
+        <argsstring>() const</argsstring>
+        <name>currentBatchMultiplier</name>
+        <qualifiedname>themis::importers::AdaptiveImportOptimizer::currentBatchMultiplier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/adaptive_import.h" line="56" column="12" bodyfile="include/importers/adaptive_import.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_adaptive_import_optimizer_1ae9cabbdecf8226fe491eee5cef6e1c7e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::importers::AdaptiveImportOptimizer::topologicalSort</definition>
+        <argsstring>(const std::vector&lt; InferenceTableSchema &gt; &amp;schemas) const</argsstring>
+        <name>topologicalSort</name>
+        <qualifiedname>themis::importers::AdaptiveImportOptimizer::topologicalSort</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1importers_1_1_inference_table_schema" kindref="compound">InferenceTableSchema</ref> &gt; &amp;</type>
+          <declname>schemas</declname>
+        </param>
+        <briefdescription>
+<para>Topological Sort. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">schemas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/adaptive_import.h" line="84" column="17" bodyfile="src/importers/adaptive_import.cpp" bodystart="26" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/adaptive_import.h" line="23" column="1" bodyfile="include/importers/adaptive_import.h" bodystart="23" bodyend="87"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_adaptive_import_optimizer_1ae364c3e879eb0e7a982c96bd6a41b2a1" prot="public" virt="non-virtual"><scope>themis::importers::AdaptiveImportOptimizer</scope><name>adaptBatchSize</name></member>
+      <member refid="classthemis_1_1importers_1_1_adaptive_import_optimizer_1a7fd73d26dce7a84c240364caba3d75b3" prot="private" virt="non-virtual"><scope>themis::importers::AdaptiveImportOptimizer</scope><name>batch_multiplier_</name></member>
+      <member refid="classthemis_1_1importers_1_1_adaptive_import_optimizer_1ab090152b7a2db86cc92ccfe526b5dec2" prot="public" virt="non-virtual"><scope>themis::importers::AdaptiveImportOptimizer</scope><name>currentBatchMultiplier</name></member>
+      <member refid="classthemis_1_1importers_1_1_adaptive_import_optimizer_1aaa43ebae3b14a90dfd4549edc9e30922" prot="public" virt="non-virtual"><scope>themis::importers::AdaptiveImportOptimizer</scope><name>optimizeImportPlan</name></member>
+      <member refid="classthemis_1_1importers_1_1_adaptive_import_optimizer_1ae9cabbdecf8226fe491eee5cef6e1c7e" prot="private" virt="non-virtual"><scope>themis::importers::AdaptiveImportOptimizer</scope><name>topologicalSort</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

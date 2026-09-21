@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_c_q_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CQResult</compoundname>
+    <includes refid="continuous__query__engine_8h" local="no">continuous_query_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_q_result_1ad4806a131cbfa4b4da5f7ed857dc7f5d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::CQResult::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themis::query::CQResult::payload</qualifiedname>
+        <briefdescription>
+<para>JSON-serialised tuple. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine.h" line="35" column="17" bodyfile="include/query/continuous_query_engine.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_c_q_result_1abacdf9d6cf4e4e34c53f16f99e241600" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::CQResult::is_retract</definition>
+        <argsstring></argsstring>
+        <name>is_retract</name>
+        <qualifiedname>themis::query::CQResult::is_retract</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>true → retraction (removal) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine.h" line="36" column="17" bodyfile="include/query/continuous_query_engine.h" bodystart="36" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/continuous_query_engine.h" line="34" column="1" bodyfile="include/query/continuous_query_engine.h" bodystart="34" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_c_q_result_1abacdf9d6cf4e4e34c53f16f99e241600" prot="public" virt="non-virtual"><scope>themis::query::CQResult</scope><name>is_retract</name></member>
+      <member refid="structthemis_1_1query_1_1_c_q_result_1ad4806a131cbfa4b4da5f7ed857dc7f5d" prot="public" virt="non-virtual"><scope>themis::query::CQResult</scope><name>payload</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

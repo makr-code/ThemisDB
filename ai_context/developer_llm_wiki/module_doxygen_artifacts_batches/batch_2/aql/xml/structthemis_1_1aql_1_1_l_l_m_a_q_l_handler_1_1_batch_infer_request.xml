@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::LLMAQLHandler::BatchInferRequest</compoundname>
+    <includes refid="llm__aql__handler_8h" local="no">llm_aql_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request_1a764be60d50823500423ca2f54efdadd6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::LLMAQLHandler::BatchInferRequest::prompt</definition>
+        <argsstring></argsstring>
+        <name>prompt</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::BatchInferRequest::prompt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="277" column="21" bodyfile="include/aql/llm_aql_handler.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request_1abc48200f6de8c05fa4c321b5bf16fe68" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::LLMAQLHandler::BatchInferRequest::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::BatchInferRequest::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="278" column="21" bodyfile="include/aql/llm_aql_handler.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request_1a0db3e31c7c88d218bf4d5119ba456658" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::LLMAQLHandler::BatchInferRequest::lora_id</definition>
+        <argsstring></argsstring>
+        <name>lora_id</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::BatchInferRequest::lora_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="279" column="21" bodyfile="include/aql/llm_aql_handler.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request_1a7f8dd3c7c0f3e2a2f88984d9bff92a8c" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::aql::LLMAQLHandler::BatchInferRequest::options</definition>
+        <argsstring></argsstring>
+        <name>options</name>
+        <qualifiedname>themis::aql::LLMAQLHandler::BatchInferRequest::options</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_aql_handler.h" line="280" column="28" bodyfile="include/aql/llm_aql_handler.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_aql_handler.h" line="276" column="5" bodyfile="include/aql/llm_aql_handler.h" bodystart="276" bodyend="281"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request_1a0db3e31c7c88d218bf4d5119ba456658" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::BatchInferRequest</scope><name>lora_id</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request_1abc48200f6de8c05fa4c321b5bf16fe68" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::BatchInferRequest</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request_1a7f8dd3c7c0f3e2a2f88984d9bff92a8c" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::BatchInferRequest</scope><name>options</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_a_q_l_handler_1_1_batch_infer_request_1a764be60d50823500423ca2f54efdadd6" prot="public" virt="non-virtual"><scope>themis::aql::LLMAQLHandler::BatchInferRequest</scope><name>prompt</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

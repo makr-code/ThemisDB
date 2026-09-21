@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_secondary_index" kind="class" language="C++" prot="public">
+    <compoundname>MockSecondaryIndex</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">ISecondaryIndex</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_mock_secondary_index_1a5d406f97391c664135a701ce7fff3073" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;std::string&gt; &gt; MockSecondaryIndex::index_</definition>
+        <argsstring></argsstring>
+        <name>index_</name>
+        <qualifiedname>MockSecondaryIndex::index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="224" column="14" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="224" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_secondary_index_1a72c4844a70c5b83c2ac68cf279ff65cd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockSecondaryIndex::insert</definition>
+        <argsstring>(std::string_view indexed_value, std::string_view primary_key) override</argsstring>
+        <name>insert</name>
+        <qualifiedname>MockSecondaryIndex::insert</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>indexed_value</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>primary_key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="179" column="10" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="179" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_secondary_index_1a28ade6eeca06b4db89d65b21e24f5c16" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockSecondaryIndex::remove</definition>
+        <argsstring>(std::string_view indexed_value, std::string_view primary_key) override</argsstring>
+        <name>remove</name>
+        <qualifiedname>MockSecondaryIndex::remove</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>indexed_value</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>primary_key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="185" column="10" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="185" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_secondary_index_1afcd18bd6ab573f4991a173462cf357c7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; MockSecondaryIndex::lookup</definition>
+        <argsstring>(std::string_view value) const override</argsstring>
+        <name>lookup</name>
+        <qualifiedname>MockSecondaryIndex::lookup</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="200" column="17" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="200" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_secondary_index_1a884cba0d85e12f4212ae5e7e70a31803" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; MockSecondaryIndex::rangeScan</definition>
+        <argsstring>(std::string_view start, std::string_view end, ScanOrder=ScanOrder::ASCENDING) const override</argsstring>
+        <name>rangeScan</name>
+        <qualifiedname>MockSecondaryIndex::rangeScan</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>ScanOrder</type>
+          <defval>ScanOrder::ASCENDING</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="206" column="17" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="206" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_secondary_index_1a2d275e51601fad6563c7806f66a70a53" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string MockSecondaryIndex::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>MockSecondaryIndex::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="219" column="17" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="219" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_secondary_index_1a2a8c5e3b230b973f90e565b000882dfa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string MockSecondaryIndex::getFieldName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getFieldName</name>
+        <qualifiedname>MockSecondaryIndex::getFieldName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="220" column="17" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="220" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_secondary_index_1ae93f50ccc3eab6b3674dee69ce3dc7ce" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string MockSecondaryIndex::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>MockSecondaryIndex::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="221" column="17" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="221" bodyend="221"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ISecondaryIndex</label>
+      </node>
+      <node id="1">
+        <label>MockSecondaryIndex</label>
+        <link refid="class_mock_secondary_index"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>ISecondaryIndex</label>
+      </node>
+      <node id="1">
+        <label>MockSecondaryIndex</label>
+        <link refid="class_mock_secondary_index"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/base/test_base_interfaces.cpp" line="177" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="177" bodyend="225"/>
+    <listofallmembers>
+      <member refid="class_mock_secondary_index_1a2a8c5e3b230b973f90e565b000882dfa" prot="public" virt="non-virtual"><scope>MockSecondaryIndex</scope><name>getFieldName</name></member>
+      <member refid="class_mock_secondary_index_1a2d275e51601fad6563c7806f66a70a53" prot="public" virt="non-virtual"><scope>MockSecondaryIndex</scope><name>getName</name></member>
+      <member refid="class_mock_secondary_index_1ae93f50ccc3eab6b3674dee69ce3dc7ce" prot="public" virt="non-virtual"><scope>MockSecondaryIndex</scope><name>getStatistics</name></member>
+      <member refid="class_mock_secondary_index_1a5d406f97391c664135a701ce7fff3073" prot="private" virt="non-virtual"><scope>MockSecondaryIndex</scope><name>index_</name></member>
+      <member refid="class_mock_secondary_index_1a72c4844a70c5b83c2ac68cf279ff65cd" prot="public" virt="non-virtual"><scope>MockSecondaryIndex</scope><name>insert</name></member>
+      <member refid="class_mock_secondary_index_1afcd18bd6ab573f4991a173462cf357c7" prot="public" virt="non-virtual"><scope>MockSecondaryIndex</scope><name>lookup</name></member>
+      <member refid="class_mock_secondary_index_1a884cba0d85e12f4212ae5e7e70a31803" prot="public" virt="non-virtual"><scope>MockSecondaryIndex</scope><name>rangeScan</name></member>
+      <member refid="class_mock_secondary_index_1a28ade6eeca06b4db89d65b21e24f5c16" prot="public" virt="non-virtual"><scope>MockSecondaryIndex</scope><name>remove</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_plan_reuse_validator_1_1_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::PlanReuseValidator::Result</compoundname>
+    <includes refid="plan__cache_8h" local="no">plan_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_reuse_validator_1_1_result_1aa553c44b49791905dc19806d7b3b2c95" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_plan_reuse_validator_1a9dc22c1405b8db936034c977942daf97" kindref="member">Verdict</ref></type>
+        <definition>Verdict themis::query::PlanReuseValidator::Result::verdict</definition>
+        <argsstring></argsstring>
+        <name>verdict</name>
+        <qualifiedname>themis::query::PlanReuseValidator::Result::verdict</qualifiedname>
+        <initializer>{<ref refid="classthemis_1_1query_1_1_plan_reuse_validator_1a9dc22c1405b8db936034c977942daf97ab18288babd4636cff34b15e0d1340fc2" kindref="member">Verdict::SAFE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="291" column="21" bodyfile="include/query/plan_cache.h" bodystart="291" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_reuse_validator_1_1_result_1abf8508fc5225ce796af7dbc1f3fca375" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::PlanReuseValidator::Result::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::query::PlanReuseValidator::Result::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="292" column="21" bodyfile="include/query/plan_cache.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_plan_reuse_validator_1_1_result_1a34639688a507f20f14e0f61bb99c56eb" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::PlanReuseValidator::Result::safe</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>safe</name>
+        <qualifiedname>themis::query::PlanReuseValidator::Result::safe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="294" column="14" bodyfile="include/query/plan_cache.h" bodystart="294" bodyend="294"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/plan_cache.h" line="290" column="5" bodyfile="include/query/plan_cache.h" bodystart="290" bodyend="295"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_plan_reuse_validator_1_1_result_1abf8508fc5225ce796af7dbc1f3fca375" prot="public" virt="non-virtual"><scope>themis::query::PlanReuseValidator::Result</scope><name>reason</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_reuse_validator_1_1_result_1a34639688a507f20f14e0f61bb99c56eb" prot="public" virt="non-virtual"><scope>themis::query::PlanReuseValidator::Result</scope><name>safe</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_reuse_validator_1_1_result_1aa553c44b49791905dc19806d7b3b2c95" prot="public" virt="non-virtual"><scope>themis::query::PlanReuseValidator::Result</scope><name>verdict</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_wasm_handler_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::WasmHandlerConfig</compoundname>
+    <includes refid="wasm__handler__registry_8h" local="no">wasm_handler_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_handler_config_1a365bfb8a8b55f2382054de5a47484a57" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::server::WasmHandlerConfig::cpu_time_limit</definition>
+        <argsstring></argsstring>
+        <name>cpu_time_limit</name>
+        <qualifiedname>themis::server::WasmHandlerConfig::cpu_time_limit</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="36" column="31" bodyfile="include/server/wasm_handler_registry.h" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_handler_config_1a8e106b67d53e9af96be428a5989af835" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::WasmHandlerConfig::memory_limit_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_limit_bytes</name>
+        <qualifiedname>themis::server::WasmHandlerConfig::memory_limit_bytes</qualifiedname>
+        <initializer>= 64ULL * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="38" column="12" bodyfile="include/server/wasm_handler_registry.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_handler_config_1acaae56c578264b398ddfc9cdda366352" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::WasmHandlerConfig::linear_memory_pages</definition>
+        <argsstring></argsstring>
+        <name>linear_memory_pages</name>
+        <qualifiedname>themis::server::WasmHandlerConfig::linear_memory_pages</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="40" column="14" bodyfile="include/server/wasm_handler_registry.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_handler_config_1add01311821e311940c96fe2bc2284492" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::WasmHandlerConfig::entry_point</definition>
+        <argsstring></argsstring>
+        <name>entry_point</name>
+        <qualifiedname>themis::server::WasmHandlerConfig::entry_point</qualifiedname>
+        <initializer>= &quot;handle&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="42" column="17" bodyfile="include/server/wasm_handler_registry.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/wasm_handler_registry.h" line="35" column="1" bodyfile="include/server/wasm_handler_registry.h" bodystart="35" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_config_1a365bfb8a8b55f2382054de5a47484a57" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerConfig</scope><name>cpu_time_limit</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_config_1add01311821e311940c96fe2bc2284492" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerConfig</scope><name>entry_point</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_config_1acaae56c578264b398ddfc9cdda366352" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerConfig</scope><name>linear_memory_pages</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_handler_config_1a8e106b67d53e9af96be428a5989af835" prot="public" virt="non-virtual"><scope>themis::server::WasmHandlerConfig</scope><name>memory_limit_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

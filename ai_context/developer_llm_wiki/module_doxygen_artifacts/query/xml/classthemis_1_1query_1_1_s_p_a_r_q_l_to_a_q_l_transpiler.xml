@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_s_p_a_r_q_l_to_a_q_l_transpiler" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::SPARQLToAQLTranspiler</compoundname>
+    <includes refid="sparql__parser_8h" local="no">sparql_parser.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_s_p_a_r_q_l_to_a_q_l_transpiler_1a4586ef8e7cf27aad77227e178aa4a5fc" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::SPARQLToAQLTranspiler::collection_</definition>
+        <argsstring></argsstring>
+        <name>collection_</name>
+        <qualifiedname>themis::query::SPARQLToAQLTranspiler::collection_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="225" column="17" bodyfile="include/query/sparql_parser.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_s_p_a_r_q_l_to_a_q_l_transpiler_1a6e9d2a69b6e7b7498b86c41e3ea43453" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::SPARQLToAQLTranspiler::SPARQLToAQLTranspiler</definition>
+        <argsstring>(std::string collection=&quot;rdf_triples&quot;)</argsstring>
+        <name>SPARQLToAQLTranspiler</name>
+        <qualifiedname>themis::query::SPARQLToAQLTranspiler::SPARQLToAQLTranspiler</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>collection</declname>
+          <defval>&quot;rdf_triples&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="214" column="14" bodyfile="include/query/sparql_parser.h" bodystart="214" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_s_p_a_r_q_l_to_a_q_l_transpiler_1af54812e51e4219c2edff4bd585e2f8d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::query::SPARQLToAQLTranspiler::transpile</definition>
+        <argsstring>(const SPARQLASTNode &amp;ast)</argsstring>
+        <name>transpile</name>
+        <qualifiedname>themis::query::SPARQLToAQLTranspiler::transpile</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_a_s_t_node" kindref="compound">SPARQLASTNode</ref> &amp;</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+<para>Transpile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Ok(), transpileSelect(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="222" column="12" bodyfile="src/query/sparql_parser.cpp" bodystart="1137" bodyend="1139"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_s_p_a_r_q_l_to_a_q_l_transpiler_1a710880fb8d5bba22756b0a99370a5b4b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::SPARQLToAQLTranspiler::transpileSelect</definition>
+        <argsstring>(const SPARQLSelectStatement &amp;stmt)</argsstring>
+        <name>transpileSelect</name>
+        <qualifiedname>themis::query::SPARQLToAQLTranspiler::transpileSelect</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement" kindref="compound">SPARQLSelectStatement</ref> &amp;</type>
+          <declname>stmt</declname>
+        </param>
+        <briefdescription>
+<para>Transpile Select. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stmt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stmt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(), find(), end(), push_back(), termToAQLStr(), empty(), size(), filterExprToAQL(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sparql_parser.h" line="232" column="17" bodyfile="src/query/sparql_parser.cpp" bodystart="997" bodyend="1129"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/sparql_parser.h" line="212" column="1" bodyfile="include/query/sparql_parser.h" bodystart="212" bodyend="233"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_s_p_a_r_q_l_to_a_q_l_transpiler_1a4586ef8e7cf27aad77227e178aa4a5fc" prot="private" virt="non-virtual"><scope>themis::query::SPARQLToAQLTranspiler</scope><name>collection_</name></member>
+      <member refid="classthemis_1_1query_1_1_s_p_a_r_q_l_to_a_q_l_transpiler_1a6e9d2a69b6e7b7498b86c41e3ea43453" prot="public" virt="non-virtual"><scope>themis::query::SPARQLToAQLTranspiler</scope><name>SPARQLToAQLTranspiler</name></member>
+      <member refid="classthemis_1_1query_1_1_s_p_a_r_q_l_to_a_q_l_transpiler_1af54812e51e4219c2edff4bd585e2f8d7" prot="public" virt="non-virtual"><scope>themis::query::SPARQLToAQLTranspiler</scope><name>transpile</name></member>
+      <member refid="classthemis_1_1query_1_1_s_p_a_r_q_l_to_a_q_l_transpiler_1a710880fb8d5bba22756b0a99370a5b4b" prot="private" virt="non-virtual"><scope>themis::query::SPARQLToAQLTranspiler</scope><name>transpileSelect</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,660 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__cache__eviction__multilevel__hardening_8cpp" kind="file" language="C++">
+    <compoundname>test_cache_eviction_multilevel_hardening.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="bounded__lru__cache_8h" local="yes">cache/bounded_lru_cache.h</includes>
+    <includes refid="cache__eviction__policy_8h" local="yes">cache/cache_eviction_policy.h</includes>
+    <incdepgraph>
+      <node id="10">
+        <label>cache/bounded_lru_cache.h</label>
+        <link refid="bounded__lru__cache_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>cache/cache_eviction_policy.h</label>
+        <link refid="cache__eviction__policy_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>cache/cache_interfaces.h</label>
+        <link refid="cache__interfaces_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/cache/test_cache_eviction_multilevel_hardening.cpp</label>
+        <link refid="test__cache__eviction__multilevel__hardening_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>array</label>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="15">
+        <label>cstddef</label>
+      </node>
+      <node id="16">
+        <label>cstdint</label>
+      </node>
+      <node id="17">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="22">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="12">
+        <label>shared_mutex</label>
+      </node>
+      <node id="21">
+        <label>stdexcept</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="18">
+        <label>string_view</label>
+      </node>
+      <node id="7">
+        <label>thread</label>
+      </node>
+      <node id="13">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" prot="public">themis::cache::test::CacheEvictionHardeningTest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1cache">themis::cache</innernamespace>
+    <innernamespace refid="namespacethemis_1_1cache_1_1test">themis::cache::test</innernamespace>
+    <briefdescription>
+<para>Phase 3 P3-02: Multi-Tier Cache Eviction Hardening Tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates production behaviour of BoundedLRUCache and CacheEvictionPolicy implementations including:<itemizedlist>
+<listitem><para>Hot / warm / cold tier emulation via LRU access frequency</para>
+</listitem><listitem><para>Weighted scoring: LFU and LRU policy correct victim selection</para>
+</listitem><listitem><para>Eviction under capacity pressure — correct items removed</para>
+</listitem><listitem><para>Thread-safe concurrent put / get / evict</para>
+</listitem><listitem><para>Memory bounds: size never exceeds configured max_entries</para>
+</listitem><listitem><para>TTL expiry: expired entries return nullopt</para>
+</listitem><listitem><para>Eviction latency guard (basic timing)</para>
+</listitem><listitem><para>Edge cases: single-item cache, empty eviction, oversized TTL handling</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="bounded__lru__cache_8h" kindref="compound">include/cache/bounded_lru_cache.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="cache__eviction__policy_8h" kindref="compound">include/cache/cache_eviction_policy.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="bounded__lru__cache_8cpp" kindref="compound">src/cache/bounded_lru_cache.cpp</ref> </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="cache__eviction__policy_8cpp" kindref="compound">src/cache/cache_eviction_policy.cpp</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>ai_working/PHASE3_OPTIMIZATION_DETAILED_PLAN.md (P3-02)</para>
+</simplesect>
+<simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="bounded__lru__cache_8h" kindref="compound">cache/bounded_lru_cache.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cache__eviction__policy_8h" kindref="compound">cache/cache_eviction_policy.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1cache_1_1test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1ab19eb1480674ddac64997e1db2b12c84" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config" kindref="compound">BoundedLRUCache::Config</ref><sp/>makeConfig(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_entries<sp/>=<sp/>10,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>ttl_seconds<sp/>=<sp/>3600)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config" kindref="compound">BoundedLRUCache::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config_1a7a31a46ca428b1c52f327f347e579b06" kindref="member">max_entries</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>max_entries;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config_1a24e587092648945f01493c1d07f37c2a" kindref="member">ttl</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds{ttl_seconds};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config_1a2486c9a80df8942c2e2e38d1db7d8055" kindref="member">enable_statistics</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config_1a927c71b554351c01f184ca3d5f1225dc" kindref="member">max_ttl_seconds</ref><sp/><sp/><sp/><sp/>=<sp/>86400u;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>putStr(<ref refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache" kindref="compound">BoundedLRUCache</ref>&amp;<sp/>c,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>val<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/>uint32_t<sp/>ttl<sp/>=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>c.<ref refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a554bb52074b9332ad1d97cb1c5edc8ff" kindref="member">put</ref>(key,<sp/><ref refid="namespacethemis_1_1cache_1_1test_1ab19eb1480674ddac64997e1db2b12c84" kindref="member">json</ref>(val),<sp/>ttl);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_key_descriptor" kindref="compound">CacheKeyDescriptor</ref><sp/>makeDesc(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>access_count,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>last_access_ns,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>creation_time_ns<sp/>=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_cache_key_descriptor" kindref="compound">CacheKeyDescriptor</ref><sp/>d;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>d.<ref refid="structthemis_1_1cache_1_1_cache_key_descriptor_1a61c76e0bf398424c8ff98dbde540df0d" kindref="member">key</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>key;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>d.<ref refid="structthemis_1_1cache_1_1_cache_key_descriptor_1a86de2827919532b8c697d41f4e8d2f81" kindref="member">access_count</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>access_count;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>d.<ref refid="structthemis_1_1cache_1_1_cache_key_descriptor_1a018bcdfde88fa7d32db49a130a925c22" kindref="member">last_access_ns</ref><sp/><sp/><sp/>=<sp/>last_access_ns;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>d.<ref refid="structthemis_1_1cache_1_1_cache_key_descriptor_1a6a6d90e12d002df39bc89b828c4a17e6" kindref="member">creation_time_ns</ref><sp/>=<sp/>creation_time_ns;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>d;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test_1af66275599d023b61a18f14753936d829" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test_1a5eaf5c53dc307f669e0798ce8c00bcb0" kindref="member">cache_</ref><sp/>=<sp/>std::make_unique&lt;BoundedLRUCache&gt;(makeConfig(10));</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;BoundedLRUCache&gt;<sp/><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test_1a5eaf5c53dc307f669e0798ce8c00bcb0" kindref="member">cache_</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Hot<sp/>/<sp/>Warm<sp/>/<sp/>Cold<sp/>Tier<sp/>Behavior<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>HotTierBehavior_FrequentlyAccessedItemSurvivesEviction)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache" kindref="compound">BoundedLRUCache</ref><sp/>c{makeConfig(5)};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>5<sp/>items<sp/>filling<sp/>the<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;hot&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;H&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;cold1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;cold2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;cold3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;cold4&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C4&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Access<sp/>&quot;hot&quot;<sp/>item<sp/>10<sp/>times<sp/>—<sp/>promotes<sp/>it<sp/>to<sp/>MRU<sp/>repeatedly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(c.<ref refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a562d7d0441d302fb44b40c7a39143c1b" kindref="member">get</ref>(</highlight><highlight class="stringliteral">&quot;hot&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adding<sp/>a<sp/>new<sp/>entry<sp/>forces<sp/>eviction<sp/>of<sp/>the<sp/>LRU<sp/>(oldest<sp/>non-accessed<sp/>item)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;new_item&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;N&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.<ref refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a562d7d0441d302fb44b40c7a39143c1b" kindref="member">get</ref>(</highlight><highlight class="stringliteral">&quot;hot&quot;</highlight><highlight class="normal">).has_value())</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Frequently<sp/>accessed<sp/>&apos;hot&apos;<sp/>item<sp/>must<sp/>survive<sp/>eviction&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(CacheEvictionHardeningTest,<sp/>WarmTierBehavior_ModeratelyAccessedItemOutlivesUnaccessed)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>BoundedLRUCache<sp/>c{makeConfig(3)};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;warm&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;W&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;cold1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;cold2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Access<sp/>&quot;warm&quot;<sp/>a<sp/>few<sp/>times<sp/>to<sp/>promote<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(c.get(</highlight><highlight class="stringliteral">&quot;warm&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(c.get(</highlight><highlight class="stringliteral">&quot;warm&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>one<sp/>new<sp/>item<sp/>—<sp/>cold1<sp/>or<sp/>cold2<sp/>should<sp/>be<sp/>evicted,<sp/>not<sp/>&quot;warm&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;new&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;N&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;warm&quot;<sp/>must<sp/>still<sp/>be<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.get(</highlight><highlight class="stringliteral">&quot;warm&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>ColdTierBehavior_UnaccesdItemEvictedFirst)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>BoundedLRUCache<sp/>c{makeConfig(3)};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;item_A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;item_B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;item_C&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Access<sp/>B<sp/>and<sp/>C,<sp/>leaving<sp/>A<sp/>as<sp/>LRU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(c.get(</highlight><highlight class="stringliteral">&quot;item_B&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(c.get(</highlight><highlight class="stringliteral">&quot;item_C&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Force<sp/>eviction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;item_D&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(c.get(</highlight><highlight class="stringliteral">&quot;item_A&quot;</highlight><highlight class="normal">).has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Unaccessed<sp/>item_A<sp/>should<sp/>be<sp/>evicted&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.get(</highlight><highlight class="stringliteral">&quot;item_B&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.get(</highlight><highlight class="stringliteral">&quot;item_C&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>TierPromotion_AccessedItemMovesToFront)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>BoundedLRUCache<sp/>c{makeConfig(3)};</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;old_entry&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;O&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;mid_entry&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;M&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;new_entry&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;N&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Promote<sp/>old_entry<sp/>by<sp/>accessing<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(c.get(</highlight><highlight class="stringliteral">&quot;old_entry&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(c.get(</highlight><highlight class="stringliteral">&quot;old_entry&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Force<sp/>eviction<sp/>—<sp/>mid_entry<sp/>becomes<sp/>LRU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;added&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.get(</highlight><highlight class="stringliteral">&quot;old_entry&quot;</highlight><highlight class="normal">).has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Promoted<sp/>entry<sp/>must<sp/>survive&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(c.get(</highlight><highlight class="stringliteral">&quot;mid_entry&quot;</highlight><highlight class="normal">).has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Non-promoted<sp/>mid_entry<sp/>evicted&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Weighted<sp/>Scoring<sp/>/<sp/>Policy<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>WeightedScoring_LFUPolicy_EvictsLeastFrequent)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>LFUEvictionPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t_now<sp/>=<sp/>std::chrono::steady_clock::now()</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.time_since_epoch()</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.count();</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CacheKeyDescriptor&gt;<sp/>candidates<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDesc(</highlight><highlight class="stringliteral">&quot;high_freq&quot;</highlight><highlight class="normal">,<sp/><sp/>50,<sp/>t_now,<sp/>0),</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDesc(</highlight><highlight class="stringliteral">&quot;low_freq&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>1,<sp/>t_now,<sp/>0),</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDesc(</highlight><highlight class="stringliteral">&quot;mid_freq&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>20,<sp/>t_now,<sp/>0),</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>decision<sp/>=<sp/>policy.choose_victim(candidates);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(decision.should_evict);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(decision.reason.find(</highlight><highlight class="stringliteral">&quot;low_freq&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos<sp/>||</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!decision.reason.empty(),<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;LFU<sp/>should<sp/>select<sp/>the<sp/>low-frequency<sp/>entry&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Additionally<sp/>verify<sp/>via<sp/>re-calling:<sp/>the<sp/>victim<sp/>must<sp/>be<sp/>the<sp/>lowest-freq<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>verify<sp/>by<sp/>checking<sp/>the<sp/>policy<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(policy.policy_name(),<sp/></highlight><highlight class="stringliteral">&quot;LFU&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>WeightedScoring_LRUPolicy_EvictsLeastRecent)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>LRUEvictionPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CacheKeyDescriptor&gt;<sp/>candidates<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDesc(</highlight><highlight class="stringliteral">&quot;recent&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>5,<sp/>3000LL,<sp/>0),</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDesc(</highlight><highlight class="stringliteral">&quot;oldest&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>5,<sp/><sp/>100LL,<sp/>0),<sp/><sp/></highlight><highlight class="comment">//<sp/>smallest<sp/>last_access_ns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDesc(</highlight><highlight class="stringliteral">&quot;middle&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>5,<sp/>1500LL,<sp/>0),</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>decision<sp/>=<sp/>policy.choose_victim(candidates);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(decision.should_evict);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(policy.policy_name(),<sp/></highlight><highlight class="stringliteral">&quot;LRU&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>WeightedScoring_FIFOPolicy_EvictsOldestCreated)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>FIFOEvictionPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CacheKeyDescriptor&gt;<sp/>candidates<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDesc(</highlight><highlight class="stringliteral">&quot;c2&quot;</highlight><highlight class="normal">,<sp/>3,<sp/>5000LL,<sp/>2000LL),<sp/><sp/></highlight><highlight class="comment">//<sp/>created<sp/>at<sp/>2000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDesc(</highlight><highlight class="stringliteral">&quot;c1&quot;</highlight><highlight class="normal">,<sp/>3,<sp/>5000LL,<sp/><sp/>500LL),<sp/><sp/></highlight><highlight class="comment">//<sp/>created<sp/>at<sp/>500<sp/>(oldest)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>makeDesc(</highlight><highlight class="stringliteral">&quot;c3&quot;</highlight><highlight class="normal">,<sp/>3,<sp/>5000LL,<sp/>3000LL),<sp/><sp/></highlight><highlight class="comment">//<sp/>created<sp/>at<sp/>3000</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>decision<sp/>=<sp/>policy.choose_victim(candidates);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(decision.should_evict);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(policy.policy_name(),<sp/></highlight><highlight class="stringliteral">&quot;FIFO&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>WeightedScoring_PolicyFactory_CreatesAllTypes)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>names<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;LRU&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LFU&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FIFO&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ARC&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>name<sp/>:<sp/>names)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>p<sp/>=<sp/><ref refid="classthemis_1_1cache_1_1_eviction_policy_factory_1ab20cded9e266b8b66e261cc52e76a7dd" kindref="member">EvictionPolicyFactory::create</ref>(name);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(p,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_STREQ(p-&gt;policy_name(),<sp/>name.c_str());</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Factory<sp/>failed<sp/>for<sp/>policy:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>name;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>WeightedScoring_EmptyCandidateList_NoEviction)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>LRUEvictionPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>decision<sp/>=<sp/>policy.choose_victim({});</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(decision.should_evict);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Eviction<sp/>Under<sp/>Capacity<sp/>Pressure<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>EvictionUnderCapacity_CorrectItemRemoved)<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>BoundedLRUCache<sp/>c{makeConfig(3)};</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;lru&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;L&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;mid&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;M&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;mru&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;R&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>eviction<sp/>by<sp/>adding<sp/>a<sp/>4th<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;new&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;N&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(c.get(</highlight><highlight class="stringliteral">&quot;lru&quot;</highlight><highlight class="normal">).has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;LRU<sp/>entry<sp/>must<sp/>be<sp/>evicted&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.get(</highlight><highlight class="stringliteral">&quot;mid&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.get(</highlight><highlight class="stringliteral">&quot;mru&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.get(</highlight><highlight class="stringliteral">&quot;new&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="315"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>EvictionUnderCapacity_ExactlyAtCapacity_NoUnnecessaryEviction)<sp/>{</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>cap<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>BoundedLRUCache<sp/>c{makeConfig(cap)};</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>cap;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.size(),<sp/>cap);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>cap;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.get(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)).has_value())</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;All<sp/>entries<sp/>should<sp/>be<sp/>present<sp/>at<sp/>exact<sp/>capacity&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="335"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Concurrent<sp/>Access<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>ConcurrentAccess_PutGetEvict_ThreadSafe)<sp/>{</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>BoundedLRUCache<sp/>c{makeConfig(50)};</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/><sp/><sp/><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kIterations<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-populate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>20;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;seed&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>workers;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>workers.reserve(kThreads);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>workers.emplace_back([&amp;c,<sp/>t]()<sp/>{</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kIterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>key<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;key_t&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(t)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.put(key,<sp/><ref refid="namespacethemis_1_1cache_1_1test_1ab19eb1480674ddac64997e1db2b12c84" kindref="member">json</ref>(</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">),<sp/>0);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.get(</highlight><highlight class="stringliteral">&quot;seed&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i<sp/>%<sp/>20));</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>%<sp/>10<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.remove(key);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>w<sp/>:<sp/>workers)<sp/>{</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>w.join();</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Size<sp/>must<sp/>not<sp/>exceed<sp/>configured<sp/>capacity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(c.size(),<sp/>50u);</highlight></codeline>
+<codeline lineno="379"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>ConcurrentAccess_StatsConsistentUnderLoad)<sp/>{</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>BoundedLRUCache<sp/>c{makeConfig(100)};</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>30;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;s&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>workers<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>workers.emplace_back([&amp;c,<sp/>t]()<sp/>{</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.get(</highlight><highlight class="stringliteral">&quot;s&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string((t<sp/>*<sp/>50<sp/>+<sp/>i)<sp/>%<sp/>30));</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.get(</highlight><highlight class="stringliteral">&quot;miss_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>w<sp/>:<sp/>workers)<sp/>{</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>w.join();</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"></highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>c.getStatistics();</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(stats.hits,<sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(stats.misses,<sp/>0u);</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats.hits<sp/>+<sp/>stats.misses,<sp/>0u);</highlight></codeline>
+<codeline lineno="412"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Memory<sp/>Bounds<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="416"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>MemoryBounds_SizeNeverExceedsMax)<sp/>{</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>cap<sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/>BoundedLRUCache<sp/>c{makeConfig(cap)};</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"></highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>static_cast&lt;int&gt;(cap<sp/>*<sp/>5);<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;entry_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(c.size(),<sp/>cap)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Size<sp/>exceeded<sp/>capacity<sp/>at<sp/>iteration<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="430"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="433"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TTL<sp/>Expiry<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="434"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="435"><highlight class="normal"></highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>TTLExpiry_ExpiredEntryReturnsNullopt)<sp/>{</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/>BoundedLRUCache::Config<sp/>cfg<sp/>=<sp/>makeConfig(10,<sp/>1);<sp/></highlight><highlight class="comment">//<sp/>1-second<sp/>default<sp/>TTL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/>BoundedLRUCache<sp/>c{cfg};</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/>c.put(</highlight><highlight class="stringliteral">&quot;ttl_key&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1cache_1_1test_1ab19eb1480674ddac64997e1db2b12c84" kindref="member">json</ref>(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">),<sp/>1);<sp/><sp/></highlight><highlight class="comment">//<sp/>per-entry<sp/>TTL:<sp/>1<sp/>second</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal"></highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>for<sp/>TTL<sp/>to<sp/>expire</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds{1100});</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"></highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(c.get(</highlight><highlight class="stringliteral">&quot;ttl_key&quot;</highlight><highlight class="normal">).has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Entry<sp/>must<sp/>be<sp/>expired&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(c.contains(</highlight><highlight class="stringliteral">&quot;ttl_key&quot;</highlight><highlight class="normal">))<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;contains()<sp/>must<sp/>return<sp/>false&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="451"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"></highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>TTLExpiry_ValidEntryBeforeExpiry)<sp/>{</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/>BoundedLRUCache<sp/>c{makeConfig(10,<sp/>3600)};</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/>c.put(</highlight><highlight class="stringliteral">&quot;alive_key&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1cache_1_1test_1ab19eb1480674ddac64997e1db2b12c84" kindref="member">json</ref>(</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">),<sp/>0);</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"></highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>c.get(</highlight><highlight class="stringliteral">&quot;alive_key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="464"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"></highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>TTLExpiry_PerEntryTTLOverridesDefault)<sp/>{</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/>BoundedLRUCache<sp/>c{makeConfig(10,<sp/>3600)};<sp/><sp/></highlight><highlight class="comment">//<sp/>default<sp/>1-hour<sp/>TTL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="472"><highlight class="normal"></highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-entry<sp/>TTL<sp/>of<sp/>1<sp/>second</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/>c.put(</highlight><highlight class="stringliteral">&quot;short_ttl&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1cache_1_1test_1ab19eb1480674ddac64997e1db2b12c84" kindref="member">json</ref>(</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">),<sp/>1);</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>TTL<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/>c.put(</highlight><highlight class="stringliteral">&quot;long_ttl&quot;</highlight><highlight class="normal">,<sp/><sp/><ref refid="namespacethemis_1_1cache_1_1test_1ab19eb1480674ddac64997e1db2b12c84" kindref="member">json</ref>(</highlight><highlight class="stringliteral">&quot;y&quot;</highlight><highlight class="normal">),<sp/>0);</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"></highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds{1100});</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"></highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(c.get(</highlight><highlight class="stringliteral">&quot;short_ttl&quot;</highlight><highlight class="normal">).has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Per-entry<sp/>TTL<sp/>must<sp/>expire&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.get(</highlight><highlight class="stringliteral">&quot;long_ttl&quot;</highlight><highlight class="normal">).has_value())<sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Default-TTL<sp/>entry<sp/>must<sp/>still<sp/>be<sp/>valid&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="482"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"></highlight></codeline>
+<codeline lineno="484"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="485"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Eviction<sp/>Latency<sp/>Test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"></highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>EvictionLatency_BulkEvictionCompletesWithinBound)<sp/>{</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/>BoundedLRUCache<sp/>c{makeConfig(1)};</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"></highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t_start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="500"><highlight class="normal"></highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>1000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.put(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/><ref refid="namespacethemis_1_1cache_1_1test_1ab19eb1480674ddac64997e1db2b12c84" kindref="member">json</ref>(i),<sp/>0);</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="504"><highlight class="normal"></highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now()<sp/>-<sp/>t_start);</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"></highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(elapsed.count(),<sp/>500)</highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;1<sp/>000<sp/>put+evict<sp/>operations<sp/>should<sp/>complete<sp/>within<sp/>500<sp/>ms&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="510"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="511"><highlight class="normal"></highlight></codeline>
+<codeline lineno="512"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="513"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Edge<sp/>Case<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="514"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="515"><highlight class="normal"></highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>EdgeCase_SingleItemCache_PutGetRemoveWork)<sp/>{</highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><sp/><sp/><sp/><sp/>BoundedLRUCache<sp/>c{makeConfig(1)};</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"></highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;solo&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;S&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(c.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="525"><highlight class="normal"></highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>c.get(</highlight><highlight class="stringliteral">&quot;solo&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;S&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"></highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.remove(</highlight><highlight class="stringliteral">&quot;solo&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(c.get(</highlight><highlight class="stringliteral">&quot;solo&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="533"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="534"><highlight class="normal"></highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>EdgeCase_EmptyCacheEvictionAttempt_ReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/>BoundedLRUCache<sp/>c{makeConfig(10)};</highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(c.evictLRUIfNeeded())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Empty<sp/>cache<sp/>has<sp/>nothing<sp/>to<sp/>evict&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="542"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="543"><highlight class="normal"></highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>EdgeCase_OversizedTTL_PutIsRejected)<sp/>{</highlight></codeline>
+<codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/>BoundedLRUCache::Config<sp/>cfg<sp/>=<sp/>makeConfig(10);</highlight></codeline>
+<codeline lineno="551"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_ttl_seconds<sp/>=<sp/>100u;<sp/><sp/></highlight><highlight class="comment">//<sp/>very<sp/>low<sp/>cap<sp/>for<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="552"><highlight class="normal"><sp/><sp/><sp/><sp/>BoundedLRUCache<sp/>c{cfg};</highlight></codeline>
+<codeline lineno="553"><highlight class="normal"></highlight></codeline>
+<codeline lineno="554"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ttl_seconds<sp/>=<sp/>101<sp/>&gt;<sp/>max_ttl_seconds<sp/>=<sp/>100<sp/>→<sp/>must<sp/>be<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><sp/><sp/><sp/><sp/>c.put(</highlight><highlight class="stringliteral">&quot;rejected&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1cache_1_1test_1ab19eb1480674ddac64997e1db2b12c84" kindref="member">json</ref>(</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">),<sp/>101u);</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"></highlight></codeline>
+<codeline lineno="557"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(c.get(</highlight><highlight class="stringliteral">&quot;rejected&quot;</highlight><highlight class="normal">).has_value())</highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Entry<sp/>with<sp/>TTL<sp/>exceeding<sp/>max_ttl_seconds<sp/>must<sp/>be<sp/>rejected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="560"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="561"><highlight class="normal"></highlight></codeline>
+<codeline lineno="567"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>EdgeCase_UpdateExistingKey_DoesNotGrowCache)<sp/>{</highlight></codeline>
+<codeline lineno="568"><highlight class="normal"><sp/><sp/><sp/><sp/>BoundedLRUCache<sp/>c{makeConfig(5)};</highlight></codeline>
+<codeline lineno="569"><highlight class="normal"></highlight></codeline>
+<codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;old&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="571"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(c.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="572"><highlight class="normal"></highlight></codeline>
+<codeline lineno="573"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;new&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="574"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(c.size(),<sp/>1u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Updating<sp/>an<sp/>existing<sp/>key<sp/>must<sp/>not<sp/>grow<sp/>the<sp/>cache&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="575"><highlight class="normal"></highlight></codeline>
+<codeline lineno="576"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>c.get(</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="577"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="578"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;new&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="579"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="580"><highlight class="normal"></highlight></codeline>
+<codeline lineno="585"><highlight class="normal"><ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>,<sp/>EdgeCase_ContainsVsGet_ConsistentForValid)<sp/>{</highlight></codeline>
+<codeline lineno="586"><highlight class="normal"><sp/><sp/><sp/><sp/>BoundedLRUCache<sp/>c{makeConfig(5)};</highlight></codeline>
+<codeline lineno="587"><highlight class="normal"><sp/><sp/><sp/><sp/>putStr(c,<sp/></highlight><highlight class="stringliteral">&quot;probe&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;P&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="588"><highlight class="normal"></highlight></codeline>
+<codeline lineno="589"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.contains(</highlight><highlight class="stringliteral">&quot;probe&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="590"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(c.get(</highlight><highlight class="stringliteral">&quot;probe&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="591"><highlight class="normal"></highlight></codeline>
+<codeline lineno="592"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(c.contains(</highlight><highlight class="stringliteral">&quot;absent&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="593"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(c.get(</highlight><highlight class="stringliteral">&quot;absent&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="594"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="595"><highlight class="normal"></highlight></codeline>
+<codeline lineno="596"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="597"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="598"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp"/>
+  </compounddef>
+</doxygen>

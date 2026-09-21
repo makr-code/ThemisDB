@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="iquery__limit__policy_8h" kind="file" language="C++">
+    <compoundname>iquery_limit_policy.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includedby refid="edition__manager_8h" local="yes">include/themis/edition_manager.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/themis/query/iquery_limit_policy.h</label>
+        <link refid="iquery__limit__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/themis/edition_manager.h</label>
+        <link refid="edition__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/themis/query/iquery_limit_policy.h</label>
+        <link refid="iquery__limit__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/themis/edition_manager.cpp</label>
+        <link refid="edition__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/themis/test_themis_integration.cpp</label>
+        <link refid="test__themis__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1query_1_1_i_query_limit_policy" prot="public">themis::query::IQueryLimitPolicy</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Abstract query-limit policy for GraphQL, AQL, and HTTP payloads in ThemisDB. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Governs four query-safety axes: GraphQL nesting depth, GraphQL/AQL complexity score, request payload size, and result-row ceiling. Sits in Tier 2 of the four-tier resource-governance chain:</para>
+<para><programlisting><codeline><highlight class="normal">compile-time<sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>(edition.h)<sp/><sp/><sp/>←<sp/>absolute<sp/>ceiling,<sp/>never<sp/>overridable</highlight></codeline>
+<codeline><highlight class="normal">RuntimeLicenseGate<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>←<sp/>edition-tier<sp/>ceiling</highlight></codeline>
+<codeline><highlight class="normal">IQueryLimitPolicy<sp/><sp/><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>file)<sp/><sp/><sp/><sp/><sp/><sp/>←<sp/></highlight><highlight class="keywordtype">signed</highlight><highlight class="normal">-plugin<sp/>fine-tuning</highlight></codeline>
+<codeline><highlight class="normal">QueryLimitConfig<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>←<sp/>per-deployment<sp/>operational<sp/>tuning</highlight></codeline>
+</programlisting></para>
+<para>All implementations must be individually thread-safe.</para>
+<para><simplesect kind="note"><para>This interface is part of the edition-policy plugin contract (IEditionPolicyPlugin::createQueryLimitPolicy). Claimed limits are validated against the compile-time ceilings in <ref refid="edition_8h" kindref="compound">edition.h</ref> (QUERY_MAX_GRAPHQL_DEPTH, QUERY_MAX_GRAPHQL_COMPLEXITY, QUERY_MAX_PAYLOAD_BYTES, QUERY_MAX_RESULT_ROWS) before EditionManager accepts the policy. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1query" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1query_1_1_i_query_limit_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a22b014553923a987338fc5481de4847c" kindref="member">IQueryLimitPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1query_1_1_i_query_limit_policy_1a8c926544ca3aa7dff27734f3540d0df8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a8c926544ca3aa7dff27734f3540d0df8" kindref="member">~IQueryLimitPolicy</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable<sp/>by<sp/>default.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1query_1_1_i_query_limit_policy_1a22b014553923a987338fc5481de4847c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a22b014553923a987338fc5481de4847c" kindref="member">IQueryLimitPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a22b014553923a987338fc5481de4847c" kindref="member">IQueryLimitPolicy</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1query_1_1_i_query_limit_policy_1a46f67fb86398cbf5eedcd080afdf838f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a22b014553923a987338fc5481de4847c" kindref="member">IQueryLimitPolicy</ref>&amp;<sp/><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a46f67fb86398cbf5eedcd080afdf838f" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a22b014553923a987338fc5481de4847c" kindref="member">IQueryLimitPolicy</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Depth<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1query_1_1_i_query_limit_policy_1a3fc0c2e182d496385a6b1cf0e6f04883" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a3fc0c2e182d496385a6b1cf0e6f04883" kindref="member">isDepthAllowed</ref>(uint32_t<sp/>depth)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1query_1_1_i_query_limit_policy_1aa85ba7f826c8e09000c2423e14f8a39c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1aa85ba7f826c8e09000c2423e14f8a39c" kindref="member">maxGraphQLDepth</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Complexity<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1query_1_1_i_query_limit_policy_1a771d8fd6ee3146543d5e08b84d326121" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a771d8fd6ee3146543d5e08b84d326121" kindref="member">isComplexityAllowed</ref>(uint32_t<sp/>complexity)<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1query_1_1_i_query_limit_policy_1abcf918b7d2abcf1e2cf8f04676dc6455" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>uint32_t<sp/><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1abcf918b7d2abcf1e2cf8f04676dc6455" kindref="member">maxGraphQLComplexity</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Payload<sp/>size<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1query_1_1_i_query_limit_policy_1a3392f2acf9c0f29be55c787b41ff7db0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a3392f2acf9c0f29be55c787b41ff7db0" kindref="member">isPayloadAllowed</ref>(uint64_t<sp/>payload_bytes)<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1query_1_1_i_query_limit_policy_1a6f1143b1195b2141a6dca160ffcd0db6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>uint64_t<sp/><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a6f1143b1195b2141a6dca160ffcd0db6" kindref="member">maxPayloadBytes</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Result<sp/>row<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1query_1_1_i_query_limit_policy_1a04a49167145cc75e29e9ed62b515c685" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a04a49167145cc75e29e9ed62b515c685" kindref="member">isResultSizeAllowed</ref>(uint64_t<sp/>row_count)<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1query_1_1_i_query_limit_policy_1adf2d8e7ce688077a3fdc7f63a032b1f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>uint64_t<sp/><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1adf2d8e7ce688077a3fdc7f63a032b1f5" kindref="member">maxResultRows</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Status</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1query_1_1_i_query_limit_policy_1a71c61c29b26b5b3c5dd5c1624520c812" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a71c61c29b26b5b3c5dd5c1624520c812" kindref="member">isEnforced</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal">protected:</highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1query_1_1_i_query_limit_policy_1a61ca9dfa67ddc13b67d6a9d05a8461e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a22b014553923a987338fc5481de4847c" kindref="member">IQueryLimitPolicy</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1query_1_1_i_query_limit_policy_1a7bed6ba9170f56081b0581d557d6e221" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a22b014553923a987338fc5481de4847c" kindref="member">IQueryLimitPolicy</ref>(<ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a22b014553923a987338fc5481de4847c" kindref="member">IQueryLimitPolicy</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1query_1_1_i_query_limit_policy_1a72a647f168c50e66dd97c38fa4ddec19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a22b014553923a987338fc5481de4847c" kindref="member">IQueryLimitPolicy</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a22b014553923a987338fc5481de4847c" kindref="member">IQueryLimitPolicy</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/query/iquery_limit_policy.h"/>
+  </compounddef>
+</doxygen>

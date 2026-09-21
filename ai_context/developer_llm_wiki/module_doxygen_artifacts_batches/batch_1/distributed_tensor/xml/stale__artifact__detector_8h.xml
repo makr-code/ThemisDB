@@ -1,0 +1,288 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="stale__artifact__detector_8h" kind="file" language="C++">
+    <compoundname>stale_artifact_detector.h</compoundname>
+    <includes refid="src_2distributed__tensor_2include_2artifact__manifest_8h" local="yes">artifact_manifest.h</includes>
+    <includes refid="tensor__delta__log_8h" local="yes">tensor_delta_log.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">map</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="snapshot__update__worker_8h" local="yes">src/distributed_tensor/include/snapshot_update_worker.h</includedby>
+    <includedby refid="stale__artifact__detector_8cc" local="yes">src/distributed_tensor/src/stale_artifact_detector.cc</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>artifact_manifest.h</label>
+        <link refid="src_2distributed__tensor_2include_2artifact__manifest_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/distributed_tensor/include/stale_artifact_detector.h</label>
+        <link refid="stale__artifact__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>tensor_delta_log.h</label>
+        <link refid="tensor__delta__log_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>src/distributed_tensor/include/snapshot_update_worker.h</label>
+        <link refid="snapshot__update__worker_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/distributed_tensor/include/stale_artifact_detector.h</label>
+        <link refid="stale__artifact__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/distributed_tensor/src/snapshot_update_worker.cc</label>
+        <link refid="snapshot__update__worker_8cc"/>
+      </node>
+      <node id="4">
+        <label>src/distributed_tensor/src/stale_artifact_detector.cc</label>
+        <link refid="stale__artifact__detector_8cc"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics" prot="public">themis::distributed_tensor::StaleArtifactMetrics</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_staleness_policy" prot="public">themis::distributed_tensor::StalenessPolicy</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector" prot="public">themis::distributed_tensor::StaleArtifactDetector</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history" prot="public">themis::distributed_tensor::StaleArtifactDetector::StalenessHistory</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats" prot="public">themis::distributed_tensor::StaleArtifactDetector::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1distributed__tensor">themis::distributed_tensor</innernamespace>
+    <briefdescription>
+<para>Stale artifact detection and monitoring. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>ThemisDB EPIC 3 Implementation Team </para>
+</simplesect>
+<simplesect kind="date"><para>2026-07-03</para>
+</simplesect>
+This header defines stale artifact detection for monitoring when artifacts fall behind in delta processing and need special handling.</para>
+<sect1 id="stale__artifact__detector_8h_1autotoc_md17_1s1"><sect2 id="stale__artifact__detector_8h_1autotoc_md17">
+<title>Design</title><para>Stale detection monitors:<itemizedlist>
+<listitem><para>Delta lag (sequence_end gap between exact graph and artifact)</para>
+</listitem><listitem><para>Age of artifact (last update timestamp)</para>
+</listitem><listitem><para>Delta backlog growth rate</para>
+</listitem><listitem><para>Worker throughput vs delta arrival rate</para>
+</listitem></itemizedlist>
+</para>
+<para>Actions on staleness:<itemizedlist>
+<listitem><para>Mark artifact STALE in manifest</para>
+</listitem><listitem><para>Alert planner to prefer exact graph fallback</para>
+</listitem><listitem><para>Escalate to worker for priority processing</para>
+</listitem><listitem><para>Trigger cascade invalidation if policy violated </para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="src_2distributed__tensor_2include_2artifact__manifest_8h" kindref="compound">artifact_manifest.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__delta__log_8h" kindref="compound">tensor_delta_log.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1distributed__tensor" kindref="compound">distributed_tensor</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6ee" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6ee" kindref="member">StalenessLevel</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6eeaa56278fcd527ad6b4619050916ca2ca8" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6eeaa56278fcd527ad6b4619050916ca2ca8" kindref="member">FRESH</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6eead2d36acfdff172f81da0de6dc3f84847" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6eead2d36acfdff172f81da0de6dc3f84847" kindref="member">SLIGHTLY_STALE</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6eeaff3bc4e39416ed55db783c9275b228df" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6eeaff3bc4e39416ed55db783c9275b228df" kindref="member">MODERATELY_STALE</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6eeac636a56c172822db6cdebe6470583157" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6eeac636a56c172822db6cdebe6470583157" kindref="member">CRITICALLY_STALE</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics" kindref="compound">StaleArtifactMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1a2dd954e660b46b9cac32ebc6982ee50b" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1a2dd954e660b46b9cac32ebc6982ee50b" kindref="member">artifact_id</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1ad498cdcd02556a0f81b6f42df833dc1d" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6ee" kindref="member">StalenessLevel</ref><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1ad498cdcd02556a0f81b6f42df833dc1d" kindref="member">staleness</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6eeaa56278fcd527ad6b4619050916ca2ca8" kindref="member">StalenessLevel::FRESH</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1afe23f6d41f9addf836287220875b14b2" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1afe23f6d41f9addf836287220875b14b2" kindref="member">delta_lag</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1a8d6bb3bf57503e19c703e5c143969fac" refkind="member"><highlight class="normal"><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1a8d6bb3bf57503e19c703e5c143969fac" kindref="member">age_seconds</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1a20488db2b40f1fcc851a697cf1e44f47" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1a20488db2b40f1fcc851a697cf1e44f47" kindref="member">delta_backlog</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1a4a72d5408a6829ea6f8ef9da66537942" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1a4a72d5408a6829ea6f8ef9da66537942" kindref="member">worker_throughput</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1a0527e3c1f898071b7f6b3f5d88245139" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1a0527e3c1f898071b7f6b3f5d88245139" kindref="member">delta_arrival_rate</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1ad3abaa5bd771422361e5565ca197277f" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1ad3abaa5bd771422361e5565ca197277f" kindref="member">should_fallback</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1ac431ec747d51d745bb23745c2c3d2fb3" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics_1ac431ec747d51d745bb23745c2c3d2fb3" kindref="member">reason</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1distributed__tensor_1_1_staleness_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_staleness_policy" kindref="compound">StalenessPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1aa5860620618944c034c0261d5faf61ff" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1aa5860620618944c034c0261d5faf61ff" kindref="member">lag_threshold_slightly</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1adb6c01d251c5ccbd6d3b658009292492" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1adb6c01d251c5ccbd6d3b658009292492" kindref="member">lag_threshold_moderate</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a829a4956bfba07bb3b4c953dc3f5de41" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a829a4956bfba07bb3b4c953dc3f5de41" kindref="member">lag_threshold_critical</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a6efcba33c4c63bec127636bb45cd8e6d" refkind="member"><highlight class="normal"><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a6efcba33c4c63bec127636bb45cd8e6d" kindref="member">age_threshold_slightly_sec</ref><sp/>=<sp/>60;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a7156f129464c53567fa342e58bc9b326" refkind="member"><highlight class="normal"><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a7156f129464c53567fa342e58bc9b326" kindref="member">age_threshold_moderate_sec</ref><sp/>=<sp/>300;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a0fe61ee90c7fea1095be798174edfb87" refkind="member"><highlight class="normal"><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a0fe61ee90c7fea1095be798174edfb87" kindref="member">age_threshold_critical_sec</ref><sp/>=<sp/>3600;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a42845e365bd70c98bd66e3eda7d6eb35" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a42845e365bd70c98bd66e3eda7d6eb35" kindref="member">cascade_invalidate_on_critical</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a6f1c70871ee6a768bba468db888719c0" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6ee" kindref="member">StalenessLevel</ref><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_staleness_policy_1a6f1c70871ee6a768bba468db888719c0" kindref="member">fallback_threshold</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6eeaff3bc4e39416ed55db783c9275b228df" kindref="member">StalenessLevel::MODERATELY_STALE</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1acf42f959ce18c6b76645398882aa6c3e" kindref="member">StaleArtifactDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1acf42f959ce18c6b76645398882aa6c3e" kindref="member">StaleArtifactDetector</ref>();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1ae3cf2942449873f4485dc25f33641251" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1ae3cf2942449873f4485dc25f33641251" kindref="member">~StaleArtifactDetector</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copy/move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a3a079139b65645ee4be9a883132dd0bc" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a3a079139b65645ee4be9a883132dd0bc" kindref="member">StaleArtifactDetector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1acf42f959ce18c6b76645398882aa6c3e" kindref="member">StaleArtifactDetector</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1aa768ce7a42ccd9d1197f80e20af84d9d" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1acf42f959ce18c6b76645398882aa6c3e" kindref="member">StaleArtifactDetector</ref>&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1aa768ce7a42ccd9d1197f80e20af84d9d" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1acf42f959ce18c6b76645398882aa6c3e" kindref="member">StaleArtifactDetector</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a906b9bd8db013b9cf0fa230d42474709" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a906b9bd8db013b9cf0fa230d42474709" kindref="member">StaleArtifactDetector</ref>(<ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1acf42f959ce18c6b76645398882aa6c3e" kindref="member">StaleArtifactDetector</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1aced444af5b3848eb708dbf07d1280269" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1acf42f959ce18c6b76645398882aa6c3e" kindref="member">StaleArtifactDetector</ref>&amp;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1aced444af5b3848eb708dbf07d1280269" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1acf42f959ce18c6b76645398882aa6c3e" kindref="member">StaleArtifactDetector</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics" kindref="compound">StaleArtifactMetrics</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a6c55d6848cc043f6224c51118ae95800" kindref="member">analyzeArtifactStaleness</ref>(</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" kindref="compound">ArtifactManifest</ref>&amp;<sp/>manifest,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>current_source_seq,</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>worker_throughput<sp/>=<sp/>0.0,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>delta_arrival_rate<sp/>=<sp/>0.0);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a0a545fb9bb0e125624ded0895d5f14b5" kindref="member">shouldFallback</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics" kindref="compound">StaleArtifactMetrics</ref>&amp;<sp/>metrics);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1af0b8366838531f90c05ce27822da8197" kindref="member">shouldInvalidate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics" kindref="compound">StaleArtifactMetrics</ref>&amp;<sp/>metrics);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_staleness_policy" kindref="compound">StalenessPolicy</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a5e8d38180c24bb61fc38866b4c82d86b" kindref="member">getPolicy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a95b5416bb33d129b9a4d81b681a446dd" kindref="member">setPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_staleness_policy" kindref="compound">StalenessPolicy</ref>&amp;<sp/>policy);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history" refkind="compound"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history" kindref="compound">StalenessHistory</ref><sp/>{</highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history_1a04ce0dfadb2c6a99a74c2d584cc05bbf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history_1a04ce0dfadb2c6a99a74c2d584cc05bbf" kindref="member">artifact_id</ref>;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history_1a953ad71833b050722dae48941fbe6d3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6ee" kindref="member">StalenessLevel</ref><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history_1a953ad71833b050722dae48941fbe6d3c" kindref="member">most_recent</ref><sp/>=<sp/><ref refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6eeaa56278fcd527ad6b4619050916ca2ca8" kindref="member">StalenessLevel::FRESH</ref>;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history_1ae451e42f6c6cde8e9fdafb86fc6d0156" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history_1ae451e42f6c6cde8e9fdafb86fc6d0156" kindref="member">moderate_staleness_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history_1a2ef8c44010da19a8d1d4ccede8bb31c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history_1a2ef8c44010da19a8d1d4ccede8bb31c4" kindref="member">critical_staleness_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history_1ab781de75421c0e5499e11ef910bf00f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_staleness_history_1ab781de75421c0e5499e11ef910bf00f8" kindref="member">last_change_unix_sec</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1afa46153ab576dd970a33aa6e1a0546b1" kindref="member">updateStalenessHistory</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id,</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics" kindref="compound">StaleArtifactMetrics</ref>&amp;<sp/>metrics);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;StalenessHistory&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a6f0d309b8f0b5561184c794dab32c557" kindref="member">getStalenessHistory</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>artifact_id);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="162" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats_1a0badb43fca85b61dfe527adae42148f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats_1a0badb43fca85b61dfe527adae42148f6" kindref="member">artifacts_currently_stale</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats_1a60e2aa009b686937b45da58fb8f99173" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats_1a60e2aa009b686937b45da58fb8f99173" kindref="member">total_staleness_detections</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats_1a3dea9987a330352679192a5460397db6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats_1a3dea9987a330352679192a5460397db6" kindref="member">cascade_invalidations_triggered</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats_1accb48bc134c33275b6c0ff858e4bd3d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats_1accb48bc134c33275b6c0ff858e4bd3d8" kindref="member">average_staleness_duration_sec</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a8d0d8248260170038c250176cb96bb66" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="178" refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a32fd4b4fc4fa2378b6fd8d734d56bbda" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_staleness_policy" kindref="compound">StalenessPolicy</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a32fd4b4fc4fa2378b6fd8d734d56bbda" kindref="member">policy_</ref>;</highlight></codeline>
+<codeline lineno="179" refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a6ca3168ffeb7f139c8544b4430bc80a2" refkind="member"><highlight class="normal"><sp/><sp/>std::map&lt;std::string,<sp/>StalenessHistory&gt;<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a6ca3168ffeb7f139c8544b4430bc80a2" kindref="member">history_</ref>;</highlight></codeline>
+<codeline lineno="180" refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1afeb00fbb0092d1f5c541ae1444fb7718" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1afeb00fbb0092d1f5c541ae1444fb7718" kindref="member">stats_</ref>;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6ee" kindref="member">StalenessLevel</ref><sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1ab19946c82c2bcdc867d9e74b4148acaa" kindref="member">classifyStaleness</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics" kindref="compound">StaleArtifactMetrics</ref>&amp;<sp/>metrics);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/>int64_t<sp/><ref refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector_1a0a5d06a53680a21db9c7a7f8b5047e38" kindref="member">getCurrentTimeUnixSec</ref>();</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>distributed_tensor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/distributed_tensor/include/stale_artifact_detector.h"/>
+  </compounddef>
+</doxygen>

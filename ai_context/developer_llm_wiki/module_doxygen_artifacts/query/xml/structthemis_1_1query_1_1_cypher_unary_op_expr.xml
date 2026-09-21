@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_cypher_unary_op_expr" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CypherUnaryOpExpr</compoundname>
+    <basecompoundref refid="structthemis_1_1query_1_1_cypher_expr" prot="public" virt="non-virtual">themis::query::CypherExpr</basecompoundref>
+    <includes refid="cypher__parser_8h" local="no">cypher_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_unary_op_expr_1aaa6e2482d857a729b11ddd53f80736b4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::CypherUnaryOpExpr::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::query::CypherUnaryOpExpr::op</qualifiedname>
+        <briefdescription>
+<para>&quot;NOT&quot;, &quot;IS NULL&quot;, &quot;IS NOT NULL&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="140" column="17" bodyfile="include/query/cypher_parser.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cypher_unary_op_expr_1afb04813f3031f082be8984b928aed8f4" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_cypher_expr" kindref="compound">CypherExpr</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;CypherExpr&gt; themis::query::CypherUnaryOpExpr::operand</definition>
+        <argsstring></argsstring>
+        <name>operand</name>
+        <qualifiedname>themis::query::CypherUnaryOpExpr::operand</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="141" column="21" bodyfile="include/query/cypher_parser.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_unary_op_expr_1aee7ad6fb7e73f7302157212891fc1bc2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::CypherUnaryOpExpr::CypherUnaryOpExpr</definition>
+        <argsstring>(std::string o, std::shared_ptr&lt; CypherExpr &gt; e)</argsstring>
+        <name>CypherUnaryOpExpr</name>
+        <qualifiedname>themis::query::CypherUnaryOpExpr::CypherUnaryOpExpr</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>o</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_cypher_expr" kindref="compound">CypherExpr</ref> &gt;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="142" column="5" bodyfile="include/query/cypher_parser.h" bodystart="142" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_cypher_unary_op_expr_1a11108860e62249bab2a6b792b02a9d85" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1query_1a00ee46eae0393449e2ba0b84b7278133" kindref="member">CypherExprType</ref></type>
+        <definition>CypherExprType themis::query::CypherUnaryOpExpr::exprType</definition>
+        <argsstring>() const override</argsstring>
+        <name>exprType</name>
+        <qualifiedname>themis::query::CypherUnaryOpExpr::exprType</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_cypher_expr_1a43eff704c734ea9a3203d2cdf686e76c">exprType</reimplements>
+        <briefdescription>
+<para>Expr Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cypher_parser.h" line="144" column="20" bodyfile="include/query/cypher_parser.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::CypherExpr</label>
+        <link refid="structthemis_1_1query_1_1_cypher_expr"/>
+      </node>
+      <node id="1">
+        <label>themis::query::CypherUnaryOpExpr</label>
+        <link refid="structthemis_1_1query_1_1_cypher_unary_op_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::CypherExpr</label>
+        <link refid="structthemis_1_1query_1_1_cypher_expr"/>
+      </node>
+      <node id="1">
+        <label>themis::query::CypherUnaryOpExpr</label>
+        <link refid="structthemis_1_1query_1_1_cypher_unary_op_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/cypher_parser.h" line="139" column="1" bodyfile="include/query/cypher_parser.h" bodystart="139" bodyend="145"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_cypher_unary_op_expr_1aee7ad6fb7e73f7302157212891fc1bc2" prot="public" virt="non-virtual"><scope>themis::query::CypherUnaryOpExpr</scope><name>CypherUnaryOpExpr</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_unary_op_expr_1a11108860e62249bab2a6b792b02a9d85" prot="public" virt="virtual"><scope>themis::query::CypherUnaryOpExpr</scope><name>exprType</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_unary_op_expr_1aaa6e2482d857a729b11ddd53f80736b4" prot="public" virt="non-virtual"><scope>themis::query::CypherUnaryOpExpr</scope><name>op</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_unary_op_expr_1afb04813f3031f082be8984b928aed8f4" prot="public" virt="non-virtual"><scope>themis::query::CypherUnaryOpExpr</scope><name>operand</name></member>
+      <member refid="structthemis_1_1query_1_1_cypher_expr_1a8f0d7b995b8037b5c8685a1fbd0c26ba" prot="public" virt="virtual"><scope>themis::query::CypherUnaryOpExpr</scope><name>~CypherExpr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

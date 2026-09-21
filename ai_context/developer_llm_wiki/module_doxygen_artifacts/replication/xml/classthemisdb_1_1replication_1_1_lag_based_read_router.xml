@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_lag_based_read_router" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::LagBasedReadRouter</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_lag_based_read_router_1_1_router_config" prot="public">themisdb::replication::LagBasedReadRouter::RouterConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_lag_based_read_router_1_1_routing_decision" prot="public">themisdb::replication::LagBasedReadRouter::RoutingDecision</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_lag_based_read_router_1a292cc2ed3afd0095c2f373d92c736903" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_lag_based_read_router_1_1_router_config" kindref="compound">RouterConfig</ref></type>
+        <definition>RouterConfig themisdb::replication::LagBasedReadRouter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::replication::LagBasedReadRouter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="299" column="18" bodyfile="include/replication/replication_manager.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_based_read_router_1ab07bce9e14eb263b76c384ee1f5e1364" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::LagBasedReadRouter::LagBasedReadRouter</definition>
+        <argsstring>()</argsstring>
+        <name>LagBasedReadRouter</name>
+        <qualifiedname>themisdb::replication::LagBasedReadRouter::LagBasedReadRouter</qualifiedname>
+        <briefdescription>
+<para>Uses default <ref refid="structthemisdb_1_1replication_1_1_lag_based_read_router_1_1_router_config" kindref="compound">RouterConfig</ref> (lag_threshold_ms = 10000). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="272" column="5" bodyfile="src/replication/replication_manager.cpp" bodystart="6096" bodyend="6099"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_based_read_router_1a82b76762930e1b5a046152c9611c0628" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::LagBasedReadRouter::LagBasedReadRouter</definition>
+        <argsstring>(const RouterConfig &amp;config)</argsstring>
+        <name>LagBasedReadRouter</name>
+        <qualifiedname>themisdb::replication::LagBasedReadRouter::LagBasedReadRouter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_lag_based_read_router_1_1_router_config" kindref="compound">RouterConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="273" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="6101" bodyend="6104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_based_read_router_1aadcf81647f613afe6421a339ea8b3e00" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_lag_based_read_router_1_1_routing_decision" kindref="compound">RoutingDecision</ref></type>
+        <definition>LagBasedReadRouter::RoutingDecision themisdb::replication::LagBasedReadRouter::selectReplica</definition>
+        <argsstring>(ReadPreference preference, const std::vector&lt; ReplicaInfo &gt; &amp;replicas, const std::string &amp;primary_node_id) const</argsstring>
+        <name>selectReplica</name>
+        <qualifiedname>themisdb::replication::LagBasedReadRouter::selectReplica</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1abbde7da7944aeb6aa079b3957aab68c6" kindref="member">ReadPreference</ref></type>
+          <declname>preference</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &gt; &amp;</type>
+          <declname>replicas</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>primary_node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Select the best node to serve a read request.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>preference</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Caller&apos;s read preference. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>replicas</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current snapshot of all replica infos. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>primary_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node ID of the current primary. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemisdb_1_1replication_1_1_lag_based_read_router_1_1_routing_decision" kindref="compound">RoutingDecision</ref> describing which node to use and why. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="283" column="21" bodyfile="src/replication/replication_manager.cpp" bodystart="6129" bodyend="6191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_based_read_router_1ac001b976a0e1d19c36d601ae3103e650" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::replication::LagBasedReadRouter::eligibleReplicaCount</definition>
+        <argsstring>(const std::vector&lt; ReplicaInfo &gt; &amp;replicas) const</argsstring>
+        <name>eligibleReplicaCount</name>
+        <qualifiedname>themisdb::replication::LagBasedReadRouter::eligibleReplicaCount</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &gt; &amp;</type>
+          <declname>replicas</declname>
+        </param>
+        <briefdescription>
+<para>Returns the number of replicas currently below the lag threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="289" column="12" bodyfile="src/replication/replication_manager.cpp" bodystart="6115" bodyend="6127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_based_read_router_1a696d961b2a4862cc990ffb08821d4bdb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::LagBasedReadRouter::exportPrometheusMetrics</definition>
+        <argsstring>(const std::vector&lt; ReplicaInfo &gt; &amp;replicas) const</argsstring>
+        <name>exportPrometheusMetrics</name>
+        <qualifiedname>themisdb::replication::LagBasedReadRouter::exportPrometheusMetrics</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &gt; &amp;</type>
+          <declname>replicas</declname>
+        </param>
+        <briefdescription>
+<para>Export current routing state as Prometheus metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="292" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="6193" bodyend="6218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_based_read_router_1ac9f9c6f0f9d2b9926652303f766ad673" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LagBasedReadRouter::setConfig</definition>
+        <argsstring>(const RouterConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themisdb::replication::LagBasedReadRouter::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_lag_based_read_router_1_1_router_config" kindref="compound">RouterConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="295" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="6111" bodyend="6113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_lag_based_read_router_1a25dbabc8b9496cedf31bcf064ccb2736" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1replication_1_1_lag_based_read_router_1_1_router_config" kindref="compound">RouterConfig</ref> &amp;</type>
+        <definition>const RouterConfig &amp; themisdb::replication::LagBasedReadRouter::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themisdb::replication::LagBasedReadRouter::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="296" column="24" bodyfile="include/replication/replication_manager.h" bodystart="296" bodyend="296"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1replication_1_1_lag_based_read_router" kindref="compound">LagBasedReadRouter</ref></para>
+<para>Automatically shifts read traffic away from replicas whose replication lag exceeds a configurable threshold, routing those reads to healthier replicas or falling back to the primary.</para>
+<para>Algorithm:<itemizedlist>
+<listitem><para>Each replica is eligible for reads only when its lag &lt;= lag_threshold_ms.</para>
+</listitem><listitem><para>Among eligible replicas, the one with the lowest current lag is preferred (ties broken by replica declaration order).</para>
+</listitem><listitem><para>If NO secondary is eligible, reads are redirected to the primary node.</para>
+</listitem><listitem><para><ref refid="namespacethemisdb_1_1replication_1abbde7da7944aeb6aa079b3957aab68c6" kindref="member">ReadPreference</ref> semantics are preserved: PRIMARY always uses primary; SECONDARY returns empty when no eligible secondary exists.</para>
+</listitem></itemizedlist>
+</para>
+<para>Usage: <ref refid="structthemisdb_1_1replication_1_1_lag_based_read_router_1_1_router_config" kindref="compound">LagBasedReadRouter::RouterConfig</ref> cfg; cfg.lag_threshold_ms = 5000; <ref refid="classthemisdb_1_1replication_1_1_lag_based_read_router" kindref="compound">LagBasedReadRouter</ref> router(cfg); auto dec = router.selectReplica(ReadPreference::SECONDARY_PREFERRED,
+                                  replicas, primary_node_id); </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="254" column="1" bodyfile="include/replication/replication_manager.h" bodystart="254" bodyend="300"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_lag_based_read_router_1a292cc2ed3afd0095c2f373d92c736903" prot="private" virt="non-virtual"><scope>themisdb::replication::LagBasedReadRouter</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_based_read_router_1ac001b976a0e1d19c36d601ae3103e650" prot="public" virt="non-virtual"><scope>themisdb::replication::LagBasedReadRouter</scope><name>eligibleReplicaCount</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_based_read_router_1a696d961b2a4862cc990ffb08821d4bdb" prot="public" virt="non-virtual"><scope>themisdb::replication::LagBasedReadRouter</scope><name>exportPrometheusMetrics</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_based_read_router_1a25dbabc8b9496cedf31bcf064ccb2736" prot="public" virt="non-virtual"><scope>themisdb::replication::LagBasedReadRouter</scope><name>getConfig</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_based_read_router_1ab07bce9e14eb263b76c384ee1f5e1364" prot="public" virt="non-virtual"><scope>themisdb::replication::LagBasedReadRouter</scope><name>LagBasedReadRouter</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_based_read_router_1a82b76762930e1b5a046152c9611c0628" prot="public" virt="non-virtual"><scope>themisdb::replication::LagBasedReadRouter</scope><name>LagBasedReadRouter</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_based_read_router_1aadcf81647f613afe6421a339ea8b3e00" prot="public" virt="non-virtual"><scope>themisdb::replication::LagBasedReadRouter</scope><name>selectReplica</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_lag_based_read_router_1ac9f9c6f0f9d2b9926652303f766ad673" prot="public" virt="non-virtual"><scope>themisdb::replication::LagBasedReadRouter</scope><name>setConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

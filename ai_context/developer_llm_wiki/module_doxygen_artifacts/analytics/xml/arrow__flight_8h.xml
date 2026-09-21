@@ -1,0 +1,300 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="arrow__flight_8h" kind="file" language="C++">
+    <compoundname>arrow_flight.h</compoundname>
+    <includes refid="arrow__export_8h" local="yes">analytics/arrow_export.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="arrow__flight_8cpp" local="yes">src/analytics/arrow_flight.cpp</includedby>
+    <includedby refid="test__arrow__flight_8cpp" local="yes">tests/analytics/test_arrow_flight.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>analytics/arrow_export.h</label>
+        <link refid="arrow__export_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/analytics/arrow_flight.h</label>
+        <link refid="arrow__flight_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>variant</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/analytics/arrow_flight.h</label>
+        <link refid="arrow__flight_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/analytics/arrow_flight.cpp</label>
+        <link refid="arrow__flight_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/analytics/test_arrow_flight.cpp</label>
+        <link refid="test__arrow__flight_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_flight_descriptor" prot="public">themisdb::analytics::FlightDescriptor</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_flight_info" prot="public">themisdb::analytics::FlightInfo</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_flight_call_options" prot="public">themisdb::analytics::FlightCallOptions</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_flight_server_options" prot="public">themisdb::analytics::FlightServerOptions</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_flight_client_options" prot="public">themisdb::analytics::FlightClientOptions</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_flight_put_result" prot="public">themisdb::analytics::FlightPutResult</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_arrow_flight_server" prot="public">themisdb::analytics::ArrowFlightServer</innerclass>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_arrow_flight_client" prot="public">themisdb::analytics::ArrowFlightClient</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1analytics">themisdb::analytics</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="arrow__export_8h" kindref="compound">analytics/arrow_export.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics" kindref="compound">analytics</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FlightDescriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemisdb_1_1analytics_1_1_flight_descriptor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor" kindref="compound">FlightDescriptor</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1aa9375ed5c9f2707d94bfbb052baae15da26097a57f572fe88a7cdf80543422cb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1aa9375ed5c9f2707d94bfbb052baae15d" kindref="member">Type</ref><sp/>{<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1aa9375ed5c9f2707d94bfbb052baae15da5ffb5f0d0de78321df46fc7c93ca64a3" kindref="member">PATH</ref>,<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1aa9375ed5c9f2707d94bfbb052baae15da26097a57f572fe88a7cdf80543422cb1" kindref="member">COMMAND</ref><sp/>};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1a88129bb6b5a936a852e77fbf6859fe62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1aa9375ed5c9f2707d94bfbb052baae15d" kindref="member">Type</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1a88129bb6b5a936a852e77fbf6859fe62" kindref="member">type</ref><sp/>=<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1aa9375ed5c9f2707d94bfbb052baae15da5ffb5f0d0de78321df46fc7c93ca64a3" kindref="member">Type::PATH</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1a82a66334d66965e62d5c8ec7e9b565da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1a82a66334d66965e62d5c8ec7e9b565da" kindref="member">path</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1a7ada36399c20f8641beb730eb8912fbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1a7ada36399c20f8641beb730eb8912fbd" kindref="member">command</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Convenience<sp/>constructors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1a7822624063057f836e71f2bfe529b1d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor" kindref="compound">FlightDescriptor</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1a7822624063057f836e71f2bfe529b1d4" kindref="member">fromPath</ref>(std::vector&lt;std::string&gt;<sp/>components)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor" kindref="compound">FlightDescriptor</ref><sp/>fd;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fd.<ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1a88129bb6b5a936a852e77fbf6859fe62" kindref="member">type</ref><sp/>=<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1aa9375ed5c9f2707d94bfbb052baae15da5ffb5f0d0de78321df46fc7c93ca64a3" kindref="member">Type::PATH</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fd.<ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1a82a66334d66965e62d5c8ec7e9b565da" kindref="member">path</ref><sp/>=<sp/>std::move(components);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fd;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1a876b86c26215cf7eec2f88276ab11453" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor" kindref="compound">FlightDescriptor</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1a876b86c26215cf7eec2f88276ab11453" kindref="member">fromCommand</ref>(std::string<sp/>cmd)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor" kindref="compound">FlightDescriptor</ref><sp/>fd;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fd.<ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1a88129bb6b5a936a852e77fbf6859fe62" kindref="member">type</ref><sp/>=<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1aa9375ed5c9f2707d94bfbb052baae15da26097a57f572fe88a7cdf80543422cb1" kindref="member">Type::COMMAND</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fd.<ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1a7ada36399c20f8641beb730eb8912fbd" kindref="member">command</ref><sp/>=<sp/>std::move(cmd);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fd;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1ab342ca9359824e88be8be9002f93a516" kindref="member">toString</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FlightInfo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemisdb_1_1analytics_1_1_flight_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_flight_info" kindref="compound">FlightInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="74" refid="structthemisdb_1_1analytics_1_1_flight_info_1a0458c563cd6e71f409252cf31af65e48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor" kindref="compound">FlightDescriptor</ref><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_info_1a0458c563cd6e71f409252cf31af65e48" kindref="member">descriptor</ref>;</highlight></codeline>
+<codeline lineno="75" refid="structthemisdb_1_1analytics_1_1_flight_info_1aa7850e8000b967acc48459ce4bffc7d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_info_1aa7850e8000b967acc48459ce4bffc7d1" kindref="member">total_records</ref><sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="76" refid="structthemisdb_1_1analytics_1_1_flight_info_1a05b6208f57891e62ac3c5a891abc63c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_info_1a05b6208f57891e62ac3c5a891abc63c8" kindref="member">total_bytes</ref><sp/><sp/><sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="77" refid="structthemisdb_1_1analytics_1_1_flight_info_1ab18db514e42da4276b72e80d24aa3218" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_info_1ab18db514e42da4276b72e80d24aa3218" kindref="member">metadata</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FlightCallOptions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemisdb_1_1analytics_1_1_flight_call_options" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_flight_call_options" kindref="compound">FlightCallOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="85" refid="structthemisdb_1_1analytics_1_1_flight_call_options_1a0985f8e75334aba56ed5b7fbc5ba86f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_call_options_1a0985f8e75334aba56ed5b7fbc5ba86f5" kindref="member">timeout</ref>{0};</highlight></codeline>
+<codeline lineno="86" refid="structthemisdb_1_1analytics_1_1_flight_call_options_1ae7bbcac0f63ca3e86a362c6f6c38ecae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_call_options_1ae7bbcac0f63ca3e86a362c6f6c38ecae" kindref="member">headers</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FlightServerOptions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemisdb_1_1analytics_1_1_flight_server_options" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_flight_server_options" kindref="compound">FlightServerOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="94" refid="structthemisdb_1_1analytics_1_1_flight_server_options_1a94ac80a89b83b8652cc242f1f3c8466a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_server_options_1a94ac80a89b83b8652cc242f1f3c8466a" kindref="member">host</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;0.0.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95" refid="structthemisdb_1_1analytics_1_1_flight_server_options_1a0308790f69f99dc40db71379d59a7a36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_server_options_1a0308790f69f99dc40db71379d59a7a36" kindref="member">port</ref><sp/>=<sp/>8815;</highlight></codeline>
+<codeline lineno="96" refid="structthemisdb_1_1analytics_1_1_flight_server_options_1ad0ec53b2292212a7916e2c35d815341d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_server_options_1ad0ec53b2292212a7916e2c35d815341d" kindref="member">register_inprocess</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FlightClientOptions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemisdb_1_1analytics_1_1_flight_client_options" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_flight_client_options" kindref="compound">FlightClientOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="104" refid="structthemisdb_1_1analytics_1_1_flight_client_options_1a31cc623371d01d35a95a075b76ad1e6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_client_options_1a31cc623371d01d35a95a075b76ad1e6e" kindref="member">host</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;localhost&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105" refid="structthemisdb_1_1analytics_1_1_flight_client_options_1a5701323c91734b1767b991eda9fd230c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_client_options_1a5701323c91734b1767b991eda9fd230c" kindref="member">port</ref><sp/>=<sp/>8815;</highlight></codeline>
+<codeline lineno="106" refid="structthemisdb_1_1analytics_1_1_flight_client_options_1adc403b65a877bd944ce4c13bf9894792" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_client_options_1adc403b65a877bd944ce4c13bf9894792" kindref="member">prefer_inprocess</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107" refid="structthemisdb_1_1analytics_1_1_flight_client_options_1aeb9a1d0c0f8cef9339c1181284364dd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_client_options_1aeb9a1d0c0f8cef9339c1181284364dd5" kindref="member">connect_timeout</ref>{5000};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FlightPutResult</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemisdb_1_1analytics_1_1_flight_put_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1analytics_1_1_flight_put_result" kindref="compound">FlightPutResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="115" refid="structthemisdb_1_1analytics_1_1_flight_put_result_1af5794bf3b1af0c07147dddc5972d5acc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_put_result_1af5794bf3b1af0c07147dddc5972d5acc" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116" refid="structthemisdb_1_1analytics_1_1_flight_put_result_1a6d8d938a7f45c42d6794999634099ef4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_put_result_1a6d8d938a7f45c42d6794999634099ef4" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="117" refid="structthemisdb_1_1analytics_1_1_flight_put_result_1aedf823230f076874905cbf92fc56fcd2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_put_result_1aedf823230f076874905cbf92fc56fcd2" kindref="member">rows_accepted</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="118" refid="structthemisdb_1_1analytics_1_1_flight_put_result_1a46b5ab8481c72d4f976dfa7f43f80d7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_put_result_1a46b5ab8481c72d4f976dfa7f43f80d7a" kindref="member">bytes_transferred</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ArrowFlightServer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="classthemisdb_1_1analytics_1_1_arrow_flight_server" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1ad8aa171412bf1f44d35b60d5c9412d0a" kindref="member">ArrowFlightServer</ref><sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="131" refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1a5b0425a1a1a4badcdf0175152318944f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1a5b0425a1a1a4badcdf0175152318944f" kindref="member">~ArrowFlightServer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1ad8aa171412bf1f44d35b60d5c9412d0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1ad8aa171412bf1f44d35b60d5c9412d0a" kindref="member">ArrowFlightServer</ref>(<ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1ad8aa171412bf1f44d35b60d5c9412d0a" kindref="member">ArrowFlightServer</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1a66d7a51a843f452d5922685cf9e4434c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1ad8aa171412bf1f44d35b60d5c9412d0a" kindref="member">ArrowFlightServer</ref>&amp;<sp/>operator=(<ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1ad8aa171412bf1f44d35b60d5c9412d0a" kindref="member">ArrowFlightServer</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1a71043ecdb18e203df773d7c417203627" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1ad8aa171412bf1f44d35b60d5c9412d0a" kindref="member">ArrowFlightServer</ref>(const<sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1ad8aa171412bf1f44d35b60d5c9412d0a" kindref="member">ArrowFlightServer</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="138" refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1a25f2e4eea46ca0c3d570ed34d73f2321" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1ad8aa171412bf1f44d35b60d5c9412d0a" kindref="member">ArrowFlightServer</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1ad8aa171412bf1f44d35b60d5c9412d0a" kindref="member">ArrowFlightServer</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal">protected:</highlight></codeline>
+<codeline lineno="141" refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1a8f45ef328fb67354105b545d2152b7ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1ad8aa171412bf1f44d35b60d5c9412d0a" kindref="member">ArrowFlightServer</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal">public:</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::unique_ptr&lt;<ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1ad8aa171412bf1f44d35b60d5c9412d0a" kindref="member">ArrowFlightServer</ref>&gt;<sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1a86483ec757bed889610e2b790d1cf577" kindref="member">create</ref>(</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_server_options" kindref="compound">FlightServerOptions</ref>&amp;<sp/>opts<sp/>=<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_server_options" kindref="compound">FlightServerOptions</ref>{});</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1acd8c83265d6eff268442322d00847951" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1acd8c83265d6eff268442322d00847951" kindref="member">start</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1abda919678481643b548599ee9382211c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1abda919678481643b548599ee9382211c" kindref="member">stop</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1aa32aec61ded9ff4957305e03f1538869" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1aa32aec61ded9ff4957305e03f1538869" kindref="member">isRunning</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1a5de3965b83a8deee033ea910157d8cb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1a5de3965b83a8deee033ea910157d8cb9" kindref="member">registerDataset</ref>(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>path,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;<ref refid="classthemis_1_1analytics_1_1_arrow_record_batch" kindref="compound">themis::analytics::ArrowRecordBatch</ref>()&gt;<sp/>producer,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>total_rows<sp/>=<sp/>-1)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1a1b7f41bb0914330938010d3a94eb2df4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1a1b7f41bb0914330938010d3a94eb2df4" kindref="member">registerPutHandler</ref>(</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>path,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(<ref refid="classthemis_1_1analytics_1_1_arrow_record_batch" kindref="compound">themis::analytics::ArrowRecordBatch</ref>)&gt;<sp/>handler)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1a23834c0b4a67f0cd6f7def7e8541d62d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1a23834c0b4a67f0cd6f7def7e8541d62d" kindref="member">unregisterDataset</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>path)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1abc7b260571f9d723f54526743f1a00f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;FlightInfo&gt;<sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1abc7b260571f9d723f54526743f1a00f4" kindref="member">listRegisteredDatasets</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1ae32b2aeb2950b41690b2f52736c38656" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_server_1ae32b2aeb2950b41690b2f52736c38656" kindref="member">endpointUrl</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ArrowFlightClient</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183" refid="classthemisdb_1_1analytics_1_1_arrow_flight_client" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1ab0606fc2326fffa25ea3413b9a63814c" kindref="member">ArrowFlightClient</ref><sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="189" refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1a0500872950dbb45fe5e0974c2168a5af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1a0500872950dbb45fe5e0974c2168a5af" kindref="member">~ArrowFlightClient</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1ab0606fc2326fffa25ea3413b9a63814c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1ab0606fc2326fffa25ea3413b9a63814c" kindref="member">ArrowFlightClient</ref>(<ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1ab0606fc2326fffa25ea3413b9a63814c" kindref="member">ArrowFlightClient</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193" refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1ac537f4a96784495f4bd3ace447408f1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1ab0606fc2326fffa25ea3413b9a63814c" kindref="member">ArrowFlightClient</ref>&amp;<sp/>operator=(<ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1ab0606fc2326fffa25ea3413b9a63814c" kindref="member">ArrowFlightClient</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1a0246000f279559d39f9ce02dfabddcdb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1ab0606fc2326fffa25ea3413b9a63814c" kindref="member">ArrowFlightClient</ref>(const<sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1ab0606fc2326fffa25ea3413b9a63814c" kindref="member">ArrowFlightClient</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="196" refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1a062e55fa4d65b6b7ecf5391c52f50363" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1ab0606fc2326fffa25ea3413b9a63814c" kindref="member">ArrowFlightClient</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1ab0606fc2326fffa25ea3413b9a63814c" kindref="member">ArrowFlightClient</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal">protected:</highlight></codeline>
+<codeline lineno="199" refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1aba9b50e14d9605ea603d2b93dedfacae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1ab0606fc2326fffa25ea3413b9a63814c" kindref="member">ArrowFlightClient</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal">public:</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::unique_ptr&lt;<ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1ab0606fc2326fffa25ea3413b9a63814c" kindref="member">ArrowFlightClient</ref>&gt;<sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1a8e2123e35078f338b16bdbf16825a9c1" kindref="member">connect</ref>(</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_client_options" kindref="compound">FlightClientOptions</ref>&amp;<sp/>opts<sp/>=<sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_client_options" kindref="compound">FlightClientOptions</ref>{});</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205" refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1a766dc3249cbe5172fa915aee5ca31769" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;FlightInfo&gt;<sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1a766dc3249cbe5172fa915aee5ca31769" kindref="member">listFlights</ref>(</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_call_options" kindref="compound">FlightCallOptions</ref>&amp;<sp/>call_opts<sp/>=<sp/>{})<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208" refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1aec220d5cccfd934d078bf8106ccdf56f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch" kindref="compound">themis::analytics::ArrowRecordBatch</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1aec220d5cccfd934d078bf8106ccdf56f" kindref="member">doGet</ref>(</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor" kindref="compound">FlightDescriptor</ref>&amp;<sp/>descriptor,</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_call_options" kindref="compound">FlightCallOptions</ref>&amp;<sp/>call_opts<sp/>=<sp/>{})<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1a6c9e6768666f8b08aa2b8e786686bd42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_put_result" kindref="compound">FlightPutResult</ref><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1a6c9e6768666f8b08aa2b8e786686bd42" kindref="member">doPut</ref>(</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch" kindref="compound">themis::analytics::ArrowRecordBatch</ref>&amp;<sp/>batch,</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor" kindref="compound">FlightDescriptor</ref>&amp;<sp/>descriptor,</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1analytics_1_1_flight_call_options" kindref="compound">FlightCallOptions</ref>&amp;<sp/>call_opts<sp/>=<sp/>{})<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220" refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1a7ee922df9c5d12a45049a78f75ccc7a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1a7ee922df9c5d12a45049a78f75ccc7a4" kindref="member">close</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1af0a30b705928d11944d19f48b8e05ba2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_arrow_flight_client_1af0a30b705928d11944d19f48b8e05ba2" kindref="member">isConnected</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>analytics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/analytics/arrow_flight.h"/>
+  </compounddef>
+</doxygen>

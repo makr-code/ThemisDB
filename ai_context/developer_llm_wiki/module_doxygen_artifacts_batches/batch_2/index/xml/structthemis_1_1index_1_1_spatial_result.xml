@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_spatial_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::SpatialResult</compoundname>
+    <includes refid="spatial__index_8h" local="no">spatial_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_spatial_result_1a92333d1a1e532cfa545f8f808a674594" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::SpatialResult::primary_key</definition>
+        <argsstring></argsstring>
+        <name>primary_key</name>
+        <qualifiedname>themis::index::SpatialResult::primary_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="74" column="17" bodyfile="include/index/spatial_index.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_spatial_result_1a8ac6880db1ffb2752d486f1c2b79e035" prot="public" static="no" mutable="no">
+        <type>geo::MBR</type>
+        <definition>geo::MBR themis::index::SpatialResult::mbr</definition>
+        <argsstring></argsstring>
+        <name>mbr</name>
+        <qualifiedname>themis::index::SpatialResult::mbr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="75" column="14" bodyfile="include/index/spatial_index.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_spatial_result_1ab9ce603e5896ae0b818ed7b1ad14aa1b" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; themis::index::SpatialResult::z_min</definition>
+        <argsstring></argsstring>
+        <name>z_min</name>
+        <qualifiedname>themis::index::SpatialResult::z_min</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="76" column="19" bodyfile="include/index/spatial_index.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_spatial_result_1a2e8b32055fda0aa57ec73e0e7c8f0bef" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt;double&gt; themis::index::SpatialResult::z_max</definition>
+        <argsstring></argsstring>
+        <name>z_max</name>
+        <qualifiedname>themis::index::SpatialResult::z_max</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="77" column="19" bodyfile="include/index/spatial_index.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_spatial_result_1abdbf9f074f4f4cbe3e0261ad5dcd86d9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::index::SpatialResult::distance</definition>
+        <argsstring></argsstring>
+        <name>distance</name>
+        <qualifiedname>themis::index::SpatialResult::distance</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="78" column="12" bodyfile="include/index/spatial_index.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/spatial_index.h" line="73" column="1" bodyfile="include/index/spatial_index.h" bodystart="73" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_spatial_result_1abdbf9f074f4f4cbe3e0261ad5dcd86d9" prot="public" virt="non-virtual"><scope>themis::index::SpatialResult</scope><name>distance</name></member>
+      <member refid="structthemis_1_1index_1_1_spatial_result_1a8ac6880db1ffb2752d486f1c2b79e035" prot="public" virt="non-virtual"><scope>themis::index::SpatialResult</scope><name>mbr</name></member>
+      <member refid="structthemis_1_1index_1_1_spatial_result_1a92333d1a1e532cfa545f8f808a674594" prot="public" virt="non-virtual"><scope>themis::index::SpatialResult</scope><name>primary_key</name></member>
+      <member refid="structthemis_1_1index_1_1_spatial_result_1a2e8b32055fda0aa57ec73e0e7c8f0bef" prot="public" virt="non-virtual"><scope>themis::index::SpatialResult</scope><name>z_max</name></member>
+      <member refid="structthemis_1_1index_1_1_spatial_result_1ab9ce603e5896ae0b818ed7b1ad14aa1b" prot="public" virt="non-virtual"><scope>themis::index::SpatialResult</scope><name>z_min</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

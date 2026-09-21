@@ -1,0 +1,635 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::StrategicCacheImpl</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_cache" prot="public" virt="non-virtual">themis::core::concerns::ICache</basecompoundref>
+    <includes refid="strategic__cache__impl_8h" local="no">strategic_cache_impl.h</includes>
+    <innerclass refid="structthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1_1_cached_value" prot="private">themis::core::concerns::StrategicCacheImpl::CachedValue</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1ae395114c477aef09afd581ed8f902298" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::core::concerns::StrategicCacheImpl::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="253" column="24" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a8f55f16f2f954d9600d1ba691fa3750a" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; std::string, CachedValue &gt;</type>
+        <definition>std::unordered_map&lt;std::string, CachedValue&gt; themis::core::concerns::StrategicCacheImpl::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="254" column="32" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a341d30c49ad2ce0806322ce3cfaa4d3f" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::StrategicCacheImpl::maxSize_</definition>
+        <argsstring></argsstring>
+        <name>maxSize_</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::maxSize_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="255" column="12" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a1dff4b4e70be1f66ab2b27e192bef64a" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::core::concerns::StrategicCacheImpl::defaultTTL_</definition>
+        <argsstring></argsstring>
+        <name>defaultTTL_</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::defaultTTL_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="256" column="14" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a89d405e05a3ce602a7eaa1af45f134c1" prot="private" static="no" mutable="yes">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy" kindref="compound">IEvictionStrategy</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;IEvictionStrategy&gt; themis::core::concerns::StrategicCacheImpl::strategy_</definition>
+        <argsstring></argsstring>
+        <name>strategy_</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::strategy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="257" column="29" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a4c2239858d6dc7c7644d8d6e2e123788" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_cache_metrics" kindref="compound">CacheMetrics</ref></type>
+        <definition>CacheMetrics themis::core::concerns::StrategicCacheImpl::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="258" column="26" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a257eb4a9c453bdada64be16767539856" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::StrategicCacheImpl::StrategicCacheImpl</definition>
+        <argsstring>(size_t maxSize=1000, std::unique_ptr&lt; IEvictionStrategy &gt; strategy=nullptr, uint64_t defaultTTL=0)</argsstring>
+        <name>StrategicCacheImpl</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::StrategicCacheImpl</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>maxSize</declname>
+          <defval>1000</defval>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy" kindref="compound">IEvictionStrategy</ref> &gt;</type>
+          <declname>strategy</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>defaultTTL</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="28" column="14" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="28" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1aca1e48a616ea73032bd451caa964d742" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry" kindref="compound">CacheEntry</ref> &gt;</type>
+        <definition>std::optional&lt; CacheEntry &gt; themis::core::concerns::StrategicCacheImpl::get</definition>
+        <argsstring>(std::string_view key) const override</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::get</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ada9afd8e5ee9f4621b796c58544d1bb3">get</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="39" column="19" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="39" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1aba77adefe75279668622d7e7385a4261" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::StrategicCacheImpl::put</definition>
+        <argsstring>(std::string_view key, const CacheEntry &amp;entry, uint64_t ttl_ms=0) override</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::put</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ae4365dc4004cc33911011ebadd84feae">put</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry" kindref="compound">CacheEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>ttl_ms</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Key str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="77" column="10" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="77" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1aed6564e46dfb460d7f82ba1a2fc9e38e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::StrategicCacheImpl::invalidate</definition>
+        <argsstring>(std::string_view key) override</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::invalidate</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1adebcfb3ea7fb1ab1cfda88e7d0e6b64d">invalidate</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="122" column="10" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="122" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1ae248a8ab2b926009e10bd3b9a194afc3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::StrategicCacheImpl::clear</definition>
+        <argsstring>() override</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::clear</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a21a0dc70a856099f2240af11fcd4d810">clear</reimplements>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="138" column="10" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="138" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a2e6582a2e9e9e3cccbe7495150cfb672" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::StrategicCacheImpl::invalidatePattern</definition>
+        <argsstring>(std::string_view pattern) override</argsstring>
+        <name>invalidatePattern</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::invalidatePattern</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a423b02db998bc192f290913d0c511cda">invalidatePattern</reimplements>
+        <param>
+          <type>std::string_view</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate Pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="151" column="10" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="151" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a8ac6b4913e1e211899765ee6bcc12b52" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::StrategicCacheImpl::size</definition>
+        <argsstring>() const override</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::size</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1afef40e36373226997465ed09da520686">size</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="176" column="12" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="176" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a5a7635309b777731fa571dddeb388995" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::core::concerns::StrategicCacheImpl::hitCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>hitCount</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::hitCount</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a39f3a62b1ea790d4f0b962824ac4a755">hitCount</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="186" column="14" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="186" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a3e13ae7284b7dbb5c5a627a2815a9608" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::core::concerns::StrategicCacheImpl::missCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>missCount</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::missCount</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1aec7d668e283b4e5c0f5a0fc71abcff4f">missCount</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="190" column="14" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="190" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a0eef977278ef7ef532a355df72daf779" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>double</type>
+        <definition>double themis::core::concerns::StrategicCacheImpl::hitRate</definition>
+        <argsstring>() const override</argsstring>
+        <name>hitRate</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::hitRate</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ada9baa4a92166aef4abdfb36f65798e7">hitRate</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="194" column="12" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="194" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a47f36a42b6f8fcc8d284a3be7962a5db" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::StrategicCacheImpl::setMaxSize</definition>
+        <argsstring>(size_t maxSize) override</argsstring>
+        <name>setMaxSize</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::setMaxSize</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a3c4b1a52af81c65319d391002a175e63">setMaxSize</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>maxSize</declname>
+        </param>
+        <briefdescription>
+<para>Set Max Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">maxSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="199" column="10" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="199" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a1a137b495cc700ba15c4394b01add0dc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::StrategicCacheImpl::setDefaultTTL</definition>
+        <argsstring>(uint64_t ttl_ms) override</argsstring>
+        <name>setDefaultTTL</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::setDefaultTTL</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ab7e027321593460c3fe5119daa928d94">setDefaultTTL</reimplements>
+        <param>
+          <type>uint64_t</type>
+          <declname>ttl_ms</declname>
+        </param>
+        <briefdescription>
+<para>Set Default TTL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="210" column="10" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="210" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a1767dc1f7b44a813bfab50ed1d17d2db" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy" kindref="compound">IEvictionStrategy</ref> *</type>
+        <definition>IEvictionStrategy * themis::core::concerns::StrategicCacheImpl::getEvictionStrategy</definition>
+        <argsstring>() override</argsstring>
+        <name>getEvictionStrategy</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::getEvictionStrategy</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1ab84d955738a23363ba7646d37683ebb0">getEvictionStrategy</reimplements>
+        <briefdescription>
+<para>Get Eviction Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements getEvictionStrategy without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="215" column="23" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="215" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1ae302452256f5d4f258b599c54b2fed59" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy" kindref="compound">IEvictionStrategy</ref> *</type>
+        <definition>const IEvictionStrategy * themis::core::concerns::StrategicCacheImpl::getEvictionStrategy</definition>
+        <argsstring>() const override</argsstring>
+        <name>getEvictionStrategy</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::getEvictionStrategy</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a663b74b791bfde5c264d6a688097dc60">getEvictionStrategy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="218" column="29" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="218" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a59d583aa1dc441724828c554a9b3b531" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const <ref refid="structthemis_1_1core_1_1concerns_1_1_cache_metrics" kindref="compound">CacheMetrics</ref> *</type>
+        <definition>const CacheMetrics * themis::core::concerns::StrategicCacheImpl::getMetrics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::getMetrics</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a3c46dd5a19c9f1ebc0524853938f6fda">getMetrics</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="223" column="24" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="223" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a1f96ae5a35cae358b0c2b9778f2a9f70" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::StrategicCacheImpl::setEvictionStrategy</definition>
+        <argsstring>(std::unique_ptr&lt; IEvictionStrategy &gt; strategy)</argsstring>
+        <name>setEvictionStrategy</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::setEvictionStrategy</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1core_1_1concerns_1_1_i_eviction_strategy" kindref="compound">IEvictionStrategy</ref> &gt;</type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Set Eviction Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), <ref refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1ae248a8ab2b926009e10bd3b9a194afc3" kindref="member">clear()</ref>, std::move(), onInsert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="232" column="10" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="232" bodyend="245"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a2e1fdb9cb6916e514115e47d89de4b8c" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::core::concerns::StrategicCacheImpl::getCurrentTimeMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentTimeMs</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::getCurrentTimeMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="260" column="14" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="260" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a00bc6b97ba7862701d16916d92e8b909" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::StrategicCacheImpl::updateLatency</definition>
+        <argsstring>(const std::chrono::steady_clock::time_point &amp;start) const</argsstring>
+        <name>updateLatency</name>
+        <qualifiedname>themis::core::concerns::StrategicCacheImpl::updateLatency</qualifiedname>
+        <param>
+          <type>const std::chrono::steady_clock::time_point &amp;</type>
+          <declname>start</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/strategic_cache_impl.h" line="266" column="10" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="266" bodyend="270"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::core::concerns::ICache</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_cache"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::StrategicCacheImpl</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::core::concerns::ICache</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_cache"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::StrategicCacheImpl</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/strategic_cache_impl.h" line="26" column="1" bodyfile="include/core/concerns/strategic_cache_impl.h" bodystart="26" bodyend="271"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a8f55f16f2f954d9600d1ba691fa3750a" prot="private" virt="non-virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1ae248a8ab2b926009e10bd3b9a194afc3" prot="public" virt="virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>clear</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a1dff4b4e70be1f66ab2b27e192bef64a" prot="private" virt="non-virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>defaultTTL_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a19c4449c6b947dca89fee7fd8078ba8c" prot="public" virt="virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>flush</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1aca1e48a616ea73032bd451caa964d742" prot="public" virt="virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>get</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a2e1fdb9cb6916e514115e47d89de4b8c" prot="private" virt="non-virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>getCurrentTimeMs</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a1767dc1f7b44a813bfab50ed1d17d2db" prot="public" virt="virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>getEvictionStrategy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1ae302452256f5d4f258b599c54b2fed59" prot="public" virt="virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>getEvictionStrategy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a59d583aa1dc441724828c554a9b3b531" prot="public" virt="virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a5a7635309b777731fa571dddeb388995" prot="public" virt="virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>hitCount</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a0eef977278ef7ef532a355df72daf779" prot="public" virt="virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>hitRate</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1aed6564e46dfb460d7f82ba1a2fc9e38e" prot="public" virt="virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>invalidate</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a2e6582a2e9e9e3cccbe7495150cfb672" prot="public" virt="virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>invalidatePattern</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a8c0af48ee34fc3c5eb315d4327cf5f23" prot="public" virt="virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a341d30c49ad2ce0806322ce3cfaa4d3f" prot="private" virt="non-virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>maxSize_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a4c2239858d6dc7c7644d8d6e2e123788" prot="private" virt="non-virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a3e13ae7284b7dbb5c5a627a2815a9608" prot="public" virt="virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>missCount</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1ae395114c477aef09afd581ed8f902298" prot="private" virt="non-virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1aba77adefe75279668622d7e7385a4261" prot="public" virt="virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>put</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a1a137b495cc700ba15c4394b01add0dc" prot="public" virt="virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>setDefaultTTL</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a1f96ae5a35cae358b0c2b9778f2a9f70" prot="public" virt="non-virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>setEvictionStrategy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a47f36a42b6f8fcc8d284a3be7962a5db" prot="public" virt="virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>setMaxSize</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a4853aa0742f4edd55c73b97cf3c36274" prot="public" virt="virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a8ac6b4913e1e211899765ee6bcc12b52" prot="public" virt="virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>size</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a257eb4a9c453bdada64be16767539856" prot="public" virt="non-virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>StrategicCacheImpl</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a89d405e05a3ce602a7eaa1af45f134c1" prot="private" virt="non-virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>strategy_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_strategic_cache_impl_1a00bc6b97ba7862701d16916d92e8b909" prot="private" virt="non-virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>updateLatency</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_cache_1a66b78d0f8e1b3c90aec75ce67ace3428" prot="public" virt="virtual"><scope>themis::core::concerns::StrategicCacheImpl</scope><name>~ICache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

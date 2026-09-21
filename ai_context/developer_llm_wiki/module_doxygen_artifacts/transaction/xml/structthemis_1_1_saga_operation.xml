@@ -1,0 +1,527 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_saga_operation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SagaOperation</compoundname>
+    <includes refid="saga_8h" local="no">saga.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_saga_operation_1ac89b469be8e18784f58f9ae590c84eee" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SagaOperation::putEntityWithCompensation</definition>
+        <argsstring>(RocksDBWrapper &amp;db, const std::string &amp;key, const std::vector&lt; uint8_t &gt; &amp;value, Saga &amp;saga)</argsstring>
+        <name>putEntityWithCompensation</name>
+        <qualifiedname>themis::SagaOperation::putEntityWithCompensation</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_saga" kindref="compound">Saga</ref> &amp;</type>
+          <declname>saga</declname>
+        </param>
+        <briefdescription>
+<para>Put Entity With Compensation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>========== SAGA Operations ==========</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: get(), has_value(), std::move(), addStep(), put(), THEMIS_DEBUG(), del(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="141" column="17" bodyfile="src/transaction/saga.cpp" bodystart="227" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_saga_operation_1a75131fd7262eb510fbfb63a33f459020" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SagaOperation::deleteEntityWithCompensation</definition>
+        <argsstring>(RocksDBWrapper &amp;db, const std::string &amp;key, Saga &amp;saga)</argsstring>
+        <name>deleteEntityWithCompensation</name>
+        <qualifiedname>themis::SagaOperation::deleteEntityWithCompensation</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_saga" kindref="compound">Saga</ref> &amp;</type>
+          <declname>saga</declname>
+        </param>
+        <briefdescription>
+<para>Delete Entity With Compensation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: get(), has_value(), THEMIS_WARN(), std::move(), addStep(), put(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="154" column="17" bodyfile="src/transaction/saga.cpp" bodystart="260" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_saga_operation_1a10012a1a68b324c780008efc9d63ac66" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SagaOperation::indexPutWithCompensation</definition>
+        <argsstring>(SecondaryIndexManager &amp;idx, const std::string &amp;table, const BaseEntity &amp;entity, RocksDBWrapper::WriteBatchWrapper &amp;batch, Saga &amp;saga)</argsstring>
+        <name>indexPutWithCompensation</name>
+        <qualifiedname>themis::SagaOperation::indexPutWithCompensation</qualifiedname>
+        <param>
+          <type>SecondaryIndexManager &amp;</type>
+          <declname>idx</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>RocksDBWrapper::WriteBatchWrapper &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_saga" kindref="compound">Saga</ref> &amp;</type>
+          <declname>saga</declname>
+        </param>
+        <briefdescription>
+<para>Index Put With Compensation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">idx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getPrimaryKey(), addStep(), erase(), THEMIS_WARN(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="168" column="17" bodyfile="src/transaction/saga.cpp" bodystart="291" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_saga_operation_1a62a0fd95c12f76b30a621dc03a353c6a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SagaOperation::graphAddWithCompensation</definition>
+        <argsstring>(GraphIndexManager &amp;graph, const BaseEntity &amp;edge, RocksDBWrapper::WriteBatchWrapper &amp;batch, Saga &amp;saga)</argsstring>
+        <name>graphAddWithCompensation</name>
+        <qualifiedname>themis::SagaOperation::graphAddWithCompensation</qualifiedname>
+        <param>
+          <type>GraphIndexManager &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>edge</declname>
+        </param>
+        <param>
+          <type>RocksDBWrapper::WriteBatchWrapper &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_saga" kindref="compound">Saga</ref> &amp;</type>
+          <declname>saga</declname>
+        </param>
+        <briefdescription>
+<para>Graph Add With Compensation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">edge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">edge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getPrimaryKey(), addStep(), deleteEdge(), THEMIS_WARN(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="183" column="17" bodyfile="src/transaction/saga.cpp" bodystart="319" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_saga_operation_1a10e96cf476fd5e8158a5fcbe5160b4e4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::SagaOperation::vectorAddWithCompensation</definition>
+        <argsstring>(VectorIndexManager &amp;vec, const BaseEntity &amp;entity, RocksDBWrapper::WriteBatchWrapper &amp;batch, const std::string &amp;vectorField, Saga &amp;saga)</argsstring>
+        <name>vectorAddWithCompensation</name>
+        <qualifiedname>themis::SagaOperation::vectorAddWithCompensation</qualifiedname>
+        <param>
+          <type>VectorIndexManager &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>RocksDBWrapper::WriteBatchWrapper &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>vectorField</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_saga" kindref="compound">Saga</ref> &amp;</type>
+          <declname>saga</declname>
+        </param>
+        <briefdescription>
+<para>Vector Add With Compensation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vectorField</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vectorField</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">saga</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getPrimaryKey(), addStep(), removeByPk(), THEMIS_WARN(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga.h" line="198" column="17" bodyfile="src/transaction/saga.cpp" bodystart="347" bodyend="365"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/saga.h" line="133" column="1" bodyfile="include/transaction/saga.h" bodystart="133" bodyend="205"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_saga_operation_1a75131fd7262eb510fbfb63a33f459020" prot="public" virt="non-virtual"><scope>themis::SagaOperation</scope><name>deleteEntityWithCompensation</name></member>
+      <member refid="structthemis_1_1_saga_operation_1a62a0fd95c12f76b30a621dc03a353c6a" prot="public" virt="non-virtual"><scope>themis::SagaOperation</scope><name>graphAddWithCompensation</name></member>
+      <member refid="structthemis_1_1_saga_operation_1a10012a1a68b324c780008efc9d63ac66" prot="public" virt="non-virtual"><scope>themis::SagaOperation</scope><name>indexPutWithCompensation</name></member>
+      <member refid="structthemis_1_1_saga_operation_1ac89b469be8e18784f58f9ae590c84eee" prot="public" virt="non-virtual"><scope>themis::SagaOperation</scope><name>putEntityWithCompensation</name></member>
+      <member refid="structthemis_1_1_saga_operation_1a10e96cf476fd5e8158a5fcbe5160b4e4" prot="public" virt="non-virtual"><scope>themis::SagaOperation</scope><name>vectorAddWithCompensation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

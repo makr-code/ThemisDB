@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_ann_dispatch_bench_fixture" kind="class" language="C++" prot="public">
+    <compoundname>AnnDispatchBenchFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_ann_dispatch_bench_fixture_1a0a78ef7b5fba002b72cb59544d259863" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend" kindref="compound">CPUVectorBackend</ref></type>
+        <definition>CPUVectorBackend AnnDispatchBenchFixture::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>AnnDispatchBenchFixture::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/acceleration/bench_acceleration_dispatch.cpp" line="74" column="22" bodyfile="benchmarks/acceleration/bench_acceleration_dispatch.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_ann_dispatch_bench_fixture_1ab938d6852f3113c33fb5eca62c53763b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch" kindref="compound">ANNKernelDispatch</ref></type>
+        <definition>ANNKernelDispatch AnnDispatchBenchFixture::disp_</definition>
+        <argsstring></argsstring>
+        <name>disp_</name>
+        <qualifiedname>AnnDispatchBenchFixture::disp_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/acceleration/bench_acceleration_dispatch.cpp" line="75" column="23" bodyfile="benchmarks/acceleration/bench_acceleration_dispatch.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_ann_dispatch_bench_fixture_1a8c4e50939a0ec2949b5cd061a44e7483" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AnnDispatchBenchFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AnnDispatchBenchFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/acceleration/bench_acceleration_dispatch.cpp" line="65" column="10" bodyfile="benchmarks/acceleration/bench_acceleration_dispatch.cpp" bodystart="65" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AnnDispatchBenchFixture</label>
+        <link refid="class_ann_dispatch_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AnnDispatchBenchFixture</label>
+        <link refid="class_ann_dispatch_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>backend_</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>disp_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="7">
+        <label>themis::acceleration::ANNKernelDispatch</label>
+        <link refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch"/>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::CPUVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="5">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="6" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::acceleration::IVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_vector_backend"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/acceleration/bench_acceleration_dispatch.cpp" line="63" column="1" bodyfile="benchmarks/acceleration/bench_acceleration_dispatch.cpp" bodystart="63" bodyend="76"/>
+    <listofallmembers>
+      <member refid="class_ann_dispatch_bench_fixture_1a0a78ef7b5fba002b72cb59544d259863" prot="public" virt="non-virtual"><scope>AnnDispatchBenchFixture</scope><name>backend_</name></member>
+      <member refid="class_ann_dispatch_bench_fixture_1ab938d6852f3113c33fb5eca62c53763b" prot="public" virt="non-virtual"><scope>AnnDispatchBenchFixture</scope><name>disp_</name></member>
+      <member refid="class_ann_dispatch_bench_fixture_1a8c4e50939a0ec2949b5cd061a44e7483" prot="public" virt="non-virtual"><scope>AnnDispatchBenchFixture</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,775 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorFingerprintGraph</compoundname>
+    <includes refid="tensor__fingerprint__graph_8h" local="no">tensor_fingerprint_graph.h</includes>
+    <innerclass refid="structthemis_1_1tensor_1_1_tensor_fingerprint_graph_1_1_graph_stats" prot="public">themis::tensor::TensorFingerprintGraph::GraphStats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1af626dc8b1e2edc3c29569ac5601af6de" prot="public" static="no">
+        <type>std::function&lt; float(const std::string &amp;key_a, const std::string &amp;key_b)&gt;</type>
+        <definition>using themis::tensor::TensorFingerprintGraph::ExactSimilarityFn = std::function&lt;float(const std::string&amp; key_a,
+                                                  const std::string&amp; key_b)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ExactSimilarityFn</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::ExactSimilarityFn</qualifiedname>
+        <briefdescription>
+<para>Type alias for exact-similarity injection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="192" column="5" bodyfile="include/tensor/tensor_fingerprint_graph.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1aa07082a86caaeff5cc6c86b3bda9e348" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::tensor::TensorFingerprintGraph::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="230" column="31" bodyfile="include/tensor/tensor_fingerprint_graph.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1aba22a3b8345d20c2e411f72fb30089ea" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1tensor_1_1_fingerprint_entry" kindref="compound">FingerprintEntry</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, FingerprintEntry&gt; themis::tensor::TensorFingerprintGraph::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="231" column="24" bodyfile="include/tensor/tensor_fingerprint_graph.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a4f71e3dc0b5335f83c8a61b0afedfc2f" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, storage::TTTrain &gt;</type>
+        <definition>std::unordered_map&lt;std::string, storage::TTTrain&gt; themis::tensor::TensorFingerprintGraph::trains_</definition>
+        <argsstring></argsstring>
+        <name>trains_</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::trains_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="232" column="24" bodyfile="include/tensor/tensor_fingerprint_graph.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a3aa5898a7de1cfe0cd82063c7c885c15" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::tensor::TensorFingerprintGraph::train_self_ip_</definition>
+        <argsstring></argsstring>
+        <name>train_self_ip_</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::train_self_ip_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="233" column="34" bodyfile="include/tensor/tensor_fingerprint_graph.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a8ca5b61d4bb4686a49e9c099369cf58d" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::tensor::TensorFingerprintGraph::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="235" column="31" bodyfile="include/tensor/tensor_fingerprint_graph.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1ae07fe76283114ec1845acdbe2d8a367f" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1tensor_1_1_tensor_fingerprint_graph_1_1_graph_stats" kindref="compound">GraphStats</ref></type>
+        <definition>GraphStats themis::tensor::TensorFingerprintGraph::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="236" column="31" bodyfile="include/tensor/tensor_fingerprint_graph.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a153b7183e94b2402db123ae880c13fb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::TensorFingerprintGraph::TensorFingerprintGraph</definition>
+        <argsstring>()=default</argsstring>
+        <name>TensorFingerprintGraph</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::TensorFingerprintGraph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="87" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a38b1c655774d4f0898b8a1bb0ee9131f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::TensorFingerprintGraph::addAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_key, const storage::TTTrain &amp;train, const std::string &amp;domain, const std::string &amp;base_model_id, const std::string &amp;tenant_id=&quot;default&quot;)</argsstring>
+        <name>addAdapter</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::addAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_key</declname>
+        </param>
+        <param>
+          <type>const storage::TTTrain &amp;</type>
+          <declname>train</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Add or update an adapter&apos;s fingerprint in the graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Adapter.</para>
+<para>Extracts the column-mean fingerprint from <computeroutput>train.cores[0]</computeroutput> and registers it under <computeroutput>adapter_key</computeroutput>. If an entry already exists for the same key it is replaced.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>adapter_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique storage key of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>train</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full TT-format adapter weights. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Domain tag. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>base_model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Base model identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Owning tenant namespace. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>false if <computeroutput>train.cores</computeroutput> is empty (nothing inserted).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">train</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the base model. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), columnMeans(), std::sqrt(), std::move(), storage::TensorTrainDecomposer::innerProduct(), lock(), slock(), <ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1ab50810098fbeaaf83b853955d593f796" kindref="member">size()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="105" column="10" bodyfile="src/tensor/tensor_fingerprint_graph.cpp" bodystart="142" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1aaa504bbb96c63a717aa47e576aae8ce6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::TensorFingerprintGraph::addAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_key, const TensorTrainCore &amp;core, const std::string &amp;domain, const std::string &amp;base_model_id, const std::string &amp;tenant_id=&quot;default&quot;)</argsstring>
+        <name>addAdapter</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::addAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_tensor_train_core" kindref="compound">TensorTrainCore</ref> &amp;</type>
+          <declname>core</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;default&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="112" column="10" bodyfile="include/tensor/tensor_fingerprint_graph.h" bodystart="112" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1abc02f841f16480f4bfd757c3b0a3cde5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::TensorFingerprintGraph::removeAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_key)</argsstring>
+        <name>removeAdapter</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::removeAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_key</declname>
+        </param>
+        <briefdescription>
+<para>Remove an adapter&apos;s fingerprint from the graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Adapter.</para>
+<para><simplesect kind="return"><para>true if the key was found and removed, false otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), erase(), slock(), <ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1ab50810098fbeaaf83b853955d593f796" kindref="member">size()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="125" column="10" bodyfile="src/tensor/tensor_fingerprint_graph.cpp" bodystart="212" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1aa227c438c0193faccf3914840bb60b0b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_similarity_result" kindref="compound">SimilarityResult</ref> &gt;</type>
+        <definition>std::vector&lt; SimilarityResult &gt; themis::tensor::TensorFingerprintGraph::findSimilar</definition>
+        <argsstring>(const std::string &amp;query_key, std::size_t k) const</argsstring>
+        <name>findSimilar</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::findSimilar</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_key</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Find the top-k adapters most similar to the query adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Similarity is computed as cosine similarity in the TT domain using <computeroutput>TensorTrainDecomposer::innerProduct()</computeroutput>. The query adapter itself is excluded from the result list.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Storage key of the query adapter (must be registered). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of results to return. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Sorted list (descending score) of similar adapters. Empty if query_key is not registered or k == 0.</para>
+</simplesect>
+<simplesect kind="note"><para>Complexity: O(N * C_ip) for N candidates and TT inner-product cost C_ip. With <computeroutput><ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a0127422e6b8209285dc05513da6348da" kindref="member">setExactSimilarityFn()</ref></computeroutput>, complexity becomes O(N * C_backend). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Slock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="145" column="9" bodyfile="src/tensor/tensor_fingerprint_graph.cpp" bodystart="304" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1ae821742bd897caa5661626dfb156d514" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_similarity_result" kindref="compound">SimilarityResult</ref> &gt;</type>
+        <definition>std::vector&lt; SimilarityResult &gt; themis::tensor::TensorFingerprintGraph::findSimilarByFingerprint</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;fingerprint, std::size_t k, const std::string &amp;tenant_id=&quot;&quot;) const</argsstring>
+        <name>findSimilarByFingerprint</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::findSimilarByFingerprint</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Find the top-k adapters most similar to the given raw fingerprint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Useful when the caller holds a fingerprint not yet stored in the graph. This path is intentionally approximate and does not use TT inner-product.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query fingerprint vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of results to return. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If non-empty, restrict results to this tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Complexity: O(N * D_overlap) where D_overlap is the shared prefix length of compared fingerprints. Missing dimensions are treated as zeros. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Slock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="161" column="9" bodyfile="src/tensor/tensor_fingerprint_graph.cpp" bodystart="229" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a5286dfbba38875e5f6d4b57b6896dd9b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1tensor_1_1_fingerprint_entry" kindref="compound">FingerprintEntry</ref> &gt;</type>
+        <definition>std::optional&lt; FingerprintEntry &gt; themis::tensor::TensorFingerprintGraph::entry</definition>
+        <argsstring>(const std::string &amp;adapter_key) const</argsstring>
+        <name>entry</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::entry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_key</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve the stored fingerprint entry for a given key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="171" column="9" bodyfile="src/tensor/tensor_fingerprint_graph.cpp" bodystart="473" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1ab50810098fbeaaf83b853955d593f796" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorFingerprintGraph::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::size</qualifiedname>
+        <briefdescription>
+<para>Number of adapters currently registered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="174" column="18" bodyfile="src/tensor/tensor_fingerprint_graph.cpp" bodystart="487" bodyend="495"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a7554a1f40227cb360115699e290b1c8e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::tensor::TensorFingerprintGraph::adapterKeys</definition>
+        <argsstring>() const</argsstring>
+        <name>adapterKeys</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::adapterKeys</qualifiedname>
+        <briefdescription>
+<para>List all registered adapter keys (sorted). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="177" column="18" bodyfile="src/tensor/tensor_fingerprint_graph.cpp" bodystart="497" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a87920e824cdfae4b9c9b32b32bde725b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_tensor_fingerprint_graph_1_1_graph_stats" kindref="compound">GraphStats</ref></type>
+        <definition>TensorFingerprintGraph::GraphStats themis::tensor::TensorFingerprintGraph::stats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="187" column="17" bodyfile="src/tensor/tensor_fingerprint_graph.cpp" bodystart="515" bodyend="523"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a0127422e6b8209285dc05513da6348da" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorFingerprintGraph::setExactSimilarityFn</definition>
+        <argsstring>(ExactSimilarityFn fn)</argsstring>
+        <name>setExactSimilarityFn</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::setExactSimilarityFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1af626dc8b1e2edc3c29569ac5601af6de" kindref="member">ExactSimilarityFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Install an exact-similarity function for key-based similarity queries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Exact Similarity Fn.</para>
+<para>When set, <ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1aa227c438c0193faccf3914840bb60b0b" kindref="member">findSimilar()</ref> delegates per-pair scoring to this function instead of computing TT cosine similarity via inner products. <ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1ae821742bd897caa5661626dfb156d514" kindref="member">findSimilarByFingerprint()</ref> remains a fingerprint-only approximate path.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable receiving two adapter keys and returning a score in [0, 1].</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="204" column="17" bodyfile="src/tensor/tensor_fingerprint_graph.cpp" bodystart="40" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a4e50da7f977fa2953d52e78bd7a9822b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::TensorFingerprintGraph::clearExactSimilarityFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearExactSimilarityFn</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::clearExactSimilarityFn</qualifiedname>
+        <briefdescription>
+<para>Remove the exact-similarity override (reverts to TT cosine path). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Exact Similarity Fn.</para>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="209" column="17" bodyfile="src/tensor/tensor_fingerprint_graph.cpp" bodystart="49" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a2a7dee2a6a8a3c8207783dae0de32c28" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::tensor::TensorFingerprintGraph::columnMeans</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;data, std::size_t n_rows, std::size_t n_cols)</argsstring>
+        <name>columnMeans</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::columnMeans</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>n_rows</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>n_cols</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute column means of a TT-core data block. data layout: [n_rows × n_cols] row-major. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="214" column="24" bodyfile="src/tensor/tensor_fingerprint_graph.cpp" bodystart="69" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1aa121925b805ed77afa982191c53603b0" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::tensor::TensorFingerprintGraph::cosineSimilarity</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;a, const std::vector&lt; float &gt; &amp;b) noexcept</argsstring>
+        <name>cosineSimilarity</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::cosineSimilarity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Cosine similarity between two equal-length vectors. Returns 0.0 if either vector is zero. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="220" column="18" bodyfile="src/tensor/tensor_fingerprint_graph.cpp" bodystart="87" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1abbcb2f1092b8d1412d587b5cf9919bbd" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::tensor::TensorFingerprintGraph::cosineSimilarityZeroPadded</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;a, float a_sq_norm, const std::vector&lt; float &gt; &amp;b, float b_sq_norm) noexcept</argsstring>
+        <name>cosineSimilarityZeroPadded</name>
+        <qualifiedname>themis::tensor::TensorFingerprintGraph::cosineSimilarityZeroPadded</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>a_sq_norm</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>b_sq_norm</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Cosine similarity with explicit zero-padding semantics and cached norms. Returns 0.0 if either vector has near-zero norm. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_fingerprint_graph.h" line="225" column="18" bodyfile="src/tensor/tensor_fingerprint_graph.cpp" bodystart="107" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fingerprint-based similarity graph for TT-encoded adapters. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Typical usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a153b7183e94b2402db123ae880c13fb3" kindref="member">TensorFingerprintGraph</ref><sp/>graph;</highlight></codeline>
+<codeline><highlight class="normal">graph.addAdapter(</highlight><highlight class="stringliteral">&quot;__adapters__:t1:legal:llama3&quot;</highlight><highlight class="normal">,<sp/>adapter_tt,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;legal&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;llama3&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;t1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>graph.findSimilar(</highlight><highlight class="stringliteral">&quot;__adapters__:t1:legal:llama3&quot;</highlight><highlight class="normal">,<sp/>5);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>results)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>r.adapter_key<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>sim=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>r.score<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/tensor/tensor_fingerprint_graph.h" line="85" column="1" bodyfile="include/tensor/tensor_fingerprint_graph.h" bodystart="85" bodyend="237"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a7554a1f40227cb360115699e290b1c8e" prot="public" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>adapterKeys</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a38b1c655774d4f0898b8a1bb0ee9131f" prot="public" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>addAdapter</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1aaa504bbb96c63a717aa47e576aae8ce6" prot="public" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>addAdapter</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a4e50da7f977fa2953d52e78bd7a9822b" prot="public" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>clearExactSimilarityFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a2a7dee2a6a8a3c8207783dae0de32c28" prot="private" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>columnMeans</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1aa121925b805ed77afa982191c53603b0" prot="private" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>cosineSimilarity</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1abbcb2f1092b8d1412d587b5cf9919bbd" prot="private" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>cosineSimilarityZeroPadded</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1aba22a3b8345d20c2e411f72fb30089ea" prot="private" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>entries_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a5286dfbba38875e5f6d4b57b6896dd9b" prot="public" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>entry</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1af626dc8b1e2edc3c29569ac5601af6de" prot="public" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>ExactSimilarityFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1aa227c438c0193faccf3914840bb60b0b" prot="public" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>findSimilar</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1ae821742bd897caa5661626dfb156d514" prot="public" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>findSimilarByFingerprint</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1aa07082a86caaeff5cc6c86b3bda9e348" prot="private" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1abc02f841f16480f4bfd757c3b0a3cde5" prot="public" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>removeAdapter</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a0127422e6b8209285dc05513da6348da" prot="public" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>setExactSimilarityFn</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1ab50810098fbeaaf83b853955d593f796" prot="public" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>size</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a87920e824cdfae4b9c9b32b32bde725b" prot="public" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>stats</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1ae07fe76283114ec1845acdbe2d8a367f" prot="private" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a8ca5b61d4bb4686a49e9c099369cf58d" prot="private" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a153b7183e94b2402db123ae880c13fb3" prot="public" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>TensorFingerprintGraph</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a3aa5898a7de1cfe0cd82063c7c885c15" prot="private" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>train_self_ip_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_tensor_fingerprint_graph_1a4f71e3dc0b5335f83c8a61b0afedfc2f" prot="private" virt="non-virtual"><scope>themis::tensor::TensorFingerprintGraph</scope><name>trains_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

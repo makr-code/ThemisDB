@@ -1,0 +1,981 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__chimera__prepared__statements_8cpp" kind="file" language="C++">
+    <compoundname>test_chimera_prepared_statements.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="themisdb__adapter_8hpp" local="yes">chimera/themisdb_adapter.hpp</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">future</includes>
+    <includes local="no">map</includes>
+    <includes local="no">set</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>chimera/database_adapter.hpp</label>
+        <link refid="database__adapter_8hpp"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chimera/themisdb_adapter.hpp</label>
+        <link refid="themisdb__adapter_8hpp"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/chimera/test_chimera_prepared_statements.cpp</label>
+        <link refid="test__chimera__prepared__statements_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>algorithm</label>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="11">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>map</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="18">
+        <label>set</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>unordered_set</label>
+      </node>
+      <node id="16">
+        <label>utility</label>
+      </node>
+      <node id="6">
+        <label>variant</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_chimera_prepared_statement_test" prot="public">ChimeraPreparedStatementTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, HasPreparedStatementsCapability)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>HasPreparedStatementsCapability</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="77" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="77" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1a5e76476124ec2b7dc69e4b4158506f85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, GetCapabilitiesIncludesPreparedStatements)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>GetCapabilitiesIncludesPreparedStatements</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="81" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="81" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1a37248727db2cfc9d90a7bb178bd5ec6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, DynamicCastToIPreparedStatementAdapterSucceeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>DynamicCastToIPreparedStatementAdapterSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="88" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="88" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1a7976e593e5e1318aaf48bb72acc8af71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, PrepareReturnsValidStatement)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>PrepareReturnsValidStatement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="97" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="97" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1a6cbaf9bcfeca1d4390e7c0501e81e90c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, PrepareEmptyQueryReturnsInvalidArgument)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>PrepareEmptyQueryReturnsInvalidArgument</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="103" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="103" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1af1ec1810c5984111f7b8ba8b7b9fafeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, GetIdReturnsNonEmptyId)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>GetIdReturnsNonEmptyId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="109" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="109" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1aff7c01c44a951c759aaf6e1c5a8301c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, GetQueryReturnsOriginalQuery)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>GetQueryReturnsOriginalQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="115" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="115" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1a4845b008203cb2b412e885e57c6bcaa5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, TwoStatementsHaveDistinctIds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>TwoStatementsHaveDistinctIds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="122" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="122" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1a746f83576745be362b6c8ee139175af1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, ListPreparedContainsRegisteredId)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>ListPreparedContainsRegisteredId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="134" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="134" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1a059ab98f5a2a13eb4c6c1e44d77b1bee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, ListPreparedContainsAllRegisteredIds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>ListPreparedContainsAllRegisteredIds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="145" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="145" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1a39a84ec18e588b0c56d506e2b7a98c35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, UnprepareRemovesStatementFromList)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>UnprepareRemovesStatementFromList</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="160" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="160" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1a50cd68f675bab7b6ef2f8cb5162244d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, UnprepareUnknownIdReturnsNotFound)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>UnprepareUnknownIdReturnsNotFound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="173" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="173" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1ad25c7c0b3798a18da283e6580a3d3c17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, BindNamedIntegerSucceeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>BindNamedIntegerSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="183" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="183" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1a064f378a5ee3ba4e1a3c40bddd16d636" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, BindNamedStringSucceeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>BindNamedStringSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="190" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="190" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1aedf5c026944fce0ed89c7d4e358d0a24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, BindNamedBoolSucceeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>BindNamedBoolSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="197" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="197" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1acf2e0002fa48ffca52305b16a9c5c634" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, BindEmptyNameReturnsInvalidArgument)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>BindEmptyNameReturnsInvalidArgument</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="204" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="204" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1aa9642748245cde293485016406ed7178" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, BindPositionalSucceeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>BindPositionalSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="217" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="217" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1a12eda88b777903a73b6f69562e23655b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, BindAllSucceeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>BindAllSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="228" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="228" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1ae74974b473648ed9b90a816eaa8f405c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, BindAllEmptyNameReturnsInvalidArgument)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>BindAllEmptyNameReturnsInvalidArgument</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="240" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="240" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1abca6d30ab945e03a00bf00bba3910633" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, ExecuteReturnsResult)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>ExecuteReturnsResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="254" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="254" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1a5d28a55ec4c65f6591a61384ed0b7e0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, ExecuteAsyncResolvesSuccessfully)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>ExecuteAsyncResolvesSuccessfully</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="261" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="261" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1aff0ef2b390d46a8fd0f1dc42a909ebb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, ResetClearsBindingsThenExecuteSucceeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>ResetClearsBindingsThenExecuteSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="274" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="274" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1a9022a1d4dde17338fe2761fb62935b36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, StatisticsBeforeExecuteHasZeroTime)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>StatisticsBeforeExecuteHasZeroTime</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="290" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="290" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1a4e4e3c23600896bd1fd79763712d6da6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, StatisticsAfterTwoExecutesHasNonNegativeTime)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>StatisticsAfterTwoExecutesHasNonNegativeTime</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="299" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="299" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1a1d1744cf3feeacbad71a88b44a75a2d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, StringBindingIsEscapedNotConcatenated)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>StringBindingIsEscapedNotConcatenated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="315" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="315" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="test__chimera__prepared__statements_8cpp_1a3a1e3aff723d78a3bb43234364eac554" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ChimeraPreparedStatementTest, PreparedStatementViaBasePointer)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref></type>
+        </param>
+        <param>
+          <type>PreparedStatementViaBasePointer</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_prepared_statements.cpp" line="347" column="1" bodyfile="tests/chimera/test_chimera_prepared_statements.cpp" bodystart="347" bodyend="359"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tests for <ref refid="classchimera_1_1_i_prepared_statement" kindref="compound">IPreparedStatement</ref> / <ref refid="classchimera_1_1_i_prepared_statement_adapter" kindref="compound">IPreparedStatementAdapter</ref> (v1.9.0). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Validates the prepared statement interface and its ThemisDB reference implementation. Tests cover:<itemizedlist>
+<listitem><para>PREPARED_STATEMENTS capability flag is reported</para>
+</listitem><listitem><para>Dynamic cast to <ref refid="classchimera_1_1_i_prepared_statement_adapter" kindref="compound">IPreparedStatementAdapter</ref> succeeds</para>
+</listitem><listitem><para>prepare() returns a valid <ref refid="classchimera_1_1_i_prepared_statement" kindref="compound">IPreparedStatement</ref> handle</para>
+</listitem><listitem><para>prepare() with empty query returns INVALID_ARGUMENT</para>
+</listitem><listitem><para>get_id() returns a non-empty string</para>
+</listitem><listitem><para>get_query() returns the original query text</para>
+</listitem><listitem><para>Two sequential prepare() calls produce distinct IDs</para>
+</listitem><listitem><para>bind(name, value) stores a named parameter</para>
+</listitem><listitem><para>bind(position, value) stores a positional parameter</para>
+</listitem><listitem><para>bind_all() stores multiple named parameters</para>
+</listitem><listitem><para>bind(&quot;&quot;) returns INVALID_ARGUMENT</para>
+</listitem><listitem><para>bind_all({&quot;&quot;→value}) returns INVALID_ARGUMENT</para>
+</listitem><listitem><para>execute() returns a result</para>
+</listitem><listitem><para>execute_async() resolves with the same success/failure as execute()</para>
+</listitem><listitem><para>reset() clears all bindings (execute() still works after reset)</para>
+</listitem><listitem><para>get_statistics() returns zero execution time before any execute()</para>
+</listitem><listitem><para>get_statistics() returns non-negative time after execute()</para>
+</listitem><listitem><para>list_prepared() includes all registered statement IDs</para>
+</listitem><listitem><para>unprepare() removes the statement from list_prepared()</para>
+</listitem><listitem><para>unprepare() with unknown ID returns NOT_FOUND</para>
+</listitem><listitem><para>Prepared statement via IDatabaseAdapter base pointer</para>
+</listitem><listitem><para>String parameter is escaped in substitution (SQL injection safety)</para>
+</listitem></itemizedlist>
+</para>
+<para>All tests run without a live ThemisDB server (simulation mode).</para>
+<para><simplesect kind="copyright"><para>MIT License </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="themisdb__adapter_8hpp" kindref="compound">chimera/themisdb_adapter.hpp</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacechimera" kindref="compound">chimera</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>Capability<sp/>prepared_statements_capability()<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(PREPARED_STATEMENTS)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Capability::PREPARED_STATEMENTS;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fallback<sp/>token<sp/>for<sp/>older<sp/>CHIMERA<sp/>enum<sp/>surfaces.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Capability::SHARDING;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="class_chimera_prepared_statement_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_chimera_prepared_statement_test_1a1f4a14f1353ad90892ad580f4d59a898" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_chimera_prepared_statement_test_1a44bcc7732fcf293e0e19efd2297b7308" kindref="member">adapter_</ref>.connect(</highlight><highlight class="stringliteral">&quot;themisdb://localhost:7777/testdb&quot;</highlight><highlight class="normal">).is_ok());</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classchimera_1_1_themis_d_b_adapter" kindref="compound">ThemisDBAdapter</ref><sp/><ref refid="class_chimera_prepared_statement_test_1a44bcc7732fcf293e0e19efd2297b7308" kindref="member">adapter_</ref>;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Capability<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>HasPreparedStatementsCapability)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(adapter_.has_capability(prepared_statements_capability()));</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>GetCapabilitiesIncludesPreparedStatements)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>caps<sp/>=<sp/>adapter_.get_capabilities();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::find(caps.begin(),<sp/>caps.end(),</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>prepared_statements_capability()),</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caps.end());</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>DynamicCastToIPreparedStatementAdapterSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>psa<sp/>=<sp/></highlight><highlight class="keyword">dynamic_cast&lt;</highlight><highlight class="normal"><ref refid="classchimera_1_1_i_prepared_statement_adapter" kindref="compound">IPreparedStatementAdapter</ref>*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(&amp;adapter_);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(psa,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>prepare()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>PrepareReturnsValidStatement)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>t&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.is_ok());</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(res.value.value().get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>PrepareEmptyQueryReturnsInvalidArgument)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.is_ok());</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.error_code,<sp/><ref refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39af295a0c3e37c94f078e1c5476479132d" kindref="member">ErrorCode::INVALID_ARGUMENT</ref>);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>GetIdReturnsNonEmptyId)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.is_ok());</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.value.value()-&gt;get_id().empty());</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>GetQueryReturnsOriginalQuery)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="bench__chimera__adapter_8cpp_1ad5c6c8845f7e8aa5e4e8355154d4af59" kindref="member">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>FILTER<sp/>u.active<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter_.prepare(<ref refid="bench__chimera__adapter_8cpp_1ad5c6c8845f7e8aa5e4e8355154d4af59" kindref="member">query</ref>);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.is_ok());</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.value.value()-&gt;get_query(),<sp/><ref refid="bench__chimera__adapter_8cpp_1ad5c6c8845f7e8aa5e4e8355154d4af59" kindref="member">query</ref>);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>TwoStatementsHaveDistinctIds)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r1.is_ok());</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r2.is_ok());</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(r1.value.value()-&gt;get_id(),<sp/>r2.value.value()-&gt;get_id());</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>list_prepared()<sp/>/<sp/>unprepare()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>ListPreparedContainsRegisteredId)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>listed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.is_ok());</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>res.value.value()-&gt;get_id();</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>list_res<sp/>=<sp/>adapter_.list_prepared();</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(list_res.is_ok());</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ids<sp/>=<sp/>list_res.value.value();</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::find(ids.begin(),<sp/>ids.end(),<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">),<sp/>ids.end());</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>ListPreparedContainsAllRegisteredIds)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>one&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>two&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r1.is_ok());</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(r2.is_ok());</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>id1<sp/>=<sp/>r1.value.value()-&gt;get_id();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>id2<sp/>=<sp/>r2.value.value()-&gt;get_id();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>list_res<sp/>=<sp/>adapter_.list_prepared();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(list_res.is_ok());</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ids<sp/>=<sp/>list_res.value.value();</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::find(ids.begin(),<sp/>ids.end(),<sp/>id1),<sp/>ids.end());</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::find(ids.begin(),<sp/>ids.end(),<sp/>id2),<sp/>ids.end());</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>UnprepareRemovesStatementFromList)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>removeme&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.is_ok());</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>res.value.value()-&gt;get_id();</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(adapter_.unprepare(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">).is_ok());</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>list_res<sp/>=<sp/>adapter_.list_prepared();</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(list_res.is_ok());</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ids<sp/>=<sp/>list_res.value.value();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::find(ids.begin(),<sp/>ids.end(),<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">),<sp/>ids.end());</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>UnprepareUnknownIdReturnsNotFound)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter_.unprepare(</highlight><highlight class="stringliteral">&quot;nonexistent-id-xyz&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.is_ok());</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.error_code,<sp/><ref refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a8c02547a8a3b02382bac3557bcb2280d" kindref="member">ErrorCode::NOT_FOUND</ref>);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>bind()<sp/>—<sp/>named<sp/>parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>BindNamedIntegerSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>t<sp/>WHERE<sp/>age<sp/>&gt;<sp/>@age&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.is_ok());</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stmt<sp/>=<sp/>std::move(res.value.value());</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stmt-&gt;bind(</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref>{int64_t{30}}).is_ok());</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>BindNamedStringSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>t<sp/>WHERE<sp/>name<sp/>=<sp/>@name&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.is_ok());</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stmt<sp/>=<sp/>std::move(res.value.value());</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stmt-&gt;bind(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref>{std::string{</highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">}}).is_ok());</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>BindNamedBoolSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>t<sp/>WHERE<sp/>active<sp/>=<sp/>@active&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.is_ok());</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stmt<sp/>=<sp/>std::move(res.value.value());</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stmt-&gt;bind(</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref>{true}).is_ok());</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>BindEmptyNameReturnsInvalidArgument)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.is_ok());</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stmt<sp/>=<sp/>std::move(res.value.value());</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bind_res<sp/>=<sp/>stmt-&gt;bind(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref>{int64_t{1}});</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(bind_res.is_ok());</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(bind_res.error_code,<sp/><ref refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39af295a0c3e37c94f078e1c5476479132d" kindref="member">ErrorCode::INVALID_ARGUMENT</ref>);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>bind()<sp/>—<sp/>positional<sp/>parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>BindPositionalSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>t<sp/>WHERE<sp/>id<sp/>=<sp/>?&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.is_ok());</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stmt<sp/>=<sp/>std::move(res.value.value());</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stmt-&gt;bind(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">{0},<sp/><ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref>{int64_t{42}}).is_ok());</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>bind_all()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>BindAllSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter_.prepare(</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>t<sp/>WHERE<sp/>a<sp/>=<sp/>@a<sp/>AND<sp/>b<sp/>=<sp/>@b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.is_ok());</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stmt<sp/>=<sp/>std::move(res.value.value());</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>Scalar&gt;<sp/>params<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref>{int64_t{1}}},</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref>{std::string{</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">}}}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stmt-&gt;bind_all(params).is_ok());</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>BindAllEmptyNameReturnsInvalidArgument)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.is_ok());</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stmt<sp/>=<sp/>std::move(res.value.value());</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>Scalar&gt;<sp/>params<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref>{int64_t{1}}}};</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bind_res<sp/>=<sp/>stmt-&gt;bind_all(params);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(bind_res.is_ok());</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(bind_res.error_code,<sp/><ref refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39af295a0c3e37c94f078e1c5476479132d" kindref="member">ErrorCode::INVALID_ARGUMENT</ref>);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">//<sp/>execute()<sp/>and<sp/>execute_async()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>ExecuteReturnsResult)<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>exec_table&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.is_ok());</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stmt<sp/>=<sp/>std::move(res.value.value());</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stmt-&gt;execute().is_ok());</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>ExecuteAsyncResolvesSuccessfully)<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>async_table&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.is_ok());</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stmt<sp/>=<sp/>std::move(res.value.value());</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>future<sp/>=<sp/>stmt-&gt;execute_async();</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exec_res<sp/>=<sp/>future.get();</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(exec_res.is_ok());</highlight></codeline>
+<codeline lineno="268"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="comment">//<sp/>reset()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>ResetClearsBindingsThenExecuteSucceeds)<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>t<sp/>WHERE<sp/>age<sp/>&gt;<sp/>@age&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.is_ok());</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stmt<sp/>=<sp/>std::move(res.value.value());</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(stmt-&gt;bind(</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref>{int64_t{20}}).is_ok());</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(stmt-&gt;reset().is_ok());</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>reset,<sp/>execute()<sp/>uses<sp/>the<sp/>original<sp/>unmodified<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stmt-&gt;execute().is_ok());</highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//<sp/>get_statistics()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>StatisticsBeforeExecuteHasZeroTime)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.is_ok());</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stmt<sp/>=<sp/>std::move(res.value.value());</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>stmt-&gt;get_statistics();</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(stats.is_ok());</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.value-&gt;execution_time.count(),<sp/>0);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>StatisticsAfterTwoExecutesHasNonNegativeTime)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>stats_table&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.is_ok());</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stmt<sp/>=<sp/>std::move(res.value.value());</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(stmt-&gt;execute().is_ok());</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(stmt-&gt;execute().is_ok());</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>stmt-&gt;get_statistics();</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(stats.is_ok());</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(stats.value-&gt;execution_time.count(),<sp/>0);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SQL<sp/>injection<sp/>safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>StringBindingIsEscapedNotConcatenated)<sp/>{</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>Scalar{string}<sp/>value<sp/>containing<sp/>SQL<sp/>injection<sp/>content<sp/>should<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>wrapped<sp/>in<sp/>single-quoted<sp/>SQL<sp/>literals<sp/>with<sp/>internal<sp/>characters<sp/>escaped,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>not<sp/>spliced<sp/>as<sp/>raw<sp/>SQL.<sp/><sp/>We<sp/>verify<sp/>both<sp/>that<sp/>the<sp/>call<sp/>completes<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>a<sp/>crash<sp/>and<sp/>that<sp/>the<sp/>substitution<sp/>wraps<sp/>the<sp/>value<sp/>in<sp/>single<sp/>quotes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>t<sp/>WHERE<sp/>name<sp/>=<sp/>@name&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.is_ok());</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stmt<sp/>=<sp/>std::move(res.value.value());</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>payload<sp/>would<sp/>terminate<sp/>a<sp/>query<sp/>if<sp/>concatenated<sp/>raw.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>payload<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(&apos;;<sp/>DROP<sp/>TABLE<sp/>t;<sp/>--)&quot;;</highlight></codeline>
+<codeline lineno="326"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ASSERT_TRUE(stmt-&gt;bind(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref>{payload}).is_ok());</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Execute<sp/>must<sp/>not<sp/>crash<sp/>and<sp/>must<sp/>not<sp/>return<sp/>CONSTRAINT_VIOLATION</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(which<sp/>would<sp/>indicate<sp/>the<sp/>injected<sp/>DROP<sp/>statement<sp/>was<sp/>interpreted).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>exec_res<sp/>=<sp/>stmt-&gt;execute();</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(exec_res.error_code,<sp/><ref refid="namespacechimera_1a9758f2a85cbc7eda1023f5cef5b00a39a1d67a525f6cada988939ffdd393cae45" kindref="member">ErrorCode::CONSTRAINT_VIOLATION</ref>);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>the<sp/>payload<sp/>was<sp/>properly<sp/>escaped:<sp/>prepare<sp/>a<sp/>fresh<sp/>statement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>with<sp/>a<sp/>known<sp/>non-harmful<sp/>string<sp/>and<sp/>confirm<sp/>it<sp/>also<sp/>executes<sp/>cleanly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>demonstrates<sp/>the<sp/>escaping<sp/>pipeline<sp/>is<sp/>active.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res2<sp/>=<sp/>adapter_.prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>t<sp/>WHERE<sp/>name<sp/>=<sp/>@name&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res2.is_ok());</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stmt2<sp/>=<sp/>std::move(res2.value.value());</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(stmt2-&gt;bind(</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacechimera_1ad6242315598fd088735827495e1d8e4e" kindref="member">Scalar</ref>{std::string{</highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">}}).is_ok());</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stmt2-&gt;execute().is_ok());</highlight></codeline>
+<codeline lineno="341"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Via<sp/>IDatabaseAdapter<sp/>base<sp/>pointer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><ref refid="test__chimera__prepared__statements_8cpp_1a176f80f6544238f4a7ea72724085e9d3" kindref="member">TEST_F</ref>(<ref refid="class_chimera_prepared_statement_test" kindref="compound">ChimeraPreparedStatementTest</ref>,<sp/>PreparedStatementViaBasePointer)<sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>IDatabaseAdapter*<sp/>base<sp/>=<sp/>&amp;adapter_;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(base-&gt;has_capability(prepared_statements_capability()));</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>psa<sp/>=<sp/></highlight><highlight class="keyword">dynamic_cast&lt;</highlight><highlight class="normal"><ref refid="classchimera_1_1_i_prepared_statement_adapter" kindref="compound">IPreparedStatementAdapter</ref>*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(base);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(psa,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>psa-&gt;prepare(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>via_base&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.is_ok());</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stmt<sp/>=<sp/>std::move(res.value.value());</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(stmt-&gt;get_id().empty());</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stmt-&gt;execute().is_ok());</highlight></codeline>
+<codeline lineno="359"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/chimera/test_chimera_prepared_statements.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::graph::test::phase3::qpc::CostModel</compoundname>
+    <innerclass refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1_1_graph_stats" prot="public">themisdb::graph::test::phase3::qpc::CostModel::GraphStats</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1a7883375c53445f2a2bda90d65b27c0a6" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themisdb::graph::test::phase3::qpc::CostModel::bfsCost</definition>
+        <argsstring>(const GraphStats &amp;g)</argsstring>
+        <name>bfsCost</name>
+        <qualifiedname>themisdb::graph::test::phase3::qpc::CostModel::bfsCost</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1_1_graph_stats" kindref="compound">GraphStats</ref> &amp;</type>
+          <declname>g</declname>
+        </param>
+        <briefdescription>
+<para>BFS cost: O(V + E) but visits at most (branching^depth) nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="189" column="19" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="189" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1ad7bbbd3d87e6fb2d3b5aed624767d3bd" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themisdb::graph::test::phase3::qpc::CostModel::dfsCost</definition>
+        <argsstring>(const GraphStats &amp;g)</argsstring>
+        <name>dfsCost</name>
+        <qualifiedname>themisdb::graph::test::phase3::qpc::CostModel::dfsCost</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1_1_graph_stats" kindref="compound">GraphStats</ref> &amp;</type>
+          <declname>g</declname>
+        </param>
+        <briefdescription>
+<para>DFS cost: cheaper on deep sparse graphs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="198" column="19" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="198" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1aa229f2266441ff8d4563ba1af56b4448" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themisdb::graph::test::phase3::qpc::CostModel::dijkstraCost</definition>
+        <argsstring>(const GraphStats &amp;g)</argsstring>
+        <name>dijkstraCost</name>
+        <qualifiedname>themisdb::graph::test::phase3::qpc::CostModel::dijkstraCost</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1_1_graph_stats" kindref="compound">GraphStats</ref> &amp;</type>
+          <declname>g</declname>
+        </param>
+        <briefdescription>
+<para>Dijkstra cost: O((V+E)*log V). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="210" column="19" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="210" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1aa405cf80000e63cef793c8637bed8e1d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themisdb::graph::test::phase3::qpc::CostModel::astarCost</definition>
+        <argsstring>(const GraphStats &amp;g)</argsstring>
+        <name>astarCost</name>
+        <qualifiedname>themisdb::graph::test::phase3::qpc::CostModel::astarCost</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1_1_graph_stats" kindref="compound">GraphStats</ref> &amp;</type>
+          <declname>g</declname>
+        </param>
+        <briefdescription>
+<para>A* cost: heuristic-guided, typically 60% of Dijkstra. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="221" column="19" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="221" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1a137d0970c87dda0ea2f1f64c096917dd" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::graph::test::phase3::qpc::CostModel::selectAlgorithm</definition>
+        <argsstring>(const GraphStats &amp;g)</argsstring>
+        <name>selectAlgorithm</name>
+        <qualifiedname>themisdb::graph::test::phase3::qpc::CostModel::selectAlgorithm</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1_1_graph_stats" kindref="compound">GraphStats</ref> &amp;</type>
+          <declname>g</declname>
+        </param>
+        <briefdescription>
+<para>Select cheapest algorithm given stats. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="226" column="24" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="226" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1a6718c7b7bd2dcf2fe40da5cc03d9dc74" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themisdb::graph::test::phase3::qpc::CostModel::selectivityAdjustedCost</definition>
+        <argsstring>(double base_cost, double selectivity)</argsstring>
+        <name>selectivityAdjustedCost</name>
+        <qualifiedname>themisdb::graph::test::phase3::qpc::CostModel::selectivityAdjustedCost</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>base_cost</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>selectivity</declname>
+        </param>
+        <briefdescription>
+<para>Selectivity-adjusted cost (lower selectivity = fewer edge traversals). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="245" column="19" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="245" bodyend="247"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simple cost model for graph traversal algorithm selection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Cost metric (dimensionless): estimates relative work proportional to nodes visited. Lower score = better choice. </para>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_phase3_optimization.cpp" line="178" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="178" bodyend="248"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1aa405cf80000e63cef793c8637bed8e1d" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::qpc::CostModel</scope><name>astarCost</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1a7883375c53445f2a2bda90d65b27c0a6" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::qpc::CostModel</scope><name>bfsCost</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1ad7bbbd3d87e6fb2d3b5aed624767d3bd" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::qpc::CostModel</scope><name>dfsCost</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1aa229f2266441ff8d4563ba1af56b4448" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::qpc::CostModel</scope><name>dijkstraCost</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1a137d0970c87dda0ea2f1f64c096917dd" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::qpc::CostModel</scope><name>selectAlgorithm</name></member>
+      <member refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_cost_model_1a6718c7b7bd2dcf2fe40da5cc03d9dc74" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::qpc::CostModel</scope><name>selectivityAdjustedCost</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

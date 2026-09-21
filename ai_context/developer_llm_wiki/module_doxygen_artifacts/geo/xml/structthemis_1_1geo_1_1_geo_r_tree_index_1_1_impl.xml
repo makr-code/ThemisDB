@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_geo_r_tree_index_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::GeoRTreeIndex::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_r_tree_index_1_1_impl_1adad15bfc26c7694fb048b8145c3c85c1" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1geo_1_1_geo_r_tree" kindref="compound">GeoRTree</ref></type>
+        <definition>GeoRTree themis::geo::GeoRTreeIndex::Impl::rtree</definition>
+        <argsstring></argsstring>
+        <name>rtree</name>
+        <qualifiedname>themis::geo::GeoRTreeIndex::Impl::rtree</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/rtree_cursor.cpp" line="114" column="14" bodyfile="src/geo/rtree_cursor.cpp" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_r_tree_index_1_1_impl_1a817a6bb0c5977f85e1f1659e6f1f7a39" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::geo::GeoRTreeIndex::Impl::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::geo::GeoRTreeIndex::Impl::version</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/rtree_cursor.cpp" line="115" column="17" bodyfile="src/geo/rtree_cursor.cpp" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_r_tree_index_1_1_impl_1a340d877aa550da0c991508a8d0a47874" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, GeometryInfo &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, GeometryInfo&gt; &gt; themis::geo::GeoRTreeIndex::Impl::entries</definition>
+        <argsstring></argsstring>
+        <name>entries</name>
+        <qualifiedname>themis::geo::GeoRTreeIndex::Impl::entries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/rtree_cursor.cpp" line="117" column="17" bodyfile="src/geo/rtree_cursor.cpp" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geo_r_tree_index_1_1_impl_1a00354228aed025403bac96f6233314f7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::geo::GeoRTreeIndex::Impl::bumpVersion</definition>
+        <argsstring>()</argsstring>
+        <name>bumpVersion</name>
+        <qualifiedname>themis::geo::GeoRTreeIndex::Impl::bumpVersion</qualifiedname>
+        <briefdescription>
+<para>Bump Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements bumpVersion without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/rtree_cursor.cpp" line="123" column="10" bodyfile="src/geo/rtree_cursor.cpp" bodystart="123" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::geo::GeoRTree</label>
+        <link refid="classthemis_1_1geo_1_1_geo_r_tree"/>
+      </node>
+      <node id="1">
+        <label>themis::geo::GeoRTreeIndex::Impl</label>
+        <link refid="structthemis_1_1geo_1_1_geo_r_tree_index_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>rtree</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/geo/rtree_cursor.cpp" line="113" column="1" bodyfile="src/geo/rtree_cursor.cpp" bodystart="113" bodyend="126"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_geo_r_tree_index_1_1_impl_1a00354228aed025403bac96f6233314f7" prot="public" virt="non-virtual"><scope>themis::geo::GeoRTreeIndex::Impl</scope><name>bumpVersion</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_r_tree_index_1_1_impl_1a340d877aa550da0c991508a8d0a47874" prot="public" virt="non-virtual"><scope>themis::geo::GeoRTreeIndex::Impl</scope><name>entries</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_r_tree_index_1_1_impl_1adad15bfc26c7694fb048b8145c3c85c1" prot="public" virt="non-virtual"><scope>themis::geo::GeoRTreeIndex::Impl</scope><name>rtree</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_r_tree_index_1_1_impl_1a817a6bb0c5977f85e1f1659e6f1f7a39" prot="public" virt="non-virtual"><scope>themis::geo::GeoRTreeIndex::Impl</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

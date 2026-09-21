@@ -1,0 +1,332 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::MTLSClient::Config</compoundname>
+    <includes refid="mtls__client_8h" local="no">mtls_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a3bcb4afd706440a7f963923729f15d69" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::MTLSClient::Config::cert_path</definition>
+        <argsstring></argsstring>
+        <name>cert_path</name>
+        <qualifiedname>themis::sharding::MTLSClient::Config::cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="61" column="21" bodyfile="include/sharding/mtls_client.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a5ddd57e259465c8cd4ded724c39e134a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::MTLSClient::Config::key_path</definition>
+        <argsstring></argsstring>
+        <name>key_path</name>
+        <qualifiedname>themis::sharding::MTLSClient::Config::key_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="62" column="21" bodyfile="include/sharding/mtls_client.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a3d5c8d225b752a6311bae8394d0167f5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::MTLSClient::Config::key_passphrase</definition>
+        <argsstring></argsstring>
+        <name>key_passphrase</name>
+        <qualifiedname>themis::sharding::MTLSClient::Config::key_passphrase</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="63" column="21" bodyfile="include/sharding/mtls_client.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a1a0b2be1b6b2a5ba238d9a9e0d77f8d0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::MTLSClient::Config::ca_cert_path</definition>
+        <argsstring></argsstring>
+        <name>ca_cert_path</name>
+        <qualifiedname>themis::sharding::MTLSClient::Config::ca_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="64" column="21" bodyfile="include/sharding/mtls_client.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1ac8a86ddbd59b9aa57fb7f8df94f63b11" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::MTLSClient::Config::crl_path</definition>
+        <argsstring></argsstring>
+        <name>crl_path</name>
+        <qualifiedname>themis::sharding::MTLSClient::Config::crl_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="65" column="21" bodyfile="include/sharding/mtls_client.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a657b3b2244ac677acd1ee0eef82ca2ff" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::MTLSClient::Config::tls_version</definition>
+        <argsstring></argsstring>
+        <name>tls_version</name>
+        <qualifiedname>themis::sharding::MTLSClient::Config::tls_version</qualifiedname>
+        <initializer>= &quot;TLSv1.3&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="68" column="21" bodyfile="include/sharding/mtls_client.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a24433977523ae005e0e36b89518d3dfd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::MTLSClient::Config::verify_peer</definition>
+        <argsstring></argsstring>
+        <name>verify_peer</name>
+        <qualifiedname>themis::sharding::MTLSClient::Config::verify_peer</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="69" column="14" bodyfile="include/sharding/mtls_client.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a825ae48f1dc251bae6989e266fe08081" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::MTLSClient::Config::verify_hostname</definition>
+        <argsstring></argsstring>
+        <name>verify_hostname</name>
+        <qualifiedname>themis::sharding::MTLSClient::Config::verify_hostname</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="70" column="14" bodyfile="include/sharding/mtls_client.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a36b54b0269ac3d2fc15dc59d4d9d639a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::MTLSClient::Config::connect_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>connect_timeout_ms</name>
+        <qualifiedname>themis::sharding::MTLSClient::Config::connect_timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="73" column="18" bodyfile="include/sharding/mtls_client.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a51a0b70fc9c9ed7ae75cade0c4d99b9d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::MTLSClient::Config::request_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>request_timeout_ms</name>
+        <qualifiedname>themis::sharding::MTLSClient::Config::request_timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="74" column="18" bodyfile="include/sharding/mtls_client.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a25fc19710874daad192d41ad6f3c1b69" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::MTLSClient::Config::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::sharding::MTLSClient::Config::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="75" column="18" bodyfile="include/sharding/mtls_client.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1aef2280e8d6d0c202560744de8a545eaf" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::MTLSClient::Config::retry_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_delay_ms</name>
+        <qualifiedname>themis::sharding::MTLSClient::Config::retry_delay_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="76" column="18" bodyfile="include/sharding/mtls_client.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1abf91b406d44be3424f4a7449561a9088" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::MTLSClient::Config::enable_pooling</definition>
+        <argsstring></argsstring>
+        <name>enable_pooling</name>
+        <qualifiedname>themis::sharding::MTLSClient::Config::enable_pooling</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="79" column="14" bodyfile="include/sharding/mtls_client.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1aa14ee89c19e7412f1e5f4c1289466c9c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::MTLSClient::Config::max_connections</definition>
+        <argsstring></argsstring>
+        <name>max_connections</name>
+        <qualifiedname>themis::sharding::MTLSClient::Config::max_connections</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="80" column="18" bodyfile="include/sharding/mtls_client.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a4cc8c971050c974eb1f6d8c33a3a2016" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::MTLSClient::Config::idle_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>idle_timeout_ms</name>
+        <qualifiedname>themis::sharding::MTLSClient::Config::idle_timeout_ms</qualifiedname>
+        <initializer>= 60000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="81" column="18" bodyfile="include/sharding/mtls_client.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a95f7de46733c5f60e033bd1e00d69706" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::MTLSClient::Config::use_connection_pool</definition>
+        <argsstring></argsstring>
+        <name>use_connection_pool</name>
+        <qualifiedname>themis::sharding::MTLSClient::Config::use_connection_pool</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="84" column="14" bodyfile="include/sharding/mtls_client.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1acf6b8a57e3c0077a10539d57781372f2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::MTLSClient::Config::pool_min_connections</definition>
+        <argsstring></argsstring>
+        <name>pool_min_connections</name>
+        <qualifiedname>themis::sharding::MTLSClient::Config::pool_min_connections</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="85" column="16" bodyfile="include/sharding/mtls_client.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a3c7ced529bd5efea5214493ba024fa2c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::MTLSClient::Config::pool_max_connections</definition>
+        <argsstring></argsstring>
+        <name>pool_max_connections</name>
+        <qualifiedname>themis::sharding::MTLSClient::Config::pool_max_connections</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="86" column="16" bodyfile="include/sharding/mtls_client.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1ad8009cfd059855f517e3e09b402dd46e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::MTLSClient::Config::pool_connection_ttl_s</definition>
+        <argsstring></argsstring>
+        <name>pool_connection_ttl_s</name>
+        <qualifiedname>themis::sharding::MTLSClient::Config::pool_connection_ttl_s</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="87" column="18" bodyfile="include/sharding/mtls_client.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a7f37bcdf8d8ccd2079841a2e4b5b28e4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::MTLSClient::Config::pool_idle_timeout_s</definition>
+        <argsstring></argsstring>
+        <name>pool_idle_timeout_s</name>
+        <qualifiedname>themis::sharding::MTLSClient::Config::pool_idle_timeout_s</qualifiedname>
+        <initializer>= 60</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/mtls_client.h" line="88" column="18" bodyfile="include/sharding/mtls_client.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration for mTLS Client </para>
+    </detaileddescription>
+    <location file="include/sharding/mtls_client.h" line="60" column="5" bodyfile="include/sharding/mtls_client.h" bodystart="60" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a1a0b2be1b6b2a5ba238d9a9e0d77f8d0" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Config</scope><name>ca_cert_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a3bcb4afd706440a7f963923729f15d69" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Config</scope><name>cert_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a36b54b0269ac3d2fc15dc59d4d9d639a" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Config</scope><name>connect_timeout_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1ac8a86ddbd59b9aa57fb7f8df94f63b11" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Config</scope><name>crl_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1abf91b406d44be3424f4a7449561a9088" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Config</scope><name>enable_pooling</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a4cc8c971050c974eb1f6d8c33a3a2016" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Config</scope><name>idle_timeout_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a3d5c8d225b752a6311bae8394d0167f5" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Config</scope><name>key_passphrase</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a5ddd57e259465c8cd4ded724c39e134a" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Config</scope><name>key_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1aa14ee89c19e7412f1e5f4c1289466c9c" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Config</scope><name>max_connections</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a25fc19710874daad192d41ad6f3c1b69" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Config</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1ad8009cfd059855f517e3e09b402dd46e" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Config</scope><name>pool_connection_ttl_s</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a7f37bcdf8d8ccd2079841a2e4b5b28e4" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Config</scope><name>pool_idle_timeout_s</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a3c7ced529bd5efea5214493ba024fa2c" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Config</scope><name>pool_max_connections</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1acf6b8a57e3c0077a10539d57781372f2" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Config</scope><name>pool_min_connections</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a51a0b70fc9c9ed7ae75cade0c4d99b9d" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Config</scope><name>request_timeout_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1aef2280e8d6d0c202560744de8a545eaf" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Config</scope><name>retry_delay_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a657b3b2244ac677acd1ee0eef82ca2ff" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Config</scope><name>tls_version</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a95f7de46733c5f60e033bd1e00d69706" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Config</scope><name>use_connection_pool</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a825ae48f1dc251bae6989e266fe08081" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Config</scope><name>verify_hostname</name></member>
+      <member refid="structthemis_1_1sharding_1_1_m_t_l_s_client_1_1_config_1a24433977523ae005e0e36b89518d3dfd" prot="public" virt="non-virtual"><scope>themis::sharding::MTLSClient::Config</scope><name>verify_peer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase4::PMemStorageLayout::Config</compoundname>
+    <includes refid="pmem__storage_8h" local="no">pmem_storage.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_config_1a54776f722da1817a98281dd02b954a1f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::phase4::PMemStorageLayout::Config::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::performance::phase4::PMemStorageLayout::Config::path</qualifiedname>
+        <briefdescription>
+<para>Pool file path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="315" column="21" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_config_1ab594dc182dbd954ec6c3323080ad0285" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase4::PMemStorageLayout::Config::pool_size</definition>
+        <argsstring></argsstring>
+        <name>pool_size</name>
+        <qualifiedname>themis::performance::phase4::PMemStorageLayout::Config::pool_size</qualifiedname>
+        <initializer>{kDefaultPMemPoolSize}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="316" column="21" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="316" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_config_1a0db20135f0371e138d3a766b6c08b9b0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase4::PMemStorageLayout::Config::write_granule</definition>
+        <argsstring></argsstring>
+        <name>write_granule</name>
+        <qualifiedname>themis::performance::phase4::PMemStorageLayout::Config::write_granule</qualifiedname>
+        <initializer>{kPMemCacheLineSize}</initializer>
+        <briefdescription>
+<para>Pad writes to this size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="317" column="21" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="317" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_config_1ab6d3886b38d9dcb99a5964d3c1474c78" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::PMemStorageLayout::Config::use_dax</definition>
+        <argsstring></argsstring>
+        <name>use_dax</name>
+        <qualifiedname>themis::performance::phase4::PMemStorageLayout::Config::use_dax</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="318" column="21" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="318" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_config_1a4371fb6addf0f5ad4c7253d94be5fb00" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::phase4::PMemStorageLayout::Config::create_if_missing</definition>
+        <argsstring></argsstring>
+        <name>create_if_missing</name>
+        <qualifiedname>themis::performance::phase4::PMemStorageLayout::Config::create_if_missing</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="319" column="21" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="319" bodyend="319"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase4/pmem_storage.h" line="314" column="5" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="314" bodyend="320"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_config_1a4371fb6addf0f5ad4c7253d94be5fb00" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemStorageLayout::Config</scope><name>create_if_missing</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_config_1a54776f722da1817a98281dd02b954a1f" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemStorageLayout::Config</scope><name>path</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_config_1ab594dc182dbd954ec6c3323080ad0285" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemStorageLayout::Config</scope><name>pool_size</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_config_1ab6d3886b38d9dcb99a5964d3c1474c78" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemStorageLayout::Config</scope><name>use_dax</name></member>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_config_1a0db20135f0371e138d3a766b6c08b9b0" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemStorageLayout::Config</scope><name>write_granule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

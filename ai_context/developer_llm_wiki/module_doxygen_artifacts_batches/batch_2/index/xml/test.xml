@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__index__highcardinality__stress_8cpp_1a65896ebafd41dc1876cc4f6f9d20bd4a" kindref="member">TEST</ref>  (IndexHighCardinalityStress, HighCardinalityIndexBuild)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>HighCardinalityIndexBuild </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__index__highcardinality__stress_8cpp_1ad9ab7e958ce1c6fdff444a9f78fe0d22" kindref="member">TEST</ref>  (IndexHighCardinalityStress, ConcurrentIndexReadWrite)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>ConcurrentIndexReadWrite </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__index__highcardinality__stress_8cpp_1a7d24d70e4f74e3e589cba4e70c6b9595" kindref="member">TEST</ref>  (IndexHighCardinalityStress, MultiBackendStress)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>MultiBackendStress</para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

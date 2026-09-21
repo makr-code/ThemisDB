@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_adapter_signature" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AdapterSignature</compoundname>
+    <includes refid="adapter__registry_8h" local="no">adapter_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_signature_1a25513cf0d235c2be1d7d7d681d645901" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterSignature::content_hash</definition>
+        <argsstring></argsstring>
+        <name>content_hash</name>
+        <qualifiedname>themis::llm::AdapterSignature::content_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="75" column="17" bodyfile="include/llm/adapter_registry.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_signature_1afeb75d82c38f4799217a0825f8799f50" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterSignature::signature</definition>
+        <argsstring></argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::llm::AdapterSignature::signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="76" column="17" bodyfile="include/llm/adapter_registry.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_signature_1a78d9f070981336083a9c271b4a0a0145" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterSignature::signer_identity</definition>
+        <argsstring></argsstring>
+        <name>signer_identity</name>
+        <qualifiedname>themis::llm::AdapterSignature::signer_identity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="77" column="17" bodyfile="include/llm/adapter_registry.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_signature_1a68a35f43379a3346ea8850f147c07497" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterSignature::signing_timestamp</definition>
+        <argsstring></argsstring>
+        <name>signing_timestamp</name>
+        <qualifiedname>themis::llm::AdapterSignature::signing_timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="78" column="17" bodyfile="include/llm/adapter_registry.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_signature_1ab13a8de002a91ba7b944d8aba93d830b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterSignature::parent_adapter_signature</definition>
+        <argsstring></argsstring>
+        <name>parent_adapter_signature</name>
+        <qualifiedname>themis::llm::AdapterSignature::parent_adapter_signature</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="79" column="17" bodyfile="include/llm/adapter_registry.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_adapter_signature_1a6d89dd9dc7ec566a253e36f7f5411326" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::llm::AdapterSignature::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::llm::AdapterSignature::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="85" column="20" bodyfile="src/llm/adapter_registry.cpp" bodystart="82" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_adapter_signature_1a8a1757cd54c7feb7e174dc4fb132ffb9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_adapter_signature" kindref="compound">AdapterSignature</ref></type>
+        <definition>AdapterSignature themis::llm::AdapterSignature::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::llm::AdapterSignature::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="91" column="29" bodyfile="src/llm/adapter_registry.cpp" bodystart="98" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_registry.h" line="74" column="1" bodyfile="include/llm/adapter_registry.h" bodystart="74" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_adapter_signature_1a25513cf0d235c2be1d7d7d681d645901" prot="public" virt="non-virtual"><scope>themis::llm::AdapterSignature</scope><name>content_hash</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_signature_1a8a1757cd54c7feb7e174dc4fb132ffb9" prot="public" virt="non-virtual"><scope>themis::llm::AdapterSignature</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_signature_1ab13a8de002a91ba7b944d8aba93d830b" prot="public" virt="non-virtual"><scope>themis::llm::AdapterSignature</scope><name>parent_adapter_signature</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_signature_1afeb75d82c38f4799217a0825f8799f50" prot="public" virt="non-virtual"><scope>themis::llm::AdapterSignature</scope><name>signature</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_signature_1a78d9f070981336083a9c271b4a0a0145" prot="public" virt="non-virtual"><scope>themis::llm::AdapterSignature</scope><name>signer_identity</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_signature_1a68a35f43379a3346ea8850f147c07497" prot="public" virt="non-virtual"><scope>themis::llm::AdapterSignature</scope><name>signing_timestamp</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_signature_1a6d89dd9dc7ec566a253e36f7f5411326" prot="public" virt="non-virtual"><scope>themis::llm::AdapterSignature</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

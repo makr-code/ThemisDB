@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::DistributedAnalyticsSharding::Config</compoundname>
+    <includes refid="distributed__analytics_8h" local="no">distributed_analytics.h</includes>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1_1_retry_config" prot="public">themisdb::analytics::DistributedAnalyticsSharding::Config::RetryConfig</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a9be6f788097d9d729e95ba4916b571bf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::DistributedAnalyticsSharding::Config::max_parallel_shards</definition>
+        <argsstring></argsstring>
+        <name>max_parallel_shards</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::Config::max_parallel_shards</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="125" column="16" bodyfile="include/analytics/distributed_analytics.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a1b08802b64e766651311255041d4dec7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::DistributedAnalyticsSharding::Config::allow_partial_results</definition>
+        <argsstring></argsstring>
+        <name>allow_partial_results</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::Config::allow_partial_results</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="127" column="14" bodyfile="include/analytics/distributed_analytics.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a8195c9b82872d76e4cd9654b542bff0b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::DistributedAnalyticsSharding::Config::max_failure_rate</definition>
+        <argsstring></argsstring>
+        <name>max_failure_rate</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::Config::max_failure_rate</qualifiedname>
+        <initializer>= 0.20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="129" column="16" bodyfile="include/analytics/distributed_analytics.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a62434b58985c9bbb1b9c1be739a71d6b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::DistributedAnalyticsSharding::Config::shard_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>shard_timeout_ms</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::Config::shard_timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="131" column="18" bodyfile="include/analytics/distributed_analytics.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1ab6b00427b9f9f15805a33dd325ff3636" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::DistributedAnalyticsSharding::Config::shard_execution_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>shard_execution_timeout_ms</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::Config::shard_execution_timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="133" column="18" bodyfile="include/analytics/distributed_analytics.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a4d8a111618f68d9bb06580d86af89180" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::DistributedAnalyticsSharding::Config::health_check_interval</definition>
+        <argsstring></argsstring>
+        <name>health_check_interval</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::Config::health_check_interval</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="135" column="35" bodyfile="include/analytics/distributed_analytics.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a0c00fcab8de6ad925b9361409bdaf24d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::DistributedAnalyticsSharding::Config::enable_circuit_breaker</definition>
+        <argsstring></argsstring>
+        <name>enable_circuit_breaker</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::Config::enable_circuit_breaker</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="138" column="14" bodyfile="include/analytics/distributed_analytics.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a99c3926aa814b2fedb511c6ff575af42" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::DistributedAnalyticsSharding::Config::circuit_breaker_failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker_failure_threshold</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::Config::circuit_breaker_failure_threshold</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="140" column="18" bodyfile="include/analytics/distributed_analytics.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1ada6e9126dd76584c7429b0ad535eb2cc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::DistributedAnalyticsSharding::Config::circuit_breaker_recovery_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker_recovery_delay_ms</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::Config::circuit_breaker_recovery_delay_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="142" column="18" bodyfile="include/analytics/distributed_analytics.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a10779b64effc69949e1ee85e47157ef0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::DistributedAnalyticsSharding::Config::circuit_breaker_max_recovery_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker_max_recovery_delay_ms</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::Config::circuit_breaker_max_recovery_delay_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="144" column="18" bodyfile="include/analytics/distributed_analytics.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a8a041d54e437f1f6e1d7f4c1b5c6c98e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::DistributedAnalyticsSharding::Config::circuit_breaker_recovery_attempts</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker_recovery_attempts</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::Config::circuit_breaker_recovery_attempts</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="146" column="18" bodyfile="include/analytics/distributed_analytics.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a75df67138ad2d22fc182877a250306b0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::DistributedAnalyticsSharding::Config::max_queued_requests_per_shard</definition>
+        <argsstring></argsstring>
+        <name>max_queued_requests_per_shard</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::Config::max_queued_requests_per_shard</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="148" column="18" bodyfile="include/analytics/distributed_analytics.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1aa871485e021a87e3d34643e5796a5443" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::DistributedAnalyticsSharding::Config::queue_enqueue_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>queue_enqueue_timeout_ms</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::Config::queue_enqueue_timeout_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="150" column="18" bodyfile="include/analytics/distributed_analytics.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a06c84e844883cb76c46a9358c5295c71" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1_1_retry_config" kindref="compound">RetryConfig</ref></type>
+        <definition>RetryConfig themisdb::analytics::DistributedAnalyticsSharding::Config::retry_config</definition>
+        <argsstring></argsstring>
+        <name>retry_config</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::Config::retry_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="158" column="21" bodyfile="include/analytics/distributed_analytics.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::analytics::DistributedAnalyticsSharding::Config</label>
+        <link refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>retry_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::DistributedAnalyticsSharding::Config::RetryConfig</label>
+        <link refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1_1_retry_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/distributed_analytics.h" line="124" column="5" bodyfile="include/analytics/distributed_analytics.h" bodystart="124" bodyend="159"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a1b08802b64e766651311255041d4dec7" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::Config</scope><name>allow_partial_results</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a99c3926aa814b2fedb511c6ff575af42" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::Config</scope><name>circuit_breaker_failure_threshold</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a10779b64effc69949e1ee85e47157ef0" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::Config</scope><name>circuit_breaker_max_recovery_delay_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a8a041d54e437f1f6e1d7f4c1b5c6c98e" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::Config</scope><name>circuit_breaker_recovery_attempts</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1ada6e9126dd76584c7429b0ad535eb2cc" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::Config</scope><name>circuit_breaker_recovery_delay_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a0c00fcab8de6ad925b9361409bdaf24d" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::Config</scope><name>enable_circuit_breaker</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a4d8a111618f68d9bb06580d86af89180" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::Config</scope><name>health_check_interval</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a8195c9b82872d76e4cd9654b542bff0b" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::Config</scope><name>max_failure_rate</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a9be6f788097d9d729e95ba4916b571bf" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::Config</scope><name>max_parallel_shards</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a75df67138ad2d22fc182877a250306b0" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::Config</scope><name>max_queued_requests_per_shard</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1aa871485e021a87e3d34643e5796a5443" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::Config</scope><name>queue_enqueue_timeout_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a06c84e844883cb76c46a9358c5295c71" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::Config</scope><name>retry_config</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1ab6b00427b9f9f15805a33dd325ff3636" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::Config</scope><name>shard_execution_timeout_ms</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_config_1a62434b58985c9bbb1b9c1be739a71d6b" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::Config</scope><name>shard_timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

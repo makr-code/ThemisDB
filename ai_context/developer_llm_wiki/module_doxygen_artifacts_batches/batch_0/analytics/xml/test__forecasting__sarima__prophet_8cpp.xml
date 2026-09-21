@@ -1,0 +1,522 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__forecasting__sarima__prophet_8cpp" kind="file" language="C++">
+    <compoundname>test_forecasting_sarima_prophet.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="forecasting_8h" local="yes">analytics/forecasting.h</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>analytics/forecasting.h</label>
+        <link refid="forecasting_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/analytics/test_forecasting_sarima_prophet.cpp</label>
+        <link refid="test__forecasting__sarima__prophet_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>algorithm</label>
+      </node>
+      <node id="9">
+        <label>cmath</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__forecasting__sarima__prophet_8cpp_1a7b59dbe85f780bf18ca20184bce77140" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_time_series" kindref="compound">TimeSeries</ref></type>
+        <definition>static TimeSeries makeSineSeries</definition>
+        <argsstring>(int n, double period=12.0, double amp=5.0, double trend_slope=0.0, int64_t start_ms=0, int64_t interval_ms=86400000LL)</argsstring>
+        <name>makeSineSeries</name>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>period</declname>
+          <defval>12.0</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>amp</declname>
+          <defval>5.0</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>trend_slope</declname>
+          <defval>0.0</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>start_ms</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>interval_ms</declname>
+          <defval>86400000LL</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_forecasting_sarima_prophet.cpp" line="22" column="19" bodyfile="tests/analytics/test_forecasting_sarima_prophet.cpp" bodystart="22" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="test__forecasting__sarima__prophet_8cpp_1ab0ea59c03b57cc426d5e3ec59c4dc4e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SARIMAForecastTests, FSP01_FitNoThrow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SARIMAForecastTests</type>
+        </param>
+        <param>
+          <type>FSP01_FitNoThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_forecasting_sarima_prophet.cpp" line="42" column="1" bodyfile="tests/analytics/test_forecasting_sarima_prophet.cpp" bodystart="42" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="test__forecasting__sarima__prophet_8cpp_1aafeb86bd6d2d7f12a05277a75e85d705" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SARIMAForecastTests, FSP02_PredictStepCount)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SARIMAForecastTests</type>
+        </param>
+        <param>
+          <type>FSP02_PredictStepCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_forecasting_sarima_prophet.cpp" line="54" column="1" bodyfile="tests/analytics/test_forecasting_sarima_prophet.cpp" bodystart="54" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="test__forecasting__sarima__prophet_8cpp_1a962ebf047c9aa1c25dd8581cd0b4385a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SARIMAForecastTests, FSP03_TimestampsMonotonic)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SARIMAForecastTests</type>
+        </param>
+        <param>
+          <type>FSP03_TimestampsMonotonic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_forecasting_sarima_prophet.cpp" line="64" column="1" bodyfile="tests/analytics/test_forecasting_sarima_prophet.cpp" bodystart="64" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__forecasting__sarima__prophet_8cpp_1a606609e3c7d58023a123da041b070a32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SARIMAForecastTests, FSP04_CIBoundsConsistent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SARIMAForecastTests</type>
+        </param>
+        <param>
+          <type>FSP04_CIBoundsConsistent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_forecasting_sarima_prophet.cpp" line="75" column="1" bodyfile="tests/analytics/test_forecasting_sarima_prophet.cpp" bodystart="75" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="test__forecasting__sarima__prophet_8cpp_1a28c594179f2bf6832e34b39fba0d2d14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SARIMAForecastTests, FSP05_PredictThrowsIfNotFitted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SARIMAForecastTests</type>
+        </param>
+        <param>
+          <type>FSP05_PredictThrowsIfNotFitted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_forecasting_sarima_prophet.cpp" line="87" column="1" bodyfile="tests/analytics/test_forecasting_sarima_prophet.cpp" bodystart="87" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__forecasting__sarima__prophet_8cpp_1a8fec1dde17f38f428fa6105e277a4a0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SARIMAForecastTests, FSP06_SerializeRoundTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SARIMAForecastTests</type>
+        </param>
+        <param>
+          <type>FSP06_SerializeRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_forecasting_sarima_prophet.cpp" line="94" column="1" bodyfile="tests/analytics/test_forecasting_sarima_prophet.cpp" bodystart="94" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__forecasting__sarima__prophet_8cpp_1a1e9d55f4cad839818391a8928315dc1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SARIMAForecastTests, FSP07_SerializePreservesPredict)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SARIMAForecastTests</type>
+        </param>
+        <param>
+          <type>FSP07_SerializePreservesPredict</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_forecasting_sarima_prophet.cpp" line="106" column="1" bodyfile="tests/analytics/test_forecasting_sarima_prophet.cpp" bodystart="106" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__forecasting__sarima__prophet_8cpp_1ad1188b8df9809cc9f1ba05e3e36d1845" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SARIMAForecastTests, FSP08_AutodetectSeasonality)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SARIMAForecastTests</type>
+        </param>
+        <param>
+          <type>FSP08_AutodetectSeasonality</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_forecasting_sarima_prophet.cpp" line="120" column="1" bodyfile="tests/analytics/test_forecasting_sarima_prophet.cpp" bodystart="120" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__forecasting__sarima__prophet_8cpp_1aa1ba9bacc26208259e962ee99f920bce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProphetForecastTests, FPR01_FitNoThrow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProphetForecastTests</type>
+        </param>
+        <param>
+          <type>FPR01_FitNoThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_forecasting_sarima_prophet.cpp" line="136" column="1" bodyfile="tests/analytics/test_forecasting_sarima_prophet.cpp" bodystart="136" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="test__forecasting__sarima__prophet_8cpp_1ad59035c9eefc965a47fd56b92d807d70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProphetForecastTests, FPR02_PredictStepCount)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProphetForecastTests</type>
+        </param>
+        <param>
+          <type>FPR02_PredictStepCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_forecasting_sarima_prophet.cpp" line="148" column="1" bodyfile="tests/analytics/test_forecasting_sarima_prophet.cpp" bodystart="148" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__forecasting__sarima__prophet_8cpp_1ad72e5496d4f2e20fe0a92b7f80823069" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProphetForecastTests, FPR03_CIBoundsConsistent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProphetForecastTests</type>
+        </param>
+        <param>
+          <type>FPR03_CIBoundsConsistent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_forecasting_sarima_prophet.cpp" line="160" column="1" bodyfile="tests/analytics/test_forecasting_sarima_prophet.cpp" bodystart="160" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="test__forecasting__sarima__prophet_8cpp_1a8877bd999bd5b4d76d0844bde91c00ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ProphetForecastTests, FPR04_SerializeRoundTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ProphetForecastTests</type>
+        </param>
+        <param>
+          <type>FPR04_SerializeRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_forecasting_sarima_prophet.cpp" line="172" column="1" bodyfile="tests/analytics/test_forecasting_sarima_prophet.cpp" bodystart="172" bodyend="187"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="forecasting_8h" kindref="compound">analytics/forecasting.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics" kindref="compound">themisdb::analytics</ref>;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_time_series" kindref="compound">TimeSeries</ref><sp/>makeSineSeries(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>period<sp/>=<sp/>12.0,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>amp<sp/>=<sp/>5.0,</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>trend_slope<sp/>=<sp/>0.0,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>start_ms<sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>interval_ms<sp/>=<sp/>86400000LL)</highlight></codeline>
+<codeline lineno="26"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_time_series" kindref="compound">TimeSeries</ref><sp/>ts;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>amp<sp/>*<sp/>std::sin(2.0<sp/>*<sp/>3.14159265358979323846<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>/<sp/>period)</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/>trend_slope<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/>10.0;<sp/></highlight><highlight class="comment">//<sp/>baseline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ts.<ref refid="classthemisdb_1_1analytics_1_1_time_series_1a22be860542bde120cae7521df9b0a541" kindref="member">push</ref>(start_ms<sp/>+<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i)<sp/>*<sp/>interval_ms,<sp/>v);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ts;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FSP:<sp/>SARIMA<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FSP-01:<sp/>SARIMA<sp/>fit<sp/>does<sp/>not<sp/>throw<sp/>on<sp/>a<sp/>seasonal<sp/>series</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="test__forecasting__sarima__prophet_8cpp_1ab0ea59c03b57cc426d5e3ec59c4dc4e3" kindref="member">TEST</ref>(SARIMAForecastTests,<sp/>FSP01_FitNoThrow)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts<sp/>=<sp/>makeSineSeries(60,<sp/></highlight><highlight class="comment">/*period=*/</highlight><highlight class="normal">12);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_forecast_config" kindref="compound">ForecastConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1a220968234a5d57753e46e74dfab8a191" kindref="member">sarima_m</ref><sp/>=<sp/>12;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1a509539069f0cde9f5216b26682512fde" kindref="member">ar_order</ref><sp/><sp/>=<sp/>2;<sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1a77b619fef4c8f3d6cac32b1f4d46d6b5" kindref="member">diff_order</ref><sp/>=<sp/>1;<sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1acf9f296960d7b06629f1a5169a6491a6" kindref="member">ma_order</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1ad480a2fb4ef5c8e690b15de6572969ce" kindref="member">sarima_P</ref><sp/><sp/>=<sp/>1;<sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1a08ebd9bb521d74c817d3d7588fb74f15" kindref="member">sarima_D</ref><sp/><sp/><sp/>=<sp/>1;<sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1a84ab7db6ce4fcb82620326c412eca77d" kindref="member">sarima_Q</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model" kindref="compound">ForecastModel</ref><sp/>model(cfg,<sp/><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a6d390af98c7813956e01cae0c9cb6b92" kindref="member">ForecastMethod::SARIMA</ref>);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(model.fit(ts));</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(model.isFitted());</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FSP-02:<sp/>SARIMA<sp/>predict<sp/>returns<sp/>correct<sp/>number<sp/>of<sp/>steps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__forecasting__sarima__prophet_8cpp_1ab0ea59c03b57cc426d5e3ec59c4dc4e3" kindref="member">TEST</ref>(SARIMAForecastTests,<sp/>FSP02_PredictStepCount)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts<sp/>=<sp/>makeSineSeries(48,<sp/>12);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_forecast_config" kindref="compound">ForecastConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1a220968234a5d57753e46e74dfab8a191" kindref="member">sarima_m</ref><sp/>=<sp/>12;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model" kindref="compound">ForecastModel</ref><sp/>model(cfg,<sp/><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a6d390af98c7813956e01cae0c9cb6b92" kindref="member">ForecastMethod::SARIMA</ref>);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>model.fit(ts);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>preds<sp/>=<sp/>model.predict(12);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(preds.size()),<sp/>12);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FSP-03:<sp/>SARIMA<sp/>timestamps<sp/>are<sp/>monotonically<sp/>increasing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__forecasting__sarima__prophet_8cpp_1ab0ea59c03b57cc426d5e3ec59c4dc4e3" kindref="member">TEST</ref>(SARIMAForecastTests,<sp/>FSP03_TimestampsMonotonic)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts<sp/>=<sp/>makeSineSeries(36,<sp/>12);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_forecast_config" kindref="compound">ForecastConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1a220968234a5d57753e46e74dfab8a191" kindref="member">sarima_m</ref><sp/>=<sp/>12;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model" kindref="compound">ForecastModel</ref><sp/>model(cfg,<sp/><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a6d390af98c7813956e01cae0c9cb6b92" kindref="member">ForecastMethod::SARIMA</ref>);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>model.fit(ts);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>preds<sp/>=<sp/>model.predict(6);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;<sp/>preds.size();<sp/>++i)</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GT(preds[i].timestamp_ms,<sp/>preds[i<sp/>-<sp/>1].timestamp_ms);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FSP-04:<sp/>SARIMA<sp/>CI<sp/>lower<sp/>≤<sp/>value<sp/>≤<sp/>upper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="test__forecasting__sarima__prophet_8cpp_1ab0ea59c03b57cc426d5e3ec59c4dc4e3" kindref="member">TEST</ref>(SARIMAForecastTests,<sp/>FSP04_CIBoundsConsistent)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts<sp/>=<sp/>makeSineSeries(36,<sp/>12);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_forecast_config" kindref="compound">ForecastConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1a220968234a5d57753e46e74dfab8a191" kindref="member">sarima_m</ref><sp/>=<sp/>12;<sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1a08f80cf0d002884aab764872d6481bb2" kindref="member">include_confidence</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model" kindref="compound">ForecastModel</ref><sp/>model(cfg,<sp/><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a6d390af98c7813956e01cae0c9cb6b92" kindref="member">ForecastMethod::SARIMA</ref>);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>model.fit(ts);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>fp<sp/>:<sp/>model.predict(12))<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(fp.lower,<sp/>fp.value<sp/>+<sp/>1e-9);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(fp.upper,<sp/>fp.value<sp/>-<sp/>1e-9);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FSP-05:<sp/>SARIMA<sp/>predict<sp/>throws<sp/>if<sp/>not<sp/>fitted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="test__forecasting__sarima__prophet_8cpp_1ab0ea59c03b57cc426d5e3ec59c4dc4e3" kindref="member">TEST</ref>(SARIMAForecastTests,<sp/>FSP05_PredictThrowsIfNotFitted)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_forecast_config" kindref="compound">ForecastConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1a220968234a5d57753e46e74dfab8a191" kindref="member">sarima_m</ref><sp/>=<sp/>12;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model" kindref="compound">ForecastModel</ref><sp/>model(cfg,<sp/><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a6d390af98c7813956e01cae0c9cb6b92" kindref="member">ForecastMethod::SARIMA</ref>);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(model.predict(5),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FSP-06:<sp/>SARIMA<sp/>serialize<sp/>/<sp/>deserialize<sp/>round-trip<sp/>preserves<sp/>method</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="test__forecasting__sarima__prophet_8cpp_1ab0ea59c03b57cc426d5e3ec59c4dc4e3" kindref="member">TEST</ref>(SARIMAForecastTests,<sp/>FSP06_SerializeRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts<sp/>=<sp/>makeSineSeries(48,<sp/>12);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_forecast_config" kindref="compound">ForecastConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1a220968234a5d57753e46e74dfab8a191" kindref="member">sarima_m</ref><sp/>=<sp/>12;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model" kindref="compound">ForecastModel</ref><sp/>model(cfg,<sp/><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a6d390af98c7813956e01cae0c9cb6b92" kindref="member">ForecastMethod::SARIMA</ref>);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>model.fit(ts);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/><sp/>=<sp/>model.serialize();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>model2<sp/>=<sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model_1aed9961952e7557d2122f80d50a964ef2" kindref="member">ForecastModel::deserialize</ref>(blob);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(model2.method(),<sp/><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a6d390af98c7813956e01cae0c9cb6b92" kindref="member">ForecastMethod::SARIMA</ref>);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(model2.isFitted());</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FSP-07:<sp/>SARIMA<sp/>predict<sp/>after<sp/>deserialize<sp/>matches<sp/>original<sp/>predict</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="test__forecasting__sarima__prophet_8cpp_1ab0ea59c03b57cc426d5e3ec59c4dc4e3" kindref="member">TEST</ref>(SARIMAForecastTests,<sp/>FSP07_SerializePreservesPredict)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts<sp/>=<sp/>makeSineSeries(48,<sp/>12);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_forecast_config" kindref="compound">ForecastConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1a220968234a5d57753e46e74dfab8a191" kindref="member">sarima_m</ref><sp/>=<sp/>12;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model" kindref="compound">ForecastModel</ref><sp/>model(cfg,<sp/><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a6d390af98c7813956e01cae0c9cb6b92" kindref="member">ForecastMethod::SARIMA</ref>);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>model.fit(ts);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>preds_orig<sp/>=<sp/>model.predict(6);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>model2<sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model_1aed9961952e7557d2122f80d50a964ef2" kindref="member">ForecastModel::deserialize</ref>(model.serialize());</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>preds_des<sp/><sp/>=<sp/>model2.predict(6);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(preds_orig.size(),<sp/>preds_des.size());</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>preds_orig.size();<sp/>++i)</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(preds_orig[i].value,<sp/>preds_des[i].value,<sp/>1e-6);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FSP-08:<sp/>SARIMA<sp/>with<sp/>sarima_m<sp/>autodetected<sp/>from<sp/>config.seasonality</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__forecasting__sarima__prophet_8cpp_1ab0ea59c03b57cc426d5e3ec59c4dc4e3" kindref="member">TEST</ref>(SARIMAForecastTests,<sp/>FSP08_AutodetectSeasonality)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts<sp/>=<sp/>makeSineSeries(60,<sp/>12);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_forecast_config" kindref="compound">ForecastConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1a52f8fc817059ea85dc59a183370052c3" kindref="member">seasonality</ref><sp/>=<sp/>12;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1a220968234a5d57753e46e74dfab8a191" kindref="member">sarima_m</ref><sp/><sp/><sp/><sp/>=<sp/>0;<sp/></highlight><highlight class="comment">//<sp/>trigger<sp/>autodetect</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model" kindref="compound">ForecastModel</ref><sp/>model(cfg,<sp/><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a6d390af98c7813956e01cae0c9cb6b92" kindref="member">ForecastMethod::SARIMA</ref>);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(model.fit(ts));</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>preds<sp/>=<sp/>model.predict(3);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(preds.size()),<sp/>3);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FPR:<sp/>Prophet-style<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FPR-01:<sp/>Prophet<sp/>fit<sp/>does<sp/>not<sp/>throw<sp/>on<sp/>a<sp/>series<sp/>with<sp/>trend<sp/>+<sp/>seasonality</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="test__forecasting__sarima__prophet_8cpp_1ab0ea59c03b57cc426d5e3ec59c4dc4e3" kindref="member">TEST</ref>(ProphetForecastTests,<sp/>FPR01_FitNoThrow)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Daily<sp/>series<sp/>spanning<sp/>~3<sp/>years<sp/>(≈<sp/>1095<sp/>days)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts<sp/>=<sp/>makeSineSeries(365,<sp/></highlight><highlight class="comment">/*period=*/</highlight><highlight class="normal">365.0,<sp/></highlight><highlight class="comment">/*amp=*/</highlight><highlight class="normal">10.0,<sp/></highlight><highlight class="comment">/*slope=*/</highlight><highlight class="normal">0.05);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_forecast_config" kindref="compound">ForecastConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1a25c44a1fbbf1b022668d4600c89aa081" kindref="member">prophet_fourier_order_weekly</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1adfd25c28b73386514300faf38ee5e16f" kindref="member">prophet_fourier_order_yearly</ref><sp/>=<sp/>6;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model" kindref="compound">ForecastModel</ref><sp/>model(cfg,<sp/><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a1598c18d6d525cf744663e1edfdda27d" kindref="member">ForecastMethod::PROPHET</ref>);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(model.fit(ts));</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(model.isFitted());</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FPR-02:<sp/>Prophet<sp/>predict<sp/>returns<sp/>the<sp/>correct<sp/>number<sp/>of<sp/>steps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><ref refid="test__forecasting__sarima__prophet_8cpp_1ab0ea59c03b57cc426d5e3ec59c4dc4e3" kindref="member">TEST</ref>(ProphetForecastTests,<sp/>FPR02_PredictStepCount)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts<sp/>=<sp/>makeSineSeries(200,<sp/>7);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_forecast_config" kindref="compound">ForecastConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1a25c44a1fbbf1b022668d4600c89aa081" kindref="member">prophet_fourier_order_weekly</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1adfd25c28b73386514300faf38ee5e16f" kindref="member">prophet_fourier_order_yearly</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model" kindref="compound">ForecastModel</ref><sp/>model(cfg,<sp/><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a1598c18d6d525cf744663e1edfdda27d" kindref="member">ForecastMethod::PROPHET</ref>);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>model.fit(ts);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>preds<sp/>=<sp/>model.predict(30);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(preds.size()),<sp/>30);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FPR-03:<sp/>Prophet<sp/>CI<sp/>bounds<sp/>are<sp/>consistent<sp/>(lower<sp/>≤<sp/>value<sp/>≤<sp/>upper)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="test__forecasting__sarima__prophet_8cpp_1ab0ea59c03b57cc426d5e3ec59c4dc4e3" kindref="member">TEST</ref>(ProphetForecastTests,<sp/>FPR03_CIBoundsConsistent)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts<sp/>=<sp/>makeSineSeries(120,<sp/>12);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_forecast_config" kindref="compound">ForecastConfig</ref><sp/>cfg;<sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1a08f80cf0d002884aab764872d6481bb2" kindref="member">include_confidence</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>cfg.<ref refid="structthemisdb_1_1analytics_1_1_forecast_config_1a227486a7a110882c29ab7693e275e5a4" kindref="member">confidence_level</ref><sp/>=<sp/>0.95;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model" kindref="compound">ForecastModel</ref><sp/>model(cfg,<sp/><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a1598c18d6d525cf744663e1edfdda27d" kindref="member">ForecastMethod::PROPHET</ref>);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>model.fit(ts);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>fp<sp/>:<sp/>model.predict(12))<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(fp.lower,<sp/>fp.value<sp/>+<sp/>1e-9);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(fp.upper,<sp/>fp.value<sp/>-<sp/>1e-9);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FPR-04:<sp/>Prophet<sp/>serialize<sp/>/<sp/>deserialize<sp/>round-trip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__forecasting__sarima__prophet_8cpp_1ab0ea59c03b57cc426d5e3ec59c4dc4e3" kindref="member">TEST</ref>(ProphetForecastTests,<sp/>FPR04_SerializeRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ts<sp/>=<sp/>makeSineSeries(60,<sp/>7);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1analytics_1_1_forecast_config" kindref="compound">ForecastConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model" kindref="compound">ForecastModel</ref><sp/>model(cfg,<sp/><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a1598c18d6d525cf744663e1edfdda27d" kindref="member">ForecastMethod::PROPHET</ref>);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>model.fit(ts);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blob<sp/><sp/><sp/>=<sp/>model.serialize();</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>model2<sp/>=<sp/><ref refid="classthemisdb_1_1analytics_1_1_forecast_model_1aed9961952e7557d2122f80d50a964ef2" kindref="member">ForecastModel::deserialize</ref>(blob);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(model2.method(),<sp/><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86a1598c18d6d525cf744663e1edfdda27d" kindref="member">ForecastMethod::PROPHET</ref>);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(model2.isFitted());</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Predictions<sp/>should<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>p1<sp/>=<sp/>model.predict(5);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>p2<sp/>=<sp/>model2.predict(5);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(p1.size(),<sp/>p2.size());</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>p1.size();<sp/>++i)</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(p1[i].value,<sp/>p2[i].value,<sp/>1e-6);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/analytics/test_forecasting_sarima_prophet.cpp"/>
+  </compounddef>
+</doxygen>

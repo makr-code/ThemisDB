@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_workload_predictor_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::WorkloadPredictor::Config</compoundname>
+    <includes refid="workload__predictor_8h" local="no">workload_predictor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1a6ab9d57069772b8f22997b4d545ad877" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::WorkloadPredictor::Config::history_window</definition>
+        <argsstring></argsstring>
+        <name>history_window</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::Config::history_window</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of snapshots retained in the sliding window. Older snapshots are evicted when the window is full. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="122" column="16" bodyfile="include/performance/workload_predictor.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1aada765c4b6cd7ba9b1f9016da5e8b2bc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::WorkloadPredictor::Config::ema_alpha</definition>
+        <argsstring></argsstring>
+        <name>ema_alpha</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::Config::ema_alpha</qualifiedname>
+        <initializer>{0.2}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>EMA smoothing factor α ∈ (0, 1]. Smaller values produce slower but more stable smoothing. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="126" column="16" bodyfile="include/performance/workload_predictor.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1abca9ca174f20044f8d21e4e267394c04" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::WorkloadPredictor::Config::scale_up_threshold</definition>
+        <argsstring></argsstring>
+        <name>scale_up_threshold</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::Config::scale_up_threshold</qualifiedname>
+        <initializer>{0.80}</initializer>
+        <briefdescription>
+<para>CPU/memory utilization threshold above which scale-up is recommended. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="129" column="16" bodyfile="include/performance/workload_predictor.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1a1223e32fa0076c1980f0246987532d04" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::WorkloadPredictor::Config::scale_down_threshold</definition>
+        <argsstring></argsstring>
+        <name>scale_down_threshold</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::Config::scale_down_threshold</qualifiedname>
+        <initializer>{0.30}</initializer>
+        <briefdescription>
+<para>CPU/memory utilization threshold below which scale-down is recommended. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="132" column="16" bodyfile="include/performance/workload_predictor.h" bodystart="132" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1a0825de5867549be8050f652627a23da3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::performance::WorkloadPredictor::Config::min_thread_pool_size</definition>
+        <argsstring></argsstring>
+        <name>min_thread_pool_size</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::Config::min_thread_pool_size</qualifiedname>
+        <initializer>{4}</initializer>
+        <briefdescription>
+<para>Minimum allowed thread pool size for scaling recommendations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="135" column="18" bodyfile="include/performance/workload_predictor.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1a99e34e0958671286f3124b6e547cf9df" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::performance::WorkloadPredictor::Config::max_thread_pool_size</definition>
+        <argsstring></argsstring>
+        <name>max_thread_pool_size</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::Config::max_thread_pool_size</qualifiedname>
+        <initializer>{256}</initializer>
+        <briefdescription>
+<para>Maximum allowed thread pool size for scaling recommendations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="138" column="18" bodyfile="include/performance/workload_predictor.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1a731bb425f0cf347018e6d8305540d7a5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::WorkloadPredictor::Config::min_cache_size_mb</definition>
+        <argsstring></argsstring>
+        <name>min_cache_size_mb</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::Config::min_cache_size_mb</qualifiedname>
+        <initializer>{256}</initializer>
+        <briefdescription>
+<para>Minimum allowed cache size (MiB) for scaling recommendations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="141" column="18" bodyfile="include/performance/workload_predictor.h" bodystart="141" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1a323e545fc504406ce7980cad53d9f225" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::WorkloadPredictor::Config::max_cache_size_mb</definition>
+        <argsstring></argsstring>
+        <name>max_cache_size_mb</name>
+        <qualifiedname>themis::performance::WorkloadPredictor::Config::max_cache_size_mb</qualifiedname>
+        <initializer>{32768}</initializer>
+        <briefdescription>
+<para>Maximum allowed cache size (MiB) for scaling recommendations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="144" column="18" bodyfile="include/performance/workload_predictor.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the predictor. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/workload_predictor.h" line="119" column="5" bodyfile="include/performance/workload_predictor.h" bodystart="119" bodyend="145"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1aada765c4b6cd7ba9b1f9016da5e8b2bc" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadPredictor::Config</scope><name>ema_alpha</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1a6ab9d57069772b8f22997b4d545ad877" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadPredictor::Config</scope><name>history_window</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1a323e545fc504406ce7980cad53d9f225" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadPredictor::Config</scope><name>max_cache_size_mb</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1a99e34e0958671286f3124b6e547cf9df" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadPredictor::Config</scope><name>max_thread_pool_size</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1a731bb425f0cf347018e6d8305540d7a5" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadPredictor::Config</scope><name>min_cache_size_mb</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1a0825de5867549be8050f652627a23da3" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadPredictor::Config</scope><name>min_thread_pool_size</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1a1223e32fa0076c1980f0246987532d04" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadPredictor::Config</scope><name>scale_down_threshold</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_predictor_1_1_config_1abca9ca174f20044f8d21e4e267394c04" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadPredictor::Config</scope><name>scale_up_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

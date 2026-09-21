@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRATrainingConfig::TrainingDataSource</compoundname>
+    <includes refid="lora__training__config_8h" local="no">lora_training_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source_1ad451077d72f7b35617092f60acc8c877" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRATrainingConfig::TrainingDataSource::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::TrainingDataSource::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="34" column="14" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source_1a1311d702d9fdff54c632b9d6f10460f9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRATrainingConfig::TrainingDataSource::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::TrainingDataSource::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="35" column="21" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source_1a8b77c285f6ff7b764c876c33d74cc908" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::LoRATrainingConfig::TrainingDataSource::weight</definition>
+        <argsstring></argsstring>
+        <name>weight</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::TrainingDataSource::weight</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="36" column="15" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source_1a798bf51616b96fc5dd7a0164928ea792" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::llm::lora::LoRATrainingConfig::TrainingDataSource::preprocessing</definition>
+        <argsstring></argsstring>
+        <name>preprocessing</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::TrainingDataSource::preprocessing</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="37" column="18" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_training_config.h" line="33" column="5" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="33" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source_1ad451077d72f7b35617092f60acc8c877" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::TrainingDataSource</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source_1a1311d702d9fdff54c632b9d6f10460f9" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::TrainingDataSource</scope><name>path</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source_1a798bf51616b96fc5dd7a0164928ea792" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::TrainingDataSource</scope><name>preprocessing</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_training_data_source_1a8b77c285f6ff7b764c876c33d74cc908" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::TrainingDataSource</scope><name>weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

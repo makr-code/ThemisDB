@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::test::CudaWrapperIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1add4edd2f4fe7aaa611f7c956bb01f2a1" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::gpu::KernelManager &gt;</type>
+        <definition>std::unique_ptr&lt;themis::gpu::KernelManager&gt; themis::gpu::test::CudaWrapperIntegrationTest::kernel_manager_</definition>
+        <argsstring></argsstring>
+        <name>kernel_manager_</name>
+        <qualifiedname>themis::gpu::test::CudaWrapperIntegrationTest::kernel_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="116" column="19" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1ade28d3baa4320fd5b99a9d3942a73fde" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::gpu::TensorAllocator &gt;</type>
+        <definition>std::unique_ptr&lt;themis::gpu::TensorAllocator&gt; themis::gpu::test::CudaWrapperIntegrationTest::tensor_allocator_</definition>
+        <argsstring></argsstring>
+        <name>tensor_allocator_</name>
+        <qualifiedname>themis::gpu::test::CudaWrapperIntegrationTest::tensor_allocator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="117" column="19" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1a214f9fbea210948b3c69554daa2c72ee" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::gpu::MemoryPool &gt;</type>
+        <definition>std::unique_ptr&lt;themis::gpu::MemoryPool&gt; themis::gpu::test::CudaWrapperIntegrationTest::memory_pool_</definition>
+        <argsstring></argsstring>
+        <name>memory_pool_</name>
+        <qualifiedname>themis::gpu::test::CudaWrapperIntegrationTest::memory_pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="118" column="19" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1aa14e803558e57206172d18d0fc9b0adc" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::test::CudaWrapperIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::gpu::test::CudaWrapperIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="120" column="8" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="120" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1a002c88983b9100e989751d36c8edfe34" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::test::CudaWrapperIntegrationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::gpu::test::CudaWrapperIntegrationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="127" column="8" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="127" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1a42e83ce6159823a9530d4a487285c108" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::gpu::test::CudaWrapperIntegrationTest::GetActiveStreamCount</definition>
+        <argsstring>()</argsstring>
+        <name>GetActiveStreamCount</name>
+        <qualifiedname>themis::gpu::test::CudaWrapperIntegrationTest::GetActiveStreamCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="132" column="7" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="132" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1a7cff9e98cd16dd7f55aea251bbf6886f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::test::CudaWrapperIntegrationTest::VerifyNoResiduualCUDAErrors</definition>
+        <argsstring>()</argsstring>
+        <name>VerifyNoResiduualCUDAErrors</name>
+        <qualifiedname>themis::gpu::test::CudaWrapperIntegrationTest::VerifyNoResiduualCUDAErrors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="138" column="8" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="138" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::gpu::test::CudaWrapperIntegrationTest</label>
+        <link refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::gpu::test::CudaWrapperIntegrationTest</label>
+        <link refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="114" column="1" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="114" bodyend="141"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1a42e83ce6159823a9530d4a487285c108" prot="protected" virt="non-virtual"><scope>themis::gpu::test::CudaWrapperIntegrationTest</scope><name>GetActiveStreamCount</name></member>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1add4edd2f4fe7aaa611f7c956bb01f2a1" prot="protected" virt="non-virtual"><scope>themis::gpu::test::CudaWrapperIntegrationTest</scope><name>kernel_manager_</name></member>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1a214f9fbea210948b3c69554daa2c72ee" prot="protected" virt="non-virtual"><scope>themis::gpu::test::CudaWrapperIntegrationTest</scope><name>memory_pool_</name></member>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1aa14e803558e57206172d18d0fc9b0adc" prot="protected" virt="non-virtual"><scope>themis::gpu::test::CudaWrapperIntegrationTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1a002c88983b9100e989751d36c8edfe34" prot="protected" virt="non-virtual"><scope>themis::gpu::test::CudaWrapperIntegrationTest</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1ade28d3baa4320fd5b99a9d3942a73fde" prot="protected" virt="non-virtual"><scope>themis::gpu::test::CudaWrapperIntegrationTest</scope><name>tensor_allocator_</name></member>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_integration_test_1a7cff9e98cd16dd7f55aea251bbf6886f" prot="protected" virt="non-virtual"><scope>themis::gpu::test::CudaWrapperIntegrationTest</scope><name>VerifyNoResiduualCUDAErrors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

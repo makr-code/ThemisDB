@@ -1,0 +1,428 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_w_a_l_archival_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::WALArchivalManager</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config" prot="public">themisdb::replication::WALArchivalManager::ArchivalConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archived_segment" prot="public">themisdb::replication::WALArchivalManager::ArchivedSegment</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1ada805c7029ca1a72f5ff2e1f522a14aa" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config" kindref="compound">ArchivalConfig</ref></type>
+        <definition>ArchivalConfig themisdb::replication::WALArchivalManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1895" column="20" bodyfile="include/replication/replication_manager.h" bodystart="1895" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1a3a8c860cc43b3611aa238d3e5ed6c59f" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_i_archival_backend" kindref="compound">IArchivalBackend</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IArchivalBackend&gt; themisdb::replication::WALArchivalManager::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1896" column="21" bodyfile="include/replication/replication_manager.h" bodystart="1896" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1ac291ff3ce43d289007b5e4bef3898942" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::WALArchivalManager::archive_mutex_</definition>
+        <argsstring></argsstring>
+        <name>archive_mutex_</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::archive_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1897" column="24" bodyfile="include/replication/replication_manager.h" bodystart="1897" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1ad628a516cbcdb0c29fe6640486e674bd" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archived_segment" kindref="compound">ArchivedSegment</ref> &gt;</type>
+        <definition>std::vector&lt;ArchivedSegment&gt; themisdb::replication::WALArchivalManager::index_</definition>
+        <argsstring></argsstring>
+        <name>index_</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1898" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1898" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1a19e90c4bb0e6324252b875809fb1a5c3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::WALArchivalManager::WALArchivalManager</definition>
+        <argsstring>(const ArchivalConfig &amp;config, std::shared_ptr&lt; IArchivalBackend &gt; backend=nullptr)</argsstring>
+        <name>WALArchivalManager</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::WALArchivalManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archival_config" kindref="compound">ArchivalConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_i_archival_backend" kindref="compound">IArchivalBackend</ref> &gt;</type>
+          <declname>backend</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1869" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="6638" bodyend="6648"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1acc94fe694374e1c970057c2b7290e014" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::WALArchivalManager::archiveSegments</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;segment_paths)</argsstring>
+        <name>archiveSegments</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::archiveSegments</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>segment_paths</declname>
+        </param>
+        <briefdescription>
+<para>Archive Segments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">segment_paths</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), src(), THEMIS_WARN(), raw(), rfind(), substr(), empty(), std::all_of(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1874" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="6887" bodyend="7003"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1acacc1327034079c97c33ef1ed8224111" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themisdb::replication::WALArchivalManager::retrieveSegment</definition>
+        <argsstring>(uint64_t segment_id) const</argsstring>
+        <name>retrieveSegment</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::retrieveSegment</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>segment_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">archive_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Out. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">decompressed_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1878" column="19" bodyfile="src/replication/replication_manager.cpp" bodystart="7005" bodyend="7097"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1a63d393ff71325e8e2a1a28e07665bcfe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_w_a_l_archival_manager_1_1_archived_segment" kindref="compound">ArchivedSegment</ref> &gt;</type>
+        <definition>std::vector&lt; WALArchivalManager::ArchivedSegment &gt; themisdb::replication::WALArchivalManager::listArchived</definition>
+        <argsstring>() const</argsstring>
+        <name>listArchived</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::listArchived</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">archive_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1881" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="7100" bodyend="7113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1aa32d6937d9905148753ab7337e3540b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::WALArchivalManager::purgeExpired</definition>
+        <argsstring>()</argsstring>
+        <name>purgeExpired</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::purgeExpired</qualifiedname>
+        <briefdescription>
+<para>Purge Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::time_point::max(), std::chrono::system_clock::now(), std::chrono::hours(), lock(), begin(), end(), deleteObject(), std::filesystem::remove(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1884" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="7120" bodyend="7150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1ad81fc5bfd623849ded94716963a60eb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::WALArchivalManager::transitionStorageTiers</definition>
+        <argsstring>()</argsstring>
+        <name>transitionStorageTiers</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::transitionStorageTiers</qualifiedname>
+        <briefdescription>
+<para>Transition Storage Tiers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), std::chrono::hours(), lock(), THEMIS_INFO(), setStorageTier(), saveIndex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1889" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="7157" bodyend="7193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1a1b77ccd3005df727e7b086d2ee2d8627" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::WALArchivalManager::runArchivalCycle</definition>
+        <argsstring>()</argsstring>
+        <name>runArchivalCycle</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::runArchivalCycle</qualifiedname>
+        <briefdescription>
+<para>Run Archival Cycle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), std::chrono::milliseconds(), std::chrono::steady_clock::time_point::max(), std::filesystem::exists(), std::filesystem::directory_iterator(), THEMIS_ERROR(), is_regular_file(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1892" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="7200" bodyend="7242"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1a4d705ad0aa1175e03f320c2f6dae4f6e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::WALArchivalManager::archivePath</definition>
+        <argsstring>(uint64_t segment_id) const</argsstring>
+        <name>archivePath</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::archivePath</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>segment_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1903" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="6650" bodyend="6675"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1a42dc86a5f61069bb68728f5e6fdd4268" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::WALArchivalManager::saveIndex</definition>
+        <argsstring>() const</argsstring>
+        <name>saveIndex</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::saveIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>F. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the index. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1904" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="6809" bodyend="6835"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1aa70c99f12747cec55bee66f0283220c4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::WALArchivalManager::loadIndex</definition>
+        <argsstring>()</argsstring>
+        <name>loadIndex</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::loadIndex</qualifiedname>
+        <briefdescription>
+<para>Load Index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: f(), std::getline(), empty(), iss(), THEMIS_WARN(), std::chrono::system_clock::time_point(), std::chrono::seconds(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1905" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="6841" bodyend="6879"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1a7d18b0043347ed50fbffeb03c3984ecb" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::replication::WALArchivalManager::compressData</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>compressData</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::compressData</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Out. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bound</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1906" column="24" bodyfile="src/replication/replication_manager.cpp" bodystart="6791" bodyend="6807"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1a48c0fd2cda9c25409803688d6359c573" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::replication::WALArchivalManager::encryptAesGcm</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, const std::vector&lt; uint8_t &gt; &amp;key)</argsstring>
+        <name>encryptAesGcm</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::encryptAesGcm</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1908" column="24" bodyfile="src/replication/replication_manager.cpp" bodystart="6709" bodyend="6747"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1a82e8273e15fd1c2186281e398126f48a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themisdb::replication::WALArchivalManager::decryptAesGcm</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, const std::vector&lt; uint8_t &gt; &amp;key)</argsstring>
+        <name>decryptAesGcm</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::decryptAesGcm</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1910" column="26" bodyfile="src/replication/replication_manager.cpp" bodystart="6749" bodyend="6789"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1a41f6fedc25ecbc9240879309678e2b61" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themisdb::replication::WALArchivalManager::hexToBytes</definition>
+        <argsstring>(const std::string &amp;hex)</argsstring>
+        <name>hexToBytes</name>
+        <qualifiedname>themisdb::replication::WALArchivalManager::hexToBytes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hex</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1913" column="24" bodyfile="src/replication/replication_manager.cpp" bodystart="6677" bodyend="6707"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1replication_1_1_w_a_l_archival_manager" kindref="compound">WALArchivalManager</ref></para>
+<para>Archives completed WAL segments to a local (or cloud-pluggable) destination with optional compression and AES-256-GCM encryption at rest. Provides retrieval for point-in-time recovery (PITR) and lifecycle management that transitions segments across storage tiers (standard → cold → glacier) based on configurable age thresholds.</para>
+<para>Cloud backends (S3, GCS, Azure) are pluggable via the <computeroutput><ref refid="classthemisdb_1_1replication_1_1_i_archival_backend" kindref="compound">IArchivalBackend</ref></computeroutput> interface; the default backend writes to the local filesystem. </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="1823" column="1" bodyfile="include/replication/replication_manager.h" bodystart="1823" bodyend="1914"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1ac291ff3ce43d289007b5e4bef3898942" prot="private" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager</scope><name>archive_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1a4d705ad0aa1175e03f320c2f6dae4f6e" prot="private" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager</scope><name>archivePath</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1acc94fe694374e1c970057c2b7290e014" prot="public" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager</scope><name>archiveSegments</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1a3a8c860cc43b3611aa238d3e5ed6c59f" prot="private" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager</scope><name>backend_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1a7d18b0043347ed50fbffeb03c3984ecb" prot="private" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager</scope><name>compressData</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1ada805c7029ca1a72f5ff2e1f522a14aa" prot="private" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1a82e8273e15fd1c2186281e398126f48a" prot="private" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager</scope><name>decryptAesGcm</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1a48c0fd2cda9c25409803688d6359c573" prot="private" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager</scope><name>encryptAesGcm</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1a41f6fedc25ecbc9240879309678e2b61" prot="private" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager</scope><name>hexToBytes</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1ad628a516cbcdb0c29fe6640486e674bd" prot="private" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager</scope><name>index_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1a63d393ff71325e8e2a1a28e07665bcfe" prot="public" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager</scope><name>listArchived</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1aa70c99f12747cec55bee66f0283220c4" prot="private" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager</scope><name>loadIndex</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1aa32d6937d9905148753ab7337e3540b2" prot="public" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager</scope><name>purgeExpired</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1acacc1327034079c97c33ef1ed8224111" prot="public" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager</scope><name>retrieveSegment</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1a1b77ccd3005df727e7b086d2ee2d8627" prot="public" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager</scope><name>runArchivalCycle</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1a42dc86a5f61069bb68728f5e6fdd4268" prot="private" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager</scope><name>saveIndex</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1ad81fc5bfd623849ded94716963a60eb7" prot="public" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager</scope><name>transitionStorageTiers</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_w_a_l_archival_manager_1a19e90c4bb0e6324252b875809fb1a5c3" prot="public" virt="non-virtual"><scope>themisdb::replication::WALArchivalManager</scope><name>WALArchivalManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

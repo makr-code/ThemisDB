@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_discovered_process" kind="struct" language="C++" prot="public">
+    <compoundname>themis::DiscoveredProcess</compoundname>
+    <includes refid="process__mining_8h" local="no">process_mining.h</includes>
+    <innerclass refid="structthemis_1_1_discovered_process_1_1_node" prot="public">themis::DiscoveredProcess::Node</innerclass>
+    <innerclass refid="structthemis_1_1_discovered_process_1_1_edge" prot="public">themis::DiscoveredProcess::Edge</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_discovered_process_1aaeeccf47a70dc7f466c3cf4cf039fe78" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::DiscoveredProcess::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::DiscoveredProcess::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="111" column="17" bodyfile="include/analytics/process_mining.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_discovered_process_1a37ce61a239a6e3f51b510c311fd678c4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::DiscoveredProcess::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::DiscoveredProcess::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="112" column="17" bodyfile="include/analytics/process_mining.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_discovered_process_1a74f1ac6c18a06e4037081bc5d2665007" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_discovered_process_1_1_node" kindref="compound">Node</ref> &gt;</type>
+        <definition>std::vector&lt;Node&gt; themis::DiscoveredProcess::nodes</definition>
+        <argsstring></argsstring>
+        <name>nodes</name>
+        <qualifiedname>themis::DiscoveredProcess::nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="125" column="17" bodyfile="include/analytics/process_mining.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_discovered_process_1a615631dc12ea06e479ee3ee902020b63" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_discovered_process_1_1_edge" kindref="compound">Edge</ref> &gt;</type>
+        <definition>std::vector&lt;Edge&gt; themis::DiscoveredProcess::edges</definition>
+        <argsstring></argsstring>
+        <name>edges</name>
+        <qualifiedname>themis::DiscoveredProcess::edges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="134" column="17" bodyfile="include/analytics/process_mining.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_discovered_process_1ab4209e98a5bdf5ed348ff21472b65b22" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::DiscoveredProcess::fitness</definition>
+        <argsstring></argsstring>
+        <name>fitness</name>
+        <qualifiedname>themis::DiscoveredProcess::fitness</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wie gut das Modell das Log erklärt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="137" column="12" bodyfile="include/analytics/process_mining.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_discovered_process_1a8e287ded3238034a7e9a6fdbafebfe1b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::DiscoveredProcess::precision</definition>
+        <argsstring></argsstring>
+        <name>precision</name>
+        <qualifiedname>themis::DiscoveredProcess::precision</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wie präzise ist das Modell. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="138" column="12" bodyfile="include/analytics/process_mining.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_discovered_process_1aa8a8b970285e366f15dfe8f66f4146cf" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::DiscoveredProcess::generalization</definition>
+        <argsstring></argsstring>
+        <name>generalization</name>
+        <qualifiedname>themis::DiscoveredProcess::generalization</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wie gut generalisiert es. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="139" column="12" bodyfile="include/analytics/process_mining.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_discovered_process_1a9939592ff071be72202887caf617714a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::DiscoveredProcess::simplicity</definition>
+        <argsstring></argsstring>
+        <name>simplicity</name>
+        <qualifiedname>themis::DiscoveredProcess::simplicity</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Strukturelle Komplexität. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="140" column="12" bodyfile="include/analytics/process_mining.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_mining.h" line="110" column="1" bodyfile="include/analytics/process_mining.h" bodystart="110" bodyend="141"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_discovered_process_1a615631dc12ea06e479ee3ee902020b63" prot="public" virt="non-virtual"><scope>themis::DiscoveredProcess</scope><name>edges</name></member>
+      <member refid="structthemis_1_1_discovered_process_1ab4209e98a5bdf5ed348ff21472b65b22" prot="public" virt="non-virtual"><scope>themis::DiscoveredProcess</scope><name>fitness</name></member>
+      <member refid="structthemis_1_1_discovered_process_1aa8a8b970285e366f15dfe8f66f4146cf" prot="public" virt="non-virtual"><scope>themis::DiscoveredProcess</scope><name>generalization</name></member>
+      <member refid="structthemis_1_1_discovered_process_1aaeeccf47a70dc7f466c3cf4cf039fe78" prot="public" virt="non-virtual"><scope>themis::DiscoveredProcess</scope><name>id</name></member>
+      <member refid="structthemis_1_1_discovered_process_1a37ce61a239a6e3f51b510c311fd678c4" prot="public" virt="non-virtual"><scope>themis::DiscoveredProcess</scope><name>name</name></member>
+      <member refid="structthemis_1_1_discovered_process_1a74f1ac6c18a06e4037081bc5d2665007" prot="public" virt="non-virtual"><scope>themis::DiscoveredProcess</scope><name>nodes</name></member>
+      <member refid="structthemis_1_1_discovered_process_1a8e287ded3238034a7e9a6fdbafebfe1b" prot="public" virt="non-virtual"><scope>themis::DiscoveredProcess</scope><name>precision</name></member>
+      <member refid="structthemis_1_1_discovered_process_1a9939592ff071be72202887caf617714a" prot="public" virt="non-virtual"><scope>themis::DiscoveredProcess</scope><name>simplicity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

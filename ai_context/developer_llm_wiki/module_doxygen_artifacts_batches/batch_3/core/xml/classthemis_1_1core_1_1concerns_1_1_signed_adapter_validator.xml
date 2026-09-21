@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::core::concerns::SignedAdapterValidator</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_adapter_validator" prot="public" virt="non-virtual">themis::core::concerns::AdapterValidator</basecompoundref>
+    <includes refid="adapter__signing_8h" local="no">adapter_signing.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a14d4b349d6f4d21c29d0b89f714a6c9c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_signature" kindref="compound">AdapterSignature</ref></type>
+        <definition>AdapterSignature themis::core::concerns::SignedAdapterValidator::expected_sig_</definition>
+        <argsstring></argsstring>
+        <name>expected_sig_</name>
+        <qualifiedname>themis::core::concerns::SignedAdapterValidator::expected_sig_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_signing.h" line="77" column="22" bodyfile="include/core/concerns/adapter_signing.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a8d68643b5a5eaad6a0e0a4d545f15791" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::SignedAdapterValidator::SignedAdapterValidator</definition>
+        <argsstring>(AdapterSignature expected_sig)</argsstring>
+        <name>SignedAdapterValidator</name>
+        <qualifiedname>themis::core::concerns::SignedAdapterValidator::SignedAdapterValidator</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_signature" kindref="compound">AdapterSignature</ref></type>
+          <declname>expected_sig</declname>
+        </param>
+        <briefdescription>
+<para>Signed Adapter Validator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_sig</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_signing.h" line="64" column="14" bodyfile="src/core/concerns/adapter_signing.cpp" bodystart="29" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a7d6b769b0b4df959eceac644d661c754" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::SignedAdapterValidator::validate</definition>
+        <argsstring>(const AdapterMetadata &amp;m) override</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::core::concerns::SignedAdapterValidator::validate</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_adapter_validator_1acbe645cbadc888d1fc6d80e51544bc59">validate</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: present(), <ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a7a7bbd3c94c196686110bd2976120c7b" kindref="member">canonicalString()</ref>, <ref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a98adb3e44d6ece5e7cda65ca60fe0804" kindref="member">sha256Hex()</ref>, empty(), size(), CRYPTO_memcmp(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_signing.h" line="66" column="11" bodyfile="src/core/concerns/adapter_signing.cpp" bodystart="42" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a7a7bbd3c94c196686110bd2976120c7b" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::SignedAdapterValidator::canonicalString</definition>
+        <argsstring>(const AdapterMetadata &amp;m)</argsstring>
+        <name>canonicalString</name>
+        <qualifiedname>themis::core::concerns::SignedAdapterValidator::canonicalString</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+<para>Canonical String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_signing.h" line="72" column="25" bodyfile="src/core/concerns/adapter_signing.cpp" bodystart="80" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a98adb3e44d6ece5e7cda65ca60fe0804" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::core::concerns::SignedAdapterValidator::sha256Hex</definition>
+        <argsstring>(std::string_view data)</argsstring>
+        <name>sha256Hex</name>
+        <qualifiedname>themis::core::concerns::SignedAdapterValidator::sha256Hex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Sha256 Hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: EVP_MD_CTX_new(), EVP_DigestInit_ex(), EVP_sha256(), EVP_MD_CTX_free(), EVP_DigestUpdate(), data(), size(), EVP_DigestFinal_ex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_signing.h" line="74" column="25" bodyfile="src/core/concerns/adapter_signing.cpp" bodystart="101" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::core::concerns::AdapterValidator</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_adapter_validator"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::SignedAdapterValidator</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::core::concerns::AdapterValidator</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_adapter_validator"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::SignedAdapterValidator</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/adapter_signing.h" line="57" column="1" bodyfile="include/core/concerns/adapter_signing.h" bodystart="57" bodyend="78"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a7a7bbd3c94c196686110bd2976120c7b" prot="public" virt="non-virtual"><scope>themis::core::concerns::SignedAdapterValidator</scope><name>canonicalString</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a14d4b349d6f4d21c29d0b89f714a6c9c" prot="private" virt="non-virtual"><scope>themis::core::concerns::SignedAdapterValidator</scope><name>expected_sig_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a98adb3e44d6ece5e7cda65ca60fe0804" prot="public" virt="non-virtual"><scope>themis::core::concerns::SignedAdapterValidator</scope><name>sha256Hex</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a8d68643b5a5eaad6a0e0a4d545f15791" prot="public" virt="non-virtual"><scope>themis::core::concerns::SignedAdapterValidator</scope><name>SignedAdapterValidator</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a7d6b769b0b4df959eceac644d661c754" prot="public" virt="virtual"><scope>themis::core::concerns::SignedAdapterValidator</scope><name>validate</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_adapter_validator_1a7a456e9218f1bb1d5f0d56377225c904" prot="public" virt="virtual"><scope>themis::core::concerns::SignedAdapterValidator</scope><name>~AdapterValidator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

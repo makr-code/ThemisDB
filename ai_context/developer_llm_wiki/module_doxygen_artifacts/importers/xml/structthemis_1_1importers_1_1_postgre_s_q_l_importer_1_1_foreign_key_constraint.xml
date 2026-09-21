@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_foreign_key_constraint" kind="struct" language="C++" prot="private">
+    <compoundname>themis::importers::PostgreSQLImporter::ForeignKeyConstraint</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_foreign_key_constraint_1a70b04c99a43a3769d979e57e83d049b4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLImporter::ForeignKeyConstraint::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::ForeignKeyConstraint::name</qualifiedname>
+        <briefdescription>
+<para>Constraint name (empty for inline REFERENCES). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="111" column="21" bodyfile="include/importers/postgres_importer.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_foreign_key_constraint_1a28c6c16f0a7fa3d72828db1c76e874df" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLImporter::ForeignKeyConstraint::source_column</definition>
+        <argsstring></argsstring>
+        <name>source_column</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::ForeignKeyConstraint::source_column</qualifiedname>
+        <briefdescription>
+<para>Comma-joined source columns, e.g. &quot;user_id&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="112" column="21" bodyfile="include/importers/postgres_importer.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_foreign_key_constraint_1a19753e545335e61554904c6eb1055095" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLImporter::ForeignKeyConstraint::target_table</definition>
+        <argsstring></argsstring>
+        <name>target_table</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::ForeignKeyConstraint::target_table</qualifiedname>
+        <briefdescription>
+<para>Referenced table, e.g. &quot;users&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="113" column="21" bodyfile="include/importers/postgres_importer.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_foreign_key_constraint_1adff9796183a72fbe038ecf70dfabef4a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLImporter::ForeignKeyConstraint::target_column</definition>
+        <argsstring></argsstring>
+        <name>target_column</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::ForeignKeyConstraint::target_column</qualifiedname>
+        <briefdescription>
+<para>Comma-joined referenced columns, e.g. &quot;id&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="114" column="21" bodyfile="include/importers/postgres_importer.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_foreign_key_constraint_1a3426a97a710c977cea4187a1e1871701" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLImporter::ForeignKeyConstraint::on_delete_action</definition>
+        <argsstring></argsstring>
+        <name>on_delete_action</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::ForeignKeyConstraint::on_delete_action</qualifiedname>
+        <briefdescription>
+<para>CASCADE | SET NULL | RESTRICT | NO ACTION | SET DEFAULT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="115" column="21" bodyfile="include/importers/postgres_importer.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_foreign_key_constraint_1aa7f1a9b305b816095c2679adc67c2560" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLImporter::ForeignKeyConstraint::on_update_action</definition>
+        <argsstring></argsstring>
+        <name>on_update_action</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::ForeignKeyConstraint::on_update_action</qualifiedname>
+        <briefdescription>
+<para>CASCADE | SET NULL | RESTRICT | NO ACTION | SET DEFAULT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="116" column="21" bodyfile="include/importers/postgres_importer.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_foreign_key_constraint_1afe3aabf69d034978563824e831ebe063" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::ForeignKeyConstraint::deferrable</definition>
+        <argsstring></argsstring>
+        <name>deferrable</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::ForeignKeyConstraint::deferrable</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>DEFERRABLE keyword present. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="117" column="14" bodyfile="include/importers/postgres_importer.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_foreign_key_constraint_1abdcde1bcf5a9548dd8be41dd4954e448" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::PostgreSQLImporter::ForeignKeyConstraint::initially_deferred</definition>
+        <argsstring></argsstring>
+        <name>initially_deferred</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::ForeignKeyConstraint::initially_deferred</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>INITIALLY DEFERRED (vs. INITIALLY IMMEDIATE). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="118" column="14" bodyfile="include/importers/postgres_importer.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_foreign_key_constraint_1a6e62e6491f7a9952bacbac8d6338c239" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::PostgreSQLImporter::ForeignKeyConstraint::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::ForeignKeyConstraint::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="120" column="14" bodyfile="include/importers/postgres_importer.h" bodystart="120" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/postgres_importer.h" line="110" column="5" bodyfile="include/importers/postgres_importer.h" bodystart="110" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_foreign_key_constraint_1afe3aabf69d034978563824e831ebe063" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::ForeignKeyConstraint</scope><name>deferrable</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_foreign_key_constraint_1abdcde1bcf5a9548dd8be41dd4954e448" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::ForeignKeyConstraint</scope><name>initially_deferred</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_foreign_key_constraint_1a70b04c99a43a3769d979e57e83d049b4" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::ForeignKeyConstraint</scope><name>name</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_foreign_key_constraint_1a3426a97a710c977cea4187a1e1871701" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::ForeignKeyConstraint</scope><name>on_delete_action</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_foreign_key_constraint_1aa7f1a9b305b816095c2679adc67c2560" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::ForeignKeyConstraint</scope><name>on_update_action</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_foreign_key_constraint_1a28c6c16f0a7fa3d72828db1c76e874df" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::ForeignKeyConstraint</scope><name>source_column</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_foreign_key_constraint_1adff9796183a72fbe038ecf70dfabef4a" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::ForeignKeyConstraint</scope><name>target_column</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_foreign_key_constraint_1a19753e545335e61554904c6eb1055095" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::ForeignKeyConstraint</scope><name>target_table</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_foreign_key_constraint_1a6e62e6491f7a9952bacbac8d6338c239" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::ForeignKeyConstraint</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

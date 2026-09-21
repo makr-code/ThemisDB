@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_multi_region_active_active_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::MultiRegionActiveActiveConfig</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1a089721391cea7de502232d75396e1d42" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MultiRegionActiveActiveConfig::local_region_id</definition>
+        <argsstring></argsstring>
+        <name>local_region_id</name>
+        <qualifiedname>themisdb::replication::MultiRegionActiveActiveConfig::local_region_id</qualifiedname>
+        <briefdescription>
+<para>Identifier for the local region. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1960" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1960" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1a8c0e532028f0e7809290f29405bcc382" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::replication::MultiRegionActiveActiveConfig::peer_region_ids</definition>
+        <argsstring></argsstring>
+        <name>peer_region_ids</name>
+        <qualifiedname>themisdb::replication::MultiRegionActiveActiveConfig::peer_region_ids</qualifiedname>
+        <briefdescription>
+<para>Peer region identifiers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1961" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1961" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1aba93dfa8aed84f4cef8aa1d41c870932" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1replication_1acfeea6095f4a51e57317a8befe704cad" kindref="member">ConsistencyLevel</ref></type>
+        <definition>ConsistencyLevel themisdb::replication::MultiRegionActiveActiveConfig::default_consistency</definition>
+        <argsstring></argsstring>
+        <name>default_consistency</name>
+        <qualifiedname>themisdb::replication::MultiRegionActiveActiveConfig::default_consistency</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1replication_1acfeea6095f4a51e57317a8befe704cada6e2393ccd8704b297631426aa1ea2d34" kindref="member">ConsistencyLevel::BOUNDED_STALENESS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1962" column="22" bodyfile="include/replication/replication_manager.h" bodystart="1962" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1a8b9b88a38fe3d72b380d7a4321cd9932" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::MultiRegionActiveActiveConfig::max_staleness_ms</definition>
+        <argsstring></argsstring>
+        <name>max_staleness_ms</name>
+        <qualifiedname>themisdb::replication::MultiRegionActiveActiveConfig::max_staleness_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Upper bound for BOUNDED_STALENESS reads (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1963" column="14" bodyfile="include/replication/replication_manager.h" bodystart="1963" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1aef52f8989dcd99e0606ecca100f61d94" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::MultiRegionActiveActiveConfig::session_token_ttl_ms</definition>
+        <argsstring></argsstring>
+        <name>session_token_ttl_ms</name>
+        <qualifiedname>themisdb::replication::MultiRegionActiveActiveConfig::session_token_ttl_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+<para>Time-to-live for session tokens (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1964" column="14" bodyfile="include/replication/replication_manager.h" bodystart="1964" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1a0f8e30a183621e4ce5c75a4eb1f0f80c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1replication_1aa3451658dcf1d5aa2a457dd142ce8f17" kindref="member">ConflictResolution</ref></type>
+        <definition>ConflictResolution themisdb::replication::MultiRegionActiveActiveConfig::conflict_strategy</definition>
+        <argsstring></argsstring>
+        <name>conflict_strategy</name>
+        <qualifiedname>themisdb::replication::MultiRegionActiveActiveConfig::conflict_strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1replication_1aa3451658dcf1d5aa2a457dd142ce8f17a3247ad84b54dd5dd5cdf48354b0f4058" kindref="member">ConflictResolution::LAST_WRITE_WINS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1965" column="24" bodyfile="include/replication/replication_manager.h" bodystart="1965" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1aacfae1c260a37b276c0141eabd403650" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="namespacethemisdb_1_1replication_1acfeea6095f4a51e57317a8befe704cad" kindref="member">ConsistencyLevel</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ConsistencyLevel&gt; themisdb::replication::MultiRegionActiveActiveConfig::collection_consistency_overrides</definition>
+        <argsstring></argsstring>
+        <name>collection_consistency_overrides</name>
+        <qualifiedname>themisdb::replication::MultiRegionActiveActiveConfig::collection_consistency_overrides</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Per-collection consistency overrides.</para>
+<para>When a collection is present in this map, the configured level takes precedence over the caller-supplied level for both reads and writes. Use this to enforce STRONG consistency for critical collections while keeping the global default at BOUNDED_STALENESS or EVENTUAL.</para>
+<para><simplesect kind="note"><para>Configuring STRONG here for a non-leader region will cause all writes to that collection to be rejected unless the local region is the designated leader. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1979" column="14" bodyfile="include/replication/replication_manager.h" bodystart="1979" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1aab3b84bbe8a4b693f6f48c46dcf5e622" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MultiRegionActiveActiveConfig::leader_region_id</definition>
+        <argsstring></argsstring>
+        <name>leader_region_id</name>
+        <qualifiedname>themisdb::replication::MultiRegionActiveActiveConfig::leader_region_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Designated leader region for STRONG cross-region writes.</para>
+<para>When non-empty, <computeroutput>write()</computeroutput> calls with effective consistency <computeroutput>STRONG</computeroutput> are rejected if <computeroutput><ref refid="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1a089721391cea7de502232d75396e1d42" kindref="member">local_region_id</ref> != <ref refid="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1aab3b84bbe8a4b693f6f48c46dcf5e622" kindref="member">leader_region_id</ref></computeroutput>. This prevents split-brain lost-update scenarios for critical data by funnelling all strongly-consistent writes through a single region.</para>
+<para>Leave empty to allow STRONG writes on any region (legacy behaviour; provides no cross-region linearisability guarantee). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1992" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1992" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1afcef3a9f0beb19c7e8621475d50b384c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::MultiRegionActiveActiveConfig::split_brain_detection_enabled</definition>
+        <argsstring></argsstring>
+        <name>split_brain_detection_enabled</name>
+        <qualifiedname>themisdb::replication::MultiRegionActiveActiveConfig::split_brain_detection_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable split-brain detection.</para>
+<para>When <computeroutput>true</computeroutput>, <computeroutput>isSplitBrain()</computeroutput> returns <computeroutput>true</computeroutput> if all peer regions report unhealthy staleness, indicating a possible network partition. Callers may choose to reject STRONG writes or emit alerts in this state. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2001" column="10" bodyfile="include/replication/replication_manager.h" bodystart="2001" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration for <ref refid="classthemisdb_1_1replication_1_1_multi_region_active_active_manager" kindref="compound">MultiRegionActiveActiveManager</ref>.</para>
+<para><heading level="3">Consistency Guarantees</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>STRONG</computeroutput> consistency is only guaranteed within a single region.</para>
+</listitem><listitem><para>Cross-region writes are always eventual unless <computeroutput><ref refid="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1aab3b84bbe8a4b693f6f48c46dcf5e622" kindref="member">leader_region_id</ref></computeroutput> is set and all STRONG writes are routed exclusively through the designated leader.</para>
+</listitem><listitem><para>Vector-clock-based conflict resolution (LAST_WRITE_WINS, MERGE) may produce different outcomes across regions for concurrent writes; this is expected in Active/Active deployments.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="warning"><para>For SERIALIZABLE or STRONG guarantees on critical data, restrict writes to a single region. Cross-region <computeroutput>STRONG</computeroutput> writes are rejected unless <computeroutput><ref refid="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1a089721391cea7de502232d75396e1d42" kindref="member">local_region_id</ref> == <ref refid="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1aab3b84bbe8a4b693f6f48c46dcf5e622" kindref="member">leader_region_id</ref></computeroutput>. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="1959" column="1" bodyfile="include/replication/replication_manager.h" bodystart="1959" bodyend="2002"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1aacfae1c260a37b276c0141eabd403650" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiRegionActiveActiveConfig</scope><name>collection_consistency_overrides</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1a0f8e30a183621e4ce5c75a4eb1f0f80c" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiRegionActiveActiveConfig</scope><name>conflict_strategy</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1aba93dfa8aed84f4cef8aa1d41c870932" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiRegionActiveActiveConfig</scope><name>default_consistency</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1aab3b84bbe8a4b693f6f48c46dcf5e622" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiRegionActiveActiveConfig</scope><name>leader_region_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1a089721391cea7de502232d75396e1d42" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiRegionActiveActiveConfig</scope><name>local_region_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1a8b9b88a38fe3d72b380d7a4321cd9932" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiRegionActiveActiveConfig</scope><name>max_staleness_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1a8c0e532028f0e7809290f29405bcc382" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiRegionActiveActiveConfig</scope><name>peer_region_ids</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1aef52f8989dcd99e0606ecca100f61d94" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiRegionActiveActiveConfig</scope><name>session_token_ttl_ms</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_region_active_active_config_1afcef3a9f0beb19c7e8621475d50b384c" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiRegionActiveActiveConfig</scope><name>split_brain_detection_enabled</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

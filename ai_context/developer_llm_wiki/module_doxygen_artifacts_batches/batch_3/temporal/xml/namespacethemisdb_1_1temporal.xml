@@ -1,0 +1,1038 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1temporal" kind="namespace" language="C++">
+    <compoundname>themisdb::temporal</compoundname>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_aggregate_result" prot="public">themisdb::temporal::AggregateResult</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_aggregation_spec" prot="public">themisdb::temporal::AggregationSpec</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_archived_record" prot="public">themisdb::temporal::ArchivedRecord</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_bi_temporal_join" prot="public">themisdb::temporal::BiTemporalJoin</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_bi_temporal_join_result" prot="public">themisdb::temporal::BiTemporalJoinResult</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_bi_temporal_row" prot="public">themisdb::temporal::BiTemporalRow</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_bi_temporal_table" prot="public">themisdb::temporal::BiTemporalTable</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_bloom_filter" prot="public">themisdb::temporal::BloomFilter</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_c_d_c_persistent_log" prot="public">themisdb::temporal::CDCPersistentLog</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_change_event" prot="public">themisdb::temporal::ChangeEvent</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_cold_store_stats" prot="public">themisdb::temporal::ColdStoreStats</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_column_info" prot="public">themisdb::temporal::ColumnInfo</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_compression_config" prot="public">themisdb::temporal::CompressionConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_compression_stats" prot="public">themisdb::temporal::CompressionStats</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_conflict" prot="public">themisdb::temporal::Conflict</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_conflict_record" prot="public">themisdb::temporal::ConflictRecord</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_custom_merge_resolver" prot="public">themisdb::temporal::CustomMergeResolver</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_file_system_backend" prot="public">themisdb::temporal::FileSystemBackend</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_i_cold_store_backend" prot="public">themisdb::temporal::IColdStoreBackend</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_in_memory_backend" prot="public">themisdb::temporal::InMemoryBackend</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_interval_entry" prot="public">themisdb::temporal::IntervalEntry</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_interval_tree_index" prot="public">themisdb::temporal::IntervalTreeIndex</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_interval_tree_stats" prot="public">themisdb::temporal::IntervalTreeStats</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_l_w_w_field_merge_resolver" prot="public">themisdb::temporal::LWWFieldMergeResolver</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_merge_resolver" prot="public">themisdb::temporal::MergeResolver</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_migration_plan" prot="public">themisdb::temporal::MigrationPlan</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_migration_report" prot="public">themisdb::temporal::MigrationReport</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_migration_stats" prot="public">themisdb::temporal::MigrationStats</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_query_cache" prot="public">themisdb::temporal::QueryCache</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_retention_manager" prot="public">themisdb::temporal::RetentionManager</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_retention_policy" prot="public">themisdb::temporal::RetentionPolicy</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_retention_rule" prot="public">themisdb::temporal::RetentionRule</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_retention_stats" prot="public">themisdb::temporal::RetentionStats</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_row_filter" prot="public">themisdb::temporal::RowFilter</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_snapshot_diff" prot="public">themisdb::temporal::SnapshotDiff</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_snapshot_handle" prot="public">themisdb::temporal::SnapshotHandle</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_snapshot_metadata" prot="public">themisdb::temporal::SnapshotMetadata</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_system_versioned_table" prot="public">themisdb::temporal::SystemVersionedTable</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_temporal_aggregator" prot="public">themisdb::temporal::TemporalAggregator</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c" prot="public">themisdb::temporal::TemporalCDC</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_temporal_cold_store" prot="public">themisdb::temporal::TemporalColdStore</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_temporal_compressor" prot="public">themisdb::temporal::TemporalCompressor</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_temporal_conflict_detector" prot="public">themisdb::temporal::TemporalConflictDetector</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_temporal_conflict_resolver" prot="public">themisdb::temporal::TemporalConflictResolver</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_temporal_foreign_key" prot="public">themisdb::temporal::TemporalForeignKey</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_temporal_index" prot="public">themisdb::temporal::TemporalIndex</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_temporal_index_entry" prot="public">themisdb::temporal::TemporalIndexEntry</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_temporal_index_stats" prot="public">themisdb::temporal::TemporalIndexStats</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_temporal_migrator" prot="public">themisdb::temporal::TemporalMigrator</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_temporal_query_engine" prot="public">themisdb::temporal::TemporalQueryEngine</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_temporal_query_spec" prot="public">themisdb::temporal::TemporalQuerySpec</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_temporal_snapshot" prot="public">themisdb::temporal::TemporalSnapshot</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_temporal_snapshot_manager" prot="public">themisdb::temporal::TemporalSnapshotManager</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_temporal_tier_manager" prot="public">themisdb::temporal::TemporalTierManager</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_tier_decision_context" prot="public">themisdb::temporal::TierDecisionContext</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_tier_policy" prot="public">themisdb::temporal::TierPolicy</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_time_range" prot="public">themisdb::temporal::TimeRange</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_trend_result" prot="public">themisdb::temporal::TrendResult</innerclass>
+    <innerclass refid="classthemisdb_1_1temporal_1_1_union_merge_resolver" prot="public">themisdb::temporal::UnionMergeResolver</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_validation_result" prot="public">themisdb::temporal::ValidationResult</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_version_block" prot="public">themisdb::temporal::VersionBlock</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_versioned_document" prot="public">themisdb::temporal::VersionedDocument</innerclass>
+    <innernamespace refid="namespacethemisdb_1_1temporal_1_1detail">themisdb::temporal::detail</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RetentionType</name>
+        <qualifiedname>themisdb::temporal::RetentionType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6ca7b13ca71d545e3fb822b4c90a876bb83" prot="public">
+          <name>TIME_BASED</name>
+          <briefdescription>
+<para>Keep history younger than a given duration. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6cae8d7dbea92fbb3354978b098e0eb3fee" prot="public">
+          <name>VERSION_COUNT_BASED</name>
+          <briefdescription>
+<para>Keep only the N most-recent versions per key. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6caa15117130b1b7b9340895579add9ed3d" prot="public">
+          <name>STORAGE_BASED</name>
+          <briefdescription>
+<para>Keep historical data up to a maximum total size. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a5488cbef3e9d2679d6e37cc08f84ba6ca72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+<para>User-supplied predicate. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Retention strategy discriminator. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/retention_manager.h" line="41" column="1" bodyfile="include/temporal/retention_manager.h" bodystart="41" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1temporal_1af1f789673e5d7cd28dc02edc51468798" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>WindowType</name>
+        <qualifiedname>themisdb::temporal::WindowType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1temporal_1af1f789673e5d7cd28dc02edc51468798a95ad2287637805c77de2453d860476b2" prot="public">
+          <name>TUMBLING</name>
+          <briefdescription>
+<para>Non-overlapping fixed-size windows. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1af1f789673e5d7cd28dc02edc51468798a15443de7dd780091e8dd910b110bd99e" prot="public">
+          <name>SLIDING</name>
+          <briefdescription>
+<para>Overlapping windows with a configurable slide interval. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1af1f789673e5d7cd28dc02edc51468798a8e32a82fa7897baa1c7f2bbf920b0ff1" prot="public">
+          <name>SESSION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Gap-based windows: a new window opens when the gap between consecutive events exceeds gap_duration_ms </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Supported window types. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="41" column="1" bodyfile="include/temporal/temporal_aggregator.h" bodystart="41" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1temporal_1af7a041ff60f98d4b8d6da662efed1d75" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AggregateFunc</name>
+        <qualifiedname>themisdb::temporal::AggregateFunc</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1temporal_1af7a041ff60f98d4b8d6da662efed1d75a6970bdc2201030b9c03fbdcf3973858a" prot="public">
+          <name>SUM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1af7a041ff60f98d4b8d6da662efed1d75afcefd647d6a866603c627b11347c707a" prot="public">
+          <name>AVG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1af7a041ff60f98d4b8d6da662efed1d75a4905ac9d6a22bdfc1ae096094ce6248d" prot="public">
+          <name>COUNT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1af7a041ff60f98d4b8d6da662efed1d75ace31e2a082d17e038fcc6e3006166653" prot="public">
+          <name>MIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1af7a041ff60f98d4b8d6da662efed1d75a26a4b44a837bf97b972628509912b4a5" prot="public">
+          <name>MAX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1af7a041ff60f98d4b8d6da662efed1d75a0583dfca4a9d6091aaeb62272a85fc9b" prot="public">
+          <name>FIRST_VALUE</name>
+          <briefdescription>
+<para>Value of measure_field from the earliest row (by sys_start) in the window. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1af7a041ff60f98d4b8d6da662efed1d75a9a513575a412d80364a7f48a3538ac7d" prot="public">
+          <name>LAST_VALUE</name>
+          <briefdescription>
+<para>Value of measure_field from the latest row (by sys_start) in the window. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Supported aggregation functions. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="51" column="1" bodyfile="include/temporal/temporal_aggregator.h" bodystart="51" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1temporal_1a4f3a2c4128d3a55a55b7748f921e0483" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>OverflowPolicy</name>
+        <qualifiedname>themisdb::temporal::OverflowPolicy</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a4f3a2c4128d3a55a55b7748f921e0483a1038b7c5b38b3977c52e47d18cc741ee" prot="public">
+          <name>OVERWRITE</name>
+          <briefdescription>
+<para>Evict oldest event to make room (default, never blocks). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a4f3a2c4128d3a55a55b7748f921e0483a4d34f53389ed7f28ca91fc31ea360a66" prot="public">
+          <name>BLOCK</name>
+          <briefdescription>
+<para>Block until a consumer frees space (future / reserved). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a4f3a2c4128d3a55a55b7748f921e0483abf8f3be424eb6a72b21549fbb24ffb57" prot="public">
+          <name>DROP</name>
+          <briefdescription>
+<para>Silently discard new events when the buffer is full. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Policy applied when the ring-buffer event log reaches <computeroutput>max_log_size</computeroutput>.</para>
+<para><table rows="12" cols="2"><row>
+<entry thead="yes"><para>Policy  </para>
+</entry><entry thead="yes"><para>Behaviour  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>OVERWRITE  </para>
+</entry><entry thead="no"><para>(default) The oldest event in the ring-buffer is silently  </para>
+</entry></row>
+<row>
+<entry thead="no"><para></para>
+</entry><entry thead="no"><para>discarded to make room for the new event. This is a  </para>
+</entry></row>
+<row>
+<entry thead="no"><para></para>
+</entry><entry thead="no"><para>circular-overwrite (FIFO eviction) strategy: every new event  </para>
+</entry></row>
+<row>
+<entry thead="no"><para></para>
+</entry><entry thead="no"><para>always succeeds, but old events may be lost.  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>BLOCK  </para>
+</entry><entry thead="no"><para><computeroutput>publishEvent</computeroutput> blocks (under the internal mutex) until a  </para>
+</entry></row>
+<row>
+<entry thead="no"><para></para>
+</entry><entry thead="no"><para>consumer drains at least one slot. Use with caution in  </para>
+</entry></row>
+<row>
+<entry thead="no"><para></para>
+</entry><entry thead="no"><para>latency-sensitive write paths; reserved for future use.  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>DROP  </para>
+</entry><entry thead="no"><para>The new event is silently dropped; the ring-buffer contents  </para>
+</entry></row>
+<row>
+<entry thead="no"><para></para>
+</entry><entry thead="no"><para>are preserved. <computeroutput>overflowCount()</computeroutput> is incremented for every  </para>
+</entry></row>
+<row>
+<entry thead="no"><para></para>
+</entry><entry thead="no"><para>dropped event, giving the caller a way to detect back-  </para>
+</entry></row>
+<row>
+<entry thead="no"><para></para>
+</entry><entry thead="no"><para>pressure without consuming CPU on lock contention.  </para>
+</entry></row>
+</table>
+</para>
+<para>The current implementation supports OVERWRITE and DROP. BLOCK is accepted as a constructor argument but falls back to OVERWRITE with a debug assertion. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="92" column="1" bodyfile="include/temporal/temporal_cdc.h" bodystart="92" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aa" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ChangeType</name>
+        <qualifiedname>themisdb::temporal::ChangeType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa61ee777e7f71dc466c3b2c685d8d313b" prot="public">
+          <name>INSERT</name>
+          <briefdescription>
+<para>A new row was inserted (no before_value). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa15a8022d0ed9cd9c2a2e756822703eb4" prot="public">
+          <name>UPDATE</name>
+          <briefdescription>
+<para>An existing row was updated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaa32f68a60cef40faedbc6af20298c1a1e" prot="public">
+          <name>DELETE</name>
+          <briefdescription>
+<para>A row was logically deleted (no after_value). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aaab73f0bbbab8194079df101b642912fab" prot="public">
+          <name>VERSION_CREATED</name>
+          <briefdescription>
+<para>A new historical version was closed (sys_end set). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Discriminator for the kind of change captured by a <ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="99" column="1" bodyfile="include/temporal/temporal_cdc.h" bodystart="99" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1temporal_1a8b05721af1ac0c25175e4998cb15dc57" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CompressionAlgorithm</name>
+        <qualifiedname>themisdb::temporal::CompressionAlgorithm</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a8b05721af1ac0c25175e4998cb15dc57aa789408ec4ddae81bd2f72ad5ec6bf3b" prot="public">
+          <name>DELTA</name>
+          <briefdescription>
+<para>JSON field-level delta between consecutive versions. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a8b05721af1ac0c25175e4998cb15dc57a8406cc2302e19183037b61249546b234" prot="public">
+          <name>ZSTD</name>
+          <briefdescription>
+<para>General-purpose LZ-family byte-level compression. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a8b05721af1ac0c25175e4998cb15dc57a7d22e8ad2769050d3db0a1432967fdfc" prot="public">
+          <name>GORILLA</name>
+          <briefdescription>
+<para>XOR-delta encoding for numeric (double) columns. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a8b05721af1ac0c25175e4998cb15dc57a941b306e67df7bda6303f69eef2899fe" prot="public">
+          <name>DICTIONARY</name>
+          <briefdescription>
+<para>Value-table encoding for repeated string fields. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a8b05721af1ac0c25175e4998cb15dc57aca0c64c0de8f56bc573828ea6d764594" prot="public">
+          <name>LZ4</name>
+          <briefdescription>
+<para>LZ4 block compression — high-throughput, low-latency path. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Discriminator for the compression strategy applied to history payloads. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="50" column="1" bodyfile="include/temporal/temporal_compressor.h" bodystart="50" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1temporal_1a4afb0bf492e23e2b9a3183d73590837a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConflictPolicy</name>
+        <qualifiedname>themisdb::temporal::ConflictPolicy</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a4afb0bf492e23e2b9a3183d73590837aa3247ad84b54dd5dd5cdf48354b0f4058" prot="public">
+          <name>LAST_WRITE_WINS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a4afb0bf492e23e2b9a3183d73590837aae412f4e42051f297d7d40c063e1bb78c" prot="public">
+          <name>FIRST_WRITE_WINS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a4afb0bf492e23e2b9a3183d73590837aa8e76b6c1e7ee001204986d2d0a13049d" prot="public">
+          <name>NODE_PRIORITY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a4afb0bf492e23e2b9a3183d73590837aaa60a6a471c0681e5a49c4f5d00f6bc5a" prot="public">
+          <name>MANUAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a4afb0bf492e23e2b9a3183d73590837aab6c1311b996d25dd0e70ee38478b5a96" prot="public">
+          <name>CRDT_MERGE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="structthemisdb_1_1temporal_1_1_conflict" kindref="compound">Conflict</ref> Resolution Policy </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="41" column="1" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="41" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1temporal_1a32dd1992386c9bd0be79e7be8e0940b6" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConflictType</name>
+        <qualifiedname>themisdb::temporal::ConflictType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a32dd1992386c9bd0be79e7be8e0940b6a4cc0d30b02175ca353cff805bc6491ac" prot="public">
+          <name>CONCURRENT_UPDATE</name>
+          <briefdescription>
+<para>Two writes with concurrent (non-causal) HLC timestamps. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a32dd1992386c9bd0be79e7be8e0940b6aac2994ece4a7a1501c5e117f6ef95de8" prot="public">
+          <name>OVERLAPPING_PERIODS</name>
+          <briefdescription>
+<para>Valid-time periods of two versions overlap for the same entity. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a32dd1992386c9bd0be79e7be8e0940b6a9ebee9e66aecb8e5c09ce39fdf1e8790" prot="public">
+          <name>REFERENTIAL_INTEGRITY</name>
+          <briefdescription>
+<para>Both snapshots carry a &quot;ref_entity_id&quot; field but the values differ. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a32dd1992386c9bd0be79e7be8e0940b6a2ec3e8a3818dc3e1539ab7ccfa998d7e" prot="public">
+          <name>UNIQUENESS_VIOLATION</name>
+          <briefdescription>
+<para>Two different-origin snapshots carry divergent data for the same entity. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="structthemisdb_1_1temporal_1_1_conflict" kindref="compound">Conflict</ref> type classification for temporal conflict detection. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_conflict_resolver.h" line="304" column="1" bodyfile="include/temporal/temporal_conflict_resolver.h" bodystart="304" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MigrationStatus</name>
+        <qualifiedname>themisdb::temporal::MigrationStatus</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916ac69f06e1a9b016d133907b4e5f5864d2" prot="public">
+          <name>PENDING</name>
+          <briefdescription>
+<para>Not yet started. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916adb5bd93b8153dc2898de98e205c29478" prot="public">
+          <name>ANALYZING</name>
+          <briefdescription>
+<para>analyzeMigration() in progress </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916ac36add926b1f9baaecf45c04dc407098" prot="public">
+          <name>MIGRATING</name>
+          <briefdescription>
+<para>migrateToTemporal() in progress </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916a4ea687957de9caaad1e098e3e95aae9e" prot="public">
+          <name>VERIFYING</name>
+          <briefdescription>
+<para>verifyMigration() in progress </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916a3de44296982e58199afc513a715b12ba" prot="public">
+          <name>COMPLETE</name>
+          <briefdescription>
+<para>Migration completed successfully. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1aedba3e7626452aa5d3fef5093e982916ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+<para>Migration failed; see MigrationReport::errors. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Lifecycle state of a single migration run. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="69" column="1" bodyfile="include/temporal/temporal_migrator.h" bodystart="69" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1temporal_1ac336465ec30b2c393ca5b8621bfec52b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TemporalOperator</name>
+        <qualifiedname>themisdb::temporal::TemporalOperator</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1temporal_1ac336465ec30b2c393ca5b8621bfec52ba7c8b81e077a45b6d2c9c03d3a22c0d5b" prot="public">
+          <name>CONTAINS</name>
+          <briefdescription>
+<para>period contains a point or another period </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1ac336465ec30b2c393ca5b8621bfec52bae3dd991bcdabe4032a1b0f843cbb98f7" prot="public">
+          <name>OVERLAPS</name>
+          <briefdescription>
+<para>periods overlap </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1ac336465ec30b2c393ca5b8621bfec52ba9b9d4a936e1bb7ea14b9ccbb7b90ef75" prot="public">
+          <name>PRECEDES</name>
+          <briefdescription>
+<para>left period ends before right period starts </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1ac336465ec30b2c393ca5b8621bfec52baae36b99aed62392117c98dd3d1813bb5" prot="public">
+          <name>SUCCEEDS</name>
+          <briefdescription>
+<para>left period starts after right period ends </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1ac336465ec30b2c393ca5b8621bfec52ba86184945e25a4bc69022db908d5d3518" prot="public">
+          <name>MEETS</name>
+          <briefdescription>
+<para>left period ends exactly where right period starts </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1ac336465ec30b2c393ca5b8621bfec52ba6837aeca94b8f55801166eb031e26a5a" prot="public">
+          <name>EQUALS</name>
+          <briefdescription>
+<para>periods are identical </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Temporal predicate operators (SQL:2011 §4.16) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="41" column="1" bodyfile="include/temporal/temporal_query_engine.h" bodystart="41" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1temporal_1a02e8380e129c90d42cb9ff078b58d505" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TemporalSemantics</name>
+        <qualifiedname>themisdb::temporal::TemporalSemantics</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a02e8380e129c90d42cb9ff078b58d505acccfe17114c661dae430f95367cfc2b4" prot="public">
+          <name>SEQUENCED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1a02e8380e129c90d42cb9ff078b58d505ab8808da933992995439ebaf29c2280c0" prot="public">
+          <name>NON_SEQUENCED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Temporal query semantics (SQL:2011 §4.16.5).</para>
+<para>SEQUENCED: Each row is evaluated independently per temporal period. Temporal predicates are applied relative to each row&apos;s sys_time period; results preserve temporal consistency.</para>
+<para>NON_SEQUENCED: The time dimension is ignored; rows are treated as an atemporal relation. All versions across all time are returned without temporal filtering. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="61" column="1" bodyfile="include/temporal/temporal_query_engine.h" bodystart="61" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1temporal_1ac8a38b2433f07202ace2c3bb43a1c189" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TemporalClause</name>
+        <qualifiedname>themisdb::temporal::TemporalClause</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1temporal_1ac8a38b2433f07202ace2c3bb43a1c189a23e14f9b48cc9c3e8b0cbd19416a622d" prot="public">
+          <name>AS_OF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1ac8a38b2433f07202ace2c3bb43a1c189a8e9fc0172501313ee8516bbe2a504ee5" prot="public">
+          <name>FROM_TO</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1ac8a38b2433f07202ace2c3bb43a1c189a4130ffd4d113a662ef92786d5520afa6" prot="public">
+          <name>BETWEEN_AND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1ac8a38b2433f07202ace2c3bb43a1c189a41d9a66d842e561ef815a7e5f383434e" prot="public">
+          <name>CONTAINED_IN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1ac8a38b2433f07202ace2c3bb43a1c189a5fb1f955b45e38e31789286a1790398d" prot="public">
+          <name>ALL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>SQL:2011 temporal clause type (§7.6).</para>
+<para>AS_OF — FOR SYSTEM_TIME AS OF &lt;timestamp&gt; Returns all rows current at the given instant.</para>
+<para>FROM_TO — FOR SYSTEM_TIME FROM &lt;start&gt; TO &lt;end&gt; Returns all row versions whose sys_time overlaps [start, end).</para>
+<para>BETWEEN_AND — FOR SYSTEM_TIME BETWEEN &lt;start&gt; AND &lt;end&gt; Closed-interval variant: overlaps [start, end].</para>
+<para>CONTAINED_IN — FOR SYSTEM_TIME CONTAINED IN PERIOD (&lt;start&gt;, &lt;end&gt;) Returns only rows whose entire sys_time lies within [start, end).</para>
+<para>ALL — FOR SYSTEM_TIME ALL Returns every stored version (equivalent to NON_SEQUENCED). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="101" column="1" bodyfile="include/temporal/temporal_query_engine.h" bodystart="101" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1temporal_1ad6e07ff954c93d8d896f7f717e2f6aba" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TierDecision</name>
+        <qualifiedname>themisdb::temporal::TierDecision</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1temporal_1ad6e07ff954c93d8d896f7f717e2f6abaa60cba2874369bd3790e14ea5f8a7bc58" prot="public">
+          <name>KEEP</name>
+          <briefdescription>
+<para>No tier change needed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1ad6e07ff954c93d8d896f7f717e2f6abaa6b8489eb6b122ef91983ed1bd3553c61" prot="public">
+          <name>FLUSH_HOT_TO_WARM</name>
+          <briefdescription>
+<para>Move oldest (hot - hot_max) versions to warm. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1temporal_1ad6e07ff954c93d8d896f7f717e2f6abaa195ba439d8971790afc8fab6fc97b53b" prot="public">
+          <name>FLUSH_WARM_TO_COLD</name>
+          <briefdescription>
+<para>Move oldest warm block(s) to cold. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Result returned by <ref refid="structthemisdb_1_1temporal_1_1_tier_policy_1ad0a516c257547d5e55e36b10f8ef04f8" kindref="member">TierPolicy::evaluate()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_tier_manager.h" line="164" column="1" bodyfile="include/temporal/temporal_tier_manager.h" bodystart="164" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" prot="public" static="no">
+        <type>int64_t</type>
+        <definition>using themisdb::temporal::Timestamp = int64_t</definition>
+        <argsstring></argsstring>
+        <name>Timestamp</name>
+        <qualifiedname>themisdb::temporal::Timestamp</qualifiedname>
+        <briefdescription>
+<para>Milliseconds since Unix epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_types.h" line="33" column="1" bodyfile="include/temporal/temporal_types.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themisdb::temporal::Document = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>Document</name>
+        <qualifiedname>themisdb::temporal::Document</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>A document is an arbitrary JSON object. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_types.h" line="97" column="1" bodyfile="include/temporal/temporal_types.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemisdb_1_1temporal_1a7a1dcc194971113e4d01cf0eaf9d491a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::kMaxTimestamp</definition>
+        <argsstring></argsstring>
+        <name>kMaxTimestamp</name>
+        <qualifiedname>themisdb::temporal::kMaxTimestamp</qualifiedname>
+        <initializer>= std::numeric_limits&lt;int64_t&gt;::max()</initializer>
+        <briefdescription>
+<para>Sentinel value representing &quot;end of time&quot; (open upper bound). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_types.h" line="36" column="28" bodyfile="include/temporal/temporal_types.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemisdb_1_1temporal_1a515de4685d06935379c501655a59f671" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::kMinTimestamp</definition>
+        <argsstring></argsstring>
+        <name>kMinTimestamp</name>
+        <qualifiedname>themisdb::temporal::kMinTimestamp</qualifiedname>
+        <initializer>= -std::numeric_limits&lt;int64_t&gt;::max()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Sentinel value representing &quot;beginning of time&quot; (open lower bound). Defined as -max() to avoid sign-overflow in arithmetic operations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_types.h" line="40" column="28" bodyfile="include/temporal/temporal_types.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemisdb_1_1temporal_1a47807d2669c7ec884278b37e47c5fd37" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char</type>
+        <definition>const char themisdb::temporal::kBase64Chars[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kBase64Chars</name>
+        <qualifiedname>themisdb::temporal::kBase64Chars</qualifiedname>
+        <initializer>                                     =
+&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/temporal/temporal_compressor.cpp" line="36" column="29" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemisdb_1_1temporal_1a0aabb4b00233d11e779139fb0307ae21" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>unsigned char</type>
+        <definition>unsigned char themisdb::temporal::kRlRepeatMarker</definition>
+        <argsstring></argsstring>
+        <name>kRlRepeatMarker</name>
+        <qualifiedname>themisdb::temporal::kRlRepeatMarker</qualifiedname>
+        <initializer>= 0x01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/temporal/temporal_compressor.cpp" line="137" column="32" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemisdb_1_1temporal_1ac6c8454900113793250fc94653b3151c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>unsigned char</type>
+        <definition>unsigned char themisdb::temporal::kRlEscapeByte</definition>
+        <argsstring></argsstring>
+        <name>kRlEscapeByte</name>
+        <qualifiedname>themisdb::temporal::kRlEscapeByte</qualifiedname>
+        <initializer>= 0x02</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/temporal/temporal_compressor.cpp" line="138" column="32" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="138" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::now</definition>
+        <argsstring>()</argsstring>
+        <name>now</name>
+        <qualifiedname>themisdb::temporal::now</qualifiedname>
+        <briefdescription>
+<para>Return the current wall-clock time in milliseconds since epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_types.h" line="43" column="18" bodyfile="include/temporal/temporal_types.h" bodystart="43" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1temporal_1ac61313d0595b45446d0a82902883df30" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t themisdb::temporal::estimateVersionSize</definition>
+        <argsstring>(const VersionedDocument &amp;v)</argsstring>
+        <name>estimateVersionSize</name>
+        <qualifiedname>themisdb::temporal::estimateVersionSize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Version Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/temporal/retention_manager.cpp" line="311" column="17" bodyfile="src/temporal/retention_manager.cpp" bodystart="311" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1temporal_1a54a80b704cd76370657d384e3ca8ef66" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::temporal::resolveArchiveTag</definition>
+        <argsstring>(const RetentionPolicy &amp;policy, const std::string &amp;table_name)</argsstring>
+        <name>resolveArchiveTag</name>
+        <qualifiedname>themisdb::temporal::resolveArchiveTag</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_retention_policy" kindref="compound">RetentionPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Archive Tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/temporal/retention_manager.cpp" line="324" column="20" bodyfile="src/temporal/retention_manager.cpp" bodystart="324" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1temporal_1a6068c9bc465611ef0041a3a57006b0f3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themisdb::temporal::batchLimit</definition>
+        <argsstring>(const RetentionPolicy &amp;policy)</argsstring>
+        <name>batchLimit</name>
+        <qualifiedname>themisdb::temporal::batchLimit</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_retention_policy" kindref="compound">RetentionPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Batch Limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/temporal/retention_manager.cpp" line="341" column="15" bodyfile="src/temporal/retention_manager.cpp" bodystart="341" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1temporal_1a33a40f5fa48172c8e57664ccb52e39f7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref> &gt;</type>
+        <definition>static std::vector&lt; ChangeEvent &gt; themisdb::temporal::replayFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>replayFile</name>
+        <qualifiedname>themisdb::temporal::replayFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Replay File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::fopen(), c_str(), validateSegmentHeaderFile(), std::fclose(), std::fread(), payload(), data(), computeCRC32(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/temporal/temporal_cdc.cpp" line="561" column="20" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="561" bodyend="601"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1temporal_1ae41c97f7f87df328b98c01d33d10e0ac" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>static int themisdb::temporal::base64CharValue</definition>
+        <argsstring>(char c)</argsstring>
+        <name>base64CharValue</name>
+        <qualifiedname>themisdb::temporal::base64CharValue</qualifiedname>
+        <param>
+          <type>char</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Base64 Char Value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements base64CharValue without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/temporal/temporal_compressor.cpp" line="79" column="12" bodyfile="src/temporal/temporal_compressor.cpp" bodystart="79" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/temporal/bitemporal_join.h" line="19" column="1"/>
+  </compounddef>
+</doxygen>

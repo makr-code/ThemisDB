@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_quarantine_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::QuarantineEntry</compoundname>
+    <includes refid="ingestion__manager_8h" local="no">ingestion_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_quarantine_entry_1a7fd807fc4eac9ce818adbf47f18a70da" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::QuarantineEntry::item_path</definition>
+        <argsstring></argsstring>
+        <name>item_path</name>
+        <qualifiedname>themis::ingestion::QuarantineEntry::item_path</qualifiedname>
+        <briefdescription>
+<para>File path or URL of the failed item. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="513" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="513" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_quarantine_entry_1a33ef19d288ed675d1e2651ffdad93173" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::QuarantineEntry::source_id</definition>
+        <argsstring></argsstring>
+        <name>source_id</name>
+        <qualifiedname>themis::ingestion::QuarantineEntry::source_id</qualifiedname>
+        <briefdescription>
+<para>Source that produced this entry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="514" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="514" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_quarantine_entry_1a14b0cca81c14a5a137bce9242216d96a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564" kindref="member">IngestionErrorCode</ref></type>
+        <definition>IngestionErrorCode themis::ingestion::QuarantineEntry::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::ingestion::QuarantineEntry::error_code</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a9a10f345b0f755d461a8673a5e9ef6b4" kindref="member">IngestionErrorCode::UNKNOWN_ERROR</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="515" column="24" bodyfile="include/ingestion/ingestion_manager.h" bodystart="515" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_quarantine_entry_1ab7dcbcc4fe7f798b098ef7cc4f0f3bfe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::QuarantineEntry::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::ingestion::QuarantineEntry::error_message</qualifiedname>
+        <briefdescription>
+<para>Last error message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="516" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="516" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_quarantine_entry_1ab022145e6c1384a03f378a8b44b5918d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::QuarantineEntry::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themis::ingestion::QuarantineEntry::retry_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of retry attempts made. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="517" column="12" bodyfile="include/ingestion/ingestion_manager.h" bodystart="517" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_quarantine_entry_1aef9d49f73a9fdf65411cfa874f765a30" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::ingestion::QuarantineEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::ingestion::QuarantineEntry::timestamp</qualifiedname>
+        <briefdescription>
+<para>When quarantined. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="518" column="43" bodyfile="include/ingestion/ingestion_manager.h" bodystart="518" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_quarantine_entry_1a0d98f8d1595426a7239532c9be3a6356" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::QuarantineEntry::raw_payload</definition>
+        <argsstring></argsstring>
+        <name>raw_payload</name>
+        <qualifiedname>themis::ingestion::QuarantineEntry::raw_payload</qualifiedname>
+        <briefdescription>
+<para>Serialized document content (for per-doc retry). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="519" column="17" bodyfile="include/ingestion/ingestion_manager.h" bodystart="519" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_quarantine_entry_1a5befe08bc48542c1a2dc19ea0abf6cb7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::QuarantineEntry::permanently_failed</definition>
+        <argsstring></argsstring>
+        <name>permanently_failed</name>
+        <qualifiedname>themis::ingestion::QuarantineEntry::permanently_failed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when max_quarantine_retries exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="520" column="10" bodyfile="include/ingestion/ingestion_manager.h" bodystart="520" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_quarantine_entry_1a97583359fed68f3db707a86fe15fa6ea" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::QuarantineEntry::QuarantineEntry</definition>
+        <argsstring>()</argsstring>
+        <name>QuarantineEntry</name>
+        <qualifiedname>themis::ingestion::QuarantineEntry::QuarantineEntry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_manager.h" line="522" column="5" bodyfile="include/ingestion/ingestion_manager.h" bodystart="522" bodyend="522"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Quarantine entry for a failed item. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Records an item (file path or URL) that could not be ingested after all retries. Quarantined items can be re-processed via the admin API. </para>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_manager.h" line="512" column="1" bodyfile="include/ingestion/ingestion_manager.h" bodystart="512" bodyend="523"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_quarantine_entry_1a14b0cca81c14a5a137bce9242216d96a" prot="public" virt="non-virtual"><scope>themis::ingestion::QuarantineEntry</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quarantine_entry_1ab7dcbcc4fe7f798b098ef7cc4f0f3bfe" prot="public" virt="non-virtual"><scope>themis::ingestion::QuarantineEntry</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quarantine_entry_1a7fd807fc4eac9ce818adbf47f18a70da" prot="public" virt="non-virtual"><scope>themis::ingestion::QuarantineEntry</scope><name>item_path</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quarantine_entry_1a5befe08bc48542c1a2dc19ea0abf6cb7" prot="public" virt="non-virtual"><scope>themis::ingestion::QuarantineEntry</scope><name>permanently_failed</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quarantine_entry_1a97583359fed68f3db707a86fe15fa6ea" prot="public" virt="non-virtual"><scope>themis::ingestion::QuarantineEntry</scope><name>QuarantineEntry</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quarantine_entry_1a0d98f8d1595426a7239532c9be3a6356" prot="public" virt="non-virtual"><scope>themis::ingestion::QuarantineEntry</scope><name>raw_payload</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quarantine_entry_1ab022145e6c1384a03f378a8b44b5918d" prot="public" virt="non-virtual"><scope>themis::ingestion::QuarantineEntry</scope><name>retry_count</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quarantine_entry_1a33ef19d288ed675d1e2651ffdad93173" prot="public" virt="non-virtual"><scope>themis::ingestion::QuarantineEntry</scope><name>source_id</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quarantine_entry_1aef9d49f73a9fdf65411cfa874f765a30" prot="public" virt="non-virtual"><scope>themis::ingestion::QuarantineEntry</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

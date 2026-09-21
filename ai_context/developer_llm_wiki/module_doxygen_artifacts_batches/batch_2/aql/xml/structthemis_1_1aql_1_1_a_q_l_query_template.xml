@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_a_q_l_query_template" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::AQLQueryTemplate</compoundname>
+    <includes refid="aql__query__template__library_8h" local="no">aql_query_template_library.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_query_template_1a901d7e999aeda19df91e82df4268c395" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLQueryTemplate::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::aql::AQLQueryTemplate::id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier (e.g., &quot;simple_scan&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_template_library.h" line="26" column="30" bodyfile="include/aql/aql_query_template_library.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_query_template_1a47b27328d1c1e6ff31b6baa6cb26c18d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLQueryTemplate::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::aql::AQLQueryTemplate::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_template_library.h" line="27" column="30" bodyfile="include/aql/aql_query_template_library.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_query_template_1a833d3919d8dfe30b753293f69fd0ce60" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLQueryTemplate::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::aql::AQLQueryTemplate::description</qualifiedname>
+        <briefdescription>
+<para>What the template does. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_template_library.h" line="28" column="30" bodyfile="include/aql/aql_query_template_library.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_query_template_1ab21c30aaed4efa79750b638390779c4c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AQLQueryTemplate::template_body</definition>
+        <argsstring></argsstring>
+        <name>template_body</name>
+        <qualifiedname>themis::aql::AQLQueryTemplate::template_body</qualifiedname>
+        <briefdescription>
+<para>AQL with {{placeholders}}. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_template_library.h" line="29" column="30" bodyfile="include/aql/aql_query_template_library.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_query_template_1ac9482a2f3614004d241a3e69988f00a7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::aql::AQLQueryTemplate::tags</definition>
+        <argsstring></argsstring>
+        <name>tags</name>
+        <qualifiedname>themis::aql::AQLQueryTemplate::tags</qualifiedname>
+        <briefdescription>
+<para>Search tags (e.g., &quot;graph&quot;, &quot;vector&quot;, &quot;filter&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_template_library.h" line="30" column="17" bodyfile="include/aql/aql_query_template_library.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_a_q_l_query_template_1a1d36206814316802ce3eff3f42ed688c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::aql::AQLQueryTemplate::parameters</definition>
+        <argsstring></argsstring>
+        <name>parameters</name>
+        <qualifiedname>themis::aql::AQLQueryTemplate::parameters</qualifiedname>
+        <briefdescription>
+<para>List of placeholder names (without braces). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_query_template_library.h" line="31" column="17" bodyfile="include/aql/aql_query_template_library.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_query_template_library.h" line="25" column="1" bodyfile="include/aql/aql_query_template_library.h" bodystart="25" bodyend="32"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_query_template_1a833d3919d8dfe30b753293f69fd0ce60" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryTemplate</scope><name>description</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_query_template_1a901d7e999aeda19df91e82df4268c395" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryTemplate</scope><name>id</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_query_template_1a47b27328d1c1e6ff31b6baa6cb26c18d" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryTemplate</scope><name>name</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_query_template_1a1d36206814316802ce3eff3f42ed688c" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryTemplate</scope><name>parameters</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_query_template_1ac9482a2f3614004d241a3e69988f00a7" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryTemplate</scope><name>tags</name></member>
+      <member refid="structthemis_1_1aql_1_1_a_q_l_query_template_1ab21c30aaed4efa79750b638390779c4c" prot="public" virt="non-virtual"><scope>themis::aql::AQLQueryTemplate</scope><name>template_body</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

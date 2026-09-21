@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_training_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::TrainingMetrics</compoundname>
+    <includes refid="incremental__lora__trainer_8h" local="no">incremental_lora_trainer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_metrics_1a63d93f3d5cc5949874eec4a6eb69f98d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_epoch_metrics" kindref="compound">EpochMetrics</ref> &gt;</type>
+        <definition>std::vector&lt;EpochMetrics&gt; themis::training::TrainingMetrics::epoch_metrics</definition>
+        <argsstring></argsstring>
+        <name>epoch_metrics</name>
+        <qualifiedname>themis::training::TrainingMetrics::epoch_metrics</qualifiedname>
+        <briefdescription>
+<para>One entry per epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="97" column="18" bodyfile="include/training/incremental_lora_trainer.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_metrics_1a1c9cb2333679166b6435028cb4624286" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::training::TrainingMetrics::step_losses</definition>
+        <argsstring></argsstring>
+        <name>step_losses</name>
+        <qualifiedname>themis::training::TrainingMetrics::step_losses</qualifiedname>
+        <briefdescription>
+<para>Loss at every training step (all epochs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="98" column="24" bodyfile="include/training/incremental_lora_trainer.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_metrics_1aef19c4d49790ec37972ecada1d0d858d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::TrainingMetrics::total_steps</definition>
+        <argsstring></argsstring>
+        <name>total_steps</name>
+        <qualifiedname>themis::training::TrainingMetrics::total_steps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="99" column="12" bodyfile="include/training/incremental_lora_trainer.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_metrics_1aacb68d82eb4d3720f5cf18e47905f485" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::TrainingMetrics::total_epochs</definition>
+        <argsstring></argsstring>
+        <name>total_epochs</name>
+        <qualifiedname>themis::training::TrainingMetrics::total_epochs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="100" column="12" bodyfile="include/training/incremental_lora_trainer.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_metrics_1addf4c2d23fc87b8673fe01cd46252795" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::TrainingMetrics::best_train_loss</definition>
+        <argsstring></argsstring>
+        <name>best_train_loss</name>
+        <qualifiedname>themis::training::TrainingMetrics::best_train_loss</qualifiedname>
+        <initializer>= std::numeric_limits&lt;double&gt;::max()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="101" column="12" bodyfile="include/training/incremental_lora_trainer.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_metrics_1ac308303ac1883eda5353cc14bc8766bc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::TrainingMetrics::best_val_loss</definition>
+        <argsstring></argsstring>
+        <name>best_val_loss</name>
+        <qualifiedname>themis::training::TrainingMetrics::best_val_loss</qualifiedname>
+        <initializer>= std::numeric_limits&lt;double&gt;::max()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="102" column="12" bodyfile="include/training/incremental_lora_trainer.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_metrics_1af40b190e768e7d590af9f25bd2648aa4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::TrainingMetrics::total_elapsed_seconds</definition>
+        <argsstring></argsstring>
+        <name>total_elapsed_seconds</name>
+        <qualifiedname>themis::training::TrainingMetrics::total_elapsed_seconds</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="103" column="12" bodyfile="include/training/incremental_lora_trainer.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_training_metrics_1aae606dd990a0abfbbc49fc49f3aaa658" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::TrainingMetrics::TrainingMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>TrainingMetrics</name>
+        <qualifiedname>themis::training::TrainingMetrics::TrainingMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="105" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1training_1_1_training_metrics_1a7e807cf3d126ddf40add30e6ecb07e2c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::TrainingMetrics::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::training::TrainingMetrics::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all accumulated metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="108" column="10" bodyfile="include/training/incremental_lora_trainer.h" bodystart="108" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Full set of training metrics accumulated across all epochs. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Obtained via <ref refid="classthemis_1_1training_1_1_incremental_lo_r_a_trainer_1a3948a88c059eff7d5d20eb6715135878" kindref="member">IncrementalLoRATrainer::getMetrics()</ref> after train() completes. </para>
+    </detaileddescription>
+    <location file="include/training/incremental_lora_trainer.h" line="96" column="1" bodyfile="include/training/incremental_lora_trainer.h" bodystart="96" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_training_metrics_1addf4c2d23fc87b8673fe01cd46252795" prot="public" virt="non-virtual"><scope>themis::training::TrainingMetrics</scope><name>best_train_loss</name></member>
+      <member refid="structthemis_1_1training_1_1_training_metrics_1ac308303ac1883eda5353cc14bc8766bc" prot="public" virt="non-virtual"><scope>themis::training::TrainingMetrics</scope><name>best_val_loss</name></member>
+      <member refid="structthemis_1_1training_1_1_training_metrics_1a63d93f3d5cc5949874eec4a6eb69f98d" prot="public" virt="non-virtual"><scope>themis::training::TrainingMetrics</scope><name>epoch_metrics</name></member>
+      <member refid="structthemis_1_1training_1_1_training_metrics_1a7e807cf3d126ddf40add30e6ecb07e2c" prot="public" virt="non-virtual"><scope>themis::training::TrainingMetrics</scope><name>reset</name></member>
+      <member refid="structthemis_1_1training_1_1_training_metrics_1a1c9cb2333679166b6435028cb4624286" prot="public" virt="non-virtual"><scope>themis::training::TrainingMetrics</scope><name>step_losses</name></member>
+      <member refid="structthemis_1_1training_1_1_training_metrics_1af40b190e768e7d590af9f25bd2648aa4" prot="public" virt="non-virtual"><scope>themis::training::TrainingMetrics</scope><name>total_elapsed_seconds</name></member>
+      <member refid="structthemis_1_1training_1_1_training_metrics_1aacb68d82eb4d3720f5cf18e47905f485" prot="public" virt="non-virtual"><scope>themis::training::TrainingMetrics</scope><name>total_epochs</name></member>
+      <member refid="structthemis_1_1training_1_1_training_metrics_1aef19c4d49790ec37972ecada1d0d858d" prot="public" virt="non-virtual"><scope>themis::training::TrainingMetrics</scope><name>total_steps</name></member>
+      <member refid="structthemis_1_1training_1_1_training_metrics_1aae606dd990a0abfbbc49fc49f3aaa658" prot="public" virt="non-virtual"><scope>themis::training::TrainingMetrics</scope><name>TrainingMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

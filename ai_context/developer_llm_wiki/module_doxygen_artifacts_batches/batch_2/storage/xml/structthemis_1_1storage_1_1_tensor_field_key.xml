@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_tensor_field_key" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::TensorFieldKey</compoundname>
+    <includes refid="tensor__network__storage__engine_8h" local="no">tensor_network_storage_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_field_key_1a01bb3187dca202083a995a322860e1aa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::TensorFieldKey::tenant</definition>
+        <argsstring></argsstring>
+        <name>tenant</name>
+        <qualifiedname>themis::storage::TensorFieldKey::tenant</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="41" column="17" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_field_key_1a47c1de9a61b71f584d6594c2dbd0b6ba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::TensorFieldKey::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::storage::TensorFieldKey::collection</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="42" column="17" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_field_key_1a33b020a4333ba928d7b61b58d5edb94e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::TensorFieldKey::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::storage::TensorFieldKey::field</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="43" column="17" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_tensor_field_key_1a1f1c6889517692219f9096e98a478c15" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::TensorFieldKey::operator==</definition>
+        <argsstring>(const TensorFieldKey &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::storage::TensorFieldKey::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_field_key" kindref="compound">TensorFieldKey</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_network_storage_engine.h" line="45" column="10" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="45" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Logical address of a tensor stored in the engine. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/tensor_network_storage_engine.h" line="40" column="1" bodyfile="include/storage/tensor_network_storage_engine.h" bodystart="40" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_tensor_field_key_1a47c1de9a61b71f584d6594c2dbd0b6ba" prot="public" virt="non-virtual"><scope>themis::storage::TensorFieldKey</scope><name>collection</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_field_key_1a33b020a4333ba928d7b61b58d5edb94e" prot="public" virt="non-virtual"><scope>themis::storage::TensorFieldKey</scope><name>field</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_field_key_1a1f1c6889517692219f9096e98a478c15" prot="public" virt="non-virtual"><scope>themis::storage::TensorFieldKey</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_field_key_1a01bb3187dca202083a995a322860e1aa" prot="public" virt="non-virtual"><scope>themis::storage::TensorFieldKey</scope><name>tenant</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

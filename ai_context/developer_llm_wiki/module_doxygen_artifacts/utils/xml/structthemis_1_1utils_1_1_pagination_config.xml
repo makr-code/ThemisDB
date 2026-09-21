@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_pagination_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::PaginationConfig</compoundname>
+    <includes refid="cursor_8h" local="no">cursor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_pagination_config_1a040dab744e371448a4aae6fdc3daaa50" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::PaginationConfig::default_page_size</definition>
+        <argsstring></argsstring>
+        <name>default_page_size</name>
+        <qualifiedname>themis::utils::PaginationConfig::default_page_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="27" column="12" bodyfile="include/utils/cursor.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_pagination_config_1afeda3fba580c5ac26e25e582cb2acea9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::PaginationConfig::min_page_size</definition>
+        <argsstring></argsstring>
+        <name>min_page_size</name>
+        <qualifiedname>themis::utils::PaginationConfig::min_page_size</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="28" column="12" bodyfile="include/utils/cursor.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_pagination_config_1ab7cc5eb173a368c13ed7f4a4611ab995" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::PaginationConfig::max_page_size</definition>
+        <argsstring></argsstring>
+        <name>max_page_size</name>
+        <qualifiedname>themis::utils::PaginationConfig::max_page_size</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="29" column="12" bodyfile="include/utils/cursor.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_pagination_config_1a51cecebebfcee7db21b3555e9fb8fcbf" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::utils::PaginationConfig::cursor_ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>cursor_ttl_seconds</name>
+        <qualifiedname>themis::utils::PaginationConfig::cursor_ttl_seconds</qualifiedname>
+        <initializer>= 3600</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="30" column="13" bodyfile="include/utils/cursor.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_pagination_config_1a47b765e1ef126ba40a9980c17fd04114" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::PaginationConfig::enable_total_count</definition>
+        <argsstring></argsstring>
+        <name>enable_total_count</name>
+        <qualifiedname>themis::utils::PaginationConfig::enable_total_count</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/cursor.h" line="31" column="10" bodyfile="include/utils/cursor.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration for pagination behavior </para>
+    </detaileddescription>
+    <location file="include/utils/cursor.h" line="26" column="1" bodyfile="include/utils/cursor.h" bodystart="26" bodyend="32"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_pagination_config_1a51cecebebfcee7db21b3555e9fb8fcbf" prot="public" virt="non-virtual"><scope>themis::utils::PaginationConfig</scope><name>cursor_ttl_seconds</name></member>
+      <member refid="structthemis_1_1utils_1_1_pagination_config_1a040dab744e371448a4aae6fdc3daaa50" prot="public" virt="non-virtual"><scope>themis::utils::PaginationConfig</scope><name>default_page_size</name></member>
+      <member refid="structthemis_1_1utils_1_1_pagination_config_1a47b765e1ef126ba40a9980c17fd04114" prot="public" virt="non-virtual"><scope>themis::utils::PaginationConfig</scope><name>enable_total_count</name></member>
+      <member refid="structthemis_1_1utils_1_1_pagination_config_1ab7cc5eb173a368c13ed7f4a4611ab995" prot="public" virt="non-virtual"><scope>themis::utils::PaginationConfig</scope><name>max_page_size</name></member>
+      <member refid="structthemis_1_1utils_1_1_pagination_config_1afeda3fba580c5ac26e25e582cb2acea9" prot="public" virt="non-virtual"><scope>themis::utils::PaginationConfig</scope><name>min_page_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

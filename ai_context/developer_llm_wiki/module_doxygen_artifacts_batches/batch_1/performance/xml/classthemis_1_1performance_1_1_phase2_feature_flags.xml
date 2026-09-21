@@ -1,0 +1,508 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_phase2_feature_flags" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::Phase2FeatureFlags</compoundname>
+    <includes refid="phase2__feature__flags_8h" local="no">phase2_feature_flags.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_phase2_feature_flags_1acbbd51a78fb1a8e40e6e04c7d1494980" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1performance_1_1_hardware_capabilities" kindref="compound">HardwareCapabilities</ref></type>
+        <definition>HardwareCapabilities themis::performance::Phase2FeatureFlags::capabilities_</definition>
+        <argsstring></argsstring>
+        <name>capabilities_</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::capabilities_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="113" column="26" bodyfile="include/performance/phase2_feature_flags.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_phase2_feature_flags_1a2d2c97470c425912b002d4f69fddf367" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::Phase2FeatureFlags::wisckey_enabled_</definition>
+        <argsstring></argsstring>
+        <name>wisckey_enabled_</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::wisckey_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="114" column="17" bodyfile="include/performance/phase2_feature_flags.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_phase2_feature_flags_1aef87b7ebba6f682e3b4e1ff054d738e5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::Phase2FeatureFlags::dostoevsky_enabled_</definition>
+        <argsstring></argsstring>
+        <name>dostoevsky_enabled_</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::dostoevsky_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="115" column="17" bodyfile="include/performance/phase2_feature_flags.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_phase2_feature_flags_1affe27cea28881183fa3c3c425404acce" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::Phase2FeatureFlags::cicada_enabled_</definition>
+        <argsstring></argsstring>
+        <name>cicada_enabled_</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::cicada_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="116" column="17" bodyfile="include/performance/phase2_feature_flags.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_phase2_feature_flags_1afb5d182e72a655a3e0c7f176ac5ffca4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::Phase2FeatureFlags::ligra_enabled_</definition>
+        <argsstring></argsstring>
+        <name>ligra_enabled_</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::ligra_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="117" column="17" bodyfile="include/performance/phase2_feature_flags.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_phase2_feature_flags_1a913035f85da403341f65584dc34d2204" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::Phase2FeatureFlags::rabitq_enabled_</definition>
+        <argsstring></argsstring>
+        <name>rabitq_enabled_</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::rabitq_enabled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="118" column="17" bodyfile="include/performance/phase2_feature_flags.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1a9bffe9e65d51a67d7ad8fcbae5339936" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Phase2FeatureFlags &amp;</type>
+        <definition>static Phase2FeatureFlags &amp; themis::performance::Phase2FeatureFlags::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::instance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="52" column="31" bodyfile="include/performance/phase2_feature_flags.h" bodystart="52" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1aaf29343d9e0f4ceb4a1acbabb1a8e484" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::Phase2FeatureFlags::wisckey_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>wisckey_enabled</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::wisckey_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="60" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1a3f537acdae578b01ccc56f4a2530169a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::Phase2FeatureFlags::set_wisckey_enabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>set_wisckey_enabled</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::set_wisckey_enabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="61" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1a34a3bfe5dbb6b13aeadeff253509b563" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::Phase2FeatureFlags::wisckey_hardware_supported</definition>
+        <argsstring>() const</argsstring>
+        <name>wisckey_hardware_supported</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::wisckey_hardware_supported</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="62" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1aa06f6999efaff353e4a72975f82363e1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::Phase2FeatureFlags::dostoevsky_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>dostoevsky_enabled</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::dostoevsky_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="67" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1a7f2dbda58115af6baa9a94786cb780b5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::Phase2FeatureFlags::set_dostoevsky_enabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>set_dostoevsky_enabled</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::set_dostoevsky_enabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="68" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1ab94e35a5de4a4ddbd0e444c1af82ae39" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::Phase2FeatureFlags::dostoevsky_hardware_supported</definition>
+        <argsstring>() const</argsstring>
+        <name>dostoevsky_hardware_supported</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::dostoevsky_hardware_supported</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="69" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1adb615795e02508bfa5f9a63851382f38" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::Phase2FeatureFlags::cicada_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>cicada_enabled</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::cicada_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="74" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1a609c904d6c55dafcc452611aa01cc621" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::Phase2FeatureFlags::set_cicada_enabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>set_cicada_enabled</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::set_cicada_enabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="75" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1a8bc34924295b31d9e6c3e3b514f30366" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::Phase2FeatureFlags::cicada_hardware_supported</definition>
+        <argsstring>() const</argsstring>
+        <name>cicada_hardware_supported</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::cicada_hardware_supported</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="76" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="76" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1a2b88192cc8cba447a9e9b49089bc3344" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::Phase2FeatureFlags::ligra_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>ligra_enabled</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::ligra_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="83" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1a0ca6bc5bc89278cfad526b458ff133da" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::Phase2FeatureFlags::set_ligra_enabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>set_ligra_enabled</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::set_ligra_enabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="84" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1aa6cc95644a05ea44e68e967eabb6a9dc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::Phase2FeatureFlags::ligra_hardware_supported</definition>
+        <argsstring>() const</argsstring>
+        <name>ligra_hardware_supported</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::ligra_hardware_supported</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="85" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1a25c490e821d73cb6911375eecfb481bf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::Phase2FeatureFlags::rabitq_enabled</definition>
+        <argsstring>() const</argsstring>
+        <name>rabitq_enabled</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::rabitq_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="90" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1a5b90bc19054eb301a1dabc291f6d3785" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::Phase2FeatureFlags::set_rabitq_enabled</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>set_rabitq_enabled</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::set_rabitq_enabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="91" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1a5a8a82703aefbd4afec9c76f93282512" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::Phase2FeatureFlags::rabitq_hardware_supported</definition>
+        <argsstring>() const</argsstring>
+        <name>rabitq_hardware_supported</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::rabitq_hardware_supported</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="92" column="10" bodyfile="include/performance/phase2_feature_flags.h" bodystart="92" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1a2cfb4115fb01ad5f474110556fbd58bc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1performance_1_1_hardware_capabilities" kindref="compound">HardwareCapabilities</ref> &amp;</type>
+        <definition>const HardwareCapabilities &amp; themis::performance::Phase2FeatureFlags::hardware_capabilities</definition>
+        <argsstring>() const</argsstring>
+        <name>hardware_capabilities</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::hardware_capabilities</qualifiedname>
+        <briefdescription>
+<para>Query hardware capabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="97" column="32" bodyfile="include/performance/phase2_feature_flags.h" bodystart="97" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1aa8bb5e78561ff3b849d2b93c2e3ff0ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::Phase2FeatureFlags::detect_hardware_capabilities</definition>
+        <argsstring>()</argsstring>
+        <name>detect_hardware_capabilities</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::detect_hardware_capabilities</qualifiedname>
+        <briefdescription>
+<para>Detect hardware capabilities (called once at singleton init). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect hardware capabilities.</para>
+<para>Calls: std::thread::hardware_concurrency(), detect_x86_capabilities(), detect_arm_capabilities(), detect_storage_capabilities(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="102" column="10" bodyfile="src/performance/phase2_feature_flags.cpp" bodystart="160" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1a33b8fac94b416f2f6ccd8e125778fdef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::Phase2FeatureFlags::load_from_config</definition>
+        <argsstring>(const std::string &amp;config_path)</argsstring>
+        <name>load_from_config</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::load_from_config</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config_path</declname>
+        </param>
+        <briefdescription>
+<para>Load from config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the retention policy configuration file.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: file(), is_open(), contains(), <ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a34a3bfe5dbb6b13aeadeff253509b563" kindref="member">wisckey_hardware_supported()</ref>, <ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a3f537acdae578b01ccc56f4a2530169a" kindref="member">set_wisckey_enabled()</ref>, <ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1ab94e35a5de4a4ddbd0e444c1af82ae39" kindref="member">dostoevsky_hardware_supported()</ref>, <ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a7f2dbda58115af6baa9a94786cb780b5" kindref="member">set_dostoevsky_enabled()</ref>, <ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a8bc34924295b31d9e6c3e3b514f30366" kindref="member">cicada_hardware_supported()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="105" column="10" bodyfile="src/performance/phase2_feature_flags.cpp" bodystart="182" bodyend="215"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1a0a1a5bb6f8436d39dfb1306160f736e5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::Phase2FeatureFlags::Phase2FeatureFlags</definition>
+        <argsstring>()</argsstring>
+        <name>Phase2FeatureFlags</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::Phase2FeatureFlags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="108" column="5" bodyfile="src/performance/phase2_feature_flags.cpp" bodystart="152" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1a9ebba5c081f83b3deb63b60438a77a69" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::Phase2FeatureFlags::~Phase2FeatureFlags</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Phase2FeatureFlags</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::~Phase2FeatureFlags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="109" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1a5ec6406205a323d2b914858d24641f19" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::Phase2FeatureFlags::Phase2FeatureFlags</definition>
+        <argsstring>(const Phase2FeatureFlags &amp;)=delete</argsstring>
+        <name>Phase2FeatureFlags</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::Phase2FeatureFlags</qualifiedname>
+        <param>
+          <type>const Phase2FeatureFlags &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="110" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_phase2_feature_flags_1af39be6483c82c49aab9959fcc30f72e7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Phase2FeatureFlags &amp;</type>
+        <definition>Phase2FeatureFlags &amp; themis::performance::Phase2FeatureFlags::operator=</definition>
+        <argsstring>(const Phase2FeatureFlags &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::Phase2FeatureFlags::operator=</qualifiedname>
+        <param>
+          <type>const Phase2FeatureFlags &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="111" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Thread-safe singleton for Phase 2 performance feature flags Allows runtime toggling of optimizations without recompilation. Includes hardware capability detection and fallback mechanisms. </para>
+    </detaileddescription>
+    <location file="include/performance/phase2_feature_flags.h" line="50" column="1" bodyfile="include/performance/phase2_feature_flags.h" bodystart="50" bodyend="119"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1acbbd51a78fb1a8e40e6e04c7d1494980" prot="private" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>capabilities_</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1adb615795e02508bfa5f9a63851382f38" prot="public" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>cicada_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1affe27cea28881183fa3c3c425404acce" prot="private" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>cicada_enabled_</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a8bc34924295b31d9e6c3e3b514f30366" prot="public" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>cicada_hardware_supported</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1aa8bb5e78561ff3b849d2b93c2e3ff0ba" prot="public" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>detect_hardware_capabilities</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1aa06f6999efaff353e4a72975f82363e1" prot="public" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>dostoevsky_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1aef87b7ebba6f682e3b4e1ff054d738e5" prot="private" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>dostoevsky_enabled_</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1ab94e35a5de4a4ddbd0e444c1af82ae39" prot="public" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>dostoevsky_hardware_supported</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a2cfb4115fb01ad5f474110556fbd58bc" prot="public" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>hardware_capabilities</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a9bffe9e65d51a67d7ad8fcbae5339936" prot="public" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>instance</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a2b88192cc8cba447a9e9b49089bc3344" prot="public" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>ligra_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1afb5d182e72a655a3e0c7f176ac5ffca4" prot="private" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>ligra_enabled_</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1aa6cc95644a05ea44e68e967eabb6a9dc" prot="public" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>ligra_hardware_supported</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a33b8fac94b416f2f6ccd8e125778fdef" prot="public" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>load_from_config</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1af39be6483c82c49aab9959fcc30f72e7" prot="private" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a0a1a5bb6f8436d39dfb1306160f736e5" prot="private" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>Phase2FeatureFlags</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a5ec6406205a323d2b914858d24641f19" prot="private" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>Phase2FeatureFlags</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a25c490e821d73cb6911375eecfb481bf" prot="public" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>rabitq_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a913035f85da403341f65584dc34d2204" prot="private" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>rabitq_enabled_</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a5a8a82703aefbd4afec9c76f93282512" prot="public" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>rabitq_hardware_supported</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a609c904d6c55dafcc452611aa01cc621" prot="public" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>set_cicada_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a7f2dbda58115af6baa9a94786cb780b5" prot="public" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>set_dostoevsky_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a0ca6bc5bc89278cfad526b458ff133da" prot="public" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>set_ligra_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a5b90bc19054eb301a1dabc291f6d3785" prot="public" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>set_rabitq_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a3f537acdae578b01ccc56f4a2530169a" prot="public" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>set_wisckey_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1aaf29343d9e0f4ceb4a1acbabb1a8e484" prot="public" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>wisckey_enabled</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a2d2c97470c425912b002d4f69fddf367" prot="private" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>wisckey_enabled_</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a34a3bfe5dbb6b13aeadeff253509b563" prot="public" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>wisckey_hardware_supported</name></member>
+      <member refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a9ebba5c081f83b3deb63b60438a77a69" prot="private" virt="non-virtual"><scope>themis::performance::Phase2FeatureFlags</scope><name>~Phase2FeatureFlags</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

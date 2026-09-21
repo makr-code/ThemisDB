@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_citation_highlighter_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::CitationHighlighterFactory</compoundname>
+    <includes refid="citation__highlighter_8h" local="no">citation_highlighter.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_citation_highlighter_factory_1a8f4c033ce90c56e0b2af64590bbdd60f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_citation_highlighter" kindref="compound">CitationHighlighter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; CitationHighlighter &gt; themis::rag::CitationHighlighterFactory::createStrict</definition>
+        <argsstring>()</argsstring>
+        <name>createStrict</name>
+        <qualifiedname>themis::rag::CitationHighlighterFactory::createStrict</qualifiedname>
+        <briefdescription>
+<para>Strict mode: only very strong matches are cited (threshold=0.30). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="210" column="28" bodyfile="src/rag/citation_highlighter.cpp" bodystart="318" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_citation_highlighter_factory_1a3ee20aa2ddc1e96be84b58bf3ccdbb0b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_citation_highlighter" kindref="compound">CitationHighlighter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; CitationHighlighter &gt; themis::rag::CitationHighlighterFactory::createBalanced</definition>
+        <argsstring>()</argsstring>
+        <name>createBalanced</name>
+        <qualifiedname>themis::rag::CitationHighlighterFactory::createBalanced</qualifiedname>
+        <briefdescription>
+<para>Balanced mode: default thresholds (threshold=0.15). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="215" column="28" bodyfile="src/rag/citation_highlighter.cpp" bodystart="327" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_citation_highlighter_factory_1a6fba0a0eff1a329cd8630ab3dfdecf69" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_citation_highlighter" kindref="compound">CitationHighlighter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; CitationHighlighter &gt; themis::rag::CitationHighlighterFactory::createPermissive</definition>
+        <argsstring>()</argsstring>
+        <name>createPermissive</name>
+        <qualifiedname>themis::rag::CitationHighlighterFactory::createPermissive</qualifiedname>
+        <briefdescription>
+<para>Permissive mode: even weak overlaps are cited (threshold=0.05). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/citation_highlighter.h" line="220" column="28" bodyfile="src/rag/citation_highlighter.cpp" bodystart="332" bodyend="338"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory helpers for common <ref refid="classthemis_1_1rag_1_1_citation_highlighter" kindref="compound">CitationHighlighter</ref> configurations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/citation_highlighter.h" line="205" column="1" bodyfile="include/rag/citation_highlighter.h" bodystart="205" bodyend="221"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_citation_highlighter_factory_1a3ee20aa2ddc1e96be84b58bf3ccdbb0b" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighterFactory</scope><name>createBalanced</name></member>
+      <member refid="classthemis_1_1rag_1_1_citation_highlighter_factory_1a6fba0a0eff1a329cd8630ab3dfdecf69" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighterFactory</scope><name>createPermissive</name></member>
+      <member refid="classthemis_1_1rag_1_1_citation_highlighter_factory_1a8f4c033ce90c56e0b2af64590bbdd60f" prot="public" virt="non-virtual"><scope>themis::rag::CitationHighlighterFactory</scope><name>createStrict</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,500 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_ts_encrypted_key_rotation" kind="class" language="C++" prot="public">
+    <compoundname>themis::TsEncryptedKeyRotation</compoundname>
+    <includes refid="ts__encrypted__key__rotation_8h" local="no">ts_encrypted_key_rotation.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1_ts_encrypted_key_rotation_1a6763a0506bea8045a9bc8ba41915ead2" prot="public" static="no">
+        <type><ref refid="structthemis_1_1_ts_encrypted_key_rotation_config" kindref="compound">TsEncryptedKeyRotationConfig</ref></type>
+        <definition>using themis::TsEncryptedKeyRotation::Config = TsEncryptedKeyRotationConfig</definition>
+        <argsstring></argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::Config</qualifiedname>
+        <briefdescription>
+<para>Alias kept for backwards compatibility. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="74" column="5" bodyfile="include/timeseries/ts_encrypted_key_rotation.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_ts_encrypted_key_rotation_1a0ff7a72353834dc565bb2e2fad4138ca" prot="private" static="no" mutable="no">
+        <type>rocksdb::TransactionDB *</type>
+        <definition>rocksdb::TransactionDB* themis::TsEncryptedKeyRotation::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="133" column="41" bodyfile="include/timeseries/ts_encrypted_key_rotation.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_ts_encrypted_key_rotation_1a7ca611615a996a81fe7b62dd0e1f164d" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::TsEncryptedKeyRotation::cf_</definition>
+        <argsstring></argsstring>
+        <name>cf_</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::cf_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="134" column="41" bodyfile="include/timeseries/ts_encrypted_key_rotation.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_ts_encrypted_key_rotation_1a9e6f11beb8a7ce731068e5c89b69a076" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_encrypted_chunk_store" kindref="compound">EncryptedChunkStore</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;EncryptedChunkStore&gt; themis::TsEncryptedKeyRotation::enc_store_</definition>
+        <argsstring></argsstring>
+        <name>enc_store_</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::enc_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="135" column="21" bodyfile="include/timeseries/ts_encrypted_key_rotation.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_ts_encrypted_key_rotation_1aff3dbb63c303c43dd70cb083cf27a43b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_ts_encrypted_key_rotation_1a6763a0506bea8045a9bc8ba41915ead2" kindref="member">Config</ref></type>
+        <definition>Config themis::TsEncryptedKeyRotation::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="136" column="42" bodyfile="include/timeseries/ts_encrypted_key_rotation.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_ts_encrypted_key_rotation_1a46bb8872d6534308da78bd73057a3487" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::TsEncryptedKeyRotation::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="138" column="23" bodyfile="include/timeseries/ts_encrypted_key_rotation.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_ts_encrypted_key_rotation_1ad1cc1f9528c5234d24c86065a33152b0" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::TsEncryptedKeyRotation::thread_</definition>
+        <argsstring></argsstring>
+        <name>thread_</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="139" column="29" bodyfile="include/timeseries/ts_encrypted_key_rotation.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_ts_encrypted_key_rotation_1ac0c9a72cb8a4eaa59c198e61d56d7f18" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TsEncryptedKeyRotation::cv_mu_</definition>
+        <argsstring></argsstring>
+        <name>cv_mu_</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::cv_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="140" column="29" bodyfile="include/timeseries/ts_encrypted_key_rotation.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_ts_encrypted_key_rotation_1a8371cc5eac73e99f78de7f3b8a8ec9d5" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::TsEncryptedKeyRotation::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="141" column="29" bodyfile="include/timeseries/ts_encrypted_key_rotation.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_ts_encrypted_key_rotation_1a0c15957026a74bca814a8695843fe504" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TsEncryptedKeyRotation::stop_flag_</definition>
+        <argsstring></argsstring>
+        <name>stop_flag_</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::stop_flag_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="142" column="29" bodyfile="include/timeseries/ts_encrypted_key_rotation.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_ts_encrypted_key_rotation_1addc3c65adf0808b4ad5e2aa0789ee7e0" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TsEncryptedKeyRotation::total_reencrypted_</definition>
+        <argsstring></argsstring>
+        <name>total_reencrypted_</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::total_reencrypted_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="144" column="19" bodyfile="include/timeseries/ts_encrypted_key_rotation.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_ts_encrypted_key_rotation_1ae476e5f1e3f08346e561858535f0cdec" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::TsEncryptedKeyRotation::GORILLA_CHUNK_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>GORILLA_CHUNK_PREFIX</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::GORILLA_CHUNK_PREFIX</qualifiedname>
+        <initializer>= &quot;tsc:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="146" column="33" bodyfile="include/timeseries/ts_encrypted_key_rotation.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_ts_encrypted_key_rotation_1adcffc6b2bddbf7c8db2ff3d7311d7460" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::TsEncryptedKeyRotation::ENCRYPTED_MARKER</definition>
+        <argsstring></argsstring>
+        <name>ENCRYPTED_MARKER</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::ENCRYPTED_MARKER</qualifiedname>
+        <initializer>= &quot;aes-256-gcm&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="147" column="33" bodyfile="include/timeseries/ts_encrypted_key_rotation.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_ts_encrypted_key_rotation_1a346bd0c3aa8793bf8820bc7be002d3da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TsEncryptedKeyRotation::TsEncryptedKeyRotation</definition>
+        <argsstring>(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *cf, std::shared_ptr&lt; EncryptedChunkStore &gt; enc_store, Config config=Config{})</argsstring>
+        <name>TsEncryptedKeyRotation</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::TsEncryptedKeyRotation</qualifiedname>
+        <param>
+          <type>rocksdb::TransactionDB *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>rocksdb::ColumnFamilyHandle *</type>
+          <declname>cf</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_encrypted_chunk_store" kindref="compound">EncryptedChunkStore</ref> &gt;</type>
+          <declname>enc_store</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_ts_encrypted_key_rotation_1a6763a0506bea8045a9bc8ba41915ead2" kindref="member">Config</ref></type>
+          <declname>config</declname>
+          <defval><ref refid="classthemis_1_1_ts_encrypted_key_rotation_1a6763a0506bea8045a9bc8ba41915ead2" kindref="member">Config</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct the rotator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB TransactionDB (non-owning). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column family handle (nullptr = default CF). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>enc_store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared <ref refid="classthemis_1_1_encrypted_chunk_store" kindref="compound">EncryptedChunkStore</ref> that owns key callbacks. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rotation configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="84" column="5" bodyfile="src/timeseries/ts_encrypted_key_rotation.cpp" bodystart="26" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_ts_encrypted_key_rotation_1a6022b6793ef72272bd1ff6d6812019a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TsEncryptedKeyRotation::~TsEncryptedKeyRotation</definition>
+        <argsstring>()</argsstring>
+        <name>~TsEncryptedKeyRotation</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::~TsEncryptedKeyRotation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="89" column="5" bodyfile="src/timeseries/ts_encrypted_key_rotation.cpp" bodystart="44" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_ts_encrypted_key_rotation_1a873dff74e8f5c3b625e6d0e71847086c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TsEncryptedKeyRotation::TsEncryptedKeyRotation</definition>
+        <argsstring>(const TsEncryptedKeyRotation &amp;)=delete</argsstring>
+        <name>TsEncryptedKeyRotation</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::TsEncryptedKeyRotation</qualifiedname>
+        <param>
+          <type>const TsEncryptedKeyRotation &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="92" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_ts_encrypted_key_rotation_1a038d252377c9a618edee5ef91d06bcb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_ts_encrypted_key_rotation_1a346bd0c3aa8793bf8820bc7be002d3da" kindref="member">TsEncryptedKeyRotation</ref> &amp;</type>
+        <definition>TsEncryptedKeyRotation &amp; themis::TsEncryptedKeyRotation::operator=</definition>
+        <argsstring>(const TsEncryptedKeyRotation &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_ts_encrypted_key_rotation_1a346bd0c3aa8793bf8820bc7be002d3da" kindref="member">TsEncryptedKeyRotation</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="93" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_ts_encrypted_key_rotation_1a297ad7aa9e18c05c3a061a1b1b7cbf90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TsEncryptedKeyRotation::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cv_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="98" column="10" bodyfile="src/timeseries/ts_encrypted_key_rotation.cpp" bodystart="56" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_ts_encrypted_key_rotation_1a85a80b5bee826c7ee3b8d18afe14e27b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TsEncryptedKeyRotation::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::stop</qualifiedname>
+        <briefdescription>
+<para>Stop the background worker and join the thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Blocks until the worker exits. Safe to call even if <ref refid="classthemis_1_1_ts_encrypted_key_rotation_1a297ad7aa9e18c05c3a061a1b1b7cbf90" kindref="member">start()</ref> was never called. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cv_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="106" column="10" bodyfile="src/timeseries/ts_encrypted_key_rotation.cpp" bodystart="78" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_ts_encrypted_key_rotation_1ad341f4faecd3c90623d885ba3ed893eb" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TsEncryptedKeyRotation::isRunning</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::isRunning</qualifiedname>
+        <briefdescription>
+<para>Returns true while the background thread is active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="111" column="10" bodyfile="include/timeseries/ts_encrypted_key_rotation.h" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_ts_encrypted_key_rotation_1accdc432e5201edb29f4e1f4a7036c186" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::TsEncryptedKeyRotation::runOnce</definition>
+        <argsstring>()</argsstring>
+        <name>runOnce</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::runOnce</qualifiedname>
+        <briefdescription>
+<para>Run one rotation pass synchronously (for testing / manual trigger). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run Once.</para>
+<para><simplesect kind="return"><para>Number of chunks re-encrypted.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="118" column="12" bodyfile="src/timeseries/ts_encrypted_key_rotation.cpp" bodystart="144" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_ts_encrypted_key_rotation_1a64261f925cfecad2af495d63701b37ec" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TsEncryptedKeyRotation::totalReencrypted</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalReencrypted</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::totalReencrypted</qualifiedname>
+        <briefdescription>
+<para>Total number of chunks re-encrypted across all passes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="123" column="14" bodyfile="include/timeseries/ts_encrypted_key_rotation.h" bodystart="123" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_ts_encrypted_key_rotation_1aa60aebbeb4ddd354b0e1cad6e223efc3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TsEncryptedKeyRotation::rotationLoop</definition>
+        <argsstring>()</argsstring>
+        <name>rotationLoop</name>
+        <qualifiedname>themis::TsEncryptedKeyRotation::rotationLoop</qualifiedname>
+        <briefdescription>
+<para>Rotation Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cv_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/ts_encrypted_key_rotation.h" line="131" column="10" bodyfile="src/timeseries/ts_encrypted_key_rotation.cpp" bodystart="104" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Background key-rotation worker for encrypted time-series chunks. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_ts_encrypted_key_rotation" kindref="compound">TsEncryptedKeyRotation</ref> scans all encrypted Gorilla chunks stored under the &quot;tsc:&quot; key prefix, identifies any chunk whose embedded key_id no longer matches the current master key, and re-encrypts those chunks in-place using the new key.</para>
+<para>The rotation is non-blocking with respect to reads:<orderedlist>
+<listitem><para>A new, freshly encrypted value is written atomically (RocksDB Put).</para>
+</listitem><listitem><para>Concurrent readers that already hold the old value in their RocksDB iterator snapshot continue to use it until they release the snapshot.</para>
+</listitem><listitem><para>No chunk is ever deleted before its replacement is committed.</para>
+</listitem></orderedlist>
+</para>
+<para>The background thread runs on a configurable interval and stops gracefully when <ref refid="classthemis_1_1_ts_encrypted_key_rotation_1a85a80b5bee826c7ee3b8d18afe14e27b" kindref="member">stop()</ref> is called.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1_ts_encrypted_key_rotation_1a346bd0c3aa8793bf8820bc7be002d3da" kindref="member">TsEncryptedKeyRotation</ref><sp/>rotator(db,<sp/>cf,<sp/>enc_store,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>TsEncryptedKeyRotationConfig{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.check_interval<sp/>=<sp/>std::chrono::minutes(60)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline><highlight class="normal">rotator.start();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...<sp/>application<sp/>runs<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">rotator.stop();</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/timeseries/ts_encrypted_key_rotation.h" line="71" column="1" bodyfile="include/timeseries/ts_encrypted_key_rotation.h" bodystart="71" bodyend="148"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1a7ca611615a996a81fe7b62dd0e1f164d" prot="private" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>cf_</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1a6763a0506bea8045a9bc8ba41915ead2" prot="public" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>Config</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1aff3dbb63c303c43dd70cb083cf27a43b" prot="private" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1a8371cc5eac73e99f78de7f3b8a8ec9d5" prot="private" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1ac0c9a72cb8a4eaa59c198e61d56d7f18" prot="private" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>cv_mu_</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1a0ff7a72353834dc565bb2e2fad4138ca" prot="private" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1a9e6f11beb8a7ce731068e5c89b69a076" prot="private" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>enc_store_</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1adcffc6b2bddbf7c8db2ff3d7311d7460" prot="private" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>ENCRYPTED_MARKER</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1ae476e5f1e3f08346e561858535f0cdec" prot="private" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>GORILLA_CHUNK_PREFIX</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1ad341f4faecd3c90623d885ba3ed893eb" prot="public" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1a038d252377c9a618edee5ef91d06bcb2" prot="public" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1aa60aebbeb4ddd354b0e1cad6e223efc3" prot="private" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>rotationLoop</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1a46bb8872d6534308da78bd73057a3487" prot="private" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>running_</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1accdc432e5201edb29f4e1f4a7036c186" prot="public" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>runOnce</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1a297ad7aa9e18c05c3a061a1b1b7cbf90" prot="public" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>start</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1a85a80b5bee826c7ee3b8d18afe14e27b" prot="public" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>stop</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1a0c15957026a74bca814a8695843fe504" prot="private" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>stop_flag_</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1ad1cc1f9528c5234d24c86065a33152b0" prot="private" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>thread_</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1addc3c65adf0808b4ad5e2aa0789ee7e0" prot="private" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>total_reencrypted_</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1a64261f925cfecad2af495d63701b37ec" prot="public" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>totalReencrypted</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1a346bd0c3aa8793bf8820bc7be002d3da" prot="public" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>TsEncryptedKeyRotation</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1a873dff74e8f5c3b625e6d0e71847086c" prot="public" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>TsEncryptedKeyRotation</name></member>
+      <member refid="classthemis_1_1_ts_encrypted_key_rotation_1a6022b6793ef72272bd1ff6d6812019a4" prot="public" virt="non-virtual"><scope>themis::TsEncryptedKeyRotation</scope><name>~TsEncryptedKeyRotation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

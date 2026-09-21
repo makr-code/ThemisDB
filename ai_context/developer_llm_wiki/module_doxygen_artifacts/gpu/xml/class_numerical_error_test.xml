@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_numerical_error_test" kind="class" language="C++" prot="public">
+    <compoundname>NumericalErrorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_numerical_error_test_1accb733506683d7339319b8fada75ca21" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; GPUErrorHandler &gt;</type>
+        <definition>std::shared_ptr&lt;GPUErrorHandler&gt; NumericalErrorTest::handler</definition>
+        <argsstring></argsstring>
+        <name>handler</name>
+        <qualifiedname>NumericalErrorTest::handler</qualifiedname>
+        <initializer>= GPUErrorHandler::Create()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_error_handling_comprehensive.cpp" line="313" column="19" bodyfile="tests/gpu/test_gpu_error_handling_comprehensive.cpp" bodystart="313" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_numerical_error_test_1a48fb0de7ad73c1cc497dd3395384e7e7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void NumericalErrorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>NumericalErrorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_error_handling_comprehensive.cpp" line="315" column="8" bodyfile="tests/gpu/test_gpu_error_handling_comprehensive.cpp" bodystart="315" bodyend="317"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>NumericalErrorTest</label>
+        <link refid="class_numerical_error_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>NumericalErrorTest</label>
+        <link refid="class_numerical_error_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_error_handling_comprehensive.cpp" line="311" column="1" bodyfile="tests/gpu/test_gpu_error_handling_comprehensive.cpp" bodystart="311" bodyend="318"/>
+    <listofallmembers>
+      <member refid="class_numerical_error_test_1accb733506683d7339319b8fada75ca21" prot="protected" virt="non-virtual"><scope>NumericalErrorTest</scope><name>handler</name></member>
+      <member refid="class_numerical_error_test_1a48fb0de7ad73c1cc497dd3395384e7e7" prot="protected" virt="non-virtual"><scope>NumericalErrorTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

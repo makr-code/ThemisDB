@@ -1,0 +1,305 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_mock_exporter_backend_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::MockExporterBackendImpl</compoundname>
+    <basecompoundref refid="classthemis_1_1observability_1_1_mock_exporter_backend" prot="public" virt="non-virtual">themis::observability::MockExporterBackend</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1aa196b965a5b421cdd981352de334712f" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831" kindref="member">FailureMode</ref></type>
+        <definition>FailureMode themis::observability::MockExporterBackendImpl::failure_mode_</definition>
+        <argsstring></argsstring>
+        <name>failure_mode_</name>
+        <qualifiedname>themis::observability::MockExporterBackendImpl::failure_mode_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="185" column="17" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1adb8d6511d55297041a28c62cde777ad9" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::MockExporterBackendImpl::healthy_</definition>
+        <argsstring></argsstring>
+        <name>healthy_</name>
+        <qualifiedname>themis::observability::MockExporterBackendImpl::healthy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="186" column="10" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1a24d475a991e1358c5bfa54f2bbc28a86" prot="private" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::observability::MockExporterBackendImpl::total_exports_</definition>
+        <argsstring></argsstring>
+        <name>total_exports_</name>
+        <qualifiedname>themis::observability::MockExporterBackendImpl::total_exports_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="187" column="19" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1a216d464548bc6ef7064999dec7d33eab" prot="private" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::observability::MockExporterBackendImpl::successful_exports_</definition>
+        <argsstring></argsstring>
+        <name>successful_exports_</name>
+        <qualifiedname>themis::observability::MockExporterBackendImpl::successful_exports_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="188" column="19" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1a49c89e3f850056205de5312d4e24d667" prot="private" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::observability::MockExporterBackendImpl::failed_exports_</definition>
+        <argsstring></argsstring>
+        <name>failed_exports_</name>
+        <qualifiedname>themis::observability::MockExporterBackendImpl::failed_exports_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="189" column="19" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1a6dc0cfe8177125295a895c9767a91893" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::observability::MockExporterBackendImpl::backend_mutex_</definition>
+        <argsstring></argsstring>
+        <name>backend_mutex_</name>
+        <qualifiedname>themis::observability::MockExporterBackendImpl::backend_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="190" column="16" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="190" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1a7e7e2c5dc49f6724afee6a1d7ed6a3d6" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::MockExporterBackendImpl::MockExporterBackendImpl</definition>
+        <argsstring>(FailureMode failure_mode)</argsstring>
+        <name>MockExporterBackendImpl</name>
+        <qualifiedname>themis::observability::MockExporterBackendImpl::MockExporterBackendImpl</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831" kindref="member">FailureMode</ref></type>
+          <declname>failure_mode</declname>
+        </param>
+        <briefdescription>
+<para>Mock Exporter Backend Impl. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">failure_mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="34" column="14" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="34" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1a48d380fc730bdf90c5b14e3c491eb55c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::observability::MockExporterBackendImpl::export_observations</definition>
+        <argsstring>(const std::vector&lt; Observation &gt; &amp;observations) override</argsstring>
+        <name>export_observations</name>
+        <qualifiedname>themis::observability::MockExporterBackendImpl::export_observations</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_mock_exporter_backend_1a348a5a3921e4401d8f50c494420c76bd">export_observations</reimplements>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1observability_1_1_observation" kindref="compound">Observation</ref> &gt; &amp;</type>
+          <declname>observations</declname>
+        </param>
+        <briefdescription>
+<para>Process an export request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates sending telemetry to the backend. May fail, timeout, or introduce latency based on the configured failure mode.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>observations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Observations to export. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of observations successfully accepted (may be partial). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="41" column="17" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="41" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1ae88c38bdfdb6542da0e3ad14e6b03f6f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::MockExporterBackendImpl::isHealthy</definition>
+        <argsstring>() override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::observability::MockExporterBackendImpl::isHealthy</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_mock_exporter_backend_1aab1fcc82f527f11968910f808d27e185">isHealthy</reimplements>
+        <briefdescription>
+<para>Check backend health status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if backend is reachable and responsive. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="146" column="10" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="146" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1a4e87069dd5e50e4f77e8f30f87aab24c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::observability::MockExporterBackendImpl::reset</definition>
+        <argsstring>() override</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::observability::MockExporterBackendImpl::reset</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_mock_exporter_backend_1a18fcedd23b12b9cb5e4ef87bbc253b42">reset</reimplements>
+        <briefdescription>
+<para>Reset backend to healthy state. Used for recovery testing after failure simulation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="156" column="10" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="156" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1a62067f89d4959681602c5cfe9ca608da" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt; std::string, double &gt; themis::observability::MockExporterBackendImpl::getStatistics</definition>
+        <argsstring>() override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::observability::MockExporterBackendImpl::getStatistics</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_mock_exporter_backend_1aff6faba98b7826bfface1297e2aef4fe">getStatistics</reimplements>
+        <briefdescription>
+<para>Get statistics about backend operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Map with keys: &quot;export_calls&quot;, &quot;successful_exports&quot;, &quot;failed_exports&quot;, etc. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/exporter_stress_framework.cpp" line="169" column="14" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="169" bodyend="182"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::observability::MockExporterBackend</label>
+        <link refid="classthemis_1_1observability_1_1_mock_exporter_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::observability::MockExporterBackendImpl</label>
+        <link refid="classthemis_1_1observability_1_1_mock_exporter_backend_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::observability::MockExporterBackend</label>
+        <link refid="classthemis_1_1observability_1_1_mock_exporter_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::observability::MockExporterBackendImpl</label>
+        <link refid="classthemis_1_1observability_1_1_mock_exporter_backend_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/observability/exporter_stress_framework.cpp" line="27" column="1" bodyfile="src/observability/exporter_stress_framework.cpp" bodystart="27" bodyend="191"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1a6dc0cfe8177125295a895c9767a91893" prot="private" virt="non-virtual"><scope>themis::observability::MockExporterBackendImpl</scope><name>backend_mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1a48d380fc730bdf90c5b14e3c491eb55c" prot="public" virt="virtual"><scope>themis::observability::MockExporterBackendImpl</scope><name>export_observations</name></member>
+      <member refid="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1a49c89e3f850056205de5312d4e24d667" prot="private" virt="non-virtual"><scope>themis::observability::MockExporterBackendImpl</scope><name>failed_exports_</name></member>
+      <member refid="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1aa196b965a5b421cdd981352de334712f" prot="private" virt="non-virtual"><scope>themis::observability::MockExporterBackendImpl</scope><name>failure_mode_</name></member>
+      <member refid="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1a62067f89d4959681602c5cfe9ca608da" prot="public" virt="virtual"><scope>themis::observability::MockExporterBackendImpl</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1adb8d6511d55297041a28c62cde777ad9" prot="private" virt="non-virtual"><scope>themis::observability::MockExporterBackendImpl</scope><name>healthy_</name></member>
+      <member refid="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1ae88c38bdfdb6542da0e3ad14e6b03f6f" prot="public" virt="virtual"><scope>themis::observability::MockExporterBackendImpl</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1observability_1_1_mock_exporter_backend_1a529149e18a0a93b25c41590a5bfca0df" prot="public" virt="non-virtual"><scope>themis::observability::MockExporterBackendImpl</scope><name>MockExporterBackend</name></member>
+      <member refid="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1a7e7e2c5dc49f6724afee6a1d7ed6a3d6" prot="public" virt="non-virtual"><scope>themis::observability::MockExporterBackendImpl</scope><name>MockExporterBackendImpl</name></member>
+      <member refid="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1a4e87069dd5e50e4f77e8f30f87aab24c" prot="public" virt="virtual"><scope>themis::observability::MockExporterBackendImpl</scope><name>reset</name></member>
+      <member refid="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1a216d464548bc6ef7064999dec7d33eab" prot="private" virt="non-virtual"><scope>themis::observability::MockExporterBackendImpl</scope><name>successful_exports_</name></member>
+      <member refid="classthemis_1_1observability_1_1_mock_exporter_backend_impl_1a24d475a991e1358c5bfa54f2bbc28a86" prot="private" virt="non-virtual"><scope>themis::observability::MockExporterBackendImpl</scope><name>total_exports_</name></member>
+      <member refid="classthemis_1_1observability_1_1_mock_exporter_backend_1aebc8fa6b72b1716f6aabf82d693edf62" prot="public" virt="virtual"><scope>themis::observability::MockExporterBackendImpl</scope><name>~MockExporterBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,266 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_ablation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::AblationResult</compoundname>
+    <includes refid="ablation__framework_8h" local="no">ablation_framework.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_result_1ab85d50bc6afc8295ce295c6e8e9cb1c5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::AblationResult::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::evaluation::AblationResult::name</qualifiedname>
+        <briefdescription>
+<para>Experiment name as registered with <ref refid="classthemis_1_1evaluation_1_1_ablation_runner" kindref="compound">AblationRunner</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="125" column="17" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_result_1a4f7d0fb6aa9a5bb630071f1669afae40" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1evaluation_1_1_ablation_config" kindref="compound">AblationConfig</ref></type>
+        <definition>AblationConfig themis::evaluation::AblationResult::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::evaluation::AblationResult::config</qualifiedname>
+        <briefdescription>
+<para>Configuration used for this experiment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="126" column="20" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_result_1afeb457308929be805fe13b99093b8fb7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::AblationResult::mean_recall_at_k</definition>
+        <argsstring></argsstring>
+        <name>mean_recall_at_k</name>
+        <qualifiedname>themis::evaluation::AblationResult::mean_recall_at_k</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Mean Recall@k across all queries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="129" column="12" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_result_1ab960e69687473e5e017285e1ca7459df" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::AblationResult::mean_precision_at_k</definition>
+        <argsstring></argsstring>
+        <name>mean_precision_at_k</name>
+        <qualifiedname>themis::evaluation::AblationResult::mean_precision_at_k</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Mean Precision@k across all queries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="130" column="12" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_result_1a8cb7d06f8166465ea0351159b013f832" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::AblationResult::mean_ndcg_at_k</definition>
+        <argsstring></argsstring>
+        <name>mean_ndcg_at_k</name>
+        <qualifiedname>themis::evaluation::AblationResult::mean_ndcg_at_k</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Mean NDCG@k across all queries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="131" column="12" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_result_1af548bcc8c55a3e0f950efeeac80930fe" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::AblationResult::mean_mrr</definition>
+        <argsstring></argsstring>
+        <name>mean_mrr</name>
+        <qualifiedname>themis::evaluation::AblationResult::mean_mrr</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Mean MRR across all queries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="132" column="12" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="132" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_result_1acca7ad8569d2bea2a491f1021bfe2c4a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::AblationResult::mean_candidate_reduction</definition>
+        <argsstring></argsstring>
+        <name>mean_candidate_reduction</name>
+        <qualifiedname>themis::evaluation::AblationResult::mean_candidate_reduction</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Mean candidate reduction ratio. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="133" column="12" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="133" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_result_1a2ee852f4fe37d5330480a07ab7cbe501" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics" kindref="compound">TensorGraphRuntimeMetrics</ref></type>
+        <definition>TensorGraphRuntimeMetrics themis::evaluation::AblationResult::tensor_graph</definition>
+        <argsstring></argsstring>
+        <name>tensor_graph</name>
+        <qualifiedname>themis::evaluation::AblationResult::tensor_graph</qualifiedname>
+        <briefdescription>
+<para>Aggregated tensor-graph runtime metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="135" column="31" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_result_1a0e8d21e9ab884446e12cad02472ce2d6" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::evaluation::AblationResult::query_count</definition>
+        <argsstring></argsstring>
+        <name>query_count</name>
+        <qualifiedname>themis::evaluation::AblationResult::query_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of queries evaluated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="137" column="17" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="137" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_result_1aedfb7fc4051b6ebf0a34c66611984f3b" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::evaluation::AblationResult::error_count</definition>
+        <argsstring></argsstring>
+        <name>error_count</name>
+        <qualifiedname>themis::evaluation::AblationResult::error_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of queries that produced a <ref refid="classthemis_1_1evaluation_1_1_metric_error" kindref="compound">MetricError</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="138" column="17" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_result_1a3e74c088fb2057ea654e6bddcfc659cc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::AblationResult::gpu_fallback_occurred</definition>
+        <argsstring></argsstring>
+        <name>gpu_fallback_occurred</name>
+        <qualifiedname>themis::evaluation::AblationResult::gpu_fallback_occurred</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="140" column="10" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="140" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_result_1ad25cbcf7bbf3da36869fcac624278aaa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::AblationResult::has_unrecovered_false_negatives</definition>
+        <argsstring></argsstring>
+        <name>has_unrecovered_false_negatives</name>
+        <qualifiedname>themis::evaluation::AblationResult::has_unrecovered_false_negatives</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="142" column="10" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_result_1ab38e65b9e9e01a90399eb0573ecaed1f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::AblationResult::has_unsafe_residual</definition>
+        <argsstring></argsstring>
+        <name>has_unsafe_residual</name>
+        <qualifiedname>themis::evaluation::AblationResult::has_unsafe_residual</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="144" column="10" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_ablation_result_1ae149ee70eb17a1d7233f181410698444" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::evaluation::AblationResult::per_query_errors</definition>
+        <argsstring></argsstring>
+        <name>per_query_errors</name>
+        <qualifiedname>themis::evaluation::AblationResult::per_query_errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="146" column="17" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::evaluation::AblationConfig</label>
+        <link refid="structthemis_1_1evaluation_1_1_ablation_config"/>
+      </node>
+      <node id="1">
+        <label>themis::evaluation::AblationResult</label>
+        <link refid="structthemis_1_1evaluation_1_1_ablation_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>tensor_graph</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::evaluation::TensorGraphRuntimeMetrics</label>
+        <link refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/evaluation/include/ablation_framework.h" line="124" column="1" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="124" bodyend="147"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_result_1a4f7d0fb6aa9a5bb630071f1669afae40" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationResult</scope><name>config</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_result_1aedfb7fc4051b6ebf0a34c66611984f3b" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationResult</scope><name>error_count</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_result_1a3e74c088fb2057ea654e6bddcfc659cc" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationResult</scope><name>gpu_fallback_occurred</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_result_1ad25cbcf7bbf3da36869fcac624278aaa" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationResult</scope><name>has_unrecovered_false_negatives</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_result_1ab38e65b9e9e01a90399eb0573ecaed1f" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationResult</scope><name>has_unsafe_residual</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_result_1acca7ad8569d2bea2a491f1021bfe2c4a" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationResult</scope><name>mean_candidate_reduction</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_result_1af548bcc8c55a3e0f950efeeac80930fe" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationResult</scope><name>mean_mrr</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_result_1a8cb7d06f8166465ea0351159b013f832" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationResult</scope><name>mean_ndcg_at_k</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_result_1ab960e69687473e5e017285e1ca7459df" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationResult</scope><name>mean_precision_at_k</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_result_1afeb457308929be805fe13b99093b8fb7" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationResult</scope><name>mean_recall_at_k</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_result_1ab85d50bc6afc8295ce295c6e8e9cb1c5" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationResult</scope><name>name</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_result_1ae149ee70eb17a1d7233f181410698444" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationResult</scope><name>per_query_errors</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_result_1a0e8d21e9ab884446e12cad02472ce2d6" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationResult</scope><name>query_count</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_ablation_result_1a2ee852f4fe37d5330480a07ab7cbe501" prot="public" virt="non-virtual"><scope>themis::evaluation::AblationResult</scope><name>tensor_graph</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_self_r_a_g_document" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::SelfRAGDocument</compoundname>
+    <includes refid="self__rag_8h" local="no">self_rag.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_self_r_a_g_document_1a93aa215f6fe7a661bdc887ee11f28945" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::SelfRAGDocument::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::rag::SelfRAGDocument::id</qualifiedname>
+        <briefdescription>
+<para>Unique passage identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="30" column="17" bodyfile="include/rag/self_rag.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_self_r_a_g_document_1a70ff989a3791606719777b6bcb0ca828" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::SelfRAGDocument::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::rag::SelfRAGDocument::content</qualifiedname>
+        <briefdescription>
+<para>Passage text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="31" column="17" bodyfile="include/rag/self_rag.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_self_r_a_g_document_1a1d3d2e607410b600f6d2fb25daeeae17" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::SelfRAGDocument::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::rag::SelfRAGDocument::score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Retrieval score (higher is more relevant). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/self_rag.h" line="32" column="17" bodyfile="include/rag/self_rag.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A document candidate supplied by the retrieval callback. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/self_rag.h" line="29" column="1" bodyfile="include/rag/self_rag.h" bodystart="29" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_self_r_a_g_document_1a70ff989a3791606719777b6bcb0ca828" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGDocument</scope><name>content</name></member>
+      <member refid="structthemis_1_1rag_1_1_self_r_a_g_document_1a93aa215f6fe7a661bdc887ee11f28945" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGDocument</scope><name>id</name></member>
+      <member refid="structthemis_1_1rag_1_1_self_r_a_g_document_1a1d3d2e607410b600f6d2fb25daeeae17" prot="public" virt="non-virtual"><scope>themis::rag::SelfRAGDocument</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

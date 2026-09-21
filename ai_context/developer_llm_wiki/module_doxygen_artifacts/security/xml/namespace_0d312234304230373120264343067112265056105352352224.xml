@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d312234304230373120264343067112265056105352352224" kind="namespace" language="C++">
+    <compoundname>@312234304230373120264343067112265056105352352224</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_jwt_eddsa_comprehensive.cpp" line="27" column="1"/>
+  </compounddef>
+</doxygen>

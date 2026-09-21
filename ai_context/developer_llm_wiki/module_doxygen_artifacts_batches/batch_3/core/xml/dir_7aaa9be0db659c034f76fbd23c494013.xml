@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_7aaa9be0db659c034f76fbd23c494013" kind="dir">
+    <compoundname>tests/core</compoundname>
+    <innerfile refid="test__adapter__registry__focused_8cpp">test_adapter_registry_focused.cpp</innerfile>
+    <innerfile refid="test__adapter__signing__focused_8cpp">test_adapter_signing_focused.cpp</innerfile>
+    <innerfile refid="test__circuit__breaker__focused_8cpp">test_circuit_breaker_focused.cpp</innerfile>
+    <innerfile refid="test__concerns__context__focused_8cpp">test_concerns_context_focused.cpp</innerfile>
+    <innerfile refid="test__core__highcardinality__stress_8cpp">test_core_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__core__smoke_8cpp">test_core_smoke.cpp</innerfile>
+    <innerfile refid="test__plugin__loading__focused_8cpp">test_plugin_loading_focused.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/core/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_cluster_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ClusterStats</compoundname>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cluster_stats_1a651f14bb804c7545003e8fe2ff85eb39" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_stats" kindref="compound">ShardStats</ref> &gt;</type>
+        <definition>std::vector&lt;ShardStats&gt; themis::sharding::ClusterStats::shard_stats</definition>
+        <argsstring></argsstring>
+        <name>shard_stats</name>
+        <qualifiedname>themis::sharding::ClusterStats::shard_stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="105" column="17" bodyfile="include/sharding/sharding_interfaces.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cluster_stats_1ae62fb5659844bc433a7596ea9a2aca4c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::ClusterStats::collected_at</definition>
+        <argsstring></argsstring>
+        <name>collected_at</name>
+        <qualifiedname>themis::sharding::ClusterStats::collected_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="106" column="43" bodyfile="include/sharding/sharding_interfaces.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cluster-wide telemetry snapshot. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/sharding_interfaces.h" line="104" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="104" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_cluster_stats_1ae62fb5659844bc433a7596ea9a2aca4c" prot="public" virt="non-virtual"><scope>themis::sharding::ClusterStats</scope><name>collected_at</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cluster_stats_1a651f14bb804c7545003e8fe2ff85eb39" prot="public" virt="non-virtual"><scope>themis::sharding::ClusterStats</scope><name>shard_stats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,419 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="rate__limiter__v2_8h" kind="file" language="C++">
+    <compoundname>rate_limiter_v2.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="api__gateway_8h" local="yes">include/server/api_gateway.h</includedby>
+    <includedby refid="rate__limiting__middleware_8h" local="yes">include/server/rate_limiting_middleware.h</includedby>
+    <includedby refid="api__gateway_8cpp" local="yes">src/server/api_gateway.cpp</includedby>
+    <includedby refid="rate__limiter__v2_8cpp" local="yes">src/server/rate_limiter_v2.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/server/rate_limiter_v2.h</label>
+        <link refid="rate__limiter__v2_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>condition_variable</label>
+      </node>
+      <node id="5">
+        <label>deque</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="9">
+        <label>benchmarks/server/bench_api_endpoints.cpp</label>
+        <link refid="bench__api__endpoints_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/server/api_gateway.h</label>
+        <link refid="api__gateway_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/server/distributed_gateway.h</label>
+        <link refid="distributed__gateway_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/server/http_server.h</label>
+        <link refid="http__server_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/server/rate_limiter_v2.h</label>
+        <link refid="rate__limiter__v2_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/server/rate_limiting_middleware.h</label>
+        <link refid="rate__limiting__middleware_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/server/api_gateway.cpp</label>
+        <link refid="api__gateway_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/server/distributed_gateway.cpp</label>
+        <link refid="distributed__gateway_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/server/http_server.cpp</label>
+        <link refid="http__server_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/server/rate_limiter_v2.cpp</label>
+        <link refid="rate__limiter__v2_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/server/rate_limiting_middleware.cpp</label>
+        <link refid="rate__limiting__middleware_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/server/test_api_gateway.cpp</label>
+        <link refid="test__api__gateway_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/server/test_api_integration.cpp</label>
+        <link refid="test__api__integration_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/server/test_server_integration_complete.cpp</label>
+        <link refid="test__server__integration__complete_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1server_1_1_redis_rate_limiter_config" prot="public">themis::server::RedisRateLimiterConfig</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_token_bucket_rate_limiter" prot="public">themis::server::TokenBucketRateLimiter</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config" prot="public">themis::server::TokenBucketRateLimiter::Config</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_bucket" prot="private">themis::server::TokenBucketRateLimiter::Bucket</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_per_client_rate_limiter" prot="public">themis::server::PerClientRateLimiter</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config" prot="public">themis::server::PerClientRateLimiter::Config</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_metrics" prot="public">themis::server::PerClientRateLimiter::ClientMetrics</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_bucket" prot="private">themis::server::PerClientRateLimiter::ClientBucket</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server">themis::server</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_REDIS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;hiredis/hiredis.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">server</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1server_1_1_redis_rate_limiter_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_redis_rate_limiter_config" kindref="compound">RedisRateLimiterConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1a0ec05a2f119a67093871653b43abd5ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1a0ec05a2f119a67093871653b43abd5ea" kindref="member">host</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1a8365a84f890a660f5ccf1d2beced78db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1a8365a84f890a660f5ccf1d2beced78db" kindref="member">port</ref><sp/>=<sp/>6379;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1a10f43aecebe3078bdb6730ab188d28ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1a10f43aecebe3078bdb6730ab188d28ec" kindref="member">auth</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1af6c3fa224c5d06b33342805db2048531" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1af6c3fa224c5d06b33342805db2048531" kindref="member">key_prefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis:rl&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1ac534360bc6afc602c2b8bde1b51fae03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1ac534360bc6afc602c2b8bde1b51fae03" kindref="member">timeout_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1af22d3d2e0c19157260aa914c8dffdcbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1af22d3d2e0c19157260aa914c8dffdcbd" kindref="member">max_errors</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1a4e1486f4241886dfaa54fabf79347bf6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1a4e1486f4241886dfaa54fabf79347bf6" kindref="member">key_ttl_seconds</ref><sp/>=<sp/>3600;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1a2b2496f95c73798e772845f9a1f8b473" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_redis_rate_limiter_config_1a2b2496f95c73798e772845f9a1f8b473" kindref="member">pool_size</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1server_1_1_token_bucket_rate_limiter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a6dd21c25c0fad5e8eb584c8b280a17a0" kindref="member">TokenBucketRateLimiter</ref><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a558a118ef3331b52863fa40bf5daab47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a558a118ef3331b52863fa40bf5daab47" kindref="member">Priority</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a558a118ef3331b52863fa40bf5daab47ab89de3b4b81c4facfac906edf29aec8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a558a118ef3331b52863fa40bf5daab47ab89de3b4b81c4facfac906edf29aec8c" kindref="member">HIGH</ref><sp/>=<sp/>0,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>VIP<sp/>clients<sp/>(e.g.,<sp/>via<sp/>JWT<sp/>claim<sp/>&quot;premium&quot;:<sp/>true)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a558a118ef3331b52863fa40bf5daab47a1e23852820b9154316c7c06e2b7ba051" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a558a118ef3331b52863fa40bf5daab47a1e23852820b9154316c7c06e2b7ba051" kindref="member">NORMAL</ref><sp/>=<sp/>1,<sp/></highlight><highlight class="comment">//<sp/>Standard<sp/>clients</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a558a118ef3331b52863fa40bf5daab47a41bc94cbd8eebea13ce0491b2ac11b88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a558a118ef3331b52863fa40bf5daab47a41bc94cbd8eebea13ce0491b2ac11b88" kindref="member">LOW</ref><sp/>=<sp/>2<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Batch/background<sp/>jobs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a3d999ba1ee0543835f5f0f017b685f7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a3d999ba1ee0543835f5f0f017b685f7a" kindref="member">Backend</ref><sp/>{</highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a3d999ba1ee0543835f5f0f017b685f7aa54b4c4075463b2e02cd69f5cd139b5b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a3d999ba1ee0543835f5f0f017b685f7aa54b4c4075463b2e02cd69f5cd139b5b2" kindref="member">LOCAL</ref>,<sp/></highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a3d999ba1ee0543835f5f0f017b685f7aa5fae8295948da8c244681d7128882023" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a3d999ba1ee0543835f5f0f017b685f7aa5fae8295948da8c244681d7128882023" kindref="member">REDIS</ref><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config_1a6e53e4960d56d5daf3053593f4290375" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config_1a6e53e4960d56d5daf3053593f4290375" kindref="member">capacity</ref><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>tokens<sp/>(burst<sp/>capacity)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config_1ade7f312dbec3cb257048b697402eeafa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config_1ade7f312dbec3cb257048b697402eeafa" kindref="member">refill_rate</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tokens<sp/>per<sp/>second</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config_1acc109f86d52af0582d145aced0bdf0ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config_1acc109f86d52af0582d145aced0bdf0ef" kindref="member">enable_priority_lanes</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Separate<sp/>buckets<sp/>per<sp/>priority</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Priority-specific<sp/>configs<sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config_1adca1b705c58ce719b9115e2004c7d551" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config_1adca1b705c58ce719b9115e2004c7d551" kindref="member">high_capacity</ref><sp/>=<sp/>2000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>VIP<sp/>burst</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config_1aa61065fbbb89e6f04a025a1d6e6eeb8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config_1aa61065fbbb89e6f04a025a1d6e6eeb8b" kindref="member">high_refill_rate</ref><sp/>=<sp/>200;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>VIP<sp/>sustained</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config_1a2ce7d1cc7c8dece3e2a0581742877d6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config_1a2ce7d1cc7c8dece3e2a0581742877d6b" kindref="member">low_capacity</ref><sp/>=<sp/>500;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Low-priority<sp/>burst</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config_1a66b6c29b65101da5a3ea8342138a37fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config_1a66b6c29b65101da5a3ea8342138a37fc" kindref="member">low_refill_rate</ref><sp/>=<sp/>50;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Low-priority<sp/>sustained</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config_1a6ac4f9990c8a181b65edb7ebc2e2480f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a3d999ba1ee0543835f5f0f017b685f7a" kindref="member">Backend</ref><sp/><ref refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config_1a6ac4f9990c8a181b65edb7ebc2e2480f" kindref="member">backend</ref><sp/>=<sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a3d999ba1ee0543835f5f0f017b685f7aa54b4c4075463b2e02cd69f5cd139b5b2" kindref="member">Backend::LOCAL</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config_1a8c1c0c70744cde76d3b5daf2cdb7c7ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_redis_rate_limiter_config" kindref="compound">RedisRateLimiterConfig</ref><sp/><ref refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config_1a8c1c0c70744cde76d3b5daf2cdb7c7ba" kindref="member">redis</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config_1a0c8ef23d2bfb886cbd28062f3d9b3de9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config_1a0c8ef23d2bfb886cbd28062f3d9b3de9" kindref="member">bucket_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a6dd21c25c0fad5e8eb584c8b280a17a0" kindref="member">TokenBucketRateLimiter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a3f0eea40e44490170f675263de81d48b" kindref="member">~TokenBucketRateLimiter</ref>();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable;<sp/>move<sp/>is<sp/>disabled<sp/>to<sp/>prevent<sp/>double-free<sp/>of<sp/>redis_ctx_.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a903e96b5ea2ab145a7d238b700f28e5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a903e96b5ea2ab145a7d238b700f28e5a" kindref="member">TokenBucketRateLimiter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a6dd21c25c0fad5e8eb584c8b280a17a0" kindref="member">TokenBucketRateLimiter</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1acb942a445ae0ab34154c45963a177a33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a6dd21c25c0fad5e8eb584c8b280a17a0" kindref="member">TokenBucketRateLimiter</ref>&amp;<sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1acb942a445ae0ab34154c45963a177a33" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a6dd21c25c0fad5e8eb584c8b280a17a0" kindref="member">TokenBucketRateLimiter</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1acb9fec1b4ea5ea64d1c468ff854062a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1acb9fec1b4ea5ea64d1c468ff854062a2" kindref="member">TokenBucketRateLimiter</ref>(<ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a6dd21c25c0fad5e8eb584c8b280a17a0" kindref="member">TokenBucketRateLimiter</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1af417ccd279b8ada5ea8a6aecc1140249" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a6dd21c25c0fad5e8eb584c8b280a17a0" kindref="member">TokenBucketRateLimiter</ref>&amp;<sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1af417ccd279b8ada5ea8a6aecc1140249" kindref="member">operator=</ref>(<ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a6dd21c25c0fad5e8eb584c8b280a17a0" kindref="member">TokenBucketRateLimiter</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1af5943b3cf72a567a787f2105098ee638" kindref="member">tryAcquire</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>tokens<sp/>=<sp/>1,<sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a558a118ef3331b52863fa40bf5daab47" kindref="member">Priority</ref><sp/>prio<sp/>=<sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a558a118ef3331b52863fa40bf5daab47a1e23852820b9154316c7c06e2b7ba051" kindref="member">Priority::NORMAL</ref>);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a6fb50027f70e6883f70143c1a387e080" kindref="member">getAvailableTokens</ref>(<ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a558a118ef3331b52863fa40bf5daab47" kindref="member">Priority</ref><sp/>prio<sp/>=<sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a558a118ef3331b52863fa40bf5daab47a1e23852820b9154316c7c06e2b7ba051" kindref="member">Priority::NORMAL</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a7443af3a80896c6f10e79ca90cda2441" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a7443af3a80896c6f10e79ca90cda2441" kindref="member">getTotalRequests</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>total_requests_.load();<sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1aaf71a79c943c2249e7753e4f72892a6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1aaf71a79c943c2249e7753e4f72892a6e" kindref="member">getTotalRejections</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>total_rejections_.load();<sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a5869230574a8a81c951ad55fcca4c3a7" kindref="member">isRedisHealthy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a43ee4017b627b2acf473d707bc75f8e0" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a9f743ca19173ec7e93af55c16cf9dca3" kindref="member">isHealthy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a466673edc2d08373889f6b721ac947b1" kindref="member">getHealthStatus</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Bucket<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>tokens;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>capacity<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>refill_rate<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_refill;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Bucket(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>cap,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>rate)</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>tokens(cap)</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>capacity(cap)</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>refill_rate(rate)</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>last_refill(std::chrono::steady_clock::now())</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>refill();</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>consume(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>redisKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>bucket_id,<sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a558a118ef3331b52863fa40bf5daab47" kindref="member">Priority</ref><sp/>prio)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>redisConnect();</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>redisEvalBucket(<ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a558a118ef3331b52863fa40bf5daab47" kindref="member">Priority</ref><sp/>prio,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>capacity,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>refill_rate,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>consume_count);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_REDIS</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>redisExecEvalsha(RedisConnectionPool::Slot&amp;<sp/>slot,</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>capacity,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>refill_rate,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>consume_count);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>markRedisError();</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>tryRedisRecover();</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>localTryAcquire(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>tokens,<sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a558a118ef3331b52863fa40bf5daab47" kindref="member">Priority</ref><sp/>prio);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>localAvailableTokens(<ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a558a118ef3331b52863fa40bf5daab47" kindref="member">Priority</ref><sp/>prio)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_token_bucket_rate_limiter_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;Priority,<sp/>std::unique_ptr&lt;Bucket&gt;&gt;<sp/>buckets_;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_requests_{0};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_rejections_{0};</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OP-TIMEOUT-001:<sp/>Track<sp/>deadlines<sp/>exceeded<sp/>(fail-safe<sp/>timeouts)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>timeout_count_{0};</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OP-LATENCY-001/002:<sp/>Track<sp/>latency<sp/>metrics<sp/>(thread-safe<sp/>atomic<sp/>counters)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>latency_redis_sum_{0};<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Redis<sp/>path<sp/>latency<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>latency_local_sum_{0};<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Local<sp/>path<sp/>latency<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_REDIS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>F-008:<sp/>Connection<sp/>pool<sp/>—<sp/>one<sp/>mutex/cv<sp/>guards<sp/>the<sp/>pool<sp/>of<sp/>redisContext*<sp/>slots.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>slot<sp/>can<sp/>be<sp/>borrowed<sp/>by<sp/>one<sp/>thread<sp/>at<sp/>a<sp/>time;<sp/>concurrent<sp/>EVALSHA<sp/>calls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>are<sp/>dispatched<sp/>from<sp/>separate<sp/>connections<sp/>instead<sp/>of<sp/>serialising<sp/>on<sp/>a<sp/>single<sp/>one.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">RedisConnectionPool<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Slot<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>redisContext*<sp/>ctx{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/>evalsha;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>script_loaded{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Slot&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>slots;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::deque&lt;size_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>available;<sp/></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pool_mu;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::condition_variable<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pool_cv;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>RedisConnectionPool<sp/>redis_pool_;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>redis_healthy_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/><sp/>redis_errors_{0};</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251" refid="classthemis_1_1server_1_1_per_client_rate_limiter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1server_1_1_per_client_rate_limiter_1a508eaf3aadd20d53927302086cb196d5" kindref="member">PerClientRateLimiter</ref><sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="253" refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config_1a865fd30c0eb2c8940956520f18e75274" kindref="member">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="254" refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config_1aa2f792e8c77ae0ee505df84b6527594d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config_1aa2f792e8c77ae0ee505df84b6527594d" kindref="member">capacity_per_client</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="255" refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config_1a8b10e8382ec1d5556b55859311c402e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config_1a8b10e8382ec1d5556b55859311c402e1" kindref="member">refill_rate_per_client</ref>;</highlight></codeline>
+<codeline lineno="256" refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config_1a7f5eb260c6fd8a5193da710db700324c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config_1a7f5eb260c6fd8a5193da710db700324c" kindref="member">max_clients</ref>;</highlight></codeline>
+<codeline lineno="257" refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config_1ab887fff2c65486532cb8003317eed1df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::minutes<sp/><ref refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config_1ab887fff2c65486532cb8003317eed1df" kindref="member">cleanup_interval</ref>;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259" refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config_1aae812e29ff5db0bd385b5e042f0f5bb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a3d999ba1ee0543835f5f0f017b685f7a" kindref="member">TokenBucketRateLimiter::Backend</ref><sp/><ref refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config_1aae812e29ff5db0bd385b5e042f0f5bb7" kindref="member">backend</ref><sp/>=<sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a3d999ba1ee0543835f5f0f017b685f7aa54b4c4075463b2e02cd69f5cd139b5b2" kindref="member">TokenBucketRateLimiter::Backend::LOCAL</ref>;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261" refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config_1a74402d1b6d5569bd4b8da195972b2e14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_redis_rate_limiter_config" kindref="compound">RedisRateLimiterConfig</ref><sp/><ref refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config_1a74402d1b6d5569bd4b8da195972b2e14" kindref="member">redis</ref>;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>constructor<sp/>with<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264" refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config_1a865fd30c0eb2c8940956520f18e75274" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config_1a865fd30c0eb2c8940956520f18e75274" kindref="member">Config</ref>()<sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config_1aa2f792e8c77ae0ee505df84b6527594d" kindref="member">capacity_per_client</ref>(100)</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/><ref refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config_1a8b10e8382ec1d5556b55859311c402e1" kindref="member">refill_rate_per_client</ref>(10)</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/><ref refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config_1a7f5eb260c6fd8a5193da710db700324c" kindref="member">max_clients</ref>(10000)</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/><ref refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_config_1ab887fff2c65486532cb8003317eed1df" kindref="member">cleanup_interval</ref>(5)<sp/>{}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_per_client_rate_limiter_1a508eaf3aadd20d53927302086cb196d5" kindref="member">PerClientRateLimiter</ref>();</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_per_client_rate_limiter_1a508eaf3aadd20d53927302086cb196d5" kindref="member">PerClientRateLimiter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="test__server__integration__complete_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_per_client_rate_limiter_1a7a4ee5cd8044a07bc73b87cbb081fe28" kindref="member">allowRequest</ref>(</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>client_id,</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>tokens<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a558a118ef3331b52863fa40bf5daab47" kindref="member">TokenBucketRateLimiter::Priority</ref><sp/>prio<sp/>=<sp/><ref refid="classthemis_1_1server_1_1_token_bucket_rate_limiter_1a558a118ef3331b52863fa40bf5daab47a1e23852820b9154316c7c06e2b7ba051" kindref="member">TokenBucketRateLimiter::Priority::NORMAL</ref></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285" refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_metrics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_metrics" kindref="compound">ClientMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="286" refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_metrics_1af386194f17ed5cb9fd84b6aee0033144" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_metrics_1af386194f17ed5cb9fd84b6aee0033144" kindref="member">total_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="287" refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_metrics_1afd5c29de0700a82258d4d380f3ca4a1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_metrics_1afd5c29de0700a82258d4d380f3ca4a1e" kindref="member">total_rejections</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="288" refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_metrics_1a9cf7f8fc9b140de6e468d1f2a8bdddf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_metrics_1a9cf7f8fc9b140de6e468d1f2a8bdddf2" kindref="member">available_tokens</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_per_client_rate_limiter_1_1_client_metrics" kindref="compound">ClientMetrics</ref><sp/><ref refid="classthemis_1_1server_1_1_per_client_rate_limiter_1a7c269e1b357c1c56a88481f490d797c3" kindref="member">getClientMetrics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>client_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_per_client_rate_limiter_1afc391724555a83e110d50809348f3b99" kindref="member">getActiveClients</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1server_1_1_per_client_rate_limiter_1a87a29c0bcb2bd629dcef882fa9567fe9" kindref="member">cleanupIdleClients</ref>();</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ClientBucket<sp/>{</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;TokenBucketRateLimiter&gt;<sp/>limiter;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_access;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_requests{0};</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_rejections{0};</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__server__integration__complete_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>clients_mutex_;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::unique_ptr&lt;ClientBucket&gt;&gt;<sp/>client_buckets_;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_cleanup_;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/server/rate_limiter_v2.h"/>
+  </compounddef>
+</doxygen>

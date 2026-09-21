@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_spatial_batch_results" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::SpatialBatchResults</compoundname>
+    <includes refid="spatial__backend_8h" local="no">spatial_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_spatial_batch_results_1afb6be78d07b7e01eebf79ec6c030bd8c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::geo::SpatialBatchResults::mask</definition>
+        <argsstring></argsstring>
+        <name>mask</name>
+        <qualifiedname>themis::geo::SpatialBatchResults::mask</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_backend.h" line="34" column="17" bodyfile="include/geo/spatial_backend.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/spatial_backend.h" line="33" column="1" bodyfile="include/geo/spatial_backend.h" bodystart="33" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_spatial_batch_results_1afb6be78d07b7e01eebf79ec6c030bd8c" prot="public" virt="non-virtual"><scope>themis::geo::SpatialBatchResults</scope><name>mask</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

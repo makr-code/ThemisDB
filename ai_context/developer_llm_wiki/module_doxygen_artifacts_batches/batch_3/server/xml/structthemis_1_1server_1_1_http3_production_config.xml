@@ -1,0 +1,266 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_http3_production_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::Http3ProductionConfig</compoundname>
+    <includes refid="http3__production__config_8h" local="no">http3_production_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_production_config_1ab382a4deb382302c499c18c93b850d4d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1server_1a0272cfe866745d26e0b3b0d01c59b77c" kindref="member">Http3CongestionAlgorithm</ref></type>
+        <definition>Http3CongestionAlgorithm themis::server::Http3ProductionConfig::cc_algorithm</definition>
+        <argsstring></argsstring>
+        <name>cc_algorithm</name>
+        <qualifiedname>themis::server::Http3ProductionConfig::cc_algorithm</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1server_1a0272cfe866745d26e0b3b0d01c59b77ca75b0454dcb25b99d9336fcd2108f59f9" kindref="member">Http3CongestionAlgorithm::Bbr</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="41" column="30" bodyfile="include/server/http3_production_config.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_production_config_1ac24d8c62ca4eb593e1589e06e7c4c7f8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::Http3ProductionConfig::enable_0rtt</definition>
+        <argsstring></argsstring>
+        <name>enable_0rtt</name>
+        <qualifiedname>themis::server::Http3ProductionConfig::enable_0rtt</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Allow early-data on resumed connections. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="44" column="10" bodyfile="include/server/http3_production_config.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_production_config_1ad5b5a6cf4a281922b2c8c1cd514e6ba6" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::Http3ProductionConfig::session_ticket_lifetime_secs</definition>
+        <argsstring></argsstring>
+        <name>session_ticket_lifetime_secs</name>
+        <qualifiedname>themis::server::Http3ProductionConfig::session_ticket_lifetime_secs</qualifiedname>
+        <initializer>= 86400</initializer>
+        <briefdescription>
+<para>TLS session ticket TTL (24h). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="45" column="14" bodyfile="include/server/http3_production_config.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_production_config_1abbc4754efc2742fe76544961e488b1ae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::Http3ProductionConfig::enable_migration</definition>
+        <argsstring></argsstring>
+        <name>enable_migration</name>
+        <qualifiedname>themis::server::Http3ProductionConfig::enable_migration</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Allow IP/port changes mid-connection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="48" column="10" bodyfile="include/server/http3_production_config.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_production_config_1a92ab5107f9e46dc5cfab36f79fba14f7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::Http3ProductionConfig::strict_path_validation</definition>
+        <argsstring></argsstring>
+        <name>strict_path_validation</name>
+        <qualifiedname>themis::server::Http3ProductionConfig::strict_path_validation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Require path-challenge before migration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="49" column="10" bodyfile="include/server/http3_production_config.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_production_config_1a8176d1353bb826bd1dbcb2605bbe28b6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::Http3ProductionConfig::enable_http2_fallback</definition>
+        <argsstring></argsstring>
+        <name>enable_http2_fallback</name>
+        <qualifiedname>themis::server::Http3ProductionConfig::enable_http2_fallback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="52" column="13" bodyfile="include/server/http3_production_config.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_production_config_1a38b2fc5e0295ed86c2d6dca9af0b89f4" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::Http3ProductionConfig::fallback_failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>fallback_failure_threshold</name>
+        <qualifiedname>themis::server::Http3ProductionConfig::fallback_failure_threshold</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Failures before marking fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="53" column="14" bodyfile="include/server/http3_production_config.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_production_config_1ab09a16389866614359f4bd1e776e8171" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::Http3ProductionConfig::fallback_recovery_secs</definition>
+        <argsstring></argsstring>
+        <name>fallback_recovery_secs</name>
+        <qualifiedname>themis::server::Http3ProductionConfig::fallback_recovery_secs</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+<para>Seconds before re-enabling QUIC. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="54" column="14" bodyfile="include/server/http3_production_config.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_production_config_1aa8e20e37acf48c89dc89a5f7edd52f4e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::Http3ProductionConfig::initial_max_data</definition>
+        <argsstring></argsstring>
+        <name>initial_max_data</name>
+        <qualifiedname>themis::server::Http3ProductionConfig::initial_max_data</qualifiedname>
+        <initializer>= 10ULL * 1024 * 1024</initializer>
+        <briefdescription>
+<para>10 MB </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="57" column="14" bodyfile="include/server/http3_production_config.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_production_config_1a76f9602a49f6b3f045d527348fccec62" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::Http3ProductionConfig::initial_max_stream_data_bidi</definition>
+        <argsstring></argsstring>
+        <name>initial_max_stream_data_bidi</name>
+        <qualifiedname>themis::server::Http3ProductionConfig::initial_max_stream_data_bidi</qualifiedname>
+        <initializer>= 1024 * 1024</initializer>
+        <briefdescription>
+<para>1 MB per stream </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="58" column="14" bodyfile="include/server/http3_production_config.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_production_config_1a9f31118c8a7d802cd989440f43f5bf76" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::Http3ProductionConfig::initial_max_stream_data_uni</definition>
+        <argsstring></argsstring>
+        <name>initial_max_stream_data_uni</name>
+        <qualifiedname>themis::server::Http3ProductionConfig::initial_max_stream_data_uni</qualifiedname>
+        <initializer>= 512  * 1024</initializer>
+        <briefdescription>
+<para>512 KB uni </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="59" column="14" bodyfile="include/server/http3_production_config.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_production_config_1aaca52c274d0a79113bb87a2371598b23" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::Http3ProductionConfig::initial_max_streams_bidi</definition>
+        <argsstring></argsstring>
+        <name>initial_max_streams_bidi</name>
+        <qualifiedname>themis::server::Http3ProductionConfig::initial_max_streams_bidi</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="60" column="14" bodyfile="include/server/http3_production_config.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_production_config_1a50bfad2aaf33c46bdc3b9c127339838d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::Http3ProductionConfig::initial_max_streams_uni</definition>
+        <argsstring></argsstring>
+        <name>initial_max_streams_uni</name>
+        <qualifiedname>themis::server::Http3ProductionConfig::initial_max_streams_uni</qualifiedname>
+        <initializer>= 7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="61" column="14" bodyfile="include/server/http3_production_config.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_http3_production_config_1aa90b70ad7b2073f6be39a0fc422379c0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::Http3ProductionConfig::enable_performance_metrics</definition>
+        <argsstring></argsstring>
+        <name>enable_performance_metrics</name>
+        <qualifiedname>themis::server::Http3ProductionConfig::enable_performance_metrics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="64" column="10" bodyfile="include/server/http3_production_config.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_http3_production_config_1a2c4a78edea62bfdcfe39b36752069ce0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::Http3ProductionConfig::Http3ProductionConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>Http3ProductionConfig</name>
+        <qualifiedname>themis::server::Http3ProductionConfig::Http3ProductionConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/http3_production_config.h" line="66" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/http3_production_config.h" line="39" column="1" bodyfile="include/server/http3_production_config.h" bodystart="39" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_http3_production_config_1ab382a4deb382302c499c18c93b850d4d" prot="public" virt="non-virtual"><scope>themis::server::Http3ProductionConfig</scope><name>cc_algorithm</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_production_config_1ac24d8c62ca4eb593e1589e06e7c4c7f8" prot="public" virt="non-virtual"><scope>themis::server::Http3ProductionConfig</scope><name>enable_0rtt</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_production_config_1a8176d1353bb826bd1dbcb2605bbe28b6" prot="public" virt="non-virtual"><scope>themis::server::Http3ProductionConfig</scope><name>enable_http2_fallback</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_production_config_1abbc4754efc2742fe76544961e488b1ae" prot="public" virt="non-virtual"><scope>themis::server::Http3ProductionConfig</scope><name>enable_migration</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_production_config_1aa90b70ad7b2073f6be39a0fc422379c0" prot="public" virt="non-virtual"><scope>themis::server::Http3ProductionConfig</scope><name>enable_performance_metrics</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_production_config_1a38b2fc5e0295ed86c2d6dca9af0b89f4" prot="public" virt="non-virtual"><scope>themis::server::Http3ProductionConfig</scope><name>fallback_failure_threshold</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_production_config_1ab09a16389866614359f4bd1e776e8171" prot="public" virt="non-virtual"><scope>themis::server::Http3ProductionConfig</scope><name>fallback_recovery_secs</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_production_config_1a2c4a78edea62bfdcfe39b36752069ce0" prot="public" virt="non-virtual"><scope>themis::server::Http3ProductionConfig</scope><name>Http3ProductionConfig</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_production_config_1aa8e20e37acf48c89dc89a5f7edd52f4e" prot="public" virt="non-virtual"><scope>themis::server::Http3ProductionConfig</scope><name>initial_max_data</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_production_config_1a76f9602a49f6b3f045d527348fccec62" prot="public" virt="non-virtual"><scope>themis::server::Http3ProductionConfig</scope><name>initial_max_stream_data_bidi</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_production_config_1a9f31118c8a7d802cd989440f43f5bf76" prot="public" virt="non-virtual"><scope>themis::server::Http3ProductionConfig</scope><name>initial_max_stream_data_uni</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_production_config_1aaca52c274d0a79113bb87a2371598b23" prot="public" virt="non-virtual"><scope>themis::server::Http3ProductionConfig</scope><name>initial_max_streams_bidi</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_production_config_1a50bfad2aaf33c46bdc3b9c127339838d" prot="public" virt="non-virtual"><scope>themis::server::Http3ProductionConfig</scope><name>initial_max_streams_uni</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_production_config_1ad5b5a6cf4a281922b2c8c1cd514e6ba6" prot="public" virt="non-virtual"><scope>themis::server::Http3ProductionConfig</scope><name>session_ticket_lifetime_secs</name></member>
+      <member refid="structthemis_1_1server_1_1_http3_production_config_1a92ab5107f9e46dc5cfab36f79fba14f7" prot="public" virt="non-virtual"><scope>themis::server::Http3ProductionConfig</scope><name>strict_path_validation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

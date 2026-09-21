@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_generic_compression_codec" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::GenericCompressionCodec</compoundname>
+    <includes refid="columnar__format_8h" local="no">columnar_format.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_generic_compression_codec_1add3fac0a6bb3db1cc13728b25ea429fd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::storage::GenericCompressionCodec::compressLZ4</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>compressLZ4</name>
+        <qualifiedname>themis::storage::GenericCompressionCodec::compressLZ4</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Generic Compression Implementation (LZ4/Snappy) ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), tl::unexpected(), Error(), LZ4_compressBound(), resize(), std::memcpy(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="174" column="19" bodyfile="src/storage/columnar_format.cpp" bodystart="887" bodyend="949"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_generic_compression_codec_1a16570cdb37469f179a384ac43ce81b15" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::storage::GenericCompressionCodec::decompressLZ4</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;compressed)</argsstring>
+        <name>decompressLZ4</name>
+        <qualifiedname>themis::storage::GenericCompressionCodec::decompressLZ4</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>compressed</declname>
+        </param>
+        <briefdescription>
+<para>Decompress LZ4. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">compressed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), tl::unexpected(), Error(), std::memcpy(), data(), resize(), LZ4_decompress_safe(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="175" column="19" bodyfile="src/storage/columnar_format.cpp" bodystart="957" bodyend="1033"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_generic_compression_codec_1a8a245107d453bdba89dd108605330991" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::storage::GenericCompressionCodec::compressSnappy</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>compressSnappy</name>
+        <qualifiedname>themis::storage::GenericCompressionCodec::compressSnappy</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Compress Snappy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), tl::unexpected(), Error(), snappy::MaxCompressedLength(), resize(), snappy::RawCompress(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="177" column="19" bodyfile="src/storage/columnar_format.cpp" bodystart="1041" bodyend="1086"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_generic_compression_codec_1aa003bc934b6f7efdfc06b02befa4dd4c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::storage::GenericCompressionCodec::decompressSnappy</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;compressed)</argsstring>
+        <name>decompressSnappy</name>
+        <qualifiedname>themis::storage::GenericCompressionCodec::decompressSnappy</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>compressed</declname>
+        </param>
+        <briefdescription>
+<para>Decompress Snappy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">compressed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), snappy::GetUncompressedLength(), data(), size(), tl::unexpected(), Error(), resize(), snappy::RawUncompress(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="178" column="19" bodyfile="src/storage/columnar_format.cpp" bodystart="1094" bodyend="1142"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Generic Compression Wrapper (LZ4/Snappy). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/columnar_format.h" line="172" column="1" bodyfile="include/storage/columnar_format.h" bodystart="172" bodyend="179"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_generic_compression_codec_1add3fac0a6bb3db1cc13728b25ea429fd" prot="public" virt="non-virtual"><scope>themis::storage::GenericCompressionCodec</scope><name>compressLZ4</name></member>
+      <member refid="classthemis_1_1storage_1_1_generic_compression_codec_1a8a245107d453bdba89dd108605330991" prot="public" virt="non-virtual"><scope>themis::storage::GenericCompressionCodec</scope><name>compressSnappy</name></member>
+      <member refid="classthemis_1_1storage_1_1_generic_compression_codec_1a16570cdb37469f179a384ac43ce81b15" prot="public" virt="non-virtual"><scope>themis::storage::GenericCompressionCodec</scope><name>decompressLZ4</name></member>
+      <member refid="classthemis_1_1storage_1_1_generic_compression_codec_1aa003bc934b6f7efdfc06b02befa4dd4c" prot="public" virt="non-virtual"><scope>themis::storage::GenericCompressionCodec</scope><name>decompressSnappy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

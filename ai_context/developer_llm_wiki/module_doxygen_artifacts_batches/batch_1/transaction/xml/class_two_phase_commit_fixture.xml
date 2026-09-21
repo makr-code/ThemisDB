@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_two_phase_commit_fixture" kind="class" language="C++" prot="public">
+    <compoundname>TwoPhaseCommitFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_two_phase_commit_fixture_1ae60b6926c64b7b7124db8353c4808b29" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::unique_ptr&lt; themis::sharding::TwoPhaseCommitParticipant &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::unique_ptr&lt;themis::sharding::TwoPhaseCommitParticipant&gt; &gt; TwoPhaseCommitFixture::participants_</definition>
+        <argsstring></argsstring>
+        <name>participants_</name>
+        <qualifiedname>TwoPhaseCommitFixture::participants_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="737" column="2" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="737" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_two_phase_commit_fixture_1a86c411a4b988156f1e6176b76bfe11b9" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::sharding::TwoPhaseCommitCoordinator &gt;</type>
+        <definition>std::unique_ptr&lt;themis::sharding::TwoPhaseCommitCoordinator&gt; TwoPhaseCommitFixture::coordinator_</definition>
+        <argsstring></argsstring>
+        <name>coordinator_</name>
+        <qualifiedname>TwoPhaseCommitFixture::coordinator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="738" column="32" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="738" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_two_phase_commit_fixture_1aa952cf8744fc86181c5b48205b84e42e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TwoPhaseCommitFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TwoPhaseCommitFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="706" column="10" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="706" bodyend="728"/>
+      </memberdef>
+      <memberdef kind="function" id="class_two_phase_commit_fixture_1a510087d5c5d8d568de602d6a81e26a16" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TwoPhaseCommitFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>TwoPhaseCommitFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="730" column="10" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="730" bodyend="733"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_two_phase_commit_fixture_1adadc7482f175dbcf51d7d29f7e55f6eb" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>themis::sharding::TwoPhaseCommitCoordinator &amp;</type>
+        <definition>themis::sharding::TwoPhaseCommitCoordinator &amp; TwoPhaseCommitFixture::coordinator</definition>
+        <argsstring>()</argsstring>
+        <name>coordinator</name>
+        <qualifiedname>TwoPhaseCommitFixture::coordinator</qualifiedname>
+        <briefdescription>
+<para>Access from benchmark body. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="742" column="49" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="742" bodyend="742"/>
+      </memberdef>
+      <memberdef kind="function" id="class_two_phase_commit_fixture_1ad1465b694545ca39b36ebf7c8eddef76" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::map&lt; std::string, std::unique_ptr&lt; themis::sharding::TwoPhaseCommitParticipant &gt; &gt; &amp;</type>
+        <definition>const std::map&lt; std::string, std::unique_ptr&lt; themis::sharding::TwoPhaseCommitParticipant &gt; &gt; &amp; TwoPhaseCommitFixture::participants</definition>
+        <argsstring>() const</argsstring>
+        <name>participants</name>
+        <qualifiedname>TwoPhaseCommitFixture::participants</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="745" column="5" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="745" bodyend="745"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fixture for two-phase commit latency benchmarks (TX-4). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Creates one TwoPhaseCommitCoordinator and <computeroutput>num_shards</computeroutput> in-process TwoPhaseCommitParticipant instances. WAL is disabled so the benchmark measures pure protocol (PREPARE fan-out + COMMIT broadcast) latency. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TwoPhaseCommitFixture</label>
+        <link refid="class_two_phase_commit_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TwoPhaseCommitFixture</label>
+        <link refid="class_two_phase_commit_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="704" column="1" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="704" bodyend="746"/>
+    <listofallmembers>
+      <member refid="class_two_phase_commit_fixture_1adadc7482f175dbcf51d7d29f7e55f6eb" prot="protected" virt="non-virtual"><scope>TwoPhaseCommitFixture</scope><name>coordinator</name></member>
+      <member refid="class_two_phase_commit_fixture_1a86c411a4b988156f1e6176b76bfe11b9" prot="private" virt="non-virtual"><scope>TwoPhaseCommitFixture</scope><name>coordinator_</name></member>
+      <member refid="class_two_phase_commit_fixture_1ad1465b694545ca39b36ebf7c8eddef76" prot="protected" virt="non-virtual"><scope>TwoPhaseCommitFixture</scope><name>participants</name></member>
+      <member refid="class_two_phase_commit_fixture_1ae60b6926c64b7b7124db8353c4808b29" prot="private" virt="non-virtual"><scope>TwoPhaseCommitFixture</scope><name>participants_</name></member>
+      <member refid="class_two_phase_commit_fixture_1aa952cf8744fc86181c5b48205b84e42e" prot="public" virt="non-virtual"><scope>TwoPhaseCommitFixture</scope><name>SetUp</name></member>
+      <member refid="class_two_phase_commit_fixture_1a510087d5c5d8d568de602d6a81e26a16" prot="public" virt="non-virtual"><scope>TwoPhaseCommitFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

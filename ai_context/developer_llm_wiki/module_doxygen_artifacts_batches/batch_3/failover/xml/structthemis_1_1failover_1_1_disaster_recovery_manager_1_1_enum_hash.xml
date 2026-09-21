@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_enum_hash" kind="struct" language="C++" prot="private">
+    <compoundname>themis::failover::DisasterRecoveryManager::EnumHash</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_enum_hash_1a4836d6066ce7677b0b601a9bc684083a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>size_t</type>
+        <definition>size_t themis::failover::DisasterRecoveryManager::EnumHash::operator()</definition>
+        <argsstring>(T t) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::failover::DisasterRecoveryManager::EnumHash::operator()</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="172" column="16" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="172" bodyend="174"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/failover/disaster_recovery_manager.h" line="170" column="5" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="170" bodyend="175"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_manager_1_1_enum_hash_1a4836d6066ce7677b0b601a9bc684083a" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryManager::EnumHash</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

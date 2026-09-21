@@ -1,0 +1,384 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gssapi__authenticator_8cpp" kind="file" language="C++">
+    <compoundname>test_gssapi_authenticator.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">auth/gssapi_authenticator.h</includes>
+    <includes local="no">memory</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_gssapi_authenticator.cpp</label>
+        <link refid="test__gssapi__authenticator_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>auth/gssapi_authenticator.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_g_s_s_a_p_i_authenticator_test" prot="public">GSSAPIAuthenticatorTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gssapi__authenticator_8cpp_1a6c91d4f02f2ffa41378317e762a686b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GSSAPIAuthenticatorTest, ConstructorInitializesState)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref></type>
+        </param>
+        <param>
+          <type>ConstructorInitializesState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_gssapi_authenticator.cpp" line="41" column="1" bodyfile="tests/security/test_gssapi_authenticator.cpp" bodystart="41" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gssapi__authenticator_8cpp_1ad5b3a6a3bca4c5ded2668e93b4d2ed05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GSSAPIAuthenticatorTest, ConfigurationValidation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref></type>
+        </param>
+        <param>
+          <type>ConfigurationValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_gssapi_authenticator.cpp" line="46" column="1" bodyfile="tests/security/test_gssapi_authenticator.cpp" bodystart="46" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gssapi__authenticator_8cpp_1a3371c68ebf20138aab035c2ff8556aef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GSSAPIAuthenticatorTest, PrincipalToRoleMapping)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref></type>
+        </param>
+        <param>
+          <type>PrincipalToRoleMapping</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_gssapi_authenticator.cpp" line="60" column="1" bodyfile="tests/security/test_gssapi_authenticator.cpp" bodystart="60" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gssapi__authenticator_8cpp_1a910af5560650189195001aabdafeba9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GSSAPIAuthenticatorTest, GetServicePrincipal)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref></type>
+        </param>
+        <param>
+          <type>GetServicePrincipal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_gssapi_authenticator.cpp" line="72" column="1" bodyfile="tests/security/test_gssapi_authenticator.cpp" bodystart="72" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gssapi__authenticator_8cpp_1a5b0848debb29e9eb7887b37505947072" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GSSAPIAuthenticatorTest, GetConfig)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref></type>
+        </param>
+        <param>
+          <type>GetConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_gssapi_authenticator.cpp" line="78" column="1" bodyfile="tests/security/test_gssapi_authenticator.cpp" bodystart="78" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gssapi__authenticator_8cpp_1a98addeab80ba95d59b978f968b632519" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GSSAPIAuthenticatorTest, DISABLED_IntegrationWithKDC)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref></type>
+        </param>
+        <param>
+          <type>DISABLED_IntegrationWithKDC</type>
+        </param>
+        <briefdescription>
+<para>Integration test - requires actual Kerberos KDC. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>To run this test:<orderedlist>
+<listitem><para>Set up a test KDC (MIT Kerberos or FreeIPA)</para>
+</listitem><listitem><para>Create service principal: kadmin -q &quot;addprinc -randkey themisdb/localhost@TEST.REALM&quot;</para>
+</listitem><listitem><para>Extract keytab: kadmin -q &quot;ktadd -k /tmp/test.keytab themisdb/localhost@TEST.REALM&quot;</para>
+</listitem><listitem><para>Set environment: export KRB5_CONFIG=/path/to/test_krb5.conf</para>
+</listitem><listitem><para>Run test with: ctest -R GSSAPIAuthenticator </para>
+</listitem></orderedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_gssapi_authenticator.cpp" line="94" column="1" bodyfile="tests/security/test_gssapi_authenticator.cpp" bodystart="94" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gssapi__authenticator_8cpp_1a9c56363e6ca6618105d17cc091b8e494" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GSSAPIAuthenticatorTest, ErrorHandlingWithoutKDC)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorHandlingWithoutKDC</type>
+        </param>
+        <briefdescription>
+<para>Test error handling without KDC. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_gssapi_authenticator.cpp" line="118" column="1" bodyfile="tests/security/test_gssapi_authenticator.cpp" bodystart="118" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gssapi__authenticator_8cpp_1a81541364f2f2af62fb75cc3f4ee5e026" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GSSAPIAuthenticatorTest, EmptyTokenHandling)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyTokenHandling</type>
+        </param>
+        <briefdescription>
+<para>Test empty token handling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_gssapi_authenticator.cpp" line="131" column="1" bodyfile="tests/security/test_gssapi_authenticator.cpp" bodystart="131" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gssapi__authenticator_8cpp_1ab5aa3af489ff39babec45a1c723cdf3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GSSAPIAuthenticatorTest, MultipleInitialization)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleInitialization</type>
+        </param>
+        <briefdescription>
+<para>Test multiple initialization calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_gssapi_authenticator.cpp" line="142" column="1" bodyfile="tests/security/test_gssapi_authenticator.cpp" bodystart="142" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gssapi__authenticator_8cpp_1ae201e252f9690b650a31735e6e2ecd38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GSSAPIAuthenticatorTest, PrincipalPatternMatching)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref></type>
+        </param>
+        <param>
+          <type>PrincipalPatternMatching</type>
+        </param>
+        <briefdescription>
+<para>Test principal pattern matching. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_gssapi_authenticator.cpp" line="155" column="1" bodyfile="tests/security/test_gssapi_authenticator.cpp" bodystart="155" bodyend="169"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;auth/gssapi_authenticator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">themis::auth</ref>;</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13" refid="class_g_s_s_a_p_i_authenticator_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_g_s_s_a_p_i_authenticator_test_1a967a2be9d6da53860c8ff6c82ef80d7f" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setup<sp/>test<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_g_s_s_a_p_i_authenticator_test_1a9d6edec2bcda3153b3002821a40994a2" kindref="member">config_</ref>.enabled<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_g_s_s_a_p_i_authenticator_test_1a9d6edec2bcda3153b3002821a40994a2" kindref="member">config_</ref>.service_principal<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themisdb/localhost@EXAMPLE.COM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_g_s_s_a_p_i_authenticator_test_1a9d6edec2bcda3153b3002821a40994a2" kindref="member">config_</ref>.keytab_file<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/test.keytab&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_g_s_s_a_p_i_authenticator_test_1a9d6edec2bcda3153b3002821a40994a2" kindref="member">config_</ref>.krb5_config<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/test_krb5.conf&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_g_s_s_a_p_i_authenticator_test_1a9d6edec2bcda3153b3002821a40994a2" kindref="member">config_</ref>.fallback_to_basic<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>test<sp/>principal<sp/>mappings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_g_s_s_a_p_i_authenticator_test_1a9d6edec2bcda3153b3002821a40994a2" kindref="member">config_</ref>.principal_mappings.push_back({</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;admin@EXAMPLE.COM&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_g_s_s_a_p_i_authenticator_test_1a9d6edec2bcda3153b3002821a40994a2" kindref="member">config_</ref>.principal_mappings.push_back({</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;*@EXAMPLE.COM&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_g_s_s_a_p_i_authenticator_test_1a3893cc14328bd1e7cdbac296a2496da0" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosConfig<sp/><ref refid="class_g_s_s_a_p_i_authenticator_test_1a9d6edec2bcda3153b3002821a40994a2" kindref="member">config_</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__gssapi__authenticator_8cpp_1a6c91d4f02f2ffa41378317e762a686b1" kindref="member">TEST_F</ref>(<ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref>,<sp/>ConstructorInitializesState)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>GSSAPIAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.isInitialized());</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__gssapi__authenticator_8cpp_1a6c91d4f02f2ffa41378317e762a686b1" kindref="member">TEST_F</ref>(<ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref>,<sp/>ConfigurationValidation)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>GSSAPIAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Valid<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosConfig<sp/>valid_config<sp/>=<sp/>config_;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>This<sp/>will<sp/>fail<sp/>without<sp/>actual<sp/>Kerberos<sp/>setup,<sp/>but<sp/>validates<sp/>config<sp/>parsing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>auth.initialize(valid_config);<sp/><sp/>//<sp/>Commented<sp/>out<sp/>-<sp/>requires<sp/>KDC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid<sp/>configuration<sp/>-<sp/>empty<sp/>service<sp/>principal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>KerberosConfig<sp/>invalid_config<sp/>=<sp/>config_;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>invalid_config.service_principal<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.initialize(invalid_config));</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__gssapi__authenticator_8cpp_1a6c91d4f02f2ffa41378317e762a686b1" kindref="member">TEST_F</ref>(<ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref>,<sp/>PrincipalToRoleMapping)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>GSSAPIAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>can<sp/>test<sp/>the<sp/>mapping<sp/>logic<sp/>without<sp/>initializing<sp/>GSSAPI</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>requires<sp/>making<sp/>mapPrincipalToRoles()<sp/>public<sp/>or<sp/>using<sp/>a<sp/>friend<sp/>class</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>now,<sp/>we&apos;ll<sp/>test<sp/>through<sp/>the<sp/>config<sp/>structure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config_.principal_mappings.size(),<sp/>2);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config_.principal_mappings[0].principal_pattern,<sp/></highlight><highlight class="stringliteral">&quot;admin@EXAMPLE.COM&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config_.principal_mappings[0].role,<sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__gssapi__authenticator_8cpp_1a6c91d4f02f2ffa41378317e762a686b1" kindref="member">TEST_F</ref>(<ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref>,<sp/>GetServicePrincipal)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>GSSAPIAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Before<sp/>initialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.getServicePrincipal().empty());</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="test__gssapi__authenticator_8cpp_1a6c91d4f02f2ffa41378317e762a686b1" kindref="member">TEST_F</ref>(<ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref>,<sp/>GetConfig)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>GSSAPIAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>cfg<sp/>=<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.getConfig();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.enabled);<sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>is<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="test__gssapi__authenticator_8cpp_1a6c91d4f02f2ffa41378317e762a686b1" kindref="member">TEST_F</ref>(<ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref>,<sp/>DISABLED_IntegrationWithKDC)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>is<sp/>disabled<sp/>by<sp/>default<sp/>as<sp/>it<sp/>requires<sp/>KDC<sp/>setup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>GSSAPIAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Update<sp/>config<sp/>for<sp/>actual<sp/>test<sp/>KDC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>config_.service_principal<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themisdb/localhost@TEST.REALM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>config_.keytab_file<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/test.keytab&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>config_.krb5_config<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/etc/krb5.conf&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>with<sp/>KDC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initialized<sp/>=<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.initialize(config_);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(initialized)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>initialize<sp/>with<sp/>KDC&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.isInitialized());</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>authentication<sp/>with<sp/>valid<sp/>token</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(Would<sp/>need<sp/>actual<sp/>Kerberos<sp/>ticket<sp/>from<sp/>kinit)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>std::string<sp/>token<sp/>=<sp/>&quot;...base64<sp/>encoded<sp/>GSSAPI<sp/>token...&quot;;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>auto<sp/>result<sp/>=<sp/>auth.authenticateToken(token);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>EXPECT_TRUE(result.success);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><ref refid="test__gssapi__authenticator_8cpp_1a6c91d4f02f2ffa41378317e762a686b1" kindref="member">TEST_F</ref>(<ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref>,<sp/>ErrorHandlingWithoutKDC)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>GSSAPIAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>authenticate<sp/>without<sp/>initialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.authenticateToken(</highlight><highlight class="stringliteral">&quot;dummy_token&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.success);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.error_message.empty());</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.principal_name.empty());</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="test__gssapi__authenticator_8cpp_1a6c91d4f02f2ffa41378317e762a686b1" kindref="member">TEST_F</ref>(<ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref>,<sp/>EmptyTokenHandling)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>GSSAPIAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Even<sp/>if<sp/>initialized,<sp/>empty<sp/>token<sp/>should<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.authenticateToken(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.success);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="test__gssapi__authenticator_8cpp_1a6c91d4f02f2ffa41378317e762a686b1" kindref="member">TEST_F</ref>(<ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref>,<sp/>MultipleInitialization)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>GSSAPIAuthenticator<sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>initialization<sp/>(will<sp/>fail<sp/>without<sp/>KDC<sp/>but<sp/>shouldn&apos;t<sp/>crash)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1auth" kindref="compound">auth</ref>.initialize(config_);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>initialization<sp/>should<sp/>be<sp/>safe</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>auth.initialize(config_);<sp/><sp/>//<sp/>Commented<sp/>-<sp/>depends<sp/>on<sp/>KDC<sp/>availability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__gssapi__authenticator_8cpp_1a6c91d4f02f2ffa41378317e762a686b1" kindref="member">TEST_F</ref>(<ref refid="class_g_s_s_a_p_i_authenticator_test" kindref="compound">GSSAPIAuthenticatorTest</ref>,<sp/>PrincipalPatternMatching)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>wildcard<sp/>pattern<sp/>&quot;*@EXAMPLE.COM&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>pattern<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;*@EXAMPLE.COM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>principal1<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user1@EXAMPLE.COM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>principal2<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;admin@EXAMPLE.COM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>principal3<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user@OTHER.COM&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>These<sp/>should<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(principal1.find(</highlight><highlight class="stringliteral">&quot;@EXAMPLE.COM&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(principal2.find(</highlight><highlight class="stringliteral">&quot;@EXAMPLE.COM&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>should<sp/>not<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(principal3.find(</highlight><highlight class="stringliteral">&quot;@OTHER.COM&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(principal3.find(</highlight><highlight class="stringliteral">&quot;@EXAMPLE.COM&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_gssapi_authenticator.cpp"/>
+  </compounddef>
+</doxygen>

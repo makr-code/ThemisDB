@@ -1,0 +1,2365 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_rocks_d_b_wrapper" kind="class" language="C++" prot="public">
+    <compoundname>themis::RocksDBWrapper</compoundname>
+    <includes refid="rocksdb__wrapper_8h" local="no">rocksdb_wrapper.h</includes>
+    <innerclass refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config" prot="public">themis::RocksDBWrapper::Config</innerclass>
+    <innerclass refid="structthemis_1_1_rocks_d_b_wrapper_1_1_key_value_pair" prot="public">themis::RocksDBWrapper::KeyValuePair</innerclass>
+    <innerclass refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper" prot="public">themis::RocksDBWrapper::WriteBatchWrapper</innerclass>
+    <innerclass refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_with_index_wrapper" prot="public">themis::RocksDBWrapper::WriteBatchWithIndexWrapper</innerclass>
+    <innerclass refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper" prot="public">themis::RocksDBWrapper::TransactionWrapper</innerclass>
+    <innerclass refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator" prot="public">themis::RocksDBWrapper::SafeIterator</innerclass>
+    <innerclass refid="structthemis_1_1_rocks_d_b_wrapper_1_1_c_f_info" prot="public">themis::RocksDBWrapper::CFInfo</innerclass>
+    <innerclass refid="classthemis_1_1_rocks_d_b_wrapper_1_1_operation_guard" prot="private">themis::RocksDBWrapper::OperationGuard</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_rocks_d_b_wrapper_1ae47f8bfe6f71529564ee9c7433369f28" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TransactionIsolationLevel</name>
+        <qualifiedname>themis::RocksDBWrapper::TransactionIsolationLevel</qualifiedname>
+        <enumvalue id="classthemis_1_1_rocks_d_b_wrapper_1ae47f8bfe6f71529564ee9c7433369f28a90ed941e4502c163cb075594c5f7df1c" prot="public">
+          <name>ReadCommitted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_rocks_d_b_wrapper_1ae47f8bfe6f71529564ee9c7433369f28ad4e2713d1b1725a1592f9268589f990d" prot="public">
+          <name>Snapshot</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Isolation level for transactions (matches themis::IsolationLevel). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="452" column="5" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="452" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1_rocks_d_b_wrapper_1a7227b315e758c89eb795214749023e7c" prot="public" static="no">
+        <type>std::function&lt; bool(std::string_view key, std::string_view value)&gt;</type>
+        <definition>using themis::RocksDBWrapper::ScanCallback = std::function&lt;bool(std::string_view key, std::string_view value)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ScanCallback</name>
+        <qualifiedname>themis::RocksDBWrapper::ScanCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="635" column="5" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="635" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_rocks_d_b_wrapper_1ac18c0ee5cd07637199cad06b216a4bda" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::RocksDBWrapper::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::RocksDBWrapper::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="836" column="12" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="836" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rocks_d_b_wrapper_1a75a1dfe5ce51fe56225fa5aec7a762da" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classrocksdb_1_1_transaction_d_b" kindref="compound">rocksdb::TransactionDB</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;rocksdb::TransactionDB&gt; themis::RocksDBWrapper::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::RocksDBWrapper::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="837" column="21" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="837" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rocks_d_b_wrapper_1a1864ca91bbc422cea572ffb36053cfeb" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structrocksdb_1_1_options" kindref="compound">rocksdb::Options</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;rocksdb::Options&gt; themis::RocksDBWrapper::options_</definition>
+        <argsstring></argsstring>
+        <name>options_</name>
+        <qualifiedname>themis::RocksDBWrapper::options_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="838" column="21" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="838" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rocks_d_b_wrapper_1a29dc91ffcbc76f467b6dcdbf38f118ca" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structrocksdb_1_1_transaction_d_b_options" kindref="compound">rocksdb::TransactionDBOptions</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;rocksdb::TransactionDBOptions&gt; themis::RocksDBWrapper::txn_db_options_</definition>
+        <argsstring></argsstring>
+        <name>txn_db_options_</name>
+        <qualifiedname>themis::RocksDBWrapper::txn_db_options_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="839" column="21" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="839" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rocks_d_b_wrapper_1a66ffd307e65ce25964de9e74f8c244f5" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structrocksdb_1_1_transaction_options" kindref="compound">rocksdb::TransactionOptions</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;rocksdb::TransactionOptions&gt; themis::RocksDBWrapper::txn_options_</definition>
+        <argsstring></argsstring>
+        <name>txn_options_</name>
+        <qualifiedname>themis::RocksDBWrapper::txn_options_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="840" column="21" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="840" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rocks_d_b_wrapper_1a655a5ad4f84df027de29ab21e6a02e35" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structrocksdb_1_1_read_options" kindref="compound">rocksdb::ReadOptions</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;rocksdb::ReadOptions&gt; themis::RocksDBWrapper::read_options_</definition>
+        <argsstring></argsstring>
+        <name>read_options_</name>
+        <qualifiedname>themis::RocksDBWrapper::read_options_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="841" column="21" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="841" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rocks_d_b_wrapper_1a46b1e0988af5f9d555f4ebbfe0060b44" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structrocksdb_1_1_write_options" kindref="compound">rocksdb::WriteOptions</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;rocksdb::WriteOptions&gt; themis::RocksDBWrapper::write_options_</definition>
+        <argsstring></argsstring>
+        <name>write_options_</name>
+        <qualifiedname>themis::RocksDBWrapper::write_options_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="842" column="21" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="842" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rocks_d_b_wrapper_1a180d4757014e99ce515d4b559848100a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::RocksDBWrapper::options_mutex_</definition>
+        <argsstring></argsstring>
+        <name>options_mutex_</name>
+        <qualifiedname>themis::RocksDBWrapper::options_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="843" column="24" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="843" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rocks_d_b_wrapper_1afe4a186edcccfea4839239aa54efa683" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classrocksdb_1_1_column_family_handle" kindref="compound">rocksdb::ColumnFamilyHandle</ref> * &gt;</type>
+        <definition>std::vector&lt;rocksdb::ColumnFamilyHandle*&gt; themis::RocksDBWrapper::cf_handles_</definition>
+        <argsstring></argsstring>
+        <name>cf_handles_</name>
+        <qualifiedname>themis::RocksDBWrapper::cf_handles_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="845" column="17" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="845" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rocks_d_b_wrapper_1a279464bbaa650d5331cba5bd54e106e0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::RocksDBWrapper::cf_handles_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cf_handles_mutex_</name>
+        <qualifiedname>themis::RocksDBWrapper::cf_handles_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="847" column="24" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="847" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rocks_d_b_wrapper_1a5ba5dc4bbc99f734bad0ebd4d7beea22" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::RocksDBWrapper::db_lifecycle_mutex_</definition>
+        <argsstring></argsstring>
+        <name>db_lifecycle_mutex_</name>
+        <qualifiedname>themis::RocksDBWrapper::db_lifecycle_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="849" column="24" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="849" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rocks_d_b_wrapper_1af2ce7a7e6cd7bae1bf32e64a58339a43" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::RocksDBWrapper::active_operations_</definition>
+        <argsstring></argsstring>
+        <name>active_operations_</name>
+        <qualifiedname>themis::RocksDBWrapper::active_operations_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="851" column="25" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="851" bodyend="851"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rocks_d_b_wrapper_1a3707e06f9e5648bbacabba41cdf6876a" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::RocksDBWrapper::closing_</definition>
+        <argsstring></argsstring>
+        <name>closing_</name>
+        <qualifiedname>themis::RocksDBWrapper::closing_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="854" column="25" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="854" bodyend="854"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rocks_d_b_wrapper_1a442950c140ea2755ad40d46fd8061c86" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1storage_1_1_n_v_me_manager" kindref="compound">storage::NVMeManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;storage::NVMeManager&gt; themis::RocksDBWrapper::nvme_manager_</definition>
+        <argsstring></argsstring>
+        <name>nvme_manager_</name>
+        <qualifiedname>themis::RocksDBWrapper::nvme_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="856" column="21" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="856" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1ad11099cefeb3072ef9807479e1d59f42" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::RocksDBWrapper::RocksDBWrapper</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>RocksDBWrapper</name>
+        <qualifiedname>themis::RocksDBWrapper::RocksDBWrapper</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="285" column="14" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="151" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a1a26df692ea7c5f30912f7edbe2023f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::RocksDBWrapper::~RocksDBWrapper</definition>
+        <argsstring>()</argsstring>
+        <name>~RocksDBWrapper</name>
+        <qualifiedname>themis::RocksDBWrapper::~RocksDBWrapper</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="286" column="5" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="160" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a0380a15533a9736cae6c3b74dfc176af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::RocksDBWrapper::RocksDBWrapper</definition>
+        <argsstring>(const RocksDBWrapper &amp;)=delete</argsstring>
+        <name>RocksDBWrapper</name>
+        <qualifiedname>themis::RocksDBWrapper::RocksDBWrapper</qualifiedname>
+        <param>
+          <type>const RocksDBWrapper &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="289" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a5dc9c57d913b3a33ad765bbe5267a1c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad11099cefeb3072ef9807479e1d59f42" kindref="member">RocksDBWrapper</ref> &amp;</type>
+        <definition>RocksDBWrapper &amp; themis::RocksDBWrapper::operator=</definition>
+        <argsstring>(const RocksDBWrapper &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::RocksDBWrapper::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad11099cefeb3072ef9807479e1d59f42" kindref="member">RocksDBWrapper</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="290" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a67f59cd1d2793d6445d767cfc19aad1d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::RocksDBWrapper::RocksDBWrapper</definition>
+        <argsstring>(RocksDBWrapper &amp;&amp;) noexcept</argsstring>
+        <name>RocksDBWrapper</name>
+        <qualifiedname>themis::RocksDBWrapper::RocksDBWrapper</qualifiedname>
+        <param>
+          <type>RocksDBWrapper &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="291" column="5" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="173" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a2a50eda28ae212c1e2c58bd5dd39342a" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad11099cefeb3072ef9807479e1d59f42" kindref="member">RocksDBWrapper</ref> &amp;</type>
+        <definition>RocksDBWrapper &amp; themis::RocksDBWrapper::operator=</definition>
+        <argsstring>(RocksDBWrapper &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::RocksDBWrapper::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad11099cefeb3072ef9807479e1d59f42" kindref="member">RocksDBWrapper</ref> &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="292" column="20" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="208" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a96a9a7a14c0d4dd3f35d9423a358c32f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::open</definition>
+        <argsstring>()</argsstring>
+        <name>open</name>
+        <qualifiedname>themis::RocksDBWrapper::open</qualifiedname>
+        <briefdescription>
+<para>Open the database. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Open.</para>
+<para><simplesect kind="return"><para>true on success.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a9d9c904fe8e45a5e2ff07a1dedaa3617" kindref="member">close()</ref>, dbp(), parent_path(), empty(), std::filesystem::create_directories(), std::string(), string(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="296" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="644" bodyend="821"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a9d9c904fe8e45a5e2ff07a1dedaa3617" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RocksDBWrapper::close</definition>
+        <argsstring>()</argsstring>
+        <name>close</name>
+        <qualifiedname>themis::RocksDBWrapper::close</qualifiedname>
+        <briefdescription>
+<para>Close the database. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Close.</para>
+<para>Calls: THEMIS_INFO(), lock(), store(), load(), std::this_thread::sleep_for(), std::chrono::milliseconds(), THEMIS_WARN(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="299" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="827" bodyend="884"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a330e1509fb513ed379626808b30a0d97" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::isOpen</definition>
+        <argsstring>() const</argsstring>
+        <name>isOpen</name>
+        <qualifiedname>themis::RocksDBWrapper::isOpen</qualifiedname>
+        <briefdescription>
+<para>Check if database is open. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="302" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="886" bodyend="888"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a67dbe2b9a8fa4b0458d04b95c835602f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RocksDBWrapper::addEventListener</definition>
+        <argsstring>(std::shared_ptr&lt; rocksdb::EventListener &gt; listener)</argsstring>
+        <name>addEventListener</name>
+        <qualifiedname>themis::RocksDBWrapper::addEventListener</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classrocksdb_1_1_event_listener" kindref="compound">rocksdb::EventListener</ref> &gt;</type>
+          <declname>listener</declname>
+        </param>
+        <briefdescription>
+<para>Register a RocksDB event listener. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Event Listener.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>listener</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Listener that will receive compaction/flush/deletion events.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">listener</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a330e1509fb513ed379626808b30a0d97" kindref="member">isOpen()</ref>, THEMIS_WARN(), emplace_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="306" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="895" bodyend="906"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a4730728cdeb7946aa682568935426d80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::RocksDBWrapper::get</definition>
+        <argsstring>(std::string_view key)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::RocksDBWrapper::get</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get a value by key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lookup key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">Value</ref> bytes if the key exists; std::nullopt otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Get(), rocksdb::Slice(), data(), size(), ok(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="313" column="19" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="914" bodyend="927"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1ace384fe4c01b01e9cc1ba9b4f1aff7f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::get</definition>
+        <argsstring>(std::string_view key, std::string &amp;out)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::RocksDBWrapper::get</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>Get a value as a string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lookup key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output string. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the key exists.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: Get(), rocksdb::Slice(), data(), size(), ok(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="319" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="936" bodyend="947"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1ad51851f9b70c77d967d45a6947877da0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::put</definition>
+        <argsstring>(std::string_view key, const std::vector&lt; uint8_t &gt; &amp;value)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::RocksDBWrapper::put</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Store a key-value pair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lookup key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">Value</ref> bytes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: themis::utils::Logger::error(), <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a70998af1591a822b602b5cd63dcceeed" kindref="member">beginTransaction()</ref>, rollback(), commit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="325" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="956" bodyend="982"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a16e949479e8e1f98ee6f7727e5fd5c40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::put</definition>
+        <argsstring>(std::string_view key, std::string_view value)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::RocksDBWrapper::put</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Store a string value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lookup key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>String value. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: themis::utils::Logger::error(), <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a70998af1591a822b602b5cd63dcceeed" kindref="member">beginTransaction()</ref>, val_vec(), begin(), end(), rollback(), commit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="331" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="991" bodyend="1018"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1ab37bfd09afcbae54419b7dcdfed39cc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::del</definition>
+        <argsstring>(std::string_view key)</argsstring>
+        <name>del</name>
+        <qualifiedname>themis::RocksDBWrapper::del</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Delete a key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Del.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lookup key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if at least one entry was removed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: themis::utils::Logger::error(), <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a70998af1591a822b602b5cd63dcceeed" kindref="member">beginTransaction()</ref>, rollback(), commit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="336" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="1026" bodyend="1053"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1aebee29c4150729515919c6dede05d1b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::putBatch</definition>
+        <argsstring>(const std::vector&lt; KeyValuePair &gt; &amp;pairs)</argsstring>
+        <name>putBatch</name>
+        <qualifiedname>themis::RocksDBWrapper::putBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_key_value_pair" kindref="compound">KeyValuePair</ref> &gt; &amp;</type>
+          <declname>pairs</declname>
+        </param>
+        <briefdescription>
+<para>Write multiple key-value pairs atomically. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put Batch.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pairs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key-value pairs to write. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if all writes were committed successfully.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pairs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: themis::utils::Logger::error(), empty(), <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a982b12ca11c983a2a8ee4c7aa03396e9" kindref="member">createWriteBatch()</ref>, <ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad51851f9b70c77d967d45a6947877da0" kindref="member">put()</ref>, commit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="347" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="1061" bodyend="1081"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1aa09fa922f82ee9bf9fdcc2450e029124" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::putBlob</definition>
+        <argsstring>(std::string_view key, const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>putBlob</name>
+        <qualifiedname>themis::RocksDBWrapper::putBlob</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Store a blob using the streaming write path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put Blob.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical blob key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Blob bytes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_ERROR(), size(), <ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad51851f9b70c77d967d45a6947877da0" kindref="member">put()</ref>, std::max(), std::min(), encoded_chunks(), reserve(), emplace_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="355" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="1207" bodyend="1325"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1abc960fc142eef92bb8e34caa62599c7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::RocksDBWrapper::getBlob</definition>
+        <argsstring>(std::string_view key)</argsstring>
+        <name>getBlob</name>
+        <qualifiedname>themis::RocksDBWrapper::getBlob</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Read a blob previously stored by <ref refid="classthemis_1_1_rocks_d_b_wrapper_1aa09fa922f82ee9bf9fdcc2450e029124" kindref="member">putBlob()</ref> or <ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad51851f9b70c77d967d45a6947877da0" kindref="member">put()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Blob.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical blob key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Blob bytes, or std::nullopt if not found.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: blobManifestKey(), Get(), rocksdb::Slice(), ok(), size(), data(), readLE32(), readLE64(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="360" column="19" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="1333" bodyend="1401"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a0f9174488ae289735c900dd8a92be382" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::delBlob</definition>
+        <argsstring>(std::string_view key)</argsstring>
+        <name>delBlob</name>
+        <qualifiedname>themis::RocksDBWrapper::delBlob</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Delete a blob stored by <ref refid="classthemis_1_1_rocks_d_b_wrapper_1aa09fa922f82ee9bf9fdcc2450e029124" kindref="member">putBlob()</ref> or <ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad51851f9b70c77d967d45a6947877da0" kindref="member">put()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Del Blob.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical blob key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if at least one key was deleted.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_ERROR(), blobManifestKey(), Get(), rocksdb::Slice(), ok(), size(), std::memcpy(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="365" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="1409" bodyend="1436"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a943d0fce3409e1a9caa3317d6e0faf80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::optional&lt; std::vector&lt; uint8_t &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::optional&lt; std::vector&lt; uint8_t &gt; &gt; &gt; themis::RocksDBWrapper::multiGet</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;keys)</argsstring>
+        <name>multiGet</name>
+        <qualifiedname>themis::RocksDBWrapper::multiGet</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>keys</declname>
+        </param>
+        <briefdescription>
+<para>Multi-get batch read. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Multi Get.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lookup keys. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Values aligned with the input keys.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_ERROR(), GetBaseDB(), reserve(), size(), emplace_back(), MultiGet(), ok(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="370" column="17" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="1444" bodyend="1513"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a982b12ca11c983a2a8ee4c7aa03396e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_wrapper" kindref="compound">WriteBatchWrapper</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; RocksDBWrapper::WriteBatchWrapper &gt; themis::RocksDBWrapper::createWriteBatch</definition>
+        <argsstring>()</argsstring>
+        <name>createWriteBatch</name>
+        <qualifiedname>themis::RocksDBWrapper::createWriteBatch</qualifiedname>
+        <briefdescription>
+<para>Create a new write batch wrapper. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Write Batch.</para>
+<para><simplesect kind="return"><para>Batch wrapper instance.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createWriteBatch without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="407" column="21" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="1568" bodyend="1570"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a3153e0e8701fcb0bd5a0daef4827f0ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_write_batch_with_index_wrapper" kindref="compound">WriteBatchWithIndexWrapper</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; RocksDBWrapper::WriteBatchWithIndexWrapper &gt; themis::RocksDBWrapper::createWriteBatchWithIndex</definition>
+        <argsstring>(bool overwrite_key=true)</argsstring>
+        <name>createWriteBatchWithIndex</name>
+        <qualifiedname>themis::RocksDBWrapper::createWriteBatchWithIndex</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>overwrite_key</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Create a write batch with index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Write Batch With Index.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>overwrite_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Allow overwriting existing keys. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Batch-with-index wrapper instance.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">overwrite_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createWriteBatchWithIndex without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="447" column="21" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="1680" bodyend="1682"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a70998af1591a822b602b5cd63dcceeed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_transaction_wrapper" kindref="compound">TransactionWrapper</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; RocksDBWrapper::TransactionWrapper &gt; themis::RocksDBWrapper::beginTransaction</definition>
+        <argsstring>(TransactionIsolationLevel isolation=TransactionIsolationLevel::ReadCommitted)</argsstring>
+        <name>beginTransaction</name>
+        <qualifiedname>themis::RocksDBWrapper::beginTransaction</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ae47f8bfe6f71529564ee9c7433369f28" kindref="member">TransactionIsolationLevel</ref></type>
+          <declname>isolation</declname>
+          <defval><ref refid="classthemis_1_1_rocks_d_b_wrapper_1ae47f8bfe6f71529564ee9c7433369f28a90ed941e4502c163cb075594c5f7df1c" kindref="member">TransactionIsolationLevel::ReadCommitted</ref></defval>
+        </param>
+        <briefdescription>
+<para>Begin Transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">isolation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements beginTransaction without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="568" column="21" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2072" bodyend="2074"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a5494ea7413032cd34ea1403b1e725ef3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator" kindref="compound">SafeIterator</ref> &gt;</type>
+        <definition>Result&lt; RocksDBWrapper::SafeIterator &gt; themis::RocksDBWrapper::newSafeIterator</definition>
+        <argsstring>(const rocksdb::ReadOptions *read_options=nullptr)</argsstring>
+        <name>newSafeIterator</name>
+        <qualifiedname>themis::RocksDBWrapper::newSafeIterator</qualifiedname>
+        <param>
+          <type>const <ref refid="structrocksdb_1_1_read_options" kindref="compound">rocksdb::ReadOptions</ref> *</type>
+          <declname>read_options</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Create a safe iterator with automatic lifecycle management. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator" kindref="compound">SafeIterator</ref> implementation - SOLUTION 1B for iterator lifecycle safety.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>read_options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional read options. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Safe iterator wrapper or an error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">read_options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a4730728cdeb7946aa682568935426d80" kindref="member">get()</ref>, GetBaseDB(), NewIterator(), Ok(), SafeIterator(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="633" column="12" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="3268" bodyend="3301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1ad40780f039e816f82691fd328dbd5e74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RocksDBWrapper::scanPrefix</definition>
+        <argsstring>(std::string_view prefix, ScanCallback callback)</argsstring>
+        <name>scanPrefix</name>
+        <qualifiedname>themis::RocksDBWrapper::scanPrefix</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>prefix</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a7227b315e758c89eb795214749023e7c" kindref="member">ScanCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Scan entries that share a prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Scan Prefix.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prefix to match. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback invoked for each entry.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: guard(), <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a4730728cdeb7946aa682568935426d80" kindref="member">get()</ref>, GetBaseDB(), THEMIS_ERROR(), it(), NewIterator(), prefix_slice(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="639" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2102" bodyend="2159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a0d5b658bd3c3ea5ef651aa77f5d1472e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="classthemis_1_1_rocks_d_b_wrapper_1_1_safe_iterator" kindref="compound">SafeIterator</ref> &gt;</type>
+        <definition>Result&lt; RocksDBWrapper::SafeIterator &gt; themis::RocksDBWrapper::prefixIterator</definition>
+        <argsstring>(std::string_view prefix)</argsstring>
+        <name>prefixIterator</name>
+        <qualifiedname>themis::RocksDBWrapper::prefixIterator</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+<para>Create a prefix iterator for enumeration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prefix Iterator.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prefix to search for. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Iterator positioned at the first matching key, or an error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a5494ea7413032cd34ea1403b1e725ef3" kindref="member">newSafeIterator()</ref>, <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a4730728cdeb7946aa682568935426d80" kindref="member">get()</ref>, std::move(), value(), Seek(), std::string(), Ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="644" column="12" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2167" bodyend="2183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a23965b8ea1f3bb99b732bc667b163a11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RocksDBWrapper::scanRange</definition>
+        <argsstring>(std::string_view start_key, std::string_view end_key, ScanCallback callback)</argsstring>
+        <name>scanRange</name>
+        <qualifiedname>themis::RocksDBWrapper::scanRange</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>end_key</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a7227b315e758c89eb795214749023e7c" kindref="member">ScanCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Scan range [start_key, end_key). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Scan Range.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range start. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range end. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback invoked for each entry.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">start_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: guard(), <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a4730728cdeb7946aa682568935426d80" kindref="member">get()</ref>, GetBaseDB(), THEMIS_ERROR(), it(), NewIterator(), start_slice(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="650" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2192" bodyend="2235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a6cb4ae3afef4dc92fed50fb5f0d5ac75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RocksDBWrapper::iterateRange</definition>
+        <argsstring>(std::string_view start_key, std::string_view end_key, ScanCallback callback)</argsstring>
+        <name>iterateRange</name>
+        <qualifiedname>themis::RocksDBWrapper::iterateRange</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>end_key</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a7227b315e758c89eb795214749023e7c" kindref="member">ScanCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Iterate over a key range using a RocksDB iterator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Iterate Range.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range start. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range end. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback invoked for each entry.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">start_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: guard(), <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a4730728cdeb7946aa682568935426d80" kindref="member">get()</ref>, GetBaseDB(), THEMIS_ERROR(), it(), NewIterator(), start_slice(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="656" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2244" bodyend="2273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a4a3451ae73602c7ac40a68fc4610e95c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RocksDBWrapper::scanAll</definition>
+        <argsstring>(ScanCallback callback)</argsstring>
+        <name>scanAll</name>
+        <qualifiedname>themis::RocksDBWrapper::scanAll</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_rocks_d_b_wrapper_1a7227b315e758c89eb795214749023e7c" kindref="member">ScanCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Scan the whole database. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Scan All.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback invoked for each entry.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: guard(), <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a4730728cdeb7946aa682568935426d80" kindref="member">get()</ref>, GetBaseDB(), THEMIS_ERROR(), it(), NewIterator(), SeekToFirst(), Valid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="660" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2280" bodyend="2308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a630ca90b04c7838c9b0b60674454baed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, std::vector&lt; uint8_t &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, std::vector&lt; uint8_t &gt; &gt; &gt; themis::RocksDBWrapper::scanWithAsyncIO</definition>
+        <argsstring>(std::string_view prefix, int limit=1000)</argsstring>
+        <name>scanWithAsyncIO</name>
+        <qualifiedname>themis::RocksDBWrapper::scanWithAsyncIO</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>prefix</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>limit</declname>
+          <defval>1000</defval>
+        </param>
+        <briefdescription>
+<para>Scan with async I/O and prefetching. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prefix to match. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of rows. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="667" column="17" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2937" bodyend="3002"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1afae215db4826fd64e5c8f19e16b4283d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, std::vector&lt; uint8_t &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, std::vector&lt; uint8_t &gt; &gt; &gt; themis::RocksDBWrapper::rangeQueryWithAsyncIO</definition>
+        <argsstring>(std::string_view start_key, std::string_view end_key)</argsstring>
+        <name>rangeQueryWithAsyncIO</name>
+        <qualifiedname>themis::RocksDBWrapper::rangeQueryWithAsyncIO</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>end_key</declname>
+        </param>
+        <briefdescription>
+<para>Range query with async I/O. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range start. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range end. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Key/value pairs in range order. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="674" column="17" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="3004" bodyend="3060"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a1f23671f2fbabd3a15f95ff536b70ac7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, std::vector&lt; uint8_t &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, std::vector&lt; uint8_t &gt; &gt; &gt; themis::RocksDBWrapper::reverseScanWithAsyncIO</definition>
+        <argsstring>(std::string_view start_key, int limit=1000)</argsstring>
+        <name>reverseScanWithAsyncIO</name>
+        <qualifiedname>themis::RocksDBWrapper::reverseScanWithAsyncIO</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_key</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>limit</declname>
+          <defval>1000</defval>
+        </param>
+        <briefdescription>
+<para>Reverse scan with async I/O. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range start. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of rows. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="680" column="17" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="3062" bodyend="3124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1abca9c172edec464743163396155cede2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::optional&lt; std::vector&lt; uint8_t &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::optional&lt; std::vector&lt; uint8_t &gt; &gt; &gt; themis::RocksDBWrapper::multiGetWithAsyncIO</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;keys)</argsstring>
+        <name>multiGetWithAsyncIO</name>
+        <qualifiedname>themis::RocksDBWrapper::multiGetWithAsyncIO</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>keys</declname>
+        </param>
+        <briefdescription>
+<para>MultiGet with async I/O optimization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Multi Get With Async IO.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lookup keys. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Values aligned with the input keys.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), THEMIS_ERROR(), GetBaseDB(), emplace_back(), MultiGet(), ok(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="686" column="17" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="3132" bodyend="3186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a472716ce1cf1e542e37d644c8ea58ef5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::unique_ptr&lt; <ref refid="classrocksdb_1_1_iterator" kindref="compound">rocksdb::Iterator</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::unique_ptr&lt; rocksdb::Iterator &gt; &gt; themis::RocksDBWrapper::newAsyncIterator</definition>
+        <argsstring>()</argsstring>
+        <name>newAsyncIterator</name>
+        <qualifiedname>themis::RocksDBWrapper::newAsyncIterator</qualifiedname>
+        <briefdescription>
+<para>Create an async iterator with prefetching. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>New Async Iterator.</para>
+<para><simplesect kind="return"><para>Iterator or an error.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: GetBaseDB(), NewIterator(), Ok(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="691" column="12" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="3193" bodyend="3227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a6e9075eec27f7fa23566e5f365a2229d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::unique_ptr&lt; <ref refid="classrocksdb_1_1_iterator" kindref="compound">rocksdb::Iterator</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::unique_ptr&lt; rocksdb::Iterator &gt; &gt; themis::RocksDBWrapper::newIterator</definition>
+        <argsstring>()</argsstring>
+        <name>newIterator</name>
+        <qualifiedname>themis::RocksDBWrapper::newIterator</qualifiedname>
+        <briefdescription>
+<para>Create a standard iterator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>New Iterator.</para>
+<para><simplesect kind="return"><para>Iterator or an error.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: GetBaseDB(), NewIterator(), Ok(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="695" column="12" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="3234" bodyend="3260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1aad598bf61d0be17857eacd2073216920" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::isAsyncIOEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isAsyncIOEnabled</name>
+        <qualifiedname>themis::RocksDBWrapper::isAsyncIOEnabled</qualifiedname>
+        <briefdescription>
+<para>Check if async I/O is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="698" column="10" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="698" bodyend="698"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1af618c87ac6efbdb351c629d499b1f0a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::RocksDBWrapper::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::RocksDBWrapper::getStats</qualifiedname>
+        <briefdescription>
+<para>Get database statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable statistics string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Options lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">options_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="704" column="17" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2310" bodyend="2414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a63c12fc2c68672bbdb677889cd55d8f6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::RocksDBWrapper::getCompressionType</definition>
+        <argsstring>() const</argsstring>
+        <name>getCompressionType</name>
+        <qualifiedname>themis::RocksDBWrapper::getCompressionType</qualifiedname>
+        <briefdescription>
+<para>Get the active compression type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Compression type string. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="708" column="17" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2416" bodyend="2443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a6ffaed37e7ef1327dc509fddff52bbc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RocksDBWrapper::compactRange</definition>
+        <argsstring>(std::string_view start_key, std::string_view end_key)</argsstring>
+        <name>compactRange</name>
+        <qualifiedname>themis::RocksDBWrapper::compactRange</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>end_key</declname>
+        </param>
+        <briefdescription>
+<para>Trigger manual compaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compact Range.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range start. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range end.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">start_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: start(), data(), size(), end(), CompactRange(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="713" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2451" bodyend="2461"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1aa0ed9ce049b79cc325d5e7c533db5f4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RocksDBWrapper::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::RocksDBWrapper::flush</qualifiedname>
+        <briefdescription>
+<para>Flush memtable to disk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush.</para>
+<para>Calls: Flush(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="716" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2467" bodyend="2474"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a43c668ac200cbbe88555bd149ffa4446" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::RocksDBWrapper::getApproximateSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getApproximateSize</name>
+        <qualifiedname>themis::RocksDBWrapper::getApproximateSize</qualifiedname>
+        <briefdescription>
+<para>Get the approximate database size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Approximate size in bytes. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="720" column="14" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2476" bodyend="2499"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a06ae61d51a7e041e94691be48d195aca" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::RocksDBWrapper::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::RocksDBWrapper::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="723" column="18" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="723" bodyend="723"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a3d434c9b8a4df5e455c1d1fd1b6468c5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::RocksDBWrapper::getLatestSequenceNumber</definition>
+        <argsstring>() const</argsstring>
+        <name>getLatestSequenceNumber</name>
+        <qualifiedname>themis::RocksDBWrapper::getLatestSequenceNumber</qualifiedname>
+        <briefdescription>
+<para>Get the latest RocksDB sequence number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Sequence number, or 0 if the database is not open. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="727" column="14" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2501" bodyend="2506"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a78c22608dbcf21a6c52f1cea1f4751f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::createCheckpoint</definition>
+        <argsstring>(const std::string &amp;checkpoint_dir)</argsstring>
+        <name>createCheckpoint</name>
+        <qualifiedname>themis::RocksDBWrapper::createCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkpoint_dir</declname>
+        </param>
+        <briefdescription>
+<para>Create a RocksDB checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Checkpoint.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>checkpoint_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination directory. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: THEMIS_ERROR(), cpp(), parent_path(), empty(), std::filesystem::create_directories(), string(), message(), rocksdb::Checkpoint::Create(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="733" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2514" bodyend="2549"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a08215f66baeee9abebfabe9765cdc6c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::restoreFromCheckpoint</definition>
+        <argsstring>(const std::string &amp;checkpoint_dir)</argsstring>
+        <name>restoreFromCheckpoint</name>
+        <qualifiedname>themis::RocksDBWrapper::restoreFromCheckpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkpoint_dir</declname>
+        </param>
+        <briefdescription>
+<para>Restore the database from a previously created checkpoint directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Restore From Checkpoint.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>checkpoint_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Checkpoint directory. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">checkpoint_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::filesystem::exists(), THEMIS_ERROR(), <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a9d9c904fe8e45a5e2ff07a1dedaa3617" kindref="member">close()</ref>, std::filesystem::remove_all(), message(), std::filesystem::create_directories(), std::filesystem::copy(), <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a96a9a7a14c0d4dd3f35d9423a358c32f" kindref="member">open()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="738" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2557" bodyend="2603"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a3318d9281424267059fbf168fa24cda7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::createIncrementalBackup</definition>
+        <argsstring>(const std::string &amp;backup_dir, bool flush_before_backup=true)</argsstring>
+        <name>createIncrementalBackup</name>
+        <qualifiedname>themis::RocksDBWrapper::createIncrementalBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>flush_before_backup</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Create an incremental backup (only delta since last backup). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== v1.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Directory to store backups. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>flush_before_backup</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flush memtables before backup. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">flush_before_backup</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+1.0: Advanced RocksDB Features ===== Calls: <ref refid="rocksdb__wrapper_8cpp_1ab196ab59406e44a001c94e1fa653b6cf" kindref="member">THEMIS_HAS_ROCKSDB_BACKUP()</ref>, THEMIS_WARN(), THEMIS_ERROR(), GetBaseDB(), backup_opts(), rocksdb::BackupEngine::Open(), rocksdb::Env::Default(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="746" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2692" bodyend="2744"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a6d3bdea03a531adf54406c0315638476" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::restoreFromBackup</definition>
+        <argsstring>(const std::string &amp;backup_dir)</argsstring>
+        <name>restoreFromBackup</name>
+        <qualifiedname>themis::RocksDBWrapper::restoreFromBackup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <briefdescription>
+<para>Restore from the latest backup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Restore From Backup.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Directory containing backups. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="rocksdb__wrapper_8cpp_1ab196ab59406e44a001c94e1fa653b6cf" kindref="member">THEMIS_HAS_ROCKSDB_BACKUP()</ref>, THEMIS_WARN(), backup_opts(), rocksdb::BackupEngine::Open(), rocksdb::Env::Default(), ok(), THEMIS_ERROR(), ToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="751" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2752" bodyend="2801"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a94fb56d62d909cd40a3b6ba0c4f66f7b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::RocksDBWrapper::getBackupCount</definition>
+        <argsstring>(const std::string &amp;backup_dir) const</argsstring>
+        <name>getBackupCount</name>
+        <qualifiedname>themis::RocksDBWrapper::getBackupCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backup_dir</declname>
+        </param>
+        <briefdescription>
+<para>Get number of backups available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backup_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Directory containing backups. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of backups. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="756" column="14" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2803" bodyend="2842"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a25247bd6b70c186371a5fb2f2ecace6a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::RocksDBWrapper::exportStatisticsJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>exportStatisticsJSON</name>
+        <qualifiedname>themis::RocksDBWrapper::exportStatisticsJSON</qualifiedname>
+        <briefdescription>
+<para>Export RocksDB statistics as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object with statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Options lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">options_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="760" column="17" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2844" bodyend="2888"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a71c51ba4f199d4c5430e836da90914ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::RocksDBWrapper::getStatistic</definition>
+        <argsstring>(const std::string &amp;ticker_name) const</argsstring>
+        <name>getStatistic</name>
+        <qualifiedname>themis::RocksDBWrapper::getStatistic</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ticker_name</declname>
+        </param>
+        <briefdescription>
+<para>Get a specific statistic value by ticker name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ticker_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the ticker. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ticker value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Options lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">options_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="765" column="14" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2890" bodyend="2933"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1afe334d8d7edde636d9710e999d8e0f51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="classrocksdb_1_1_column_family_handle" kindref="compound">rocksdb::ColumnFamilyHandle</ref> * &gt;</type>
+        <definition>Result&lt; rocksdb::ColumnFamilyHandle * &gt; themis::RocksDBWrapper::getOrCreateColumnFamily</definition>
+        <argsstring>(const std::string &amp;cf_name)</argsstring>
+        <name>getOrCreateColumnFamily</name>
+        <qualifiedname>themis::RocksDBWrapper::getOrCreateColumnFamily</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cf_name</declname>
+        </param>
+        <briefdescription>
+<para>Create or open a column family. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Or Create Column Family.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cf_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column family name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Handle or an error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cf_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the cf. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), THEMIS_ERROR(), GetName(), THEMIS_DEBUG(), Ok(), CreateColumnFamily(), ok(), ToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="772" column="12" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2611" bodyend="2651"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a970522247ba81ae54e34b3a52ebc3bac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_c_f_info" kindref="compound">CFInfo</ref> &gt;</type>
+        <definition>std::vector&lt; RocksDBWrapper::CFInfo &gt; themis::RocksDBWrapper::listColumnFamilies</definition>
+        <argsstring>() const</argsstring>
+        <name>listColumnFamilies</name>
+        <qualifiedname>themis::RocksDBWrapper::listColumnFamilies</qualifiedname>
+        <briefdescription>
+<para>Enumerate all open column families with lightweight statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of <ref refid="structthemis_1_1_rocks_d_b_wrapper_1_1_c_f_info" kindref="compound">CFInfo</ref> entries, or empty if the DB is not open. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cf_handles_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="783" column="17" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2653" bodyend="2682"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a07f61f628bbc795eeead137bcac6df23" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classrocksdb_1_1_transaction_d_b" kindref="compound">rocksdb::TransactionDB</ref> *</type>
+        <definition>rocksdb::TransactionDB * themis::RocksDBWrapper::getRawDB</definition>
+        <argsstring>()</argsstring>
+        <name>getRawDB</name>
+        <qualifiedname>themis::RocksDBWrapper::getRawDB</qualifiedname>
+        <briefdescription>
+<para>Get the raw RocksDB pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="786" column="28" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="786" bodyend="786"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a2a56c4e504e80a4c33f4f0d4e9c234f7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classrocksdb_1_1_transaction_d_b" kindref="compound">rocksdb::TransactionDB</ref> *</type>
+        <definition>const rocksdb::TransactionDB * themis::RocksDBWrapper::getRawDB</definition>
+        <argsstring>() const</argsstring>
+        <name>getRawDB</name>
+        <qualifiedname>themis::RocksDBWrapper::getRawDB</qualifiedname>
+        <briefdescription>
+<para>Get the raw RocksDB pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="788" column="34" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="788" bodyend="788"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a9ad6e7964322ab67160292527a291cac" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classrocksdb_1_1_transaction_d_b" kindref="compound">rocksdb::TransactionDB</ref> *</type>
+        <definition>rocksdb::TransactionDB * themis::RocksDBWrapper::getDB</definition>
+        <argsstring>()</argsstring>
+        <name>getDB</name>
+        <qualifiedname>themis::RocksDBWrapper::getDB</qualifiedname>
+        <briefdescription>
+<para>Backward-compatible alias for <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a07f61f628bbc795eeead137bcac6df23" kindref="member">getRawDB()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="790" column="28" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="790" bodyend="790"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1a903b8876992b0a71cde6bd28bae8776d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classrocksdb_1_1_transaction_d_b" kindref="compound">rocksdb::TransactionDB</ref> *</type>
+        <definition>const rocksdb::TransactionDB * themis::RocksDBWrapper::getDB</definition>
+        <argsstring>() const</argsstring>
+        <name>getDB</name>
+        <qualifiedname>themis::RocksDBWrapper::getDB</qualifiedname>
+        <briefdescription>
+<para>Backward-compatible alias for <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a07f61f628bbc795eeead137bcac6df23" kindref="member">getRawDB()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="792" column="34" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="792" bodyend="792"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1af117172734a95d84cfc4bd7e3397ce36" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::RocksDBWrapper::configureOptions</definition>
+        <argsstring>()</argsstring>
+        <name>configureOptions</name>
+        <qualifiedname>themis::RocksDBWrapper::configureOptions</qualifiedname>
+        <briefdescription>
+<para>configureOptions() runs during construction before publication to other threads, but it also takes options_mutex_ so later option snapshots (<ref refid="classthemis_1_1_rocks_d_b_wrapper_1a96a9a7a14c0d4dd3f35d9423a358c32f" kindref="member">open()</ref>, statistics export) see a consistently configured set of RocksDB options. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: options_lock(), rocksdb::CreateDBStatistics(), set_stats_level(), rocksdb::NewLRUCache(), reset(), rocksdb::NewBloomFilterPolicy(), rocksdb::NewBlockBasedTableFactory(), rocksdb::Env::Default(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="864" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="261" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1ac9c135bf8f1d02135aad72b016f966f4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::RocksDBWrapper::commitBatch</definition>
+        <argsstring>(rocksdb::WriteBatch *batch)</argsstring>
+        <name>commitBatch</name>
+        <qualifiedname>themis::RocksDBWrapper::commitBatch</qualifiedname>
+        <param>
+          <type><ref refid="classrocksdb_1_1_write_batch" kindref="compound">rocksdb::WriteBatch</ref> *</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Commit Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: Write(), ok(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="865" column="10" bodyfile="src/storage/rocksdb_wrapper.cpp" bodystart="2082" bodyend="2094"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>High-level wrapper around RocksDB TransactionDB for MVCC support. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages LSM-tree configuration, WAL, transactions, blob storage, and iterator safety. The wrapper is read-safe and write-safe under its internal locking discipline, but it must not be copied and should only be moved while no concurrent operations are active.</para>
+<para><simplesect kind="warning"><para>Move construction and move assignment are only safe during initialization or teardown, not while other threads are using the wrapper. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/storage/rocksdb_wrapper.h" line="105" column="1" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="105" bodyend="866"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1af2ce7a7e6cd7bae1bf32e64a58339a43" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>active_operations_</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a67dbe2b9a8fa4b0458d04b95c835602f" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>addEventListener</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a70998af1591a822b602b5cd63dcceeed" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>beginTransaction</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1afe4a186edcccfea4839239aa54efa683" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>cf_handles_</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a279464bbaa650d5331cba5bd54e106e0" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>cf_handles_mutex_</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a9d9c904fe8e45a5e2ff07a1dedaa3617" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>close</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a3707e06f9e5648bbacabba41cdf6876a" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>closing_</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1ac9c135bf8f1d02135aad72b016f966f4" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>commitBatch</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a6ffaed37e7ef1327dc509fddff52bbc4" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>compactRange</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1ac18c0ee5cd07637199cad06b216a4bda" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1af117172734a95d84cfc4bd7e3397ce36" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>configureOptions</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a78c22608dbcf21a6c52f1cea1f4751f5" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>createCheckpoint</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a3318d9281424267059fbf168fa24cda7" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>createIncrementalBackup</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a982b12ca11c983a2a8ee4c7aa03396e9" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>createWriteBatch</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a3153e0e8701fcb0bd5a0daef4827f0ec" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>createWriteBatchWithIndex</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a75a1dfe5ce51fe56225fa5aec7a762da" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a5ba5dc4bbc99f734bad0ebd4d7beea22" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>db_lifecycle_mutex_</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1ab37bfd09afcbae54419b7dcdfed39cc8" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>del</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a0f9174488ae289735c900dd8a92be382" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>delBlob</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a25247bd6b70c186371a5fb2f2ecace6a" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>exportStatisticsJSON</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1aa0ed9ce049b79cc325d5e7c533db5f4e" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>flush</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a4730728cdeb7946aa682568935426d80" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>get</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1ace384fe4c01b01e9cc1ba9b4f1aff7f3" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>get</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a43c668ac200cbbe88555bd149ffa4446" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>getApproximateSize</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a94fb56d62d909cd40a3b6ba0c4f66f7b" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>getBackupCount</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1abc960fc142eef92bb8e34caa62599c7b" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>getBlob</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a63c12fc2c68672bbdb677889cd55d8f6" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>getCompressionType</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a06ae61d51a7e041e94691be48d195aca" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a9ad6e7964322ab67160292527a291cac" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>getDB</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a903b8876992b0a71cde6bd28bae8776d" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>getDB</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a3d434c9b8a4df5e455c1d1fd1b6468c5" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>getLatestSequenceNumber</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1afe334d8d7edde636d9710e999d8e0f51" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>getOrCreateColumnFamily</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a07f61f628bbc795eeead137bcac6df23" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>getRawDB</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a2a56c4e504e80a4c33f4f0d4e9c234f7" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>getRawDB</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a71c51ba4f199d4c5430e836da90914ed" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>getStatistic</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1af618c87ac6efbdb351c629d499b1f0a9" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1aad598bf61d0be17857eacd2073216920" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>isAsyncIOEnabled</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a330e1509fb513ed379626808b30a0d97" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>isOpen</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a6cb4ae3afef4dc92fed50fb5f0d5ac75" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>iterateRange</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a970522247ba81ae54e34b3a52ebc3bac" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>listColumnFamilies</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a943d0fce3409e1a9caa3317d6e0faf80" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>multiGet</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1abca9c172edec464743163396155cede2" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>multiGetWithAsyncIO</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a472716ce1cf1e542e37d644c8ea58ef5" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>newAsyncIterator</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a6e9075eec27f7fa23566e5f365a2229d" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>newIterator</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a5494ea7413032cd34ea1403b1e725ef3" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>newSafeIterator</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a442950c140ea2755ad40d46fd8061c86" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>nvme_manager_</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a96a9a7a14c0d4dd3f35d9423a358c32f" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>open</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a5dc9c57d913b3a33ad765bbe5267a1c3" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a2a50eda28ae212c1e2c58bd5dd39342a" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a1864ca91bbc422cea572ffb36053cfeb" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>options_</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a180d4757014e99ce515d4b559848100a" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>options_mutex_</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a0d5b658bd3c3ea5ef651aa77f5d1472e" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>prefixIterator</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1ad51851f9b70c77d967d45a6947877da0" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>put</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a16e949479e8e1f98ee6f7727e5fd5c40" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>put</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1aebee29c4150729515919c6dede05d1b5" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>putBatch</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1aa09fa922f82ee9bf9fdcc2450e029124" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>putBlob</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1afae215db4826fd64e5c8f19e16b4283d" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>rangeQueryWithAsyncIO</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a655a5ad4f84df027de29ab21e6a02e35" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>read_options_</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a6d3bdea03a531adf54406c0315638476" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>restoreFromBackup</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a08215f66baeee9abebfabe9765cdc6c9" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>restoreFromCheckpoint</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a1f23671f2fbabd3a15f95ff536b70ac7" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>reverseScanWithAsyncIO</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1ad11099cefeb3072ef9807479e1d59f42" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>RocksDBWrapper</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a0380a15533a9736cae6c3b74dfc176af" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>RocksDBWrapper</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a67f59cd1d2793d6445d767cfc19aad1d" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>RocksDBWrapper</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a4a3451ae73602c7ac40a68fc4610e95c" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>scanAll</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a7227b315e758c89eb795214749023e7c" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>ScanCallback</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1ad40780f039e816f82691fd328dbd5e74" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>scanPrefix</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a23965b8ea1f3bb99b732bc667b163a11" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>scanRange</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a630ca90b04c7838c9b0b60674454baed" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>scanWithAsyncIO</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1ae47f8bfe6f71529564ee9c7433369f28" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>TransactionIsolationLevel</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a29dc91ffcbc76f467b6dcdbf38f118ca" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>txn_db_options_</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a66ffd307e65ce25964de9e74f8c244f5" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>txn_options_</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a46b1e0988af5f9d555f4ebbfe0060b44" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>write_options_</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1a1a26df692ea7c5f30912f7edbe2023f3" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper</scope><name>~RocksDBWrapper</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::TrainingTriggerPlugin::Config</compoundname>
+    <includes refid="feedback__plugin_8h" local="no">feedback_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config_1a632e17d579213047b73eccf30e18d740" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::TrainingTriggerPlugin::Config::min_batch_size</definition>
+        <argsstring></argsstring>
+        <name>min_batch_size</name>
+        <qualifiedname>themis::llm::lora::TrainingTriggerPlugin::Config::min_batch_size</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="107" column="16" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config_1a13f05484b8f6ae581de7cc29ec58b5e5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::TrainingTriggerPlugin::Config::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themis::llm::lora::TrainingTriggerPlugin::Config::max_batch_size</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="108" column="16" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config_1afedd011b4b280936422d9f2273b367bd" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::TrainingTriggerPlugin::Config::min_avg_rating</definition>
+        <argsstring></argsstring>
+        <name>min_avg_rating</name>
+        <qualifiedname>themis::llm::lora::TrainingTriggerPlugin::Config::min_avg_rating</qualifiedname>
+        <initializer>= 3.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="109" column="15" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config_1ac601e56e878f7fd4c48f692d6452a347" prot="public" static="no" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::llm::lora::TrainingTriggerPlugin::Config::max_wait_time</definition>
+        <argsstring></argsstring>
+        <name>max_wait_time</name>
+        <qualifiedname>themis::llm::lora::TrainingTriggerPlugin::Config::max_wait_time</qualifiedname>
+        <initializer>{24}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/feedback_plugin.h" line="110" column="28" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/feedback_plugin.h" line="106" column="5" bodyfile="include/llm/lora_framework/feedback_plugin.h" bodystart="106" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config_1a13f05484b8f6ae581de7cc29ec58b5e5" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingTriggerPlugin::Config</scope><name>max_batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config_1ac601e56e878f7fd4c48f692d6452a347" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingTriggerPlugin::Config</scope><name>max_wait_time</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config_1afedd011b4b280936422d9f2273b367bd" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingTriggerPlugin::Config</scope><name>min_avg_rating</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_trigger_plugin_1_1_config_1a632e17d579213047b73eccf30e18d740" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingTriggerPlugin::Config</scope><name>min_batch_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

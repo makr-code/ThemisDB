@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_multi_primary_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::MultiPrimaryConfig</compoundname>
+    <includes refid="multi__primary__coordinator_8h" local="no">multi_primary_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_multi_primary_config_1aebf27503a3ad8c862ca05683aeb4a827" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::MultiPrimaryConfig::current_node_id</definition>
+        <argsstring></argsstring>
+        <name>current_node_id</name>
+        <qualifiedname>themis::sharding::MultiPrimaryConfig::current_node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="65" column="17" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_multi_primary_config_1a4db683a97048ea23549a353bf030de72" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::MultiPrimaryConfig::primary_node_ids</definition>
+        <argsstring></argsstring>
+        <name>primary_node_ids</name>
+        <qualifiedname>themis::sharding::MultiPrimaryConfig::primary_node_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="66" column="17" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_multi_primary_config_1a30d7f3d4c637c28e884b88db08028b0e" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::sharding::MultiPrimaryConfig::primary_endpoints</definition>
+        <argsstring></argsstring>
+        <name>primary_endpoints</name>
+        <qualifiedname>themis::sharding::MultiPrimaryConfig::primary_endpoints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="67" column="14" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_multi_primary_config_1a75ca9587f3cdd193c24bbf80f19621b3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::MultiPrimaryConfig::use_last_write_wins</definition>
+        <argsstring></argsstring>
+        <name>use_last_write_wins</name>
+        <qualifiedname>themis::sharding::MultiPrimaryConfig::use_last_write_wins</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="70" column="10" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_multi_primary_config_1ac26b3cd14c0b158c19b90f2200a7ade8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::MultiPrimaryConfig::allow_concurrent_writes</definition>
+        <argsstring></argsstring>
+        <name>allow_concurrent_writes</name>
+        <qualifiedname>themis::sharding::MultiPrimaryConfig::allow_concurrent_writes</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="71" column="10" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_multi_primary_config_1a9e24ec93ea947b3886f3c6aff60834b5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::MultiPrimaryConfig::cross_primary_replication</definition>
+        <argsstring></argsstring>
+        <name>cross_primary_replication</name>
+        <qualifiedname>themis::sharding::MultiPrimaryConfig::cross_primary_replication</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="74" column="10" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_multi_primary_config_1aee1c994aed3c5bea45d8a41b5697f292" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164" kindref="member">WriteConcern</ref></type>
+        <definition>WriteConcern themis::sharding::MultiPrimaryConfig::default_write_concern</definition>
+        <argsstring></argsstring>
+        <name>default_write_concern</name>
+        <qualifiedname>themis::sharding::MultiPrimaryConfig::default_write_concern</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164a28e6444341e60a10ed454a48de251aa9" kindref="member">WriteConcern::MAJORITY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="75" column="18" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_multi_primary_config_1a388c159b03d58c7363924bc0ba5531ff" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::MultiPrimaryConfig::auto_promote_on_primary_failure</definition>
+        <argsstring></argsstring>
+        <name>auto_promote_on_primary_failure</name>
+        <qualifiedname>themis::sharding::MultiPrimaryConfig::auto_promote_on_primary_failure</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="78" column="10" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_multi_primary_config_1af250da3350b242f4f18dac2b5a88abfe" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::MultiPrimaryConfig::promotion_timeout</definition>
+        <argsstring></argsstring>
+        <name>promotion_timeout</name>
+        <qualifiedname>themis::sharding::MultiPrimaryConfig::promotion_timeout</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/multi_primary_coordinator.h" line="79" column="31" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Multi-Primary Configuration </para>
+    </detaileddescription>
+    <location file="include/sharding/multi_primary_coordinator.h" line="64" column="1" bodyfile="include/sharding/multi_primary_coordinator.h" bodystart="64" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_multi_primary_config_1ac26b3cd14c0b158c19b90f2200a7ade8" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryConfig</scope><name>allow_concurrent_writes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_multi_primary_config_1a388c159b03d58c7363924bc0ba5531ff" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryConfig</scope><name>auto_promote_on_primary_failure</name></member>
+      <member refid="structthemis_1_1sharding_1_1_multi_primary_config_1a9e24ec93ea947b3886f3c6aff60834b5" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryConfig</scope><name>cross_primary_replication</name></member>
+      <member refid="structthemis_1_1sharding_1_1_multi_primary_config_1aebf27503a3ad8c862ca05683aeb4a827" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryConfig</scope><name>current_node_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_multi_primary_config_1aee1c994aed3c5bea45d8a41b5697f292" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryConfig</scope><name>default_write_concern</name></member>
+      <member refid="structthemis_1_1sharding_1_1_multi_primary_config_1a30d7f3d4c637c28e884b88db08028b0e" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryConfig</scope><name>primary_endpoints</name></member>
+      <member refid="structthemis_1_1sharding_1_1_multi_primary_config_1a4db683a97048ea23549a353bf030de72" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryConfig</scope><name>primary_node_ids</name></member>
+      <member refid="structthemis_1_1sharding_1_1_multi_primary_config_1af250da3350b242f4f18dac2b5a88abfe" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryConfig</scope><name>promotion_timeout</name></member>
+      <member refid="structthemis_1_1sharding_1_1_multi_primary_config_1a75ca9587f3cdd193c24bbf80f19621b3" prot="public" virt="non-virtual"><scope>themis::sharding::MultiPrimaryConfig</scope><name>use_last_write_wins</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_chain_verify_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::ChainVerifyResult</compoundname>
+    <includes refid="utils__interfaces_8h" local="no">utils_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_chain_verify_result_1a85b83184e62e300505a0fbb2e3838ac9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::ChainVerifyResult::valid</definition>
+        <argsstring></argsstring>
+        <name>valid</name>
+        <qualifiedname>themis::utils::ChainVerifyResult::valid</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>true when the full range is intact. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="148" column="10" bodyfile="include/utils/utils_interfaces.h" bodystart="148" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_chain_verify_result_1a41bdafddcff39c0b40d1d5884b90ae65" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1utils_1ac6d4f43c9fd9aa70c76f4f17cbb89433" kindref="member">EntryId</ref> &gt;</type>
+        <definition>std::optional&lt;EntryId&gt; themis::utils::ChainVerifyResult::firstTamperedEntry</definition>
+        <argsstring></argsstring>
+        <name>firstTamperedEntry</name>
+        <qualifiedname>themis::utils::ChainVerifyResult::firstTamperedEntry</qualifiedname>
+        <briefdescription>
+<para>Sequence number of first bad entry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="149" column="19" bodyfile="include/utils/utils_interfaces.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_chain_verify_result_1a4f88d57536caf296773b202940b9a460" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::ChainVerifyResult::verifiedCount</definition>
+        <argsstring></argsstring>
+        <name>verifiedCount</name>
+        <qualifiedname>themis::utils::ChainVerifyResult::verifiedCount</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of entries successfully verified. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="150" column="12" bodyfile="include/utils/utils_interfaces.h" bodystart="150" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_chain_verify_result_1ae022f8deb607463f901ebcc7e5c95823" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::ChainVerifyResult::errorMessage</definition>
+        <argsstring></argsstring>
+        <name>errorMessage</name>
+        <qualifiedname>themis::utils::ChainVerifyResult::errorMessage</qualifiedname>
+        <briefdescription>
+<para>Human-readable description on failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="151" column="17" bodyfile="include/utils/utils_interfaces.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref> of <ref refid="classthemis_1_1utils_1_1_i_hash_chain_audit_log_1a4cc1261d4cba4365e1a74511bbc1e19f" kindref="member">IHashChainAuditLog::verifyChain()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/utils_interfaces.h" line="147" column="1" bodyfile="include/utils/utils_interfaces.h" bodystart="147" bodyend="152"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_chain_verify_result_1ae022f8deb607463f901ebcc7e5c95823" prot="public" virt="non-virtual"><scope>themis::utils::ChainVerifyResult</scope><name>errorMessage</name></member>
+      <member refid="structthemis_1_1utils_1_1_chain_verify_result_1a41bdafddcff39c0b40d1d5884b90ae65" prot="public" virt="non-virtual"><scope>themis::utils::ChainVerifyResult</scope><name>firstTamperedEntry</name></member>
+      <member refid="structthemis_1_1utils_1_1_chain_verify_result_1a85b83184e62e300505a0fbb2e3838ac9" prot="public" virt="non-virtual"><scope>themis::utils::ChainVerifyResult</scope><name>valid</name></member>
+      <member refid="structthemis_1_1utils_1_1_chain_verify_result_1a4f88d57536caf296773b202940b9a460" prot="public" virt="non-virtual"><scope>themis::utils::ChainVerifyResult</scope><name>verifiedCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

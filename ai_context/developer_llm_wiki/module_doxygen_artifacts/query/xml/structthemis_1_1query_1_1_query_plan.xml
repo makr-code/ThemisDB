@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryPlan</compoundname>
+    <includes refid="query__executor_8h" local="no">query_executor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_plan_1a0a697cdb13f1c9e844ae897fc8834585" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryPlan::fingerprint</definition>
+        <argsstring></argsstring>
+        <name>fingerprint</name>
+        <qualifiedname>themis::query::QueryPlan::fingerprint</qualifiedname>
+        <briefdescription>
+<para>SHA-256 digest. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="84" column="50" bodyfile="include/query/query_executor.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_plan_1ade8c657d919d245233923c2b2871c2dc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::QueryPlan::column_names</definition>
+        <argsstring></argsstring>
+        <name>column_names</name>
+        <qualifiedname>themis::query::QueryPlan::column_names</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="85" column="37" bodyfile="include/query/query_executor.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_plan_1abf1110ca46fbf1b64b99609bd794f57c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::unordered_map&lt; std::string, <ref refid="namespacethemis_1_1query_1a95c0b82e4c3487ff114ed64a4124bf5a" kindref="member">ColumnValue</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unordered_map&lt;std::string, ColumnValue&gt; &gt; themis::query::QueryPlan::source_rows</definition>
+        <argsstring></argsstring>
+        <name>source_rows</name>
+        <qualifiedname>themis::query::QueryPlan::source_rows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_executor.h" line="86" column="17" bodyfile="include/query/query_executor.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_executor.h" line="83" column="1" bodyfile="include/query/query_executor.h" bodystart="83" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_plan_1ade8c657d919d245233923c2b2871c2dc" prot="public" virt="non-virtual"><scope>themis::query::QueryPlan</scope><name>column_names</name></member>
+      <member refid="structthemis_1_1query_1_1_query_plan_1a0a697cdb13f1c9e844ae897fc8834585" prot="public" virt="non-virtual"><scope>themis::query::QueryPlan</scope><name>fingerprint</name></member>
+      <member refid="structthemis_1_1query_1_1_query_plan_1abf1110ca46fbf1b64b99609bd794f57c" prot="public" virt="non-virtual"><scope>themis::query::QueryPlan</scope><name>source_rows</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

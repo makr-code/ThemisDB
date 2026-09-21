@@ -1,0 +1,1792 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innerclass refid="structthemis_1_1_adaptive_join_config" prot="public">themis::AdaptiveJoinConfig</innerclass>
+    <innerclass refid="classthemis_1_1_adaptive_join_executor" prot="public">themis::AdaptiveJoinExecutor</innerclass>
+    <innerclass refid="classthemis_1_1_aql_mutation_translator" prot="public">themis::AqlMutationTranslator</innerclass>
+    <innerclass refid="classthemis_1_1_a_q_l_translator" prot="public">themis::AQLTranslator</innerclass>
+    <innerclass refid="structthemis_1_1_join_result" prot="public">themis::JoinResult</innerclass>
+    <innerclass refid="structthemis_1_1_join_spec" prot="public">themis::JoinSpec</innerclass>
+    <innerclass refid="classthemis_1_1_optimizer_cost_model" prot="public">themis::OptimizerCostModel</innerclass>
+    <innerclass refid="classthemis_1_1_parallel_executor" prot="public">themis::ParallelExecutor</innerclass>
+    <innerclass refid="structthemis_1_1_parallel_scan_config" prot="public">themis::ParallelScanConfig</innerclass>
+    <innerclass refid="classthemis_1_1_runtime_reoptimizer" prot="public">themis::RuntimeReoptimizer</innerclass>
+    <innerclass refid="structthemis_1_1_runtime_stats" prot="public">themis::RuntimeStats</innerclass>
+    <innerclass refid="classthemis_1_1_semantic_query_cache" prot="public">themis::SemanticQueryCache</innerclass>
+    <innerclass refid="classthemis_1_1_statistics_manager" prot="public">themis::StatisticsManager</innerclass>
+    <innerclass refid="structthemis_1_1_table" prot="public">themis::Table</innerclass>
+    <innernamespace refid="namespacethemis_1_1index">themis::index</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance">themis::performance</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <innernamespace refid="namespacethemis_1_1search">themis::search</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <innernamespace refid="namespacethemis_1_1tbb">themis::tbb</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1ae6c40bb36ea2f37aaabc642cd26cacaa" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>JoinAlgorithm</name>
+        <qualifiedname>themis::JoinAlgorithm</qualifiedname>
+        <enumvalue id="namespacethemis_1ae6c40bb36ea2f37aaabc642cd26cacaaa2e0fc921614e47e1e6ee456f454c73a1" prot="public">
+          <name>HASH_JOIN</name>
+          <briefdescription>
+<para>Build hash table on smaller side; default for large equi-joins. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1ae6c40bb36ea2f37aaabc642cd26cacaaaa5cd63a172745792164407cb0b9e8da5" prot="public">
+          <name>MERGE_JOIN</name>
+          <briefdescription>
+<para>Sorted inputs, O(n+m) merge; chosen when both sides are sorted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1ae6c40bb36ea2f37aaabc642cd26cacaaaf78ea30cb360ede78316ce967243f9e4" prot="public">
+          <name>NESTED_LOOP_JOIN</name>
+          <briefdescription>
+<para>Quadratic; chosen when left side &lt; 1,000 rows. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1ae6c40bb36ea2f37aaabc642cd26cacaaaf2bd7bb85417c2a57df42a28c3896680" prot="public">
+          <name>INDEX_NESTED_LOOP</name>
+          <briefdescription>
+<para>Right side has index, left side &lt; 10,000 rows. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1ae6c40bb36ea2f37aaabc642cd26cacaaa54fafd6b4597a357bf581a0b70b3a4d4" prot="public">
+          <name>BROADCAST_JOIN</name>
+          <briefdescription>
+<para>Distributed: broadcast small table to all nodes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1ae6c40bb36ea2f37aaabc642cd26cacaaad69a12752371d1d651bc5a79eccadb73" prot="public">
+          <name>SHUFFLE_JOIN</name>
+          <briefdescription>
+<para>Distributed: repartition both sides on join key. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1ae6c40bb36ea2f37aaabc642cd26cacaaaacafaad16309cb3c96f5039c08003661" prot="public">
+          <name>GRACE_HASH_JOIN</name>
+          <briefdescription>
+<para>Partitioned hash join (out-of-core); when memory budget exceeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="27" column="1" bodyfile="include/query/adaptive_join.h" bodystart="27" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1a10ce323676f202709c131425cf4113b4" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>WorkloadType</name>
+        <qualifiedname>themis::WorkloadType</qualifiedname>
+        <enumvalue id="namespacethemis_1a10ce323676f202709c131425cf4113b4a03523a4f43fe52611c40598a1ebf1567" prot="public">
+          <name>DOCUMENT_CRUD</name>
+          <briefdescription>
+<para>Point reads/writes, small payloads → JSON/CPU_SINGLE. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a10ce323676f202709c131425cf4113b4a4939a0c5f946aa98a33244d2f3cfef58" prot="public">
+          <name>VECTOR_SEARCH</name>
+          <briefdescription>
+<para>ANN / embedding queries → Arrow IPC, GPU-eligible. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a10ce323676f202709c131425cf4113b4aad4c3e05f2231c91e9aac474a631742b" prot="public">
+          <name>ANALYTICS_OLAP</name>
+          <briefdescription>
+<para>Full-scan aggregations → Arrow IPC + GPU (large batches). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a10ce323676f202709c131425cf4113b4abef0d5c8ef807774bcd2e457dcdc0672" prot="public">
+          <name>CDC_STREAM</name>
+          <briefdescription>
+<para>Change-data-capture event streams → Binary/CPU threaded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a10ce323676f202709c131425cf4113b4a23d6d2057e17c0ec319a61953bdd63bb" prot="public">
+          <name>CACHE_REPL</name>
+          <briefdescription>
+<para>Internal cache replication → Protobuf/CPU threaded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1a10ce323676f202709c131425cf4113b4a06979a01ee5afe06e4c936d6fd06f43a" prot="public">
+          <name>TENSOR_RAG</name>
+          <briefdescription>
+<para>TT-domain RAG/FLARE retrieval — see <ref refid="tensor__rag__cost__model_8h" kindref="compound">tensor_rag_cost_model.h</ref>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/optimizer_cost_model.h" line="26" column="1" bodyfile="include/query/optimizer_cost_model.h" bodystart="26" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1af141136067e6bab28010b6591e8acbcc" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>using themis::RowValue = std::unordered_map&lt;std::string, std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>RowValue</name>
+        <qualifiedname>themis::RowValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/adaptive_join.h" line="49" column="1" bodyfile="include/query/adaptive_join.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a1b5f7c341aaf7b073902cab31b34e273" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_conjunctive_query" kindref="compound">::themis::query::ConjunctiveQuery</ref></type>
+        <definition>using themis::ConjunctiveQuery = ::themis::query::ConjunctiveQuery</definition>
+        <argsstring></argsstring>
+        <name>ConjunctiveQuery</name>
+        <qualifiedname>themis::ConjunctiveQuery</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_runner.h" line="37" column="1" bodyfile="include/query/aql_runner.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a8ab1a521499f03be39c91b19954ba4f2" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_recursive_path_query" kindref="compound">::themis::query::RecursivePathQuery</ref></type>
+        <definition>using themis::RecursivePathQuery = ::themis::query::RecursivePathQuery</definition>
+        <argsstring></argsstring>
+        <name>RecursivePathQuery</name>
+        <qualifiedname>themis::RecursivePathQuery</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_runner.h" line="38" column="1" bodyfile="include/query/aql_runner.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a9ea8a823d187ac1c4a5556c0b05f48af" prot="public" static="no">
+        <type><ref refid="namespacethemis_1_1query_1aa9bec15a44ddab7c0ba464cfe5b63d26" kindref="member">::themis::query::TraversalDirection</ref></type>
+        <definition>using themis::TraversalDirection = ::themis::query::TraversalDirection</definition>
+        <argsstring></argsstring>
+        <name>TraversalDirection</name>
+        <qualifiedname>themis::TraversalDirection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_runner.h" line="39" column="1" bodyfile="include/query/aql_runner.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a144a093ff912cfd752de8098c6434b78" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_query" kindref="compound">::themis::query::Query</ref></type>
+        <definition>using themis::Query = ::themis::query::Query</definition>
+        <argsstring></argsstring>
+        <name>Query</name>
+        <qualifiedname>themis::Query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="23" column="1" bodyfile="include/query/aql_translator.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1aad262263f1ca8ffca25c97b9978c066d" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_expression" kindref="compound">::themis::query::Expression</ref></type>
+        <definition>using themis::Expression = ::themis::query::Expression</definition>
+        <argsstring></argsstring>
+        <name>Expression</name>
+        <qualifiedname>themis::Expression</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="24" column="1" bodyfile="include/query/aql_translator.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a52f7c0b74445a7561ac62e8b3afe7020" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_sort_node" kindref="compound">::themis::query::SortNode</ref></type>
+        <definition>using themis::SortNode = ::themis::query::SortNode</definition>
+        <argsstring></argsstring>
+        <name>SortNode</name>
+        <qualifiedname>themis::SortNode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="25" column="1" bodyfile="include/query/aql_translator.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1abe2cc953d30045cdb67f36d034a390f1" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_limit_node" kindref="compound">::themis::query::LimitNode</ref></type>
+        <definition>using themis::LimitNode = ::themis::query::LimitNode</definition>
+        <argsstring></argsstring>
+        <name>LimitNode</name>
+        <qualifiedname>themis::LimitNode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="26" column="1" bodyfile="include/query/aql_translator.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1aa96560e844e08caba0f387ef66e7826d" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_filter_node" kindref="compound">::themis::query::FilterNode</ref></type>
+        <definition>using themis::FilterNode = ::themis::query::FilterNode</definition>
+        <argsstring></argsstring>
+        <name>FilterNode</name>
+        <qualifiedname>themis::FilterNode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="27" column="1" bodyfile="include/query/aql_translator.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1ae9b20a8b2c4ef455e825f8f8d14271bd" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_binary_op_expr" kindref="compound">::themis::query::BinaryOpExpr</ref></type>
+        <definition>using themis::BinaryOpExpr = ::themis::query::BinaryOpExpr</definition>
+        <argsstring></argsstring>
+        <name>BinaryOpExpr</name>
+        <qualifiedname>themis::BinaryOpExpr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="28" column="1" bodyfile="include/query/aql_translator.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a5f64f45681b1eaac1489b6c88df2e1b2" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_field_access_expr" kindref="compound">::themis::query::FieldAccessExpr</ref></type>
+        <definition>using themis::FieldAccessExpr = ::themis::query::FieldAccessExpr</definition>
+        <argsstring></argsstring>
+        <name>FieldAccessExpr</name>
+        <qualifiedname>themis::FieldAccessExpr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="29" column="1" bodyfile="include/query/aql_translator.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a94b1f7b3e187b74a695745a5d1f27adb" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_literal_expr" kindref="compound">::themis::query::LiteralExpr</ref></type>
+        <definition>using themis::LiteralExpr = ::themis::query::LiteralExpr</definition>
+        <argsstring></argsstring>
+        <name>LiteralExpr</name>
+        <qualifiedname>themis::LiteralExpr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="30" column="1" bodyfile="include/query/aql_translator.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a223ccf34773f2f3617b684a4797c88dd" prot="public" static="no">
+        <type><ref refid="namespacethemis_1_1query_1ae84c12941c8ca6e3fc6c92c275f16e42" kindref="member">::themis::query::LiteralValue</ref></type>
+        <definition>using themis::LiteralValue = ::themis::query::LiteralValue</definition>
+        <argsstring></argsstring>
+        <name>LiteralValue</name>
+        <qualifiedname>themis::LiteralValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="31" column="1" bodyfile="include/query/aql_translator.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a8b0ff20af31cdd3e34d6a2bf03785195" prot="public" static="no">
+        <type><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8f" kindref="member">::themis::query::ASTNodeType</ref></type>
+        <definition>using themis::ASTNodeType = ::themis::query::ASTNodeType</definition>
+        <argsstring></argsstring>
+        <name>ASTNodeType</name>
+        <qualifiedname>themis::ASTNodeType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="32" column="1" bodyfile="include/query/aql_translator.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a99ef0ead4f97a4ec02206c62cd4f051b" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_function_call_expr" kindref="compound">::themis::query::FunctionCallExpr</ref></type>
+        <definition>using themis::FunctionCallExpr = ::themis::query::FunctionCallExpr</definition>
+        <argsstring></argsstring>
+        <name>FunctionCallExpr</name>
+        <qualifiedname>themis::FunctionCallExpr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="33" column="1" bodyfile="include/query/aql_translator.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1aa5c94d2d58b502af32da3efa028e0837" prot="public" static="no">
+        <type><ref refid="namespacethemis_1_1query_1affc80a450a05256c6310ab5a93827f10" kindref="member">::themis::query::BinaryOperator</ref></type>
+        <definition>using themis::BinaryOperator = ::themis::query::BinaryOperator</definition>
+        <argsstring></argsstring>
+        <name>BinaryOperator</name>
+        <qualifiedname>themis::BinaryOperator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="34" column="1" bodyfile="include/query/aql_translator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1ae777d5e960a7b0c967cdb8de2bead17d" prot="public" static="no">
+        <type><ref refid="namespacethemis_1_1query_1a894c6228010763e429dffaf0d4dac4a6" kindref="member">::themis::query::UnaryOperator</ref></type>
+        <definition>using themis::UnaryOperator = ::themis::query::UnaryOperator</definition>
+        <argsstring></argsstring>
+        <name>UnaryOperator</name>
+        <qualifiedname>themis::UnaryOperator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="35" column="1" bodyfile="include/query/aql_translator.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a6f2a8e4cb90d04526f8c7cd11596ba09" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_unary_op_expr" kindref="compound">::themis::query::UnaryOpExpr</ref></type>
+        <definition>using themis::UnaryOpExpr = ::themis::query::UnaryOpExpr</definition>
+        <argsstring></argsstring>
+        <name>UnaryOpExpr</name>
+        <qualifiedname>themis::UnaryOpExpr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="36" column="1" bodyfile="include/query/aql_translator.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a0160f5c34565b577b294f17af594ed05" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_variable_expr" kindref="compound">::themis::query::VariableExpr</ref></type>
+        <definition>using themis::VariableExpr = ::themis::query::VariableExpr</definition>
+        <argsstring></argsstring>
+        <name>VariableExpr</name>
+        <qualifiedname>themis::VariableExpr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="37" column="1" bodyfile="include/query/aql_translator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1afecbee146dde4da7a6dd9ecac515caeb" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_similarity_call_expr" kindref="compound">::themis::query::SimilarityCallExpr</ref></type>
+        <definition>using themis::SimilarityCallExpr = ::themis::query::SimilarityCallExpr</definition>
+        <argsstring></argsstring>
+        <name>SimilarityCallExpr</name>
+        <qualifiedname>themis::SimilarityCallExpr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="38" column="1" bodyfile="include/query/aql_translator.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a6b669298601533b3bb1d3286e95d390a" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_proximity_call_expr" kindref="compound">::themis::query::ProximityCallExpr</ref></type>
+        <definition>using themis::ProximityCallExpr = ::themis::query::ProximityCallExpr</definition>
+        <argsstring></argsstring>
+        <name>ProximityCallExpr</name>
+        <qualifiedname>themis::ProximityCallExpr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="39" column="1" bodyfile="include/query/aql_translator.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a71b0ec939b2b815b0b5ba3288720b207" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_array_literal_expr" kindref="compound">::themis::query::ArrayLiteralExpr</ref></type>
+        <definition>using themis::ArrayLiteralExpr = ::themis::query::ArrayLiteralExpr</definition>
+        <argsstring></argsstring>
+        <name>ArrayLiteralExpr</name>
+        <qualifiedname>themis::ArrayLiteralExpr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="40" column="1" bodyfile="include/query/aql_translator.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a7eed919f282c0ad3be926b3118da86bb" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_subquery_expr" kindref="compound">::themis::query::SubqueryExpr</ref></type>
+        <definition>using themis::SubqueryExpr = ::themis::query::SubqueryExpr</definition>
+        <argsstring></argsstring>
+        <name>SubqueryExpr</name>
+        <qualifiedname>themis::SubqueryExpr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="41" column="1" bodyfile="include/query/aql_translator.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a072d7ec273b654a3568819f1a8dcba06" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_any_expr" kindref="compound">::themis::query::AnyExpr</ref></type>
+        <definition>using themis::AnyExpr = ::themis::query::AnyExpr</definition>
+        <argsstring></argsstring>
+        <name>AnyExpr</name>
+        <qualifiedname>themis::AnyExpr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="42" column="1" bodyfile="include/query/aql_translator.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a719144bf6ace6acd367d91883a50099c" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_all_expr" kindref="compound">::themis::query::AllExpr</ref></type>
+        <definition>using themis::AllExpr = ::themis::query::AllExpr</definition>
+        <argsstring></argsstring>
+        <name>AllExpr</name>
+        <qualifiedname>themis::AllExpr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="43" column="1" bodyfile="include/query/aql_translator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a705c9ef9aad613370b0df14665ed5e3e" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_disjunctive_query" kindref="compound">::themis::query::DisjunctiveQuery</ref></type>
+        <definition>using themis::DisjunctiveQuery = ::themis::query::DisjunctiveQuery</definition>
+        <argsstring></argsstring>
+        <name>DisjunctiveQuery</name>
+        <qualifiedname>themis::DisjunctiveQuery</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="45" column="1" bodyfile="include/query/aql_translator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a4906d6584e31a8e04061d62450ea94b3" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_vector_geo_query" kindref="compound">::themis::query::VectorGeoQuery</ref></type>
+        <definition>using themis::VectorGeoQuery = ::themis::query::VectorGeoQuery</definition>
+        <argsstring></argsstring>
+        <name>VectorGeoQuery</name>
+        <qualifiedname>themis::VectorGeoQuery</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="46" column="1" bodyfile="include/query/aql_translator.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a2c9ba995b65278f47b8228c361584ef5" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_content_geo_query" kindref="compound">::themis::query::ContentGeoQuery</ref></type>
+        <definition>using themis::ContentGeoQuery = ::themis::query::ContentGeoQuery</definition>
+        <argsstring></argsstring>
+        <name>ContentGeoQuery</name>
+        <qualifiedname>themis::ContentGeoQuery</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="47" column="1" bodyfile="include/query/aql_translator.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1ac2e76e59ebc65b1b7a551ba34b242936" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_for_node" kindref="compound">::themis::query::ForNode</ref></type>
+        <definition>using themis::ForNode = ::themis::query::ForNode</definition>
+        <argsstring></argsstring>
+        <name>ForNode</name>
+        <qualifiedname>themis::ForNode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="48" column="1" bodyfile="include/query/aql_translator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a1dfcd725a59cca0551347683cbea48ea" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_let_node" kindref="compound">::themis::query::LetNode</ref></type>
+        <definition>using themis::LetNode = ::themis::query::LetNode</definition>
+        <argsstring></argsstring>
+        <name>LetNode</name>
+        <qualifiedname>themis::LetNode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="49" column="1" bodyfile="include/query/aql_translator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1aa7c19f329bc1f5aa307194d3584d7425" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_return_node" kindref="compound">::themis::query::ReturnNode</ref></type>
+        <definition>using themis::ReturnNode = ::themis::query::ReturnNode</definition>
+        <argsstring></argsstring>
+        <name>ReturnNode</name>
+        <qualifiedname>themis::ReturnNode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="50" column="1" bodyfile="include/query/aql_translator.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1aa86c6cfe0fea3b202805ac75523d933a" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_collect_node" kindref="compound">::themis::query::CollectNode</ref></type>
+        <definition>using themis::CollectNode = ::themis::query::CollectNode</definition>
+        <argsstring></argsstring>
+        <name>CollectNode</name>
+        <qualifiedname>themis::CollectNode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="51" column="1" bodyfile="include/query/aql_translator.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a131cca4a2f328bc6a63447ef69caa5a2" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_predicate_eq" kindref="compound">::themis::query::PredicateEq</ref></type>
+        <definition>using themis::PredicateEq = ::themis::query::PredicateEq</definition>
+        <argsstring></argsstring>
+        <name>PredicateEq</name>
+        <qualifiedname>themis::PredicateEq</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="52" column="1" bodyfile="include/query/aql_translator.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a5cb25b98f9473ba5209158b081cbad60" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_predicate_range" kindref="compound">::themis::query::PredicateRange</ref></type>
+        <definition>using themis::PredicateRange = ::themis::query::PredicateRange</definition>
+        <argsstring></argsstring>
+        <name>PredicateRange</name>
+        <qualifiedname>themis::PredicateRange</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="53" column="1" bodyfile="include/query/aql_translator.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a9202ab50a0826a4374a7a64dbeda0021" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_predicate_fulltext" kindref="compound">::themis::query::PredicateFulltext</ref></type>
+        <definition>using themis::PredicateFulltext = ::themis::query::PredicateFulltext</definition>
+        <argsstring></argsstring>
+        <name>PredicateFulltext</name>
+        <qualifiedname>themis::PredicateFulltext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="54" column="1" bodyfile="include/query/aql_translator.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1aa1f488a882c121f07f9bc236534692ff" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_predicate_phrase" kindref="compound">::themis::query::PredicatePhrase</ref></type>
+        <definition>using themis::PredicatePhrase = ::themis::query::PredicatePhrase</definition>
+        <argsstring></argsstring>
+        <name>PredicatePhrase</name>
+        <qualifiedname>themis::PredicatePhrase</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="55" column="1" bodyfile="include/query/aql_translator.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1afaebcd18a2cc74aad7719904bd5b2ca6" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_predicate_fuzzy" kindref="compound">::themis::query::PredicateFuzzy</ref></type>
+        <definition>using themis::PredicateFuzzy = ::themis::query::PredicateFuzzy</definition>
+        <argsstring></argsstring>
+        <name>PredicateFuzzy</name>
+        <qualifiedname>themis::PredicateFuzzy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="56" column="1" bodyfile="include/query/aql_translator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1aee3ad6f05a07ede77681fd83161f13e5" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_predicate_spatial" kindref="compound">::themis::query::PredicateSpatial</ref></type>
+        <definition>using themis::PredicateSpatial = ::themis::query::PredicateSpatial</definition>
+        <argsstring></argsstring>
+        <name>PredicateSpatial</name>
+        <qualifiedname>themis::PredicateSpatial</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="57" column="1" bodyfile="include/query/aql_translator.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a4877a7279a98f8be623ecc6cc4e17c83" prot="public" static="no">
+        <type><ref refid="structthemis_1_1query_1_1_order_by" kindref="compound">::themis::query::OrderBy</ref></type>
+        <definition>using themis::OrderBy = ::themis::query::OrderBy</definition>
+        <argsstring></argsstring>
+        <name>OrderBy</name>
+        <qualifiedname>themis::OrderBy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_translator.h" line="58" column="1" bodyfile="include/query/aql_translator.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a695cf70acd7ae814da7b20e8aed749bd" prot="public" static="no">
+        <type><ref refid="classthemis_1_1query_1_1_adaptive_query_stats" kindref="compound">::themis::query::AdaptiveQueryStats</ref></type>
+        <definition>using themis::AdaptiveQueryStats = ::themis::query::AdaptiveQueryStats</definition>
+        <argsstring></argsstring>
+        <name>AdaptiveQueryStats</name>
+        <qualifiedname>themis::AdaptiveQueryStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="21" column="1" bodyfile="include/query/runtime_reoptimizer.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1aaec0b146389b95d1915817436541a2eb" prot="public" static="no">
+        <type><ref refid="classthemis_1_1query_1_1_adaptive_plan_selector" kindref="compound">::themis::query::AdaptivePlanSelector</ref></type>
+        <definition>using themis::AdaptivePlanSelector = ::themis::query::AdaptivePlanSelector</definition>
+        <argsstring></argsstring>
+        <name>AdaptivePlanSelector</name>
+        <qualifiedname>themis::AdaptivePlanSelector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/runtime_reoptimizer.h" line="22" column="1" bodyfile="include/query/runtime_reoptimizer.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1ada6e6e9de6908607c6b804ac450f4d2e" prot="public" static="no">
+        <type><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">::themis::query::QueryEngine</ref></type>
+        <definition>using themis::QueryEngine = ::themis::query::QueryEngine</definition>
+        <argsstring></argsstring>
+        <name>QueryEngine</name>
+        <qualifiedname>themis::QueryEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/cte_subquery.cpp" line="27" column="1" bodyfile="src/query/cte_subquery.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1aa6ed250dae505ca819363d061de7845b" prot="public" static="yes" mutable="no" thread_local="yes">
+        <type><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref> *</type>
+        <definition>query::QueryEngine* themis::tl_jit_engine</definition>
+        <argsstring></argsstring>
+        <name>tl_jit_engine</name>
+        <qualifiedname>themis::tl_jit_engine</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_runner.cpp" line="43" column="40" bodyfile="src/query/aql_runner.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1a9b06c2df948a5917492e9764fa8673ea" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::joinAlgorithmName</definition>
+        <argsstring>(JoinAlgorithm algo) noexcept</argsstring>
+        <name>joinAlgorithmName</name>
+        <qualifiedname>themis::joinAlgorithmName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1ae6c40bb36ea2f37aaabc642cd26cacaa" kindref="member">JoinAlgorithm</ref></type>
+          <declname>algo</declname>
+        </param>
+        <briefdescription>
+<para>Join Algorithm Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">algo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/adaptive_join.cpp" line="46" column="12" bodyfile="src/query/adaptive_join.cpp" bodystart="46" bodyend="57" declfile="include/query/adaptive_join.h" declline="43" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a2cfd39f1e3a36b9d3ad829f45cb58054" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::estimateJoinCost</definition>
+        <argsstring>(JoinAlgorithm algo, size_t left_rows, size_t right_rows, bool left_sorted=false, bool right_sorted=false) noexcept</argsstring>
+        <name>estimateJoinCost</name>
+        <qualifiedname>themis::estimateJoinCost</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1ae6c40bb36ea2f37aaabc642cd26cacaa" kindref="member">JoinAlgorithm</ref></type>
+          <declname>algo</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>left_rows</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>right_rows</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>left_sorted</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>right_sorted</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/adaptive_join.cpp" line="63" column="8" bodyfile="src/query/adaptive_join.cpp" bodystart="63" bodyend="106" declfile="include/query/adaptive_join.h" declline="94" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1aa59fe790689e845ff334c32870feb98a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; nlohmann::json &gt;</type>
+        <definition>Result&lt; nlohmann::json &gt; themis::executeAql</definition>
+        <argsstring>(const std::string &amp;aql, query::QueryEngine &amp;engine)</argsstring>
+        <name>executeAql</name>
+        <qualifiedname>themis::executeAql</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>High-level convenience dispatcher for AQL execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute Aql.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Translates AQL to internal query forms and invokes the proper <ref refid="class_query_engine" kindref="compound">QueryEngine</ref> method. Returns Result&lt;nlohmann::json&gt; for unified error handling. GAP-002: Migrated from std::pair&lt;Status, json&gt; to Result&lt;json&gt;</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getNlpAnalyzer(), normalizeQuery(), estimateQueryComplexity(), extractQueryHints(), suggestIndexes(), getReoptimizer(), <ref refid="classthemis_1_1_runtime_reoptimizer_1a3c79af97cda5cbee5b40c97ff0c0685c" kindref="member">RuntimeReoptimizer::computeQueryHash()</ref>, beginExecutionGuard(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_runner.cpp" line="132" column="8" bodyfile="src/query/aql_runner.cpp" bodystart="132" bodyend="414" declfile="include/query/aql_runner.h" declline="48" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a1fc2a58de257991c13e877c525120602" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; nlohmann::json &gt;</type>
+        <definition>Result&lt; nlohmann::json &gt; themis::executeSQL</definition>
+        <argsstring>(const std::string &amp;sql, query::QueryEngine &amp;engine)</argsstring>
+        <name>executeSQL</name>
+        <qualifiedname>themis::executeSQL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sql</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Execute SQL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: parse(), error(), message(), transpile(), value(), <ref refid="namespacethemis_1aa59fe790689e845ff334c32870feb98a" kindref="member">executeAql()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_runner.cpp" line="1208" column="8" bodyfile="src/query/aql_runner.cpp" bodystart="1208" bodyend="1231" declfile="include/query/aql_runner.h" declline="56" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1ad9a55c7da63256af453bee8ca8d2d4e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; nlohmann::json &gt;</type>
+        <definition>Result&lt; nlohmann::json &gt; themis::executeAqlWithLimits</definition>
+        <argsstring>(const std::string &amp;aql, query::QueryEngine &amp;engine, const query::QueryResourceLimits &amp;limits)</argsstring>
+        <name>executeAqlWithLimits</name>
+        <qualifiedname>themis::executeAqlWithLimits</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_resource_limits" kindref="compound">query::QueryResourceLimits</ref> &amp;</type>
+          <declname>limits</declname>
+        </param>
+        <briefdescription>
+<para>Execute Aql With Limits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">limits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_runner.cpp" line="1137" column="8" bodyfile="src/query/aql_runner.cpp" bodystart="1137" bodyend="1198" declfile="include/query/aql_runner.h" declline="65" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a48a22a87f201570ac9c99bd15f0b4167" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; nlohmann::json &gt;</type>
+        <definition>Result&lt; nlohmann::json &gt; themis::explainAql</definition>
+        <argsstring>(const std::string &amp;aql, query::QueryEngine &amp;engine, bool analyze)</argsstring>
+        <name>explainAql</name>
+        <qualifiedname>themis::explainAql</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>analyze</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Explain Aql. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">analyze</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: buildExplainPlanNode(), error(), code(), message(), Ok(), <ref refid="classthemis_1_1query_1_1_query_plan_visualizer_1a3aa80da8a616ce2c7d9e42d7f1fd35dd" kindref="member">query::QueryPlanVisualizer::toJSON()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_runner.cpp" line="547" column="8" bodyfile="src/query/aql_runner.cpp" bodystart="547" bodyend="553" declfile="include/query/aql_runner.h" declline="78" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1ab048e170c322861027bc7c166faecb36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::explainAqlText</definition>
+        <argsstring>(const std::string &amp;aql, query::QueryEngine &amp;engine, bool analyze)</argsstring>
+        <name>explainAqlText</name>
+        <qualifiedname>themis::explainAqlText</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>analyze</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Explain Aql Text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">analyze</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: buildExplainPlanNode(), error(), code(), message(), Ok(), <ref refid="classthemis_1_1query_1_1_query_plan_visualizer_1a2baf5e8ad27de8441b3c7e0c344bb250" kindref="member">query::QueryPlanVisualizer::toText()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_runner.cpp" line="563" column="8" bodyfile="src/query/aql_runner.cpp" bodystart="563" bodyend="569" declfile="include/query/aql_runner.h" declline="81" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1adf795444c23ccc6d14dd954d97a6967c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::explainAqlDot</definition>
+        <argsstring>(const std::string &amp;aql, query::QueryEngine &amp;engine)</argsstring>
+        <name>explainAqlDot</name>
+        <qualifiedname>themis::explainAqlDot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Explain Aql Dot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: buildExplainPlanNode(), error(), code(), message(), Ok(), <ref refid="classthemis_1_1query_1_1_query_plan_visualizer_1afbdd0c98c1e3cb8cd27cd8132f99c6b4" kindref="member">query::QueryPlanVisualizer::toDOT()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_runner.cpp" line="578" column="8" bodyfile="src/query/aql_runner.cpp" bodystart="578" bodyend="584" declfile="include/query/aql_runner.h" declline="90" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1af7074a3d4f1cdb0f487999309f7b212b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; nlohmann::json &gt;</type>
+        <definition>Result&lt; nlohmann::json &gt; themis::executeMultiStatementAql</definition>
+        <argsstring>(const std::string &amp;aql, query::QueryEngine &amp;engine)</argsstring>
+        <name>executeMultiStatementAql</name>
+        <qualifiedname>themis::executeMultiStatementAql</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Execute Multi Statement Aql. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: parseTransactionBlock(), error(), code(), message(), Ok(), nlohmann::json(), size(), nlohmann::json::array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_runner.cpp" line="593" column="8" bodyfile="src/query/aql_runner.cpp" bodystart="593" bodyend="760" declfile="include/query/aql_runner.h" declline="98" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a8ef843fd28b0471bc4c41988748428a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; nlohmann::json &gt;</type>
+        <definition>Result&lt; nlohmann::json &gt; themis::executeMultiStatementAql</definition>
+        <argsstring>(const std::string &amp;aql, query::QueryEngine &amp;engine, query::MutationExecutor::StorageContext *storage)</argsstring>
+        <name>executeMultiStatementAql</name>
+        <qualifiedname>themis::executeMultiStatementAql</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_mutation_executor_1_1_storage_context" kindref="compound">query::MutationExecutor::StorageContext</ref> *</type>
+          <declname>storage</declname>
+        </param>
+        <briefdescription>
+<para>Execute Multi Statement Aql. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">storage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">storage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: parseTransactionBlock(), error(), code(), message(), empty(), size(), Ok(), nlohmann::json(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_runner.cpp" line="771" column="8" bodyfile="src/query/aql_runner.cpp" bodystart="771" bodyend="1018" declfile="include/query/aql_runner.h" declline="107" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a1b9fad095b370407f7bbd5d626c804da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; nlohmann::json &gt;</type>
+        <definition>Result&lt; nlohmann::json &gt; themis::executeAqlWithRLS</definition>
+        <argsstring>(const std::string &amp;aql, query::QueryEngine &amp;engine, security::RLSManager &amp;rls, const security::SecurityContext &amp;ctx)</argsstring>
+        <name>executeAqlWithRLS</name>
+        <qualifiedname>themis::executeAqlWithRLS</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>security::RLSManager &amp;</type>
+          <declname>rls</declname>
+        </param>
+        <param>
+          <type>const security::SecurityContext &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>── Row-level security (RLS) wrappers ──────────────────────────────────────── These functions execute AQL normally and then apply row-level security policies from <computeroutput>rls</computeroutput> to filter the result rows based on <computeroutput>ctx</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute Aql With RLS.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">rls</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+If no policies match the queried collection and security context, the result is returned unchanged (no filtering overhead).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">rls</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1aa59fe790689e845ff334c32870feb98a" kindref="member">executeAql()</ref>, parse(), <ref refid="classthemis_1_1_a_q_l_translator_1afe28cf2fd466c84446fd21128164a0c7" kindref="member">AQLTranslator::translate()</ref>, value(), has_value(), empty(), front(), is_object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_runner.cpp" line="1031" column="8" bodyfile="src/query/aql_runner.cpp" bodystart="1031" bodyend="1084" declfile="include/query/aql_runner.h" declline="121" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a683f91557d114660002a4872f528b44c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1query_1_1_annotated_query_result" kindref="compound">query::AnnotatedQueryResult</ref> &gt;</type>
+        <definition>Result&lt; query::AnnotatedQueryResult &gt; themis::executeAqlAnnotated</definition>
+        <argsstring>(const std::string &amp;aql, query::QueryEngine &amp;engine)</argsstring>
+        <name>executeAqlAnnotated</name>
+        <qualifiedname>themis::executeAqlAnnotated</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>── Type-annotated execution (for client SDK code generation) ───────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute Aql Annotated.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_runner.cpp" line="1093" column="8" bodyfile="src/query/aql_runner.cpp" bodystart="1093" bodyend="1127" declfile="include/query/aql_runner.h" declline="135" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a103b7b3495e7632a7c3faaba793191a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; nlohmann::json &gt;</type>
+        <definition>Result&lt; nlohmann::json &gt; themis::executeAqlCancellable</definition>
+        <argsstring>(const std::string &amp;aql, query::QueryEngine &amp;engine, const std::string &amp;request_id, query::QueryCanceller &amp;canceller)</argsstring>
+        <name>executeAqlCancellable</name>
+        <qualifiedname>themis::executeAqlCancellable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_canceller" kindref="compound">query::QueryCanceller</ref> &amp;</type>
+          <declname>canceller</declname>
+          <defval><ref refid="classthemis_1_1query_1_1_query_canceller_1ac325e371562c57842b2d477788fa552b" kindref="member">query::QueryCanceller::instance</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Execute Aql Cancellable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">canceller</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Guard. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">canceller</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/query/aql_runner.cpp" line="1242" column="8" bodyfile="src/query/aql_runner.cpp" bodystart="1242" bodyend="1282" declfile="include/query/aql_runner.h" declline="140" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a848b95e564d4ce8c80635cfbc368dde0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_query_compiler" kindref="compound">query::QueryCompiler</ref> &amp;</type>
+        <definition>static query::QueryCompiler &amp; themis::getJitCompiler</definition>
+        <argsstring>()</argsstring>
+        <name>getJitCompiler</name>
+        <qualifiedname>themis::getJitCompiler</qualifiedname>
+        <briefdescription>
+<para>Get Jit Compiler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getJitCompiler without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_runner.cpp" line="35" column="29" bodyfile="src/query/aql_runner.cpp" bodystart="35" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a1c50c771f7a8b617ca2aa9677654e2ab" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themis::analytics::NlpTextAnalyzer &amp;</type>
+        <definition>static themis::analytics::NlpTextAnalyzer &amp; themis::getNlpAnalyzer</definition>
+        <argsstring>()</argsstring>
+        <name>getNlpAnalyzer</name>
+        <qualifiedname>themis::getNlpAnalyzer</qualifiedname>
+        <briefdescription>
+<para>Get Nlp Analyzer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getNlpAnalyzer without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_runner.cpp" line="50" column="43" bodyfile="src/query/aql_runner.cpp" bodystart="50" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a6b09f27dbd1a25e1638d6b3312637841" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_runtime_reoptimizer" kindref="compound">RuntimeReoptimizer</ref> &amp;</type>
+        <definition>static RuntimeReoptimizer &amp; themis::getReoptimizer</definition>
+        <argsstring>()</argsstring>
+        <name>getReoptimizer</name>
+        <qualifiedname>themis::getReoptimizer</qualifiedname>
+        <briefdescription>
+<para>Get Reoptimizer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getReoptimizer without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_runner.cpp" line="60" column="27" bodyfile="src/query/aql_runner.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1a6e14083fad8e01c7e33551268d06a68b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, geo::GeometryInfo &gt; &gt;</type>
+        <definition>static std::vector&lt; std::pair&lt; std::string, geo::GeometryInfo &gt; &gt; themis::collectGeometries</definition>
+        <argsstring>(query::QueryEngine &amp;engine, const std::string &amp;collection, const std::string &amp;field)</argsstring>
+        <name>collectGeometries</name>
+        <qualifiedname>themis::collectGeometries</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_query_engine" kindref="compound">query::QueryEngine</ref> &amp;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_runner.cpp" line="66" column="1" bodyfile="src/query/aql_runner.cpp" bodystart="66" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1ad375f8ded35dfeb28a99ba958df9e937" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>static nlohmann::json themis::entityToResultRow</definition>
+        <argsstring>(const BaseEntity &amp;entity)</argsstring>
+        <name>entityToResultRow</name>
+        <qualifiedname>themis::entityToResultRow</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1query_1ab0eb80267d0618503ef74b8727a6c500" kindref="member">BaseEntity</ref> &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>Entity To Result <ref refid="namespacethemis_1_1query_1a1e5822b55f2c69fe4e683b3395dbe3fe" kindref="member">Row</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nlohmann::json::parse(), toJson(), contains(), getPrimaryKey(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_runner.cpp" line="114" column="23" bodyfile="src/query/aql_runner.cpp" bodystart="114" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1afc3fe56169a0d00bccb742a3583a7422" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::waitWithTimeout</definition>
+        <argsstring>(tbb::task_group &amp;tg, double timeout_seconds=5.0) noexcept</argsstring>
+        <name>waitWithTimeout</name>
+        <qualifiedname>themis::waitWithTimeout</qualifiedname>
+        <param>
+          <type><ref refid="classtbb_1_1task__group" kindref="compound">tbb::task_group</ref> &amp;</type>
+          <declname>tg</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>timeout_seconds</declname>
+          <defval>5.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/parallel_executor.cpp" line="116" column="13" bodyfile="src/query/parallel_executor.cpp" bodystart="116" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1aca35b6f451725b10bf89dc3c2f9177a4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::fnv1a_hex</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>fnv1a_hex</name>
+        <qualifiedname>themis::fnv1a_hex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Fnv1a hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: themis::hash::fnv1a64_hex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/runtime_reoptimizer.cpp" line="26" column="20" bodyfile="src/query/runtime_reoptimizer.cpp" bodystart="26" bodyend="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Incremental View Maintenance for Materialized CTEs</para>
+<para>Provides delta-based maintenance for materialized CTE results: when base collection data changes (INSERT / UPDATE / DELETE), the materialized CTE is updated in O(1) per affected aggregation group — no full re-scan required.</para>
+<para>Builds on analytics::IncrementalView for the core delta algorithm and exposes a JSON-friendly interface aligned with the query module.</para>
+<para>Supported aggregations: COUNT, SUM, AVG, MIN, MAX, COUNT_DISTINCT</para>
+<para>Thread-safety: applyChange/applyChanges serialised by writer lock; <ref refid="namespacethemis_1_1query" kindref="compound">query()</ref> uses a shared reader lock.</para>
+<para>ThemisDB Vectorized Execution Engine – <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> Module Facade</para>
+<para>Provides column-store style batch processing for the AQL query pipeline. Rows stored as nlohmann::json objects are converted to a columnar layout (ColumnBatch), processed by the vectorized operator pipeline in analytics/columnar_execution.h, and materialized back to JSON results.</para>
+<para>Architecture: <ref refid="classthemis_1_1query_1_1_vectorized_execution_engine" kindref="compound">VectorizedExecutionEngine</ref> – entry-point; drives batched execution <ref refid="classthemis_1_1query_1_1_vectorized_query_plan" kindref="compound">VectorizedQueryPlan</ref> – composable operator stages <ref refid="structthemis_1_1query_1_1_vectorized_predicate" kindref="compound">VectorizedPredicate</ref> – filter predicate for FILTER stage <ref refid="structthemis_1_1query_1_1_vectorized_aggregation" kindref="compound">VectorizedAggregation</ref> – aggregation spec for AGGREGATE stage <ref refid="structthemis_1_1query_1_1_vectorized_sort_key" kindref="compound">VectorizedSortKey</ref> – sort key spec for SORT stage</para>
+<para>Integration: The engine accepts any std::vector&lt;nlohmann::json&gt; row set (e.g. the result of a full-collection scan) and a <ref refid="classthemis_1_1query_1_1_vectorized_query_plan" kindref="compound">VectorizedQueryPlan</ref> describing what to compute. Internally it delegates to themisdb::analytics::ColumnarExecutionEngine, which uses late-materialization via SelectionVector for filter operators, keeping CPU cache hot.</para>
+<para>Thread safety: <ref refid="classthemis_1_1query_1_1_vectorized_execution_engine" kindref="compound">VectorizedExecutionEngine</ref> instances are NOT thread-safe. Use one instance per thread or protect with an external mutex.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>Incremental View Maintenance for Materialized CTEs — Implementation</para>
+<para>Converts between the query module&apos;s JSON-based <ref refid="structthemis_1_1query_1_1_c_t_e_data_change" kindref="compound">CTEDataChange</ref> records and the analytics module&apos;s variant-typed ChangeRecord, then delegates all delta maintenance to analytics::IncrementalView.</para>
+<para>Type mapping (nlohmann::json → analytics::FieldValue): null → nullptr_t boolean → bool integer → int64_t float → double string → std::string other → std::string (JSON-serialized)</para>
+<para><ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> JIT Compiler – Implementation</para>
+<para>Hot-path architecture (no LLVM dependency required):</para>
+<para>Call-site key The canonical cache key is a 16-character hex string derived from the FNV-1a hash of the query text. This key is the unit of hot-path tracking.</para>
+<para>Cold path (call_count &lt; hot_threshold) execute() delegates to the ExecuteFn supplied at compile() time — the generic interpreted query executor.</para>
+<para>Compilation (call_count == hot_threshold) specialise() builds a std::function&lt;Result&lt;QueryResult&gt;(
+    const QueryParams&amp;)&gt; that wraps the interpreted executor but (a) skips the overhead of repeated key lookup and call-count increment, and (b) captures the executor and query text by value so repeated executions avoid std::unordered_map probes. This mirrors what an LLVM MCJIT backend would generate as native machine code (see THEMIS_HAS_LLVM_JIT extension point below).</para>
+<para>Hot path (call_count &gt; hot_threshold) The cached specialised function is invoked directly. No map lookups, no counter increments.</para>
+<para>Timeout Safety specialise() enforces kCompilationTimeout (100ms default, configurable). If compilation exceeds the deadline, the specialisation is aborted, compile_failed is set, and the cold path is used indefinitely. This ensures queries never hang due to compilation overhead.</para>
+<para>Fallback If specialise() throws, exceeds compilation_timeout_ms, or is aborted due to cancellation, the compiler marks the entry as &quot;failed&quot; and continues to use the interpreted executor — no silent data-correctness errors. All timeout events are logged with request context.</para>
+<para>THEMIS_HAS_LLVM_JIT (future extension) When this compile-time flag is set the compilation step may instead emit LLVM IR, run the MCJIT pass pipeline, and store a native function pointer. The rest of the dispatch logic is identical to the template-specialisation path. Timeout enforcement applies equally to LLVM compilation.</para>
+<para>ThemisDB Vectorized Execution Engine – <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> Module Implementation</para>
+<para>Implements the vectorized execution facade declared in <ref refid="vectorized__execution_8h" kindref="compound">include/query/vectorized_execution.h</ref>.</para>
+<para>Implementation notes:</para>
+<para>JSON → ColumnBatch:<itemizedlist>
+<listitem><para>Column names are the union of keys across all rows in the slice.</para>
+</listitem><listitem><para>Column type is inferred from the first non-null JSON value for that field: integer → Int64, float → Double, bool → Bool, string → String, null-only → Null.</para>
+</listitem><listitem><para>Rows missing a field contribute a null entry in that column.</para>
+</listitem><listitem><para>Mixed types within a column fall back to String via json::dump().</para>
+</listitem></itemizedlist>
+</para>
+<para>ColumnBatch → JSON:<itemizedlist>
+<listitem><para>The batch is materialized (SelectionVector applied) before conversion.</para>
+</listitem><listitem><para>Null entries are written as JSON null.</para>
+</listitem></itemizedlist>
+</para>
+<para>Plan translation:<itemizedlist>
+<listitem><para><ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a973ef60d67650996dd321653d4b0992f" kindref="member">VectorizedPredicate::Op</ref> is mapped 1-to-1 to analytics::Predicate::Op.</para>
+</listitem><listitem><para><ref refid="structthemis_1_1query_1_1_vectorized_aggregation_1a311b068ca79ac5e82cd48eb95239f756" kindref="member">VectorizedAggregation::Function</ref> → analytics::AggregateSpec::Function.</para>
+</listitem><listitem><para><ref refid="structthemis_1_1query_1_1_vectorized_sort_key" kindref="compound">VectorizedSortKey</ref> → analytics::SortOperator::SortKey.</para>
+</listitem></itemizedlist>
+</para>
+<para>Batching:<itemizedlist>
+<listitem><para>Input rows are split into batches of config_.batch_size.</para>
+</listitem><listitem><para>Each batch is executed through the same analytics pipeline.</para>
+</listitem><listitem><para>Aggregate stages collapse each batch independently; the caller is responsible for combining partial aggregates when needed. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/query/adaptive_join.h" line="21" column="1"/>
+  </compounddef>
+</doxygen>

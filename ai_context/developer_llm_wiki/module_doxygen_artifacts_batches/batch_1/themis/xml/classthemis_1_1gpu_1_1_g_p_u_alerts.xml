@@ -1,0 +1,577 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_alerts" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUAlerts</compoundname>
+    <includes refid="alerts_8h" local="no">alerts.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_alert_status" prot="public">themis::gpu::GPUAlerts::AlertStatus</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_config" prot="public">themis::gpu::GPUAlerts::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a9c1c054bca5d95d3b9d4e894c905722b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AlertState</name>
+        <qualifiedname>themis::gpu::GPUAlerts::AlertState</qualifiedname>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a9c1c054bca5d95d3b9d4e894c905722ba6b273343c454f9c53dcfc9c4ccf171d2" prot="public">
+          <name>INACTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a9c1c054bca5d95d3b9d4e894c905722ba37b6c9a71129d929d2517fcddaa5e46b" prot="public">
+          <name>FIRING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="59" column="5" bodyfile="include/themis/gpu/alerts.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a9434d0e6b02e3883ebfb33388fba02a2" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_alert_status" kindref="compound">AlertStatus</ref> &amp;)&gt;</type>
+        <definition>using themis::gpu::GPUAlerts::AlertCallback = std::function&lt;void(const AlertStatus&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>AlertCallback</name>
+        <qualifiedname>themis::gpu::GPUAlerts::AlertCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="82" column="5" bodyfile="include/themis/gpu/alerts.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1afbce523d03ae2db6a39f3c5e60c56728" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::gpu::GPUAlerts::ALERT_VRAM_HIGH</definition>
+        <argsstring></argsstring>
+        <name>ALERT_VRAM_HIGH</name>
+        <qualifiedname>themis::gpu::GPUAlerts::ALERT_VRAM_HIGH</qualifiedname>
+        <initializer>= &quot;VRAM_HIGH&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="50" column="33" bodyfile="include/themis/gpu/alerts.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a474d9d57d79d21eec8f426cfc5e7eb58" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::gpu::GPUAlerts::ALERT_ERROR_RATE_HIGH</definition>
+        <argsstring></argsstring>
+        <name>ALERT_ERROR_RATE_HIGH</name>
+        <qualifiedname>themis::gpu::GPUAlerts::ALERT_ERROR_RATE_HIGH</qualifiedname>
+        <initializer>= &quot;ERROR_RATE_HIGH&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="51" column="33" bodyfile="include/themis/gpu/alerts.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a32e2191dfe2619cc845d1341ea1d1dfa" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::gpu::GPUAlerts::ALERT_FALLBACK_RATE</definition>
+        <argsstring></argsstring>
+        <name>ALERT_FALLBACK_RATE</name>
+        <qualifiedname>themis::gpu::GPUAlerts::ALERT_FALLBACK_RATE</qualifiedname>
+        <initializer>= &quot;FALLBACK_RATE_HIGH&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="52" column="33" bodyfile="include/themis/gpu/alerts.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a9135ff5fe837d0e258cd37bee4b74c53" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::gpu::GPUAlerts::ALERT_CIRCUIT_OPEN</definition>
+        <argsstring></argsstring>
+        <name>ALERT_CIRCUIT_OPEN</name>
+        <qualifiedname>themis::gpu::GPUAlerts::ALERT_CIRCUIT_OPEN</qualifiedname>
+        <initializer>= &quot;CIRCUIT_OPEN&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="53" column="33" bodyfile="include/themis/gpu/alerts.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a4c13e46979f77df35897a299bad8a1fb" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::gpu::GPUAlerts::ALERT_DEVICE_UNAVAIL</definition>
+        <argsstring></argsstring>
+        <name>ALERT_DEVICE_UNAVAIL</name>
+        <qualifiedname>themis::gpu::GPUAlerts::ALERT_DEVICE_UNAVAIL</qualifiedname>
+        <initializer>= &quot;DEVICE_UNAVAILABLE&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="54" column="33" bodyfile="include/themis/gpu/alerts.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1ad686bca2f17e9f678600e071f2cf7417" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::gpu::GPUAlerts::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::gpu::GPUAlerts::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="130" column="12" bodyfile="include/themis/gpu/alerts.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a884cb063aae1f16706a937e7e6609285" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::GPUAlerts::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::gpu::GPUAlerts::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="131" column="24" bodyfile="include/themis/gpu/alerts.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a200bce3d3c3284d23dadde0e10248655" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::gpu::GPUAlerts::vram_used_frac_</definition>
+        <argsstring></argsstring>
+        <name>vram_used_frac_</name>
+        <qualifiedname>themis::gpu::GPUAlerts::vram_used_frac_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="134" column="11" bodyfile="include/themis/gpu/alerts.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a1c44bf3095b0f5e13aa9ccb41e7f2976" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::gpu::GPUAlerts::error_rate_</definition>
+        <argsstring></argsstring>
+        <name>error_rate_</name>
+        <qualifiedname>themis::gpu::GPUAlerts::error_rate_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="135" column="11" bodyfile="include/themis/gpu/alerts.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a0a90fd094dd6e5fce0679a53d20dc921" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::gpu::GPUAlerts::fallback_rate_</definition>
+        <argsstring></argsstring>
+        <name>fallback_rate_</name>
+        <qualifiedname>themis::gpu::GPUAlerts::fallback_rate_</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="136" column="11" bodyfile="include/themis/gpu/alerts.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a8fc736afb4c4318a32ad44291992166b" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUAlerts::circuit_open_</definition>
+        <argsstring></argsstring>
+        <name>circuit_open_</name>
+        <qualifiedname>themis::gpu::GPUAlerts::circuit_open_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="137" column="11" bodyfile="include/themis/gpu/alerts.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1aa6c9a2588ae4629c7245ede1ac00d9f1" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUAlerts::device_available_</definition>
+        <argsstring></argsstring>
+        <name>device_available_</name>
+        <qualifiedname>themis::gpu::GPUAlerts::device_available_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="138" column="11" bodyfile="include/themis/gpu/alerts.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a28bf72c45d3f7d040763c930f19ed79b" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_alert_status" kindref="compound">AlertStatus</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, AlertStatus&gt; themis::gpu::GPUAlerts::statuses_</definition>
+        <argsstring></argsstring>
+        <name>statuses_</name>
+        <qualifiedname>themis::gpu::GPUAlerts::statuses_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="141" column="24" bodyfile="include/themis/gpu/alerts.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a7ae487f511deca564358d30e427017a8" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a9434d0e6b02e3883ebfb33388fba02a2" kindref="member">AlertCallback</ref> &gt;</type>
+        <definition>std::vector&lt;AlertCallback&gt; themis::gpu::GPUAlerts::callbacks_</definition>
+        <argsstring></argsstring>
+        <name>callbacks_</name>
+        <qualifiedname>themis::gpu::GPUAlerts::callbacks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="142" column="17" bodyfile="include/themis/gpu/alerts.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a5e41f69a5430b052962a4e8ad5699c6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUAlerts::GPUAlerts</definition>
+        <argsstring>()=default</argsstring>
+        <name>GPUAlerts</name>
+        <qualifiedname>themis::gpu::GPUAlerts::GPUAlerts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="87" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a620d9322148e6e2aeb05dd6fa25535ee" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUAlerts::GPUAlerts</definition>
+        <argsstring>(const Config &amp;cfg)</argsstring>
+        <name>GPUAlerts</name>
+        <qualifiedname>themis::gpu::GPUAlerts::GPUAlerts</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="88" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1ae0c8eab5d5ba639da0c33d82e44f36c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUAlerts::setVRAMUsage</definition>
+        <argsstring>(float used_fraction)</argsstring>
+        <name>setVRAMUsage</name>
+        <qualifiedname>themis::gpu::GPUAlerts::setVRAMUsage</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>used_fraction</declname>
+        </param>
+        <briefdescription>
+<para>0.0–1.0 </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="93" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a80d9be7772d6c45801120c234ee300eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUAlerts::setErrorRate</definition>
+        <argsstring>(float rate)</argsstring>
+        <name>setErrorRate</name>
+        <qualifiedname>themis::gpu::GPUAlerts::setErrorRate</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>rate</declname>
+        </param>
+        <briefdescription>
+<para>0.0–1.0 </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="94" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a52b8b49c09bfb69dfde5c1fc53a99ac8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUAlerts::setFallbackRate</definition>
+        <argsstring>(float rate)</argsstring>
+        <name>setFallbackRate</name>
+        <qualifiedname>themis::gpu::GPUAlerts::setFallbackRate</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>rate</declname>
+        </param>
+        <briefdescription>
+<para>0.0–1.0 </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="95" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1ae6bcde6c36b3cb801bd9f22aeb6a8c40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUAlerts::setCircuitOpen</definition>
+        <argsstring>(bool is_open)</argsstring>
+        <name>setCircuitOpen</name>
+        <qualifiedname>themis::gpu::GPUAlerts::setCircuitOpen</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>is_open</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="96" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1aad12e72420e869d5d8c32c76eb67708b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUAlerts::setDeviceAvailable</definition>
+        <argsstring>(bool available)</argsstring>
+        <name>setDeviceAvailable</name>
+        <qualifiedname>themis::gpu::GPUAlerts::setDeviceAvailable</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>available</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="97" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1aa00672d43f61453ee87919cc4beac472" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUAlerts::onAlert</definition>
+        <argsstring>(AlertCallback callback)</argsstring>
+        <name>onAlert</name>
+        <qualifiedname>themis::gpu::GPUAlerts::onAlert</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a9434d0e6b02e3883ebfb33388fba02a2" kindref="member">AlertCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register a callback invoked whenever an alert fires or resolves. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="106" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a09cee404b56c0074f3673ef0a285169c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUAlerts::evaluate</definition>
+        <argsstring>()</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::gpu::GPUAlerts::evaluate</qualifiedname>
+        <briefdescription>
+<para>Evaluate all rules against current metric values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>For each rule that transitions state (INACTIVE→FIRING or FIRING→INACTIVE) registered callbacks are called.</para>
+<para><simplesect kind="return"><para>Number of currently firing alerts. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="120" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a40ce694a64fa9ecd9dd52e89e223610f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_alert_status" kindref="compound">AlertStatus</ref> &gt;</type>
+        <definition>std::vector&lt; AlertStatus &gt; themis::gpu::GPUAlerts::currentStatuses</definition>
+        <argsstring>() const</argsstring>
+        <name>currentStatuses</name>
+        <qualifiedname>themis::gpu::GPUAlerts::currentStatuses</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="125" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a13ce697789a7f300a53ee56029f75f0b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUAlerts::firingCount</definition>
+        <argsstring>() const</argsstring>
+        <name>firingCount</name>
+        <qualifiedname>themis::gpu::GPUAlerts::firingCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="126" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a81bca17281beb442994ead1585deb815" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUAlerts::isFiring</definition>
+        <argsstring>(const std::string &amp;alert_name) const</argsstring>
+        <name>isFiring</name>
+        <qualifiedname>themis::gpu::GPUAlerts::isFiring</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>alert_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="127" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a06f2b2859e5407cd941fb82405233493" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUAlerts::fireCallback</definition>
+        <argsstring>(const AlertStatus &amp;s)</argsstring>
+        <name>fireCallback</name>
+        <qualifiedname>themis::gpu::GPUAlerts::fireCallback</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_g_p_u_alerts_1_1_alert_status" kindref="compound">AlertStatus</ref> &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="145" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_alerts_1a202b3a370f12a981a6b56827838967d5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUAlerts::updateAlert</definition>
+        <argsstring>(const std::string &amp;name, bool condition, float value, float threshold, const std::string &amp;msg)</argsstring>
+        <name>updateAlert</name>
+        <qualifiedname>themis::gpu::GPUAlerts::updateAlert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>condition</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/alerts.h" line="148" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Threshold-based GPU alert manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Evaluates alert rules against current GPU health metrics and fires callbacks when a rule transitions from inactive to active (firing) or back to inactive (resolved).</para>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_alerts_1autotoc_md2_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_alerts_1autotoc_md2">
+<title>Alert rules</title><para><itemizedlist>
+<listitem><para>VRAM_HIGH — allocated_bytes / max_bytes &gt;= threshold (default 0.80)</para>
+</listitem><listitem><para>ERROR_RATE_HIGH — error_rate &gt;= threshold (default 0.10, i.e. 10%)</para>
+</listitem><listitem><para>FALLBACK_RATE — fallbacks / total_ops &gt;= threshold (default 0.20)</para>
+</listitem><listitem><para>CIRCUIT_OPEN — circuit is open (binary, no threshold)</para>
+</listitem><listitem><para>DEVICE_UNAVAIL — no healthy GPU device available</para>
+</listitem></itemizedlist>
+</para>
+<para>Callers update metric values by calling <ref refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1ae0c8eab5d5ba639da0c33d82e44f36c7" kindref="member">setVRAMUsage()</ref>, <ref refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a80d9be7772d6c45801120c234ee300eb" kindref="member">setErrorRate()</ref>, <ref refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a52b8b49c09bfb69dfde5c1fc53a99ac8" kindref="member">setFallbackRate()</ref>, <ref refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1ae6bcde6c36b3cb801bd9f22aeb6a8c40" kindref="member">setCircuitOpen()</ref>, and <ref refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1aad12e72420e869d5d8c32c76eb67708b" kindref="member">setDeviceAvailable()</ref>, then call <ref refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a09cee404b56c0074f3673ef0a285169c" kindref="member">evaluate()</ref> to run all rules and fire callbacks as needed.</para>
+<para>Thread safety: all methods are protected by an internal mutex. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/themis/gpu/alerts.h" line="45" column="1" bodyfile="include/themis/gpu/alerts.h" bodystart="45" bodyend="153"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a9135ff5fe837d0e258cd37bee4b74c53" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>ALERT_CIRCUIT_OPEN</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a4c13e46979f77df35897a299bad8a1fb" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>ALERT_DEVICE_UNAVAIL</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a474d9d57d79d21eec8f426cfc5e7eb58" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>ALERT_ERROR_RATE_HIGH</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a32e2191dfe2619cc845d1341ea1d1dfa" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>ALERT_FALLBACK_RATE</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1afbce523d03ae2db6a39f3c5e60c56728" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>ALERT_VRAM_HIGH</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a9434d0e6b02e3883ebfb33388fba02a2" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>AlertCallback</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a9c1c054bca5d95d3b9d4e894c905722b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>AlertState</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a7ae487f511deca564358d30e427017a8" prot="private" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>callbacks_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1ad686bca2f17e9f678600e071f2cf7417" prot="private" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a8fc736afb4c4318a32ad44291992166b" prot="private" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>circuit_open_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a40ce694a64fa9ecd9dd52e89e223610f" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>currentStatuses</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1aa6c9a2588ae4629c7245ede1ac00d9f1" prot="private" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>device_available_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a1c44bf3095b0f5e13aa9ccb41e7f2976" prot="private" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>error_rate_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a09cee404b56c0074f3673ef0a285169c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a0a90fd094dd6e5fce0679a53d20dc921" prot="private" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>fallback_rate_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a06f2b2859e5407cd941fb82405233493" prot="private" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>fireCallback</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a13ce697789a7f300a53ee56029f75f0b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>firingCount</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a5e41f69a5430b052962a4e8ad5699c6a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>GPUAlerts</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a620d9322148e6e2aeb05dd6fa25535ee" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>GPUAlerts</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a81bca17281beb442994ead1585deb815" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>isFiring</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a884cb063aae1f16706a937e7e6609285" prot="private" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1aa00672d43f61453ee87919cc4beac472" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>onAlert</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1ae6bcde6c36b3cb801bd9f22aeb6a8c40" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>setCircuitOpen</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1aad12e72420e869d5d8c32c76eb67708b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>setDeviceAvailable</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a80d9be7772d6c45801120c234ee300eb" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>setErrorRate</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a52b8b49c09bfb69dfde5c1fc53a99ac8" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>setFallbackRate</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1ae0c8eab5d5ba639da0c33d82e44f36c7" prot="public" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>setVRAMUsage</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a28bf72c45d3f7d040763c930f19ed79b" prot="private" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>statuses_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a202b3a370f12a981a6b56827838967d5" prot="private" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>updateAlert</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_alerts_1a200bce3d3c3284d23dadde0e10248655" prot="private" virt="non-virtual"><scope>themis::gpu::GPUAlerts</scope><name>vram_used_frac_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_explain_aql_test" kind="class" language="C++" prot="public">
+    <compoundname>ExplainAqlTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_explain_aql_test_1a30c70d78396b02a9b75a2d6340d4cbc2" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_explain_mock_storage" kindref="compound">ExplainMockStorage</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ExplainMockStorage&gt; ExplainAqlTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>ExplainAqlTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_explain.cpp" line="81" column="26" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_explain_aql_test_1acff685a5171b274312501041e69dde0e" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_explain_mock_index_manager" kindref="compound">ExplainMockIndexManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ExplainMockIndexManager&gt; ExplainAqlTest::index_mgr_</definition>
+        <argsstring></argsstring>
+        <name>index_mgr_</name>
+        <qualifiedname>ExplainAqlTest::index_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_explain.cpp" line="82" column="21" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_explain_aql_test_1a153b96cbcf839d1680e3413f0410c81b" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; QueryEngine &gt;</type>
+        <definition>std::shared_ptr&lt;QueryEngine&gt; ExplainAqlTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>ExplainAqlTest::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_explain.cpp" line="83" column="33" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_explain_aql_test_1afb8856feecea6de87b6d2330b544f2d3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ExplainAqlTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ExplainAqlTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_explain.cpp" line="72" column="10" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="72" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ExplainAqlTest</label>
+        <link refid="class_explain_aql_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ExplainAqlTest</label>
+        <link refid="class_explain_aql_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_explain.cpp" line="70" column="1" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="70" bodyend="84"/>
+    <listofallmembers>
+      <member refid="class_explain_aql_test_1a153b96cbcf839d1680e3413f0410c81b" prot="protected" virt="non-virtual"><scope>ExplainAqlTest</scope><name>engine_</name></member>
+      <member refid="class_explain_aql_test_1acff685a5171b274312501041e69dde0e" prot="protected" virt="non-virtual"><scope>ExplainAqlTest</scope><name>index_mgr_</name></member>
+      <member refid="class_explain_aql_test_1afb8856feecea6de87b6d2330b544f2d3" prot="protected" virt="non-virtual"><scope>ExplainAqlTest</scope><name>SetUp</name></member>
+      <member refid="class_explain_aql_test_1a30c70d78396b02a9b75a2d6340d4cbc2" prot="protected" virt="non-virtual"><scope>ExplainAqlTest</scope><name>storage_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

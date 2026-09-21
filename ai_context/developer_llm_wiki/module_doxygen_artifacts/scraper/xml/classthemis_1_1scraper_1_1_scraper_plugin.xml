@@ -1,0 +1,1020 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scraper_1_1_scraper_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::scraper::ScraperPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1scraper_1_1_i_scraper_plugin" prot="public" virt="non-virtual">themis::scraper::IScraperPlugin</basecompoundref>
+    <includes refid="scraper__plugin_8h" local="no">scraper_plugin.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1scraper_1_1_scraper_plugin_1a186cd9fa56d466302c999ee00d5f55b5" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;url, const std::string &amp;user_agent)&gt;</type>
+        <definition>using themis::scraper::ScraperPlugin::HttpFn = std::function&lt;std::string(const std::string&amp; url,
+                                             const std::string&amp; user_agent)&gt;</definition>
+        <argsstring></argsstring>
+        <name>HttpFn</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::HttpFn</qualifiedname>
+        <briefdescription>
+<para>Inject a custom HTTP fetch function (replaces libcurl in tests). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="204" column="5" bodyfile="include/scraper/scraper_plugin.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_plugin_1a8c8d2b9508e8a63c53ab39d9f082fd16" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1scraper_1_1_scraper_config" kindref="compound">ScraperConfig</ref></type>
+        <definition>ScraperConfig themis::scraper::ScraperPlugin::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="212" column="33" bodyfile="include/scraper/scraper_plugin.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_plugin_1a4b67cf0b6957d4efcc76d7cc173790b2" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_scraped_document" kindref="compound">ScrapedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;ScrapedDocument&gt; themis::scraper::ScraperPlugin::results_</definition>
+        <argsstring></argsstring>
+        <name>results_</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::results_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="213" column="17" bodyfile="include/scraper/scraper_plugin.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_plugin_1a416d878d5ba33bcc97c0fefd879c0dbb" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1scraper_1_1_scraper_run_stats" kindref="compound">ScraperRunStats</ref></type>
+        <definition>ScraperRunStats themis::scraper::ScraperPlugin::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="214" column="33" bodyfile="include/scraper/scraper_plugin.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_plugin_1a28e705f6d8cf760a5f1511bb401c66f1" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scraper::ScraperPlugin::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="215" column="33" bodyfile="include/scraper/scraper_plugin.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_plugin_1a3ea049ef20af7cc9819f4732bcce3657" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::scraper::ScraperPlugin::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="216" column="33" bodyfile="include/scraper/scraper_plugin.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_plugin_1ae0004c5b762a834ef67c422e6545a93b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1scraper_1_1_i_scraper_l_l_m_evaluator" kindref="compound">IScraperLLMEvaluator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IScraperLLMEvaluator&gt; themis::scraper::ScraperPlugin::evaluator_</definition>
+        <argsstring></argsstring>
+        <name>evaluator_</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::evaluator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="219" column="23" bodyfile="include/scraper/scraper_plugin.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_plugin_1a50701d5e37fea47dbf14452eaf2d23f8" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer" kindref="compound">IScraperMetadataWriter</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IScraperMetadataWriter&gt; themis::scraper::ScraperPlugin::writer_</definition>
+        <argsstring></argsstring>
+        <name>writer_</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::writer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="220" column="21" bodyfile="include/scraper/scraper_plugin.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_plugin_1aa70a13dcface89af97d3d96202548f73" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1scraper_1_1_i_scraper_search_engine" kindref="compound">IScraperSearchEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IScraperSearchEngine&gt; themis::scraper::ScraperPlugin::search_engine_</definition>
+        <argsstring></argsstring>
+        <name>search_engine_</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::search_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="221" column="23" bodyfile="include/scraper/scraper_plugin.h" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_plugin_1a4779a1e0b2137f8e8f601c8c4f294122" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer" kindref="compound">IScraperJSRenderer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IScraperJSRenderer&gt; themis::scraper::ScraperPlugin::js_renderer_</definition>
+        <argsstring></argsstring>
+        <name>js_renderer_</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::js_renderer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="222" column="25" bodyfile="include/scraper/scraper_plugin.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_plugin_1ad09c5ba674ab08836379b29f9053e2d2" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1scraper_1_1_i_scraper_api_client" kindref="compound">IScraperApiClient</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IScraperApiClient&gt; themis::scraper::ScraperPlugin::api_client_</definition>
+        <argsstring></argsstring>
+        <name>api_client_</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::api_client_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="223" column="26" bodyfile="include/scraper/scraper_plugin.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_plugin_1a9c1bf0a2752ee0183daead6d869b94ca" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1scraper_1_1_scraper_plugin_1a186cd9fa56d466302c999ee00d5f55b5" kindref="member">HttpFn</ref></type>
+        <definition>HttpFn themis::scraper::ScraperPlugin::http_fn_</definition>
+        <argsstring></argsstring>
+        <name>http_fn_</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::http_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="224" column="45" bodyfile="include/scraper/scraper_plugin.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_plugin_1a734548afa1a20059f73f4da49aa4bd0c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1scraper_1_1_gov_source_catalog" kindref="compound">GovSourceCatalog</ref></type>
+        <definition>GovSourceCatalog themis::scraper::ScraperPlugin::gov_catalog_</definition>
+        <argsstring></argsstring>
+        <name>gov_catalog_</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::gov_catalog_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="225" column="45" bodyfile="include/scraper/scraper_plugin.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_scraper_plugin_1a30081d3504872c53969d5aa70228038b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller" kindref="compound">BurstCrawlController</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;BurstCrawlController&gt; themis::scraper::ScraperPlugin::burst_controller_</definition>
+        <argsstring></argsstring>
+        <name>burst_controller_</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::burst_controller_</qualifiedname>
+        <briefdescription>
+<para>Optional burst limiter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="226" column="23" bodyfile="include/scraper/scraper_plugin.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1a3df2c6e17854228b7c72923e5253a98f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::ScraperPlugin::ScraperPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>ScraperPlugin</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::ScraperPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="173" column="5" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="35" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1aea149e143fa027092d32a9b1f1f73ce3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::ScraperPlugin::ScraperPlugin</definition>
+        <argsstring>(std::shared_ptr&lt; IScraperLLMEvaluator &gt; evaluator, std::shared_ptr&lt; IScraperMetadataWriter &gt; writer, std::shared_ptr&lt; IScraperSearchEngine &gt; search_engine, std::shared_ptr&lt; IScraperJSRenderer &gt; js_renderer, std::shared_ptr&lt; IScraperApiClient &gt; api_client)</argsstring>
+        <name>ScraperPlugin</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::ScraperPlugin</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1scraper_1_1_i_scraper_l_l_m_evaluator" kindref="compound">IScraperLLMEvaluator</ref> &gt;</type>
+          <declname>evaluator</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer" kindref="compound">IScraperMetadataWriter</ref> &gt;</type>
+          <declname>writer</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1scraper_1_1_i_scraper_search_engine" kindref="compound">IScraperSearchEngine</ref> &gt;</type>
+          <declname>search_engine</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer" kindref="compound">IScraperJSRenderer</ref> &gt;</type>
+          <declname>js_renderer</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1scraper_1_1_i_scraper_api_client" kindref="compound">IScraperApiClient</ref> &gt;</type>
+          <declname>api_client</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="174" column="14" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="42" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1a98710e601e7868157c640cb45e3abb21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::ScraperPlugin::~ScraperPlugin</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~ScraperPlugin</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::~ScraperPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="181" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1abd0f2afd20d9eb36536633e6623a5804" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::ScraperPlugin::ScraperPlugin</definition>
+        <argsstring>(const ScraperPlugin &amp;)=delete</argsstring>
+        <name>ScraperPlugin</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::ScraperPlugin</qualifiedname>
+        <param>
+          <type>const ScraperPlugin &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="183" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1adab59fed427e10c612bde8473b99ba00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1scraper_1_1_scraper_plugin_1a3df2c6e17854228b7c72923e5253a98f" kindref="member">ScraperPlugin</ref> &amp;</type>
+        <definition>ScraperPlugin &amp; themis::scraper::ScraperPlugin::operator=</definition>
+        <argsstring>(const ScraperPlugin &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1scraper_1_1_scraper_plugin_1a3df2c6e17854228b7c72923e5253a98f" kindref="member">ScraperPlugin</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="184" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1a232d9da7392056ec2bb5a9d1355ad2ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::scraper::ScraperPlugin::initialize</definition>
+        <argsstring>(const ScraperConfig &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1scraper_1_1_i_scraper_plugin_1ab05c2705dce0d23d8f9bac0b22b17ae5">initialize</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_scraper_config" kindref="compound">ScraperConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), clear(), empty(), get(), loadFromFile(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="186" column="10" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="111" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1a774d7b3759eb2a9d01a5274e33556da6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1scraper_1_1_scraper_run_stats" kindref="compound">ScraperRunStats</ref></type>
+        <definition>ScraperRunStats themis::scraper::ScraperPlugin::scrape</definition>
+        <argsstring>() override</argsstring>
+        <name>scrape</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::scrape</qualifiedname>
+        <reimplements refid="classthemis_1_1scraper_1_1_i_scraper_plugin_1a83a7b4d6c73e6deebf9f137ecb28762f">scrape</reimplements>
+        <briefdescription>
+<para>Scrape. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::chrono::steady_clock::now(), collectSeeds(), policy(), tryAcquire(), empty(), findById(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="187" column="21" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="642" bodyend="725"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1a401c698410547f5b3e401650aec35b68" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_scraped_document" kindref="compound">ScrapedDocument</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; ScrapedDocument &gt; &amp; themis::scraper::ScraperPlugin::getResults</definition>
+        <argsstring>() const override</argsstring>
+        <name>getResults</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::getResults</qualifiedname>
+        <reimplements refid="classthemis_1_1scraper_1_1_i_scraper_plugin_1a5731691f97222f46171b38c6f213e302">getResults</reimplements>
+        <briefdescription>
+<para>Returns all documents collected in the most recent <ref refid="classthemis_1_1scraper_1_1_scraper_plugin_1a774d7b3759eb2a9d01a5274e33556da6" kindref="member">scrape()</ref> call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Includes both accepted (discarded=false) and discarded (discarded=true) documents. The vector is cleared by <ref refid="classthemis_1_1scraper_1_1_scraper_plugin_1a03d6b97c23451390ca8caad2855df5ab" kindref="member">reset()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="188" column="23" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="159" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1a03d6b97c23451390ca8caad2855df5ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::scraper::ScraperPlugin::reset</definition>
+        <argsstring>() override</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::reset</qualifiedname>
+        <reimplements refid="classthemis_1_1scraper_1_1_i_scraper_plugin_1a5ba37c7fc611bd0e4b882949f221a82f">reset</reimplements>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="189" column="10" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="153" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1a619dc80c06072e76b6b4e856aeddd97e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::scraper::ScraperPlugin::isInitialized</definition>
+        <argsstring>() const override</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::isInitialized</qualifiedname>
+        <reimplements refid="classthemis_1_1scraper_1_1_i_scraper_plugin_1aacf50b9106d074f744c7aeea48d57be9">isInitialized</reimplements>
+        <briefdescription>
+<para>Returns true after a successful call to <ref refid="classthemis_1_1scraper_1_1_scraper_plugin_1a232d9da7392056ec2bb5a9d1355ad2ce" kindref="member">initialize()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="190" column="10" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="141" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1ad4a2e6b1fefb8cea675f427e428e561c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::ScraperPlugin::setEvaluator</definition>
+        <argsstring>(std::shared_ptr&lt; IScraperLLMEvaluator &gt; e)</argsstring>
+        <name>setEvaluator</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::setEvaluator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1scraper_1_1_i_scraper_l_l_m_evaluator" kindref="compound">IScraperLLMEvaluator</ref> &gt;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+<para>Replace the LLM quality evaluator (default: <ref refid="classthemis_1_1scraper_1_1_scraper_l_l_m_evaluator" kindref="compound">ScraperLLMEvaluator</ref> with heuristic fallback). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Evaluator.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="194" column="10" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1a2eb7df4dcc45c4b0f8ac62e23084aa49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::ScraperPlugin::setWriter</definition>
+        <argsstring>(std::shared_ptr&lt; IScraperMetadataWriter &gt; w)</argsstring>
+        <name>setWriter</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::setWriter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer" kindref="compound">IScraperMetadataWriter</ref> &gt;</type>
+          <declname>w</declname>
+        </param>
+        <briefdescription>
+<para>Replace the metadata persistence layer (default: <ref refid="classthemis_1_1scraper_1_1_in_memory_scraper_metadata_writer" kindref="compound">InMemoryScraperMetadataWriter</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Writer.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">w</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="196" column="10" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1a624875d25fe95bc43cfa646177a38f16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::ScraperPlugin::setSearchEngine</definition>
+        <argsstring>(std::shared_ptr&lt; IScraperSearchEngine &gt; se)</argsstring>
+        <name>setSearchEngine</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::setSearchEngine</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1scraper_1_1_i_scraper_search_engine" kindref="compound">IScraperSearchEngine</ref> &gt;</type>
+          <declname>se</declname>
+          <defname>s</defname>
+        </param>
+        <briefdescription>
+<para>Replace the HTML search-form engine (default: <ref refid="classthemis_1_1scraper_1_1_html_search_engine" kindref="compound">HtmlSearchEngine</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Search Engine.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="198" column="10" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1a9bb28de5ad033c881b69791ffc03584a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::ScraperPlugin::setJsRenderer</definition>
+        <argsstring>(std::shared_ptr&lt; IScraperJSRenderer &gt; r)</argsstring>
+        <name>setJsRenderer</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::setJsRenderer</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1scraper_1_1_i_scraper_j_s_renderer" kindref="compound">IScraperJSRenderer</ref> &gt;</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+<para>Replace the headless JS renderer (default: nullptr — JS_RENDERED mode disabled). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Js Renderer.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">r</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="200" column="10" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1a4336ef5bc7fafa3a895669b28b2d7a3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::ScraperPlugin::setApiClient</definition>
+        <argsstring>(std::shared_ptr&lt; IScraperApiClient &gt; c)</argsstring>
+        <name>setApiClient</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::setApiClient</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1scraper_1_1_i_scraper_api_client" kindref="compound">IScraperApiClient</ref> &gt;</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Replace the REST/GraphQL API client (default: <ref refid="classthemis_1_1scraper_1_1_http_scraper_api_client" kindref="compound">HttpScraperApiClient</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Api Client.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="202" column="10" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1ac8eca01b67ffd454d4e82602db4e5b90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::ScraperPlugin::setHttpFetch</definition>
+        <argsstring>(HttpFn fn)</argsstring>
+        <name>setHttpFetch</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::setHttpFetch</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1scraper_1_1_scraper_plugin_1a186cd9fa56d466302c999ee00d5f55b5" kindref="member">HttpFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Http Fetch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="206" column="10" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1a3d9ba02b414416a728b77b905ec0eaed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::ScraperPlugin::setBurstController</definition>
+        <argsstring>(std::shared_ptr&lt; BurstCrawlController &gt; bc)</argsstring>
+        <name>setBurstController</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::setBurstController</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller" kindref="compound">BurstCrawlController</ref> &gt;</type>
+          <declname>bc</declname>
+        </param>
+        <briefdescription>
+<para>Inject a burst-rate controller; null disables rate limiting (default). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Burst Controller.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="208" column="10" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="99" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1a2451a2e05cfd8df8214224a7db19285d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; themis::scraper::ScraperPlugin::collectSeeds</definition>
+        <argsstring>() const</argsstring>
+        <name>collectSeeds</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::collectSeeds</qualifiedname>
+        <briefdescription>
+<para>Collect all effective seed URLs (config seeds + gov catalog sources). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Policy. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="231" column="17" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="167" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1a6b06b359dd331c32ce2fd4f609e325d2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperPlugin::fetchPage</definition>
+        <argsstring>(const std::string &amp;url) const</argsstring>
+        <name>fetchPage</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::fetchPage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+<para>Fetch page HTML using the configured render mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="235" column="17" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="245" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1ac68fd5a048f49a9ab58f30f26d4eaa35" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::ScraperPlugin::processDocument</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;html, const std::string &amp;source_name, const std::string &amp;gov_source_id, const std::string &amp;document_type, const std::string &amp;date_issued, const std::string &amp;title_hint=&quot;&quot;)</argsstring>
+        <name>processDocument</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::processDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>html</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>gov_source_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>date_issued</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>title_hint</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Evaluate + conditionally store one document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Process Document.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">html</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gov_source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gov source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">document_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">date_issued</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">title_hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: extractText(), size(), evaluate(), empty(), ss(), std::getline(), find_first_not_of(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="241" column="10" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="368" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1ad9cabfe3595f6fb53a47aff95a4d6171" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::ScraperPlugin::runSearchLoop</definition>
+        <argsstring>(const std::string &amp;seed_url, const std::string &amp;page_html, const std::string &amp;source_name, const std::string &amp;gov_source_id)</argsstring>
+        <name>runSearchLoop</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::runSearchLoop</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>seed_url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>page_html</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>gov_source_id</declname>
+        </param>
+        <briefdescription>
+<para>Run the search-form agentic loop for one seed URL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run Search Loop.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seed_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">page_html</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gov_source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gov source.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: discoverForms(), empty(), front(), effectiveSearchQueries(), policy(), buildSearchUrl(), isAllowed(), std::this_thread::sleep_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="250" column="10" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="446" bodyend="543"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1aa56c68aa1c9afcfc484d76aefe085df7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::ScraperPlugin::runApiLoop</definition>
+        <argsstring>(const std::string &amp;endpoint_url, const std::string &amp;source_name, const std::string &amp;gov_source_id)</argsstring>
+        <name>runApiLoop</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::runApiLoop</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint_url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>gov_source_id</declname>
+        </param>
+        <briefdescription>
+<para>Run the API crawl loop for one endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run Api Loop.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gov_source_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the gov source.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: findById(), govSourceToApiConfig(), effectiveSearchQueries(), policy(), fetchAll(), size(), isAllowed(), evaluate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="256" column="10" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="556" bodyend="630"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1ae51f662220e148d59f0010e9610a20d5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ScraperPlugin::extractText</definition>
+        <argsstring>(const std::string &amp;html)</argsstring>
+        <name>extractText</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::extractText</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>html</declname>
+        </param>
+        <briefdescription>
+<para>Extract plain text from HTML. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="238" column="24" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="276" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_scraper_plugin_1ad21e48329132f80934dd03712aa0580a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1scraper_1_1_api_endpoint_config" kindref="compound">ApiEndpointConfig</ref></type>
+        <definition>ApiEndpointConfig themis::scraper::ScraperPlugin::govSourceToApiConfig</definition>
+        <argsstring>(const GovDataSource &amp;src)</argsstring>
+        <name>govSourceToApiConfig</name>
+        <qualifiedname>themis::scraper::ScraperPlugin::govSourceToApiConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_gov_data_source" kindref="compound">GovDataSource</ref> &amp;</type>
+          <declname>src</declname>
+        </param>
+        <briefdescription>
+<para>Build an <ref refid="structthemis_1_1scraper_1_1_api_endpoint_config" kindref="compound">ApiEndpointConfig</ref> from a <ref refid="structthemis_1_1scraper_1_1_gov_data_source" kindref="compound">GovDataSource</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_plugin.h" line="261" column="30" bodyfile="src/scraper/scraper_plugin.cpp" bodystart="331" bodyend="351"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Agentic scraper plugin. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Agentic loop per run:<orderedlist>
+<listitem><para>Expand seed URLs from config + gov source catalog (Bund/Länder/EU).</para>
+</listitem><listitem><para>For each seed: a. Fetch page (STATIC / JS_RENDERED / API_JSON based on render_mode). b. Discover HTML search forms; submit with gap keywords. c. Parse result lists; follow pagination up to max_result_pages. d. For each result URL: fetch and extract text. e. Apply <ref refid="classthemis_1_1scraper_1_1_url_policy" kindref="compound">UrlPolicy</ref> filter.</para>
+</listitem><listitem><para>Evaluate each document with LLM (or heuristic fallback).</para>
+</listitem><listitem><para>Discard documents below quality_threshold.</para>
+</listitem><listitem><para>Write accepted documents to DB via <ref refid="classthemis_1_1scraper_1_1_i_scraper_metadata_writer" kindref="compound">IScraperMetadataWriter</ref>. </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::scraper::IScraperPlugin</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::scraper::ScraperPlugin</label>
+        <link refid="classthemis_1_1scraper_1_1_scraper_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::scraper::IScraperPlugin</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::scraper::ScraperPlugin</label>
+        <link refid="classthemis_1_1scraper_1_1_scraper_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/scraper/scraper_plugin.h" line="171" column="1" bodyfile="include/scraper/scraper_plugin.h" bodystart="171" bodyend="262"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1ad09c5ba674ab08836379b29f9053e2d2" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>api_client_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a30081d3504872c53969d5aa70228038b" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>burst_controller_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a2451a2e05cfd8df8214224a7db19285d" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>collectSeeds</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a8c8d2b9508e8a63c53ab39d9f082fd16" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>config_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1ae0004c5b762a834ef67c422e6545a93b" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>evaluator_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1ae51f662220e148d59f0010e9610a20d5" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>extractText</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a6b06b359dd331c32ce2fd4f609e325d2" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>fetchPage</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a401c698410547f5b3e401650aec35b68" prot="public" virt="virtual"><scope>themis::scraper::ScraperPlugin</scope><name>getResults</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a734548afa1a20059f73f4da49aa4bd0c" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>gov_catalog_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1ad21e48329132f80934dd03712aa0580a" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>govSourceToApiConfig</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a9c1bf0a2752ee0183daead6d869b94ca" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>http_fn_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a186cd9fa56d466302c999ee00d5f55b5" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>HttpFn</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a232d9da7392056ec2bb5a9d1355ad2ce" prot="public" virt="virtual"><scope>themis::scraper::ScraperPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a28e705f6d8cf760a5f1511bb401c66f1" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a619dc80c06072e76b6b4e856aeddd97e" prot="public" virt="virtual"><scope>themis::scraper::ScraperPlugin</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a4779a1e0b2137f8e8f601c8c4f294122" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>js_renderer_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a3ea049ef20af7cc9819f4732bcce3657" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1adab59fed427e10c612bde8473b99ba00" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1ac68fd5a048f49a9ab58f30f26d4eaa35" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>processDocument</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a03d6b97c23451390ca8caad2855df5ab" prot="public" virt="virtual"><scope>themis::scraper::ScraperPlugin</scope><name>reset</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a4b67cf0b6957d4efcc76d7cc173790b2" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>results_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1aa56c68aa1c9afcfc484d76aefe085df7" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>runApiLoop</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1ad9cabfe3595f6fb53a47aff95a4d6171" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>runSearchLoop</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a774d7b3759eb2a9d01a5274e33556da6" prot="public" virt="virtual"><scope>themis::scraper::ScraperPlugin</scope><name>scrape</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a3df2c6e17854228b7c72923e5253a98f" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>ScraperPlugin</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1aea149e143fa027092d32a9b1f1f73ce3" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>ScraperPlugin</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1abd0f2afd20d9eb36536633e6623a5804" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>ScraperPlugin</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1aa70a13dcface89af97d3d96202548f73" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>search_engine_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a4336ef5bc7fafa3a895669b28b2d7a3b" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>setApiClient</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a3d9ba02b414416a728b77b905ec0eaed" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>setBurstController</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1ad4a2e6b1fefb8cea675f427e428e561c" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>setEvaluator</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1ac8eca01b67ffd454d4e82602db4e5b90" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>setHttpFetch</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a9bb28de5ad033c881b69791ffc03584a" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>setJsRenderer</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a624875d25fe95bc43cfa646177a38f16" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>setSearchEngine</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a2eb7df4dcc45c4b0f8ac62e23084aa49" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>setWriter</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a416d878d5ba33bcc97c0fefd879c0dbb" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a50701d5e37fea47dbf14452eaf2d23f8" prot="private" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>writer_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_plugin_1a6c25d9ad49f4eeb7b796e7eb5a587185" prot="public" virt="virtual"><scope>themis::scraper::ScraperPlugin</scope><name>~IScraperPlugin</name></member>
+      <member refid="classthemis_1_1scraper_1_1_scraper_plugin_1a98710e601e7868157c640cb45e3abb21" prot="public" virt="non-virtual"><scope>themis::scraper::ScraperPlugin</scope><name>~ScraperPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

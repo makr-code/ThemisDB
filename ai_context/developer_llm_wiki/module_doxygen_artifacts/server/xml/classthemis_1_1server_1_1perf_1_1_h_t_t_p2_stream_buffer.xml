@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::perf::HTTP2StreamBuffer</compoundname>
+    <includes refid="performance__helpers_8h" local="no">performance_helpers.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a72388aaeb82702bb1846b3e968f7431f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::perf::HTTP2StreamBuffer::INITIAL_CAPACITY</definition>
+        <argsstring></argsstring>
+        <name>INITIAL_CAPACITY</name>
+        <qualifiedname>themis::server::perf::HTTP2StreamBuffer::INITIAL_CAPACITY</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="307" column="29" bodyfile="include/server/performance_helpers.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a8d84273c236d514d882dfc2d5e53c6ff" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::perf::HTTP2StreamBuffer::GROWTH_FACTOR</definition>
+        <argsstring></argsstring>
+        <name>GROWTH_FACTOR</name>
+        <qualifiedname>themis::server::perf::HTTP2StreamBuffer::GROWTH_FACTOR</qualifiedname>
+        <initializer>= 1.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="308" column="29" bodyfile="include/server/performance_helpers.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a65303bd9a0ce6ebcac3fc30adc4c6315" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::server::perf::HTTP2StreamBuffer::buffer_</definition>
+        <argsstring></argsstring>
+        <name>buffer_</name>
+        <qualifiedname>themis::server::perf::HTTP2StreamBuffer::buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="416" column="17" bodyfile="include/server/performance_helpers.h" bodystart="416" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1aa8d621964d86ab113c249ff024d2ccb1" prot="private" static="no" mutable="no">
+        <type>std::chrono::high_resolution_clock::time_point</type>
+        <definition>std::chrono::high_resolution_clock::time_point themis::server::perf::HTTP2StreamBuffer::last_access_time_</definition>
+        <argsstring></argsstring>
+        <name>last_access_time_</name>
+        <qualifiedname>themis::server::perf::HTTP2StreamBuffer::last_access_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="417" column="52" bodyfile="include/server/performance_helpers.h" bodystart="417" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a9252f058a78623eac1a7a3d00668fc8e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::HTTP2StreamBuffer::HTTP2StreamBuffer</definition>
+        <argsstring>()</argsstring>
+        <name>HTTP2StreamBuffer</name>
+        <qualifiedname>themis::server::perf::HTTP2StreamBuffer::HTTP2StreamBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="310" column="5" bodyfile="include/server/performance_helpers.h" bodystart="310" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1ac94d51c99d01cf977c9ba08e9c783136" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::perf::HTTP2StreamBuffer::append</definition>
+        <argsstring>(const uint8_t *data, size_t len)</argsstring>
+        <name>append</name>
+        <qualifiedname>themis::server::perf::HTTP2StreamBuffer::append</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Append. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::high_resolution_clock::now(), <ref refid="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1ac5acb46bfde84b1574f11d22e3007aa4" kindref="member">size()</ref>, <ref refid="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a305a6b458282e0514e58f11cd8cff151" kindref="member">capacity()</ref>, reserve(), insert(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="322" column="10" bodyfile="include/server/performance_helpers.h" bodystart="322" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a6c01bf31656bc17d9c07d6f56e2a39c3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::perf::HTTP2StreamBuffer::appendFrame</definition>
+        <argsstring>(const uint8_t *header, const uint8_t *payload, size_t payload_len)</argsstring>
+        <name>appendFrame</name>
+        <qualifiedname>themis::server::perf::HTTP2StreamBuffer::appendFrame</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>header</declname>
+        </param>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>payload</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>payload_len</declname>
+        </param>
+        <briefdescription>
+<para>Append Frame. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">header</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1ac5acb46bfde84b1574f11d22e3007aa4" kindref="member">size()</ref>, <ref refid="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a305a6b458282e0514e58f11cd8cff151" kindref="member">capacity()</ref>, reserve(), insert(), end(), std::chrono::high_resolution_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="354" column="10" bodyfile="include/server/performance_helpers.h" bodystart="354" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1ac739b258a1ebbc0ec71371d1055b911c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::perf::HTTP2StreamBuffer::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::server::perf::HTTP2StreamBuffer::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="387" column="10" bodyfile="include/server/performance_helpers.h" bodystart="387" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a51c9c3ac13e892f60ac2c6abfbc200b1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::server::perf::HTTP2StreamBuffer::extract</definition>
+        <argsstring>()</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::server::perf::HTTP2StreamBuffer::extract</qualifiedname>
+        <briefdescription>
+<para>Extract. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::high_resolution_clock::now(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="394" column="17" bodyfile="include/server/performance_helpers.h" bodystart="394" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a9fe7911bde1ec210cbf1d6c1aac9985a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+        <definition>const std::vector&lt; uint8_t &gt; &amp; themis::server::perf::HTTP2StreamBuffer::data</definition>
+        <argsstring>() const</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::server::perf::HTTP2StreamBuffer::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="399" column="23" bodyfile="include/server/performance_helpers.h" bodystart="399" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a3e565bd55111ff75db51bdcaecd7dfdb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt; &amp;</type>
+        <definition>std::vector&lt; uint8_t &gt; &amp; themis::server::perf::HTTP2StreamBuffer::data</definition>
+        <argsstring>()</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::server::perf::HTTP2StreamBuffer::data</qualifiedname>
+        <briefdescription>
+<para>Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements data without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="405" column="17" bodyfile="include/server/performance_helpers.h" bodystart="405" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1ac5acb46bfde84b1574f11d22e3007aa4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::server::perf::HTTP2StreamBuffer::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::server::perf::HTTP2StreamBuffer::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="407" column="12" bodyfile="include/server/performance_helpers.h" bodystart="407" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a305a6b458282e0514e58f11cd8cff151" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::server::perf::HTTP2StreamBuffer::capacity</definition>
+        <argsstring>() const</argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::server::perf::HTTP2StreamBuffer::capacity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="409" column="12" bodyfile="include/server/performance_helpers.h" bodystart="409" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a9972d99acebc832aa4e7429af3ec290d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::chrono::duration&lt; double &gt;</type>
+        <definition>std::chrono::duration&lt; double &gt; themis::server::perf::HTTP2StreamBuffer::getIdleDuration</definition>
+        <argsstring>() const</argsstring>
+        <name>getIdleDuration</name>
+        <qualifiedname>themis::server::perf::HTTP2StreamBuffer::getIdleDuration</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="411" column="27" bodyfile="include/server/performance_helpers.h" bodystart="411" bodyend="413"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/performance_helpers.h" line="305" column="1" bodyfile="include/server/performance_helpers.h" bodystart="305" bodyend="418"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1ac94d51c99d01cf977c9ba08e9c783136" prot="public" virt="non-virtual"><scope>themis::server::perf::HTTP2StreamBuffer</scope><name>append</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a6c01bf31656bc17d9c07d6f56e2a39c3" prot="public" virt="non-virtual"><scope>themis::server::perf::HTTP2StreamBuffer</scope><name>appendFrame</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a65303bd9a0ce6ebcac3fc30adc4c6315" prot="private" virt="non-virtual"><scope>themis::server::perf::HTTP2StreamBuffer</scope><name>buffer_</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a305a6b458282e0514e58f11cd8cff151" prot="public" virt="non-virtual"><scope>themis::server::perf::HTTP2StreamBuffer</scope><name>capacity</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1ac739b258a1ebbc0ec71371d1055b911c" prot="public" virt="non-virtual"><scope>themis::server::perf::HTTP2StreamBuffer</scope><name>clear</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a9fe7911bde1ec210cbf1d6c1aac9985a" prot="public" virt="non-virtual"><scope>themis::server::perf::HTTP2StreamBuffer</scope><name>data</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a3e565bd55111ff75db51bdcaecd7dfdb" prot="public" virt="non-virtual"><scope>themis::server::perf::HTTP2StreamBuffer</scope><name>data</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a51c9c3ac13e892f60ac2c6abfbc200b1" prot="public" virt="non-virtual"><scope>themis::server::perf::HTTP2StreamBuffer</scope><name>extract</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a9972d99acebc832aa4e7429af3ec290d" prot="public" virt="non-virtual"><scope>themis::server::perf::HTTP2StreamBuffer</scope><name>getIdleDuration</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a8d84273c236d514d882dfc2d5e53c6ff" prot="public" virt="non-virtual"><scope>themis::server::perf::HTTP2StreamBuffer</scope><name>GROWTH_FACTOR</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a9252f058a78623eac1a7a3d00668fc8e" prot="public" virt="non-virtual"><scope>themis::server::perf::HTTP2StreamBuffer</scope><name>HTTP2StreamBuffer</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1a72388aaeb82702bb1846b3e968f7431f" prot="public" virt="non-virtual"><scope>themis::server::perf::HTTP2StreamBuffer</scope><name>INITIAL_CAPACITY</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1aa8d621964d86ab113c249ff024d2ccb1" prot="private" virt="non-virtual"><scope>themis::server::perf::HTTP2StreamBuffer</scope><name>last_access_time_</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer_1ac5acb46bfde84b1574f11d22e3007aa4" prot="public" virt="non-virtual"><scope>themis::server::perf::HTTP2StreamBuffer</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

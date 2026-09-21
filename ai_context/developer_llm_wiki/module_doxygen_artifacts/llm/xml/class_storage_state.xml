@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_storage_state" kind="class" language="C++" prot="public">
+    <compoundname>StorageState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_storage_state_1acb05ed94a9a8a3206ab20c8947885d9f" prot="public" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path StorageState::test_dir</definition>
+        <argsstring></argsstring>
+        <name>test_dir</name>
+        <qualifiedname>StorageState::test_dir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_model_loading_from_themisdb.cpp" line="78" column="14" bodyfile="tests/llm/bench_model_loading_from_themisdb.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_storage_state_1a15c8d3e92b392343b9405929ff96326b" prot="public" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path StorageState::db_path</definition>
+        <argsstring></argsstring>
+        <name>db_path</name>
+        <qualifiedname>StorageState::db_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_model_loading_from_themisdb.cpp" line="79" column="14" bodyfile="tests/llm/bench_model_loading_from_themisdb.cpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_storage_state_1acec567c9b1d69d380a35003d63c64bc1" prot="public" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path StorageState::blob_path</definition>
+        <argsstring></argsstring>
+        <name>blob_path</name>
+        <qualifiedname>StorageState::blob_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_model_loading_from_themisdb.cpp" line="80" column="14" bodyfile="tests/llm/bench_model_loading_from_themisdb.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_storage_state_1a45db5d989da72fb2ba963f3dcf38f6a8" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; StorageState::db</definition>
+        <argsstring></argsstring>
+        <name>db</name>
+        <qualifiedname>StorageState::db</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_model_loading_from_themisdb.cpp" line="81" column="21" bodyfile="tests/llm/bench_model_loading_from_themisdb.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_storage_state_1a6f75ca246c980f9715bd789091a53a80" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; BlobStorageManager &gt;</type>
+        <definition>std::shared_ptr&lt;BlobStorageManager&gt; StorageState::blob_manager</definition>
+        <argsstring></argsstring>
+        <name>blob_manager</name>
+        <qualifiedname>StorageState::blob_manager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_model_loading_from_themisdb.cpp" line="82" column="21" bodyfile="tests/llm/bench_model_loading_from_themisdb.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_storage_state_1aadb2af63de135f9d6520b28cdad9b5db" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_l_l_m_model_storage" kindref="compound">LLMModelStorage</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;LLMModelStorage&gt; StorageState::model_storage</definition>
+        <argsstring></argsstring>
+        <name>model_storage</name>
+        <qualifiedname>StorageState::model_storage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_model_loading_from_themisdb.cpp" line="83" column="21" bodyfile="tests/llm/bench_model_loading_from_themisdb.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_storage_state_1a3c132255c725b9d67963abcd39c4b9f7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StorageState::setup</definition>
+        <argsstring>()</argsstring>
+        <name>setup</name>
+        <qualifiedname>StorageState::setup</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_model_loading_from_themisdb.cpp" line="85" column="10" bodyfile="tests/llm/bench_model_loading_from_themisdb.cpp" bodystart="85" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="class_storage_state_1a4041bdfe5d3e282eb9ad16aabb23f515" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StorageState::teardown</definition>
+        <argsstring>()</argsstring>
+        <name>teardown</name>
+        <qualifiedname>StorageState::teardown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/bench_model_loading_from_themisdb.cpp" line="119" column="10" bodyfile="tests/llm/bench_model_loading_from_themisdb.cpp" bodystart="119" bodyend="127"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/bench_model_loading_from_themisdb.cpp" line="76" column="1" bodyfile="tests/llm/bench_model_loading_from_themisdb.cpp" bodystart="76" bodyend="128"/>
+    <listofallmembers>
+      <member refid="class_storage_state_1a6f75ca246c980f9715bd789091a53a80" prot="public" virt="non-virtual"><scope>StorageState</scope><name>blob_manager</name></member>
+      <member refid="class_storage_state_1acec567c9b1d69d380a35003d63c64bc1" prot="public" virt="non-virtual"><scope>StorageState</scope><name>blob_path</name></member>
+      <member refid="class_storage_state_1a45db5d989da72fb2ba963f3dcf38f6a8" prot="public" virt="non-virtual"><scope>StorageState</scope><name>db</name></member>
+      <member refid="class_storage_state_1a15c8d3e92b392343b9405929ff96326b" prot="public" virt="non-virtual"><scope>StorageState</scope><name>db_path</name></member>
+      <member refid="class_storage_state_1aadb2af63de135f9d6520b28cdad9b5db" prot="public" virt="non-virtual"><scope>StorageState</scope><name>model_storage</name></member>
+      <member refid="class_storage_state_1a3c132255c725b9d67963abcd39c4b9f7" prot="public" virt="non-virtual"><scope>StorageState</scope><name>setup</name></member>
+      <member refid="class_storage_state_1a4041bdfe5d3e282eb9ad16aabb23f515" prot="public" virt="non-virtual"><scope>StorageState</scope><name>teardown</name></member>
+      <member refid="class_storage_state_1acb05ed94a9a8a3206ab20c8947885d9f" prot="public" virt="non-virtual"><scope>StorageState</scope><name>test_dir</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

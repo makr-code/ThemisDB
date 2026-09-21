@@ -1,0 +1,722 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_operator_diagnostics" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::OperatorDiagnostics</compoundname>
+    <includes refid="updates__operator__diagnostics_8h" local="no">updates_operator_diagnostics.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1a49ea4540fbdda56e22b4349e9bd2e6ae" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::OperatorDiagnostics::OperatorDiagnostics</definition>
+        <argsstring>()</argsstring>
+        <name>OperatorDiagnostics</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::OperatorDiagnostics</qualifiedname>
+        <briefdescription>
+<para>Construct diagnostics module. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="177" column="14" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="54" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1a5bdd15c5da8c00e3861d639a1543ac6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::OperatorDiagnostics::~OperatorDiagnostics</definition>
+        <argsstring>()=default</argsstring>
+        <name>~OperatorDiagnostics</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::~OperatorDiagnostics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="179" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1a646acb64d093fcc6381e27082c1c0299" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::OperatorDiagnostics::OperatorDiagnostics</definition>
+        <argsstring>(const OperatorDiagnostics &amp;)=delete</argsstring>
+        <name>OperatorDiagnostics</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::OperatorDiagnostics</qualifiedname>
+        <param>
+          <type>const OperatorDiagnostics &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="182" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1a24e68d6ecc273f5e1c3ed5253478b3f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a49ea4540fbdda56e22b4349e9bd2e6ae" kindref="member">OperatorDiagnostics</ref> &amp;</type>
+        <definition>OperatorDiagnostics &amp; themis::updates::OperatorDiagnostics::operator=</definition>
+        <argsstring>(const OperatorDiagnostics &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a49ea4540fbdda56e22b4349e9bd2e6ae" kindref="member">OperatorDiagnostics</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="183" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1a18bc2fbdd631ee4fcd90a6aa2fe60590" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::OperatorDiagnostics::OperatorDiagnostics</definition>
+        <argsstring>(OperatorDiagnostics &amp;&amp;) noexcept=default</argsstring>
+        <name>OperatorDiagnostics</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::OperatorDiagnostics</qualifiedname>
+        <param>
+          <type>OperatorDiagnostics &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="186" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1a05ed7987a8d566756d3add11be97d386" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a49ea4540fbdda56e22b4349e9bd2e6ae" kindref="member">OperatorDiagnostics</ref> &amp;</type>
+        <definition>OperatorDiagnostics &amp; themis::updates::OperatorDiagnostics::operator=</definition>
+        <argsstring>(OperatorDiagnostics &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a49ea4540fbdda56e22b4349e9bd2e6ae" kindref="member">OperatorDiagnostics</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="187" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1af1b6a7a07e7f5d9cc296143b18af1567" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref></type>
+        <definition>FailureScenario themis::updates::OperatorDiagnostics::detectScenario</definition>
+        <argsstring>(const ErrorContext &amp;context) const</argsstring>
+        <name>detectScenario</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::detectScenario</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Detect which failure scenario an error context matches. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyzes error code, operation, phase, and context to classify the failure. Uses pattern matching against Phase 4-5 hardening test scenarios.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error context from <ref refid="classthemis_1_1updates_1_1_diagnostic_emitter" kindref="compound">DiagnosticEmitter</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Detected failure scenario, or returns DEADLOCK_RACE_CONDITION for unclassified </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="202" column="21" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="63" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1ab573a99328ce8d4bf499060bd202ca52" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::OperatorDiagnostics::getScenarioName</definition>
+        <argsstring>(FailureScenario scenario) const</argsstring>
+        <name>getScenarioName</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::getScenarioName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref></type>
+          <declname>scenario</declname>
+        </param>
+        <briefdescription>
+<para>Get human-readable name for a failure scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The failure scenario </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Descriptive name (e.g., &quot;Coordinator Unreachable&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="210" column="17" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="162" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1acd2f934fb6a6d41744b4fa642a8fec6e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::OperatorDiagnostics::matchesScenario</definition>
+        <argsstring>(FailureScenario scenario, const ErrorContext &amp;context) const</argsstring>
+        <name>matchesScenario</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::matchesScenario</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref></type>
+          <declname>scenario</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Check if an error pattern matches a specific scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The scenario to check against </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if pattern matches </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="219" column="10" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="185" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1a5e86622b1911d6a71e3d37d4f494fb23" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_recovery_procedure" kindref="compound">RecoveryProcedure</ref></type>
+        <definition>RecoveryProcedure themis::updates::OperatorDiagnostics::getRecoveryProcedure</definition>
+        <argsstring>(FailureScenario scenario) const</argsstring>
+        <name>getRecoveryProcedure</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::getRecoveryProcedure</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref></type>
+          <declname>scenario</declname>
+        </param>
+        <briefdescription>
+<para>Get recovery procedure for a failure scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Recovery procedures are documented and validated through Phase 4-5 testing.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The failure scenario </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Recovery procedure with steps and prevention tips </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="233" column="23" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="193" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1a23357667354932f30c5d94b694fac26a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8af" kindref="member">RecoveryAction</ref></type>
+        <definition>RecoveryAction themis::updates::OperatorDiagnostics::recommendRecoveryAction</definition>
+        <argsstring>(const ErrorContext &amp;context) const</argsstring>
+        <name>recommendRecoveryAction</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::recommendRecoveryAction</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Recommend recovery action for an error context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the safest recovery action based on the detected scenario and current operation state.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Recommended recovery action </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="244" column="20" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="394" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1aa8e37e171714f21b7b6a8995c718590f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_alerting_rule" kindref="compound">AlertingRule</ref></type>
+        <definition>AlertingRule themis::updates::OperatorDiagnostics::getAlertingRule</definition>
+        <argsstring>(FailureScenario scenario) const</argsstring>
+        <name>getAlertingRule</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::getAlertingRule</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref></type>
+          <declname>scenario</declname>
+        </param>
+        <briefdescription>
+<para>Get alerting rule for a failure scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rules are suitable for use in Prometheus, Grafana, or similar alerting systems. Includes Prometheus query syntax and message templates.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The failure scenario </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Alerting rule with condition and message template </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="259" column="18" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="423" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1a57634c212cdce5727059c1197e11e2b7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_alerting_rule" kindref="compound">AlertingRule</ref> &gt;</type>
+        <definition>std::vector&lt; AlertingRule &gt; themis::updates::OperatorDiagnostics::getAllAlertingRules</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllAlertingRules</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::getAllAlertingRules</qualifiedname>
+        <briefdescription>
+<para>Get all alerting rules for integration with observability tools. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of alerting rules for all 8+ scenarios </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="266" column="17" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="506" bodyend="513"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1a282a9699ecf11d2bf4ce26aefacc0ad4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::updates::OperatorDiagnostics::getLogPatterns</definition>
+        <argsstring>(FailureScenario scenario) const</argsstring>
+        <name>getLogPatterns</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::getLogPatterns</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref></type>
+          <declname>scenario</declname>
+        </param>
+        <briefdescription>
+<para>Get recommended log patterns for a failure scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Helps operators configure log aggregation, filtering, and alerts.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The failure scenario </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of regular expressions or exact patterns to watch for </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="280" column="17" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="519" bodyend="574"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1ab9750269c33457e4ebdab8d7807496a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::updates::OperatorDiagnostics::getMetricsToTrack</definition>
+        <argsstring>(FailureScenario scenario) const</argsstring>
+        <name>getMetricsToTrack</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::getMetricsToTrack</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref></type>
+          <declname>scenario</declname>
+        </param>
+        <briefdescription>
+<para>Get recommended metrics to track for a failure scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scenario</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The failure scenario </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of metric names (e.g., &quot;updates_coordinator_timeout_count&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="288" column="17" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="576" bodyend="629"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1a3361dc09313dea2fe10e5fe891d4c741" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::OperatorDiagnostics::enrichErrorContext</definition>
+        <argsstring>(ErrorContext &amp;context) const</argsstring>
+        <name>enrichErrorContext</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::enrichErrorContext</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Enrich an error context with recovery recommendations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Adds recovery suggestions, alerting metadata, and scenario classification to the error context for structured logging.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input error context (modified in place) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if enrichment was successful </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="303" column="10" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="635" bodyend="652"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1a51709491b7109f104588184f0fb886bf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref></type>
+        <definition>json themis::updates::OperatorDiagnostics::exportScenariosAsJson</definition>
+        <argsstring>() const</argsstring>
+        <name>exportScenariosAsJson</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::exportScenariosAsJson</qualifiedname>
+        <briefdescription>
+<para>Export all failure scenarios as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Suitable for generating documentation, configuration files, or API responses.</para>
+<para><simplesect kind="return"><para>JSON array of failure scenario descriptions </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="316" column="10" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="658" bodyend="668"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1a3278b2fef5dadb83fa740e736d2ac526" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref></type>
+        <definition>json themis::updates::OperatorDiagnostics::exportProceduresAsJson</definition>
+        <argsstring>() const</argsstring>
+        <name>exportProceduresAsJson</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::exportProceduresAsJson</qualifiedname>
+        <briefdescription>
+<para>Export all recovery procedures as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON array of recovery procedures </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="323" column="10" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="670" bodyend="677"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1a3b9a0fe528312d9679afc39289bd3bed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref></type>
+        <definition>json themis::updates::OperatorDiagnostics::exportAlertingRulesAsJson</definition>
+        <argsstring>() const</argsstring>
+        <name>exportAlertingRulesAsJson</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::exportAlertingRulesAsJson</qualifiedname>
+        <briefdescription>
+<para>Export all alerting rules as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON array of alerting rules </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="330" column="10" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="679" bodyend="685"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1a093303531a090f14582503f12324f4ba" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref></type>
+        <definition>FailureScenario themis::updates::OperatorDiagnostics::detectCoordinatorScenario</definition>
+        <argsstring>(const ErrorContext &amp;context) const</argsstring>
+        <name>detectCoordinatorScenario</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::detectCoordinatorScenario</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="334" column="21" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="110" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1a41575a8119d45b04cc34076ea70cee77" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref></type>
+        <definition>FailureScenario themis::updates::OperatorDiagnostics::detectMigrationScenario</definition>
+        <argsstring>(const ErrorContext &amp;context) const</argsstring>
+        <name>detectMigrationScenario</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::detectMigrationScenario</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="335" column="21" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="122" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1adb0fb752ccf4c989a68a66402270de85" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref></type>
+        <definition>FailureScenario themis::updates::OperatorDiagnostics::detectCanaryScenario</definition>
+        <argsstring>(const ErrorContext &amp;context) const</argsstring>
+        <name>detectCanaryScenario</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::detectCanaryScenario</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="336" column="21" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="131" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1a7834908bdab47ad7962e6616c8f8cc57" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref></type>
+        <definition>FailureScenario themis::updates::OperatorDiagnostics::detectRollbackScenario</definition>
+        <argsstring>(const ErrorContext &amp;context) const</argsstring>
+        <name>detectRollbackScenario</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::detectRollbackScenario</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="337" column="21" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="135" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1ab48429fc4919b6c9e7c5b2a0851f1ba4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref></type>
+        <definition>FailureScenario themis::updates::OperatorDiagnostics::detectResourceScenario</definition>
+        <argsstring>(const ErrorContext &amp;context) const</argsstring>
+        <name>detectResourceScenario</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::detectResourceScenario</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="338" column="21" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="146" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1aa2f61c2102f376aecfe560441f95b7a2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref></type>
+        <definition>FailureScenario themis::updates::OperatorDiagnostics::detectManifestScenario</definition>
+        <argsstring>(const ErrorContext &amp;context) const</argsstring>
+        <name>detectManifestScenario</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::detectManifestScenario</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="339" column="21" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="150" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1acb1d9b442e5892d6705f8604171a4763" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref></type>
+        <definition>FailureScenario themis::updates::OperatorDiagnostics::detectPartitionScenario</definition>
+        <argsstring>(const ErrorContext &amp;context) const</argsstring>
+        <name>detectPartitionScenario</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::detectPartitionScenario</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="340" column="21" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="154" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1a78c8c80eb417a04eb41f3b177a59704e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" kindref="member">FailureScenario</ref></type>
+        <definition>FailureScenario themis::updates::OperatorDiagnostics::detectDeadlockScenario</definition>
+        <argsstring>(const ErrorContext &amp;context) const</argsstring>
+        <name>detectDeadlockScenario</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::detectDeadlockScenario</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="341" column="21" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="158" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1a73d2a1f2146be11b7f02b2d2ddfbf95b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::OperatorDiagnostics::initializeRecoveryProcedures</definition>
+        <argsstring>()</argsstring>
+        <name>initializeRecoveryProcedures</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::initializeRecoveryProcedures</qualifiedname>
+        <briefdescription>
+<para>Initialize Recovery Procedures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements initializeRecoveryProcedures without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="344" column="10" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="695" bodyend="698"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_operator_diagnostics_1ac00d8722f6edcba9673dc90a9d28c375" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::OperatorDiagnostics::initializeAlertingRules</definition>
+        <argsstring>()</argsstring>
+        <name>initializeAlertingRules</name>
+        <qualifiedname>themis::updates::OperatorDiagnostics::initializeAlertingRules</qualifiedname>
+        <briefdescription>
+<para>Initialize Alerting Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements initializeAlertingRules without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="345" column="10" bodyfile="src/updates/updates_operator_diagnostics.cpp" bodystart="704" bodyend="707"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Central diagnostics module for operator visibility into update incidents. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides:<itemizedlist>
+<listitem><para>Failure scenario detection (8+ patterns)</para>
+</listitem><listitem><para>Alerting rule generation for observability tools</para>
+</listitem><listitem><para>Log pattern recommendations</para>
+</listitem><listitem><para>Recovery procedure lookup</para>
+</listitem><listitem><para>Structured error context enrichment</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safe. All methods can be called concurrently from multiple threads.</para>
+<para>Example usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_operator_diagnostics_1a49ea4540fbdda56e22b4349e9bd2e6ae" kindref="member">OperatorDiagnostics</ref><sp/>diagnostics;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Detect<sp/>coordinator<sp/>timeout<sp/>pattern</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ErrorContext<sp/>ctx;</highlight></codeline>
+<codeline><highlight class="normal">ctx.error_code<sp/>=<sp/><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a6185c0c1a8b7affb246ad18947c9b3ae" kindref="member">DiagnosticErrorCode::COORDINATION_TIMEOUT</ref>;</highlight></codeline>
+<codeline><highlight class="normal">ctx.operation<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;coordinate_update&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>scenario<sp/>=<sp/>diagnostics.detectScenario(ctx);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(scenario<sp/>==<sp/><ref refid="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aa14e2e5f315d2433967a8b8501b7bf15c" kindref="member">FailureScenario::COORDINATOR_UNREACHABLE</ref>)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>procedure<sp/>=<sp/>diagnostics.getRecoveryProcedure(scenario);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Recovery<sp/>steps:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>step<sp/>:<sp/>procedure.recovery_steps)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>-<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>step<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Generate<sp/>alerting<sp/>rules<sp/>for<sp/>observability<sp/>tools</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rules<sp/>=<sp/>diagnostics.getAllAlertingRules();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>rule<sp/>:<sp/>rules)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>rule.rule_name<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>rule.condition<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/updates/updates_operator_diagnostics.h" line="172" column="1" bodyfile="include/updates/updates_operator_diagnostics.h" bodystart="172" bodyend="346"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1adb0fb752ccf4c989a68a66402270de85" prot="private" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>detectCanaryScenario</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1a093303531a090f14582503f12324f4ba" prot="private" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>detectCoordinatorScenario</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1a78c8c80eb417a04eb41f3b177a59704e" prot="private" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>detectDeadlockScenario</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1aa2f61c2102f376aecfe560441f95b7a2" prot="private" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>detectManifestScenario</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1a41575a8119d45b04cc34076ea70cee77" prot="private" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>detectMigrationScenario</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1acb1d9b442e5892d6705f8604171a4763" prot="private" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>detectPartitionScenario</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1ab48429fc4919b6c9e7c5b2a0851f1ba4" prot="private" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>detectResourceScenario</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1a7834908bdab47ad7962e6616c8f8cc57" prot="private" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>detectRollbackScenario</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1af1b6a7a07e7f5d9cc296143b18af1567" prot="public" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>detectScenario</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1a3361dc09313dea2fe10e5fe891d4c741" prot="public" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>enrichErrorContext</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1a3b9a0fe528312d9679afc39289bd3bed" prot="public" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>exportAlertingRulesAsJson</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1a3278b2fef5dadb83fa740e736d2ac526" prot="public" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>exportProceduresAsJson</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1a51709491b7109f104588184f0fb886bf" prot="public" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>exportScenariosAsJson</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1aa8e37e171714f21b7b6a8995c718590f" prot="public" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>getAlertingRule</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1a57634c212cdce5727059c1197e11e2b7" prot="public" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>getAllAlertingRules</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1a282a9699ecf11d2bf4ce26aefacc0ad4" prot="public" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>getLogPatterns</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1ab9750269c33457e4ebdab8d7807496a9" prot="public" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>getMetricsToTrack</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1a5e86622b1911d6a71e3d37d4f494fb23" prot="public" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>getRecoveryProcedure</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1ab573a99328ce8d4bf499060bd202ca52" prot="public" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>getScenarioName</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1ac00d8722f6edcba9673dc90a9d28c375" prot="private" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>initializeAlertingRules</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1a73d2a1f2146be11b7f02b2d2ddfbf95b" prot="private" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>initializeRecoveryProcedures</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1acd2f934fb6a6d41744b4fa642a8fec6e" prot="public" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>matchesScenario</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1a24e68d6ecc273f5e1c3ed5253478b3f5" prot="public" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1a05ed7987a8d566756d3add11be97d386" prot="public" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1a49ea4540fbdda56e22b4349e9bd2e6ae" prot="public" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>OperatorDiagnostics</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1a646acb64d093fcc6381e27082c1c0299" prot="public" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>OperatorDiagnostics</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1a18bc2fbdd631ee4fcd90a6aa2fe60590" prot="public" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>OperatorDiagnostics</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1a23357667354932f30c5d94b694fac26a" prot="public" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>recommendRecoveryAction</name></member>
+      <member refid="classthemis_1_1updates_1_1_operator_diagnostics_1a5bdd15c5da8c00e3861d639a1543ac6b" prot="public" virt="non-virtual"><scope>themis::updates::OperatorDiagnostics</scope><name>~OperatorDiagnostics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

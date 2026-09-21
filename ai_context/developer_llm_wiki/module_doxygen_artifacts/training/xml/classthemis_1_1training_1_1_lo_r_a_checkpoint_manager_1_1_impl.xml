@@ -1,0 +1,406 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::LoRACheckpointManager::Impl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1a850cebeaaba615d993b1d2eb20aa5861" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_checkpoint_manager_config" kindref="compound">CheckpointManagerConfig</ref></type>
+        <definition>CheckpointManagerConfig themis::training::LoRACheckpointManager::Impl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::Impl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_checkpoint_manager.cpp" line="460" column="50" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="460" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1aef83e951bb9e257b383cc2cbd7aee914" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref> &gt;</type>
+        <definition>std::vector&lt;CheckpointManifestEntry&gt; themis::training::LoRACheckpointManager::Impl::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::Impl::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_checkpoint_manager.cpp" line="461" column="25" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="461" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1a06204d851fd0f8a44c264a15dcc532c9" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::LoRACheckpointManager::Impl::Impl</definition>
+        <argsstring>(const CheckpointManagerConfig &amp;config)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_checkpoint_manager_config" kindref="compound">CheckpointManagerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl" kindref="compound">Impl</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_checkpoint_manager.cpp" line="172" column="14" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="172" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1a1d62a602aca7354548bde96d68fc0e67" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref></type>
+        <definition>CheckpointManifestEntry themis::training::LoRACheckpointManager::Impl::save</definition>
+        <argsstring>(const std::string &amp;source_path, CheckpointManifestEntry meta)</argsstring>
+        <name>save</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::Impl::save</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref></type>
+          <declname>meta</declname>
+        </param>
+        <briefdescription>
+<para>Save. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), std::to_string(), copyFile(), utils::calculateSHA256(), std::remove(), c_str(), std::rename(), std::time(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_checkpoint_manager.cpp" line="193" column="29" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="193" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1ab21cb1e2e35a9dd50c07fe0eca0cf8d1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref> &gt;</type>
+        <definition>std::optional&lt; CheckpointManifestEntry &gt; themis::training::LoRACheckpointManager::Impl::resume</definition>
+        <argsstring>() const</argsstring>
+        <name>resume</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::Impl::resume</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_checkpoint_manager.cpp" line="258" column="19" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="258" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1aa55244457d07bd4e4ec4eaca23d0b434" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref> &gt;</type>
+        <definition>std::vector&lt; CheckpointManifestEntry &gt; themis::training::LoRACheckpointManager::Impl::listCheckpoints</definition>
+        <argsstring>() const</argsstring>
+        <name>listCheckpoints</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::Impl::listCheckpoints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_checkpoint_manager.cpp" line="284" column="17" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="284" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1a45fc0a82e47c42708e8dc3b1d6663e53" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::LoRACheckpointManager::Impl::validate</definition>
+        <argsstring>(const CheckpointManifestEntry &amp;entry) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::Impl::validate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_checkpoint_manager.cpp" line="289" column="10" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="289" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1aa06d2ee98cfb10307da7daf298facc60" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::LoRACheckpointManager::Impl::clearAll</definition>
+        <argsstring>()</argsstring>
+        <name>clearAll</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::Impl::clearAll</qualifiedname>
+        <briefdescription>
+<para>Clear All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::remove(), c_str(), clear(), <ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1a8934b69e13dea8e669d4842f0f0cd4a8" kindref="member">manifestPath()</ref>, <ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1ab1a06bc9c5b2aee15749303cd9d45a66" kindref="member">calibrationManifestPath()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_checkpoint_manager.cpp" line="302" column="10" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="302" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1a8934b69e13dea8e669d4842f0f0cd4a8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::LoRACheckpointManager::Impl::manifestPath</definition>
+        <argsstring>() const</argsstring>
+        <name>manifestPath</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::Impl::manifestPath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_checkpoint_manager.cpp" line="312" column="17" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="312" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1ab1a06bc9c5b2aee15749303cd9d45a66" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::LoRACheckpointManager::Impl::calibrationManifestPath</definition>
+        <argsstring>() const</argsstring>
+        <name>calibrationManifestPath</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::Impl::calibrationManifestPath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_checkpoint_manager.cpp" line="317" column="17" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="317" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1ab0fad8e0c913913ce184077fae6ca972" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::LoRACheckpointManager::Impl::saveCalibrationJson</definition>
+        <argsstring>(const std::string &amp;json_content)</argsstring>
+        <name>saveCalibrationJson</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::Impl::saveCalibrationJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_content</declname>
+        </param>
+        <briefdescription>
+<para>Save Calibration Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json_content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: f(), <ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1ab1a06bc9c5b2aee15749303cd9d45a66" kindref="member">calibrationManifestPath()</ref>, is_open(), good(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_checkpoint_manager.cpp" line="328" column="10" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="328" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1ab9ab81bde7744d7d0b8e31c9e415f768" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::training::LoRACheckpointManager::Impl::loadCalibrationJson</definition>
+        <argsstring>() const</argsstring>
+        <name>loadCalibrationJson</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::Impl::loadCalibrationJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_checkpoint_manager.cpp" line="343" column="17" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="343" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1a5b6501593d948949edbec833dfa01867" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::training::LoRACheckpointManager::Impl::cleanupPartialCheckpoints</definition>
+        <argsstring>()</argsstring>
+        <name>cleanupPartialCheckpoints</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::Impl::cleanupPartialCheckpoints</qualifiedname>
+        <briefdescription>
+<para>Phase 2: Clean up partial/corrupted checkpoints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: insert(), <ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1a45fc0a82e47c42708e8dc3b1d6663e53" kindref="member">validate()</ref>, std::remove(), c_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_checkpoint_manager.cpp" line="358" column="12" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="358" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1a7f1e3afa384059687fab341e769b3cb7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::training::LoRACheckpointManager::Impl::auditCheckpoints</definition>
+        <argsstring>(std::string *diagnostics)</argsstring>
+        <name>auditCheckpoints</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::Impl::auditCheckpoints</qualifiedname>
+        <param>
+          <type>std::string *</type>
+          <declname>diagnostics</declname>
+        </param>
+        <briefdescription>
+<para>Phase 2: Audit all checkpoints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">diagnostics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), <ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1a45fc0a82e47c42708e8dc3b1d6663e53" kindref="member">validate()</ref>, str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_checkpoint_manager.cpp" line="393" column="12" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="393" bodyend="419"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1a99d7549bef5e2fff19839b4fd01865e0" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::LoRACheckpointManager::Impl::loadManifest</definition>
+        <argsstring>()</argsstring>
+        <name>loadManifest</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::Impl::loadManifest</qualifiedname>
+        <briefdescription>
+<para>Load Manifest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: f(), <ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1a8934b69e13dea8e669d4842f0f0cd4a8" kindref="member">manifestPath()</ref>, is_open(), rdbuf(), parseManifest(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/lora_checkpoint_manager.cpp" line="427" column="10" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="427" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1abf22605e62b32f33610b46bf442dddfe" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::LoRACheckpointManager::Impl::persistManifest</definition>
+        <argsstring>() const</argsstring>
+        <name>persistManifest</name>
+        <qualifiedname>themis::training::LoRACheckpointManager::Impl::persistManifest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>F. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">trunc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Serialize Entry. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">e</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/training/lora_checkpoint_manager.cpp" line="436" column="10" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="436" bodyend="457"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/lora_checkpoint_manager.cpp" line="165" column="1" bodyfile="src/training/lora_checkpoint_manager.cpp" bodystart="165" bodyend="462"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1a7f1e3afa384059687fab341e769b3cb7" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager::Impl</scope><name>auditCheckpoints</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1ab1a06bc9c5b2aee15749303cd9d45a66" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager::Impl</scope><name>calibrationManifestPath</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1a5b6501593d948949edbec833dfa01867" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager::Impl</scope><name>cleanupPartialCheckpoints</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1aa06d2ee98cfb10307da7daf298facc60" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager::Impl</scope><name>clearAll</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1a850cebeaaba615d993b1d2eb20aa5861" prot="private" virt="non-virtual"><scope>themis::training::LoRACheckpointManager::Impl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1aef83e951bb9e257b383cc2cbd7aee914" prot="private" virt="non-virtual"><scope>themis::training::LoRACheckpointManager::Impl</scope><name>entries_</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1a06204d851fd0f8a44c264a15dcc532c9" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1aa55244457d07bd4e4ec4eaca23d0b434" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager::Impl</scope><name>listCheckpoints</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1ab9ab81bde7744d7d0b8e31c9e415f768" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager::Impl</scope><name>loadCalibrationJson</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1a99d7549bef5e2fff19839b4fd01865e0" prot="private" virt="non-virtual"><scope>themis::training::LoRACheckpointManager::Impl</scope><name>loadManifest</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1a8934b69e13dea8e669d4842f0f0cd4a8" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager::Impl</scope><name>manifestPath</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1abf22605e62b32f33610b46bf442dddfe" prot="private" virt="non-virtual"><scope>themis::training::LoRACheckpointManager::Impl</scope><name>persistManifest</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1ab21cb1e2e35a9dd50c07fe0eca0cf8d1" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager::Impl</scope><name>resume</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1a1d62a602aca7354548bde96d68fc0e67" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager::Impl</scope><name>save</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1ab0fad8e0c913913ce184077fae6ca972" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager::Impl</scope><name>saveCalibrationJson</name></member>
+      <member refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl_1a45fc0a82e47c42708e8dc3b1d6663e53" prot="public" virt="non-virtual"><scope>themis::training::LoRACheckpointManager::Impl</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

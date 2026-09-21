@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_throwing_executor" kind="class" language="C++" prot="public">
+    <compoundname>ThrowingExecutor</compoundname>
+    <basecompoundref refid="classthemisdb_1_1analytics_1_1_shard_query_executor" prot="public" virt="non-virtual">themisdb::analytics::ShardQueryExecutor</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_throwing_executor_1a31f070686244e504e0a8c9b9f13fd561" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a3b88b9c5f1e8b9e1690589fe79feca45" kindref="member">OLAPResult</ref></type>
+        <definition>OLAPResult ThrowingExecutor::execute</definition>
+        <argsstring>(const std::string &amp;, const OLAPQuery &amp;) override</argsstring>
+        <name>execute</name>
+        <qualifiedname>ThrowingExecutor::execute</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1aa3986a26fa7b7ad3eb9355ec44917f2a">execute</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="test__analytics__distributed__coordinator__safety_8cpp_1a8b47afb9dc74d79e986abd7e2c8eb334" kindref="member">OLAPQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_distributed_analytics.cpp" line="522" column="16" bodyfile="tests/analytics/test_distributed_analytics.cpp" bodystart="522" bodyend="524"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ThrowingExecutor</label>
+        <link refid="class_throwing_executor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::ShardQueryExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_shard_query_executor"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ThrowingExecutor</label>
+        <link refid="class_throwing_executor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::ShardQueryExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_shard_query_executor"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_distributed_analytics.cpp" line="520" column="1" bodyfile="tests/analytics/test_distributed_analytics.cpp" bodystart="520" bodyend="525"/>
+    <listofallmembers>
+      <member refid="class_throwing_executor_1a31f070686244e504e0a8c9b9f13fd561" prot="public" virt="virtual"><scope>ThrowingExecutor</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1aa0c09cb8b04ecc18c5320ecdddab547b" prot="public" virt="virtual"><scope>ThrowingExecutor</scope><name>isHealthy</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1abaecd42838910a0fcc4d50d31eeb075e" prot="public" virt="virtual"><scope>ThrowingExecutor</scope><name>~ShardQueryExecutor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

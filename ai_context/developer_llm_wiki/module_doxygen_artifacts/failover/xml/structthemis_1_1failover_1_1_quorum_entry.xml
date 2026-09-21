@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1failover_1_1_quorum_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::failover::QuorumEntry</compoundname>
+    <includes refid="quorum__log_8h" local="no">quorum_log.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_quorum_entry_1a2a21c2932cc9725928083daa0fd6b663" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::failover::QuorumEntry::epoch</definition>
+        <argsstring></argsstring>
+        <name>epoch</name>
+        <qualifiedname>themis::failover::QuorumEntry::epoch</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/quorum_log.h" line="14" column="14" bodyfile="include/failover/quorum_log.h" bodystart="14" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_quorum_entry_1a3d40640c5ddeb79fe0c8fe9f5a597903" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::failover::QuorumEntry::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::failover::QuorumEntry::node_id</qualifiedname>
+        <briefdescription>
+<para>Node that was promoted/voted on. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/quorum_log.h" line="15" column="17" bodyfile="include/failover/quorum_log.h" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_quorum_entry_1ab4cfbab7212d4f46b9fb7e148c8dce17" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::failover::QuorumEntry::decision</definition>
+        <argsstring></argsstring>
+        <name>decision</name>
+        <qualifiedname>themis::failover::QuorumEntry::decision</qualifiedname>
+        <briefdescription>
+<para>&quot;PROMOTE&quot;, &quot;REJECT&quot;, &quot;QUORUM_REACHED&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/quorum_log.h" line="16" column="17" bodyfile="include/failover/quorum_log.h" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_quorum_entry_1aa8a3e601d1f5b608984095fd875bcf9a" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::failover::QuorumEntry::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::failover::QuorumEntry::timestamp_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Unix epoch milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/quorum_log.h" line="17" column="13" bodyfile="include/failover/quorum_log.h" bodystart="17" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_quorum_entry_1a5ef595ddaffae3b72e171f9302d0bde7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::failover::QuorumEntry::crc32</definition>
+        <argsstring></argsstring>
+        <name>crc32</name>
+        <qualifiedname>themis::failover::QuorumEntry::crc32</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>CRC32 of epoch+node_id+decision+timestamp_ms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/quorum_log.h" line="18" column="14" bodyfile="include/failover/quorum_log.h" bodystart="18" bodyend="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/failover/quorum_log.h" line="13" column="1" bodyfile="include/failover/quorum_log.h" bodystart="13" bodyend="19"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1failover_1_1_quorum_entry_1a5ef595ddaffae3b72e171f9302d0bde7" prot="public" virt="non-virtual"><scope>themis::failover::QuorumEntry</scope><name>crc32</name></member>
+      <member refid="structthemis_1_1failover_1_1_quorum_entry_1ab4cfbab7212d4f46b9fb7e148c8dce17" prot="public" virt="non-virtual"><scope>themis::failover::QuorumEntry</scope><name>decision</name></member>
+      <member refid="structthemis_1_1failover_1_1_quorum_entry_1a2a21c2932cc9725928083daa0fd6b663" prot="public" virt="non-virtual"><scope>themis::failover::QuorumEntry</scope><name>epoch</name></member>
+      <member refid="structthemis_1_1failover_1_1_quorum_entry_1a3d40640c5ddeb79fe0c8fe9f5a597903" prot="public" virt="non-virtual"><scope>themis::failover::QuorumEntry</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1failover_1_1_quorum_entry_1aa8a3e601d1f5b608984095fd875bcf9a" prot="public" virt="non-virtual"><scope>themis::failover::QuorumEntry</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

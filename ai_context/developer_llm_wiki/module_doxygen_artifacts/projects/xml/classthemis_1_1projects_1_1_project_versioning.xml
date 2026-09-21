@@ -1,0 +1,423 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1projects_1_1_project_versioning" kind="class" language="C++" prot="public">
+    <compoundname>themis::projects::ProjectVersioning</compoundname>
+    <includes refid="project__versioning_8h" local="no">project_versioning.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_project_versioning_1abd2b44ea94def3b8cb73ac86d093a560" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::projects::ProjectVersioning::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::projects::ProjectVersioning::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="135" column="23" bodyfile="include/projects/project_versioning.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1projects_1_1_project_versioning_1af8ee3a602f6ee3d1b4ad00e7f3d63220" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::projects::ProjectVersioning::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::projects::ProjectVersioning::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="136" column="39" bodyfile="include/projects/project_versioning.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_versioning_1a7ff870ee323bdfc1da25261a96ac25b2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::projects::ProjectVersioning::ProjectVersioning</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage)</argsstring>
+        <name>ProjectVersioning</name>
+        <qualifiedname>themis::projects::ProjectVersioning::ProjectVersioning</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="73" column="14" bodyfile="src/projects/project_versioning.cpp" bodystart="83" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_versioning_1ad388f581778bfcd4aa297535f0bbf4cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::projects::ProjectVersioning::~ProjectVersioning</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ProjectVersioning</name>
+        <qualifiedname>themis::projects::ProjectVersioning::~ProjectVersioning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="74" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_versioning_1abfaadb02ceaf86180cc4a2a6f8c05259" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; <ref refid="namespacethemis_1_1projects_1a904262ebb886578d2e21ef7718def9be" kindref="member">SnapshotId</ref>, <ref refid="structthemis_1_1projects_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; SnapshotId, Status &gt; themis::projects::ProjectVersioning::createSnapshot</definition>
+        <argsstring>(const std::string &amp;project_id, const std::string &amp;description={}, const json &amp;metadata=json::object())</argsstring>
+        <name>createSnapshot</name>
+        <qualifiedname>themis::projects::ProjectVersioning::createSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>project_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref> &amp;</type>
+          <declname>metadata</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+<para>Create an immutable snapshot of the given project. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Captures the current list of document metadata records stored under the project and computes a SHA-256 content checksum over the serialised payload.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>project_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Project UUID whose state is to be captured. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional human-readable label for the snapshot. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional arbitrary metadata stored with the snapshot. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>New <ref refid="namespacethemis_1_1projects_1a904262ebb886578d2e21ef7718def9be" kindref="member">SnapshotId</ref> on success, or a <ref refid="structthemis_1_1projects_1_1_status" kindref="compound">Status</ref>{false, …} on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="88" column="18" bodyfile="src/projects/project_versioning.cpp" bodystart="137" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_versioning_1a24aeb89c53d850c4efd4be6fdc1ef44f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1projects_1_1_snapshot_meta" kindref="compound">SnapshotMeta</ref> &gt;</type>
+        <definition>std::optional&lt; SnapshotMeta &gt; themis::projects::ProjectVersioning::getSnapshot</definition>
+        <argsstring>(const SnapshotId &amp;snap_id) const</argsstring>
+        <name>getSnapshot</name>
+        <qualifiedname>themis::projects::ProjectVersioning::getSnapshot</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1projects_1a904262ebb886578d2e21ef7718def9be" kindref="member">SnapshotId</ref> &amp;</type>
+          <declname>snap_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve snapshot metadata by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1projects_1_1_snapshot_meta" kindref="compound">SnapshotMeta</ref> if found, std::nullopt otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="98" column="19" bodyfile="src/projects/project_versioning.cpp" bodystart="212" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_versioning_1ad0c7097f0a9cd5a83e02963e0763f1e8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1projects_1_1_snapshot_meta" kindref="compound">SnapshotMeta</ref> &gt;</type>
+        <definition>std::vector&lt; SnapshotMeta &gt; themis::projects::ProjectVersioning::listSnapshots</definition>
+        <argsstring>(const std::string &amp;project_id) const</argsstring>
+        <name>listSnapshots</name>
+        <qualifiedname>themis::projects::ProjectVersioning::listSnapshots</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>project_id</declname>
+        </param>
+        <briefdescription>
+<para>List all snapshots belonging to a project, newest first. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="103" column="17" bodyfile="src/projects/project_versioning.cpp" bodystart="234" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_versioning_1a008a1e3ad50549bf20a0a9af95657b03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1projects_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::projects::ProjectVersioning::deleteSnapshot</definition>
+        <argsstring>(const SnapshotId &amp;snap_id)</argsstring>
+        <name>deleteSnapshot</name>
+        <qualifiedname>themis::projects::ProjectVersioning::deleteSnapshot</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1projects_1a904262ebb886578d2e21ef7718def9be" kindref="member">SnapshotId</ref> &amp;</type>
+          <declname>snap_id</declname>
+        </param>
+        <briefdescription>
+<para>Delete a snapshot and all associated data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete Snapshot.</para>
+<para>This is an irreversible operation. Active snapshots referenced by an in-progress restore cannot be deleted and will return an error.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snap_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the snap. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="structthemis_1_1projects_1_1_status_1af9185bdcbc99cdef70b6d82e189b0ea5" kindref="member">Status::Error()</ref>, starts_with(), lock(), get(), safeJsonParse(), is_null(), is_object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="111" column="12" bodyfile="src/projects/project_versioning.cpp" bodystart="281" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_versioning_1addd6150e316d3876af7826c530e0293e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1projects_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::projects::ProjectVersioning::restoreSnapshot</definition>
+        <argsstring>(const SnapshotId &amp;snap_id, const std::string &amp;target_project_id)</argsstring>
+        <name>restoreSnapshot</name>
+        <qualifiedname>themis::projects::ProjectVersioning::restoreSnapshot</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1projects_1a904262ebb886578d2e21ef7718def9be" kindref="member">SnapshotId</ref> &amp;</type>
+          <declname>snap_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_project_id</declname>
+        </param>
+        <briefdescription>
+<para>Restore a project to the state captured in a snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Restore Snapshot.</para>
+<para>The content checksum is verified before any data is written to <computeroutput>target_project_id</computeroutput>. On checksum mismatch the restore is aborted and an error <ref refid="structthemis_1_1projects_1_1_status" kindref="compound">Status</ref> is returned.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>snap_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Snapshot to restore from. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_project_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination project UUID (may be same as source).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snap_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the snap. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_project_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the target project. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="123" column="12" bodyfile="src/projects/project_versioning.cpp" bodystart="328" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_versioning_1a016933cbc00c1d7124db66783ec64939" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::projects::ProjectVersioning::verifySnapshot</definition>
+        <argsstring>(const SnapshotId &amp;snap_id) const</argsstring>
+        <name>verifySnapshot</name>
+        <qualifiedname>themis::projects::ProjectVersioning::verifySnapshot</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1projects_1a904262ebb886578d2e21ef7718def9be" kindref="member">SnapshotId</ref> &amp;</type>
+          <declname>snap_id</declname>
+        </param>
+        <briefdescription>
+<para>Verify snapshot integrity (checksum re-computation). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if the stored checksum matches the current content. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="132" column="10" bodyfile="src/projects/project_versioning.cpp" bodystart="404" bodyend="437"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_versioning_1a894cec7bacc21f5cae2b4449c46dfa88" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::projects::ProjectVersioning::generateUuid</definition>
+        <argsstring>() const</argsstring>
+        <name>generateUuid</name>
+        <qualifiedname>themis::projects::ProjectVersioning::generateUuid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="138" column="17" bodyfile="src/projects/project_versioning.cpp" bodystart="88" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_versioning_1a24e7e748d7a05752c81354f5618d8080" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1projects_1ae12285e4416206b25da7ad0755116906" kindref="member">Sha256Digest</ref></type>
+        <definition>Sha256Digest themis::projects::ProjectVersioning::computeChecksum</definition>
+        <argsstring>(const std::string &amp;data) const</argsstring>
+        <name>computeChecksum</name>
+        <qualifiedname>themis::projects::ProjectVersioning::computeChecksum</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="139" column="18" bodyfile="src/projects/project_versioning.cpp" bodystart="104" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_project_versioning_1a9b0e31922fe351c1afed3f34a8bdc1df" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::projects::ProjectVersioning::collectProjectDocKeys</definition>
+        <argsstring>(const std::string &amp;project_id) const</argsstring>
+        <name>collectProjectDocKeys</name>
+        <qualifiedname>themis::projects::ProjectVersioning::collectProjectDocKeys</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>project_id</declname>
+        </param>
+        <briefdescription>
+<para>Collect all doc keys for a project from storage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="142" column="17" bodyfile="src/projects/project_versioning.cpp" bodystart="123" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages point-in-time, immutable project snapshots. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Snapshots are append-only: once created they are never modified. Integrity is guaranteed by a SHA-256 content checksum that is verified automatically on <computeroutput><ref refid="classthemis_1_1projects_1_1_project_versioning_1addd6150e316d3876af7826c530e0293e" kindref="member">restoreSnapshot()</ref></computeroutput>.</para>
+<para>All methods are thread-safe (protected by an internal shared_mutex).</para>
+<para>Key RocksDB layout ────────────────── snap:&lt;uuid&gt; → <ref refid="structthemis_1_1projects_1_1_snapshot_meta" kindref="compound">SnapshotMeta</ref> JSON snap_idx:&lt;project_id&gt;:&lt;uuid&gt; → &quot;&quot; (index for listSnapshots) snap_data:&lt;uuid&gt;:&lt;doc_id&gt; → <ref refid="structthemis_1_1projects_1_1_document_meta" kindref="compound">DocumentMeta</ref> JSON (snapshot content) </para>
+    </detaileddescription>
+    <location file="include/projects/project_versioning.h" line="71" column="1" bodyfile="include/projects/project_versioning.h" bodystart="71" bodyend="144"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1projects_1_1_project_versioning_1a9b0e31922fe351c1afed3f34a8bdc1df" prot="private" virt="non-virtual"><scope>themis::projects::ProjectVersioning</scope><name>collectProjectDocKeys</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_versioning_1a24e7e748d7a05752c81354f5618d8080" prot="private" virt="non-virtual"><scope>themis::projects::ProjectVersioning</scope><name>computeChecksum</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_versioning_1abfaadb02ceaf86180cc4a2a6f8c05259" prot="public" virt="non-virtual"><scope>themis::projects::ProjectVersioning</scope><name>createSnapshot</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_versioning_1a008a1e3ad50549bf20a0a9af95657b03" prot="public" virt="non-virtual"><scope>themis::projects::ProjectVersioning</scope><name>deleteSnapshot</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_versioning_1a894cec7bacc21f5cae2b4449c46dfa88" prot="private" virt="non-virtual"><scope>themis::projects::ProjectVersioning</scope><name>generateUuid</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_versioning_1a24aeb89c53d850c4efd4be6fdc1ef44f" prot="public" virt="non-virtual"><scope>themis::projects::ProjectVersioning</scope><name>getSnapshot</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_versioning_1ad0c7097f0a9cd5a83e02963e0763f1e8" prot="public" virt="non-virtual"><scope>themis::projects::ProjectVersioning</scope><name>listSnapshots</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_versioning_1af8ee3a602f6ee3d1b4ad00e7f3d63220" prot="private" virt="non-virtual"><scope>themis::projects::ProjectVersioning</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_versioning_1a7ff870ee323bdfc1da25261a96ac25b2" prot="public" virt="non-virtual"><scope>themis::projects::ProjectVersioning</scope><name>ProjectVersioning</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_versioning_1addd6150e316d3876af7826c530e0293e" prot="public" virt="non-virtual"><scope>themis::projects::ProjectVersioning</scope><name>restoreSnapshot</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_versioning_1abd2b44ea94def3b8cb73ac86d093a560" prot="private" virt="non-virtual"><scope>themis::projects::ProjectVersioning</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_versioning_1a016933cbc00c1d7124db66783ec64939" prot="public" virt="non-virtual"><scope>themis::projects::ProjectVersioning</scope><name>verifySnapshot</name></member>
+      <member refid="classthemis_1_1projects_1_1_project_versioning_1ad388f581778bfcd4aa297535f0bbf4cf" prot="public" virt="non-virtual"><scope>themis::projects::ProjectVersioning</scope><name>~ProjectVersioning</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

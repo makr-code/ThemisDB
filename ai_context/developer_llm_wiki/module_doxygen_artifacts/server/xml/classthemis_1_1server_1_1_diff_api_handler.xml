@@ -1,0 +1,556 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_diff_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::DiffApiHandler</compoundname>
+    <includes refid="diff__api__handler_8h" local="no">diff_api_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_diff_api_handler_1a2f9bfc1d3ce14410f28cf63df25936cf" prot="public" static="no" mutable="no">
+        <type>analytics::DiffEngine &amp;</type>
+        <definition>analytics::DiffEngine&amp; themis::server::DiffApiHandler::diff_engine_</definition>
+        <argsstring></argsstring>
+        <name>diff_engine_</name>
+        <qualifiedname>themis::server::DiffApiHandler::diff_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/diff_api_handler.h" line="56" column="27" bodyfile="include/server/diff_api_handler.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_diff_api_handler_1a615a5a3031b4c94c83695677af000842" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::DiffApiHandler::DiffApiHandler</definition>
+        <argsstring>(analytics::DiffEngine &amp;diff_engine)</argsstring>
+        <name>DiffApiHandler</name>
+        <qualifiedname>themis::server::DiffApiHandler::DiffApiHandler</qualifiedname>
+        <param>
+          <type>analytics::DiffEngine &amp;</type>
+          <declname>diff_engine</declname>
+        </param>
+        <briefdescription>
+<para>Diff Api Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">diff_engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/diff_api_handler.h" line="38" column="14" bodyfile="src/server/diff_api_handler.cpp" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_diff_api_handler_1ad38344a8a830fb5c3f02b4a890fa145d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::DiffApiHandler::~DiffApiHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DiffApiHandler</name>
+        <qualifiedname>themis::server::DiffApiHandler::~DiffApiHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/diff_api_handler.h" line="40" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_diff_api_handler_1a513860823d48c76256406a01504fc753" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::DiffApiHandler::DiffApiHandler</definition>
+        <argsstring>(const DiffApiHandler &amp;)=delete</argsstring>
+        <name>DiffApiHandler</name>
+        <qualifiedname>themis::server::DiffApiHandler::DiffApiHandler</qualifiedname>
+        <param>
+          <type>const DiffApiHandler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/diff_api_handler.h" line="43" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_diff_api_handler_1af02ba4d312d3018f4d4fa03465f8f6f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_diff_api_handler_1a615a5a3031b4c94c83695677af000842" kindref="member">DiffApiHandler</ref> &amp;</type>
+        <definition>DiffApiHandler &amp; themis::server::DiffApiHandler::operator=</definition>
+        <argsstring>(const DiffApiHandler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::DiffApiHandler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1_diff_api_handler_1a615a5a3031b4c94c83695677af000842" kindref="member">DiffApiHandler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/diff_api_handler.h" line="44" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_diff_api_handler_1a0e7dc11f1dbfb8a78b2ac40849184fbc" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::DiffApiHandler::DiffApiHandler</definition>
+        <argsstring>(DiffApiHandler &amp;&amp;) noexcept=default</argsstring>
+        <name>DiffApiHandler</name>
+        <qualifiedname>themis::server::DiffApiHandler::DiffApiHandler</qualifiedname>
+        <param>
+          <type>DiffApiHandler &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/diff_api_handler.h" line="45" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_diff_api_handler_1a8b014ba4ae3113a9c9c11276e9ecd893" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_diff_api_handler_1a615a5a3031b4c94c83695677af000842" kindref="member">DiffApiHandler</ref> &amp;</type>
+        <definition>DiffApiHandler &amp; themis::server::DiffApiHandler::operator=</definition>
+        <argsstring>(DiffApiHandler &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::DiffApiHandler::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_diff_api_handler_1a615a5a3031b4c94c83695677af000842" kindref="member">DiffApiHandler</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/diff_api_handler.h" line="46" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_diff_api_handler_1a5d6b6a089cd80eb485c95ebb8a2400b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::DiffApiHandler::registerRoutes</definition>
+        <argsstring>(httplib::Server &amp;server)</argsstring>
+        <name>registerRoutes</name>
+        <qualifiedname>themis::server::DiffApiHandler::registerRoutes</qualifiedname>
+        <param>
+          <type>httplib::Server &amp;</type>
+          <declname>server</declname>
+        </param>
+        <briefdescription>
+<para>Register Routes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">server</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">server</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Get(), <ref refid="classthemis_1_1server_1_1_diff_api_handler_1ac87579a1e2a341ae16186ad3e9be75cf" kindref="member">handleGetDiff()</ref>, <ref refid="classthemis_1_1server_1_1_diff_api_handler_1ae41df2ba19ae4c52fc8cdf27c13d7573" kindref="member">handleGetCacheStats()</ref>, Delete(), <ref refid="classthemis_1_1server_1_1_diff_api_handler_1a1408df812ee0720c8d093676730828bf" kindref="member">handleClearCache()</ref>, spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/diff_api_handler.h" line="53" column="10" bodyfile="src/server/diff_api_handler.cpp" bodystart="36" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_diff_api_handler_1ac87579a1e2a341ae16186ad3e9be75cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::DiffApiHandler::handleGetDiff</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleGetDiff</name>
+        <qualifiedname>themis::server::DiffApiHandler::handleGetDiff</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Diff. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), parseOptions(), has_param(), sendError(), get_param_value(), spdlog::info(), computeDiffByTag(), isSequenceNumber(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/diff_api_handler.h" line="63" column="10" bodyfile="src/server/diff_api_handler.cpp" bodystart="61" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_diff_api_handler_1ae41df2ba19ae4c52fc8cdf27c13d7573" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::DiffApiHandler::handleGetCacheStats</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleGetCacheStats</name>
+        <qualifiedname>themis::server::DiffApiHandler::handleGetCacheStats</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Cache Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), getCacheStats(), sendJson(), sendError(), fmt::format(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/diff_api_handler.h" line="70" column="10" bodyfile="src/server/diff_api_handler.cpp" bodystart="121" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_diff_api_handler_1a1408df812ee0720c8d093676730828bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::DiffApiHandler::handleClearCache</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleClearCache</name>
+        <qualifiedname>themis::server::DiffApiHandler::handleClearCache</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Clear Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: Tracer::startSpan(), clearCache(), sendJson(), sendError(), fmt::format(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/diff_api_handler.h" line="77" column="10" bodyfile="src/server/diff_api_handler.cpp" bodystart="137" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_diff_api_handler_1ad2ef57139177d52d56f88deca61738e3" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>analytics::DiffEngine::DiffOptions</type>
+        <definition>analytics::DiffEngine::DiffOptions themis::server::DiffApiHandler::parseOptions</definition>
+        <argsstring>(const httplib::Request &amp;req) const</argsstring>
+        <name>parseOptions</name>
+        <qualifiedname>themis::server::DiffApiHandler::parseOptions</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Parse Options. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/diff_api_handler.h" line="86" column="40" bodyfile="src/server/diff_api_handler.cpp" bodystart="150" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_diff_api_handler_1a8db950bfb595d98a5b1847ed7d9a22b6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::server::DiffApiHandler::parseTimestamp</definition>
+        <argsstring>(const std::string &amp;str) const</argsstring>
+        <name>parseTimestamp</name>
+        <qualifiedname>themis::server::DiffApiHandler::parseTimestamp</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Parse Timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/diff_api_handler.h" line="93" column="13" bodyfile="src/server/diff_api_handler.cpp" bodystart="200" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_diff_api_handler_1aed1a44d74841d67d82a7eafdf2e8c6ff" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::DiffApiHandler::isSequenceNumber</definition>
+        <argsstring>(const std::string &amp;str) const</argsstring>
+        <name>isSequenceNumber</name>
+        <qualifiedname>themis::server::DiffApiHandler::isSequenceNumber</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Is Sequence Number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/diff_api_handler.h" line="100" column="10" bodyfile="src/server/diff_api_handler.cpp" bodystart="239" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_diff_api_handler_1a7ac94fa9fe404fcbcffdc0be561344a1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::DiffApiHandler::sendError</definition>
+        <argsstring>(httplib::Response &amp;res, int status_code, const std::string &amp;message) const</argsstring>
+        <name>sendError</name>
+        <qualifiedname>themis::server::DiffApiHandler::sendError</qualifiedname>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>status_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Send Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/diff_api_handler.h" line="108" column="10" bodyfile="src/server/diff_api_handler.cpp" bodystart="254" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_diff_api_handler_1a564f36a8d156e5e36cb0f64a995822ee" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::DiffApiHandler::sendJson</definition>
+        <argsstring>(httplib::Response &amp;res, const json &amp;data, int status_code=200) const</argsstring>
+        <name>sendJson</name>
+        <qualifiedname>themis::server::DiffApiHandler::sendJson</qualifiedname>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>status_code</declname>
+          <defval>200</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/diff_api_handler.h" line="110" column="10" bodyfile="src/server/diff_api_handler.cpp" bodystart="265" bodyend="268"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/diff_api_handler.h" line="31" column="1" bodyfile="include/server/diff_api_handler.h" bodystart="31" bodyend="115"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_diff_api_handler_1a2f9bfc1d3ce14410f28cf63df25936cf" prot="public" virt="non-virtual"><scope>themis::server::DiffApiHandler</scope><name>diff_engine_</name></member>
+      <member refid="classthemis_1_1server_1_1_diff_api_handler_1a615a5a3031b4c94c83695677af000842" prot="public" virt="non-virtual"><scope>themis::server::DiffApiHandler</scope><name>DiffApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_diff_api_handler_1a513860823d48c76256406a01504fc753" prot="public" virt="non-virtual"><scope>themis::server::DiffApiHandler</scope><name>DiffApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_diff_api_handler_1a0e7dc11f1dbfb8a78b2ac40849184fbc" prot="public" virt="non-virtual"><scope>themis::server::DiffApiHandler</scope><name>DiffApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_diff_api_handler_1a1408df812ee0720c8d093676730828bf" prot="public" virt="non-virtual"><scope>themis::server::DiffApiHandler</scope><name>handleClearCache</name></member>
+      <member refid="classthemis_1_1server_1_1_diff_api_handler_1ae41df2ba19ae4c52fc8cdf27c13d7573" prot="public" virt="non-virtual"><scope>themis::server::DiffApiHandler</scope><name>handleGetCacheStats</name></member>
+      <member refid="classthemis_1_1server_1_1_diff_api_handler_1ac87579a1e2a341ae16186ad3e9be75cf" prot="public" virt="non-virtual"><scope>themis::server::DiffApiHandler</scope><name>handleGetDiff</name></member>
+      <member refid="classthemis_1_1server_1_1_diff_api_handler_1aed1a44d74841d67d82a7eafdf2e8c6ff" prot="private" virt="non-virtual"><scope>themis::server::DiffApiHandler</scope><name>isSequenceNumber</name></member>
+      <member refid="classthemis_1_1server_1_1_diff_api_handler_1af02ba4d312d3018f4d4fa03465f8f6f9" prot="public" virt="non-virtual"><scope>themis::server::DiffApiHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_diff_api_handler_1a8b014ba4ae3113a9c9c11276e9ecd893" prot="public" virt="non-virtual"><scope>themis::server::DiffApiHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_diff_api_handler_1ad2ef57139177d52d56f88deca61738e3" prot="private" virt="non-virtual"><scope>themis::server::DiffApiHandler</scope><name>parseOptions</name></member>
+      <member refid="classthemis_1_1server_1_1_diff_api_handler_1a8db950bfb595d98a5b1847ed7d9a22b6" prot="private" virt="non-virtual"><scope>themis::server::DiffApiHandler</scope><name>parseTimestamp</name></member>
+      <member refid="classthemis_1_1server_1_1_diff_api_handler_1a5d6b6a089cd80eb485c95ebb8a2400b3" prot="public" virt="non-virtual"><scope>themis::server::DiffApiHandler</scope><name>registerRoutes</name></member>
+      <member refid="classthemis_1_1server_1_1_diff_api_handler_1a7ac94fa9fe404fcbcffdc0be561344a1" prot="private" virt="non-virtual"><scope>themis::server::DiffApiHandler</scope><name>sendError</name></member>
+      <member refid="classthemis_1_1server_1_1_diff_api_handler_1a564f36a8d156e5e36cb0f64a995822ee" prot="private" virt="non-virtual"><scope>themis::server::DiffApiHandler</scope><name>sendJson</name></member>
+      <member refid="classthemis_1_1server_1_1_diff_api_handler_1ad38344a8a830fb5c3f02b4a890fa145d" prot="public" virt="non-virtual"><scope>themis::server::DiffApiHandler</scope><name>~DiffApiHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

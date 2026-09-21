@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_object_construct_expr" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ObjectConstructExpr</compoundname>
+    <basecompoundref refid="structthemis_1_1query_1_1_expression" prot="public" virt="non-virtual">themis::query::Expression</basecompoundref>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_object_construct_expr_1a9f6b5d38d96ab41347642e1cadadec6e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::shared_ptr&lt;Expression&gt; &gt; &gt; themis::query::ObjectConstructExpr::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>themis::query::ObjectConstructExpr::fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="300" column="17" bodyfile="include/query/aql_parser.h" bodystart="300" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_object_construct_expr_1a437534aaa9c2cbe52d25c976c6ff1bdd" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::ObjectConstructExpr::ObjectConstructExpr</definition>
+        <argsstring>(std::vector&lt; std::pair&lt; std::string, std::shared_ptr&lt; Expression &gt; &gt; &gt; f)</argsstring>
+        <name>ObjectConstructExpr</name>
+        <qualifiedname>themis::query::ObjectConstructExpr::ObjectConstructExpr</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::pair&lt; std::string, std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt; &gt; &gt;</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="302" column="14" bodyfile="include/query/aql_parser.h" bodystart="302" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_object_construct_expr_1a414a0ffbebc92152c245468ebd38f8f5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8f" kindref="member">ASTNodeType</ref></type>
+        <definition>ASTNodeType themis::query::ObjectConstructExpr::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::query::ObjectConstructExpr::getType</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_expression_1aca4fd2bf776bf08dc9b0462450184d89">getType</reimplements>
+        <briefdescription>
+<para>Get Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="305" column="17" bodyfile="include/query/aql_parser.h" bodystart="305" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_object_construct_expr_1a0ca5889d45323b96b14ee278683b5964" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::ObjectConstructExpr::toJSON</definition>
+        <argsstring>() const override</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::ObjectConstructExpr::toJSON</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_expression_1a50a0c87d39931ce188c1391b61794e20">toJSON</reimplements>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="306" column="20" bodyfile="src/query/aql_parser_json.cpp" bodystart="122" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::Expression</label>
+        <link refid="structthemis_1_1query_1_1_expression"/>
+      </node>
+      <node id="1">
+        <label>themis::query::ObjectConstructExpr</label>
+        <link refid="structthemis_1_1query_1_1_object_construct_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::Expression</label>
+        <link refid="structthemis_1_1query_1_1_expression"/>
+      </node>
+      <node id="1">
+        <label>themis::query::ObjectConstructExpr</label>
+        <link refid="structthemis_1_1query_1_1_object_construct_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/aql_parser.h" line="299" column="1" bodyfile="include/query/aql_parser.h" bodystart="299" bodyend="307"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_object_construct_expr_1a9f6b5d38d96ab41347642e1cadadec6e" prot="public" virt="non-virtual"><scope>themis::query::ObjectConstructExpr</scope><name>fields</name></member>
+      <member refid="structthemis_1_1query_1_1_object_construct_expr_1a414a0ffbebc92152c245468ebd38f8f5" prot="public" virt="virtual"><scope>themis::query::ObjectConstructExpr</scope><name>getType</name></member>
+      <member refid="structthemis_1_1query_1_1_object_construct_expr_1a437534aaa9c2cbe52d25c976c6ff1bdd" prot="public" virt="non-virtual"><scope>themis::query::ObjectConstructExpr</scope><name>ObjectConstructExpr</name></member>
+      <member refid="structthemis_1_1query_1_1_object_construct_expr_1a0ca5889d45323b96b14ee278683b5964" prot="public" virt="virtual"><scope>themis::query::ObjectConstructExpr</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1query_1_1_expression_1ab3ecf845da63bc89b3c506c43c6afc78" prot="public" virt="virtual"><scope>themis::query::ObjectConstructExpr</scope><name>~Expression</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

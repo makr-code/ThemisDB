@@ -1,0 +1,776 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_knowledge_base" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::KnowledgeBase</compoundname>
+    <includes refid="knowledge__base_8h" local="no">knowledge_base.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1analytics_1_1_knowledge_base_1abd8739658824fdffd60fc4a253286fc9" prot="public" static="no">
+        <type>std::function&lt; int(const std::string &amp;path, <ref refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a16ff4fe0491112040d75baa7f4244765" kindref="member">KnowledgeBase</ref> &amp;)&gt;</type>
+        <definition>using themisdb::analytics::KnowledgeBase::YamlParserFn = std::function&lt;int(const std::string&amp; path, KnowledgeBase&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>YamlParserFn</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::YamlParserFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="160" column="5" bodyfile="include/analytics/knowledge_base.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a61f687ef7b2c0d4935573294743120ae" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themisdb::analytics::KnowledgeBase::kMaxFacts</definition>
+        <argsstring></argsstring>
+        <name>kMaxFacts</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::kMaxFacts</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="81" column="34" bodyfile="include/analytics/knowledge_base.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a3eb7a65172ddeb7f42d66b3ff6f1fa1b" prot="private" static="no" mutable="no">
+        <type>std::unordered_multimap&lt; std::string, <ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref> &gt;</type>
+        <definition>std::unordered_multimap&lt;std::string, Fact&gt; themisdb::analytics::KnowledgeBase::facts_by_predicate_</definition>
+        <argsstring></argsstring>
+        <name>facts_by_predicate_</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::facts_by_predicate_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="176" column="29" bodyfile="include/analytics/knowledge_base.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a5c4330a9933f13a2925fcb31f76307c8" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themisdb::analytics::KnowledgeBase::fact_id_to_predicate_</definition>
+        <argsstring></argsstring>
+        <name>fact_id_to_predicate_</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::fact_id_to_predicate_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="178" column="24" bodyfile="include/analytics/knowledge_base.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a987aa7fc5cfce72a5e75c9043ce10c6a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Fact&gt; themisdb::analytics::KnowledgeBase::fact_by_id_</definition>
+        <argsstring></argsstring>
+        <name>fact_by_id_</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::fact_by_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="180" column="24" bodyfile="include/analytics/knowledge_base.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a3dc3ef1c73302bbe8954ec8bcef94af9" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themisdb::analytics::KnowledgeBase::fact_key_to_id_</definition>
+        <argsstring></argsstring>
+        <name>fact_key_to_id_</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::fact_key_to_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="182" column="24" bodyfile="include/analytics/knowledge_base.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a420cd185f066ad1b24ef5180fd6c1420" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; std::string &gt;</type>
+        <definition>std::deque&lt;std::string&gt; themisdb::analytics::KnowledgeBase::insertion_order_</definition>
+        <argsstring></argsstring>
+        <name>insertion_order_</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::insertion_order_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="184" column="16" bodyfile="include/analytics/knowledge_base.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a3f96f838ba0136ccec6d7adefc282e30" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_horn_clause" kindref="compound">HornClause</ref> &gt;</type>
+        <definition>std::vector&lt;HornClause&gt; themisdb::analytics::KnowledgeBase::rules_</definition>
+        <argsstring></argsstring>
+        <name>rules_</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::rules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="186" column="17" bodyfile="include/analytics/knowledge_base.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a85280a368deb25294564dc6bab593795" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themisdb::analytics::KnowledgeBase::id_counter_</definition>
+        <argsstring></argsstring>
+        <name>id_counter_</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::id_counter_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="189" column="17" bodyfile="include/analytics/knowledge_base.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a16ff4fe0491112040d75baa7f4244765" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::KnowledgeBase::KnowledgeBase</definition>
+        <argsstring>()=default</argsstring>
+        <name>KnowledgeBase</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::KnowledgeBase</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="83" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a5547d042a4f2b3575981efd85b9d44b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::KnowledgeBase::~KnowledgeBase</definition>
+        <argsstring>()=default</argsstring>
+        <name>~KnowledgeBase</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::~KnowledgeBase</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="84" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a5e59cb3bd0aaac256b57e79dc10538e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::KnowledgeBase::KnowledgeBase</definition>
+        <argsstring>(const KnowledgeBase &amp;)=delete</argsstring>
+        <name>KnowledgeBase</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::KnowledgeBase</qualifiedname>
+        <param>
+          <type>const KnowledgeBase &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="86" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a3ef48db056d961f6c257679b7d6773ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a16ff4fe0491112040d75baa7f4244765" kindref="member">KnowledgeBase</ref> &amp;</type>
+        <definition>KnowledgeBase &amp; themisdb::analytics::KnowledgeBase::operator=</definition>
+        <argsstring>(const KnowledgeBase &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a16ff4fe0491112040d75baa7f4244765" kindref="member">KnowledgeBase</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="87" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1aca1f415e5ee091766e9d2013881381bc" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::KnowledgeBase::assertFact</definition>
+        <argsstring>(const std::string &amp;subject, const std::string &amp;predicate, const std::string &amp;object)</argsstring>
+        <name>assertFact</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::assertFact</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>object</declname>
+        </param>
+        <briefdescription>
+<para>Assert <ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">object</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), front(), find(), end(), equal_range(), erase(), pop_front(), generateId(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="91" column="18" bodyfile="src/analytics/knowledge_base.cpp" bodystart="141" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a1c1e31d0b0bd97aff6090ff12dde416b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::KnowledgeBase::retractFact</definition>
+        <argsstring>(const std::string &amp;fact_id)</argsstring>
+        <name>retractFact</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::retractFact</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fact_id</declname>
+        </param>
+        <briefdescription>
+<para>Retract <ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the fact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the fact. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), equal_range(), erase(), std::find(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="100" column="10" bodyfile="src/analytics/knowledge_base.cpp" bodystart="184" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a172750f3e7d6b3c6176bb2ac88bed358" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref> &gt;</type>
+        <definition>std::vector&lt; Fact &gt; themisdb::analytics::KnowledgeBase::getFacts</definition>
+        <argsstring>(const std::string &amp;predicate=&quot;&quot;) const</argsstring>
+        <name>getFacts</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::getFacts</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicate</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="102" column="18" bodyfile="src/analytics/knowledge_base.cpp" bodystart="224" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a805aba1d3263a2d86e07748fead0850c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref> &gt;</type>
+        <definition>std::optional&lt; Fact &gt; themisdb::analytics::KnowledgeBase::getFact</definition>
+        <argsstring>(const std::string &amp;subject, const std::string &amp;predicate, const std::string &amp;object) const</argsstring>
+        <name>getFact</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::getFact</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>object</declname>
+        </param>
+        <briefdescription>
+<para>Get <ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref> By Triple. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Subject component of the triple. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemisdb_1_1analytics_1_1_predicate" kindref="compound">Predicate</ref> component of the triple. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">object</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Object component of the triple. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Matching fact when the exact triple exists, otherwise std::nullopt. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="111" column="20" bodyfile="src/analytics/knowledge_base.cpp" bodystart="210" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a1093a0b70146d8ede900ae8dcaf93418" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::KnowledgeBase::hasFact</definition>
+        <argsstring>(const std::string &amp;subject, const std::string &amp;predicate, const std::string &amp;object) const</argsstring>
+        <name>hasFact</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::hasFact</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>object</declname>
+        </param>
+        <briefdescription>
+<para>Check Whether A Triple Exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Subject component of the triple. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">predicate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemisdb_1_1analytics_1_1_predicate" kindref="compound">Predicate</ref> component of the triple. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">object</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Object component of the triple. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the exact triple exists in working memory. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="121" column="11" bodyfile="src/analytics/knowledge_base.cpp" bodystart="219" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1adecb8233cef5972066078f7ee69154e9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1analytics_1_1_fact" kindref="compound">Fact</ref> &gt;</type>
+        <definition>std::optional&lt; Fact &gt; themisdb::analytics::KnowledgeBase::getFactById</definition>
+        <argsstring>(const std::string &amp;id) const</argsstring>
+        <name>getFactById</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::getFactById</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="124" column="20" bodyfile="src/analytics/knowledge_base.cpp" bodystart="241" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a1eaa11ca1ee3da78b347d281d7f24146" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themisdb::analytics::KnowledgeBase::factCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>factCount</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::factCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="126" column="18" bodyfile="include/analytics/knowledge_base.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a8113893a260998d58bc20b81e6b8d536" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::KnowledgeBase::clearFacts</definition>
+        <argsstring>()</argsstring>
+        <name>clearFacts</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::clearFacts</qualifiedname>
+        <briefdescription>
+<para>Clear Facts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="131" column="10" bodyfile="src/analytics/knowledge_base.cpp" bodystart="253" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a16a27acc981b75ae17f8835a420a3b45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::KnowledgeBase::addRule</definition>
+        <argsstring>(HornClause rule)</argsstring>
+        <name>addRule</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::addRule</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1analytics_1_1_horn_clause" kindref="compound">HornClause</ref></type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Add Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::find_if(), begin(), end(), erase(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="138" column="10" bodyfile="src/analytics/knowledge_base.cpp" bodystart="270" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1ac533116094b4eaae59c282754be5fef9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::KnowledgeBase::removeRule</definition>
+        <argsstring>(const std::string &amp;rule_id)</argsstring>
+        <name>removeRule</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::removeRule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::find_if(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="145" column="10" bodyfile="src/analytics/knowledge_base.cpp" bodystart="285" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a9b6ffa3eef98e5ae58491061512a0b29" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_horn_clause" kindref="compound">HornClause</ref> &gt;</type>
+        <definition>std::vector&lt; HornClause &gt; themisdb::analytics::KnowledgeBase::getRules</definition>
+        <argsstring>() const</argsstring>
+        <name>getRules</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::getRules</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="147" column="18" bodyfile="src/analytics/knowledge_base.cpp" bodystart="294" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a9b3ac4fbc79f900ad0c0374f985cfe2d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themisdb::analytics::KnowledgeBase::ruleCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>ruleCount</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::ruleCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="149" column="18" bodyfile="include/analytics/knowledge_base.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a2bac6c4882feb51d925140252d83efc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::KnowledgeBase::clearRules</definition>
+        <argsstring>()</argsstring>
+        <name>clearRules</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::clearRules</qualifiedname>
+        <briefdescription>
+<para>Clear Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="154" column="10" bodyfile="src/analytics/knowledge_base.cpp" bodystart="305" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1aae1ceadae043ff78a9075309bff733b8" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::analytics::KnowledgeBase::loadRulesFromYaml</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadRulesFromYaml</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::loadRulesFromYaml</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Load Rules From Yaml. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), yamlParserFnMutex(), yamlParserFnStorage(), fn_copy(), YAML::LoadFile(), IsSequence(), empty(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="156" column="10" bodyfile="src/analytics/knowledge_base.cpp" bodystart="356" bodyend="522"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a1f5f2b92ee09ed8616e2fc1ae1e6d245" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::KnowledgeBase::setYamlParserFn</definition>
+        <argsstring>(YamlParserFn fn)</argsstring>
+        <name>setYamlParserFn</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::setYamlParserFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_knowledge_base_1abd8739658824fdffd60fc4a253286fc9" kindref="member">YamlParserFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Yaml Parser Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), yamlParserFnMutex(), yamlParserFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="166" column="17" bodyfile="src/analytics/knowledge_base.cpp" bodystart="54" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a275a3c228372855fa30eea0110aa3fd2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::KnowledgeBase::clearYamlParserFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearYamlParserFn</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::clearYamlParserFn</qualifiedname>
+        <briefdescription>
+<para>Clear Yaml Parser Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para>Calls: lk(), yamlParserFnMutex(), yamlParserFnStorage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="170" column="17" bodyfile="src/analytics/knowledge_base.cpp" bodystart="63" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a21cecf678c01d692c713c405dcf5ea12" prot="private" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::KnowledgeBase::generateId</definition>
+        <argsstring>()</argsstring>
+        <name>generateId</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::generateId</qualifiedname>
+        <briefdescription>
+<para>Generate Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::setw(), std::setfill(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="173" column="18" bodyfile="src/analytics/knowledge_base.cpp" bodystart="123" bodyend="127"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_knowledge_base_1a05abfb5b1a3e9f678ec94d66f43d6f4c" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::KnowledgeBase::makeFactKey</definition>
+        <argsstring>(const std::string &amp;subject, const std::string &amp;predicate, const std::string &amp;object)</argsstring>
+        <name>makeFactKey</name>
+        <qualifiedname>themisdb::analytics::KnowledgeBase::makeFactKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>object</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/knowledge_base.h" line="191" column="25" bodyfile="src/analytics/knowledge_base.cpp" bodystart="72" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/knowledge_base.h" line="79" column="1" bodyfile="include/analytics/knowledge_base.h" bodystart="79" bodyend="193"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a16a27acc981b75ae17f8835a420a3b45" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>addRule</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1aca1f415e5ee091766e9d2013881381bc" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>assertFact</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a8113893a260998d58bc20b81e6b8d536" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>clearFacts</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a2bac6c4882feb51d925140252d83efc9" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>clearRules</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a275a3c228372855fa30eea0110aa3fd2" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>clearYamlParserFn</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a987aa7fc5cfce72a5e75c9043ce10c6a" prot="private" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>fact_by_id_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a5c4330a9933f13a2925fcb31f76307c8" prot="private" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>fact_id_to_predicate_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a3dc3ef1c73302bbe8954ec8bcef94af9" prot="private" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>fact_key_to_id_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a1eaa11ca1ee3da78b347d281d7f24146" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>factCount</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a3eb7a65172ddeb7f42d66b3ff6f1fa1b" prot="private" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>facts_by_predicate_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a21cecf678c01d692c713c405dcf5ea12" prot="private" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>generateId</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a805aba1d3263a2d86e07748fead0850c" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>getFact</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1adecb8233cef5972066078f7ee69154e9" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>getFactById</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a172750f3e7d6b3c6176bb2ac88bed358" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>getFacts</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a9b6ffa3eef98e5ae58491061512a0b29" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>getRules</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a1093a0b70146d8ede900ae8dcaf93418" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>hasFact</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a85280a368deb25294564dc6bab593795" prot="private" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>id_counter_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a420cd185f066ad1b24ef5180fd6c1420" prot="private" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>insertion_order_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a61f687ef7b2c0d4935573294743120ae" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>kMaxFacts</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a16ff4fe0491112040d75baa7f4244765" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>KnowledgeBase</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a5e59cb3bd0aaac256b57e79dc10538e7" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>KnowledgeBase</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1aae1ceadae043ff78a9075309bff733b8" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>loadRulesFromYaml</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a05abfb5b1a3e9f678ec94d66f43d6f4c" prot="private" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>makeFactKey</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a3ef48db056d961f6c257679b7d6773ba" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1ac533116094b4eaae59c282754be5fef9" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>removeRule</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a1c1e31d0b0bd97aff6090ff12dde416b" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>retractFact</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a9b3ac4fbc79f900ad0c0374f985cfe2d" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>ruleCount</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a3f96f838ba0136ccec6d7adefc282e30" prot="private" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>rules_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a1f5f2b92ee09ed8616e2fc1ae1e6d245" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>setYamlParserFn</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1abd8739658824fdffd60fc4a253286fc9" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>YamlParserFn</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_knowledge_base_1a5547d042a4f2b3575981efd85b9d44b5" prot="public" virt="non-virtual"><scope>themisdb::analytics::KnowledgeBase</scope><name>~KnowledgeBase</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

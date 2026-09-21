@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_column_importance_analyzer" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::ColumnImportanceAnalyzer</compoundname>
+    <includes refid="column__importance_8h" local="no">column_importance.h</includes>
+    <innerclass refid="structthemis_1_1importers_1_1_column_importance_analyzer_1_1_column_importance" prot="public">themis::importers::ColumnImportanceAnalyzer::ColumnImportance</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_column_importance_analyzer_1ac8ab3149d3cbe7a8851cfa0d428007b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_column_importance_analyzer_1_1_column_importance" kindref="compound">ColumnImportance</ref> &gt;</type>
+        <definition>std::vector&lt; ColumnImportanceAnalyzer::ColumnImportance &gt; themis::importers::ColumnImportanceAnalyzer::analyzeImportance</definition>
+        <argsstring>(const std::vector&lt; InferenceTableSchema &gt; &amp;schemas, const std::vector&lt; SampleData &gt; &amp;samples, size_t sample_size=10000)</argsstring>
+        <name>analyzeImportance</name>
+        <qualifiedname>themis::importers::ColumnImportanceAnalyzer::analyzeImportance</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1importers_1_1_inference_table_schema" kindref="compound">InferenceTableSchema</ref> &gt; &amp;</type>
+          <declname>schemas</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1importers_1_1_sample_data" kindref="compound">SampleData</ref> &gt; &amp;</type>
+          <declname>samples</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>sample_size</declname>
+          <defval>10000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/column_importance.h" line="42" column="17" bodyfile="src/importers/column_importance.cpp" bodystart="83" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_column_importance_analyzer_1abfe023d85611b8ab67c008d5387a7090" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; themis::importers::ColumnImportanceAnalyzer::findRedundantColumns</definition>
+        <argsstring>(const std::vector&lt; ColumnImportance &gt; &amp;importance_scores, double correlation_threshold=0.95)</argsstring>
+        <name>findRedundantColumns</name>
+        <qualifiedname>themis::importers::ColumnImportanceAnalyzer::findRedundantColumns</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1importers_1_1_column_importance_analyzer_1_1_column_importance" kindref="compound">ColumnImportance</ref> &gt; &amp;</type>
+          <declname>importance_scores</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>correlation_threshold</declname>
+          <defval>0.95</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/column_importance.h" line="49" column="5" bodyfile="src/importers/column_importance.cpp" bodystart="149" bodyend="179"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_column_importance_analyzer_1aa45350030dfedeff15e8f766484b60e8" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::importers::ColumnImportanceAnalyzer::shannonEntropy</definition>
+        <argsstring>(const std::map&lt; std::string, size_t &gt; &amp;freq)</argsstring>
+        <name>shannonEntropy</name>
+        <qualifiedname>themis::importers::ColumnImportanceAnalyzer::shannonEntropy</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, size_t &gt; &amp;</type>
+          <declname>freq</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/column_importance.h" line="56" column="19" bodyfile="src/importers/column_importance.cpp" bodystart="26" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_column_importance_analyzer_1a1540431dc402c4f7defce6c55ac38efd" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::importers::ColumnImportanceAnalyzer::giniImpurity</definition>
+        <argsstring>(const std::map&lt; std::string, size_t &gt; &amp;freq)</argsstring>
+        <name>giniImpurity</name>
+        <qualifiedname>themis::importers::ColumnImportanceAnalyzer::giniImpurity</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, size_t &gt; &amp;</type>
+          <declname>freq</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/column_importance.h" line="58" column="19" bodyfile="src/importers/column_importance.cpp" bodystart="45" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/column_importance.h" line="24" column="1" bodyfile="include/importers/column_importance.h" bodystart="24" bodyend="59"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_column_importance_analyzer_1ac8ab3149d3cbe7a8851cfa0d428007b8" prot="public" virt="non-virtual"><scope>themis::importers::ColumnImportanceAnalyzer</scope><name>analyzeImportance</name></member>
+      <member refid="classthemis_1_1importers_1_1_column_importance_analyzer_1abfe023d85611b8ab67c008d5387a7090" prot="public" virt="non-virtual"><scope>themis::importers::ColumnImportanceAnalyzer</scope><name>findRedundantColumns</name></member>
+      <member refid="classthemis_1_1importers_1_1_column_importance_analyzer_1a1540431dc402c4f7defce6c55ac38efd" prot="private" virt="non-virtual"><scope>themis::importers::ColumnImportanceAnalyzer</scope><name>giniImpurity</name></member>
+      <member refid="classthemis_1_1importers_1_1_column_importance_analyzer_1aa45350030dfedeff15e8f766484b60e8" prot="private" virt="non-virtual"><scope>themis::importers::ColumnImportanceAnalyzer</scope><name>shannonEntropy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

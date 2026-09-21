@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_multi_model_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>MultiModelIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_multi_model_integration_test_1adac828a2eb0efb0ddcee8d270f0f9fea" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config" kindref="compound">InferenceEngineEnhanced::Config</ref></type>
+        <definition>InferenceEngineEnhanced::Config MultiModelIntegrationTest::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>MultiModelIntegrationTest::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="112" column="37" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_multi_model_integration_test_1af49620a231b53959a6cc81b1d0c2e7e7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MultiModelIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>MultiModelIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="102" column="10" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="102" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_multi_model_integration_test_1abe219934389337920f6e06a959d2e896" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_enhanced_inference_request" kindref="compound">InferenceEngineEnhanced::EnhancedInferenceRequest</ref></type>
+        <definition>static InferenceEngineEnhanced::EnhancedInferenceRequest MultiModelIntegrationTest::makeRequest</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;prompt, const std::string &amp;preferred_model=&quot;&quot;)</argsstring>
+        <name>makeRequest</name>
+        <qualifiedname>MultiModelIntegrationTest::makeRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>preferred_model</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_multi_model_integration.cpp" line="116" column="5" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="116" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MultiModelIntegrationTest</label>
+        <link refid="class_multi_model_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MultiModelIntegrationTest</label>
+        <link refid="class_multi_model_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::llm::InferenceEngineEnhanced::Config</label>
+        <link refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_multi_model_integration.cpp" line="100" column="1" bodyfile="tests/llm/test_llm_multi_model_integration.cpp" bodystart="100" bodyend="127"/>
+    <listofallmembers>
+      <member refid="class_multi_model_integration_test_1adac828a2eb0efb0ddcee8d270f0f9fea" prot="protected" virt="non-virtual"><scope>MultiModelIntegrationTest</scope><name>config_</name></member>
+      <member refid="class_multi_model_integration_test_1abe219934389337920f6e06a959d2e896" prot="protected" virt="non-virtual"><scope>MultiModelIntegrationTest</scope><name>makeRequest</name></member>
+      <member refid="class_multi_model_integration_test_1af49620a231b53959a6cc81b1d0c2e7e7" prot="protected" virt="non-virtual"><scope>MultiModelIntegrationTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

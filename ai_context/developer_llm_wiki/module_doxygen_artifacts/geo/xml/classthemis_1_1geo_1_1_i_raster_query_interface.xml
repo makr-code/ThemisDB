@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_i_raster_query_interface" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::geo::IRasterQueryInterface</compoundname>
+    <derivedcompoundref refid="classthemis_1_1geo_1_1_no_op_raster_query_impl" prot="public" virt="non-virtual">themis::geo::NoOpRasterQueryImpl</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1geo_1_1_raster_grid_query_impl" prot="public" virt="non-virtual">themis::geo::RasterGridQueryImpl</derivedcompoundref>
+    <includes refid="raster__query__interface_8h" local="no">raster_query_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_i_raster_query_interface_1ae4d4a96f28bc3eb4e2cbec3252524c52" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::geo::IRasterQueryInterface::~IRasterQueryInterface</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IRasterQueryInterface</name>
+        <qualifiedname>themis::geo::IRasterQueryInterface::~IRasterQueryInterface</qualifiedname>
+        <briefdescription>
+<para>IRaster Query Interface. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster_query_interface.h" line="89" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_i_raster_query_interface_1a9271a324abda892847260c0a42799ca0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_raster_result" kindref="compound">RasterResult</ref></type>
+        <definition>virtual RasterResult themis::geo::IRasterQueryInterface::queryTile</definition>
+        <argsstring>(const TileCoord &amp;tile, const RasterConfig &amp;config=RasterConfig{}) const =0</argsstring>
+        <name>queryTile</name>
+        <qualifiedname>themis::geo::IRasterQueryInterface::queryTile</qualifiedname>
+        <reimplementedby refid="classthemis_1_1geo_1_1_no_op_raster_query_impl_1a47874e19b4cf3fbe40efde3335350b21">queryTile</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_raster_grid_query_impl_1abd9b34ab6a610814afef083f87fee261">queryTile</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref> &amp;</type>
+          <declname>tile</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1geo_1_1_raster_config" kindref="compound">RasterConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="classthemis_1_1geo_1_1_raster_config" kindref="compound">RasterConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster_query_interface.h" line="91" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_i_raster_query_interface_1a85ed8c2d7cc956abd4dcdd66b34bffdd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_raster_result" kindref="compound">RasterResult</ref></type>
+        <definition>virtual RasterResult themis::geo::IRasterQueryInterface::queryBBox</definition>
+        <argsstring>(const MBR &amp;bbox, double resolution, const RasterConfig &amp;config=RasterConfig{}) const =0</argsstring>
+        <name>queryBBox</name>
+        <qualifiedname>themis::geo::IRasterQueryInterface::queryBBox</qualifiedname>
+        <reimplementedby refid="classthemis_1_1geo_1_1_no_op_raster_query_impl_1a80bca6f637daa5ddba7c532e0a7bfc36">queryBBox</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_raster_grid_query_impl_1a83ede880c5cdf21787f1234a08dbd161">queryBBox</reimplementedby>
+        <param>
+          <type>const MBR &amp;</type>
+          <declname>bbox</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>resolution</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1geo_1_1_raster_config" kindref="compound">RasterConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="classthemis_1_1geo_1_1_raster_config" kindref="compound">RasterConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/raster_query_interface.h" line="95" column="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::geo::IRasterQueryInterface</label>
+        <link refid="classthemis_1_1geo_1_1_i_raster_query_interface"/>
+      </node>
+      <node id="2">
+        <label>themis::geo::NoOpRasterQueryImpl</label>
+        <link refid="classthemis_1_1geo_1_1_no_op_raster_query_impl"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::geo::RasterGridQueryImpl</label>
+        <link refid="classthemis_1_1geo_1_1_raster_grid_query_impl"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/geo/raster_query_interface.h" line="83" column="1" bodyfile="include/geo/raster_query_interface.h" bodystart="83" bodyend="99"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_i_raster_query_interface_1a85ed8c2d7cc956abd4dcdd66b34bffdd" prot="public" virt="pure-virtual"><scope>themis::geo::IRasterQueryInterface</scope><name>queryBBox</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_raster_query_interface_1a9271a324abda892847260c0a42799ca0" prot="public" virt="pure-virtual"><scope>themis::geo::IRasterQueryInterface</scope><name>queryTile</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_raster_query_interface_1ae4d4a96f28bc3eb4e2cbec3252524c52" prot="public" virt="virtual"><scope>themis::geo::IRasterQueryInterface</scope><name>~IRasterQueryInterface</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

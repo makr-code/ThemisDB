@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1build__info_1_1_module_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::build_info::ModuleInfo</compoundname>
+    <includes refid="build__info_8h" local="no">build_info.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_module_info_1a8a0d1f366f404263e4f7be7dd991fd50" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::build_info::ModuleInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::build_info::ModuleInfo::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="37" column="17" bodyfile="include/themis/build_info.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_module_info_1a00d77e6c167ae891bcbe97b777a5e235" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::build_info::ModuleInfo::compiled_in</definition>
+        <argsstring></argsstring>
+        <name>compiled_in</name>
+        <qualifiedname>themis::build_info::ModuleInfo::compiled_in</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="38" column="10" bodyfile="include/themis/build_info.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_module_info_1a23348eecabac95cac72b8323f379968a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::build_info::ModuleInfo::runtime_enabled</definition>
+        <argsstring></argsstring>
+        <name>runtime_enabled</name>
+        <qualifiedname>themis::build_info::ModuleInfo::runtime_enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="39" column="10" bodyfile="include/themis/build_info.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1build__info_1_1_module_info_1a0ddfea07b4835e740695188fb5238983" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::build_info::ModuleInfo::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::build_info::ModuleInfo::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/build_info.h" line="40" column="17" bodyfile="include/themis/build_info.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/build_info.h" line="36" column="1" bodyfile="include/themis/build_info.h" bodystart="36" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1build__info_1_1_module_info_1a00d77e6c167ae891bcbe97b777a5e235" prot="public" virt="non-virtual"><scope>themis::build_info::ModuleInfo</scope><name>compiled_in</name></member>
+      <member refid="structthemis_1_1build__info_1_1_module_info_1a0ddfea07b4835e740695188fb5238983" prot="public" virt="non-virtual"><scope>themis::build_info::ModuleInfo</scope><name>description</name></member>
+      <member refid="structthemis_1_1build__info_1_1_module_info_1a8a0d1f366f404263e4f7be7dd991fd50" prot="public" virt="non-virtual"><scope>themis::build_info::ModuleInfo</scope><name>name</name></member>
+      <member refid="structthemis_1_1build__info_1_1_module_info_1a23348eecabac95cac72b8323f379968a" prot="public" virt="non-virtual"><scope>themis::build_info::ModuleInfo</scope><name>runtime_enabled</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

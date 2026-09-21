@@ -1,0 +1,390 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::pkcs11::Pkcs11Session</compoundname>
+    <includes refid="pkcs11__wrapper_8h" local="no">pkcs11_wrapper.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1ac93f94fccfaf2e40d708c6a283853b69" prot="private" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1ae734db1d4751b8cabb63cbd9c0bb39cd" kindref="member">CK_FUNCTION_LIST_PTR</ref></type>
+        <definition>CK_FUNCTION_LIST_PTR themis::security::pkcs11::Pkcs11Session::api_</definition>
+        <argsstring></argsstring>
+        <name>api_</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Session::api_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="441" column="26" bodyfile="include/security/pkcs11_wrapper.h" bodystart="441" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1a75e5f98659f9d354259820ecd62ac88b" prot="private" static="no" mutable="no">
+        <type><ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref></type>
+        <definition>CK_SESSION_HANDLE themis::security::pkcs11::Pkcs11Session::handle_</definition>
+        <argsstring></argsstring>
+        <name>handle_</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Session::handle_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="442" column="26" bodyfile="include/security/pkcs11_wrapper.h" bodystart="442" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1a9c29844c772ede165922dcb5fe8fb810" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::pkcs11::Pkcs11Session::loggedIn_</definition>
+        <argsstring></argsstring>
+        <name>loggedIn_</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Session::loggedIn_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="443" column="26" bodyfile="include/security/pkcs11_wrapper.h" bodystart="443" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1a4fecb0f4f20b5115a13d284ea1393847" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::pkcs11::Pkcs11Session::lastError_</definition>
+        <argsstring></argsstring>
+        <name>lastError_</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Session::lastError_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="444" column="26" bodyfile="include/security/pkcs11_wrapper.h" bodystart="444" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1aeee41ed1437c9f2c1bad88983279ca60" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::pkcs11::Pkcs11Session::Pkcs11Session</definition>
+        <argsstring>(CK_FUNCTION_LIST_PTR api) noexcept</argsstring>
+        <name>Pkcs11Session</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Session::Pkcs11Session</qualifiedname>
+        <param>
+          <type><ref refid="pkcs11__minimal_8h_1ae734db1d4751b8cabb63cbd9c0bb39cd" kindref="member">CK_FUNCTION_LIST_PTR</ref></type>
+          <declname>api</declname>
+        </param>
+        <briefdescription>
+<para>Construct without opening a session yet; call <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1af10f316024e0c7549399b6e08a65c216" kindref="member">open()</ref> later. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>api</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-null pointer to the PKCS#11 function list from <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_library_1ae9f604fbdfc1cbf1ea8dc11eebc17fc8" kindref="member">Pkcs11Library::functions()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="319" column="14" bodyfile="include/security/pkcs11_wrapper.h" bodystart="319" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1ae0168483c7a1d15823cd094536cdee00" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::pkcs11::Pkcs11Session::~Pkcs11Session</definition>
+        <argsstring>()</argsstring>
+        <name>~Pkcs11Session</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Session::~Pkcs11Session</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="322" column="5" bodyfile="include/security/pkcs11_wrapper.h" bodystart="322" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1afdc194151fd6a4c5b639769b9c486d35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::pkcs11::Pkcs11Session::Pkcs11Session</definition>
+        <argsstring>(const Pkcs11Session &amp;)=delete</argsstring>
+        <name>Pkcs11Session</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Session::Pkcs11Session</qualifiedname>
+        <param>
+          <type>const Pkcs11Session &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="324" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1a6087cfcce31b05fb97137d2f3bdf7377" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1aeee41ed1437c9f2c1bad88983279ca60" kindref="member">Pkcs11Session</ref> &amp;</type>
+        <definition>Pkcs11Session &amp; themis::security::pkcs11::Pkcs11Session::operator=</definition>
+        <argsstring>(const Pkcs11Session &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Session::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1aeee41ed1437c9f2c1bad88983279ca60" kindref="member">Pkcs11Session</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="325" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1aa82e74f82c170c1baaa6a6c63a718de7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::pkcs11::Pkcs11Session::Pkcs11Session</definition>
+        <argsstring>(Pkcs11Session &amp;&amp;other) noexcept</argsstring>
+        <name>Pkcs11Session</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Session::Pkcs11Session</qualifiedname>
+        <param>
+          <type>Pkcs11Session &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="327" column="5" bodyfile="include/security/pkcs11_wrapper.h" bodystart="327" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1a08b3859a94999c1305d90fb06c66aa7c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1aeee41ed1437c9f2c1bad88983279ca60" kindref="member">Pkcs11Session</ref> &amp;</type>
+        <definition>Pkcs11Session &amp; themis::security::pkcs11::Pkcs11Session::operator=</definition>
+        <argsstring>(Pkcs11Session &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Session::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1aeee41ed1437c9f2c1bad88983279ca60" kindref="member">Pkcs11Session</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="335" column="19" bodyfile="include/security/pkcs11_wrapper.h" bodystart="335" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1af10f316024e0c7549399b6e08a65c216" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::pkcs11::Pkcs11Session::open</definition>
+        <argsstring>(CK_SLOT_ID slotId, uint32_t flags=CKF_SERIAL_SESSION) noexcept</argsstring>
+        <name>open</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Session::open</qualifiedname>
+        <param>
+          <type><ref refid="pkcs11__minimal_8h_1ac24d1e7fc4d61629ed309029417225b6" kindref="member">CK_SLOT_ID</ref></type>
+          <declname>slotId</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>flags</declname>
+          <defval><ref refid="pkcs11__minimal_8h_1a910c33108d07cc3aee7c22d65b83d2ee" kindref="member">CKF_SERIAL_SESSION</ref></defval>
+        </param>
+        <briefdescription>
+<para>Open a PKCS#11 session on the given slot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>slotId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Slot identifier (from C_GetSlotList). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>flags</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session flags; CKF_SERIAL_SESSION is the standard value. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false if C_OpenSession failed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="354" column="10" bodyfile="include/security/pkcs11_wrapper.h" bodystart="354" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1a9df39b6d23fe35802b0ea6a3065b6c11" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::pkcs11::Pkcs11Session::login</definition>
+        <argsstring>(uint32_t userType, const std::string &amp;pin) noexcept</argsstring>
+        <name>login</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Session::login</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>userType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pin</declname>
+        </param>
+        <briefdescription>
+<para>Authenticate the session with a PIN. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>userType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CKU_USER (normal user) or CKU_SO (security officer). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PIN string. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="376" column="10" bodyfile="include/security/pkcs11_wrapper.h" bodystart="376" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1a173286d17dc5b47977e92be5f3f070f4" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::security::pkcs11::Pkcs11Session::close</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>close</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Session::close</qualifiedname>
+        <briefdescription>
+<para>Log out and close the session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Safe to call multiple times. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="399" column="10" bodyfile="include/security/pkcs11_wrapper.h" bodystart="399" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1a0b837720c134aa2ccf81d28ea7cbd835" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="pkcs11__minimal_8h_1af6ef8e0d8e565fa9c27e64a70fb0c498" kindref="member">CK_SESSION_HANDLE</ref></type>
+        <definition>CK_SESSION_HANDLE themis::security::pkcs11::Pkcs11Session::handle</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>handle</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Session::handle</qualifiedname>
+        <briefdescription>
+<para>Return the underlying session handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>0 if the session is not open. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="418" column="23" bodyfile="include/security/pkcs11_wrapper.h" bodystart="418" bodyend="418"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1aaa684f99d32fe0bbb8f9da98fb20e3d3" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::pkcs11::Pkcs11Session::isOpen</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isOpen</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Session::isOpen</qualifiedname>
+        <briefdescription>
+<para>Return true if the session is currently open. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="423" column="10" bodyfile="include/security/pkcs11_wrapper.h" bodystart="423" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1ae5e6aaacb21691fcc7d11dfe4ec33516" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::pkcs11::Pkcs11Session::isLoggedIn</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isLoggedIn</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Session::isLoggedIn</qualifiedname>
+        <briefdescription>
+<para>Return true if the session has been successfully logged in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="428" column="10" bodyfile="include/security/pkcs11_wrapper.h" bodystart="428" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1af2c02227b8f5f3afe8b8d5cec597135c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="pkcs11__minimal_8h_1ae734db1d4751b8cabb63cbd9c0bb39cd" kindref="member">CK_FUNCTION_LIST_PTR</ref></type>
+        <definition>CK_FUNCTION_LIST_PTR themis::security::pkcs11::Pkcs11Session::functions</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>functions</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Session::functions</qualifiedname>
+        <briefdescription>
+<para>Return the raw PKCS#11 function list. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="433" column="26" bodyfile="include/security/pkcs11_wrapper.h" bodystart="433" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1a330b5ddefd13f1239ff975610f1d7751" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::security::pkcs11::Pkcs11Session::lastError</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>lastError</name>
+        <qualifiedname>themis::security::pkcs11::Pkcs11Session::lastError</qualifiedname>
+        <briefdescription>
+<para>Human-readable description of the last error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/pkcs11_wrapper.h" line="438" column="23" bodyfile="include/security/pkcs11_wrapper.h" bodystart="438" bodyend="438"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII guard for a PKCS#11 session. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Opens a session via C_OpenSession on construction (or via <ref refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1af10f316024e0c7549399b6e08a65c216" kindref="member">open()</ref>) and closes it (plus logs out if logged in) on destruction.</para>
+<para>Non-copyable; movable. </para>
+    </detaileddescription>
+    <location file="include/security/pkcs11_wrapper.h" line="312" column="1" bodyfile="include/security/pkcs11_wrapper.h" bodystart="312" bodyend="445"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1ac93f94fccfaf2e40d708c6a283853b69" prot="private" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Session</scope><name>api_</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1a173286d17dc5b47977e92be5f3f070f4" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Session</scope><name>close</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1af2c02227b8f5f3afe8b8d5cec597135c" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Session</scope><name>functions</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1a0b837720c134aa2ccf81d28ea7cbd835" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Session</scope><name>handle</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1a75e5f98659f9d354259820ecd62ac88b" prot="private" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Session</scope><name>handle_</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1ae5e6aaacb21691fcc7d11dfe4ec33516" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Session</scope><name>isLoggedIn</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1aaa684f99d32fe0bbb8f9da98fb20e3d3" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Session</scope><name>isOpen</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1a330b5ddefd13f1239ff975610f1d7751" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Session</scope><name>lastError</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1a4fecb0f4f20b5115a13d284ea1393847" prot="private" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Session</scope><name>lastError_</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1a9c29844c772ede165922dcb5fe8fb810" prot="private" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Session</scope><name>loggedIn_</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1a9df39b6d23fe35802b0ea6a3065b6c11" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Session</scope><name>login</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1af10f316024e0c7549399b6e08a65c216" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Session</scope><name>open</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1a6087cfcce31b05fb97137d2f3bdf7377" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Session</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1a08b3859a94999c1305d90fb06c66aa7c" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Session</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1aeee41ed1437c9f2c1bad88983279ca60" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Session</scope><name>Pkcs11Session</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1afdc194151fd6a4c5b639769b9c486d35" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Session</scope><name>Pkcs11Session</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1aa82e74f82c170c1baaa6a6c63a718de7" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Session</scope><name>Pkcs11Session</name></member>
+      <member refid="classthemis_1_1security_1_1pkcs11_1_1_pkcs11_session_1ae0168483c7a1d15823cd094536cdee00" prot="public" virt="non-virtual"><scope>themis::security::pkcs11::Pkcs11Session</scope><name>~Pkcs11Session</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

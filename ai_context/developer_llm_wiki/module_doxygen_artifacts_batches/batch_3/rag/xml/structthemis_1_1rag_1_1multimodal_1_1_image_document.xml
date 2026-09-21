@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1multimodal_1_1_image_document" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::multimodal::ImageDocument</compoundname>
+    <includes refid="multimodal__rag_8h" local="no">multimodal_rag.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_image_document_1a63c311e65676c78e890f6cea5f5d2b17" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::multimodal::ImageDocument::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::rag::multimodal::ImageDocument::id</qualifiedname>
+        <briefdescription>
+<para>Unique document identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="47" column="17" bodyfile="include/rag/multimodal_rag.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_image_document_1a24bc11aa6aad2d1258f55286960727f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::multimodal::ImageDocument::image_path</definition>
+        <argsstring></argsstring>
+        <name>image_path</name>
+        <qualifiedname>themis::rag::multimodal::ImageDocument::image_path</qualifiedname>
+        <briefdescription>
+<para>File path or URI to the image. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="48" column="17" bodyfile="include/rag/multimodal_rag.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_image_document_1a5d072568833413b8c317448d020e3b50" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::multimodal::ImageDocument::caption</definition>
+        <argsstring></argsstring>
+        <name>caption</name>
+        <qualifiedname>themis::rag::multimodal::ImageDocument::caption</qualifiedname>
+        <briefdescription>
+<para>Pre-computed caption (may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="49" column="17" bodyfile="include/rag/multimodal_rag.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_image_document_1ae595a5620ab5ce8d886cb2a2c79e152f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::rag::multimodal::ImageDocument::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::rag::multimodal::ImageDocument::embedding</qualifiedname>
+        <briefdescription>
+<para>Pre-computed image embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="50" column="17" bodyfile="include/rag/multimodal_rag.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_image_document_1a15d3124d9973553aca6d53e8830071c7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::multimodal::ImageDocument::relevance_score</definition>
+        <argsstring></argsstring>
+        <name>relevance_score</name>
+        <qualifiedname>themis::rag::multimodal::ImageDocument::relevance_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Retrieval similarity score [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="51" column="12" bodyfile="include/rag/multimodal_rag.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_image_document_1ad07d07857c45f867abb9aa9a1d9d3202" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::rag::multimodal::ImageDocument::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::rag::multimodal::ImageDocument::metadata</qualifiedname>
+        <briefdescription>
+<para>Arbitrary metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="52" column="24" bodyfile="include/rag/multimodal_rag.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>An image document returned by the image retrieval function. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The caller is responsible for generating the embedding (e.g. with a CLIP model) and storing it alongside the image path / URI. </para>
+    </detaileddescription>
+    <location file="include/rag/multimodal_rag.h" line="46" column="1" bodyfile="include/rag/multimodal_rag.h" bodystart="46" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_image_document_1a5d072568833413b8c317448d020e3b50" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::ImageDocument</scope><name>caption</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_image_document_1ae595a5620ab5ce8d886cb2a2c79e152f" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::ImageDocument</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_image_document_1a63c311e65676c78e890f6cea5f5d2b17" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::ImageDocument</scope><name>id</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_image_document_1a24bc11aa6aad2d1258f55286960727f0" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::ImageDocument</scope><name>image_path</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_image_document_1ad07d07857c45f867abb9aa9a1d9d3202" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::ImageDocument</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_image_document_1a15d3124d9973553aca6d53e8830071c7" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::ImageDocument</scope><name>relevance_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

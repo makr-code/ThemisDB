@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_arrow_user_registration_plugin_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::ArrowUserRegistrationPlugin::Config</compoundname>
+    <includes refid="arrow__user__registration__plugin_8h" local="no">arrow_user_registration_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_arrow_user_registration_plugin_1_1_config_1a36218440d3cf65f8a0a14c77185e61b8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ArrowUserRegistrationPlugin::Config::arrow_source_uri</definition>
+        <argsstring></argsstring>
+        <name>arrow_source_uri</name>
+        <qualifiedname>themis::security::ArrowUserRegistrationPlugin::Config::arrow_source_uri</qualifiedname>
+        <briefdescription>
+<para>e.g., &quot;file:///path/to/users.parquet&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/arrow_user_registration_plugin.h" line="31" column="21" bodyfile="include/security/arrow_user_registration_plugin.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_arrow_user_registration_plugin_1_1_config_1afbfc9b788c1f23540db40c09f6c87f92" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ArrowUserRegistrationPlugin::Config::arrow_flight_endpoint</definition>
+        <argsstring></argsstring>
+        <name>arrow_flight_endpoint</name>
+        <qualifiedname>themis::security::ArrowUserRegistrationPlugin::Config::arrow_flight_endpoint</qualifiedname>
+        <briefdescription>
+<para>Optional Arrow Flight endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/arrow_user_registration_plugin.h" line="32" column="21" bodyfile="include/security/arrow_user_registration_plugin.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_arrow_user_registration_plugin_1_1_config_1a362220e4f6ae0b20dda0decb0895db0c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ArrowUserRegistrationPlugin::Config::user_id_column</definition>
+        <argsstring></argsstring>
+        <name>user_id_column</name>
+        <qualifiedname>themis::security::ArrowUserRegistrationPlugin::Config::user_id_column</qualifiedname>
+        <initializer>= &quot;user_id&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/arrow_user_registration_plugin.h" line="33" column="21" bodyfile="include/security/arrow_user_registration_plugin.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_arrow_user_registration_plugin_1_1_config_1ad3c606218ea08dce0b6613653e89a9a2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ArrowUserRegistrationPlugin::Config::username_column</definition>
+        <argsstring></argsstring>
+        <name>username_column</name>
+        <qualifiedname>themis::security::ArrowUserRegistrationPlugin::Config::username_column</qualifiedname>
+        <initializer>= &quot;username&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/arrow_user_registration_plugin.h" line="34" column="21" bodyfile="include/security/arrow_user_registration_plugin.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_arrow_user_registration_plugin_1_1_config_1ac361289b9a065051c6ac04a83dc53252" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ArrowUserRegistrationPlugin::Config::password_column</definition>
+        <argsstring></argsstring>
+        <name>password_column</name>
+        <qualifiedname>themis::security::ArrowUserRegistrationPlugin::Config::password_column</qualifiedname>
+        <initializer>= &quot;password_hash&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/arrow_user_registration_plugin.h" line="35" column="21" bodyfile="include/security/arrow_user_registration_plugin.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_arrow_user_registration_plugin_1_1_config_1a0f13006d293620ee01526818d901a2d1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ArrowUserRegistrationPlugin::Config::roles_column</definition>
+        <argsstring></argsstring>
+        <name>roles_column</name>
+        <qualifiedname>themis::security::ArrowUserRegistrationPlugin::Config::roles_column</qualifiedname>
+        <initializer>= &quot;roles&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/arrow_user_registration_plugin.h" line="36" column="21" bodyfile="include/security/arrow_user_registration_plugin.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_arrow_user_registration_plugin_1_1_config_1a3fe77188cb4c0e9126252f780d25dddb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ArrowUserRegistrationPlugin::Config::email_column</definition>
+        <argsstring></argsstring>
+        <name>email_column</name>
+        <qualifiedname>themis::security::ArrowUserRegistrationPlugin::Config::email_column</qualifiedname>
+        <initializer>= &quot;email&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/arrow_user_registration_plugin.h" line="37" column="21" bodyfile="include/security/arrow_user_registration_plugin.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_arrow_user_registration_plugin_1_1_config_1afc6a4415140bc79272bd03757542c08d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::ArrowUserRegistrationPlugin::Config::auto_sync</definition>
+        <argsstring></argsstring>
+        <name>auto_sync</name>
+        <qualifiedname>themis::security::ArrowUserRegistrationPlugin::Config::auto_sync</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Automatically sync users on startup. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/arrow_user_registration_plugin.h" line="38" column="21" bodyfile="include/security/arrow_user_registration_plugin.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/arrow_user_registration_plugin.h" line="30" column="5" bodyfile="include/security/arrow_user_registration_plugin.h" bodystart="30" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_arrow_user_registration_plugin_1_1_config_1afbfc9b788c1f23540db40c09f6c87f92" prot="public" virt="non-virtual"><scope>themis::security::ArrowUserRegistrationPlugin::Config</scope><name>arrow_flight_endpoint</name></member>
+      <member refid="structthemis_1_1security_1_1_arrow_user_registration_plugin_1_1_config_1a36218440d3cf65f8a0a14c77185e61b8" prot="public" virt="non-virtual"><scope>themis::security::ArrowUserRegistrationPlugin::Config</scope><name>arrow_source_uri</name></member>
+      <member refid="structthemis_1_1security_1_1_arrow_user_registration_plugin_1_1_config_1afc6a4415140bc79272bd03757542c08d" prot="public" virt="non-virtual"><scope>themis::security::ArrowUserRegistrationPlugin::Config</scope><name>auto_sync</name></member>
+      <member refid="structthemis_1_1security_1_1_arrow_user_registration_plugin_1_1_config_1a3fe77188cb4c0e9126252f780d25dddb" prot="public" virt="non-virtual"><scope>themis::security::ArrowUserRegistrationPlugin::Config</scope><name>email_column</name></member>
+      <member refid="structthemis_1_1security_1_1_arrow_user_registration_plugin_1_1_config_1ac361289b9a065051c6ac04a83dc53252" prot="public" virt="non-virtual"><scope>themis::security::ArrowUserRegistrationPlugin::Config</scope><name>password_column</name></member>
+      <member refid="structthemis_1_1security_1_1_arrow_user_registration_plugin_1_1_config_1a0f13006d293620ee01526818d901a2d1" prot="public" virt="non-virtual"><scope>themis::security::ArrowUserRegistrationPlugin::Config</scope><name>roles_column</name></member>
+      <member refid="structthemis_1_1security_1_1_arrow_user_registration_plugin_1_1_config_1a362220e4f6ae0b20dda0decb0895db0c" prot="public" virt="non-virtual"><scope>themis::security::ArrowUserRegistrationPlugin::Config</scope><name>user_id_column</name></member>
+      <member refid="structthemis_1_1security_1_1_arrow_user_registration_plugin_1_1_config_1ad3c606218ea08dce0b6613653e89a9a2" prot="public" virt="non-virtual"><scope>themis::security::ArrowUserRegistrationPlugin::Config</scope><name>username_column</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

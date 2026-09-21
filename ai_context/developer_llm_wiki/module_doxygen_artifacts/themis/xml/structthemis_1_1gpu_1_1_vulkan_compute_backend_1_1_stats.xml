@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::VulkanComputeBackend::Stats</compoundname>
+    <includes refid="vulkan__backend_8h" local="no">vulkan_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_stats_1a1c230b37bd4cd30f1843329c2cb649c4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::VulkanComputeBackend::Stats::streams_created</definition>
+        <argsstring></argsstring>
+        <name>streams_created</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::Stats::streams_created</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>createStream calls succeeded </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="180" column="16" bodyfile="include/themis/gpu/vulkan_backend.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_stats_1a9a465cf9eb60022070e260a5e211404b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::VulkanComputeBackend::Stats::streams_destroyed</definition>
+        <argsstring></argsstring>
+        <name>streams_destroyed</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::Stats::streams_destroyed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>destroyStream calls succeeded </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="181" column="16" bodyfile="include/themis/gpu/vulkan_backend.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_stats_1a4f2fe10ea632015855a5bb3f5631d6ac" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::VulkanComputeBackend::Stats::dispatched</definition>
+        <argsstring></argsstring>
+        <name>dispatched</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::Stats::dispatched</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Work items dispatched successfully. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="182" column="16" bodyfile="include/themis/gpu/vulkan_backend.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_stats_1a25e9a78fb848535ce8df38b5c1add25d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::VulkanComputeBackend::Stats::dispatch_errors</definition>
+        <argsstring></argsstring>
+        <name>dispatch_errors</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::Stats::dispatch_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Work items that failed dispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="183" column="16" bodyfile="include/themis/gpu/vulkan_backend.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_stats_1a4ac3ed93db76f723e67eebb14fc76512" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::VulkanComputeBackend::Stats::cpu_fallbacks</definition>
+        <argsstring></argsstring>
+        <name>cpu_fallbacks</name>
+        <qualifiedname>themis::gpu::VulkanComputeBackend::Stats::cpu_fallbacks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Items routed to CPU (no Vulkan hw). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/vulkan_backend.h" line="184" column="16" bodyfile="include/themis/gpu/vulkan_backend.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/vulkan_backend.h" line="179" column="5" bodyfile="include/themis/gpu/vulkan_backend.h" bodystart="179" bodyend="185"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_stats_1a4ac3ed93db76f723e67eebb14fc76512" prot="public" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend::Stats</scope><name>cpu_fallbacks</name></member>
+      <member refid="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_stats_1a25e9a78fb848535ce8df38b5c1add25d" prot="public" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend::Stats</scope><name>dispatch_errors</name></member>
+      <member refid="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_stats_1a4f2fe10ea632015855a5bb3f5631d6ac" prot="public" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend::Stats</scope><name>dispatched</name></member>
+      <member refid="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_stats_1a1c230b37bd4cd30f1843329c2cb649c4" prot="public" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend::Stats</scope><name>streams_created</name></member>
+      <member refid="structthemis_1_1gpu_1_1_vulkan_compute_backend_1_1_stats_1a9a465cf9eb60022070e260a5e211404b" prot="public" virt="non-virtual"><scope>themis::gpu::VulkanComputeBackend::Stats</scope><name>streams_destroyed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

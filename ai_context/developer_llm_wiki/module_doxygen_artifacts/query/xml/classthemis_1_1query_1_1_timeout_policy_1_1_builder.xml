@@ -1,0 +1,373 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::TimeoutPolicy::Builder</compoundname>
+    <includes refid="query__federation__timeout_8h" local="no">query_federation_timeout.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a22478839e26639a3acc88c173bad47c5" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::query::TimeoutPolicy::Builder::per_shard_timeout_</definition>
+        <argsstring></argsstring>
+        <name>per_shard_timeout_</name>
+        <qualifiedname>themis::query::TimeoutPolicy::Builder::per_shard_timeout_</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="145" column="35" bodyfile="include/query/query_federation_timeout.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a8dfb741da9170df91dc88c461e83d078" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::query::TimeoutPolicy::Builder::overall_timeout_</definition>
+        <argsstring></argsstring>
+        <name>overall_timeout_</name>
+        <qualifiedname>themis::query::TimeoutPolicy::Builder::overall_timeout_</qualifiedname>
+        <initializer>{30000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="146" column="35" bodyfile="include/query/query_federation_timeout.h" bodystart="146" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a3cb231d776eeddd3eb91f0fc8b3aeb3d" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::query::TimeoutPolicy::Builder::max_retries_</definition>
+        <argsstring></argsstring>
+        <name>max_retries_</name>
+        <qualifiedname>themis::query::TimeoutPolicy::Builder::max_retries_</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="147" column="13" bodyfile="include/query/query_federation_timeout.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a8232f24a13dcf7b7b8c04e2e8aaec69d" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::query::TimeoutPolicy::Builder::initial_backoff_ms_</definition>
+        <argsstring></argsstring>
+        <name>initial_backoff_ms_</name>
+        <qualifiedname>themis::query::TimeoutPolicy::Builder::initial_backoff_ms_</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="148" column="13" bodyfile="include/query/query_federation_timeout.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a00dbf1dade97e3915ecd9d26d48e84a8" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::query::TimeoutPolicy::Builder::max_backoff_ms_</definition>
+        <argsstring></argsstring>
+        <name>max_backoff_ms_</name>
+        <qualifiedname>themis::query::TimeoutPolicy::Builder::max_backoff_ms_</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="149" column="13" bodyfile="include/query/query_federation_timeout.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a205b82892eb09c8701fd939b1b075467" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::TimeoutPolicy::Builder::backoff_multiplier_</definition>
+        <argsstring></argsstring>
+        <name>backoff_multiplier_</name>
+        <qualifiedname>themis::query::TimeoutPolicy::Builder::backoff_multiplier_</qualifiedname>
+        <initializer>= 2.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="150" column="16" bodyfile="include/query/query_federation_timeout.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1aa15c993d307109935940f59b3b309261" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::TimeoutPolicy::Builder::jitter_fraction_</definition>
+        <argsstring></argsstring>
+        <name>jitter_fraction_</name>
+        <qualifiedname>themis::query::TimeoutPolicy::Builder::jitter_fraction_</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="151" column="16" bodyfile="include/query/query_federation_timeout.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a03a0c32b46e6cfbd6040dce27bb6182e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">Builder</ref> &amp;</type>
+        <definition>Builder &amp; themis::query::TimeoutPolicy::Builder::withPerShardTimeout</definition>
+        <argsstring>(std::chrono::milliseconds timeout)</argsstring>
+        <name>withPerShardTimeout</name>
+        <qualifiedname>themis::query::TimeoutPolicy::Builder::withPerShardTimeout</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+<para>With Per Shard Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withPerShardTimeout without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="67" column="17" bodyfile="include/query/query_federation_timeout.h" bodystart="67" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a5b19605b760fb3376d584af63b385939" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">Builder</ref> &amp;</type>
+        <definition>Builder &amp; themis::query::TimeoutPolicy::Builder::withOverallTimeout</definition>
+        <argsstring>(std::chrono::milliseconds timeout)</argsstring>
+        <name>withOverallTimeout</name>
+        <qualifiedname>themis::query::TimeoutPolicy::Builder::withOverallTimeout</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+<para>With Overall Timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withOverallTimeout without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="78" column="17" bodyfile="include/query/query_federation_timeout.h" bodystart="78" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a9e0df505ff73f34eea1664706fb4fd06" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">Builder</ref> &amp;</type>
+        <definition>Builder &amp; themis::query::TimeoutPolicy::Builder::withMaxRetries</definition>
+        <argsstring>(int max_retries)</argsstring>
+        <name>withMaxRetries</name>
+        <qualifiedname>themis::query::TimeoutPolicy::Builder::withMaxRetries</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>max_retries</declname>
+        </param>
+        <briefdescription>
+<para>With Max Retries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">max_retries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withMaxRetries without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="89" column="17" bodyfile="include/query/query_federation_timeout.h" bodystart="89" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a976d79f3802b8880df804bedf645d4af" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">Builder</ref> &amp;</type>
+        <definition>Builder &amp; themis::query::TimeoutPolicy::Builder::withInitialBackoffMs</definition>
+        <argsstring>(int backoff_ms)</argsstring>
+        <name>withInitialBackoffMs</name>
+        <qualifiedname>themis::query::TimeoutPolicy::Builder::withInitialBackoffMs</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>backoff_ms</declname>
+        </param>
+        <briefdescription>
+<para>With Initial Backoff Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backoff_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withInitialBackoffMs without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="100" column="17" bodyfile="include/query/query_federation_timeout.h" bodystart="100" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1ae0db5a6f050077e8c2712c4c67f8f290" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">Builder</ref> &amp;</type>
+        <definition>Builder &amp; themis::query::TimeoutPolicy::Builder::withMaxBackoffMs</definition>
+        <argsstring>(int max_backoff_ms)</argsstring>
+        <name>withMaxBackoffMs</name>
+        <qualifiedname>themis::query::TimeoutPolicy::Builder::withMaxBackoffMs</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>max_backoff_ms</declname>
+        </param>
+        <briefdescription>
+<para>With Max Backoff Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">max_backoff_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withMaxBackoffMs without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="111" column="17" bodyfile="include/query/query_federation_timeout.h" bodystart="111" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a36602fd127dec759e24166d10cec7de0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">Builder</ref> &amp;</type>
+        <definition>Builder &amp; themis::query::TimeoutPolicy::Builder::withBackoffMultiplier</definition>
+        <argsstring>(double multiplier)</argsstring>
+        <name>withBackoffMultiplier</name>
+        <qualifiedname>themis::query::TimeoutPolicy::Builder::withBackoffMultiplier</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>multiplier</declname>
+        </param>
+        <briefdescription>
+<para>With Backoff Multiplier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">multiplier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withBackoffMultiplier without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="122" column="17" bodyfile="include/query/query_federation_timeout.h" bodystart="122" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a9802863d5b32bbae8f04535ccc81b045" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">Builder</ref> &amp;</type>
+        <definition>Builder &amp; themis::query::TimeoutPolicy::Builder::withJitterFraction</definition>
+        <argsstring>(double jitter)</argsstring>
+        <name>withJitterFraction</name>
+        <qualifiedname>themis::query::TimeoutPolicy::Builder::withJitterFraction</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>jitter</declname>
+        </param>
+        <briefdescription>
+<para>With Jitter Fraction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">jitter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements withJitterFraction without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="133" column="17" bodyfile="include/query/query_federation_timeout.h" bodystart="133" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1ac0f2186d6cb7b9cd1b0c2a65a3c37017" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_timeout_policy_1add7051f8e6083dd27df153f6c278906c" kindref="member">TimeoutPolicy</ref></type>
+        <definition>TimeoutPolicy themis::query::TimeoutPolicy::Builder::build</definition>
+        <argsstring>() const</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::query::TimeoutPolicy::Builder::build</qualifiedname>
+        <briefdescription>
+<para>Build. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation_timeout.h" line="142" column="23" bodyfile="src/query/query_federation_timeout.cpp" bodystart="21" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_federation_timeout.h" line="59" column="5" bodyfile="include/query/query_federation_timeout.h" bodystart="59" bodyend="152"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a205b82892eb09c8701fd939b1b075467" prot="private" virt="non-virtual"><scope>themis::query::TimeoutPolicy::Builder</scope><name>backoff_multiplier_</name></member>
+      <member refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1ac0f2186d6cb7b9cd1b0c2a65a3c37017" prot="public" virt="non-virtual"><scope>themis::query::TimeoutPolicy::Builder</scope><name>build</name></member>
+      <member refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a8232f24a13dcf7b7b8c04e2e8aaec69d" prot="private" virt="non-virtual"><scope>themis::query::TimeoutPolicy::Builder</scope><name>initial_backoff_ms_</name></member>
+      <member refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1aa15c993d307109935940f59b3b309261" prot="private" virt="non-virtual"><scope>themis::query::TimeoutPolicy::Builder</scope><name>jitter_fraction_</name></member>
+      <member refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a00dbf1dade97e3915ecd9d26d48e84a8" prot="private" virt="non-virtual"><scope>themis::query::TimeoutPolicy::Builder</scope><name>max_backoff_ms_</name></member>
+      <member refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a3cb231d776eeddd3eb91f0fc8b3aeb3d" prot="private" virt="non-virtual"><scope>themis::query::TimeoutPolicy::Builder</scope><name>max_retries_</name></member>
+      <member refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a8dfb741da9170df91dc88c461e83d078" prot="private" virt="non-virtual"><scope>themis::query::TimeoutPolicy::Builder</scope><name>overall_timeout_</name></member>
+      <member refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a22478839e26639a3acc88c173bad47c5" prot="private" virt="non-virtual"><scope>themis::query::TimeoutPolicy::Builder</scope><name>per_shard_timeout_</name></member>
+      <member refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a36602fd127dec759e24166d10cec7de0" prot="public" virt="non-virtual"><scope>themis::query::TimeoutPolicy::Builder</scope><name>withBackoffMultiplier</name></member>
+      <member refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a976d79f3802b8880df804bedf645d4af" prot="public" virt="non-virtual"><scope>themis::query::TimeoutPolicy::Builder</scope><name>withInitialBackoffMs</name></member>
+      <member refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a9802863d5b32bbae8f04535ccc81b045" prot="public" virt="non-virtual"><scope>themis::query::TimeoutPolicy::Builder</scope><name>withJitterFraction</name></member>
+      <member refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1ae0db5a6f050077e8c2712c4c67f8f290" prot="public" virt="non-virtual"><scope>themis::query::TimeoutPolicy::Builder</scope><name>withMaxBackoffMs</name></member>
+      <member refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a9e0df505ff73f34eea1664706fb4fd06" prot="public" virt="non-virtual"><scope>themis::query::TimeoutPolicy::Builder</scope><name>withMaxRetries</name></member>
+      <member refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a5b19605b760fb3376d584af63b385939" prot="public" virt="non-virtual"><scope>themis::query::TimeoutPolicy::Builder</scope><name>withOverallTimeout</name></member>
+      <member refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a03a0c32b46e6cfbd6040dce27bb6182e" prot="public" virt="non-virtual"><scope>themis::query::TimeoutPolicy::Builder</scope><name>withPerShardTimeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

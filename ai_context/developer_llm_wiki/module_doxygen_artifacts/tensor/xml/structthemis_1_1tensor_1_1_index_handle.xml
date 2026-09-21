@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_index_handle" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::IndexHandle</compoundname>
+    <includes refid="tensor__index__manager_8h" local="no">tensor_index_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_index_handle_1abf05a1363facc2b6a2971c24293919e2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::IndexHandle::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::tensor::IndexHandle::tenant_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_index_manager.h" line="37" column="17" bodyfile="include/tensor/tensor_index_manager.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_index_handle_1a2be1007f9c87c74b49efc05d7b202f17" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::IndexHandle::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::tensor::IndexHandle::collection</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_index_manager.h" line="38" column="17" bodyfile="include/tensor/tensor_index_manager.h" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_index_handle_1a6458379d4fd1d2154b8d4e69926a3ebd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::IndexHandle::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::tensor::IndexHandle::field</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_index_manager.h" line="39" column="17" bodyfile="include/tensor/tensor_index_manager.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_index_handle_1acdc19a2525015cce82a957f9fd28fa6b" prot="public" static="no" mutable="no">
+        <type>storage::TensorRouter::Route</type>
+        <definition>storage::TensorRouter::Route themis::tensor::IndexHandle::route</definition>
+        <argsstring></argsstring>
+        <name>route</name>
+        <qualifiedname>themis::tensor::IndexHandle::route</qualifiedname>
+        <briefdescription>
+<para>TENSOR_TRAIN, HNSW, or HYBRID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_index_manager.h" line="40" column="34" bodyfile="include/tensor/tensor_index_manager.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_index_handle_1a81aa601aeb30112485b0e20259a5d68b" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1tensor_1_1_i_tensor_index" kindref="compound">ITensorIndex</ref> *</type>
+        <definition>ITensorIndex* themis::tensor::IndexHandle::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <qualifiedname>themis::tensor::IndexHandle::index</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Owned by <ref refid="classthemis_1_1tensor_1_1_tensor_index_manager" kindref="compound">TensorIndexManager</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_index_manager.h" line="41" column="18" bodyfile="include/tensor/tensor_index_manager.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_index_handle_1a1656b047d55fc97c6c5faa6e4e5ad72a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::IndexHandle::key</definition>
+        <argsstring>() const</argsstring>
+        <name>key</name>
+        <qualifiedname>themis::tensor::IndexHandle::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_index_manager.h" line="43" column="18" bodyfile="include/tensor/tensor_index_manager.h" bodystart="43" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::tensor::ITensorIndex</label>
+        <link refid="classthemis_1_1tensor_1_1_i_tensor_index"/>
+      </node>
+      <node id="1">
+        <label>themis::tensor::IndexHandle</label>
+        <link refid="structthemis_1_1tensor_1_1_index_handle"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>index</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/tensor_index_manager.h" line="36" column="1" bodyfile="include/tensor/tensor_index_manager.h" bodystart="36" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_index_handle_1a2be1007f9c87c74b49efc05d7b202f17" prot="public" virt="non-virtual"><scope>themis::tensor::IndexHandle</scope><name>collection</name></member>
+      <member refid="structthemis_1_1tensor_1_1_index_handle_1a6458379d4fd1d2154b8d4e69926a3ebd" prot="public" virt="non-virtual"><scope>themis::tensor::IndexHandle</scope><name>field</name></member>
+      <member refid="structthemis_1_1tensor_1_1_index_handle_1a81aa601aeb30112485b0e20259a5d68b" prot="public" virt="non-virtual"><scope>themis::tensor::IndexHandle</scope><name>index</name></member>
+      <member refid="structthemis_1_1tensor_1_1_index_handle_1a1656b047d55fc97c6c5faa6e4e5ad72a" prot="public" virt="non-virtual"><scope>themis::tensor::IndexHandle</scope><name>key</name></member>
+      <member refid="structthemis_1_1tensor_1_1_index_handle_1acdc19a2525015cce82a957f9fd28fa6b" prot="public" virt="non-virtual"><scope>themis::tensor::IndexHandle</scope><name>route</name></member>
+      <member refid="structthemis_1_1tensor_1_1_index_handle_1abf05a1363facc2b6a2971c24293919e2" prot="public" virt="non-virtual"><scope>themis::tensor::IndexHandle</scope><name>tenant_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

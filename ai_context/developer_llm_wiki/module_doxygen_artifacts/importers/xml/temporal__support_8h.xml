@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="temporal__support_8h" kind="file" language="C++">
+    <compoundname>temporal_support.h</compoundname>
+    <includes refid="schema__inference_8h" local="yes">importers/schema_inference.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="temporal__support_8cpp" local="yes">src/importers/temporal_support.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>importers/schema_inference.h</label>
+        <link refid="schema__inference_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/importers/temporal_support.h</label>
+        <link refid="temporal__support_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/importers/temporal_support.h</label>
+        <link refid="temporal__support_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/importers/temporal_support.cpp</label>
+        <link refid="temporal__support_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1importers_1_1_temporal_database_support" prot="public">themis::importers::TemporalDatabaseSupport</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema" prot="public">themis::importers::TemporalDatabaseSupport::TemporalSchema</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_query_builder" prot="public">themis::importers::TemporalDatabaseSupport::TemporalQueryBuilder</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1importers">themis::importers</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="schema__inference_8h" kindref="compound">importers/schema_inference.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1importers" kindref="compound">importers</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="classthemis_1_1importers_1_1_temporal_database_support" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1_temporal_database_support" kindref="compound">TemporalDatabaseSupport</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23" refid="classthemis_1_1importers_1_1_temporal_database_support_1abffc281137e5f79c7eff368a57907922" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_temporal_database_support_1abffc281137e5f79c7eff368a57907922" kindref="member">TemporalModel</ref><sp/>{</highlight></codeline>
+<codeline lineno="24" refid="classthemis_1_1importers_1_1_temporal_database_support_1abffc281137e5f79c7eff368a57907922aa9e0ac0e149404c999154f4d523f2297" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1_temporal_database_support_1abffc281137e5f79c7eff368a57907922aa9e0ac0e149404c999154f4d523f2297" kindref="member">VALID_TIME</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25" refid="classthemis_1_1importers_1_1_temporal_database_support_1abffc281137e5f79c7eff368a57907922afd4512f197ebdc013e3cc288d8ff4833" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1_temporal_database_support_1abffc281137e5f79c7eff368a57907922afd4512f197ebdc013e3cc288d8ff4833" kindref="member">TRANSACTION_TIME</ref>,<sp/></highlight></codeline>
+<codeline lineno="26" refid="classthemis_1_1importers_1_1_temporal_database_support_1abffc281137e5f79c7eff368a57907922a4cf48650ac5d6527dc506fbe92ccc503" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1_temporal_database_support_1abffc281137e5f79c7eff368a57907922a4cf48650ac5d6527dc506fbe92ccc503" kindref="member">BI_TEMPORAL</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1importers_1_1_temporal_database_support_1a54506aa0f8f88ba1bdfe4a061725d11d" kindref="member">temporalModelToString</ref>(<ref refid="classthemis_1_1importers_1_1_temporal_database_support_1abffc281137e5f79c7eff368a57907922" kindref="member">TemporalModel</ref><sp/>m);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema" kindref="compound">TemporalSchema</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema_1a281f74707d1dfe6996871aa03c3db881" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema_1a281f74707d1dfe6996871aa03c3db881" kindref="member">table_name</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema_1ac21cbe23aabfe25fc791b68c97587519" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1_temporal_database_support_1abffc281137e5f79c7eff368a57907922" kindref="member">TemporalModel</ref><sp/><ref refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema_1ac21cbe23aabfe25fc791b68c97587519" kindref="member">temporal_model</ref>{<ref refid="classthemis_1_1importers_1_1_temporal_database_support_1abffc281137e5f79c7eff368a57907922aa9e0ac0e149404c999154f4d523f2297" kindref="member">TemporalModel::VALID_TIME</ref>};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>VALID<sp/>TIME<sp/>columns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema_1a55a41e2b7edab54fdab35334ffa87323" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema_1a55a41e2b7edab54fdab35334ffa87323" kindref="member">valid_from_column</ref>;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema_1a6925d2c3433463df2d92ff8c53f47e73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema_1a6925d2c3433463df2d92ff8c53f47e73" kindref="member">valid_to_column</ref>;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema_1ad1f7599a1091f3268c630dee36d429da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema_1ad1f7599a1091f3268c630dee36d429da" kindref="member">infinity_supported</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};<sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TRANSACTION<sp/>TIME<sp/>(system-maintained)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema_1ac4361b9ec9c0cfa1eb27aeec4ff981e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema_1ac4361b9ec9c0cfa1eb27aeec4ff981e5" kindref="member">transaction_from_column</ref>;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema_1adc204f34646caa8c527a55e75a4c6ec5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema_1adc204f34646caa8c527a55e75a4c6ec5" kindref="member">transaction_to_column</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TemporalSchema&gt;<sp/><ref refid="classthemis_1_1importers_1_1_temporal_database_support_1a6160291921c9e45c8daaf403d99bf7b6" kindref="member">detectTemporalDimensions</ref>(</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;InferenceTableSchema&gt;&amp;<sp/>schemas</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Point-in-time<sp/>query<sp/>builder</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_query_builder" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_query_builder" kindref="compound">TemporalQueryBuilder</ref><sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_query_builder_1aa1a1e4037f3c4fb0dc5ccd9f23b5dcd6" kindref="member">buildPointInTimeQuery</ref>(</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema" kindref="compound">TemporalSchema</ref>&amp;<sp/>temporal,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>timestamp</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_query_builder_1a1a4a74eb67b14b9ee5c85d0dec07395e" kindref="member">buildSystemTimeQuery</ref>(</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_temporal_database_support_1_1_temporal_schema" kindref="compound">TemporalSchema</ref>&amp;<sp/>temporal,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>timestamp</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isValidTimeColumn(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>col_name);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isTransactionTimeColumn(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>col_name);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>importers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/importers/temporal_support.h"/>
+  </compounddef>
+</doxygen>

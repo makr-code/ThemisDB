@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_log_search_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::LogSearchResult</compoundname>
+    <includes refid="log__search__engine_8h" local="no">log_search_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_search_result_1abeda4225164105581639b74788d45f53" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_log_entry" kindref="compound">LogEntry</ref> &gt;</type>
+        <definition>std::vector&lt;LogEntry&gt; themis::observability::LogSearchResult::entries</definition>
+        <argsstring></argsstring>
+        <name>entries</name>
+        <qualifiedname>themis::observability::LogSearchResult::entries</qualifiedname>
+        <briefdescription>
+<para>Matching log entries (after offset/limit applied). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="112" column="17" bodyfile="include/observability/log_search_engine.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_search_result_1a91bbf5e892057f3422c97f06f9399d45" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::LogSearchResult::total_matched</definition>
+        <argsstring></argsstring>
+        <name>total_matched</name>
+        <qualifiedname>themis::observability::LogSearchResult::total_matched</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total number of entries that matched the query (before offset/limit). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="115" column="12" bodyfile="include/observability/log_search_engine.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_search_result_1aedbd3798a98608d563d8aab34b4cf1ed" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::LogSearchResult::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::observability::LogSearchResult::offset</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Offset that was applied to produce this page. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="118" column="12" bodyfile="include/observability/log_search_engine.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_search_result_1ad75b36739e4f578d8b7b96b213bd47a7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::LogSearchResult::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::observability::LogSearchResult::limit</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Limit that was applied (0 = unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_search_engine.h" line="121" column="12" bodyfile="include/observability/log_search_engine.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>The result of a <ref refid="classthemis_1_1observability_1_1_log_search_engine_1af6103a2dee0f5d1b33c5ea93e6dfe960" kindref="member">LogSearchEngine::search()</ref> call. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/log_search_engine.h" line="110" column="1" bodyfile="include/observability/log_search_engine.h" bodystart="110" bodyend="122"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_log_search_result_1abeda4225164105581639b74788d45f53" prot="public" virt="non-virtual"><scope>themis::observability::LogSearchResult</scope><name>entries</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_search_result_1ad75b36739e4f578d8b7b96b213bd47a7" prot="public" virt="non-virtual"><scope>themis::observability::LogSearchResult</scope><name>limit</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_search_result_1aedbd3798a98608d563d8aab34b4cf1ed" prot="public" virt="non-virtual"><scope>themis::observability::LogSearchResult</scope><name>offset</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_search_result_1a91bbf5e892057f3422c97f06f9399d45" prot="public" virt="non-virtual"><scope>themis::observability::LogSearchResult</scope><name>total_matched</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

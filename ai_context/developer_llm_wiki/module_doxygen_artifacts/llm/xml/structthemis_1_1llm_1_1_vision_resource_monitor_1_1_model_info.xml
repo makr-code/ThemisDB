@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_model_info" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::VisionResourceMonitor::ModelInfo</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_model_info_1acda1fdd116d9cc87bfe29d66283f70d8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::VisionResourceMonitor::ModelInfo::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::llm::VisionResourceMonitor::ModelInfo::model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="344" column="21" bodyfile="include/llm/vision_resource_monitor.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_model_info_1af38e68f87976c471a71cd7542a7f5d21" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceMonitor::ModelInfo::memory_mb</definition>
+        <argsstring></argsstring>
+        <name>memory_mb</name>
+        <qualifiedname>themis::llm::VisionResourceMonitor::ModelInfo::memory_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="345" column="16" bodyfile="include/llm/vision_resource_monitor.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_model_info_1a755dda5324edc713f3ba61ea098c2df1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VisionResourceMonitor::ModelInfo::vram_mb</definition>
+        <argsstring></argsstring>
+        <name>vram_mb</name>
+        <qualifiedname>themis::llm::VisionResourceMonitor::ModelInfo::vram_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="346" column="16" bodyfile="include/llm/vision_resource_monitor.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_model_info_1a96dc03088e881ba39bc9469574bdc451" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::llm::VisionResourceMonitor::ModelInfo::load_time</definition>
+        <argsstring></argsstring>
+        <name>load_time</name>
+        <qualifiedname>themis::llm::VisionResourceMonitor::ModelInfo::load_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_resource_monitor.h" line="347" column="47" bodyfile="include/llm/vision_resource_monitor.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/vision_resource_monitor.h" line="343" column="5" bodyfile="include/llm/vision_resource_monitor.h" bodystart="343" bodyend="348"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_model_info_1a96dc03088e881ba39bc9469574bdc451" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceMonitor::ModelInfo</scope><name>load_time</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_model_info_1af38e68f87976c471a71cd7542a7f5d21" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceMonitor::ModelInfo</scope><name>memory_mb</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_model_info_1acda1fdd116d9cc87bfe29d66283f70d8" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceMonitor::ModelInfo</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_resource_monitor_1_1_model_info_1a755dda5324edc713f3ba61ea098c2df1" prot="public" virt="non-virtual"><scope>themis::llm::VisionResourceMonitor::ModelInfo</scope><name>vram_mb</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

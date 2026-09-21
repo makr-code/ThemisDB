@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::test::CMT_FIN_45_Batch5TrackingCompleteness</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness_1aed93a8ad5e1a72245684639fb5f2183e" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::content::test::CMT_FIN_45_Batch5TrackingCompleteness::content_module_path</definition>
+        <argsstring></argsstring>
+        <name>content_module_path</name>
+        <qualifiedname>themis::content::test::CMT_FIN_45_Batch5TrackingCompleteness::content_module_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="283" column="14" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness_1a663eeadf44cc9482ad8c93ac1ade0aaa" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::content::test::CMT_FIN_45_Batch5TrackingCompleteness::root_path</definition>
+        <argsstring></argsstring>
+        <name>root_path</name>
+        <qualifiedname>themis::content::test::CMT_FIN_45_Batch5TrackingCompleteness::root_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="284" column="14" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="284" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness_1a184047156da6e0407869f1e9ceea058e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::test::CMT_FIN_45_Batch5TrackingCompleteness::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::content::test::CMT_FIN_45_Batch5TrackingCompleteness::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="286" column="10" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="286" bodyend="290"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::content::test::CMT_FIN_45_Batch5TrackingCompleteness</label>
+        <link refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::content::test::CMT_FIN_45_Batch5TrackingCompleteness</label>
+        <link refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/content/test_content_docs_linkset_validation.cpp" line="281" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="281" bodyend="291"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness_1aed93a8ad5e1a72245684639fb5f2183e" prot="protected" virt="non-virtual"><scope>themis::content::test::CMT_FIN_45_Batch5TrackingCompleteness</scope><name>content_module_path</name></member>
+      <member refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness_1a663eeadf44cc9482ad8c93ac1ade0aaa" prot="protected" virt="non-virtual"><scope>themis::content::test::CMT_FIN_45_Batch5TrackingCompleteness</scope><name>root_path</name></member>
+      <member refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__45___batch5_tracking_completeness_1a184047156da6e0407869f1e9ceea058e" prot="protected" virt="non-virtual"><scope>themis::content::test::CMT_FIN_45_Batch5TrackingCompleteness</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

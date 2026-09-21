@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_tensor_fingerprint_graph_1_1_edge" kind="struct" language="C++" prot="private">
+    <compoundname>themis::graph::TensorFingerprintGraph::Edge</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_tensor_fingerprint_graph_1_1_edge_1a6d0bc42a619d04997dde597e39547740" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::TensorFingerprintGraph::Edge::to</definition>
+        <argsstring></argsstring>
+        <name>to</name>
+        <qualifiedname>themis::graph::TensorFingerprintGraph::Edge::to</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="258" column="27" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_tensor_fingerprint_graph_1_1_edge_1a9dfaf53953b50f162691d50d6b07dcc3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::TensorFingerprintGraph::Edge::similarity</definition>
+        <argsstring></argsstring>
+        <name>similarity</name>
+        <qualifiedname>themis::graph::TensorFingerprintGraph::Edge::similarity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/tensor_fingerprint_graph.h" line="258" column="37" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/tensor_fingerprint_graph.h" line="258" column="5" bodyfile="include/graph/tensor_fingerprint_graph.h" bodystart="258" bodyend="258"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_tensor_fingerprint_graph_1_1_edge_1a9dfaf53953b50f162691d50d6b07dcc3" prot="public" virt="non-virtual"><scope>themis::graph::TensorFingerprintGraph::Edge</scope><name>similarity</name></member>
+      <member refid="structthemis_1_1graph_1_1_tensor_fingerprint_graph_1_1_edge_1a6d0bc42a619d04997dde597e39547740" prot="public" virt="non-virtual"><scope>themis::graph::TensorFingerprintGraph::Edge</scope><name>to</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

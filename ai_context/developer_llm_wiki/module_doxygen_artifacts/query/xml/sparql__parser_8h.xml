@@ -1,0 +1,301 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="sparql__parser_8h" kind="file" language="C++">
+    <compoundname>sparql_parser.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">variant</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includedby refid="sparql__parser_8cpp" local="yes">src/query/sparql_parser.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/sparql_parser.h</label>
+        <link refid="sparql__parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="5">
+        <label>variant</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/query/sparql_parser.h</label>
+        <link refid="sparql__parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/query/sparql_parser.cpp</label>
+        <link refid="sparql__parser_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term" prot="public">themis::query::SPARQLTerm</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_p_a_r_q_l_expr" prot="public">themis::query::SPARQLExpr</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_p_a_r_q_l_literal_expr" prot="public">themis::query::SPARQLLiteralExpr</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_p_a_r_q_l_variable_expr" prot="public">themis::query::SPARQLVariableExpr</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_p_a_r_q_l_binary_op_expr" prot="public">themis::query::SPARQLBinaryOpExpr</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_p_a_r_q_l_unary_op_expr" prot="public">themis::query::SPARQLUnaryOpExpr</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_p_a_r_q_l_triple_pattern" prot="public">themis::query::SPARQLTriplePattern</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_p_a_r_q_l_where_clause" prot="public">themis::query::SPARQLWhereClause</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_p_a_r_q_l_order_spec" prot="public">themis::query::SPARQLOrderSpec</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement" prot="public">themis::query::SPARQLSelectStatement</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_s_p_a_r_q_l_a_s_t_node" prot="public">themis::query::SPARQLASTNode</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_s_p_a_r_q_l_parser" prot="public">themis::query::SPARQLParser</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_s_p_a_r_q_l_to_a_q_l_transpiler" prot="public">themis::query::SPARQLToAQLTranspiler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPARQL<sp/>Term</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1query_1a55175a47ba7396a5c895ce406f540714" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a55175a47ba7396a5c895ce406f540714" kindref="member">SPARQLTermType</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1query_1a55175a47ba7396a5c895ce406f540714a47c14840d8e15331fa420b9b2f757cd9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8fa47c14840d8e15331fa420b9b2f757cd9" kindref="member">Variable</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>?var<sp/>or<sp/>$var</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1query_1a55175a47ba7396a5c895ce406f540714aa516776e4e39605c65d5b822e735fc54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a55175a47ba7396a5c895ce406f540714aa516776e4e39605c65d5b822e735fc54" kindref="member">URIRef</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&lt;uri&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1query_1a55175a47ba7396a5c895ce406f540714a7ab8ffe5cfd494771451e4e5003a0032" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a55175a47ba7396a5c895ce406f540714a7ab8ffe5cfd494771451e4e5003a0032" kindref="member">PrefixedName</ref>,<sp/><sp/></highlight><highlight class="comment">//<sp/>prefix:local<sp/>or<sp/>bare<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1query_1a55175a47ba7396a5c895ce406f540714ad7da1b76e5799f53a399b7a96ba67437" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8fad7da1b76e5799f53a399b7a96ba67437" kindref="member">Literal</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;string&quot;,<sp/>123,<sp/>3.14,<sp/>true,<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1query_1aa0117c743d433b62e54cf5a5fdd2da8f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa0117c743d433b62e54cf5a5fdd2da8f" kindref="member">SPARQLLiteralValue</ref><sp/>=<sp/>std::variant&lt;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>std::nullptr_t,<sp/><sp/></highlight><highlight class="comment">//<sp/>NULL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>bool,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>true<sp/>/<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>integer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>double,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>float</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>string<sp/>/<sp/>URI<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">&gt;;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term" kindref="compound">SPARQLTerm</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term_1ab755fefe658a1b125f335fa618c1202a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a55175a47ba7396a5c895ce406f540714" kindref="member">SPARQLTermType</ref><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term_1ab755fefe658a1b125f335fa618c1202a" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term_1a7c4093f718086172579020c1cb65e2b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term_1a7c4093f718086172579020c1cb65e2b6" kindref="member">value</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term_1a44f1882bc13b1486afcf426891a2b6b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa0117c743d433b62e54cf5a5fdd2da8f" kindref="member">SPARQLLiteralValue</ref><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term_1a44f1882bc13b1486afcf426891a2b6b8" kindref="member">literal_value</ref>;<sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term_1ab7fff281c685108fdc7eb50c4a1deb99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term_1ab7fff281c685108fdc7eb50c4a1deb99" kindref="member">is_literal_value</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPARQL<sp/>Filter<sp/>Expression<sp/>AST</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1query_1ad93a78b25a37c79fae88423a123bc61a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1ad93a78b25a37c79fae88423a123bc61a" kindref="member">SPARQLExprType</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1query_1ad93a78b25a37c79fae88423a123bc61aad7da1b76e5799f53a399b7a96ba67437" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8fad7da1b76e5799f53a399b7a96ba67437" kindref="member">Literal</ref>,</highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1query_1ad93a78b25a37c79fae88423a123bc61aa47c14840d8e15331fa420b9b2f757cd9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8fa47c14840d8e15331fa420b9b2f757cd9" kindref="member">Variable</ref>,</highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1query_1ad93a78b25a37c79fae88423a123bc61aa72146646648d0b47b0dac2e2af592d39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8fa72146646648d0b47b0dac2e2af592d39" kindref="member">BinaryOp</ref>,</highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1query_1ad93a78b25a37c79fae88423a123bc61aa40a92e96cc89b8dd3cf793d4c2a3b6e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8fa40a92e96cc89b8dd3cf793d4c2a3b6e8" kindref="member">UnaryOp</ref></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_expr" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_expr" kindref="compound">SPARQLExpr</ref><sp/>{</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_expr_1a3c1258341d8f97a648e8dfa9c9ac64f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_expr_1a3c1258341d8f97a648e8dfa9c9ac64f8" kindref="member">~SPARQLExpr</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_expr_1ac2ec5afe3f9a4745cf682c411d5a9650" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1ad93a78b25a37c79fae88423a123bc61a" kindref="member">SPARQLExprType</ref><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_expr_1ac2ec5afe3f9a4745cf682c411d5a9650" kindref="member">type</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_literal_expr" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_literal_expr" kindref="compound">SPARQLLiteralExpr</ref><sp/>:<sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_expr" kindref="compound">SPARQLExpr</ref><sp/>{</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_literal_expr_1ac0ea6643ba48ae2260cd9bbb474ee231" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aa0117c743d433b62e54cf5a5fdd2da8f" kindref="member">SPARQLLiteralValue</ref><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_literal_expr_1ac0ea6643ba48ae2260cd9bbb474ee231" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_literal_expr_1ac10a62331d9efcec72c073e7fd2278b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ad93a78b25a37c79fae88423a123bc61a" kindref="member">SPARQLExprType</ref><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_literal_expr_1ac10a62331d9efcec72c073e7fd2278b9" kindref="member">type</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1ad93a78b25a37c79fae88423a123bc61aad7da1b76e5799f53a399b7a96ba67437" kindref="member">SPARQLExprType::Literal</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_variable_expr" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_variable_expr" kindref="compound">SPARQLVariableExpr</ref><sp/>:<sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_expr" kindref="compound">SPARQLExpr</ref><sp/>{</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_variable_expr_1a66333d4bb6ff13f406c2c5557d445eb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_variable_expr_1a66333d4bb6ff13f406c2c5557d445eb9" kindref="member">name</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_variable_expr_1a47f64742ae505374ef005660f88e4778" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ad93a78b25a37c79fae88423a123bc61a" kindref="member">SPARQLExprType</ref><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_variable_expr_1a47f64742ae505374ef005660f88e4778" kindref="member">type</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1ad93a78b25a37c79fae88423a123bc61aa47c14840d8e15331fa420b9b2f757cd9" kindref="member">SPARQLExprType::Variable</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_binary_op_expr" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_binary_op_expr" kindref="compound">SPARQLBinaryOpExpr</ref><sp/>:<sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_expr" kindref="compound">SPARQLExpr</ref><sp/>{</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_binary_op_expr_1a9a975f415ac33423c77164536764233d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_binary_op_expr_1a9a975f415ac33423c77164536764233d" kindref="member">op</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_binary_op_expr_1a2afd640b5c61dab23cd7665529f3bf15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SPARQLExpr&gt;<sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_binary_op_expr_1a2afd640b5c61dab23cd7665529f3bf15" kindref="member">left</ref>;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_binary_op_expr_1a8e9bc1cdec442c3dfac534f67386d928" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SPARQLExpr&gt;<sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_binary_op_expr_1a8e9bc1cdec442c3dfac534f67386d928" kindref="member">right</ref>;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_binary_op_expr_1a996bad8c1ed770eedce2a8f763f02e43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ad93a78b25a37c79fae88423a123bc61a" kindref="member">SPARQLExprType</ref><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_binary_op_expr_1a996bad8c1ed770eedce2a8f763f02e43" kindref="member">type</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1ad93a78b25a37c79fae88423a123bc61aa72146646648d0b47b0dac2e2af592d39" kindref="member">SPARQLExprType::BinaryOp</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_unary_op_expr" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_unary_op_expr" kindref="compound">SPARQLUnaryOpExpr</ref><sp/>:<sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_expr" kindref="compound">SPARQLExpr</ref><sp/>{</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_unary_op_expr_1a9610b741de92d2be9c1403ed0e560f76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_unary_op_expr_1a9610b741de92d2be9c1403ed0e560f76" kindref="member">op</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_unary_op_expr_1a6cdfbdf8c6f73b02a670000bf97c2c56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SPARQLExpr&gt;<sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_unary_op_expr_1a6cdfbdf8c6f73b02a670000bf97c2c56" kindref="member">operand</ref>;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_unary_op_expr_1a152113288fb43e147358cd6557d870e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ad93a78b25a37c79fae88423a123bc61a" kindref="member">SPARQLExprType</ref><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_unary_op_expr_1a152113288fb43e147358cd6557d870e1" kindref="member">type</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1ad93a78b25a37c79fae88423a123bc61aa40a92e96cc89b8dd3cf793d4c2a3b6e8" kindref="member">SPARQLExprType::UnaryOp</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPARQL<sp/>Where-Clause<sp/>items</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_triple_pattern" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_triple_pattern" kindref="compound">SPARQLTriplePattern</ref><sp/>{</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_triple_pattern_1a22449a4ef602b2e52b138311ec52f4d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term" kindref="compound">SPARQLTerm</ref><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_triple_pattern_1a22449a4ef602b2e52b138311ec52f4d0" kindref="member">subject</ref>;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_triple_pattern_1a5a8c70b39c13a292e40b534500c3dcf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term" kindref="compound">SPARQLTerm</ref><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_triple_pattern_1a5a8c70b39c13a292e40b534500c3dcf2" kindref="member">predicate</ref>;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_triple_pattern_1a07c4b6ca4bd3ca6a59f61eac52c6b4ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_term" kindref="compound">SPARQLTerm</ref><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_triple_pattern_1a07c4b6ca4bd3ca6a59f61eac52c6b4ad" kindref="member">object</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="namespacethemis_1_1query_1a2df10c528f4d70e8fa7dbff916c938a5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a2df10c528f4d70e8fa7dbff916c938a5" kindref="member">SPARQLClauseKind</ref><sp/>{</highlight></codeline>
+<codeline lineno="109" refid="namespacethemis_1_1query_1a2df10c528f4d70e8fa7dbff916c938a5a09d2e0106a4ddcf0cd3f9941b151a246" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a2df10c528f4d70e8fa7dbff916c938a5a09d2e0106a4ddcf0cd3f9941b151a246" kindref="member">TriplePattern</ref>,</highlight></codeline>
+<codeline lineno="110" refid="namespacethemis_1_1query_1a2df10c528f4d70e8fa7dbff916c938a5ad7778d0c64b6ba21494c97f77a66885a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a962d5d82018937bf45b2425cded8f21cad7778d0c64b6ba21494c97f77a66885a" kindref="member">Filter</ref></highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_where_clause" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_where_clause" kindref="compound">SPARQLWhereClause</ref><sp/>{</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_where_clause_1a4c3d0cb0de122eaaee39daa7455fe84c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a2df10c528f4d70e8fa7dbff916c938a5" kindref="member">SPARQLClauseKind</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_where_clause_1a4c3d0cb0de122eaaee39daa7455fe84c" kindref="member">kind</ref>;</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_where_clause_1ad2fce81928f342d61431026962da341e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;SPARQLTriplePattern&gt;<sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_where_clause_1ad2fce81928f342d61431026962da341e" kindref="member">triple</ref>;</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_where_clause_1a76ac03ec2e59a70e864a4e54485c494c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SPARQLExpr&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_where_clause_1a76ac03ec2e59a70e864a4e54485c494c" kindref="member">filter_expr</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPARQL<sp/>SELECT<sp/>statement<sp/>AST</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_order_spec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_order_spec" kindref="compound">SPARQLOrderSpec</ref><sp/>{</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_order_spec_1a12b74c47c57b8b57774f1d6455abaae9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_order_spec_1a12b74c47c57b8b57774f1d6455abaae9" kindref="member">variable</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_order_spec_1a2fc32c2a5db4f0f47629a73ad3e82d29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_order_spec_1a2fc32c2a5db4f0f47629a73ad3e82d29" kindref="member">ascending</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement" kindref="compound">SPARQLSelectStatement</ref><sp/>{</highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a5991ce39381b334ab52899a82dd1bdd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a5991ce39381b334ab52899a82dd1bdd1" kindref="member">star</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1aa1ca94fac1ed5e35621aa92827ba2419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1aa1ca94fac1ed5e35621aa92827ba2419" kindref="member">variables</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a4e903d7917e8e1e46c882785ab1dfc09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a4e903d7917e8e1e46c882785ab1dfc09" kindref="member">from_graph</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a1fb776102ef9e24882911a30318bed9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SPARQLWhereClause&gt;<sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a1fb776102ef9e24882911a30318bed9a" kindref="member">where_clauses</ref>;</highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a074cd9c32af6129362bbe26e724d1052" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;SPARQLOrderSpec&gt;<sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a074cd9c32af6129362bbe26e724d1052" kindref="member">order_by</ref>;</highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a3887ed4dbcd5683c8e8d85686a56fa6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;int64_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a3887ed4dbcd5683c8e8d85686a56fa6f" kindref="member">limit</ref>;</highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a7deb9949b6604c6b9c13731cb26e49db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;int64_t&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement_1a7deb9949b6604c6b9c13731cb26e49db" kindref="member">offset</ref>;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_a_s_t_node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_a_s_t_node" kindref="compound">SPARQLASTNode</ref><sp/>{</highlight></codeline>
+<codeline lineno="139" refid="structthemis_1_1query_1_1_s_p_a_r_q_l_a_s_t_node_1a6eb9dda8eef928fc75224788bdfc020a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement" kindref="compound">SPARQLSelectStatement</ref><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_a_s_t_node_1a6eb9dda8eef928fc75224788bdfc020a" kindref="member">select</ref>;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPARQLParser</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Parses<sp/>a<sp/>SPARQL<sp/>1.1<sp/>SELECT<sp/>query<sp/>subset<sp/>into<sp/>a<sp/>SPARQLASTNode.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Supported<sp/>features:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SELECT<sp/>?var1<sp/>?var2<sp/>|<sp/>SELECT<sp/>*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>FROM<sp/>&lt;graph_uri&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(optional)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>WHERE<sp/>{<sp/>triple-pattern*<sp/>FILTER()*<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>ORDER<sp/>BY<sp/>[ASC|DESC](?var)<sp/>|<sp/>?var</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>LIMIT<sp/>n<sp/>[OFFSET<sp/>m]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Triple-pattern<sp/>terms:<sp/>?var,<sp/>&lt;URI&gt;,<sp/>prefix:local,<sp/>string/integer/float/bool<sp/>literals</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FILTER:<sp/>comparison<sp/>(==,<sp/>!=,<sp/>&lt;,<sp/>&lt;=,<sp/>&gt;,<sp/>&gt;=),<sp/>logical<sp/>(&amp;&amp;,<sp/>||,<sp/>!),<sp/>parentheses</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread-safety:<sp/>NOT<sp/>thread-safe;<sp/>create<sp/>one<sp/>instance<sp/>per<sp/>thread<sp/>or<sp/>protect</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>with<sp/>a<sp/>mutex<sp/>(same<sp/>constraint<sp/>as<sp/>AQLParser<sp/>and<sp/>SQLParser).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="classthemis_1_1query_1_1_s_p_a_r_q_l_parser" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_s_p_a_r_q_l_parser_1ab16e4b9c8cbfd9b3bae57b20e44caa4f" kindref="member">SPARQLParser</ref><sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="163" refid="classthemis_1_1query_1_1_s_p_a_r_q_l_parser_1ab16e4b9c8cbfd9b3bae57b20e44caa4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_s_p_a_r_q_l_parser_1ab16e4b9c8cbfd9b3bae57b20e44caa4f" kindref="member">SPARQLParser</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;SPARQLASTNode&gt;<sp/><ref refid="classthemis_1_1query_1_1_s_p_a_r_q_l_parser_1ae8d37942f82d0df52a74c739e27e0567" kindref="member">parse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sparql_query);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_token" kindref="compound">Token</ref>;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Lexer;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ParserImpl;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPARQLToAQLTranspiler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Translates<sp/>a<sp/>SPARQLASTNode<sp/>into<sp/>an<sp/>AQL<sp/>query<sp/>string<sp/>suitable<sp/>for<sp/>execution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>through<sp/>the<sp/>existing<sp/>AQL<sp/>pipeline.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RDF<sp/>triples<sp/>are<sp/>expected<sp/>to<sp/>be<sp/>stored<sp/>as<sp/>documents<sp/>in<sp/>a<sp/>collection<sp/>with<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>fields<sp/>&quot;subject&quot;,<sp/>&quot;predicate&quot;,<sp/>and<sp/>&quot;object&quot;.<sp/><sp/>The<sp/>default<sp/>collection<sp/>name<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>&quot;rdf_triples&quot;;<sp/>pass<sp/>a<sp/>custom<sp/>name<sp/>to<sp/>the<sp/>constructor<sp/>to<sp/>override.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Translation<sp/>examples:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SELECT<sp/>?s<sp/>?p<sp/>?o<sp/>WHERE<sp/>{<sp/>?s<sp/>?p<sp/>?o<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>→<sp/>FOR<sp/>_t0<sp/>IN<sp/>rdf_triples</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>RETURN<sp/>{s:<sp/>_t0.subject,<sp/>p:<sp/>_t0.predicate,<sp/>o:<sp/>_t0.object}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SELECT<sp/>?person<sp/>?name<sp/>WHERE<sp/>{</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>?person<sp/>rdf:type<sp/>foaf:Person<sp/>.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>?person<sp/>foaf:name<sp/>?name<sp/>.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>→<sp/>FOR<sp/>_t0<sp/>IN<sp/>rdf_triples</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/>FILTER<sp/>_t0.predicate<sp/>==<sp/>&quot;rdf:type&quot;<sp/>AND<sp/>_t0.object<sp/>==<sp/>&quot;foaf:Person&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>FOR<sp/>_t1<sp/>IN<sp/>rdf_triples</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/>FILTER<sp/>_t1.subject<sp/>==<sp/>_t0.subject<sp/>AND<sp/>_t1.predicate<sp/>==<sp/>&quot;foaf:name&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>RETURN<sp/>{person:<sp/>_t0.subject,<sp/>name:<sp/>_t1.object}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SELECT<sp/>?s<sp/>WHERE<sp/>{<sp/>?s<sp/>ex:value<sp/>?v<sp/>.<sp/>FILTER(?v<sp/>&gt;<sp/>100)<sp/>}<sp/>LIMIT<sp/>5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>→<sp/>FOR<sp/>_t0<sp/>IN<sp/>rdf_triples</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/>FILTER<sp/>_t0.predicate<sp/>==<sp/>&quot;ex:value&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>FILTER<sp/>(_t0.object<sp/>&gt;<sp/>100)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>LIMIT<sp/>5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>RETURN<sp/>_t0.subject</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="classthemis_1_1query_1_1_s_p_a_r_q_l_to_a_q_l_transpiler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_s_p_a_r_q_l_to_a_q_l_transpiler_1a6e9d2a69b6e7b7498b86c41e3ea43453" kindref="member">SPARQLToAQLTranspiler</ref><sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="214" refid="classthemis_1_1query_1_1_s_p_a_r_q_l_to_a_q_l_transpiler_1a6e9d2a69b6e7b7498b86c41e3ea43453" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_s_p_a_r_q_l_to_a_q_l_transpiler_1a6e9d2a69b6e7b7498b86c41e3ea43453" kindref="member">SPARQLToAQLTranspiler</ref>(std::string<sp/>collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;rdf_triples&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>collection_(std::move(collection))<sp/>{}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::string&gt;<sp/><ref refid="classthemis_1_1query_1_1_s_p_a_r_q_l_to_a_q_l_transpiler_1af54812e51e4219c2edff4bd585e2f8d7" kindref="member">transpile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_a_s_t_node" kindref="compound">SPARQLASTNode</ref>&amp;<sp/>ast);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>collection_;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>transpileSelect(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_s_p_a_r_q_l_select_statement" kindref="compound">SPARQLSelectStatement</ref>&amp;<sp/>stmt);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/sparql_parser.h"/>
+  </compounddef>
+</doxygen>

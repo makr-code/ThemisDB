@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="wire__protocol_8h" kind="file" language="C++">
+    <compoundname>wire_protocol.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">security/safe_iterator.h</includes>
+    <includedby refid="wire__protocol_8cpp" local="yes">src/network/wire_protocol.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/network/wire_protocol.h</label>
+        <link refid="wire__protocol_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>security/safe_iterator.h</label>
+      </node>
+      <node id="5">
+        <label>stdexcept</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>string_view</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/network/wire_protocol.h</label>
+        <link refid="wire__protocol_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/network/wire_protocol.cpp</label>
+        <link refid="wire__protocol_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1network_1_1_parse_error" prot="public">themis::network::ParseError</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_wire_packet" prot="public">themis::network::WirePacket</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_packet_parser" prot="public">themis::network::PacketParser</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_packet_builder" prot="public">themis::network::PacketBuilder</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1network">themis::network</innernamespace>
+    <briefdescription>
+<para>ThemisDB binary wire protocol packet parser with iterator-safe buffer access. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 88/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready</para>
+</simplesect>
+Implements the low-level packet framing and field-parsing layer of the ThemisDB binary wire protocol. All buffer iterators are validated through <computeroutput>themis::security::SafeIterator</computeroutput> before every dereference or advance, eliminating the CWE-129/CWE-416 vulnerabilities identified in the Sprint 7 gap scan (gap IDs B001–B007).</para>
+<para><bold>Protocol framing:</bold> <programlisting><codeline><highlight class="normal">┌──────────┬──────────┬──────────┬────────────────┐</highlight></codeline>
+<codeline><highlight class="normal">│<sp/>magic[2]<sp/>│<sp/><sp/>type[1]<sp/>│<sp/><sp/>len[4]<sp/><sp/>│<sp/><sp/>payload[len]<sp/><sp/>│</highlight></codeline>
+<codeline><highlight class="normal">└──────────┴──────────┴──────────┴────────────────┘</highlight></codeline>
+</programlisting><itemizedlist>
+<listitem><para>magic: 0xDB 0x01</para>
+</listitem><listitem><para>type: PacketType</para>
+</listitem><listitem><para>len: payload length in network byte order (big-endian)</para>
+</listitem><listitem><para>payload: type-dependent fields</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>CWE Remediations applied:</bold><itemizedlist>
+<listitem><para>CWE-129 (Improper Array Index Validation): every <computeroutput>advance()</computeroutput> call goes through <computeroutput>AdvanceSafe::advance()</computeroutput> so user-supplied lengths cannot walk the iterator past <computeroutput>end()</computeroutput>.</para>
+</listitem><listitem><para>CWE-416 (Use-After-Free): <computeroutput>BoundsChecker::check_dereference()</computeroutput> guards every single-byte read. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/safe_iterator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">network</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1network_1a38c32c0f3f3ff013acdfbb0acc6b76c9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint8_t<sp/><ref refid="namespacethemis_1_1network_1a38c32c0f3f3ff013acdfbb0acc6b76c9" kindref="member">kWireProtocolMagic0</ref><sp/>=<sp/>0xDB;</highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1network_1a7f2f90a054baaedac8da165e5e8da364" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint8_t<sp/><ref refid="namespacethemis_1_1network_1a7f2f90a054baaedac8da165e5e8da364" kindref="member">kWireProtocolMagic1</ref><sp/>=<sp/>0x01;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1network_1a78617bbee55df3dd646cb23be8b0c8bc" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1network_1a78617bbee55df3dd646cb23be8b0c8bc" kindref="member">kWireProtocolMinPacketSize</ref><sp/>=<sp/>7;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1network_1a9bdb4826801cf07211c3b84c8d18abb0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1network_1a9bdb4826801cf07211c3b84c8d18abb0" kindref="member">kWireProtocolMaxPayloadBytes</ref><sp/>=<sp/>64u<sp/>*<sp/>1024u<sp/>*<sp/>1024u;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PacketType</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728" kindref="member">PacketType</ref><sp/>:<sp/>std::uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728abdde89ae69ba4004078c38d2a1fb083b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728abdde89ae69ba4004078c38d2a1fb083b" kindref="member">kHandshake</ref><sp/><sp/><sp/><sp/>=<sp/>0x01,<sp/></highlight></codeline>
+<codeline lineno="73" refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728a048ab922d2bb9497e916ff610af475d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728a048ab922d2bb9497e916ff610af475d0" kindref="member">kQuery</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x02,<sp/></highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728abc15c67da9cfae4b2420ff0f706ec69b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728abc15c67da9cfae4b2420ff0f706ec69b" kindref="member">kQueryResult</ref><sp/><sp/>=<sp/>0x03,<sp/></highlight></codeline>
+<codeline lineno="75" refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728acccdc85a08bd17cac22ce181572ee93c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728acccdc85a08bd17cac22ce181572ee93c" kindref="member">kPut</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x04,<sp/></highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728aa2598ea1b9c49e158bc197c788e03cc3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728aa2598ea1b9c49e158bc197c788e03cc3" kindref="member">kGet</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x05,<sp/></highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728aa075d0261593f6a884f416df38cb9696" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728aa075d0261593f6a884f416df38cb9696" kindref="member">kDelete</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x06,<sp/></highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728ae3587c730cc1aa530fa4ddc9c4204e97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728ae3587c730cc1aa530fa4ddc9c4204e97" kindref="member">kError</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x10,<sp/></highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728af048a9d591ae5fb2072fe302ece833a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728af048a9d591ae5fb2072fe302ece833a8" kindref="member">kPing</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x20,<sp/></highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728a7473bf957b8321dc968b9cee891ddfe9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728a7473bf957b8321dc968b9cee891ddfe9" kindref="member">kPong</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x21,<sp/></highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728a25c2dc47991b3df171ed5192bcf70390" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728a25c2dc47991b3df171ed5192bcf70390" kindref="member">kUnknown</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0xFF,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ParseError</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1network_1_1_parse_error" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_parse_error_1a963fcc8873769ed05e6c6e8ffb87d7bb" kindref="member">ParseError</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::runtime_error<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1network_1_1_parse_error_1a963fcc8873769ed05e6c6e8ffb87d7bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_parse_error_1a963fcc8873769ed05e6c6e8ffb87d7bb" kindref="member">ParseError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>msg)</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;WireProtocol<sp/>parse<sp/>error:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>msg)<sp/>{}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WirePacket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1network_1_1_wire_packet" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_wire_packet" kindref="compound">WirePacket</ref><sp/>{</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1network_1_1_wire_packet_1af5aa87e41a1c0a542b4a9ceefb9b11d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728" kindref="member">PacketType</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_wire_packet_1af5aa87e41a1c0a542b4a9ceefb9b11d8" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1network_1_1_wire_packet_1a950f066c9829fff4c539b2d0c0d68977" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1network_1_1_wire_packet_1a950f066c9829fff4c539b2d0c0d68977" kindref="member">payload</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PacketParser</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1network_1_1_packet_parser" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_packet_parser_1a4f559b56746dae4da97dec94fe0f26ff" kindref="member">PacketParser</ref><sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1network_1_1_packet_parser_1a4f559b56746dae4da97dec94fe0f26ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_packet_parser_1a4f559b56746dae4da97dec94fe0f26ff" kindref="member">PacketParser</ref>()<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_wire_packet" kindref="compound">WirePacket</ref><sp/><ref refid="classthemis_1_1network_1_1_packet_parser_1a0a9e1daa4713e1c3983a45ba410b9022" kindref="member">parse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>buf);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>T<sp/><ref refid="classthemis_1_1network_1_1_packet_parser_1a76315174856ee7726eba205995365c99" kindref="member">read_big_endian</ref>(std::vector&lt;uint8_t&gt;::const_iterator&amp;<sp/>it,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;::const_iterator&amp;<sp/>end);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1network_1_1_packet_parser_1a2b42b83a027f2ede7925d52b0cb66799" kindref="member">read_bytes</ref>(</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;::const_iterator&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>it,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;::const_iterator&amp;<sp/>end,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>n);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>check_magic(std::vector&lt;uint8_t&gt;::const_iterator&amp;<sp/>it,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;::const_iterator&amp;<sp/>end);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PacketBuilder</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="classthemis_1_1network_1_1_packet_builder" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_packet_builder" kindref="compound">PacketBuilder</ref><sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1network_1_1_packet_builder_1aac5e78df561b360ca2788b9c8f45d252" kindref="member">build_error</ref>(uint32_t<sp/>code,<sp/>std::string_view<sp/>message);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1network_1_1_packet_builder_1a5046c9332240266f46fc47c4e73be9b9" kindref="member">build_pong</ref>();</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1network_1_1_packet_builder_1a48b2da75a5631f06c24a7d2aa7a4c1d0" kindref="member">build_query_result</ref>(</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;uint8_t&gt;&gt;&amp;<sp/>rows);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>append_be32(std::vector&lt;uint8_t&gt;&amp;<sp/>buf,<sp/>uint32_t<sp/>v);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>append_header(std::vector&lt;uint8_t&gt;&amp;<sp/>buf,</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a62e0843d598eb5c45a6d58c1af307728" kindref="member">PacketType</ref><sp/>type,<sp/>uint32_t<sp/>payload_len);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>network</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/network/wire_protocol.h"/>
+  </compounddef>
+</doxygen>

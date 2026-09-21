@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1failover_1_1_disaster_recovery_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::failover::DisasterRecoveryConfig</compoundname>
+    <includes refid="disaster__recovery__manager_8h" local="no">disaster_recovery_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_config_1acfe8b935a50bee74ad9520814cb33664" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::failover::DisasterRecoveryConfig::precheck_timeout</definition>
+        <argsstring></argsstring>
+        <name>precheck_timeout</name>
+        <qualifiedname>themis::failover::DisasterRecoveryConfig::precheck_timeout</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="55" column="31" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_config_1acfe84d25078449799ca846b1b3aed85b" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::failover::DisasterRecoveryConfig::catchup_timeout</definition>
+        <argsstring></argsstring>
+        <name>catchup_timeout</name>
+        <qualifiedname>themis::failover::DisasterRecoveryConfig::catchup_timeout</qualifiedname>
+        <initializer>{30000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="56" column="31" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_config_1a816c2c8c18f598b692b017402f8c8479" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::failover::DisasterRecoveryConfig::verification_timeout</definition>
+        <argsstring></argsstring>
+        <name>verification_timeout</name>
+        <qualifiedname>themis::failover::DisasterRecoveryConfig::verification_timeout</qualifiedname>
+        <initializer>{10000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="57" column="31" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_config_1a12137378db66a7f325253e86c196b6f3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::failover::DisasterRecoveryConfig::max_verification_retries</definition>
+        <argsstring></argsstring>
+        <name>max_verification_retries</name>
+        <qualifiedname>themis::failover::DisasterRecoveryConfig::max_verification_retries</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="58" column="14" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_config_1af4bbc6dd83a1c7d61f4c38cb6b27a21e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::failover::DisasterRecoveryConfig::require_quorum</definition>
+        <argsstring></argsstring>
+        <name>require_quorum</name>
+        <qualifiedname>themis::failover::DisasterRecoveryConfig::require_quorum</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="60" column="10" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_config_1a8b5f23587ea484a61a6e8e63b9d29fb4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::failover::DisasterRecoveryConfig::enforce_epoch_fencing</definition>
+        <argsstring></argsstring>
+        <name>enforce_epoch_fencing</name>
+        <qualifiedname>themis::failover::DisasterRecoveryConfig::enforce_epoch_fencing</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="61" column="10" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_config_1a63a7955707bad5f6eabc4182f7591ee5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::failover::DisasterRecoveryConfig::allow_dry_run_without_managers</definition>
+        <argsstring></argsstring>
+        <name>allow_dry_run_without_managers</name>
+        <qualifiedname>themis::failover::DisasterRecoveryConfig::allow_dry_run_without_managers</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="62" column="10" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_config_1ace9f893f8e3f20b9cbc931f79de09d85" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::failover::DisasterRecoveryConfig::consensus_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>consensus_timeout_ms</name>
+        <qualifiedname>themis::failover::DisasterRecoveryConfig::consensus_timeout_ms</qualifiedname>
+        <initializer>{30000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="64" column="31" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/failover/disaster_recovery_manager.h" line="54" column="1" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="54" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a63a7955707bad5f6eabc4182f7591ee5" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryConfig</scope><name>allow_dry_run_without_managers</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_config_1acfe84d25078449799ca846b1b3aed85b" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryConfig</scope><name>catchup_timeout</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_config_1ace9f893f8e3f20b9cbc931f79de09d85" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryConfig</scope><name>consensus_timeout_ms</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a8b5f23587ea484a61a6e8e63b9d29fb4" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryConfig</scope><name>enforce_epoch_fencing</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a12137378db66a7f325253e86c196b6f3" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryConfig</scope><name>max_verification_retries</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_config_1acfe8b935a50bee74ad9520814cb33664" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryConfig</scope><name>precheck_timeout</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_config_1af4bbc6dd83a1c7d61f4c38cb6b27a21e" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryConfig</scope><name>require_quorum</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_config_1a816c2c8c18f598b692b017402f8c8479" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryConfig</scope><name>verification_timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

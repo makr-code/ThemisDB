@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_graph_analytics_1_1_path_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::GraphAnalytics::PathInfo</compoundname>
+    <includes refid="graph__analytics_8h" local="no">graph_analytics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_graph_analytics_1_1_path_info_1adf1d93d94afa5ab9029f5d6d990c1f64" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::GraphAnalytics::PathInfo::vertices</definition>
+        <argsstring></argsstring>
+        <name>vertices</name>
+        <qualifiedname>themis::GraphAnalytics::PathInfo::vertices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_analytics.h" line="86" column="21" bodyfile="include/index/graph_analytics.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_analytics_1_1_path_info_1ae8d9198427adbe3d49418a26dc92592e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; themis::GraphAnalytics::PathInfo::edges</definition>
+        <argsstring></argsstring>
+        <name>edges</name>
+        <qualifiedname>themis::GraphAnalytics::PathInfo::edges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_analytics.h" line="87" column="21" bodyfile="include/index/graph_analytics.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_analytics_1_1_path_info_1ab0cf342e1343e6e73a2238332fd8f61b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::GraphAnalytics::PathInfo::length</definition>
+        <argsstring></argsstring>
+        <name>length</name>
+        <qualifiedname>themis::GraphAnalytics::PathInfo::length</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_analytics.h" line="88" column="16" bodyfile="include/index/graph_analytics.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_analytics_1_1_path_info_1a972dcc858f5e43eeeea3d6037038adde" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::GraphAnalytics::PathInfo::hop_count</definition>
+        <argsstring></argsstring>
+        <name>hop_count</name>
+        <qualifiedname>themis::GraphAnalytics::PathInfo::hop_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_analytics.h" line="89" column="13" bodyfile="include/index/graph_analytics.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/graph_analytics.h" line="85" column="5" bodyfile="include/index/graph_analytics.h" bodystart="85" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_graph_analytics_1_1_path_info_1ae8d9198427adbe3d49418a26dc92592e" prot="public" virt="non-virtual"><scope>themis::GraphAnalytics::PathInfo</scope><name>edges</name></member>
+      <member refid="structthemis_1_1_graph_analytics_1_1_path_info_1a972dcc858f5e43eeeea3d6037038adde" prot="public" virt="non-virtual"><scope>themis::GraphAnalytics::PathInfo</scope><name>hop_count</name></member>
+      <member refid="structthemis_1_1_graph_analytics_1_1_path_info_1ab0cf342e1343e6e73a2238332fd8f61b" prot="public" virt="non-virtual"><scope>themis::GraphAnalytics::PathInfo</scope><name>length</name></member>
+      <member refid="structthemis_1_1_graph_analytics_1_1_path_info_1adf1d93d94afa5ab9029f5d6d990c1f64" prot="public" virt="non-virtual"><scope>themis::GraphAnalytics::PathInfo</scope><name>vertices</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

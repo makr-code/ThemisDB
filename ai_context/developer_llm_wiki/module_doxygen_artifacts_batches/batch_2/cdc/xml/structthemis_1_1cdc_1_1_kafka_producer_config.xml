@@ -1,0 +1,285 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_kafka_producer_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::KafkaProducerConfig</compoundname>
+    <includes refid="kafka__cdc__producer_8h" local="no">kafka_cdc_producer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_kafka_producer_config_1acfe67654a10e44ac22e7748b00c95391" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::KafkaProducerConfig::brokers</definition>
+        <argsstring></argsstring>
+        <name>brokers</name>
+        <qualifiedname>themis::cdc::KafkaProducerConfig::brokers</qualifiedname>
+        <initializer>{&quot;localhost:9092&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="63" column="17" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_kafka_producer_config_1a42d61ebc72d95ad6f769e534cb7dd123" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::KafkaProducerConfig::topic_prefix</definition>
+        <argsstring></argsstring>
+        <name>topic_prefix</name>
+        <qualifiedname>themis::cdc::KafkaProducerConfig::topic_prefix</qualifiedname>
+        <initializer>{&quot;themis.cdc.&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="65" column="17" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_kafka_producer_config_1acdb466dbe7e28bd7930de815e5024485" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::KafkaProducerConfig::single_topic</definition>
+        <argsstring></argsstring>
+        <name>single_topic</name>
+        <qualifiedname>themis::cdc::KafkaProducerConfig::single_topic</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="67" column="17" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_kafka_producer_config_1ad928535fe49d97ee0a412c56bb6b5cb5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::KafkaProducerConfig::acks</definition>
+        <argsstring></argsstring>
+        <name>acks</name>
+        <qualifiedname>themis::cdc::KafkaProducerConfig::acks</qualifiedname>
+        <initializer>{&quot;all&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="69" column="17" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_kafka_producer_config_1ad9ab6cd75b9e4482b4214ab53f649e69" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cdc::KafkaProducerConfig::enable_idempotence</definition>
+        <argsstring></argsstring>
+        <name>enable_idempotence</name>
+        <qualifiedname>themis::cdc::KafkaProducerConfig::enable_idempotence</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="71" column="10" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_kafka_producer_config_1a4faf3477ac21782021f05574c658fcfe" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cdc::KafkaProducerConfig::poll_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>poll_interval_ms</name>
+        <qualifiedname>themis::cdc::KafkaProducerConfig::poll_interval_ms</qualifiedname>
+        <initializer>{500}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="73" column="14" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_kafka_producer_config_1a82e3d399cb3d4aeba70dd8d490b6d23e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::cdc::KafkaProducerConfig::linger_ms</definition>
+        <argsstring></argsstring>
+        <name>linger_ms</name>
+        <qualifiedname>themis::cdc::KafkaProducerConfig::linger_ms</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="75" column="9" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_kafka_producer_config_1a7f74f160b5e04ddd026ddaa47f0db36d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::cdc::KafkaProducerConfig::max_in_flight</definition>
+        <argsstring></argsstring>
+        <name>max_in_flight</name>
+        <qualifiedname>themis::cdc::KafkaProducerConfig::max_in_flight</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="77" column="9" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_kafka_producer_config_1a595898202beba6768b666ed27351feee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::KafkaProducerConfig::sasl_mechanism</definition>
+        <argsstring></argsstring>
+        <name>sasl_mechanism</name>
+        <qualifiedname>themis::cdc::KafkaProducerConfig::sasl_mechanism</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="79" column="17" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_kafka_producer_config_1a29d57ffb6f2915a0aac1d66e97570ab9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::KafkaProducerConfig::sasl_username</definition>
+        <argsstring></argsstring>
+        <name>sasl_username</name>
+        <qualifiedname>themis::cdc::KafkaProducerConfig::sasl_username</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="81" column="17" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_kafka_producer_config_1a92d959522720b578c2a10841b0c585de" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::KafkaProducerConfig::sasl_password</definition>
+        <argsstring></argsstring>
+        <name>sasl_password</name>
+        <qualifiedname>themis::cdc::KafkaProducerConfig::sasl_password</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="83" column="17" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_kafka_producer_config_1a1ad4572ca9966f668325e079fcfc4dc8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::KafkaProducerConfig::security_protocol</definition>
+        <argsstring></argsstring>
+        <name>security_protocol</name>
+        <qualifiedname>themis::cdc::KafkaProducerConfig::security_protocol</qualifiedname>
+        <initializer>{&quot;plaintext&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="85" column="17" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_kafka_producer_config_1a9f86225cf8277cf49dac9616ff9fc1a0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::KafkaProducerConfig::ssl_ca_location</definition>
+        <argsstring></argsstring>
+        <name>ssl_ca_location</name>
+        <qualifiedname>themis::cdc::KafkaProducerConfig::ssl_ca_location</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="87" column="17" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_kafka_producer_config_1a5c3e18362d01db650963e7c3627c4b16" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cdc::KafkaProducerConfig::flush_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>flush_timeout_ms</name>
+        <qualifiedname>themis::cdc::KafkaProducerConfig::flush_timeout_ms</qualifiedname>
+        <initializer>{10000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="89" column="14" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_kafka_producer_config_1a43174fa08ce70bc2c2cc321c7cb56e39" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::cdc::KafkaProducerConfig::use_debezium_format</definition>
+        <argsstring></argsstring>
+        <name>use_debezium_format</name>
+        <qualifiedname>themis::cdc::KafkaProducerConfig::use_debezium_format</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="91" column="10" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_kafka_producer_config_1a1b44a7817775b745a971a05dfebfa3a3" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config" kindref="compound">DebeziumFormatter::Config</ref></type>
+        <definition>DebeziumFormatter::Config themis::cdc::KafkaProducerConfig::debezium_config</definition>
+        <argsstring></argsstring>
+        <name>debezium_config</name>
+        <qualifiedname>themis::cdc::KafkaProducerConfig::debezium_config</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="93" column="31" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::cdc::DebeziumFormatter::Config</label>
+        <link refid="structthemis_1_1cdc_1_1_debezium_formatter_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::KafkaProducerConfig</label>
+        <link refid="structthemis_1_1cdc_1_1_kafka_producer_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>debezium_config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/kafka_cdc_producer.h" line="62" column="1" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="62" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_kafka_producer_config_1ad928535fe49d97ee0a412c56bb6b5cb5" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaProducerConfig</scope><name>acks</name></member>
+      <member refid="structthemis_1_1cdc_1_1_kafka_producer_config_1acfe67654a10e44ac22e7748b00c95391" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaProducerConfig</scope><name>brokers</name></member>
+      <member refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a1b44a7817775b745a971a05dfebfa3a3" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaProducerConfig</scope><name>debezium_config</name></member>
+      <member refid="structthemis_1_1cdc_1_1_kafka_producer_config_1ad9ab6cd75b9e4482b4214ab53f649e69" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaProducerConfig</scope><name>enable_idempotence</name></member>
+      <member refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a5c3e18362d01db650963e7c3627c4b16" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaProducerConfig</scope><name>flush_timeout_ms</name></member>
+      <member refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a82e3d399cb3d4aeba70dd8d490b6d23e" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaProducerConfig</scope><name>linger_ms</name></member>
+      <member refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a7f74f160b5e04ddd026ddaa47f0db36d" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaProducerConfig</scope><name>max_in_flight</name></member>
+      <member refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a4faf3477ac21782021f05574c658fcfe" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaProducerConfig</scope><name>poll_interval_ms</name></member>
+      <member refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a595898202beba6768b666ed27351feee" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaProducerConfig</scope><name>sasl_mechanism</name></member>
+      <member refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a92d959522720b578c2a10841b0c585de" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaProducerConfig</scope><name>sasl_password</name></member>
+      <member refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a29d57ffb6f2915a0aac1d66e97570ab9" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaProducerConfig</scope><name>sasl_username</name></member>
+      <member refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a1ad4572ca9966f668325e079fcfc4dc8" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaProducerConfig</scope><name>security_protocol</name></member>
+      <member refid="structthemis_1_1cdc_1_1_kafka_producer_config_1acdb466dbe7e28bd7930de815e5024485" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaProducerConfig</scope><name>single_topic</name></member>
+      <member refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a9f86225cf8277cf49dac9616ff9fc1a0" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaProducerConfig</scope><name>ssl_ca_location</name></member>
+      <member refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a42d61ebc72d95ad6f769e534cb7dd123" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaProducerConfig</scope><name>topic_prefix</name></member>
+      <member refid="structthemis_1_1cdc_1_1_kafka_producer_config_1a43174fa08ce70bc2c2cc321c7cb56e39" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaProducerConfig</scope><name>use_debezium_format</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

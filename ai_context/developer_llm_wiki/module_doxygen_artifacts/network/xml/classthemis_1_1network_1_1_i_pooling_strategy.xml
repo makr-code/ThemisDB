@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_i_pooling_strategy" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::network::IPoolingStrategy</compoundname>
+    <derivedcompoundref refid="classthemis_1_1network_1_1_adaptive_pooling_strategy" prot="public" virt="non-virtual">themis::network::AdaptivePoolingStrategy</derivedcompoundref>
+    <includes refid="wire__protocol__connection__pool_8h" local="no">wire_protocol_connection_pool.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_pooling_strategy_1af58960c1ae69b35c44c29eae2ce5a350" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::network::IPoolingStrategy::~IPoolingStrategy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IPoolingStrategy</name>
+        <qualifiedname>themis::network::IPoolingStrategy::~IPoolingStrategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="49" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_pooling_strategy_1a1cf75c504fcb589058b9cf99eef6d2e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::network::IPoolingStrategy::getIdealConnectionCount</definition>
+        <argsstring>(size_t current_count, size_t active_count, double load)=0</argsstring>
+        <name>getIdealConnectionCount</name>
+        <qualifiedname>themis::network::IPoolingStrategy::getIdealConnectionCount</qualifiedname>
+        <reimplementedby refid="classthemis_1_1network_1_1_adaptive_pooling_strategy_1acbb8b1d1f5c889e4ccab77d5fa54ab8b">getIdealConnectionCount</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>current_count</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>active_count</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>load</declname>
+        </param>
+        <briefdescription>
+<para>Compute the ideal total connection count for a target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current total connections (active + idle) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>active_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Connections currently in use </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>load</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Utilisation ratio (active / total), range [0, 1] </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Desired total connection count </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="59" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_pooling_strategy_1a6ab52c52ee8be17d5280b02509f26d17" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::network::IPoolingStrategy::shouldCreateConnection</definition>
+        <argsstring>(size_t current_count, size_t max_count, size_t available_count)=0</argsstring>
+        <name>shouldCreateConnection</name>
+        <qualifiedname>themis::network::IPoolingStrategy::shouldCreateConnection</qualifiedname>
+        <reimplementedby refid="classthemis_1_1network_1_1_adaptive_pooling_strategy_1a050208446efb081cfa74db57b5fa0851">shouldCreateConnection</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>current_count</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_count</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>available_count</declname>
+        </param>
+        <briefdescription>
+<para>Return true if a new connection should be pre-created. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current total connections </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configured maximum </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>available_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Idle connections available for immediate use </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="71" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_pooling_strategy_1aea8ed73d89551cce067e69199fd568e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::network::IPoolingStrategy::shouldRemoveConnection</definition>
+        <argsstring>(size_t current_count, size_t min_count, size_t available_count, std::chrono::seconds idle_time)=0</argsstring>
+        <name>shouldRemoveConnection</name>
+        <qualifiedname>themis::network::IPoolingStrategy::shouldRemoveConnection</qualifiedname>
+        <reimplementedby refid="classthemis_1_1network_1_1_adaptive_pooling_strategy_1a90a20792409236b9dd258bab42327f7a">shouldRemoveConnection</reimplementedby>
+        <param>
+          <type>size_t</type>
+          <declname>current_count</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>min_count</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>available_count</declname>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>idle_time</declname>
+        </param>
+        <briefdescription>
+<para>Return true if the oldest idle connection should be removed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current total connections </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configured minimum </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>available_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Idle connections available </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>idle_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time the oldest idle connection has been idle </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="84" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for connection pool sizing strategies. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations decide when to grow or shrink the pool based on real-time utilization metrics supplied by the pool itself. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::network::AdaptivePoolingStrategy</label>
+        <link refid="classthemis_1_1network_1_1_adaptive_pooling_strategy"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::network::IPoolingStrategy</label>
+        <link refid="classthemis_1_1network_1_1_i_pooling_strategy"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/network/wire_protocol_connection_pool.h" line="47" column="1" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="47" bodyend="89"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_i_pooling_strategy_1a1cf75c504fcb589058b9cf99eef6d2e7" prot="public" virt="pure-virtual"><scope>themis::network::IPoolingStrategy</scope><name>getIdealConnectionCount</name></member>
+      <member refid="classthemis_1_1network_1_1_i_pooling_strategy_1a6ab52c52ee8be17d5280b02509f26d17" prot="public" virt="pure-virtual"><scope>themis::network::IPoolingStrategy</scope><name>shouldCreateConnection</name></member>
+      <member refid="classthemis_1_1network_1_1_i_pooling_strategy_1aea8ed73d89551cce067e69199fd568e5" prot="public" virt="pure-virtual"><scope>themis::network::IPoolingStrategy</scope><name>shouldRemoveConnection</name></member>
+      <member refid="classthemis_1_1network_1_1_i_pooling_strategy_1af58960c1ae69b35c44c29eae2ce5a350" prot="public" virt="virtual"><scope>themis::network::IPoolingStrategy</scope><name>~IPoolingStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

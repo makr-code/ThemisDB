@@ -1,0 +1,594 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1_oci_registry_client" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::OciRegistryClient</compoundname>
+    <includes refid="oci__registry__client_8h" local="no">oci_registry_client.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_oci_registry_client_1a4f6853344b6828eb67ccdd8f87dd85b6" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1plugins_1_1_oci_auth_config" kindref="compound">OciAuthConfig</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, OciAuthConfig&gt; themis::plugins::OciRegistryClient::auth_configs_</definition>
+        <argsstring></argsstring>
+        <name>auth_configs_</name>
+        <qualifiedname>themis::plugins::OciRegistryClient::auth_configs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="207" column="24" bodyfile="include/plugins/oci_registry_client.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_oci_registry_client_1a5d4a9ae25c5720671e1b67fc8c8db7ad" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::OciRegistryClient::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::plugins::OciRegistryClient::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="208" column="24" bodyfile="include/plugins/oci_registry_client.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1_oci_registry_client_1a82a1f214fb682317aad83fdd9b5c70ab" prot="private" static="no" mutable="no">
+        <type>long</type>
+        <definition>long themis::plugins::OciRegistryClient::timeout_seconds_</definition>
+        <argsstring></argsstring>
+        <name>timeout_seconds_</name>
+        <qualifiedname>themis::plugins::OciRegistryClient::timeout_seconds_</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="209" column="10" bodyfile="include/plugins/oci_registry_client.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_oci_registry_client_1ac76c9773011b008cdd17805b4081dadc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::OciRegistryClient::OciRegistryClient</definition>
+        <argsstring>()</argsstring>
+        <name>OciRegistryClient</name>
+        <qualifiedname>themis::plugins::OciRegistryClient::OciRegistryClient</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="133" column="5" bodyfile="src/plugins/oci_registry_client.cpp" bodystart="262" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_oci_registry_client_1a385dc331dc640ad1fd59f0468c106099" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::OciRegistryClient::~OciRegistryClient</definition>
+        <argsstring>()</argsstring>
+        <name>~OciRegistryClient</name>
+        <qualifiedname>themis::plugins::OciRegistryClient::~OciRegistryClient</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="134" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_oci_registry_client_1a06667b6e31911f02e51cc82efa8d9a82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::OciRegistryClient::OciRegistryClient</definition>
+        <argsstring>(const OciRegistryClient &amp;)=delete</argsstring>
+        <name>OciRegistryClient</name>
+        <qualifiedname>themis::plugins::OciRegistryClient::OciRegistryClient</qualifiedname>
+        <param>
+          <type>const OciRegistryClient &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="137" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_oci_registry_client_1a1761dddf03d4db914d44865f38a85c7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1plugins_1_1_oci_registry_client_1ac76c9773011b008cdd17805b4081dadc" kindref="member">OciRegistryClient</ref> &amp;</type>
+        <definition>OciRegistryClient &amp; themis::plugins::OciRegistryClient::operator=</definition>
+        <argsstring>(const OciRegistryClient &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::plugins::OciRegistryClient::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1_oci_registry_client_1ac76c9773011b008cdd17805b4081dadc" kindref="member">OciRegistryClient</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="138" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_oci_registry_client_1a9c5f0951a7bd466891f201e36cc0c86a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::OciRegistryClient::setAuth</definition>
+        <argsstring>(const std::string &amp;registry, OciAuthConfig auth)</argsstring>
+        <name>setAuth</name>
+        <qualifiedname>themis::plugins::OciRegistryClient::setAuth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1plugins_1_1_oci_auth_config" kindref="compound">OciAuthConfig</ref></type>
+          <declname>auth</declname>
+        </param>
+        <briefdescription>
+<para>Set authentication credentials for a specific registry host. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Auth.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Registry hostname, e.g. &quot;ghcr.io&quot;. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>auth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Authentication configuration.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">auth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="150" column="10" bodyfile="src/plugins/oci_registry_client.cpp" bodystart="277" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_oci_registry_client_1aefbc640a33e7c74d6541e9c2473f99e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::OciRegistryClient::setTimeout</definition>
+        <argsstring>(long timeout_seconds)</argsstring>
+        <name>setTimeout</name>
+        <qualifiedname>themis::plugins::OciRegistryClient::setTimeout</qualifiedname>
+        <param>
+          <type>long</type>
+          <declname>timeout_seconds</declname>
+        </param>
+        <briefdescription>
+<para>Set the HTTP connect/read timeout in seconds (default: 30). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Timeout.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="155" column="10" bodyfile="src/plugins/oci_registry_client.cpp" bodystart="287" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_oci_registry_client_1ad33b23bd2254730f0c851f1b2803e251" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1plugins_1_1_oci_manifest" kindref="compound">OciManifest</ref> &gt;</type>
+        <definition>Result&lt; OciManifest &gt; themis::plugins::OciRegistryClient::fetchManifest</definition>
+        <argsstring>(const OciReference &amp;ref)</argsstring>
+        <name>fetchManifest</name>
+        <qualifiedname>themis::plugins::OciRegistryClient::fetchManifest</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_oci_reference" kindref="compound">OciReference</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Fetch and parse the OCI manifest for a reference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Fetch Manifest.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parsed OCI reference. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Parsed <ref refid="structthemis_1_1plugins_1_1_oci_manifest" kindref="compound">OciManifest</ref> or error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: registryBaseUrl(), empty(), lk(), find(), end(), push_back(), obtainBearerToken(), has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="167" column="12" bodyfile="src/plugins/oci_registry_client.cpp" bodystart="621" bodyend="695"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_oci_registry_client_1ab5ac89edfc6df67d6b87e38aaac6fa45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::plugins::OciRegistryClient::pullPluginBinary</definition>
+        <argsstring>(const OciReference &amp;ref, const std::string &amp;dest_dir)</argsstring>
+        <name>pullPluginBinary</name>
+        <qualifiedname>themis::plugins::OciRegistryClient::pullPluginBinary</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_oci_reference" kindref="compound">OciReference</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest_dir</declname>
+        </param>
+        <briefdescription>
+<para>Download the plugin binary layer and save it to <computeroutput>dest_dir</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Pull Plugin Binary.</para>
+<para>Looks for a layer with media type THEMIS_PLUGIN_LAYER_MEDIA_TYPE in the manifest and downloads the corresponding blob. The SHA-256 digest is verified before the file is moved into place.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parsed OCI reference. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dest_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local directory where the binary is stored. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Absolute path of the saved plugin binary, or an error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dest_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="180" column="12" bodyfile="src/plugins/oci_registry_client.cpp" bodystart="703" bodyend="831"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_oci_registry_client_1adfbf7a2ae010d0b199928fe861fb7e6e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::plugins::OciRegistryClient::httpGet</definition>
+        <argsstring>(const std::string &amp;url, const std::vector&lt; std::string &gt; &amp;extra_headers={})</argsstring>
+        <name>httpGet</name>
+        <qualifiedname>themis::plugins::OciRegistryClient::httpGet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>extra_headers</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Http Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">extra_headers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="186" column="12" bodyfile="src/plugins/oci_registry_client.cpp" bodystart="311" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_oci_registry_client_1aac6a78ec35f00e4a11d430ba5fc8bdc5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::plugins::OciRegistryClient::httpGetToFile</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;dest_path, const std::vector&lt; std::string &gt; &amp;extra_headers={})</argsstring>
+        <name>httpGetToFile</name>
+        <qualifiedname>themis::plugins::OciRegistryClient::httpGetToFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest_path</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>extra_headers</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Http Get To File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dest_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the dest. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">extra_headers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="191" column="12" bodyfile="src/plugins/oci_registry_client.cpp" bodystart="390" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_oci_registry_client_1a16daa9e4ae50150d826d555507c05a51" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::plugins::OciRegistryClient::obtainBearerToken</definition>
+        <argsstring>(const std::string &amp;registry, const std::string &amp;scope)</argsstring>
+        <name>obtainBearerToken</name>
+        <qualifiedname>themis::plugins::OciRegistryClient::obtainBearerToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>scope</declname>
+        </param>
+        <briefdescription>
+<para>Obtain Bearer Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scope</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="197" column="12" bodyfile="src/plugins/oci_registry_client.cpp" bodystart="475" bodyend="595"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_oci_registry_client_1a1f973fb159ccf8c8fcf16d46b9dcfd8d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::OciRegistryClient::verifyDigest</definition>
+        <argsstring>(const std::string &amp;file_path, const std::string &amp;expected_digest)</argsstring>
+        <name>verifyDigest</name>
+        <qualifiedname>themis::plugins::OciRegistryClient::verifyDigest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_digest</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="202" column="17" bodyfile="src/plugins/oci_registry_client.cpp" bodystart="597" bodyend="609"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_oci_registry_client_1a0314a1edc6ec02fec720ae835ec99f18" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::OciRegistryClient::registryBaseUrl</definition>
+        <argsstring>(const std::string &amp;registry)</argsstring>
+        <name>registryBaseUrl</name>
+        <qualifiedname>themis::plugins::OciRegistryClient::registryBaseUrl</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/oci_registry_client.h" line="205" column="24" bodyfile="src/plugins/oci_registry_client.cpp" bodystart="296" bodyend="303"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Client for pulling ThemisDB plugins from OCI-compliant registries. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements a minimal subset of the OCI Distribution Specification (<ulink url="https://github.com/opencontainers/distribution-spec">https://github.com/opencontainers/distribution-spec</ulink>) sufficient to:<orderedlist>
+<listitem><para>Authenticate with a registry (anonymous or Bearer token).</para>
+</listitem><listitem><para>Fetch and parse an OCI image manifest.</para>
+</listitem><listitem><para>Download and verify (SHA-256) the plugin binary layer.</para>
+</listitem><listitem><para>Store the binary in a local cache directory.</para>
+</listitem></orderedlist>
+</para>
+<para><heading level="3">Typical usage</heading>
+</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1_oci_registry_client_1ac76c9773011b008cdd17805b4081dadc" kindref="member">OciRegistryClient</ref><sp/>client;</highlight></codeline>
+<codeline><highlight class="normal">client.setAuth(</highlight><highlight class="stringliteral">&quot;ghcr.io&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ghp_TOKEN&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ref<sp/>=<sp/><ref refid="structthemis_1_1plugins_1_1_oci_reference_1a45180a61180b4c3d3632a91bbbc8ccdd" kindref="member">OciReference::parse</ref>(</highlight><highlight class="stringliteral">&quot;ghcr.io/themisdb/plugins/s3_blob:1.2.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>client.pullPluginBinary(*ref,<sp/></highlight><highlight class="stringliteral">&quot;/var/cache/themis/plugins&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(path)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1plugins_1_1_plugin_manager_1a19a14a35966008a2185d9b21b8c64e43" kindref="member">PluginManager::instance</ref>().<ref refid="classthemis_1_1plugins_1_1_plugin_manager_1a661cf855ba363826c4fa6329ef3520e5" kindref="member">loadPluginFromPath</ref>(*path);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Thread-safety</heading>
+</para>
+<para>Individual method calls are thread-safe. Each call creates its own libcurl easy handle; the shared state (auth config) is protected by a mutex.</para>
+<para><heading level="3">Performance target</heading>
+</para>
+<para>Network I/O dominates; no in-process bottleneck beyond standard libcurl. </para>
+    </detaileddescription>
+    <location file="include/plugins/oci_registry_client.h" line="131" column="1" bodyfile="include/plugins/oci_registry_client.h" bodystart="131" bodyend="210"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1_oci_registry_client_1a4f6853344b6828eb67ccdd8f87dd85b6" prot="private" virt="non-virtual"><scope>themis::plugins::OciRegistryClient</scope><name>auth_configs_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_oci_registry_client_1ad33b23bd2254730f0c851f1b2803e251" prot="public" virt="non-virtual"><scope>themis::plugins::OciRegistryClient</scope><name>fetchManifest</name></member>
+      <member refid="classthemis_1_1plugins_1_1_oci_registry_client_1adfbf7a2ae010d0b199928fe861fb7e6e" prot="private" virt="non-virtual"><scope>themis::plugins::OciRegistryClient</scope><name>httpGet</name></member>
+      <member refid="classthemis_1_1plugins_1_1_oci_registry_client_1aac6a78ec35f00e4a11d430ba5fc8bdc5" prot="private" virt="non-virtual"><scope>themis::plugins::OciRegistryClient</scope><name>httpGetToFile</name></member>
+      <member refid="classthemis_1_1plugins_1_1_oci_registry_client_1a5d4a9ae25c5720671e1b67fc8c8db7ad" prot="private" virt="non-virtual"><scope>themis::plugins::OciRegistryClient</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_oci_registry_client_1a16daa9e4ae50150d826d555507c05a51" prot="private" virt="non-virtual"><scope>themis::plugins::OciRegistryClient</scope><name>obtainBearerToken</name></member>
+      <member refid="classthemis_1_1plugins_1_1_oci_registry_client_1ac76c9773011b008cdd17805b4081dadc" prot="public" virt="non-virtual"><scope>themis::plugins::OciRegistryClient</scope><name>OciRegistryClient</name></member>
+      <member refid="classthemis_1_1plugins_1_1_oci_registry_client_1a06667b6e31911f02e51cc82efa8d9a82" prot="public" virt="non-virtual"><scope>themis::plugins::OciRegistryClient</scope><name>OciRegistryClient</name></member>
+      <member refid="classthemis_1_1plugins_1_1_oci_registry_client_1a1761dddf03d4db914d44865f38a85c7a" prot="public" virt="non-virtual"><scope>themis::plugins::OciRegistryClient</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1plugins_1_1_oci_registry_client_1ab5ac89edfc6df67d6b87e38aaac6fa45" prot="public" virt="non-virtual"><scope>themis::plugins::OciRegistryClient</scope><name>pullPluginBinary</name></member>
+      <member refid="classthemis_1_1plugins_1_1_oci_registry_client_1a0314a1edc6ec02fec720ae835ec99f18" prot="private" virt="non-virtual"><scope>themis::plugins::OciRegistryClient</scope><name>registryBaseUrl</name></member>
+      <member refid="classthemis_1_1plugins_1_1_oci_registry_client_1a9c5f0951a7bd466891f201e36cc0c86a" prot="public" virt="non-virtual"><scope>themis::plugins::OciRegistryClient</scope><name>setAuth</name></member>
+      <member refid="classthemis_1_1plugins_1_1_oci_registry_client_1aefbc640a33e7c74d6541e9c2473f99e0" prot="public" virt="non-virtual"><scope>themis::plugins::OciRegistryClient</scope><name>setTimeout</name></member>
+      <member refid="classthemis_1_1plugins_1_1_oci_registry_client_1a82a1f214fb682317aad83fdd9b5c70ab" prot="private" virt="non-virtual"><scope>themis::plugins::OciRegistryClient</scope><name>timeout_seconds_</name></member>
+      <member refid="classthemis_1_1plugins_1_1_oci_registry_client_1a1f973fb159ccf8c8fcf16d46b9dcfd8d" prot="private" virt="non-virtual"><scope>themis::plugins::OciRegistryClient</scope><name>verifyDigest</name></member>
+      <member refid="classthemis_1_1plugins_1_1_oci_registry_client_1a385dc331dc640ad1fd59f0468c106099" prot="public" virt="non-virtual"><scope>themis::plugins::OciRegistryClient</scope><name>~OciRegistryClient</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

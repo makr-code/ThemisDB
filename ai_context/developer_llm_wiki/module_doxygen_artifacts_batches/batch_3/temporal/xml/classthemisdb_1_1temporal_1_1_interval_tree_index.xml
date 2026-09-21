@@ -1,0 +1,979 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1temporal_1_1_interval_tree_index" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::temporal::IntervalTreeIndex</compoundname>
+    <includes refid="interval__tree__index_8h" local="no">interval_tree_index.h</includes>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_interval_tree_index_1_1_node" prot="private">themisdb::temporal::IntervalTreeIndex::Node</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a1eced28a399760192e50cb063c84c48e" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::IntervalTreeIndex::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="269" column="31" bodyfile="include/temporal/interval_tree_index.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a98968e351da414eca74c165502ce296c" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; Node &gt;</type>
+        <definition>std::unique_ptr&lt;Node&gt; themisdb::temporal::IntervalTreeIndex::root_</definition>
+        <argsstring></argsstring>
+        <name>root_</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::root_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="270" column="25" bodyfile="include/temporal/interval_tree_index.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1ae0ae33d08a0109c7fb603d32915e9915" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themisdb::temporal::IntervalTreeIndex::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::size_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="271" column="23" bodyfile="include/temporal/interval_tree_index.h" bodystart="271" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a887b855b7521433f8d5e3de2b20f0f85" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_interval_entry" kindref="compound">IntervalEntry</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;IntervalEntry&gt; &gt; themisdb::temporal::IntervalTreeIndex::key_index_</definition>
+        <argsstring></argsstring>
+        <name>key_index_</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::key_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Secondary index: key → copies of all entries with that key. Provides O(k) <ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a2eb34c0d282032f83ac7551ecff5f5dc" kindref="member">queryKey()</ref> without a full BST traversal. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="275" column="24" bodyfile="include/temporal/interval_tree_index.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1ab6bf5770028ab29358cbab686481fc1d" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::temporal::IntervalTreeIndex::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="277" column="31" bodyfile="include/temporal/interval_tree_index.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a4702b375cf10397d2a806d2fbba7f2b4" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_interval_tree_stats" kindref="compound">IntervalTreeStats</ref></type>
+        <definition>IntervalTreeStats themisdb::temporal::IntervalTreeIndex::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="278" column="31" bodyfile="include/temporal/interval_tree_index.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a2d095449e3bdb3090101a6c71f51dc0f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::IntervalTreeIndex::IntervalTreeIndex</definition>
+        <argsstring>(std::string name)</argsstring>
+        <name>IntervalTreeIndex</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::IntervalTreeIndex</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="106" column="14" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="31" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1ae59d7cac9c3cd69e432b1fec956768bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::IntervalTreeIndex::IntervalTreeIndex</definition>
+        <argsstring>(const IntervalTreeIndex &amp;)=delete</argsstring>
+        <name>IntervalTreeIndex</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::IntervalTreeIndex</qualifiedname>
+        <param>
+          <type>const IntervalTreeIndex &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="109" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1afb1bb5bfa396408d4946e03b5c917066" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a2d095449e3bdb3090101a6c71f51dc0f" kindref="member">IntervalTreeIndex</ref> &amp;</type>
+        <definition>IntervalTreeIndex &amp; themisdb::temporal::IntervalTreeIndex::operator=</definition>
+        <argsstring>(const IntervalTreeIndex &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a2d095449e3bdb3090101a6c71f51dc0f" kindref="member">IntervalTreeIndex</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="110" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a7405b5d63bc91d18ceeb572eeed2a808" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::IntervalTreeIndex::IntervalTreeIndex</definition>
+        <argsstring>(IntervalTreeIndex &amp;&amp;) noexcept=default</argsstring>
+        <name>IntervalTreeIndex</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::IntervalTreeIndex</qualifiedname>
+        <param>
+          <type>IntervalTreeIndex &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="111" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a083bd34d52c9dfa21c2cdace31cc17f9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a2d095449e3bdb3090101a6c71f51dc0f" kindref="member">IntervalTreeIndex</ref> &amp;</type>
+        <definition>IntervalTreeIndex &amp; themisdb::temporal::IntervalTreeIndex::operator=</definition>
+        <argsstring>(IntervalTreeIndex &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a2d095449e3bdb3090101a6c71f51dc0f" kindref="member">IntervalTreeIndex</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="112" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a02d8807513a275dee56fa69443722095" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::IntervalTreeIndex::~IntervalTreeIndex</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IntervalTreeIndex</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::~IntervalTreeIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="114" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1adf433c6ba83816ad2b302e761ca915f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::IntervalTreeIndex::insert</definition>
+        <argsstring>(const IntervalEntry &amp;entry)</argsstring>
+        <name>insert</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::insert</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_interval_entry" kindref="compound">IntervalEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Insert an entry into the tree. Amortised O(log n).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), insertNode(), std::move(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="122" column="10" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="268" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a5b38e856f993be235153449a79e8ce5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::IntervalTreeIndex::remove</definition>
+        <argsstring>(const std::string &amp;key, const TimeRange &amp;range)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::remove</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>range</declname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove all entries matching both key and range exactly. Returns the number of entries removed. O(log n) expected.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), removeNode(), std::move(), find(), end(), <ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1add5b822e7a0cd3fe3e629e1d8f73716c" kindref="member">erase()</ref>, std::remove_if(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="128" column="12" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="293" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a9f5d2aa06bea018f427279dee3f2e9c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::IntervalTreeIndex::removeKey</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>removeKey</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::removeKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Remove Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove all entries for the given key regardless of range. O(n) worst-case due to multiple hits with the same key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), removeKeyNode(), std::move(), <ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1add5b822e7a0cd3fe3e629e1d8f73716c" kindref="member">erase()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="134" column="12" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="325" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1add5b822e7a0cd3fe3e629e1d8f73716c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::IntervalTreeIndex::erase</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>erase</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::erase</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>STL-style erase: remove all entries for the given key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Erase.</para>
+<para>This is an alias for <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a9f5d2aa06bea018f427279dee3f2e9c1" kindref="member">removeKey()</ref></computeroutput> that follows STL container naming conventions (<computeroutput><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1add5b822e7a0cd3fe3e629e1d8f73716c" kindref="member">erase</ref></computeroutput> vs. <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a5b38e856f993be235153449a79e8ce5b" kindref="member">remove</ref></computeroutput>). It removes every interval entry associated with <computeroutput>key</computeroutput> from the tree while maintaining the AVL-balance invariant through tree rotations.</para>
+<para>Complexity:<itemizedlist>
+<listitem><para>O(k·log n) where k is the number of intervals stored for <computeroutput>key</computeroutput> and n is the total number of entries in the tree.</para>
+</listitem><listitem><para>For the common case of a unique-key index (k = 1) this degenerates to O(log n).</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="par"><title>Thread-safety</title><para><computeroutput><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1add5b822e7a0cd3fe3e629e1d8f73716c" kindref="member">erase()</ref></computeroutput> acquires an <bold>exclusive</bold> (<computeroutput>std::unique_lock</computeroutput>) on the internal <computeroutput>std::shared_mutex</computeroutput>. All concurrent readers — including those holding a <computeroutput>std::shared_lock</computeroutput> via <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1aa955761ebd089231e5e5a9070ed8bf95" kindref="member">queryPoint()</ref></computeroutput>, <computeroutput>queryRange()</computeroutput>, or <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a2eb34c0d282032f83ac7551ecff5f5dc" kindref="member">queryKey()</ref></computeroutput> — are <bold>blocked</bold> until the erase completes. Callers that received results from a previous query call must not retain raw pointers or references into those result vectors after <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1add5b822e7a0cd3fe3e629e1d8f73716c" kindref="member">erase()</ref></computeroutput> returns; the returned <computeroutput>std::vector&lt;<ref refid="structthemisdb_1_1temporal_1_1_interval_entry" kindref="compound">IntervalEntry</ref>&gt;</computeroutput> copies are safe to use independently.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical key whose entries should be removed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of entries actually removed (0 if the key was absent).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a9f5d2aa06bea018f427279dee3f2e9c1" kindref="member">removeKey()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="162" column="12" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="341" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a6232739307e88f43783ae2cf3798440e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::IntervalTreeIndex::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove all entries. O(n).</para>
+<para>Calls: lk(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="165" column="10" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="350" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1aa955761ebd089231e5e5a9070ed8bf95" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_interval_entry" kindref="compound">IntervalEntry</ref> &gt;</type>
+        <definition>std::vector&lt; IntervalEntry &gt; themisdb::temporal::IntervalTreeIndex::queryPoint</definition>
+        <argsstring>(Timestamp t) const</argsstring>
+        <name>queryPoint</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::queryPoint</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return all entries whose interval contains timestamp t, i.e. entry.range.start &lt;= t &lt; entry.range.end. O(log n + k). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="174" column="17" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="418" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a30479346f7bbf89294bf086881f09d09" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_interval_entry" kindref="compound">IntervalEntry</ref> &gt;</type>
+        <definition>std::vector&lt; IntervalEntry &gt; themisdb::temporal::IntervalTreeIndex::queryOverlap</definition>
+        <argsstring>(Timestamp from, Timestamp to) const</argsstring>
+        <name>queryOverlap</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::queryOverlap</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return all entries whose interval overlaps [from, to). An interval [a, b) overlaps [from, to) iff a &lt; to &amp;&amp; from &lt; b. O(log n + k). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="181" column="17" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="441" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1ad0813794c4761a7d87e0332287076831" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_interval_entry" kindref="compound">IntervalEntry</ref> &gt;</type>
+        <definition>std::vector&lt; IntervalEntry &gt; themisdb::temporal::IntervalTreeIndex::queryOverlap</definition>
+        <argsstring>(const TimeRange &amp;range) const</argsstring>
+        <name>queryOverlap</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::queryOverlap</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>range</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return all entries whose interval overlaps the given range. Convenience overload for queryOverlap(range.start, range.end). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="187" column="17" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="455" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a2eb34c0d282032f83ac7551ecff5f5dc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_interval_entry" kindref="compound">IntervalEntry</ref> &gt;</type>
+        <definition>std::vector&lt; IntervalEntry &gt; themisdb::temporal::IntervalTreeIndex::queryKey</definition>
+        <argsstring>(const std::string &amp;key, std::optional&lt; TimeRange &gt; range=std::nullopt) const</argsstring>
+        <name>queryKey</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::queryKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &gt;</type>
+          <declname>range</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return all entries for a specific key, optionally filtered to those whose interval overlaps the given range. O(n) worst-case. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="193" column="17" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="460" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a63b912785dcb01a63bb1eae297dd9efa" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themisdb::temporal::IntervalTreeIndex::name</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>name</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="199" column="23" bodyfile="include/temporal/interval_tree_index.h" bodystart="199" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1aef09c5f264af87c0c7e510d4b5d01ca0" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::IntervalTreeIndex::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>O(1) — maintained as an atomic counter. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="202" column="12" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="486" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a5043d1621394ed202987bb21f8522d00" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_interval_tree_stats" kindref="compound">IntervalTreeStats</ref></type>
+        <definition>IntervalTreeStats themisdb::temporal::IntervalTreeIndex::stats</definition>
+        <argsstring>() const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="204" column="23" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="490" bodyend="499"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a1e1c79c6670a5df439ba8a4d526c5d86" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::IntervalTreeIndex::nodeMaxEnd</definition>
+        <argsstring>(const Node *n) noexcept</argsstring>
+        <name>nodeMaxEnd</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::nodeMaxEnd</qualifiedname>
+        <param>
+          <type>const Node *</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="228" column="22" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1aa2d5a6f5a1f259d5e55812f945f66697" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::IntervalTreeIndex::updateSubtreeMax</definition>
+        <argsstring>(Node *n) noexcept</argsstring>
+        <name>updateSubtreeMax</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::updateSubtreeMax</qualifiedname>
+        <param>
+          <type>Node *</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="229" column="22" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="42" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1ac3dec569d8da95291a3560486d432c28" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::temporal::IntervalTreeIndex::nodeHeight</definition>
+        <argsstring>(const Node *n) noexcept</argsstring>
+        <name>nodeHeight</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::nodeHeight</qualifiedname>
+        <param>
+          <type>const Node *</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="232" column="17" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="53" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1ad9345b303397c93172cb86632553bee4" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::temporal::IntervalTreeIndex::balanceFactor</definition>
+        <argsstring>(const Node *n) noexcept</argsstring>
+        <name>balanceFactor</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::balanceFactor</qualifiedname>
+        <param>
+          <type>const Node *</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="233" column="17" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="57" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a5af3b5b9b093360b9e3420d20687e663" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::IntervalTreeIndex::updateHeight</definition>
+        <argsstring>(Node *n) noexcept</argsstring>
+        <name>updateHeight</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::updateHeight</qualifiedname>
+        <param>
+          <type>Node *</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="234" column="17" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="64" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1af41c67d7a398c929ec14bc7662fa3943" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; Node &gt;</type>
+        <definition>std::unique_ptr&lt; IntervalTreeIndex::Node &gt; themisdb::temporal::IntervalTreeIndex::rotateRight</definition>
+        <argsstring>(std::unique_ptr&lt; Node &gt; y)</argsstring>
+        <name>rotateRight</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::rotateRight</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; Node &gt;</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="235" column="28" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="77" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a20b54640e89872c0742a2e419a96f14c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; Node &gt;</type>
+        <definition>std::unique_ptr&lt; IntervalTreeIndex::Node &gt; themisdb::temporal::IntervalTreeIndex::rotateLeft</definition>
+        <argsstring>(std::unique_ptr&lt; Node &gt; x)</argsstring>
+        <name>rotateLeft</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::rotateLeft</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; Node &gt;</type>
+          <declname>x</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="236" column="28" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="89" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a87d069aae271a52853be869f328967df" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; Node &gt;</type>
+        <definition>std::unique_ptr&lt; IntervalTreeIndex::Node &gt; themisdb::temporal::IntervalTreeIndex::balance</definition>
+        <argsstring>(std::unique_ptr&lt; Node &gt; n)</argsstring>
+        <name>balance</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::balance</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; Node &gt;</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="237" column="28" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="102" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1adb7dd2d0016355662318825305dd4296" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; Node &gt;</type>
+        <definition>std::unique_ptr&lt; IntervalTreeIndex::Node &gt; themisdb::temporal::IntervalTreeIndex::insertNode</definition>
+        <argsstring>(std::unique_ptr&lt; Node &gt; root, const IntervalEntry &amp;entry)</argsstring>
+        <name>insertNode</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::insertNode</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; Node &gt;</type>
+          <declname>root</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_interval_entry" kindref="compound">IntervalEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="239" column="28" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="137" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1afa1647a0fee4282750fd2831b31f04d1" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; Node &gt;</type>
+        <definition>std::unique_ptr&lt; IntervalTreeIndex::Node &gt; themisdb::temporal::IntervalTreeIndex::removeNode</definition>
+        <argsstring>(std::unique_ptr&lt; Node &gt; root, const std::string &amp;key, const TimeRange &amp;range, size_t &amp;removed_count)</argsstring>
+        <name>removeNode</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::removeNode</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; Node &gt;</type>
+          <declname>root</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>range</declname>
+        </param>
+        <param>
+          <type>size_t &amp;</type>
+          <declname>removed_count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="242" column="28" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="188" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1aab929cb83009e31008f0c18d57ba7d76" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; Node &gt;</type>
+        <definition>std::unique_ptr&lt; IntervalTreeIndex::Node &gt; themisdb::temporal::IntervalTreeIndex::removeKeyNode</definition>
+        <argsstring>(std::unique_ptr&lt; Node &gt; root, const std::string &amp;key, size_t &amp;removed_count)</argsstring>
+        <name>removeKeyNode</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::removeKeyNode</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; Node &gt;</type>
+          <declname>root</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>size_t &amp;</type>
+          <declname>removed_count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="247" column="28" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="231" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a0cb35f78e4e5f80ec3e09fcab4997bb8" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>Node *</type>
+        <definition>IntervalTreeIndex::Node * themisdb::temporal::IntervalTreeIndex::findMin</definition>
+        <argsstring>(Node *n) noexcept</argsstring>
+        <name>findMin</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::findMin</qualifiedname>
+        <param>
+          <type>Node *</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Extract the in-order successor (leftmost node of a subtree). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="252" column="17" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="167" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1ad836c84e929304cf4e19e8c0768e6a26" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; Node &gt;</type>
+        <definition>std::unique_ptr&lt; IntervalTreeIndex::Node &gt; themisdb::temporal::IntervalTreeIndex::detachMin</definition>
+        <argsstring>(std::unique_ptr&lt; Node &gt; root, std::unique_ptr&lt; Node &gt; &amp;out_node)</argsstring>
+        <name>detachMin</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::detachMin</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; Node &gt;</type>
+          <declname>root</declname>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; Node &gt; &amp;</type>
+          <declname>out_node</declname>
+        </param>
+        <briefdescription>
+<para>Detach and return the leftmost node, repairing the subtree. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="255" column="28" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="175" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1ab2b58e750eb67101d6a928e262f4bf7e" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::IntervalTreeIndex::treeHeight</definition>
+        <argsstring>(const Node *n) noexcept</argsstring>
+        <name>treeHeight</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::treeHeight</qualifiedname>
+        <param>
+          <type>const Node *</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="265" column="19" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="409" bodyend="411"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a62f6e456d9c02c2ce4905fc7558fcc57" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::IntervalTreeIndex::collectOverlap</definition>
+        <argsstring>(const Node *n, Timestamp from, Timestamp to, std::vector&lt; IntervalEntry &gt; &amp;out) const</argsstring>
+        <name>collectOverlap</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::collectOverlap</qualifiedname>
+        <param>
+          <type>const Node *</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_interval_entry" kindref="compound">IntervalEntry</ref> &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="258" column="10" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="362" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_interval_tree_index_1a538f2e932c529b6d637dbdf307472d40" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::IntervalTreeIndex::collectKey</definition>
+        <argsstring>(const Node *n, const std::string &amp;key, std::optional&lt; TimeRange &gt; range, std::vector&lt; IntervalEntry &gt; &amp;out) const</argsstring>
+        <name>collectKey</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::collectKey</qualifiedname>
+        <param>
+          <type>const Node *</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &gt;</type>
+          <declname>range</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_interval_entry" kindref="compound">IntervalEntry</ref> &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="261" column="10" bodyfile="src/temporal/interval_tree_index.cpp" bodystart="393" bodyend="407"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Augmented interval tree index for O(log n + k) overlap detection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements a classic centre-key BST where each node additionally stores the maximum <computeroutput>range.end</computeroutput> value in the subtree rooted at that node. This augmentation lets the query algorithm prune entire subtrees when their max-end cannot overlap the query interval, yielding O(log n + k) time for stab / overlap queries instead of the O(n) linear scan used by the simpler <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_temporal_index" kindref="compound">TemporalIndex</ref></computeroutput> class.</para>
+<sect1 id="classthemisdb_1_1temporal_1_1_interval_tree_index_1autotoc_md0_1s1"><sect2 id="classthemisdb_1_1temporal_1_1_interval_tree_index_1autotoc_md0">
+<title>Key operations</title><para><table rows="7" cols="2"><row>
+<entry thead="yes"><para>Operation  </para>
+</entry><entry thead="yes"><para>Time complexity  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1adf433c6ba83816ad2b302e761ca915f1" kindref="member">insert()</ref>  </para>
+</entry><entry thead="no"><para>O(log n) — AVL-balanced  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a5b38e856f993be235153449a79e8ce5b" kindref="member">remove()</ref>  </para>
+</entry><entry thead="no"><para>O(log n) — AVL-balanced  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1aa955761ebd089231e5e5a9070ed8bf95" kindref="member">queryPoint()</ref>  </para>
+</entry><entry thead="no"><para>O(log n + k)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a30479346f7bbf89294bf086881f09d09" kindref="member">queryOverlap()</ref>  </para>
+</entry><entry thead="no"><para>O(log n + k)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a2eb34c0d282032f83ac7551ecff5f5dc" kindref="member">queryKey()</ref>  </para>
+</entry><entry thead="no"><para>O(k) via secondary key index  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1aef09c5f264af87c0c7e510d4b5d01ca0" kindref="member">size()</ref>  </para>
+</entry><entry thead="no"><para>O(1) — atomic  </para>
+</entry></row>
+</table>
+</para>
+<para>Thread-safety: reads use a shared lock (std::shared_mutex) so concurrent point/overlap/key queries do not block one another. Writes acquire an exclusive lock.</para>
+<para><simplesect kind="note"><para>The BST is kept balanced via AVL rotations (LL, RR, LR, RL cases). The <computeroutput>subtree_max_end</computeroutput> augmentation field is updated atomically during each rotation so the invariant is preserved at all times. A secondary hash index (key → entries) provides O(k) <ref refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a2eb34c0d282032f83ac7551ecff5f5dc" kindref="member">queryKey()</ref> without a full tree traversal. </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/temporal/interval_tree_index.h" line="104" column="1" bodyfile="include/temporal/interval_tree_index.h" bodystart="104" bodyend="279"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a87d069aae271a52853be869f328967df" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>balance</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1ad9345b303397c93172cb86632553bee4" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>balanceFactor</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a6232739307e88f43783ae2cf3798440e" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>clear</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a538f2e932c529b6d637dbdf307472d40" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>collectKey</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a62f6e456d9c02c2ce4905fc7558fcc57" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>collectOverlap</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1ad836c84e929304cf4e19e8c0768e6a26" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>detachMin</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1add5b822e7a0cd3fe3e629e1d8f73716c" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>erase</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a0cb35f78e4e5f80ec3e09fcab4997bb8" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>findMin</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1adf433c6ba83816ad2b302e761ca915f1" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>insert</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1adb7dd2d0016355662318825305dd4296" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>insertNode</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a2d095449e3bdb3090101a6c71f51dc0f" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>IntervalTreeIndex</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1ae59d7cac9c3cd69e432b1fec956768bc" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>IntervalTreeIndex</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a7405b5d63bc91d18ceeb572eeed2a808" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>IntervalTreeIndex</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a887b855b7521433f8d5e3de2b20f0f85" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>key_index_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1ab6bf5770028ab29358cbab686481fc1d" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a63b912785dcb01a63bb1eae297dd9efa" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>name</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a1eced28a399760192e50cb063c84c48e" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>name_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1ac3dec569d8da95291a3560486d432c28" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>nodeHeight</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a1e1c79c6670a5df439ba8a4d526c5d86" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>nodeMaxEnd</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1afb1bb5bfa396408d4946e03b5c917066" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a083bd34d52c9dfa21c2cdace31cc17f9" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a2eb34c0d282032f83ac7551ecff5f5dc" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>queryKey</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a30479346f7bbf89294bf086881f09d09" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>queryOverlap</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1ad0813794c4761a7d87e0332287076831" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>queryOverlap</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1aa955761ebd089231e5e5a9070ed8bf95" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>queryPoint</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a5b38e856f993be235153449a79e8ce5b" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>remove</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a9f5d2aa06bea018f427279dee3f2e9c1" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>removeKey</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1aab929cb83009e31008f0c18d57ba7d76" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>removeKeyNode</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1afa1647a0fee4282750fd2831b31f04d1" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>removeNode</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a98968e351da414eca74c165502ce296c" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>root_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a20b54640e89872c0742a2e419a96f14c" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>rotateLeft</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1af41c67d7a398c929ec14bc7662fa3943" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>rotateRight</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1aef09c5f264af87c0c7e510d4b5d01ca0" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>size</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1ae0ae33d08a0109c7fb603d32915e9915" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>size_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a5043d1621394ed202987bb21f8522d00" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>stats</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a4702b375cf10397d2a806d2fbba7f2b4" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1ab2b58e750eb67101d6a928e262f4bf7e" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>treeHeight</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a5af3b5b9b093360b9e3420d20687e663" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>updateHeight</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1aa2d5a6f5a1f259d5e55812f945f66697" prot="private" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>updateSubtreeMax</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_interval_tree_index_1a02d8807513a275dee56fa69443722095" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex</scope><name>~IntervalTreeIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

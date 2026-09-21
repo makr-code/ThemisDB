@@ -1,0 +1,346 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_federation_consensus_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::FederationConsensusManager</compoundname>
+    <includes refid="federation__consensus__manager_8h" local="no">federation_consensus_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_federation_consensus_manager_1ac2695d95e2735835e2189c71754a8021" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_federation_consensus_manager_impl" kindref="compound">FederationConsensusManagerImpl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;FederationConsensusManagerImpl&gt; themis::process::FederationConsensusManager::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::process::FederationConsensusManager::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_consensus_manager.h" line="105" column="19" bodyfile="include/process/federation_consensus_manager.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_consensus_manager_1aa0df1072a8179e92be6a9410586c6c0d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_federation_consensus_manager_1a1112ed4cbbeb67009b0dcaecf3338c17" kindref="member">FederationConsensusManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; FederationConsensusManager &gt; themis::process::FederationConsensusManager::Create</definition>
+        <argsstring>(const FederationConsensusConfig &amp;config, const std::string &amp;node_id, size_t quorum_size)</argsstring>
+        <name>Create</name>
+        <qualifiedname>themis::process::FederationConsensusManager::Create</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_federation_consensus_config" kindref="compound">FederationConsensusConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>quorum_size</declname>
+        </param>
+        <briefdescription>
+<para>Factory method to create consensus manager. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_consensus_manager.h" line="53" column="26" bodyfile="src/process/federation_consensus_manager.cpp" bodystart="580" bodyend="586"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_consensus_manager_1a1112ed4cbbeb67009b0dcaecf3338c17" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::FederationConsensusManager::FederationConsensusManager</definition>
+        <argsstring>(std::unique_ptr&lt; FederationConsensusManagerImpl &gt; impl)</argsstring>
+        <name>FederationConsensusManager</name>
+        <qualifiedname>themis::process::FederationConsensusManager::FederationConsensusManager</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_federation_consensus_manager_impl" kindref="compound">FederationConsensusManagerImpl</ref> &gt;</type>
+          <declname>impl</declname>
+        </param>
+        <briefdescription>
+<para>Constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_consensus_manager.h" line="61" column="12" bodyfile="src/process/federation_consensus_manager.cpp" bodystart="588" bodyend="590"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_consensus_manager_1a4d26096c1a8e217970e43c06613daa4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::FederationConsensusManager::~FederationConsensusManager</definition>
+        <argsstring>()</argsstring>
+        <name>~FederationConsensusManager</name>
+        <qualifiedname>themis::process::FederationConsensusManager::~FederationConsensusManager</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_consensus_manager.h" line="67" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_consensus_manager_1a93ed144cb9c3eafae695f8fbcfe674d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::process::FederationConsensusManager::AppendEntry</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>AppendEntry</name>
+        <qualifiedname>themis::process::FederationConsensusManager::AppendEntry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Append entry to consensus log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Append Entry.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements AppendEntry without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_consensus_manager.h" line="72" column="12" bodyfile="src/process/federation_consensus_manager.cpp" bodystart="600" bodyend="602"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_consensus_manager_1a1bbfd858112e34c26d7582b51833a834" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::FederationConsensusManager::IsLeader</definition>
+        <argsstring>() const</argsstring>
+        <name>IsLeader</name>
+        <qualifiedname>themis::process::FederationConsensusManager::IsLeader</qualifiedname>
+        <briefdescription>
+<para>Check if this node is leader. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_consensus_manager.h" line="77" column="8" bodyfile="src/process/federation_consensus_manager.cpp" bodystart="604" bodyend="606"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_consensus_manager_1a23a50ebb7b748f519e318388c1d03c4e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::FederationConsensusManager::GetLeader</definition>
+        <argsstring>() const</argsstring>
+        <name>GetLeader</name>
+        <qualifiedname>themis::process::FederationConsensusManager::GetLeader</qualifiedname>
+        <briefdescription>
+<para>Get current leader ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_consensus_manager.h" line="82" column="15" bodyfile="src/process/federation_consensus_manager.cpp" bodystart="608" bodyend="610"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_consensus_manager_1ab63d77cfcd9d8854bb943118f4f7b55b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::FederationConsensusManager::RequestVote</definition>
+        <argsstring>(const std::string &amp;candidate_id, uint64_t candidate_term, uint64_t candidate_last_log_index, uint64_t candidate_last_log_term)</argsstring>
+        <name>RequestVote</name>
+        <qualifiedname>themis::process::FederationConsensusManager::RequestVote</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>candidate_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>candidate_term</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>candidate_last_log_index</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>candidate_last_log_term</declname>
+        </param>
+        <briefdescription>
+<para>Request vote (called by remote candidate). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Request Vote.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">candidate_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the candidate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">candidate_term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">candidate_last_log_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">candidate_last_log_term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements RequestVote without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_consensus_manager.h" line="87" column="8" bodyfile="src/process/federation_consensus_manager.cpp" bodystart="621" bodyend="626"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_consensus_manager_1a8e37a1b500d3e65c4d06d8f81338e9fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::FederationConsensusManager::AppendEntries</definition>
+        <argsstring>(const std::string &amp;leader_id, uint64_t leader_term, uint64_t prev_log_index, uint64_t prev_log_term, const std::vector&lt; std::string &gt; &amp;entries, uint64_t leader_commit)</argsstring>
+        <name>AppendEntries</name>
+        <qualifiedname>themis::process::FederationConsensusManager::AppendEntries</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>leader_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>leader_term</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>prev_log_index</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>prev_log_term</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>leader_commit</declname>
+        </param>
+        <briefdescription>
+<para>Append entries RPC (heartbeat or replication). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Append Entries.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">leader_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the leader. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">leader_term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prev_log_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prev_log_term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">leader_commit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: FederationConsensusManagerImpl::ComputeCrc32(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_consensus_manager.h" line="94" column="8" bodyfile="src/process/federation_consensus_manager.cpp" bodystart="639" bodyend="653"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_federation_consensus_manager_1a3b52216057f6d9600c79630bb69cc4bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::FederationConsensusManager::Tick</definition>
+        <argsstring>()</argsstring>
+        <name>Tick</name>
+        <qualifiedname>themis::process::FederationConsensusManager::Tick</qualifiedname>
+        <briefdescription>
+<para>Tick state machine (called periodically). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Tick.</para>
+<para>Implements Tick without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federation_consensus_manager.h" line="102" column="8" bodyfile="src/process/federation_consensus_manager.cpp" bodystart="659" bodyend="661"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Raft-inspired consensus orchestrator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Coordinates quorum-based voting, leader election, log replication, and Byzantine fault tolerance across multiple Process Module replicas. </para>
+    </detaileddescription>
+    <location file="include/process/federation_consensus_manager.h" line="48" column="1" bodyfile="include/process/federation_consensus_manager.h" bodystart="48" bodyend="106"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_federation_consensus_manager_1a8e37a1b500d3e65c4d06d8f81338e9fe" prot="public" virt="non-virtual"><scope>themis::process::FederationConsensusManager</scope><name>AppendEntries</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_consensus_manager_1a93ed144cb9c3eafae695f8fbcfe674d5" prot="public" virt="non-virtual"><scope>themis::process::FederationConsensusManager</scope><name>AppendEntry</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_consensus_manager_1aa0df1072a8179e92be6a9410586c6c0d" prot="public" virt="non-virtual"><scope>themis::process::FederationConsensusManager</scope><name>Create</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_consensus_manager_1a1112ed4cbbeb67009b0dcaecf3338c17" prot="public" virt="non-virtual"><scope>themis::process::FederationConsensusManager</scope><name>FederationConsensusManager</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_consensus_manager_1a23a50ebb7b748f519e318388c1d03c4e" prot="public" virt="non-virtual"><scope>themis::process::FederationConsensusManager</scope><name>GetLeader</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_consensus_manager_1ac2695d95e2735835e2189c71754a8021" prot="private" virt="non-virtual"><scope>themis::process::FederationConsensusManager</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_consensus_manager_1a1bbfd858112e34c26d7582b51833a834" prot="public" virt="non-virtual"><scope>themis::process::FederationConsensusManager</scope><name>IsLeader</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_consensus_manager_1ab63d77cfcd9d8854bb943118f4f7b55b" prot="public" virt="non-virtual"><scope>themis::process::FederationConsensusManager</scope><name>RequestVote</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_consensus_manager_1a3b52216057f6d9600c79630bb69cc4bc" prot="public" virt="non-virtual"><scope>themis::process::FederationConsensusManager</scope><name>Tick</name></member>
+      <member refid="classthemis_1_1process_1_1_federation_consensus_manager_1a4d26096c1a8e217970e43c06613daa4c" prot="public" virt="non-virtual"><scope>themis::process::FederationConsensusManager</scope><name>~FederationConsensusManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

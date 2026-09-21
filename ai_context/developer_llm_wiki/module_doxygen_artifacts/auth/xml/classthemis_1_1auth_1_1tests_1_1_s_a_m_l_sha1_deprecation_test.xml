@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_sha1_deprecation_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::tests::SAMLSha1DeprecationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_sha1_deprecation_test_1a3640837f2852fb6542cf6e6c98a475dc" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1auth_1_1_s_a_m_l_authenticator" kindref="compound">SAMLAuthenticator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SAMLAuthenticator&gt; themis::auth::tests::SAMLSha1DeprecationTest::authenticator_allowed_</definition>
+        <argsstring></argsstring>
+        <name>authenticator_allowed_</name>
+        <qualifiedname>themis::auth::tests::SAMLSha1DeprecationTest::authenticator_allowed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_saml_authenticator_focused.cpp" line="531" column="21" bodyfile="tests/auth/test_saml_authenticator_focused.cpp" bodystart="531" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_sha1_deprecation_test_1aee25115f47da462e6269e6e94be39559" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::tests::SAMLSha1DeprecationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::auth::tests::SAMLSha1DeprecationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_saml_authenticator_focused.cpp" line="533" column="10" bodyfile="tests/auth/test_saml_authenticator_focused.cpp" bodystart="533" bodyend="541"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::SAMLSha1DeprecationTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_sha1_deprecation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::SAMLSha1DeprecationTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_sha1_deprecation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_saml_authenticator_focused.cpp" line="529" column="1" bodyfile="tests/auth/test_saml_authenticator_focused.cpp" bodystart="529" bodyend="542"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_sha1_deprecation_test_1a3640837f2852fb6542cf6e6c98a475dc" prot="protected" virt="non-virtual"><scope>themis::auth::tests::SAMLSha1DeprecationTest</scope><name>authenticator_allowed_</name></member>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_sha1_deprecation_test_1aee25115f47da462e6269e6e94be39559" prot="protected" virt="non-virtual"><scope>themis::auth::tests::SAMLSha1DeprecationTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

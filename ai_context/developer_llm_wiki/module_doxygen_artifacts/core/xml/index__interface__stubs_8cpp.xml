@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="index__interface__stubs_8cpp" kind="file" language="C++">
+    <compoundname>index_interface_stubs.cpp</compoundname>
+    <includes local="yes">themis/base/interfaces/index_interface.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>src/core/index_interface_stubs.cpp</label>
+        <link refid="index__interface__stubs_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis/base/interfaces/index_interface.h</label>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Forces MSVC to emit ISecondaryIndex, IVectorIndex, IGraphIndex constructor and destructor symbols into themis_base.dll.</para>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten.</para>
+</simplesect>
+When compiled with THEMIS_BASE_EXPORTS defined (i.e. as part of the themis_base shared library), THEMIS_BASE_API expands to __declspec(dllexport), which causes the MSVC linker to emit the implicit default constructor and virtual destructor of each abstract interface class. Without this translation unit those symbols are never emitted and every other module that derives from the interfaces fails to link with LNK2019 &quot;__imp_??0...&quot; / &quot;__imp_??1...&quot; errors.</para>
+<para>Nothing else should be placed in this file. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/base/interfaces/index_interface.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="src/core/index_interface_stubs.cpp"/>
+  </compounddef>
+</doxygen>

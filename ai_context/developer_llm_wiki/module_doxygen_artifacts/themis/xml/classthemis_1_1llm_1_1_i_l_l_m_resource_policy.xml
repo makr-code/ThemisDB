@@ -1,0 +1,365 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_i_l_l_m_resource_policy" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::ILLMResourcePolicy</compoundname>
+    <includes refid="illm__resource__policy_8h" local="no">illm_resource_policy.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1a177abdee5d577acaa162c25fd33cff2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::ILLMResourcePolicy::~ILLMResourcePolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ILLMResourcePolicy</name>
+        <qualifiedname>themis::llm::ILLMResourcePolicy::~ILLMResourcePolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/illm_resource_policy.h" line="47" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ab815f707b9c3398db20dcb85c0cc6605" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ILLMResourcePolicy::ILLMResourcePolicy</definition>
+        <argsstring>(const ILLMResourcePolicy &amp;)=delete</argsstring>
+        <name>ILLMResourcePolicy</name>
+        <qualifiedname>themis::llm::ILLMResourcePolicy::ILLMResourcePolicy</qualifiedname>
+        <param>
+          <type>const ILLMResourcePolicy &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/illm_resource_policy.h" line="50" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ae5a68236122dacf4a04b202cd0aed005" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ab815f707b9c3398db20dcb85c0cc6605" kindref="member">ILLMResourcePolicy</ref> &amp;</type>
+        <definition>ILLMResourcePolicy &amp; themis::llm::ILLMResourcePolicy::operator=</definition>
+        <argsstring>(const ILLMResourcePolicy &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::ILLMResourcePolicy::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ab815f707b9c3398db20dcb85c0cc6605" kindref="member">ILLMResourcePolicy</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/illm_resource_policy.h" line="51" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1a731210a7c2550b7e6e08fe514baa7d0c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::ILLMResourcePolicy::canAllocateContext</definition>
+        <argsstring>(int64_t token_count) const =0</argsstring>
+        <name>canAllocateContext</name>
+        <qualifiedname>themis::llm::ILLMResourcePolicy::canAllocateContext</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>token_count</declname>
+        </param>
+        <briefdescription>
+<para>Return true iff an inference request for <computeroutput>token_count</computeroutput> tokens is permitted under the current policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does not modify any state. A value of 0 for the policy&apos;s <ref refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1a3be8ffb71200fa892f109b08f23ce7e1" kindref="member">maxContextTokens()</ref> means unlimited — this method must return <computeroutput>true</computeroutput> for any positive <computeroutput>token_count</computeroutput> in that case.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>token_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total token budget (prompt + completion) requested. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when the request fits within the policy. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/illm_resource_policy.h" line="68" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1a3be8ffb71200fa892f109b08f23ce7e1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>int64_t</type>
+        <definition>virtual int64_t themis::llm::ILLMResourcePolicy::maxContextTokens</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxContextTokens</name>
+        <qualifiedname>themis::llm::ILLMResourcePolicy::maxContextTokens</qualifiedname>
+        <briefdescription>
+<para>Declared maximum context-token budget this policy allows per inference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Maximum token count; 0 signals unlimited. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/illm_resource_policy.h" line="75" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ae04a0601bfa99f98bf1aab234ed26ce9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::ILLMResourcePolicy::canLoadModel</definition>
+        <argsstring>() const =0</argsstring>
+        <name>canLoadModel</name>
+        <qualifiedname>themis::llm::ILLMResourcePolicy::canLoadModel</qualifiedname>
+        <briefdescription>
+<para>Return true iff loading one more model instance is permitted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Should consult <ref refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1a066f640549e1c3267d19d1f2e65aa686" kindref="member">activeModelInstances()</ref> to make the decision. Does not modify accounting state — call <ref refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ad3f55f124c69cbfc8b2a2f39cb8fd23f" kindref="member">onModelLoaded()</ref> only after the load succeeds.</para>
+<para><simplesect kind="return"><para>true when another model instance may be loaded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/illm_resource_policy.h" line="90" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1a401d133b61161b76842eac5b139c713c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>int32_t</type>
+        <definition>virtual int32_t themis::llm::ILLMResourcePolicy::maxModelInstances</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxModelInstances</name>
+        <qualifiedname>themis::llm::ILLMResourcePolicy::maxModelInstances</qualifiedname>
+        <briefdescription>
+<para>Declared maximum number of concurrently loaded model instances. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Maximum instance count; -1 signals unlimited. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/illm_resource_policy.h" line="97" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ad3f55f124c69cbfc8b2a2f39cb8fd23f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::llm::ILLMResourcePolicy::onModelLoaded</definition>
+        <argsstring>(const std::string &amp;model_id)=0</argsstring>
+        <name>onModelLoaded</name>
+        <qualifiedname>themis::llm::ILLMResourcePolicy::onModelLoaded</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Notify the policy that a model with <computeroutput>model_id</computeroutput> has been loaded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Updates internal accounting. Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique model identifier (non-empty string). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/illm_resource_policy.h" line="106" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1a61e797bd405ebff9f36bc41abad53953" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::llm::ILLMResourcePolicy::onModelUnloaded</definition>
+        <argsstring>(const std::string &amp;model_id)=0</argsstring>
+        <name>onModelUnloaded</name>
+        <qualifiedname>themis::llm::ILLMResourcePolicy::onModelUnloaded</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <briefdescription>
+<para>Notify the policy that the model <computeroutput>model_id</computeroutput> has been unloaded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Updates internal accounting. Implementations must clamp to zero on mismatched calls to prevent underflow. Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model identifier previously passed to <ref refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ad3f55f124c69cbfc8b2a2f39cb8fd23f" kindref="member">onModelLoaded()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/illm_resource_policy.h" line="116" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1a066f640549e1c3267d19d1f2e65aa686" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>int32_t</type>
+        <definition>virtual int32_t themis::llm::ILLMResourcePolicy::activeModelInstances</definition>
+        <argsstring>() const =0</argsstring>
+        <name>activeModelInstances</name>
+        <qualifiedname>themis::llm::ILLMResourcePolicy::activeModelInstances</qualifiedname>
+        <briefdescription>
+<para>Return the number of model instances currently tracked as active. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/illm_resource_policy.h" line="121" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ad638b9462ded60743a8bd6472304b930" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::ILLMResourcePolicy::canAllocateModelVRAM</definition>
+        <argsstring>(int64_t vram_mb) const =0</argsstring>
+        <name>canAllocateModelVRAM</name>
+        <qualifiedname>themis::llm::ILLMResourcePolicy::canAllocateModelVRAM</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>vram_mb</declname>
+        </param>
+        <briefdescription>
+<para>Return true iff allocating <computeroutput>vram_mb</computeroutput> MiB for a single model is permitted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>vram_mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>VRAM to allocate in mebibytes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when the allocation fits within the per-model ceiling. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/illm_resource_policy.h" line="133" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1aa3c4e181c5e5e189a3e279375de629e5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>int64_t</type>
+        <definition>virtual int64_t themis::llm::ILLMResourcePolicy::maxVRAMPerModelMB</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxVRAMPerModelMB</name>
+        <qualifiedname>themis::llm::ILLMResourcePolicy::maxVRAMPerModelMB</qualifiedname>
+        <briefdescription>
+<para>Declared maximum VRAM per model instance in mebibytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>VRAM ceiling in MiB; 0 signals unlimited. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/illm_resource_policy.h" line="140" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1a55e89f2c644d36a61babae828de610cf" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::ILLMResourcePolicy::isLLMEnabled</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>isLLMEnabled</name>
+        <qualifiedname>themis::llm::ILLMResourcePolicy::isLLMEnabled</qualifiedname>
+        <briefdescription>
+<para>Return true when any LLM acceleration is permitted by this policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implementations should return false when all model-instance or context-token limits are exhausted and no further work can be dispatched. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/illm_resource_policy.h" line="152" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ab4b7a09a2339950a94b31161baf4e323" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ILLMResourcePolicy::ILLMResourcePolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>ILLMResourcePolicy</name>
+        <qualifiedname>themis::llm::ILLMResourcePolicy::ILLMResourcePolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/illm_resource_policy.h" line="155" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ad5709b376c017a80168d8bec5b009891" prot="protected" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ILLMResourcePolicy::ILLMResourcePolicy</definition>
+        <argsstring>(ILLMResourcePolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>ILLMResourcePolicy</name>
+        <qualifiedname>themis::llm::ILLMResourcePolicy::ILLMResourcePolicy</qualifiedname>
+        <param>
+          <type>ILLMResourcePolicy &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/illm_resource_policy.h" line="156" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ad10debfd8d71eae20633f6fd3fbe998b" prot="protected" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ab815f707b9c3398db20dcb85c0cc6605" kindref="member">ILLMResourcePolicy</ref> &amp;</type>
+        <definition>ILLMResourcePolicy &amp; themis::llm::ILLMResourcePolicy::operator=</definition>
+        <argsstring>(ILLMResourcePolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::ILLMResourcePolicy::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ab815f707b9c3398db20dcb85c0cc6605" kindref="member">ILLMResourcePolicy</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/illm_resource_policy.h" line="157" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract LLM resource-limit policy. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Controls the three primary LLM resource axes:<itemizedlist>
+<listitem><para><bold>Context tokens</bold> — maximum prompt + completion tokens per inference call.</para>
+</listitem><listitem><para><bold>Model instances</bold> — maximum number of models loaded simultaneously.</para>
+</listitem><listitem><para><bold>Per-model VRAM</bold> — maximum video RAM reserved per loaded model instance.</para>
+</listitem></itemizedlist>
+</para>
+<para>Implementations are installed into EditionManager via <computeroutput>EditionManager::installLLMResourcePolicy()</computeroutput> and are queried at every LLM dispatch point. </para>
+    </detaileddescription>
+    <location file="include/themis/llm/illm_resource_policy.h" line="45" column="1" bodyfile="include/themis/llm/illm_resource_policy.h" bodystart="45" bodyend="158"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1a066f640549e1c3267d19d1f2e65aa686" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMResourcePolicy</scope><name>activeModelInstances</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1a731210a7c2550b7e6e08fe514baa7d0c" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMResourcePolicy</scope><name>canAllocateContext</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ad638b9462ded60743a8bd6472304b930" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMResourcePolicy</scope><name>canAllocateModelVRAM</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ae04a0601bfa99f98bf1aab234ed26ce9" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMResourcePolicy</scope><name>canLoadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ab815f707b9c3398db20dcb85c0cc6605" prot="public" virt="non-virtual"><scope>themis::llm::ILLMResourcePolicy</scope><name>ILLMResourcePolicy</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ab4b7a09a2339950a94b31161baf4e323" prot="protected" virt="non-virtual"><scope>themis::llm::ILLMResourcePolicy</scope><name>ILLMResourcePolicy</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ad5709b376c017a80168d8bec5b009891" prot="protected" virt="non-virtual"><scope>themis::llm::ILLMResourcePolicy</scope><name>ILLMResourcePolicy</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1a55e89f2c644d36a61babae828de610cf" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMResourcePolicy</scope><name>isLLMEnabled</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1a3be8ffb71200fa892f109b08f23ce7e1" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMResourcePolicy</scope><name>maxContextTokens</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1a401d133b61161b76842eac5b139c713c" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMResourcePolicy</scope><name>maxModelInstances</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1aa3c4e181c5e5e189a3e279375de629e5" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMResourcePolicy</scope><name>maxVRAMPerModelMB</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ad3f55f124c69cbfc8b2a2f39cb8fd23f" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMResourcePolicy</scope><name>onModelLoaded</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1a61e797bd405ebff9f36bc41abad53953" prot="public" virt="pure-virtual"><scope>themis::llm::ILLMResourcePolicy</scope><name>onModelUnloaded</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ae5a68236122dacf4a04b202cd0aed005" prot="public" virt="non-virtual"><scope>themis::llm::ILLMResourcePolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1ad10debfd8d71eae20633f6fd3fbe998b" prot="protected" virt="non-virtual"><scope>themis::llm::ILLMResourcePolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy_1a177abdee5d577acaa162c25fd33cff2e" prot="public" virt="virtual"><scope>themis::llm::ILLMResourcePolicy</scope><name>~ILLMResourcePolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

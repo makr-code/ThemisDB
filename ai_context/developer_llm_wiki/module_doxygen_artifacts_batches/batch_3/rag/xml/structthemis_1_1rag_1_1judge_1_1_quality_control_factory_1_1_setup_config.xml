@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::QualityControlFactory::SetupConfig</compoundname>
+    <includes refid="quality__control__factory_8h" local="no">quality_control_factory.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a162a1a21ab5fa0756a020bd4dd4599be" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::QualityControlFactory::SetupConfig::nli_model_path</definition>
+        <argsstring></argsstring>
+        <name>nli_model_path</name>
+        <qualifiedname>themis::rag::judge::QualityControlFactory::SetupConfig::nli_model_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="37" column="21" bodyfile="include/rag/quality_control_factory.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1aa15a5515f2c36a419cbc301f805909b7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::QualityControlFactory::SetupConfig::nli_tokenizer_path</definition>
+        <argsstring></argsstring>
+        <name>nli_tokenizer_path</name>
+        <qualifiedname>themis::rag::judge::QualityControlFactory::SetupConfig::nli_tokenizer_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="38" column="21" bodyfile="include/rag/quality_control_factory.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a42a5f806155a872a750efc8751b2f91c" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; llm::InferenceEngineEnhanced &gt;</type>
+        <definition>std::shared_ptr&lt;llm::InferenceEngineEnhanced&gt; themis::rag::judge::QualityControlFactory::SetupConfig::inference_engine</definition>
+        <argsstring></argsstring>
+        <name>inference_engine</name>
+        <qualifiedname>themis::rag::judge::QualityControlFactory::SetupConfig::inference_engine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="41" column="25" bodyfile="include/rag/quality_control_factory.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1aced2c22238db2ebf22e60b2205f14bd2" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1a6e516ee8f411771fd663aae5c6cb1ac7" kindref="member">QCMode</ref></type>
+        <definition>QCMode themis::rag::judge::QualityControlFactory::SetupConfig::default_mode</definition>
+        <argsstring></argsstring>
+        <name>default_mode</name>
+        <qualifiedname>themis::rag::judge::QualityControlFactory::SetupConfig::default_mode</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1rag_1_1judge_1a6e516ee8f411771fd663aae5c6cb1ac7a0cb4635d100151dcaac6f91db856c402" kindref="member">QCMode::BALANCED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="44" column="16" bodyfile="include/rag/quality_control_factory.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a67f0d41f9840c06eeb48b721c204d70c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::QualityControlFactory::SetupConfig::enable_nli</definition>
+        <argsstring></argsstring>
+        <name>enable_nli</name>
+        <qualifiedname>themis::rag::judge::QualityControlFactory::SetupConfig::enable_nli</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="47" column="14" bodyfile="include/rag/quality_control_factory.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a1e8f450f38bb793e4a25cd42ae65312f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::QualityControlFactory::SetupConfig::enable_geval</definition>
+        <argsstring></argsstring>
+        <name>enable_geval</name>
+        <qualifiedname>themis::rag::judge::QualityControlFactory::SetupConfig::enable_geval</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="48" column="14" bodyfile="include/rag/quality_control_factory.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a137153e8b2183d1635e8dd915d2a0dfe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::QualityControlFactory::SetupConfig::enable_llm_judge</definition>
+        <argsstring></argsstring>
+        <name>enable_llm_judge</name>
+        <qualifiedname>themis::rag::judge::QualityControlFactory::SetupConfig::enable_llm_judge</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="49" column="14" bodyfile="include/rag/quality_control_factory.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a0c8f79a922d97945f54d1967a2d6afbd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::QualityControlFactory::SetupConfig::enable_caching</definition>
+        <argsstring></argsstring>
+        <name>enable_caching</name>
+        <qualifiedname>themis::rag::judge::QualityControlFactory::SetupConfig::enable_caching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="52" column="14" bodyfile="include/rag/quality_control_factory.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a6799e88e3dcf1f3c820b8afab4e23e4b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::QualityControlFactory::SetupConfig::use_gpu_for_nli</definition>
+        <argsstring></argsstring>
+        <name>use_gpu_for_nli</name>
+        <qualifiedname>themis::rag::judge::QualityControlFactory::SetupConfig::use_gpu_for_nli</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="53" column="14" bodyfile="include/rag/quality_control_factory.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1ac90e2f857bd92fcc43848878793afad5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::QualityControlFactory::SetupConfig::num_threads</definition>
+        <argsstring></argsstring>
+        <name>num_threads</name>
+        <qualifiedname>themis::rag::judge::QualityControlFactory::SetupConfig::num_threads</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="54" column="13" bodyfile="include/rag/quality_control_factory.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a39e0c8e73084b3ed1df35763741f581a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::QualityControlFactory::SetupConfig::log_to_continuous_learning</definition>
+        <argsstring></argsstring>
+        <name>log_to_continuous_learning</name>
+        <qualifiedname>themis::rag::judge::QualityControlFactory::SetupConfig::log_to_continuous_learning</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="57" column="14" bodyfile="include/rag/quality_control_factory.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a82bd20cbd9e99e4791af8ab8f6d40324" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::QualityControlFactory::SetupConfig::cl_endpoint</definition>
+        <argsstring></argsstring>
+        <name>cl_endpoint</name>
+        <qualifiedname>themis::rag::judge::QualityControlFactory::SetupConfig::cl_endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="58" column="21" bodyfile="include/rag/quality_control_factory.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for quality control setup. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/quality_control_factory.h" line="35" column="5" bodyfile="include/rag/quality_control_factory.h" bodystart="35" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a82bd20cbd9e99e4791af8ab8f6d40324" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlFactory::SetupConfig</scope><name>cl_endpoint</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1aced2c22238db2ebf22e60b2205f14bd2" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlFactory::SetupConfig</scope><name>default_mode</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a0c8f79a922d97945f54d1967a2d6afbd" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlFactory::SetupConfig</scope><name>enable_caching</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a1e8f450f38bb793e4a25cd42ae65312f" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlFactory::SetupConfig</scope><name>enable_geval</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a137153e8b2183d1635e8dd915d2a0dfe" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlFactory::SetupConfig</scope><name>enable_llm_judge</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a67f0d41f9840c06eeb48b721c204d70c" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlFactory::SetupConfig</scope><name>enable_nli</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a42a5f806155a872a750efc8751b2f91c" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlFactory::SetupConfig</scope><name>inference_engine</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a39e0c8e73084b3ed1df35763741f581a" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlFactory::SetupConfig</scope><name>log_to_continuous_learning</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a162a1a21ab5fa0756a020bd4dd4599be" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlFactory::SetupConfig</scope><name>nli_model_path</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1aa15a5515f2c36a419cbc301f805909b7" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlFactory::SetupConfig</scope><name>nli_tokenizer_path</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1ac90e2f857bd92fcc43848878793afad5" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlFactory::SetupConfig</scope><name>num_threads</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config_1a6799e88e3dcf1f3c820b8afab4e23e4b" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlFactory::SetupConfig</scope><name>use_gpu_for_nli</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

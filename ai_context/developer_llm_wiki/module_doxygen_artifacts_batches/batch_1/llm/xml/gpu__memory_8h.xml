@@ -1,0 +1,482 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gpu__memory_8h" kind="file" language="C++">
+    <compoundname>gpu_memory.h</compoundname>
+    <includes refid="vram__allocator_8h" local="yes">llm/lora_framework/vram_allocator.h</includes>
+    <includes local="yes">acceleration/compute_backend.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="gpu__embedding__layer_8h" local="yes">include/llm/lora_framework/gpu_embedding_layer.h</includedby>
+    <includedby refid="gpu__lora__layers_8h" local="yes">include/llm/lora_framework/gpu_lora_layers.h</includedby>
+    <includedby refid="gpu__tensor_8h" local="yes">include/llm/lora_framework/gpu_tensor.h</includedby>
+    <includedby refid="multi__gpu_8h" local="yes">include/llm/lora_framework/multi_gpu.h</includedby>
+    <includedby refid="paged__memory__manager_8h" local="yes">include/llm/lora_framework/paged_memory_manager.h</includedby>
+    <includedby refid="gpu__memory_8cpp" local="yes">src/llm/lora_framework/gpu_memory.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/lora_framework/gpu_memory.h</label>
+        <link refid="gpu__memory_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>llm/lora_framework/vram_allocator.h</label>
+        <link refid="vram__allocator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>acceleration/compute_backend.h</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="13">
+        <label>include/llm/lora_framework/custom_allreduce.h</label>
+        <link refid="custom__allreduce_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/llm/lora_framework/distributed_dataloader.h</label>
+        <link refid="distributed__dataloader_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/llm/lora_framework/flash_lora.h</label>
+        <link refid="flash__lora_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>include/llm/lora_framework/gpu_data_loader.h</label>
+        <link refid="gpu__data__loader_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/llm/lora_framework/gpu_embedding_layer.h</label>
+        <link refid="gpu__embedding__layer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/llm/lora_framework/gpu_lora_layers.h</label>
+        <link refid="gpu__lora__layers_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/lora_framework/gpu_memory.h</label>
+        <link refid="gpu__memory_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/llm/lora_framework/gpu_tensor.h</label>
+        <link refid="gpu__tensor_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/llm/lora_framework/gpu_training_loop.h</label>
+        <link refid="gpu__training__loop_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>include/llm/lora_framework/gpu_utilization_monitor.h</label>
+        <link refid="gpu__utilization__monitor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>include/llm/lora_framework/gradient_checkpointing.h</label>
+        <link refid="gradient__checkpointing_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>include/llm/lora_framework/multi_gpu.h</label>
+        <link refid="multi__gpu_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/llm/lora_framework/multi_gpu_lora_layer.h</label>
+        <link refid="multi__gpu__lora__layer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/llm/lora_framework/multi_gpu_trainer.h</label>
+        <link refid="multi__gpu__trainer_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/llm/lora_framework/nccl_backend.h</label>
+        <link refid="nccl__backend_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>include/llm/lora_framework/paged_memory_manager.h</label>
+        <link refid="paged__memory__manager_8h"/>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>include/llm/lora_framework/paged_optimizer.h</label>
+        <link refid="paged__optimizer_8h"/>
+        <childnode refid="38" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/llm/lora_framework/rccl_backend.h</label>
+        <link refid="rccl__backend_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>include/llm/lora_framework/sequence_packer.h</label>
+        <link refid="sequence__packer_8h"/>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>src/llm/lora_framework/custom_allreduce.cpp</label>
+        <link refid="custom__allreduce_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/llm/lora_framework/distributed_dataloader.cpp</label>
+        <link refid="distributed__dataloader_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/llm/lora_framework/flash_lora.cpp</label>
+        <link refid="flash__lora_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/llm/lora_framework/gpu_data_loader.cpp</label>
+        <link refid="gpu__data__loader_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/llm/lora_framework/gpu_embedding_layer.cpp</label>
+        <link refid="gpu__embedding__layer_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/llm/lora_framework/gpu_lora_layers.cpp</label>
+        <link refid="gpu__lora__layers_8cpp"/>
+      </node>
+      <node id="40">
+        <label>src/llm/lora_framework/gpu_memory.cpp</label>
+        <link refid="gpu__memory_8cpp"/>
+      </node>
+      <node id="31">
+        <label>src/llm/lora_framework/gpu_tensor.cpp</label>
+        <link refid="gpu__tensor_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/llm/lora_framework/gpu_training_loop.cpp</label>
+        <link refid="gpu__training__loop_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/llm/lora_framework/gpu_utilization_monitor.cpp</label>
+        <link refid="gpu__utilization__monitor_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/llm/lora_framework/gradient_checkpointing.cpp</label>
+        <link refid="gradient__checkpointing_8cpp"/>
+      </node>
+      <node id="35">
+        <label>src/llm/lora_framework/multi_gpu.cpp</label>
+        <link refid="multi__gpu_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/llm/lora_framework/multi_gpu_lora_layer.cpp</label>
+        <link refid="multi__gpu__lora__layer_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/llm/lora_framework/multi_gpu_trainer.cpp</label>
+        <link refid="multi__gpu__trainer_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/llm/lora_framework/nccl_backend.cpp</label>
+        <link refid="nccl__backend_8cpp"/>
+      </node>
+      <node id="39">
+        <label>src/llm/lora_framework/paged_memory_manager.cpp</label>
+        <link refid="paged__memory__manager_8cpp"/>
+      </node>
+      <node id="38">
+        <label>src/llm/lora_framework/paged_optimizer.cpp</label>
+        <link refid="paged__optimizer_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/llm/lora_framework/rccl_backend.cpp</label>
+        <link refid="rccl__backend_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/llm/lora_framework/sequence_packer.cpp</label>
+        <link refid="sequence__packer_8cpp"/>
+      </node>
+      <node id="32">
+        <label>tests/llm/test_gpu_tensor_dtype_cast_bridge.cpp</label>
+        <link refid="test__gpu__tensor__dtype__cast__bridge_8cpp"/>
+      </node>
+      <node id="33">
+        <label>tests/llm/test_gpu_tensor_legacy_bridge.cpp</label>
+        <link refid="test__gpu__tensor__legacy__bridge_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_device" prot="public">themis::llm::lora::Device</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager" prot="public">themis::llm::lora::GPUMemoryManager</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1_1_backend_info" prot="public">themis::llm::lora::GPUMemoryManager::BackendInfo</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="vram__allocator_8h" kindref="compound">llm/lora_framework/vram_allocator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;acceleration/compute_backend.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">lora</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13" kindref="member">DeviceType</ref><sp/>{</highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13a2b55387dd066c5bac646ac61543d152d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13a2b55387dd066c5bac646ac61543d152d" kindref="member">CPU</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CPU<sp/>memory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13aa33b7755e5f9b504d2d038eaca4ff28d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13aa33b7755e5f9b504d2d038eaca4ff28d" kindref="member">CUDA</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NVIDIA<sp/>GPU<sp/>(CUDA)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13a5e4576beae2ab86d6ad1b8b1700d2e11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13a5e4576beae2ab86d6ad1b8b1700d2e11" kindref="member">HIP</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AMD<sp/>GPU<sp/>(HIP)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13ac60cacb57b9e78f018a9d973bee2f801" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13ac60cacb57b9e78f018a9d973bee2f801" kindref="member">VULKAN</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Vulkan<sp/>compute</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13aeee703cc0a96c14f0661af3ae9420d08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13aeee703cc0a96c14f0661af3ae9420d08" kindref="member">DIRECTX</ref><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DirectX<sp/>compute<sp/>(Windows)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1lora_1_1_device" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1lora_1_1_device_1a25c8faba0034291b1dc56055a791b572" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13" kindref="member">DeviceType</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a25c8faba0034291b1dc56055a791b572" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13a2b55387dd066c5bac646ac61543d152d" kindref="member">DeviceType::CPU</ref>;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1lora_1_1_device_1a5705908faf59eb950dde00a509295fc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a5705908faf59eb950dde00a509295fc1" kindref="member">device_id</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>multi-GPU<sp/>systems</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Factory<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ae024491592a4bfea3823e46dd1186544" kindref="member">cpu</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>{<ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13a2b55387dd066c5bac646ac61543d152d" kindref="member">DeviceType::CPU</ref>,<sp/>0};<sp/>}</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1lora_1_1_device_1a2b36573071ecbef41d06d30b2436928b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a2b36573071ecbef41d06d30b2436928b" kindref="member">cuda</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>0)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>{<ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13aa33b7755e5f9b504d2d038eaca4ff28d" kindref="member">DeviceType::CUDA</ref>,<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">};<sp/>}</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1lora_1_1_device_1a65d6da6bf2c754a59f415e3808572609" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a65d6da6bf2c754a59f415e3808572609" kindref="member">hip</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>0)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>{<ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13a5e4576beae2ab86d6ad1b8b1700d2e11" kindref="member">DeviceType::HIP</ref>,<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">};<sp/>}</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1llm_1_1lora_1_1_device_1a2dadc00be8eeb748622cf5c22cf6a55e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a2dadc00be8eeb748622cf5c22cf6a55e" kindref="member">vulkan</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>0)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>{<ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13ac60cacb57b9e78f018a9d973bee2f801" kindref="member">DeviceType::VULKAN</ref>,<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">};<sp/>}</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1llm_1_1lora_1_1_device_1a36f6972d77f34cde786cd3cfa1bfe602" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a36f6972d77f34cde786cd3cfa1bfe602" kindref="member">directx</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>0)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>{<ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13aeee703cc0a96c14f0661af3ae9420d08" kindref="member">DeviceType::DIRECTX</ref>,<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">};<sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1llm_1_1lora_1_1_device_1ab4f21ce10a6235a44fdeb99d3ae123a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1ab4f21ce10a6235a44fdeb99d3ae123a7" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>&amp;<sp/>other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a25c8faba0034291b1dc56055a791b572" kindref="member">type</ref><sp/>==<sp/>other.<ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a25c8faba0034291b1dc56055a791b572" kindref="member">type</ref><sp/>&amp;&amp;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a5705908faf59eb950dde00a509295fc1" kindref="member">device_id</ref><sp/>==<sp/>other.<ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a5705908faf59eb950dde00a509295fc1" kindref="member">device_id</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1lora_1_1_device_1a998ffbb032f019ebf1153f78688b274c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a998ffbb032f019ebf1153f78688b274c" kindref="member">operator!=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>&amp;<sp/>other)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!(*</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>==<sp/>other);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a4a7f81c6280f07b3d8aca1a7809d3ab7" kindref="member">to_string</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a50d40ac1b375eb5d8e8562fcecb30d32" kindref="member">GPUMemoryManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a50d40ac1b375eb5d8e8562fcecb30d32" kindref="member">GPUMemoryManager</ref>();</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a50d40ac1b375eb5d8e8562fcecb30d32" kindref="member">GPUMemoryManager</ref>(acceleration::BackendType<sp/>backend);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1abca5ba76049ed5716bcc130daa7b579b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1abca5ba76049ed5716bcc130daa7b579b" kindref="member">~GPUMemoryManager</ref>();</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy,<sp/>allow<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a512675a81e8983e948c6510355b2e3cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a512675a81e8983e948c6510355b2e3cc" kindref="member">GPUMemoryManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a50d40ac1b375eb5d8e8562fcecb30d32" kindref="member">GPUMemoryManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a88b613080296a3ff89126c9ac1462287" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a50d40ac1b375eb5d8e8562fcecb30d32" kindref="member">GPUMemoryManager</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a88b613080296a3ff89126c9ac1462287" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a50d40ac1b375eb5d8e8562fcecb30d32" kindref="member">GPUMemoryManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a50d40ac1b375eb5d8e8562fcecb30d32" kindref="member">GPUMemoryManager</ref>(<ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a50d40ac1b375eb5d8e8562fcecb30d32" kindref="member">GPUMemoryManager</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a50d40ac1b375eb5d8e8562fcecb30d32" kindref="member">GPUMemoryManager</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a50d40ac1b375eb5d8e8562fcecb30d32" kindref="member">GPUMemoryManager</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator" kindref="compound">VRAMAllocator</ref>*<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1aa2036bbfeed98750d99b59ff32ae4a76" kindref="member">get_allocator</ref>(const<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>&amp;<sp/>device);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a99c37da1dc560431b2c3a78e0facbb58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a99c37da1dc560431b2c3a78e0facbb58" kindref="member">default_device</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>default_device_;<sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a01762919b00453d282cd44d1b0b63111" kindref="member">is_device_available</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>&amp;<sp/>device)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Device&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a2b3026d081af27f5ba6366281ffef7a0" kindref="member">available_devices</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1ac9701eb8ded497e24583b95045466cfb" kindref="member">auto_select_device</ref>();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1_1_backend_info" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1_1_backend_info" kindref="compound">BackendInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1_1_backend_info_1a7371864317d5cb48c5949b3a3a92c5cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acceleration::BackendType<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1_1_backend_info_1a7371864317d5cb48c5949b3a3a92c5cd" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1_1_backend_info_1a09d770d92d956e772ed909b9d947dd3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1_1_backend_info_1a09d770d92d956e772ed909b9d947dd3b" kindref="member">available</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1_1_backend_info_1a7248197c35b3db6451ba946bb5b0bd52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1_1_backend_info_1a7248197c35b3db6451ba946bb5b0bd52" kindref="member">vram_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1_1_backend_info_1a2d45d0362c44f0255613c6a388231c27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1_1_backend_info_1a2d45d0362c44f0255613c6a388231c27" kindref="member">compute_units</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1_1_backend_info_1a4afbec6aa9d489011fef7131287bf584" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1_1_backend_info_1a4afbec6aa9d489011fef7131287bf584" kindref="member">device_name</ref>;</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1_1_backend_info_1a77443673f087d3c698d28551e3c7e172" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1_1_backend_info_1a77443673f087d3c698d28551e3c7e172" kindref="member">version</ref>;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;BackendInfo&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1a6e0e6da9722095bc0332de9534f8dc92" kindref="member">detect_backends</ref>();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_v_r_a_m_allocator_1_1_stats" kindref="compound">VRAMAllocator::Stats</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_memory_manager_1aea830f45bb45b2841489c9c1cc2716d5" kindref="member">get_stats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref>&amp;<sp/>device)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref><sp/>default_device_;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allocators<sp/>for<sp/>different<sp/>backends</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;VRAMAllocator&gt;<sp/>cpu_allocator_;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;VRAMAllocator&gt;<sp/>cuda_allocator_;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;VRAMAllocator&gt;<sp/>hip_allocator_;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;VRAMAllocator&gt;<sp/>vulkan_allocator_;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;VRAMAllocator&gt;<sp/>directx_allocator_;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initialize_allocators(acceleration::BackendType<sp/>preferred_backend);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>acceleration::BackendType<sp/>device_to_backend(<ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13" kindref="member">DeviceType</ref><sp/>type);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="namespacethemis_1_1llm_1_1lora_1abda54e6aeac09ee98c6b3c7bd763fc6e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1abda54e6aeac09ee98c6b3c7bd763fc6e" kindref="member">device_type_to_string</ref>(<ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13" kindref="member">DeviceType</ref><sp/>type)<sp/>{</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(type)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13a2b55387dd066c5bac646ac61543d152d" kindref="member">DeviceType::CPU</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CPU&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13aa33b7755e5f9b504d2d038eaca4ff28d" kindref="member">DeviceType::CUDA</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CUDA&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13a5e4576beae2ab86d6ad1b8b1700d2e11" kindref="member">DeviceType::HIP</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;HIP&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13ac60cacb57b9e78f018a9d973bee2f801" kindref="member">DeviceType::VULKAN</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Vulkan&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a67601217ec267c80cba495520044dd13aeee703cc0a96c14f0661af3ae9420d08" kindref="member">DeviceType::DIRECTX</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;DirectX&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Unknown&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1llm_1_1lora_1_1_device_1a4a7f81c6280f07b3d8aca1a7809d3ab7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a4a7f81c6280f07b3d8aca1a7809d3ab7" kindref="member">Device::to_string</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1abda54e6aeac09ee98c6b3c7bd763fc6e" kindref="member">device_type_to_string</ref>(<ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a25c8faba0034291b1dc56055a791b572" kindref="member">type</ref>)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(<ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a5705908faf59eb950dde00a509295fc1" kindref="member">device_id</ref>);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>lora</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/lora_framework/gpu_memory.h"/>
+  </compounddef>
+</doxygen>

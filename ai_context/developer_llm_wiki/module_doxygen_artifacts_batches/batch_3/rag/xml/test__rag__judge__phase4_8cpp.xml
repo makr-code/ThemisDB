@@ -1,0 +1,1143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__rag__judge__phase4_8cpp" kind="file" language="C++">
+    <compoundname>test_rag_judge_phase4.cpp</compoundname>
+    <includes refid="rubric__evaluator_8h" local="yes">rag/rubric_evaluator.h</includes>
+    <includes refid="cot__evaluator_8h" local="yes">rag/cot_evaluator.h</includes>
+    <includes refid="geval__evaluator_8h" local="yes">rag/geval_evaluator.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <incdepgraph>
+      <node id="7">
+        <label>rag/cot_evaluator.h</label>
+        <link refid="cot__evaluator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>rag/geval_evaluator.h</label>
+        <link refid="geval__evaluator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rag/rubric_evaluator.h</label>
+        <link refid="rubric__evaluator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/rag/test_rag_judge_phase4.cpp</label>
+        <link refid="test__rag__judge__phase4_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_rubric_evaluator_test" prot="public">RubricEvaluatorTest</innerclass>
+    <innerclass refid="class_co_t_evaluator_test" prot="public">CoTEvaluatorTest</innerclass>
+    <innerclass refid="class_phase4_integration_test" prot="public">Phase4IntegrationTest</innerclass>
+    <innerclass refid="class_g_eval_evaluator_test" prot="public">GEvalEvaluatorTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RubricEvaluatorTest, DefaultRubricCreation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_rubric_evaluator_test" kindref="compound">RubricEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>DefaultRubricCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="27" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="27" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1a3ebafcc2cab8cf8a2109cf621e8d231e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RubricEvaluatorTest, RubricValidation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_rubric_evaluator_test" kindref="compound">RubricEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>RubricValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="48" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="48" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1ad4c998e9740438d1704d1792149ddc9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RubricEvaluatorTest, ScoreNormalization)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_rubric_evaluator_test" kindref="compound">RubricEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>ScoreNormalization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="58" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="58" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1a54804fe0a822242a8b6bb3ae248fcf5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RubricEvaluatorTest, BasicEvaluation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_rubric_evaluator_test" kindref="compound">RubricEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>BasicEvaluation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="64" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="64" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1afe0db208e66653406d2b9b1aae7c8470" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RubricEvaluatorTest, DimensionScores)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_rubric_evaluator_test" kindref="compound">RubricEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>DimensionScores</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="79" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="79" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1ad580ae0cf09015e96e1513e7afe8b8a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RubricEvaluatorTest, LoadRubricFromJSON)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_rubric_evaluator_test" kindref="compound">RubricEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>LoadRubricFromJSON</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="100" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="100" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1a5a3351875ab49201c9b591eae466fbf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RubricEvaluatorTest, CustomRubric)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_rubric_evaluator_test" kindref="compound">RubricEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>CustomRubric</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="113" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="113" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1af95cf6ebf260480294b10369ebb530a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CoTEvaluatorTest, BasicEvaluation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_co_t_evaluator_test" kindref="compound">CoTEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>BasicEvaluation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="153" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="153" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1a343d0ee2af2a376cb7152b6ddf898789" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CoTEvaluatorTest, ReasoningStepsParsing)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_co_t_evaluator_test" kindref="compound">CoTEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>ReasoningStepsParsing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="166" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="166" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1ad0e50e69d127bf10a253b89212dd4e5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CoTEvaluatorTest, ScoreExtraction)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_co_t_evaluator_test" kindref="compound">CoTEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>ScoreExtraction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="177" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="177" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1a4797db35592da0bb5fca49c8c4676116" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CoTEvaluatorTest, ScoreExtractionFallback)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_co_t_evaluator_test" kindref="compound">CoTEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>ScoreExtractionFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="188" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="188" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1a337974500ebfce193348c60791e64a8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CoTEvaluatorTest, LogicConsistencyCheck)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_co_t_evaluator_test" kindref="compound">CoTEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>LogicConsistencyCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="200" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="200" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1afdb9b763397888c1e5873c8c7295a5da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CoTEvaluatorTest, ConfigurableSteps)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_co_t_evaluator_test" kindref="compound">CoTEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>ConfigurableSteps</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="214" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="214" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1a226a391902c7c3015a804250238388bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CoTEvaluatorTest, DifferentDimensions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_co_t_evaluator_test" kindref="compound">CoTEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>DifferentDimensions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="230" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="230" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1af37233f2ec0dbf8f01d7f9549702cad6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(Phase4IntegrationTest, RubricAndCoTTogether)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_phase4_integration_test" kindref="compound">Phase4IntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>RubricAndCoTTogether</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="258" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="258" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1af1094ed1e82afa2c221351aa7ef31629" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(Phase4IntegrationTest, CustomRubricWithCoT)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_phase4_integration_test" kindref="compound">Phase4IntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>CustomRubricWithCoT</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="279" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="279" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1a34afa746815e96907d4ccb22b5880cd9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(Phase4IntegrationTest, PerformanceCheck)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_phase4_integration_test" kindref="compound">Phase4IntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>PerformanceCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="308" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="308" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1a8b69ac5275f398734f5ad6744f748be1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(Phase4IntegrationTest, EmptyInput)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_phase4_integration_test" kindref="compound">Phase4IntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyInput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="325" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="325" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1a0d89d709dfcfc7514c7a55387b5ac095" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GEvalEvaluatorTest, BasicEvaluation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_eval_evaluator_test" kindref="compound">GEvalEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>BasicEvaluation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="356" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="356" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1adfc123d7be9c519b6b8cdfb01f364664" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GEvalEvaluatorTest, TokenProbabilities)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_eval_evaluator_test" kindref="compound">GEvalEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>TokenProbabilities</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="371" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="371" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1ab23458f43b9c827ee28e37f300f8e905" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GEvalEvaluatorTest, MultipleSamples)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_eval_evaluator_test" kindref="compound">GEvalEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleSamples</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="392" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="392" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1a2eb5c6c2dc42b99cb8cd24de8b420f5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GEvalEvaluatorTest, DifferentDimensions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_eval_evaluator_test" kindref="compound">GEvalEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>DifferentDimensions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="408" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="408" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1a69e3161d8f6ab7bfaee894e5ea05e066" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GEvalEvaluatorTest, ScoreComputation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_eval_evaluator_test" kindref="compound">GEvalEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>ScoreComputation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="432" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="432" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1ac8bda9952c2c66e37e20595c8aad0543" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GEvalEvaluatorTest, ConfidenceComputation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_eval_evaluator_test" kindref="compound">GEvalEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>ConfidenceComputation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="442" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="442" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1af69bb4ccfa4f70b253c06d60eaf4bf58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GEvalEvaluatorTest, AggregationMethods)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_eval_evaluator_test" kindref="compound">GEvalEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>AggregationMethods</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="458" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="458" bodyend="469"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1a31bf11e0a87f9abfe54283076424dbea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GEvalEvaluatorTest, EmptyDocuments)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_eval_evaluator_test" kindref="compound">GEvalEvaluatorTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyDocuments</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="471" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="471" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase4_8cpp_1a12f5fcfdfd5d284659a88163bdf322f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(Phase4IntegrationTest, AllThreeEvaluators)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_phase4_integration_test" kindref="compound">Phase4IntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>AllThreeEvaluators</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase4.cpp" line="488" column="1" bodyfile="tests/rag/test_rag_judge_phase4.cpp" bodystart="488" bodyend="510"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for RAG Judge Phase 4 (Rubric &amp; CoT &amp; G-Eval). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rubric__evaluator_8h" kindref="compound">rag/rubric_evaluator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cot__evaluator_8h" kindref="compound">rag/cot_evaluator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geval__evaluator_8h" kindref="compound">rag/geval_evaluator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">themis::rag::judge</ref>;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Rubric<sp/>Evaluator<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17" refid="class_rubric_evaluator_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_rubric_evaluator_test" kindref="compound">RubricEvaluatorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_config" kindref="compound">RubricEvaluator::Config</ref><sp/><ref refid="class_rubric_evaluator_test_1a977fd470ec381a6ac217e049f2b26f83" kindref="member">config</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="class_rubric_evaluator_test_1a4374642cadc31a18abddff36e303ca50" kindref="member">sample_docs</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France<sp/>with<sp/>over<sp/>2<sp/>million<sp/>people.&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>Eiffel<sp/>Tower<sp/>is<sp/>an<sp/>iconic<sp/>Paris<sp/>landmark<sp/>built<sp/>in<sp/>1889.&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_rubric_evaluator_test" kindref="compound">RubricEvaluatorTest</ref>,<sp/>DefaultRubricCreation)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rubric<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1a37dfd38a54649e4b66b3e39652954326" kindref="member">RubricEvaluator::createDefaultRubric</ref>();</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rubric.name.empty());</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rubric.dimensions.empty());</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rubric.dimensions.size(),<sp/>4);<sp/><sp/></highlight><highlight class="comment">//<sp/>4<sp/>dimensions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>dimensions<sp/>are<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>expected<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;Faithfulness&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Relevance&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Completeness&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Coherence&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>expected_name<sp/>:<sp/>expected)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>dim<sp/>:<sp/>rubric.dimensions)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(dim.dimension_name<sp/>==<sp/>expected_name)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(found)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Dimension<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>expected_name<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>not<sp/>found&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_rubric_evaluator_test" kindref="compound">RubricEvaluatorTest</ref>,<sp/>RubricValidation)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>valid_rubric<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1a37dfd38a54649e4b66b3e39652954326" kindref="member">RubricEvaluator::createDefaultRubric</ref>();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1abab8e23b37a9039c2d8720315f5c00a7" kindref="member">RubricEvaluator::validateRubric</ref>(valid_rubric));</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>invalid<sp/>rubric<sp/>(no<sp/>dimensions)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric" kindref="compound">EvaluationRubric</ref><sp/>invalid;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>invalid.<ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric_1a5871eb7eb1876f6d2d2adbf9c9c3b74c" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1abab8e23b37a9039c2d8720315f5c00a7" kindref="member">RubricEvaluator::validateRubric</ref>(invalid));</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_rubric_evaluator_test" kindref="compound">RubricEvaluatorTest</ref>,<sp/>ScoreNormalization)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(<ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1a954bcbf52c7f122f2b44873916b8e27e" kindref="member">RubricEvaluator::normalizeScore</ref>(1),<sp/>0.0);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(<ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1a954bcbf52c7f122f2b44873916b8e27e" kindref="member">RubricEvaluator::normalizeScore</ref>(3),<sp/>0.5);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(<ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1a954bcbf52c7f122f2b44873916b8e27e" kindref="member">RubricEvaluator::normalizeScore</ref>(5),<sp/>1.0);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_rubric_evaluator_test" kindref="compound">RubricEvaluatorTest</ref>,<sp/>BasicEvaluation)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator" kindref="compound">RubricEvaluator</ref><sp/>evaluator(config);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>evaluator.evaluate(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>sample_docs);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.overall_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.overall_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.rubric_name.empty());</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.dimension_scores.empty());</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.dimension_levels.empty());</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_rubric_evaluator_test" kindref="compound">RubricEvaluatorTest</ref>,<sp/>DimensionScores)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator" kindref="compound">RubricEvaluator</ref><sp/>evaluator(config);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Explain<sp/>machine<sp/>learning&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Machine<sp/>learning<sp/>is<sp/>about<sp/>teaching<sp/>computers<sp/>to<sp/>learn<sp/>from<sp/>data.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>evaluator.evaluate(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>sample_docs);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>all<sp/>dimensions<sp/>are<sp/>evaluated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.dimension_scores.find(</highlight><highlight class="stringliteral">&quot;Faithfulness&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>result.dimension_scores.end());</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.dimension_scores.find(</highlight><highlight class="stringliteral">&quot;Relevance&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>result.dimension_scores.end());</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.dimension_scores.find(</highlight><highlight class="stringliteral">&quot;Completeness&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>result.dimension_scores.end());</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.dimension_scores.find(</highlight><highlight class="stringliteral">&quot;Coherence&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>result.dimension_scores.end());</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>levels<sp/>are<sp/>in<sp/>valid<sp/>range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[dim,<sp/>level]<sp/>:<sp/>result.dimension_levels)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(level,<sp/>1);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(level,<sp/>5);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_rubric_evaluator_test" kindref="compound">RubricEvaluatorTest</ref>,<sp/>LoadRubricFromJSON)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator" kindref="compound">RubricEvaluator</ref><sp/>evaluator(config);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>json_rubric<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({</highlight></codeline>
+<codeline lineno="104"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;test_rubric&quot;,</highlight></codeline>
+<codeline lineno="105"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;description&quot;:<sp/>&quot;Test<sp/>rubric&quot;,</highlight></codeline>
+<codeline lineno="106"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;domain&quot;:<sp/>&quot;test&quot;,</highlight></codeline>
+<codeline lineno="107"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;version&quot;:<sp/>&quot;1.0&quot;,</highlight></codeline>
+<codeline lineno="108"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;dimensions&quot;:<sp/>[</highlight></codeline>
+<codeline lineno="109"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;name&quot;:<sp/>&quot;Quality&quot;,</highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;description&quot;:<sp/>&quot;Answer<sp/>quality&quot;,</highlight></codeline>
+<codeline lineno="112"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;weight&quot;:<sp/>1.0,</highlight></codeline>
+<codeline lineno="113"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;levels&quot;:<sp/>[</highlight></codeline>
+<codeline lineno="114"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{&quot;score&quot;:<sp/>5,<sp/>&quot;description&quot;:<sp/>&quot;Excellent&quot;},</highlight></codeline>
+<codeline lineno="115"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{&quot;score&quot;:<sp/>3,<sp/>&quot;description&quot;:<sp/>&quot;Average&quot;},</highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{&quot;score&quot;:<sp/>1,<sp/>&quot;description&quot;:<sp/>&quot;Poor&quot;}</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="118"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>})&quot;;</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>loaded<sp/>=<sp/>evaluator.loadRubricFromYAML(json_rubric);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(loaded);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rubric<sp/>=<sp/>evaluator.getRubric();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rubric.name,<sp/></highlight><highlight class="stringliteral">&quot;test_rubric&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rubric.dimensions.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_rubric_evaluator_test" kindref="compound">RubricEvaluatorTest</ref>,<sp/>CustomRubric)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric" kindref="compound">EvaluationRubric</ref><sp/>custom;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric_1a5871eb7eb1876f6d2d2adbf9c9c3b74c" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;custom_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric_1a491e6eb5af273ca939bd363988e39c40" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Custom<sp/>test<sp/>rubric&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric_1abc8024754d2b3cbeac6643f3ad40b3b6" kindref="member">domain</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;testing&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric" kindref="compound">DimensionRubric</ref><sp/>dim;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>dim.<ref refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1ad26168ce77f805c55d57eb77fbae1ab2" kindref="member">dimension_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;TestDimension&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>dim.<ref refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1a3a28095a92f57e87e27d0ef8fff1a0fe" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>dimension&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>dim.<ref refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1a1a6742aafba6c1f74cef36643d812077" kindref="member">weight</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>dim.<ref refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1aec66ff04790bc418eab5c8f865b9e23a" kindref="member">levels</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{5,<sp/></highlight><highlight class="stringliteral">&quot;Perfect&quot;</highlight><highlight class="normal">,<sp/>{},<sp/>{}},</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{3,<sp/></highlight><highlight class="stringliteral">&quot;Okay&quot;</highlight><highlight class="normal">,<sp/>{},<sp/>{}},</highlight></codeline>
+<codeline lineno="143" refid="class_co_t_evaluator_test" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/></highlight><highlight class="stringliteral">&quot;Bad&quot;</highlight><highlight class="normal">,<sp/>{},<sp/>{}}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric_1a246203b68e0ff2e0b07c44f45c256bff" kindref="member">dimensions</ref>.push_back(dim);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1abab8e23b37a9039c2d8720315f5c00a7" kindref="member">RubricEvaluator::validateRubric</ref>(custom));</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator" kindref="compound">RubricEvaluator</ref><sp/>evaluator(config);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>evaluator.setRubric(custom);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(evaluator.getRubric().name,<sp/></highlight><highlight class="stringliteral">&quot;custom_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Chain-of-Thought<sp/>Evaluator<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_co_t_evaluator_test" kindref="compound">CoTEvaluatorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>CoTEvaluator::Config<sp/><ref refid="class_co_t_evaluator_test_1a36959909d27824303aa1589fb8539304" kindref="member">config</ref>;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="class_co_t_evaluator_test_1aa8259b156facb99e28627dd44bfcfc02" kindref="member">sample_docs</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Machine<sp/>learning<sp/>is<sp/>a<sp/>subset<sp/>of<sp/>AI.&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Deep<sp/>learning<sp/>uses<sp/>neural<sp/>networks.&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_co_t_evaluator_test" kindref="compound">CoTEvaluatorTest</ref>,<sp/>BasicEvaluation)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator" kindref="compound">CoTEvaluator</ref><sp/>evaluator(config);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>machine<sp/>learning?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Machine<sp/>learning<sp/>is<sp/>a<sp/>subset<sp/>of<sp/>AI<sp/>that<sp/>learns<sp/>from<sp/>data.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>evaluator.evaluate(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>sample_docs);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.final_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.final_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>reasoning_steps<sp/>may<sp/>be<sp/>empty<sp/>if<sp/>LLM<sp/>is<sp/>not<sp/>available</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_co_t_evaluator_test" kindref="compound">CoTEvaluatorTest</ref>,<sp/>ReasoningStepsParsing)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator" kindref="compound">CoTEvaluator</ref><sp/>evaluator(config);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>response<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="187"><highlight class="stringliteral">Step<sp/>1:<sp/>Is<sp/>the<sp/>answer<sp/>accurate?</highlight></codeline>
+<codeline lineno="188"><highlight class="stringliteral">Observation:<sp/>The<sp/>answer<sp/>mentions<sp/>ML<sp/>is<sp/>subset<sp/>of<sp/>AI</highlight></codeline>
+<codeline lineno="189"><highlight class="stringliteral">Evidence:<sp/>Document<sp/>1<sp/>confirms<sp/>this</highlight></codeline>
+<codeline lineno="190"><highlight class="stringliteral">Conclusion:<sp/>Accurate<sp/>statement</highlight></codeline>
+<codeline lineno="191"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="192"><highlight class="stringliteral">Step<sp/>2:<sp/>Is<sp/>the<sp/>answer<sp/>complete?</highlight></codeline>
+<codeline lineno="193"><highlight class="stringliteral">Observation:<sp/>Covers<sp/>basic<sp/>definition</highlight></codeline>
+<codeline lineno="194"><highlight class="stringliteral">Evidence:<sp/>Mentions<sp/>learning<sp/>from<sp/>data</highlight></codeline>
+<codeline lineno="195"><highlight class="stringliteral">Conclusion:<sp/>Adequately<sp/>complete</highlight></codeline>
+<codeline lineno="196"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="197"><highlight class="stringliteral">Final<sp/>Score:<sp/>0.85</highlight></codeline>
+<codeline lineno="198"><highlight class="stringliteral">Final<sp/>Reasoning:<sp/>Answer<sp/>is<sp/>accurate<sp/>and<sp/>complete</highlight></codeline>
+<codeline lineno="199"><highlight class="stringliteral">)&quot;;</highlight></codeline>
+<codeline lineno="200"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>steps<sp/>=<sp/>evaluator.parseCoTResponse(response);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>May<sp/>parse<sp/>0<sp/>or<sp/>more<sp/>steps<sp/>depending<sp/>on<sp/>regex<sp/>matching</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(steps.size(),<sp/>0);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_co_t_evaluator_test" kindref="compound">CoTEvaluatorTest</ref>,<sp/>ScoreExtraction)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator" kindref="compound">CoTEvaluator</ref><sp/>evaluator(config);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>response<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Final<sp/>Score:<sp/>0.75\nFinal<sp/>Reasoning:<sp/>Good<sp/>answer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ReasoningStep&gt;<sp/>steps;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score<sp/>=<sp/>evaluator.extractFinalScore(steps,<sp/>response);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(score,<sp/>0.75);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_co_t_evaluator_test" kindref="compound">CoTEvaluatorTest</ref>,<sp/>ScoreExtractionFallback)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator" kindref="compound">CoTEvaluator</ref><sp/>evaluator(config);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>response<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Some<sp/>text<sp/>without<sp/>explicit<sp/>score&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ReasoningStep&gt;<sp/>steps;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score<sp/>=<sp/>evaluator.extractFinalScore(steps,<sp/>response);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_co_t_evaluator_test" kindref="compound">CoTEvaluatorTest</ref>,<sp/>LogicConsistencyCheck)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator" kindref="compound">CoTEvaluator</ref><sp/>evaluator(config);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ReasoningStep&gt;<sp/>steps<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/></highlight><highlight class="stringliteral">&quot;Q1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Obs1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Ev1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Answer<sp/>is<sp/>good<sp/>and<sp/>supported&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{2,<sp/></highlight><highlight class="stringliteral">&quot;Q2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Obs2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Ev2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Answer<sp/>is<sp/>not<sp/>supported&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>inconsistencies<sp/>=<sp/>evaluator.validateLogicConsistency(steps);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>May<sp/>detect<sp/>inconsistency<sp/>between<sp/>&quot;supported&quot;<sp/>and<sp/>&quot;not<sp/>supported&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(inconsistencies.size(),<sp/>0);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_co_t_evaluator_test" kindref="compound">CoTEvaluatorTest</ref>,<sp/>ConfigurableSteps)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_config" kindref="compound">CoTEvaluator::Config</ref><sp/>custom_config;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_config.<ref refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_config_1aa8a62469b3588f188879d0ce2cc0c3b2" kindref="member">num_reasoning_steps</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>custom_config.<ref refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_config_1acf67a10235f1a05a56eb03676382db29" kindref="member">enable_self_questioning</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator" kindref="compound">CoTEvaluator</ref><sp/>evaluator(custom_config);</highlight></codeline>
+<codeline lineno="250" refid="class_phase4_integration_test" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>AI?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;AI<sp/>is<sp/>artificial<sp/>intelligence.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>evaluator.evaluate(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>sample_docs);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.final_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.final_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_co_t_evaluator_test" kindref="compound">CoTEvaluatorTest</ref>,<sp/>DifferentDimensions)<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator" kindref="compound">CoTEvaluator</ref><sp/>evaluator(config);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Explain<sp/>neural<sp/>networks&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Neural<sp/>networks<sp/>are<sp/>computational<sp/>models<sp/>inspired<sp/>by<sp/>the<sp/>brain.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result1<sp/>=<sp/>evaluator.evaluate(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>sample_docs,<sp/></highlight><highlight class="stringliteral">&quot;faithfulness&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result2<sp/>=<sp/>evaluator.evaluate(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>sample_docs,<sp/></highlight><highlight class="stringliteral">&quot;relevance&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>should<sp/>produce<sp/>valid<sp/>scores</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result1.final_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result1.final_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result2.final_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result2.final_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Integration<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_phase4_integration_test" kindref="compound">Phase4IntegrationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="class_phase4_integration_test_1a60eaf0bf18589fc70d1c7c466ad49b68" kindref="member">docs</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>and<sp/>largest<sp/>city<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>has<sp/>a<sp/>population<sp/>of<sp/>over<sp/>2<sp/>million<sp/>people.&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_phase4_integration_test" kindref="compound">Phase4IntegrationTest</ref>,<sp/>RubricAndCoTTogether)<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>both<sp/>rubric<sp/>and<sp/>CoT<sp/>evaluation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator" kindref="compound">RubricEvaluator</ref><sp/>rubric_eval;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator" kindref="compound">CoTEvaluator</ref><sp/>cot_eval;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France<sp/>with<sp/>over<sp/>2<sp/>million<sp/>people.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rubric_result<sp/>=<sp/>rubric_eval.<ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1ad3673ad19c5043002e64c33da7be13b2" kindref="member">evaluate</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>docs);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cot_result<sp/>=<sp/>cot_eval.<ref refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1aaf8ecc71fb27e793b456ebc00424a4fa" kindref="member">evaluate</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>docs);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(rubric_result.overall_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(rubric_result.overall_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(cot_result.final_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(cot_result.final_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Scores<sp/>should<sp/>be<sp/>in<sp/>similar<sp/>range<sp/>(allowing<sp/>for<sp/>variance)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>diff<sp/>=<sp/>std::abs(rubric_result.overall_score<sp/>-<sp/>cot_result.final_score);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(diff,<sp/>0.5);<sp/><sp/></highlight><highlight class="comment">//<sp/>Shouldn&apos;t<sp/>differ<sp/>by<sp/>more<sp/>than<sp/>0.5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_phase4_integration_test" kindref="compound">Phase4IntegrationTest</ref>,<sp/>CustomRubricWithCoT)<sp/>{</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>custom<sp/>rubric</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric" kindref="compound">EvaluationRubric</ref><sp/>custom;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric_1a5871eb7eb1876f6d2d2adbf9c9c3b74c" kindref="member">name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;integration_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric_1abc8024754d2b3cbeac6643f3ad40b3b6" kindref="member">domain</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric" kindref="compound">DimensionRubric</ref><sp/>dim;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>dim.<ref refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1ad26168ce77f805c55d57eb77fbae1ab2" kindref="member">dimension_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Quality&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>dim.<ref refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1a1a6742aafba6c1f74cef36643d812077" kindref="member">weight</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>dim.<ref refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric_1aec66ff04790bc418eab5c8f865b9e23a" kindref="member">levels</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{5,<sp/></highlight><highlight class="stringliteral">&quot;Excellent&quot;</highlight><highlight class="normal">,<sp/>{},<sp/>{}},</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{3,<sp/></highlight><highlight class="stringliteral">&quot;Good&quot;</highlight><highlight class="normal">,<sp/>{},<sp/>{}},</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1,<sp/></highlight><highlight class="stringliteral">&quot;Poor&quot;</highlight><highlight class="normal">,<sp/>{},<sp/>{}}</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric_1a246203b68e0ff2e0b07c44f45c256bff" kindref="member">dimensions</ref>.push_back(dim);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator" kindref="compound">RubricEvaluator</ref><sp/>rubric_eval;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>rubric_eval.<ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1a0847e9595445381248feff8c2de4e233" kindref="member">setRubric</ref>(custom);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>query&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>answer<sp/>with<sp/>good<sp/>content.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rubric_eval.<ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1ad3673ad19c5043002e64c33da7be13b2" kindref="member">evaluate</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>docs);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.rubric_name,<sp/></highlight><highlight class="stringliteral">&quot;integration_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.overall_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.overall_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_phase4_integration_test" kindref="compound">Phase4IntegrationTest</ref>,<sp/>PerformanceCheck)<sp/>{</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator" kindref="compound">RubricEvaluator</ref><sp/>rubric_eval;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Explain<sp/>quantum<sp/>computing&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Quantum<sp/>computing<sp/>uses<sp/>quantum<sp/>mechanics<sp/>for<sp/>computation.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>rubric_eval.<ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1ad3673ad19c5043002e64c33da7be13b2" kindref="member">evaluate</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>docs);</highlight></codeline>
+<codeline lineno="346" refid="class_g_eval_evaluator_test" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>duration<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(end<sp/>-<sp/>start);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>complete<sp/>in<sp/>reasonable<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(duration.count(),<sp/>10000);<sp/><sp/></highlight><highlight class="comment">//<sp/>&lt;<sp/>10<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.overall_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_phase4_integration_test" kindref="compound">Phase4IntegrationTest</ref>,<sp/>EmptyInput)<sp/>{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator" kindref="compound">RubricEvaluator</ref><sp/>rubric_eval;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator" kindref="compound">CoTEvaluator</ref><sp/>cot_eval;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>handle<sp/>empty<sp/>answer<sp/>gracefully</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rubric_result<sp/>=<sp/>rubric_eval.<ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1ad3673ad19c5043002e64c33da7be13b2" kindref="member">evaluate</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>docs);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cot_result<sp/>=<sp/>cot_eval.<ref refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1aaf8ecc71fb27e793b456ebc00424a4fa" kindref="member">evaluate</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>docs);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(rubric_result.overall_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(rubric_result.overall_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(cot_result.final_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(cot_result.final_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight><highlight class="comment">//<sp/>G-Eval<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_g_eval_evaluator_test" kindref="compound">GEvalEvaluatorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>GEvalEvaluator::Config<sp/><ref refid="class_g_eval_evaluator_test_1a2ada986f0a289b1c55a5a79b37cae129" kindref="member">config</ref>;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="class_g_eval_evaluator_test_1a38ec5e7a0e06c45ac50aff75098a9d37" kindref="member">sample_docs</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France<sp/>with<sp/>over<sp/>2<sp/>million<sp/>people.&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>Eiffel<sp/>Tower<sp/>is<sp/>an<sp/>iconic<sp/>Paris<sp/>landmark<sp/>built<sp/>in<sp/>1889.&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="384"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_g_eval_evaluator_test" kindref="compound">GEvalEvaluatorTest</ref>,<sp/>BasicEvaluation)<sp/>{</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>config.num_samples<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator" kindref="compound">GEvalEvaluator</ref><sp/>evaluator(config);</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>evaluator.evaluate(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>sample_docs,<sp/></highlight><highlight class="stringliteral">&quot;faithfulness&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.geval_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.geval_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.dimension,<sp/></highlight><highlight class="stringliteral">&quot;faithfulness&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.reasoning.empty());</highlight></codeline>
+<codeline lineno="399"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_g_eval_evaluator_test" kindref="compound">GEvalEvaluatorTest</ref>,<sp/>TokenProbabilities)<sp/>{</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator" kindref="compound">GEvalEvaluator</ref><sp/>evaluator(config);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Explain<sp/>AI&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;AI<sp/>is<sp/>artificial<sp/>intelligence.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>evaluator.evaluate(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>sample_docs,<sp/></highlight><highlight class="stringliteral">&quot;relevance&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>have<sp/>probabilities<sp/>for<sp/>5<sp/>levels</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.token_probabilities.size(),<sp/>5);</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Probabilities<sp/>should<sp/>sum<sp/>to<sp/>approximately<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>sum<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>prob<sp/>:<sp/>result.token_probabilities)<sp/>{</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sum<sp/>+=<sp/>prob;</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(prob,<sp/>0.0);</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(prob,<sp/>1.0);</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(sum,<sp/>1.0,<sp/>0.01);</highlight></codeline>
+<codeline lineno="420"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_g_eval_evaluator_test" kindref="compound">GEvalEvaluatorTest</ref>,<sp/>MultipleSamples)<sp/>{</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/>config.num_samples<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/>config.aggregation<sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920ba4ea6d1161ea24d7599365f574aff6610" kindref="member">AggregationMethod::MEAN</ref>;</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator" kindref="compound">GEvalEvaluator</ref><sp/>evaluator(config);</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>ML?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Machine<sp/>learning<sp/>is<sp/>a<sp/>type<sp/>of<sp/>AI.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>evaluator.evaluate(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>sample_docs,<sp/></highlight><highlight class="stringliteral">&quot;completeness&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.sample_scores.size(),<sp/>5);</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.variance,<sp/>0.0);</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.confidence,<sp/>0.0);</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.confidence,<sp/>1.0);</highlight></codeline>
+<codeline lineno="436"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"></highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_g_eval_evaluator_test" kindref="compound">GEvalEvaluatorTest</ref>,<sp/>DifferentDimensions)<sp/>{</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator" kindref="compound">GEvalEvaluator</ref><sp/>evaluator(config);</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Explain<sp/>quantum<sp/>computing&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Quantum<sp/>computing<sp/>uses<sp/>quantum<sp/>mechanics<sp/>principles.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>different<sp/>dimensions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>faith_result<sp/>=<sp/>evaluator.evaluate(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>sample_docs,<sp/></highlight><highlight class="stringliteral">&quot;faithfulness&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rel_result<sp/>=<sp/>evaluator.evaluate(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>sample_docs,<sp/></highlight><highlight class="stringliteral">&quot;relevance&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>comp_result<sp/>=<sp/>evaluator.evaluate(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>sample_docs,<sp/></highlight><highlight class="stringliteral">&quot;completeness&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>coh_result<sp/>=<sp/>evaluator.evaluate(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>sample_docs,<sp/></highlight><highlight class="stringliteral">&quot;coherence&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(faith_result.dimension,<sp/></highlight><highlight class="stringliteral">&quot;faithfulness&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rel_result.dimension,<sp/></highlight><highlight class="stringliteral">&quot;relevance&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(comp_result.dimension,<sp/></highlight><highlight class="stringliteral">&quot;completeness&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(coh_result.dimension,<sp/></highlight><highlight class="stringliteral">&quot;coherence&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>should<sp/>have<sp/>valid<sp/>scores</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(faith_result.geval_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(rel_result.geval_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(comp_result.geval_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(coh_result.geval_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="460"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_g_eval_evaluator_test" kindref="compound">GEvalEvaluatorTest</ref>,<sp/>ScoreComputation)<sp/>{</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>static<sp/>method</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>probs<sp/>=<sp/>{0.1,<sp/>0.2,<sp/>0.4,<sp/>0.2,<sp/>0.1};</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1ad0b0a62583ee019dc02c617cc3607f5a" kindref="member">GEvalEvaluator::computeGEvalScore</ref>(probs);</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected:<sp/>(1*0.1<sp/>+<sp/>2*0.2<sp/>+<sp/>3*0.4<sp/>+<sp/>4*0.2<sp/>+<sp/>5*0.1)<sp/>=<sp/>3.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Normalized:<sp/>(3.0<sp/>-<sp/>1)<sp/>/<sp/>4<sp/>=<sp/>0.5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(score,<sp/>0.5,<sp/>0.01);</highlight></codeline>
+<codeline lineno="470"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"></highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_g_eval_evaluator_test" kindref="compound">GEvalEvaluatorTest</ref>,<sp/>ConfidenceComputation)<sp/>{</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>High<sp/>confidence<sp/>(peaked<sp/>distribution)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>peaked<sp/>=<sp/>{0.05,<sp/>0.05,<sp/>0.8,<sp/>0.05,<sp/>0.05};</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>high_conf<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1afde1f63e37442d1b815cd65d31e115b4" kindref="member">GEvalEvaluator::computeConfidence</ref>(peaked);</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Low<sp/>confidence<sp/>(uniform<sp/>distribution)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>uniform<sp/>=<sp/>{0.2,<sp/>0.2,<sp/>0.2,<sp/>0.2,<sp/>0.2};</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>low_conf<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1afde1f63e37442d1b815cd65d31e115b4" kindref="member">GEvalEvaluator::computeConfidence</ref>(uniform);</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(high_conf,<sp/>low_conf);</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(high_conf,<sp/>0.0);</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(high_conf,<sp/>1.0);</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(low_conf,<sp/>0.0);</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(low_conf,<sp/>1.0);</highlight></codeline>
+<codeline lineno="486"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="487"><highlight class="normal"></highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_g_eval_evaluator_test" kindref="compound">GEvalEvaluatorTest</ref>,<sp/>AggregationMethods)<sp/>{</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>samples<sp/>=<sp/>{0.3,<sp/>0.5,<sp/>0.7,<sp/>0.5,<sp/>0.6};</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mean<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1a5ba5a295167c4d67102fd33099810de4" kindref="member">GEvalEvaluator::aggregateScores</ref>(samples,<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920ba4ea6d1161ea24d7599365f574aff6610" kindref="member">AggregationMethod::MEAN</ref>);</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>median<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1a5ba5a295167c4d67102fd33099810de4" kindref="member">GEvalEvaluator::aggregateScores</ref>(samples,<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920ba8ab0c3a037e882577dec378985477074" kindref="member">AggregationMethod::MEDIAN</ref>);</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mode<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1a5ba5a295167c4d67102fd33099810de4" kindref="member">GEvalEvaluator::aggregateScores</ref>(samples,<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920bab742db58b16f1d7de716d5e8a8afabbb" kindref="member">AggregationMethod::MODE</ref>);</highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(mean,<sp/>0.52,<sp/>0.01);<sp/><sp/></highlight><highlight class="comment">//<sp/>(0.3+0.5+0.7+0.5+0.6)/5<sp/>=<sp/>0.52</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(median,<sp/>0.5,<sp/>0.01);<sp/><sp/></highlight><highlight class="comment">//<sp/>Sorted:<sp/>0.3,0.5,0.5,0.6,0.7<sp/>-&gt;<sp/>middle<sp/>is<sp/>0.5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(mode,<sp/>0.0);</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(mode,<sp/>1.0);</highlight></codeline>
+<codeline lineno="499"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="500"><highlight class="normal"></highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_g_eval_evaluator_test" kindref="compound">GEvalEvaluatorTest</ref>,<sp/>EmptyDocuments)<sp/>{</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator" kindref="compound">GEvalEvaluator</ref><sp/>evaluator(config);</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>query&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>answer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/>empty_docs;</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>evaluator.evaluate(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>empty_docs,<sp/></highlight><highlight class="stringliteral">&quot;overall&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.geval_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.geval_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="512"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="513"><highlight class="normal"></highlight></codeline>
+<codeline lineno="514"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="515"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Integration<sp/>Tests<sp/>(with<sp/>G-Eval)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="516"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="517"><highlight class="normal"></highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><ref refid="test__rag__judge__phase4_8cpp_1a80f731cdea46d35cbe8f49d0a2677d51" kindref="member">TEST_F</ref>(<ref refid="class_phase4_integration_test" kindref="compound">Phase4IntegrationTest</ref>,<sp/>AllThreeEvaluators)<sp/>{</highlight></codeline>
+<codeline lineno="519"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator" kindref="compound">RubricEvaluator</ref><sp/>rubric_eval;</highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator" kindref="compound">CoTEvaluator</ref><sp/>cot_eval;</highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator" kindref="compound">GEvalEvaluator</ref><sp/>geval_eval;</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>quantum<sp/>computing?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>answer<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Quantum<sp/>computing<sp/>uses<sp/>quantum<sp/>bits<sp/>(qubits)<sp/>to<sp/>perform<sp/>calculations<sp/>that<sp/>classical<sp/>computers<sp/>cannot<sp/>efficiently<sp/>solve.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rubric_result<sp/>=<sp/>rubric_eval.<ref refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1ad3673ad19c5043002e64c33da7be13b2" kindref="member">evaluate</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>docs);</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cot_result<sp/>=<sp/>cot_eval.<ref refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1aaf8ecc71fb27e793b456ebc00424a4fa" kindref="member">evaluate</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>docs,<sp/></highlight><highlight class="stringliteral">&quot;faithfulness&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>geval_result<sp/>=<sp/>geval_eval.<ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1a72d7866ad315506c87d91e5396173884" kindref="member">evaluate</ref>(<ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/>answer,<sp/>docs,<sp/></highlight><highlight class="stringliteral">&quot;faithfulness&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>should<sp/>produce<sp/>valid<sp/>scores</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(rubric_result.overall_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(rubric_result.overall_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(cot_result.final_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(cot_result.final_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(geval_result.geval_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(geval_result.geval_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="538"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>G-Eval<sp/>should<sp/>have<sp/>probability<sp/>distribution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(geval_result.token_probabilities.size(),<sp/>5);</highlight></codeline>
+<codeline lineno="540"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="541"><highlight class="normal"></highlight></codeline>
+<codeline lineno="542"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="543"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Main</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="544"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="545"><highlight class="normal"></highlight></codeline>
+<codeline lineno="546"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/rag/test_rag_judge_phase4.cpp"/>
+  </compounddef>
+</doxygen>

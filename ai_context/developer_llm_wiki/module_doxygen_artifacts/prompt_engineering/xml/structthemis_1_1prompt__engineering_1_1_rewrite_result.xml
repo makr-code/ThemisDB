@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_rewrite_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::RewriteResult</compoundname>
+    <includes refid="rewrite__engine_8h" local="no">rewrite_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_result_1ab40dd4510d03a2e16ef81be1305bd15c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::RewriteResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::prompt_engineering::RewriteResult::success</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Whether rewrite completed without error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="78" column="10" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_result_1a273ee8a87e8b09021c46f352e8fd1be7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1aaec36d031fa8ec82e7da6a56ce175a10" kindref="member">PromptEngineeringErrorCode</ref></type>
+        <definition>PromptEngineeringErrorCode themis::prompt_engineering::RewriteResult::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::prompt_engineering::RewriteResult::error_code</qualifiedname>
+        <briefdescription>
+<para>Error code if success == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="79" column="32" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_result_1ae7c39041b052f2fe6c7846c62d4a080d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RewriteResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::prompt_engineering::RewriteResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Detailed error message if applicable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="80" column="17" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_result_1aec80e6efb15a1c849d49afff131eb028" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RewriteResult::transformed_text</definition>
+        <argsstring></argsstring>
+        <name>transformed_text</name>
+        <qualifiedname>themis::prompt_engineering::RewriteResult::transformed_text</qualifiedname>
+        <briefdescription>
+<para>Output text after all rewrites (empty if error). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="81" column="17" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_result_1a0dfa467ebf64642d448e2651409ec433" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_trace" kindref="compound">RewriteTrace</ref> &gt;</type>
+        <definition>std::vector&lt;RewriteTrace&gt; themis::prompt_engineering::RewriteResult::traces</definition>
+        <argsstring></argsstring>
+        <name>traces</name>
+        <qualifiedname>themis::prompt_engineering::RewriteResult::traces</qualifiedname>
+        <briefdescription>
+<para>Audit trail of rules that matched. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="82" column="17" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_result_1a37a1c67c5330de8fd57c41ada6fad977" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::prompt_engineering::RewriteResult::rules_matched</definition>
+        <argsstring></argsstring>
+        <name>rules_matched</name>
+        <qualifiedname>themis::prompt_engineering::RewriteResult::rules_matched</qualifiedname>
+        <briefdescription>
+<para>Number of unique rules that matched. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="83" column="14" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_result_1a4bdf7a02ba849ce0cc322cf808700dac" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::prompt_engineering::RewriteResult::total_transformations</definition>
+        <argsstring></argsstring>
+        <name>total_transformations</name>
+        <qualifiedname>themis::prompt_engineering::RewriteResult::total_transformations</qualifiedname>
+        <briefdescription>
+<para>Total number of text transformations applied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="84" column="14" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_result_1aa47b2ffc693edf1ad40d57a0820986d9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::prompt_engineering::RewriteResult::total_latency_micros</definition>
+        <argsstring></argsstring>
+        <name>total_latency_micros</name>
+        <qualifiedname>themis::prompt_engineering::RewriteResult::total_latency_micros</qualifiedname>
+        <briefdescription>
+<para>Total execution latency in microseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="85" column="14" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_result_1a9a5152994d7d5e5623b9d8705dc7792c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::RewriteResult::was_blocked</definition>
+        <argsstring></argsstring>
+        <name>was_blocked</name>
+        <qualifiedname>themis::prompt_engineering::RewriteResult::was_blocked</qualifiedname>
+        <briefdescription>
+<para>True if terminal rule blocked output. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/rewrite_engine.h" line="86" column="10" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Structured result of a rewrite operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/rewrite_engine.h" line="77" column="1" bodyfile="include/prompt_engineering/rewrite_engine.h" bodystart="77" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1a273ee8a87e8b09021c46f352e8fd1be7" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteResult</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1ae7c39041b052f2fe6c7846c62d4a080d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1a37a1c67c5330de8fd57c41ada6fad977" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteResult</scope><name>rules_matched</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1ab40dd4510d03a2e16ef81be1305bd15c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1aa47b2ffc693edf1ad40d57a0820986d9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteResult</scope><name>total_latency_micros</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1a4bdf7a02ba849ce0cc322cf808700dac" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteResult</scope><name>total_transformations</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1a0dfa467ebf64642d448e2651409ec433" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteResult</scope><name>traces</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1aec80e6efb15a1c849d49afff131eb028" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteResult</scope><name>transformed_text</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_result_1a9a5152994d7d5e5623b9d8705dc7792c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteResult</scope><name>was_blocked</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

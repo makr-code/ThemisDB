@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1_1rebind" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase4::PMemAllocator::rebind</compoundname>
+    <includes refid="pmem__storage_8h" local="no">pmem_storage.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename U</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1_1rebind_1ab8b03dd43f147bafd55b325b3065ce03" prot="public" static="no">
+        <type><ref refid="classthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1acaf0d558efbf11e56df5e985214a2705" kindref="member">PMemAllocator</ref>&lt; U &gt;</type>
+        <definition>using themis::performance::phase4::PMemAllocator&lt; T &gt;::rebind&lt; U &gt;::other = PMemAllocator&lt;U&gt;</definition>
+        <argsstring></argsstring>
+        <name>other</name>
+        <qualifiedname>themis::performance::phase4::PMemAllocator::rebind::other</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase4/pmem_storage.h" line="271" column="17" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase4/pmem_storage.h" line="271" column="5" bodyfile="include/performance/phase4/pmem_storage.h" bodystart="271" bodyend="271"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_allocator_1_1rebind_1ab8b03dd43f147bafd55b325b3065ce03" prot="public" virt="non-virtual"><scope>themis::performance::phase4::PMemAllocator::rebind</scope><name>other</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,446 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_m_v_c_c_chain_pruner" kind="class" language="C++" prot="public">
+    <compoundname>themis::MVCCChainPruner</compoundname>
+    <includes refid="mvcc__chain__pruner_8h" local="no">mvcc_chain_pruner.h</includes>
+    <innerclass refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config" prot="public">themis::MVCCChainPruner::Config</innerclass>
+    <innerclass refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_prune_stats" prot="public">themis::MVCCChainPruner::PruneStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_m_v_c_c_chain_pruner_1a317fa2e2f145597f83685d4b27c9ccb4" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_m_v_c_c_store" kindref="compound">MVCCStore</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MVCCStore&gt; themis::MVCCChainPruner::mvcc_</definition>
+        <argsstring></argsstring>
+        <name>mvcc_</name>
+        <qualifiedname>themis::MVCCChainPruner::mvcc_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="198" column="51" bodyfile="include/storage/mvcc_chain_pruner.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_m_v_c_c_chain_pruner_1a4ac09159dce9bde4cc3da2a2a18e2c57" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themisdb::temporal::TemporalTierManager &gt;</type>
+        <definition>std::shared_ptr&lt;themisdb::temporal::TemporalTierManager&gt; themis::MVCCChainPruner::tier_manager_</definition>
+        <argsstring></argsstring>
+        <name>tier_manager_</name>
+        <qualifiedname>themis::MVCCChainPruner::tier_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="199" column="21" bodyfile="include/storage/mvcc_chain_pruner.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_m_v_c_c_chain_pruner_1ad73badfa4d2cd32df604f5b17f0937ef" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::MVCCChainPruner::horizon_mu_</definition>
+        <argsstring></argsstring>
+        <name>horizon_mu_</name>
+        <qualifiedname>themis::MVCCChainPruner::horizon_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="201" column="27" bodyfile="include/storage/mvcc_chain_pruner.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_m_v_c_c_chain_pruner_1a2f11e40380f2cd10366b8d717008d634" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+        <definition>HLCTimestamp themis::MVCCChainPruner::safe_horizon_</definition>
+        <argsstring></argsstring>
+        <name>safe_horizon_</name>
+        <qualifiedname>themis::MVCCChainPruner::safe_horizon_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="202" column="27" bodyfile="include/storage/mvcc_chain_pruner.h" bodystart="202" bodyend="202"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_chain_pruner_1a5acae92d84b08092c6ddcd816d3588ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::MVCCChainPruner::MVCCChainPruner</definition>
+        <argsstring>(std::shared_ptr&lt; MVCCStore &gt; mvcc, std::shared_ptr&lt; themisdb::temporal::TemporalTierManager &gt; tier_manager)</argsstring>
+        <name>MVCCChainPruner</name>
+        <qualifiedname>themis::MVCCChainPruner::MVCCChainPruner</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_m_v_c_c_store" kindref="compound">MVCCStore</ref> &gt;</type>
+          <declname>mvcc</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; themisdb::temporal::TemporalTierManager &gt;</type>
+          <declname>tier_manager</declname>
+        </param>
+        <briefdescription>
+<para>Construct a pruner backed by <computeroutput>mvcc</computeroutput> and <computeroutput>tier_manager</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Both references are retained as shared_ptr for the lifetime of the pruner; the caller must ensure they remain valid.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mvcc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The MVCC store to prune versions from. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tier_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The temporal tier manager to migrate versions into. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="97" column="5" bodyfile="src/storage/mvcc_chain_pruner.cpp" bodystart="31" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_chain_pruner_1a145745d85c44f4a6503736f5fa0af815" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_prune_stats" kindref="compound">PruneStats</ref></type>
+        <definition>MVCCChainPruner::PruneStats themis::MVCCChainPruner::pruneKey</definition>
+        <argsstring>(std::string_view key, HLCTimestamp gc_horizon, Config config=Config{})</argsstring>
+        <name>pruneKey</name>
+        <qualifiedname>themis::MVCCChainPruner::pruneKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+          <declname>gc_horizon</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config" kindref="compound">Config</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Prune a single key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prune Key.</para>
+<para>All MVCC versions of <computeroutput>key</computeroutput> with timestamp strictly less than <computeroutput>gc_horizon</computeroutput> are migrated to the TemporalTierManager and then deleted from the MVCC store. The <computeroutput>config.min_versions_to_keep</computeroutput> most-recent versions are protected from migration/deletion regardless of timestamp.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The logical record key (base key, without timestamp). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gc_horizon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>All versions with ts &lt; gc_horizon are candidates. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional tuning parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Statistics for this key.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gc_horizon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: scanVersions(), push_back(), size(), std::min(), key_str(), valueToDocument(), toTemporalTs(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="117" column="16" bodyfile="src/storage/mvcc_chain_pruner.cpp" bodystart="51" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_chain_pruner_1a4dc9b09164de2c2f2581c0badbddda82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_prune_stats" kindref="compound">PruneStats</ref></type>
+        <definition>MVCCChainPruner::PruneStats themis::MVCCChainPruner::pruneAll</definition>
+        <argsstring>(HLCTimestamp gc_horizon, Config config=Config{})</argsstring>
+        <name>pruneAll</name>
+        <qualifiedname>themis::MVCCChainPruner::pruneAll</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+          <declname>gc_horizon</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config" kindref="compound">Config</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Prune every key in the MVCC store whose versions fall below <computeroutput>gc_horizon</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prune All.</para>
+<para>Internally enumerates all distinct base keys via <computeroutput><ref refid="classthemis_1_1_m_v_c_c_store_1a619a921d0d5bd9a72f2c14c22f5dac10" kindref="member">MVCCStore::scanBaseKeys()</ref></computeroutput>, then calls <computeroutput><ref refid="classthemis_1_1_m_v_c_c_chain_pruner_1a145745d85c44f4a6503736f5fa0af815" kindref="member">pruneKey()</ref></computeroutput> for each. This is an O(N) full-store scan; prefer per-key invocations in hot paths.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>gc_horizon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Versions older than this timestamp are migrated. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional tuning parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Aggregate statistics across all pruned keys.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">gc_horizon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: scanBaseKeys(), <ref refid="classthemis_1_1_m_v_c_c_chain_pruner_1a145745d85c44f4a6503736f5fa0af815" kindref="member">pruneKey()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="137" column="16" bodyfile="src/storage/mvcc_chain_pruner.cpp" bodystart="154" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_chain_pruner_1a37e8a6200ea7ec5cf9857709d1591016" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+        <definition>HLCTimestamp themis::MVCCChainPruner::safeHorizon</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>safeHorizon</name>
+        <qualifiedname>themis::MVCCChainPruner::safeHorizon</qualifiedname>
+        <briefdescription>
+<para>Return the current safe GC horizon. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Only versions strictly older than this timestamp can be pruned without risk of breaking an active snapshot read.</para>
+<para>Returns a zero-valued <ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref> by default, meaning &quot;nothing is safe
+to prune&quot; until <computeroutput><ref refid="classthemis_1_1_m_v_c_c_chain_pruner_1aee77b510ead107be0a99955f9a1deffc" kindref="member">setSafeHorizon()</ref></computeroutput> has been called (e.g. by the transaction manager after all active transactions are accounted for). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">horizon_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="151" column="18" bodyfile="src/storage/mvcc_chain_pruner.cpp" bodystart="172" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_chain_pruner_1aee77b510ead107be0a99955f9a1deffc" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::MVCCChainPruner::setSafeHorizon</definition>
+        <argsstring>(HLCTimestamp horizon) noexcept</argsstring>
+        <name>setSafeHorizon</name>
+        <qualifiedname>themis::MVCCChainPruner::setSafeHorizon</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+          <declname>horizon</declname>
+        </param>
+        <briefdescription>
+<para>Set the safe GC horizon. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Typically called by the transaction manager after computing the oldest active read timestamp across all open transactions. The new horizon must be monotonically non-decreasing; a smaller value is silently ignored.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>horizon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New safe horizon. All MVCC versions with timestamp strictly less than this value are eligible for pruning. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">horizon_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="164" column="10" bodyfile="src/storage/mvcc_chain_pruner.cpp" bodystart="182" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_chain_pruner_1ac03a135f50007c2f69cfe37cd3b4d5d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_prune_stats" kindref="compound">PruneStats</ref></type>
+        <definition>MVCCChainPruner::PruneStats themis::MVCCChainPruner::pruneAllSafe</definition>
+        <argsstring>(Config config=Config{})</argsstring>
+        <name>pruneAllSafe</name>
+        <qualifiedname>themis::MVCCChainPruner::pruneAllSafe</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_config" kindref="compound">Config</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Prune all MVCC versions that are below the current safe horizon. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prune All Safe.</para>
+<para>Convenience wrapper: equivalent to <computeroutput>pruneAll(safeHorizon(), config)</computeroutput>. Returns an empty <computeroutput><ref refid="structthemis_1_1_m_v_c_c_chain_pruner_1_1_prune_stats" kindref="compound">PruneStats</ref></computeroutput> if <computeroutput><ref refid="classthemis_1_1_m_v_c_c_chain_pruner_1a37e8a6200ea7ec5cf9857709d1591016" kindref="member">safeHorizon()</ref></computeroutput> is zero.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_m_v_c_c_chain_pruner_1a37e8a6200ea7ec5cf9857709d1591016" kindref="member">safeHorizon()</ref>, <ref refid="classthemis_1_1_m_v_c_c_chain_pruner_1a4dc9b09164de2c2f2581c0badbddda82" kindref="member">pruneAll()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="172" column="16" bodyfile="src/storage/mvcc_chain_pruner.cpp" bodystart="200" bodyend="206"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_chain_pruner_1a947c4acc23d7839bcbcf1617d43faa17" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themisdb::temporal::Document</type>
+        <definition>themisdb::temporal::Document themis::MVCCChainPruner::valueToDocument</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;raw)</argsstring>
+        <name>valueToDocument</name>
+        <qualifiedname>themis::MVCCChainPruner::valueToDocument</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>raw</declname>
+        </param>
+        <briefdescription>
+<para>Convert a raw MVCC VersionEntry value to a <computeroutput>nlohmann::json</computeroutput> Document for storage in TemporalTierManager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="namespacethemis_1accce58ed831f36f773c788820ecc97f8" kindref="member">Value</ref> To Document.</para>
+<para>If <computeroutput>raw</computeroutput> contains valid UTF-8 JSON, it is parsed directly. Otherwise the bytes are hex-encoded and wrapped as <computeroutput>{"_raw": "&lt;hex&gt;"}</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raw</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), data(), nlohmann::json::parse(), size(), std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="184" column="41" bodyfile="src/storage/mvcc_chain_pruner.cpp" bodystart="218" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_m_v_c_c_chain_pruner_1a02335b598160723157f2ebb82c6123db" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>themisdb::temporal::Timestamp</type>
+        <definition>themisdb::temporal::Timestamp themis::MVCCChainPruner::toTemporalTs</definition>
+        <argsstring>(HLCTimestamp ts) noexcept</argsstring>
+        <name>toTemporalTs</name>
+        <qualifiedname>themis::MVCCChainPruner::toTemporalTs</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></type>
+          <declname>ts</declname>
+        </param>
+        <briefdescription>
+<para>Convert an <computeroutput><ref refid="structthemis_1_1_h_l_c_timestamp" kindref="compound">HLCTimestamp</ref></computeroutput> to the <computeroutput>temporal::Timestamp</computeroutput> (int64_t) used by TemporalTierManager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The raw uint64_t value is reinterpreted as int64_t. HLC timestamps are monotonically increasing and the physical component (physical_ms &lt;&lt; 20) stays well below INT64_MAX for any plausible wall-clock date. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/mvcc_chain_pruner.h" line="196" column="42" bodyfile="src/storage/mvcc_chain_pruner.cpp" bodystart="239" bodyend="247"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Migrates committed MVCC version chains into the TemporalTierManager and removes the migrated versions from the MVCC store. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="see"><para><ref refid="classthemis_1_1_m_v_c_c_store" kindref="compound">MVCCStore</ref>, themisdb::temporal::TemporalTierManager </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/storage/mvcc_chain_pruner.h" line="32" column="1" bodyfile="include/storage/mvcc_chain_pruner.h" bodystart="32" bodyend="203"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_m_v_c_c_chain_pruner_1ad73badfa4d2cd32df604f5b17f0937ef" prot="private" virt="non-virtual"><scope>themis::MVCCChainPruner</scope><name>horizon_mu_</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_chain_pruner_1a317fa2e2f145597f83685d4b27c9ccb4" prot="private" virt="non-virtual"><scope>themis::MVCCChainPruner</scope><name>mvcc_</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_chain_pruner_1a5acae92d84b08092c6ddcd816d3588ea" prot="public" virt="non-virtual"><scope>themis::MVCCChainPruner</scope><name>MVCCChainPruner</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_chain_pruner_1a4dc9b09164de2c2f2581c0badbddda82" prot="public" virt="non-virtual"><scope>themis::MVCCChainPruner</scope><name>pruneAll</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_chain_pruner_1ac03a135f50007c2f69cfe37cd3b4d5d5" prot="public" virt="non-virtual"><scope>themis::MVCCChainPruner</scope><name>pruneAllSafe</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_chain_pruner_1a145745d85c44f4a6503736f5fa0af815" prot="public" virt="non-virtual"><scope>themis::MVCCChainPruner</scope><name>pruneKey</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_chain_pruner_1a2f11e40380f2cd10366b8d717008d634" prot="private" virt="non-virtual"><scope>themis::MVCCChainPruner</scope><name>safe_horizon_</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_chain_pruner_1a37e8a6200ea7ec5cf9857709d1591016" prot="public" virt="non-virtual"><scope>themis::MVCCChainPruner</scope><name>safeHorizon</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_chain_pruner_1aee77b510ead107be0a99955f9a1deffc" prot="public" virt="non-virtual"><scope>themis::MVCCChainPruner</scope><name>setSafeHorizon</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_chain_pruner_1a4ac09159dce9bde4cc3da2a2a18e2c57" prot="private" virt="non-virtual"><scope>themis::MVCCChainPruner</scope><name>tier_manager_</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_chain_pruner_1a02335b598160723157f2ebb82c6123db" prot="private" virt="non-virtual"><scope>themis::MVCCChainPruner</scope><name>toTemporalTs</name></member>
+      <member refid="classthemis_1_1_m_v_c_c_chain_pruner_1a947c4acc23d7839bcbcf1617d43faa17" prot="private" virt="non-virtual"><scope>themis::MVCCChainPruner</scope><name>valueToDocument</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

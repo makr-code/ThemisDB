@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_recording_adapter_apply_service" kind="class" language="C++" prot="public">
+    <compoundname>RecordingAdapterApplyService</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_i_adapter_apply_service" prot="public" virt="non-virtual">themis::llm::IAdapterApplyService</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_recording_adapter_apply_service_1abd729795f3a52bf11bf3f0502a17dec0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool RecordingAdapterApplyService::apply_ok</definition>
+        <argsstring></argsstring>
+        <name>apply_ok</name>
+        <qualifiedname>RecordingAdapterApplyService::apply_ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="142" column="10" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_recording_adapter_apply_service_1ac7521a51ccb0f2d94ab8e93e372e580d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool RecordingAdapterApplyService::allow_switch</definition>
+        <argsstring></argsstring>
+        <name>allow_switch</name>
+        <qualifiedname>RecordingAdapterApplyService::allow_switch</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="143" column="10" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_recording_adapter_apply_service_1a9ea243636bc9d3369b912e6bc778d5dc" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int RecordingAdapterApplyService::apply_calls</definition>
+        <argsstring></argsstring>
+        <name>apply_calls</name>
+        <qualifiedname>RecordingAdapterApplyService::apply_calls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="144" column="9" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_recording_adapter_apply_service_1a3e948f75597e35cef7950013eee0222f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string RecordingAdapterApplyService::current_adapter</definition>
+        <argsstring></argsstring>
+        <name>current_adapter</name>
+        <qualifiedname>RecordingAdapterApplyService::current_adapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="145" column="17" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="145" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_recording_adapter_apply_service_1a274563b17319bf028c2439917cd62a57" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool RecordingAdapterApplyService::applyAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;, float) override</argsstring>
+        <name>applyAdapter</name>
+        <qualifiedname>RecordingAdapterApplyService::applyAdapter</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_adapter_apply_service_1afb2921a1513c6b3b5d15c66fd00a1caf">applyAdapter</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>float</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="126" column="10" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="126" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="class_recording_adapter_apply_service_1a9773b4e7fc1effe74f504d067f014f34" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string RecordingAdapterApplyService::currentAdapter</definition>
+        <argsstring>() const override</argsstring>
+        <name>currentAdapter</name>
+        <qualifiedname>RecordingAdapterApplyService::currentAdapter</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_adapter_apply_service_1aac71345e440b6191f50a3044c596e032">currentAdapter</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="134" column="18" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="134" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="class_recording_adapter_apply_service_1a5108ab58fdeb116fb5d433ff2580b7d4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool RecordingAdapterApplyService::canSwitch</definition>
+        <argsstring>() const override</argsstring>
+        <name>canSwitch</name>
+        <qualifiedname>RecordingAdapterApplyService::canSwitch</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_adapter_apply_service_1a77ad796f666ce82699eb1f01a26cd5f6">canSwitch</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_ai_orchestrator.cpp" line="138" column="11" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="138" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RecordingAdapterApplyService</label>
+        <link refid="class_recording_adapter_apply_service"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::IAdapterApplyService</label>
+        <link refid="classthemis_1_1llm_1_1_i_adapter_apply_service"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RecordingAdapterApplyService</label>
+        <link refid="class_recording_adapter_apply_service"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::IAdapterApplyService</label>
+        <link refid="classthemis_1_1llm_1_1_i_adapter_apply_service"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_ai_orchestrator.cpp" line="124" column="1" bodyfile="tests/llm/test_ai_orchestrator.cpp" bodystart="124" bodyend="146"/>
+    <listofallmembers>
+      <member refid="class_recording_adapter_apply_service_1ac7521a51ccb0f2d94ab8e93e372e580d" prot="public" virt="non-virtual"><scope>RecordingAdapterApplyService</scope><name>allow_switch</name></member>
+      <member refid="class_recording_adapter_apply_service_1a9ea243636bc9d3369b912e6bc778d5dc" prot="public" virt="non-virtual"><scope>RecordingAdapterApplyService</scope><name>apply_calls</name></member>
+      <member refid="class_recording_adapter_apply_service_1abd729795f3a52bf11bf3f0502a17dec0" prot="public" virt="non-virtual"><scope>RecordingAdapterApplyService</scope><name>apply_ok</name></member>
+      <member refid="class_recording_adapter_apply_service_1a274563b17319bf028c2439917cd62a57" prot="public" virt="virtual"><scope>RecordingAdapterApplyService</scope><name>applyAdapter</name></member>
+      <member refid="class_recording_adapter_apply_service_1a5108ab58fdeb116fb5d433ff2580b7d4" prot="public" virt="virtual"><scope>RecordingAdapterApplyService</scope><name>canSwitch</name></member>
+      <member refid="class_recording_adapter_apply_service_1a3e948f75597e35cef7950013eee0222f" prot="public" virt="non-virtual"><scope>RecordingAdapterApplyService</scope><name>current_adapter</name></member>
+      <member refid="class_recording_adapter_apply_service_1a9773b4e7fc1effe74f504d067f014f34" prot="public" virt="virtual"><scope>RecordingAdapterApplyService</scope><name>currentAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_adapter_apply_service_1aee873627b3f2fcd1194cc9397ec03f02" prot="public" virt="virtual"><scope>RecordingAdapterApplyService</scope><name>~IAdapterApplyService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_audit_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::AuditEvent</compoundname>
+    <includes refid="network__audit__log_8h" local="no">network_audit_log.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_audit_event_1a3c2b87d8e3838d4c4b64a25f3d0a5fde" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1network_1a97bd22c32068a9a1f5cd3caa00e1f8fa" kindref="member">AuditEventType</ref></type>
+        <definition>AuditEventType themis::network::AuditEvent::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::network::AuditEvent::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="43" column="20" bodyfile="include/network/network_audit_log.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_audit_event_1afab56e78e72790a0162326fbbe3cd21c" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::network::AuditEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::network::AuditEvent::timestamp</qualifiedname>
+        <briefdescription>
+<para>Wall-clock timestamp when the event occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="46" column="43" bodyfile="include/network/network_audit_log.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_audit_event_1a23effe1c9cecfd5df84753bf164ada91" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::AuditEvent::remote_address</definition>
+        <argsstring></argsstring>
+        <name>remote_address</name>
+        <qualifiedname>themis::network::AuditEvent::remote_address</qualifiedname>
+        <briefdescription>
+<para>Remote peer address (IP[:port] string). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="49" column="17" bodyfile="include/network/network_audit_log.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_audit_event_1acf67c05f24b36c7db88ed4434abf8243" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::AuditEvent::connection_id</definition>
+        <argsstring></argsstring>
+        <name>connection_id</name>
+        <qualifiedname>themis::network::AuditEvent::connection_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Optional: session/connection identifier assigned by the server. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="52" column="14" bodyfile="include/network/network_audit_log.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_audit_event_1a3d9287c770a945f4506a79eab28015e5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::AuditEvent::principal</definition>
+        <argsstring></argsstring>
+        <name>principal</name>
+        <qualifiedname>themis::network::AuditEvent::principal</qualifiedname>
+        <briefdescription>
+<para>Optional: authenticated principal / user name (empty if not yet known). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="55" column="17" bodyfile="include/network/network_audit_log.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_audit_event_1ae491c8dbe0e883f15bf695dc85afd947" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::AuditEvent::token_hash</definition>
+        <argsstring></argsstring>
+        <name>token_hash</name>
+        <qualifiedname>themis::network::AuditEvent::token_hash</qualifiedname>
+        <briefdescription>
+<para>Truncated SHA-256 hash of the authentication token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Populated only for AUTH_SUCCESS and AUTH_FAILURE events. Format: 16 lower-case hex characters (first 8 bytes of SHA-256). Empty for all other event types. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="64" column="17" bodyfile="include/network/network_audit_log.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_audit_event_1ab3bb0d40b884ccbd1156d37cd6f90426" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::AuditEvent::detail</definition>
+        <argsstring></argsstring>
+        <name>detail</name>
+        <qualifiedname>themis::network::AuditEvent::detail</qualifiedname>
+        <briefdescription>
+<para>Human-readable detail (e.g., close reason, rate-limit rule name). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_audit_log.h" line="67" column="17" bodyfile="include/network/network_audit_log.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single immutable audit event record. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Security note: authentication tokens are never stored directly. When a token is involved, only a 16-hex-char prefix of its SHA-256 hash is retained (token_hash field). </para>
+    </detaileddescription>
+    <location file="include/network/network_audit_log.h" line="42" column="1" bodyfile="include/network/network_audit_log.h" bodystart="42" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_audit_event_1acf67c05f24b36c7db88ed4434abf8243" prot="public" virt="non-virtual"><scope>themis::network::AuditEvent</scope><name>connection_id</name></member>
+      <member refid="structthemis_1_1network_1_1_audit_event_1ab3bb0d40b884ccbd1156d37cd6f90426" prot="public" virt="non-virtual"><scope>themis::network::AuditEvent</scope><name>detail</name></member>
+      <member refid="structthemis_1_1network_1_1_audit_event_1a3d9287c770a945f4506a79eab28015e5" prot="public" virt="non-virtual"><scope>themis::network::AuditEvent</scope><name>principal</name></member>
+      <member refid="structthemis_1_1network_1_1_audit_event_1a23effe1c9cecfd5df84753bf164ada91" prot="public" virt="non-virtual"><scope>themis::network::AuditEvent</scope><name>remote_address</name></member>
+      <member refid="structthemis_1_1network_1_1_audit_event_1afab56e78e72790a0162326fbbe3cd21c" prot="public" virt="non-virtual"><scope>themis::network::AuditEvent</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1network_1_1_audit_event_1ae491c8dbe0e883f15bf695dc85afd947" prot="public" virt="non-virtual"><scope>themis::network::AuditEvent</scope><name>token_hash</name></member>
+      <member refid="structthemis_1_1network_1_1_audit_event_1a3c2b87d8e3838d4c4b64a25f3d0a5fde" prot="public" virt="non-virtual"><scope>themis::network::AuditEvent</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

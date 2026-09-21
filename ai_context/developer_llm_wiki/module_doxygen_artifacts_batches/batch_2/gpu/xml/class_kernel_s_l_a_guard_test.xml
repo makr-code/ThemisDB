@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_kernel_s_l_a_guard_test" kind="class" language="C++" prot="public">
+    <compoundname>KernelSLAGuardTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <basecompoundref refid="class_g_p_u_foundations_test" prot="public" virt="non-virtual">GPUFoundationsTest</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>GPUFoundationsTest</label>
+        <link refid="class_g_p_u_foundations_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>KernelSLAGuardTest</label>
+        <link refid="class_kernel_s_l_a_guard_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>GPUFoundationsTest</label>
+        <link refid="class_g_p_u_foundations_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>KernelSLAGuardTest</label>
+        <link refid="class_kernel_s_l_a_guard_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_error_handling.cpp" line="103" column="1" bodyfile="tests/gpu/test_gpu_error_handling.cpp" bodystart="103" bodyend="103"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_foundations_test_1a0141f3aa002b931bc59b9237445fba24" prot="protected" virt="non-virtual"><scope>KernelSLAGuardTest</scope><name>GPUFoundationsTest</name></member>
+      <member refid="class_g_p_u_foundations_test_1a88eacf983f2f34d301c23b2bb92ef2da" prot="protected" virt="non-virtual"><scope>KernelSLAGuardTest</scope><name>handler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

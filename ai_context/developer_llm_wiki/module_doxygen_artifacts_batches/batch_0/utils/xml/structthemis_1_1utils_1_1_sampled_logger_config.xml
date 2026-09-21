@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_sampled_logger_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::SampledLoggerConfig</compoundname>
+    <includes refid="logger_8h" local="no">logger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_sampled_logger_config_1a650b0cced7672dbf73ebccc4f35d08f6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::SampledLoggerConfig::trace_sample_rate</definition>
+        <argsstring></argsstring>
+        <name>trace_sample_rate</name>
+        <qualifiedname>themis::utils::SampledLoggerConfig::trace_sample_rate</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+<para>1% </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="206" column="12" bodyfile="include/utils/logger.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_sampled_logger_config_1a68d5cbffedb9a7193507204abba5d79b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::SampledLoggerConfig::debug_sample_rate</definition>
+        <argsstring></argsstring>
+        <name>debug_sample_rate</name>
+        <qualifiedname>themis::utils::SampledLoggerConfig::debug_sample_rate</qualifiedname>
+        <initializer>= 0.10</initializer>
+        <briefdescription>
+<para>10% </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="207" column="12" bodyfile="include/utils/logger.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_sampled_logger_config_1a43ca5b85794aebf41a4f455fbd146b54" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::SampledLoggerConfig::info_sample_rate</definition>
+        <argsstring></argsstring>
+        <name>info_sample_rate</name>
+        <qualifiedname>themis::utils::SampledLoggerConfig::info_sample_rate</qualifiedname>
+        <initializer>= 1.00</initializer>
+        <briefdescription>
+<para>100% </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="208" column="12" bodyfile="include/utils/logger.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_sampled_logger_config_1a58e036730b173ed0143b575a852bfc36" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::SampledLoggerConfig::warn_sample_rate</definition>
+        <argsstring></argsstring>
+        <name>warn_sample_rate</name>
+        <qualifiedname>themis::utils::SampledLoggerConfig::warn_sample_rate</qualifiedname>
+        <initializer>= 1.00</initializer>
+        <briefdescription>
+<para>100% </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="209" column="12" bodyfile="include/utils/logger.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_sampled_logger_config_1a83d8a3380d80d4b4b162a955fd1658b0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::SampledLoggerConfig::error_sample_rate</definition>
+        <argsstring></argsstring>
+        <name>error_sample_rate</name>
+        <qualifiedname>themis::utils::SampledLoggerConfig::error_sample_rate</qualifiedname>
+        <initializer>= 1.00</initializer>
+        <briefdescription>
+<para>100% </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="210" column="12" bodyfile="include/utils/logger.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_sampled_logger_config_1af5591b63c5be7aea50e5db457e7aeb67" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::SampledLoggerConfig::burst_rate</definition>
+        <argsstring></argsstring>
+        <name>burst_rate</name>
+        <qualifiedname>themis::utils::SampledLoggerConfig::burst_rate</qualifiedname>
+        <initializer>= 100.0</initializer>
+        <briefdescription>
+<para>token-bucket rate (calls/s per site) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="211" column="12" bodyfile="include/utils/logger.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_sampled_logger_config_1a642edb2965e70fd598dfb520145db329" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::SampledLoggerConfig::burst_size</definition>
+        <argsstring></argsstring>
+        <name>burst_size</name>
+        <qualifiedname>themis::utils::SampledLoggerConfig::burst_size</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+<para>initial token budget </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/logger.h" line="212" column="12" bodyfile="include/utils/logger.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for sampled logging. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/logger.h" line="205" column="1" bodyfile="include/utils/logger.h" bodystart="205" bodyend="213"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_sampled_logger_config_1af5591b63c5be7aea50e5db457e7aeb67" prot="public" virt="non-virtual"><scope>themis::utils::SampledLoggerConfig</scope><name>burst_rate</name></member>
+      <member refid="structthemis_1_1utils_1_1_sampled_logger_config_1a642edb2965e70fd598dfb520145db329" prot="public" virt="non-virtual"><scope>themis::utils::SampledLoggerConfig</scope><name>burst_size</name></member>
+      <member refid="structthemis_1_1utils_1_1_sampled_logger_config_1a68d5cbffedb9a7193507204abba5d79b" prot="public" virt="non-virtual"><scope>themis::utils::SampledLoggerConfig</scope><name>debug_sample_rate</name></member>
+      <member refid="structthemis_1_1utils_1_1_sampled_logger_config_1a83d8a3380d80d4b4b162a955fd1658b0" prot="public" virt="non-virtual"><scope>themis::utils::SampledLoggerConfig</scope><name>error_sample_rate</name></member>
+      <member refid="structthemis_1_1utils_1_1_sampled_logger_config_1a43ca5b85794aebf41a4f455fbd146b54" prot="public" virt="non-virtual"><scope>themis::utils::SampledLoggerConfig</scope><name>info_sample_rate</name></member>
+      <member refid="structthemis_1_1utils_1_1_sampled_logger_config_1a650b0cced7672dbf73ebccc4f35d08f6" prot="public" virt="non-virtual"><scope>themis::utils::SampledLoggerConfig</scope><name>trace_sample_rate</name></member>
+      <member refid="structthemis_1_1utils_1_1_sampled_logger_config_1a58e036730b173ed0143b575a852bfc36" prot="public" virt="non-virtual"><scope>themis::utils::SampledLoggerConfig</scope><name>warn_sample_rate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

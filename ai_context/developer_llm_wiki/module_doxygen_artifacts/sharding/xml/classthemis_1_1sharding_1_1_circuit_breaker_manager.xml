@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_circuit_breaker_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::CircuitBreakerManager</compoundname>
+    <includes refid="circuit__breaker_8h" local="no">circuit_breaker.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_circuit_breaker_manager_1_1_state_count" prot="public">themis::sharding::CircuitBreakerManager::StateCount</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_circuit_breaker_manager_1a50adecbb2f0ddc61c8c4887af02fd7d8" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::CircuitBreakerManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::CircuitBreakerManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="206" column="24" bodyfile="include/sharding/circuit_breaker.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_circuit_breaker_manager_1aa83a4e6f79032bb26084d295ea7c4b18" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unique_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_circuit_breaker" kindref="compound">CircuitBreaker</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unique_ptr&lt;CircuitBreaker&gt; &gt; themis::sharding::CircuitBreakerManager::circuit_breakers_</definition>
+        <argsstring></argsstring>
+        <name>circuit_breakers_</name>
+        <qualifiedname>themis::sharding::CircuitBreakerManager::circuit_breakers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="207" column="24" bodyfile="include/sharding/circuit_breaker.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_circuit_breaker_manager_1a0a76b1c24f9b865b33eaccc1f416c4a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_circuit_breaker" kindref="compound">CircuitBreaker</ref> &amp;</type>
+        <definition>CircuitBreaker &amp; themis::sharding::CircuitBreakerManager::getCircuitBreaker</definition>
+        <argsstring>(const std::string &amp;shard_id, const CircuitBreaker::Config &amp;config=CircuitBreaker::Config{})</argsstring>
+        <name>getCircuitBreaker</name>
+        <qualifiedname>themis::sharding::CircuitBreakerManager::getCircuitBreaker</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config" kindref="compound">CircuitBreaker::Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1sharding_1_1_circuit_breaker_1_1_config" kindref="compound">CircuitBreaker::Config</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Get Circuit Breaker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get or create circuit breaker for a shard <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration (used only if creating new circuit breaker) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reference to circuit breaker for this shard</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="170" column="20" bodyfile="src/sharding/circuit_breaker.cpp" bodystart="238" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_circuit_breaker_manager_1adc1bf2ffeb431e837196fb669d08ac59" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::CircuitBreakerManager::hasCircuitBreaker</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>hasCircuitBreaker</name>
+        <qualifiedname>themis::sharding::CircuitBreakerManager::hasCircuitBreaker</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if circuit breaker exists for shard </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="178" column="10" bodyfile="src/sharding/circuit_breaker.cpp" bodystart="257" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_circuit_breaker_manager_1aedd3eb7a2fa2d6bf9f8bedac48ee692d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::CircuitBreakerManager::removeCircuitBreaker</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>removeCircuitBreaker</name>
+        <qualifiedname>themis::sharding::CircuitBreakerManager::removeCircuitBreaker</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Circuit Breaker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove circuit breaker for shard</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="183" column="10" bodyfile="src/sharding/circuit_breaker.cpp" bodystart="272" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_circuit_breaker_manager_1a224df0a327d39afe15078f73312b9046" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::CircuitBreakerManager::resetAll</definition>
+        <argsstring>()</argsstring>
+        <name>resetAll</name>
+        <qualifiedname>themis::sharding::CircuitBreakerManager::resetAll</qualifiedname>
+        <briefdescription>
+<para>Reset All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset all circuit breakers</para>
+<para>Calls: lock(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="188" column="10" bodyfile="src/sharding/circuit_breaker.cpp" bodystart="281" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_circuit_breaker_manager_1ad4e90273491cb5039f96a276b23c32bc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::sharding::CircuitBreakerManager::getAllShardIds</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllShardIds</name>
+        <qualifiedname>themis::sharding::CircuitBreakerManager::getAllShardIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all shard IDs with circuit breakers </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="193" column="17" bodyfile="src/sharding/circuit_breaker.cpp" bodystart="288" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_circuit_breaker_manager_1aefc0cff476899db30ef10e130386b5d6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_circuit_breaker_manager_1_1_state_count" kindref="compound">StateCount</ref></type>
+        <definition>CircuitBreakerManager::StateCount themis::sharding::CircuitBreakerManager::getStateCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getStateCount</name>
+        <qualifiedname>themis::sharding::CircuitBreakerManager::getStateCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/circuit_breaker.h" line="203" column="16" bodyfile="src/sharding/circuit_breaker.cpp" bodystart="306" bodyend="331"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Circuit Breaker Manager</para>
+<para>Manages multiple circuit breakers (one per shard) Provides factory and lookup methods </para>
+    </detaileddescription>
+    <location file="include/sharding/circuit_breaker.h" line="162" column="1" bodyfile="include/sharding/circuit_breaker.h" bodystart="162" bodyend="208"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_manager_1aa83a4e6f79032bb26084d295ea7c4b18" prot="private" virt="non-virtual"><scope>themis::sharding::CircuitBreakerManager</scope><name>circuit_breakers_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_manager_1ad4e90273491cb5039f96a276b23c32bc" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreakerManager</scope><name>getAllShardIds</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_manager_1a0a76b1c24f9b865b33eaccc1f416c4a1" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreakerManager</scope><name>getCircuitBreaker</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_manager_1aefc0cff476899db30ef10e130386b5d6" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreakerManager</scope><name>getStateCount</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_manager_1adc1bf2ffeb431e837196fb669d08ac59" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreakerManager</scope><name>hasCircuitBreaker</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_manager_1a50adecbb2f0ddc61c8c4887af02fd7d8" prot="private" virt="non-virtual"><scope>themis::sharding::CircuitBreakerManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_manager_1aedd3eb7a2fa2d6bf9f8bedac48ee692d" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreakerManager</scope><name>removeCircuitBreaker</name></member>
+      <member refid="classthemis_1_1sharding_1_1_circuit_breaker_manager_1a224df0a327d39afe15078f73312b9046" prot="public" virt="non-virtual"><scope>themis::sharding::CircuitBreakerManager</scope><name>resetAll</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

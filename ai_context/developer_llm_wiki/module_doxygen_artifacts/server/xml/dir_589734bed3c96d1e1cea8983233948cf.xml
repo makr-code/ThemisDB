@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_589734bed3c96d1e1cea8983233948cf" kind="dir">
+    <compoundname>benchmarks/server</compoundname>
+    <innerfile refid="bench__api__endpoints_8cpp">bench_api_endpoints.cpp</innerfile>
+    <innerfile refid="bench__auth__token__validation_8cpp">bench_auth_token_validation.cpp</innerfile>
+    <innerfile refid="bench__postgres__e2e_8cpp">bench_postgres_e2e.cpp</innerfile>
+    <innerfile refid="bench__postgres__protocol_8cpp">bench_postgres_protocol.cpp</innerfile>
+    <innerfile refid="bench__postgres__transactions_8cpp">bench_postgres_transactions.cpp</innerfile>
+    <innerfile refid="bench__server__dedicated__gates_8cpp">bench_server_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__server__hotpaths_8cpp">bench_server_hotpaths.cpp</innerfile>
+    <innerfile refid="bench__server__http3__gates_8cpp">bench_server_http3_gates.cpp</innerfile>
+    <innerfile refid="bench__stream__protocol_8cpp">bench_stream_protocol.cpp</innerfile>
+    <innerfile refid="bench__wal__apply__grpc_8cpp">bench_wal_apply_grpc.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/server/"/>
+  </compounddef>
+</doxygen>

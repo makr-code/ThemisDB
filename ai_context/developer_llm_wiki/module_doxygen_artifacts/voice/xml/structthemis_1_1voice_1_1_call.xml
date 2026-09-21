@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_call" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::Call</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_call_1a7aaadc166fc9b04c1d530e9ab7b99520" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::Call::call_id</definition>
+        <argsstring></argsstring>
+        <name>call_id</name>
+        <qualifiedname>themis::voice::Call::call_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="46" column="17" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_call_1acf6c2960648832e09c40c35416b58ca3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::Call::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::voice::Call::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="47" column="17" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_call_1a7011f762dff7557d0c5fbec9623c6541" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::Call::phone_number</definition>
+        <argsstring></argsstring>
+        <name>phone_number</name>
+        <qualifiedname>themis::voice::Call::phone_number</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="48" column="17" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_call_1a8c131721b2a1d4715d2306fc3fdca598" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1ae650ea81d1f35201800909d85db40f56" kindref="member">AudioCodec</ref></type>
+        <definition>AudioCodec themis::voice::Call::codec</definition>
+        <argsstring></argsstring>
+        <name>codec</name>
+        <qualifiedname>themis::voice::Call::codec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="49" column="16" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_call_1a4b2281f621ea4c95f6b7eb4434ac4d3c" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::voice::Call::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::voice::Call::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="50" column="43" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_call_1a692e2024f380751ed24a566b154b8a4e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::Call::active</definition>
+        <argsstring></argsstring>
+        <name>active</name>
+        <qualifiedname>themis::voice::Call::active</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_telephony_focused.cpp" line="51" column="10" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_telephony_focused.cpp" line="45" column="1" bodyfile="tests/voice/test_voice_telephony_focused.cpp" bodystart="45" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_call_1a692e2024f380751ed24a566b154b8a4e" prot="public" virt="non-virtual"><scope>themis::voice::Call</scope><name>active</name></member>
+      <member refid="structthemis_1_1voice_1_1_call_1a7aaadc166fc9b04c1d530e9ab7b99520" prot="public" virt="non-virtual"><scope>themis::voice::Call</scope><name>call_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_call_1a8c131721b2a1d4715d2306fc3fdca598" prot="public" virt="non-virtual"><scope>themis::voice::Call</scope><name>codec</name></member>
+      <member refid="structthemis_1_1voice_1_1_call_1a7011f762dff7557d0c5fbec9623c6541" prot="public" virt="non-virtual"><scope>themis::voice::Call</scope><name>phone_number</name></member>
+      <member refid="structthemis_1_1voice_1_1_call_1acf6c2960648832e09c40c35416b58ca3" prot="public" virt="non-virtual"><scope>themis::voice::Call</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_call_1a4b2281f621ea4c95f6b7eb4434ac4d3c" prot="public" virt="non-virtual"><scope>themis::voice::Call</scope><name>start_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

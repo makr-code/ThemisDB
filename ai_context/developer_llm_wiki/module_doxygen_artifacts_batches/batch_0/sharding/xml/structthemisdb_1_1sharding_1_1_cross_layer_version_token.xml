@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_cross_layer_version_token" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::CrossLayerVersionToken</compoundname>
+    <includes refid="dual__consensus__orchestrator_8h" local="no">dual_consensus_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_layer_version_token_1aa24ced9ba5413e1022653910d5c3c8d4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::CrossLayerVersionToken::storage_version</definition>
+        <argsstring></argsstring>
+        <name>storage_version</name>
+        <qualifiedname>themisdb::sharding::CrossLayerVersionToken::storage_version</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/dual_consensus_orchestrator.h" line="52" column="14" bodyfile="include/sharding/dual_consensus_orchestrator.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_layer_version_token_1a2ff0564393b97a3b92bab1c1f40561d3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::CrossLayerVersionToken::cache_version</definition>
+        <argsstring></argsstring>
+        <name>cache_version</name>
+        <qualifiedname>themisdb::sharding::CrossLayerVersionToken::cache_version</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><blockquote><para>Version from storage layer </para>
+</blockquote></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/dual_consensus_orchestrator.h" line="53" column="14" bodyfile="include/sharding/dual_consensus_orchestrator.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_layer_version_token_1a82872d0acf9da323ac766d6f06d69156" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::CrossLayerVersionToken::transaction_id</definition>
+        <argsstring></argsstring>
+        <name>transaction_id</name>
+        <qualifiedname>themisdb::sharding::CrossLayerVersionToken::transaction_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><blockquote><para>Version from cache layer </para>
+</blockquote></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/dual_consensus_orchestrator.h" line="54" column="17" bodyfile="include/sharding/dual_consensus_orchestrator.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_cross_layer_version_token_1ac15422c813cd6fffe55f9532f46cca00" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::sharding::CrossLayerVersionToken::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themisdb::sharding::CrossLayerVersionToken::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><blockquote><para>Associated transaction ID </para>
+</blockquote></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/dual_consensus_orchestrator.h" line="55" column="43" bodyfile="include/sharding/dual_consensus_orchestrator.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_cross_layer_version_token_1abdd8f4c1afaa38d39db2572968aeb699" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossLayerVersionToken::isNewerThan</definition>
+        <argsstring>(const CrossLayerVersionToken &amp;other) const</argsstring>
+        <name>isNewerThan</name>
+        <qualifiedname>themisdb::sharding::CrossLayerVersionToken::isNewerThan</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_cross_layer_version_token" kindref="compound">CrossLayerVersionToken</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Check if this token is newer than another. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/dual_consensus_orchestrator.h" line="60" column="10" bodyfile="include/sharding/dual_consensus_orchestrator.h" bodystart="60" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_cross_layer_version_token_1a783571734611e07d11eb3ddfe3d2629c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::CrossLayerVersionToken::isConsistent</definition>
+        <argsstring>() const</argsstring>
+        <name>isConsistent</name>
+        <qualifiedname>themisdb::sharding::CrossLayerVersionToken::isConsistent</qualifiedname>
+        <briefdescription>
+<para>Check if both layers are consistent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/dual_consensus_orchestrator.h" line="72" column="10" bodyfile="include/sharding/dual_consensus_orchestrator.h" bodystart="72" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_cross_layer_version_token_1a2ba5dbe133ba46602ebfce936d44520c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::CrossLayerVersionToken::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::sharding::CrossLayerVersionToken::toJson</qualifiedname>
+        <briefdescription>
+<para>Convert to JSON for serialization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/dual_consensus_orchestrator.h" line="79" column="20" bodyfile="include/sharding/dual_consensus_orchestrator.h" bodystart="79" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_cross_layer_version_token_1ab475070097cb4132cbbaac83dc41307f" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_cross_layer_version_token" kindref="compound">CrossLayerVersionToken</ref></type>
+        <definition>static CrossLayerVersionToken themisdb::sharding::CrossLayerVersionToken::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themisdb::sharding::CrossLayerVersionToken::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Create from JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/dual_consensus_orchestrator.h" line="92" column="35" bodyfile="include/sharding/dual_consensus_orchestrator.h" bodystart="92" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Version token for tracking consistency across layers. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/dual_consensus_orchestrator.h" line="51" column="1" bodyfile="include/sharding/dual_consensus_orchestrator.h" bodystart="51" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_layer_version_token_1a2ff0564393b97a3b92bab1c1f40561d3" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossLayerVersionToken</scope><name>cache_version</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_layer_version_token_1ab475070097cb4132cbbaac83dc41307f" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossLayerVersionToken</scope><name>fromJson</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_layer_version_token_1a783571734611e07d11eb3ddfe3d2629c" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossLayerVersionToken</scope><name>isConsistent</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_layer_version_token_1abdd8f4c1afaa38d39db2572968aeb699" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossLayerVersionToken</scope><name>isNewerThan</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_layer_version_token_1aa24ced9ba5413e1022653910d5c3c8d4" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossLayerVersionToken</scope><name>storage_version</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_layer_version_token_1ac15422c813cd6fffe55f9532f46cca00" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossLayerVersionToken</scope><name>timestamp</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_layer_version_token_1a2ba5dbe133ba46602ebfce936d44520c" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossLayerVersionToken</scope><name>toJson</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_cross_layer_version_token_1a82872d0acf9da323ac766d6f06d69156" prot="public" virt="non-virtual"><scope>themisdb::sharding::CrossLayerVersionToken</scope><name>transaction_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

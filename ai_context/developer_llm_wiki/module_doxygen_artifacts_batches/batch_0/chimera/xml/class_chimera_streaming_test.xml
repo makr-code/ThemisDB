@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_chimera_streaming_test" kind="class" language="C++" prot="public">
+    <compoundname>ChimeraStreamingTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_chimera_streaming_test_1a5ca982a2a8c09ec9e2f01bc227a021a1" prot="protected" static="no" mutable="no">
+        <type><ref refid="classchimera_1_1_themis_d_b_adapter" kindref="compound">ThemisDBAdapter</ref></type>
+        <definition>ThemisDBAdapter ChimeraStreamingTest::adapter_</definition>
+        <argsstring></argsstring>
+        <name>adapter_</name>
+        <qualifiedname>ChimeraStreamingTest::adapter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_streaming.cpp" line="71" column="21" bodyfile="tests/chimera/test_chimera_streaming.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_chimera_streaming_test_1a3e579b79e2dda47d29249d971a0a4c61" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ChimeraStreamingTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ChimeraStreamingTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chimera/test_chimera_streaming.cpp" line="66" column="10" bodyfile="tests/chimera/test_chimera_streaming.cpp" bodystart="66" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ChimeraStreamingTest</label>
+        <link refid="class_chimera_streaming_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ChimeraStreamingTest</label>
+        <link refid="class_chimera_streaming_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>adapter_</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>IAsyncDatabaseAdapter</label>
+      </node>
+      <node id="4">
+        <label>IDatabaseAdapter</label>
+      </node>
+      <node id="7">
+        <label>chimera::IPreparedStatementAdapter</label>
+        <link refid="classchimera_1_1_i_prepared_statement_adapter"/>
+      </node>
+      <node id="6">
+        <label>chimera::IStreamingAdapter</label>
+        <link refid="classchimera_1_1_i_streaming_adapter"/>
+      </node>
+      <node id="3">
+        <label>chimera::ThemisDBAdapter</label>
+        <link refid="classchimera_1_1_themis_d_b_adapter"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/chimera/test_chimera_streaming.cpp" line="64" column="1" bodyfile="tests/chimera/test_chimera_streaming.cpp" bodystart="64" bodyend="72"/>
+    <listofallmembers>
+      <member refid="class_chimera_streaming_test_1a5ca982a2a8c09ec9e2f01bc227a021a1" prot="protected" virt="non-virtual"><scope>ChimeraStreamingTest</scope><name>adapter_</name></member>
+      <member refid="class_chimera_streaming_test_1a3e579b79e2dda47d29249d971a0a4c61" prot="protected" virt="non-virtual"><scope>ChimeraStreamingTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

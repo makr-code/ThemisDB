@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_c_e_p_engine_test" kind="class" language="C++" prot="public">
+    <compoundname>CEPEngineTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_c_e_p_engine_test_1a92cd949f5bce12dbb6cf402db9f87aac" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CEPEngineTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CEPEngineTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_cep_engine.cpp" line="907" column="10" bodyfile="tests/analytics/test_cep_engine.cpp" bodystart="907" bodyend="919"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_e_p_engine_test_1aa6358483b0d962dbcf1502f0a0bdc6c0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CEPEngineTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CEPEngineTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_cep_engine.cpp" line="921" column="10" bodyfile="tests/analytics/test_cep_engine.cpp" bodystart="921" bodyend="923"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CEPEngineTest</label>
+        <link refid="class_c_e_p_engine_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CEPEngineTest</label>
+        <link refid="class_c_e_p_engine_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_cep_engine.cpp" line="905" column="1" bodyfile="tests/analytics/test_cep_engine.cpp" bodystart="905" bodyend="924"/>
+    <listofallmembers>
+      <member refid="class_c_e_p_engine_test_1a92cd949f5bce12dbb6cf402db9f87aac" prot="protected" virt="non-virtual"><scope>CEPEngineTest</scope><name>SetUp</name></member>
+      <member refid="class_c_e_p_engine_test_1aa6358483b0d962dbcf1502f0a0bdc6c0" prot="protected" virt="non-virtual"><scope>CEPEngineTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

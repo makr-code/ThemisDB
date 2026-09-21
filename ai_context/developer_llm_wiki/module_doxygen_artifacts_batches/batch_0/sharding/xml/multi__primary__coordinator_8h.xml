@@ -1,0 +1,433 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="multi__primary__coordinator_8h" kind="file" language="C++">
+    <compoundname>multi_primary_coordinator.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes refid="wal__manager_8h" local="yes">sharding/wal_manager.h</includes>
+    <includes refid="wal__shipper_8h" local="yes">sharding/wal_shipper.h</includes>
+    <includes refid="replica__topology_8h" local="yes">sharding/replica_topology.h</includes>
+    <includes refid="write__concern_8h" local="yes">sharding/write_concern.h</includes>
+    <includedby refid="health__monitor_8h" local="yes">include/sharding/health_monitor.h</includedby>
+    <includedby refid="multi__primary__coordinator_8cpp" local="yes">src/sharding/multi_primary_coordinator.cpp</includedby>
+    <incdepgraph>
+      <node id="17">
+        <label>sharding/mtls_client.h</label>
+        <link refid="mtls__client_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/multi_primary_coordinator.h</label>
+        <link refid="multi__primary__coordinator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>sharding/redundancy_strategy.h</label>
+        <link refid="redundancy__strategy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>sharding/replica_topology.h</label>
+        <link refid="replica__topology_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>sharding/truetime.h</label>
+        <link refid="truetime_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>sharding/wal_manager.h</label>
+        <link refid="wal__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>sharding/wal_shipper.h</label>
+        <link refid="wal__shipper_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>sharding/write_concern.h</label>
+        <link refid="write__concern_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>algorithm</label>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="19">
+        <label>condition_variable</label>
+      </node>
+      <node id="14">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>filesystem</label>
+      </node>
+      <node id="11">
+        <label>fstream</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="26">
+        <label>future</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="15">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="25">
+        <label>shared_mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="18">
+        <label>thread</label>
+      </node>
+      <node id="24">
+        <label>unordered_map</label>
+      </node>
+      <node id="22">
+        <label>unordered_set</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/sharding/health_monitor.h</label>
+        <link refid="health__monitor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/multi_primary_coordinator.h</label>
+        <link refid="multi__primary__coordinator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/sharding/health_monitor.cpp</label>
+        <link refid="health__monitor_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/sharding/multi_primary_coordinator.cpp</label>
+        <link refid="multi__primary__coordinator_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1sharding_1_1_primary_node_info" prot="public">themis::sharding::PrimaryNodeInfo</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_multi_primary_config" prot="public">themis::sharding::MultiPrimaryConfig</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_write_conflict" prot="public">themis::sharding::WriteConflict</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_multi_primary_coordinator" prot="public">themis::sharding::MultiPrimaryCoordinator</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics" prot="public">themis::sharding::MultiPrimaryCoordinator::Statistics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wal__manager_8h" kindref="compound">sharding/wal_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wal__shipper_8h" kindref="compound">sharding/wal_shipper.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="replica__topology_8h" kindref="compound">sharding/replica_topology.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="write__concern_8h" kindref="compound">sharding/write_concern.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1sharding_1a0dea1c5c179183c1f80e124202f1ad0b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1sharding_1a0dea1c5c179183c1f80e124202f1ad0b" kindref="member">PrimaryState</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1sharding_1a0dea1c5c179183c1f80e124202f1ad0ba18ff74f43da410c5529f7d6fca84f115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a9bdbfde18f5ac23b8dd425b98a4ae9a9a18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref><sp/>=<sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Accepting<sp/>writes,<sp/>shipping<sp/>to<sp/>replicas</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1sharding_1a0dea1c5c179183c1f80e124202f1ad0baeea559d5c56d48e94e586f7fe000c0b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a0dea1c5c179183c1f80e124202f1ad0baeea559d5c56d48e94e586f7fe000c0b1" kindref="member">STANDBY</ref><sp/>=<sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Receiving<sp/>replication,<sp/>ready<sp/>to<sp/>promote</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1sharding_1a0dea1c5c179183c1f80e124202f1ad0ba0021017005f0e5134b204c2e69d3d4ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7a0021017005f0e5134b204c2e69d3d4ed" kindref="member">DEGRADED</ref><sp/>=<sp/>2,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Network<sp/>issues,<sp/>partial<sp/>replication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1sharding_1a0dea1c5c179183c1f80e124202f1ad0ba7ed929f45ba34eff59d81d74d4f80a58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a6cf8549bfbf3b3ac05162afcbf390e9aa7ed929f45ba34eff59d81d74d4f80a58" kindref="member">OFFLINE</ref><sp/>=<sp/>3<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>responding<sp/>to<sp/>health<sp/>checks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1sharding_1_1_primary_node_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_primary_node_info" kindref="compound">PrimaryNodeInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1sharding_1_1_primary_node_info_1a91310cb24d353cf8f13dd4223b2bc7da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_primary_node_info_1a91310cb24d353cf8f13dd4223b2bc7da" kindref="member">node_id</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1sharding_1_1_primary_node_info_1a5766a9b2e8c9716e34024027bd394141" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_primary_node_info_1a5766a9b2e8c9716e34024027bd394141" kindref="member">endpoint</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>HTTP/gRPC<sp/>endpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1sharding_1_1_primary_node_info_1a7b951182dbaa52397bf16d12a4deb80b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1a0dea1c5c179183c1f80e124202f1ad0b" kindref="member">PrimaryState</ref><sp/><ref refid="structthemis_1_1sharding_1_1_primary_node_info_1a7b951182dbaa52397bf16d12a4deb80b" kindref="member">state</ref><sp/>=<sp/><ref refid="namespacethemis_1_1sharding_1a0dea1c5c179183c1f80e124202f1ad0baeea559d5c56d48e94e586f7fe000c0b1" kindref="member">PrimaryState::STANDBY</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1sharding_1_1_primary_node_info_1a250c2b66d733947cbee834a0529c6e5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="structthemis_1_1sharding_1_1_primary_node_info_1a250c2b66d733947cbee834a0529c6e5a" kindref="member">last_known_lsn</ref>;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1sharding_1_1_primary_node_info_1aeca3c878f4ad0393daee967459245ac6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemis_1_1sharding_1_1_primary_node_info_1aeca3c878f4ad0393daee967459245ac6" kindref="member">last_heartbeat</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1sharding_1_1_primary_node_info_1ae57e6ec01cfa499571a98d2ddcac9140" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_primary_node_info_1ae57e6ec01cfa499571a98d2ddcac9140" kindref="member">write_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1sharding_1_1_primary_node_info_1a953bce2f7146941e1487686e67ea9a33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_primary_node_info_1a953bce2f7146941e1487686e67ea9a33" kindref="member">is_current</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Is<sp/>this<sp/>the<sp/>current<sp/>node?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1sharding_1_1_primary_node_info_1a9f7746799f91bb012cd974e0f91ea41e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_primary_node_info_1a9f7746799f91bb012cd974e0f91ea41e" kindref="member">isHealthy</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_primary_node_info_1a7b951182dbaa52397bf16d12a4deb80b" kindref="member">state</ref><sp/>==<sp/><ref refid="namespacethemis_1_1sharding_1a0dea1c5c179183c1f80e124202f1ad0ba18ff74f43da410c5529f7d6fca84f115" kindref="member">PrimaryState::ACTIVE</ref><sp/>||<sp/><ref refid="structthemis_1_1sharding_1_1_primary_node_info_1a7b951182dbaa52397bf16d12a4deb80b" kindref="member">state</ref><sp/>==<sp/><ref refid="namespacethemis_1_1sharding_1a0dea1c5c179183c1f80e124202f1ad0baeea559d5c56d48e94e586f7fe000c0b1" kindref="member">PrimaryState::STANDBY</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1sharding_1_1_primary_node_info_1a676cb3a0b57dcfc4766161bbe46f29f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1sharding_1_1_primary_node_info_1a676cb3a0b57dcfc4766161bbe46f29f5" kindref="member">timeSinceLastHeartbeat</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(now<sp/>-<sp/><ref refid="structthemis_1_1sharding_1_1_primary_node_info_1aeca3c878f4ad0393daee967459245ac6" kindref="member">last_heartbeat</ref>);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1sharding_1_1_multi_primary_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_multi_primary_config" kindref="compound">MultiPrimaryConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1sharding_1_1_multi_primary_config_1aebf27503a3ad8c862ca05683aeb4a827" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_multi_primary_config_1aebf27503a3ad8c862ca05683aeb4a827" kindref="member">current_node_id</ref>;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1sharding_1_1_multi_primary_config_1a4db683a97048ea23549a353bf030de72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_multi_primary_config_1a4db683a97048ea23549a353bf030de72" kindref="member">primary_node_ids</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>primary<sp/>nodes<sp/>in<sp/>cluster</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1sharding_1_1_multi_primary_config_1a30d7f3d4c637c28e884b88db08028b0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_multi_primary_config_1a30d7f3d4c637c28e884b88db08028b0e" kindref="member">primary_endpoints</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>node_id<sp/>-&gt;<sp/>endpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Conflict<sp/>resolution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1sharding_1_1_multi_primary_config_1a75ca9587f3cdd193c24bbf80f19621b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_multi_primary_config_1a75ca9587f3cdd193c24bbf80f19621b3" kindref="member">use_last_write_wins</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>LWW<sp/>conflict<sp/>resolution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1sharding_1_1_multi_primary_config_1ac26b3cd14c0b158c19b90f2200a7ade8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_multi_primary_config_1ac26b3cd14c0b158c19b90f2200a7ade8" kindref="member">allow_concurrent_writes</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Multiple<sp/>primaries<sp/>can<sp/>write</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Replication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1sharding_1_1_multi_primary_config_1a9e24ec93ea947b3886f3c6aff60834b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_multi_primary_config_1a9e24ec93ea947b3886f3c6aff60834b5" kindref="member">cross_primary_replication</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Primaries<sp/>replicate<sp/>to<sp/>each<sp/>other</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1sharding_1_1_multi_primary_config_1aee1c994aed3c5bea45d8a41b5697f292" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164" kindref="member">WriteConcern</ref><sp/><ref refid="structthemis_1_1sharding_1_1_multi_primary_config_1aee1c994aed3c5bea45d8a41b5697f292" kindref="member">default_write_concern</ref><sp/>=<sp/><ref refid="namespacethemis_1_1sharding_1ace46569833583f9fb89ad64715ab3164a28e6444341e60a10ed454a48de251aa9" kindref="member">WriteConcern::MAJORITY</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Promotion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1sharding_1_1_multi_primary_config_1a388c159b03d58c7363924bc0ba5531ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_multi_primary_config_1a388c159b03d58c7363924bc0ba5531ff" kindref="member">auto_promote_on_primary_failure</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1sharding_1_1_multi_primary_config_1af250da3350b242f4f18dac2b5a88abfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1sharding_1_1_multi_primary_config_1af250da3350b242f4f18dac2b5a88abfe" kindref="member">promotion_timeout</ref>{5000};<sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1sharding_1_1_write_conflict" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_write_conflict" kindref="compound">WriteConflict</ref><sp/>{</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1sharding_1_1_write_conflict_1a77f323a92f4b7341a5cf36e70404f7f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="structthemis_1_1sharding_1_1_write_conflict_1a77f323a92f4b7341a5cf36e70404f7f2" kindref="member">lsn1</ref>;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1sharding_1_1_write_conflict_1a1ddf1266a60176b3bbc36bc00243d5ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="structthemis_1_1sharding_1_1_write_conflict_1a1ddf1266a60176b3bbc36bc00243d5ae" kindref="member">lsn2</ref>;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1sharding_1_1_write_conflict_1a9e7159e75bc781c0c5eaaeb74cc6dc5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_write_conflict_1a9e7159e75bc781c0c5eaaeb74cc6dc5a" kindref="member">timestamp1</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1sharding_1_1_write_conflict_1af36422d135df965dfb0fdaa8ac2762de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_write_conflict_1af36422d135df965dfb0fdaa8ac2762de" kindref="member">timestamp2</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1sharding_1_1_write_conflict_1a136f71729fdd2e8dc672c06fda1a8baa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_write_conflict_1a136f71729fdd2e8dc672c06fda1a8baa" kindref="member">primary_id1</ref>;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1sharding_1_1_write_conflict_1a80969922749a4f8e655ed359feb359e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_write_conflict_1a80969922749a4f8e655ed359feb359e6" kindref="member">primary_id2</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LWW:<sp/>choose<sp/>entry<sp/>with<sp/>latest<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1sharding_1_1_write_conflict_1aa3d39b9f3941ea3dbc5008366d2f0523" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="structthemis_1_1sharding_1_1_write_conflict_1aa3d39b9f3941ea3dbc5008366d2f0523" kindref="member">resolveLastWriteWins</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1sharding_1_1_write_conflict_1af36422d135df965dfb0fdaa8ac2762de" kindref="member">timestamp2</ref><sp/>&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_write_conflict_1a9e7159e75bc781c0c5eaaeb74cc6dc5a" kindref="member">timestamp1</ref>)<sp/>?<sp/><ref refid="structthemis_1_1sharding_1_1_write_conflict_1a1ddf1266a60176b3bbc36bc00243d5ae" kindref="member">lsn2</ref><sp/>:<sp/><ref refid="structthemis_1_1sharding_1_1_write_conflict_1a77f323a92f4b7341a5cf36e70404f7f2" kindref="member">lsn1</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1sharding_1_1_multi_primary_coordinator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a7af9afa3f63256384b7ecc609bdcbfd9" kindref="member">MultiPrimaryCoordinator</ref><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a7af9afa3f63256384b7ecc609bdcbfd9" kindref="member">MultiPrimaryCoordinator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_multi_primary_config" kindref="compound">MultiPrimaryConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a57ddbb762354b57ef6fe3b0330d0909f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a57ddbb762354b57ef6fe3b0330d0909f" kindref="member">~MultiPrimaryCoordinator</ref>();</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a08bb06dd031c528b80911bcde95c3747" kindref="member">registerPrimary</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a1f782e1d79a60f9f03cd9d41690f809f" kindref="member">promoteToPrimary</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1aed985b53fefe1d4f15ccc3c7bf0afd1a" kindref="member">demoteToStandby</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1aa70216fe754745a4230d39fc6a6cf5c6" kindref="member">markPrimaryOffline</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1aba0fe5bc05d6dba90b281e8dbabf4651" kindref="member">updateHeartbeat</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>&amp;<sp/>current_lsn);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PrimaryNodeInfo&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a016daf952555a784628636b6f627c935" kindref="member">getActivePrimaries</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;PrimaryNodeInfo&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a967cb6298ae34481fed4cb0638ba7be1" kindref="member">getPrimaryInfo</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1ae6528ed41fef16aebd5349f34b87855b" kindref="member">isCurrentNodeActive</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a093df2bfb823ddd87e522fe11bc6adaf" kindref="member">resolveConflict</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_write_conflict" kindref="compound">WriteConflict</ref>&amp;<sp/>conflict)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a57d9fbe7fb99050b4d14cdcced60a296" kindref="member">recordWrite</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>&amp;<sp/>lsn);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1ad38659513b4fb22fc346c77be4f64b22" kindref="member">getMostCurrentPrimary</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1a1c438a93b420aeede5218db7380dfe7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1a1c438a93b420aeede5218db7380dfe7e" kindref="member">total_primaries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="175" refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1a4763c1784783edf164e5913969a344d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1a4763c1784783edf164e5913969a344d9" kindref="member">active_primaries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1a8388b5b8682b45b6fa25f0568ac6f0d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1a8388b5b8682b45b6fa25f0568ac6f0d3" kindref="member">standby_primaries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="177" refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1ac2ba4fac46eb88ecd086f7bda78a4df5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1ac2ba4fac46eb88ecd086f7bda78a4df5" kindref="member">offline_primaries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="178" refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1a5bae09ef446cec67990fa5a070360d03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1a5bae09ef446cec67990fa5a070360d03" kindref="member">total_writes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="179" refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1a8974bf0e0a304531e89d03064feee0f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics_1a8974bf0e0a304531e89d03064feee0f4" kindref="member">conflicts_resolved</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_multi_primary_coordinator_1_1_statistics" kindref="compound">Statistics</ref><sp/><ref refid="classthemis_1_1sharding_1_1_multi_primary_coordinator_1a4ac9385c94c351af876d7c3aac912995" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_multi_primary_config" kindref="compound">MultiPrimaryConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>PrimaryNodeInfo&gt;<sp/>primaries_;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>conflicts_resolved_{0};</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::sharding</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/multi_primary_coordinator.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_lora_adapter_application_test" kind="class" language="C++" prot="public">
+    <compoundname>LoraAdapterApplicationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_lora_adapter_application_test_1a162a3e426d5993d553263fd4c5f5eae0" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path LoraAdapterApplicationTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>LoraAdapterApplicationTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="71" column="27" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_lora_adapter_application_test_1abde9ea3f25fd68b629b86ba9fdd15fb8" prot="protected" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; LoraAdapterApplicationTest::adapter_paths_</definition>
+        <argsstring></argsstring>
+        <name>adapter_paths_</name>
+        <qualifiedname>LoraAdapterApplicationTest::adapter_paths_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="72" column="24" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_lora_adapter_application_test_1ae075a9306a565f2167b5e9197c3d1b64" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_multi_lo_r_a_manager" kindref="compound">MultiLoRAManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MultiLoRAManager&gt; LoraAdapterApplicationTest::manager_</definition>
+        <argsstring></argsstring>
+        <name>manager_</name>
+        <qualifiedname>LoraAdapterApplicationTest::manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="73" column="21" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_lora_adapter_application_test_1a4c4d240783351ebe206259c54d475a1d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LoraAdapterApplicationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LoraAdapterApplicationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="34" column="10" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="34" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lora_adapter_application_test_1a512e3c5e645e0840fd71f9e6476bec05" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LoraAdapterApplicationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>LoraAdapterApplicationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="54" column="10" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="54" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_lora_adapter_application_test_1a2097254bc584e2fa8e09722c68790385" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LoraAdapterApplicationTest::createMockAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>createMockAdapter</name>
+        <qualifiedname>LoraAdapterApplicationTest::createMockAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_lora_adapter_application.cpp" line="61" column="10" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="61" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LoraAdapterApplicationTest</label>
+        <link refid="class_lora_adapter_application_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LoraAdapterApplicationTest</label>
+        <link refid="class_lora_adapter_application_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_lora_adapter_application.cpp" line="32" column="1" bodyfile="tests/llm/test_lora_adapter_application.cpp" bodystart="32" bodyend="74"/>
+    <listofallmembers>
+      <member refid="class_lora_adapter_application_test_1abde9ea3f25fd68b629b86ba9fdd15fb8" prot="protected" virt="non-virtual"><scope>LoraAdapterApplicationTest</scope><name>adapter_paths_</name></member>
+      <member refid="class_lora_adapter_application_test_1a2097254bc584e2fa8e09722c68790385" prot="protected" virt="non-virtual"><scope>LoraAdapterApplicationTest</scope><name>createMockAdapter</name></member>
+      <member refid="class_lora_adapter_application_test_1ae075a9306a565f2167b5e9197c3d1b64" prot="protected" virt="non-virtual"><scope>LoraAdapterApplicationTest</scope><name>manager_</name></member>
+      <member refid="class_lora_adapter_application_test_1a4c4d240783351ebe206259c54d475a1d" prot="protected" virt="non-virtual"><scope>LoraAdapterApplicationTest</scope><name>SetUp</name></member>
+      <member refid="class_lora_adapter_application_test_1a512e3c5e645e0840fd71f9e6476bec05" prot="protected" virt="non-virtual"><scope>LoraAdapterApplicationTest</scope><name>TearDown</name></member>
+      <member refid="class_lora_adapter_application_test_1a162a3e426d5993d553263fd4c5f5eae0" prot="protected" virt="non-virtual"><scope>LoraAdapterApplicationTest</scope><name>test_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

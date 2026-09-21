@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_read_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::MultiMasterReplicationManager::ReadResult</compoundname>
+    <includes refid="multi__master__replication_8h" local="no">multi_master_replication.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_read_result_1aadda7538ffd5264ed2a22c24cc3c97fd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::MultiMasterReplicationManager::ReadResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themisdb::replication::MultiMasterReplicationManager::ReadResult::success</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="404" column="14" bodyfile="include/replication/multi_master_replication.h" bodystart="404" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_read_result_1a53e0cb239da607ced35356a331727f56" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MultiMasterReplicationManager::ReadResult::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themisdb::replication::MultiMasterReplicationManager::ReadResult::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="405" column="21" bodyfile="include/replication/multi_master_replication.h" bodystart="405" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_read_result_1a1cc2d5b35ea23cb60ec9647c438b1f97" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1replication_1_1_vector_clock" kindref="compound">VectorClock</ref></type>
+        <definition>VectorClock themisdb::replication::MultiMasterReplicationManager::ReadResult::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themisdb::replication::MultiMasterReplicationManager::ReadResult::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="406" column="21" bodyfile="include/replication/multi_master_replication.h" bodystart="406" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_read_result_1a3e3c03a91aa400aebfb63f66109c1d1f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::MultiMasterReplicationManager::ReadResult::source_node</definition>
+        <argsstring></argsstring>
+        <name>source_node</name>
+        <qualifiedname>themisdb::replication::MultiMasterReplicationManager::ReadResult::source_node</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="407" column="21" bodyfile="include/replication/multi_master_replication.h" bodystart="407" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::replication::MultiMasterReplicationManager::ReadResult</label>
+        <link refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_read_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>version</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::replication::VectorClock</label>
+        <link refid="classthemisdb_1_1replication_1_1_vector_clock"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/replication/multi_master_replication.h" line="403" column="5" bodyfile="include/replication/multi_master_replication.h" bodystart="403" bodyend="408"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_read_result_1a53e0cb239da607ced35356a331727f56" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiMasterReplicationManager::ReadResult</scope><name>data</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_read_result_1a3e3c03a91aa400aebfb63f66109c1d1f" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiMasterReplicationManager::ReadResult</scope><name>source_node</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_read_result_1aadda7538ffd5264ed2a22c24cc3c97fd" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiMasterReplicationManager::ReadResult</scope><name>success</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_multi_master_replication_manager_1_1_read_result_1a1cc2d5b35ea23cb60ec9647c438b1f97" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiMasterReplicationManager::ReadResult</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,695 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rpc_1_1_circuit_breaker" kind="class" language="C++" prot="public">
+    <compoundname>themis::rpc::CircuitBreaker</compoundname>
+    <includes refid="circuit__breaker_8h" local="no">circuit_breaker.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_circuit_breaker_1a54bc09b292ae81d45664f00cb76d4b78" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_config" kindref="compound">CircuitBreakerConfig</ref></type>
+        <definition>CircuitBreakerConfig themis::rpc::CircuitBreaker::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="245" column="26" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_circuit_breaker_1a67a531dca908809ad5db5b2ca329cbad" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rpc::CircuitBreaker::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="247" column="24" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_circuit_breaker_1a254e60735db4ad3df97604c4fef03d4d" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref></type>
+        <definition>CircuitState themis::rpc::CircuitBreaker::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::state_</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865af9be16a4ac9fcc9b545ff52f0606eb09" kindref="member">CircuitState::kClosed</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="249" column="18" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="249" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_circuit_breaker_1a6121387b048abf14cd9c8f65f955d92a" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::CircuitBreaker::consecutive_failures_</definition>
+        <argsstring></argsstring>
+        <name>consecutive_failures_</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::consecutive_failures_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="252" column="14" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="252" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_circuit_breaker_1a1dc6f0e82f9202420b8c2d1f67482d26" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::CircuitBreaker::consecutive_successes_</definition>
+        <argsstring></argsstring>
+        <name>consecutive_successes_</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::consecutive_successes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Used in HALF_OPEN only. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="253" column="14" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="253" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_circuit_breaker_1a75a773de3824c6386d0f1264eaf490fc" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::CircuitBreaker::total_calls_</definition>
+        <argsstring></argsstring>
+        <name>total_calls_</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::total_calls_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="254" column="14" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="254" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_circuit_breaker_1adb4ea0c8cc994aab09d442f80b797215" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::CircuitBreaker::successful_calls_</definition>
+        <argsstring></argsstring>
+        <name>successful_calls_</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::successful_calls_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="255" column="14" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="255" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_circuit_breaker_1adf26f987e77844b797d8c1d0bfa917ec" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::CircuitBreaker::failed_calls_</definition>
+        <argsstring></argsstring>
+        <name>failed_calls_</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::failed_calls_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="256" column="14" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="256" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_circuit_breaker_1a80e8479d8e088a529be23206968e41a2" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::CircuitBreaker::rejected_calls_</definition>
+        <argsstring></argsstring>
+        <name>rejected_calls_</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::rejected_calls_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="257" column="14" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="257" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_circuit_breaker_1a0ed0e03232949039908cb5b680e06dd2" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::CircuitBreaker::state_transitions_</definition>
+        <argsstring></argsstring>
+        <name>state_transitions_</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::state_transitions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="258" column="14" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="258" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_circuit_breaker_1a34de08d13309e43bc2b805e76ebd7766" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::rpc::CircuitBreaker::open_since_</definition>
+        <argsstring></argsstring>
+        <name>open_since_</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::open_since_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="261" column="43" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="261" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_circuit_breaker_1a575b980f5b9014d7ed429179564684ec" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rpc::CircuitBreaker::probe_in_flight_</definition>
+        <argsstring></argsstring>
+        <name>probe_in_flight_</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::probe_in_flight_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="264" column="10" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="264" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rpc_1_1_circuit_breaker_1a72187679c356da47fe68453dcf8c2cdd" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(<ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref>, <ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref>, const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;void(CircuitState, CircuitState, const std::string&amp;)&gt; themis::rpc::CircuitBreaker::transition_cb_</definition>
+        <argsstring></argsstring>
+        <name>transition_cb_</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::transition_cb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="267" column="9" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_circuit_breaker_1abbfa610a8bd2a827123fe2d43b81508a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc::CircuitBreaker::CircuitBreaker</definition>
+        <argsstring>(CircuitBreakerConfig config={})</argsstring>
+        <name>CircuitBreaker</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::CircuitBreaker</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_config" kindref="compound">CircuitBreakerConfig</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct a new circuit breaker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tuning configuration. Copied on construction. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="140" column="14" bodyfile="src/rpc_grpc/circuit_breaker.cpp" bodystart="23" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_circuit_breaker_1a7e31b32c96102fb6a1addfa3d6c82821" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc::CircuitBreaker::CircuitBreaker</definition>
+        <argsstring>(std::string name, CircuitBreakerConfig config={})</argsstring>
+        <name>CircuitBreaker</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::CircuitBreaker</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_config" kindref="compound">CircuitBreakerConfig</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct a new circuit breaker with an explicit name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Descriptive name used in metrics and logs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tuning configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="147" column="5" bodyfile="src/rpc_grpc/circuit_breaker.cpp" bodystart="26" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_circuit_breaker_1a8e151cb48f8d46b3419f65ea875c7f18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc::CircuitBreaker::CircuitBreaker</definition>
+        <argsstring>(const CircuitBreaker &amp;)=delete</argsstring>
+        <name>CircuitBreaker</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::CircuitBreaker</qualifiedname>
+        <param>
+          <type>const CircuitBreaker &amp;</type>
+        </param>
+        <briefdescription>
+<para>Non-copyable; circuit breakers hold live state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="150" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_circuit_breaker_1a9afac75df83beb57e41b16a429d3a192" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1abbfa610a8bd2a827123fe2d43b81508a" kindref="member">CircuitBreaker</ref> &amp;</type>
+        <definition>CircuitBreaker &amp; themis::rpc::CircuitBreaker::operator=</definition>
+        <argsstring>(const CircuitBreaker &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1abbfa610a8bd2a827123fe2d43b81508a" kindref="member">CircuitBreaker</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="151" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_circuit_breaker_1ad20c579e7ec3f093a2f34bf97d44844d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc::CircuitBreaker::CircuitBreaker</definition>
+        <argsstring>(CircuitBreaker &amp;&amp;) noexcept</argsstring>
+        <name>CircuitBreaker</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::CircuitBreaker</qualifiedname>
+        <param>
+          <type>CircuitBreaker &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+<para>Movable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="154" column="5" bodyfile="src/rpc_grpc/circuit_breaker.cpp" bodystart="31" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_circuit_breaker_1acdd2163f53ff15c511da1d32a7c4c6a4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1abbfa610a8bd2a827123fe2d43b81508a" kindref="member">CircuitBreaker</ref> &amp;</type>
+        <definition>CircuitBreaker &amp; themis::rpc::CircuitBreaker::operator=</definition>
+        <argsstring>(CircuitBreaker &amp;&amp;) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1abbfa610a8bd2a827123fe2d43b81508a" kindref="member">CircuitBreaker</ref> &amp;&amp;</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock both to avoid TOCTOU during move. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="155" column="20" bodyfile="src/rpc_grpc/circuit_breaker.cpp" bodystart="47" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_circuit_breaker_1a13433f3ba6d657a1fbf40c317025616c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc::CircuitBreaker::~CircuitBreaker</definition>
+        <argsstring>()=default</argsstring>
+        <name>~CircuitBreaker</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::~CircuitBreaker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="157" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_circuit_breaker_1a62709c0e29338e8ae397818ac82491ca" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rpc::CircuitBreaker::allowRequest</definition>
+        <argsstring>()</argsstring>
+        <name>allowRequest</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::allowRequest</qualifiedname>
+        <briefdescription>
+<para>Query whether the next call should be allowed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Allow Request.</para>
+<para><itemizedlist>
+<listitem><para><bold>CLOSED</bold> → always returns <computeroutput>true</computeroutput>.</para>
+</listitem><listitem><para><bold>OPEN</bold> → returns <computeroutput>false</computeroutput> unless the recovery window has elapsed, in which case the state transitions to HALF_OPEN and <computeroutput>true</computeroutput> is returned for the first probe call.</para>
+</listitem><listitem><para><bold>HALF_OPEN</bold> → returns <computeroutput>true</computeroutput> only for the first probe; subsequent concurrent callers get <computeroutput>false</computeroutput> until the probe outcome is recorded.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para><computeroutput>true</computeroutput> if the call may proceed; <computeroutput>false</computeroutput> if it must be rejected.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), std::chrono::steady_clock::now(), transitionTo(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="176" column="11" bodyfile="src/rpc_grpc/circuit_breaker.cpp" bodystart="82" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_circuit_breaker_1a4ff8de4ba6346cfaeb66fbc4fff3409a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rpc::CircuitBreaker::recordResult</definition>
+        <argsstring>(bool success)</argsstring>
+        <name>recordResult</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::recordResult</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+<para>Record the outcome of a call that was allowed by <computeroutput><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1a62709c0e29338e8ae397818ac82491ca" kindref="member">allowRequest()</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Result.</para>
+<para>Must be called exactly once for every call where <computeroutput><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1a62709c0e29338e8ae397818ac82491ca" kindref="member">allowRequest()</ref></computeroutput> returned <computeroutput>true</computeroutput>. Updating state based on the outcome:</para>
+<para><itemizedlist>
+<listitem><para><bold>CLOSED + success</bold> → failure counter reset (sliding window).</para>
+</listitem><listitem><para><bold>CLOSED + failure</bold> → failure counter incremented; if threshold is reached the circuit trips to OPEN.</para>
+</listitem><listitem><para><bold>HALF_OPEN + success</bold> → success counter incremented; when <computeroutput>half_open_success_threshold</computeroutput> is reached the circuit closes.</para>
+</listitem><listitem><para><bold>HALF_OPEN + failure</bold> → circuit reopens immediately.</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><computeroutput>true</computeroutput> = call succeeded; <computeroutput>false</computeroutput> = call failed.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), transitionTo(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="194" column="10" bodyfile="src/rpc_grpc/circuit_breaker.cpp" bodystart="123" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_circuit_breaker_1a8762dd9adfed3045d558fe1f70b2bc25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rpc::CircuitBreaker::forceState</definition>
+        <argsstring>(CircuitState state)</argsstring>
+        <name>forceState</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::forceState</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Manually force the circuit into a specific state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Force State.</para>
+<para>Intended for operator overrides and test fixtures. The forced state is fully honoured by <computeroutput><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1a62709c0e29338e8ae397818ac82491ca" kindref="member">allowRequest()</ref></computeroutput> / <computeroutput><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1a4ff8de4ba6346cfaeb66fbc4fff3409a" kindref="member">recordResult()</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target state.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::chrono::steady_clock::now(), transitionTo(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="204" column="10" bodyfile="src/rpc_grpc/circuit_breaker.cpp" bodystart="174" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_circuit_breaker_1a0b357e2cb4653dab4825ab796b1688c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rpc::CircuitBreaker::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all counters and return the circuit to CLOSED. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Intended for operator overrides after a sustained outage.</para>
+<para>Calls: lk(), transitionTo(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="211" column="10" bodyfile="src/rpc_grpc/circuit_breaker.cpp" bodystart="189" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_circuit_breaker_1a545049aa03933563aa60ff5680984bb3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref></type>
+        <definition>CircuitState themis::rpc::CircuitBreaker::state</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>state</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::state</qualifiedname>
+        <briefdescription>
+<para>Return the current circuit state (lock-free read). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>state_ is an enum, not an atomic. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+We acquire the mutex for a consistent read even though a single-byte read would likely be torn-free in practice.</para>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="218" column="19" bodyfile="src/rpc_grpc/circuit_breaker.cpp" bodystart="201" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_circuit_breaker_1a5d0dc7708255761bbe80566702c68272" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rpc_1_1_circuit_breaker_stats" kindref="compound">CircuitBreakerStats</ref></type>
+        <definition>CircuitBreakerStats themis::rpc::CircuitBreaker::stats</definition>
+        <argsstring>() const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::stats</qualifiedname>
+        <briefdescription>
+<para>Return a consistent point-in-time metrics snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="221" column="26" bodyfile="src/rpc_grpc/circuit_breaker.cpp" bodystart="212" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_circuit_breaker_1aefd30413af92cf36185915e1099827cc" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::rpc::CircuitBreaker::name</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::name</qualifiedname>
+        <briefdescription>
+<para>Return the configured name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="224" column="24" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_circuit_breaker_1a2d826d99c4c0a80f7698d5fa0f0e719c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rpc::CircuitBreaker::setTransitionCallback</definition>
+        <argsstring>(std::function&lt; void(CircuitState, CircuitState, const std::string &amp;)&gt; cb)</argsstring>
+        <name>setTransitionCallback</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::setTransitionCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(<ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref>, <ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref>, const std::string &amp;)&gt;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Register a listener that is called on every state transition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The callback receives the old state, new state, and circuit name. Called under the internal mutex; keep it non-blocking.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable matching <computeroutput>void(<ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref> old, <ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref> next, const std::string&amp; <ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1aefd30413af92cf36185915e1099827cc" kindref="member">name</ref>)</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="239" column="10" bodyfile="src/rpc_grpc/circuit_breaker.cpp" bodystart="230" bodyend="239"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rpc_1_1_circuit_breaker_1aa26fe6d9e1f13b9a7e7727ea6270756a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rpc::CircuitBreaker::transitionTo</definition>
+        <argsstring>(CircuitState next_state)</argsstring>
+        <name>transitionTo</name>
+        <qualifiedname>themis::rpc::CircuitBreaker::transitionTo</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rpc_1ae2a16d82f6f2880419fd7123fa341865" kindref="member">CircuitState</ref></type>
+          <declname>next_state</declname>
+        </param>
+        <briefdescription>
+<para>Caller must hold mutex_. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transition To.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">next_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: transition_cb_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/circuit_breaker.h" line="243" column="10" bodyfile="src/rpc_grpc/circuit_breaker.cpp" bodystart="250" bodyend="261"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Plugin-level circuit breaker. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Instances are typically owned by an <computeroutput>IRPCPlugin</computeroutput> or <computeroutput>IRPCServer</computeroutput> implementation and consulted before each outgoing call.</para>
+<para><heading level="3">State machine</heading>
+</para>
+<para><programlisting><codeline><highlight class="normal">CLOSED<sp/><sp/>--[failures<sp/>&gt;=<sp/>threshold]--&gt;<sp/>OPEN</highlight></codeline>
+<codeline><highlight class="normal">OPEN<sp/><sp/><sp/><sp/>--[recovery<sp/>window<sp/>elapsed]--&gt;<sp/>HALF_OPEN</highlight></codeline>
+<codeline><highlight class="normal">HALF_OPEN<sp/>--[probe<sp/>succeeds<sp/>(N<sp/>times)]--&gt;<sp/>CLOSED</highlight></codeline>
+<codeline><highlight class="normal">HALF_OPEN<sp/>--[probe<sp/>fails]--&gt;<sp/>OPEN</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para>All public methods are thread-safe. <computeroutput><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1a62709c0e29338e8ae397818ac82491ca" kindref="member">allowRequest()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1rpc_1_1_circuit_breaker_1a4ff8de4ba6346cfaeb66fbc4fff3409a" kindref="member">recordResult()</ref></computeroutput> acquire the internal mutex for the duration of the call. </para>
+    </detaileddescription>
+    <location file="include/rpc_grpc/circuit_breaker.h" line="134" column="1" bodyfile="include/rpc_grpc/circuit_breaker.h" bodystart="134" bodyend="268"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a62709c0e29338e8ae397818ac82491ca" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>allowRequest</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1abbfa610a8bd2a827123fe2d43b81508a" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>CircuitBreaker</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a7e31b32c96102fb6a1addfa3d6c82821" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>CircuitBreaker</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a8e151cb48f8d46b3419f65ea875c7f18" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>CircuitBreaker</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1ad20c579e7ec3f093a2f34bf97d44844d" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>CircuitBreaker</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a54bc09b292ae81d45664f00cb76d4b78" prot="private" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>config_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a6121387b048abf14cd9c8f65f955d92a" prot="private" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>consecutive_failures_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a1dc6f0e82f9202420b8c2d1f67482d26" prot="private" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>consecutive_successes_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1adf26f987e77844b797d8c1d0bfa917ec" prot="private" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>failed_calls_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a8762dd9adfed3045d558fe1f70b2bc25" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>forceState</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a67a531dca908809ad5db5b2ca329cbad" prot="private" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1aefd30413af92cf36185915e1099827cc" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>name</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a34de08d13309e43bc2b805e76ebd7766" prot="private" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>open_since_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a9afac75df83beb57e41b16a429d3a192" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1acdd2163f53ff15c511da1d32a7c4c6a4" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a575b980f5b9014d7ed429179564684ec" prot="private" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>probe_in_flight_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a4ff8de4ba6346cfaeb66fbc4fff3409a" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>recordResult</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a80e8479d8e088a529be23206968e41a2" prot="private" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>rejected_calls_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a0b357e2cb4653dab4825ab796b1688c6" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>reset</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a2d826d99c4c0a80f7698d5fa0f0e719c" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>setTransitionCallback</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a545049aa03933563aa60ff5680984bb3" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>state</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a254e60735db4ad3df97604c4fef03d4d" prot="private" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>state_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a0ed0e03232949039908cb5b680e06dd2" prot="private" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>state_transitions_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a5d0dc7708255761bbe80566702c68272" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>stats</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1adb4ea0c8cc994aab09d442f80b797215" prot="private" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>successful_calls_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a75a773de3824c6386d0f1264eaf490fc" prot="private" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>total_calls_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a72187679c356da47fe68453dcf8c2cdd" prot="private" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>transition_cb_</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1aa26fe6d9e1f13b9a7e7727ea6270756a" prot="private" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>transitionTo</name></member>
+      <member refid="classthemis_1_1rpc_1_1_circuit_breaker_1a13433f3ba6d657a1fbf40c317025616c" prot="public" virt="non-virtual"><scope>themis::rpc::CircuitBreaker</scope><name>~CircuitBreaker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

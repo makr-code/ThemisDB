@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_continuous_agg_materialization_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ContinuousAggMaterializationStatus</compoundname>
+    <includes refid="continuous__agg_8h" local="no">continuous_agg.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_continuous_agg_materialization_status_1a8cdb6257ed61e537e63cc02dfabf6009" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ContinuousAggMaterializationStatus::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::ContinuousAggMaterializationStatus::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="297" column="17" bodyfile="include/timeseries/continuous_agg.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_continuous_agg_materialization_status_1aeb071edb90b1166cec7a94e6c7b8123c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ContinuousAggMaterializationStatus::derived_metric</definition>
+        <argsstring></argsstring>
+        <name>derived_metric</name>
+        <qualifiedname>themis::ContinuousAggMaterializationStatus::derived_metric</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="298" column="17" bodyfile="include/timeseries/continuous_agg.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_continuous_agg_materialization_status_1a15840e77172fca0af5d26a9d5ade32d6" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::ContinuousAggMaterializationStatus::watermark_ms</definition>
+        <argsstring></argsstring>
+        <name>watermark_ms</name>
+        <qualifiedname>themis::ContinuousAggMaterializationStatus::watermark_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Upper bound of already-materialized data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="299" column="17" bodyfile="include/timeseries/continuous_agg.h" bodystart="299" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_continuous_agg_materialization_status_1a33e1e762f38055e73a34d200c950e8c2" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1a2619708a427005b1cc47755e13a6e3b3" kindref="member">ContinuousAggStatus</ref></type>
+        <definition>ContinuousAggStatus themis::ContinuousAggMaterializationStatus::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::ContinuousAggMaterializationStatus::status</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1a2619708a427005b1cc47755e13a6e3b3a18ff74f43da410c5529f7d6fca84f115" kindref="member">ContinuousAggStatus::ACTIVE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="300" column="25" bodyfile="include/timeseries/continuous_agg.h" bodystart="300" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_continuous_agg_materialization_status_1a5ea0fa804d46defa2ba7f701ac934768" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ContinuousAggMaterializationStatus::windows_written</definition>
+        <argsstring></argsstring>
+        <name>windows_written</name>
+        <qualifiedname>themis::ContinuousAggMaterializationStatus::windows_written</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Windows written in the last refresh. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/continuous_agg.h" line="301" column="17" bodyfile="include/timeseries/continuous_agg.h" bodystart="301" bodyend="301"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-aggregate materialization status snapshot. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/continuous_agg.h" line="296" column="1" bodyfile="include/timeseries/continuous_agg.h" bodystart="296" bodyend="302"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_continuous_agg_materialization_status_1aeb071edb90b1166cec7a94e6c7b8123c" prot="public" virt="non-virtual"><scope>themis::ContinuousAggMaterializationStatus</scope><name>derived_metric</name></member>
+      <member refid="structthemis_1_1_continuous_agg_materialization_status_1a8cdb6257ed61e537e63cc02dfabf6009" prot="public" virt="non-virtual"><scope>themis::ContinuousAggMaterializationStatus</scope><name>name</name></member>
+      <member refid="structthemis_1_1_continuous_agg_materialization_status_1a33e1e762f38055e73a34d200c950e8c2" prot="public" virt="non-virtual"><scope>themis::ContinuousAggMaterializationStatus</scope><name>status</name></member>
+      <member refid="structthemis_1_1_continuous_agg_materialization_status_1a15840e77172fca0af5d26a9d5ade32d6" prot="public" virt="non-virtual"><scope>themis::ContinuousAggMaterializationStatus</scope><name>watermark_ms</name></member>
+      <member refid="structthemis_1_1_continuous_agg_materialization_status_1a5ea0fa804d46defa2ba7f701ac934768" prot="public" virt="non-virtual"><scope>themis::ContinuousAggMaterializationStatus</scope><name>windows_written</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

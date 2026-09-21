@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::RAGContext</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_1a0d629b640a2fcb999ef8604f7f1373aa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::RAGContext::similar_dilemmas</definition>
+        <argsstring></argsstring>
+        <name>similar_dilemmas</name>
+        <qualifiedname>themis::plugins::ethics::RAGContext::similar_dilemmas</qualifiedname>
+        <briefdescription>
+<para>Similar historical dilemmas. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="120" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_1a43c558afd752283765819e7eefa40582" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::plugins::ethics::RAGContext::philosophy_arguments</definition>
+        <argsstring></argsstring>
+        <name>philosophy_arguments</name>
+        <qualifiedname>themis::plugins::ethics::RAGContext::philosophy_arguments</qualifiedname>
+        <briefdescription>
+<para>Arguments by philosophy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="121" column="14" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_1a2378e964a1f06234d71c7a0e47071782" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::RAGContext::best_practices</definition>
+        <argsstring></argsstring>
+        <name>best_practices</name>
+        <qualifiedname>themis::plugins::ethics::RAGContext::best_practices</qualifiedname>
+        <briefdescription>
+<para>Best practice examples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="122" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_1a638836450492961b0275bcbf866b8729" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::RAGContext::recent_debates</definition>
+        <argsstring></argsstring>
+        <name>recent_debates</name>
+        <qualifiedname>themis::plugins::ethics::RAGContext::recent_debates</qualifiedname>
+        <briefdescription>
+<para>Recent debate references. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="123" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_1a766c8c5d20f98805bd0dc08ecc7bdaa3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::RAGContext::consensus_decisions</definition>
+        <argsstring></argsstring>
+        <name>consensus_decisions</name>
+        <qualifiedname>themis::plugins::ethics::RAGContext::consensus_decisions</qualifiedname>
+        <briefdescription>
+<para>Consensus decisions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="124" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_1ad9511c9117665f4e0bd2a309d7118346" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::plugins::ethics::RAGContext::relevance_scores</definition>
+        <argsstring></argsstring>
+        <name>relevance_scores</name>
+        <qualifiedname>themis::plugins::ethics::RAGContext::relevance_scores</qualifiedname>
+        <briefdescription>
+<para>Relevance scores for retrieved items. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="125" column="14" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="119" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="119" bodyend="126"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_1a2378e964a1f06234d71c7a0e47071782" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RAGContext</scope><name>best_practices</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_1a766c8c5d20f98805bd0dc08ecc7bdaa3" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RAGContext</scope><name>consensus_decisions</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_1a43c558afd752283765819e7eefa40582" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RAGContext</scope><name>philosophy_arguments</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_1a638836450492961b0275bcbf866b8729" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RAGContext</scope><name>recent_debates</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_1ad9511c9117665f4e0bd2a309d7118346" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RAGContext</scope><name>relevance_scores</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_1a0d629b640a2fcb999ef8604f7f1373aa" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::RAGContext</scope><name>similar_dilemmas</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

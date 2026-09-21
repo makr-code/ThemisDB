@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bpmn__serializer_8h" kind="file" language="C++">
+    <compoundname>bpmn_serializer.h</compoundname>
+    <includes local="yes">index/process_graph.h</includes>
+    <includes refid="process__common_8h" local="yes">process/process_common.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__process__import__retrieval_8cpp" local="yes">benchmarks/process/bench_process_import_retrieval.cpp</includedby>
+    <includedby refid="fim__importer_8h" local="yes">include/process/fim_importer.h</includedby>
+    <includedby refid="bpmn__serializer_8cpp" local="yes">src/process/bpmn_serializer.cpp</includedby>
+    <includedby refid="fim__importer_8cpp" local="yes">src/process/fim_importer.cpp</includedby>
+    <includedby refid="process__model__manager_8cpp" local="yes">src/process/process_model_manager.cpp</includedby>
+    <includedby refid="test__bpmn__s_8cpp" local="yes">tests/process/test_bpmn_s.cpp</includedby>
+    <includedby refid="test__process__contract__hardening__focused_8cpp" local="yes">tests/process/test_process_contract_hardening_focused.cpp</includedby>
+    <includedby refid="test__process__module_8cpp" local="yes">tests/process/test_process_module.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/process/bpmn_serializer.h</label>
+        <link refid="bpmn__serializer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>process/process_common.h</label>
+        <link refid="process__common_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>index/process_graph.h</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>string_view</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/process/bench_process_import_retrieval.cpp</label>
+        <link refid="bench__process__import__retrieval_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/process/bpmn_serializer.h</label>
+        <link refid="bpmn__serializer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/process/fim_importer.h</label>
+        <link refid="fim__importer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/process/bpmn_serializer.cpp</label>
+        <link refid="bpmn__serializer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/process/fim_importer.cpp</label>
+        <link refid="fim__importer_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/process/process_model_manager.cpp</label>
+        <link refid="process__model__manager_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/process/test_bpmn_s.cpp</label>
+        <link refid="test__bpmn__s_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/process/test_fim_importer.cpp</label>
+        <link refid="test__fim__importer_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/process/test_process_contract_hardening_focused.cpp</label>
+        <link refid="test__process__contract__hardening__focused_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/process/test_process_module.cpp</label>
+        <link refid="test__process__module_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1process_1_1_bpmn_serializer" prot="public">themis::process::BpmnSerializer</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result" prot="public">themis::process::BpmnSerializer::ImportResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/process_graph.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="process__common_8h" kindref="compound">process/process_common.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22" refid="namespacethemis_1_1process" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">process</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1process_1_1_bpmn_serializer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_bpmn_serializer" kindref="compound">BpmnSerializer</ref><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Import</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result" kindref="compound">ImportResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1a66320ea190f4104a73ac53cc6977ba66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1a66320ea190f4104a73ac53cc6977ba66" kindref="member">ok</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1ab94d95a396b5407f75558279b7bc2c5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2" kindref="member">ProcessErrorCode</ref><sp/><ref refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1ab94d95a396b5407f75558279b7bc2c5f" kindref="member">error_code</ref>{<ref refid="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2ae8c0c70879b5895c615677261d64a1ee" kindref="member">ProcessErrorCode::INTERNAL_ERROR</ref>};</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1abb8d03044bd2978ee44ba1eda2398a7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1abb8d03044bd2978ee44ba1eda2398a7b" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1addc9eeb8fd74c4de1a50cc2f06225cba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1addc9eeb8fd74c4de1a50cc2f06225cba" kindref="member">process_id</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1a4739a929b146c9dc9f7ae6acba3c56df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1a4739a929b146c9dc9f7ae6acba3c56df" kindref="member">process_name</ref>;</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1a54612db8749d4108885a893a41a6d3ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ProcessNodeInfo&gt;<sp/><ref refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1a54612db8749d4108885a893a41a6d3ad" kindref="member">nodes</ref>;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1ab9c909c46a3ba0768e4242f41b8fa512" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ProcessEdgeInfo&gt;<sp/><ref refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1ab9c909c46a3ba0768e4242f41b8fa512" kindref="member">edges</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result" kindref="compound">ImportResult</ref><sp/><ref refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1a1a7b3726094a85161f411d248ab9589c" kindref="member">success</ref>(</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>pid,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>pname,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ProcessNodeInfo&gt;<sp/>n,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ProcessEdgeInfo&gt;<sp/>e</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result" kindref="compound">ImportResult</ref><sp/><ref refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result_1ac11e5c80a59dd05021c404c422d204e7" kindref="member">failure</ref>(</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a2cbb7e8e1a91e903374c2ee9d43ee3a2" kindref="member">ProcessErrorCode</ref><sp/>code,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>context,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>detail<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result" kindref="compound">ImportResult</ref><sp/><ref refid="classthemis_1_1process_1_1_bpmn_serializer_1aa4feff2be0734f878b21d6d69619d813" kindref="member">importXml</ref>(std::string_view<sp/>bpmn_xml);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result" kindref="compound">ImportResult</ref><sp/><ref refid="classthemis_1_1process_1_1_bpmn_serializer_1a6a4a1150247b9918cfe730ae73079549" kindref="member">importFile</ref>(std::string_view<sp/>file_path);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Export</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_bpmn_serializer_1ac3bfeeb7a85491b603a5bcb2a49680e6" kindref="member">exportXml</ref>(</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>process_id,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>process_name,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ProcessNodeInfo&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>nodes,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ProcessEdgeInfo&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>edges</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_bpmn_serializer_1a9662df2f08bfe8462b667d2c6c29311b" kindref="member">exportFromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>normalized_graph);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validation<sp/>and<sp/>Hardening</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_bpmn_serializer_1a7d671aebda3e3100f16b38bb0d5eef1e" kindref="member">validateStructure</ref>(</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ProcessNodeInfo&gt;&amp;<sp/>nodes,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ProcessEdgeInfo&gt;&amp;<sp/>edges</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>XML<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>escapeXml_(std::string_view<sp/>s);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>nodeTypeToXmlTag_(BPMNNodeType<sp/>t);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>BPMNNodeType<sp/>xmlTagToNodeType_(std::string_view<sp/>tag);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>process</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/bpmn_serializer.h"/>
+  </compounddef>
+</doxygen>

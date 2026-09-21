@@ -1,0 +1,724 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1temporal_1_1_temporal_aggregator" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::temporal::TemporalAggregator</compoundname>
+    <includes refid="temporal__aggregator_8h" local="no">temporal_aggregator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_aggregator_1aaeb9e067af806fee028ad40d6ed44c2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::TemporalAggregator::TemporalAggregator</definition>
+        <argsstring>()=default</argsstring>
+        <name>TemporalAggregator</name>
+        <qualifiedname>themisdb::temporal::TemporalAggregator::TemporalAggregator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="131" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_aggregator_1a79f510348f4f8e2b1e8d292d337141d5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_aggregate_result" kindref="compound">AggregateResult</ref> &gt;</type>
+        <definition>std::vector&lt; AggregateResult &gt; themisdb::temporal::TemporalAggregator::aggregate</definition>
+        <argsstring>(const SystemVersionedTable &amp;table, const AggregationSpec &amp;spec, Timestamp from, Timestamp to) const</argsstring>
+        <name>aggregate</name>
+        <qualifiedname>themisdb::temporal::TemporalAggregator::aggregate</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_aggregation_spec" kindref="compound">AggregationSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Run a windowed aggregation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source table (all current + historical rows are scanned). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Window and aggregation specification. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query range start (inclusive, ms epoch). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query range end (exclusive, ms epoch). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>One <ref refid="structthemisdb_1_1temporal_1_1_aggregate_result" kindref="compound">AggregateResult</ref> per window, ordered by window_start. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="142" column="17" bodyfile="src/temporal/temporal_aggregator.cpp" bodystart="35" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_aggregator_1a622022da89026ff2f213d1117b9dbcaa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_aggregate_result" kindref="compound">AggregateResult</ref> &gt;</type>
+        <definition>std::vector&lt; AggregateResult &gt; themisdb::temporal::TemporalAggregator::aggregate</definition>
+        <argsstring>(const SystemVersionedTable &amp;table, const AggregationSpec &amp;spec) const</argsstring>
+        <name>aggregate</name>
+        <qualifiedname>themisdb::temporal::TemporalAggregator::aggregate</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_aggregation_spec" kindref="compound">AggregationSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Convenience overload that uses the full available time range. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="150" column="17" bodyfile="src/temporal/temporal_aggregator.cpp" bodystart="114" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_aggregator_1aaab2a9bcc00d2de122d6c8a8032a0cc5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_aggregate_result" kindref="compound">AggregateResult</ref> &gt; &gt;</type>
+        <definition>std::map&lt; std::string, std::vector&lt; AggregateResult &gt; &gt; themisdb::temporal::TemporalAggregator::aggregateByGroup</definition>
+        <argsstring>(const SystemVersionedTable &amp;table, const AggregationSpec &amp;spec, Timestamp from, Timestamp to) const</argsstring>
+        <name>aggregateByGroup</name>
+        <qualifiedname>themisdb::temporal::TemporalAggregator::aggregateByGroup</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_aggregation_spec" kindref="compound">AggregationSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Grouped windowed aggregation (temporal GROUP BY).</para>
+<para>Partitions all in-range rows by the combination of values specified in spec.group_by_fields, then runs the requested window aggregation independently for each group. The returned map is keyed by a canonical group-key string (field1=value1|field2=value2). Each <ref refid="structthemisdb_1_1temporal_1_1_aggregate_result" kindref="compound">AggregateResult</ref> in the vectors has its group_values map populated.</para>
+<para>When spec.group_by_fields is empty the call falls back to the standard <ref refid="classthemisdb_1_1temporal_1_1_temporal_aggregator_1a79f510348f4f8e2b1e8d292d337141d5" kindref="member">aggregate()</ref> behaviour and returns a single entry keyed by the empty string (&quot;&quot;), with group_values left empty.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Window and aggregation specification, including group_by_fields. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query range start (inclusive, ms epoch). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query range end (exclusive, ms epoch). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Map from group key → ordered window results. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="172" column="14" bodyfile="src/temporal/temporal_aggregator.cpp" bodystart="125" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_aggregator_1ad1177b635d2ddbdb1669ddabcbb69c66" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_aggregate_result" kindref="compound">AggregateResult</ref> &gt; &gt;</type>
+        <definition>std::map&lt; std::string, std::vector&lt; AggregateResult &gt; &gt; themisdb::temporal::TemporalAggregator::aggregateByGroup</definition>
+        <argsstring>(const SystemVersionedTable &amp;table, const AggregationSpec &amp;spec) const</argsstring>
+        <name>aggregateByGroup</name>
+        <qualifiedname>themisdb::temporal::TemporalAggregator::aggregateByGroup</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_aggregation_spec" kindref="compound">AggregationSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Convenience overload using the full available time range. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="179" column="14" bodyfile="src/temporal/temporal_aggregator.cpp" bodystart="222" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_aggregator_1afc4a6ff01ceeafa745aebb5c0fa1fbe0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_aggregate_result" kindref="compound">AggregateResult</ref> &gt;</type>
+        <definition>std::vector&lt; AggregateResult &gt; themisdb::temporal::TemporalAggregator::aggregateSnapshots</definition>
+        <argsstring>(const SystemVersionedTable &amp;table, const AggregationSpec &amp;spec, Timestamp from, Timestamp to) const</argsstring>
+        <name>aggregateSnapshots</name>
+        <qualifiedname>themisdb::temporal::TemporalAggregator::aggregateSnapshots</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_aggregation_spec" kindref="compound">AggregationSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Snapshot aggregation at regular intervals.</para>
+<para>At each tick <computeroutput>t</computeroutput> in [from, to) advancing by spec.window_size_ms, this method computes the aggregate of all rows that were CURRENT at that exact instant (sys_start ≤ t &lt; sys_end). Each result window spans [t, t + window_size_ms) and represents the state of the table at the snapshot tick.</para>
+<para>This is distinct from the standard <ref refid="classthemisdb_1_1temporal_1_1_temporal_aggregator_1a79f510348f4f8e2b1e8d292d337141d5" kindref="member">aggregate()</ref> call, which buckets rows by when they were WRITTEN (sys_start), not by when they were VISIBLE.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Specification (window_size_ms used as snapshot interval; func and measure_field used for the aggregation). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range start (inclusive, ms epoch). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range end (exclusive, ms epoch). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>One <ref refid="structthemisdb_1_1temporal_1_1_aggregate_result" kindref="compound">AggregateResult</ref> per snapshot tick, ordered by window_start. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="202" column="17" bodyfile="src/temporal/temporal_aggregator.cpp" bodystart="232" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_aggregator_1a1a942bc92498005ae22303aa54efb948" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_trend_result" kindref="compound">TrendResult</ref></type>
+        <definition>TrendResult themisdb::temporal::TemporalAggregator::analyzeTrend</definition>
+        <argsstring>(const SystemVersionedTable &amp;table, const std::string &amp;measure_field, Timestamp from, Timestamp to, int64_t window_size_ms=0) const</argsstring>
+        <name>analyzeTrend</name>
+        <qualifiedname>themisdb::temporal::TemporalAggregator::analyzeTrend</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>measure_field</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>window_size_ms</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Linear trend analysis over time-windowed aggregates.</para>
+<para>The method first partitions [from, to) into tumbling windows of window_size_ms (auto-derived as range/10 when window_size_ms is 0), computes the requested aggregate per window, and then performs an ordinary-least-squares regression of value vs. window centre time.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>measure_field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON field to aggregate (uses SUM by default). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range start (inclusive, ms epoch). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Range end (exclusive, ms epoch). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>window_size_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tumbling window size for bucketing; 0 = auto. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemisdb_1_1temporal_1_1_trend_result" kindref="compound">TrendResult</ref> with slope, intercept, and r². </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="223" column="17" bodyfile="src/temporal/temporal_aggregator.cpp" bodystart="336" bodyend="400"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_aggregator_1aed84d8fd7fd6c55d0252c975c5bbd118" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; double &gt;</type>
+        <definition>std::optional&lt; double &gt; themisdb::temporal::TemporalAggregator::extractMeasure</definition>
+        <argsstring>(const Document &amp;doc, const std::string &amp;field)</argsstring>
+        <name>extractMeasure</name>
+        <qualifiedname>themisdb::temporal::TemporalAggregator::extractMeasure</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref> &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field</declname>
+        </param>
+        <briefdescription>
+<para>Extract Measure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">field</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), find(), end(), is_number(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="232" column="26" bodyfile="src/temporal/temporal_aggregator.cpp" bodystart="413" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_aggregator_1a1ffd75dd147b4d31a620d3016ee7c346" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::string, std::map&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::pair&lt; std::string, std::map&lt; std::string, std::string &gt; &gt; themisdb::temporal::TemporalAggregator::buildGroupKey</definition>
+        <argsstring>(const Document &amp;doc, const std::vector&lt; std::string &gt; &amp;fields)</argsstring>
+        <name>buildGroupKey</name>
+        <qualifiedname>themisdb::temporal::TemporalAggregator::buildGroupKey</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref> &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>fields</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="238" column="5" bodyfile="src/temporal/temporal_aggregator.cpp" bodystart="715" bodyend="742"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_aggregator_1a080828118764d12bdd8362b1c9aa04f9" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_aggregate_result" kindref="compound">AggregateResult</ref> &gt;</type>
+        <definition>std::vector&lt; AggregateResult &gt; themisdb::temporal::TemporalAggregator::computeTumbling</definition>
+        <argsstring>(const std::vector&lt; VersionedDocument &gt; &amp;rows, const AggregationSpec &amp;spec, Timestamp from, Timestamp to)</argsstring>
+        <name>computeTumbling</name>
+        <qualifiedname>themisdb::temporal::TemporalAggregator::computeTumbling</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_aggregation_spec" kindref="compound">AggregationSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>── TUMBLING ───────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractMeasure(), has_value(), emplace_back(), push_back(), empty(), std::sort(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="242" column="24" bodyfile="src/temporal/temporal_aggregator.cpp" bodystart="484" bodyend="543"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_aggregator_1a6658160351db3d94f7546f7af1b6790a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_aggregate_result" kindref="compound">AggregateResult</ref> &gt;</type>
+        <definition>std::vector&lt; AggregateResult &gt; themisdb::temporal::TemporalAggregator::computeSliding</definition>
+        <argsstring>(const std::vector&lt; VersionedDocument &gt; &amp;rows, const AggregationSpec &amp;spec, Timestamp from, Timestamp to)</argsstring>
+        <name>computeSliding</name>
+        <qualifiedname>themisdb::temporal::TemporalAggregator::computeSliding</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_aggregation_spec" kindref="compound">AggregationSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>── SLIDING ─────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: extractMeasure(), has_value(), emplace_back(), push_back(), empty(), std::sort(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="247" column="24" bodyfile="src/temporal/temporal_aggregator.cpp" bodystart="555" bodyend="616"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_aggregator_1a3ed3fad0f0299fc42f077a909058a937" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_aggregate_result" kindref="compound">AggregateResult</ref> &gt;</type>
+        <definition>std::vector&lt; AggregateResult &gt; themisdb::temporal::TemporalAggregator::computeSession</definition>
+        <argsstring>(const std::vector&lt; VersionedDocument &gt; &amp;rows, const AggregationSpec &amp;spec, Timestamp from, Timestamp to)</argsstring>
+        <name>computeSession</name>
+        <qualifiedname>themisdb::temporal::TemporalAggregator::computeSession</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_aggregation_spec" kindref="compound">AggregationSpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>── SESSION ─────────────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), isSet(), std::sort(), begin(), end(), clear(), push_back(), applyFunc(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="252" column="24" bodyfile="src/temporal/temporal_aggregator.cpp" bodystart="628" bodyend="710"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_aggregator_1a8b74d6e62a0781152b4faa45805a98c5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::temporal::TemporalAggregator::applyFunc</definition>
+        <argsstring>(AggregateFunc func, const std::vector&lt; double &gt; &amp;values, size_t count)</argsstring>
+        <name>applyFunc</name>
+        <qualifiedname>themisdb::temporal::TemporalAggregator::applyFunc</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1af7a041ff60f98d4b8d6da662efed1d75" kindref="member">AggregateFunc</ref></type>
+          <declname>func</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Apply Func. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::accumulate(), begin(), end(), empty(), size(), std::min_element(), std::max_element(), front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="258" column="19" bodyfile="src/temporal/temporal_aggregator.cpp" bodystart="437" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_aggregator_1a046b5a86bccb6b9840108f7ee59cfa76" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::tuple&lt; double, double, double &gt;</type>
+        <definition>std::tuple&lt; double, double, double &gt; themisdb::temporal::TemporalAggregator::computeLinearRegression</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;x, const std::vector&lt; double &gt; &amp;y)</argsstring>
+        <name>computeLinearRegression</name>
+        <qualifiedname>themisdb::temporal::TemporalAggregator::computeLinearRegression</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_aggregator.h" line="265" column="5" bodyfile="src/temporal/temporal_aggregator.cpp" bodystart="747" bodyend="796"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1temporal_1_1_temporal_aggregator" kindref="compound">TemporalAggregator</ref></para>
+<para>Computes windowed aggregations over the system-time (sys_start) of rows in a <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref>. Only rows that were current at any point within the query range are included.</para>
+<para>Thread-safety: const methods; the caller is responsible for not mutating the table concurrently during an aggregation call. </para>
+    </detaileddescription>
+    <location file="include/temporal/temporal_aggregator.h" line="129" column="1" bodyfile="include/temporal/temporal_aggregator.h" bodystart="129" bodyend="267"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_aggregator_1a79f510348f4f8e2b1e8d292d337141d5" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalAggregator</scope><name>aggregate</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_aggregator_1a622022da89026ff2f213d1117b9dbcaa" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalAggregator</scope><name>aggregate</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_aggregator_1aaab2a9bcc00d2de122d6c8a8032a0cc5" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalAggregator</scope><name>aggregateByGroup</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_aggregator_1ad1177b635d2ddbdb1669ddabcbb69c66" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalAggregator</scope><name>aggregateByGroup</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_aggregator_1afc4a6ff01ceeafa745aebb5c0fa1fbe0" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalAggregator</scope><name>aggregateSnapshots</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_aggregator_1a1a942bc92498005ae22303aa54efb948" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalAggregator</scope><name>analyzeTrend</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_aggregator_1a8b74d6e62a0781152b4faa45805a98c5" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalAggregator</scope><name>applyFunc</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_aggregator_1a1ffd75dd147b4d31a620d3016ee7c346" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalAggregator</scope><name>buildGroupKey</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_aggregator_1a046b5a86bccb6b9840108f7ee59cfa76" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalAggregator</scope><name>computeLinearRegression</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_aggregator_1a3ed3fad0f0299fc42f077a909058a937" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalAggregator</scope><name>computeSession</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_aggregator_1a6658160351db3d94f7546f7af1b6790a" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalAggregator</scope><name>computeSliding</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_aggregator_1a080828118764d12bdd8362b1c9aa04f9" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalAggregator</scope><name>computeTumbling</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_aggregator_1aed84d8fd7fd6c55d0252c975c5bbd118" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalAggregator</scope><name>extractMeasure</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_aggregator_1aaeb9e067af806fee028ad40d6ed44c2e" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalAggregator</scope><name>TemporalAggregator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

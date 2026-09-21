@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1observability_1_1reason__codes_1_1graph__truth" kind="namespace" language="C++">
+    <compoundname>themis::observability::reason_codes::graph_truth</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1graph__truth_1a93bf264b5eb1e19e3dcca2e2c1f0d3de" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::graph_truth::kOntologyValidation</definition>
+        <argsstring></argsstring>
+        <name>kOntologyValidation</name>
+        <qualifiedname>themis::observability::reason_codes::graph_truth::kOntologyValidation</qualifiedname>
+        <initializer>= &quot;GRAPH_TRUTH_ONTOLOGY_VALIDATION&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="54" column="35" bodyfile="include/observability/reason_codes.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1graph__truth_1aa042359c3caaa21a17758fa7614428c3" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::graph_truth::kKgValidation</definition>
+        <argsstring></argsstring>
+        <name>kKgValidation</name>
+        <qualifiedname>themis::observability::reason_codes::graph_truth::kKgValidation</qualifiedname>
+        <initializer>= &quot;GRAPH_TRUTH_KG_VALIDATION&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="55" column="35" bodyfile="include/observability/reason_codes.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1graph__truth_1a2e3ac364c92b87e827f6243c04780af5" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::graph_truth::kNoRetriever</definition>
+        <argsstring></argsstring>
+        <name>kNoRetriever</name>
+        <qualifiedname>themis::observability::reason_codes::graph_truth::kNoRetriever</qualifiedname>
+        <initializer>= &quot;GRAPH_TRUTH_NO_RETRIEVER&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="56" column="35" bodyfile="include/observability/reason_codes.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1observability_1_1reason__codes_1_1graph__truth_1a2e40fddb3d377c370e48633377a4f346" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::observability::reason_codes::graph_truth::kFallbackRetrieverNotConfigured</definition>
+        <argsstring></argsstring>
+        <name>kFallbackRetrieverNotConfigured</name>
+        <qualifiedname>themis::observability::reason_codes::graph_truth::kFallbackRetrieverNotConfigured</qualifiedname>
+        <initializer>= &quot;GRAPH_RETRIEVER_NOT_CONFIGURED&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/reason_codes.h" line="58" column="35" bodyfile="include/observability/reason_codes.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/reason_codes.h" line="53" column="1"/>
+  </compounddef>
+</doxygen>
